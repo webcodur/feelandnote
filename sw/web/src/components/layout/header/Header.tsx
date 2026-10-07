@@ -16,7 +16,8 @@ import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 import { LinkPending } from "@/components/ui/pending";
 import { Z_INDEX } from "@/constants/zIndex";
-import { HEADER_NAV_ITEMS } from "@/constants/navigation";
+import useNavigationToTop from "@/hooks/useNavigationToTop";
+import { HEADER_NAV_ITEMS, activeNavigationHref } from "@/constants/navigation";
 
 
 import { createClient } from "@/lib/db/client";
@@ -61,7 +62,8 @@ export default function Header() {
     loadProfile();
   }, []);
 
-  const isNavActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
+  const activeHref = activeNavigationHref(pathname);
+  const navigateToTop = useNavigationToTop();
 
   return (
     // 좌우 여백은 노치가 있는 가로 화면에서 안전 영역만큼 더 들어간다(viewport-fit=cover)
@@ -82,14 +84,15 @@ export default function Header() {
               : item.href;
             const isActive = item.href.includes("{userId}")
               ? profile ? pathname.startsWith(`/${profile.id}`) : false
-              : isNavActive(item.href);
+              : activeHref === item.href;
 
             return (
               <Link
                 key={item.key}
                 href={href}
+                onNavigate={() => navigateToTop(href)}
                 aria-current={isActive ? "page" : undefined}
-                className={`relative flex items-center px-3 text-[15px] no-underline ${
+                className={`relative flex items-center px-3 text-[15px] no-underline outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
                   isActive
                     ? "font-semibold text-text-primary shadow-[inset_0_-2px_0_var(--color-accent)]"
                     : "font-medium text-text-secondary hover:text-text-primary"

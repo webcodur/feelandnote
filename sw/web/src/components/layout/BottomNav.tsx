@@ -13,7 +13,8 @@ import { useEffect, useRef } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Z_INDEX } from "@/constants/zIndex";
-import { BOTTOM_NAV_ITEMS } from "@/constants/navigation";
+import useNavigationToTop from "@/hooks/useNavigationToTop";
+import { BOTTOM_NAV_ITEMS, activeNavigationHref } from "@/constants/navigation";
 import { MEDIA_BELOW_MD } from "@/constants/breakpoints";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { LinkPending } from "@/components/ui/pending";
@@ -25,15 +26,17 @@ interface NavItemProps {
   active: boolean;
   icon: React.ReactNode;
   label: string;
+  onNavigate: () => void;
 }
 
 // 누르는 칸은 탭 하나가 폭 1/5 × 높이 64px 전체다. 현재 탭은 금색, 나머지는 흐린 글자색
-function NavItem({ href, active, icon, label }: NavItemProps) {
+function NavItem({ href, active, icon, label, onNavigate }: NavItemProps) {
   return (
     <Link
       href={href}
+      onNavigate={onNavigate}
       aria-current={active ? "page" : undefined}
-      className={`relative flex h-16 flex-1 flex-col items-center justify-center gap-1 no-underline ${
+      className={`relative flex h-16 flex-1 flex-col items-center justify-center gap-1 no-underline outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
         active ? "text-accent" : "text-text-tertiary hover:text-text-primary"
       }`}
     >
@@ -48,8 +51,8 @@ export default function BottomNav() {
   const pathname = usePathname();
   const t = useTranslations("nav");
   const isNarrow = useMediaQuery(MEDIA_BELOW_MD);
-  // 홈("/")은 모든 경로의 앞머리라 정확히 일치할 때만 켠다
-  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  const activeHref = activeNavigationHref(pathname);
+  const navigateToTop = useNavigationToTop();
 
   const frameRef = useRef<HTMLDivElement>(null);
   // 고정 틀의 실제 높이(내비 + 도크에 붙은 띠 + 홈 표시줄 여백)를 변수로 내린다 —
@@ -82,9 +85,10 @@ export default function BottomNav() {
           <NavItem
             key={item.key}
             href={item.href}
-            active={isActive(item.href)}
+            active={activeHref === item.href}
             icon={<item.icon size={22} strokeWidth={1.75} />}
             label={t(item.key)}
+            onNavigate={() => navigateToTop(item.href)}
           />
         ))}
         {/* 마지막 칸은 음악 재생기가 여는 단추로 채운다 */}

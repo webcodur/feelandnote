@@ -3,7 +3,7 @@
   기능: 홈 — 오늘의 신문 1면
   책임: 적층 원칙을 쥔다. 위계는 탐색·서가와 같은 허브 문법(아틀라스 목차 + HubSection 번호
         구획)으로 표시한다. 머리기사(오늘의 인물) 하나만 깊고, 아래 구획은 갈수록 얕아진다.
-        브랜드 줄 → 방문자 첫인사 액자 → 오늘의 인물 → 검색 급증 → 공지.
+        브랜드 줄 → 공지 한 줄 → 방문자 첫인사 → 오늘의 인물 → 주목할 만한 감상 → 검색 급증 → 자유게시판.
         로그인 유저용 빠른기록은 일단 주석 처리했다 — 재투입 여부는 상황에 맞게 정한다(sections.tsx).
 */ // ------------------------------
 
@@ -24,10 +24,12 @@ import {
   HOME_SECTIONS,
   hubAtlasNavItems,
   hubSection,
+  hubSectionId,
   withoutMore,
 } from "@/components/shared/hubSectionUtils";
 import Lane from "@/components/ui/pending/Lane";
-import { FigureSection, NoticeSection, VisitorIntroSection } from "./sections";
+import { FigureSection, NoticeSection, VisitorIntroSection, FeaturedReviewSection, FreeBoardSection } from "./sections";
+import { PendingBlock } from "@/components/ui/pending";
 
 export const maxDuration = 30;
 
@@ -69,6 +71,12 @@ export default async function MainPage() {
             aboutLabel={t("aboutLink")}
           />
 
+          <div className="mt-5">
+            <Lane fallback={<HomeNoticePending label={loading} />}>
+              <NoticeSection />
+            </Lane>
+          </div>
+
           {/* 방문자 첫인사 액자 — 서비스 최상단, 브랜드 줄 바로 아래에 둔다.
               로그인 유저에게는 그리지 않는다 */}
           <div className="mt-8 md:mt-10">
@@ -88,6 +96,12 @@ export default async function MainPage() {
               </Lane>
             </HubSection>
 
+            <HubSection {...sec("featuredReview")}>
+              <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-[440px]" className="mx-auto max-w-3xl" label={loading} />}>
+                <FeaturedReviewSection />
+              </Lane>
+            </HubSection>
+
             {/* 빠른기록 자리 — 일단 주석 처리. 재투입 여부는 상황에 맞게 정한다(sections.tsx 「빠른기록」 주석)
             <Lane fallback={null}>
               <QuickRecordSection />
@@ -103,12 +117,9 @@ export default async function MainPage() {
               </div>
             </HubSection>
 
-            {/* 공지사항 — 티저 다섯 줄, 더보기가 게시판으로 잇는다 */}
-            <HubSection {...sec("notice")}>
-              <Lane fallback={<HomeNoticePending label={loading} />}>
-                <NoticeSection />
-              </Lane>
-            </HubSection>
+            <Lane fallback={<PendingBlock variant="rows" count={3} label={loading} />}>
+              <FreeBoardSection sectionId={hubSectionId(HOME_SECTIONS.findIndex((section) => section.key === "freeBoard"), HOME_GROUP_ID)} />
+            </Lane>
 
           </div>
         </PageContainer>

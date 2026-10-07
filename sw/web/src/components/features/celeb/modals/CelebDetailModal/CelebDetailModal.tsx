@@ -5,15 +5,14 @@
 */
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useState, type CSSProperties } from "react";
+import dynamic from "next/dynamic";
 import { Link } from "@/i18n/navigation";
 import {
   ArrowUpRight,
   Briefcase,
   Calendar,
   Check,
-  ChevronLeft,
-  ChevronRight,
   EyeOff,
   MapPin,
   UserPlus,
@@ -21,14 +20,17 @@ import {
 import { toggleFollow } from "@/actions/user";
 import { getCelebProfileUrl } from "@/lib/url";
 import { trackEvent } from "@/lib/analytics/track";
-import { getAuraByScore, type Aura } from "@/constants/materials";
+import { Z_INDEX } from "@/constants/zIndex";
+import { calculateInfluenceRank } from "@feelandnote/influence-constants";
+import { getInfluenceRankStyle } from "@/components/features/influence/rankMaterials";
+import InfluenceRankGlyph from "@/components/features/influence/InfluenceRankGlyph";
 import CelebFactionsModal from "../CelebFactionsModal";
 import Modal from "@/components/ui/Modal";
 import SourceLink from "@/components/ui/SourceLink";
+import NationalityText from "@/components/ui/NationalityText";
 import { parseSourceUrls } from "@feelandnote/shared/lib/source-links";
 import { FormattedText } from "@/components/ui";
-import ImageViewerModal from "@/components/ui/ImageViewerModal";
-import CelebProfileMedia from "@/components/shared/CelebProfileMedia";
+import CelebPortrait from "@/components/shared/CelebPortrait";
 import CelebQuote from "@/components/shared/CelebQuote";
 import { useTranslations, useLocale } from "next-intl";
 import { useCelebVoice } from "@/hooks/useCelebVoice";
@@ -36,6 +38,10 @@ import { readableFactionBorder, readableFactionColor } from "@/lib/utils/faction
 import { normalizeIntroBreaks } from "@/lib/utils/prose-line-breaks";
 import type { Locale } from "@/types/locale";
 import { AURA_GRADIENTS, type CelebDetailModalProps } from "./types";
+import PortraitNavGlyph from "./PortraitNavGlyph";
+import styles from "./CelebDetailModal.module.css";
+
+const CelebInfluenceModal = dynamic(() => import("@/components/features/home/CelebInfluenceModal"), { loading: () => null });
 
 export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, onNavigate, hasPrev = false, hasNext = false, zIndex, escapeCapture = false, contextReview }: CelebDetailModalProps) {
   const t = useTranslations("home.ui");
@@ -69,9 +75,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   });
 
   const [isFactionsModalOpen, setIsFactionsModalOpen] = useState(false);
+  const [isInfluenceOpen, setIsInfluenceOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
-  const [zoomOpen, setZoomOpen] = useState(false);
   // 스포일러 해제는 리뷰 단위로 — 다른 리뷰가 오면 다시 가려진다
   const [revealedReview, setRevealedReview] = useState<string | null>(null);
 
@@ -81,14 +87,11 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     setRenderedCelebId(celeb.id);
     setIsFollowing(celeb.is_following);
     setIsFactionsModalOpen(false);
-    setZoomOpen(false);
+    setIsInfluenceOpen(false);
   }
 
-  // 오라 시스템: score 기반으로 오라 결정 (SSOT: materials.ts/getAuraByScore)
-  const aura: Aura = celeb.influence?.total_score != null
-    ? getAuraByScore(celeb.influence.total_score)
-    : 1;
-  const borderGradient = AURA_GRADIENTS[aura];
+  const influenceRank = celeb.influence ? calculateInfluenceRank(celeb.influence.total_score) : null;
+  const rankStyle = influenceRank ? getInfluenceRankStyle(influenceRank) : {};
 
   const handleFollowClick = async () => {
     if (isLoading) return;
@@ -101,17 +104,26 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     setIsLoading(false);
   };
 
-  const zoomImageUrl = celeb.avatar_url;
-  const handleZoom = useCallback(() => {
-    if (zoomImageUrl) setZoomOpen(true);
-  }, [zoomImageUrl]);
   const greetLabel = hasGreetingAudio
     ? tCeleb("playGreetingVoice")
     : tCeleb("dialogue_greeting");
 
   if (!isOpen) return null;
 
-  const navButtonClass = "z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-bg-main/90 text-text-secondary hover:border-accent hover:text-accent disabled:pointer-events-none disabled:opacity-30";
+  const navButtonClass = styles.navButton;
+  const followButton = (
+    <button
+      type="button"
+      onClick={handleFollowClick}
+      disabled={isLoading}
+      aria-label={isFollowing ? t("followingLabel") : t("followLabel")}
+      title={`${isFollowing ? t("followingLabel") : t("followLabel")} · ${t("followerUnit", { count: celeb.follower_count || 0 })}`}
+      data-celeb-modal-follow
+      className={`${compactProfile ? "absolute -top-1 -end-1 z-10 size-8 rounded-full border border-line-strong bg-bg-secondary" : "size-9 rounded-control"} inline-flex items-center justify-center hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${isFollowing ? "text-accent" : "text-text-secondary hover:text-text-primary"}`}
+    >
+      {isFollowing ? <Check size={16} strokeWidth={2} /> : <UserPlus size={16} strokeWidth={2} />}
+    </button>
+  );
 
   return (
     <>
@@ -122,14 +134,33 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         frame="plain"
         widthClassName="max-w-[440px]"
         overlayClassName="bg-black/70 backdrop-blur-sm"
-        boxClassName={`rounded-sm bg-gradient-to-br p-[3px] ${borderGradient} shadow-[0_0_50px_-12px_rgba(212,175,55,0.25)]`}
-        closeButtonClassName="absolute -top-3 -right-3 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-bg-main text-text-secondary hover:bg-bg-card hover:text-text-primary"
+        boxClassName={`${styles.frame} ${influenceRank ? "" : `bg-gradient-to-br ${AURA_GRADIENTS[1]}`}`}
+        boxStyle={{ ...rankStyle, "--card-aura": "var(--rank-accent, var(--color-accent))" } as CSSProperties}
+        scrollAreaClassName={`${styles.scrollArea} ${celeb.influence ? styles.withFooter : ""}`}
+        footer={celeb.influence && (
+          <div className={styles.footer}>
+            <span className="flex items-baseline gap-2 text-xs text-text-secondary">
+              {tCeleb("influence")}
+              <span className="text-sm font-bold tabular-nums text-text-primary">{celeb.influence.total_score}<span className="ms-1 text-xs font-normal text-text-tertiary">/100</span></span>
+            </span>
+            <button
+              type="button"
+              onClick={() => setIsInfluenceOpen(true)}
+              aria-label={`${tCeleb("influence")} · ${influenceRank}`}
+              aria-haspopup="dialog"
+              title={`${tCeleb("influence")} · ${influenceRank}`}
+              data-celeb-influence
+              className={styles.influenceCorner}
+            >{influenceRank && <InfluenceRankGlyph rank={influenceRank} className={styles.rankGlyph} />}</button>
+          </div>
+        )}
+        closeButtonClassName="absolute -top-3 -right-3 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-line-strong bg-bg-raised text-text-secondary shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] hover:bg-bg-stone-light hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         animateHeightDuration={220}
         zIndex={zIndex}
         escapeCapture={escapeCapture}
-        closeOnEscape={!isFactionsModalOpen && !zoomOpen}
+        closeOnEscape={!isFactionsModalOpen && !isInfluenceOpen}
       >
-        <div className={`relative overflow-hidden rounded-sm bg-bg-main animate-fade-in ${contextReview ? "pb-3" : "pb-5"}`}>
+        <div className={`${styles.surface} relative overflow-hidden animate-fade-in ${contextReview ? "pb-3" : "pb-6"}`}>
           {/* 머리 위로 옅은 금빛 — 장식 상자 없이 인물만 비춘다 */}
           <div
             aria-hidden
@@ -139,24 +170,26 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           {/* 인물 요약: 이전·다음 화살표 + Avatar + 이름 + 메타 + 태그 */}
           <div className={compactProfile ? "relative grid shrink-0 grid-cols-[80px_minmax(0,1fr)] items-center gap-x-4 gap-y-1 px-6 pt-4 pb-3" : "relative flex shrink-0 flex-col items-center px-6 pt-8 pb-4"}>
             {/* 목록 탐색: 이전·다음 인물 버튼이 아바타 좌우를 호위한다 */}
-            <div className={compactProfile ? "row-span-4 flex items-center justify-center self-start pt-1" : "mb-4 flex items-center justify-center gap-4"}>
+            <div className={compactProfile ? "row-span-4 flex items-center justify-center self-start pt-1" : styles.portraitRow}>
               {onNavigate && (
                 <button
                   type="button"
                   onClick={() => onNavigate("prev")}
                   disabled={!hasPrev}
                   aria-label={t("prevPerson")}
-                  className={navButtonClass}
+                  className={`${navButtonClass} ${styles.navPrevious}`}
+                  data-celeb-modal-nav="prev"
                 >
-                  <ChevronLeft size={20} />
+                  <PortraitNavGlyph direction="prev" />
                 </button>
               )}
-              <div className="relative shrink-0" data-celeb-modal-portrait>
-                <CelebProfileMedia
+              <div className={`relative shrink-0 ${compactProfile ? "" : styles.portraitSlot}`} data-celeb-modal-portrait>
+                <CelebPortrait
+                  key={celeb.id}
                   photoUrl={null}
                   avatarUrl={celeb.avatar_url}
                   nickname={displayNickname}
-                  onZoom={handleZoom}
+                  zIndex={zIndex}
                   zoomLabel={tCeleb("enlargePhoto")}
                   hasVoice={hasGreetingAudio}
                   isVoicePlaying={isVoiceActive}
@@ -165,22 +198,11 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                   avatarSize={compactProfile ? "h-20 w-20" : "h-28 w-28"}
                   initialSize="text-4xl"
                   avatarAlignment="center"
+                  containerClassName={styles.portrait}
+                  actionLayout={compactProfile ? "corners" : "toolbar"}
+                  extraAction={compactProfile ? undefined : followButton}
                 />
-                <button
-                  type="button"
-                  onClick={handleFollowClick}
-                  disabled={isLoading}
-                  aria-label={isFollowing ? t("followingLabel") : t("followLabel")}
-                  title={`${isFollowing ? t("followingLabel") : t("followLabel")} · ${t("followerUnit", { count: celeb.follower_count || 0 })}`}
-                  data-celeb-modal-follow
-                  className={`absolute -top-1 -end-1 z-10 flex h-8 w-8 items-center justify-center rounded-full border bg-bg-main hover:bg-bg-card active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${
-                    isFollowing
-                      ? "border-accent/60 text-accent"
-                      : "border-white/15 text-text-secondary hover:border-accent hover:text-accent"
-                  }`}
-                >
-                  {isFollowing ? <Check size={14} strokeWidth={3} /> : <UserPlus size={14} strokeWidth={2.5} />}
-                </button>
+                {compactProfile && followButton}
               </div>
               {onNavigate && (
                 <button
@@ -188,20 +210,21 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                   onClick={() => onNavigate("next")}
                   disabled={!hasNext}
                   aria-label={t("nextPerson")}
-                  className={navButtonClass}
+                  className={`${navButtonClass} ${styles.navNext}`}
+                  data-celeb-modal-nav="next"
                 >
-                  <ChevronRight size={20} />
+                  <PortraitNavGlyph direction="next" />
                 </button>
               )}
             </div>
 
             {displayTitle && (
-              <p className={`text-xs text-accent font-bold uppercase tracking-[.25em] ${compactProfile ? "col-start-2" : "mb-1"}`}>{displayTitle}</p>
+              <p className={`${compactProfile ? "col-start-2" : `${styles.title} mb-1`} text-xs text-accent font-bold uppercase tracking-[.25em]`}>{displayTitle}</p>
             )}
 
-            {/* 인물 페이지로 가는 문 — 이름 오른쪽에 붙인다 */}
-            <div className={compactProfile ? "col-start-2 flex min-w-0 items-center gap-2" : "mb-3 flex items-center justify-center gap-2"}>
-              <h2 className={`font-black font-serif text-text-primary leading-tight break-all ${compactProfile ? "text-2xl" : "text-3xl text-center"}`}>
+            {/* 이름 자체를 중앙에 두고, 페이지 링크는 독립된 오른쪽 자리에 둔다. */}
+            <div className={compactProfile ? "col-start-2 flex min-w-0 items-center gap-2" : styles.nameRow}>
+              <h2 data-celeb-modal-name className={`font-black font-serif text-text-primary leading-tight ${compactProfile ? "text-2xl break-all" : `${styles.name} text-3xl`}`}>
                 {displayNickname}
               </h2>
               <Link
@@ -210,7 +233,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 onClick={() => trackEvent("celeb_person_go", { to: celeb.slug ?? celeb.id })}
                 aria-label={t("viewProfile")}
                 title={t("viewProfile")}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-accent/40 bg-accent/10 text-accent shadow-[0_0_12px_-4px_rgba(212,175,55,0.5)] hover:border-accent hover:bg-accent/25 active:scale-95"
+                data-celeb-modal-profile
+                className={`${compactProfile ? "" : styles.profileLink} flex h-8 w-8 shrink-0 items-center justify-center rounded-control border border-line-strong bg-white/[0.03] text-accent hover:border-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:bg-accent/20`}
               >
                 <ArrowUpRight size={15} strokeWidth={2.5} />
               </Link>
@@ -226,7 +250,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
               {celeb.nationality && (
                 <span className="flex items-center gap-1">
                   <MapPin size={14} />
-                  {celeb.nationality}
+                  <NationalityText code={celeb.nationality} />
                 </span>
               )}
               {!hideBirthDate && celeb.birth_date && (
@@ -286,7 +310,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
             onPlay={handleQuotePlay}
             playLabel={tCeleb("playQuoteVoice")}
             variant="modal"
-            className="shrink-0"
+            className={`${styles.quote} shrink-0`}
           />
 
           {/* 바이오 */}
@@ -355,15 +379,16 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         personName={displayNickname}
         zIndex={zIndex ? zIndex + 1 : undefined}
       />
-
-      {zoomImageUrl ? (
-        <ImageViewerModal
-          src={zoomImageUrl}
-          alt={displayNickname}
-          isOpen={zoomOpen}
-          onClose={() => setZoomOpen(false)}
+      {isInfluenceOpen && (
+        <CelebInfluenceModal
+          key={celeb.id}
+          celebId={celeb.id}
+          isOpen={isInfluenceOpen}
+          onClose={() => setIsInfluenceOpen(false)}
+          zIndex={(zIndex ?? Z_INDEX.modal) + 1}
+          escapeCapture={escapeCapture}
         />
-      ) : null}
+      )}
     </>
   );
 }

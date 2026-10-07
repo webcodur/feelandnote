@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { EXPLORE_FEATURED_LINKS } from "@/constants/navigation";
 import PageContainer from "@/components/layout/PageContainer";
-import ExploreModeTabs from "@/components/shared/ExploreModeTabs";
 import ExploreBanner from "./ExploreBanner";
 
 const sectionSwitches = [
@@ -15,7 +14,7 @@ const sectionSwitches = [
 ] as const;
 
 /*
-  인물 모드 틀 — 배너(제목·경로) → 인물 | 작품 모드 탭 → 같은 계열 화면 전환 → 본문.
+  인물 틀 — 배너(제목·경로) → 같은 계열 화면 전환 → 본문. 작품 입구는 주요 메뉴가 쥔다.
   하위 화면에서 위로 가는 길은 배너의 경로 줄(탐색 › 세력도감 ›)이 쥔다. 따로 「← 인물」 링크를 두지 않는다.
 */
 export default function ExploreLayoutFrame({ children }: { children: ReactNode }) {
@@ -35,7 +34,6 @@ export default function ExploreLayoutFrame({ children }: { children: ReactNode }
     <>
       <ExploreBanner />
       <PageContainer>
-        <ExploreModeTabs />
         {switchLinks && (
           <nav
             aria-label={switchLinks.map((link) => link.label).join(" · ")}

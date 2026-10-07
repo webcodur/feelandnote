@@ -4,7 +4,7 @@
   책임: PC 헤더, MB 바텀탭, 메인페이지 섹션의 네비게이션 아이템을 단일 원천으로 관리한다.
 */
 
-import { Home, Compass, Users, Gamepad2, User, type LucideIcon } from "lucide-react";
+import { Home, Users, BookOpen, Gamepad2, User, type LucideIcon } from "lucide-react";
 
 // #region 타입 정의
 export interface NavSubLink {
@@ -39,11 +39,6 @@ export interface HomeSectionConfig {
 // #endregion
 
 // #region 네비게이션 아이템 정의
-export const EXPLORE_MODES = [
-  { key: "figures", href: "/explore" },
-  { key: "works", href: "/explore/works" },
-] as const;
-
 export const NAV_ITEMS: NavItem[] = [
   {
     key: "home",
@@ -57,8 +52,8 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: "explore",
     href: "/explore",
-    label: "탐색",
-    icon: Compass,
+    label: "인물",
+    icon: Users,
     showInHeader: true,
     showInBottomNav: true,
     showInHomePage: true,
@@ -74,13 +69,13 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    key: "agora",
-    href: "/agora",
-    label: "광장",
-    icon: Users,
+    key: "library",
+    href: "/explore/works",
+    label: "작품",
+    icon: BookOpen,
     showInHeader: true,
     showInBottomNav: true,
-    showInHomePage: false,
+    showInHomePage: true,
   },
   {
     key: "rest",
@@ -116,6 +111,12 @@ export const NAV_ITEMS: NavItem[] = [
 // #region 필터된 아이템
 export const HEADER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.showInHeader);
 export const BOTTOM_NAV_ITEMS = NAV_ITEMS.filter((item) => item.showInBottomNav);
+/** 중첩 주소는 가장 구체적인 메뉴 하나만 켠다. 작품에서 인물이 함께 켜지지 않게 한다. */
+export function activeNavigationHref(pathname: string): string | undefined {
+  return NAV_ITEMS
+    .filter((item) => pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`)))
+    .sort((a, b) => b.href.length - a.href.length)[0]?.href;
+}
 export const HOME_SECTION_KEYS = NAV_ITEMS.filter((item) => item.showInHomePage).map((item) => item.key);
 export const FOOTER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.subLinks?.length && item.key !== "rest");
 /** 탐색 주요 관점. 보조 목록 입구는 푸터에 별도로 더한다. */
@@ -165,9 +166,8 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     titleKey: "nav.footer.sectionCommunity",
     links: [
       { key: "game", href: "/rest", label: "플레이" },
-      { key: "social", href: "/agora/social", label: "소셜 광장" },
       { key: "notice", href: "/agora/board/notice", label: "공지사항" },
-      { key: "feedback", href: "/agora/board/feedback", label: "피드백" },
+      { key: "free", href: "/agora/board/free", label: "자유게시판" },
     ],
   },
   {
@@ -176,6 +176,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     links: [
       { key: "about", href: "/about", label: "서비스 소개" },
       { key: "search", href: "/search", label: "통합 검색" },
+      { key: "feedback", href: "/agora/board/feedback", label: "문의·의견 보내기" },
       { key: "terms", href: "/terms", label: "이용약관" },
       { key: "privacy", href: "/privacy", label: "개인정보처리방침" },
     ],

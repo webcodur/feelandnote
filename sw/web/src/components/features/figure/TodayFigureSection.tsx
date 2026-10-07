@@ -173,7 +173,7 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
                 )}
             </div>
 
-            <div className="min-h-[200px]">
+            <div className="mx-auto min-h-[200px] w-full max-w-4xl">
                 {/* 칩은 상자 없이 바로 둔다 — 종류별 박스가 따로 노는 느낌을 없앤다 */}
                 <div className="mb-4 flex items-center justify-center gap-2 md:mb-5">
                     <ContentTypeSummary
@@ -205,8 +205,7 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
                                 isSpoiler={content.is_spoiler}
                                 sourceUrl={content.source_url ?? undefined}
                                 ownerNickname={displayName}
-                                // 휴대폰 표지 칸(폭 112px)은 2:3 비율 높이만 쓴다 — 280px로 두면 표지 위아래가 비었다
-                                heightClass="h-[168px] sm:h-[280px]"
+                                reviewLayout="stacked"
                                 recommendable={true}
                                 userContentId={content.user_content_id}
                                 titleBadge={content.title_badge}
@@ -251,7 +250,7 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
                     <div className="mt-2 flex justify-end">
                         <Link
                             href={getCelebProfileUrl(figure)}
-                            className="inline-flex min-h-11 shrink-0 items-center px-1 text-sm font-medium text-text-secondary hover:text-accent"
+                            className="inline-flex min-h-11 shrink-0 items-center rounded-md px-2 text-sm font-medium text-text-secondary hover:bg-accent/5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                         >
                             {t("viewAll")} →
                         </Link>

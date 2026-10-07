@@ -9,8 +9,8 @@ const clamp = (value: number, low: number, high: number) => Math.max(low, Math.m
 const MIN_RATIO = .45
 const MAX_RATIO = 2
 const MIN_COMPACT_COVERAGE = .60
-const COMPACT_INSETS: Record<MediaKind, Panel> = {
-  book: { width: 6, height: 0 }, music: { width: 2, height: 2 },
+const COMPACT_INSETS: Record<Exclude<MediaKind, 'music'>, Panel> = {
+  book: { width: 6, height: 0 },
   game: { width: 10, height: 12 }, video: { width: 14, height: 0 },
 }
 
@@ -29,6 +29,18 @@ export function getMediaGeometry(kind: MediaKind, sourceRatio: number | undefine
   if (width <= 0 || height <= 0) return { style, cropped }
 
   if (compact) {
+    if (kind === 'music') {
+      // 표지를 줄여 판을 끼워 넣지 않고, 남는 세로 공간만큼 아래로 드러낸다.
+      const sleeve = Math.min(width * .96, height * .96)
+      const reveal = Math.min(.32, Math.max(0, height * .96 / sleeve - 1))
+      Object.assign(style, {
+        '--mo-compact-width': `${sleeve / width * 100}%`,
+        '--mo-compact-height': `${sleeve * (1 + reveal) / height * 100}%`,
+        '--mo-image-fit': cropped ? 'cover' : 'contain',
+        '--object-size': `${sleeve}px`,
+      })
+      return { style, cropped }
+    }
     const inset = COMPACT_INSETS[kind]
     const availableWidth = Math.max(1, width - inset.width)
     const availableHeight = Math.max(1, height - inset.height)

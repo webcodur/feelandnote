@@ -1,11 +1,12 @@
 "use client";
 
+import useNavigationToTop from "@/hooks/useNavigationToTop";
 import AuthLink from "@/components/shared/AuthLink";
 import { useState, useEffect } from "react";
 import { getPathname, Link, useRouter } from "@/i18n/navigation";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
-import { ChevronRight, CircleUserRound } from "lucide-react";
+import { ChevronRight, CircleUserRound, Users, MessageCircle } from "lucide-react";
 import { RomanGateIcon, BustIcon, TempleBellIcon, SacredFlameIcon, MessageTabletIcon, ScrollIcon, LaurelIcon } from "@/components/ui/icons/neo-pantheon";
 import Button from "@/components/ui/Button";
 import { TitleBadge, type TitleInfo } from "@/components/ui";
@@ -44,6 +45,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
   const tNotif = useTranslations("layout.notifications");
   const locale = useLocale();
   const router = useRouter();
+  const navigateToTop = useNavigationToTop();
   const { notifications, unreadCount, loading, markRead, markAllRead } = useHeaderNotifications();
 
   useEffect(() => {
@@ -91,11 +93,26 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
     if (notif.link) router.push(notif.link);
   };
 
+  const accountLinks = (
+    <div className="border-b border-border py-1">
+      {isLoggedIn && (
+        <Link href="/agora/social" onNavigate={() => navigateToTop("/agora/social")} onClick={() => setShowDropdown(false)}
+          className="flex min-h-11 items-center gap-3 px-4 py-2.5 text-sm text-text-primary no-underline hover:bg-white/5 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
+          <Users size={16} className="text-text-secondary" />{t("social")}
+        </Link>
+      )}
+      <Link href="/agora/board/feedback" onNavigate={() => navigateToTop("/agora/board/feedback")} onClick={() => setShowDropdown(false)}
+        className="flex min-h-11 items-center gap-3 px-4 py-2.5 text-sm text-text-primary no-underline hover:bg-white/5 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
+        <MessageCircle size={16} className="text-text-secondary" />{t("feedback")}
+      </Link>
+    </div>
+  );
+
   // 비로그인 상태
   if (!isLoggedIn) {
     return (
       <div className="relative" data-profile-dropdown>
-        <Button unstyled onClick={() => setShowDropdown(!showDropdown)} aria-label={t("login")} className="flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5">
+        <Button unstyled onClick={() => setShowDropdown(!showDropdown)} aria-label={t("avatar")} aria-expanded={showDropdown} className="flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5">
           <CircleUserRound size={28} strokeWidth={1.5} className="text-text-secondary hover:text-text-primary" />
         </Button>
 
@@ -110,6 +127,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
                 <RomanGateIcon size={16} className="text-text-secondary" />
                 {t("login")}
               </AuthLink>
+              {accountLinks}
             </div>
           </div>
         )}
@@ -120,7 +138,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
   // 로그인 상태
   return (
     <div className="relative" data-profile-dropdown>
-      <Button unstyled onClick={() => setShowDropdown(!showDropdown)} aria-label={tNotif("title")} className="relative flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5">
+      <Button unstyled onClick={() => setShowDropdown(!showDropdown)} aria-label={t("avatar")} aria-expanded={showDropdown} className="relative flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5">
         <ProfileAvatar url={profile?.avatar_url} alt={t("avatar")} className="w-7 h-7" />
         {unreadCount > 0 && (
           <span className="absolute top-0 end-0 w-2.5 h-2.5 rounded-full bg-accent border-2 border-black" />
@@ -151,6 +169,8 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
               <p className="font-semibold text-sm truncate">{t("defaultName")}</p>
             </div>
           )}
+
+          {accountLinks}
 
           {/* 알림 */}
           <div className="border-b border-border py-1">

@@ -2,6 +2,7 @@ import type { BookIntroductionReference, BookIntroductionAttribution } from '@/l
 import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
 import { AFFILIATE_PLATFORMS, toAffiliateLinks, type AffiliateLink } from '@/constants/affiliatePlatforms'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
+import { decodeHtmlEntities } from '@feelandnote/content-search/html-entities'
 
 export type FigureBookProductPlatform = 'coupang' | 'amazon'
 
@@ -93,7 +94,7 @@ export function mapFigureBookPurchaseOptions(
     .map((row) => ({
       id: row.edition_id,
       locale: locale as 'ko' | 'en',
-      title: row.title,
+      title: decodeHtmlEntities(row.title),
       creator: row.creator,
       description: row.description,
       isbn: row.isbn,
@@ -130,7 +131,7 @@ export function mapFigureBookEditions(
       return {
         id: row.id,
         locale: locale as 'ko' | 'en',
-        title: row.title,
+        title: decodeHtmlEntities(row.title),
         creator: row.creator,
         description: row.description,
         isbn: row.isbn,

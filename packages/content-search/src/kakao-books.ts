@@ -5,6 +5,7 @@
 // 상세: docs/project/platform/platform-05-external-services.md 「외부 콘텐츠 검색 API」
 
 import { ISBN13_PATTERN, toIsbn13 } from './book-isbn'
+import { decodeHtmlEntities } from './html-entities'
 export { toIsbn13 } from './book-isbn'
 
 const KAKAO_REST_API_KEY = process.env.KAKAO_REST_API_KEY
@@ -120,7 +121,7 @@ export function normalizeKakaoBookCreator(authors: string[], translators: string
 
 // 본제목만 추출 (부제목 분리)
 export function normalizeKakaoBookTitle(title: string, creator = ''): string {
-  let mainTitle = title
+  let mainTitle = decodeHtmlEntities(title)
   const sameCreator = (value: string) => !!creator && value.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '') === creator.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '')
   // 일부 데이터는 한국어 제목 뒤에 원제와 저자를 한 덩어리로 붙인다.
   mainTitle = mainTitle.replace(/\s+(?:_|[|｜])\s+[A-Za-z][\s\S]*?\s+by\s+[A-Za-z][\s\S]*$/iu, '')
@@ -170,28 +171,6 @@ function toResult(book: KakaoBook): KakaoBookSearchResult {
       translators: book.translators,
     },
   }
-}
-
-const HTML_ENTITY_PATTERN = /&(#(?:x[\da-f]+|\d+)|amp|apos|gt|lt|nbsp|quot);/gi
-const NAMED_HTML_ENTITIES: Record<string, string> = {
-  amp: '&',
-  apos: "'",
-  gt: '>',
-  lt: '<',
-  nbsp: ' ',
-  quot: '"',
-}
-
-function decodeHtmlEntities(text: string): string {
-  return text.replace(HTML_ENTITY_PATTERN, (source, entity: string) => {
-    if (!entity.startsWith('#')) return NAMED_HTML_ENTITIES[entity.toLowerCase()] ?? source
-
-    const isHex = entity[1]?.toLowerCase() === 'x'
-    const codePoint = Number.parseInt(entity.slice(isHex ? 2 : 1), isHex ? 16 : 10)
-    return Number.isFinite(codePoint) && codePoint > 0 && codePoint <= 0x10ffff
-      ? String.fromCodePoint(codePoint)
-      : source
-  })
 }
 
 /** 다음 모바일 책 상세의 소개 본문을 일반 텍스트로 복원한다. */

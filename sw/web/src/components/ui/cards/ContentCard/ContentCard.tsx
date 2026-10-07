@@ -12,6 +12,7 @@
 
 import type { ContentCardProps } from "./types";
 import { useContentCardState } from "./useContentCardState";
+import StackedReviewLayout from "./sections/StackedReviewLayout";
 import ReviewLayout from "./sections/ReviewLayout";
 import DefaultLayout from "./sections/DefaultLayout";
 import { ContentCardDisplayContext } from "./ContentCardDisplayContext";
@@ -25,6 +26,8 @@ export default function ContentCard(props: ContentCardProps) {
     bookLocale: state.contentType === "BOOK" ? state.showEditionToggle ? state.activeEdition : props.bookLocale : undefined,
     available: !state.editionUnavailable,
   }}>
-    {state.isReviewMode ? <ReviewLayout props={props} state={state} /> : <DefaultLayout props={props} state={state} />}
+    {state.isReviewMode
+      ? props.reviewLayout === "stacked" ? <StackedReviewLayout props={props} state={state} /> : <ReviewLayout props={props} state={state} />
+      : <DefaultLayout props={props} state={state} />}
   </ContentCardDisplayContext.Provider>;
 }

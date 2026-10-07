@@ -1,0 +1,38 @@
+.influenceFrame.influenceFrame {
+  border-color: color-mix(in srgb, var(--rank-accent) 32%, var(--color-line));
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--rank-accent) 12%, transparent);
+}
+
+.influenceFrame::after {
+  content: "";
+  position: absolute;
+  inset-inline: 32%;
+  bottom: -1px;
+  height: 1px;
+  background-image: var(--rank-border);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+:global(.group):hover .influenceFrame {
+  border-color: color-mix(in srgb, var(--rank-accent) 70%, transparent);
+}
+
+.influenceLabel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 5px;
+  padding: 2px 6px;
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--rank-accent) 4%, transparent);
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  line-height: 15px;
+}
+
+.rankGlyph { width: 12px; height: 14px; color: var(--rank-accent); opacity: 0.85; }
+.separator { width: 1px; height: 9px; background: var(--color-line-strong); }
+.score { font-weight: 600; font-variant-numeric: tabular-nums; }
+.score small { color: var(--color-text-tertiary); font-size: 9px; font-weight: 400; }

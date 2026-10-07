@@ -28,7 +28,6 @@ interface CelebFiltersDesktopProps {
   contentType: string;
   contentPresence?: CelebContentPresence;
   gender: string;
-  tier: string;
   sortBy: CelebSortBy;
   search: string;
   birthYearMin?: number;
@@ -50,7 +49,6 @@ interface CelebFiltersDesktopProps {
   onContentTypeChange: (value: string) => void;
   onContentPresenceChange?: (value: string) => void;
   onGenderChange: (value: string) => void;
-  onTierChange: (value: string) => void;
   onSortChange: (value: CelebSortBy) => void;
   onBirthYearChange: (min: number | undefined, max: number | undefined) => void;
   onSearchInput: (value: string) => void;

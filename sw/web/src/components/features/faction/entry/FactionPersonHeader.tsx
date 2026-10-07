@@ -3,7 +3,8 @@
 import { useCallback, useState } from "react";
 import { ArrowUpRight, BookOpen, ImageIcon, Quote } from "lucide-react";
 import { useTranslations } from "next-intl";
-import CelebProfileMedia, { type CelebProfileMediaProps } from "@/components/shared/CelebProfileMedia";
+import type { CelebProfileMediaProps } from "@/components/shared/CelebProfileMedia";
+import CelebPortrait from "@/components/shared/CelebPortrait";
 import CelebRealityLabel from "@/components/shared/CelebRealityLabel";
 import type { CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 import { Link } from "@/i18n/navigation";
@@ -31,9 +32,8 @@ interface Props {
 export default function FactionPersonHeader({ person, factionName, group, portraitUrl, guide, monologue, voice, nested }: Props) {
   const t = useTranslations("explore.hub.myth");
   const tCeleb = useTranslations("celebPage");
-  const [image, setImage] = useState<"avatar" | "portrait" | null>(null);
-  const closeImage = useCallback(() => setImage(null), []);
-  const imageUrl = image === "avatar" ? person.avatarUrl : image === "portrait" ? portraitUrl : null;
+  const [portraitOpen, setPortraitOpen] = useState(false);
+  const closeImage = useCallback(() => setPortraitOpen(false), []);
   const actionClass = "inline-flex min-h-10 items-center justify-center gap-1.5 rounded-md border border-white/20 bg-bg-main px-2 py-2 text-sm font-semibold text-text-primary outline-none hover:border-accent hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-accent sm:px-3.5";
   /* 음원이 실린 읽기 항목은 버튼 전체를 초록 톤으로 칠해 바깥에서 듣기 가능을 표시한다 */
   const audioActionClass = "inline-flex min-h-10 items-center justify-center gap-1.5 rounded-md border border-emerald-400/50 bg-emerald-400/10 px-2 py-2 text-sm font-semibold text-emerald-300 outline-none hover:border-emerald-300 hover:bg-emerald-400/20 hover:text-emerald-200 focus-visible:ring-2 focus-visible:ring-emerald-400 sm:px-3.5";
@@ -44,8 +44,8 @@ export default function FactionPersonHeader({ person, factionName, group, portra
         <div className="grid grid-cols-[88px_minmax(0,1fr)] items-center gap-x-4 gap-y-4 sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-x-6 md:grid-cols-[164px_minmax(0,1fr)]">
           <div className="flex items-start md:row-span-2">
             <div className="rounded-full border border-accent/30 bg-bg-card p-px">
-              <CelebProfileMedia photoUrl={null} avatarUrl={person.avatarUrl} nickname={person.name} imageAction="zoom"
-                onZoom={() => person.avatarUrl && setImage("avatar")} zoomLabel={t("enlargeAvatar")}
+              <CelebPortrait key={person.id} photoUrl={null} avatarUrl={person.avatarUrl} nickname={person.name} imageAction="zoom"
+                zoomLabel={t("enlargeAvatar")}
                 hasVoice={voice?.hasVoice ?? false} isVoicePlaying={voice?.isVoicePlaying} onGreet={voice?.onGreet} greetLabel={voice?.greetLabel}
                 avatarSize="h-20 w-20 sm:h-32 sm:w-32 md:h-40 md:w-40" initialSize="text-4xl" avatarAlignment="center" />
             </div>
@@ -69,11 +69,11 @@ export default function FactionPersonHeader({ person, factionName, group, portra
           <div className="col-span-2 flex flex-wrap gap-2 md:col-span-1 md:col-start-2">
             {guide && <button type="button" onClick={guide.onOpen} aria-haspopup="dialog" className={guide.hasAudio ? audioActionClass : actionClass}><BookOpen size={14} aria-hidden />{tCeleb("personGuide")}</button>}
             {monologue && <button type="button" onClick={monologue.onOpen} aria-haspopup="dialog" className={monologue.hasAudio ? audioActionClass : actionClass}><Quote size={14} aria-hidden />{tCeleb("virtualMonologue")}</button>}
-            {portraitUrl && <button type="button" onClick={() => setImage("portrait")} aria-haspopup="dialog" className={actionClass}><ImageIcon size={14} aria-hidden />{t("portraitImage")}</button>}
+            {portraitUrl && <button type="button" onClick={() => setPortraitOpen(true)} aria-haspopup="dialog" className={actionClass}><ImageIcon size={14} aria-hidden />{t("portraitImage")}</button>}
           </div>
         </div>
       </div>
-      {imageUrl && <FactionArtworkViewer images={[{ url: imageUrl }]} title={person.name} onClose={closeImage} nested={nested} />}
+      {portraitOpen && portraitUrl && <FactionArtworkViewer images={[{ url: portraitUrl }]} title={person.name} onClose={closeImage} nested={nested} />}
     </>
   );
 }

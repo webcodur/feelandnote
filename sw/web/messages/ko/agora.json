@@ -11,11 +11,11 @@
         "description": "서비스 공지사항을 확인하세요"
       },
       "feedback": {
-        "label": "피드백",
+        "label": "문의·의견 보내기",
         "description": "의견과 피드백을 남겨주세요"
       },
       "social": {
-        "label": "소셜",
+        "label": "친구·팔로우",
         "description": "친구와 팔로잉 관계를 확인하세요"
       }
     },
@@ -27,7 +27,7 @@
     "freeBoardComingSoon": "준비 중입니다",
     "freeBoardComingSoonDesc": "곧 자유게시판 기능이 추가될 예정이에요",
     "feedback": {
-      "title": "피드백",
+      "title": "문의·의견 보내기",
       "description": "feelandnote 서비스에 대한 피드백과 건의사항을 남겨주세요.",
       "write": "피드백 작성",
       "edit": "피드백 수정"
@@ -39,7 +39,7 @@
       "edit": "공지사항 수정"
     },
     "social": {
-      "metaTitle": "소셜 | 광장"
+      "metaTitle": "친구·팔로우"
     }
   },
   "board": {

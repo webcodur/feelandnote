@@ -41,6 +41,7 @@ export function RadarChart({
   onSelectCategory,
   hoveredCategory: externalHovered,
   onHoverCategory,
+  accentColor = GOLD,
 }: {
   data: CelebInfluenceDetail;
   size?: number;
@@ -48,6 +49,7 @@ export function RadarChart({
   onSelectCategory?: (key: string | null) => void;
   hoveredCategory?: string | null;
   onHoverCategory?: (key: string | null) => void;
+  accentColor?: string;
 }) {
   const t = useTranslations("profilePage.influence");
   const uid = useId();
@@ -105,8 +107,8 @@ export function RadarChart({
       <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="w-full max-w-[348px] h-auto overflow-visible select-none">
         <defs>
           <radialGradient id={gradId} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="rgba(212,175,55,0.32)" />
-            <stop offset="70%" stopColor="rgba(212,175,55,0.08)" />
+            <stop offset="0%" stopColor={accentColor} stopOpacity={0.24} />
+            <stop offset="70%" stopColor={accentColor} stopOpacity={0.05} />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
           <filter id={glowId} x="-20%" y="-20%" width="140%" height="140%">
@@ -131,7 +133,8 @@ export function RadarChart({
               key={lv}
               d={d}
               fill="none"
-              stroke={isOuter ? "rgba(212,175,55,0.38)" : "rgba(212,175,55,0.14)"}
+              stroke={accentColor}
+              strokeOpacity={isOuter ? 0.38 : 0.14}
               strokeWidth={isOuter ? "1.5" : "1"}
               strokeDasharray={isOuter ? undefined : "3 3"}
             />
@@ -149,10 +152,9 @@ export function RadarChart({
               y1={centerY}
               x2={end.x}
               y2={end.y}
-              stroke={GOLD}
+              stroke={accentColor}
               strokeWidth={isActive ? "2.5" : "1"}
               opacity={isActive ? "0.9" : "0.25"}
-              className="transition-all duration-150"
             />
           );
         })}
@@ -160,11 +162,11 @@ export function RadarChart({
         {/* 영역 그래프 채우기 */}
         <path
           d={dataPath}
-          fill="rgba(212,175,55,0.22)"
-          stroke={GOLD}
+          fill={accentColor}
+          fillOpacity={0.16}
+          stroke={accentColor}
           strokeWidth="2.5"
           filter={`url(#${glowId})`}
-          className="transition-all duration-300 ease-out"
         />
 
         {/* 정점 데이터 포인트 (호버 시 펄스 링 대형 발광) */}
@@ -185,19 +187,17 @@ export function RadarChart({
                 cy={p.y}
                 r={isActive ? "11" : "7"}
                 fill="none"
-                stroke={GOLD}
+                stroke={accentColor}
                 strokeWidth={isActive ? "2" : "1"}
                 opacity={isActive ? "1" : "0.6"}
-                className="transition-all duration-150"
               />
               <circle
                 cx={p.x}
                 cy={p.y}
                 r={isActive ? "5.5" : "4"}
-                fill={GOLD}
+                fill={accentColor}
                 stroke="#1c1917"
                 strokeWidth="1.5"
-                className="transition-all duration-150"
               />
             </g>
           );
@@ -228,18 +228,15 @@ export function RadarChart({
                   category: t(`categories.${c.key}`),
                   score: data[c.key as keyof CelebInfluenceDetail] as number,
                 })}
-                className={`w-full h-full rounded-full flex items-center justify-center transition-all duration-150 select-none cursor-pointer ${
+                aria-pressed={activeCategory === c.key}
+                style={{ color: accentColor, borderColor: isActive ? accentColor : `color-mix(in srgb, ${accentColor} 35%, transparent)`, outlineColor: accentColor }}
+                className={`w-full h-full rounded-full border flex items-center justify-center select-none cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
                   isActive
-                    ? "bg-gradient-to-br from-accent/35 to-stone-900 border-2 border-accent shadow-[0_0_18px_rgba(212,175,55,0.85)] scale-110 z-10"
-                    : "bg-stone-900/95 border border-accent/40 shadow-lg backdrop-blur-md hover:border-accent hover:bg-stone-800 hover:scale-110 active:scale-95"
+                    ? "bg-bg-stone-light ring-1 ring-current"
+                    : "bg-bg-secondary hover:bg-bg-raised active:bg-bg-stone-light"
                 }`}
               >
-                <Icon
-                  size={17}
-                  className={`transition-colors ${
-                    isActive ? "text-accent animate-pulse" : "text-accent/90"
-                  }`}
-                />
+                <Icon size={17} />
               </button>
             </foreignObject>
           );

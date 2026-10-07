@@ -86,6 +86,19 @@
 .modal .quoteButton {
   margin-inline: 0;
   border-inline-start: 0;
-  padding: 0;
+  padding: 10px 18px;
+  border-radius: inherit;
   text-align: center;
+}
+
+/* 재생 버튼은 인용 면 전체를 쓴다. 가운데만 다른 배경의 작은 상자가 생기지 않게 한다. */
+.modal:has(.quoteButton) {
+  padding: 0;
+}
+
+.modal .quoteButton,
+.modal .quoteButton:hover,
+.modal .quoteButtonPlaying {
+  background: transparent;
+  box-shadow: none;
 }

@@ -55,10 +55,10 @@
       "myPage": "내 페이지",
       "logout": "로그아웃",
       "community": "커뮤니티",
-      "social": "소셜",
+      "social": "친구·팔로우",
       "feed": "피드",
       "notice": "공지사항",
-      "feedback": "피드백"
+      "feedback": "문의·의견 보내기"
     },
     "locale": {
       "switchTo": "English",

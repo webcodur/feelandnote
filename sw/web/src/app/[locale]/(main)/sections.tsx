@@ -12,6 +12,8 @@ import type { TodayFigureResult } from "@/actions/library";
 import HomeIntroPanel from "./about/HomeIntroPanel";
 import TodayFigureSection from "@/components/features/figure/TodayFigureSection";
 import HomeNoticeSection from "@/components/features/home/HomeNoticeSection";
+import HomeFeaturedReviewSample from "@/components/features/home/HomeFeaturedReviewSample";
+import HomeFreeBoardSection from "@/components/features/home/HomeFreeBoardSection";
 
 /** 오늘의 인물 — 홈 머리기사. 인물이 없는 날도 있다(오류가 아니다) */
 export async function FigureSection() {
@@ -126,6 +128,28 @@ export async function NoticeSection() {
   } catch (error) {
     console.error("[home] 공지사항 조회 실패:", error);
     return <RetryBlock />;
+  }
+  return content;
+}
+
+export async function FeaturedReviewSection() {
+  let content: Awaited<ReturnType<typeof HomeFeaturedReviewSample>>;
+  try {
+    content = await HomeFeaturedReviewSample();
+  } catch (error) {
+    console.error("[home] 주목할 만한 감상 조회 실패:", error);
+    return <RetryBlock />;
+  }
+  return content;
+}
+
+export async function FreeBoardSection({ sectionId }: { sectionId: string }) {
+  let content: Awaited<ReturnType<typeof HomeFreeBoardSection>>;
+  try {
+    content = await HomeFreeBoardSection({ sectionId });
+  } catch (error) {
+    console.error("[home] 자유게시판 조회 실패:", error);
+    return <div id={sectionId}><RetryBlock /></div>;
   }
   return content;
 }

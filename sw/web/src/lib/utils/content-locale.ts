@@ -1,4 +1,5 @@
 // content_locales 테이블 헬퍼
+import { decodeHtmlEntities } from '@feelandnote/content-search/html-entities'
 
 /**
  * content_locales SELECT 필드 (상세 페이지용 - 전체 필드)
@@ -90,7 +91,7 @@ export function flattenLocales(locales: ContentLocaleRow[] | null | undefined, l
   const fallback = locale === 'en' ? ko : en
   return {
     title_badge: resolveTitleBadge(primary, requested),
-    title: primary?.title || fallback?.title || '',
+    title: decodeHtmlEntities(primary?.title || fallback?.title || ''),
     creator: primary?.creator || fallback?.creator || null,
     thumbnail_url: primary?.thumbnail_url
       || (requested === 'en' && contentType === 'BOOK' ? null : fallback?.thumbnail_url)
@@ -98,8 +99,8 @@ export function flattenLocales(locales: ContentLocaleRow[] | null | undefined, l
     description: primary?.description || fallback?.description || null,
     publisher: primary?.publisher || fallback?.publisher || null,
     isbn: primary?.isbn || fallback?.isbn || null,
-    title_ko: ko?.title || null,
-    title_en: en?.title || null,
+    title_ko: ko?.title ? decodeHtmlEntities(ko.title) : null,
+    title_en: en?.title ? decodeHtmlEntities(en.title) : null,
     creator_en: en?.creator || null,
     isbn_ko: ko?.isbn || null,
     isbn_en: en?.isbn || null,

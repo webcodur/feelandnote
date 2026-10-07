@@ -59,6 +59,12 @@ export const BASE_MESSAGE_PATHS = [
   "celebPage.playGreetingVoice",
   "celebPage.dialogue_greeting",
   "celebPage.enlargePhoto",
+  "celebPage.serviceDialogueVoice",
+  "celebPage.serviceAvailable",
+  "celebPage.servicePreparing",
+  "celebPage.influence",
+  // 셀럽 카드의 모서리에서 여는 영향력 상세도 헤더 검색 등 모든 화면에서 열린다.
+  "profilePage.influence",
   // 공용 인물 행(FigurePersonRows)이 어느 화면에서든 우측 바로가기·외부 안내를 단다
   "celebPage.relGoPersonPage",
   "celebPage.relViewWikidata",

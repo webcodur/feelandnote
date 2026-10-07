@@ -6,16 +6,15 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import { useCallback, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 
 import CelebWorldFrame from "@/components/features/celeb/CelebWorldFrame";
-import ImageViewerModal from "@/components/ui/ImageViewerModal";
 import type { WorldFrame } from "@/lib/celeb/worldStyle";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import type { Locale } from "@/types/locale";
 
-import CelebProfileMedia from "@/components/shared/CelebProfileMedia";
+import CelebPortrait from "@/components/shared/CelebPortrait";
 import styles from "../../CelebPageContent.module.css";
 
 interface MaybeWorldFrameProps {
@@ -50,7 +49,6 @@ export default function HeroPhoto({
   onGreet,
 }: HeroPhotoProps) {
   const t = useTranslations("celebPage");
-  const [zoomOpen, setZoomOpen] = useState(false);
 
   /* ── 2. 줌 대상 파생값 ── */
   const zoomImageUrl = profile.photo_url ?? profile.avatar_url ?? null;
@@ -59,10 +57,6 @@ export default function HeroPhoto({
         ? profile.photo_caption_en ?? profile.photo_caption
         : profile.photo_caption) ?? null
     : null;
-
-  const handleZoom = useCallback(() => {
-    if (zoomImageUrl) setZoomOpen(true);
-  }, [zoomImageUrl]);
 
   const greetLabel = hasGreetingAudio
     ? t("playGreetingVoice")
@@ -73,11 +67,12 @@ export default function HeroPhoto({
       {/* ── 3. 데스크톱 사진 · 모바일 아바타 ── */}
       <div className={styles.desktopHeroPhoto}>
         <MaybeWorldFrame frame={frame} framed={Boolean(profile.photo_url)}>
-          <CelebProfileMedia
+          <CelebPortrait
             photoUrl={profile.photo_url}
             avatarUrl={profile.avatar_url}
             nickname={nickname}
-            onZoom={handleZoom}
+            zoomSrc={zoomImageUrl}
+            zoomCaption={zoomCaption}
             zoomLabel={t("enlargePhoto")}
             hasVoice={hasGreetingAudio}
             isVoicePlaying={isVoiceActive}
@@ -90,11 +85,12 @@ export default function HeroPhoto({
       </div>
 
       <div className={styles.mobileHeroAvatar}>
-        <CelebProfileMedia
+        <CelebPortrait
           photoUrl={null}
           avatarUrl={profile.avatar_url}
           nickname={nickname}
-          onZoom={handleZoom}
+          zoomSrc={zoomImageUrl}
+          zoomCaption={zoomCaption}
           zoomLabel={t("enlargePhoto")}
           hasVoice={hasGreetingAudio}
           isVoicePlaying={isVoiceActive}
@@ -104,19 +100,6 @@ export default function HeroPhoto({
           initialSize="text-2xl"
         />
       </div>
-
-      {/* ── 4. 줌 모달 ── */}
-      {zoomImageUrl ? (
-        <ImageViewerModal
-          src={zoomImageUrl}
-          alt={nickname}
-          caption={zoomCaption}
-          isOpen={zoomOpen}
-          onClose={() => setZoomOpen(false)}
-          showImageShadow={false}
-          closeOnImageClick
-        />
-      ) : null}
     </>
   );
 }

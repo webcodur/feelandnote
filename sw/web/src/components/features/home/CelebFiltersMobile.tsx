@@ -33,7 +33,6 @@ interface CelebFiltersMobileProps {
   contentType: string;
   contentPresence?: CelebContentPresence;
   gender: string;
-  tier: string;
   sortBy: CelebSortBy;
   search: string;
   birthYearMin?: number;
@@ -58,7 +57,6 @@ interface CelebFiltersMobileProps {
   onContentTypeChange: (value: string) => void;
   onContentPresenceChange?: (value: string) => void;
   onGenderChange: (value: string) => void;
-  onTierChange: (value: string) => void;
   onSortChange: (value: CelebSortBy) => void;
   onBirthYearChange: (min: number | undefined, max: number | undefined) => void;
   onSearchInput: (value: string) => void;
@@ -199,7 +197,7 @@ export default function CelebFiltersMobile({
               <Search size={16} />
             </button>
           </div>
-          {/* 2~4행: 2열 3행 — 직군·국적 / 콘텐츠·성별 / 수록·정렬 */}
+          {/* 2~4행: 2열 3행 — 직군·국적 / 콘텐츠·성별 / 생년·정렬 */}
           <div className="grid grid-cols-2 gap-2 p-3 pt-0">
             <FilterChip label={t("filterProfession")} value={getProfLabel(profession)} isActive={profession !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("profession")} className="w-full" icon={<Briefcase size={12} />} />
             <FilterChip label={t("filterNationality")} value={getNatLabel(nationality)} isActive={nationality !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("nationality")} className="w-full" icon={<Globe size={12} />} />

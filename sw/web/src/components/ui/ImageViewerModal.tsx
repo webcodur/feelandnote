@@ -36,6 +36,8 @@ interface ImageViewerModalProps {
   showImageShadow?: boolean;
   /** 프로필 확대는 이미지를 다시 누르면 닫고, 휠 확대는 바로 사용할 수 있다. */
   closeOnImageClick?: boolean;
+  /** 전체 화면 게임 등 상위 모달 위에 여는 경우의 레이어. */
+  zIndex?: number;
 }
 
 export default function ImageViewerModal({
@@ -49,6 +51,7 @@ export default function ImageViewerModal({
   renderCaption,
   showImageShadow = true,
   closeOnImageClick = false,
+  zIndex = Z_INDEX.top,
 }: ImageViewerModalProps) {
   const t = useTranslations("shared.ui.imageViewer");
   // scale은 transform-origin이 중앙인 상태의 배율, x·y는 그 중앙 기준 이동량
@@ -122,7 +125,7 @@ export default function ImageViewerModal({
       boxClassName="bg-transparent"
       animateHeight={false}
       closeOnEscape={false}
-      zIndex={Z_INDEX.top}
+      zIndex={zIndex}
       closeButtonClassName={`fixed top-4 end-4 ${CLOSE_BUTTON_STYLE}`}
     >
 

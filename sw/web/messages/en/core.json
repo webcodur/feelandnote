@@ -54,10 +54,10 @@
       "myPage": "My Page",
       "logout": "Logout",
       "community": "Community",
-      "social": "Social",
+      "social": "Friends & Following",
       "feed": "Feed",
       "notice": "Announcements",
-      "feedback": "Feedback"
+      "feedback": "Help & Feedback"
     },
     "locale": {
       "switchTo": "한국어",

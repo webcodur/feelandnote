@@ -117,6 +117,16 @@ test('includeAll이면 같은 책 판본도 전부 돌려준다', () => {
   assert.deepEqual(editions.map((edition) => edition.id), [7, 8])
 })
 
+test('상품이 있는 판본과 없는 판본 모두 저장된 제목의 문자 코드를 복원한다', () => {
+  const title = '구스타브 말러의 Kindertotenlieder&#40;죽은 아이를 그리는 노래&#41;의...'
+  const expected = '구스타브 말러의 Kindertotenlieder(죽은 아이를 그리는 노래)의...'
+  const product = { ...BASE_ROW, title }
+  const row: FigureBookEditionRow = { ...product, id: product.edition_id }
+  assert.equal(mapFigureBookPurchaseOptions([product], 'ko')[0].title, expected)
+  assert.equal(mergeFigureBookEditions([row], [], 'ko', true)[0].title, expected)
+  assert.equal(product.title, title)
+})
+
 test('영문 구매 상품도 판본의 역자를 보존해 다른 번역을 합치지 않는다', () => {
   const first: FigureBookEditionRow = { ...BASE_ROW, id: 7, locale: 'en', sources: { translators: ['Translator A'] } }
   const second = { ...first, id: 8, isbn: '9788937460012', sources: { translators: ['Translator B'] } }

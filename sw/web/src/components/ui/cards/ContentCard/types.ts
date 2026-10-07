@@ -77,6 +77,9 @@ export interface ContentCardProps {
   /** 카드 본체가 여는 중간 모달에서 작품 소개를 제공한다. href나 onClick의 존재로 추정하지 않는다. */
   clickModalHasIntroduction?: boolean;
 
+  /** 감상 카드의 본문 배치. stacked는 좁은 카드에서도 전체 폭으로 감상을 읽는다. */
+  reviewLayout?: "horizontal" | "stacked";
+
   // 리뷰 모드
   review?: string | null;
   reviewEn?: string | null;

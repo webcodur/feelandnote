@@ -2,7 +2,7 @@
   파일명: /app/(main)/explore/works/page.tsx
   기능: 작품 모드 첫 화면
   책임: 첫 화면에서 곧바로 작품이 보이도록 분야별 베스트셀러(표지 순위 격자)를 세운다.
-        기관 선정·불후의 명작·박물관·학당은 2번 구획 「주제별 탐색」 카드로 안내한다(목차 + 번호 구획 둘).
+        기관 선정·불후의 명작·박물관·학당은 2번 구획 「주제별 탐색」 카드로 안내한다. 본문 링크로 바로 이동하며 고정 목차 바는 두지 않는다.
         예전 첫 화면은 기관 선정이었는데 기관 로고·선정 목록이 먼저 나와 작품까지 두 번 더 눌러야 했다(26.09.28 유저 지시로 자리 교체).
         옛 베스트셀러 주소(/explore/works/popular)는 이 화면으로 옮긴다(popular/page.tsx).
 */ // ------------------------------
@@ -12,8 +12,9 @@ import { getLocalizedAlternates } from "@/lib/seo";
 import { WORKS_FEATURED_LINKS } from "@/constants/navigation";
 import ExploreFeatureCard from "@/components/shared/ExploreFeatureCard";
 import HubSection from "@/components/shared/HubSection";
-import AtlasNavSections from "@/components/shared/atlasNav/AtlasNavSections";
-import { hubAtlasNavItems } from "@/components/shared/hubSectionUtils";
+import { hubSectionId } from "@/components/shared/hubSectionUtils";
+import { Link } from "@/i18n/navigation";
+import { ArrowRight } from "lucide-react";
 import { EXPLORE_HUB_GROUP, EXPLORE_LENS_IMAGES, REORGANIZING_WORK_LENSES } from "@/constants/exploreLenses";
 import { chartCategory } from "@/lib/library/chartSources";
 import { PendingBlock } from "@/components/ui/pending";
@@ -43,23 +44,26 @@ export default async function WorksPage({ searchParams }: { searchParams: Promis
   const readyPages = WORKS_FEATURED_LINKS.filter(page => !REORGANIZING_WORK_LENSES.has(page.key!));
   const reorganizingPages = WORKS_FEATURED_LINKS.filter(page => REORGANIZING_WORK_LENSES.has(page.key!));
 
-  // 인물 모드와 같은 문법 — 아틀라스 목차(옆 레일·하단 띠), 번호 구획 둘(베스트셀러 · 주제별 탐색)
+  // 분야 선택과 표지를 바로 보여 준다. 주제별 탐색은 본문 링크로 이동한다.
   const hubGroup = EXPLORE_HUB_GROUP.works;
   const titles = [t("bestsellerLabel"), t("quickNav")];
-  const navLabels = [t("bestsellerLabel"), t("navByTheme")];
 
   return (
-    // 좁은 화면에서는 하단 목차 띠가 본문 위에 떠 있다 — 마지막 줄이 가리지 않게 비운다
-    <div className="pb-[60px] min-[1340px]:pb-0">
-      <AtlasNavSections items={hubAtlasNavItems(navLabels, hubGroup)} />
+    <div>
       <div className="space-y-8 md:space-y-10">
-        <HubSection title={titles[0]} index={0} total={titles.length} groupId={hubGroup} hideDivider>
+        <section id={hubSectionId(0, hubGroup)} aria-labelledby="works-chart-title">
+          <div className="mx-auto mb-3 flex max-w-2xl items-center justify-between gap-2">
+            <h2 id="works-chart-title" className="text-base font-semibold text-text-primary">{titles[0]}</h2>
+            <Link href={`#${hubSectionId(1, hubGroup)}`} className="inline-flex min-h-11 items-center gap-1.5 rounded-control px-3 text-sm text-text-secondary hover:bg-accent/5 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
+              {t("navByTheme")}<ArrowRight size={14} aria-hidden />
+            </Link>
+          </div>
           {/* 분야를 바꾸면 그 분야 차트를 새로 불러오는 동안 자리표를 보인다 */}
           <Lane key={`${category}-${source ?? ""}`} fallback={<PendingBlock variant="grid" count={10} label={pending("loading")} />}>
             <BestsellerMain category={category} source={source} />
           </Lane>
-        </HubSection>
-        <HubSection title={titles[1]} index={1} total={titles.length} groupId={hubGroup}>
+        </section>
+        <HubSection title={titles[1]} id={hubSectionId(1, hubGroup)}>
           <nav aria-label={titles[1]}>
         {/* 크기는 두 단계 — 큰 카드(휴대폰 두 열 타일) | 낮은 줄 카드 */}
         <div className="grid grid-cols-2 gap-3 md:gap-4">

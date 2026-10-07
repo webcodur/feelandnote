@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 import Modal from "@/components/ui/Modal";
 
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
-import { CELEB_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
 import { BirthYearSliderCore } from "./CelebBirthYearFilter";
 import type { useCelebFilters, CelebRealityFilter } from "./useCelebFilters";
@@ -22,7 +21,6 @@ const DETAIL_FILTERS: { value: DetailFilter; label: string }[] = [
   { value: "nationality", label: "filterNationality" },
   { value: "contentType", label: "filterContent" },
   { value: "gender", label: "filterGender" },
-  { value: "tier", label: "filterTier" },
   { value: "birthYear", label: "filterBirthYear" },
   { value: "reality", label: "filterReality" },
 ];
@@ -50,13 +48,12 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
   const conditions = useCelebDetailConditions(draftFilters);
   const visitorCountry = useVisitorCountry();
 
-  // 수록·실존 여부는 집계 없이 선택한다.
+  // 실존 여부는 집계 없이 선택한다.
   const choices: Record<Exclude<DetailFilter, "birthYear">, { value: string; label: string; count?: number }[]> = {
     profession: CELEB_PROFESSION_FILTERS.map(({ value }) => ({ value, label: getProfession(value), count: draftFilters.professionCounts[value] })),
     nationality: countryFirst(draftFilters.nationalityCounts, visitorCountry, item => item.value).map(({ value, count }) => ({ value, label: getNationality(value), count })),
     contentType: CONTENT_TYPE_FILTERS.map(({ value }) => ({ value, label: getContentType(value), count: draftFilters.contentTypeCounts[value] })),
     gender: draftFilters.genderCounts.map(({ value, count }) => ({ value, label: getGender(value), count })),
-    tier: [{ value: "all", label: t("tier.all") }, ...CELEB_TIERS.map((v) => ({ value: v, label: t(`tier.${v}`) }))],
     reality: REALITY_OPTIONS.map((v) => ({ value: v, label: t(`reality.${v}`) })),
   };
   const handlers: Record<Exclude<DetailFilter, "birthYear">, (value: string) => void> = {
@@ -64,7 +61,6 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
     nationality: draftFilters.handleNationalityChange,
     contentType: draftFilters.handleContentTypeChange,
     gender: draftFilters.handleGenderChange,
-    tier: draftFilters.handleTierValueChange,
     reality: (value) => draftFilters.handleRealityChange(value as CelebRealityFilter),
   };
   const currentValue: Record<Exclude<DetailFilter, "birthYear">, string> = {
@@ -72,7 +68,6 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
     nationality: draftFilters.nationality,
     contentType: draftFilters.contentType,
     gender: draftFilters.gender,
-    tier: draftFilters.tierValue,
     reality: draftFilters.realityValue,
   };
   const options = active === "birthYear" ? [] : choices[active];
@@ -104,11 +99,11 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
 
   return (
     <Modal isOpen onClose={onClose} title={t("compactFilters.open")} titleClassName="text-center" size="lg" animateHeightDuration={200}>
-      {/* 좁은 화면은 세 칸씩, 넓은 화면은 네 칸씩 배치한다. */}
+      {/* 여섯 조건을 세 칸씩 두 줄에 배치한다. */}
       <div className="flex flex-wrap gap-2 border-b border-white/10 p-3">
         {DETAIL_FILTERS.map(({ value, label }) => (
           <button key={value} type="button" aria-pressed={active === value} onClick={() => setActive(value)}
-            className={`min-h-9 min-w-0 grow basis-[calc(33.333%-_0.4rem)] truncate whitespace-nowrap rounded-md border px-1 py-1.5 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:basis-[calc(25%-_0.4rem)] md:px-1.5 ${active === value ? "border-accent/30 bg-accent/10 text-accent hover:bg-accent/20" : "border-white/15 text-text-secondary hover:border-white/35 hover:bg-white/5 hover:text-text-primary"}`}>
+            className={`min-h-9 min-w-0 grow basis-[calc(33.333%-_0.4rem)] truncate whitespace-nowrap rounded-md border px-1 py-1.5 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent md:px-1.5 ${active === value ? "border-accent/30 bg-accent/10 text-accent hover:bg-accent/20" : "border-white/15 text-text-secondary hover:border-white/35 hover:bg-white/5 hover:text-text-primary"}`}>
             {t(label)}
           </button>
         ))}

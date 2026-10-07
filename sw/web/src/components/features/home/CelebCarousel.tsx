@@ -142,7 +142,7 @@ export default function CelebCarousel({
           </button>
         </div>
 
-        {/* 2~4행: 2열 3행 — 직군·국적 / 콘텐츠·성별 / 수록·정렬 */}
+        {/* 2~4행: 2열 3행 — 직군·국적 / 콘텐츠·성별 / 생년·정렬 */}
         <CelebFiltersDesktop
           wrapperClassName="grid w-full max-w-xl grid-cols-2 gap-2 [&>div]:w-full [&>div>button]:w-full"
           profession={filters.profession}
@@ -150,7 +150,6 @@ export default function CelebCarousel({
           contentType={filters.contentType}
           contentPresence={filters.contentPresence}
           gender={filters.gender}
-          tier={filters.tierValue}
           sortBy={filters.sortBy}
           search=""
           birthYearMin={filters.birthYearMin}
@@ -166,7 +165,6 @@ export default function CelebCarousel({
           onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
           onContentPresenceChange={withInteraction(filters.handleContentPresenceChange)}
           onGenderChange={withInteraction(filters.handleGenderChange)}
-          onTierChange={withInteraction(filters.handleTierValueChange)}
           onSortChange={withInteraction(filters.handleSortChange)}
           onBirthYearChange={(min, max) => { onFilterInteraction?.(); filters.handleBirthYearChange(min, max); }}
           onSearchInput={() => {}}
@@ -183,7 +181,6 @@ export default function CelebCarousel({
         contentType={filters.contentType}
         contentPresence={filters.contentPresence}
         gender={filters.gender}
-        tier={filters.tierValue}
         sortBy={filters.sortBy}
         search={filters.search}
         birthYearMin={filters.birthYearMin}
@@ -202,7 +199,6 @@ export default function CelebCarousel({
         onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
         onContentPresenceChange={withInteraction(filters.handleContentPresenceChange)}
         onGenderChange={withInteraction(filters.handleGenderChange)}
-        onTierChange={withInteraction(filters.handleTierValueChange)}
         onSortChange={withInteraction(filters.handleSortChange)}
         onBirthYearChange={(min, max) => { onFilterInteraction?.(); filters.handleBirthYearChange(min, max); }}
         onSearchInput={(v) => { onFilterInteraction?.(); filters.handleSearchInput(v); }}
@@ -227,7 +223,7 @@ export default function CelebCarousel({
           {filters.isLoading && filters.celebs.length === 0 && <GridSkeleton />}
           {filters.celebs.length > 0 && (
             <>
-              <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} quiet={syncToUrl} onSelect={setPreviewId} />
+              <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} quiet={syncToUrl} showInfluence={filters.sortBy === "influence"} onSelect={setPreviewId} />
               <div className="mt-8">
                 <Pagination
                   presentation={syncToUrl ? "quiet" : "default"}
@@ -291,7 +287,7 @@ function GridSkeleton() {
 // #endregion
 
 /** 탐색 인물 격자. children은 마지막 카드 뒤 칸으로 붙는다(예: 세력도감 테마 칸의 「더 보기」) */
-export function CelebGrid({ celebs, isLoading, quiet = false, onSelect, children }: { celebs: CelebProfile[]; isLoading: boolean; quiet?: boolean; /** 카드를 누르면 상세 이동 대신 부른다 */ onSelect?: (id: string) => void; children?: React.ReactNode }) {
+export function CelebGrid({ celebs, isLoading, quiet = false, showInfluence = false, onSelect, children }: { celebs: CelebProfile[]; isLoading: boolean; quiet?: boolean; showInfluence?: boolean; /** 카드를 누르면 상세 이동 대신 부른다 */ onSelect?: (id: string) => void; children?: React.ReactNode }) {
   const { handleSubtitle } = useDialogueSubtitle();
   const loadingClass = isLoading ? "opacity-50 pointer-events-none" : "";
 
@@ -310,6 +306,7 @@ export function CelebGrid({ celebs, isLoading, quiet = false, onSelect, children
             celebProfile={celeb}
             shape="square"
             presentation={quiet ? "quiet" : "default"}
+            showInfluence={showInfluence}
             onSelect={onSelect}
             // 탐색·세력도감 인물 격자 — 늘어선 카드 중 올린 카드가 한눈에 보이게 한다
             emphasizeHover

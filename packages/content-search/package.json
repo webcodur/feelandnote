@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./html-entities": "./src/html-entities.ts",
     "./book-search": "./src/book-search.ts",
     "./book-search-language": "./src/book-search-language.ts",
     "./openlibrary-search": "./src/openlibrary-search.ts",

@@ -6,7 +6,6 @@
 
 import { ReactNode } from "react";
 import PageContainer from "@/components/layout/PageContainer";
-import ExploreModeTabs from "@/components/shared/ExploreModeTabs";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import LibraryBanner from "@/components/features/library/hub/LibraryBanner";
 import { LibraryCrumbProvider } from "@/components/features/library/hub/LibraryCrumbs";
@@ -24,7 +23,6 @@ function LibraryLayoutBody({ children }: Props) {
       <LibraryCrumbProvider>
         <LibraryBanner />
         <PageContainer>
-          <ExploreModeTabs />
           {/* 하위 화면에서 위로 가는 길은 배너의 경로 줄이 쥔다(BannerHeading) */}
           {children}
         </PageContainer>

@@ -6,6 +6,9 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { calculateInfluenceRank } from "@feelandnote/influence-constants";
+import { getInfluenceRankStyle } from "@/components/features/influence/rankMaterials";
+import InfluenceRankGlyph from "@/components/features/influence/InfluenceRankGlyph";
 import { Eye, Library } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { getCelebProfileUrl } from "@/lib/url";
@@ -21,6 +24,7 @@ import { badgeStyles, quietBadgeStyles } from "./CelebCard.styles";
 import TrendMatchChip from "./TrendMatchChip";
 import CelebRealityLabel from "./CelebRealityLabel";
 import { EXPLORE_CARD_CAPTION_HOVER, EXPLORE_CARD_FRAME_HOVER, EXPLORE_CARD_GLOW, EXPLORE_CARD_IMAGE_HOVER } from "./ExploreCard.styles";
+import styles from "./CelebCard.module.css";
 
 type Variant = "card" | "circle" | "medallion";
 type CardShape = "circle" | "square";
@@ -48,6 +52,8 @@ interface CelebCardProps {
   /** 탐색·세력도감 인물 격자처럼 카드가 늘어선 목록에서만 켠다 — 마우스를 올렸을 때 금빛 테두리·바탕·그림자·사진 빛·이름 칸으로 강조한다.
       포커스에는 걸지 않는다(모달이 포커스를 옮길 때 켜진 채 남는다) */
   emphasizeHover?: boolean;
+  /** 영향력 정렬에서만 사진 윤곽과 작은 랭크·점수를 표시한다. */
+  showInfluence?: boolean;
 }
 
 export default function CelebCard({
@@ -66,8 +72,10 @@ export default function CelebCard({
   onSubtitle,
   onSelect,
   emphasizeHover = false,
+  showInfluence = false,
 }: CelebCardProps) {
   const t = useTranslations("shared.celeb");
+  const tCeleb = useTranslations("celebPage");
   const locale = useLocale();
   const reality = celebProfile?.celeb_reality;
   const realityLabel = reality === "FICTION" ? t("reality.myth") : null;
@@ -94,6 +102,8 @@ export default function CelebCard({
 
   const isQuiet = presentation === "quiet";
   const isCard = variant === "card";
+  const influence = isCard && showInfluence ? celebProfile?.influence : null;
+  const influenceRank = influence && Number.isFinite(influence.total_score) ? calculateInfluenceRank(influence.total_score) : null;
   const isCircle = variant === "circle";
   const roundedClass = isCard && shape === "square" ? "rounded-md" : "rounded-full";
   const emphasize = isCard && emphasizeHover;
@@ -109,11 +119,12 @@ export default function CelebCard({
 
   return (
     <>
-      <div className={`relative flex flex-col items-center ${isCard ? "@container" : ""} ${className}`}>
+      <div className={`relative flex flex-col items-center ${isCard ? "@container" : ""} ${className}`}
+        style={influenceRank ? getInfluenceRankStyle(influenceRank) : undefined}>
         <Link
           href={profileHref}
           prefetch={false}
-          aria-label={`${displayNickname}${trendAria}`}
+          aria-label={`${displayNickname}${trendAria}${influenceRank && influence ? ` · ${tCeleb("influence")} · ${influenceRank} · ${influence.total_score}/100` : ""}`}
           aria-haspopup={onSelect ? "dialog" : undefined}
           onClick={onSelect ? (event) => {
             // 가운데 누름·보조키 누름은 새 탭 열기이므로 링크 그대로 둔다
@@ -126,8 +137,10 @@ export default function CelebCard({
           <div
             className={`relative shrink-0 ${config.container} ${roundedClass}
               ${frameEdge}
+              ${influenceRank ? styles.influenceFrame : ""}
               group-focus-visible:border-accent group-focus-visible:ring-2 group-focus-visible:ring-accent
             `}
+            data-celeb-card-influence-frame={influenceRank ?? undefined}
             style={isQuiet ? undefined : { background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)" }}
           >
             <div className={`absolute inset-0 overflow-hidden ${roundedClass}`}>
@@ -170,6 +183,15 @@ export default function CelebCard({
               <p className="text-xs md:text-sm font-semibold text-text-primary truncate leading-tight group-hover:text-accent">{displayNickname}</p>
               {displayTitle && (
                 <p className={`text-[11px] md:text-xs ${isQuiet ? "text-text-secondary" : "text-amber-400"} truncate leading-tight mt-0.5`}>{displayTitle}</p>
+              )}
+              {influenceRank && influence && (
+                <span className={styles.influenceLabel} data-celeb-card-influence={influenceRank}
+                  title={`${tCeleb("influence")} · ${influenceRank} · ${influence.total_score}/100`}>
+                  <InfluenceRankGlyph rank={influenceRank} className={styles.rankGlyph} />
+                  <span className={styles.separator} aria-hidden />
+                  <span className="sr-only">{tCeleb("influence")} · {influenceRank} · </span>
+                  <span className={styles.score}>{influence.total_score}<small> /100</small></span>
+                </span>
               )}
               {trendMatch && (
                 <p className="mt-1">

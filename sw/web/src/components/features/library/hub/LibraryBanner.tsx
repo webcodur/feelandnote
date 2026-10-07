@@ -41,7 +41,7 @@ export default function LibraryBanner() {
   const tAcademy = useTranslations("library.academy");
   const extraCrumbs = useExtraCrumbs();
 
-  const hubTitle = tNav("explore");
+  const hubTitle = tNav("library");
 
   // 탐색 접두어를 제외해 기존 작품 하위 경로의 깊이를 유지한다.
   const segments = pathname.replace(/^\/explore\//, "").split("/");

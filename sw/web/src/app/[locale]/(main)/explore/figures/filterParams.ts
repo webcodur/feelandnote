@@ -1,7 +1,7 @@
 import { parseExploreSort } from "@/constants/celebSort";
-import { parseCelebTiers, parseCelebRealities } from "@feelandnote/shared/constants/celeb-tiers";
+import { parseCelebRealities } from "@feelandnote/shared/constants/celeb-tiers";
 import type { FiguresFilterParams } from "./sections";
-import { DEFAULT_EXPLORE_CONTENT_PRESENCE, parseCelebContentPresence } from "@/constants/celebContentPresence";
+import { parseExploreContentPresence } from "@/constants/celebContentPresence";
 import { DEFAULT_EXPLORE_PROFESSION } from "@/constants/celebProfessions";
 import { parseTrendCountry } from "@/constants/trendCountries";
 
@@ -39,14 +39,12 @@ export function parseFilterParams(params: Record<string, string | string[] | und
     pageSize,
     sortBy,
     trendCountry: parseTrendCountry(parseParam(params, "trendCountry")),
-    // 파이프라인 등급 좁히기(full·light). 실존 여부 노출은 realities가 맡는다.
-    tiers: parseCelebTiers(parseParam(params, "tier")),
     // 실존 축 필터. 미지정이면 getCelebs가 기본(REAL·BOTH, FICTION 제외)만 노출한다.
     realities: parseCelebRealities(parseParam(params, "reality")),
     profession: notAll(parseParam(params, "profession") || DEFAULT_EXPLORE_PROFESSION),
     nationality: notAll(parseParam(params, "nationality")),
     contentType: notAll(parseParam(params, "contentType")),
-    contentPresence: parseCelebContentPresence(parseParam(params, "contentPresence"), DEFAULT_EXPLORE_CONTENT_PRESENCE),
+    contentPresence: parseExploreContentPresence(parseParam(params, "contentPresence"), parseParam(params, "tier")),
     gender: notAll(parseParam(params, "gender")),
     search: parseParam(params, "search") || undefined,
     factionId: notAll(parseParam(params, "tagId")),

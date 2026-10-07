@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Home",
-    "explore": "Explore",
+    "explore": "Figures",
     "library": "Works",
     "rest": "Rest",
     "agora": "Agora",
@@ -39,7 +39,7 @@
     "footer": {
       "sectionFigures": "Figures",
       "sectionWorks": "Works",
-      "sectionCommunity": "Play & Agora",
+      "sectionCommunity": "Play & Boards",
       "sectionAbout": "About & Legal",
       "figures": "Figures",
       "ranking": "Category Champions",
@@ -54,7 +54,7 @@
       "game": "Play",
       "social": "Social Agora",
       "notice": "Announcements",
-      "feedback": "Feedback",
+      "feedback": "Help & Feedback",
       "about": "About Us",
       "search": "Search",
       "terms": "Terms of Service",
@@ -64,7 +64,8 @@
       "bestseller": "Bestsellers",
       "classics": "Timeless Classics",
       "influence": "Influence",
-      "monologue": "Monologues"
+      "monologue": "Monologues",
+      "free": "Community Board"
     },
     "modes": {
       "figures": "Figures",

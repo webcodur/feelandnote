@@ -50,7 +50,7 @@ for (const locale of ["ko", "en"] as const) {
   });
 
   test(`base message scope includes common celeb modal labels for ${locale}`, () => {
-    const scoped = pickMessages(loadMessages(locale, ["home", "celeb", "explore"]), BASE_MESSAGE_PATHS);
+    const scoped = pickMessages(loadMessages(locale, ["home", "celeb", "explore", "profile"]), BASE_MESSAGE_PATHS);
     const home = scoped.home as AbstractIntlMessages;
     const celebPage = scoped.celebPage as AbstractIntlMessages;
     const followLabel = (home.ui as AbstractIntlMessages | undefined)?.followLabel;
@@ -59,6 +59,10 @@ for (const locale of ["ko", "en"] as const) {
       celebPage.dialogue_greeting,
       celebPage.enlargePhoto,
       celebPage.playQuoteVoice,
+      celebPage.serviceDialogueVoice,
+      celebPage.serviceAvailable,
+      celebPage.servicePreparing,
+      celebPage.influence,
     ];
 
     assert.equal(typeof followLabel, "string");
@@ -68,6 +72,10 @@ for (const locale of ["ko", "en"] as const) {
     const explore = scoped.explore as AbstractIntlMessages;
     assert.equal(typeof (explore.faction as AbstractIntlMessages).personInTheme, "string");
     modalLabels.forEach((label) => assert.equal(typeof label, "string"));
+    const profile = scoped.profilePage as AbstractIntlMessages;
+    const influence = profile.influence as AbstractIntlMessages;
+    assert.equal(typeof (influence.categories as AbstractIntlMessages).political, "string");
+    assert.equal(typeof influence.transhistoricity, "string");
 
     if (locale === "en") {
       assert.equal(followLabel, "Follow");

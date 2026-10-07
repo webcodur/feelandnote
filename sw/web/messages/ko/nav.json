@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "홈",
-    "explore": "탐색",
+    "explore": "인물",
     "library": "작품",
     "rest": "쉼터",
     "agora": "광장",
@@ -39,7 +39,7 @@
     "footer": {
       "sectionFigures": "인물",
       "sectionWorks": "작품",
-      "sectionCommunity": "쉼터·광장",
+      "sectionCommunity": "쉼터·게시판",
       "sectionAbout": "서비스 안내",
       "figures": "인물 목록",
       "ranking": "분야별 챔피언",
@@ -54,7 +54,7 @@
       "game": "플레이",
       "social": "소셜 광장",
       "notice": "공지사항",
-      "feedback": "피드백",
+      "feedback": "문의·의견 보내기",
       "about": "서비스 소개",
       "search": "통합 검색",
       "terms": "이용약관",
@@ -64,7 +64,8 @@
       "bestseller": "베스트셀러",
       "classics": "불후의 명작",
       "influence": "영향력",
-      "monologue": "가상독백"
+      "monologue": "가상독백",
+      "free": "자유게시판"
     },
     "modes": {
       "figures": "인물",

@@ -15,7 +15,8 @@ import {
 
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import { INFLUENCE_CATEGORIES } from "@/constants/influence";
-import { RANK_BADGE_TONES } from "./rankTones";
+import { getInfluenceRankStyle } from "./rankMaterials";
+import InfluenceRankGlyph from "./InfluenceRankGlyph";
 
 /** 언어에 기대지 않는 숫자 표기 (상수의 한국어 문구 대신) */
 const RANK_RANGE_TEXT: Record<InfluenceRank, string> = {
@@ -33,6 +34,8 @@ interface Props {
   totalScore: number;
   baseScore: number;
   transScore: number;
+  zIndex?: number;
+  escapeCapture?: boolean;
 }
 
 export default function InfluenceScoreInfoModal({
@@ -42,12 +45,14 @@ export default function InfluenceScoreInfoModal({
   totalScore,
   baseScore,
   transScore,
+  zIndex,
+  escapeCapture,
 }: Props) {
   const t = useTranslations("profilePage.influence");
   const ti = useTranslations("profilePage.influence.scoreInfo");
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={ti("title")} icon={Trophy} size="lg">
+    <Modal isOpen={isOpen} onClose={onClose} title={ti("title")} icon={Trophy} size="lg" zIndex={zIndex} escapeCapture={escapeCapture}>
       <ModalBody className="space-y-5">
         {/* 100점이 어떻게 짜였는지 */}
         <section className="space-y-2">
@@ -129,9 +134,10 @@ export default function InfluenceScoreInfoModal({
                   }`}
                 >
                   <span
-                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md border text-sm font-black ${RANK_BADGE_TONES[rank]}`}
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-control border border-white/20 bg-[image:var(--rank-surface)] text-[var(--rank-ink)]"
+                    style={getInfluenceRankStyle(rank)}
                   >
-                    {rank}
+                    <InfluenceRankGlyph rank={rank} className="h-6 w-5" />
                   </span>
                   <span
                     className={`text-sm font-semibold ${

@@ -228,7 +228,17 @@
       "notice": "Announcements",
       "noticeSub": "Service news and updates",
       "figureLinksNav": "Trending",
-      "popularBooks": "Recommended Books"
+      "popularBooks": "Recommended Books",
+      "freeBoard": "Community Board",
+      "noticeAll": "View all announcements",
+      "featuredReview": "A closer look",
+      "featuredReviewSub": "Discover a work through someone’s experience"
+    },
+    "featuredReview": {
+      "cardLabel": "How {name} experienced {title}",
+      "backgroundTitle": "How {name} experienced it",
+      "source": "Source",
+      "unavailable": "This story is currently unavailable."
     }
   },
   "banner": {
@@ -246,7 +256,10 @@
     "browseLibrary": "Browse Library",
     "viewContent": "View Details",
     "birthdayChip": "Birthday",
-    "newsChip": "{count} in news"
+    "newsChip": "{count} in news",
+    "reviewBackground": "Reading experience",
+    "readReview": "Read full review",
+    "openReview": "Read the full review of {title}"
   },
   "landing": {
     "factions": "Factions",

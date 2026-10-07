@@ -6,6 +6,8 @@ import { Maximize2 } from "lucide-react";
 import { CELEB_HERO_PHOTO_SPEC } from "@feelandnote/shared/constants/celeb-hero-photo";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import VoiceBadge from "@/components/ui/VoiceBadge";
+import { useTranslations } from "next-intl";
+import type { ReactNode } from "react";
 
 export interface CelebProfileMediaProps {
   photoUrl: string | null;
@@ -22,6 +24,9 @@ export interface CelebProfileMediaProps {
   initialSize: string;
   containerClassName?: string;
   avatarAlignment?: "start" | "center";
+  /** 요약 카드에서는 이미지 아래 한 줄로 조작을 모은다. */
+  actionLayout?: "corners" | "toolbar";
+  extraAction?: ReactNode;
 }
 
 /**
@@ -43,32 +48,40 @@ export default function CelebProfileMedia({
   initialSize,
   containerClassName = "",
   avatarAlignment = "start",
+  actionLayout = "corners",
+  extraAction,
 }: CelebProfileMediaProps) {
+  const t = useTranslations("celebPage");
   const canShowGreeting = Boolean(onGreet);
   const zoomOnClick = imageAction === "zoom";
   const canClickImage = zoomOnClick || canShowGreeting;
+  const toolbar = actionLayout === "toolbar";
   const ringClass =
     "ring-1 ring-accent/20 hover:ring-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
   // 원형 아바타는 배지를 테두리 밖으로 반쯤 빼 얼굴을 덜 가린다. 사각 사진은 모서리 안에 둔다.
   const badgeY = photoUrl ? "bottom-2" : "-bottom-2";
   const badgeEnd = photoUrl ? "end-2" : "-end-2";
   const badgeStart = photoUrl ? "start-2" : "-start-2";
-  const badgePlace = `absolute ${badgeY} ${badgeEnd} z-[4]`;
+  const badgePlace = toolbar ? "" : `absolute ${badgeY} ${badgeEnd} z-[4]`;
   const actionBaseClass =
     "inline-flex h-8 items-center justify-center rounded-md border border-white/15 bg-black/60 text-text-secondary shadow-none hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 active:bg-accent/20 active:scale-95";
-  const voiceActionClass = `${actionBaseClass} w-8`;
-  const zoomActionClass = `${actionBaseClass} w-8`;
+  const toolbarActionClass = "inline-flex size-9 items-center justify-center rounded-control text-text-secondary hover:bg-white/10 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:bg-white/15";
+  const voiceActionClass = toolbar ? toolbarActionClass : `${actionBaseClass} w-8`;
+  const zoomActionClass = toolbar ? toolbarActionClass : `${actionBaseClass} w-8`;
 
   const handleGreetingClick = () => {
     onGreet?.();
   };
 
-  // 스피커는 음성을 바로 들려줄 수 있는 인물에게만 둔다 — 음성이 없으면 아이콘 자체를 만들지 않는다
-  const voiceBadge = !hasVoice ? null : canShowGreeting ? (
+  // 같은 스피커를 유지하고, 실제 음원 유무는 아이콘 색으로 구분한다.
+  const voiceStatus = `${t("serviceDialogueVoice")} · ${t(hasVoice ? "serviceAvailable" : "servicePreparing")}`;
+  const voiceBadge = canShowGreeting ? (
     <button
       type="button"
       onClick={handleGreetingClick}
       aria-label={greetLabel}
+      title={voiceStatus}
+      data-celeb-voice={hasVoice ? "available" : "unavailable"}
       aria-pressed={hasVoice ? isVoicePlaying : undefined}
       style={{ minWidth: 32, minHeight: 32 }}
       className={`${badgePlace} ${voiceActionClass} cursor-pointer`}
@@ -76,7 +89,7 @@ export default function CelebProfileMedia({
       <VoiceBadge size="lg" active={hasVoice} playing={isVoicePlaying} bare />
     </button>
   ) : (
-    <div className={`pointer-events-none ${badgePlace} ${voiceActionClass}`} aria-hidden="true">
+    <div className={`${badgePlace} ${voiceActionClass}`} role="img" aria-label={voiceStatus} title={voiceStatus} data-celeb-voice={hasVoice ? "available" : "unavailable"}>
       <VoiceBadge size="lg" active={hasVoice} playing={isVoicePlaying} bare />
     </div>
   );
@@ -86,12 +99,21 @@ export default function CelebProfileMedia({
       type="button"
       onClick={onZoom}
       aria-label={zoomLabel}
+      title={zoomLabel}
       style={{ minWidth: 32, minHeight: 32 }}
-      className={`absolute ${badgeY} ${badgeStart} z-[3] ${zoomActionClass}`}
+      className={`${toolbar ? "" : `absolute ${badgeY} ${badgeStart} z-[3]`} ${zoomActionClass}`}
     >
       <Maximize2 size={16} aria-hidden="true" />
     </button>
   );
+
+  const actions = toolbar ? (
+    <div data-celeb-portrait-toolbar className="absolute top-[calc(100%+12px)] start-1/2 z-[4] flex -translate-x-1/2 items-center gap-1 rounded-card border border-line bg-bg-secondary/50 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+      {avatarUrl || photoUrl ? zoomButton : null}
+      {voiceBadge}
+      {extraAction}
+    </div>
+  ) : <>{voiceBadge}{avatarUrl || photoUrl ? zoomButton : null}</>;
 
   if (photoUrl) {
     return (
@@ -125,8 +147,7 @@ export default function CelebProfileMedia({
             />
           </BlurDissolve>
         </button>
-        {voiceBadge}
-        {zoomButton}
+        {actions}
       </div>
     );
   }
@@ -167,8 +188,7 @@ export default function CelebProfileMedia({
           </div>
         )}
       </button>
-      {voiceBadge}
-      {avatarUrl ? zoomButton : null}
+      {actions}
     </div>
   );
 }

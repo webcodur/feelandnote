@@ -61,8 +61,10 @@ test('모바일은 예시 책처럼 충분히 큰 원본은 보존하고 긴 배
       const cropped = getMediaGeometry(kind, ratio, panel, true)
       assert.equal(cropped.cropped, true)
       assert.equal(value(cropped, '--mo-image-fit'), 'cover')
-      assert.equal(value(cropped, '--mo-compact-width'), '100%')
-      assert.equal(value(cropped, '--mo-compact-height'), '100%')
+      if (kind !== 'music') {
+        assert.equal(value(cropped, '--mo-compact-width'), '100%')
+        assert.equal(value(cropped, '--mo-compact-height'), '100%')
+      }
     }
   }
 })
@@ -89,4 +91,20 @@ test('게임·필름 확대는 표지의 실제 영역을 카드 안에 최대�
 test('LP 재킷은 정사각형을 유지하며 가까운 비율만 전체 표시한다', () => {
   assert.equal(value(getMediaGeometry('music', .95, panel, false), '--mo-image-fit'), 'contain')
   assert.equal(value(getMediaGeometry('music', 1.8, panel, false), '--mo-image-fit'), 'cover')
+})
+
+test('모바일 LP는 표지 폭을 유지하고 남는 높이에만 판을 드러낸다', () => {
+  for (const size of [{ width: 180, height: 270 }, { width: 180, height: 240 },
+    { width: 180, height: 200 }, { width: 180, height: 180 }, { width: 240, height: 160 }]) {
+    const result = getMediaGeometry('music', 1, size, true)
+    const sleeve = number(result, '--object-size')
+    const totalHeight = number(result, '--mo-compact-height') / 100 * size.height
+    near(sleeve, Math.min(size.width * .96, size.height * .96))
+    assert.ok(totalHeight <= size.height * .96 + .00001)
+    assert.ok(totalHeight >= sleeve - .00001 && totalHeight <= sleeve * 1.32 + .00001)
+    assert.equal(result.cropped, false)
+    assert.equal(value(result, '--mo-image-fit'), 'contain')
+    if (size.height >= size.width * 1.32) near(totalHeight / sleeve, 1.32)
+    if (size.height <= size.width) near(totalHeight, sleeve)
+  }
 })

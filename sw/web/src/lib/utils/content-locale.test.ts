@@ -21,6 +21,17 @@ const enRow: ContentLocaleRow = {
   sources: { primary: 'openlibrary' },
 }
 
+test('기존 저장 제목과 언어 폴백의 문자 코드를 일반 텍스트로 복원한다', () => {
+  const encodedKo = { ...koRow, title: '말러&#40;노래&#41; &amp; 악보' }
+  const encodedEn = { ...enRow, title: 'Songs &#x28;Score&#x29;' }
+  const flat = flattenLocales([encodedKo, encodedEn], 'ko', 'BOOK')
+  assert.equal(flat.title, '말러(노래) & 악보')
+  assert.equal(flat.title_ko, flat.title)
+  assert.equal(flat.title_en, 'Songs (Score)')
+  assert.equal(flattenLocales([encodedEn], 'ko', 'BOOK').title, 'Songs (Score)')
+  assert.equal(encodedKo.title, '말러&#40;노래&#41; &amp; 악보')
+})
+
 test('영상·게임·음악은 제목 언어가 없거나 절판 표식이 있어도 도서 배지를 표시하지 않는다', () => {
   for (const contentType of ['VIDEO', 'GAME', 'MUSIC', undefined, null]) {
     for (const badge of ['no-ko', 'no-en', 'out-of-print', null, undefined] as const) {

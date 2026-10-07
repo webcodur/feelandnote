@@ -8,7 +8,7 @@ export function useCelebDetailDraft(filters: ReturnType<typeof useCelebFilters>)
   const [draft, setDraft] = useState<CelebDetailFilterValues>(() => ({
     profession: filters.profession, nationality: filters.nationality,
     contentType: filters.contentType, gender: filters.gender,
-    tierValue: filters.tierValue, realityValue: filters.realityValue,
+    realityValue: filters.realityValue,
     birthYearMin: filters.birthYearMin, birthYearMax: filters.birthYearMax,
   }));
   const update = <K extends keyof CelebDetailFilterValues>(key: K, value: CelebDetailFilterValues[K]) => {
@@ -24,7 +24,6 @@ export function useCelebDetailDraft(filters: ReturnType<typeof useCelebFilters>)
     handleNationalityChange: (value: string) => update("nationality", value),
     handleContentTypeChange: (value: string) => update("contentType", value),
     handleGenderChange: (value: string) => update("gender", value),
-    handleTierValueChange: (value: string) => update("tierValue", value),
     handleRealityChange: (value: CelebDetailFilterValues["realityValue"]) => update("realityValue", value),
     handleBirthYearChange: (min: number | undefined, max: number | undefined) => {
       setDraft(previous => ({ ...previous, birthYearMin: min, birthYearMax: max }));

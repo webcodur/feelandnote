@@ -228,7 +228,17 @@
       "notice": "공지사항",
       "noticeSub": "서비스 소식과 업데이트를 전해드립니다",
       "figureLinksNav": "검색 급증",
-      "popularBooks": "추천 도서"
+      "popularBooks": "추천 도서",
+      "freeBoard": "자유게시판",
+      "noticeAll": "공지사항 전체 보기",
+      "featuredReview": "주목할 만한 감상",
+      "featuredReviewSub": "한 사람의 감상으로 만나는 새로운 작품"
+    },
+    "featuredReview": {
+      "cardLabel": "{name}의 《{title}》 감상배경",
+      "backgroundTitle": "{name}의 감상배경",
+      "source": "감상 출처",
+      "unavailable": "지금은 감상을 불러올 수 없습니다."
     }
   },
   "banner": {
@@ -246,7 +256,10 @@
     "browseLibrary": "서재 둘러보기",
     "viewContent": "콘텐츠 상세",
     "birthdayChip": "생일",
-    "newsChip": "뉴스 {count}건"
+    "newsChip": "뉴스 {count}건",
+    "reviewBackground": "감상배경",
+    "readReview": "감상 전체 보기",
+    "openReview": "{title} 감상 전체 보기"
   },
   "landing": {
     "factions": "세력도감",

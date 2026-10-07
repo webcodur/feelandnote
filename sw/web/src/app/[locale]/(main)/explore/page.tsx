@@ -11,8 +11,7 @@ import Lane from "@/components/ui/pending/Lane";
 import ExploreFeatureCard from "@/components/shared/ExploreFeatureCard";
 import { EXPLORE_LENS_GROUP_HEADING_CLASS } from "@/components/shared/ExploreCard.styles";
 import HubSection from "@/components/shared/HubSection";
-import AtlasNavSections from "@/components/shared/atlasNav/AtlasNavSections";
-import { hubAtlasNavItems } from "@/components/shared/hubSectionUtils";
+import { hubSectionId } from "@/components/shared/hubSectionUtils";
 import { FiguresFilterResult } from "./figures/sections";
 import { parseFilterParams } from "./figures/filterParams";
 
@@ -40,22 +39,24 @@ export default async function ExplorePage({ searchParams }: {
   // 주제별 탐색 — 주소·이름은 메뉴 설정(NAV_ITEMS), 그림·묶음·순서는 exploreLenses가 쥔다
   const hrefByKey = new Map(NAV_ITEMS.find((item) => item.key === "explore")!.subLinks!.map((page) => [page.key!, page.href]));
 
-  // 홈과 같은 문법 — 아틀라스 목차(옆 레일·하단 띠), 번호 구획 둘(인물 목록 · 주제별 탐색). 목차 라벨은 구획 제목보다 짧은 문구를 쓴다
+  // 첫 목록은 검색·카드를 바로 보여 준다. 주제별 탐색은 본문 링크로 이동한다.
   const hubGroup = EXPLORE_HUB_GROUP.figures;
   const titles = [t("navCelebs"), t("quickNav")];
-  const navLabels = [t("navCelebs"), t("navByTheme")];
 
   return (
-    // 좁은 화면에서는 하단 목차 띠가 본문 위에 떠 있다 — 마지막 줄이 가리지 않게 비운다
-    <div className="pb-[60px] min-[1340px]:pb-0">
-      <AtlasNavSections items={hubAtlasNavItems(navLabels, hubGroup)} />
+    <div>
       <div className="space-y-8 md:space-y-10">
-        <HubSection title={titles[0]} index={0} total={titles.length} groupId={hubGroup} hideDivider>
+        <section id={hubSectionId(0, hubGroup)} aria-label={titles[0]}>
+          <div className="mx-auto mb-3 flex max-w-2xl justify-end">
+            <Link href={`#${hubSectionId(1, hubGroup)}`} className="inline-flex min-h-11 items-center gap-1.5 rounded-control px-3 text-sm text-text-secondary hover:bg-accent/5 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
+              {t("navByTheme")}<ArrowRight size={14} aria-hidden />
+            </Link>
+          </div>
           <Lane fallback={<PendingBlock variant="grid" count={24} label={pending("loading")} />}>
             <FiguresFilterResult params={filters} />
           </Lane>
-        </HubSection>
-        <HubSection title={titles[1]} index={1} total={titles.length} groupId={hubGroup}>
+        </section>
+        <HubSection title={titles[1]} id={hubSectionId(1, hubGroup)}>
           {/* 쓰임새별 묶음. 크기는 큰 카드(휴대폰 두 열 타일) | 낮은 줄 카드 두 단계뿐이다 */}
           <nav aria-label={titles[1]} className="space-y-8 md:space-y-10">
           {FIGURE_LENS_GROUPS.map((group) => (

@@ -534,11 +534,11 @@ const getCelebsCached = unstable_cache(
   fetchCelebsPublicOnce,
   // 반환 모양이 바뀌면 반드시 버전을 올린다. 배포 간 영속 캐시가 구형 필드를 되돌려줄 수 있다.
   // v11: 접속 국가와 일일 날짜를 추천 캐시 키에 포함한다.
-  ['celebs-public-v11-visitor-country'],
+  ['celebs-public-v12-contemporary-recommend'],
   // celebs·celeb_influence(정렬/랭킹) + faction_member_rows·faction_lv2 + celeb_dialogues +
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
-    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v11-visitor-country']),
+    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v12-contemporary-recommend']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )

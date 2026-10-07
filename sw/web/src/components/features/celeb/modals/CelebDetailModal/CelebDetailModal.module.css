@@ -1,0 +1,190 @@
+.frame {
+  background-image: var(--rank-border);
+  padding: 2px;
+  border-radius: var(--radius-panel);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 28%),
+    0 5px 0 var(--color-bg-secondary),
+    0 6px 0 rgb(255 255 255 / 9%),
+    0 0 32px -16px color-mix(in srgb, var(--card-aura) 55%, transparent),
+    0 24px 48px -12px rgb(0 0 0 / 80%),
+    0 48px 100px -24px rgb(0 0 0 / 65%);
+}
+
+.scrollArea {
+  border-radius: calc(var(--radius-panel) - 2px);
+  background:
+    linear-gradient(125deg, transparent 25%, rgb(255 255 255 / 3%) 25.2%, transparent 52%),
+    radial-gradient(ellipse at 50% 12%, color-mix(in srgb, var(--card-aura) 12%, transparent), transparent 52%),
+    radial-gradient(ellipse at 20% 0%, rgb(255 255 255 / 6%), transparent 55%),
+    linear-gradient(155deg, var(--color-bg-raised), var(--color-bg-card) 45%, var(--color-bg-main));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 10%);
+}
+
+.surface::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid color-mix(in srgb, var(--card-aura) 12%, transparent);
+  border-radius: var(--radius-card);
+  pointer-events: none;
+}
+
+.surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--pattern-noise);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.portrait {
+  border-radius: 50%;
+  box-shadow:
+    0 2px 0 rgb(255 255 255 / 12%),
+    0 12px 24px -6px rgb(0 0 0 / 65%),
+    0 0 0 5px rgb(0 0 0 / 20%),
+    0 0 0 6px color-mix(in srgb, var(--card-aura) 25%, transparent),
+    0 0 32px -8px color-mix(in srgb, var(--card-aura) 30%, transparent);
+}
+
+.portraitRow {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 36px;
+  align-items: start;
+  width: 100%;
+  max-width: 312px;
+  margin-bottom: 8px;
+}
+
+.portraitSlot { grid-column: 2; grid-row: 1; justify-self: center; padding-bottom: 64px; }
+.navPrevious { grid-column: 1; grid-row: 1; }
+.navNext { grid-column: 3; grid-row: 1; }
+
+.navButton {
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 44px;
+  margin-top: 34px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+
+.navFace { fill: rgb(0 0 0 / 28%); }
+.navEdge { fill: none; stroke: currentColor; stroke-opacity: 0.35; }
+.navBevel { fill: none; stroke: rgb(255 255 255 / 10%); }
+.navButton:hover { color: var(--card-aura); }
+.navButton:hover .navFace { fill: color-mix(in srgb, var(--card-aura) 9%, var(--color-bg-secondary)); }
+.navButton:hover .navEdge { stroke-opacity: 0.8; }
+.navButton:active .navFace { fill: color-mix(in srgb, var(--card-aura) 16%, var(--color-bg-secondary)); }
+.navButton:focus-visible { outline: none; color: var(--card-aura); }
+.navButton:focus-visible .navEdge { stroke-width: 2; stroke-opacity: 1; }
+.navButton:disabled { pointer-events: none; opacity: 0.35; }
+
+.nameRow { position: relative; width: 100%; margin-bottom: 12px; padding-inline: 40px; }
+.name { width: 100%; font-size: clamp(22px, 7vw, 30px); text-align: center; text-wrap: balance; overflow-wrap: anywhere; }
+.profileLink { position: absolute; inset-inline-end: 0; top: 50%; transform: translateY(-50%); }
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.title::before,
+.title::after {
+  content: "";
+  width: 24px;
+  height: 1px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--card-aura) 65%, transparent));
+}
+
+.title::after {
+  transform: rotate(180deg);
+}
+
+.withFooter {
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding-inline: 22px 68px;
+  border-top: 1px solid color-mix(in srgb, var(--card-aura) 18%, transparent);
+  border-radius: 0 0 calc(var(--radius-panel) - 2px) calc(var(--radius-panel) - 2px);
+  background: var(--color-bg-secondary);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 4%);
+}
+
+.influenceCorner {
+  background-image: var(--rank-surface);
+  color: var(--rank-ink);
+  position: absolute;
+  inset-inline-end: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 64px;
+  height: 64px;
+  padding: 0 5px 5px 0;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  border-end-end-radius: calc(var(--radius-panel) - 2px);
+  cursor: pointer;
+  box-shadow: inset -1px -1px 0 rgb(255 255 255 / 25%);
+}
+
+.rankGlyph {
+  width: 26px;
+  height: 28px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.influenceCorner:hover {
+  filter: brightness(1.3);
+}
+
+.influenceCorner:active {
+  filter: brightness(0.9);
+}
+
+.influenceCorner:focus-visible {
+  outline: none;
+  filter: brightness(1.3);
+  box-shadow: inset -3px -3px 0 var(--color-text-primary);
+}
+
+.surface .quote {
+  padding: 14px 18px;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 16%, transparent);
+  border-radius: var(--radius-card);
+  background: linear-gradient(135deg, rgb(255 255 255 / 4%), rgb(0 0 0 / 12%));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 5%),
+    0 6px 14px -8px rgb(0 0 0 / 65%);
+}
+
+.surface .quote:has(button) {
+  padding: 0;
+}
+
+.surface .quote > button {
+  padding: 14px 18px;
+}
+
+.surface .quote:has(button:hover),
+.surface .quote:has(button[aria-pressed="true"]) {
+  border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 8%, transparent), rgb(0 0 0 / 12%));
+}

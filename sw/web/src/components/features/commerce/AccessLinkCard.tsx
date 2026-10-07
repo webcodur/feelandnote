@@ -14,10 +14,10 @@ export default function AccessLinkCard({ name, href, affiliation = 'ordinary', a
     className={cn(ACCESS_LINK_STYLE, className)} style={style} onClick={onClick}
     title={ariaLabel ?? name}
     aria-label={[ariaLabel ?? name, t('newWindow')].join(' · ')}>
-    <span className="relative flex h-6 min-w-0 items-center justify-center px-6 text-center">
+    <span className={cn("relative flex h-6 min-w-0 items-center justify-center text-center", inlineDetails ? "px-6" : "gap-2")}>
       {inlineDetails && <span className="absolute start-0 hidden whitespace-nowrap text-[11px] tabular-nums @min-[320px]/access:block">{inlineDetails}</span>}
       <span className={cn('min-w-0 truncate text-sm font-semibold', inlineDetails && '@min-[320px]/access:max-w-[58%]', ACCESS_LABEL_STYLE)}>{name}</span>
-      <ArrowUpRight size={15} className="pointer-events-none absolute end-0 top-1/2 -translate-y-1/2" aria-hidden />
+      <ArrowUpRight size={15} className={cn("pointer-events-none shrink-0", inlineDetails && "absolute end-0 top-1/2 -translate-y-1/2")} aria-hidden />
     </span>
   </a>
 }

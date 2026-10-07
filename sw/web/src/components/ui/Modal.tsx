@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { X, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -55,6 +55,8 @@ interface ModalProps {
   frame?: "classical" | "plain";
   /** 박스에 덧붙이는 클래스 (배경·테두리·모서리·그림자) */
   boxClassName?: string;
+  /** 스크롤바가 차지하는 영역까지 칠할 본문 배경·모서리 클래스 */
+  scrollAreaClassName?: string;
   /** 콘텐츠 비율처럼 실행 중에 정해지는 박스 크기·CSS 변수 */
   boxStyle?: CSSProperties;
   /** 오버레이의 배경·흐림을 바꾼다. 기본 bg-black/60 backdrop-blur-md */
@@ -104,6 +106,7 @@ export default function Modal({
   zIndex,
   frame = "classical",
   boxClassName,
+  scrollAreaClassName,
   boxStyle,
   overlayClassName,
   closeButtonClassName,
@@ -134,13 +137,24 @@ export default function Modal({
     return () => observer.disconnect();
   }, [isOpen, title]);
 
-  // ESC·스크롤 잠금·포커스 트랩 — 열릴 때 박스로 포커스를 옮기고 닫히면 돌려준다
-  useEffect(() => {
+  // 처음 그리기 전에 스크롤을 잠근다. 콜백·ESC 설정 변경으로 잠금과 포커스를 다시 잡지 않는다.
+  useLayoutEffect(() => {
     if (!isOpen) return;
 
     const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     lockBodyScroll();
     const focusFrame = requestAnimationFrame(() => boxRef.current?.focus({ preventScroll: true }));
+
+    return () => {
+      cancelAnimationFrame(focusFrame);
+      unlockBodyScroll();
+      if (previouslyFocused?.isConnected) previouslyFocused.focus({ preventScroll: true });
+    };
+  }, [isOpen]);
+
+  // ESC·Tab 처리는 최신 콜백과 설정을 따르며, 열린 모달의 포커스를 초기화하지 않는다.
+  useEffect(() => {
+    if (!isOpen) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       // 초상화 확대처럼 Portal로 위에 열린 창의 키 입력은 그 창에서 처리한다.
@@ -172,10 +186,7 @@ export default function Modal({
     document.addEventListener("keydown", handleKeyDown, escapeCapture);
 
     return () => {
-      cancelAnimationFrame(focusFrame);
       document.removeEventListener("keydown", handleKeyDown, escapeCapture);
-      unlockBodyScroll();
-      previouslyFocused?.focus({ preventScroll: true });
     };
   }, [isOpen, onClose, closeOnEscape, escapeCapture]);
 
@@ -214,10 +225,10 @@ export default function Modal({
       {/* 고정 헤더가 없는 모달과 별도 배치 버튼은 스크롤 영역 밖에 둔다. */}
       {!closeInHeader && closeButton}
 
-      {/* 스크롤 영역 */}
+      {/* 일반 모달은 스크롤바 공간을 유지해 첫 렌더 이후 본문이 옆으로 밀리지 않게 한다. */}
       <div
         ref={scrollRef}
-        className={`min-h-0 flex flex-col overflow-y-auto ${frame === "classical" ? "rounded-[inherit]" : ""} ${fadeClippedEnd && isClipped ? "clip-fade-end" : ""}`}
+        className={`min-h-0 flex flex-col ${fullScreen ? "overflow-y-auto" : "overflow-y-scroll [scrollbar-gutter:stable]"} ${frame === "classical" ? "rounded-[inherit]" : ""} ${fadeClippedEnd && isClipped ? "clip-fade-end" : ""} ${scrollAreaClassName ?? ""}`}
       >
         {/* 헤더 - title이 있을 때만 렌더링 */}
         {title && (

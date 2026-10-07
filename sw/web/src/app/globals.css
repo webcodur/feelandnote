@@ -1,6 +1,7 @@
 @import "./pretendard.css";
 @import "tailwindcss";
 @source "../../../../packages/shared/src";
+@source "../../../../packages/influence-constants/src";
 @plugin "@tailwindcss/typography";
 
 @theme {

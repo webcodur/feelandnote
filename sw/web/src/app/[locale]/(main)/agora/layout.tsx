@@ -8,10 +8,6 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 import PageContainer from "@/components/layout/PageContainer";
 import AgoraTabs from "@/components/features/user/agora/AgoraTabs";
-import HegemonyMapBanner from "@/components/lab/HegemonyMapBanner";
-import PageBanner from "@/components/shared/PageBanner";
-import { BANNER_TITLE_CLASS } from "@/components/shared/bannerStyles";
-import { getTranslations } from "next-intl/server";
 import MessageScope from "@/components/shared/MessageScope";
 
 // 광장 전체 색인 제외 (2026-07-15)
@@ -25,17 +21,9 @@ interface Props {
   children: ReactNode;
 }
 
-async function AgoraLayoutBody({ children }: Props) {
-  const tNav = await getTranslations("nav");
-  const title = tNav("agora");
-
+function AgoraLayoutBody({ children }: Props) {
   return (
     <>
-      <PageBanner title={title}>
-        <HegemonyMapBanner compact>
-          <h1 className={BANNER_TITLE_CLASS}>{title}</h1>
-        </HegemonyMapBanner>
-      </PageBanner>
       <PageContainer>
         <AgoraTabs />
         {children}

@@ -54,8 +54,8 @@ export function MediaObject({ kind, image, showCover, angle, spinning, compact =
   const cover = <Cover kind={kind} image={image} showCover={showCover} title={title} creator={creator} onImageLoad={onImageLoad} />
   if (compact) return <div className={`mo-object mo-object-${kind} mo-object-compact`}
     style={objectStyle} data-cropped={cropped} aria-hidden="true">
-    <div className="mo-compact-frame">{cover}</div>
     {kind === 'music' && <span className="mo-compact-record" />}
+    <div className="mo-compact-frame">{cover}</div>
   </div>
   return (
     <div className={`mo-object mo-object-${kind}`} style={objectStyle} data-cropped={cropped} aria-hidden="true">

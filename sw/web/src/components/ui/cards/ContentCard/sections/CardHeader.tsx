@@ -88,7 +88,7 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
     actionNode = (
       <DropdownMenu
         items={menuItems}
-        buttonClassName="w-6 h-6 flex items-center justify-center rounded hover:bg-white/[0.06] transition-colors text-text-secondary hover:text-text-primary"
+        buttonClassName="w-11 h-11 flex items-center justify-center rounded hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent text-text-secondary hover:text-text-primary"
         iconSize={14}
       />
     );
@@ -104,7 +104,7 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
         type="button"
         aria-label={t("types.title")}
         onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsTypeInfoOpen(true); }}
-        className="flex items-center justify-center w-6 h-6 rounded hover:bg-white/[0.06] transition-colors"
+        className="flex items-center justify-center w-11 h-11 rounded hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       >
         <ContentIcon size={13} className="text-accent/80" strokeWidth={1.8} />
       </button>

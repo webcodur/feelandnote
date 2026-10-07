@@ -41,7 +41,7 @@ export function EditionToggle({ editions, activeEdition, onToggle }: EditionTogg
             disabled={isDisabled}
             title={isDisabled ? (key === "ko" ? t("noKo") : t("noEn")) : undefined}
             onClick={() => !isDisabled && onToggle(key)}
-            className={`px-3 py-0.5 text-xs font-semibold tracking-wide transition-all duration-150 ${
+            className={`min-h-11 min-w-11 px-3 py-1 text-xs font-semibold tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
               idx > 0 ? "border-l border-white/[0.06]" : ""
             } ${
               isActive

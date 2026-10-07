@@ -11,11 +11,11 @@
         "description": "View service announcements"
       },
       "feedback": {
-        "label": "Feedback",
+        "label": "Help & Feedback",
         "description": "Share your opinions and feedback"
       },
       "social": {
-        "label": "Social",
+        "label": "Friends & Following",
         "description": "Browse your friends and connections"
       }
     },
@@ -27,7 +27,7 @@
     "freeBoardComingSoon": "Coming Soon",
     "freeBoardComingSoonDesc": "The free board feature will be available soon",
     "feedback": {
-      "title": "Feedback",
+      "title": "Help & Feedback",
       "description": "Share your feedback and suggestions about the feelandnote service.",
       "write": "Write Feedback",
       "edit": "Edit Feedback"
@@ -39,7 +39,7 @@
       "edit": "Edit Announcement"
     },
     "social": {
-      "metaTitle": "Social | Agora"
+      "metaTitle": "Friends & Following"
     }
   },
   "board": {

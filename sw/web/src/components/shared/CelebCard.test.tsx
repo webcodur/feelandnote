@@ -14,13 +14,16 @@ const compiled = ts.transpileModule(readFileSync(new URL("./CelebCard.tsx", impo
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },
 }).outputText;
 
-function renderCard(options: { variant?: "card" | "circle" | "medallion"; presentation?: "default" | "quiet"; locale?: "ko" | "en"; profile?: boolean; subtitle?: boolean; count?: number; voice?: boolean } = {}) {
+function renderCard(options: { variant?: "card" | "circle" | "medallion"; presentation?: "default" | "quiet"; locale?: "ko" | "en"; profile?: boolean; subtitle?: boolean; count?: number; voice?: boolean; showInfluence?: boolean; score?: number } = {}) {
   const locale = options.locale ?? "ko";
   const profile = {
     id: "figure-id", slug: "bill-gates", nickname: "빌 게이츠", nickname_en: "Bill Gates",
     has_voice: options.voice !== false, greeting: ["안녕하세요"], view_count: 120,
+    influence: options.score == null ? null : { total_score: options.score, level: "TITAN" },
   } as CelebProfile;
   const mocks: Record<string, unknown> = {
+    "./CelebCard.module.css": { default: { influenceFrame: "influenceFrame", influenceLabel: "influenceLabel", rankGlyph: "rankGlyph", separator: "separator", score: "score" } },
+    "./CelebRealityLabel": { default: () => null },
     "@/i18n/navigation": {
       Link: ({ href, prefetch, ...props }: React.ComponentProps<"a"> & { prefetch?: boolean }) => {
         assert.equal(prefetch, false);
@@ -42,7 +45,7 @@ function renderCard(options: { variant?: "card" | "circle" | "medallion"; presen
   const loaded = { exports: {} as { default: ComponentType<{
     id: string; nickname: string; celebProfile?: CelebProfile; recentViews: number;
     variant?: "card" | "circle" | "medallion"; onSubtitle?: () => void;
-    count?: number; presentation?: "default" | "quiet";
+    count?: number; presentation?: "default" | "quiet"; showInfluence?: boolean;
   }> } };
   new Function("require", "module", "exports", compiled)(
     (id: string) => mocks[id] ?? require(id), loaded, loaded.exports,
@@ -50,9 +53,26 @@ function renderCard(options: { variant?: "card" | "circle" | "medallion"; presen
   const Card = loaded.exports.default;
   return load(renderToStaticMarkup(
     <Card id="figure-id" nickname="빌 게이츠" celebProfile={options.profile === false ? undefined : profile}
-      recentViews={30} variant={options.variant} presentation={options.presentation} count={options.count} onSubtitle={options.subtitle === false ? undefined : () => {}} />,
+      recentViews={30} variant={options.variant} presentation={options.presentation} count={options.count} showInfluence={options.showInfluence} onSubtitle={options.subtitle === false ? undefined : () => {}} />,
   ));
 }
+
+test("influence is opt-in and its label preserves the separate card actions", () => {
+  assert.equal(renderCard({ score: 73 })("[data-celeb-card-influence]").length, 0);
+  const $ = renderCard({ score: 73, showInfluence: true, presentation: "quiet" });
+  assert.equal($("[data-celeb-card-influence-frame]").attr("data-celeb-card-influence-frame"), "A");
+  assert.equal($("[data-celeb-card-influence]").attr("data-celeb-card-influence"), "A");
+  assert.ok($("[data-celeb-card-influence]").text().includes("73"));
+  assert.match($("a").attr("aria-label") ?? "", /A · 73\/100/);
+  assert.equal($("a button").length, 0);
+});
+
+test("missing or invalid evaluations do not create a zero score or rank", () => {
+  for (const score of [undefined, Number.NaN]) {
+    const $ = renderCard({ score, showInfluence: true });
+    assert.equal($("[data-celeb-card-influence], [data-celeb-card-influence-frame]").length, 0);
+  }
+});
 
 for (const variant of ["card", "circle", "medallion"] as const) {
   test(`${variant}: the portrait is inside the initial detail link and dialogue is a sibling button`, () => {

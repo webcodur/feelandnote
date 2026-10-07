@@ -7,8 +7,8 @@
 
 import { PendingBlock } from "@/components/ui/pending";
 
-/** 콘텐츠 카드 한 장의 높이 — TodayFigureSection의 heightClass와 같은 값이어야 한다 */
-const CARD_H = "h-[280px]";
+/** 표지·감상·구매 줄이 순서대로 서는 카드의 대기 윤곽 */
+const CARD_H = "h-[457px] sm:h-[469px]";
 
 export default function TodayFigurePending({ label }: { label?: string }) {
   return (
@@ -28,20 +28,10 @@ export default function TodayFigurePending({ label }: { label?: string }) {
         <div className="mt-2 h-4 w-2/3 max-w-md rounded-lg border border-white/[0.06] bg-white/[0.03]" />
       </div>
 
-      {/* 서가 — 본체와 같이 제목과 분류 칩이 한 박스에 들고 카드는 박스 밖에 선다 */}
-      <div className="min-h-[200px]">
-        <div className="mx-auto mb-6 w-fit rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-4 md:px-8 md:py-5">
-          {/* 제목 */}
-          <div className="mx-auto h-7 w-56 max-w-full rounded-lg border border-white/[0.06] bg-white/[0.03] md:w-72" />
-          {/* 분류 칩 */}
-          <div className="mt-4 flex justify-center gap-2">
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="h-8 w-20 rounded-full border border-white/[0.06] bg-white/[0.03]"
-              />
-            ))}
-          </div>
+      {/* 서가 — 분류 칩 아래에 감상 카드가 두 열로 선다 */}
+      <div className="mx-auto min-h-[200px] w-full max-w-4xl">
+        <div className="mb-4 flex justify-center gap-2 md:mb-5">
+          {[0, 1, 2].map(i => <div key={i} className="h-8 w-20 rounded-full border border-white/[0.06] bg-white/[0.03]" />)}
         </div>
 
         <PendingBlock

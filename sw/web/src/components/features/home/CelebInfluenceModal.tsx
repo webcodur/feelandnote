@@ -1,320 +1,184 @@
 "use client";
 
-import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useEffect, useState } from "react";
-import { X } from "lucide-react";
-import Modal from "@/components/ui/Modal";
-import { getCelebInfluence, type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
-
-import { Avatar, BlurDissolve } from "@/components/ui";
-import { getAuraByScore, getMaterialConfigByScore, type Aura } from "@/constants/materials";
-import {
-  RadarChart,
-  TranshistoricityGauge,
-  CategoryDetail,
-  sortCategoriesByScore,
-} from "@/components/features/influence";
+import { ArrowUpRight, BookOpen, Hourglass } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import {
+  calculateInfluenceRank,
+  INFLUENCE_CATEGORY_FIELDS,
+  INFLUENCE_MAX_SCORES,
+  INFLUENCE_TOTAL_MAX_SCORE,
+} from "@feelandnote/influence-constants";
+import Modal from "@/components/ui/Modal";
+import { Avatar } from "@/components/ui";
+import { PendingBlock, RetryBlock } from "@/components/ui/pending";
+import { getCelebInfluence, type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
+import { RadarChart, InfluenceScoreInfoModal, sortCategoriesByScore, sumBaseScore } from "@/components/features/influence";
+import InfluenceRankGlyph from "@/components/features/influence/InfluenceRankGlyph";
+import { getInfluenceRankStyle } from "@/components/features/influence/rankMaterials";
+import { Z_INDEX } from "@/constants/zIndex";
+import styles from "./CelebInfluenceModal.module.css";
 
-// Aura 기반 모달 스타일 (9단계)
-const AURA_MODAL_STYLES: Record<Aura, { bg: string; text: string; border: string; glow: string }> = {
-  1: { bg: 'bg-gradient-to-br from-[#8d6e63] via-[#5d4037] to-[#3e2723]', text: 'text-[#efebe9]', border: 'border-[#8d6e63]', glow: '' }, // Wood
-  2: { bg: 'bg-gradient-to-br from-[#607d8b] via-[#455a64] to-[#263238]', text: 'text-[#eceff1]', border: 'border-[#607d8b]', glow: '' }, // Stone
-  3: { bg: 'bg-gradient-to-br from-[#D4C1A5] via-[#8C7853] to-[#5D4037]', text: 'text-[#F5EFDF]', border: 'border-[#8C7853]', glow: 'shadow-[0_0_15px_rgba(140,120,83,0.4)]' }, // Bronze
-  4: { bg: 'bg-gradient-to-br from-[#FFFFFF] via-[#C0C0C0] to-[#808080]', text: 'text-[#1a1a1a]', border: 'border-[#C0C0C0]', glow: 'shadow-[0_0_15px_rgba(192,192,192,0.4)]' }, // Silver
-  5: { bg: 'bg-gradient-to-br from-[#FCF6BA] via-[#D4AF37] to-[#8A6E2F]', text: 'text-[#1a1200]', border: 'border-[#D4AF37]', glow: 'shadow-[0_0_20px_rgba(212,175,55,0.5)]' }, // Gold
-  6: { bg: 'bg-gradient-to-br from-[#98FB98] via-[#50C878] to-[#2E8B57]', text: 'text-[#004d00]', border: 'border-[#50C878]', glow: 'shadow-[0_0_20px_rgba(80,200,120,0.5)]' }, // Emerald
-  7: { bg: 'bg-gradient-to-br from-[#FF6B6B] via-[#DC143C] to-[#8B0000]', text: 'text-[#ffd0d0]', border: 'border-[#DC143C]', glow: 'shadow-[0_0_20px_rgba(220,20,60,0.5)]' }, // Crimson
-  8: { bg: 'bg-gradient-to-br from-[#E0FFFF] via-[#B0E0E6] to-[#87CEEB]', text: 'text-[#001a3a]', border: 'border-[#87CEEB]', glow: 'shadow-[0_0_20px_rgba(135,206,235,0.5)]' }, // Diamond
-  9: { bg: 'bg-gradient-to-br from-[#FF00FF] via-[#00FFFF] to-[#FFFF00]', text: 'text-[#1a001a]', border: 'border-[#FFFFFF]', glow: 'shadow-[0_0_25px_rgba(255,255,255,0.7)]' }, // Holographic
-};
-
-// #region 메인 모달 컴포넌트
 interface CelebInfluenceModalProps {
   celebId: string;
   isOpen: boolean;
   onClose: () => void;
-  /** 커스텀 z-index */
   zIndex?: number;
+  escapeCapture?: boolean;
 }
 
-export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }: CelebInfluenceModalProps) {
-  const { getLabel: getCelebProfessionLabel } = useProfessions();
+export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex, escapeCapture }: CelebInfluenceModalProps) {
   const t = useTranslations("home.ui.influence");
-  const tInfluence = useTranslations("profilePage.influence");
+  const ti = useTranslations("profilePage.influence");
+  const tProf = useTranslations("profession");
   const locale = useLocale();
-  const [data, setData] = useState<CelebInfluenceDetail | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [attempt, setAttempt] = useState(0);
+  const [result, setResult] = useState<{ key: string; data: CelebInfluenceDetail | null } | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [isScoreInfoOpen, setIsScoreInfoOpen] = useState(false);
+  const requestKey = `${celebId}:${locale}:${attempt}`;
+  const loading = result?.key !== requestKey;
+  const data = result?.key === requestKey ? result.data : null;
 
   useEffect(() => {
     if (!isOpen || !celebId) return;
-
     let ignore = false;
-    queueMicrotask(() => {
-      if (!ignore) setLoading(true);
-    });
-
     getCelebInfluence(celebId, locale)
-      .then((res) => {
-        if (!ignore) setData(res);
-      })
-      .finally(() => {
-        if (!ignore) setLoading(false);
-      });
-
-    return () => {
-      ignore = true;
-    };
-  }, [isOpen, celebId, locale]);
+      .then(data => { if (!ignore) setResult({ key: requestKey, data }); })
+      .catch(() => { if (!ignore) setResult({ key: requestKey, data: null }); });
+    return () => { ignore = true; };
+  }, [isOpen, celebId, locale, requestKey]);
 
   if (!isOpen) return null;
 
-  const aura = data ? getAuraByScore(data.total_score) : 1;
-  const levelStyle = AURA_MODAL_STYLES[aura];
-  const mat = getMaterialConfigByScore(data?.total_score ?? 0);
-  const professionLabel = data?.profession ? getCelebProfessionLabel(data.profession) : null;
+  const rank = calculateInfluenceRank(data?.total_score ?? 0);
+  const rankStyle = getInfluenceRankStyle(rank);
+  const baseScore = data ? sumBaseScore(data) : 0;
+  const baseMax = INFLUENCE_CATEGORY_FIELDS.reduce((sum, field) => sum + INFLUENCE_MAX_SCORES[field], 0);
+  const transMax = INFLUENCE_MAX_SCORES.transhistoricity;
+  const categories = data ? sortCategoriesByScore(data) : [];
+  const profession = data?.profession && tProf.has(data.profession) ? tProf(data.profession) : null;
+  const fallbackFields = data?.translationFallbacks ?? [];
 
-  // 점수 순 배치 — 상위 3개는 머리에, 0점도 어둡게 그대로 선다
-  const rankedCategories = data ? sortCategoriesByScore(data) : [];
-
-  // #region 공유 렌더 헬퍼
-  const renderLoadingSpinner = () => (
-    <div className="flex flex-col items-center justify-center py-20 gap-3">
-      <div className="w-10 h-10 border-3 border-accent/20 border-t-accent rounded-full animate-spin" />
-      <span className="text-sm text-text-secondary">{t("analyzing")}</span>
-    </div>
-  );
-
-  const renderErrorState = () => (
-    <div className="flex flex-col items-center justify-center py-20 gap-2">
-      <span className="">{t("loadError")}</span>
-      <button onClick={onClose} className="text-sm text-accent hover:underline">{t("close")}</button>
-    </div>
-  );
-
-  // 주요 영향력 TOP 3 (헤더용)
-  const topCategories = rankedCategories.slice(0, 3);
-
-  const renderHeader = (isMobile = false) => (
-    <div className={`relative ${isMobile ? "p-4" : "p-4 pr-12"}`}>
-      {/* PC: 수평 나열 */}
-      {!isMobile && (
-        <div className="flex items-center gap-4">
-          {/* 아바타 + 등급 */}
-          <div className="relative shrink-0">
-            <div className={`absolute -inset-1 ${levelStyle.bg} ${levelStyle.glow} rounded-lg opacity-50`} />
-            <BlurDissolve className="relative">
-              <Avatar url={data!.avatar_url} name={data!.nickname} size="lg" className="relative ring-0 rounded-lg" />
-            </BlurDissolve>
-            {/* 등급 뱃지 (아바타 우하단) */}
-            <div className={`
-              absolute -bottom-1 -right-1 w-6 h-6
-              flex items-center justify-center rounded border
-              ${levelStyle.bg} ${levelStyle.border}
-              shadow-[inset_0_1px_2px_rgba(255,255,255,0.2)]
-            `}>
-              <span className={`text-xs font-black ${levelStyle.text}`}>{mat.romanNumeral}</span>
-            </div>
-          </div>
-
-          {/* 이름 + 직군 */}
-          <div className="shrink-0">
-            <h2 className="text-lg font-bold text-text-primary">{data!.nickname}</h2>
-            {professionLabel && <p className="text-[11px] text-accent font-medium">{professionLabel}</p>}
-          </div>
-
-          {/* 구분선 */}
-          <div className="w-px h-8 bg-accent-dim/30" />
-
-          {/* 총점 */}
-          <div className="shrink-0 text-center">
-            <div className="flex items-baseline gap-0.5">
-              <span className="text-2xl font-black text-accent">{data!.total_score}</span>
-              <span className="text-xs">/100</span>
-            </div>
-            <p className="text-[11px] uppercase tracking-wider">Score</p>
-          </div>
-
-          {/* 구분선 */}
-          <div className="w-px h-8 bg-accent-dim/30" />
-
-          {/* TOP 3 영향력 (수평) */}
-          <div className="flex-1 flex items-center gap-2">
-            {topCategories.map((cat, index) => {
-              const Icon = cat.icon;
-              const isTop = index === 0;
-              return (
-                <div
-                  key={cat.key}
-                  className={`
-                    flex items-center gap-1.5 px-2 py-1 rounded-md
-                    ${isTop ? "bg-accent/10" : "bg-white/[0.03]"}
-                  `}
-                >
-                  <Icon size={12} className={isTop ? "text-accent" : ""} />
-                  <span className="text-[11px] text-text-secondary">
-                    {tInfluence(`categories.${cat.key}`)}
-                  </span>
-                  <span className={`text-sm font-black ${isTop ? "text-accent" : "text-text-primary"}`}>
-                    {cat.value}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* 모바일: 기존 세로 레이아웃 유지 */}
-      {isMobile && (
-        <div className="flex items-center gap-3">
-          <div className="relative shrink-0">
-            <div className={`absolute -inset-1 ${levelStyle.bg} ${levelStyle.glow} rounded-lg opacity-50`} />
-            <BlurDissolve className="relative">
-              <Avatar url={data!.avatar_url} name={data!.nickname} size="lg" className="relative ring-0 rounded-lg" />
-            </BlurDissolve>
-          </div>
-          <div className="flex-1 min-w-0">
-            <h2 className="text-lg font-bold text-text-primary truncate">{data!.nickname}</h2>
-            {professionLabel && <p className="text-[11px] text-accent font-medium">{professionLabel}</p>}
-            <div className="flex items-center gap-2 mt-1.5">
-              <div className={`
-                w-7 h-7 flex items-center justify-center rounded border
-                ${levelStyle.bg} ${levelStyle.border}
-              `}>
-                <span className={`text-sm font-black ${levelStyle.text}`}>{mat.romanNumeral}</span>
-              </div>
-              <span className="text-xl font-black text-accent">{data!.total_score}</span>
-              <span className="text-xs">/100</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 닫기 버튼 */}
-      <button
-        onClick={onClose}
-        className="absolute top-3 right-3 p-2 rounded-full bg-white/5 text-text-secondary hover:text-text-primary hover:bg-white/10"
+  return (
+    <>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        ariaLabel={ti("totalInfluence")}
+        frame="plain"
+        widthClassName="max-w-[760px]"
+        boxClassName={styles.frame}
+        boxStyle={rankStyle}
+        scrollAreaClassName={styles.scrollArea}
+        overlayClassName="bg-black/80 backdrop-blur-sm"
+        closeButtonClassName={styles.closeButton}
+        animateHeight={false}
+        zIndex={zIndex}
+        escapeCapture={escapeCapture}
+        closeOnEscape={!isScoreInfoOpen}
       >
-        <X size={18} />
-      </button>
-    </div>
-  );
-  // #endregion
+        {loading ? (
+          <PendingBlock variant="panel" minHeight="min-h-96" label={t("analyzing")} className="m-6" />
+        ) : !data ? (
+          <RetryBlock onRetry={() => setAttempt(value => value + 1)} message={t("loadError")} className="min-h-96 px-6" />
+        ) : (
+          <div className={styles.content} data-influence-detail data-influence-material={rank}>
+            <header className={styles.header}>
+              <div className={styles.avatar}>
+                <Avatar url={data.avatar_url} name={data.nickname} size="lg" className="ring-0" />
+              </div>
+              <div className="min-w-0">
+                <p className={styles.eyebrow}>{ti("totalInfluence")}</p>
+                <h2 className={styles.name}>{data.nickname}</h2>
+                {profession && <p className="mt-1 text-xs text-text-secondary">{profession}</p>}
+              </div>
+            </header>
 
-  const modalContent = (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      frame="plain"
-      widthClassName="max-w-2xl"
-      overlayClassName="bg-black/85 backdrop-blur-sm"
-      showCloseButton={false}
-      animateHeight={false}
-      zIndex={zIndex}
-    >
-      {/* PC 레이아웃 */}
-      <div className="hidden md:flex relative w-full min-h-0 max-h-[var(--modal-body-max-height)] overflow-hidden flex-col rounded-2xl">
-        {/* 배경 */}
-        <div className="absolute inset-0 bg-gradient-to-br from-bg-card via-bg-main to-bg-secondary" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.08)_0%,transparent_60%)]" />
-        <div className="absolute inset-0 border border-accent/20 rounded-2xl" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
-
-        {loading ? renderLoadingSpinner() : !data ? renderErrorState() : (
-          <>
-            {renderHeader()}
-
-            {/* 본문 */}
-            <div className="relative flex-1 overflow-y-auto custom-scrollbar">
-              <div className="p-5 pt-0 space-y-5">
-                {/* 2열 통합 대시보드 구조 */}
-                <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-5 items-start">
-                  {/* 좌측: 레이더 차트 */}
-                  <div className="shrink-0 p-3 rounded-xl bg-black/20 border border-white/5 flex justify-center">
-                    <RadarChart data={data} size={180} />
-                  </div>
-
-                  {/* 우측: 게이지 + 세부 6개 카드 */}
-                  <div className="space-y-4 min-w-0">
-                    <TranshistoricityGauge
-                      value={data.transhistoricity}
-                      explanation={data.transhistoricity_exp}
-                      isTranslationFallback={(data.translationFallbacks ?? []).includes("transhistoricity")}
-                    />
-
-                    {/* 영역별 상세 */}
-                    <div className="space-y-2 pt-1">
-                      <h3 className="text-xs font-bold text-text-primary px-1">{t("categoryDetail")}</h3>
-                      <div className="space-y-2">
-                        {rankedCategories.map((cat) => (
-                          <CategoryDetail
-                            key={cat.key}
-                            category={cat}
-                            value={cat.value}
-                            explanation={data[`${cat.key}_exp` as keyof CelebInfluenceDetail] as string | null}
-                            isTranslationFallback={(data.translationFallbacks ?? []).includes(cat.key)}
-                          />
-                        ))}
-                      </div>
+            <div className={styles.overview}>
+              <section className={styles.summary} aria-label={ti("totalInfluence")}>
+                <div className={styles.scoreHeading}>
+                  <div>
+                    <p className={styles.eyebrow}>{ti("explorer.totalScoreLabel")}</p>
+                    <div className={styles.total}>
+                      <strong>{data.total_score}</strong>
+                      <span>/ {INFLUENCE_TOTAL_MAX_SCORE}</span>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* 모바일 레이아웃 */}
-      <div className="md:hidden relative w-full min-h-0 max-h-[var(--modal-body-max-height)] overflow-hidden flex flex-col bg-bg-main rounded-2xl">
-        {/* 배경 장식 */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.06)_0%,transparent_50%)] pointer-events-none" />
-
-        {loading ? renderLoadingSpinner() : !data ? renderErrorState() : (
-          <>
-            {renderHeader(true)}
-
-            {/* 본문 */}
-            <div className="relative flex-1 overflow-y-auto custom-scrollbar">
-              <div className="p-4 pt-0 pb-8 space-y-5">
-                {/* 레이더 차트 (중앙 배치) */}
-                <div className="flex justify-center py-2">
-                  <div className="p-3 rounded-xl bg-black/20 border border-white/5">
-                    <RadarChart data={data} size={220} />
+                  <div className={styles.rankSeal} aria-label={`Rank ${rank}`}>
+                    <span>RANK</span>
+                    <InfluenceRankGlyph rank={rank} className={styles.rankGlyph} />
                   </div>
                 </div>
-
-                {/* 시대초월성 */}
-                <TranshistoricityGauge
-                  value={data.transhistoricity}
-                  explanation={data.transhistoricity_exp}
-                  isTranslationFallback={(data.translationFallbacks ?? []).includes("transhistoricity")}
-                />
-
-                {/* 영역별 상세 */}
-                <div className="space-y-3 pt-2">
-                  <h3 className="text-sm font-bold text-text-primary px-1">{t("categoryDetail")}</h3>
-                  <div className="grid grid-cols-1 gap-2.5">
-                    {rankedCategories.map((cat) => (
-                      <CategoryDetail
-                        key={cat.key}
-                        category={cat}
-                        value={cat.value}
-                        explanation={data[`${cat.key}_exp` as keyof CelebInfluenceDetail] as string | null}
-                        isTranslationFallback={(data.translationFallbacks ?? []).includes(cat.key)}
-                      />
-                    ))}
-                  </div>
+                <div className={styles.standing}>
+                  <span>{ti("rankingLine", { ranking: data.ranking, total: data.rankedTotal })}</span>
+                  <strong>{ti("percentileTop", { percent: Math.max(1, Math.round(data.percentile)) })}</strong>
                 </div>
+                <div className={styles.composition}>
+                  {[{ label: ti("scoreInfo.domainsPart"), value: baseScore, max: baseMax },
+                    { label: ti("scoreInfo.transPart"), value: data.transhistoricity, max: transMax }].map(part => (
+                    <div key={part.label}>
+                      <div className={styles.meterHeading}>
+                        <span>{part.label}</span>
+                        <span><strong>{part.value}</strong><small> / {part.max}</small></span>
+                      </div>
+                      <div className={styles.meter} aria-hidden><span style={{ width: `${Math.max(0, Math.min(100, part.value / part.max * 100))}%` }} /></div>
+                    </div>
+                  ))}
+                </div>
+                <button type="button" className={styles.guideButton} aria-haspopup="dialog" onClick={() => setIsScoreInfoOpen(true)}>
+                  <BookOpen size={15} /><span>{ti("scoreInfo.title")}</span><ArrowUpRight size={14} />
+                </button>
+              </section>
+              <div className={styles.radar}>
+                <RadarChart data={data} size={240} activeCategory={activeCategory} onSelectCategory={key => setActiveCategory(value => value === key ? null : key)} accentColor="var(--rank-accent)" />
               </div>
             </div>
-          </>
+
+            <section className={styles.timeless}>
+              <div className={styles.sectionHeading}>
+                <h3><Hourglass size={17} />{ti("transhistoricity")}</h3>
+                <span><strong>{data.transhistoricity}</strong><small> / {transMax}</small></span>
+              </div>
+              {fallbackFields.includes("transhistoricity") && <p className={styles.fallback}>{ti("originalKorean")}</p>}
+              <p className={styles.explanation}>{data.transhistoricity_exp || ti("timelessFallback")}</p>
+            </section>
+
+            <section className={styles.domains}>
+              <h3 className={styles.domainTitle}>{ti("categoryDetail")}</h3>
+              <div className={styles.categoryGrid}>
+                {categories.map(category => {
+                  const Icon = category.icon;
+                  const explanation = data[`${category.key}_exp`];
+                  const normalized = explanation?.trim().toLowerCase();
+                  const hasDetails = normalized && !["관련 없음", "관련 없음.", "not applicable", "not applicable."].includes(normalized);
+                  return (
+                    <article key={category.key} className={styles.category} data-category={category.key} data-active={activeCategory === category.key}>
+                      <div className={styles.sectionHeading}>
+                        <h4><Icon size={17} />{ti(`categories.${category.key}`)}</h4>
+                        <span><strong>{category.value}</strong><small> / {INFLUENCE_MAX_SCORES[category.key]}</small></span>
+                      </div>
+                      <div className={styles.meter} aria-hidden><span style={{ width: `${Math.max(0, Math.min(100, category.value / INFLUENCE_MAX_SCORES[category.key] * 100))}%` }} /></div>
+                      {fallbackFields.includes(category.key) && <p className={styles.fallback}>{ti("originalKorean")}</p>}
+                      <p className={`${styles.explanation} ${hasDetails ? "" : "text-text-tertiary"}`}>{hasDetails ? explanation : ti("noDetails")}</p>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          </div>
         )}
-      </div>
-    </Modal>
+      </Modal>
+      {data && <InfluenceScoreInfoModal
+        isOpen={isScoreInfoOpen}
+        onClose={() => setIsScoreInfoOpen(false)}
+        currentRank={rank}
+        totalScore={data.total_score}
+        baseScore={baseScore}
+        transScore={data.transhistoricity}
+        zIndex={(zIndex ?? Z_INDEX.modal) + 1}
+        escapeCapture
+      />}
+    </>
   );
-
-  return modalContent;
 }
-// #endregion

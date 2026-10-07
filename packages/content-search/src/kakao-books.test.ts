@@ -34,6 +34,16 @@ test('카카오가 원제와 저자를 합친 제목에서 한국어 본제만 �
   )
 })
 
+test('카카오 제목의 HTML 문자 코드를 복원한 뒤 장정 표기만 제거한다', () => {
+  assert.equal(
+    kakao.normalizeKakaoBookTitle('구스타브 말러의 Kindertotenlieder&#40;죽은 아이를 그리는 노래&#41;의...'),
+    '구스타브 말러의 Kindertotenlieder(죽은 아이를 그리는 노래)의...',
+  )
+  assert.equal(kakao.normalizeKakaoBookTitle('A &amp; B &#x28;Paperback&#x29;'), 'A & B')
+  assert.equal(kakao.normalizeKakaoBookTitle('&quot;노래&quot; &lt;악보&gt;'), '"노래" <악보>')
+  assert.equal(kakao.normalizeKakaoBookTitle('&#0; &#xD800; &#1114112; &unknown;'), '&#0; &#xD800; &#1114112; &unknown;')
+})
+
 test('카카오 저자명 뒤의 영문 병기와 물음표를 제거한다', () => {
   assert.equal(kakao.normalizeKakaoBookCreator(['제인 오스틴(Jane Austen？)'], []), '제인 오스틴')
   assert.equal(kakao.normalizeKakaoBookCreator(['제인 오스틴', '제인 오스틴'], []), '제인 오스틴')

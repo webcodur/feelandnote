@@ -11,18 +11,13 @@
 
 import { useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { ChevronRight, Eye, MessageSquare } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import type { NoticeWithAuthor } from '@/types/database'
 import { incrementNoticeView } from '@/actions/board/notices'
-import { LaurelIcon } from '@/components/ui/icons/neo-pantheon/LaurelIcon'
 import Modal, { ModalBody } from '@/components/ui/Modal'
 import { Link } from '@/i18n/navigation'
-import { formatBoardRelativeTime } from '@/lib/board/boardDate'
-import { Dot, NoticeBody, NoticeMeta } from '@/components/features/board/notices/NoticeContent'
+import { NoticeBody, NoticeMeta } from '@/components/features/board/notices/NoticeContent'
 import { resolveLocale } from '@/types/locale'
-
-const isNew = (dateStr: string) =>
-  Date.now() - new Date(dateStr).getTime() < 24 * 60 * 60 * 1000
 
 interface Props {
   notices: NoticeWithAuthor[]
@@ -31,6 +26,7 @@ interface Props {
 export default function HomeNoticeList({ notices }: Props) {
   const locale = resolveLocale(useLocale())
   const t = useTranslations('board')
+  const homeT = useTranslations('home.hub')
   const [openId, setOpenId] = useState<string | null>(null)
   // 이번 방문에서 올린 조회수 — 캐시된 숫자 위에 얹어 보여 준다
   const [viewBump, setViewBump] = useState<Record<string, number>>({})
@@ -47,66 +43,18 @@ export default function HomeNoticeList({ notices }: Props) {
 
   return (
     <>
-      <div className="mx-auto max-w-3xl space-y-2.5 px-3 sm:px-4">
-        {notices.map((notice) => (
-          <button
-            key={notice.id}
-            type="button"
-            onClick={() => open(notice)}
-            /* 테두리·배경·제목색은 즉각 축이다(ui-hover). 화살표 밀림만 연출 축으로 둔다 */
-            className="group flex w-full items-center gap-3 rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-left hover:border-accent/50 hover:bg-white/[0.06] sm:px-5 sm:py-3.5"
-          >
-            {/* 모바일은 메타를 제목 아래로 내려 제목을 자르지 않는다. sm부터 한 줄 */}
-            <div className="min-w-0 flex-1 sm:flex sm:items-center sm:gap-4">
-              <div className="flex min-w-0 items-center gap-2 sm:flex-1">
-                {notice.is_pinned && (
-                  <span className="shrink-0" title={t('notice.pinnedBadge') || 'PINNED'}>
-                    <LaurelIcon size={16} color="#d4af37" strokeWidth={1.5} />
-                  </span>
-                )}
-                {isNew(notice.created_at) && (
-                  <span className="shrink-0 rounded bg-accent px-1.5 py-0.5 font-sans text-[11px] font-bold leading-none text-bg-main">
-                    N
-                  </span>
-                )}
-                <span className="truncate font-serif text-[15px] font-medium text-text-primary group-hover:text-accent sm:text-base">
-                  {notice.title}
-                </span>
-              </div>
-
-              <div className="mt-1 flex items-center gap-2 text-xs text-text-tertiary sm:mt-0 sm:shrink-0">
-                {notice.author?.nickname && (
-                  <>
-                    <span className="hidden font-serif text-text-secondary md:inline">{notice.author.nickname}</span>
-                    <Dot className="hidden md:inline" />
-                  </>
-                )}
-                <span className="whitespace-nowrap text-text-secondary">
-                  {formatBoardRelativeTime(notice.created_at, locale)}
-                </span>
-                <Dot />
-                <span className="flex items-center gap-1">
-                  <Eye size={12} />
-                  {viewCountOf(notice)}
-                </span>
-                {(notice.comment_count ?? 0) > 0 && (
-                  <>
-                    <Dot />
-                    <span className="flex items-center gap-1 text-accent">
-                      <MessageSquare size={12} />
-                      {notice.comment_count}
-                    </span>
-                  </>
-                )}
-              </div>
-            </div>
-
-            <ChevronRight
-              size={16}
-              className="shrink-0 text-text-tertiary transition-transform group-hover:translate-x-0.5 group-hover:text-accent"
-            />
+      <div className="mx-auto flex max-w-3xl items-center gap-2 rounded-control border border-line bg-bg-card px-3">
+        <span className="shrink-0 text-xs font-semibold text-accent">{homeT('notice')}</span>
+        {notices.slice(0, 1).map((notice) => (
+          <button key={notice.id} type="button" onClick={() => open(notice)}
+            className="min-h-11 min-w-0 flex-1 truncate rounded-control px-1 text-left text-sm text-text-primary hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            {notice.title}
           </button>
         ))}
+        <Link href="/agora/board/notice" aria-label={homeT('noticeAll')}
+          className="inline-flex min-h-11 shrink-0 items-center gap-1 rounded-control px-1 text-xs text-text-secondary hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
+          {homeT('viewAll')}<ArrowRight size={13} aria-hidden />
+        </Link>
       </div>
 
       {/* 읽기용 모달 규격은 ContentTextModal과 같다 — 폭 xl, 바깥을 눌러 닫을 여백, 제목 고정, 한 번만 스크롤 */}
