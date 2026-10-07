@@ -42,8 +42,8 @@ export default function HomeFeaturedReview({ item }: { item: HomeFeaturedReviewD
   const category = getCategoryByDbType(item.content.type)?.id ?? "book";
   const figure = <div className="flex min-w-0 items-center gap-2 whitespace-nowrap leading-5" data-featured-figure-basics>
     <Link href={figureHref} title={item.figure.name} className={"group inline-flex min-w-0 items-center gap-2 rounded-sm text-sm font-semibold text-text-primary hover:text-accent " + focus}>
-      <span className="relative block size-4 shrink-0 overflow-hidden rounded-full border border-line bg-portrait-stage group-hover:border-accent">
-        <CelebImage src={item.figure.avatarUrl} alt="" shape="circle" fallbackSize={10} />
+      <span className="relative block size-8 shrink-0 overflow-hidden rounded-full border border-line bg-portrait-stage group-hover:border-accent">
+        <CelebImage src={item.figure.avatarUrl} alt="" shape="circle" fallbackSize={18} />
       </span>
       <h4 className="truncate">{item.figure.name}</h4>
     </Link>
