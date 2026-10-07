@@ -1,4 +1,5 @@
 import type { WorldBannerImages } from "@/lib/celeb/worldImages";
+import DetailBanner from "@/components/shared/DetailBanner";
 
 interface CelebWorldBannerViewProps {
   worldId: string;
@@ -12,30 +13,8 @@ export default function CelebWorldBannerView({
   images,
   compact = false,
 }: CelebWorldBannerViewProps) {
-  const heightClass = compact
-    ? "h-[110px] md:h-[150px]"
-    : "h-[168px] md:h-[340px]";
-
-  return (
-    <div className={`relative w-full overflow-hidden bg-bg-secondary ${heightClass}`}>
-      {images ? (
-        <picture className="absolute inset-0 block">
-          <source media="(min-width: 768px)" srcSet={images.pc} />
-          <img
-            src={images.mb}
-            alt=""
-            aria-hidden
-            fetchPriority="high"
-            decoding="async"
-            className="h-full w-full object-cover"
-            draggable={false}
-          />
-        </picture>
-      ) : (
-        <PlaceholderPattern worldId={worldId} />
-      )}
-    </div>
-  );
+  return <DetailBanner images={images} theme={worldId} size={compact ? "compact" : "large"}
+    fallback={<PlaceholderPattern worldId={worldId} />} />;
 }
 
 function PlaceholderPattern({ worldId }: { worldId: string }) {
