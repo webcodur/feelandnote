@@ -1,9 +1,9 @@
 /*
   파일명: /lib/render-mode.ts
   기능: 요청 UA로 "완성 HTML"과 "구획별 스트리밍"을 가른다
-  책임: 봇·미확인 UA는 지금처럼 전부 기다린 완성 HTML을 받고(스켈레톤을 본문으로 읽힌 사고 이력은
-        docs/project/operations/ops-02-seo.md), 사람 브라우저만 구획별 스트리밍을 받게 판정한다.
-        판정 기본값은 "모르면 봇"이다 — 잘못 사람으로 보면 색인이 깨지고, 잘못 봇으로 보면 조금 느릴 뿐이다.
+  책임: 알려진 봇은 완성 HTML을 받고, 나머지 요청은 준비된 구획부터 표시한다.
+        사용자 이탈 방지를 우선하므로 미확인·빈 UA도 스트리밍한다.
+        공유 HTML 캐시의 브라우저 확인은 렌더링 기본값과 별도로 유지한다.
 */ // ------------------------------
 
 import { headers } from 'next/headers'
@@ -11,8 +11,8 @@ import { headers } from 'next/headers'
 /* ────────────────────────────────────────────────────────────────
    봇 서명
 
-   크롤러·미리보기 수집기·자동화 도구를 모두 담는다. 사람 브라우저 UA에
-   우연히 섞이면 그 사람은 스트리밍 대신 완성 HTML을 받을 뿐이라 손해가 없다.
+   크롤러·미리보기 수집기·자동화 도구를 담는다. 브라우저 서명을 함께 쓰는
+   알려진 봇도 완성 HTML을 받게 한다.
    ──────────────────────────────────────────────────────────────── */
 export const BOT_SIGNATURES = [
   // 일반 크롤러 어휘
@@ -32,21 +32,21 @@ export const BOT_SIGNATURES = [
   'vercel', 'monitoring', 'uptime', 'pingdom',
 ] as const
 
-/* 사람이 직접 쓰는 브라우저 서명. 이 중 하나도 없으면 사람으로 보지 않는다. */
+/* 공유 HTML 캐시에서 확인하는 브라우저 서명. 스트리밍의 허용 목록은 아니다. */
 export const BROWSER_SIGNATURES = [
   'chrome', 'crios', 'safari', 'firefox', 'fxios',
   'edg', 'samsungbrowser', 'whale', 'opr',
 ] as const
 
-/** UA가 봇·자동화 도구인지. UA가 없거나 비어 있으면 봇으로 본다. */
+/** 알려진 봇·자동화 도구 서명이 있는지. 미확인·빈 UA를 봇으로 추정하지 않는다. */
 export function isBotUserAgent(ua: string | null): boolean {
   const value = ua?.trim().toLowerCase()
-  if (!value) return true
+  if (!value) return false
   return BOT_SIGNATURES.some(signature => value.includes(signature))
 }
 
 /**
- * UA가 사람이 보고 있는 브라우저인지.
+ * 공유 HTML 캐시에 사용할 수 있는 확인된 브라우저인지.
  *
  * 봇 서명이 하나라도 있으면 브라우저 서명이 함께 있어도 봇이다 — Googlebot 스마트폰 UA는
  * Chrome·Safari 서명을 그대로 달고 온다.
@@ -57,6 +57,11 @@ export function isHumanBrowserUserAgent(ua: string | null): boolean {
   return BROWSER_SIGNATURES.some(signature => value.includes(signature))
 }
 
+/** 사용자 첫 화면을 우선한다. 알려진 봇만 완성 HTML을 기다린다. */
+export function shouldStreamForUserAgent(ua: string | null): boolean {
+  return !isBotUserAgent(ua)
+}
+
 /**
  * 이번 요청을 구획별로 흘려보내도 되는지. **서버 전용**(요청 헤더를 읽는다).
  *
@@ -65,5 +70,5 @@ export function isHumanBrowserUserAgent(ua: string | null): boolean {
  */
 export async function shouldStreamForRequest(): Promise<boolean> {
   const headerList = await headers()
-  return isHumanBrowserUserAgent(headerList.get('user-agent'))
+  return shouldStreamForUserAgent(headerList.get('user-agent'))
 }
