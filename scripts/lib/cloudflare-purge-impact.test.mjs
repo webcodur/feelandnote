@@ -302,6 +302,27 @@ test('home-only changes preserve cached detail HTML and shared data cache implem
   ]).scopes, ['celeb', 'content'])
 })
 
+test('media hover and film rendering preserve unrelated cached HTML and assets', () => {
+  for (const file of [
+    'InteractiveMediaCover.tsx',
+    'mediaGeometry.ts',
+    'FilmStrip.tsx',
+    'filmGeometry.ts',
+    'mediaMotion.ts',
+    'MediaCover.css',
+    'media-objects.css',
+  ]) {
+    const plan = classifyCloudflarePurgeImpact([
+      'sw/web/src/components/ui/media-objects/' + file,
+      'sw/web/src/components/features/home/HomeFeaturedReview.tsx',
+    ])
+    assert.deepEqual(plan.scopes, ['celeb'])
+    assert.deepEqual(plan.prefixes, ['feelandnote.com/celeb/', 'feelandnote.com/en/celeb/'])
+    assert.deepEqual(plan.files, [])
+    assert.equal(plan.emergencyZone, false)
+  }
+})
+
 test('emergency zone purge is manual-only and requires an exact typed confirmation', () => {
   assert.throws(
     () => createManualCloudflarePurgePlan('emergency-zone', 'yes'),

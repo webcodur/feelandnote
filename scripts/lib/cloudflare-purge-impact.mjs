@@ -176,6 +176,11 @@ const CELEB_FILES = new Set([
   // 입체 표지의 소비자는 홈·서재·실험실과 인물 상세 책장이다.
   'sw/web/src/components/ui/media-objects/InteractiveMediaCover.tsx',
   'sw/web/src/components/ui/media-objects/mediaGeometry.ts',
+  'sw/web/src/components/ui/media-objects/FilmStrip.tsx',
+  'sw/web/src/components/ui/media-objects/filmGeometry.ts',
+  'sw/web/src/components/ui/media-objects/mediaMotion.ts',
+  'sw/web/src/components/ui/media-objects/MediaCover.css',
+  'sw/web/src/components/ui/media-objects/media-objects.css',
 ])
 
 const CONTENT_PREFIXES = [
