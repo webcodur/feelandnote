@@ -255,6 +255,10 @@ export function slotsRootInstallArgs(user, group, slotsRoot = SLOTS_ROOT) {
   ]
 }
 
+export function sharedDataCacheInstallArgs(user, group) {
+  return slotsRootInstallArgs(user, group, SHARED_DATA_CACHE_ROOT)
+}
+
 export function legacyReleasesRootRemoveArgs(legacyReleasesRoot = LEGACY_RELEASES_ROOT) {
   return ['rmdir', '--', legacyReleasesRoot]
 }
@@ -490,6 +494,16 @@ function ensureSlotsRoot() {
   const group = run('id', ['-gn']).stdout
   run('sudo', slotsRootInstallArgs(user, group))
   assertRealDirectory(SLOTS_ROOT, 'Slots root')
+}
+
+function ensureSharedDataCacheRoot() {
+  const parent = path.dirname(SHARED_DATA_CACHE_ROOT)
+  if (existsSync(parent)) assertRealDirectory(parent, 'Shared data cache parent')
+  if (existsSync(SHARED_DATA_CACHE_ROOT)) assertRealDirectory(SHARED_DATA_CACHE_ROOT, 'Shared data cache root')
+  const user = run('id', ['-un']).stdout
+  const group = run('id', ['-gn']).stdout
+  run('sudo', sharedDataCacheInstallArgs(user, group))
+  assertRealDirectory(SHARED_DATA_CACHE_ROOT, 'Shared data cache root')
 }
 
 function releaseMetadataPath(releaseRoot) {
@@ -1342,7 +1356,9 @@ function prepareRelease(releaseId, commit, archivePath, manifestPath) {
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
     const restoredLinks = restoreStandaloneLinks(stagingRoot, manifest)
     assertPreparedRelease(stagingRoot)
-    const sharedDataCache = linkSharedDataCache(path.join(stagingRoot, APP_RELATIVE_PATH))
+    const appRoot = path.join(stagingRoot, APP_RELATIVE_PATH)
+    if (existsSync(path.join(appRoot, 'scripts', 'shared-data-cache.cjs'))) ensureSharedDataCacheRoot()
+    const sharedDataCache = linkSharedDataCache(appRoot)
     const retainedStaticAssets = currentPath
       ? mergeRetainedStaticAssets(
           path.join(currentPath, APP_RELATIVE_PATH, DIST_DIR, 'static'),

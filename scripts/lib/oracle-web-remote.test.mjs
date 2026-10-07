@@ -40,6 +40,7 @@ import {
   restoreStandaloneLinks,
   slotNameForPath,
   slotsRootInstallArgs,
+  sharedDataCacheInstallArgs,
   STATIC_ASSET_RETENTION_MS,
   TRAFFIC_DRAIN_MS,
   verifyApplication,
@@ -204,6 +205,14 @@ test('slot bootstrap grants only the fixed directory to a validated deployment a
   )
   assert.throws(() => slotsRootInstallArgs('ubuntu;id', 'ubuntu'), /Unsafe Unix user/u)
   assert.throws(() => slotsRootInstallArgs('ubuntu', '../root'), /Unsafe Unix group/u)
+})
+
+test('shared data cache bootstrap owns only the fixed cache directory and validates accounts', () => {
+  assert.deepEqual(sharedDataCacheInstallArgs('ubuntu', 'ubuntu'), [
+    'install', '-d', '-o', 'ubuntu', '-g', 'ubuntu', '-m', '0750', '--', '/opt/feelandnote/web/cache/data-v1',
+  ])
+  assert.throws(() => sharedDataCacheInstallArgs('ubuntu;id', 'ubuntu'), /Unsafe Unix user/u)
+  assert.throws(() => sharedDataCacheInstallArgs('ubuntu', '../root'), /Unsafe Unix group/u)
 })
 
 test('legacy cleanup removes only the empty fixed releases root with rmdir', () => {
