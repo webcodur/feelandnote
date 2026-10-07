@@ -297,6 +297,8 @@ test('home-only changes preserve cached detail HTML and shared data cache implem
   ]).scopes, ['celeb'])
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/components/features/commerce/PurchaseOpener.tsx',
+    'sw/web/src/components/ui/formatted-text/InlineFormattedText.tsx',
+    'sw/web/src/components/ui/formatted-text/emphasis.ts',
   ]).scopes, ['celeb', 'content'])
 })
 

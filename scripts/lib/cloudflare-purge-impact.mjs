@@ -191,6 +191,9 @@ const CELEB_AND_CONTENT_FILES = new Set([
   // 음성 배지와 본문 서식은 인물 상세와 작품 상세가 함께 그린다.
   'sw/web/src/components/ui/VoiceBadge.tsx',
   'sw/web/src/components/ui/FormattedText.tsx',
+  // FormattedText에서 분리한 본문 렌더러·강조 규칙도 같은 두 상세에 영향을 준다.
+  'sw/web/src/components/ui/formatted-text/InlineFormattedText.tsx',
+  'sw/web/src/components/ui/formatted-text/emphasis.ts',
   // 구매 조작은 인물 책장과 작품 상세에 함께 선다.
   'sw/web/src/components/features/commerce/PurchaseOpener.tsx',
 ])
