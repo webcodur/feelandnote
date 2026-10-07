@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { getTrendCountryOptions, parseTrendCountry, PINNED_TREND_COUNTRIES, TREND_PERIOD_HOURS } from '../../constants/trendCountries'
+import { resolveTrendCountry, parseTrendCountry, TREND_PERIOD_HOURS } from '../../constants/trendCountries'
 import { matchTrendingPeople, parseTrendPage, resolveCountryTrendingPeople } from './trendMatching'
 
 const now = Date.UTC(2026, 8, 13, 10, 50)
 const seconds = Math.floor(now / 1000)
 const page = (rows: unknown[]) => `<html><script>AF_initDataCallback({key: 'ds:0', hash: '2', data:${JSON.stringify([null, rows])}, sideChannel: {}});</script></html>`
-const row = (title: string, volume: number, start = seconds - 3600, related: string[] = [title]) => [title, null, 'KR', [start], null, null, volume, null, 1000, related]
+const row = (title: string, volume: number, start = seconds - 3600, related: string[] = [title], end?: number) => [title, null, 'KR', [start], end === undefined ? null : [end], null, volume, null, 1000, related]
 const searches = (...titles: string[]) => titles.map((title) => ({ title, volume: 100, started: now - 3_600_000 }))
 const matchIds = (trends: Parameters<typeof matchTrendingPeople>[0], directory: Parameters<typeof matchTrendingPeople>[1]) =>
   matchTrendingPeople(trends, directory).map((match) => match.id)
@@ -29,6 +29,28 @@ test('sorts volume then start then title and excludes trends older than the peri
     row('Most searched', 1000),
   ]), 'KR', now)
   assert.deepEqual(trends.map((trend) => trend.title), ['Most searched', 'A', 'B', '서울 날씨'])
+})
+
+test('ended surges cannot keep a person promoted even when their search volume is highest', () => {
+  const trends = parseTrendPage(page([
+    row('빌 게이츠', 1000000, seconds - 3600, [], seconds - 60),
+    row('다리오 아모데이', 500),
+  ]), 'KR', now)
+  const matches = matchTrendingPeople(trends, [
+    { id: 'bill', nickname: '빌 게이츠', nickname_en: 'Bill Gates' },
+    { id: 'dario', nickname: '다리오 아모데이', nickname_en: 'Dario Amodei' },
+  ])
+  assert.deepEqual(matches.map(match => [match.id, match.rank]), [['dario', 1]])
+  assert.deepEqual(parseTrendPage(page([row('Ended', 100, seconds - 3600, [], seconds)]), 'KR', now), [])
+})
+
+test('active surges leave the list after 48 hours; the exact boundary remains eligible', () => {
+  const trends = parseTrendPage(page([
+    row('Older active', 1000000, seconds - 48 * 3600 - 1),
+    row('Boundary', 100, seconds - 48 * 3600),
+    row('Recent', 500, seconds - 60),
+  ]), 'KR', now)
+  assert.deepEqual(trends.map(trend => trend.title), ['Recent', 'Boundary'])
 })
 
 test('related queries never surface people — only the trend row title matches', () => {
@@ -73,7 +95,10 @@ test('fails closed on missing, malformed, wrong-country or invalid timestamp dat
   const badTime = row('Name', 100); badTime[3] = ['yesterday']
   const badVolume = row('Name', 100); badVolume[6] = '100K+'
   const badRelated = row('Name', 100); badRelated[9] = 'Name'
+  const badEnd = row('Name', 100); badEnd[4] = ['yesterday']
+  const prematureEnd = row('Name', 100, seconds - 3600, [], seconds - 3601)
   for (const html of ['<html>Unavailable</html>', page([badCountry]), page([badTime]), page([badVolume]), page([badRelated]),
+    page([badEnd]), page([prematureEnd]),
     page([row('Future', 100, seconds + 3600)]), page([row('Valid', 100)]) + page([]),
     `<script>AF_initDataCallback({key:'ds:0',data: [null, alert('x')], sideChannel:{}})</script>`]) {
     assert.throws(() => parseTrendPage(html, 'KR', now))
@@ -108,8 +133,9 @@ test('country whitelist prevents arbitrary feed URLs; errors differ from a valid
   }
 })
 
-test('country options put the visitor first, then pinned countries, then a shared selection', () => {
-  assert.deepEqual(getTrendCountryOptions('JP', 'KR'), ['JP', ...PINNED_TREND_COUNTRIES.filter(c => c !== 'JP')])
-  assert.deepEqual(getTrendCountryOptions(undefined, 'IT'), [...PINNED_TREND_COUNTRIES, 'IT'])
-  assert.deepEqual(getTrendCountryOptions('US', 'US'), ['US', ...PINNED_TREND_COUNTRIES.filter(c => c !== 'US')])
+test('shared country wins without changing the remembered preference; invalid values fall through', () => {
+  assert.equal(resolveTrendCountry('US', 'JP', 'KR'), 'US')
+  assert.equal(resolveTrendCountry(undefined, 'JP', 'KR'), 'JP')
+  assert.equal(resolveTrendCountry('invalid', 'XX', 'US'), 'US')
+  assert.equal(resolveTrendCountry(undefined, undefined, 'XX'), 'KR')
 })

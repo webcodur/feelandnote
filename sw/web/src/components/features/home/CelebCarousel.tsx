@@ -26,7 +26,6 @@ interface CelebCarouselProps {
   initialTotalPages: number;
   initialTrendCountry?: TrendCountry;
   initialTrend?: Awaited<ReturnType<typeof getCelebs>>["trend"];
-  trendCountryOptions?: readonly TrendCountry[];
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
@@ -47,7 +46,6 @@ export default function CelebCarousel({
   initialTotalPages,
   initialTrendCountry,
   initialTrend,
-  trendCountryOptions,
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
@@ -104,7 +102,7 @@ export default function CelebCarousel({
     <div>
       {/* 구획 제목·목차는 탐색 페이지(AtlasNavSections·HubSection)가 쥔다. 명부 규모는 결과 수 옆에서 보인다. */}
       {syncToUrl ? (
-        <CelebCompactControls filters={filters} trendCountryOptions={trendCountryOptions} onInteraction={onFilterInteraction}
+        <CelebCompactControls filters={filters} onInteraction={onFilterInteraction}
           // 전체 명부 수와 현재 조건에 맞는 결과 수 — 조작 아래 한 줄(검색 급증 안내 옆)에 선다
           resultLabel={realityTotals ? tHub("archiveResults", { count: filters.total, total: realityTotals[filters.realityValue] }) : tExplore("totalCount", { count: filters.total })} />
       ) : (

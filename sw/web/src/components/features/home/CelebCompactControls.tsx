@@ -7,7 +7,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { FilterModal } from "@/components/shared/filters";
 import { CELEB_CONTENT_PRESENCE } from "@/constants/celebContentPresence";
 import { DEFAULT_EXPLORE_SORT } from "@/constants/celebSort";
-import { PINNED_TREND_COUNTRIES, TREND_COUNTRIES, TREND_PERIOD_HOURS, parseTrendCountry, type TrendCountry } from "@/constants/trendCountries";
+import { TREND_COUNTRIES, TREND_PERIOD_HOURS, parseTrendCountry } from "@/constants/trendCountries";
 import { useNationalityLabel } from "@/hooks/useFilterLabels";
 import { useCelebDetailConditions } from "./useCelebDetailConditions";
 import { SORT_VALUES, type useCelebFilters } from "./useCelebFilters";
@@ -19,25 +19,20 @@ const Modal = dynamic(() => import("@/components/ui/Modal"));
 
 interface Props {
   filters: ReturnType<typeof useCelebFilters>;
-  trendCountryOptions?: readonly TrendCountry[];
   onInteraction?: () => void;
   /** 결과 수 문구 — 주면 조작 아래 한 줄에 검색 급증 안내와 나란히 선다 */
   resultLabel?: string;
 }
 
-export default function CelebCompactControls({ filters, trendCountryOptions = PINNED_TREND_COUNTRIES, onInteraction, resultLabel }: Props) {
+export default function CelebCompactControls({ filters, onInteraction, resultLabel }: Props) {
   const t = useTranslations("home.ui");
   const getNationality = useNationalityLabel();
   const locale = useLocale();
   const [open, setOpen] = useState<"detail" | "works" | "sort" | "trendInfo" | "trendCountry" | null>(null);
-  // 고른 국가가 빠른 버튼에 없으면 끝에 붙인다 — getTrendCountryOptions의 공유 URL 규칙과 같다
-  const visibleCountries = trendCountryOptions.includes(filters.trendCountry)
-    ? trendCountryOptions
-    : [...trendCountryOptions, filters.trendCountry];
   const allCountryOptions = useMemo(
-    () => TREND_COUNTRIES.map(value => ({ value: value as string, label: getNationality(value) }))
+    () => open !== "trendCountry" ? [] : TREND_COUNTRIES.map(value => ({ value: value as string, label: getNationality(value) }))
       .sort((a, b) => a.label.localeCompare(b.label, locale)),
-    [getNationality, locale],
+    [open, getNationality, locale],
   );
 
   const conditions = useCelebDetailConditions(filters);
@@ -89,21 +84,15 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
       </ExploreSearchControls>
       {filters.sortBy === "country_trending" && (
         <div className="space-y-2 border-t border-line px-1 pt-2">
-          <div className="flex flex-wrap items-center gap-2" role="group" aria-label={t("trends.country")}>
+          <div className="flex flex-wrap items-center justify-center gap-2" role="group" aria-label={t("trends.country")}>
             <button type="button" onClick={() => setOpen("trendInfo")} aria-haspopup="dialog"
               className="mr-1 min-h-11 rounded text-xs text-text-secondary underline decoration-white/30 underline-offset-4 hover:text-accent hover:decoration-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
               {t("trends.country")}
             </button>
-            {visibleCountries.map(country => (
-              <button key={country} type="button" disabled={filters.isLoading} aria-pressed={filters.trendCountry === country}
-                onClick={() => { onInteraction?.(); filters.handleTrendCountryChange(country); }}
-                className={`min-h-11 rounded px-3 py-1.5 text-xs outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${filters.trendCountry === country ? "bg-accent/10 text-accent hover:bg-accent/20" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}>
-                {getNationality(country)}
-              </button>
-            ))}
             <button type="button" disabled={filters.isLoading} onClick={() => setOpen("trendCountry")} aria-haspopup="dialog"
-              className="flex min-h-11 items-center gap-1 rounded px-2.5 py-1.5 text-xs text-text-secondary outline-none hover:bg-white/5 hover:text-text-primary focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50">
-              {t("trends.more")}<ChevronDown size={12} aria-hidden />
+              aria-label={`${t("trends.country")}: ${getNationality(filters.trendCountry)}`}
+              className="flex min-h-11 items-center gap-1.5 rounded-control border border-line bg-bg-card px-3 py-1.5 text-sm text-text-primary outline-none hover:border-line-strong hover:bg-bg-raised focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50">
+              {getNationality(filters.trendCountry)}<ChevronDown size={14} aria-hidden />
             </button>
           </div>
           {(filters.isLoading || !filters.trend?.available || filters.trend.matchedCount === 0) && (

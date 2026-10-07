@@ -12,7 +12,7 @@ import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCoun
 import { CELEB_TIERS, CELEB_REALITIES, LISTING_DEFAULT_REALITIES, isCelebTier, parseCelebTiers, parseCelebRealities, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 import { DEFAULT_EXPLORE_CONTENT_PRESENCE, parseCelebContentPresence, type CelebContentPresence } from "@/constants/celebContentPresence";
 import { CELEB_SORT_OPTIONS, DEFAULT_EXPLORE_SORT } from "@/constants/celebSort";
-import { parseTrendCountry, type TrendCountry } from "@/constants/trendCountries";
+import { parseTrendCountry, TREND_COUNTRY_COOKIE, TREND_COUNTRY_COOKIE_MAX_AGE, type TrendCountry } from "@/constants/trendCountries";
 
 // #region 상수
 export const SORT_VALUES = CELEB_SORT_OPTIONS;
@@ -283,12 +283,15 @@ export function useCelebFilters({
   }, [loadCelebs, profession, nationality, contentType, gender, appliedSearch, updateUrlParams, trendCountry]);
 
   const handleTrendCountryChange = useCallback((country: TrendCountry) => {
+    const secure = window.location.protocol === "https:" ? "; secure" : "";
+    document.cookie = `${TREND_COUNTRY_COOKIE}=${country}; path=/; max-age=${TREND_COUNTRY_COOKIE_MAX_AGE}; samesite=lax${secure}`;
+    if (country === trendCountry) return;
     setTrendCountry(country);
     setCurrentPage(1);
     setTrend(undefined);
     void loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, undefined, undefined, undefined, undefined, undefined, country);
     updateUrlParams({ trendCountry: country, page: null });
-  }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
+  }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams, trendCountry]);
 
   // 등급 필터 변경. 전체 등급을 고르면 좁히는 의미가 없으므로 URL에서 지운다.
   const handleTiersChange = useCallback((next: CelebTier[]) => {
@@ -398,7 +401,7 @@ export function useCelebFilters({
     contentType: CONTENT_TYPE_FILTERS.find((c) => c.value === contentType),
     gender: genderCounts.find((g) => g.value === gender),
     sort: sortBy,
-  }), [profession, nationality, contentType, gender, sortBy, nationalityCounts, genderCounts]);
+  }), [profession, nationality, contentType, gender, sortBy, nationalityCounts, genderCounts, CELEB_PROFESSION_FILTERS]);
 
   return {
     celebs,

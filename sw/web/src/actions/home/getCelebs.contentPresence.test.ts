@@ -76,6 +76,7 @@ function fixture(trendIds: string[] = [], available = true) {
     },
   }
   const mocks: Record<string, unknown> = {
+    '@/lib/visitorCountryServer': { getVisitorCountry: async () => null },
     'next/cache': { unstable_cache: (fn: unknown) => fn },
     '@/lib/db/static': { createStaticClient: () => db },
     '@/lib/db/server': { createClient: () => { throw new Error('No viewer reads'); } },

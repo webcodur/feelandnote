@@ -8,13 +8,13 @@ export const TREND_COUNTRIES = [
   'SE', 'SG', 'SI', 'SK', 'SN', 'SV', 'SY', 'TH', 'TM', 'TN', 'TR', 'TT', 'TW', 'TZ', 'UA', 'UG', 'US', 'UY', 'UZ', 'VE',
   'VN', 'YE', 'ZA', 'ZM', 'ZW',
 ] as const
-// Google's longest Trending now window. 24h matched too few registered people (KR 8 vs 54 on 2026-09-16).
-export const TREND_PERIOD_HOURS = 168 as const
+// Keep recent topics visible without carrying a week of old search surges.
+export const TREND_PERIOD_HOURS = 48 as const
 
 export type TrendCountry = (typeof TREND_COUNTRIES)[number]
 
-/** Always offered, whatever the visitor's country. Major Trending now markets across regions; the rest open in the country picker. */
-export const PINNED_TREND_COUNTRIES: readonly TrendCountry[] = ['KR', 'US', 'JP', 'GB', 'FR', 'DE', 'IN', 'BR']
+export const TREND_COUNTRY_COOKIE = 'fn-trend-country'
+export const TREND_COUNTRY_COOKIE_MAX_AGE = 365 * 24 * 60 * 60
 
 export function parseTrendCountry(value: unknown): TrendCountry | undefined {
   if (typeof value !== 'string') return undefined
@@ -22,7 +22,7 @@ export function parseTrendCountry(value: unknown): TrendCountry | undefined {
   return TREND_COUNTRIES.find((supported) => supported === country)
 }
 
-/** Visitor first, then pinned, then a country arriving by shared URL. Fixed per page load so buttons never reorder on click. */
-export function getTrendCountryOptions(visitor: TrendCountry | undefined, selected: TrendCountry): TrendCountry[] {
-  return [...new Set([...(visitor ? [visitor] : []), ...PINNED_TREND_COUNTRIES, selected])]
+/** Shared links override the remembered preference without changing it. */
+export function resolveTrendCountry(shared: unknown, remembered: unknown, visitor: unknown): TrendCountry {
+  return parseTrendCountry(shared) ?? parseTrendCountry(remembered) ?? parseTrendCountry(visitor) ?? 'KR'
 }

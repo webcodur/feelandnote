@@ -162,9 +162,9 @@ async function fetchTrendingCelebLinks(country: string, limit: number, minConten
 
 const getTrendingCelebLinksCached = unstable_cache(
   coalescePublicRead(fetchTrendingCelebLinks),
-  ['trending-celeb-links-v5'],
+  ['trending-celeb-links-v6-active-48h'],
   {
-    revalidate: spreadRevalidate(LIST_REVALIDATE, ['trending-celeb-links-v5']),
+    revalidate: spreadRevalidate(LIST_REVALIDATE, ['trending-celeb-links-v6-active-48h']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
   },
 )

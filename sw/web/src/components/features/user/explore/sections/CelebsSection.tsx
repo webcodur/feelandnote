@@ -18,7 +18,6 @@ interface Props {
   initialTotalPages: number;
   initialTrendCountry?: TrendCountry;
   initialTrend?: Awaited<ReturnType<typeof getCelebs>>["trend"];
-  trendCountryOptions?: readonly TrendCountry[];
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
@@ -32,7 +31,6 @@ export default function CelebsSection({
   initialTotalPages,
   initialTrendCountry,
   initialTrend,
-  trendCountryOptions,
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
@@ -47,7 +45,6 @@ export default function CelebsSection({
         initialTotalPages={initialTotalPages}
         initialTrendCountry={initialTrendCountry}
         initialTrend={initialTrend}
-        trendCountryOptions={trendCountryOptions}
         professionCounts={professionCounts}
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}

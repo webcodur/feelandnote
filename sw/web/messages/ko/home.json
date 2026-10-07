@@ -208,12 +208,13 @@
         "more": "더 보기",
         "allCountries": "전체 국가",
         "searchCountry": "국가 이름 검색",
-        "modalDescription": "선택한 국가의 Google Trends 최근 {days}일 급상승 검색어와 일치한 인물을 먼저 보여줍니다.",
+        "modalDescription": "선택한 국가에서 최근 {days}일 안에 시작한 급상승 검색어 중 현재도 검색량이 평소보다 많은 인물을 먼저 보여줍니다.",
         "sourceLink": "Google Trends에서 보기",
         "dailyNotice": "검색량이 늘어난 인물 {count}명을 포함합니다.",
         "dailyInfoOpen": "오늘의 추천 트렌드 안내",
         "dailyInfoTitle": "오늘의 추천과 검색 트렌드",
-        "dailyInfoBody": "오늘의 추천은 날짜마다 달라지는 추첨으로 인물을 고릅니다. {country} Google Trends 최근 {days}일의 급상승 검색어와 이름이 일치한 인물은 추첨에서 추가 기회를 얻어 더 자주 첫 화면에 오릅니다."
+        "dailyInfoBody": "오늘의 추천은 날짜마다 달라지는 추첨으로 인물을 고릅니다. {country} Google Trends에서 최근 {days}일 안에 시작했고 아직 종료되지 않은 급상승 검색어와 이름이 일치한 인물은 추첨에서 추가 기회를 얻습니다.",
+        "homeEmpty": "현재 이 국가에서 표시할 수 있는 급상승 인물이 없습니다."
       },
       "affiliationsTitle": "{name}의 소속"
     },

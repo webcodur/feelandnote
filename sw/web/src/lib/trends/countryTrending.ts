@@ -4,6 +4,7 @@ import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { TREND_PERIOD_HOURS, type TrendCountry } from '@/constants/trendCountries'
 import { createStaticClient } from '@/lib/db/static'
 import { rawFetch } from '@/lib/rawFetch'
+import { coalescePublicRead } from '@/lib/coalescePublicRead'
 import {
   matchTrendingPeople,
   parseTrendPage,
@@ -42,8 +43,8 @@ async function fetchCountryMatches(country: TrendCountry): Promise<TrendMatch[]>
   return matchTrendingPeople(trends, await getRegisteredPeople())
 }
 
-// unstable_cache includes the country argument in its key; failed reads throw and aren't stored as an empty feed.
-const getCountryMatches = unstable_cache(fetchCountryMatches, ['country-trending-people-page-v8'], {
+// Share simultaneous cold reads per country; failures aren't stored as an empty feed.
+const getCountryMatches = unstable_cache(coalescePublicRead(fetchCountryMatches), ['country-trending-people-page-v9-active-48h'], {
   revalidate: TREND_REVALIDATE_SECONDS,
   tags: [CACHE_TAGS.CELEBS],
 })

@@ -1,10 +1,10 @@
 import { getTranslations } from "next-intl/server";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { NAV_ITEMS } from "@/constants/navigation";
 import { EXPLORE_HUB_GROUP, EXPLORE_LENS_IMAGES, FIGURE_LENS_GROUPS, FIGURE_AUXILIARY_LINKS } from "@/constants/exploreLenses";
 import { Link } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
-import { getTrendCountryOptions, parseTrendCountry } from "@/constants/trendCountries";
+import { resolveTrendCountry, TREND_COUNTRY_COOKIE } from "@/constants/trendCountries";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
@@ -32,10 +32,8 @@ export default async function ExplorePage({ searchParams }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const filters = parseFilterParams(await searchParams);
-  const visitorCountry = parseTrendCountry((await headers()).get("CF-IPCountry"));
-  const trendCountry = filters.trendCountry ?? visitorCountry ?? "KR";
-  filters.trendCountry = trendCountry;
-  const trendCountryOptions = getTrendCountryOptions(visitorCountry, trendCountry);
+  const [requestCookies, requestHeaders] = await Promise.all([cookies(), headers()]);
+  filters.trendCountry = resolveTrendCountry(filters.trendCountry, requestCookies.get(TREND_COUNTRY_COOKIE)?.value, requestHeaders.get("CF-IPCountry"));
   const t = await getTranslations("explore.hub");
   const nav = await getTranslations("nav.sub");
   const pending = await getTranslations("pending");
@@ -54,7 +52,7 @@ export default async function ExplorePage({ searchParams }: {
       <div className="space-y-8 md:space-y-10">
         <HubSection title={titles[0]} index={0} total={titles.length} groupId={hubGroup} hideDivider>
           <Lane fallback={<PendingBlock variant="grid" count={24} label={pending("loading")} />}>
-            <FiguresFilterResult params={filters} trendCountryOptions={trendCountryOptions} />
+            <FiguresFilterResult params={filters} />
           </Lane>
         </HubSection>
         <HubSection title={titles[1]} index={1} total={titles.length} groupId={hubGroup}>
