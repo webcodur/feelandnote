@@ -222,9 +222,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
               <p className={`${compactProfile ? "col-start-2" : `${styles.title} mb-1`} text-xs text-accent font-bold uppercase tracking-[.25em]`}>{displayTitle}</p>
             )}
 
-            {/* 이름 자체를 중앙에 두고, 페이지 링크는 독립된 오른쪽 자리에 둔다. */}
+            {/* 이름과 상세 이동 링크를 나란히 묶어 중앙에 둔다. */}
             <div className={compactProfile ? "col-start-2 flex min-w-0 items-center gap-2" : styles.nameRow}>
-              <h2 data-celeb-modal-name className={`font-black font-serif text-text-primary leading-tight ${compactProfile ? "text-2xl break-all" : `${styles.name} text-3xl`}`}>
+              <h2 data-celeb-modal-name className={`min-w-0 font-black font-serif text-text-primary leading-tight ${compactProfile ? "text-2xl break-all" : `${styles.name} text-3xl`}`}>
                 {displayNickname}
               </h2>
               <Link
@@ -234,9 +234,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 aria-label={t("viewProfile")}
                 title={t("viewProfile")}
                 data-celeb-modal-profile
-                className={`${compactProfile ? "" : styles.profileLink} flex h-8 w-8 shrink-0 items-center justify-center rounded-control border border-line-strong bg-white/[0.03] text-accent hover:border-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:bg-accent/20`}
+                className="flex size-11 shrink-0 items-center justify-center rounded-control border border-line-strong bg-white/[0.03] text-accent hover:border-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:bg-accent/20"
               >
-                <ArrowUpRight size={15} strokeWidth={2.5} />
+                <ArrowUpRight size={22} strokeWidth={2.5} aria-hidden />
               </Link>
             </div>
 
