@@ -6,6 +6,7 @@
   제휴 링크를 쓰는 출처만 수수료 고지를 한 줄 더 붙인다. 예전에는 네 줄로 쌓아 목록 머리가 길었다.
 */
 
+import SourceLink from "@/components/ui/SourceLink";
 import type { ReactNode } from "react";
 import { ExternalLink } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -30,13 +31,13 @@ export default function ChartSourceNotice({ category, source, meta }: Props) {
       <p className="flex flex-wrap items-center justify-center gap-x-2">
         {meta && <span>{meta}</span>}
         {meta && <span aria-hidden className="text-text-tertiary">·</span>}
-        <a href={source.url} target="_blank" rel="noopener noreferrer"
+        <SourceLink sourceUrl={source.url}
           className="inline-flex min-h-9 items-center rounded-control underline decoration-text-tertiary underline-offset-4 hover:text-accent hover:decoration-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
           {source.id === "apple-books"
             ? `${tp("freshness.source")}: ${t(`sources.${source.id}`)}`
             : t("viewSourceAt", { source: t(`sources.${source.id}`) })}<ExternalLink size={11} aria-hidden="true" className="ms-0.5" />
           <span className="sr-only">{tp("newTab")}</span>
-        </a>
+        </SourceLink>
       </p>
       {source.affiliateLinks && <p className="text-text-tertiary">{tPurchase("notice")}</p>}
     </div>

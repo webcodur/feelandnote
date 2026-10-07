@@ -6,6 +6,7 @@ import type { GetUserContentsResponse } from "@/actions/contents/getUserContents
 import ContentCover from "@/components/ui/ContentCover";
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import FormattedText from "@/components/ui/FormattedText";
+import SourceLink from "@/components/ui/SourceLink";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 
 import type { RecordsLabels } from "./RecordsPageBody";
@@ -128,14 +129,12 @@ export default function RecordsList({
                 </ContentReadingText>
                 {item.source_url && (
                   <p className="mt-6 break-words border-t border-white/10 pt-4 text-sm">
-                    <a
-                      href={item.source_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <SourceLink
+                      sourceUrl={item.source_url}
                       className={LINK_CLASS}
                     >
-                      {labels.source}: {item.source_url}
-                    </a>
+                      {labels.source}
+                    </SourceLink>
                   </p>
                 )}
               </div>

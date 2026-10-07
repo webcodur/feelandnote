@@ -12,6 +12,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
+import SourceLink from "@/components/ui/SourceLink";
 import { useCallback, useId, useRef, useState } from "react";
 import { ArrowUpRight, BookOpenText, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -226,12 +227,9 @@ function SourceChip({ providerName, sourceUrl, title, originalLabel }: SourceChi
     return <span className={cn(SOURCE_CHIP_CLASS, "px-0.5")} title={title}>{content}</span>;
   }
   return (
-    <a
-      href={sourceUrl}
-      target="_blank"
-      rel="noopener noreferrer nofollow"
+    <SourceLink
+      sourceUrl={sourceUrl}
       title={title}
-      onClick={(event) => event.stopPropagation()}
       className={cn(
         SOURCE_CHIP_CLASS,
         providerName ? "ps-0.5 pe-2" : "px-2.5",
@@ -239,7 +237,7 @@ function SourceChip({ providerName, sourceUrl, title, originalLabel }: SourceChi
       )}
     >
       {content}
-    </a>
+    </SourceLink>
   );
 }
 

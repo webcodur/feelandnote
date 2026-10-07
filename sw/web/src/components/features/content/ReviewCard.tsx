@@ -14,16 +14,17 @@
 import { getCelebProfileUrl } from "@/lib/url";
 import { useState } from "react";
 import Image from "next/image";
-import { EyeOff, Star, ExternalLink } from "lucide-react";
+import { EyeOff, Star, ExternalLink, Sparkles } from "lucide-react";
 import { BlurDissolve, FormattedText } from "@/components/ui";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
+import SourceLink from "@/components/ui/SourceLink";
 import Button from "@/components/ui/Button";
 import UserAvatarWithPopover from "@/components/shared/UserAvatarWithPopover";
 import { BLUR_DATA_URL } from "@/constants/image";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { ReviewFeedItem } from "@/actions/contents/getReviewFeed";
-import { getProfessionIcon, getProfessionColor } from "@/constants/professionIcons";
+import { PROFESSION_ICONS, getProfessionColor } from "@/constants/professionIcons";
 import { cn } from "@/lib/utils";
 
 interface ReviewCardProps {
@@ -54,7 +55,7 @@ export default function ReviewCard({
 
   const celebSlug = item.user.slug;
   const professionKey = item.user.profession;
-  const ProfessionIcon = professionKey ? getProfessionIcon(professionKey) : null;
+  const ProfessionIcon = professionKey ? (PROFESSION_ICONS[professionKey] ?? Sparkles) : null;
   const professionColor = professionKey ? getProfessionColor(professionKey) : null;
 
   // 출처 라벨
@@ -151,16 +152,14 @@ export default function ReviewCard({
             )}
 
             {item.source_url && (
-              <a
-                href={item.source_url}
-                target="_blank"
-                rel="noopener noreferrer nofollow"
-                className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-medium text-text-secondary/75 hover:text-accent py-0.5 px-2 sm:py-1 sm:px-2.5 rounded-lg hover:bg-white/[0.05] transition-colors"
+              <SourceLink
+                sourceUrl={item.source_url}
+                className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-medium text-text-secondary/75 hover:text-accent py-0.5 px-2 sm:py-1 sm:px-2.5 rounded-lg hover:bg-white/[0.05]"
                 title={isEn ? "View source" : "원문 출처 보기"}
               >
                 <span>{sourceLabel}</span>
                 <ExternalLink size={11} />
-              </a>
+              </SourceLink>
             )}
           </div>
           </div>
@@ -247,15 +246,13 @@ export default function ReviewCard({
           )}
 
           {item.source_url && (
-            <a
-              href={item.source_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] font-medium text-text-secondary/70 hover:text-accent transition-colors py-0.5 px-1.5 sm:px-2 rounded-md hover:bg-white/[0.05]"
+            <SourceLink
+              sourceUrl={item.source_url}
+              className="inline-flex items-center gap-1 text-[11px] font-medium text-text-secondary/70 hover:text-accent py-0.5 px-1.5 sm:px-2 rounded-md hover:bg-white/[0.05]"
             >
               <span>{sourceLabel}</span>
               <ExternalLink size={10} />
-            </a>
+            </SourceLink>
           )}
         </div>
       </div>

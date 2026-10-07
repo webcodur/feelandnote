@@ -2,6 +2,33 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { bookIntroductionDisplay, mediaIntroductionAttribution, resolveBookIsbn, selectBookIntroduction } from './book-description'
 
+test('book and media introductions preserve multiple sources without combining them into one URL', () => {
+  const sources = { description: 'https://openlibrary.org/books/OL1M | https://example.com/explanation | https://openlibrary.org/books/OL1M' }
+  assert.equal(bookIntroductionDisplay('en', { locale: 'en', description: 'Introduction.', sources }).introductionAttribution?.url,
+    'https://openlibrary.org/books/OL1M | https://example.com/explanation')
+  assert.deepEqual(mediaIntroductionAttribution({ locale: 'en', description: 'Introduction.', sources }, null, null), {
+    provider: 'openlibrary', translated: false, url: 'https://openlibrary.org/books/OL1M | https://example.com/explanation',
+  })
+})
+
+test('a Kakao source is converted independently while additional introduction sources survive', () => {
+  const display = bookIntroductionDisplay('ko', { locale: 'ko', description: 'KAKAO', sources: {
+    description: 'https://dapi.kakao.com/v3/search/book?target=isbn&query=9788925588810 | https://example.com/explanation',
+  } })
+  assert.equal(display.introductionAttribution?.url,
+    'https://search.daum.net/search?w=book&q=9788925588810 | https://example.com/explanation')
+  assert.equal(display.bookIntroduction?.sourceUrl,
+    'https://dapi.kakao.com/v3/search/book?target=isbn&query=9788925588810')
+})
+
+test('Open Library rereads the primary URL while the source control retains every reference', () => {
+  const display = bookIntroductionDisplay('en', { locale: 'en', description: 'OPEN', sources: {
+    description: 'https://openlibrary.org/works/OL1W | https://example.com/explanation',
+  } })
+  assert.equal(display.bookIntroduction?.sourceUrl, 'https://openlibrary.org/works/OL1W')
+  assert.equal(display.introductionAttribution?.url, 'https://openlibrary.org/works/OL1W | https://example.com/explanation')
+})
+
 test('development routes stored external introductions through layout restoration while keeping the original text', () => {
   const previous = process.env.NODE_ENV
   try {

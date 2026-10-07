@@ -24,6 +24,8 @@ import { trackEvent } from "@/lib/analytics/track";
 import { getAuraByScore, type Aura } from "@/constants/materials";
 import CelebFactionsModal from "../CelebFactionsModal";
 import Modal from "@/components/ui/Modal";
+import SourceLink from "@/components/ui/SourceLink";
+import { parseSourceUrls } from "@feelandnote/shared/lib/source-links";
 import { FormattedText } from "@/components/ui";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
 import CelebProfileMedia from "@/components/shared/CelebProfileMedia";
@@ -38,6 +40,7 @@ import { AURA_GRADIENTS, type CelebDetailModalProps } from "./types";
 export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, onNavigate, hasPrev = false, hasNext = false, zIndex, escapeCapture = false, contextReview }: CelebDetailModalProps) {
   const t = useTranslations("home.ui");
   const tCeleb = useTranslations("celebPage");
+  const hasReviewSources = parseSourceUrls(contextReview?.sourceUrl).length > 0;
   const tProf = useTranslations("profession");
   const locale = useLocale() as Locale;
   const isEn = locale === "en";
@@ -317,13 +320,13 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                     <FormattedText text={contextReview.review} />
                   </p>
                 ) : null}
-                {(/^https?:\/\//.test(contextReview.sourceUrl ?? "") || celeb.content_count > 1) && (
+                {(hasReviewSources || celeb.content_count > 1) && (
                   <div className="mt-2 flex min-h-8 shrink-0 items-center justify-between gap-3">
-                    {/^https?:\/\//.test(contextReview.sourceUrl ?? "") && (
-                      <a href={contextReview.sourceUrl!} target="_blank" rel="noopener noreferrer"
+                    {hasReviewSources && (
+                      <SourceLink sourceUrl={contextReview.sourceUrl}
                         className="inline-flex min-h-8 shrink-0 items-center rounded px-2 text-xs text-accent outline-none hover:bg-accent/10 focus-visible:ring-2 focus-visible:ring-accent">
                         {tCeleb("bookRelationSource")}
-                      </a>
+                      </SourceLink>
                     )}
                     {celeb.content_count > 1 && (
                       <Link

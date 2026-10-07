@@ -1,5 +1,6 @@
 "use client";
 
+import SourceLink from "@/components/ui/SourceLink";
 import { useId, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, Bookmark, Check, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
@@ -105,7 +106,7 @@ export default function CollectionJourney({ id, placement, context, expanded = f
           <summary className={`w-fit cursor-pointer rounded py-1 hover:text-accent ${focus}`}>조사 근거와 모형 안내</summary>
           <div className="mt-3 space-y-2 leading-relaxed">
             <p>{PROTOTYPE_CHECKED_AT} 확인: {offer.evidence}.</p>
-            <a href={offer.evidenceUrl} target="_blank" rel="noopener noreferrer" className={`inline-block rounded text-accent underline hover:text-accent-hover ${focus}`}>{offer.seller} 확인 페이지</a>
+            <SourceLink sourceUrl={offer.evidenceUrl} className={`inline-block rounded text-accent underline hover:text-accent-hover ${focus}`}>{offer.seller} 확인 페이지</SourceLink>
             <p>일반 상품·공식 안내 링크로 연결한 개발자 모형입니다. 제휴 수익 연결 전이며, 보관은 이 탭에만 남고 계정의 감상 기록은 바뀌지 않습니다.</p>
           </div>
         </details>

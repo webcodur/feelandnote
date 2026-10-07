@@ -1,5 +1,6 @@
 @import "./pretendard.css";
 @import "tailwindcss";
+@source "../../../../packages/shared/src";
 @plugin "@tailwindcss/typography";
 
 @theme {

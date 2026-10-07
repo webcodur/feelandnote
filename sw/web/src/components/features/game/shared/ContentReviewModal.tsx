@@ -9,6 +9,7 @@ import { Link } from "@/i18n/navigation";
 import { ArrowUpRight } from "lucide-react";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import FormattedText from "@/components/ui/FormattedText";
+import SourceLink from "@/components/ui/SourceLink";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 import {
@@ -109,15 +110,12 @@ export default function ContentReviewModal({
         {/* 리뷰 출처 링크 */}
         <div className="mt-3 text-xs break-all text-center">
           {sourceUrl ? (
-            <a
-              href={sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
+            <SourceLink
+              sourceUrl={sourceUrl}
               className="text-accent/60 hover:text-accent underline underline-offset-2"
             >
-              {t("source", { url: sourceUrl })}
-            </a>
+              {t("source")}
+            </SourceLink>
           ) : (
             <span className="text-red-500 font-semibold">
               {t("noSource")}

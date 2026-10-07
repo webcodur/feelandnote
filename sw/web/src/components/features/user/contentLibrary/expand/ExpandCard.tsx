@@ -18,6 +18,7 @@ import { TYPE_ICONS } from "@/components/ui/cards/ContentCard/constants";
 import FormattedText from "@/components/ui/FormattedText";
 import ContentCoverLink from "@/components/shared/ContentCoverLink";
 import ContentTextModal from "@/components/ui/ContentTextModal";
+import SourceLink from "@/components/ui/SourceLink";
 import Button from "@/components/ui/Button";
 import { getCategoryByDbType } from "@/constants/categories";
 import { getLocalizedContent } from "@/lib/utils/editions";
@@ -188,14 +189,12 @@ function ExpandCard({
               )}
               {/* 출처는 전문 표시로 모달을 못 여는 길에서도 카드에 남긴다 */}
               {item.source_url && (
-                <a
-                  href={item.source_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <SourceLink
+                  sourceUrl={item.source_url}
                   className="mt-2 inline-block text-xs text-text-tertiary underline decoration-white/20 underline-offset-2 hover:text-text-secondary"
                 >
                   {t("reviewModal.source")}
-                </a>
+                </SourceLink>
               )}
             </>
           ) : null}

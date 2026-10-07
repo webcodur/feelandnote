@@ -1,5 +1,6 @@
 "use client";
 
+import SourceLink from "@/components/ui/SourceLink";
 import { useState } from "react";
 import FormattedText from "@/components/ui/FormattedText";
 import ContentReadingText from "@/components/ui/ContentReadingText";
@@ -34,7 +35,7 @@ export default function TextLayoutLab({ initialText, sourceHref, loadError = fal
         {EXAMPLES.map(example => <button key={example.label} type="button" className={BUTTON_CLASS}
           onClick={() => setText(example.text)}>{example.label}</button>)}
         <button type="button" className={BUTTON_CLASS} onClick={() => setModalOpen(true)}>새 표시로 전문 열기</button>
-        {sourceHref && <a href={sourceHref} target="_blank" rel="noopener noreferrer" className={`${BUTTON_CLASS} inline-flex items-center`}>소개 출처</a>}
+        {sourceHref && <SourceLink sourceUrl={sourceHref} className={`${BUTTON_CLASS} inline-flex items-center`}>소개 출처</SourceLink>}
       </div>
       <label className="block space-y-2 text-sm">
         <span>원문</span>

@@ -1,5 +1,6 @@
 "use client";
 
+import SourceLink from "@/components/ui/SourceLink";
 import { useState } from "react";
 import Image from "next/image";
 import { useLocale } from "next-intl";
@@ -41,7 +42,7 @@ export default function CollectionJourneyLab() {
           <p className="text-xs text-accent">{work.eyebrow}</p>
           <h3 className="mt-3 text-2xl font-semibold leading-snug sm:text-3xl">{work.headline}</h3>
           <p className="mt-4 text-sm leading-7 text-text-secondary">{work.story}</p>
-          <a href={work.source.url} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block rounded text-xs text-text-tertiary outline-none hover:text-accent hover:underline focus-visible:ring-2 focus-visible:ring-accent">{work.source.label} ↗</a>
+          <SourceLink sourceUrl={work.source.url} className="mt-4 inline-block rounded text-xs text-text-tertiary outline-none hover:text-accent hover:underline focus-visible:ring-2 focus-visible:ring-accent">{work.source.label} ↗</SourceLink>
         </div>
       </div>
       <CollectionJourney id={id} placement="lab" onActivity={record} />

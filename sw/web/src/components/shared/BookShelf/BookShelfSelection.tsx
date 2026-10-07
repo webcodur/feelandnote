@@ -1,5 +1,6 @@
 'use client'
 
+import SourceLink from "@/components/ui/SourceLink";
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { useLocale, useTranslations } from 'next-intl'
@@ -137,8 +138,8 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
           }} />}
           {selected.selectionReason && <div className="mb-4 rounded-lg border border-accent/20 bg-accent/5 px-4 py-3 text-sm text-text-secondary">
             <p>{selected.selectionReason}</p>
-            {selected.selectionSourceUrl && <a href={selected.selectionSourceUrl} target="_blank" rel="noopener noreferrer"
-              className="mt-2 inline-block rounded text-xs text-accent underline underline-offset-4 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">{t('professionBookSource')}</a>}
+            {selected.selectionSourceUrl && <SourceLink sourceUrl={selected.selectionSourceUrl}
+              className="mt-2 inline-block rounded text-xs text-accent underline underline-offset-4 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">{t('professionBookSource')}</SourceLink>}
           </div>}
           {showReview ? <BookShelfReviewDetail record={selected.readingRecord!} celebId={context!.personId!}
             ownerNickname={context?.personName} contentIds={contentIds} selectedIndex={selectedIndex} /> : <>

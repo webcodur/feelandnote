@@ -56,7 +56,10 @@
     "./lib/book-metadata": "./src/lib/book-metadata.ts",
     "./lib/celeb-identity": "./src/lib/celeb-identity.ts",
     "./constants/responsive-artwork": "./src/constants/responsive-artwork.ts",
-    "./hooks/use-professions": "./src/hooks/use-professions.tsx"
+    "./hooks/use-professions": "./src/hooks/use-professions.tsx",
+    "./lib/source-links": "./src/lib/source-links.ts",
+    "./ui/source-link": "./src/ui/source-link.tsx",
+    "./lib/modal-layout": "./src/lib/modal-layout.ts"
   },
   "peerDependencies": {
     "next": ">=15",

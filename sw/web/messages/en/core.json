@@ -870,6 +870,9 @@
       "next": "Next section: {name}",
       "noPrevious": "No previous section",
       "noNext": "No next section"
+    },
+    "sources": {
+      "title": "Sources"
     }
   },
   "notifications": {

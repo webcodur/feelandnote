@@ -1,4 +1,5 @@
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
+import { formatSourceUrls, parseSourceUrls, SOURCE_URL_SEPARATOR } from '@feelandnote/shared/lib/source-links'
 import {
   isBookIntroductionSource,
   type BookIntroductionSource,
@@ -9,6 +10,7 @@ import { isDeveloperMode } from '../developer-mode'
 export interface BookIntroductionReference {
   isbn: string | null
   source: BookIntroductionSource
+  /** 소개 재조회에 쓰는 첫 출처. 표시할 전체 출처는 introductionAttribution에 보존한다. */
   sourceUrl: string | null
   /** 개발 모드의 외부 소개 저장본. 출처를 재조회하여 다른 본문으로 바꾸지 않는다. */
   storedText?: string
@@ -40,10 +42,10 @@ const fields = (value: unknown): SourceFields => value && typeof value === 'obje
   ? value as SourceFields : {}
 
 function safeSourceUrl(value: unknown): string | null {
-  if (typeof value !== 'string' || !/^https?:\/\//i.test(value) || /[\u0000-\u0020\u007f\\]/.test(value)) return null
+  if (typeof value !== 'string') return null
   try {
-    const url = new URL(value)
-    return ['http:', 'https:'].includes(url.protocol) && !url.username && !url.password ? url.href : null
+    const validated = formatSourceUrls(value)
+    return formatSourceUrls(parseSourceUrls(validated).map(url => new URL(url).href).join(SOURCE_URL_SEPARATOR))
   } catch { return null }
 }
 
@@ -63,7 +65,9 @@ const MARKER_PROVIDER = { KAKAO: 'kakao', DAUM: 'daum', OPEN: 'openlibrary' } as
 
 function sourceProvider(url: string | null): BookIntroductionAttribution['provider'] {
   if (!url) return 'unknown'
-  const host = new URL(url).hostname
+  const first = parseSourceUrls(url)[0]
+  if (!first) return 'unknown'
+  const host = new URL(first).hostname
   const domains = { 'yes24.com': 'yes24', 'kakao.com': 'kakao', 'daum.net': 'daum',
     'openlibrary.org': 'openlibrary', 'feelandnote.com': 'feelandnote',
     'themoviedb.org': 'tmdb', 'igdb.com': 'igdb', 'wikipedia.org': 'wikipedia',
@@ -95,16 +99,18 @@ function translatedOriginalProvider(sources: unknown, depth = 0): BookIntroducti
 // 카카오 출처는 재조회용 API 주소(dapi)를 저장한다 — 인증 키 없이 열면 빈 화면이라
 // 사람이 여는 링크는 같은 도서 데이터의 소비자 페이지인 다음 책 검색으로 바꾼다.
 function introductionDisplayUrl(url: string | null): string | null {
-  if (!url) return null
-  const api = new URL(url)
-  if (api.hostname !== 'dapi.kakao.com') return url
-  if (api.pathname !== '/v3/search/book' || api.searchParams.get('target') !== 'isbn') return null
-  const isbn = api.searchParams.get('query')
-  if (!isbn) return null
-  const page = new URL('https://search.daum.net/search')
-  page.searchParams.set('w', 'book')
-  page.searchParams.set('q', isbn)
-  return page.toString()
+  const links = parseSourceUrls(url).flatMap(source => {
+    const api = new URL(source)
+    if (api.hostname !== 'dapi.kakao.com') return [source]
+    if (api.pathname !== '/v3/search/book' || api.searchParams.get('target') !== 'isbn') return []
+    const isbn = api.searchParams.get('query')
+    if (!isbn) return []
+    const page = new URL('https://search.daum.net/search')
+    page.searchParams.set('w', 'book')
+    page.searchParams.set('q', isbn)
+    return [page.toString()]
+  })
+  return formatSourceUrls(links.join(SOURCE_URL_SEPARATOR))
 }
 
 function introductionAttribution(row: StoredBookIntroduction): BookIntroductionAttribution {
@@ -140,7 +146,7 @@ export function bookIntroductionDisplay(
       bookIntroduction: {
         isbn: normalizeBookIsbn(row.isbn),
         source,
-        sourceUrl: bookIntroductionSourceUrl(row.sources),
+        sourceUrl: parseSourceUrls(bookIntroductionSourceUrl(row.sources))[0] ?? null,
       },
       introductionAttribution: introductionAttribution(row),
     }
@@ -151,7 +157,7 @@ export function bookIntroductionDisplay(
   const storedReference = isDeveloperMode() && locale === 'ko' && description && isbn && attribution && !attribution.translated
     && (attribution.provider === 'daum' || attribution.provider === 'kakao')
     ? { isbn, source: attribution.provider === 'daum' ? 'DAUM' as const : 'KAKAO' as const,
-      sourceUrl: attribution.url, storedText: description } : null
+      sourceUrl: parseSourceUrls(attribution.url)[0] ?? null, storedText: description } : null
   return { description, bookIntroduction: storedReference, ...(attribution ? { introductionAttribution: attribution } : {}) }
 }
 

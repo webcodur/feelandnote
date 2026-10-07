@@ -7,6 +7,8 @@
         원문 순서·순위를 그대로 따르고 아직 등록되지 않은 작품도 빼지 않는다 — 100선은 100편이어야 한다.
 */ // ------------------------------
 
+import SourceLink from "@/components/ui/SourceLink";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
@@ -90,15 +92,13 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
         )}
 
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <a
-            href={list.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <AsyncIntlProvider><SourceLink
+            sourceUrl={list.sourceUrl}
             className="inline-flex items-center gap-1.5 text-[12px] text-text-tertiary hover:text-accent"
           >
             <ExternalLink size={12} />
             {t("source")}
-          </a>
+          </SourceLink></AsyncIntlProvider>
           <span className="text-[12px] text-text-tertiary">
             {t("linkedSummary", { linked: list.linkedCount, total: list.itemCount })}
           </span>
