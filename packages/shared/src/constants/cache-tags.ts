@@ -39,6 +39,8 @@ export type CacheTag = (typeof CACHE_TAGS)[keyof typeof CACHE_TAGS]
 
 /** 상세 캐시 전량만 명시적으로 가리키는 예약 식별자. */
 export const BULK_CACHE_ID = '__all__'
+/** Editorial review selection shared by the Korean and English home. */
+export const FEATURED_REVIEWS_CACHE_ID = 'featured-reviews'
 
 /** Cloudflare가 실제로 보관하는 상세 HTML 경로군. bulk 태그의 퍼지 영향 범위 SSoT다. */
 export type CacheDetailRouteFamily = 'celeb' | 'content'
@@ -216,6 +218,7 @@ export function cacheTagToCloudflarePaths(tag: string): string[] {
   if (id === BULK_CACHE_ID) return []
 
   if (domain === CACHE_TAGS.CELEBS) {
+    if (id === FEATURED_REVIEWS_CACHE_ID) return ['/', '/en']
     if (CACHE_ITEM_UUID_RE.test(id)) return []
     return [`/celeb/${id}`, `/en/celeb/${id}`]
   }
