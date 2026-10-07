@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { Check, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Copy, Info, Rows3, TextAlignJustify, X } from "lucide-react";
@@ -24,6 +24,13 @@ const PRELOAD_AHEAD = 2;
 /* 줌 모드의 휠 배율 — 커서 지점을 고정해 키우고 줄인다 */
 const MAX_ZOOM = 10;
 const WHEEL_ZOOM_STEP = 1.35;
+
+// 윤곽은 글자 크기에 맞추고, 짧은 음영은 글자 주변에만 남긴다.
+const CAPTION_TEXT_STYLE = {
+  WebkitTextStroke: "0.1em var(--color-black)",
+  paintOrder: "stroke fill",
+  textShadow: "0 1px 2px color-mix(in srgb, var(--color-black) 70%, transparent)",
+} as const;
 
 interface Props {
   images: { url: string; label?: string | null; caption?: string | null; kind?: 'scene'; ending?: LocalizedSceneEnding }[];
@@ -50,14 +57,9 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const captionSizeClass = CAPTION_SIZE_CLASSES[captionSize];
   const [captionHeight, setCaptionHeight] = useState<CaptionHeight>("low");
   const captionBottom = CAPTION_HEIGHT_OFFSETS[captionHeight];
-  const captionBackdropClass = captionHeight === "low"
-    ? "bg-gradient-to-t from-black/90 via-black/65 to-transparent"
-    : "bg-gradient-to-b from-transparent via-black/75 to-transparent";
   /* 자막을 장면 안에서 한 쪽씩 넘긴다 — 장면이 바뀌면 첫 쪽으로 돌아간다 */
   const [captionPage, setCaptionPage] = useState(0);
   const [entryCaptionPage, setEntryCaptionPage] = useState(0);
-  const [captionDragX, setCaptionDragX] = useState(0);
-  const [captionSlideAnim, setCaptionSlideAnim] = useState(false);
   /* 자막을 누르면 텍스트 선택 모드 — 전체 해설이 선택 가능한 글로 서고 복사 칩이 붙는다 */
   const [captionSelect, setCaptionSelect] = useState(false);
   const [captionCopied, setCaptionCopied] = useState(false);
@@ -67,14 +69,10 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const [zoomView, setZoomView] = useState({ scale: 1, x: 0, y: 0 });
   const [panning, setPanning] = useState(false);
   const zoomDrag = useRef<{ x: number; y: number; vx: number; vy: number } | null>(null);
-  const [dragX, setDragX] = useState(0);
-  const [slideAnim, setSlideAnim] = useState(false);
   /* 타이틀아트 제목을 칠해진 그림 영역에 맞추려고 그림별 가로세로비를 잰다 */
   const [ratios, setRatios] = useState<Record<string, number>>({});
-  const pendingSlide = useRef<number | null>(null);
   const viewerBodyRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
-  const pendingNavigationAnimation = useRef<{ target: "scene" | "caption"; direction: number } | null>(null);
   const closeNavigator = useCallback(() => setNavigatorOpen(false), []);
   const selectImage = useCallback((nextIndex: number) => {
     setCaptionPage(0);
@@ -120,14 +118,12 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
     if (paginatedCaption) {
       const nextPage = captionPage + direction;
       if (nextPage >= 0 && nextPage < captionPages.length) {
-        pendingNavigationAnimation.current = { target: "caption", direction };
         setCaptionPage(nextPage);
         return;
       }
     }
     const nextIndex = index + direction;
     if (nextIndex < 0 || nextIndex >= slideCount) return;
-    pendingNavigationAnimation.current = { target: "scene", direction };
     const previousImage = images[nextIndex];
     setEntryCaptionPage(direction < 0 && captionSplit && previousImage?.kind === "scene" && previousImage.caption
       ? Math.max(0, splitSceneCaptionPages(previousImage.caption).length - 1) : 0);
@@ -217,204 +213,72 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
     closeButtonRef.current?.focus();
     return () => previous?.focus();
   }, []);
-  /* 자막 넘기기 — 마지막 쪽에서 넘기면 다음 장면, 첫 쪽에서 거슬러가면 이전 장면으로 이어진다 */
-  const captionNext = () => {
-    navigate(1);
-  };
-  const captionPrev = () => {
-    navigate(-1);
-  };
-  /* 장면이 바뀌면 미끄러지던 위치를 푼다 (렌더 중 조정 패턴) */
+  // 장면이 바뀌면 읽을 자막과 확대 상태를 초기화한다.
   const [prevIndex, setPrevIndex] = useState(index);
   if (prevIndex !== index) {
     setPrevIndex(index);
-    setDragX(0);
     setCaptionPage(entryCaptionPage);
     setEntryCaptionPage(0);
-    setCaptionDragX(0);
     setCaptionSelect(false);
     setZoomView({ scale: 1, x: 0, y: 0 });
     setPanning(false);
   }
-  /* 그림을 좌우로 밀면 장면이 넘어간다 — 미는 동안 그림이 손끝을 따라오고, 밀기 뒤에 따라오는 click은 삼킨다 */
-  const swipeStart = useRef<{ x: number; y: number } | null>(null);
+  const captionViewportRef = useRef<HTMLDivElement | null>(null);
+  useLayoutEffect(() => {
+    captionViewportRef.current?.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [index, captionPage, captionSplit, captionSelect]);
+  // 스와이프는 놓는 순간 바로 넘긴다. 그림과 자막을 옆으로 끌지 않는다.
+  const swipeStart = useRef<{ x: number; y: number; onCaption: boolean } | null>(null);
   const swipeConsumed = useRef(false);
-  /* 자막 영역의 좌우 밀기는 자막 쪽 넘기기로 뺀다 — 그림 트랙이 손끝을 따라오지 않는다.
-     대신 자막 글이 손끝을 따라 밀리고 이웃 쪽이 ±100%에서 따라 들어오는, 그림과 같은 미끄러짐을 준다 */
-  const captionSwipeStart = useRef<{ x: number; y: number } | null>(null);
-  const captionSwipeConsumed = useRef(false);
-  const pendingCaptionSlide = useRef<number | null>(null);
-  const captionBoxRef = useRef<HTMLSpanElement | null>(null);
-  /* 번호는 즉시 바꾸고 새 그림·자막만 짧게 이어 보인다. 버튼과 클릭 영역의 위치는 움직이지 않는다. */
-  useEffect(() => {
-    const pending = pendingNavigationAnimation.current;
-    pendingNavigationAnimation.current = null;
-    if (!pending || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const element = pending.target === "caption" ? captionBoxRef.current
-      : viewerBodyRef.current?.querySelector<HTMLElement>("[data-artwork-current] img, [data-scene-ending]:not([aria-hidden])");
-    const animation = element?.animate([
-      { opacity: 0.65, transform: `translateX(${pending.direction * 12}px)` },
-      { opacity: 1, transform: "translateX(0)" },
-    ], { duration: 180, easing: "cubic-bezier(0.22, 1, 0.36, 1)" });
-    return () => animation?.cancel();
-  }, [index, captionPage]);
-  const captionSwipeHandlers = {
-    onPointerDown: (event: React.PointerEvent) => {
-      pendingCaptionSlide.current = null;
-      setCaptionSlideAnim(false);
-      captionSwipeStart.current = { x: event.clientX, y: event.clientY };
-    },
-    onPointerMove: (event: React.PointerEvent) => {
-      const start = captionSwipeStart.current;
-      if (!start) return;
-      const dx = event.clientX - start.x;
-      const dy = event.clientY - start.y;
-      if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) {
-        /* 자막과 장면이 모두 끝이면 고무줄처럼 덜 따라온다 */
-        const blocked = (dx > 0 && captionPage === 0 && index === 0)
-          || (dx < 0 && captionPage === captionPages.length - 1 && index === slideCount - 1);
-        setCaptionDragX(blocked ? dx * 0.35 : dx);
-      } else {
-        setCaptionDragX(0);
-      }
-    },
-    onPointerUp: (event: React.PointerEvent) => {
-      const start = captionSwipeStart.current;
-      captionSwipeStart.current = null;
-      if (!start) return;
-      const dx = event.clientX - start.x;
-      const dy = event.clientY - start.y;
-      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) captionSwipeConsumed.current = true;
-      /* 자막 끝에서는 장면 끝까지 본다 — 자막 마지막 쪽에서 밀면 다음 장면으로 이어진다 */
-      const canMove = dx < 0
-        ? captionPage < captionPages.length - 1 || index < slideCount - 1
-        : captionPage > 0 || index > 0;
-      setCaptionSlideAnim(true);
-      pendingCaptionSlide.current = Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5 && canMove ? (dx < 0 ? 1 : -1) : null;
-      const boxWidth = captionBoxRef.current?.getBoundingClientRect().width ?? 0;
-      setCaptionDragX(pendingCaptionSlide.current ? (dx < 0 ? -boxWidth : boxWidth) : 0);
-    },
-    onPointerCancel: () => { captionSwipeStart.current = null; pendingCaptionSlide.current = null; setCaptionSlideAnim(true); setCaptionDragX(0); },
-    onPointerLeave: (event: React.PointerEvent) => {
-      if (event.pointerType !== "mouse" || !captionSwipeStart.current) return;
-      captionSwipeStart.current = null;
-      pendingCaptionSlide.current = null;
-      setCaptionSlideAnim(true);
-      setCaptionDragX(0);
-    },
-    onClickCapture: (event: React.MouseEvent) => {
-      if (!captionSwipeConsumed.current) return;
-      captionSwipeConsumed.current = false;
-      event.preventDefault();
-      event.stopPropagation();
-    },
-  };
-  /* 밀기 애니메이션이 끝나면 쪽 번호를 넘기고 트랙을 0으로 되돌린다 — 새 쪽이 제자리에 온 상태로 이어진다 */
-  const finishCaptionSlide = (event: React.TransitionEvent) => {
-    if (event.propertyName !== "transform") return;
-    const step = pendingCaptionSlide.current;
-    pendingCaptionSlide.current = null;
-    setCaptionSlideAnim(false);
-    if (step) (step > 0 ? captionNext : captionPrev)();
-    setCaptionDragX(0);
+  const cancelSwipe = () => {
+    swipeStart.current = null;
+    zoomDrag.current = null;
+    setPanning(false);
   };
   const swipeHandlers = {
     onPointerDown: (event: React.PointerEvent) => {
-      /* 밀기는 본문 영역 안에서 눌렀을 때만 시작한다 — 캡션·버튼은 스크롤·클릭 그대로 */
-      if (!(event.target instanceof HTMLElement) || !event.target.closest("[data-artwork-viewer]")) return;
-      /* 자막 위의 좌우 밀기는 자막 쪽 넘기기가 처리한다 — 그림은 움직이지 않는다 */
-      if (event.target.closest("[data-caption-swipe]")) return;
-      // 분할 자막에서는 그림을 밀어도 자막 한 쪽을 넘긴다.
-      if (paginatedCaption && zoomView.scale === 1) { captionSwipeHandlers.onPointerDown(event); return; }
-      /* 진행 중이던 복귀·나가기 애니메이션을 끊고 다시 잡는다 */
-      pendingSlide.current = null;
-      setSlideAnim(false);
-      swipeStart.current = { x: event.clientX, y: event.clientY };
+      if (!(event.target instanceof HTMLElement)) return;
+      if (event.target.closest('button, input, textarea, select, [contenteditable="true"]')) return;
+      const onCaption = Boolean(event.target.closest("[data-caption-swipe]"));
+      if (captionSelect && onCaption) return;
+      swipeStart.current = { x: event.clientX, y: event.clientY, onCaption };
       zoomDrag.current = { x: event.clientX, y: event.clientY, vx: zoomView.x, vy: zoomView.y };
     },
     onPointerMove: (event: React.PointerEvent) => {
-      if (captionSwipeStart.current) {
-        if (!(event.target instanceof HTMLElement) || !event.target.closest("[data-caption-swipe]")) captionSwipeHandlers.onPointerMove(event);
-        return;
-      }
       const start = swipeStart.current;
-      if (!start) return;
+      const origin = zoomDrag.current;
+      if (!start || !origin || start.onCaption || zoomView.scale === 1) return;
       const dx = event.clientX - start.x;
       const dy = event.clientY - start.y;
-      /* 확대된 그림에서는 끌기가 팬이다 — 장면 넘기기는 1배에서만 */
-      if (zoomView.scale > 1) {
-        if (Math.hypot(dx, dy) > 6) {
-          if (!panning) setPanning(true);
-          setZoomView((v) => ({ ...v, x: zoomDrag.current!.vx + dx, y: zoomDrag.current!.vy + dy }));
-        }
-        return;
-      }
-      if (slideCount < 2) return;
-      if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) {
-        /* 양끝 장면에서는 고무줄처럼 덜 따라오게 해 더 못 가는 자리를 알린다 — 끝은 그림이 아니라 엔딩 장면까지 센다 */
-        const blocked = (dx > 0 && index === 0) || (dx < 0 && index === slideCount - 1);
-        setDragX(blocked ? dx * 0.35 : dx);
-      } else {
-        setDragX(0);
+      if (Math.hypot(dx, dy) > 6) {
+        setPanning(true);
+        setZoomView(view => ({ ...view, x: origin.vx + dx, y: origin.vy + dy }));
       }
     },
     onPointerUp: (event: React.PointerEvent) => {
-      if (captionSwipeStart.current) { captionSwipeHandlers.onPointerUp(event); return; }
       const start = swipeStart.current;
-      swipeStart.current = null;
-      zoomDrag.current = null;
+      cancelSwipe();
       if (!start) return;
       const dx = event.clientX - start.x;
       const dy = event.clientY - start.y;
-      /* 팬으로 끝난 눌림은 클릭이 아니다 — 줌 토글이 발동하지 않게 삼킨다 */
-      if (zoomView.scale > 1) {
-        setPanning(false);
+      if (zoomView.scale > 1 && !start.onCaption) {
         if (Math.hypot(dx, dy) > 8) swipeConsumed.current = true;
         return;
       }
-      if (slideCount < 2) {
-        if (Math.hypot(dx, dy) > 8) swipeConsumed.current = true;
-        return;
-      }
-      /* 조금이라도 밀었으면 그 뒤 click은 누르기가 아니다 — 헤더·버튼 클릭을 막는다 */
       if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) swipeConsumed.current = true;
-      /* 밀기 성립 → 그림이 끝까지 나가는 애니메이션을 돌리고, 끝나면 번호를 넘긴다 */
-      const canMove = dx < 0 ? index < slideCount - 1 : index > 0;
-      setSlideAnim(true);
-      pendingSlide.current = Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5 && canMove ? (dx < 0 ? 1 : -1) : null;
-      const boxWidth = viewerBodyRef.current?.getBoundingClientRect().width ?? 0;
-      setDragX(pendingSlide.current ? (dx < 0 ? -boxWidth : boxWidth) : 0);
+      if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5) navigate(dx < 0 ? 1 : -1);
     },
-    onPointerCancel: () => { captionSwipeHandlers.onPointerCancel(); swipeStart.current = null; zoomDrag.current = null; pendingSlide.current = null; setPanning(false); setSlideAnim(true); setDragX(0); },
-    /* 마우스로 누른 채 화면 밖으로 나가면 up이 안 온다 — 터치는 브라우저가 암묵 포착이라 제외 */
+    onPointerCancel: cancelSwipe,
     onPointerLeave: (event: React.PointerEvent) => {
-      if (captionSwipeStart.current) { captionSwipeHandlers.onPointerLeave(event); return; }
-      if (event.pointerType !== "mouse" || !swipeStart.current) return;
-      swipeStart.current = null;
-      zoomDrag.current = null;
-      pendingSlide.current = null;
-      setPanning(false);
-      setSlideAnim(true);
-      setDragX(0);
+      if (event.pointerType === "mouse") cancelSwipe();
     },
-    /* img 네이티브 드래그가 시작되면 pointerup이 안 와서 밀기가 죽는다 — 드래그 자체를 막는다 */
     onDragStart: (event: React.DragEvent) => event.preventDefault(),
     onClickCapture: (event: React.MouseEvent) => {
-      if (captionSwipeConsumed.current) { captionSwipeHandlers.onClickCapture(event); return; }
       if (!swipeConsumed.current) return;
       swipeConsumed.current = false;
       event.preventDefault();
       event.stopPropagation();
     },
-  };
-  /* 나가기 애니메이션이 끝나면 번호를 넘기고 트랙을 0으로 되돌린다 — 새 그림이 제자리에 온 상태로 이어진다 */
-  const finishSlide = (event: React.TransitionEvent) => {
-    if (event.propertyName !== "transform") return;
-    const step = pendingSlide.current;
-    pendingSlide.current = null;
-    setSlideAnim(false);
-    if (step) navigate(step);
-    setDragX(0);
   };
   if (!image) return null;
   const isScene = image.kind === 'scene';
@@ -433,18 +297,13 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
       {artworkImage}
     </button>
   ) : artworkImage;
-  /* 옆자리 그림도 비율을 기억해 둔다. 이미 로드한 그림으로 넘어가도 여백 폭을 바로 알 수 있다. */
-  const slideImage = (item: (typeof images)[number]) => (
-    <Image src={item.url} alt={item.label ?? title} fill unoptimized draggable={false} fetchPriority="low" className="object-contain select-none"
-      onLoad={event => recordImageRatio(item.url, event)} />
-  );
   /* 타이틀아트는 그림 안 오른쪽 스트립에 제목을 얹는다 — 전체화면에서 object-contain은 그림을 중앙에 축소하니
      칠해진 그림 영역과 같은 비율의 상자를 만들고 거기에 제목을 얹는다(cqh = 본문 컨테이너 높이) */
-  /* 그림이 없는 마지막 장면 — 트랙의 한 칸이라 밀면 옆 장면처럼 함께 들어오고 나간다 */
+  // 엔딩 텍스트는 번역 결과를 보존하고 읽을 때만 화면 안에 둔다.
   const endingSlide = ending && (
     <div data-scene-ending data-wheel-pass aria-hidden={!isEnding || undefined}
       className="absolute top-0 h-full w-full overflow-y-auto overscroll-contain"
-      style={{ left: `${(Math.abs(images.length - index) <= 1 ? images.length - index : 2) * 100}%` }}>
+      style={{ left: isEnding ? 0 : "200%" }}>
       <article className="mx-auto flex min-h-full w-full max-w-2xl flex-col justify-center px-6 py-10 text-center sm:px-10">
         <p className="mb-5 text-xs tracking-[0.3em] text-accent">ENDING</p>
         <h3 className="mb-8 break-keep text-2xl font-bold text-text-primary sm:text-3xl md:text-balance">{ending.title}</h3>
@@ -534,30 +393,15 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
           zoomed={zoomView.scale > 1}
           onZoom={isScene && !isEnding ? () => setZoomView(view => view.scale > 1 ? { scale: 1, x: 0, y: 0 } : { scale: 2, x: 0, y: 0 }) : undefined}
           copied={captionCopied} onCopy={copyCaption} />}
-        {/* 본문 — 장면 트랙. 휠은 그림 위=확대·축소, 빈 여백=문장·장면 넘기기. pan-y로 세로 스크롤은 브라우저에 남긴다 */}
+        {/* 현재 그림만 표시한다. 휠 확대와 세로 스크롤은 유지한다. */}
         <div ref={viewerBodyRef} data-artwork-viewer {...swipeHandlers}
           className={`@container relative min-h-0 flex-1 overflow-hidden bg-black ${zoomView.scale > 1 ? (panning ? "cursor-grabbing" : "cursor-grab") : ""}`}
           style={{ touchAction: "pan-y", containerType: "size" }}>
-          <div className="absolute inset-0"
-            /* 밀기 중에는 transition을 끊어 손끝에 붙고, 놓으면 160ms로 마저 간다. 옆자리 그림·엔딩이 ±100%에서 따라 들어온다 */
-            onTransitionEnd={finishSlide}
-            style={{ transform: `translateX(${dragX}px)`, transition: slideAnim ? "transform 160ms ease-out" : "none" }}>
-            {endingSlide}
-            {[-1, 0, 1].map(offset => {
-              const slideIndex = index + offset;
-              const item = images[slideIndex];
-              if (!item) return null;
-              return (
-                <div key={item?.url ?? "ending"} className="absolute top-0 h-full w-full" data-artwork-current={offset === 0 || undefined}
-                  style={offset === 0
-                    ? { left: 0, transform: `translate(${zoomView.x}px, ${zoomView.y}px) scale(${zoomView.scale})`, transformOrigin: "center", transition: panning ? "none" : "transform 150ms" }
-                    : { left: `${offset * 100}%` }}>
-                  {offset === 0 ? artwork :
-                    ((offset > 0 && imageRatio) || ratios[item.url]) ? slideImage(item) : null}
-                </div>
-              );
-            })}
-          </div>
+          {endingSlide}
+          {!isEnding && <div key={image.url} className="absolute inset-0" data-artwork-current
+            style={{ transform: `translate(${zoomView.x}px, ${zoomView.y}px) scale(${zoomView.scale})`, transformOrigin: "center" }}>
+            {artwork}
+          </div>}
           {titleInArtwork && !isScene && !isEnding && imageRatio && (
             <div className="@container pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
               style={{ aspectRatio: imageRatio, width: `min(100%, calc(100cqh * ${imageRatio}))` }}>
@@ -567,15 +411,16 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
           {/* 해설 DOM은 분할·전체·선택 모드와 장면 이동 모두에서 유지한다. */}
           <div data-artwork-caption-frame data-caption-swipe data-wheel-pass
             aria-hidden={!isScene || isEnding || !image.caption || undefined}
-            {...(!captionSelect && captionSplit ? captionSwipeHandlers : {})}
             onClick={(event) => { if (captionSelect && event.target === event.currentTarget) setCaptionSelect(false); }}
             style={{ touchAction: "pan-y", bottom: captionSelect ? 0 : captionBottom,
               left: isScene && !isEnding && image.caption ? 0 : "200%",
               maxHeight: captionSelect ? undefined : `calc(100% - ${captionBottom})` }}
             className={captionSelect
               ? "absolute top-0 z-20 flex w-full flex-col justify-end bg-black/60"
-              : `absolute z-10 w-full overflow-y-auto overscroll-contain px-4 pb-6 pt-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-8 md:pb-10 ${captionBackdropClass}`}>
-            <div className={`mx-auto w-full max-w-3xl ${captionSelect ? "px-4 pb-4 md:px-6" : ""}`}>
+              : "absolute z-10 w-full overflow-y-auto overscroll-contain px-4 pb-6 pt-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-8 md:pb-10"}>
+            <div className={`relative isolate mx-auto w-full max-w-xl ${captionSelect ? "px-4 pb-4 md:px-6" : ""}`}>
+              {!captionSelect && <div aria-hidden data-caption-scrim
+                className="pointer-events-none absolute -inset-x-4 -inset-y-2 -z-10 rounded-3xl bg-black/55 blur-sm" />}
               {captionSelect && <div className="mb-2 flex justify-end gap-1.5">
                 <button type="button" data-caption-copy onClick={copyCaption} aria-label={t("captionCopy")}
                   className="flex items-center gap-1.5 rounded-full border border-white/25 bg-black/75 px-3 py-1.5 text-xs font-medium text-white outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
@@ -587,19 +432,20 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
                 </button>
               </div>}
               {!captionSelect && captionSplit && captionPages.length > 1 && (
-                <p data-scene-caption-counter translate="no" className="mb-1 text-center text-xs tabular-nums text-white/50">{captionPage + 1} / {captionPages.length}</p>)}
-              <div data-artwork-caption role={captionSelect ? undefined : "button"}
+                <p data-scene-caption-counter translate="no" className="mb-2 text-center text-xs tabular-nums text-white">
+                  <span className="rounded-control bg-black/60 px-1.5 py-0.5">{captionPage + 1} / {captionPages.length}</span>
+                </p>)}
+              <div ref={captionViewportRef} data-artwork-caption role={captionSelect ? undefined : "button"}
                 tabIndex={!captionSelect && isScene && !isEnding && image.caption ? 0 : -1}
                 onClick={() => { if (!captionSelect) setCaptionSelect(true); }}
                 onKeyDown={(event) => { if (!captionSelect && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); setCaptionSelect(true); } }}
                 aria-live={captionSelect ? undefined : "polite"} title={t("captionSelect")}
-                className={`relative w-full min-w-0 whitespace-pre-line break-keep text-center leading-relaxed text-white outline-none [overflow-wrap:anywhere] md:text-balance ${captionSizeClass} ${captionSelect
+                style={captionSelect ? undefined : CAPTION_TEXT_STYLE}
+                className={`relative w-full min-w-0 whitespace-pre-line break-keep text-balance text-center leading-normal text-white outline-none [overflow-wrap:anywhere] ${captionSizeClass} ${captionSelect
                   ? "max-h-[60dvh] cursor-text select-text overflow-x-hidden overflow-y-auto overscroll-contain rounded-xl border border-white/15 bg-black/80 p-4"
-                  : captionSplit ? "max-h-[38dvh] cursor-pointer overflow-x-hidden overflow-y-auto overscroll-contain py-1 font-medium hover:text-accent [scrollbar-width:none] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent [&::-webkit-scrollbar]:hidden"
-                  : "max-h-[45dvh] cursor-pointer overflow-x-hidden overflow-y-auto overscroll-contain hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"}`}>
-                <FactionStoryCaption images={images} index={index} page={captionPage} split={captionSplit} selecting={captionSelect}
-                  boxRef={captionBoxRef} onTransitionEnd={finishCaptionSlide}
-                  style={{ transform: `translateX(${captionSelect ? 0 : captionDragX}px)`, transition: captionSlideAnim ? "transform 160ms ease-out" : "none" }} />
+                  : captionSplit ? "max-h-[38dvh] cursor-pointer select-none overflow-x-hidden overflow-y-auto overscroll-contain px-2 py-2 font-semibold [scrollbar-width:none] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent [&::-webkit-scrollbar]:hidden"
+                  : "max-h-[45dvh] cursor-pointer select-none overflow-x-hidden overflow-y-auto overscroll-contain px-2 py-2 font-semibold focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"}`}>
+                <FactionStoryCaption images={images} index={index} page={captionPage} split={captionSplit} selecting={captionSelect} />
               </div>
             </div>
           </div>

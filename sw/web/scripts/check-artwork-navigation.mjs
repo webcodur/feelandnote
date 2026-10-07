@@ -17,7 +17,7 @@ const { outputFiles } = await build({ absWorkingDir: root, stdin: { resolveDir: 
   const images = [
     {url:'/cover.svg',label:'Cover'},
     {url:'/one.svg',label:'One',kind:'scene',caption:'첫 문장. 두 번째 문장. 세 번째 문장.'},
-    {url:'/two.svg',label:'Two',kind:'scene',caption:'다음 문장. 마지막 문장.',ending:{title:'Ending',text:'Afterward'}},
+    {url:'/two.svg',label:'Two',kind:'scene',caption:'다음 문장. '+ '긴 자막이 줄을 바꾸며 이어진다 '.repeat(80)+'마지막 문장.',ending:{title:'Ending',text:'Afterward'}},
   ];
   function App() {
     const [open,setOpen] = useState(true);
@@ -70,6 +70,67 @@ try {
       try {await run();console.log('PASS '+name+' '+width);}
       catch(error) {failures.push(name+' '+width+': '+error.message);console.error('FAIL '+failures.at(-1));}
     };
+    await check('adjacent caption pages do not leak into the viewport padding',async()=>{
+      await page.keyboard.press('ArrowRight');await settle(page);
+      await page.waitForFunction(()=>!document.querySelector('[data-artwork-caption]').getAnimations({subtree:true}).some(animation=>animation.playState==='running'));
+      const exposed=await page.$eval('[data-artwork-caption]',viewport=>{
+        const frame=viewport.getBoundingClientRect();
+        return [...viewport.querySelectorAll('[data-story-caption]:not([aria-hidden]) [data-story-page][aria-hidden]')].map(element=>{
+          const rect=element.getBoundingClientRect();
+          return {page:element.dataset.storyPage,width:Math.max(0,Math.min(rect.right,frame.right)-Math.max(rect.left,frame.left))};
+        }).filter(page=>page.width>0.5);
+      });
+      assert.deepEqual(exposed,[]);
+    });
+    await check('navigation changes captions immediately without animation or adjacent images',async()=>{
+      await page.keyboard.press('ArrowRight');await settle(page);
+      const display=await page.evaluate(()=>({
+        images:document.querySelectorAll('[data-artwork-viewer] img').length,
+        animations:document.querySelector('[data-artwork-caption]').getAnimations({subtree:true}).length,
+        transform:getComputedStyle(document.querySelector('[data-artwork-caption] > span')).transform,
+      }));
+      assert.deepEqual(display,{images:1,animations:0,transform:'none'});
+      assert.deepEqual(await state(),{scene:'2 / 4',caption:'2 / 3'});
+    });
+    await check('hidden long captions do not add scroll space to the current short caption',async()=>{
+      const bounds=await page.$eval('[data-artwork-caption]',element=>({height:element.clientHeight,scroll:element.scrollHeight}));
+      assert.ok(bounds.scroll<=bounds.height+1,JSON.stringify(bounds));
+    });
+    await check('a scrolled long caption returns to the first line of the next short caption',async()=>{
+      for(let i=0;i<4;i++) {await page.keyboard.press('ArrowRight');await settle(page);}
+      assert.deepEqual(await state(),{scene:'3 / 4',caption:'2 / 2'});
+      const scrolled=await page.$eval('[data-artwork-caption]',element=>{
+        element.scrollTop=element.scrollHeight;
+        return element.scrollTop;
+      });
+      assert.ok(scrolled>0,'long active text must remain scrollable');
+      await page.keyboard.press('ArrowLeft');await settle(page);
+      const bounds=await page.$eval('[data-artwork-caption]',element=>{
+        const active=element.querySelector('[data-story-caption]:not([aria-hidden]) [data-story-page]:not([aria-hidden])');
+        const text=active.getBoundingClientRect(),frame=element.getBoundingClientRect();
+        return {top:element.scrollTop,left:element.scrollLeft,visible:text.top>=frame.top && text.bottom<=frame.bottom};
+      });
+      assert.deepEqual(bounds,{top:0,left:0,visible:true});
+      assert.deepEqual(await state(),{scene:'3 / 4',caption:'1 / 2'});
+    });
+    await check('mouse caption swipe does not select or scroll hidden story text',async()=>{
+      if(width<768) return;
+      const start=await page.evaluate(()=>{
+        const active=document.querySelector('[data-story-caption]:not([aria-hidden]) [data-story-page]:not([aria-hidden])');
+        const range=document.createRange();range.selectNodeContents(active);
+        const text=range.getBoundingClientRect();
+        const frame=document.querySelector('[data-artwork-caption]').getBoundingClientRect();
+        return {x:text.left+3,y:text.top+text.height/2,end:frame.right+60};
+      });
+      await page.mouse.move(start.x,start.y);await page.mouse.down();
+      await page.mouse.move(start.end,start.y,{steps:20});
+      const selection=await page.evaluate(()=>({
+        selected:window.getSelection()?.toString() ?? '',
+        scroll:document.querySelector('[data-artwork-caption]').scrollLeft,
+      }));
+      await page.mouse.up();
+      assert.deepEqual(selection,{selected:'',scroll:0});
+    });
     await check('all tools are visible and reachable on screen',async()=>{
       const blocked=await page.evaluate(()=>{
         const selectors=['[data-scene-help]','[data-scene-captions]','[data-scene-caption-size]','[data-scene-caption-height]','[data-artwork-dismiss]','[data-scene-slider]'];
@@ -110,8 +171,16 @@ try {
         for(const [type,x] of [['pointerdown',300],['pointermove',200],['pointerup',200]])
           img.dispatchEvent(new PointerEvent(type,{bubbles:true,pointerType:'touch',clientX:x,clientY:150}));
       }); await settle(page);
-      await page.$eval('[data-artwork-current]',element=>element.parentElement.dispatchEvent(new TransitionEvent('transitionend',{bubbles:true,propertyName:'transform'})));
-      await page.$eval('[data-artwork-caption] > span',element=>element.dispatchEvent(new TransitionEvent('transitionend',{bubbles:true,propertyName:'transform'})));
+      assert.deepEqual(await state(),{scene:'2 / 4',caption:'2 / 3'});
+    });
+    await check('caption swipe stays still while held and changes immediately on release',async()=>{
+      await page.$eval('[data-artwork-caption]',element=>{
+        for(const [type,x] of [['pointerdown',250],['pointermove',150]])
+          element.dispatchEvent(new PointerEvent(type,{bubbles:true,pointerType:'touch',clientX:x,clientY:400}));
+      });await settle(page);
+      assert.deepEqual(await state(),{scene:'2 / 4',caption:'1 / 3'});
+      assert.equal(await page.$eval('[data-artwork-caption] > span',element=>getComputedStyle(element).transform),'none');
+      await page.$eval('[data-artwork-caption]',element=>element.dispatchEvent(new PointerEvent('pointerup',{bubbles:true,pointerType:'touch',clientX:150,clientY:400})));
       await settle(page);
       assert.deepEqual(await state(),{scene:'2 / 4',caption:'2 / 3'});
     });
