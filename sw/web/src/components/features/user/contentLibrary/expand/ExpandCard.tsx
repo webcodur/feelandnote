@@ -50,6 +50,8 @@ interface ExpandCardProps {
   /** 한 작품씩 읽는 홈 책장에서는 소개와 감상을 접지 않는다. */
   expanded?: boolean;
   reviewAside?: ReactNode;
+  /** 홈에서 표지를 중앙 주인공으로 이미 표시한 경우 소개·감상만 이어 붙인다. */
+  showMedia?: boolean;
 }
 
 function ExpandCard({
@@ -65,6 +67,7 @@ function ExpandCard({
   ownerNickname,
   expanded = false,
   reviewAside,
+  showMedia = true,
 }: ExpandCardProps) {
   const locale = useLocale();
   // 감상문 관련 문구(출처·스포일러·원문 안내)는 목록 카드와 같은 묶음을 쓴다
@@ -99,9 +102,9 @@ function ExpandCard({
         {/* 윗칸 — 표지와 작품 소개. 아래 감상배경 칸과 가로선 하나로 이어진다
             첫 행은 표지 높이에 고정하고 나머지는 둘째 행이 먹는다.
             소개가 두 행에 걸려도 첫 행이 늘어나지 않아 버튼이 표지 밑에 붙는다 */}
-        <div className="flow-root p-3 [--intro-media-height:198px] sm:grid sm:grid-cols-[12rem_minmax(0,1fr)] sm:gap-4 sm:p-4 md:grid-rows-[min-content_1fr] md:gap-x-5 md:gap-y-2 md:p-5">
+        <div className={showMedia ? "flow-root p-3 [--intro-media-height:198px] sm:grid sm:grid-cols-[12rem_minmax(0,1fr)] sm:gap-4 sm:p-4 md:grid-rows-[min-content_1fr] md:gap-x-5 md:gap-y-2 md:p-5" : "p-4 md:p-5"}>
           {/* 모바일은 본문이 이 묶음을 감싸 흐른다. 본문의 fade mask보다 위에 두어 상세 이동·구매 클릭을 지킨다. */}
-          <div data-testid="expand-media" className="relative z-10 float-start me-3 w-24 sm:static sm:z-auto sm:contents">
+          {showMedia && <div data-testid="expand-media" className="relative z-10 float-start me-3 w-24 sm:static sm:z-auto sm:contents">
           <div data-testid="expand-cover" className="relative w-full shrink-0">
             <ContentCoverLink
               href={`/content/${item.content_id}?category=${category}`}
@@ -120,12 +123,12 @@ function ExpandCard({
           <ContentPurchaseAction contentId={item.content_id} type={item.content.type} placement="library-expand"
             title={title} creator={creator} thumbnail={coverUrl} links={purchaseLinks} enabled={hasBookPurchase || isActive}
             className="mt-1 w-full sm:col-span-2 sm:row-start-2 sm:mt-0 md:col-span-1 md:col-start-1 md:self-start" />
-          </div>
+          </div>}
 
           {/* 상한 안의 소개는 통째로 늘어나고, 상한을 넘는 장문만 제 높이를 내지 않고(contain-size)
               표지 열이 정한 높이만큼 채워 접힌다 — 버튼이 표지 바로 밑에 붙기 위해서다(ContentIntro).
               모바일은 float를 감싸도록 일반 블록 흐름을 유지한다 */}
-          <div className={`min-w-0 sm:col-start-2 sm:row-start-1 ${introFitsInline ? "" : "sm:contain-size"} md:row-span-2 md:mx-auto md:w-full md:max-w-[var(--reading-preview-max-width,100%)]`}>
+          <div className={showMedia ? `min-w-0 sm:col-start-2 sm:row-start-1 ${introFitsInline ? "" : "sm:contain-size"} md:row-span-2 md:mx-auto md:w-full md:max-w-[var(--reading-preview-max-width,100%)]` : "mx-auto w-full min-w-0 max-w-[var(--reading-preview-max-width,100%)]"}>
             {hasBriefError ? (
               <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
                 <p>{tExpand("loadFailed")}</p>
