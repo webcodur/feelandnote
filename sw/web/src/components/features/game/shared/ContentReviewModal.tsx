@@ -5,12 +5,9 @@
 */
 "use client";
 
-import { Link } from "@/i18n/navigation";
-import { ArrowUpRight } from "lucide-react";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import FormattedText from "@/components/ui/FormattedText";
 import SourceLink from "@/components/ui/SourceLink";
-import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 import {
   getPresetByKeyword,
@@ -35,55 +32,23 @@ export interface ContentReviewModalProps {
 }
 
 export default function ContentReviewModal({
-  contentType,
+  title,
   isOpen,
   onClose,
-  title,
-  titleBadge,
-  creator,
   review,
   reviewPresets,
   isSpoiler,
   sourceUrl,
   ownerNickname,
-  contentDetailUrl,
   zIndex,
 }: ContentReviewModalProps) {
   const t = useTranslations("content.reviewModal");
 
+  const reviewTitle = ownerNickname ? `${title} — ${ownerNickname}` : title || t("review");
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="md" zIndex={zIndex}>
+    <Modal isOpen={isOpen} onClose={onClose} title={reviewTitle} titleClassName="font-semibold break-words text-text-primary" stickyHeader size="md" zIndex={zIndex}>
       <ModalBody>
-        <div className="mb-4 pb-3 border-b border-border/30 text-center">
-          <h3 className="text-base font-semibold text-text-primary line-clamp-2">
-            {contentDetailUrl ? (
-              <Link href={contentDetailUrl} className="hover:text-accent">
-                <NoEditionBadge contentType={contentType} badge={titleBadge} />
-                {title}
-                <ArrowUpRight size={14} className="inline-block ms-1 -translate-y-0.5" aria-hidden />
-              </Link>
-            ) : (
-              <>
-                <NoEditionBadge contentType={contentType} badge={titleBadge} />
-                {title}
-              </>
-            )}
-          </h3>
-          {creator && (
-            <p className="text-xs text-text-secondary line-clamp-1 mt-1">
-              {creator.replace(/\^/g, ", ")}
-            </p>
-          )}
-        </div>
-
-        <div className="text-center mb-3">
-          <h4 className="text-xs font-medium text-text-secondary">
-            {ownerNickname
-              ? t("ownerReview", { name: ownerNickname })
-              : t("review")}
-          </h4>
-        </div>
-
         {review && !isSpoiler ? (
           <div className="custom-scrollbar pr-2 mb-2">
             {reviewPresets && reviewPresets.length > 0 && (

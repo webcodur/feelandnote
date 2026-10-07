@@ -150,6 +150,7 @@ function ExpandCard({
               </span>
             )}
 
+          {item.review_approved_at && !isRecordLoading && !hasRecordError && <p data-reviewed-review className="mb-3 text-xs font-medium text-accent">{t("reviewModal.edited")}</p>}
           {hasRecordError ? (
             <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
               <p>{tExpand("loadFailed")}</p>

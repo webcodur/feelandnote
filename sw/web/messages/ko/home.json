@@ -214,7 +214,7 @@
         "dailyInfoOpen": "오늘의 추천 트렌드 안내",
         "dailyInfoTitle": "오늘의 추천과 검색 트렌드",
         "dailyInfoBody": "오늘의 추천은 날짜마다 달라지는 추첨으로 인물을 고릅니다. {country} Google Trends에서 최근 {days}일 안에 시작했고 아직 종료되지 않은 급상승 검색어와 이름이 일치한 인물은 추첨에서 추가 기회를 얻습니다.",
-        "homeEmpty": "현재 이 국가에서 표시할 수 있는 급상승 인물이 없습니다."
+        "homeEmpty": "현재 표시할 수 있는 검색 급증 인물이 없습니다."
       },
       "affiliationsTitle": "{name}의 소속"
     },
@@ -232,7 +232,9 @@
       "freeBoard": "자유게시판",
       "noticeAll": "공지사항 전체 보기",
       "featuredReview": "주목할 만한 감상",
-      "featuredReviewSub": "한 사람의 감상으로 만나는 새로운 작품"
+      "featuredReviewSub": "한 사람의 감상으로 만나는 새로운 작품",
+      "previousNotice": "이전 공지사항",
+      "nextNotice": "다음 공지사항"
     },
     "featuredReview": {
       "cardLabel": "{name}의 《{title}》 감상배경",

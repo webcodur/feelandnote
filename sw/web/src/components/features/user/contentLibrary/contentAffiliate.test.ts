@@ -40,6 +40,14 @@ test("accepts only a valid web URL from a book's Coupang affiliate entry", () =>
   }), null);
 });
 
+test("edited accounts lead the default shelf while explicit recent and title orders remain intact", () => {
+  const edited = { ...item("z-edited", "2020-01-01"), review_approved_at: "2026-10-07T00:00:00Z" };
+  const recent = item("a-new", "2026-01-01", null, "978-89-6626-095-9");
+  assert.deepEqual(filterAndSortContents([recent, edited], "reviewed", true).map(x => x.id), ["z-edited", "a-new"]);
+  assert.deepEqual(filterAndSortContents([recent, edited], "recent").map(x => x.id), ["a-new", "z-edited"]);
+  assert.deepEqual(filterAndSortContents([recent, edited], "title").map(x => x.id), ["a-new", "z-edited"]);
+});
+
 test("purchasable-first sorting puts YES24 books (Korean ISBN or Coupang backup) ahead, stable inside the requested sort", () => {
   const olderLinked = item("older-linked", "2025-01-01", [
     { platform: "coupang", url: "https://link.coupang.com/a/older" },

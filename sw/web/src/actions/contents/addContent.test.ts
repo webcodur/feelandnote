@@ -4,6 +4,8 @@ import test, { before } from 'node:test'
 import ts from 'typescript'
 import { createClient } from '@feelandnote/db'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
+import { registeredSeriesMatches } from '@feelandnote/content-search/book-series'
+import { getOpenLibraryBookMetadata } from '@feelandnote/content-search/openlibrary'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 
 let provider: typeof import('@feelandnote/content-search/external-book-input')
@@ -67,9 +69,11 @@ function fixture() {
     '@/lib/errors': { failure: (error: string, message = error) => ({ success: false, error, message }),
       success: (data: unknown) => ({ success: true, data }), handleDatabaseError: () => ({ success: false, error: 'DB_ERROR' }) },
     '@/lib/utils/content-locale': { sourceToLocale: () => 'ko', sourceToJsonb: (source: string) => ({ primary: source }) },
+    '@/lib/books/bookSearch.server': { getEnglishBookMetadataCached: getOpenLibraryBookMetadata },
     '@feelandnote/content-search/tmdb': { getVideoEnLocale: async () => null },
     '@feelandnote/shared/lib/book-metadata': { withoutBookDescription },
     '@feelandnote/content-search/book-isbn': { toIsbn13 },
+    '@feelandnote/content-search/book-series': { registeredSeriesMatches },
     '@feelandnote/content-search/external-book-input': provider,
     '@feelandnote/content-search/book-introduction': { fetchBookIntroduction: async () => {
       state.introduction++
@@ -90,10 +94,17 @@ test('new BOOK uses one fresh official metadata set and never client publisher/c
   assert.equal((await f.add(input())).success, true)
   assert.equal(fetch.mock.callCount(), 1)
   const work = f.tables.contents[0], locale = f.tables.content_locales[0]
-  assert.deepEqual(work.metadata, { publisher: '문학동네', publishDate: '', isbn, genre: '', link: 'https://search.daum.net/search?w=bookpage&bookId=123', salesStatus: '정상판매' })
+  assert.deepEqual(work.metadata, { publisher: '문학동네', publishDate: '', isbn, genre: '', link: 'https://search.daum.net/search?w=bookpage&bookId=123', salesStatus: '정상판매', translators: [] })
   assert.equal(locale.publisher, '문학동네'); assert.equal(locale.thumbnail_url, null)
   assert.equal(locale.description, 'KAKAO'); assert.equal(locale.creator, '김영하')
   assert.equal(f.tables.member_contents[0].content_id, work.id)
+})
+test('a verified series volume cannot create another work from the ordinary member import', async t=>{
+ t.mock.method(globalThis,'fetch',async()=>kakao({title:'여행의 이유 2'}))
+ const f=fixture()
+ f.tables.contents.push({id:'series-work',type:'BOOK',metadata:{figureBook:{series:{title:'여행의 이유',creator:'김영하',locale:'ko',sourceUrl:'https://publisher.example/series'}}}})
+ const result=await f.add({...input(),title:'여행의 이유 2'})
+ assert.equal(result.error,'CONFLICT');assert.equal(f.state.writes.length,0)
 })
 
 test('full original author, subtitle, collection scope and volume cannot be substituted by client metadata', async t => {

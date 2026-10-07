@@ -64,9 +64,12 @@ export interface KakaoBookIsbnLookup {
 }
 
 // "8954655971 9788954655972" → 13자리 우선
-function pickIsbn(raw: string): string {
+export function pickKakaoBookIsbn(raw: string): string {
   const candidates = (raw || '').split(/\s+/).filter(Boolean)
   const isbn13 = candidates.find(c => ISBN13_PATTERN.test(c) && toIsbn13(c))
+  // 국내 공급처의 내부 판매 코드와 함께 온 10자리 값은 979 ISBN의 앞자리
+  // 누락일 수 있다. 이를 978 ISBN으로 만들지 않고 공식 ISBN 조회를 요구한다.
+  if (!isbn13 && candidates.some(c => /^\d{13}$/u.test(c))) return ''
   return isbn13 || candidates.map(toIsbn13).find(Boolean) || ''
 }
 
@@ -150,7 +153,7 @@ export function normalizeKakaoContents(contents: string): string {
 }
 
 function toResult(book: KakaoBook): KakaoBookSearchResult {
-  const isbn = pickIsbn(book.isbn)
+  const isbn = pickKakaoBookIsbn(book.isbn)
   const creator = normalizeKakaoBookCreator(book.authors, book.translators)
 
   return {

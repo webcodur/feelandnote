@@ -69,6 +69,6 @@ export const HOME_SECTIONS: readonly HubSectionConfig[] = [
   { key: "todayFigure", moreHref: "/explore/today",     titleKey: "todayFigure", subtitleKey: "todayFigureSub", moreKey: "viewAll" },
   { key: "featuredReview", titleKey: "featuredReview", subtitleKey: "featuredReviewSub" },
   { key: "figureLinks", moreHref: "/explore?sortBy=country_trending", titleKey: "figureLinks", subtitleKey: "figureLinksSub", moreKey: "viewAll", navTitleKey: "figureLinksNav" },
-  { key: "freeBoard",   moreHref: "/agora/board/free",  titleKey: "freeBoard", moreKey: "viewAll" },
+  // { key: "freeBoard",   moreHref: "/agora/board/free",  titleKey: "freeBoard", moreKey: "viewAll" },
 ];
 // #endregion

@@ -8,7 +8,7 @@ import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import { hasKoreanBookPurchase } from "./contentAffiliate";
 
 // #region 타입
-export type SortOption = "recent" | "title" | "rating_desc" | "rating_asc" | "creator";
+export type SortOption = "reviewed" | "recent" | "title" | "rating_desc" | "rating_asc" | "creator";
 export type ReviewFilter = "all" | "has_review" | "no_review";
 /** list=목록 · expand=목록에서 고른 한 건을 넓게 보기 */
 export type ViewMode = "list" | "expand";
@@ -62,6 +62,7 @@ export function mapPublicToUserContent(
     is_pinned: false,
     pinned_at: null,
     source_url: item.source_url,
+    review_approved_at: item.review_approved_at ?? null,
     content: {
       id: item.content.id,
       type: item.content.type,
@@ -94,6 +95,7 @@ export function filterAndSortContents(
   const result = [...contents];
 
   const sortFns: Record<SortOption, (a: UserContentWithContent, b: UserContentWithContent) => number> = {
+    reviewed: (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
     recent: (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
     title: (a, b) => (a.content?.title ?? "").localeCompare(b.content?.title ?? ""),
     rating_desc: (a, b) => (b.rating ?? 0) - (a.rating ?? 0),
@@ -102,6 +104,10 @@ export function filterAndSortContents(
   };
 
   result.sort((a, b) => {
+    if (sortOption === "reviewed") {
+      const approvalOrder = Number(!!b.review_approved_at) - Number(!!a.review_approved_at);
+      if (approvalOrder !== 0) return approvalOrder;
+    }
     if (purchasableFirst) {
       const purchaseOrder = Number(hasKoreanBookPurchase(b)) - Number(hasKoreanBookPurchase(a));
       if (purchaseOrder !== 0) return purchaseOrder;

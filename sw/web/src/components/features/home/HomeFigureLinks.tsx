@@ -3,7 +3,7 @@
   기능: 홈 인물 명부 본문 — 검색이 급증한 인물 링크 격자
   책임: 구획 제목·부제·더보기는 홈의 HubSection이 쥔다. 여기는 격자만 그린다.
         국가는 탐색에서 직접 고른 국가, 방문자 국가, KR 순으로 정한다.
-        명부 자격을 통과한 급상승 인물이 없으면 다른 인물로 대체하지 않고 안내한다.
+        표시 인원이 부족하면 미국 급상승 인물을 뒤에 추가하고 중복을 제외한다.
 */
 
 import { cookies, headers } from "next/headers";
@@ -27,20 +27,34 @@ const MIN_CONTENT_COUNT = 1;
 export default async function HomeFigureLinks() {
   const [requestCookies, requestHeaders, t] = await Promise.all([cookies(), headers(), getTranslations("home.ui.trends")]);
   const country = resolveTrendCountry(undefined, requestCookies.get(TREND_COUNTRY_COOKIE)?.value, requestHeaders.get("CF-IPCountry"));
-  // 조회만 try로 감싼다 — 성공 경로의 JSX 구성은 밖에서 한다(react-hooks/error-boundaries)
-  let figures: FigureLinkItem[] = [];
-  try {
-    const trending = await getTrendingCelebLinks(country, HOME_FIGURE_LINK_COUNT, MIN_CONTENT_COUNT);
-    figures = trending.map(({ trend, ...row }) => ({
-      ...row,
-      trendMatch: trend,
-    }));
-  } catch (error) {
-    console.error("[home] 인물 명부 조회 실패:", error);
+  const loadFigures = async (trendCountry: string): Promise<FigureLinkItem[]> => {
+    try {
+      const trending = await getTrendingCelebLinks(trendCountry, HOME_FIGURE_LINK_COUNT, MIN_CONTENT_COUNT);
+      return trending.filter((row) => row.slug).map(({ trend, ...row }) => ({
+        ...row,
+        trendMatch: trend,
+      }));
+    } catch (error) {
+      console.error("[home] 인물 명부 조회 실패:", trendCountry, error);
+      return [];
+    }
+  };
+
+  const figures = await loadFigures(country);
+  if (country !== "US" && figures.length < HOME_FIGURE_LINK_COUNT) {
+    // 중복 인물이 앞 순위에 있어도 빈자리를 채울 수 있게 전체 표시 수만큼 읽는다.
+    const usFigures = await loadFigures("US");
+    const seen = new Set(figures.map((figure) => figure.id));
+    for (const figure of usFigures) {
+      if (figures.length >= HOME_FIGURE_LINK_COUNT) break;
+      if (seen.has(figure.id)) continue;
+      seen.add(figure.id);
+      figures.push(figure);
+    }
   }
 
   if (figures.length === 0) {
     return <p className="py-6 text-center text-sm text-text-secondary">{t("homeEmpty")}</p>;
   }
-  return <FigureLinkGrid figures={figures} cols={HOME_FIGURE_LINK_COLS} />;
+  return <FigureLinkGrid figures={figures} cols={HOME_FIGURE_LINK_COLS} nationalityCountry={country} />;
 }

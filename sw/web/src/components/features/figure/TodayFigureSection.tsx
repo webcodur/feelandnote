@@ -206,6 +206,7 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
                                 sourceUrl={content.source_url ?? undefined}
                                 ownerNickname={displayName}
                                 reviewLayout="stacked"
+                                showHeader={false}
                                 recommendable={true}
                                 userContentId={content.user_content_id}
                                 titleBadge={content.title_badge}

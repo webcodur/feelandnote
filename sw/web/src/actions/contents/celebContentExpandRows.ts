@@ -36,6 +36,7 @@ export function mapCelebIndexRow(row: RawRow, locale: string): UserContentPublic
     visibility: base.visibility,
     created_at: base.created_at,
     source_url: null,
+    review_approved_at: row.review_approved_at as string | null ?? null,
     content: {
       id: base.content.id as string,
       type: base.content.type as ContentType,

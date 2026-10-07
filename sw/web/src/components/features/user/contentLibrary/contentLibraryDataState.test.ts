@@ -56,7 +56,7 @@ const baseOptions: ContentLibraryDataOptions = {
   ownerKind: "celeb",
   pageSize: 4,
   reviewFilter: "all",
-  sortOption: "recent",
+  sortOption: "reviewed",
   targetUserId: "celeb-1",
   viewMode: "list",
 };
@@ -115,7 +115,14 @@ test("expand requests one full page and celeb requests force recent sorting", ()
     search: undefined,
     hasReview: true,
     sortBy: "recent",
+    approvedFirst: false,
   });
+});
+
+test("reviewed order is requested only for the default celebrity shelf", () => {
+  assert.equal(createContentRequest({ ...baseOptions, viewMode: "expand" }).approvedFirst, true);
+  assert.equal(createContentRequest({ ...baseOptions, sortOption: "recent" }).approvedFirst, false);
+  assert.equal(createContentRequest({ ...baseOptions, sortOption: "title" }).approvedFirst, false);
 });
 
 test("only the untouched list query can reuse the initial seed", () => {

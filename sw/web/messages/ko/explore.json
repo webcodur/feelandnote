@@ -654,7 +654,8 @@
       "title": "이름순",
       "ratingHigh": "별점 높은순",
       "ratingLow": "별점 낮은순",
-      "creator": "창작자순"
+      "creator": "창작자순",
+      "reviewed": "편집한 감상 먼저"
     },
     "review": {
       "all": "전체",

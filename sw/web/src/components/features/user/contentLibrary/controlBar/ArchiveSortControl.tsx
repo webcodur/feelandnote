@@ -34,7 +34,7 @@ export default function ArchiveSortControl({
   const t = useTranslations("archiveSearch");
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const availableSortOptions = allowRatingSort
-    ? SORT_OPTIONS
+    ? SORT_OPTIONS.filter(({ value }) => value !== "reviewed")
     : SORT_OPTIONS.filter(({ value }) => value !== "rating_desc" && value !== "rating_asc");
   const sortOptions: FilterOption[] = availableSortOptions.map(({ value, key }) => ({
     value,
@@ -43,7 +43,7 @@ export default function ArchiveSortControl({
   const sortLabel = t(
     `sort.${availableSortOptions.find((option) => option.value === sortOption)?.key ?? "recent"}`,
   );
-  const isActive = sortOption !== "recent";
+  const isActive = sortOption !== (allowRatingSort ? "recent" : "reviewed");
   const showDesktop = placement !== "mobile";
   const showMobile = placement !== "desktop";
   const responsiveDesktopClass = placement === "responsive" ? "hidden md:flex" : "flex";

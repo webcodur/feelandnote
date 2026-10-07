@@ -4,7 +4,7 @@
 
 사용자끼리 글을 쓰고 서로를 팔로우하는 커뮤니티 영역이다.
 
-`navigation.tsx`의 `NAV_ITEMS`에 광장(`/agora`)이 있어 헤더·바텀탭에 노출된다. 풋터는 `FOOTER_MISC_LINKS`(소셜·공지사항·피드백)로도 잇는다.
+광장은 주요 메뉴에 두지 않는다. 공지·자유게시판은 홈과 푸터, 친구·팔로우는 프로필 메뉴, 문의·의견 보내기는 프로필 메뉴와 푸터에서 연다. 기존 주소와 게시판 데이터는 유지한다.
 
 ## 색인 제외
 
@@ -34,18 +34,16 @@
 
 ## 레이아웃·탭
 
-`agora/layout.tsx`가 배너(`PageBanner` + `HegemonyMapBanner compact`)와 `PageContainer`, 그리고 공통 탭(`AgoraTabs`)을 씌운다. 게시판 3종은 `board/layout.tsx`가 본문 폭을 `max-w-3xl`로 한 번 더 좁힌다.
+`agora/layout.tsx`는 `PageContainer`와 `AgoraTabs`를 씌운다. `AgoraTabs`는 현재 주소의 제목을 표시하고 공지·자유게시판에서만 두 게시판의 전환 탭을 표시한다. 친구·팔로우와 문의·의견 보내기에는 게시판 전환 탭을 두지 않는다. 게시판 본문 폭은 `board/layout.tsx`가 쥔다.
 
-탭 구성은 `sw/web/src/constants/agora.tsx`의 `AGORA_ITEMS`가 단일원천이다.
+화면 목록은 `sw/web/src/constants/agora.tsx`의 `AGORA_ITEMS`, 게시판 전환 탭은 여기서 추린 `AGORA_BOARD_ITEMS`가 단일원천이다.
 
 | value | href |
 |---|---|
 | `notice` | `/agora/board/notice` |
 | `free` | `/agora/board/free` |
-| `social` | `/agora/social` |
-| `feedback` | `/agora/board/feedback` |
 
-순서는 공지사항 → 자유게시판 → 소셜 → 피드백이고 첫 항목이 광장 첫 화면이다(26.09.28 유저 지시). `AgoraTabs`는 현재 주소가 `item.href`로 시작하는 항목을 활성 탭으로 잡고, 어디에도 맞지 않으면 첫 항목으로 떨어뜨린다. 라벨은 `agora.items.*` 네임스페이스에서 읽되 하이픈을 캐멀케이스로 바꿔 키를 만든다.
+게시판 탭 순서는 공지사항 → 자유게시판이며 첫 항목이 `/agora`의 이동 대상이다. 제목과 라벨은 `agora.items.*`에서 읽는다.
 
 ## 게시판 3종
 

@@ -214,7 +214,7 @@
         "dailyInfoOpen": "About trends in Today's Picks",
         "dailyInfoTitle": "Today's Picks and search trends",
         "dailyInfoBody": "Today's picks use a daily seeded draw. People whose names match Google Trends searches in {country} that started in the past {days} days and are still active get an additional chance in the draw.",
-        "homeEmpty": "There are currently no trending figures to show for this country."
+        "homeEmpty": "There are currently no trending figures to show."
       },
       "affiliationsTitle": "{name}'s Affiliations"
     },
@@ -232,7 +232,9 @@
       "freeBoard": "Community Board",
       "noticeAll": "View all announcements",
       "featuredReview": "A closer look",
-      "featuredReviewSub": "Discover a work through someone’s experience"
+      "featuredReviewSub": "Discover a work through someone’s experience",
+      "previousNotice": "Previous announcement",
+      "nextNotice": "Next announcement"
     },
     "featuredReview": {
       "cardLabel": "How {name} experienced {title}",

@@ -43,7 +43,8 @@
       "noReview": "No review written",
       "source": "Review source",
       "noSource": "Review source URL unavailable",
-      "originalLanguage": "Original Korean text"
+      "originalLanguage": "Original Korean text",
+      "edited": "Edited reading account"
     },
     "intro": {
       "title": "About This Work",

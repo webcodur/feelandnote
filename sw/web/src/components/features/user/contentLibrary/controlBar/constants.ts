@@ -13,6 +13,7 @@ export const TAB_OPTIONS: { value: CategoryId; icon: React.ComponentType<IconPro
 ];
 
 export const SORT_OPTIONS: { value: SortOption; key: string }[] = [
+  { value: "reviewed", key: "reviewed" },
   { value: "recent", key: "recent" },
   { value: "title", key: "title" },
   { value: "rating_desc", key: "ratingHigh" },

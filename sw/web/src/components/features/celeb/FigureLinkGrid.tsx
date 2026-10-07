@@ -9,6 +9,7 @@ import { getCelebProfileUrl } from "@/lib/url";
 import { getLocale } from "next-intl/server";
 import { User } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import NationalityText from "@/components/ui/NationalityText";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import CenteredSectionHeading from "@/components/ui/CenteredSectionHeading";
 import SwipeControls from "@/components/ui/SwipeControls";
@@ -62,6 +63,7 @@ export interface FigureLinkItem {
   avatar_url: string | null;
   title: string | null;
   title_en?: string | null;
+  nationality?: string | null;
   /** 지정하면 직함 대신 이 문구를 부제로 쓴다 — 관계 라벨 같은 호출처 고유 정보 */
   subtitle?: string;
   /** 감상 항목 수. 넘기면 카드 오른쪽에 세운다 */
@@ -76,6 +78,8 @@ interface FigureLinkGridProps {
   title?: string;
   description?: string;
   figures: FigureLinkItem[];
+  /** 지정한 국가와 국적이 다른 인물만 국적을 부제에 표시한다. */
+  nationalityCountry?: string;
   /** 격자 아래 "전체 보기" 줄 — 명부 전체로 가는 길을 남길 때 쓴다 */
   moreHref?: string;
   moreLabel?: string;
@@ -97,6 +101,7 @@ export default async function FigureLinkGrid({
   title,
   description,
   figures,
+  nationalityCountry,
   moreHref,
   moreLabel,
   mobileScrollable = false,
@@ -161,6 +166,9 @@ export default async function FigureLinkGrid({
           const name = (isEn && figure.nickname_en) || figure.nickname;
           const sub =
             figure.subtitle ?? ((isEn && figure.title_en) || figure.title);
+          const foreignNationality = nationalityCountry && figure.nationality
+            && figure.nationality.toUpperCase() !== nationalityCountry.toUpperCase()
+            ? figure.nationality : null;
 
           return (
             <div key={figure.id} role="listitem">
@@ -191,9 +199,15 @@ export default async function FigureLinkGrid({
                   <span className="truncate font-semibold text-text-primary group-hover:text-accent">
                     {name}
                   </span>
-                  {sub && (
-                    <span className="truncate text-xs text-text-secondary">
-                      {sub}
+                  {(sub || foreignNationality) && (
+                    <span className="flex min-w-0 items-center gap-1 text-xs text-text-secondary">
+                      {foreignNationality && (
+                        <span className="max-w-[45%] shrink-0 truncate text-accent/80">
+                          <NationalityText code={foreignNationality} />
+                        </span>
+                      )}
+                      {foreignNationality && sub && <span aria-hidden className="shrink-0 text-text-tertiary">·</span>}
+                      {sub && <span className="min-w-0 truncate">{sub}</span>}
                     </span>
                   )}
                 </span>

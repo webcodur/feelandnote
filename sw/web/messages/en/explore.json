@@ -654,7 +654,8 @@
       "title": "Title",
       "ratingHigh": "Highest rated",
       "ratingLow": "Lowest rated",
-      "creator": "Creator"
+      "creator": "Creator",
+      "reviewed": "Edited accounts first"
     },
     "review": {
       "all": "All",

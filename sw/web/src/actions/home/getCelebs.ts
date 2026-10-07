@@ -133,6 +133,7 @@ export async function getMostRecordedCelebLinks(limit: number, minContentCount: 
 
 export interface TrendingCelebLink extends Omit<CelebLinkRow, 'nickname'> {
   nickname: string
+  nationality: string | null
   trend: CelebTrendMatch
 }
 
@@ -146,12 +147,12 @@ async function fetchTrendingCelebLinks(country: string, limit: number, minConten
     p_sort_by: 'content_count', p_limit: null, p_offset: 0,
     p_min_content_count: minContentCount, p_include_inactive: false,
     p_celeb_realities: [...LISTING_DEFAULT_REALITIES],
-  }).select('id, slug, nickname, nickname_en, avatar_url, title, title_en, content_count')
+  }).select('id, slug, nickname, nickname_en, avatar_url, title, title_en, content_count, nationality')
     .in('id', matches.map(match => match.id))
   throwOnQueryError('검색 급상승 인물 명부', error)
   const positions = new Map(matches.map((match, index) => [match.id, index]))
   const matchById = new Map(matches.map(match => [match.id, match]))
-  return ((data ?? []) as CelebLinkRow[])
+  return ((data ?? []) as (CelebLinkRow & Pick<CelebRow, 'nationality'>)[])
     .sort((a, b) => positions.get(a.id)! - positions.get(b.id)!)
     .slice(0, limit)
     .map(row => {
@@ -162,9 +163,9 @@ async function fetchTrendingCelebLinks(country: string, limit: number, minConten
 
 const getTrendingCelebLinksCached = unstable_cache(
   coalescePublicRead(fetchTrendingCelebLinks),
-  ['trending-celeb-links-v6-active-48h'],
+  ['trending-celeb-links-v7-nationality'],
   {
-    revalidate: spreadRevalidate(LIST_REVALIDATE, ['trending-celeb-links-v6-active-48h']),
+    revalidate: spreadRevalidate(LIST_REVALIDATE, ['trending-celeb-links-v7-nationality']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
   },
 )

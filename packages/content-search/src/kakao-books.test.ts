@@ -13,6 +13,13 @@ before(async () => {
   }
 })
 
+test('내부 판매 코드와 섞인 ISBN10을 978 ISBN으로 만들지 않는다',()=>{
+ assert.equal(kakao.pickKakaoBookIsbn('1127238256 1400000305973'),'')
+ assert.equal(kakao.pickKakaoBookIsbn('1127238256 9791127238254'),'9791127238254')
+ assert.equal(kakao.pickKakaoBookIsbn('8954655971 9788954655972'),'9788954655972')
+ assert.equal(kakao.pickKakaoBookIsbn('8954655971'),'9788954655972')
+})
+
 test('카카오가 원제와 저자를 합친 제목에서 한국어 본제만 남긴다', () => {
   assert.equal(
     kakao.normalizeKakaoBookTitle('제인 오스틴의 멘스필드 공원 _ Mansfield Park by Jane Austen'),
@@ -121,11 +128,11 @@ test('도서 검색은 전자상품 코드와 잘못된 ISBN을 판본 ISBN으�
   }
 })
 
-test('검색 결과의 잘못된 ISBN-13 대신 유효한 ISBN-10을 동일 ISBN-13으로 반환한다', async (t) => {
+test('ISBN13이 함께 있으나 무효하면 ISBN10만으로 판본 ISBN을 추정하지 않는다', async (t) => {
   t.mock.method(globalThis, 'fetch', async () => bookResponse('8994228349 9788994228342'))
   const result = await kakao.searchBooks('조회한 책')
-  assert.equal(result.items[0].metadata.isbn, '9788994228341')
-  assert.equal(result.items[0].externalId, '9788994228341')
+  assert.equal(result.items[0].metadata.isbn, '')
+  assert.equal(result.items[0].externalId, 'https://search.daum.net/search?w=bookpage&bookId=123')
 })
 
 test('ISBN 검색의 첫 결과가 다른 판본이면 소개를 가져오지 않는다', async (t) => {

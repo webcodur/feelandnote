@@ -11,6 +11,7 @@ import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { resolveExternalBookInput } from '@feelandnote/content-search/external-book-input'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
+import { registeredSeriesMatches } from '@feelandnote/content-search/book-series'
 import { getEnglishBookMetadataCached } from '@/lib/books/bookSearch.server'
 
 interface AddContentParams {
@@ -108,6 +109,16 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
       } catch (cause) {
         return failure('VALIDATION_ERROR', cause instanceof Error ? cause.message : '공식 공급처에서 도서 판본을 확인하지 못했습니다.')
       }
+      const seriesWorks: { id: string; metadata: unknown }[] = []
+      for (let from = 0; ; from += 1000) {
+        const { data, error } = await db.from('contents').select('id, metadata').eq('type', 'BOOK')
+          .not('metadata->figureBook->series', 'is', null).order('id').range(from, from + 999)
+        if (error) return handleDatabaseError(error, { context: 'content', logPrefix: '[등록 시리즈 확인]' })
+        seriesWorks.push(...(data ?? []))
+        if ((data?.length ?? 0) < 1000) break
+      }
+      const series = registeredSeriesMatches(seriesWorks, [{ title: book.title, creator: book.creator, locale: book.locale }])
+      if (series.length) return failure('CONFLICT', `《${series[0].title}》에 속한 책입니다. 등록된 시리즈 작품을 선택해주세요.`)
       // 제목·원저자가 같아도 ISBN이 다른 책의 원전·선집 범위가 같다는 근거는 아니다.
       const { data: candidates, error } = await db.from('content_locales').select('content_id, content:contents!inner(type)')
         .eq('content.type', 'BOOK').eq('locale', book.locale).eq('title', book.title).eq('creator', book.creator).limit(1)
