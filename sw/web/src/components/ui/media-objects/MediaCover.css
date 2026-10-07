@@ -4,6 +4,8 @@
   container-type: size; perspective: 900px; isolation: isolate;
   background: radial-gradient(ellipse at 42% 26%, #60564b, #494038 48%, #302a25);
 }
+/* 필름 원근은 조각들이 공유하는 내부 장면에만 적용한다. */
+.media-context-video { perspective: none; }
 /* 질감과 음영은 표지 뒤에만 깔아 포스터·책 표면에 겹치지 않는다. */
 .media-context-cover::before {
   content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
@@ -28,21 +30,24 @@
 .mo-interaction-control[data-pressed='true'], .mo-interaction-control:has([data-loading='true']) { box-shadow: inset 0 0 0 2px #c9dceb99; }
 @media (hover: hover) and (pointer: fine) { .mo-interaction-control:hover { box-shadow: inset 0 0 0 2px #c9dceb99; } }
 .mo-interaction-control:focus-visible { outline: 2px solid #c9dceb; outline-offset: -3px; }
-.mo-interactive { --mo-film-curl: calc(.12 * (1 - var(--mo-hover-progress, 0))); }
-/* 좌우 회전은 누적하지 않고, 앞뒤 굽힘 한 파동을 위에서 아래로 보낸다. */
-.mo-interactive[data-hovered='true'] .mo-film-joint {
-  animation: mo-film-flutter 1200ms ease-in-out calc(var(--film-row) * 55ms) backwards;
-}
-@keyframes mo-film-flutter {
-  0%, 50%, 100% { transform: rotateX(var(--film-rest-x)) rotateZ(var(--film-rest-z)); }
-  25% { transform: rotateX(calc(var(--film-rest-x) + var(--film-weight) * 4deg)) rotateZ(var(--film-rest-z)); }
-  75% { transform: rotateX(calc(var(--film-rest-x) - var(--film-weight) * 2.6deg)) rotateZ(var(--film-rest-z)); }
-}
 .mo-interactive .mo-disc { --mo-disc-offset: calc(var(--object-size) * (-.18 + .20 * var(--mo-hover-progress, 0))); transition: none; }
 .mo-interactive .mo-book { transition: none; }
 .mo-interactive .mo-object {
-  scale: calc(var(--mo-base-scale, 1) + var(--mo-hover-grow, 0) * var(--mo-hover-progress, 0));
+  scale: calc(1 + var(--mo-hover-grow, 0) * var(--mo-hover-progress, 0));
   transition: transform 100ms ease-out;
+}
+/* 중간 몸체를 평면으로 합성하지 않고 한 원근 공간에서 앞면까지 그린다. */
+.mo-interaction-art[data-compact='false'] .mo-object {
+  transform-style: preserve-3d; perspective: none;
+}
+.mo-interaction-art[data-compact='false'] .mo-object-book {
+  scale: none;
+  width: calc(var(--object-size) * (1 + var(--mo-hover-grow, 0) * var(--mo-hover-progress, 0)));
+}
+/* 표지 위 명암막과 앞면의 중복 클리핑을 걷어낸다. 재질은 책등·단면이 맡는다. */
+.mo-interactive .mo-cover::after { content: none; }
+.mo-interactive .mo-book > .mo-book-front {
+  overflow: visible; border-radius: 0; backface-visibility: visible;
 }
 /* 정면 표지는 Z=0으로 도착한 뒤 2D로 그려 확대·원근 레이어의 재샘플링을 줄인다. */
 .mo-interactive .mo-book-isometric {
@@ -119,6 +124,5 @@
 @keyframes mo-pending-reveal { to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) {
   .mo-interactive .mo-object { transition: none; }
-  .mo-interactive[data-hovered='true'] .mo-film-joint { animation: none; }
   .mo-interaction-control[data-pressed='true'] .mo-object { transform: none; }
 }

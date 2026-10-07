@@ -16,21 +16,19 @@ test('책 몸체는 세로형·정사각형·가로형 표지 비율을 보존�
     near(number(result, '--mo-cover-ratio'), ratio)
     assert.equal(result.cropped, false)
     const rendered = number(result, '--object-size')
-    const baseScale = number(result, '--mo-base-scale')
-    const rest = rendered * baseScale
-    const focused = rendered * (baseScale + number(result, '--mo-hover-grow'))
+    const rest = rendered
+    const focused = rendered * (1 + number(result, '--mo-hover-grow'))
     assert.ok(rest <= panel.width * .9 + .00001 && rest / ratio <= panel.height * .885 + .00001)
     assert.ok(focused <= panel.width * .94 + .00001 && focused / ratio <= panel.height * .94 + .00001)
   }
 })
 
-test('책은 최종 크기로 그려 축소하고 정면에서는 확대 없이 1배로 표시한다', () => {
+test('책은 기본 표시 폭으로 그리고 정면 확대도 카드 안에 맞춘다', () => {
   for (const ratio of [237 / 400, 2 / 3, 1, 1.6]) {
     const result = getMediaGeometry('book', ratio, panel, false)
-    const baseScale = number(result, '--mo-base-scale')
-    assert.ok(baseScale > 0 && baseScale < 1)
-    near(baseScale + number(result, '--mo-hover-grow'), 1)
-    near(number(result, '--object-size'), Math.min(.94 * panel.width, .94 * panel.height * ratio))
+    const rest = number(result, '--object-size')
+    near(rest, Math.min(.9 * panel.width, .885 * panel.height * ratio))
+    near(rest * (1 + number(result, '--mo-hover-grow')), Math.min(.94 * panel.width, .94 * panel.height * ratio))
   }
 })
 

@@ -73,19 +73,20 @@
 .mo-cartridge-slot span { display: block; height: 100%; border-top: 1px solid #d5d1b1; background: repeating-linear-gradient(90deg, #aaa78f 0 3px, #c7c5b2 3px 4px, #263943 4px 6px); }
 .mo-object-video { perspective: calc(var(--object-size) * 6); }
 /* 원본 비율의 가운데 프레임과 앞뒤 코마의 높이를 같은 표면에 맞춘다. */
-.mo-film-strip { position: relative; width: 100%; height: calc(var(--object-size) * var(--mo-film-height, 1.768)); transform-style: preserve-3d; }
-.mo-film-joint {
-  --film-rest-x: calc((.8 * (1 - var(--mo-hover-progress, 0)) + var(--mo-film-curl, 0) * 5.5) * var(--film-weight) * 1deg);
-  --film-rest-z: calc((-.08 * (1 - var(--mo-hover-progress, 0)) - var(--mo-film-curl, 0) * .95) * var(--film-weight) * 1deg);
-  position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
-  transform-style: preserve-3d; transform-origin: 50% 0;
-  transform: rotateX(var(--film-rest-x)) rotateZ(var(--film-rest-z));
+.mo-film-strip { --film-height: calc(var(--object-size) * var(--mo-film-height, 1.768)); position: relative; width: 100%; height: var(--film-height); transform-style: preserve-3d; }
+/* 굽힌 좌표와 정면 좌표를 같은 진행률로 보간한다. 인접 면의 경계는 이동 중에도 일치한다. */
+.mo-film-face {
+  --film-bend: calc(1 - var(--mo-hover-progress, 0));
+  --film-c: calc(1 + var(--film-cos-delta) * var(--film-bend));
+  --film-s: calc(var(--film-sin) * var(--film-bend));
+  position: absolute; inset: 0; transform-style: preserve-3d;
+  transform-origin: 50% var(--film-start);
+  transform: translate3d(0, calc(var(--film-height) * var(--film-y) * var(--film-bend)), calc(var(--film-height) * var(--film-z) * var(--film-bend)))
+    matrix3d(1, 0, 0, 0, 0, var(--film-c), var(--film-s), 0, 0, calc(0 - var(--film-s)), var(--film-c), 0, 0, 0, 0, 1);
 }
-.mo-film-joint-root { top: 0; height: calc(100% / var(--film-slices)); }
 .mo-film-continuation { display: none; }
-.mo-film-facet { position: absolute; inset: 0; clip-path: inset(0 0 -.6px); backface-visibility: hidden; }
-.mo-film-surface { position: absolute; top: calc(var(--film-row) * -100%); left: 0; width: 100%; }
-.mo-film-surface::after { content: ''; position: absolute; inset: 0; mask: url('./film-strip-mask.svg') top / 100% auto repeat-y; background: #081320; opacity: calc(var(--mo-film-curl, 0) * var(--film-weight) * .2); pointer-events: none; }
+/* 전체 크기의 동일 표지를 고정 구간으로 자른다. 조각 높이의 반올림 오차를 누적하지 않는다. */
+.mo-film-facet { position: absolute; inset: 0; clip-path: inset(calc(var(--film-start) - .3px) 0 calc(var(--film-end-inset) - .3px)); backface-visibility: hidden; }
 .mo-film { width: 100%; position: relative; padding: 0 8.5%; }
 .mo-film-stock { position: absolute; inset: 0; mask: url('./film-strip-mask.svg') top / 100% auto repeat-y; background: linear-gradient(90deg, #4d5c68, #171e26 8%, #0b1016 50%, #1a232c 92%, #566572); box-shadow: inset 0 1px #c0cfdb80, inset 0 -1px #8ea6b980; }
 .mo-film-stock::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, #d7e7f224, transparent 35%, #0003 65%, #b1cfe520); }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, type HTMLAttributes, type PointerEvent } from 'react'
-import { motion, useReducedMotion, useSpring, type MotionStyle } from 'framer-motion'
+import { motion, useReducedMotion, useMotionValue, type MotionStyle } from 'framer-motion'
 import { useLinkStatus } from 'next/link'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
@@ -10,6 +10,7 @@ import ContentCoverFallback from '@/components/ui/ContentCoverFallback'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { MediaObject, type MediaKind } from './MediaObject'
 import useMediaGeometry from './useMediaGeometry'
+import { animateMediaHover, FILM_HOVER_DURATION_MS, MEDIA_HOVER_DURATION_MS } from './mediaMotion'
 import './media-objects.css'
 import './MediaCover.css'
 
@@ -115,7 +116,8 @@ function NavigatingMediaArtwork({ kind, image, title, creator, active, reducedMo
   // 모바일의 첫 렌더부터 표지 하나만 그린다. 터치 기기에서는 큰 화면이어도 같은 표현을 쓴다.
   const preferCompact = !useMediaQuery('(min-width: 768px) and (hover: hover) and (pointer: fine)')
   const { ref: artworkRef, style: geometryStyle, onImageLoad, cropped, compact } = useMediaGeometry(kind, image, preferCompact)
-  const progress = useSpring(0, { stiffness: 90, damping: 22 })
+  const progress = useMotionValue(0)
+  const hoverDuration = kind === 'video' ? FILM_HOVER_DURATION_MS : MEDIA_HOVER_DURATION_MS
   const [settledFront, setSettledFront] = useState(false)
   const [failedSrc, setFailedSrc] = useState<string | null>(null)
   const missingCover = !image || image === failedSrc
@@ -126,8 +128,14 @@ function NavigatingMediaArtwork({ kind, image, title, creator, active, reducedMo
     return () => { start(); complete() }
   }, [kind, compact, reducedMotion, progress])
   useEffect(() => {
-    progress.set(active && !reducedMotion && !compact ? 1 : 0)
-  }, [active, reducedMotion, compact, progress])
+    if (reducedMotion || compact) {
+      progress.jump(0)
+      return
+    }
+    if (!active && progress.get() === 0) return
+    const animation = animateMediaHover(progress, active, hoverDuration)
+    return () => animation.stop()
+  }, [active, reducedMotion, compact, progress, hoverDuration])
 
   return <motion.div ref={artworkRef} className={`mo-interactive mo-interaction-art${missingCover ? ' h-full' : ''}`} data-loading={pending ? 'true' : 'false'}
     data-compact={compact ? 'true' : 'false'} data-hovered={active && !compact ? 'true' : 'false'}

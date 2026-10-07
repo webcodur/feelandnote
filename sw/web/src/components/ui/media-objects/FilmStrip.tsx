@@ -1,18 +1,7 @@
-import type { CSSProperties, ReactNode } from 'react'
+import type { ReactNode } from 'react'
+import { FILM_FACES, filmFaceStyle } from './filmGeometry'
 
-const SLICES = 20
-
-function FilmJoint({ row, surface }: { row: number; surface: ReactNode }) {
-  return <div className={`mo-film-joint${row === 0 ? ' mo-film-joint-root' : ''}`}
-    style={{ '--film-row': row, '--film-weight': Number(((row / (SLICES - 1)) ** 1.4).toFixed(6)) } as CSSProperties}>
-    <div className="mo-film-facet"><div className="mo-film-surface">{surface}</div></div>
-    {row === 0 && <div className="mo-film-continuation mo-film-continuation-before"><div className="mo-film-stock" /></div>}
-    {row < SLICES - 1 && <FilmJoint row={row + 1} surface={surface} />}
-    {row === SLICES - 1 && <div className="mo-film-continuation mo-film-continuation-after"><div className="mo-film-stock" /></div>}
-  </div>
-}
-
-/** Connected horizontal faces bend around their top edge without distorting the poster pixels. */
+// 모든 조각이 같은 정면 좌표를 공유한다. 도착 시 DOM·클리핑·렌더링 방식을 바꾸지 않는다.
 export default function FilmStrip({ cover }: { cover: ReactNode }) {
   const surface = <div className="mo-film">
     <div className="mo-film-stock" />
@@ -23,7 +12,11 @@ export default function FilmStrip({ cover }: { cover: ReactNode }) {
     <span className="mo-film-frame-code">01 A ▷</span>
   </div>
 
-  return <div className="mo-film-strip" style={{ '--film-slices': SLICES } as CSSProperties}>
-    <FilmJoint row={0} surface={surface} />
+  return <div className="mo-film-strip">
+    {FILM_FACES.map((face, row) => <div className="mo-film-face" key={row} style={filmFaceStyle(face)}>
+      <div className="mo-film-facet">{surface}</div>
+      {row === 0 && <div className="mo-film-continuation mo-film-continuation-before"><div className="mo-film-stock" /></div>}
+      {row === FILM_FACES.length - 1 && <div className="mo-film-continuation mo-film-continuation-after"><div className="mo-film-stock" /></div>}
+    </div>)}
   </div>
 }

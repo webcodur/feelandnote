@@ -78,11 +78,9 @@ export function getMediaGeometry(kind: MediaKind, sourceRatio: number | undefine
     focus = Math.min(.98 * width / .83, .98 * height * ratio / .83)
   }
   const scale = Math.max(1, focus / rest)
-  // 책은 최종 크기로 그려 작은 레이어를 확대할 때의 흐림을 줄인다.
-  const baseScale = kind === 'book' ? 1 / scale : 1
+  // 책은 부모 레이어를 축소하지 않고 실제 폭을 바꿔 표지를 다시 그린다.
   Object.assign(style, {
-    '--object-size': `${kind === 'book' ? focus : rest}px`,
-    '--mo-base-scale': baseScale, '--mo-hover-grow': kind === 'book' ? 1 - baseScale : scale - 1,
+    '--object-size': `${rest}px`, '--mo-hover-grow': scale - 1,
     '--mo-game-center-offset': .015 / caseRatio * scale,
   })
   return { style, cropped, compact }
