@@ -1,0 +1,13 @@
+.dot {
+  opacity: 0.35;
+  animation: breathe 1.6s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 70%, 100% { opacity: 0.35; }
+  35% { opacity: 0.85; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot { animation: none; opacity: 0.6; }
+}

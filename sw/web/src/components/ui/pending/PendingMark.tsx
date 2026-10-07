@@ -1,35 +1,25 @@
-/*
-  파일명: /components/ui/pending/PendingMark.tsx
-  기능: 대기 표식 — 금색 헤어라인 양옆 + 가운데 45° 마름모
-  책임: 아직 채워지지 않은 자리에 브랜드 장식 어휘(SectionHeader 상단 장식)를 그대로 놓는다.
-        헤어라인이 그려졌다 사라지고 마름모는 밝기만 오간다. 맥동하는 잿빛 덩어리를 대신한다.
-*/ // ------------------------------
-
 import { cn } from "@/lib/utils";
-
-const SIZE_CLASS = {
-  sm: "w-16", // 4rem
-  md: "w-28", // 7rem
-} as const;
+import styles from "./pending.module.css";
 
 interface Props {
-  size?: keyof typeof SIZE_CLASS;
+  size?: "sm" | "md";
   className?: string;
 }
 
+/** 구획마다 쓰는 작은 대기 표시. 크기나 위치를 흔들지 않고 밝기만 바꾼다. */
 export default function PendingMark({ size = "md", className }: Props) {
   return (
     <div
-      aria-hidden
+      aria-hidden="true"
       className={cn(
-        "flex items-center justify-center gap-2",
-        SIZE_CLASS[size],
+        "inline-flex items-center justify-center",
+        size === "sm" ? "h-4 gap-1 px-0.5" : "h-6 gap-1.5 px-2",
         className,
       )}
     >
-      <span className="h-px flex-1 animate-pending-line bg-gradient-to-r from-transparent to-accent motion-reduce:animate-none" />
-      <span className="h-1.5 w-1.5 shrink-0 rotate-45 animate-pending-mark border border-accent motion-reduce:animate-none" />
-      <span className="h-px flex-1 animate-pending-line bg-gradient-to-l from-transparent to-accent motion-reduce:animate-none" />
+      {[0, 1, 2].map(index => (
+        <span key={index} className={cn("rounded-full bg-text-secondary", size === "sm" ? "h-0.5 w-0.5" : "h-1 w-1", styles.dot)} style={{ animationDelay: `${index * 160}ms` }} />
+      ))}
     </div>
   );
 }

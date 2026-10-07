@@ -7,6 +7,7 @@ import { getBookSearchLanguage } from '@feelandnote/content-search/book-search-l
 import { getContentDetail, type ContentDetailData } from "@/actions/contents/getContentDetail";
 import ContentDetailPage from "@/components/features/content/ContentDetailPage";
 import type { CategoryId } from "@/constants/categories";
+import ContentDetailPending from "./ContentDetailPending";
 
 const EXTERNAL_CATEGORIES = new Set<CategoryId>(["book", "video", "game", "music"]);
 
@@ -49,7 +50,7 @@ export default function ExternalContentDetailFallback({ contentId }: { contentId
   }, [category, contentId, requestKey, bookLanguage]);
 
   if (requestKey && result?.requestKey !== requestKey) {
-    return <div className="mx-auto min-h-80 max-w-3xl animate-pulse rounded-xl bg-white/[0.02]" />;
+    return <ContentDetailPending />;
   }
 
   if (!requestKey || !result?.data) {

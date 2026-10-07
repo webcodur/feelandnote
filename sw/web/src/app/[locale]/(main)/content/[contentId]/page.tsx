@@ -1,14 +1,14 @@
 /*
   파일명: /app/(main)/content/[contentId]/page.tsx
   기능: 콘텐츠 상세 페이지
-  책임: 공개 본문을 ISR로 제공하고 로그인 개인화는 hydration 뒤에 보강한다.
+  책임: 저장된 서지를 먼저 보내고 관련 목록·리뷰·로그인 개인화를 별도로 보강한다.
 */ // ------------------------------
 
-import { cache, Suspense } from "react";
+import { cache } from "react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import ContentDetailPage from "@/components/features/content/ContentDetailPage";
-import { getInitialPublicContentDetail } from "@/actions/contents/getContentDetail";
+import { getInitialPublicContentInfo } from "@/actions/contents/getContentDetail";
 import {
   getAlternates,
   getCreativeWorkCreatorJsonLd,
@@ -19,37 +19,31 @@ import {
 import { appendWithinSnippet } from "@/lib/seoSentences";
 import { serializeJsonLd } from "@/lib/jsonLd";
 import ExternalContentDetailFallback from "./ExternalContentDetailFallback";
-import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
+import Lane from "@/components/ui/pending/Lane";
+import ContentDetailPending from "./ContentDetailPending";
+import { ContentRelatedSections, ContentReviewsSection } from "./ContentDetailSections";
 
-const getPublicContentDetailCached = cache(getInitialPublicContentDetail);
+const getContentInfo = cache(getInitialPublicContentInfo);
 
 interface PageProps {
   params: Promise<{ locale: string; contentId: string }>;
 }
 
-// Next segment config는 import 상수가 아니라 정적 분석 가능한 숫자 리터럴이어야 한다.
-// 시간 재검증 없음. 데이터가 바뀌면 DB 트리거(web_revalidate_trigger)가 그 항목 태그를 비워
-// 다음 방문 때만 다시 만든다 — 백오피스·스크립트·SQL 어느 길로 쓰든 같다.
-// 상세 한 장의 ISR 쓰기는 HTML+RSC 0.25~0.55MB(8KB당 1단위)라 시간마다 전량 재생성하면 곧 돈이다.
+// Lane은 요청별 스트리밍을 사용한다. 서지·리뷰·관련 목록의 항목별 데이터 캐시는 유지한다.
 export const revalidate = false;
-
-// 사이트맵의 수천 개 작품을 빌드 때 전부 만들지 않고 첫 요청에 ISR로 생성한다.
-export function generateStaticParams() {
-  return [];
-}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, contentId } = await params;
   setRequestLocale(locale);
 
-  const data = await getPublicContentDetailCached(contentId, locale);
+  const content = await getContentInfo(contentId, locale);
   const t = await getTranslations({ locale, namespace: "contentDetail" });
   const alternates = getAlternates(
     `/content/${contentId}`,
     locale === "en" ? "en" : "ko",
   );
 
-  if (!data) {
+  if (!content) {
     return {
       title: t("notFoundTitle"),
       description: t("notFoundDescription"),
@@ -58,11 +52,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const { title, description, thumbnail, creator, type } = data.content;
-  const reviewDescription = data.initialReviews.find((review) => !review.is_spoiler)?.review;
-  // 공유 미리보기 설명 — 「누구의 무슨 작품」 뒤에 소개문(없으면 감상문)의 끝난 문장만 두 줄 안에 잇는다.
+  const { title, description, thumbnail, creator, type } = content;
+  // 공유 미리보기는 저장된 소개의 끝난 문장만 사용한다. 리뷰 조회가 상단을 막지 않게 한다.
   // 소개문 전문을 싣던 때는 첫 문장 중간에서 「…」로 잘렸다(26.09.29). 문장이 하나도 안 들어가면 머리만 둔다
-  const body = description || reviewDescription;
+  const body = description;
   const desc = creator
     ? appendWithinSnippet(t("metaLead", { creator, title, type }), body ? normalizeSeoText(body) : null)
     : appendWithinSnippet("", body ? normalizeSeoText(body) : null) || t("metaFallback", { title });
@@ -116,22 +109,18 @@ function getSchemaType(type: string): string {
 export default async function Page({ params }: PageProps) {
   const { locale, contentId } = await params;
   setRequestLocale(locale);
+  return <Lane fallback={<ContentDetailPending />}><ContentBody locale={locale} contentId={contentId} /></Lane>;
+}
 
-  const data = await getPublicContentDetailCached(contentId, locale);
+async function ContentBody({ locale, contentId }: { locale: string; contentId: string }) {
+  const content = await getContentInfo(contentId, locale);
 
   // 검색 API에서 아직 DB에 적재되지 않은 작품으로 들어온 경우에는 category 쿼리를
-  // 클라이언트 폴백이 읽는다. 사이트맵의 DB 작품은 아래 정적 본문 경로만 탄다.
-  if (!data) {
-    return (
-      <Suspense fallback={<div className="mx-auto min-h-80 max-w-3xl animate-pulse rounded-xl bg-white/[0.02]" />}>
-        <AsyncIntlProvider>
-          <ExternalContentDetailFallback contentId={contentId} />
-        </AsyncIntlProvider>
-      </Suspense>
-    );
+  // 클라이언트 폴백이 읽는다.
+  if (!content) {
+    return <ExternalContentDetailFallback contentId={contentId} />;
   }
 
-  const { content } = data;
   const canonicalUrl = getAlternates(
     `/content/${contentId}`,
     locale === "en" ? "en" : "ko",
@@ -161,11 +150,10 @@ export default async function Page({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
-      <Suspense fallback={<div className="mx-auto min-h-80 max-w-3xl animate-pulse rounded-xl bg-white/[0.02]" />}>
-        <AsyncIntlProvider>
-          <ContentDetailPage key={content.id} initialData={data} />
-        </AsyncIntlProvider>
-      </Suspense>
+      <ContentDetailPage key={content.id}
+        initialData={{ content, userRecord: null, isLoggedIn: false, initialReviews: [], fictionCharacters: [], curatedEntries: [] }}
+        relatedSections={<ContentRelatedSections contentId={content.id} locale={locale} />}
+        reviewsSection={<ContentReviewsSection contentId={content.id} locale={locale} title={content.title} type={content.type} />} />
     </>
   );
 }

@@ -14,7 +14,7 @@ import { headers } from 'next/headers'
    크롤러·미리보기 수집기·자동화 도구를 모두 담는다. 사람 브라우저 UA에
    우연히 섞이면 그 사람은 스트리밍 대신 완성 HTML을 받을 뿐이라 손해가 없다.
    ──────────────────────────────────────────────────────────────── */
-const BOT_SIGNATURES = [
+export const BOT_SIGNATURES = [
   // 일반 크롤러 어휘
   'bot', 'crawl', 'spider', 'slurp', 'scrap', 'preview', 'fetch',
   // 검색 엔진
@@ -33,7 +33,7 @@ const BOT_SIGNATURES = [
 ] as const
 
 /* 사람이 직접 쓰는 브라우저 서명. 이 중 하나도 없으면 사람으로 보지 않는다. */
-const BROWSER_SIGNATURES = [
+export const BROWSER_SIGNATURES = [
   'chrome', 'crios', 'safari', 'firefox', 'fxios',
   'edg', 'samsungbrowser', 'whale', 'opr',
 ] as const
@@ -60,8 +60,8 @@ export function isHumanBrowserUserAgent(ua: string | null): boolean {
 /**
  * 이번 요청을 구획별로 흘려보내도 되는지. **서버 전용**(요청 헤더를 읽는다).
  *
- * 요청 렌더를 동적으로 만든다. 인물 상세와 탐색은 이를 사용하며 공개 데이터 캐시는 유지한다.
- * 완성 HTML의 정적 ISR을 유지하는 작품 상세·명부·연표에서는 호출하지 않는다.
+ * 요청 렌더를 동적으로 만든다. 인물·작품 상세와 탐색은 공개 데이터 캐시를 유지한다.
+ * 정적 ISR을 유지하는 명부에서는 호출하지 않는다.
  */
 export async function shouldStreamForRequest(): Promise<boolean> {
   const headerList = await headers()

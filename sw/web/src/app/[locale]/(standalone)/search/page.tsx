@@ -7,12 +7,12 @@
 "use client";
 
 import { Suspense } from "react";
-import { Loader2 } from "lucide-react";
+import { PendingBlock } from "@/components/ui/pending";
 import SearchContent from "./SearchContent";
 
 export default function Page() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center py-20"><Loader2 size={32} className="animate-spin text-accent" /></div>}>
+    <Suspense fallback={<PendingBlock variant="rows" count={6} className="mx-auto max-w-3xl px-4 py-8" />}>
       <SearchContent />
     </Suspense>
   );

@@ -386,12 +386,12 @@ async function fetchUserRecord(
 }
 // #endregion
 
-// 공개 상세 본문 — 쿠키와 viewer 정보를 읽지 않는다. 콘텐츠 URL 수가 많아 빌드 때
-// 전부 만들지 않고, 첫 요청에 생성한 결과를 ISR 캐시로 공유한다.
+// 공개 조회는 쿠키와 viewer 정보를 읽지 않는다. 구획별 데이터 캐시를 공유한다.
 export const getPublicContentDetail = cache(getPublicContentDetailInner)
 
-export async function getInitialPublicContentDetail(contentId: string, locale: string): Promise<ContentDetailData | null> {
-  return getPublicContentDetailInner(contentId, locale, true)
+/** 첫 화면은 저장된 서지만 읽는다. 외부 소개와 리뷰·관련 목록은 별도로 보강한다. */
+export async function getInitialPublicContentInfo(contentId: string, locale: string): Promise<ContentDetailData['content'] | null> {
+  return fetchContentDataPublicCached(contentId, null, locale, undefined, true)
 }
 
 /** 소개 보충에는 작품 정보만 필요하다. 리뷰·등장인물·선정 목록을 다시 읽지 않는다. */
@@ -402,11 +402,8 @@ export async function getPublicContentInfo(contentId: string, locale: string): P
 async function getPublicContentDetailInner(
   contentId: string,
   locale: string,
-  initial = false,
 ): Promise<ContentDetailData | null> {
-  const content = initial
-    ? await fetchContentDataPublicCached(contentId, null, locale, undefined, true)
-    : await getPublicContentInfo(contentId, locale)
+  const content = await getPublicContentInfo(contentId, locale)
   if (!content) return null
 
   const [initialReviews, fictionCharacters, curatedEntries] = await Promise.all([

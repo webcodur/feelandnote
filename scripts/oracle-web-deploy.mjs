@@ -695,6 +695,13 @@ async function main() {
   let deployed = false
   try {
     build = createIsolatedBuild(repoRoot, commit, releaseId)
+    const detailCachePolicy = path.join(build.worktreeRoot, 'scripts', 'cloudflare-detail-cache.ts')
+    if (config.mode === 'execute' && existsSync(detailCachePolicy)) {
+      // 새 스트리밍 HTML이 캐시에 들어가기 전에 봇·미확인 UA를 우회시킨다.
+      run(process.execPath, ['--import', 'tsx', detailCachePolicy, '--execute'], {
+        cwd: build.worktreeRoot, inherit: true,
+      })
+    }
     removeBuildWorktree(repoRoot, build)
     build.worktreeCreated = false
 

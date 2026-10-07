@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { ArrowLeft } from "lucide-react";
 import Button from "@/components/ui/Button";
@@ -18,8 +18,7 @@ import MyReviewSection from "./MyReviewSection";
 import MyNoteSection from "./MyNoteSection";
 import AllReviewsSection from "./AllReviewsSection";
 import RecentContentsSection from "./RecentContentsSection";
-import FigureBookCharactersSection from "./FigureBookCharactersSection";
-import CuratedEntriesSection from "./CuratedEntriesSection";
+import { ContentCharacters, ContentCurated } from "./ContentRelations";
 import { useRecentContents } from "@/hooks/useRecentContents";
 import { getContentDetail, getPublicContentInfo, getContentViewerState, type ContentDetailData } from "@/actions/contents/getContentDetail";
 import { createClient } from "@/lib/db/client";
@@ -29,12 +28,13 @@ import { getContentDetailHref, selectContentBookEdition } from '@/lib/books/cont
 
 interface ContentDetailPageProps {
   initialData: ContentDetailData;
+  relatedSections?: ReactNode;
+  reviewsSection?: ReactNode;
 }
 
-export default function ContentDetailPage({ initialData }: ContentDetailPageProps) {
+export default function ContentDetailPage({ initialData, relatedSections, reviewsSection }: ContentDetailPageProps) {
   const router = useRouter();
   const t = useTranslations("contentDetail");
-  const tCurated = useTranslations("library.curated");
   const [data, setData] = useState(initialData);
   const [isAuthResolved, setIsAuthResolved] = useState(false);
   const searchParams = useSearchParams();
@@ -50,7 +50,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
     return () => { active = false; };
   }, [initialData.content, locale]);
 
-  // Keep the public ISR page reusable; an explicit search-language override is resolved after hydration.
+  // An explicit search-language override is resolved after hydration.
   useEffect(() => {
     if (initialData.content.type !== 'BOOK') return;
     if ((requestedLanguage !== 'ko' && requestedLanguage !== 'en') || requestedLanguage === (initialData.content.editionLocale ?? locale)) {
@@ -187,34 +187,10 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
         </AccordionSection>
 
         {/* 등장·연관 도서로 지정된 콘텐츠만 인물을 양방향 연결한다. */}
-        {fictionCharacters.length > 0 && (
-          <AccordionSection
-            title={t("fictionCharacters")}
-            badge={(
-              <span className="rounded-full border border-accent/20 bg-accent/[0.06] px-2 py-0.5 text-[11px] text-accent">
-                {t("fictionCharactersCount", { count: fictionCharacters.length })}
-              </span>
-            )}
-            defaultOpen
-          >
-            <FigureBookCharactersSection characters={fictionCharacters} />
-          </AccordionSection>
-        )}
-
-        {/* 기관·매체가 이 작품을 뽑은 이력 — 대학 필독서·언론 선정·수상 */}
-        {curatedEntries.length > 0 && (
-          <AccordionSection
-            title={tCurated("onContent.title")}
-            badge={(
-              <span className="rounded-full border border-accent/20 bg-accent/[0.06] px-2 py-0.5 text-[11px] text-accent">
-                {tCurated("onContent.badge", { count: curatedEntries.length })}
-              </span>
-            )}
-            defaultOpen
-          >
-            <CuratedEntriesSection entries={curatedEntries} />
-          </AccordionSection>
-        )}
+        {relatedSections ?? <>
+          <ContentCharacters characters={fictionCharacters} />
+          <ContentCurated entries={curatedEntries} />
+        </>}
 
         {/* 2. 내 리뷰 (로그인 시 표시) */}
         {isLoggedIn && (
@@ -251,12 +227,12 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
           <div className="mb-4">
             <DecorativeLabel label={t("othersReviews")} />
           </div>
-          <AllReviewsSection
+          {reviewsSection ?? <AllReviewsSection
             contentId={content.id}
             contentTitle={content.title}
             contentType={content.type}
             initialReviews={initialReviews}
-          />
+          />}
         </div>
 
       </div>

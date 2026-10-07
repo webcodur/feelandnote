@@ -1,16 +1,16 @@
 /*
   파일명: /components/ui/pending/PendingBlock.tsx
   기능: 구획이 채워지기를 기다리는 자리 지킴이
-  책임: 들어올 내용만큼 높이를 미리 잡아 레이아웃이 튀지 않게 하고, 그 위 가운데에 표식 하나만 둔다.
-        고스트는 맥동하지 않는다. 훅을 쓰지 않으므로 서버·클라이언트 어디서나 그릴 수 있다.
+  책임: 들어올 내용의 윤곽과 높이를 미리 잡고 작은 대기 표시를 둔다.
+        윤곽은 움직이지 않는다. 서버·클라이언트 어디서나 그릴 수 있다.
 */ // ------------------------------
 
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 import PendingMark from "./PendingMark";
 
-/** 고스트 한 칸. 잿빛 맥동 대신 아주 옅은 면과 테두리만 남긴다. */
-const GHOST = "bg-white/[0.03] border border-white/[0.06] rounded-xl";
+const GHOST = "relative overflow-hidden rounded-xl border border-border/60 bg-bg-card";
+const LINE = "h-1.5 rounded-full bg-text-secondary/[0.08]";
 
 const DEFAULT_COLS = "grid-cols-3 sm:grid-cols-4 md:grid-cols-6";
 
@@ -57,14 +57,25 @@ export default function PendingBlock({
     grid: (
       <div className={cn("grid gap-3", cols)}>
         {ghosts.map(index => (
-          <div key={index} className={cn(GHOST, aspect)} />
+          <div key={index} className={cn(GHOST, aspect)}>
+            <div className="absolute inset-x-3 bottom-3 space-y-2" aria-hidden="true">
+              <div className={cn(LINE, "w-2/3")} />
+              <div className={cn(LINE, "w-2/5")} />
+            </div>
+          </div>
         ))}
       </div>
     ),
     rows: (
       <div className="flex flex-col gap-3">
         {ghosts.map(index => (
-          <div key={index} className={cn(GHOST, "h-16")} />
+          <div key={index} className={cn(GHOST, "flex h-16 items-center gap-3 px-4")} aria-hidden="true">
+            <div className="h-8 w-8 shrink-0 rounded-lg bg-text-secondary/[0.05]" />
+            <div className="flex-1 space-y-2.5">
+              <div className={cn(LINE, index % 2 ? "w-1/2" : "w-2/3")} />
+              <div className={cn(LINE, "w-1/4")} />
+            </div>
+          </div>
         ))}
       </div>
     ),
@@ -72,12 +83,11 @@ export default function PendingBlock({
   }[variant];
 
   return (
-    <div role="status" aria-busy="true" className={cn("relative", className)}>
-      {children ? <div aria-hidden="true" className="h-full">{children}</div> : body}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <PendingMark />
+    <div role="status" aria-busy="true" aria-label={label ?? "Loading"} className={cn("relative", className)}>
+      <div aria-hidden="true" className="h-full">{children ?? body}</div>
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <PendingMark className="rounded-full border border-border/60 bg-bg-main/95" />
       </div>
-      {label && <span className="sr-only">{label}</span>}
     </div>
   );
 }
