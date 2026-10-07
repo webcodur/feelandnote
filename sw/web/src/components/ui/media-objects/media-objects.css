@@ -1,4 +1,8 @@
-.mo-object { width: var(--object-size); position: relative; color: #f1ead7; }
+.mo-object { --mo-rest-x: 7deg; --mo-rest-y: 30deg; width: var(--object-size); position: relative; color: #f1ead7; }
+/* 기본 각도에서 정면까지의 회전은 네 매체가 같은 규칙을 사용한다. */
+.mo-book-isometric, .mo-vinyl-set, .mo-game-station, .mo-film-strip {
+  transform: rotateX(calc(var(--mo-rest-x) * (1 - var(--mo-hover-progress, 0)))) rotateY(calc(var(--mo-rest-y) * (1 - var(--mo-hover-progress, 0))));
+}
 .mo-cover { position: relative; width: 100%; height: 100%; background: var(--object-color); overflow: hidden; }
 .mo-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .mo-cover::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(120deg, #ffffff15, transparent 40%, #00000025); box-shadow: inset 0 0 2px #0006; }
@@ -18,7 +22,6 @@
 .mo-empty-cover small { font-family: sans-serif; font-size: 10px; opacity: .6; }
 /* Six faces preserve the old book's spine and paper construction. */
 .mo-book { --book-depth: calc(var(--object-size) * .18); --book-half-depth: calc(var(--book-depth) / 2); width: 100%; aspect-ratio: 2/3; position: relative; transform-style: preserve-3d; transition: transform .6s ease; }
-.mo-book-isometric { --mo-rest-x: 7deg; --mo-rest-y: 30deg; transform: rotateX(calc(var(--mo-rest-x) + var(--mo-tilt-x, 0deg))) rotateY(calc(var(--mo-rest-y) + var(--mo-tilt-y, 0deg))); }
 .mo-book-front { transform: rotateY(0deg); }
 .mo-book-side { transform: rotateY(90deg); }
 .mo-book > .mo-book-front { position: absolute; inset: 0; transform: translateZ(var(--book-half-depth)); border-radius: 0 2px 2px 0; overflow: hidden; box-shadow: inset 3px 0 5px #0006, 4px 6px 8px #0003; backface-visibility: hidden; }
@@ -53,7 +56,7 @@
 .mo-disc-spinning { animation: mo-record-turn 8s linear infinite; }
 @keyframes mo-record-turn { to { transform: translate3d(0, var(--mo-disc-offset, 0px), calc(0px - var(--sleeve-depth))) rotate(360deg); } }
 .mo-game-case { --case-depth: calc(var(--object-size) * .12); --case-half-depth: calc(var(--case-depth) / 2); position: relative; width: 100%; aspect-ratio: 3/4; transform-style: preserve-3d; }
-.mo-game-station { width: 100%; aspect-ratio: 3/4; position: relative; transform-style: preserve-3d; transform: rotateX(-12deg) rotateY(-18deg); }
+.mo-game-station { width: 100%; aspect-ratio: 3/4; position: relative; transform-style: preserve-3d; }
 .mo-cartridge { width: 100%; height: 100%; position: absolute; inset: 0; transform: translateZ(var(--case-half-depth)); backface-visibility: hidden; clip-path: polygon(0 2%, 2% 0, 87% 0, 87% 3.5%, 100% 3.5%, 100% 98.5%, 98% 100%, 2% 100%, 0 98.5%); border: 1px solid #505966; border-radius: 7px 7px 3px 3px; background: linear-gradient(105deg, #c6cdd3, #9da6af 55%, #828e99); box-shadow: inset 2px 2px 0 #e2e9ee, inset -3px -2px 0 #687683; }
 .mo-game-back { position: absolute; inset: 0; transform: translateZ(calc(0px - var(--case-half-depth))) rotateY(180deg); backface-visibility: hidden; background: #424e59; border-radius: 5px; box-shadow: 3px 6px 8px #0007; }
 .mo-game-side { position: absolute; right: calc(0px - var(--case-half-depth)); top: 3.5%; width: var(--case-depth); height: 96.5%; transform: rotateY(90deg); backface-visibility: hidden; background: linear-gradient(90deg, #677785, #3b4956 47%, #26323c 50%, #657787 55%, #4d5d6b); border-block: 1px solid #b0bbc5; }
@@ -83,8 +86,8 @@
 /* 83% portrait frame, two 22% neighboring frames, and two 5% frame margins. */
 .mo-film-strip { position: relative; width: 100%; height: calc(var(--object-size) * 1.768); transform-style: preserve-3d; }
 .mo-film-joint {
-  --film-rest-x: calc((.8 + var(--mo-film-curl, 0) * 5.5) * var(--film-weight) * 1deg + var(--mo-tilt-x, 0deg) * var(--film-weight) * var(--mo-hover-progress, 0));
-  --film-rest-z: calc((-.08 - var(--mo-film-curl, 0) * .95) * var(--film-weight) * 1deg + var(--mo-tilt-y, 0deg) * var(--film-weight) * var(--mo-hover-progress, 0));
+  --film-rest-x: calc((.8 * (1 - var(--mo-hover-progress, 0)) + var(--mo-film-curl, 0) * 5.5) * var(--film-weight) * 1deg);
+  --film-rest-z: calc((-.08 * (1 - var(--mo-hover-progress, 0)) - var(--mo-film-curl, 0) * .95) * var(--film-weight) * 1deg);
   position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
   transform-style: preserve-3d; transform-origin: 50% 0;
   transform: rotateX(var(--film-rest-x)) rotateZ(var(--film-rest-z));

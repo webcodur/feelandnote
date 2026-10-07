@@ -27,21 +27,18 @@
 .mo-interaction-control[data-pressed='true'], .mo-interaction-control:has([data-loading='true']) { box-shadow: inset 0 0 0 2px #c9dceb99; }
 @media (hover: hover) and (pointer: fine) { .mo-interaction-control:hover { box-shadow: inset 0 0 0 2px #c9dceb99; } }
 .mo-interaction-control:focus-visible { outline: 2px solid #c9dceb; outline-offset: -3px; }
-.mo-interactive { --mo-film-curl: calc(.12 + .5 * var(--mo-hover-progress, 0)); }
-/* 위쪽 고정점에서 아래쪽으로 흔들림이 전달되고 두 번 감쇠하며 멈춘다. */
+.mo-interactive { --mo-film-curl: calc(.12 * (1 - var(--mo-hover-progress, 0))); }
+/* 좌우 회전은 누적하지 않고, 앞뒤 굽힘 한 파동을 위에서 아래로 보낸다. */
 .mo-interactive[data-hovered='true'] .mo-film-joint {
-  animation: mo-film-flutter 1800ms ease-in-out calc(var(--film-row) * 18ms) backwards;
+  animation: mo-film-flutter 1200ms ease-in-out calc(var(--film-row) * 55ms) backwards;
 }
 @keyframes mo-film-flutter {
-  0%, 100% { transform: rotateX(var(--film-rest-x)) rotateZ(var(--film-rest-z)); }
-  18% { transform: rotateX(calc(var(--film-rest-x) + var(--film-weight) * 1.6deg)) rotateZ(calc(var(--film-rest-z) + var(--film-weight) * .85deg)); }
-  40% { transform: rotateX(calc(var(--film-rest-x) - var(--film-weight) * 1.2deg)) rotateZ(calc(var(--film-rest-z) - var(--film-weight) * .7deg)); }
-  62% { transform: rotateX(calc(var(--film-rest-x) + var(--film-weight) * .8deg)) rotateZ(calc(var(--film-rest-z) + var(--film-weight) * .45deg)); }
-  82% { transform: rotateX(calc(var(--film-rest-x) - var(--film-weight) * .35deg)) rotateZ(calc(var(--film-rest-z) - var(--film-weight) * .2deg)); }
+  0%, 50%, 100% { transform: rotateX(var(--film-rest-x)) rotateZ(var(--film-rest-z)); }
+  25% { transform: rotateX(calc(var(--film-rest-x) + var(--film-weight) * 4deg)) rotateZ(var(--film-rest-z)); }
+  75% { transform: rotateX(calc(var(--film-rest-x) - var(--film-weight) * 2.6deg)) rotateZ(var(--film-rest-z)); }
 }
 .mo-interactive .mo-disc { --mo-disc-offset: calc(var(--object-size) * (-.18 + .075 * var(--mo-hover-progress, 0))); transition: none; }
-.mo-interactive .mo-book { transition: none; transform: rotateX(calc(var(--mo-rest-x) + var(--mo-tilt-x, 0deg) * var(--mo-hover-progress, 0))) rotateY(calc(var(--mo-rest-y) + var(--mo-tilt-y, 0deg) * var(--mo-hover-progress, 0))); }
-.mo-interactive .mo-game-station { transform: rotateX(calc(-12deg + 5deg * var(--mo-hover-progress, 0))) rotateY(calc(-18deg + 7deg * var(--mo-hover-progress, 0))); }
+.mo-interactive .mo-book { transition: none; }
 .mo-interactive .mo-object { transition: transform 100ms ease-out; }
 .mo-interaction-control[data-pressed='true'] .mo-object { transform: translateY(1px) scale(.975); }
 .mo-navigation-status { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); pointer-events: none; opacity: 0; animation: mo-pending-reveal 0s 180ms forwards; }
