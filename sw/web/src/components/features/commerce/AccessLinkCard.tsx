@@ -5,19 +5,12 @@ import { ArrowUpRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { ACCESS_LABEL_STYLE, ACCESS_LINK_STYLE } from './contentAccessStyles'
-import PurchaseLinkCopy from './PurchaseLinkCopy'
 
 export default function AccessLinkCard({ name, href, affiliation = 'ordinary', ariaLabel, style, className, onClick, inlineDetails }: {
   name: string; href: string; affiliation?: 'affiliate' | 'ordinary' | 'unknown'; ariaLabel?: string; style?: CSSProperties; className?: string; onClick?: MouseEventHandler<HTMLAnchorElement>; inlineDetails?: ReactNode
 }) {
   const t = useTranslations('content.access')
-  let isCoupang = false
-  try {
-    const destination = new URL(href, 'https://feelandnote.local')
-    isCoupang = /^(www\.|link\.)?coupang\.com$/.test(destination.hostname)
-      || (destination.pathname.startsWith('/api/books/purchase/') && destination.searchParams.get('seller') === 'coupang')
-  } catch { /* 주소 판별 실패가 기존 링크 렌더링을 막지 않도록 한다. */ }
-  return <><a href={href} target="_blank" rel={affiliation === 'affiliate' ? 'noopener noreferrer nofollow sponsored' : 'noopener noreferrer'}
+  return <a href={href} target="_blank" rel={affiliation === 'affiliate' ? 'noopener noreferrer nofollow sponsored' : 'noopener noreferrer'}
     className={cn(ACCESS_LINK_STYLE, className)} style={style} onClick={onClick}
     title={ariaLabel ?? name}
     aria-label={[ariaLabel ?? name, t('newWindow')].join(' · ')}>
@@ -26,5 +19,5 @@ export default function AccessLinkCard({ name, href, affiliation = 'ordinary', a
       <span className={cn('min-w-0 truncate text-sm font-semibold', inlineDetails && '@min-[320px]/access:max-w-[58%]', ACCESS_LABEL_STYLE)}>{name}</span>
       <ArrowUpRight size={15} className={cn("pointer-events-none shrink-0", inlineDetails && "absolute end-0 top-1/2 -translate-y-1/2")} aria-hidden />
     </span>
-  </a>{isCoupang && <PurchaseLinkCopy href={href} />}</>
+  </a>
 }

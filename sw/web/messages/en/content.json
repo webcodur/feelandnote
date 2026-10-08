@@ -145,11 +145,7 @@
       "regionKR": "South Korea",
       "region": "Availability in {country}",
       "amazonUSNotice": "Opens Amazon.com (US). Set your delivery country there to check shipping availability and costs.",
-      "gameRegionNotice": "Prices and offers shown are from Korean stores. Check availability and pricing for your account region before buying.",
-      "copyLink": "Copy link",
-      "linkCopied": "Link copied",
-      "copyLinkHelp": "If the page does not open, copy the link and open it in your regular browser.",
-      "copyLinkManual": "Select and copy the address, then open it in your regular browser."
+      "gameRegionNotice": "Prices and offers shown are from Korean stores. Check availability and pricing for your account region before buying."
     },
     "coverUnavailable": "Cover unavailable"
   },

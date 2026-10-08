@@ -5,7 +5,7 @@
     "back": "Back home",
     "titleFirst": "Everyday shopping.",
     "titleSecond": "A little support for feelandnote.",
-    "intro": "Thank you for using feelandnote.\nWhen you need rice or other essentials, please consider shopping through these links.",
+    "intro": "Thank you for using feelandnote.\nShopping through these links is a great help in keeping feelandnote running.",
     "browse": "Browse everyday essentials",
     "noDonation": "No extra cost",
     "usualShopping": "Shop on Amazon",
@@ -79,7 +79,6 @@
     "entry": {
       "title": "If you enjoy feelandnote",
       "body": "Shopping for everyday essentials through our links helps keep feelandnote running, at no extra cost to you."
-    },
-    "linkHelp": "If a product page does not open, copy its link and open it in your regular browser."
+    }
   }
 }

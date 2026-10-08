@@ -3,7 +3,6 @@ import { ArrowUpRight, BookOpen, Coffee, CookingPot, Droplets, LampDesk, Noteboo
 import ContentImage from '@/components/ui/ContentImage'
 import { getSupportProductLink, type SupportProduct, type SupportProductKind } from '@/constants/supportProducts'
 import { AFFILIATE_PLATFORMS } from '@/constants/affiliatePlatforms'
-import PurchaseLinkCopy from './PurchaseLinkCopy'
 
 function ProductIcon({ kind }: { kind: SupportProductKind }) {
   const icons = { rice: Wheat, laundry: Sparkles, water: Droplets, bath: ShowerHead, kitchen: Utensils, food: CookingPot, coffee: Coffee, stand: BookOpen, pen: PenTool, notebook: NotebookPen, reader: Tablet, light: LampDesk }
@@ -62,17 +61,15 @@ export default async function SupportProductGrid({ products, locale }: { product
                     )}
                   </div>
                 )}
-                <span className="mt-2 flex min-h-11 items-center justify-center gap-1.5 rounded-control bg-bg-stone-light px-2 py-2 text-xs font-medium group-hover:bg-text-primary group-hover:text-bg-main lg:mt-3 lg:text-sm">
+                <span className={`mt-2 flex min-h-11 items-center justify-center gap-1.5 rounded-control px-2 py-2 text-xs font-medium lg:mt-3 lg:text-sm ${locale === 'ko' ? 'bg-store-coupang/80 text-white group-hover:bg-store-coupang group-focus-visible:bg-store-coupang' : 'bg-bg-stone-light group-hover:bg-text-primary group-hover:text-bg-main'}`}>
                   {t('viewProduct')}<ArrowUpRight className="size-3.5 shrink-0" aria-hidden="true" />
                 </span>
               </a>
-              {locale === 'ko' && <PurchaseLinkCopy href={link.href} />}
             </div>
           )
         })}
       </div>
       <p className="mt-5 break-keep text-sm leading-relaxed text-text-secondary">{checkedDates.length > 0 ? t('priceNote', { date: dateLabel }) : t('purchaseNote')}</p>
-      {locale === 'ko' && <p className="mt-3 break-keep text-sm leading-relaxed text-text-secondary">{t('linkHelp')}</p>}
       {hasAffiliate && <p className="mt-3 text-sm leading-relaxed text-text-secondary">{locale === 'en' ? AFFILIATE_PLATFORMS.amazon.notice : t('affiliateNotice')}</p>}
     </>
   )
