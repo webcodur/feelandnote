@@ -3,7 +3,7 @@
   기능: 사이트 풋터
   책임: 브랜드·섹션 링크·언어·저작권을 한 벌로 그린다. 브랜드는 가운데, 링크는 폭에 따라
         칸 배치만 바뀐다(휴대폰 2열 가운데 → md 4열). 같은 링크를 두 번 그리지 않는다.
-        휴대폰에서는 하단 고정층(하단 탭 + 도크에 붙는 목차 띠) 높이만큼 아래를 더 비운다.
+        휴대폰·태블릿에서는 하단 고정층(하단 탭 + 도크에 붙는 목차 띠) 높이만큼 아래를 더 비운다.
 */ // ------------------------------
 
 import { Link } from "@/i18n/navigation";
@@ -31,7 +31,7 @@ export default async function Footer() {
 
   return (
     <footer className="w-full border-t border-line bg-bg-secondary text-text-primary">
-      <div className="mx-auto max-w-4xl px-6 pt-10 pb-[calc(var(--layer-bottom-chrome-h)+2rem)] md:px-8 md:pt-14 md:pb-10">
+      <div className="mx-auto max-w-4xl px-6 pt-10 pb-[calc(var(--layer-bottom-chrome-h)+2rem)] md:px-8 md:pt-14 md:pb-[calc(var(--layer-bottom-chrome-h)+2.5rem)]">
         {/* 브랜드 — 가운데 */}
         <div className="mb-8 flex flex-col items-center gap-2 text-center md:mb-10">
           <Logo size="sm" variant="default" />

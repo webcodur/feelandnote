@@ -421,7 +421,6 @@
       },
       "navMonologue": "가상독백",
       "archiveResults": "전체 {total, number}명 중 {count, number}명",
-      "navByTheme": "주제별 탐색",
       "navInfluence": "영향력"
     },
     "directory": {

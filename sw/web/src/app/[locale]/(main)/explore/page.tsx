@@ -11,7 +11,9 @@ import Lane from "@/components/ui/pending/Lane";
 import ExploreFeatureCard from "@/components/shared/ExploreFeatureCard";
 import { EXPLORE_LENS_GROUP_HEADING_CLASS } from "@/components/shared/ExploreCard.styles";
 import HubSection from "@/components/shared/HubSection";
-import { hubSectionId } from "@/components/shared/hubSectionUtils";
+import { hubAtlasNavItems, hubSectionId } from "@/components/shared/hubSectionUtils";
+import AtlasNavSections from "@/components/shared/atlasNav/AtlasNavSections";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { FiguresFilterResult } from "./figures/sections";
 import { parseFilterParams } from "./figures/filterParams";
 
@@ -39,19 +41,17 @@ export default async function ExplorePage({ searchParams }: {
   // 주제별 탐색 — 주소·이름은 메뉴 설정(NAV_ITEMS), 그림·묶음·순서는 exploreLenses가 쥔다
   const hrefByKey = new Map(NAV_ITEMS.find((item) => item.key === "explore")!.subLinks!.map((page) => [page.key!, page.href]));
 
-  // 첫 목록은 검색·카드를 바로 보여 준다. 주제별 탐색은 본문 링크로 이동한다.
+  // 첫 목록은 검색·카드를 바로 보여 준다. 목차는 목록과 주제별 탐색 구획을 잇는다.
   const hubGroup = EXPLORE_HUB_GROUP.figures;
   const titles = [t("navCelebs"), t("quickNav")];
 
   return (
-    <div>
+    <div className="pb-[60px] min-[1340px]:pb-8">
+      <AsyncIntlProvider>
+        <AtlasNavSections items={hubAtlasNavItems(titles, hubGroup)} />
+      </AsyncIntlProvider>
       <div className="space-y-8 md:space-y-10">
         <section id={hubSectionId(0, hubGroup)} aria-label={titles[0]}>
-          <div className="mx-auto mb-3 flex max-w-2xl justify-end">
-            <Link href={`#${hubSectionId(1, hubGroup)}`} className="inline-flex min-h-11 items-center gap-1.5 rounded-control px-3 text-sm text-text-secondary hover:bg-accent/5 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
-              {t("navByTheme")}<ArrowRight size={14} aria-hidden />
-            </Link>
-          </div>
           <Lane fallback={<PendingBlock variant="grid" count={24} label={pending("loading")} />}>
             <FiguresFilterResult params={filters} />
           </Lane>

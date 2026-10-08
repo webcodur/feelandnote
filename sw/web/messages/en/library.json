@@ -61,8 +61,7 @@
         "kind": "Institution"
       },
       "listResults": "{lists, plural, one {# list} other {# lists}} · {count, plural, one {# institution} other {# institutions}}",
-      "bestsellerLabel": "Bestsellers",
-      "navByTheme": "By Theme"
+      "bestsellerLabel": "Bestsellers"
     },
     "meta": {
       "title": "Bestsellers - Top Books, Movies, Games & Music",

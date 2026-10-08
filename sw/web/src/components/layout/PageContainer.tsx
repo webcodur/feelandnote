@@ -11,7 +11,7 @@
 // default는 1200px이되, 오른쪽 스와이프 판이 서는 폭에서는 판 자리만큼 줄어든다(globals.css --content-max-default)
 const WIDTH_CLASS = {
   reading: "max-w-[720px]",
-  detail: "max-w-[min(1024px,var(--content-max-default))]",
+  detail: "max-w-[min(var(--content-max-detail),var(--content-max-default))]",
   default: "max-w-[var(--content-max-default)]",
   wide: "max-w-none",
 } as const;
@@ -34,7 +34,7 @@ export default function PageContainer({
 }: PageContainerProps) {
   const resolved: PageWidth = width ?? (wide ? "wide" : "default");
   return (
-    <div className={`mx-auto w-full ${WIDTH_CLASS[resolved]} ${className}`}>
+    <div data-page-width={resolved} className={`mx-auto w-full ${WIDTH_CLASS[resolved]} ${className}`}>
       {children}
     </div>
   );

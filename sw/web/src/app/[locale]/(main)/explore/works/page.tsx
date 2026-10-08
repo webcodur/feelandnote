@@ -2,7 +2,7 @@
   파일명: /app/(main)/explore/works/page.tsx
   기능: 작품 모드 첫 화면
   책임: 첫 화면에서 곧바로 작품이 보이도록 분야별 베스트셀러(표지 순위 격자)를 세운다.
-        기관 선정·불후의 명작·박물관·학당은 2번 구획 「주제별 탐색」 카드로 안내한다. 본문 링크로 바로 이동하며 고정 목차 바는 두지 않는다.
+        기관 선정·불후의 명작·박물관·학당은 2번 구획 「주제별 탐색」 카드로 안내한다. 공용 목차로 두 구획을 오간다.
         예전 첫 화면은 기관 선정이었는데 기관 로고·선정 목록이 먼저 나와 작품까지 두 번 더 눌러야 했다(26.09.28 유저 지시로 자리 교체).
         옛 베스트셀러 주소(/explore/works/popular)는 이 화면으로 옮긴다(popular/page.tsx).
 */ // ------------------------------
@@ -12,9 +12,9 @@ import { getLocalizedAlternates } from "@/lib/seo";
 import { WORKS_FEATURED_LINKS } from "@/constants/navigation";
 import ExploreFeatureCard from "@/components/shared/ExploreFeatureCard";
 import HubSection from "@/components/shared/HubSection";
-import { hubSectionId } from "@/components/shared/hubSectionUtils";
-import { Link } from "@/i18n/navigation";
-import { ArrowRight } from "lucide-react";
+import { hubAtlasNavItems, hubSectionId } from "@/components/shared/hubSectionUtils";
+import AtlasNavSections from "@/components/shared/atlasNav/AtlasNavSections";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { EXPLORE_HUB_GROUP, EXPLORE_LENS_IMAGES, REORGANIZING_WORK_LENSES } from "@/constants/exploreLenses";
 import { chartCategory } from "@/lib/library/chartSources";
 import { PendingBlock } from "@/components/ui/pending";
@@ -44,20 +44,18 @@ export default async function WorksPage({ searchParams }: { searchParams: Promis
   const readyPages = WORKS_FEATURED_LINKS.filter(page => !REORGANIZING_WORK_LENSES.has(page.key!));
   const reorganizingPages = WORKS_FEATURED_LINKS.filter(page => REORGANIZING_WORK_LENSES.has(page.key!));
 
-  // 분야 선택과 표지를 바로 보여 준다. 주제별 탐색은 본문 링크로 이동한다.
+  // 분야 선택과 표지를 바로 보여 준다. 목차는 베스트셀러와 주제별 탐색 구획을 잇는다.
   const hubGroup = EXPLORE_HUB_GROUP.works;
   const titles = [t("bestsellerLabel"), t("quickNav")];
 
   return (
-    <div>
+    <div className="works-hub-page pb-[60px] min-[1340px]:pb-8">
+      <AsyncIntlProvider>
+        <AtlasNavSections items={hubAtlasNavItems(titles, hubGroup)} />
+      </AsyncIntlProvider>
       <div className="space-y-8 md:space-y-10">
         <section id={hubSectionId(0, hubGroup)} aria-labelledby="works-chart-title">
-          <div className="mx-auto mb-3 flex max-w-2xl items-center justify-between gap-2">
-            <h2 id="works-chart-title" className="text-base font-semibold text-text-primary">{titles[0]}</h2>
-            <Link href={`#${hubSectionId(1, hubGroup)}`} className="inline-flex min-h-11 items-center gap-1.5 rounded-control px-3 text-sm text-text-secondary hover:bg-accent/5 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
-              {t("navByTheme")}<ArrowRight size={14} aria-hidden />
-            </Link>
-          </div>
+          <h2 id="works-chart-title" className="mb-3 text-center text-base font-semibold text-text-primary">{titles[0]}</h2>
           {/* 분야를 바꾸면 그 분야 차트를 새로 불러오는 동안 자리표를 보인다 */}
           <Lane key={`${category}-${source ?? ""}`} fallback={<PendingBlock variant="grid" count={10} label={pending("loading")} />}>
             <BestsellerMain category={category} source={source} />

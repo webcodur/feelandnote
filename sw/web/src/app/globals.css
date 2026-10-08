@@ -130,7 +130,7 @@
     /* 구획 머리 아래에 붙는 층이 쓰는 자리 */
     --layer-celeb-heading-bottom: calc(var(--layer-header-h) + var(--layer-celeb-heading-h));
 
-    /* 모바일 하단 고정층(하단 탭 + 도크에 붙는 목차 띠). BottomNav가 실측값으로 덮어쓴다.
+    /* 휴대폰·태블릿 하단 고정층(하단 탭 + 도크에 붙는 목차 띠). BottomNav가 실측값으로 덮어쓴다.
        본문 끝(푸터)이 이 층 아래로 파고들지 않게 비우는 높이다 */
     --layer-bottom-chrome-h: calc(4rem + env(safe-area-inset-bottom));
 
@@ -139,12 +139,30 @@
     --side-rail-width: 140px;
     --rail-reserve: 0px;
     --content-max-default: 1200px;
+    --content-max-detail: 1024px;
   }
 
   @media (min-width: 1340px) {
     :root {
       --rail-reserve: calc(var(--side-rail-width) + 32px);
       --content-max-default: min(1200px, calc(100vw - 2 * var(--rail-reserve)));
+    }
+
+    /* 홈은 감상 카드 폭에 목차와 스와이프 판을 맞춘다. body 포털도 같은 기준을 쓴다. */
+    :root:has(.home-page) {
+      --content-max-default: 896px;
+    }
+
+    :root:has(.works-hub-page) {
+      --content-max-default: min(1152px, calc(100vw - 2 * var(--rail-reserve)));
+    }
+
+    :root:has(.rest-hub-page) {
+      --content-max-default: 768px;
+    }
+
+    :root:has([data-page-width="detail"]) {
+      --content-max-default: min(var(--content-max-detail), calc(100vw - 2 * var(--rail-reserve)));
     }
   }
 

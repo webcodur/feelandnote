@@ -7,7 +7,7 @@ import SwipeRail from "./SwipeRail";
 import RecentProfilesSection from "@/components/features/profile/RecentProfilesSection";
 
 /*
-  앱 뼈대. 휴대폰·PC 구분은 모두 CSS가 한다 — 하단 탭은 md:hidden, 옆 레일은 자기 CSS가 폭을 보고 선다.
+  앱 뼈대. 화면 폭 구분은 모두 CSS가 한다 — 옆 레일이 서기 전까지 하단 탭을 둔다.
   그래서 서버 HTML에 하단 탭이 처음부터 들어가 첫 화면에서 뒤늦게 튀어나오지 않는다.
 
   폭의 주인은 둘뿐이다.

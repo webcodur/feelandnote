@@ -67,7 +67,7 @@ async function RestPageBody({ searchParams }: RestPageProps) {
   return (
     // 좁은 화면에서는 하단 목차 띠가 본문 위에 떠 있다 — 마지막 줄이 가리지 않게 비운다
     <>
-      <div className="pb-[60px] min-[1340px]:pb-8">
+      <div className="rest-hub-page pb-[60px] min-[1340px]:pb-8">
         {/* 서브페이지 네비게이터 — 공용 아틀라스 목차(옆 레일·하단 띠) */}
         <AtlasNavSections items={atlasItems} />
 

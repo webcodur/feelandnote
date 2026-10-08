@@ -1104,8 +1104,8 @@ function MusicOpener({
       aria-label={label}
       className={cn(
         'group fixed end-4 size-11 items-center justify-center rounded-full border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
-        // PC 자리는 휴대폰 폭에서 숨긴다 — 하단 내비가 서기 전 첫 그림에서 비치지 않게
-        isCorner ? 'bottom-8 hidden md:flex' : 'bottom-20 flex md:bottom-4',
+        // PC 자리는 하단 내비가 서는 폭에서 숨긴다 — 포털이 붙기 전에도 목차와 겹치지 않게
+        isCorner ? 'bottom-8 hidden min-[1340px]:flex' : 'bottom-20 flex md:bottom-4',
         isCorner
           ? cn(
               'border-[#b68a44] bg-[radial-gradient(circle_at_34%_24%,#5b4121_0%,#2b2115_36%,#110f0b_72%,#090909_100%)] text-[#efd18a] shadow-[inset_0_1px_0_rgba(255,229,164,0.46),inset_0_-3px_6px_rgba(0,0,0,0.7),0_9px_22px_rgba(0,0,0,0.65)] hover:border-[#f1d18a] hover:brightness-110',

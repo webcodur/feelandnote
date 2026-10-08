@@ -63,7 +63,7 @@ export default async function MainPage() {
         {/* 구획별 본문 폭은 안쪽에서 제한한다. */}
         <AtlasNavSections items={hubAtlasNavItems(HOME_SECTIONS.map((s) => t(s.navTitleKey ?? s.titleKey)), HOME_GROUP_ID)} />
         {/* 좁은 화면에서는 하단 목차 띠가 본문 위에 떠 있다 — 마지막 줄이 가리지 않게 비운다 */}
-        <PageContainer className="pb-[60px] min-[1340px]:pb-8">
+        <PageContainer className="home-page pb-[60px] min-[1340px]:pb-8">
           {/* 브랜드 줄 — 한 줄로 압축, 소개 본문은 /about이 쥔다 */}
           <HomeBrandHeader
             brandHeading={siteT("brandHeading")}
