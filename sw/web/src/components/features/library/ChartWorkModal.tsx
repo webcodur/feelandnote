@@ -2,7 +2,6 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { ExternalLink } from "lucide-react";
-import SourceLink from "@/components/ui/SourceLink";
 import ContentInfoDialog from "@/components/shared/content/ContentInfoDialog";
 import ContentDescription from "@/components/shared/content/ContentDescription";
 import type { ChartCategory } from "@/lib/library/chartSources";
@@ -35,11 +34,11 @@ export default function ChartWorkModal({ item, category, onClose }: {
     {!music && <ContentDescription title={t(`charts.detail.${category === "VIDEO" ? "synopsis" : "aboutGame"}`)}
       description={item.description} emptyLabel={t("charts.detail.unavailable")} />}
       <div className="mt-5 flex justify-end text-xs text-text-tertiary">
-        <SourceLink sourceUrl={item.sourceUrl}
-          className="inline-flex min-h-11 items-center gap-1 rounded-control underline decoration-text-tertiary underline-offset-4 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <a href={item.sourceUrl}
+          className="inline-flex min-h-11 items-center gap-1 rounded-control underline decoration-text-tertiary underline-offset-4 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent" target="_blank" rel="noopener noreferrer">
           {t("freshness.source")}: {t(`charts.sources.${source}`)}<ExternalLink size={11} aria-hidden />
           <span className="sr-only">{t("newTab")}</span>
-        </SourceLink>
+        </a>
       </div>
   </ContentInfoDialog>;
 }

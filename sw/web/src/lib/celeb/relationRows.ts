@@ -1,8 +1,11 @@
 import {
-  canonicalizeCelebRelation,
+  canonicalizeCelebRelationAxis,
+  celebRelationAxisGroup,
   celebRelationCounterpartId,
   celebRelationFactKey,
+  celebRelationPairKey,
   celebRelationTypeForViewer,
+  isCelebFamilyRelation,
   preferSpecificCelebRelationType,
   type CelebRelationGroup,
 } from '@feelandnote/shared/constants/celeb-relations'
@@ -35,7 +38,8 @@ function toViewedRelation(
   viewerId: string,
 ): PickedRelation | null {
   const identity = { fromId: row.from_id, toId: row.to_id, relType: row.rel_type }
-  const canonical = canonicalizeCelebRelation(identity)
+  const canonical = canonicalizeCelebRelationAxis(identity)
+  if (!canonical) return null
   const counterpartId = celebRelationCounterpartId(canonical, viewerId)
   const relType = celebRelationTypeForViewer(canonical, viewerId)
   if (!counterpartId || !relType) return null
@@ -44,7 +48,7 @@ function toViewedRelation(
     factKey: celebRelationFactKey(canonical),
     counterpartId,
     relType,
-    relGroup: row.rel_group,
+    relGroup: celebRelationAxisGroup(relType as 'influence' | 'influenced' | 'colleague' | 'rival'),
     note: row.note?.trim() || null,
     noteEn: row.note_en?.trim() || null,
     canonicalType: canonical.relType,
@@ -68,8 +72,12 @@ export function mergeRelationRowsForViewer(
   viewerId: string,
 ): ViewedRelationRow[] {
   const byFact = new Map<string, PickedRelation>()
+  const familyPairs = new Set(rows
+    .filter(row => isCelebFamilyRelation(row.rel_type, row.rel_group))
+    .map(row => celebRelationPairKey(row.from_id, row.to_id)))
 
   for (const row of rows) {
+    if (familyPairs.has(celebRelationPairKey(row.from_id, row.to_id))) continue
     const candidate = toViewedRelation(row, viewerId)
     if (!candidate) continue
     const current = byFact.get(candidate.factKey)

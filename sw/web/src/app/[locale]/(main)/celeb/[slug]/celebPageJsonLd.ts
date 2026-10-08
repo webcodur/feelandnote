@@ -52,7 +52,7 @@ export function buildCelebPageJsonLd({
     "celeb",
     slug,
     seoLocale,
-    profile.avatar_url ?? profile.photo_url,
+    profile.photo_url ?? profile.avatar_url,
   );
   const wikidataQid = profile.wikidata_qid?.match(/^Q\d+$/)?.[0] ?? null;
   // 화면 언어의 이름을 뺀 다른 언어 이름과 다른 이름(본명·호·한자 독음 등)을 싣는다

@@ -37,3 +37,10 @@ test('카탈로그 밖 감상 도서는 확인된 locale과 ISBN으로 카드화
   const locale = { ...row('ko'), isbn: '9791139721973' }
   assert.equal(resolveBookShelfBook(content([locale]), [], 'ko')?.isbn, locale.isbn)
 })
+
+test('시작권이 없어 제외된 카탈로그 판본을 locale의 중간 권 ISBN·표지·상품으로 되살리지 않는다', () => {
+  const middle = { ...row('ko'), isbn: '9791127402228', thumbnail_url: 'https://example.com/vol41.jpg',
+    affiliate_url: [{ platform: 'coupang', url: 'https://link.coupang.com/a/vol41' }] }
+  assert.equal(resolveBookShelfBook(content([middle]), [], 'ko', undefined, false), null)
+  assert.equal(resolveBookShelfBook(content([middle]), [edition], 'ko', undefined, false)?.editionId, 1)
+})

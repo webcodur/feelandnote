@@ -1,15 +1,13 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] 공통 — 목차 모델(서비스 아이템 조립)
  * - 목차 위치: 공통 (전 구획: introduction/personGuide/virtualMonologue/library/affiliateBooks/analysis/connections/guestbook)
- * - 데이터: profile/sideAvailability/figureBooks/initialContents props
+ * - 데이터: profile/sideAvailability props
  * - 함께 보기: celebServiceItems.ts
  * ───────────────────────────────────────────── */
 "use client";
 
 import { useMemo } from "react";
 
-import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
-import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 
 import { useTranslations } from "next-intl";
@@ -32,16 +30,13 @@ export interface CelebSideAvailability {
   spectrum: boolean;
   /** 이어지는 인물 구획이 그려지는가(관계가 있어야 채운다) */
   relatedFigures: boolean;
-  /** 요청 언어에서 판매할 연관 도서 또는 기존 관련 상품이 있는가 */
+  /** 관련 도서 구획을 표시하는가. 대기·빈 결과도 같은 자리를 쓴다. */
   affiliateBooks: boolean;
 }
 
 interface UseCelebServiceModelProps {
   profile: CelebBySlugProfile;
   sideAvailability: CelebSideAvailability;
-  figureBooks: FigureBookContent[];
-  authoredBooks: FigureBookContent[];
-  initialContents: GetUserContentsResponse;
 }
 
 export interface CelebServiceModel {
@@ -56,9 +51,6 @@ export interface CelebServiceModel {
 export function useCelebServiceModel({
   profile,
   sideAvailability,
-  figureBooks,
-  authoredBooks,
-  initialContents,
 }: UseCelebServiceModelProps): CelebServiceModel {
   const celebTier = profile.celeb_tier ?? "full";
   const celebReality = profile.celeb_reality ?? "REAL";
@@ -69,13 +61,8 @@ export function useCelebServiceModel({
     relations: sideAvailability.relations,
     influence: sideAvailability.influence,
     spectrum: sideAvailability.spectrum,
-    library: initialContents.items.length > 0,
+    library: Object.values(profile.contentTypeCounts).some(count => count > 0),
   };
-  /* 참고도서 구획의 네 모드(등장·집필·직군·소속) 가용도 —
-     어느 하나라도 채울 자료가 있으면 구획이 선다. */
-  const hasWorks = figureBooks.length > 0;
-  const hasAuthoredBooks = authoredBooks.length > 0;
-
   const baseItems = useCelebServiceItems({
     reality: celebReality,
     showLibrary: celebTier === "full",
@@ -103,8 +90,6 @@ export function useCelebServiceModel({
     }
     if (
       sideAvailability.affiliateBooks
-      || hasWorks
-      || hasAuthoredBooks
     ) {
       ordered.push({
         key: "affiliateBooks",
@@ -130,7 +115,7 @@ export function useCelebServiceModel({
         })),
       };
     });
-  }, [baseItems, sideAvailability.relatedFigures, sideAvailability.affiliateBooks, hasWorks, hasAuthoredBooks, t, celebReality]);
+  }, [baseItems, sideAvailability.relatedFigures, sideAvailability.affiliateBooks, t, celebReality]);
 
   return { items };
 }

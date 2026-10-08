@@ -23,22 +23,27 @@ const counterpart: CelebRelationItem = {
   note_en: "Greek and Roman counterpart deities",
 };
 
-test("대응 신격은 사회가 아니라 기타 갈래로 간다", () => {
-  const model = buildRelationModel([counterpart], "ko");
-
-  assert.deepEqual(model.other.map(({ id }) => id), ["jupiter"]);
-  assert.deepEqual(model.social.left, []);
-  assert.deepEqual(model.socialPeople, []);
-  assert.deepEqual(model.familyPeople, []);
-  assert.deepEqual(relationFocusesForMode(model, "other"), ["left"]);
-  assert.deepEqual(peopleForMode(model, "other").map(({ id }) => id), ["jupiter"]);
-  assert.deepEqual(typesForMode(model.people[0], "other"), ["counterpart"]);
+test("가족·친구·대응 관계는 네 축에 포함하지 않는다", () => {
+  for (const relType of ['father', 'friend', 'counterpart']) {
+    const model = buildRelationModel([{ ...counterpart, relType }], "ko");
+    assert.deepEqual(model.people, []);
+    assert.deepEqual(model.other, []);
+    assert.deepEqual(model.familyPeople, []);
+  }
 });
 
-test("협력·대립처럼 갈래가 있는 관계는 기타로 새지 않는다", () => {
-  const colleague = { ...counterpart, id: "ally", relType: "colleague", relGroup: "career" } as CelebRelationItem;
-  const model = buildRelationModel([colleague], "ko");
+test("한 인물이 영향 양방향·협력·대립 네 갈래에 모두 속할 수 있다", () => {
+  const rows = ['influence', 'influenced', 'colleague', 'rival'].map(relType => ({ ...counterpart, relType }));
+  const model = buildRelationModel(rows, "ko");
+  assert.equal(model.people.length, 1);
+  for (const band of Object.values(model.social)) assert.deepEqual(band.map(p => p.id), ['jupiter']);
+  assert.deepEqual(typesForMode(model.people[0], "social"), ['influence', 'influenced', 'colleague', 'rival']);
+  assert.equal(peopleForMode(model, "social").length, 1);
+  assert.equal(relationFocusesForMode(model, "social").length, 4);
+});
 
-  assert.deepEqual(model.social.left.map(({ id }) => id), ["ally"]);
-  assert.deepEqual(model.other, []);
+test("사제·공동창업을 네 축으로 읽고 명단 밖 상대도 같은 기준을 쓴다", () => {
+  const model = buildRelationModel(['teacher', 'student', 'cofounder'].map(relType => ({ ...counterpart, listed: false, relType })), "en");
+  assert.deepEqual(model.people[0].types, ['influence', 'influenced', 'colleague']);
+  assert.equal(model.people[0].name, 'Jupiter');
 });

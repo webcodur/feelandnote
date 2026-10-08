@@ -114,7 +114,7 @@ async function buildAffiliatePool(locale: AffiliateBookLocale, sourceRows: Sourc
   const editionsByContent = await loadFigureBookEditions(db, [...sourceIds], locale)
   for (const [contentId, editions] of editionsByContent) {
     if (seen.has(contentId)) continue
-    const book = resolveBookShelfBook({ id: contentId, type: 'BOOK', content_locales: sourceLocalesById.get(contentId) ?? [] }, editions, locale)
+    const book = resolveBookShelfBook({ id: contentId, type: 'BOOK', content_locales: sourceLocalesById.get(contentId) ?? [] }, editions, locale, undefined, false)
     if (!book) continue
     // 한국어는 ISBN이나 쿠팡 상품 중 하나는 있어야 서점 상품으로 잇는다
     if (locale === 'ko' ? !normalizePurchaseIsbn(book.isbn) && !book.url : !book.url) continue
@@ -211,7 +211,7 @@ async function countModernReaders(contentIds: string[]): Promise<Map<string, num
   return counts
 }
 
-const fetchScopedAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, ['affiliate-pool-scoped-v1'], {
+const fetchScopedAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, ['affiliate-pool-scoped-v2-edition-policy'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CELEBS],
 })
@@ -364,7 +364,7 @@ async function getAffiliateBooksForCelebInner(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['affiliate-books-celeb-v8-scoped', celebId, locale, String(limit), excluded ? exclusionFingerprint([...excluded]) : ''],
+    ['affiliate-books-celeb-v9-edition-policy', celebId, locale, String(limit), excluded ? exclusionFingerprint([...excluded]) : ''],
     () => fetchAffiliateBooksForCeleb({ origins, read, peers }, limit, pool, excluded),
     // 수명은 기본값(1주)을 쓴다. 위 풀과 같은 이유다 — 인물 상세 초기 렌더가 이 결과를
     // 쓰므로 짧게 두면 페이지 한 장의 수명이 함께 내려간다. 상품이 바뀌면 아래 태그로 비워진다.

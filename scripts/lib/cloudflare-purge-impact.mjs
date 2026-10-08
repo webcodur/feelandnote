@@ -127,6 +127,13 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // 초기 관련 도서와 추천의 보관 HTML 소비자는 인물 상세다.
+  'sw/web/src/actions/books/getProfessionBooks.ts',
+  'sw/web/src/actions/celebs/getCelebReferenceBooks.ts',
+  'sw/web/src/actions/home/getAffiliateBooks.ts',
+  // getCelebFactionBooks가 개인 책장의 소속 도서를 이 헬퍼로 채운다.
+  'sw/web/src/actions/home/factionBookHydrate.ts',
+  'sw/web/src/actions/home/getFactionFigureBooks.ts',
   // 공통 책장은 인물 상세·세력·가상독백에서 쓰며 보관 HTML 소비자는 인물 상세다.
   'sw/web/src/components/features/celeb/CelebBookShelf.tsx',
   'sw/web/src/components/features/celeb/BookShelfAffiliationAddon.tsx',
@@ -205,6 +212,16 @@ const CONTENT_FILES = new Set([
 ])
 
 const CELEB_AND_CONTENT_FILES = new Set([
+  // 판본·소개 자료는 인물 책장과 작품 상세의 공용 본문·모달에서 소비한다.
+  'sw/web/src/actions/books/getBookShelfBook.ts',
+  'sw/web/src/actions/figure-books/figureBookEditions.ts',
+  'sw/web/src/lib/books/bookShelf.ts',
+  'sw/web/src/lib/utils/book-description.ts',
+  'sw/web/src/components/features/commerce/ContentAccessModal.tsx',
+  'sw/web/src/components/ui/ContentTextModal.tsx',
+  // 삭제한 출처 UI도 두 상세의 이전 HTML·번들을 갱신해야 한다.
+  'sw/web/src/components/ui/SourceLink.tsx',
+  'sw/web/src/components/ui/SourceLinksModal.tsx',
   // 이 배너의 실제 소비자는 CelebWorldBannerView와 ContentBanner 두 곳이다.
   'sw/web/src/components/shared/DetailBanner.tsx',
   'sw/web/src/components/shared/DetailBanner.module.css',
@@ -236,6 +253,20 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // 검색·등록과 서비스 소개는 앞단 보관 HTML 경로가 아니다.
+  'sw/web/src/actions/contents/fetchBookMetadata.ts',
+  'sw/web/src/actions/policy/getAboutShowcase.ts',
+  // 현재 런타임 소비자가 없는 공개 액션. 판본 자료 자체의 소비자는 위에서 판정한다.
+  'sw/web/src/actions/home/getFactionSharedLibrary.ts',
+  // 이 모달과 감상 구획은 세력 화면에서만 연다.
+  'sw/web/src/components/features/faction/entry/FactionMemberModal.tsx',
+  'sw/web/src/components/features/faction/entry/FactionPersonReviews.tsx',
+  // 도서 차트·구매 실험·본문 실험 화면은 앞단 보관 대상이 아니다.
+  'sw/web/src/components/features/library/ChartSourceNotice.tsx',
+  'sw/web/src/components/features/library/ChartWorkModal.tsx',
+  'sw/web/src/components/features/commerce/prototype/CollectionJourney.tsx',
+  'sw/web/src/components/features/commerce/prototype/CollectionJourneyLab.tsx',
+  'sw/web/src/components/lab/TextLayoutLab.tsx',
   // 앱 설치 설명은 manifest 응답이며 Cloudflare HTML 캐시 대상이 아니다.
   'sw/web/src/app/manifest.ts',
   // External-resource searches are member record UI, never cached public detail HTML.
@@ -355,6 +386,11 @@ const CACHED_HTML_PREFIXES = [
 ]
 
 const CACHED_HTML_FILES = new Set([
+  // 인물 모달은 공통 HeaderSearch에서도 열어 명부·연표를 포함한 보관 HTML이 소비한다.
+  'sw/web/src/components/features/celeb/modals/CelebDetailModal/CelebDetailModal.tsx',
+  // Modal과 대기 표시는 공통 레이아웃·상세·명부·연표에서 사용한다.
+  'sw/web/src/components/ui/modalLayout.ts',
+  'sw/web/src/components/ui/pending/PendingBlock.tsx',
   // 바닥글은 [locale]/layout.tsx에 있어 보관 대상 화면에도 그대로 실린다.
   // 로고는 그 바닥글 안에서만 쓰인다.
   'sw/web/src/components/ui/Layout/Footer.tsx',
@@ -392,6 +428,10 @@ const NON_RUNTIME_PREFIXES = [
 
 const NON_HTML_RUNTIME_PREFIXES = [
   'sw/web/src/app/api/',
+  'sw/web/src/app/[locale]/(main)/about/',
+  'sw/web/src/app/[locale]/(standalone)/search/',
+  // /records/는 Cloudflare HTML을 우회하고 인물 데이터 태그로 Next 캐시를 갱신한다.
+  'sw/web/src/app/[locale]/(reader)/celeb/',
   // 위 신화 구획 주석과 같은 이유. 타이틀 아트도 그 구획에서만 쓴다.
   'sw/web/src/components/features/user/explore/myth/',
   'sw/web/public/images/myth-atlas/',

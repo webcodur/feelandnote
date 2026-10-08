@@ -4,6 +4,7 @@ import {
   getFigureBookPurchasePlatform,
   mapFigureBookPurchaseOptions,
   mergeFigureBookEditions,
+  isFigureBookOriginalLocale,
   type FigureBookEditionRow,
   type FigureBookPurchaseOptionRow,
 } from './figureBookLocale'
@@ -25,6 +26,28 @@ const BASE_ROW: FigureBookPurchaseOptionRow = {
   platform: 'coupang',
   affiliate_url: 'https://link.coupang.com/a/example',
 }
+
+test('다른 언어 카드 유무 대신 독립 출처로 원어를 판정한다', () => {
+  assert.equal(isFigureBookOriginalLocale({ originalLanguage: 'en' }, 'en'), false)
+  assert.equal(isFigureBookOriginalLocale({ originalLanguage: 'fr', identityEvidence: 'https://library.example/work' }, 'en'), false)
+  assert.equal(isFigureBookOriginalLocale({ originalLanguage: 'en', identityEvidence: 'https://library.example/work' }, 'en'), true)
+})
+
+test('독립 확인한 원어 본문은 미국·영국 부제를 접고 축약 학습판은 배제한다', () => {
+  const edition = (id: number, title: string, publisher: string): FigureBookEditionRow => {
+    const row = { ...BASE_ROW, id, content_id: 'vance', locale: 'en', title, creator: 'Ashlee Vance', publisher, isbn: String(id), edition_kind: 'full', text_scope: 'complete' }
+    return { ...row, sources: { edition_work_evidence: [{ method: 'independent_work_review', content_id: row.content_id, locale: row.locale,
+      original_language: 'en', isbn: row.isbn, edition_title: row.title, edition_creator: row.creator, edition_kind: row.edition_kind,
+      text_scope: row.text_scope, work_identity: 'ashlee-vance/elon-musk', source_url: 'https://publisher.example/book' }] } }
+  }
+  const us = edition(1, 'Elon Musk: Tesla, SpaceX, and the Quest for a Fantastic Future', 'Ecco')
+  const uk = edition(2, 'Elon Musk: How the Billionaire CEO Is Shaping Our Future', 'Virgin Books')
+  const reader = { ...edition(3, 'Penguin Readers Level 3: Elon Musk', 'Penguin'), edition_kind: 'abridged', text_scope: 'Level 3 A2' }
+  assert.deepEqual(mergeFigureBookEditions([us, uk, reader], [], 'en', false, true).map(e => e.id), [1])
+  assert.equal(mergeFigureBookEditions([us, uk], [], 'en', false, false).length, 2)
+  assert.equal(mergeFigureBookEditions([us, { ...uk, creator: 'Walter Isaacson' }], [], 'en', false, true).length, 2)
+  assert.equal(mergeFigureBookEditions([us, uk, reader], [], 'en', true, true).length, 1)
+})
 
 test('요청 locale은 구매 플랫폼 하나로 고정한다', () => {
   assert.equal(getFigureBookPurchasePlatform('ko'), 'coupang')
@@ -110,11 +133,11 @@ test('같은 책 그룹에서는 구매 링크가 있는 판본이 대표가 된
   assert.equal(editions[0].purchaseUrl, BASE_ROW.affiliate_url)
 })
 
-test('includeAll이면 같은 책 판본도 전부 돌려준다', () => {
+test('상세 전체 조회도 같은 번역의 판본을 중복 노출하지 않는다', () => {
   const first: FigureBookEditionRow = { ...BASE_ROW, id: 7 }
   const second = { ...first, id: 8, isbn: '9788937460012', sort_order: 2 }
   const editions = mergeFigureBookEditions([second, first], [BASE_ROW], 'ko', true)
-  assert.deepEqual(editions.map((edition) => edition.id), [7, 8])
+  assert.deepEqual(editions.map((edition) => edition.id), [7])
 })
 
 test('상품이 있는 판본과 없는 판본 모두 저장된 제목의 문자 코드를 복원한다', () => {
@@ -134,4 +157,58 @@ test('영문 구매 상품도 판본의 역자를 보존해 다른 번역을 합
   const editions = mergeFigureBookEditions([first, second], options, 'en', false, true)
   assert.deepEqual(editions.map(edition => edition.id), [7, 8])
   assert.deepEqual(editions.map(edition => edition.translator), ['Translator A', 'Translator B'])
+})
+
+test('한국어 카드가 함께 있어도 영문 원서의 출판사 USA 표기만으로 판본을 나누지 않는다', () => {
+  const paperback: FigureBookEditionRow = { ...BASE_ROW, id: 263, locale: 'en', title: 'Superintelligence',
+    creator: 'Nick Bostrom', publisher: 'Oxford University Press', isbn: '9780198739838',
+    edition_kind: null, text_scope: null, release_date: '2016-01-01' }
+  const hardback = { ...paperback, id: 1796, publisher: 'Oxford University Press, USA',
+    isbn: '9780199678112', edition_kind: 'full', text_scope: 'complete', release_date: '2014-01-01' }
+  assert.deepEqual(mergeFigureBookEditions([paperback, hardback], [], 'en', false, false).map(e => e.id), [263])
+  const product = { ...hardback, edition_id: hardback.id, platform: 'amazon', affiliate_url: 'https://amazon.com/dp/example' }
+  assert.deepEqual(mergeFigureBookEditions([paperback, hardback], [product], 'en', false, false).map(e => e.id), [1796])
+  assert.equal(mergeFigureBookEditions([paperback, hardback], [], 'en', true).length, 1)
+  assert.equal(mergeFigureBookEditions([paperback, { ...hardback, publisher: 'Another Press' }], [], 'en').length, 2)
+  assert.equal(mergeFigureBookEditions([
+    { ...paperback, sources: { translators: ['Translator A'] } },
+    { ...hardback, sources: { translators: ['Translator B'] } },
+  ], [], 'en').length, 2)
+  assert.equal(mergeFigureBookEditions([paperback, { ...hardback, edition_kind: 'abridged', text_scope: 'abridged' }], [], 'en').length, 1)
+})
+
+const SERIES = { title: '전략 삼국지', creator: '요코야마 미츠테루', locale: 'ko', sourceUrl: 'https://publisher.example/series' }
+const volume = (number: number, translator = '이길진'): FigureBookEditionRow => ({
+  ...BASE_ROW, id: number, title: `전략 삼국지 ${number}: 부제`, creator: SERIES.creator,
+  publisher: 'AK', sources: { translators: [translator] }, edition_kind: 'volume', text_scope: `volume/${number}`,
+})
+
+test('같은 출간본의 8·17·41권을 판본 선택에 나열하지 않고 시작권만 보여 준다', () => {
+  const rows = [volume(8), volume(17), volume(41), volume(1)]
+  assert.deepEqual(mergeFigureBookEditions(rows, [], 'ko', false, false, SERIES).map(e => e.id), [1])
+  assert.deepEqual(mergeFigureBookEditions(rows, [], 'ko', true, false, SERIES).map(e => e.id), [1])
+  assert.deepEqual(rows.map(e => e.id), [8, 17, 41, 1])
+})
+
+test('시리즈 시작권이 없으면 41권을 임의의 대표로 선택하지 않는다', () => {
+  assert.deepEqual(mergeFigureBookEditions([volume(41), volume(17)], [], 'ko', false, false, SERIES), [])
+})
+
+test('서로 다른 번역본은 각각 시작권을 남기고 곡별 악보와 권별 범위 없는 항목은 그대로 둔다', () => {
+  const other = { ...volume(1, '다른 역자'), id: 101 }
+  assert.deepEqual(mergeFigureBookEditions([volume(1), volume(2), other], [], 'ko', false, false, SERIES).map(e => e.id), [1, 101])
+  const scores = [volume(1), volume(41)].map(row => ({ ...row, edition_kind: 'selection', text_scope: 'eight songs' }))
+  assert.equal(mergeFigureBookEditions(scores, [], 'ko', false, false, SERIES).length, 1)
+  const unknown = [volume(1), volume(41)].map(row => ({...row,edition_kind:null,text_scope:null}))
+  assert.equal(mergeFigureBookEditions(unknown, [], 'ko').length, 1)
+})
+
+test('시리즈 메타가 없는 원전 아래의 다른 번역본도 명시된 권별 범위로 시작권만 고른다', () => {
+  const rows = [volume(1),volume(17),volume(41)]
+  assert.deepEqual(mergeFigureBookEditions(rows, [], 'ko').map(e=>e.id),[1])
+  assert.deepEqual(mergeFigureBookEditions(rows.slice(1), [], 'ko'),[])
+  assert.equal(mergeFigureBookEditions(rows, [], 'ko', true).length,1)
+  const retelling = [volume(1),volume(5)].map(row=>({...row,edition_kind:'adaptation',text_scope:`comic-adaptation-volume-${row.id}`}))
+  assert.deepEqual(mergeFigureBookEditions(retelling, [], 'ko').map(e=>e.id),[1])
+  assert.deepEqual(mergeFigureBookEditions([{...volume(6),text_scope:'volume-6'}], [], 'ko'),[])
 })

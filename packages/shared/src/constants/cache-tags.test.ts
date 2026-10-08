@@ -3,8 +3,6 @@ import test from 'node:test'
 
 import {
   CACHE_TAGS,
-  FEATURED_REVIEWS_CACHE_ID,
-  cacheTagToCloudflarePaths,
   bulkTag,
   cloudflarePurgeExpectationForTags,
   detailCacheTags,
@@ -15,13 +13,6 @@ import {
   itemRevalidationTags,
   revalidationApiPathForTags,
 } from './cache-tags'
-
-test('editorial approval expires its selection and both language home pages', () => {
-  const tag = itemTag(CACHE_TAGS.CELEBS, FEATURED_REVIEWS_CACHE_ID)
-  assert.equal(isAllowedCacheTag(tag), true)
-  assert.deepEqual(cacheTagToCloudflarePaths(tag), ['/', '/en'])
-  assert.ok(detailCacheTags(CACHE_TAGS.CELEBS, FEATURED_REVIEWS_CACHE_ID).includes(tag))
-})
 
 test('domain invalidation explicitly targets list and bulk-detail tags', () => {
   assert.deepEqual(

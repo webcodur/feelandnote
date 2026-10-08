@@ -19,6 +19,7 @@ import {
   getFigureBookPurchasePlatform,
   attachFigureBookLocaleLinks,
   mergeFigureBookEditions,
+  isFigureBookOriginalLocale,
   type FigureBookEdition,
   type FigureBookEditionRow,
   type FigureBookPurchaseOptionRow,
@@ -83,6 +84,9 @@ interface ContentRow {
     originalCreator?: string
     editionKind?: string
     workIdentity?: string
+    series?: unknown
+    originalLanguage?: string
+    identityEvidence?: string
   } | null
   content_locales: ContentLocaleRow[] | null
 }
@@ -172,15 +176,14 @@ async function fetchSourcesByCeleb(
     const content = contentById.get(assignment.content_id)
     if (!content) return []
 
-    // 다른 언어 카드가 없는 원어 작품만 출판사 변경 재출간을 같은 책으로 접는다 — 번역 작품은 다른 출판사가 다른 번역본일 수 있다.
-    const isOriginalLocaleWork = !(content.content_locales ?? [])
-      .some((row) => row.locale !== locale && row.title?.trim())
+    const isOriginalLocaleWork = isFigureBookOriginalLocale(content.figureBook, locale)
     const editions = mergeFigureBookEditions(
       editionRowsByContent.get(content.id) ?? [],
       optionRowsByContent.get(content.id) ?? [],
       locale,
       false,
       isOriginalLocaleWork,
+      content.figureBook?.series,
     )
     // 인물의 등장·연관 도서는 요청 언어 판본이 없어도 관계 자체를 보여준다.
     // 창작 목록은 기존대로 해당 언어의 작품 메타가 있을 때만 판본 없이 허용한다.
@@ -190,6 +193,7 @@ async function fetchSourcesByCeleb(
 
     const flat = flattenLocales(content.content_locales, locale, content.type)
     const leadEdition = editions[0]
+    const missingStart = !leadEdition && (editionRowsByContent.has(content.id) || optionRowsByContent.has(content.id))
     const title = (flat.title_badge && flat.title_badge !== 'out-of-print' && leadEdition?.title)
       || flat.title || content.figureBook?.workTitle || leadEdition?.title || ''
     if (!title.trim()) return []
@@ -197,14 +201,14 @@ async function fetchSourcesByCeleb(
       id: content.id,
       title,
       creator: flat.creator || content.figureBook?.workCreator || leadEdition?.creator || null,
-      thumbnailUrl: leadEdition?.thumbnailUrl || flat.thumbnail_url,
+      thumbnailUrl: leadEdition?.thumbnailUrl || (missingStart ? null : flat.thumbnail_url),
       type: content.type,
       category: TYPE_TO_CATEGORY[content.type],
       relationType: assignment.relation_type,
       // 표시용 번역 제목 행이 남아 있어도 요청 언어의 실제 판본이 있으면 번역본 없음이 아니다.
       // 절판은 판본 존재와 별개인 유통 상태이므로 유지한다.
       titleBadge: leadEdition && flat.title_badge !== 'out-of-print' ? null : flat.title_badge,
-      ...selectBookIntroduction(locale, null, exactLocale),
+      ...selectBookIntroduction(locale, null, missingStart ? null : exactLocale),
       editions: editions.map((edition) => ({
         ...attachFigureBookLocaleLinks(edition, exactLocale),
         ...selectBookIntroduction(locale,
@@ -224,7 +228,7 @@ async function fetchSourcesByCeleb(
         ...(content.content_locales ?? []).map((row) => row.creator),
         content.figureBook?.workCreator,
       ].filter((name): name is string => Boolean(name?.trim())))],
-      affiliateLinks: toAffiliateLinks(flat.affiliate_url),
+      affiliateLinks: missingStart ? [] : toAffiliateLinks(flat.affiliate_url),
     }]
   })
 
@@ -285,7 +289,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v17', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v19-edition-policy', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )

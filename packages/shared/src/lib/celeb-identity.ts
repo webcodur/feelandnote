@@ -67,13 +67,31 @@ export function celebNameIssues(row: Pick<CelebIdentityRow, 'nickname' | 'nickna
   return issues
 }
 
-/** 수식어 검사. 「」·괄호는 오류, 길이는 경고. */
+/** 대상이 있는 창시·개발·창업 수식어를 정리한다. 수석 개발자 같은 직함은 보존한다. */
+export function normalizeCelebTitleAction(value: string): string {
+  const title = value.trim()
+  const match = title.match(/^(.+?)\s*(?:공동\s*)?(창시자|개발자|창업자|창립자|설립자|창업주|창시|개발|창업|창립|설립)$/u)
+  if (!match) return title
+  const rawSubject = match[1].trim()
+  const subject = /(?:주의|회의|강의|정의)$/u.test(rawSubject) || rawSubject === '의의'
+    ? rawSubject
+    : rawSubject.replace(/의$/u, '').trim()
+  if (!subject || (/^개발/u.test(match[2]) && /(?:수석|선임|책임|핵심|총괄)$/u.test(subject))) return title
+  const action = /^창시/u.test(match[2]) ? '창시' : /^개발/u.test(match[2]) ? '개발' : '설립'
+  return `${subject} ${action}`
+}
+
+/** 수식어 검사. 「」·괄호와 창시·개발·설립 표기 위반은 오류, 길이는 경고. */
 export function celebTitleIssues(row: { title?: string | null; title_en?: string | null }): CelebIdentityIssue[] {
   const issues: CelebIdentityIssue[] = []
   const title = row.title?.trim() ?? ''
   const titleEn = row.title_en?.trim() ?? ''
   if (TITLE_BRACKETS.test(title)) issues.push({ level: 'error', field: 'title', message: `수식어에 「」·괄호가 있다 「${title}」` })
   if (TITLE_BRACKETS.test(titleEn)) issues.push({ level: 'error', field: 'title_en', message: `영문 수식어에 「」·괄호가 있다 「${titleEn}」` })
+  const normalized = normalizeCelebTitleAction(title)
+  if (normalized !== title) {
+    issues.push({ level: 'error', field: 'title', message: `수식어 행위 표기를 「${normalized}」으로 쓴다` })
+  }
   const length = [...title].length
   if (title && (length < CELEB_TITLE_LENGTH.min || length > CELEB_TITLE_LENGTH.max)) {
     issues.push({ level: 'warn', field: 'title', message: `수식어가 ${length}자다 「${title}」 — 대개 ${CELEB_TITLE_LENGTH.min}~${CELEB_TITLE_LENGTH.max}자` })

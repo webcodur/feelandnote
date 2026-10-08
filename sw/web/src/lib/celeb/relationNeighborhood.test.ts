@@ -41,7 +41,7 @@ test("상대가 중심에게 무엇이었나로 묶음을 가른다", () => {
 
   assert.deepEqual(
     groups.map((group) => group.kind),
-    ["gave", "took", "rival", "together", "family"],
+    ["gave", "took", "rival", "together"],
   );
   assert.deepEqual(ids(groups[0].items), ["스승"]);
   assert.deepEqual(ids(groups[1].items), ["제자"]);
@@ -60,7 +60,7 @@ test("influence는 준 쪽, influenced는 받은 쪽이다", () => {
   assert.deepEqual(ids(groups.find((g) => g.kind === "took")!.items), ["받은사람"]);
 });
 
-test("대응 신격은 함께 보는 관계로 묶는다", () => {
+test("대응 신격은 협력으로 판정하지 않는다", () => {
   const candidates = mapOf(celeb("유피테르"));
   const relations: NeighborRelationInput[] = [
     { targetId: "유피테르", relType: "counterpart" },
@@ -68,9 +68,7 @@ test("대응 신격은 함께 보는 관계로 묶는다", () => {
 
   const groups = groupNeighbors({ relations, candidates, limit: 10 });
 
-  assert.equal(groups.length, 1);
-  assert.equal(groups[0].kind, "together");
-  assert.deepEqual(ids(groups[0].items), ["유피테르"]);
+  assert.deepEqual(groups, []);
 });
 
 test("어떻게 이어졌는지 아는 사람을 앞에 세운다", () => {

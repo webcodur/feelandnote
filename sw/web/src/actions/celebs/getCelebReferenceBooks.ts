@@ -7,23 +7,23 @@ import { getDisplayFigureBookGroups } from '@/lib/celeb/authoredBooks'
 import { createStaticClient } from '@/lib/db/static'
 import { getCelebFactionBooks } from './getCelebFactionBooks'
 
-export async function getCelebReferenceBooks(celebId: string, locale: string, initial = false) {
-  const db = createStaticClient()
-  const [profileResult, figureBooks] = await Promise.all([
-    db.from('celebs').select('profession').eq('id', celebId).single(),
+export async function getCelebReferenceBooks(celebId: string, locale: string, initial = false, knownProfession?: string | null) {
+  const professionPromise = knownProfession !== undefined
+    ? Promise.resolve(knownProfession)
+    : createStaticClient().from('celebs').select('profession').eq('id', celebId).single().then((result) => {
+        if (result.error) throw result.error
+        return (result.data.profession as string | null) ?? null
+      })
+  // 네 갈래는 독립이다. 등장·집필 판본을 기다린 뒤 직군·소속 조회를 시작하지 않는다.
+  const [figureBooks, profession, professionBooks, factionGroups] = await Promise.all([
     getFigureBookPresentationsForCeleb(celebId, locale, initial),
-  ])
-  if (profileResult.error) throw profileResult.error
-  const groups = getDisplayFigureBookGroups(figureBooks)
-  // 직군별 선정은 개인의 등장·집필·감상 관계와 별개로 유지한다.
-  const profession = (profileResult.data.profession as string | null) ?? null
-  const [professionBooks, factionGroups] = await Promise.all([
-    profession
+    professionPromise,
+    professionPromise.then((profession) => profession
       ? getProfessionBooks(profession, locale)
-      : Promise.resolve([] as AffiliateBook[]),
+      : Promise.resolve([] as AffiliateBook[])),
     getCelebFactionBooks(celebId, locale),
   ])
-  return { ...groups, profession, professionBooks, factionGroups }
+  return { ...getDisplayFigureBookGroups(figureBooks), profession, professionBooks, factionGroups }
 }
 
 export type CelebReferenceBooks = Awaited<ReturnType<typeof getCelebReferenceBooks>>

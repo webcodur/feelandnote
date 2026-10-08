@@ -145,13 +145,14 @@ async function fetchFactionSharedLibrary(factionId: string): Promise<SharedConte
 
   const result: SharedContent[] = shared.map(([contentId, { celebIds: ids, ...info }]) => {
     const edition = pickPurchaseEdition(editionsByContent.get(contentId) ?? [], "ko");
+    const missingStart = editionsByContent.has(contentId) && !edition;
     return {
       ...info,
       contentId,
-      thumbnailUrl: info.thumbnailUrl ?? edition?.thumbnailUrl ?? null,
-      coupangUrl: edition ? (edition.platform === "coupang" ? edition.purchaseUrl : null) : info.coupangUrl,
+      thumbnailUrl: edition?.thumbnailUrl ?? (missingStart ? null : info.thumbnailUrl),
+      coupangUrl: edition ? (edition.platform === "coupang" ? edition.purchaseUrl : null) : missingStart ? null : info.coupangUrl,
       editionId: edition?.id,
-      hasKoreanIsbn: Boolean(normalizePurchaseIsbn(edition?.isbn)) || info.hasKoreanIsbn,
+      hasKoreanIsbn: Boolean(normalizePurchaseIsbn(edition?.isbn)) || (!missingStart && info.hasKoreanIsbn),
       celebCount: ids.size,
       celebs: [...ids].flatMap((id) => profileMap.get(id) ?? []),
     };
@@ -165,7 +166,7 @@ async function fetchFactionSharedLibrary(factionId: string): Promise<SharedConte
 
 const getFactionSharedLibraryCached = unstable_cache(
   fetchFactionSharedLibrary,
-  ['faction-shared-library-v4-locale-cover'],
+  ['faction-shared-library-v5-edition-policy'],
   // faction_member_rows(편성) + celebs + celeb_contents + 한국어 판본
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );

@@ -3,7 +3,6 @@
 import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
-import { formatSourceUrls, parseSourceUrls } from '@feelandnote/shared/lib/source-links'
 import { isBookIntroductionSource, type BookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { normalizeBookIsbn } from '@/lib/utils/book-description'
@@ -15,8 +14,7 @@ import { coalesceCacheQuery } from '@/lib/cacheQuery'
 // 선택된 출처만 조회한다. 인자 전체가 캐시 키이므로 같은 ISBN의 다른 출처와 섞이지 않는다.
 const readIntroduction = cache(unstable_cache(
   async (isbn: string | null, locale: 'ko' | 'en', source: BookIntroductionSource, sourceUrl: string | null) => {
-    const result = await fetchBookIntroduction({ isbn, locale, source,
-      sourceUrl: parseSourceUrls(formatSourceUrls(sourceUrl))[0] ?? null })
+    const result = await fetchBookIntroduction({ isbn, locale, source, sourceUrl })
     return pickIntroForLocale(locale, [result.description])
   },
   ['book-introduction-selected-source-v2'],

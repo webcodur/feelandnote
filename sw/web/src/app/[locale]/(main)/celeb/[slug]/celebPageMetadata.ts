@@ -87,7 +87,7 @@ export async function buildCelebPageMetadata(
     "celeb",
     slug,
     seoLocale,
-    profile.avatar_url ?? profile.photo_url,
+    profile.photo_url ?? profile.avatar_url,
   );
   const imageAlt = locale === "en"
     ? `${profile.nickname} portrait`

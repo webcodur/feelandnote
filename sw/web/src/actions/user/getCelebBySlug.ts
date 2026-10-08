@@ -4,6 +4,9 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import {
   CELEB_RELATION_TYPE_ORDER,
+  celebRelationAxis,
+  celebRelationAxisGroup,
+  isCelebFamilyRelation,
   type CelebRelationGroup,
 } from '@feelandnote/shared/constants/celeb-relations'
 import { cachedDetail, throwOnQueryError } from '@/lib/cache'
@@ -212,6 +215,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     outgoingRelationsResult,
     incomingRelationsResult,
     externalRelationsResult,
+    incomingExternalRelationsResult,
     explanationResult,
   ] = await Promise.all([
     db
@@ -271,6 +275,12 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .from('celeb_relations_external')
       .select('rel_type, rel_group, qid, name_ko, name_en, image_url, note, note_en')
       .eq('from_id', celebId),
+    profile.wikidata_qid
+      ? relationDb.from('celeb_relations_external')
+        .select('from_id,rel_type,rel_group,from:celebs!celeb_rel_external_celebs_fkey(wikidata_qid)')
+        .eq('qid', profile.wikidata_qid)
+        .overrideTypes<{ from_id: string; rel_type: string; rel_group: string | null; from: { wikidata_qid: string | null } | null }[], { merge: false }>()
+      : Promise.resolve({ data: [], error: null }),
     db
       .from('celeb_explanations')
       .select('plain_text, plain_text_en')
@@ -288,6 +298,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
   throwOnQueryError('getCelebBySlug/outgoing-relations', outgoingRelationsResult.error)
   throwOnQueryError('getCelebBySlug/incoming-relations', incomingRelationsResult.error)
   throwOnQueryError('getCelebBySlug/external-relations', externalRelationsResult.error)
+  throwOnQueryError('getCelebBySlug/incoming-external-relations', incomingExternalRelationsResult.error)
   throwOnQueryError('getCelebBySlug/explanation', explanationResult.error)
 
   const contentTypeCounts: ContentTypeCounts = { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 }
@@ -328,10 +339,25 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .filter((person): person is NonNullable<CelebRelationRow['from']> => person !== null)
       .map((person) => [person.id, person]),
   )
+  const rawExternalRelations = (externalRelationsResult.data ?? []) as unknown as
+    { rel_type: string; rel_group: CelebRelationItem['relGroup']; qid: string; name_ko: string | null; name_en: string | null; image_url: string | null; note: string | null; note_en: string | null }[]
+  const familyQids = new Set(rawExternalRelations
+    .filter(r => isCelebFamilyRelation(r.rel_type, r.rel_group)).map(r => r.qid))
+  const familyIds = new Set<string>()
+  for (const row of incomingExternalRelationsResult.data ?? []) {
+    if (!isCelebFamilyRelation(row.rel_type, row.rel_group)) continue
+    familyIds.add(row.from_id)
+    if (row.from?.wikidata_qid) familyQids.add(row.from.wikidata_qid)
+  }
+  for (const row of rawRelations) {
+    if (!isCelebFamilyRelation(row.rel_type, row.rel_group)) continue
+    const target = row.from_id === celebId ? row.to : row.from
+    if (target?.wikidata_qid) familyQids.add(target.wikidata_qid)
+  }
   const internalRelations: CelebRelationItem[] = mergeRelationRowsForViewer(rawRelations, celebId)
     .flatMap((relation) => {
       const target = relationProfiles.get(relation.counterpartId)
-      if (!target) return []
+      if (!target || familyIds.has(target.id) || (target.wikidata_qid && familyQids.has(target.wikidata_qid))) return []
       return [{
       relType: relation.relType,
       relGroup: relation.relGroup,
@@ -353,12 +379,11 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     })
 
   // 명단 밖 인물(위키데이터 등재) — 이름 노드. 셀럽이 자리를 먼저 차지하도록 뒤에 붙인다
-  const externalRelations: CelebRelationItem[] = ((externalRelationsResult.data ?? []) as unknown as
-    { rel_type: string; rel_group: CelebRelationItem['relGroup']; qid: string; name_ko: string | null; name_en: string | null; image_url: string | null; note: string | null; note_en: string | null }[])
-    .filter((r) => r.name_ko || r.name_en)
+  const externalRelations: CelebRelationItem[] = rawExternalRelations
+    .filter((r) => !familyQids.has(r.qid) && (r.name_ko || r.name_en) && celebRelationAxis(r.rel_type))
     .map((r) => ({
-      relType: r.rel_type,
-      relGroup: r.rel_group,
+      relType: celebRelationAxis(r.rel_type)!,
+      relGroup: celebRelationAxisGroup(celebRelationAxis(r.rel_type)!),
       id: `ext-${r.qid}`,
       slug: null,
       listed: false,
@@ -408,8 +433,8 @@ const getCelebBySlugCached = (slug: string) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     slug,
-    // v10: 다른 이름(aliases)을 함께 싣는 조회 결과만 캐시한다.
-    ['celeb-by-slug-v11-faction-headline', slug],
+    // 네 관계 축과 가족 중복 제외가 반영된 결과를 새로 채운다.
+    ['celeb-by-slug-v12-relation-axes', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )

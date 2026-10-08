@@ -27,8 +27,7 @@
     "test:content-locale": "tsx --test src/lib/utils/content-locale.test.ts src/lib/utils/content-locale-text.test.ts",
     "test:creator-names": "tsx --test src/lib/utils/creator-names.test.ts",
     "test:relation-map": "tsx --test src/lib/celeb/relationRows.test.ts src/lib/celeb/relationShapes.test.ts src/lib/celeb/relationNeighborhood.test.ts",
-    "check:artwork-images": "node scripts/check-artwork-images.mjs",
-    "check:source-links": "node scripts/check-source-links.mjs"
+    "check:artwork-images": "node scripts/check-artwork-images.mjs"
   },
   "dependencies": {
     "@antv/g6": "5.1.1",

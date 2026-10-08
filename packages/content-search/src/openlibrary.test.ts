@@ -103,7 +103,35 @@ test('검증된 밀그롬 판본은 표지 리다이렉트·접속 실패에도 
     assert.equal(book?.publisher, 'Augsburg Fortress Publishers')
     assert.deepEqual(book?.languages, ['/languages/eng'])
     assert.equal(book?.coverImageUrl, null)
-    assert.equal(mock.mock.callCount(), failure === 'missing-cover' ? 3 : 4)
+    assert.equal(mock.mock.callCount(), 4)
+    mock.mock.restore()
+  }
+})
+
+test('판본에 표지 번호가 없어도 검증한 ISBN의 실제 표지가 있으면 보존한다', async (t) => {
+  t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0], init?: RequestInit) => {
+    if (String(url).startsWith('https://covers.openlibrary.org/')) {
+      assert.equal(String(url), 'https://covers.openlibrary.org/b/isbn/9781501197260-L.jpg?default=false')
+      assert.equal(init?.method, 'HEAD')
+      return new Response('', { headers: { 'content-type': 'image/jpeg' } })
+    }
+    if (String(url).includes('/isbn/')) return Response.json({ ...metadataEdition, covers: [], works: [] })
+    return Response.json({ name: 'Jimmy Soni' })
+  })
+  assert.equal((await getOpenLibraryBookMetadata('9781501197260'))?.coverImageUrl,
+    'https://covers.openlibrary.org/b/isbn/9781501197260-L.jpg')
+})
+
+test('ISBN 표지도 없거나 이미지가 아닌 응답이면 표지 없음으로 보존한다', async (t) => {
+  for (const response of [new Response('', { status: 404 }), Response.json({ error: 'unavailable' })]) {
+    const mock = t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => {
+      if (String(url).startsWith('https://covers.openlibrary.org/')) return response
+      if (String(url).includes('/isbn/')) return Response.json({ ...metadataEdition, works: [] })
+      return Response.json({ name: 'Jimmy Soni' })
+    })
+    const book = await getOpenLibraryBookMetadata('9781501197260')
+    assert.equal(book?.coverImageUrl, null)
+    assert.equal(book?.isbn, '9781501197260')
     mock.mock.restore()
   }
 })
@@ -214,9 +242,9 @@ test('OpenLibrary는 선택한 ISBN의 판본 소개를 우선한다', async (t)
 
 test('판본 소개가 없으면 그 판본이 속한 작품 소개만 가져온다', async (t) => {
   t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => {
-    if (String(url).endsWith('/isbn/9780140328721.json')) return Response.json({ works: [{ key: '/works/OL1W' }] })
+    if (String(url).endsWith('/isbn/9780140328721.json')) return Response.json({ title:'Same Book',authors:[{key:'/authors/OL1A'}],works: [{ key: '/works/OL1W' }] })
     assert.equal(String(url), 'https://openlibrary.org/works/OL1W.json')
-    return Response.json({ description: 'Work introduction' })
+    return Response.json({ title:'Same Book',authors:[{author:{key:'/authors/OL1A'}}],description: 'Work introduction' })
   })
   assert.equal(await getBookDescriptionByIsbn('9780140328721'), 'Work introduction')
 })
@@ -234,3 +262,18 @@ test('일시적인 네트워크/HTTP 장애는 캐시 가능한 소개 누락으
   fetchMock.mock.mockImplementation(async () => { throw new Error('timeout') })
   await assert.rejects(getBookDescriptionByIsbn('9780140328721'), /timeout/)
 })
+
+test('악보가 자서전 work에 연결돼 있어도 그 소개를 복사하지 않는다', async (t) => {
+ t.mock.method(globalThis,'fetch',async(url:Parameters<typeof fetch>[0]) => String(url).includes('/isbn/')
+  ? Response.json({title:'Eric Clapton',subtitle:'Guitar Chord Songbook',authors:[{key:'/authors/OL1A'}],works:[{key:'/works/OL1W'}],languages:[{key:'/languages/eng'}]})
+  : Response.json({title:'Eric Clapton',authors:[{author:{key:'/authors/OL1A'}}],description:'An autobiography',languages:[{key:'/languages/fre'}]}));
+ const result=await getOpenLibraryBookIntroduction({isbn:'9780634056185'});
+ assert.equal(result?.description,null);assert.deepEqual(result?.languages,['/languages/eng']);
+ assert.equal(result?.sourceUrl,'https://openlibrary.org/isbn/9780634056185');
+});
+test('제목이 같아도 원저자가 다르거나 원제·저자가 없으면 work 소개를 추정하지 않는다',async(t)=>{
+ for(const edition of [{title:'Book',authors:[{key:'/authors/OL2A'}]},{title:'Book'},{}]) {
+  t.mock.method(globalThis,'fetch',async(url:Parameters<typeof fetch>[0])=>String(url).includes('/isbn/')?Response.json({...edition,works:[{key:'/works/OL1W'}]}):Response.json({title:'Book',authors:[{author:{key:'/authors/OL1A'}}],description:'Wrong original'}));
+  assert.equal(await getBookDescriptionByIsbn('9780140328721'),null);t.mock.restoreAll();
+ }
+});

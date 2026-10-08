@@ -4,32 +4,15 @@
   조회는 호출처가 하고 여기서는 받은 자료로 순서만 정한다.
 */
 
-/** 관계 유형별 가까움. 이름 붙은 사이일수록 크고, 남발되는 영향 관계는 낮다.
- *  영향(influence·influenced)은 전체 관계의 절반을 차지해 그대로 두면
- *  라이벌·사제가 이름 없는 피영향 인물에게 밀린다. */
-const REL_WEIGHT: Record<string, number> = {
-  spouse: 1,
-  sibling: 1,
-  parent: 1,
-  child: 1,
-  father: 1,
-  mother: 1,
-  cofounder: 1,
-  counterpart: 1,
-  // 같은 그룹·팀·단체에 함께 속한 사이. 아이돌 멤버끼리가 여기 걸린다
+import { celebRelationAxis, celebRelationAxisGroup, type CelebRelationAxis } from '@feelandnote/shared/constants/celeb-relations';
+
+/** 직접 협력·대립한 인물을 넓은 사상적 영향 관계보다 먼저 보여준다. */
+const REL_WEIGHT: Record<CelebRelationAxis, number> = {
   colleague: 0.95,
-  partner: 0.95,
-  relative: 0.9,
-  teacher: 0.95,
-  student: 0.95,
   rival: 0.95,
-  friend: 0.85,
   influence: 0.6,
   influenced: 0.6,
 };
-
-/** 표에 없는 관계 — 이름은 붙었으니 영향보다는 위, 가족보다는 아래 */
-const DEFAULT_REL_WEIGHT = 0.7;
 
 /** 영향력 총점의 실측 상한(89)에 여유를 둔 값. 관계 가중치와 같은 자릿수로 맞춘다 */
 const INFLUENCE_SCALE = 90;
@@ -101,14 +84,14 @@ export function figureDistance(
 }
 
 /** 관계 한 건의 점수. 같은 유형이면 더 큰 인물이 위로 온다 */
-function relationScore(relType: string, influence: number): number {
-  const weight = REL_WEIGHT[relType] ?? DEFAULT_REL_WEIGHT;
+function relationScore(relType: CelebRelationAxis, influence: number): number {
+  const weight = REL_WEIGHT[relType];
   return weight + influence / INFLUENCE_SCALE;
 }
 
 /**
  * 관계를 먼저 세우고 남은 자리를 계산으로 채운다.
- * 같은 인물과 관계가 둘 이상일 수 있으므로(친구이면서 영향) 가장 가까운 한 건만 남긴다.
+ * 같은 인물과 관계가 둘 이상일 수 있으므로(협력이면서 영향) 가장 가까운 한 건만 남긴다.
  */
 export function rankRelatedFigures({
   self,
@@ -126,14 +109,16 @@ export function rankRelatedFigures({
   // 1) 근거 있는 사이 — 이동할 페이지가 있는 인물만 세운다
   const best = new Map<string, { relation: RelatedRelationInput; score: number }>();
   for (const relation of relations) {
+    const axis = celebRelationAxis(relation.relType);
+    if (!axis) continue;
     if (relation.id === self.id || !relation.slug) continue;
     const candidate = byId.get(relation.id);
     if (!candidate || candidate.isFiction !== self.isFiction) continue;
 
-    const score = relationScore(relation.relType, candidate.influence);
+    const score = relationScore(axis, candidate.influence);
     const previous = best.get(relation.id);
     if (!previous || score > previous.score) {
-      best.set(relation.id, { relation, score });
+      best.set(relation.id, { relation: { ...relation, relType: axis, relGroup: celebRelationAxisGroup(axis) }, score });
     }
   }
 

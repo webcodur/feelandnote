@@ -48,7 +48,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSizeState] = useState(defaultPageSize ?? 10);
-  const [sortOption, setSortOptionState] = useState<SortOption>(ownerKind === "celeb" ? "reviewed" : "recent");
+  const [sortOption, setSortOptionState] = useState<SortOption>("recent");
   const [reviewFilter, setReviewFilterState] = useState<ReviewFilter>("all");
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [appliedSearchQuery, setAppliedSearchQuery] = useState(initialSearchQuery);
@@ -82,7 +82,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     () => filterAndSortContents(
       data.contents,
       sortOption,
-      ownerKind === "celeb" && locale === "ko" && sortOption === "reviewed",
+      ownerKind === "celeb" && locale === "ko",
     ),
     [data.contents, locale, ownerKind, sortOption],
   );

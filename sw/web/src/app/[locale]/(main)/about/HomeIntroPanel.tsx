@@ -56,5 +56,5 @@ export default async function HomeIntroPanel() {
   const locale = await getLocale();
   const labels = await buildIntroLabels(locale);
 
-  return <IntroFrame labels={labels} closingHref="/about" />;
+  return <IntroFrame labels={labels} closingHref="/about" widthClassName="max-w-none" />;
 }

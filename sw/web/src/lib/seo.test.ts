@@ -17,6 +17,14 @@ test('SEO 이미지 소스가 바뀌면 버전 키도 바뀌다', () => {
   assert.notEqual(before.searchParams.get('v'), after.searchParams.get('v'))
 })
 
+test('인물 합성 변경은 같은 아바타도 새 캐시 키를 쓰고 작품 키는 유지한다', () => {
+  const source = 'https://img.example/avatar.webp'
+  const person = new URL(getSeoImageUrl('celeb', 'person', 'ko', source))
+  const content = new URL(getSeoImageUrl('content', 'book', 'ko', source))
+  assert.notEqual(person.searchParams.get('v'), content.searchParams.get('v'))
+  assert.equal(person.pathname, '/seo-image/celeb/person')
+})
+
 test('긴 소개문은 한도 안에 드는 앞 문장까지만 싣는다', () => {
   const text = '1977년 이상문학상을 제정해 2024년 제47회까지 주관한 한국의 문학 전문 출판사다. 소설가 이상의 문학적 업적을 기리기 위해 상을 만들었고, 해마다 대상 수상작을 표제로 삼은 이상문학상 작품집을 펴냈다. 2025년 제48회부터는 다산북스가 주관사를 이어받았다.'
   const summary = toSeoSummary(text, 120)

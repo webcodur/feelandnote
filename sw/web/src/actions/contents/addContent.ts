@@ -9,7 +9,7 @@ import { sourceToLocale, sourceToJsonb } from '@/lib/utils/content-locale'
 import { getVideoEnLocale } from '@feelandnote/content-search/tmdb'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
-import { resolveExternalBookInput } from '@feelandnote/content-search/external-book-input'
+import { resolveExternalBookInput, externalBookWorkKey } from '@feelandnote/content-search/external-book-input'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { registeredSeriesMatches } from '@feelandnote/content-search/book-series'
 import { getEnglishBookMetadataCached } from '@/lib/books/bookSearch.server'
@@ -109,6 +109,17 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
       } catch (cause) {
         return failure('VALIDATION_ERROR', cause instanceof Error ? cause.message : '공식 공급처에서 도서 판본을 확인하지 못했습니다.')
       }
+      const workKey = externalBookWorkKey(book)
+      if (workKey) {
+        const matches = await Promise.all([
+          db.from('contents').select('id').eq('type', 'BOOK').eq('metadata->>workKey', workKey).limit(1),
+          db.from('contents').select('id').eq('type', 'BOOK').eq('metadata->figureBook->>openLibraryWork', workKey).limit(1),
+          db.from('figure_book_editions').select('content_id').eq('sources->>workKey', workKey).limit(1),
+          db.from('content_locales').select('content_id').eq('sources->>workKey', workKey).limit(1),
+        ])
+        for (const match of matches) if (match.error) return handleDatabaseError(match.error, { context: 'content', logPrefix: '[도서 원작 판본 확인]' })
+        if (matches.some(match => match.data?.length)) return failure('CONFLICT', '같은 원작에 연결된 판본이 있습니다. 기존 작품에서 본문 범위를 확인한 뒤 판본을 추가해주세요.')
+      }
       const seriesWorks: { id: string; metadata: unknown }[] = []
       for (let from = 0; ; from += 1000) {
         const { data, error } = await db.from('contents').select('id, metadata').eq('type', 'BOOK')
@@ -145,6 +156,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
       publisher: book ? book.metadata.publisher : params.publisher || null,
       sources: {
         ...sourceToJsonb(book?.externalSource ?? params.externalSource),
+        ...(book && externalBookWorkKey(book) && { workKey: externalBookWorkKey(book) }),
         ...(book && sourceUrl && { isbn: sourceUrl, title: sourceUrl, creator: sourceUrl, publisher: sourceUrl, thumbnail: book.coverImageUrl ? sourceUrl : 'confirmed_unavailable' }),
         ...(hasIntroduction && { description: introduction!.sourceUrl, description_method: 'provider', description_source_locale: locale }),
       },

@@ -22,7 +22,6 @@ interface CelebIndexParams {
   limit?: number
   search?: string
   hasReview?: boolean
-  approvedFirst?: boolean
 }
 
 async function findSearchIds(search?: string): Promise<string[] | null> {
@@ -48,11 +47,10 @@ async function fetchIndex(
   const contentFields = `id, type, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE}, isbn)`
   let query = createStaticClient()
     .from('celeb_contents')
-    .select(`id, content_id, status, visibility, created_at, review_approved_at, content:contents!inner(${contentFields})`, { count: 'exact' })
+    .select(`id, content_id, status, visibility, created_at, content:contents!inner(${contentFields})`, { count: 'exact' })
     .eq('celeb_id', params.userId)
     .eq('visibility', 'public')
-  if (params.approvedFirst !== false) query = query.order('review_approved_at', { ascending: false, nullsFirst: false })
-  query = query.order('created_at', { ascending: false }).order('id')
+    .order('created_at', { ascending: false })
 
   if (params.type) query = query.eq('content.type', params.type)
   if (searchIds) query = query.in('content_id', searchIds)
@@ -79,12 +77,12 @@ export async function getPublicCelebContentIndex(
 ): Promise<GetUserContentsResponse> {
   const locale = await getLocale()
   const params = { ...input, page: input.page ?? 1, limit: input.limit ?? CELEB_EXPAND_INDEX_LIMIT }
-  const key = [params.userId, params.type, params.page, params.limit, params.search, params.hasReview, params.approvedFirst]
+  const key = [params.userId, params.type, params.page, params.limit, params.search, params.hasReview]
     .map((value) => String(value ?? ''))
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     params.userId,
-    ['celeb-content-expand-index-v3-approved', locale, ...key],
+    ['celeb-content-expand-index-v4-recent', locale, ...key],
     () => fetchIndex(params, locale),
     { extraTags: [CACHE_TAGS.CONTENTS] },
   )
@@ -94,7 +92,7 @@ async function fetchRecord(celebId: string, contentId: string, locale: string) {
   const reviewEn = locale === 'en' ? 'review_en,' : ''
   const { data, error } = await createStaticClient()
     .from('celeb_contents')
-    .select(`id, content_id, status, review_approved_at, review, ${reviewEn} review_presets, is_spoiler, visibility, created_at, source_url, content:contents!inner(id, type, metadata, user_count:record_count, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE}, isbn))`)
+    .select(`id, content_id, status, review, ${reviewEn} review_presets, is_spoiler, visibility, created_at, source_url, content:contents!inner(id, type, metadata, user_count:record_count, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE}, isbn))`)
     .eq('celeb_id', celebId)
     .eq('content_id', contentId)
     .eq('visibility', 'public')
@@ -108,7 +106,7 @@ export async function getPublicCelebContentRecord(
   contentId: string,
 ): Promise<UserContentPublic | null> {
   const locale = await getLocale()
-  const key = ['celeb-content-expand-record-v3-approved', celebId, contentId, locale]
+  const key = ['celeb-content-expand-record-v4-recent', celebId, contentId, locale]
   return unstable_cache(() => fetchRecord(celebId, contentId, locale), key, {
     revalidate: spreadRevalidate(STATIC_REVALIDATE, key),
     tags: [...new Set([

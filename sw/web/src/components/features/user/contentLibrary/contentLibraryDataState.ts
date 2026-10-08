@@ -63,7 +63,6 @@ export interface ContentRequest {
   search: string | undefined;
   hasReview: boolean | undefined;
   sortBy: RequestSortOption;
-  approvedFirst?: boolean;
 }
 
 export function createLibrarySeed(
@@ -96,7 +95,6 @@ export function createContentRequest(input: ContentRequestInput): ContentRequest
       ? undefined
       : input.reviewFilter === "has_review",
     sortBy: input.ownerKind === "celeb" ? "recent" : requestedSort,
-    ...(input.ownerKind === "celeb" ? { approvedFirst: input.sortOption === "reviewed" } : {}),
   };
 }
 
@@ -112,7 +110,7 @@ export function isInitialSeedQuery(options: ContentLibraryDataOptions): boolean 
     && options.pageSize === options.defaultPageSize
     && options.appliedSearchQuery.trim().length < 2
     && options.reviewFilter === "all"
-    && options.sortOption === (options.ownerKind === "celeb" ? "reviewed" : "recent")
+    && options.sortOption === "recent"
     && options.viewMode !== "expand";
 }
 

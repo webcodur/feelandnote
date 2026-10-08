@@ -6,7 +6,7 @@ import { isAllowedSeoImageUrl } from '@/lib/seoImageOrigin'
 
 export const SEO_IMAGE_SIZE = 800
 
-type SeoImageVariant = 'person' | 'content'
+type SeoImageVariant = 'person' | 'avatar' | 'content'
 
 const MAX_SOURCE_BYTES = 12 * 1024 * 1024
 const MAX_REDIRECTS = 3
@@ -68,7 +68,7 @@ async function fetchImageBuffer(sourceUrl: string): Promise<Buffer> {
 }
 
 async function createFallbackImage(variant: SeoImageVariant): Promise<Buffer> {
-  const symbol = variant === 'person'
+  const symbol = variant !== 'content'
     ? '<circle cx="400" cy="310" r="112"/><path d="M210 650c18-128 92-200 190-200s172 72 190 200z"/>'
     : '<path d="M260 185h250c28 0 50 22 50 50v390H310c-28 0-50-22-50-50V185zm50 0v390h250"/>'
 
@@ -95,15 +95,67 @@ async function createFallbackImage(variant: SeoImageVariant): Promise<Buffer> {
   return sharp(svg).flatten({ background: '#14110d' }).jpeg({ quality: 82, mozjpeg: true }).toBuffer()
 }
 
+let avatarBackground: Promise<Buffer> | undefined
+
+/** 황갈색 종이·회벽의 불규칙한 결. 고정 시드로 생성해 요청마다 모양이 바뀌지 않는다. */
+function createAvatarBackground(): Promise<Buffer> {
+  return avatarBackground ??= (async () => {
+    const pixels = Buffer.alloc(SEO_IMAGE_SIZE * SEO_IMAGE_SIZE * 3)
+    const noise = (x: number, y: number) => {
+      let value = Math.imul(x + 1, 374761393) ^ Math.imul(y + 1, 668265263)
+      value = Math.imul(value ^ (value >>> 13), 1274126177)
+      return ((value ^ (value >>> 16)) >>> 0) / 0xffffffff * 2 - 1
+    }
+    const surface = (x: number, y: number, scale: number) => {
+      const gx = Math.floor(x / scale), gy = Math.floor(y / scale)
+      const fx = x / scale - gx, fy = y / scale - gy
+      const sx = fx * fx * (3 - 2 * fx), sy = fy * fy * (3 - 2 * fy)
+      const upper = noise(gx, gy) * (1 - sx) + noise(gx + 1, gy) * sx
+      const lower = noise(gx, gy + 1) * (1 - sx) + noise(gx + 1, gy + 1) * sx
+      return upper * (1 - sy) + lower * sy
+    }
+    for (let y = 0; y < SEO_IMAGE_SIZE; y++) {
+      for (let x = 0; x < SEO_IMAGE_SIZE; x++) {
+        const light = 24 * Math.exp(-(((x - 360) / 430) ** 2 + ((y - 190) / 560) ** 2))
+        const grain = surface(x, y, 144) * 12 + surface(x, y, 24) * 5 + noise(x, y) * 4
+        const tone = light + grain - y / SEO_IMAGE_SIZE * 9
+        const index = (y * SEO_IMAGE_SIZE + x) * 3
+        pixels[index] = Math.round(193 + tone)
+        pixels[index + 1] = Math.round(151 + tone)
+        pixels[index + 2] = Math.round(94 + tone)
+      }
+    }
+    return sharp(pixels, { raw: { width: SEO_IMAGE_SIZE, height: SEO_IMAGE_SIZE, channels: 3 } }).png().toBuffer()
+  })()
+}
+
 async function composeSquareImage(source: Buffer, variant: SeoImageVariant): Promise<Buffer> {
   const normalized = await sharp(source, { failOn: 'error' })
     .rotate()
     .png()
     .toBuffer()
 
-  const foregroundSize = variant === 'person'
-    ? { width: 748, height: 748 }
-    : { width: 610, height: 680 }
+  if (variant === 'avatar') {
+    const [background, foreground] = await Promise.all([
+      createAvatarBackground(),
+      sharp(normalized).resize({ width: 736, height: 760, fit: 'inside' }).png().toBuffer({ resolveWithObject: true }),
+    ])
+    return sharp(background)
+      .composite([{ input: foreground.data, left: Math.round((SEO_IMAGE_SIZE - foreground.info.width) / 2), top: SEO_IMAGE_SIZE - foreground.info.height }])
+      .jpeg({ quality: 82, mozjpeg: true, chromaSubsampling: '4:4:4' })
+      .toBuffer()
+  }
+
+  // 검색 썸네일에서도 환경 사진 전체를 보존한다. 누끼 아바타의 투명 영역은 밝게 채운다.
+  if (variant === 'person') {
+    return sharp(normalized)
+      .resize(SEO_IMAGE_SIZE, SEO_IMAGE_SIZE, { fit: 'contain', background: '#f3efe7' })
+      .flatten({ background: '#f3efe7' })
+      .jpeg({ quality: 82, mozjpeg: true, chromaSubsampling: '4:4:4' })
+      .toBuffer()
+  }
+
+  const foregroundSize = { width: 610, height: 680 }
 
   const [background, foreground] = await Promise.all([
     sharp(normalized)
@@ -119,12 +171,10 @@ async function composeSquareImage(source: Buffer, variant: SeoImageVariant): Pro
       .toBuffer({ resolveWithObject: true }),
   ])
 
-  const displayed = variant === 'content'
-    ? await sharp(foreground.data)
-        .extend({ top: 10, right: 10, bottom: 10, left: 10, background: '#171512' })
-        .png()
-        .toBuffer({ resolveWithObject: true })
-    : foreground
+  const displayed = await sharp(foreground.data)
+    .extend({ top: 10, right: 10, bottom: 10, left: 10, background: '#171512' })
+    .png()
+    .toBuffer({ resolveWithObject: true })
 
   const left = Math.round((SEO_IMAGE_SIZE - displayed.info.width) / 2)
   const top = Math.round((SEO_IMAGE_SIZE - displayed.info.height) / 2)

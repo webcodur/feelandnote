@@ -3,7 +3,6 @@ import { Maximize2 } from "lucide-react";
 
 import ContentReadingText from "./ContentReadingText";
 import Modal, { ModalBody } from "./Modal";
-import SourceLink from "./SourceLink";
 import AutoScrollReadingText from "@/components/shared/AutoScrollReadingText";
 import type { ReadingSegment } from "@/lib/reading-timing";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -88,8 +87,8 @@ export default function ContentTextModal({
       escapeCapture={nested}
       footer={source ? (
         <div data-content-text-source className="flex justify-end border-t border-line px-4 py-1 sm:px-6">
-          <SourceLink sourceUrl={source.href}
-            className={MODAL_SOURCE_CLASS} style={MODAL_GOLD_STYLE}>{source.label}</SourceLink>
+          <a href={source.href} target="_blank" rel="noopener noreferrer"
+            className={MODAL_SOURCE_CLASS} style={MODAL_GOLD_STYLE}>{source.label}</a>
         </div>
       ) : undefined}
     >

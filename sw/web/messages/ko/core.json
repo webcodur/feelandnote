@@ -876,9 +876,6 @@
       "next": "다음 구획: {name}",
       "noPrevious": "이전 구획 없음",
       "noNext": "다음 구획 없음"
-    },
-    "sources": {
-      "title": "출처 목록"
     }
   },
   "notifications": {

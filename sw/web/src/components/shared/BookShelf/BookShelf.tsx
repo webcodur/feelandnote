@@ -51,7 +51,7 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
 
   return (
     <div className="min-w-0" aria-label={ariaLabel} data-bookshelf>
-      {title && <h3 className="flex items-center gap-2 border-b border-white/10 px-4 py-4 text-lg font-bold text-text-primary sm:px-6"><BookOpen size={17} aria-hidden />{title}</h3>}
+      {title && <h3 className="flex items-center justify-center gap-2 px-4 py-4 text-center text-lg font-bold text-text-primary sm:px-6"><BookOpen size={17} aria-hidden />{title}</h3>}
       <div className={`mx-auto flex flex-col gap-2 ${layout.width} ${layout.contentGap}`}>
         {groupPicker}
         {(choicePicker || active.addon) && <div className={layout.secondary} data-bookshelf-subcontrols>

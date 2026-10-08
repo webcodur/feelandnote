@@ -7,8 +7,6 @@
 
 import { getTranslations, getLocale } from "next-intl/server";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
-import SourceLink from "@/components/ui/SourceLink";
-import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import type { AboutShowcase } from "@/actions/policy/getAboutShowcase";
 import { Link } from "@/i18n/navigation";
 import { ChevronRight } from "lucide-react";
@@ -178,12 +176,14 @@ export default async function AboutBody({ showcase }: { showcase: AboutShowcase 
 
             <figcaption className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm text-text-secondary">
               <span className="text-accent">{t("aboutEvidenceSource")}</span>
-              <AsyncIntlProvider>
-                <SourceLink sourceUrl={showcase.evidence.sourceUrl}
-                  className="text-accent hover:text-accent-hover underline break-all">
-                  {showcase.evidence.sourceHost}
-                </SourceLink>
-              </AsyncIntlProvider>
+              <a
+                href={showcase.evidence.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="text-accent hover:text-accent-hover underline break-all"
+              >
+                {showcase.evidence.sourceHost}
+              </a>
               <span className="w-full">{t("aboutEvidenceCaption")}</span>
             </figcaption>
           </figure>

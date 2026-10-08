@@ -19,7 +19,6 @@ import FormattedText from "@/components/ui/FormattedText";
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import ContentCoverLink from "@/components/shared/ContentCoverLink";
 import ContentTextModal from "@/components/ui/ContentTextModal";
-import SourceLink from "@/components/ui/SourceLink";
 import Button from "@/components/ui/Button";
 import { getCategoryByDbType } from "@/constants/categories";
 import { getLocalizedContent } from "@/lib/utils/editions";
@@ -162,7 +161,6 @@ function ExpandCard({
               </span>
             )}
 
-          {item.review_approved_at && !isRecordLoading && !hasRecordError && <p data-reviewed-review className="mb-3 text-xs font-medium text-accent">{t("reviewModal.edited")}</p>}
           {hasRecordError ? (
             <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
               <p>{tExpand("loadFailed")}</p>
@@ -208,12 +206,14 @@ function ExpandCard({
               )}
               {/* 출처는 전문 표시로 모달을 못 여는 길에서도 카드에 남긴다 */}
               {item.source_url && (
-                <SourceLink
-                  sourceUrl={item.source_url}
+                <a
+                  href={item.source_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="mt-2 inline-block text-xs text-text-tertiary underline decoration-white/20 underline-offset-2 hover:text-text-secondary"
                 >
                   {t("reviewModal.source")}
-                </SourceLink>
+                </a>
               )}
             </>
           ) : null}

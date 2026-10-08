@@ -48,7 +48,7 @@ export async function hydrateFactionBooks(
   /* 카드 맞춤 규칙은 인물 모달 「이 인물 관련 책」과 같다 — 판본 제목·저자·표지를 우선하고
      한국어는 같은 판본의 쿠팡 상품을, 영어는 아마존 상품·검색 주소를 잇는다 */
   const books = contents.flatMap((content): FactionFigureBook[] => {
-    const book = resolveBookShelfBook(content, editionsByContent.get(content.id) ?? [], locale, themeSlug);
+    const book = resolveBookShelfBook(content, editionsByContent.get(content.id) ?? [], locale, themeSlug, !editionsByContent.has(content.id));
     if (!book) return [];
     return [{
       ...book,

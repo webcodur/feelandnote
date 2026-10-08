@@ -1,4 +1,5 @@
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
+import { celebRelationAxis, celebRelationAxisGroup } from '@feelandnote/shared/constants/celeb-relations';
 
 import type { KinRank, PersonNode, RelationFocus, RelationMode, RelationModel, SocialBand } from "./types";
 
@@ -9,9 +10,9 @@ const KIN_RANK: Record<string, KinRank> = {
 };
 
 const SOCIAL_BAND: Record<string, SocialBand> = {
-  teacher: "up", influence: "up",
-  student: "down", influenced: "down",
-  cofounder: "left", colleague: "left", friend: "left",
+  influence: "up",
+  influenced: "down",
+  colleague: "left",
   rival: "right",
 };
 
@@ -27,18 +28,21 @@ const uniquePeople = (groups: PersonNode[][]) => {
 export function buildRelationModel(relations: CelebRelationItem[], locale: string): RelationModel {
   const merged = new Map<string, PersonNode>();
   for (const row of relations) {
+    const axis = celebRelationAxis(row.relType);
+    if (!axis) continue;
+    const group = celebRelationAxisGroup(axis);
     const name = locale === "en" && row.nickname_en ? row.nickname_en : row.nickname;
     const note = locale === "en" && row.note_en ? row.note_en : row.note;
     const current = merged.get(row.id);
     if (current) {
-      if (!current.types.includes(row.relType)) current.types.push(row.relType);
-      if (!current.groups.includes(row.relGroup)) current.groups.push(row.relGroup);
+      if (!current.types.includes(axis)) current.types.push(axis);
+      if (!current.groups.includes(group)) current.groups.push(group);
       if (note && !current.note?.includes(note)) current.note = current.note ? `${current.note} / ${note}` : note;
       continue;
     }
     merged.set(row.id, {
       id: row.id, slug: row.slug, listed: row.listed, name,
-      avatarUrl: row.avatar_url, types: [row.relType], groups: [row.relGroup], note,
+      avatarUrl: row.avatar_url, types: [axis], groups: [group], note,
       profession: row.profession, nationality: row.nationality,
       birthDate: row.birth_date, deathDate: row.death_date, qid: row.qid,
     });
@@ -47,20 +51,12 @@ export function buildRelationModel(relations: CelebRelationItem[], locale: strin
   const people = [...merged.values()];
   const family: RelationModel["family"] = { parents: [], siblings: [], spouses: [], children: [] };
   const social: RelationModel["social"] = { up: [], left: [], right: [], down: [] };
-  // 가족 갈래에도 사회 갈래에도 안 걸리는 관계를 담는 자리. 지금은 counterpart(대응 신격)가
-  // 여기 온다 — 제우스와 유피테르처럼 「같은 신을 문화권마다 다르게 부른 것」은 협력도 대립도
-  // 아니라서, 사회 갈래에 끼워 넣으면 둘이 무슨 사이인 것처럼 읽힌다. 앞으로 어느 갈래에도
-  // 안 맞는 관계 종류가 생기면 따로 손대지 않아도 같은 자리로 모인다.
   const other: PersonNode[] = [];
   for (const person of people) {
-    const kinRanks = new Set(person.types.map((type) => KIN_RANK[type]).filter(Boolean));
-    for (const rank of kinRanks) family[rank].push(person);
     const socialTypes = person.types.filter((type) => SOCIAL_BAND[type]);
-    const band = socialTypes.includes("rival")
-      ? "right"
-      : socialTypes.map((type) => SOCIAL_BAND[type]).find(Boolean) ?? null;
-    if (band) social[band].push(person);
-    if (!kinRanks.size && !band) other.push(person);
+    // 네 축은 독립적이다. 대립한다고 협력이나 양방향 영향이 사라지지 않는다.
+    const bands = new Set(socialTypes.map(type => SOCIAL_BAND[type]));
+    for (const band of bands) social[band].push(person);
   }
 
   return {

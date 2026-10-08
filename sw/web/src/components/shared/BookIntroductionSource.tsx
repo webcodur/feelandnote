@@ -1,6 +1,5 @@
 "use client";
 
-import SourceLink from "@/components/ui/SourceLink";
 import { useTranslations } from "next-intl";
 import type { BookIntroductionAttribution } from "@/lib/utils/book-description";
 import { cn } from "@/lib/utils";
@@ -63,13 +62,13 @@ export default function BookIntroductionSource({ attribution, className }: {
   }
 
   return (
-    <SourceLink
-      sourceUrl={attribution.url}
+    <a
+      href={attribution.url}
       title={`${description} ${t("openSource")}`}
       aria-label={`${label}: ${t("openSource")}`}
       className={cn(styles, "hover:border-accent/60 hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent")}
-    >
+     target="_blank" rel="noopener noreferrer nofollow" onClick={(event) => event.stopPropagation()}>
       {label}
-    </SourceLink>
+    </a>
   );
 }

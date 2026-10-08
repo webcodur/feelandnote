@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState, type ButtonHTMLAttributes, type CSSProperties } from 'react'
-import { useLocale, useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
 import { COVER_PALETTE_VERSION, type CoverPalette } from '@/lib/books/coverPalette'
 import type { BookShelfBook } from './types'
 import styles from './BookShelf.module.css'
@@ -24,7 +24,6 @@ function requestPalette(key: string) {
 const BookShelfBookChip = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement> & { book: BookShelfBook }>(
   function BookShelfBookChip({ book, className = '', style, ...props }, forwardedRef) {
     const locale = useLocale()
-    const t = useTranslations('content.reviewModal')
     const ref = useRef<HTMLButtonElement>(null)
     useImperativeHandle(forwardedRef, () => ref.current!, [])
     const source = book.editions.find((edition) => edition.id === book.preferredEditionId)?.thumbnailUrl ?? book.thumbnailUrl
@@ -47,7 +46,7 @@ const BookShelfBookChip = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTM
       '--book-cover-shadow': palette[0], '--book-cover-mid': palette[1], '--book-cover-light': palette[2],
     } as CSSProperties : undefined
     return <button {...props} ref={ref} className={`${styles.bookChip} ${className}`} style={{ ...style, ...colors }}
-      data-cover-palette={palette ? 'poster' : 'neutral'}>{props.children}{book.readingRecord?.review_approved_at && <span className="ms-2 text-[10px] font-medium text-accent">{t('edited')}</span>}</button>
+      data-cover-palette={palette ? 'poster' : 'neutral'} />
   },
 )
 export default BookShelfBookChip

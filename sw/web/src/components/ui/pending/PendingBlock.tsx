@@ -34,6 +34,9 @@ interface Props {
   className?: string;
   /** 화면 낭독기에만 읽히는 안내 문구 */
   label?: string;
+  /** 눈으로도 읽을 수 있는 구획별 대기 안내. */
+  message?: string;
+  hint?: string;
   /** 구획 고유의 윤곽. 대기 표식과 접근성 처리는 공용으로 유지한다. */
   children?: ReactNode;
 }
@@ -46,6 +49,8 @@ export default function PendingBlock({
   minHeight = "min-h-40",
   className,
   label,
+  message,
+  hint,
   children,
 }: Props) {
   const ghosts = Array.from(
@@ -85,8 +90,10 @@ export default function PendingBlock({
   return (
     <div role="status" aria-busy="true" aria-label={label ?? "Loading"} className={cn("relative", className)}>
       <div aria-hidden="true" className="h-full">{children ?? body}</div>
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
         <PendingMark className="rounded-full border border-border/60 bg-bg-main/95" />
+        {message && <p className="text-sm font-medium leading-relaxed text-text-secondary">{message}</p>}
+        {hint && <p className="max-w-sm text-xs leading-relaxed text-text-tertiary">{hint}</p>}
       </div>
     </div>
   );

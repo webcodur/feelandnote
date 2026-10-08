@@ -18,6 +18,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { getRelatedFigures } from "@/actions/celebs/getRelatedFigures";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 import FigurePersonRows from "@/components/features/celeb/FigurePersonRows";
+import { RetryBlock } from '@/components/ui/pending';
 import type { PersonNode } from "./relation-graph/types";
 
 /** 세울 링크 상한 — 관계가 수십이면 다 걸지 않고 가까운 순으로 앞을 취한다 */
@@ -30,6 +31,7 @@ interface RelatedFigureLinksProps {
   birthDate: string | null;
   celebReality?: string | null;
   relations: CelebRelationItem[];
+  waitFor?: Promise<unknown>;
 }
 
 export default async function RelatedFigureLinks({
@@ -39,7 +41,9 @@ export default async function RelatedFigureLinks({
   birthDate,
   celebReality,
   relations,
+  waitFor,
 }: RelatedFigureLinksProps) {
+  await waitFor;
   const figures = await getRelatedFigures({
     celebId,
     profession,
@@ -52,11 +56,14 @@ export default async function RelatedFigureLinks({
       noteEn: relation.note_en,
     })),
     limit: MAX_LINKS,
+  }).catch((error: unknown) => {
+    console.error('[RelatedFigureLinks] 연결 인물 조회 실패:', error);
+    return null;
   });
+  if (!figures) return <RetryBlock />;
   const locale = await getLocale();
-  if (figures.length === 0) return null;
-
   const t = await getTranslations("celebPage");
+  if (figures.length === 0) return <p className="py-8 text-center text-sm text-text-tertiary">{t('loading.relatedEmpty')}</p>;
   const tp = await getTranslations("profession");
   // 카드 한 줄에 들어갈 길이. 같은 뜻이라도 영문이 길어 자릿수를 달리 잡는다
   const noteMax = locale === "en" ? 40 : 24;

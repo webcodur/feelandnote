@@ -158,7 +158,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
   const works = contents.flatMap((content): MythWork[] => {
     const flat = flattenLocales(content.content_locales, locale, content.type);
     const availableEditions = editionsByContent.get(content.id) ?? [];
-    const book = content.type === 'BOOK' ? resolveBookShelfBook(content, availableEditions, locale) : null;
+    const book = content.type === 'BOOK' ? resolveBookShelfBook(content, availableEditions, locale, undefined, !editionsByContent.has(content.id)) : null;
     if (content.type === 'BOOK' && !book) return [];
     return [{ id: content.id, title: book?.title ?? flat.title,
       themeIds: mythRows.filter((myth) => (myth.theme_book_ids ?? []).includes(content.id)).map((myth) => myth.id),

@@ -7,7 +7,7 @@
 
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import FormattedText from "@/components/ui/FormattedText";
-import SourceLink from "@/components/ui/SourceLink";
+
 import type { TitleBadge } from "@/lib/utils/content-locale";
 import {
   getPresetByKeyword,
@@ -75,12 +75,15 @@ export default function ContentReviewModal({
         {/* 리뷰 출처 링크 */}
         <div className="mt-3 text-xs break-all text-center">
           {sourceUrl ? (
-            <SourceLink
-              sourceUrl={sourceUrl}
+            <a
+              href={sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
               className="text-accent/60 hover:text-accent underline underline-offset-2"
             >
-              {t("source")}
-            </SourceLink>
+              {t("source", { url: sourceUrl })}
+            </a>
           ) : (
             <span className="text-red-500 font-semibold">
               {t("noSource")}

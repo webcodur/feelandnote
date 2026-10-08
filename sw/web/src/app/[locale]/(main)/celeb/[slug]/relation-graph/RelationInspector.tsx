@@ -33,9 +33,10 @@ interface Props {
   quotes?: string | null;
   titleBadge?: string | null;
   centerBreakdown?: {
-    social: number;
-    family: number;
-    other: number;
+    received: number;
+    given: number;
+    cooperation: number;
+    opposition: number;
   } | null;
   locale?: string;
 }
@@ -125,17 +126,10 @@ function InspectorCard(props: Props) {
               </span>
               {props.centerBreakdown && (
                 <div className={styles.centerStatsPills}>
-                  <span className={styles.centerPill}>
-                    {locale === "en" ? "Social" : "사회"} <strong>{props.centerBreakdown.social}</strong>
-                  </span>
-                  <span className={styles.centerPill}>
-                    {locale === "en" ? "Family" : "가족"} <strong>{props.centerBreakdown.family}</strong>
-                  </span>
-                  {props.centerBreakdown.other > 0 && (
-                    <span className={styles.centerPill}>
-                      {locale === "en" ? "Other" : "기타"} <strong>{props.centerBreakdown.other}</strong>
-                    </span>
-                  )}
+                  <span className={styles.centerPill}>{locale === "en" ? "Influenced by" : "영향 받음"} <strong>{props.centerBreakdown.received}</strong></span>
+                  <span className={styles.centerPill}>{locale === "en" ? "Influenced" : "영향 줌"} <strong>{props.centerBreakdown.given}</strong></span>
+                  <span className={styles.centerPill}>{locale === "en" ? "Cooperation" : "협력"} <strong>{props.centerBreakdown.cooperation}</strong></span>
+                  <span className={styles.centerPill}>{locale === "en" ? "Opposition" : "대립"} <strong>{props.centerBreakdown.opposition}</strong></span>
                 </div>
               )}
             </div>

@@ -6,7 +6,6 @@ import { ChevronDown, ChevronUp, EyeOff, Star, ExternalLink, Sparkles } from "lu
 import { useTranslations, useLocale } from "next-intl";
 import { BlurDissolve, FormattedText } from "@/components/ui";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
-import SourceLink from "@/components/ui/SourceLink";
 import Button from "@/components/ui/Button";
 import UserAvatarWithPopover from "@/components/shared/UserAvatarWithPopover";
 import { BLUR_DATA_URL } from "@/constants/image";
@@ -93,10 +92,10 @@ export default function ReviewCard({ item, className, isExpanded = false }: Revi
           {!!item.rating && <span className={styles.rating}>
             <Star size={12} fill="currentColor" aria-hidden="true" /><span>{item.rating}</span>
           </span>}
-          {item.source_url && <SourceLink sourceUrl={item.source_url} className={styles.source}
+          {item.source_url && <a href={item.source_url} target="_blank" rel="noopener noreferrer" className={styles.source}
             title={isEn ? "View source" : "원문 출처 보기"}>
             <span>{isEn ? "Source" : "출처"}</span><ExternalLink size={12} aria-hidden="true" />
-          </SourceLink>}
+          </a>}
         </div>}
       </div>
       <div className={styles.body}>

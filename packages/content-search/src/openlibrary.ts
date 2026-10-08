@@ -4,8 +4,19 @@
 // 신규 등록 메타는 카카오(한국어판)와 OpenLibrary(영문 원서)만 쓴다 — AGENTS.md 「데이터·외부 서비스」
 
 import { toIsbn13 } from './book-isbn'
-import { getBookOriginalAuthorKeys } from './book-original-authors'
+import { getBookOriginalAuthorKeys, canUseBookWorkIntroduction } from './book-original-authors'
 import { OPENLIBRARY_BASE_URL, OPENLIBRARY_REQUEST_TIMEOUT_MS as REQUEST_TIMEOUT_MS, requestOpenLibrary } from './openlibrary-request'
+
+export const OPENLIBRARY_BOOK_BATCH_SIZE = 100
+
+/** 공식 Books API의 다중 ISBN 조회. 재시도·누락 판정은 감사 호출자가 처리한다. */
+export async function requestOpenLibraryBookBatch(isbns: string[], command: 'data' | 'details'): Promise<Response> {
+  if (!isbns.length || isbns.length > OPENLIBRARY_BOOK_BATCH_SIZE || isbns.some(isbn => toIsbn13(isbn) !== isbn)) {
+    throw new Error('Invalid OpenLibrary ISBN batch')
+  }
+  const params = new URLSearchParams({ bibkeys: isbns.map(isbn => `ISBN:${isbn}`).join(','), jscmd: command, format: 'json' })
+  return requestOpenLibrary(`${OPENLIBRARY_BASE_URL}/api/books?${params}`, 'error', 60000)
+}
 
 
 /** description은 문자열로 오기도 하고 {type, value} 객체로 오기도 한다 */
@@ -93,7 +104,10 @@ export async function getOpenLibraryBookMetadata(
   }
   if (!names.length) throw new Error(`${isbn}: OpenLibrary 원저자를 확인할 수 없습니다`)
   const cover = edition.covers?.find(value => Number.isInteger(value) && value > 0)
-  let coverImageUrl: string | null = cover ? `https://covers.openlibrary.org/b/id/${cover}-L.jpg` : null
+  // 같은 ISBN의 중복 판본 중에는 covers가 없지만 ISBN 표지 조회는 가능한 레코드가 있다.
+  let coverImageUrl: string | null = cover
+    ? `https://covers.openlibrary.org/b/id/${cover}-L.jpg`
+    : `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
   if (coverImageUrl) {
     try {
       const response = await fetch(`${coverImageUrl}?default=false`, {
@@ -202,14 +216,16 @@ export async function getOpenLibraryBookIntroduction(input: {
 
   let description = cleanDescription(readDescription(edition.data.description))
   let descriptionUrl = edition.sourceUrl
-  let languages = edition.data.languages ?? []
+  const languages = edition.data.languages ?? []
   const workKey = edition.data.works?.[0]?.key
   if (!description && workKey) {
     const work = await fetchJson<OpenLibraryWork>(`${OPENLIBRARY_BASE_URL}${workKey}`)
-    description = cleanDescription(readDescription(work?.data.description))
-    if (work) {
+    const editionTitle = [edition.data.title, edition.data.subtitle].filter(Boolean).join(': ')
+    const editionAuthors = (edition.data.authors ?? []).map(author => author.key)
+    const workAuthors = (work?.data.authors ?? []).map(author => author.author?.key).filter((key): key is string => Boolean(key))
+    if (work && canUseBookWorkIntroduction(editionTitle, editionAuthors, work.data.title, workAuthors)) {
+      description = cleanDescription(readDescription(work.data.description))
       descriptionUrl = work.sourceUrl
-      languages = work.data.languages ?? languages
     }
   }
   return { description: description || null, sourceUrl: descriptionUrl, languages: languages.map(item => item.key) }
@@ -218,7 +234,7 @@ export async function getOpenLibraryBookIntroduction(input: {
 /**
  * ISBN으로 영문 도서 소개를 가져온다.
  *
- * 판(edition)에 소개가 없으면 그 판이 속한 저작(work)의 소개를 쓴다 — 소개는 대개 저작에 달려 있다.
+ * 판(edition)에 소개가 없으면 원제·원저자가 일치하는 저작(work)의 소개만 쓴다.
  * 한국어판 ISBN으로는 거의 걸리지 않는다(실측 6.7%). 원서 ISBN을 넣어야 한다.
  */
 export async function getBookDescriptionByIsbn(isbn: string): Promise<string | null> {

@@ -28,7 +28,7 @@ function kakao(overrides: Row = {}) {
     contents: '', thumbnail: '', status: '정상판매', ...overrides }], meta: { total_count: 1, is_end: true } })
 }
 
-function fixture() {
+function fixture(englishBook?: Awaited<ReturnType<typeof getOpenLibraryBookMetadata>>) {
   const tables: Record<string, Row[]> = { contents: [], content_locales: [], figure_book_editions: [], member_contents: [] }
   const state = { writes: [] as { table: string; method: string; body: Row }[], failLocale: false, failRead: false,
     failMember: false, activity: 0, introduction: 0, revalidated: [] as string[], providerIntroduction: true }
@@ -42,7 +42,8 @@ function fixture() {
         if (state.failRead) return error('database lookup failed')
         const rows = tables[table].filter(row => [...url.searchParams].every(([key, condition]) => {
           if (!condition.startsWith('eq.')) return true
-          const field = key === 'content.type' ? tables.contents.find(work => work.id === row.content_id)?.type : row[key]
+          const field = key === 'content.type' ? tables.contents.find(work => work.id === row.content_id)?.type
+            : key.split(/->>?/u).reduce<unknown>((value, part) => (value as Row | undefined)?.[part], row)
           return String(field) === condition.slice(3)
         }))
         return Response.json(new Headers(init?.headers).get('Accept')?.includes('vnd.pgrst.object') ? rows[0] ?? null : rows)
@@ -69,7 +70,7 @@ function fixture() {
     '@/lib/errors': { failure: (error: string, message = error) => ({ success: false, error, message }),
       success: (data: unknown) => ({ success: true, data }), handleDatabaseError: () => ({ success: false, error: 'DB_ERROR' }) },
     '@/lib/utils/content-locale': { sourceToLocale: () => 'ko', sourceToJsonb: (source: string) => ({ primary: source }) },
-    '@/lib/books/bookSearch.server': { getEnglishBookMetadataCached: getOpenLibraryBookMetadata },
+    '@/lib/books/bookSearch.server': { getEnglishBookMetadataCached: englishBook ? async () => englishBook : getOpenLibraryBookMetadata },
     '@feelandnote/content-search/tmdb': { getVideoEnLocale: async () => null },
     '@feelandnote/shared/lib/book-metadata': { withoutBookDescription },
     '@feelandnote/content-search/book-isbn': { toIsbn13 },
@@ -208,4 +209,22 @@ test('manual title, supplier product code, mismatched ISBN and non-English editi
   const f = fixture()
   assert.equal((await f.add({ ...input(), id: '9780140432169', title: 'The Essays', creator: 'Francis Bacon', externalSource: 'openlibrary', metadata: { isbn: '9780140432169' } })).error, 'VALIDATION_ERROR')
   assert.equal(f.state.writes.length, 0)
+})
+
+
+test('another ISBN and title variant on one original work cannot create another work or discard existing records', async () => {
+  const englishIsbn = '9780062301253'
+  const book = {isbn:englishIsbn,title:'Elon Musk: Tesla, SpaceX, and the Quest for a Fantastic Future',creator:'Ashlee Vance',
+    publisher:'Ecco',publishDate:'2017',coverImageUrl:null,sourceUrl:'https://openlibrary.org/books/OL29732932M',
+    workKey:'/works/OL17184556W',workTitle:'Elon Musk',languages:['/languages/eng']}
+  for (const source of ['contents','figure_book_editions','content_locales']) {
+    const f = fixture(book)
+    f.tables.contents.push({id:'original',type:'BOOK',...(source==='contents' ? {metadata:{workKey:book.workKey}} : {})})
+    if(source!=='contents') f.tables[source].push({content_id:'original',isbn:'9780062301239',sources:{workKey:book.workKey}})
+    f.tables.member_contents.push({id:'record',content_id:'original',member_id:'owner',review:'기존 감상',rating:5})
+    const before=structuredClone(f.tables)
+    const result=await f.add({id:englishIsbn,type:'BOOK',externalSource:'openlibrary',title:book.title,creator:book.creator,
+      metadata:{isbn:englishIsbn,editionKey:'/books/OL29732932M',workKey:book.workKey}})
+    assert.equal(result.error,'CONFLICT');assert.equal(f.state.writes.length,0);assert.deepEqual(f.tables,before)
+  }
 })

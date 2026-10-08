@@ -10,7 +10,6 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
-import { parseSourceUrls } from '@feelandnote/shared/lib/source-links'
 import { STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 
@@ -349,7 +348,7 @@ async function fetchEvidence(
 
     for (const row of rows ?? []) {
       const r = row as unknown as Record<string, string | null>
-      const url = parseSourceUrls(r.source_url)[0] ?? ''
+      const url = r.source_url ?? ''
       const review = r[reviewField] ?? ''
       if (!url.startsWith('http') || review.trim().length < 40 || !r.content_id) continue
 
@@ -375,7 +374,7 @@ async function fetchEvidence(
         workTitle: loc.title,
         thumbnailUrl: loc.thumbnail_url,
         excerpt: toBrief(review, 130) ?? '',
-        sourceUrl: r.source_url ?? url,
+        sourceUrl: url,
         sourceHost: host,
       }
     }

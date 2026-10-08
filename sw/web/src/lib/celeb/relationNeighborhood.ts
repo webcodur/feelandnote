@@ -1,33 +1,23 @@
 /*
   파일명: /lib/celeb/relationNeighborhood.ts
   기능: 한 인물을 둘러싼 관계를 방향별로 나누는 규칙의 단일 출처
-  책임: 현재 인물 기준으로 변환된 관계 유형을 화면의 다섯 묶음으로 옮긴다.
+  책임: 현재 인물 기준 관계를 네 축으로 옮긴다.
         양끝 조회와 방향 변환은 relationRows.ts가 맡고 여기서는 나누고 줄 세우기만 한다.
 */
 
 /** 화면이 읽는 묶음. 순서가 곧 화면에 서는 차례다 */
-export type NeighborKind = "gave" | "took" | "rival" | "together" | "family";
+import { celebRelationAxis } from '@feelandnote/shared/constants/celeb-relations';
+
+export type NeighborKind = "gave" | "took" | "rival" | "together";
 
 /** 상대가 중심에게 무엇이었나 → 어느 묶음인가 */
 const KIND_OF: Record<string, NeighborKind> = {
   // 상대가 중심의 스승이거나 중심에게 영향을 줬다
-  teacher: "gave",
   influence: "gave",
   // 상대가 중심의 제자이거나 중심에게서 영향을 받았다
-  student: "took",
   influenced: "took",
   rival: "rival",
   colleague: "together",
-  cofounder: "together",
-  counterpart: "together",
-  partner: "together",
-  spouse: "family",
-  sibling: "family",
-  parent: "family",
-  child: "family",
-  father: "family",
-  mother: "family",
-  relative: "family",
 };
 
 /** 묶음이 화면에 서는 차례. 준 쪽이 위, 받은 쪽이 아래에 오도록 둔다 */
@@ -36,7 +26,6 @@ export const NEIGHBOR_ORDER: readonly NeighborKind[] = [
   "took",
   "rival",
   "together",
-  "family",
 ] as const;
 
 export interface NeighborCandidate {
@@ -88,7 +77,8 @@ export function groupNeighbors({ relations, candidates, limit }: GroupInput): Ne
   const buckets = new Map<NeighborKind, Map<string, Neighbor>>();
 
   for (const relation of relations) {
-    const kind = KIND_OF[relation.relType];
+    const axis = celebRelationAxis(relation.relType);
+    const kind = axis ? KIND_OF[axis] : null;
     if (!kind) continue;
 
     const celeb = candidates.get(relation.targetId);
@@ -97,7 +87,7 @@ export function groupNeighbors({ relations, candidates, limit }: GroupInput): Ne
 
     const neighbor: Neighbor = {
       celeb,
-      relType: relation.relType,
+      relType: axis!,
       note: relation.note?.trim() || null,
       noteEn: relation.noteEn?.trim() || null,
     };

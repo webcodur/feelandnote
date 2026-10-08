@@ -405,7 +405,7 @@
         "groupGave": "이 사람에게 영향을 준 인물",
         "groupTook": "이 사람에게서 영향을 받은 인물",
         "groupRival": "맞선 인물",
-        "groupTogether": "함께한 인물",
+        "groupTogether": "협력한 인물",
         "groupFamily": "가족",
         "groupCount": "{count, number}명",
         "groupCountPartial": "{total, number}명 중 {shown, number}명",
@@ -653,8 +653,7 @@
       "title": "이름순",
       "ratingHigh": "별점 높은순",
       "ratingLow": "별점 낮은순",
-      "creator": "창작자순",
-      "reviewed": "편집한 감상 먼저"
+      "creator": "창작자순"
     },
     "review": {
       "all": "전체",

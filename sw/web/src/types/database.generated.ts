@@ -351,7 +351,6 @@ export type Database = {
           is_recommended: boolean | null
           is_spoiler: boolean | null
           pinned_at: string | null
-          review_approved_at: string | null
           review: string | null
           review_en: string | null
           review_presets: string[] | null
@@ -373,7 +372,6 @@ export type Database = {
           is_recommended?: boolean | null
           is_spoiler?: boolean | null
           pinned_at?: string | null
-          review_approved_at?: string | null
           review?: string | null
           review_en?: string | null
           review_presets?: string[] | null
@@ -395,7 +393,6 @@ export type Database = {
           is_recommended?: boolean | null
           is_spoiler?: boolean | null
           pinned_at?: string | null
-          review_approved_at?: string | null
           review?: string | null
           review_en?: string | null
           review_presets?: string[] | null

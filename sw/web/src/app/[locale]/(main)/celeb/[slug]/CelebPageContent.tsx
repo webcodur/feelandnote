@@ -10,12 +10,6 @@ import { useRef, type ReactNode } from "react";
 import { useLocale } from "next-intl";
 
 import type { CelebAnalysisData } from "@/actions/celebs/getCelebSideData";
-import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
-import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
-import type { ContentBrief } from "@/actions/contents/getContentBrief";
-import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
-import type { CelebFactionBookGroup } from "@/actions/celebs/getCelebFactionBooks";
-import type { AffiliateBook } from "@/actions/home/getAffiliateBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { useSectionViewTracking } from "@/lib/analytics/track";
 import type { WorldBannerImages } from "@/lib/celeb/worldImages";
@@ -35,21 +29,14 @@ interface CelebPageContentProps {
   shareTitle: string;
   userId: string;
   greeting?: string[] | null;
-  timelineEvents: CelebTimelineEvent[];
   initialAnalysis: CelebAnalysisData | null;
   /** 목차에 노출할 부가 구획 */
   sideAvailability: CelebSideAvailability;
-  initialContents: GetUserContentsResponse;
-  initialContentBrief?: ContentBrief;
-  figureBooks: FigureBookContent[];
-  authoredBooks: FigureBookContent[];
-  /** 「세력」 모드 — 소속 세력·신화별 책 묶음 */
-  factionGroups: CelebFactionBookGroup[];
   worldId: string;
   worldBannerImages: WorldBannerImages | null;
   externalLinksSlot: ReactNode;
-  /** 「직군」 모드 — 같은 직군 동료들이 남긴 기록 중 팔리는 책 */
-  professionBooks: AffiliateBook[];
+  librarySlot: ReactNode;
+  booksSlot: ReactNode;
   /** 본문末 구획(이어지는 인물). 서버가 그려 클라이언트가 자리만 받는다 */
   relatedFiguresSlot?: ReactNode;
 }
@@ -60,18 +47,13 @@ export default function CelebPageContent({
   shareTitle,
   userId,
   greeting,
-  timelineEvents,
   initialAnalysis,
   sideAvailability,
-  initialContents,
-  initialContentBrief,
-  figureBooks,
-  authoredBooks,
-  factionGroups,
-  professionBooks,
   worldId,
   worldBannerImages,
   externalLinksSlot,
+  librarySlot,
+  booksSlot,
   relatedFiguresSlot,
 }: CelebPageContentProps) {
   const locale = useLocale() as Locale;
@@ -82,9 +64,6 @@ export default function CelebPageContent({
   const serviceModel = useCelebServiceModel({
     profile,
     sideAvailability,
-    figureBooks,
-    authoredBooks,
-    initialContents,
   });
   useSectionViewTracking(contentRef);
 
@@ -101,21 +80,15 @@ export default function CelebPageContent({
         worldBannerImages={worldBannerImages}
         serviceItems={serviceModel.items}
         externalLinksSlot={externalLinksSlot}
-        timelineEvents={timelineEvents}
       />
 
       <CelebRecordSections
         profile={profile}
-        slug={slug}
         userId={userId}
         locale={locale}
         initialAnalysis={initialAnalysis}
-        initialContents={initialContents}
-        initialContentBrief={initialContentBrief}
-        figureBooks={figureBooks}
-        authoredBooks={authoredBooks}
-        factionGroups={factionGroups}
-        professionBooks={professionBooks}
+        librarySlot={librarySlot}
+        booksSlot={booksSlot}
         serviceModel={serviceModel}
         relatedFiguresSlot={relatedFiguresSlot}
       />

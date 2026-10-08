@@ -113,8 +113,8 @@ test('자동 영문 선정은 OpenLibrary의 실제 작품 소개 주소를 반�
   t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => {
     calls.push(String(url))
     return String(url).includes('/isbn/')
-      ? Response.json({ works: [{ key: '/works/OL1W' }], languages: [{ key: '/languages/eng' }] })
-      : Response.json({ description: 'This is an English description of the book.' })
+      ? Response.json({title:'Same Book',authors:[{key:'/authors/OL1A'}], works: [{ key: '/works/OL1W' }], languages: [{ key: '/languages/eng' }] })
+      : Response.json({title:'Same Book',authors:[{author:{key:'/authors/OL1A'}}],description: 'This is an English description of the book.' })
   })
   const selected = await introductions.fetchBookIntroduction({ isbn: '9780140328721', locale: 'en' })
   assert.equal(selected.source, 'OPEN')

@@ -8,7 +8,6 @@
 */ // ------------------------------
 "use client";
 
-import SourceLink from "@/components/ui/SourceLink";
 import { useId, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { BookOpen } from "lucide-react";
@@ -140,10 +139,10 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
             </ClippedContentReadingText>
           )}
           {modalSourceUrl && (
-            <SourceLink sourceUrl={modalSourceUrl}
-              className="mt-2 inline-block shrink-0 text-xs text-text-tertiary underline decoration-white/20 underline-offset-2 hover:text-text-secondary">
+            <a href={modalSourceUrl}
+              className="mt-2 inline-block shrink-0 text-xs text-text-tertiary underline decoration-white/20 underline-offset-2 hover:text-text-secondary" target="_blank" rel="noopener noreferrer">
               {t("expandIntroSource")}
-            </SourceLink>
+            </a>
           )}
         </div>
       ) : active ? (
@@ -190,10 +189,10 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
           )}
 
           {modalSourceUrl && (
-            <SourceLink sourceUrl={modalSourceUrl}
-              className="mt-2 inline-block shrink-0 text-xs text-text-tertiary underline decoration-white/20 underline-offset-2 hover:text-text-secondary">
+            <a href={modalSourceUrl}
+              className="mt-2 inline-block shrink-0 text-xs text-text-tertiary underline decoration-white/20 underline-offset-2 hover:text-text-secondary" target="_blank" rel="noopener noreferrer">
               {t("expandIntroSource")}
-            </SourceLink>
+            </a>
           )}
         </div>
       ) : (

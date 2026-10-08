@@ -405,7 +405,7 @@
         "groupGave": "Who influenced them",
         "groupTook": "Whom they influenced",
         "groupRival": "Rivals",
-        "groupTogether": "Alongside them",
+        "groupTogether": "Collaborators",
         "groupFamily": "Family",
         "groupCount": "{count, number}",
         "groupCountPartial": "{shown, number} of {total, number}",
@@ -653,8 +653,7 @@
       "title": "Title",
       "ratingHigh": "Highest rated",
       "ratingLow": "Lowest rated",
-      "creator": "Creator",
-      "reviewed": "Edited accounts first"
+      "creator": "Creator"
     },
     "review": {
       "all": "All",

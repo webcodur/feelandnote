@@ -1,7 +1,5 @@
 "use client";
 
-import SourceLink from "@/components/ui/SourceLink";
-
 import { Star } from "lucide-react";
 import FormattedText from "@/components/ui/FormattedText";
 import { getPresetByKeyword, getSentimentColorClasses } from "@/constants/review-presets";
@@ -143,13 +141,16 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
             {!headerNode && (
               <div className="mt-auto pt-2 min-w-0 max-w-full overflow-hidden text-xs">
                 {sourceUrl ? (
-                  <SourceLink
-                    sourceUrl={sourceUrl}
+                  <a
+                    href={sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     title={sourceUrl}
+                    onClick={(e) => e.stopPropagation()}
                     className="block max-w-full truncate text-accent hover:text-accent-hover underline underline-offset-2"
                   >
                     {t("reviewModal.source")}
-                  </SourceLink>
+                  </a>
                 ) : (
                   <span className="text-red-500 font-semibold">
                     {t("reviewModal.noSource")}

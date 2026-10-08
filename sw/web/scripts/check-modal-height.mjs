@@ -5,8 +5,8 @@ import { readFile } from 'node:fs/promises';
 const baseUrl = process.env.MODAL_CHECK_BASE_URL ?? 'http://localhost:3000';
 const browser = await puppeteer.launch({ headless: true });
 // Read the shared policy instead of maintaining a second height setting in this check.
-const layout = await readFile(new URL('../../../packages/shared/src/lib/modal-layout.ts', import.meta.url), 'utf8');
-const ratio = Number(layout.match(/MODAL_MAX_HEIGHT = ['"](\d+)dvh['"]/)[1]) / 100;
+const layout = await readFile(new URL('../src/components/ui/modalLayout.ts', import.meta.url), 'utf8');
+const ratio = Number(layout.match(/MODAL_MAX_HEIGHT = [\'"](\d+)dvh[\'"]/)[1]) / 100;
 const sizes = [{ width: 1440, height: 900 }, { width: 390, height: 844 }, { width: 844, height: 390 }];
 
 async function open(page, query) {
@@ -73,6 +73,7 @@ try {
         await close(page);
       }
       await open(page, { label: messages.timeline });
+      await page.waitForSelector('[data-timeline-modal]', { visible: true, timeout: 30_000 });
       await measure(page, `${locale}/timeline`, viewport);
       const timeline = await page.$eval('[data-timeline-modal]', (element) => {
         const header = element.querySelector('header').getBoundingClientRect();

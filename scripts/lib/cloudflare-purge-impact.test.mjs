@@ -13,6 +13,27 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('progressive loading and shared detail modals follow their actual cached consumers', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/actions/celebs/getCelebReferenceBooks.ts',
+    'sw/web/src/actions/home/factionBookHydrate.ts',
+  ]).scopes, ['celeb'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/actions/figure-books/figureBookEditions.ts',
+    'sw/web/src/components/ui/ContentTextModal.tsx',
+    'sw/web/src/components/ui/SourceLinksModal.tsx',
+  ]).scopes, ['celeb', 'content'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/celeb/modals/CelebDetailModal/CelebDetailModal.tsx',
+    'sw/web/src/components/ui/pending/PendingBlock.tsx',
+  ]).scopes, ['cached-html'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/app/[locale]/(reader)/celeb/[slug]/records/RecordsList.tsx',
+    'sw/web/src/components/features/faction/entry/FactionPersonReviews.tsx',
+    'sw/web/src/components/features/commerce/prototype/CollectionJourneyLab.tsx',
+  ]).scopes, ['none'])
+})
+
 test('related-book controls evict celeb HTML while the app manifest needs no HTML purge', () => {
   for (const file of [
     'sw/web/src/components/features/celeb/CelebBookShelf.tsx',

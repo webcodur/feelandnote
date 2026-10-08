@@ -3,6 +3,8 @@ import test from 'node:test'
 
 import {
   CELEB_RELATION_TYPE_ORDER,
+  canonicalizeCelebRelationAxis,
+  celebRelationAxis,
   canonicalizeCelebRelation,
   celebRelationCounterpartId,
   celebRelationFactKey,
@@ -52,7 +54,7 @@ test('symmetric rows normalize endpoint order', () => {
   assert.equal(celebRelationTypeForViewer(left, 'z'), 'friend')
 })
 
-test('counterpart is a symmetric relationship with a stable sort position', () => {
+test('legacy counterpart normalization remains available outside the four-axis consumer', () => {
   const left = { fromId: 'zeus', toId: 'jupiter', relType: 'counterpart' }
   const right = { fromId: 'jupiter', toId: 'zeus', relType: 'counterpart' }
 
@@ -60,7 +62,7 @@ test('counterpart is a symmetric relationship with a stable sort position', () =
   assert.equal(celebRelationFactKey(left), celebRelationFactKey(right))
   assert.equal(celebRelationTypeForViewer(left, 'zeus'), 'counterpart')
   assert.equal(celebRelationTypeForViewer(left, 'jupiter'), 'counterpart')
-  assert.notEqual(CELEB_RELATION_TYPE_ORDER.indexOf('counterpart'), -1)
+  assert.equal(celebRelationAxis('counterpart'), null)
 })
 
 test('different relationship kinds between the same people stay separate', () => {
@@ -68,4 +70,11 @@ test('different relationship kinds between the same people stay separate', () =>
   const rival = { fromId: 'a', toId: 'b', relType: 'rival' }
 
   assert.notEqual(celebRelationFactKey(friend), celebRelationFactKey(rival))
+})
+
+test('현행 유형은 네 축뿐이고 사제·공동창업을 같은 사실로 읽는다', () => {
+  assert.deepEqual(CELEB_RELATION_TYPE_ORDER, ['influence', 'influenced', 'colleague', 'rival'])
+  assert.deepEqual(canonicalizeCelebRelationAxis({ fromId: 'a', toId: 'b', relType: 'student' }), { fromId: 'b', toId: 'a', relType: 'influence' })
+  assert.deepEqual(canonicalizeCelebRelationAxis({ fromId: 'z', toId: 'a', relType: 'cofounder' }), { fromId: 'a', toId: 'z', relType: 'colleague' })
+  assert.equal(canonicalizeCelebRelationAxis({ fromId: 'a', toId: 'b', relType: 'friend' }), null)
 })

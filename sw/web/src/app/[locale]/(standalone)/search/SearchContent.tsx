@@ -6,7 +6,6 @@
 
 "use client";
 
-import SourceLink from "@/components/ui/SourceLink";
 import { useState } from "react";
 import { Search, Loader2, ArrowUpDown, Info, SlidersHorizontal } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -111,12 +110,12 @@ export default function SearchContent() {
                   <Info size={12} />
                   <span>
                     {t("poweredBy")}{" "}
-                    <SourceLink
-                      sourceUrl={category === "book" ? BOOK_SEARCH_PROVIDERS[bookLanguage].url : API_SOURCE_URL[category as Exclude<CategoryId, "all">]}
+                    <a
+                      href={category === "book" ? BOOK_SEARCH_PROVIDERS[bookLanguage].url : API_SOURCE_URL[category as Exclude<CategoryId, "all">]}
                       className="text-accent hover:text-accent-hover underline underline-offset-2"
-                    >
+                     target="_blank" rel="noopener noreferrer">
                       {category === "book" ? BOOK_SEARCH_PROVIDERS[bookLanguage].label : t(`apiSource.${category}`)}
-                    </SourceLink>
+                    </a>
                   </span>
                 </div>
                 {CATEGORY_SEARCH_GUIDE_KEYS[category] && (

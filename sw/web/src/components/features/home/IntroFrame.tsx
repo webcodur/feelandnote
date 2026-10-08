@@ -71,8 +71,10 @@ export interface IntroFrameLabels {
 export default function IntroFrame({
   labels,
   closingHref,
+  widthClassName = "max-w-2xl",
 }: {
   labels: IntroFrameLabels;
+  widthClassName?: string;
   /** 주면 맺음 문장을 가운데 세우고, 눌렀을 때 그 화면으로 가는 문으로 만든다 */
   closingHref?: string;
 }) {
@@ -85,7 +87,7 @@ export default function IntroFrame({
   if (dismissed) return null;
 
   return (
-    <div className="w-full max-w-2xl mx-auto min-w-0">
+    <div className={`w-full mx-auto min-w-0 ${widthClassName}`}>
       {/* 판 하나 — 카드 면과 얇은 선. 모서리 꺽쇠 장식은 두지 않는다 */}
       <div className="relative min-w-0 rounded-card border border-line bg-bg-card px-5 py-5 md:px-8 md:py-7">
         {/* 닫기 — 누르는 칸 44px */}

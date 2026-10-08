@@ -1,8 +1,10 @@
+import { excludedBookEditionReason, bookEditionTranslationKey } from '@feelandnote/content-search/book-edition-policy'
 import type { BookIntroductionReference, BookIntroductionAttribution } from '@/lib/utils/book-description'
 import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
 import { AFFILIATE_PLATFORMS, toAffiliateLinks, type AffiliateLink } from '@/constants/affiliatePlatforms'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { decodeHtmlEntities } from '@feelandnote/content-search/html-entities'
+import { bookPublisherKey, selectSeriesRepresentatives } from '@feelandnote/content-search/book-series'
 
 export type FigureBookProductPlatform = 'coupang' | 'amazon'
 
@@ -38,6 +40,8 @@ export interface FigureBookEdition {
   publisher: string | null
   /** 번역서의 역자 — 같은 번역 재출간과 다른 번역본을 가르는 같은 책 판정 재료다 */
   translator?: string | null
+  /** 같은 원어 본문임을 판본별 독립 근거로 확인한 작품 식별자. */
+  originalWorkIdentity?: string | null
   thumbnailUrl: string | null
   releaseDate: string | null
   editionKind: string | null
@@ -128,6 +132,18 @@ export function mapFigureBookEditions(
         ? row.sources as Record<string, unknown> : {}
       const translators = Array.isArray(sources.translators)
         ? sources.translators.filter((value): value is string => typeof value === 'string' && !!value.trim()) : []
+      const evidence = Array.isArray(sources.edition_work_evidence) ? sources.edition_work_evidence : []
+      const original = evidence.find((value) => {
+        const proof = value && typeof value === 'object' ? value as Record<string, unknown> : {}
+        try {
+          return proof.method === 'independent_work_review' && proof.content_id === row.content_id
+            && proof.locale === row.locale && proof.original_language === row.locale
+            && proof.isbn === row.isbn && proof.edition_title === row.title && proof.edition_creator === row.creator
+            && row.edition_kind === 'full' && row.text_scope === 'complete'
+            && proof.edition_kind === row.edition_kind && proof.text_scope === row.text_scope
+            && typeof proof.work_identity === 'string' && new URL(String(proof.source_url)).protocol === 'https:'
+        } catch { return false }
+      }) as Record<string, unknown> | undefined
       return {
         id: row.id,
         locale: locale as 'ko' | 'en',
@@ -137,6 +153,7 @@ export function mapFigureBookEditions(
         isbn: row.isbn,
         publisher: row.publisher,
         translator: translators.length ? translators.join(', ') : null,
+        originalWorkIdentity: original ? original.work_identity as string : null,
         thumbnailUrl: row.thumbnail_url,
         releaseDate: row.release_date,
         editionKind: row.edition_kind,
@@ -147,6 +164,14 @@ export function mapFigureBookEditions(
       }
     })
     .sort((left, right) => left.sortOrder - right.sortOrder || left.id - right.id)
+}
+
+/** 다른 언어 카드의 존재 여부는 원어 판정 근거가 아니다. 저장된 원어와 독립 출처를 확인한다. */
+export function isFigureBookOriginalLocale(figure: unknown, locale: string): boolean {
+  if (!figure || typeof figure !== 'object' || Array.isArray(figure)) return false
+  const work = figure as Record<string, unknown>
+  try { return work.originalLanguage === locale && new URL(String(work.identityEvidence)).protocol === 'https:' }
+  catch { return false }
 }
 
 export function attachFigureBookLocaleLinks<T extends FigureBookEdition>(edition: T, exactLocale: unknown): T {
@@ -178,14 +203,16 @@ function sameBookEditionKey(edition: FigureBookEdition, crossPublisher: boolean)
     .replace(EDITION_VARIANT_SUFFIX, '')
     .replace(/\s+/g, '')
     .toLowerCase()
+  const translation = bookEditionTranslationKey(edition, crossPublisher)
+  if (translation) return [translation, norm(edition.creator)].join('|')
   const translator = norm(edition.translator)
   const kind = edition.editionKind && edition.editionKind !== 'full' ? edition.editionKind : 'full'
   const scope = edition.textScope && edition.textScope !== 'complete' ? edition.textScope : 'complete'
   return [
-    norm(edition.title),
-    norm(edition.creator) || norm(edition.publisher),
+    crossPublisher && !translator && edition.originalWorkIdentity ? edition.originalWorkIdentity : norm(edition.title),
+    norm(edition.creator) || bookPublisherKey(edition.publisher, edition.locale),
     translator,
-    translator || crossPublisher ? '' : norm(edition.publisher),
+    translator || crossPublisher ? '' : bookPublisherKey(edition.publisher, edition.locale),
     kind,
     scope,
   ].join('|')
@@ -211,7 +238,7 @@ function collapseSameBookEditions(editions: FigureBookEdition[], crossPublisher:
 /**
  * 한국어 판본은 쿠팡 상품 유무와 관계없이 선택하고, 저장된 구매 링크만 같은 판본에 붙인다.
  * 같은 책의 재판·개정판·전자책은 대표 판본 하나만 노출한다.
- * `crossPublisherSameBook`(다른 언어 카드가 없는 원어 작품)이면 출판사가 바뀐 재출간도 같은 책으로 접는다 —
+ * `crossPublisherSameBook`(독립 근거로 원어를 확인한 작품)이면 출판사가 바뀐 재출간도 같은 책으로 접는다 —
  * 번역 작품에서는 출판사가 다르면 다른 번역본일 수 있어 그대로 둔다.
  */
 export function mergeFigureBookEditions(
@@ -220,15 +247,20 @@ export function mergeFigureBookEditions(
   locale: string,
   includeAll = false,
   crossPublisherSameBook = false,
+  series?: unknown,
 ): FigureBookEdition[] {
+  const allowed = (row: FigureBookEditionRow | FigureBookPurchaseOptionRow) => !excludedBookEditionReason({title:row.title,editionKind:row.edition_kind,textScope:row.text_scope})
+  rows = rows.filter(allowed)
+  options = options.filter(allowed)
   const purchasable = mapFigureBookPurchaseOptions(options, locale)
   const editions = mapFigureBookEditions(rows, locale)
   if (locale !== 'ko' && !includeAll) {
     const byId = new Map(editions.map((edition) => [edition.id, edition]))
     const candidates = purchasable.length > 0 ? purchasable.map((edition) => ({
       ...edition, translator: byId.get(edition.id)?.translator,
+      originalWorkIdentity: byId.get(edition.id)?.originalWorkIdentity,
     })) : editions
-    return collapseSameBookEditions(candidates, crossPublisherSameBook)
+    return collapseSameBookEditions(selectSeriesRepresentatives(candidates, series), crossPublisherSameBook)
   }
   const byId = new Map(purchasable.map((edition) => [edition.id, edition]))
   const merged = editions.map((edition) => {
@@ -237,7 +269,7 @@ export function mergeFigureBookEditions(
       ? { ...edition, platform: purchase.platform, purchaseUrl: purchase.purchaseUrl }
       : edition
   })
-  return includeAll ? merged : collapseSameBookEditions(merged, crossPublisherSameBook)
+  return collapseSameBookEditions(selectSeriesRepresentatives(merged, series), crossPublisherSameBook)
 }
 
 /**

@@ -1,6 +1,5 @@
 'use client'
 
-import SourceLink from "@/components/ui/SourceLink";
 import { useEffect, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import AnimatedHeight from '@/components/ui/AnimatedHeight'
@@ -45,8 +44,8 @@ export default function ContentAccessModal({ contentId, type, title, creator, th
     {(type === 'GAME' || hasProviderLookup || (isDeveloperMode() && !initialAccess)) && (
       <div className="space-y-2 border-t border-border pt-4 text-xs leading-relaxed text-text-secondary">
         {isDeveloperMode() && !initialAccess && <p className="text-red-400">{t(`method.${type}`)}</p>}
-        {type === 'GAME' && <SourceLink sourceUrl="https://www.igdb.com/" className={sourceStyle}>{t('gameSource')}</SourceLink>}
-        {hasProviderLookup && <p>{t('videoSource')} <SourceLink sourceUrl="https://www.justwatch.com/" className={sourceStyle}>JustWatch</SourceLink> · <SourceLink sourceUrl="https://www.themoviedb.org/" className={sourceStyle}>TMDB</SourceLink></p>}
+        {type === 'GAME' && <a href="https://www.igdb.com/" className={sourceStyle} target="_blank" rel="noopener noreferrer">{t('gameSource')}</a>}
+        {hasProviderLookup && <p>{t('videoSource')} <a href="https://www.justwatch.com/" className={sourceStyle} target="_blank" rel="noopener noreferrer">JustWatch</a> · <a href="https://www.themoviedb.org/" className={sourceStyle} target="_blank" rel="noopener noreferrer">TMDB</a></p>}
       </div>
     )}
   </AccessDialog>

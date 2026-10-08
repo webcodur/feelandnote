@@ -27,7 +27,6 @@ interface GetUserContentsParams {
   limit?: number
   search?: string  // 제목/저자 검색
   hasReview?: boolean  // true=리뷰 있음, false=리뷰 없음
-  approvedFirst?: boolean
   sortBy?: SortByOption  // 서버 정렬
 }
 
@@ -39,7 +38,6 @@ export interface UserContentPublic {
   visibility: VisibilityType | null
   created_at: string
   source_url: string | null
-  review_approved_at?: string | null
   content: {
     id: string
     type: ContentType
@@ -88,7 +86,6 @@ interface QueryUserContentsOptions {
   locale: string
   isOwnProfile: boolean
   preferredContentIds?: string[]
-  approvedFirst?: boolean
 }
 
 // 회원·인물 감상 테이블의 공통 필드만 함께 읽는다. 별점은 회원 기록에만 있다.
@@ -109,7 +106,6 @@ async function queryUserContents(
     locale,
     isOwnProfile,
     preferredContentIds = [],
-    approvedFirst = false,
   } = opts
   const offset = (page - 1) * limit
   const archiveTable = ownerKind === 'celeb' ? 'celeb_contents' : 'member_contents'
@@ -145,7 +141,6 @@ async function queryUserContents(
     content_id,
     status,
     is_recommended,
-    ${ownerKind === 'celeb' ? 'review_approved_at,' : ''}
     ${memberRatingSelect}
     review,
     ${reviewEnSelect}
@@ -163,7 +158,6 @@ async function queryUserContents(
       .select(archiveSelect, { count: 'exact' })
       .eq(ownerColumn, userId)
 
-  if (ownerKind === 'celeb' && approvedFirst) query = query.order('review_approved_at', { ascending: false, nullsFirst: false })
   // 정렬
   if (ownerKind === 'member' && sortBy === 'rating_desc') {
     query = query.order('rating', { ascending: false, nullsFirst: false })
@@ -201,7 +195,7 @@ async function queryUserContents(
     return query
   }
 
-  const affiliatePriorityIds = ownerKind === 'celeb' && !approvedFirst
+  const affiliatePriorityIds = ownerKind === 'celeb'
     ? [...new Set(preferredContentIds)]
     : []
   let userContents: unknown[] | null
@@ -267,7 +261,6 @@ async function queryUserContents(
       visibility: raw.visibility as VisibilityType | null,
       created_at: raw.created_at as string,
       source_url: raw.source_url as string | null,
-      review_approved_at: ownerKind === 'celeb' ? raw.review_approved_at as string | null : null,
       content: {
         id: c.id as string,
         type: c.type as ContentType,
@@ -318,7 +311,7 @@ type PublicContentsArgs = [
   locale: string,
 ]
 
-type CelebContentsArgs = [...PublicContentsArgs, preferredContentIds: string[], approvedFirst: boolean]
+type CelebContentsArgs = [...PublicContentsArgs, preferredContentIds: string[]]
 
 async function getCelebAffiliatePriorityIds(userId: string, locale: string): Promise<string[]> {
   if (locale !== 'ko') return []
@@ -350,9 +343,9 @@ const getCachedCelebLibraryContents = (...args: CelebContentsArgs) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     args[0],
-    ['celeb-library-contents-v5-approved', ...args.map((a) => String(a ?? ''))],
+    ['celeb-library-contents-v6-recent', ...args.map((a) => String(a ?? ''))],
     () => {
-      const [userId, type, page, limit, search, hasReview, sortBy, locale, preferredContentIds, approvedFirst] = args
+      const [userId, type, page, limit, search, hasReview, sortBy, locale, preferredContentIds] = args
       return queryUserContents(createStaticClient(), {
         userId,
         ownerKind: 'celeb',
@@ -365,7 +358,6 @@ const getCachedCelebLibraryContents = (...args: CelebContentsArgs) =>
         locale,
         isOwnProfile: false,
         preferredContentIds,
-        approvedFirst,
       })
     },
     { extraTags: [CACHE_TAGS.CONTENTS] },
@@ -399,19 +391,17 @@ export async function getPublicCelebContents(params: GetUserContentsParams): Pro
     sortBy,
     locale,
     preferredContentIds,
-    params.approvedFirst ?? true,
   )
 }
 
-// 셀럽 상세 SSR용 — 대상이 항상 타인(셀럽)이므로 쿠키·인증을 읽지 않는다.
-// 페이지 서버 렌더에서 직접 호출해 초기 HTML에 서가 목록·감상문을 싣는다(크롤러 노출).
+// 셀럽 상세 SSR용 — 감상 기록을 직접 읽고 첫 화면을 판매 추천 계산 뒤에 세우지 않는다.
+// 펼침 색인과 같은 최근순으로 초기 HTML에 서가 목록·감상문을 싣는다(크롤러 노출).
 export async function getPublicUserContents(
   params: GetUserContentsParams,
   requestLocale?: string,
 ): Promise<GetUserContentsResponse> {
   const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
   const locale = requestLocale ?? (await getLocale())
-  const preferredContentIds = await getCelebAffiliatePriorityIds(userId, locale)
 
   return getCachedCelebLibraryContents(
     userId,
@@ -422,8 +412,7 @@ export async function getPublicUserContents(
     hasReview,
     sortBy,
     locale,
-    preferredContentIds,
-    params.approvedFirst ?? true,
+    [],
   )
 }
 

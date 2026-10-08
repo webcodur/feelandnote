@@ -1,6 +1,6 @@
 "use client";
 
-import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";
+import CelebSectionPending from '../CelebSectionPending';
 import { useCallback, useEffect, useState } from "react";
 import { useNearViewport } from '@/components/ui/pending/useNearViewport';
 import { getCelebInitialAnalysis, type CelebAnalysisData } from "@/actions/celebs/getCelebSideData";
@@ -36,7 +36,7 @@ export default function CelebAnalysisRetry({ celebId, locale, item }: {
   return <div ref={ref}>
     {data && <FigureAnalysisTabs item={item} celebId={celebId} spectrumData={data.spectrum}
       influenceData={data.influence} influenceExplorerData={data.influenceExplorer} />}
-    {!data && (!attempted || loading) && <CelebSectionSkeleton kind={hasSpectrum ? 'spectrum' : 'influence'} />}
+    {!data && (!attempted || loading) && <CelebSectionPending kind="analysis" />}
     {!data && attempted && !loading && <RetryBlock onRetry={() => void retry()} />}
   </div>;
 }

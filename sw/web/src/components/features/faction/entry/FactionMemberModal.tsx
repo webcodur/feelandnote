@@ -2,7 +2,7 @@
   파일명: /components/features/faction/entry/FactionMemberModal.tsx
   기능: 세력도감 인물 소개 모달
   책임: 카드를 누른 인물을 이 테마 안에서 소개한다 — 인물 상세와 같은 아바타 모듈(확대 보기·인사 음성), 테마·진영, 이름·직함,
-        「인물 안내」·「가상독백」 낭독 항목, 테마 맥락 소개(「{테마}에서의 {이름}」), 인물 상세와 같은 등장·감상·집필 참고도서를 보여 준다.
+        「인물 안내」·「가상독백」 낭독 항목, 테마 맥락 소개(「{테마}에서의 {이름}」), 공개 감상 기록과 관련 도서를 보여 준다.
         아바타·신원·항목 버튼을 머리말로 묶고, 테마 소개는 그 아래 제목 달린 섹션에서 읽는다.
 */ // ------------------------------
 
@@ -17,6 +17,7 @@ import Modal from "@/components/ui/Modal";
 import { splitReadableParagraphs } from "@/components/ui/FormattedText";
 import FactionPersonHeader from "./FactionPersonHeader";
 import FactionPersonBooks from "./FactionPersonBooks";
+import FactionPersonReviews from "./FactionPersonReviews";
 import { FACTION_PERSON_LAYOUT as layout } from "./factionPersonLayout";
 import { useAudioAvailable } from "@/hooks/useReadingNarration";
 import { useCelebReadingGuide } from "@/hooks/useCelebReadingGuide";
@@ -119,6 +120,9 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
           </section>
         )}
 
+        {celeb.celeb_reality !== "FICTION" && (
+          <FactionPersonReviews key={`${celeb.id}:${locale}`} celebId={celeb.id} name={name} avatarUrl={celeb.avatar_url} />
+        )}
         <FactionPersonBooks celebId={celeb.id} />
       </article>
 
@@ -132,5 +136,5 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
       )}
     </>
   );
-  return <Modal isOpen onClose={onClose} ariaLabel={name} size="full" animateHeight={false} frame="plain" boxClassName={layout.modal}>{content}</Modal>;
+  return <Modal isOpen onClose={onClose} ariaLabel={name} size="full" animateHeight={false} frame="plain" boxClassName={layout.modal} scrollAreaClassName="[overflow-anchor:none]">{content}</Modal>;
 }

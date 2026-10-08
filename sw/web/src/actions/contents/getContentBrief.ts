@@ -212,7 +212,7 @@ function getCachedContentBrief(contentId: string, safeLocale: string): Promise<C
   return cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-brief-v14-stored', BOOK_METADATA_CACHE_VARIANT, isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, safeLocale],
+    ['content-brief-v15-source-url', BOOK_METADATA_CACHE_VARIANT, isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, safeLocale],
     () => fetchBrief(contentId, safeLocale, true),
   )
 }

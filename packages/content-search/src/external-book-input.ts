@@ -1,3 +1,4 @@
+import { excludedBookEditionReason } from '@feelandnote/content-search/book-edition-policy'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { getKakaoBookByIsbn } from '@feelandnote/content-search/kakao-books'
 import { getOpenLibraryBookMetadata } from '@feelandnote/content-search/openlibrary'
@@ -9,6 +10,12 @@ export interface ExternalBookInput {
   creator: string
   coverImageUrl: string | null
   metadata: Record<string, unknown>
+}
+
+/** 공식 ISBN 응답의 원작 키는 새 작품 등록 전에 기존 판본과 대조한다. */
+export function externalBookWorkKey(input: ExternalBookInput): string | null {
+  const key = input.metadata.workKey
+  return input.externalSource === 'openlibrary' && typeof key === 'string' && /^\/works\/OL\d+W$/u.test(key) ? key : null
 }
 
 export function normalizeBookIdentity(value: string): string {
@@ -72,6 +79,7 @@ export async function resolveExternalBookInput(
       throw new Error('선택한 OpenLibrary 판본과 ISBN의 작품이 다릅니다. 판본을 다시 확인하세요')
     }
   } else if (!sameBookIdentity(input, resolved)) throw new Error('ISBN의 제목·원저자가 선택한 작품과 다릅니다. 판본을 다시 확인하세요')
+  if (excludedBookEditionReason({title:resolved.title,editionKind: typeof resolved.metadata.editionKind === 'string' ? resolved.metadata.editionKind : null, textScope:typeof resolved.metadata.physical_format === 'string' ? resolved.metadata.physical_format : null})) throw new Error('축약본·요약본·학습용 리더는 서비스에 등록하지 않습니다')
   return resolved
 }
 

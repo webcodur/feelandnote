@@ -161,9 +161,9 @@
     "relFilter_all": "전체",
     "relFilter_family": "가족",
     "relFilter_others": "그외",
-    "relFilter_thought": "사상",
+    "relFilter_thought": "영향",
     "relFilter_counterpart": "대응 신격",
-    "relFilter_career": "동료",
+    "relFilter_career": "협력",
     "relFilter_friendship": "협력",
     "relFilter_rivalry": "대립",
     "relType_father": "아버지",
@@ -177,10 +177,10 @@
     "relType_counterpart": "대응 신격",
     "relType_teacher": "스승",
     "relType_student": "제자",
-    "relType_influence": "영감을 준",
-    "relType_influenced": "영감을 받은",
+    "relType_influence": "영향을 준",
+    "relType_influenced": "영향을 받은",
     "relType_cofounder": "공동 창업",
-    "relType_colleague": "같은 소속",
+    "relType_colleague": "협력",
     "relType_friend": "협력",
     "relType_rival": "대립",
     "videos": "영상",
@@ -401,6 +401,21 @@
     "professionBecome": "직업 수업",
     "professionAbout": "직업 탐구",
     "professionBecomeIntro": "이 일을 하는 데 필요한 지식과 방법을 배우는 책",
-    "professionAboutIntro": "이 분야의 사람과 삶, 현장과 역사를 살펴보는 책"
+    "professionAboutIntro": "이 분야의 사람과 삶, 현장과 역사를 살펴보는 책",
+    "relAxesLabel": "관계 축",
+    "relAxis_received": "영향을 받음",
+    "relAxis_given": "영향을 줌",
+    "loading": {
+      "profile": "인물의 이야기를 불러오고 있습니다.",
+      "library": "감상 기록을 펼치고 있습니다.",
+      "books": "관련 도서를 불러오고 있습니다.",
+      "related": "이어지는 인물을 찾고 있습니다.",
+      "timeline": "생애의 기록을 불러오고 있습니다.",
+      "hint": "준비된 내용부터 먼저 보여드릴게요.",
+      "booksEmpty": "아직 등록된 관련 도서가 없습니다.",
+      "timelineEmpty": "아직 등록된 생애 기록이 없습니다.",
+      "relatedEmpty": "표시할 연결 인물이 없습니다.",
+      "analysis": "인물의 평가를 불러오고 있습니다."
+    }
   }
 }

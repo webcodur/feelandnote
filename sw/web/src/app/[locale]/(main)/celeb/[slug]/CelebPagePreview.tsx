@@ -7,7 +7,7 @@ import { getWorldStyle } from '@/lib/celeb/worldStyle';
 import { getWorldBannerImages } from '@/lib/celeb/worldImages';
 import CelebWorldBannerView from '@/components/features/celeb/CelebWorldBannerView';
 import HubSection from '@/components/shared/HubSection';
-import { PendingBlock } from '@/components/ui/pending';
+import CelebSectionPending from './CelebSectionPending';
 import type { Locale } from '@/types/locale';
 import HeroIdentity from './detail/hero/HeroIdentity';
 import HeroPhoto from './detail/hero/HeroPhoto';
@@ -16,7 +16,6 @@ import styles from './CelebPageContent.module.css';
 /** Real identity while the full document is generated; counts wait for their actual query. */
 export default async function CelebPagePreview({ identity, locale }: { identity: CelebIdentity; locale: string }) {
   const t = await getTranslations('celebPage');
-  const pending = await getTranslations('pending');
   const worldId = resolveCelebWorld({ nationality: identity.nationality, birthDate: identity.birth_date,
     deathDate: identity.death_date, reality: identity.celeb_reality });
   return (
@@ -36,7 +35,7 @@ export default async function CelebPagePreview({ identity, locale }: { identity:
           </div>
         </div>
       </HubSection>
-      <PendingBlock variant="panel" label={pending('loading')} />
+      <div className="mt-8"><CelebSectionPending kind="profile" compact /></div>
     </div>
   );
 }

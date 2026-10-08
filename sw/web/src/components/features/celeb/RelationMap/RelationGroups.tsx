@@ -15,6 +15,7 @@ const IMPLIED_TYPE: Partial<Record<NeighborKind, string>> = {
   gave: "influence",
   took: "influenced",
   rival: "rival",
+  together: "colleague",
 };
 
 interface RelationGroupsProps {
@@ -33,7 +34,6 @@ export default function RelationGroups({ groups, isEn, nameOf, onSelect }: Relat
       took: t("groupTook"),
       rival: t("groupRival"),
       together: t("groupTogether"),
-      family: t("groupFamily"),
     })[kind];
 
   if (groups.length === 0) {

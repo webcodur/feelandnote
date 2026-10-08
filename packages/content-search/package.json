@@ -25,7 +25,8 @@
     "./naver-image": "./src/naver-image.ts",
     "./types": "./src/types.ts",
     "./external-book-input": "./src/external-book-input.ts",
-    "./book-series": "./src/book-series.ts"
+    "./book-series": "./src/book-series.ts",
+    "./book-edition-policy": "./src/book-edition-policy.ts"
   },
   "dependencies": {
     "fast-xml-parser": "^5.3.2"

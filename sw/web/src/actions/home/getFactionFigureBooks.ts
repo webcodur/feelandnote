@@ -67,7 +67,7 @@ async function fetchFactionFigureBooks(factionId: string, locale: string): Promi
 
 const getFactionFigureBooksCached = unstable_cache(
   fetchFactionFigureBooks,
-  ["faction-figure-books-v7-theme-book-ids"],
+  ["faction-figure-books-v8-edition-policy"],
   // faction_member_rows(편성) + figure_book_characters(배정) + contents + 판본·구매 상품
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
 );
@@ -78,7 +78,7 @@ export async function getFactionFigureBooks(factionId: string, locale: string): 
 
 /** 개인 소속 탭은 주제책만 필요하므로 세력 전원의 등장·집필 작품을 조회하지 않는다. */
 export async function getFactionThemeBooks(factionId: string, locale: string): Promise<FactionFigureBook[]> {
-  return cachedDetail(CACHE_TAGS.FACTIONS, factionId, ['faction-theme-books-v1', factionId, locale], async () => {
+  return cachedDetail(CACHE_TAGS.FACTIONS, factionId, ['faction-theme-books-v2-edition-policy', factionId, locale], async () => {
     const db = createStaticClient();
     const { data, error } = await db.from('faction_lv2').select('slug,theme_book_ids').eq('id', factionId).single();
     throwOnQueryError('getFactionThemeBooks', error);

@@ -11,6 +11,7 @@
 
 'use server'
 
+import { canonicalizeCelebRelationAxis, celebRelationPairKey, isCelebFamilyRelation, CELEB_FAMILY_RELATION_TYPES } from '@feelandnote/shared/constants/celeb-relations'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
@@ -25,13 +26,6 @@ import {
   type ShapeRelationInput,
 } from '@/lib/celeb/relationShapes'
 import { getInfluenceRanking } from './getCelebs'
-
-/** 시작점 선정에 쓰는 관계 유형 */
-const SHAPE_REL_TYPES = [
-  'teacher', 'student', 'influence', 'influenced',
-  'rival',
-  'colleague', 'cofounder',
-]
 
 const FAN_COUNT_PER_DIRECTION = 1
 const FAN_SPOKE_LIMIT = 10
@@ -50,6 +44,14 @@ interface RelationRow {
   from_id: string
   to_id: string
   rel_type: string
+  rel_group: string | null
+}
+
+interface ExternalRelationRow {
+  from_id: string
+  qid: string
+  rel_type: string
+  rel_group: string | null
 }
 
 interface CelebRow {
@@ -62,6 +64,7 @@ interface CelebRow {
   title_en: string | null
   birth_date: string | null
   celeb_reality: string | null
+  wikidata_qid: string | null
 }
 
 /** 탐색기가 처음 세울 인물과, 옆에 둘 시작점 후보들 */
@@ -85,8 +88,7 @@ async function fetchShapeRelations(): Promise<RelationRow[]> {
   return await selectAllPages<RelationRow>((from, to) =>
     db
       .from('celeb_relations')
-      .select('from_id, to_id, rel_type')
-      .in('rel_type', SHAPE_REL_TYPES)
+      .select('from_id, to_id, rel_type, rel_group')
       .order('from_id')
       .order('to_id')
       .range(from, to)
@@ -99,7 +101,7 @@ async function fetchShapeCelebs(): Promise<CelebRow[]> {
   return await selectAllPages<CelebRow>((from, to) =>
     db
       .from('celebs')
-      .select('id, slug, nickname, nickname_en, avatar_url, title, title_en, birth_date, celeb_reality')
+      .select('id, slug, nickname, nickname_en, avatar_url, title, title_en, birth_date, celeb_reality, wikidata_qid')
       .eq('publication_status', 'active')
       .order('id')
       .range(from, to)
@@ -107,9 +109,18 @@ async function fetchShapeCelebs(): Promise<CelebRow[]> {
   )
 }
 
+async function fetchExternalFamilyRelations(): Promise<ExternalRelationRow[]> {
+  const db = createStaticClient()
+  return selectAllPages<ExternalRelationRow>((from, to) => db.from('celeb_relations_external')
+    .select('from_id,qid,rel_type,rel_group')
+    .or(`rel_group.eq.family,rel_type.in.(${CELEB_FAMILY_RELATION_TYPES.join(',')})`)
+    .order('id').range(from, to)
+    .overrideTypes<ExternalRelationRow[], { merge: false }>())
+}
+
 /** 관계망이 이루는 네 모양. 한 모양이 비어도 나머지는 그대로 온다 */
 export async function getRelationShapes(): Promise<RelationShapes> {
-  const [relations, celebs, ranking] = await Promise.all([
+  const [relations, celebs, ranking, externalRelations] = await Promise.all([
     cachedList(CACHE_TAGS.CELEBS, ['celeb-shape-relations-tagged'], fetchShapeRelations, {
       revalidate: STATIC_REVALIDATE,
     }),
@@ -117,6 +128,9 @@ export async function getRelationShapes(): Promise<RelationShapes> {
       revalidate: STATIC_REVALIDATE,
     }),
     getInfluenceRanking(),
+    cachedList(CACHE_TAGS.CELEBS, ['celeb-external-families-for-shapes'], fetchExternalFamilyRelations, {
+      revalidate: STATIC_REVALIDATE,
+    }),
   ])
 
   const candidates: ShapeCandidate[] = celebs
@@ -134,11 +148,20 @@ export async function getRelationShapes(): Promise<RelationShapes> {
       influence: ranking.scoreMap[row.id] ?? 0,
     }))
 
-  const flows: ShapeRelationInput[] = relations.map((row) => ({
-    fromId: row.from_id,
-    toId: row.to_id,
-    relType: row.rel_type,
-  }))
+  const familyPairs = new Set(relations
+    .filter(row => isCelebFamilyRelation(row.rel_type, row.rel_group))
+    .map(row => celebRelationPairKey(row.from_id, row.to_id)))
+  const byQid = new Map(celebs.filter(c => c.wikidata_qid).map(c => [c.wikidata_qid, c.id]))
+  for (const row of externalRelations) {
+    if (!isCelebFamilyRelation(row.rel_type, row.rel_group)) continue
+    const targetId = byQid.get(row.qid)
+    if (targetId) familyPairs.add(celebRelationPairKey(row.from_id, targetId))
+  }
+  const flows: ShapeRelationInput[] = relations.flatMap(row => {
+    if (familyPairs.has(celebRelationPairKey(row.from_id, row.to_id))) return []
+    const axis = canonicalizeCelebRelationAxis({ fromId: row.from_id, toId: row.to_id, relType: row.rel_type })
+    return axis ? [axis] : []
+  })
 
   const fans = buildRelationFans({
     relations: flows,
