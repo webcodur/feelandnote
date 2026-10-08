@@ -133,6 +133,11 @@ export const WORKS_LINKS: NavSubLink[] = [
   { key: "academy", href: "/explore/works/academy", label: "학당" },
 ];
 export const WORKS_FEATURED_LINKS = WORKS_LINKS.filter(link => link.key !== "bestseller");
+export const SUPPORT_LINK: NavSubLink = { key: "support", href: "/support", label: "응원하기" };
+export const SUPPORT_SHOP_LINKS: NavSubLink[] = [
+  SUPPORT_LINK,
+  { key: "shop", href: "/shop", label: "Shop" },
+];
 // #endregion
 
 // #region 풋터 섹션 구조 정의
@@ -175,6 +180,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     titleKey: "nav.footer.sectionAbout",
     links: [
       { key: "about", href: "/about", label: "서비스 소개" },
+      ...SUPPORT_SHOP_LINKS,
       { key: "search", href: "/search", label: "통합 검색" },
       { key: "feedback", href: "/agora/board/feedback", label: "문의·의견 보내기" },
       { key: "terms", href: "/terms", label: "이용약관" },

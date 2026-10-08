@@ -20,6 +20,7 @@ import { getAboutShowcase } from "@/actions/policy/getAboutShowcase";
 import AboutBody, { SectionHead, SectionClose } from "./AboutBody";
 import Lane from "@/components/ui/pending/Lane";
 import { PendingBlock } from "@/components/ui/pending";
+import SupportCallout from "@/components/features/commerce/SupportCallout";
 
 async function AboutContent({ locale }: { locale: string }) {
   return <AboutBody showcase={await getAboutShowcase(locale)} />;
@@ -68,6 +69,8 @@ export default async function AboutPage() {
       {/* 운영 안내 · 문의 */}
       <section id="contact" className="mt-20 md:mt-28 pb-4 space-y-6 scroll-mt-24">
         <SectionHead title={t("aboutOperatorTitle")} lead={t("aboutOperatorBody")} breakLead />
+
+        <SupportCallout />
 
         <a
           href="mailto:feelandnote@gmail.com"

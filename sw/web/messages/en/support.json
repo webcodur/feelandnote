@@ -1,0 +1,85 @@
+{
+  "support": {
+    "metaTitle": "Support us",
+    "metaDescription": "Shop for rice and everyday essentials at the usual price and help support feelandnote.",
+    "back": "Back home",
+    "titleFirst": "Everyday shopping.",
+    "titleSecond": "A little support for feelandnote.",
+    "intro": "Thank you for using feelandnote.\nWhen you need rice or other essentials, please consider shopping through these links.",
+    "browse": "Browse everyday essentials",
+    "noDonation": "No extra cost",
+    "usualShopping": "Shop on Amazon",
+    "store": "United States · Amazon.com",
+    "productsTitle": "Everyday essentials",
+    "productsIntro": "From rice to detergent and paper goods, browse {count} essentials for your home.",
+    "categories": {
+      "rice": "Rice",
+      "paper": "Paper & wipes",
+      "laundry": "Laundry",
+      "water": "Water",
+      "bath": "Bath & body",
+      "kitchen": "Kitchen",
+      "food": "Pantry",
+      "coffee": "Coffee",
+      "stand": "Book stands",
+      "pen": "Pens & pencils",
+      "notebook": "Notebooks",
+      "reader": "E-readers",
+      "light": "Reading lights"
+    },
+    "viewProduct": "View on Amazon",
+    "productLinkLabel": "{name} · View on Amazon US (opens in a new tab)",
+    "purchaseNote": "Please check Amazon.com for current prices, product options, shipping fees, and availability at your address.",
+    "affiliateNotice": "We may earn a commission from qualifying purchases through these links.",
+    "howTitle": "How your purchase helps",
+    "howBody": "When you make a qualifying purchase through these links, Amazon pays feelandnote a commission. You pay the usual price, with no extra cost.",
+    "steps": [
+      {
+        "title": "Choose what you need",
+        "body": "Browse when you need to pick something up."
+      },
+      {
+        "title": "Shop as usual",
+        "body": "Buy on Amazon at the same price as shopping directly."
+      },
+      {
+        "title": "Support the service",
+        "body": "The commission from Amazon helps cover the cost of running feelandnote."
+      }
+    ],
+    "thanks": "Thank you for using and supporting feelandnote.",
+    "samePrice": "The same price",
+    "tabs": {
+      "label": "Support and shop",
+      "support": "Support us",
+      "shop": "Shop"
+    },
+    "shop": {
+      "metaTitle": "Shop · Reading essentials",
+      "metaDescription": "Book stands, pens, notebooks, and e-readers. Browse tools for reading and writing in one place.",
+      "title": "Tools for reading and writing",
+      "intro": "Book stands, pens, notebooks, and e-readers.\nFind the tools you need for reading and taking notes.",
+      "productsTitle": "Reading essentials",
+      "productsIntro": "Browse {count} tools for reading and taking notes.",
+      "readerNote": "Before choosing an e-reader, please check that it supports your preferred bookstore and file formats.",
+      "thanks": "Thank you for using and supporting feelandnote.",
+      "browse": "Browse reading tools",
+      "usualShopping": "Shop on Amazon"
+    },
+    "shipping": {
+      "rocket": "Rocket delivery",
+      "sellerRocket": "Seller Rocket delivery",
+      "rocketWow": "Rocket Wow delivery",
+      "standard": "Standard delivery"
+    },
+    "reviewCount": "{count} reviews",
+    "monthlyPurchaseCount": "{count}+ bought in the past month",
+    "couponPrice": "With coupon",
+    "priceNote": "Prices, delivery, reviews, and purchase counts were checked on {date}. They may vary by option, location, and membership benefits. Please check the store for shipping fees and the final total.",
+    "entry": {
+      "title": "If you enjoy feelandnote",
+      "body": "Shopping for everyday essentials through our links helps keep feelandnote running, at no extra cost to you."
+    },
+    "linkHelp": "If a product page does not open, copy its link and open it in your regular browser."
+  }
+}

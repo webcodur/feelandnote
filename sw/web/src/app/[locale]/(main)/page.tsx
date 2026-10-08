@@ -13,6 +13,7 @@ import { serializeJsonLd } from "@/lib/jsonLd";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import PageContainer from "@/components/layout/PageContainer";
 import HomeBrandHeader from "@/components/features/home/HomeBrandHeader";
+import SupportCallout from "@/components/features/commerce/SupportCallout";
 import HomeFigureLinks, { HOME_FIGURE_LINK_COLS, HOME_FIGURE_LINK_COUNT } from "@/components/features/home/HomeFigureLinks";
 import TodayFigurePending from "@/components/features/figure/TodayFigurePending";
 import { FigureLinkGridPending } from "@/components/features/celeb/FigureLinkGrid";
@@ -123,6 +124,9 @@ export default async function MainPage() {
             </Lane>
             */}
 
+          </div>
+          <div className="mx-auto mt-10 max-w-3xl md:mt-12">
+            <SupportCallout />
           </div>
         </PageContainer>
 

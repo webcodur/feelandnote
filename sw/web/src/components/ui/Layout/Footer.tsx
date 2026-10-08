@@ -8,7 +8,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { getTranslations, getLocale } from "next-intl/server";
-import { Youtube } from "lucide-react";
+import { ShoppingBag, Wheat, Youtube } from "lucide-react";
 import { FOOTER_SECTIONS } from "@/constants/navigation";
 import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
 import { getYoutubeChannel } from "@/constants/youtube";
@@ -16,7 +16,7 @@ import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 
 // 휴대폰에서 손가락으로 누를 수 있게 위아래 여백을 두고, 넓은 화면에서는 줄 간격만 남긴다
-const LINK_CLASS = "block py-1.5 text-sm text-text-secondary hover:text-text-primary md:py-1 md:text-[13px]";
+const LINK_CLASS = "block rounded-control py-1.5 text-sm md:py-1 md:text-[13px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
 const SECTION_TITLE_CLASS = "mb-2 block text-[13px] font-semibold text-text-primary md:mb-3";
 const META_CLASS = "text-xs text-text-tertiary";
 
@@ -51,7 +51,9 @@ export default async function Footer() {
               )}
               <nav aria-label={t(section.titleKey)}>
                 {section.links.map((link) => (
-                  <Link key={link.href} href={link.href} className={LINK_CLASS}>
+                  <Link key={link.href} href={link.href} className={`${LINK_CLASS} ${link.key === "support" ? "font-medium text-accent hover:text-accent-hover" : "text-text-secondary hover:text-text-primary"}`}>
+                    {link.key === "support" && <Wheat size={13} strokeWidth={1.5} aria-hidden="true" className="me-1.5 inline-block align-[-2px]" />}
+                    {link.key === "shop" && <ShoppingBag size={13} strokeWidth={1.5} aria-hidden="true" className="me-1.5 inline-block align-[-2px]" />}
                     {t(`nav.footer.${link.key}`)}
                   </Link>
                 ))}

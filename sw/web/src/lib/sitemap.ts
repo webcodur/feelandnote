@@ -200,6 +200,8 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
   ['/explore/works/curated', 'weekly', 0.8],
   ['/rest', 'monthly', 0.5],
   ['/about', 'monthly', 0.7],
+  ['/support', 'monthly', 0.5],
+  ['/shop', 'monthly', 0.5],
   ['/terms', 'yearly', 0.3],
   ['/privacy', 'yearly', 0.3],
   ['/account-deletion', 'yearly', 0.3],

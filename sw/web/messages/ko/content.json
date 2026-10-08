@@ -145,7 +145,11 @@
       "regionKR": "한국 기준",
       "region": "{country} 기준",
       "amazonUSNotice": "Amazon.com(미국)으로 연결됩니다. 배송 국가를 설정해 배송 가능 여부와 비용을 확인하세요.",
-      "gameRegionNotice": "표시된 가격과 혜택은 한국 스토어 기준입니다. 구매 전 계정 지역에 맞는 구매 가능 여부와 가격을 확인하세요."
+      "gameRegionNotice": "표시된 가격과 혜택은 한국 스토어 기준입니다. 구매 전 계정 지역에 맞는 구매 가능 여부와 가격을 확인하세요.",
+      "copyLink": "링크 복사",
+      "linkCopied": "복사했습니다",
+      "copyLinkHelp": "페이지가 열리지 않으면 링크를 복사해 일반 브라우저에서 열어 주세요.",
+      "copyLinkManual": "주소를 선택해 복사한 뒤 일반 브라우저에서 열어 주세요."
     },
     "coverUnavailable": "표지 없음"
   },
