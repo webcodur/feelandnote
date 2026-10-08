@@ -49,7 +49,7 @@ export default async function WorksPage({ searchParams }: { searchParams: Promis
   const titles = [t("bestsellerLabel"), t("quickNav")];
 
   return (
-    <div className="works-hub-page pb-[60px] min-[1340px]:pb-8">
+    <div className="pb-[60px] min-[1340px]:pb-8">
       <AsyncIntlProvider>
         <AtlasNavSections items={hubAtlasNavItems(titles, hubGroup)} />
       </AsyncIntlProvider>

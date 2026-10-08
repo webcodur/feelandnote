@@ -13,6 +13,21 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('works and rest landing pages need no purge while shared layout still evicts cached HTML', () => {
+  const pages = [
+    'sw/web/src/app/[locale]/(main)/explore/works/page.tsx',
+    'sw/web/src/app/[locale]/(main)/rest/page.tsx',
+  ]
+  for (const file of pages) {
+    assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['none'])
+  }
+  const plan = classifyCloudflarePurgeImpact([...pages, 'sw/web/src/app/globals.css'])
+  assert.deepEqual(plan.scopes, ['cached-html'])
+  assert.equal(plan.emergencyZone, false)
+  assert.equal(JSON.stringify(plan).includes('seo-image'), false)
+  assert.equal(JSON.stringify(plan).includes('_next/static'), false)
+})
+
 test('current celeb-detail UI release evicts only the celeb detail family', () => {
   const plan = classifyCloudflarePurgeImpact([
     'sw/web/src/app/[locale]/(main)/celeb/[slug]/page.tsx',

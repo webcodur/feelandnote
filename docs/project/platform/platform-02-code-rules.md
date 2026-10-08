@@ -78,8 +78,8 @@ export default function Page() {
 ## 레이아웃·반응형
 - 헤더 메뉴 전환과 하단 탭·옆 레일 전환은 별개다. 옆 레일이 서기 전까지 휴대폰·태블릿 모두 하단 페이지 메뉴를 두고, 구획 목차는 같은 고정 틀의 위쪽 도크에 붙인다. 음악 버튼과 음악 창의 포털도 이 폭 기준을 공유한다(`constants/breakpoints.ts`·`BottomNav.tsx`). 보이기·숨기기는 CSS로 하며 서버 HTML에 처음부터 들어가야 첫 화면에서 뒤늦게 튀어나오지 않는다
 - 자바스크립트가 폭을 물어야 할 때(포털 자리 등록처럼 CSS로 못 가르는 일)만 `@/hooks/useMediaQuery`와 `@/constants/breakpoints`를 쓴다. `window.innerWidth`로 따로 재지 않는다
-- 폭의 주인은 둘이다. 좌우 여백과 최대 폭은 `LayoutMain`의 틀이, 화면별 본문 폭은 `PageContainer`의 `width`가 쥔다. 홈·허브는 `default`를 공유하며 상한은 `globals.css`의 `--content-max-default`를 따른다. 인물 상세는 `detail`로 상한을 더 좁게 제한하되 기본 폭의 레일 여유를 지킨다. 페이지가 좌우 `px-*`를 따로 더하지 않는다
-- 오른쪽 스와이프 판(`SwipeRail`)은 면 자체가 손잡이라 넓은 폭을 지킨다. 좁은 막대로 줄이지 않는다. 목차와 판이 서는 넓은 화면에서는 `default` 본문 폭이 판 자리(`--rail-reserve`)만큼 물러난다. 좌우 레일은 같은 본문 폭을 기준으로 본문 모서리 옆에 선다. 홈·작품 첫 화면·쉼터·인물 상세는 `globals.css`에서 실제 콘텐츠 폭에 기준을 맞추고, 작품 상세는 `ContentDetail.module.css`에서 같은 원칙을 적용한다
+- 폭의 주인은 둘이다. 좌우 여백과 최대 폭은 `LayoutMain`의 틀이, 화면별 본문 폭은 `PageContainer`의 `width`가 쥔다. 인물·작품 탐색과 일반 목록은 `default`, 홈·인물 상세·작품 상세는 `detail`을 공유하며 쉼터 첫 화면은 간결한 폭을 쓴다. 세 상한과 현재 화면의 `--content-max-default`는 `globals.css`가 쥔다. 안쪽 카드·긴 글은 가독성에 맞게 더 좁힐 수 있다. 페이지가 좌우 `px-*`를 따로 더하지 않는다
+- 오른쪽 스와이프 판(`SwipeRail`)은 면 자체가 손잡이라 넓은 폭을 지킨다. 좁은 막대로 줄이지 않는다. 목차와 판이 서는 넓은 화면에서는 본문 폭이 판 자리(`--rail-reserve`)만큼 물러난다. 좌우 레일은 화면 종류와 관계없이 같은 본문 폭을 기준으로 본문 모서리 옆에 선다
 - 허브 배너(탐색·작품·광장·쉼터·기록관)는 모두 같은 높이(`bannerStyles.ts`의 `BANNER_COMPACT_HEIGHT_CLASS`)를 쓴다. 한 화면만 따로 줄이거나 키우지 않는다. 배너는 제목과 경로를 싣는 자리다 — 하위 화면은 상위 단계를 작은 경로 줄로, 지금 화면을 큰 제목으로 나눠 그린다(`BannerHeading`)
 - 휴대폰·PC용으로 같은 내용을 두 벌 그리지 않는다. 한 벌을 두고 격자 칸 수만 바꾼다(`Footer` 참고). 카드처럼 놓이는 자리마다 폭이 다른 부품은 container query를 쓴다
 - 화면 높이는 `svh`·`dvh`를 쓴다(`100vh`는 휴대폰 주소창만큼 넘친다). 화면 끝에 붙는 고정 요소는 `env(safe-area-inset-*)`를 받는다(`viewport-fit=cover`는 `[locale]/layout.tsx`가 선언)

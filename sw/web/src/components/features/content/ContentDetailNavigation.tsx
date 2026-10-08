@@ -39,7 +39,7 @@ export default function ContentDetailNavigation({ children, workId }: { children
 
   return (
     <ContentDetailSectionsContext.Provider value={items}>
-      <PageContainer className={styles.container}>
+      <PageContainer width="detail">
         <div ref={rootRef} className={styles.page} data-content-work-id={workId}>
           <AtlasNav items={items} activeId={activeSectionId} onNavigate={navigate} />
           {children}

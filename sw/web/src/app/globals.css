@@ -138,32 +138,26 @@
        좌우에 판 자리(판 + 양옆 16px)를 비워 본문이 판 밑으로 들어가지 않게 한다. 판 위치도 이 값으로 잰다 */
     --side-rail-width: 140px;
     --rail-reserve: 0px;
-    --content-max-default: 1200px;
-    --content-max-detail: 1024px;
+    --content-max-list: 1200px;
+    --content-max-detail: 960px;
+    --content-max-compact: 768px;
+    --content-max-default: var(--content-max-list);
   }
 
   @media (min-width: 1340px) {
     :root {
       --rail-reserve: calc(var(--side-rail-width) + 32px);
-      --content-max-default: min(1200px, calc(100vw - 2 * var(--rail-reserve)));
+      --content-max-default: min(var(--content-max-list), calc(100vw - 2 * var(--rail-reserve)));
     }
+  }
 
-    /* 홈은 감상 카드 폭에 목차와 스와이프 판을 맞춘다. body 포털도 같은 기준을 쓴다. */
-    :root:has(.home-page) {
-      --content-max-default: 896px;
-    }
+  /* 본문과 body 포털의 좌우 레일은 같은 폭을 쓴다. 안쪽 카드·글은 필요에 따라 더 좁힌다. */
+  :root:has([data-page-width="detail"]) {
+    --content-max-default: min(var(--content-max-detail), calc(100vw - 2 * var(--rail-reserve)));
+  }
 
-    :root:has(.works-hub-page) {
-      --content-max-default: min(1152px, calc(100vw - 2 * var(--rail-reserve)));
-    }
-
-    :root:has(.rest-hub-page) {
-      --content-max-default: 768px;
-    }
-
-    :root:has([data-page-width="detail"]) {
-      --content-max-default: min(var(--content-max-detail), calc(100vw - 2 * var(--rail-reserve)));
-    }
+  :root:has(.rest-hub-page) {
+    --content-max-default: min(var(--content-max-compact), calc(100vw - 2 * var(--rail-reserve)));
   }
 
   * {

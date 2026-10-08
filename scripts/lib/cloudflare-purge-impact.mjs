@@ -273,6 +273,9 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/actions/library/index.ts',
   'sw/web/src/actions/library/types.ts',
   'sw/web/src/app/[locale]/(main)/explore/page.tsx',
+  // 작품 탐색·쉼터 첫 화면도 앞단 HTML 캐시 대상이 아니다. 하위 라우트는 별도로 판정한다.
+  'sw/web/src/app/[locale]/(main)/explore/works/page.tsx',
+  'sw/web/src/app/[locale]/(main)/rest/page.tsx',
   'sw/web/src/app/[locale]/(main)/explore/sections.tsx',
   'sw/web/src/app/[locale]/(main)/sections.tsx',
   'sw/web/src/app/[locale]/not-found.tsx',

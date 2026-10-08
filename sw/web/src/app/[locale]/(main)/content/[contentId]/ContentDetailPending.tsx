@@ -4,7 +4,7 @@ import styles from "@/components/features/content/ContentDetail.module.css";
 
 /** 표지와 제목 자리를 먼저 잡아 작품 정보가 들어올 때 화면 이동을 줄인다. */
 export default function ContentDetailPending() {
-  return <PageContainer className={styles.container}><div className="space-y-3">
+  return <PageContainer width="detail"><div className="space-y-3">
     <div aria-hidden="true" className="flex h-9 items-center justify-between">
       <div className="h-2 w-16 rounded-full bg-text-secondary/10" />
       <div className="h-7 w-24 rounded-lg border border-border/60" />

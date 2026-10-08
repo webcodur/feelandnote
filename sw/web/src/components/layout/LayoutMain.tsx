@@ -12,7 +12,7 @@ import RecentProfilesSection from "@/components/features/profile/RecentProfilesS
 
   폭의 주인은 둘뿐이다.
   - 이 틀(main 첫 자식): 화면 좌우 여백과 최대 폭 1440.
-  - PageContainer: 화면 종류별 본문 폭(읽기 720 · 기본 1200 · 넓게 1440).
+  - PageContainer: 목록·홈/상세·쉼터 본문 폭. 공통 상한은 globals.css가 쥔다.
 */
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
