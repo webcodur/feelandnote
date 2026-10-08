@@ -5,8 +5,9 @@
 ## 자산 계약
 
 - 원본은 처음부터 완결된 네이티브 3:1 파노라마 사진으로 만든다. 더 높은 비율에서 위아래를 잘라 맞추지 않는다.
-- 원본은 `sw/web-bo/output/worlds-raw/`, 운영본은 `sw/web/public/images/worlds/`에 둔다.
-- 파일명은 `CELEB_WORLDS`의 world ID를 그대로 사용한다.
+- 신규 발행 배너의 정본은 R2 `worlds/<world-id>/`의 원본·PC판·모바일판·생성 정보다. 내용 해시가 든 불변 키를 쓰고 `worldImages.ts`에 검증된 표시 주소를 연결한다.
+- `sw/web-bo/output/worlds-raw/`는 제작 중 임시 경로다. R2 공개 재조회와 화면 검수가 끝나면 원본·프롬프트·로컬 파생본·미리보기를 지운다. 기존 미이관 배너는 `sw/web/public/images/worlds/`를 계속 사용한다.
+- world ID는 `CELEB_WORLDS`를 그대로 사용한다.
 - 제 그림이 아직 없는 세계는 `worldImages.ts`의 `BORROWED_BANNERS`가 옛 시대 그림을 빌려 쓴다. 그림을 만들면 그 항목을 지운다.
 - PC·모바일 픽셀값, WebP 품질, 모바일 크롭 범위와 출력 파일명은 `sw/web-bo/scripts/photo/world-banner.mjs`가 SSoT다.
 - PC판은 원본 전체를 비율 그대로 줄이고, 모바일판은 세로를 보존한 채 좌우만 자른다.
@@ -14,7 +15,8 @@
 
 ```bash
 node sw/web-bo/scripts/photo/world-banner.mjs \
-  --id <world-id> --source <3:1 원본> --mobile-left <좌표> --dry-run
+  --id <world-id> --source <3:1 원본> --mobile-left <좌표> \
+  --prompt <생성 프롬프트 파일> --publish
 ```
 
 기존 운영본을 교체할 때는 원본과 출력 파일의 추적 여부를 확인해 백업한 뒤에만 `--force`를 사용한다.
@@ -91,7 +93,7 @@ Absolutely no people or human silhouettes. No text, logos, signage or watermark.
 | `latin-america` | 식민풍 광장, 성당 종탑·채색 건물과 화산 능선 |
 | `modern-latin-america` | 미제작 — `latin-america`를 빌려 쓴다 |
 | `africa` | 젠네 대모스크, 진흙벽과 빈 시장 좌판 |
-| `modern-africa` | 미제작 — `africa`를 빌려 쓴다 |
+| `modern-africa` | 케이프타운의 현대 스카이라인·항구와 테이블마운틴 |
 | `myth` | 특정 문화권을 복제하지 않은 구름 위 거석 문턱과 젖은 돌길 |
 | `neutral` | 연대와 지역을 특정하지 않는 안개 속 돌 표면과 한 줄기 빛 |
 

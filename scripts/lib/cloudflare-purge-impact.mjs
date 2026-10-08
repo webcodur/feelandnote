@@ -147,6 +147,10 @@ const CELEB_FILES = new Set([
   'sw/web/src/actions/contents/celebContentExpandRows.ts',
   // 세계관 배너와 스냅 캐러셀은 보관 대상 화면 중 인물 상세(히어로·스펙트럼)에만 실린다.
   'sw/web/src/components/features/celeb/CelebWorldBannerView.tsx',
+  'sw/web/src/components/features/celeb/CelebWorldMaterialScope.tsx',
+  'sw/web/src/components/features/celeb/CelebWorldMaterialScope.module.css',
+  'sw/web/src/lib/celeb/worldImages.ts',
+  'sw/web/src/lib/celeb/worldMaterial.ts',
   'sw/web/src/components/ui/SnapCarousel.tsx',
   // 인사 대사는 인물 상세의 관계망에서만 부른다.
   'sw/web/src/actions/celebs/getCelebGreetingProfile.ts',

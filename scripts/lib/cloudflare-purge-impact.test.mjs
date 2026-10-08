@@ -445,6 +445,20 @@ test('daily review logic and home translations need no cached HTML purge', () =>
   assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/components/features/game/shared/ContentReviewModal.tsx', 'sw/web/src/components/shared/BookIntroductionPanel.tsx']).scopes, ['celeb','content']);
 });
 
+test('world banner URLs and material changes evict celeb HTML on deployment', () => {
+  for (const file of [
+    'sw/web/src/lib/celeb/worldImages.ts',
+    'sw/web/src/lib/celeb/worldMaterial.ts',
+    'sw/web/src/components/features/celeb/CelebWorldMaterialScope.tsx',
+    'sw/web/src/components/features/celeb/CelebWorldMaterialScope.module.css',
+  ]) {
+    const plan = classifyCloudflarePurgeImpact([file]);
+    assert.deepEqual(plan.scopes, ['celeb'], file);
+    assert.deepEqual(plan.prefixes, ['feelandnote.com/celeb/', 'feelandnote.com/en/celeb/'], file);
+    assert.deepEqual(plan.files, [], file);
+  }
+});
+
 test('R2 genre banners and shared detail UI evict only their consuming detail HTML', () => {
   const localSource = 'sw/web/public/images/content/banners/acoustic-mb.webp';
   assert.deepEqual(classifyCloudflarePurgeImpact([localSource]).scopes, ['none']);

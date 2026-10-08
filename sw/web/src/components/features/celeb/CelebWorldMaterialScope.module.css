@@ -122,12 +122,12 @@
 .scope[data-world-material="ebony-malachite"] {
   --world-outer-texture:
     repeating-linear-gradient(90deg, transparent 0 6px, rgba(0, 0, 0, 0.12) 7px 8px),
-    repeating-linear-gradient(88deg, transparent 0 27px, rgba(202, 220, 209, 0.014) 28px 29px),
+    repeating-linear-gradient(88deg, transparent 0 27px, rgba(211, 216, 212, 0.014) 28px 29px),
     var(--pattern-noise);
   --world-outer-size: auto;
   --world-outer-position: center;
   --world-panel-texture:
-    repeating-radial-gradient(ellipse at 21% 34%, transparent 0 9px, rgba(151, 199, 173, 0.018) 10px 13px, transparent 14px 21px),
+    repeating-radial-gradient(ellipse at 21% 34%, transparent 0 9px, rgba(171, 181, 174, 0.012) 10px 13px, transparent 14px 21px),
     repeating-radial-gradient(ellipse at 76% 68%, transparent 0 15px, rgba(0, 0, 0, 0.055) 16px 19px, transparent 20px 31px);
   --world-panel-texture-size: auto;
   --world-panel-texture-position: center;
