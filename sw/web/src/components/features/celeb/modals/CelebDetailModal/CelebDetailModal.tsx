@@ -57,7 +57,6 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const displayQuotes = (isEn && celeb.quotes_en) || celeb.quotes;
   const displayNickname = (isEn && celeb.nickname_en) || celeb.nickname;
   const displayGreeting = isEn ? (celeb.greeting_en ?? celeb.greeting) : celeb.greeting;
-  const compactProfile = Boolean(contextReview) && !onNavigate;
 
   const {
     hasVoice,
@@ -119,7 +118,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       aria-label={isFollowing ? t("followingLabel") : t("followLabel")}
       title={`${isFollowing ? t("followingLabel") : t("followLabel")} · ${t("followerUnit", { count: celeb.follower_count || 0 })}`}
       data-celeb-modal-follow
-      className={`${compactProfile ? "absolute -top-1 -end-1 z-10 size-8 rounded-full border border-line-strong bg-bg-secondary" : "size-9 rounded-control"} inline-flex items-center justify-center hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${isFollowing ? "text-accent" : "text-text-secondary hover:text-text-primary"}`}
+      className={`size-9 rounded-control inline-flex items-center justify-center hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${isFollowing ? "text-accent" : "text-text-secondary hover:text-text-primary"}`}
     >
       {isFollowing ? <Check size={16} strokeWidth={2} /> : <UserPlus size={16} strokeWidth={2} />}
     </button>
@@ -168,9 +167,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           />
 
           {/* 인물 요약: 이전·다음 화살표 + Avatar + 이름 + 메타 + 태그 */}
-          <div className={compactProfile ? "relative grid shrink-0 grid-cols-[80px_minmax(0,1fr)] items-center gap-x-4 gap-y-1 px-6 pt-4 pb-3" : "relative flex shrink-0 flex-col items-center px-6 pt-8 pb-4"}>
+          <div className="relative flex shrink-0 flex-col items-center px-6 pt-8 pb-4">
             {/* 목록 탐색: 이전·다음 인물 버튼이 아바타 좌우를 호위한다 */}
-            <div className={compactProfile ? "row-span-4 flex items-center justify-center self-start pt-1" : styles.portraitRow}>
+            <div className={styles.portraitRow}>
               {onNavigate && (
                 <button
                   type="button"
@@ -183,7 +182,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                   <PortraitNavGlyph direction="prev" />
                 </button>
               )}
-              <div className={`relative shrink-0 ${compactProfile ? "" : styles.portraitSlot}`} data-celeb-modal-portrait>
+              <div className={`relative shrink-0 ${styles.portraitSlot}`} data-celeb-modal-portrait>
                 <CelebPortrait
                   key={celeb.id}
                   photoUrl={null}
@@ -195,14 +194,13 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                   isVoicePlaying={isVoiceActive}
                   onGreet={canGreet ? handleGreetingPlay : undefined}
                   greetLabel={greetLabel}
-                  avatarSize={compactProfile ? "h-20 w-20" : "h-28 w-28"}
+                  avatarSize="h-28 w-28"
                   initialSize="text-4xl"
                   avatarAlignment="center"
                   containerClassName={styles.portrait}
-                  actionLayout={compactProfile ? "corners" : "toolbar"}
-                  extraAction={compactProfile ? undefined : followButton}
+                  actionLayout="toolbar"
+                  extraAction={followButton}
                 />
-                {compactProfile && followButton}
               </div>
               {onNavigate && (
                 <button
@@ -219,12 +217,12 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
             </div>
 
             {displayTitle && (
-              <p className={`${compactProfile ? "col-start-2" : `${styles.title} mb-1`} text-xs text-accent font-bold uppercase tracking-[.25em]`}>{displayTitle}</p>
+              <p className={`${styles.title} mb-1 text-xs text-accent font-bold uppercase tracking-[.25em]`}>{displayTitle}</p>
             )}
 
             {/* 이름과 상세 이동 링크를 나란히 묶어 중앙에 둔다. */}
-            <div className={compactProfile ? "col-start-2 flex min-w-0 items-center gap-2" : styles.nameRow}>
-              <h2 data-celeb-modal-name className={`min-w-0 font-black font-serif text-text-primary leading-tight ${compactProfile ? "text-2xl break-all" : `${styles.name} text-3xl`}`}>
+            <div className={styles.nameRow}>
+              <h2 data-celeb-modal-name className={`min-w-0 font-black font-serif text-text-primary leading-tight ${styles.name} text-3xl`}>
                 {displayNickname}
               </h2>
               <Link
@@ -240,7 +238,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
               </Link>
             </div>
 
-            <div className={`flex flex-wrap gap-x-3 gap-y-1 text-sm text-text-secondary ${compactProfile ? "col-start-2" : "justify-center"}`}>
+            <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 text-sm text-text-secondary">
               {celeb.profession && (
                 <span className="flex items-center gap-1">
                   <Briefcase size={14} />
@@ -264,7 +262,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
             {/* 태그: 최대 2개까지만 표시하고 나머지는 +N 처리 (가로폭 넘침 방지) */}
             {(celeb.factions?.length ?? 0) > 0 && (
-              <div className={`flex w-full max-w-full flex-wrap items-center gap-2 overflow-hidden ${compactProfile ? "col-start-2 mt-1" : "mt-3 justify-center"}`}>
+              <div className="mt-3 flex w-full max-w-full flex-wrap items-center justify-center gap-2 overflow-hidden">
                 {celeb.factions.slice(0, 2).map(tag => (
                   <button
                     key={tag.id}
@@ -315,7 +313,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
           {/* 바이오 */}
           {displayBio && (
-            <div className={`shrink-0 px-6 ${compactProfile ? "pt-1.5" : "pt-3"}`}>
+            <div className="shrink-0 px-6 pt-3">
               <p className="text-sm text-text-secondary leading-relaxed break-all">
                 <FormattedText text={displayBio} />
               </p>
