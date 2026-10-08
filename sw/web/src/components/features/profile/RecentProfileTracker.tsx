@@ -7,6 +7,9 @@
 
 import { useEffect } from "react";
 import { useRecentProfiles, type RecentProfileItem } from "@/hooks/useRecentProfiles";
+import { useLocale } from "next-intl";
+import { useRecentHistory } from "@/hooks/useRecentHistory";
+import { getCelebProfileUrl } from "@/lib/url";
 
 interface RecentProfileTrackerProps {
   profile: Omit<RecentProfileItem, "visitedAt">;
@@ -14,6 +17,11 @@ interface RecentProfileTrackerProps {
 
 export default function RecentProfileTracker({ profile }: RecentProfileTrackerProps) {
   const { addItem } = useRecentProfiles();
+  const locale = useLocale();
+  useRecentHistory({ kind: "profile", id: profile.id,
+    href: profile.profileType === "CELEB" ? getCelebProfileUrl(profile) : `/${encodeURIComponent(profile.id)}`,
+    title: profile.nickname, thumbnail: profile.avatarUrl,
+    titles: { [locale]: profile.nickname, ...(profile.nickname_ko ? { ko: profile.nickname_ko } : {}), ...(profile.nickname_en ? { en: profile.nickname_en } : {}) } });
 
   useEffect(() => {
     addItem(profile);

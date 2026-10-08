@@ -1,5 +1,6 @@
 // 선택 계층의 자료와 모양. 팩션 주소에서도 그룹 선택을 복원한다.
 export const ATLAS_GROUP_PARAM = "group";
+export const ATLAS_PERSON_PARAM = "person";
 export type AtlasWorld = "myth" | "faction";
 export function atlasStepKeys(world: AtlasWorld) {
   return world === "myth" ? ["region", "myth", "group"] as const : ["theme", "faction", "group"] as const;
@@ -17,6 +18,7 @@ export interface AtlasEntry {
   count: number;
   disabled?: boolean;
   href?: string;
+  imageUrl?: string;
   /** 「주요 장면」 자료가 있는 항목은 선택기 칩 왼쪽에 이미지 아이콘을 띄운다 */
   scenes?: number;
   groups: AtlasGroup[];

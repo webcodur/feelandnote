@@ -876,7 +876,8 @@
       "next": "다음 구획: {name}",
       "noPrevious": "이전 구획 없음",
       "noNext": "다음 구획 없음"
-    }
+    },
+    "recentHistory": "최근 조회"
   },
   "notifications": {
     "title": "소식 보관함",

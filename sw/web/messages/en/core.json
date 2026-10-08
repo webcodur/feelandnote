@@ -870,7 +870,8 @@
       "next": "Next section: {name}",
       "noPrevious": "No previous section",
       "noNext": "No next section"
-    }
+    },
+    "recentHistory": "Recently viewed"
   },
   "notifications": {
     "title": "Notifications",

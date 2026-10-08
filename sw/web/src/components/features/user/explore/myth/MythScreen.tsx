@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight, Clock3 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -9,7 +9,10 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import AtlasNavigation from "./AtlasNavigation";
 import AtlasPicker from "./AtlasPicker";
 import { buildMythNavigation } from "@/lib/atlas-navigation";
-import { ATLAS_GROUP_PARAM, type AtlasSelection, type AtlasTheme } from "./atlasNavigationData";
+import { ATLAS_GROUP_PARAM, ATLAS_PERSON_PARAM, type AtlasSelection, type AtlasTheme } from "./atlasNavigationData";
+import RecentHistoryRail from "@/components/shared/RecentHistoryRail";
+import { useRecentAtlas } from "@/hooks/useRecentAtlas";
+import { recentAtlasHref } from "@/lib/recent-atlas";
 import { mythGroupName } from "./mythGroupName";
 import MythPersonPicker from "./MythPersonPicker";
 import MythPersonDetail from "./MythPersonDetail";
@@ -61,7 +64,13 @@ function FactionPerson({ renderPerson, person, onClose }: Pick<ThemeScreenOption
   return renderPerson(person, onClose);
 }
 
+const subscribeHydration = () => () => {};
+const browserHydrated = () => true;
+const serverHydrated = () => false;
+
 export default function MythScreen({ data, faction, rememberedSlug = null, indexHeading, indexGroups }: Props) {
+  // 공유·최근 주소의 인물 창은 Portal이므로 첫 서버 화면과 맞춘 뒤 연다.
+  const hydrated = useSyncExternalStore(subscribeHydration, browserHydrated, serverHydrated);
   const locale = useLocale();
   const router = useRouter();
   const t = useTranslations("explore.hub.myth");
@@ -82,7 +91,9 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
     ?? published[0];
   const [regionId, setRegionId] = useState<string | null>(openingMyth?.regionId ?? data.regions[0]?.id ?? null);
   const [mythId, setMythId] = useState<string | null>(openingMyth?.id ?? null);
-  const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
+  const requestedPerson = searchParams.get(ATLAS_PERSON_PARAM);
+  const [selectedPersonId, setSelectedPersonId] = useState<string | null>(requestedPerson);
+  const [appliedPerson, setAppliedPerson] = useState(requestedPerson);
   const [groupOverviewOpen, setGroupOverviewOpen] = useState(false);
   const closeGroupOverview = useCallback(() => setGroupOverviewOpen(false), []);
   // 선택 창의 임시 값은 확정 전까지 본문에 적용하지 않는다.
@@ -91,7 +102,19 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
   const [groupId, setGroupId] = useState<string | null>(requestedGroup);
   const [appliedGroup, setAppliedGroup] = useState(requestedGroup);
   const [appliedSlug, setAppliedSlug] = useState(requestedSlug);
-  const closePerson = useCallback(() => setSelectedPersonId(null), []);
+  const closePerson = useCallback(() => {
+    setSelectedPersonId(null);
+    const url = new URL(window.location.href);
+    if (url.searchParams.has(ATLAS_PERSON_PARAM)) {
+      url.searchParams.delete(ATLAS_PERSON_PARAM);
+      window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+  }, []);
+
+  if (requestedPerson !== appliedPerson) {
+    setAppliedPerson(requestedPerson);
+    setSelectedPersonId(requestedPerson);
+  }
 
   if (requestedGroup !== appliedGroup) {
     setAppliedGroup(requestedGroup);
@@ -105,7 +128,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
       setRegionId(requestedMyth.regionId);
       setMythId(requestedMyth.id);
       setGroupId(requestedGroup);
-      setSelectedPersonId(null);
+      setSelectedPersonId(requestedPerson);
     }
   }
 
@@ -117,7 +140,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
   }, [linkedSlug]);
 
   /* 같은 신화의 진영 선택은 주소만 바꾼다. 다른 신화는 해당 주소에서 필요한 자료를 받아 연다. */
-  const rememberMyth = (slug: string | undefined, group: string | null) => {
+  const rememberMyth = (slug: string | undefined, group: string | null, person: string | null) => {
     if (faction) return;
     if (slug) saveLastMyth(slug);
     const url = new URL(window.location.href);
@@ -126,6 +149,8 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
     url.searchParams.delete(MYTH_PARAM);
     if (group) url.searchParams.set(ATLAS_GROUP_PARAM, group);
     else url.searchParams.delete(ATLAS_GROUP_PARAM);
+    if (person) url.searchParams.set(ATLAS_PERSON_PARAM, person);
+    else url.searchParams.delete(ATLAS_PERSON_PARAM);
     window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
   };
 
@@ -164,6 +189,8 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
   );
   const selectedPerson = activePeople.find((person) => person.id === selectedPersonId) ?? null;
   const hasContent = Boolean(activeMyth) && activePeople.length > 0;
+  const navigationTree: AtlasTheme[] = faction?.navigationTree ?? buildMythNavigation(data, groupLabels);
+  const recentItems = useRecentAtlas(faction ? "faction" : "myth", activeMyth?.id ?? null, activeGroup?.id ?? null, selectedPerson?.id ?? null, navigationTree);
 
   /* 상단 구획 목차 — 공용 아틀라스 내비게이션. 구성·책장은 자료가 있을 때만, 전체는 목록이
      있을 때만 세운다. 구획 머리와 목차는 한 몸이라 같은 이름을 쓰고 「— NN —」 번호도 따라간다 —
@@ -198,37 +225,36 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
       .sort((a, b) => castHere(b) - castHere(a) || a.title.localeCompare(b.title));
   }, [activeWorks, activeMyth, railIds]);
 
-  const navigationTree: AtlasTheme[] = faction?.navigationTree ?? buildMythNavigation(data, groupLabels);
-  const chooseAtlas = (selection: AtlasSelection) => {
+  const chooseAtlas = (selection: AtlasSelection, personId: string | null = null) => {
     if (!faction && selection.entryId !== activeMyth?.id) {
       const entry = data.myths.find(myth => myth.id === selection.entryId && myth.isPublished);
       if (entry) {
         saveLastMyth(entry.slug);
-        const query = selection.groupId ? `?${ATLAS_GROUP_PARAM}=${encodeURIComponent(selection.groupId)}` : '';
-        router.push(`${mythHref(entry.slug)}${query}`, { scroll: false });
+        router.push(recentAtlasHref(mythHref(entry.slug), selection.groupId, personId), { scroll: false });
       }
       return;
     }
     if (faction && selection.entryId !== activeMyth?.id) {
       const entry = navigationTree.find((item) => item.id === selection.themeId)?.entries.find((item) => item.id === selection.entryId);
       if (entry?.href) {
-        const query = selection.groupId ? `?${ATLAS_GROUP_PARAM}=${encodeURIComponent(selection.groupId)}` : "";
-        router.push(`${entry.href}${query}`, { scroll: false });
+        router.push(recentAtlasHref(entry.href, selection.groupId, personId), { scroll: false });
       }
       return;
     }
     if (!faction) {
       setRegionId(selection.themeId);
       setMythId(selection.entryId);
-      rememberMyth(data.myths.find((myth) => myth.id === selection.entryId)?.slug, selection.groupId);
+      rememberMyth(data.myths.find((myth) => myth.id === selection.entryId)?.slug, selection.groupId, personId);
     } else {
       const url = new URL(window.location.href);
       if (selection.groupId) url.searchParams.set(ATLAS_GROUP_PARAM, selection.groupId);
       else url.searchParams.delete(ATLAS_GROUP_PARAM);
+      if (personId) url.searchParams.set(ATLAS_PERSON_PARAM, personId);
+      else url.searchParams.delete(ATLAS_PERSON_PARAM);
       window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
     }
     setGroupId(selection.groupId);
-    setSelectedPersonId(null);
+    setSelectedPersonId(personId);
     setGroupOverviewOpen(false);
   };
   if (!activeRegion) return null;
@@ -250,7 +276,14 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
   return (
     <section id={faction ? "faction" : "myth"} aria-label={faction?.title ?? t("title")} className={`${layout.shell} ${locale === "ko" ? "break-all" : ""}`}>
       <AtlasNavSections items={tocItems} />
-      {/* 「선택」구획 — 목차 첫 항목. 머리는 고른 신화·세력의 이름+한 줄 정의를 직접 쥔다 —
+      <RecentHistoryRail items={recentItems} className="pt-3" onSelect={item => {
+        if (item.kind !== (faction ? "faction" : "myth")) return false;
+        const theme = navigationTree.find(theme => theme.entries.some(entry => entry.id === item.id && !entry.disabled));
+        if (!theme) return false;
+        chooseAtlas({ themeId: theme.id, entryId: item.id, groupId: item.position?.groupId ?? null }, item.position?.personId ?? null);
+        return true;
+      }} />
+      {/* 「선택」구획. 머리는 고른 신화·세력의 이름+한 줄 정의를 직접 쥔다 —
           「선택」이라는 역할 이름은 목차에만 두고 겹쳐 쓰지 않는다 */}
       <div className={layout.navigationOuter}>
         <HubSection id="atlas-selection" title={selectionTitle} titleAs={ownsTitle && activeMyth ? "h1" : "h2"}
@@ -294,7 +327,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
             </HubSection>
           </div>
           {groupOverviewOpen && <ContentTextModal isOpen onClose={closeGroupOverview} title={memberTitle} text={groupOverviewText} />}
-          {selectedPerson && (faction
+          {hydrated && selectedPerson && (faction
             ? <FactionPerson renderPerson={faction.renderPerson} person={selectedPerson} onClose={closePerson} />
             : <MythPersonDetail key={`${activeMyth.id}-${selectedPerson.id}`} person={selectedPerson} myth={activeMyth} onClose={closePerson} />
           )}

@@ -2,10 +2,10 @@
 import { useState, useEffect } from "react";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { useRecentContents } from "@/hooks/useRecentContents";
+import { useRecentHistory } from "@/hooks/useRecentHistory";
 import { getContentDetail, getPublicContentInfo, getContentViewerState, type ContentDetailData } from "@/actions/contents/getContentDetail";
 import { createClient } from "@/lib/db/client";
-import { selectContentBookEdition } from "@/lib/books/contentEdition";
+import { getContentDetailHref, selectContentBookEdition } from "@/lib/books/contentEdition";
 
 export function useContentDetailState(initialData: ContentDetailData) {
   const [data, setData] = useState(initialData);
@@ -51,18 +51,9 @@ export function useContentDetailState(initialData: ContentDetailData) {
   };
 
   // 최근 접근 콘텐츠
-  const { recentItems, addItem } = useRecentContents(content.id);
-
-  useEffect(() => {
-    addItem({
-      id: content.id,
-      type: content.type,
-      title: content.title,
-      titleBadge: content.titleBadge,
-      creator: content.creator ?? null,
-      thumbnail: content.thumbnail ?? null,
-    });
-  }, [content.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  const recentItems = useRecentHistory({ kind: "content", id: content.id, title: content.title,
+    titles: { [locale]: content.title }, thumbnail: content.thumbnail ?? null,
+    href: content.type === "BOOK" ? getContentDetailHref(content.id, unavailable ? undefined : content.purchaseEditionId) : `/content/${encodeURIComponent(content.id)}` });
 
   useEffect(() => {
     let isActive = true;

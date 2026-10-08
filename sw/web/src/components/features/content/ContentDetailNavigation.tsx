@@ -8,7 +8,7 @@ import styles from "./ContentDetail.module.css";
 
 export const ContentDetailSectionsContext = createContext<AtlasNavItem[]>([]);
 
-/** 서버 슬롯·로그인·최근 목록의 실제 구획만 공용 목차에 싣는다. */
+/** 서버 슬롯·로그인에 따라 실제로 표시된 본문 구획만 공용 목차에 싣는다. */
 export default function ContentDetailNavigation({ children, workId }: { children: ReactNode; workId: string }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [items, setItems] = useState<AtlasNavItem[]>([]);
