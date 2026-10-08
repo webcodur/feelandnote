@@ -6,7 +6,8 @@ export function wikidataOriginalLanguage(claims = {}) {
  const original=usable(claims.P364),language=usable(claims.P407)
  const selected=original.length?original:language.some(claim=>claim.rank==='preferred')?language.filter(claim=>claim.rank==='preferred'):language
  const languages=[...new Set(selected.map(claim=>claim.mainsnak?.datavalue?.value?.id).filter(Boolean))]
- return languages.length===1?({Q1860:'en',Q9176:'ko'}[languages[0]] ?? null):null
+ const normalized=languages.map(id=>({Q1860:'en',Q7979:'en',Q9176:'ko'}[id] ?? null))
+ return normalized.length && normalized.every(language=>language===normalized[0])?normalized[0]:null
 }
 export function wikipediaBookLanguage(wikitext='') {
  if(!/\{\{\s*Infobox (?:book|novel)\b/iu.test(wikitext))return null

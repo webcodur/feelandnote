@@ -1,5 +1,7 @@
 /** 작품 통합은 한 PostgreSQL transaction에서만 실행한다. 충돌은 전체 pair를 되돌린다. */
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
+import { bookEditionTranslationKey, excludedBookEditionReason } from '@feelandnote/content-search/book-edition-policy'
+import { isOriginalEdition } from './edition-translation-policy.mjs'
 import { CONTENT_ARRAY_REFERENCES } from './content-array-references.mjs'
 export const REFERENCE_TABLES = ['content_locales', 'figure_book_contents', 'figure_book_characters', 'figure_book_editions', 'member_contents', 'celeb_contents', 'curated_list_items', 'flow_nodes', 'records', 'notes', 'activity_logs', 'commerce_events', 'profession_book_picks']
 const arrayReferences = table => CONTENT_ARRAY_REFERENCES.filter(ref => ref.table === table)
@@ -106,6 +108,36 @@ export function buildMergeSql(pair, snapshot) {
   if (unrepresentedExternalIsbn(snapshot, pair)) throw new Error('MERGE_REVIEW: external ISBN has no preserved edition')
   const k = sqlLiteral(pair.keep), d = sqlLiteral(pair.drop)
   const originalEditionIds = snapshot.figure_book_editions.map(row => sqlLiteral(String(row.id))).join(', ') || 'NULL'
+  const works = new Map(snapshot.contents.map(row => [row.id, { ...row, figureBook: row.metadata?.figureBook }]))
+  const translationKey = row => excludedBookEditionReason({ ...row, editionKind: row.edition_kind, textScope: row.text_scope })
+    ? null : bookEditionTranslationKey(row, isOriginalEdition(row, works.get(row.content_id)))
+  const representatives = new Map()
+  for (const row of snapshot.figure_book_editions.filter(row => row.content_id === pair.keep)) {
+    const key = translationKey(row)
+    if (!key) continue
+    if (representatives.has(key)) throw Error('MERGE_REVIEW: canonical work has duplicate original or translation')
+    representatives.set(key, row)
+  }
+  const equivalents = snapshot.figure_book_editions.filter(row => row.content_id === pair.drop)
+    .flatMap(row => { const key = translationKey(row), keep = key && representatives.get(key); return keep && keep.isbn !== row.isbn ? [{ drop: row.id, keep: keep.id }] : [] })
+  const equivalentEdition = equivalents.length ? `CASE duplicate_edition.id ${equivalents.map(row => `WHEN ${Number(row.drop)} THEN ${Number(row.keep)}`).join(' ')} ELSE NULL END` : 'NULL'
+  const figure = works.get(pair.keep)?.figureBook ?? {}
+  const proofOwner = { content_id: pair.keep }
+  for (const [field, value] of Object.entries({ work_identity: figure.workIdentity, original_title: figure.workTitle ?? figure.originalTitle, original_creator: figure.workCreator ?? figure.originalCreator })) {
+    if (typeof value === 'string' && value.trim()) proofOwner[field] = value
+  }
+  const rebindProof = proof => proof?.method === 'independent_work_review' && proof.content_id === pair.drop ? { ...proof, ...proofOwner } : proof
+  // 독립 검수의 ISBN·URL은 그대로 두고 검수 대상 작품만 통합된 소유자로 옮긴다.
+  const evidenceUpdates = ['figure_book_editions', 'content_locales'].flatMap(table => snapshot[table].filter(row => row.content_id === pair.drop).flatMap(row => {
+    const source = row.sources
+    if (!source || typeof source !== 'object') return []
+    const sources = { ...source }
+    if (Array.isArray(source.edition_work_evidence)) sources.edition_work_evidence = source.edition_work_evidence.map(rebindProof)
+    if (source.work_attribution) sources.work_attribution = rebindProof(source.work_attribution)
+    if (JSON.stringify(sources) === JSON.stringify(source)) return []
+    const where = table === 'content_locales' ? `content_id=drop_id AND locale=${sqlLiteral(row.locale)}` : `id=${Number(row.id)}`
+    return [`UPDATE public.${table} SET sources=${sqlLiteral(JSON.stringify(sources))}::jsonb WHERE ${where};`]
+  })).join('\n')
   const rawInput = JSON.stringify({ pair, snapshot })
   let delimiter = '$merge_work$'
   for (let suffix = 1; rawInput.includes(delimiter); suffix += 1) delimiter = `$merge_work_${suffix}$`
@@ -164,6 +196,7 @@ BEGIN
       IF dependent_count>0 THEN RAISE EXCEPTION 'MERGE_REVIEW: celeb child references %', unknown_ref.rel; END IF;
     END LOOP;
   END LOOP;
+  ${evidenceUpdates}
   IF NOT EXISTS(SELECT 1 FROM public.figure_book_contents WHERE content_id=keep_id) THEN
     INSERT INTO public.figure_book_contents(content_id) VALUES(keep_id);
     -- seed가 만든 표시용 제목 행은 실제 판본이 아니다. 기존 ISBN 없는 판본은 삭제하지 않는다.
@@ -190,14 +223,17 @@ BEGIN
   DELETE FROM public.figure_book_characters b USING public.figure_book_characters a WHERE b.content_id=drop_id AND a.content_id=keep_id AND a.celeb_id=b.celeb_id;
   UPDATE public.figure_book_characters SET content_id=keep_id WHERE content_id=drop_id;
   FOR duplicate_edition IN SELECT * FROM public.figure_book_editions WHERE content_id=drop_id ORDER BY id LOOP
-    canonical_id := NULL;
-    IF duplicate_edition.isbn IS NOT NULL THEN SELECT id INTO canonical_id FROM public.figure_book_editions WHERE content_id=keep_id AND locale=duplicate_edition.locale AND isbn=duplicate_edition.isbn LIMIT 1; END IF;
+    canonical_id := ${equivalentEdition};
+    IF canonical_id IS NULL AND duplicate_edition.isbn IS NOT NULL THEN SELECT id INTO canonical_id FROM public.figure_book_editions WHERE content_id=keep_id AND locale=duplicate_edition.locale AND isbn=duplicate_edition.isbn LIMIT 1; END IF;
     IF canonical_id IS NULL THEN UPDATE public.figure_book_editions SET content_id=keep_id WHERE id=duplicate_edition.id;
     ELSE
       -- 플랫폼 활성 상품 충돌은 버리지 않고 비활성 이력으로 모두 남긴다.
       UPDATE public.figure_book_products p SET is_active=false WHERE p.edition_id=duplicate_edition.id AND p.is_active AND EXISTS(SELECT 1 FROM public.figure_book_products q WHERE q.edition_id=canonical_id AND q.platform=p.platform AND q.is_active);
       UPDATE public.figure_book_products SET edition_id=canonical_id WHERE edition_id=duplicate_edition.id;
-      UPDATE public.figure_book_editions a SET creator=coalesce(nullif(a.creator,''),duplicate_edition.creator), description=coalesce(nullif(a.description,''),duplicate_edition.description), publisher=coalesce(nullif(a.publisher,''),duplicate_edition.publisher), thumbnail_url=coalesce(a.thumbnail_url,duplicate_edition.thumbnail_url), release_date=coalesce(a.release_date,duplicate_edition.release_date), edition_kind=coalesce(a.edition_kind,duplicate_edition.edition_kind), text_scope=coalesce(a.text_scope,duplicate_edition.text_scope), verified=coalesce(a.verified,duplicate_edition.verified), sources=coalesce(duplicate_edition.sources,'{}'::jsonb)||coalesce(a.sources,'{}'::jsonb) WHERE a.id=canonical_id;
+      -- 다른 상품의 ISBN·출판사·표지·출처는 대표 판본의 메타에 섞지 않는다.
+      IF (${equivalentEdition}) IS NULL THEN
+        UPDATE public.figure_book_editions a SET creator=coalesce(nullif(a.creator,''),duplicate_edition.creator), description=coalesce(nullif(a.description,''),duplicate_edition.description), publisher=coalesce(nullif(a.publisher,''),duplicate_edition.publisher), thumbnail_url=coalesce(a.thumbnail_url,duplicate_edition.thumbnail_url), release_date=coalesce(a.release_date,duplicate_edition.release_date), edition_kind=coalesce(a.edition_kind,duplicate_edition.edition_kind), text_scope=coalesce(a.text_scope,duplicate_edition.text_scope), verified=coalesce(a.verified,duplicate_edition.verified), sources=coalesce(duplicate_edition.sources,'{}'::jsonb)||coalesce(a.sources,'{}'::jsonb) WHERE a.id=canonical_id;
+      END IF;
       DELETE FROM public.figure_book_editions WHERE id=duplicate_edition.id;
     END IF;
   END LOOP;

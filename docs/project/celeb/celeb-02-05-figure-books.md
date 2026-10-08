@@ -4,6 +4,8 @@
 
 후보 작품의 조사와 재선정은 [`figure-book-curation`](../../../.agents/skills/figure-book-curation/SKILL.md), 작품·판본·언어 카드의 책 정보는 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), 한국어 판본과 제휴 상품은 [`coupang-book-affiliate`](../../../.agents/skills/coupang-book-affiliate/SKILL.md)를 따른다.
 
+책장에는 읽을 가치가 있는 원문·정식 번역을 안내한다. 서점 평점·판매지수는 부실 후보를 찾는 단서이며, 같은 ISBN의 리뷰와 출판사 본문 범위·역자를 확인해 번역 불량·본문 누락·부실한 관련 도서를 제외하고 검증된 책으로 교체한다. 가격 불만이나 정치적 항의만으로 정상적인 책을 폐기하지 않는다. 공개 책장의 ISBN 전수 조회는 [`shelf-quality-audit.mjs`](../../../../sw/web-bo/scripts/figure-books/shelf-quality-audit.mjs)가 맡는다.
+
 이 카탈로그는 `celeb_tier`(`full`·`light`)와 `celeb_reality`(`REAL`·`BOTH`·`FICTION`) 어느 쪽과도 무관하게 모든 인물을 연결할 수 있다. 관우가 『삼국지연의』를 등장 작품으로 가지듯 실존 인물도 등장 작품을 가진다. 물리 테이블 이름이 `fiction_source_*`였을 때 "픽션 인물 전용 테이블"이라는 오해를 계속 만들어 `figure_book_*`로 정정했다. 인물의 실존·전승 판정은 `celebs.celeb_reality`가 쥐며, 자세한 구분은 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)의 「존재와 속성을 구분한다」를 따른다.
 
 ## 용어

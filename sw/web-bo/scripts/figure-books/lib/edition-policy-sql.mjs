@@ -35,6 +35,7 @@ BEGIN
   OR (new.locale='ko' AND new.sources->>'provider_edition_isbn'=new.isbn AND coalesce(new.sources->>'provider_edition_title','') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)})
   OR coalesce(new.text_scope,'') ~* ${pg(BOOK_EDITION_EXCLUDED_SCOPE)}
   OR coalesce(new.text_scope,'') ~* ${pg(BOOK_EDITION_NONSTART_SCOPE)}
+  OR coalesce(new.sources->>'provider_scope_description',new.sources #>> '{provider_metadata,contents}','') ~* ${pg(BOOK_EDITION_GRADED_READER)}
   OR coalesce(new.sources->>'provider_scope_description',new.sources #>> '{provider_metadata,contents}','') ~* ${pg(BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION)}
   OR (new.sources->>'primary'='none' AND new.sources->>'title'='display_only')
   OR (nullif(btrim(new.isbn),'') IS NULL AND new.sources->>'title'='kakao_title_search' AND coalesce(new.sources->>'series_source_url','') !~ ${pg(BOOK_EDITION_KAKAO_PAGE)})
@@ -103,6 +104,7 @@ begin
     and coalesce(locale.title, '') !~* ${pg(BOOK_EDITION_GRADED_READER)}
     and NOT coalesce(locale.sources->>'provider_edition_isbn'=locale.isbn AND (coalesce(locale.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)} OR coalesce(locale.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_GRADED_READER)}),false)
     and NOT coalesce(locale.locale='ko' AND locale.sources->>'provider_edition_isbn'=locale.isbn AND coalesce(locale.sources->>'provider_edition_title','') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)},false)
+    and coalesce(locale.sources->>'provider_scope_description',locale.sources #>> '{provider_metadata,contents}','') !~* ${pg(BOOK_EDITION_GRADED_READER)}
     and coalesce(locale.sources->>'provider_scope_description',locale.sources #>> '{provider_metadata,contents}','') !~* ${pg(BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION)}
     and coalesce(content.metadata #>> '{fictionSource,textScope}', '') !~* ${pg(BOOK_EDITION_EXCLUDED_SCOPE)}
     and coalesce(content.metadata #>> '{fictionSource,textScope}', '') !~* ${pg(BOOK_EDITION_NONSTART_SCOPE)}

@@ -58,7 +58,7 @@ test('동일 목록의 개별 선정 행은 통합을 막지 않고 작품 ID만
 test('ISBN 없는 판본끼리 충돌로 판정하지 않음', () => {
   const s = fixture(); s.figure_book_editions = [{ id: 1, locale: 'ko', isbn: null, content_id: 'keep' }, { id: 2, locale: 'ko', isbn: null, content_id: 'drop' }]
   assert.equal(planSnapshot(s, pair).editions[0].collidesWith, null)
-  assert.match(buildMergeSql(pair, s), /IF duplicate_edition.isbn IS NOT NULL THEN/)
+  assert.match(buildMergeSql(pair, s), /IF canonical_id IS NULL AND duplicate_edition.isbn IS NOT NULL THEN/)
 })
 test('SQL guard는 mutation보다 앞이고 모든 실패를 transaction 안에서 처리', () => {
   const sql = buildMergeSql(pair, fixture())

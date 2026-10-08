@@ -24,6 +24,8 @@ test('축약·요약·발췌·학습용 리더는 판본 종류 누락과 상세
  assert.equal(excludedBookEditionReason({isbn:null,publisher:null,sources:{primary:'manual-research',description:'https://en.wikipedia.org/wiki/The_Bells_(poem)'}}),'unverified_placeholder')
  assert.equal(excludedBookEditionReason({isbn:null,publisher:'실제 고서 출판사',sources:{primary:'manual-research'}}),null)
  assert.equal(excludedBookEditionReason({title:'Elon Musk Unabridged'}),null)
+ assert.equal(excludedBookEditionReason({title:'죽은 혼',isbn:'9788952240217',sources:{provider_edition_title:'죽은 혼(진형준 교수의 세계문학컬렉션 35)',provider_edition_isbn:'9788952240217'}}),'abridged')
+ assert.equal(excludedBookEditionReason({providerDescription:'세계문학 축역본의 정본 컬렉션 제40권 아버지와 아들'}),'abridged')
  for(const providerDescription of ['헨리 5세를 65% 발췌로 번역, 소개한다.','버턴판의 반복되는 부분을 덜어내 더욱 짜임새 있게 축약했다.','한 품도 빠뜨리지 않고 그 요지를 간추렸으며 전품을 소개했다.','세계명작다이제스트 시리즈 Sheet eBook']) assert.equal(excludedBookEditionReason({providerDescription}),'abridged')
  assert.equal(excludedBookEditionReason({providerDescription:'축약 여부 미확인'}),null)
  assert.equal(excludedBookEditionReason({title:'독립 선집',editionKind:'selection'}),null)
@@ -56,6 +58,11 @@ test('위키데이터의 원문 언어 우선순위를 따르고 번역 언어�
  assert.equal(wikidataOriginalLanguage({P407:[claim('Q1860','preferred'),claim('Q9176')]}),'en')
  assert.equal(wikidataOriginalLanguage({P407:[claim('Q1860'),claim('Q9176')]}),null)
  assert.equal(wikidataOriginalLanguage({P364:[claim('Q9176')],P407:[claim('Q1860')]}),'ko')
+ assert.equal(wikidataOriginalLanguage({P407:[claim('Q7979')]}),'en')
+ assert.equal(wikidataOriginalLanguage({P407:[claim('Q1860'),claim('Q7979')]}),'en')
+ assert.equal(wikidataOriginalLanguage({P407:[claim('Q7979'),claim('Q9176')]}),null)
+ assert.equal(wikidataOriginalLanguage({P407:[claim('Q7979'),claim('Q7737')]}),null)
+ assert.equal(wikidataOriginalLanguage({}),null)
 })
 test('원문 언어가 빠진 작품은 인물과 연결된 도서 정보상자의 단일 언어만 보완한다',()=>{
  assert.equal(wikipediaBookLanguage('{{Infobox book\n| language = [[English language|English]]\n| author = author\n}}'),'en')
@@ -83,5 +90,17 @@ test('같은 ISBN 공식 메타가 영문 원서라고 확인한 상품은 한�
  assert.equal(excludedBookEditionReason({...book,locale:'en'}),null)
  assert.equal(excludedBookEditionReason({...book,locale:'ko',sources:{...book.sources,provider_edition_title:'영어 원서와 번역을 함께 읽기'}}),null)
  assert.equal(excludedBookEditionReason({locale:'ko',title:'설득 (영어 원서 - 제인 오스틴)'}),'wrong_locale')
+ for(const title of ['문학평전 1 [영어원서] (문학평전 1)','교훈집 / Plutarch\'s Morals 영문판','짜라투스투라는 이렇게 말했다 - 고품격 시청각 영문판','하이아워서의 노래 | 영문판 |']) assert.equal(excludedBookEditionReason({locale:'ko',title}),'wrong_locale')
+ for(const title of ['영어 원서와 번역을 함께 읽기','영문판 출간의 역사','영문원서를 읽는 법']) assert.equal(excludedBookEditionReason({locale:'ko',title}),null)
  assert.throws(()=>translationRepairSql({duplicates:[],excluded:[{row:book,reason:'wrong_locale'}]},{}),/must not be deleted/)
+})
+
+test('본문 제목에서 숨겨진 공식 Penguin Reader 총서도 정규 판본에서 제외한다',()=>{
+ assert.equal(excludedBookEditionReason({title:'Doctor Zhivago',sources:{provider_scope_description:'Penguin Reader , Level 5 (2300 words)'}}),'graded_reader')
+ assert.equal(excludedBookEditionReason({title:'Doctor Zhivago',providerDescription:'Readers discuss the original novel'}),null)
+})
+
+test('공식 본문 범위의 로마 숫자 분권과 Loeb 중간 권도 첫 권 대표에 추가하지 않는다',()=>{
+ for(const textScope of ['The Story of the Stone, volume IV of V: The Debt of Tears','Enneads VI.1–5; volume 6 of the Loeb Classical Library translation']) assert.equal(excludedBookEditionReason({title:'고전',textScope}),'nonstart_volume')
+ for(const textScope of ['Complete edition, volumes I through V','Han Dynasty, revised edition, volume 1; translated by Burton Watson']) assert.equal(excludedBookEditionReason({title:'고전',textScope}),null)
 })
