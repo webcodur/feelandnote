@@ -7,7 +7,7 @@ const compiled = ts.transpileModule(readFileSync(new URL('./route.ts', import.me
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
 }).outputText
 
-async function imageSource(celeb: object | null, members: object[] = [], factions: object[] = []) {
+async function imageSource(celeb: object | null, members: object[] = [], factions: object[] = [], failure?: 'db' | 'image') {
   let source: string | null | undefined
   let variant: string | undefined
   const queries: { table: string; operations: unknown[][] }[] = []
@@ -19,7 +19,7 @@ async function imageSource(celeb: object | null, members: object[] = [], faction
     for (const method of ['select', 'eq', 'not', 'in', 'order', 'maybeSingle']) {
       builder[method] = (...args: unknown[]) => { query.operations.push([method, ...args]); return builder }
     }
-    builder.then = (resolve: (value: object) => void) => resolve({ data: rows[table], error: null })
+    builder.then = (resolve: (value: object) => void) => resolve({ data: rows[table], error: failure === 'db' ? new Error('DB unavailable') : null })
     return builder
   } }
   const mocks: Record<string, unknown> = {
@@ -29,16 +29,22 @@ async function imageSource(celeb: object | null, members: object[] = [], faction
       return fetcher()
     } },
     '@/lib/db/static': { createStaticClient: () => db },
-    '@/lib/seoImage': { createSquareSeoImage: async (url: string | null, imageVariant: string) => { source = url; variant = imageVariant; return Buffer.from('image') },
-      createSeoImageResponse: () => new Response('image') },
+    '@/lib/seoImage': { createSquareSeoImage: async (url: string | null, imageVariant: string) => {
+      source = url; variant = imageVariant
+      if (failure === 'image') throw new Error('source unavailable')
+      return Buffer.from('image')
+    },
+      createSeoImageResponse: () => new Response('image', { headers: { 'Cache-Control': 'public, max-age=86400' } }),
+      createSeoImageFailureResponse: () => new Response('fallback', { status: 503, headers: { 'Cache-Control': 'no-store' } }) },
   }
-  const loaded = { exports: {} as { GET: (request: unknown, context: object) => Promise<Response> } }
+  const loaded = { exports: {} as { dynamic: string; GET: (request: unknown, context: object) => Promise<Response> } }
   new Function('require', 'module', 'exports', compiled)((id: string) => {
     assert.ok(id in mocks, `Unexpected import: ${id}`)
     return mocks[id]
   }, loaded, loaded.exports)
-  await loaded.exports.GET(null, { params: Promise.resolve({ slug: 'example' }) })
-  return { source, variant, queries }
+  assert.equal(loaded.exports.dynamic, 'force-dynamic')
+  const response = await loaded.exports.GET(null, { params: Promise.resolve({ slug: 'example' }) })
+  return { source, variant, queries, response }
 }
 
 test('representative photo wins over avatar without querying factions', async () => {
@@ -68,6 +74,20 @@ test('avatar remains the fallback when there is no eligible artwork', async () =
 })
 
 test('missing or imageless person uses the default image', async () => {
-  assert.equal((await imageSource(null)).source, null)
+  const missing = await imageSource(null)
+  assert.equal(missing.source, null)
+  assert.equal(missing.response.status, 200)
   assert.equal((await imageSource({ id: 'person', portrait_url: null, avatar_url: null })).source, null)
+})
+
+test('DB and image failures return an uncached error, and a later request succeeds', async () => {
+  const celeb = { id: 'person', portrait_url: 'photo', avatar_url: 'avatar' }
+  for (const failure of ['db', 'image'] as const) {
+    const { response } = await imageSource(celeb, [], [], failure)
+    assert.equal(response.status, 503)
+    assert.equal(response.headers.get('cache-control'), 'no-store')
+  }
+  const recovered = await imageSource(celeb)
+  assert.equal(recovered.response.status, 200)
+  assert.equal(recovered.source, 'photo')
 })

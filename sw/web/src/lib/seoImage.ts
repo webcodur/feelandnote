@@ -146,10 +146,10 @@ async function composeSquareImage(source: Buffer, variant: SeoImageVariant): Pro
       .toBuffer()
   }
 
-  // 검색 썸네일에서도 환경 사진 전체를 보존한다. 누끼 아바타의 투명 영역은 밝게 채운다.
+  // 대표사진·개인화보는 여백 없이 채운다. 세로 사진은 위쪽을 보존해 머리 잘림을 줄인다.
   if (variant === 'person') {
     return sharp(normalized)
-      .resize(SEO_IMAGE_SIZE, SEO_IMAGE_SIZE, { fit: 'contain', background: '#f3efe7' })
+      .resize(SEO_IMAGE_SIZE, SEO_IMAGE_SIZE, { fit: 'cover', position: 'north' })
       .flatten({ background: '#f3efe7' })
       .jpeg({ quality: 82, mozjpeg: true, chromaSubsampling: '4:4:4' })
       .toBuffer()
@@ -206,30 +206,24 @@ export async function createSquareSeoImage(
 ): Promise<Buffer> {
   if (!sourceUrl) return createFallbackImage(variant)
 
-  try {
-    const source = await fetchImageBuffer(sourceUrl)
-    return await composeSquareImage(source, variant)
-  } catch (error) {
-    const hostname = (() => {
-      try {
-        return new URL(sourceUrl).hostname
-      } catch {
-        return 'invalid-url'
-      }
-    })()
-    console.warn(`[SEO 이미지] ${hostname} 원본 처리 실패, 기본 이미지로 대체합니다.`, error)
-    return createFallbackImage(variant)
-  }
+  // 원본이 없는 경우와 가져오지 못한 경우를 구분한다. 실패는 라우트에서 캐시하지 않는다.
+  const source = await fetchImageBuffer(sourceUrl)
+  return composeSquareImage(source, variant)
 }
 
-export function createSeoImageResponse(image: Buffer): Response {
+export async function createSeoImageFailureResponse(variant: SeoImageVariant): Promise<Response> {
+  return createSeoImageResponse(await createFallbackImage(variant), true)
+}
+
+export function createSeoImageResponse(image: Buffer, retryable = false): Response {
   return new Response(new Uint8Array(image), {
+    status: retryable ? 503 : 200,
     headers: {
       'Content-Type': 'image/jpeg',
       'Content-Length': String(image.byteLength),
-      // 사진 계열은 PNG가 5~7배 크다(인물 668KB→JPEG ≈100KB). 크롤러가 ID마다 처음 여는 요청이 하루 2,700건이라
-      // 이 바이트가 그대로 Fast Origin Transfer가 된다. CDN 보관도 30일로 늘린다(아바타 교체 시 태그로 무효화된다).
-      'Cache-Control': 'public, max-age=86400, s-maxage=2592000, stale-while-revalidate=2592000',
+      // 정상 결과만 CDN에 보관한다. 원본·렌더 변경은 메타의 이미지 URL 버전으로 구분한다.
+      'Cache-Control': retryable ? 'no-store' : 'public, max-age=86400, s-maxage=2592000, stale-while-revalidate=2592000',
+      ...(retryable ? { 'Retry-After': '60' } : {}),
     },
   })
 }

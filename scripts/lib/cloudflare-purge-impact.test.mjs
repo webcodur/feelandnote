@@ -369,6 +369,12 @@ test('media hover and film rendering preserve unrelated cached HTML and assets',
   }
 })
 
+test('initial content briefs evict the celeb HTML that embeds them', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/actions/contents/getContentBrief.ts',
+  ]).scopes, ['celeb'])
+})
+
 test('emergency zone purge is manual-only and requires an exact typed confirmation', () => {
   assert.throws(
     () => createManualCloudflarePurgePlan('emergency-zone', 'yes'),

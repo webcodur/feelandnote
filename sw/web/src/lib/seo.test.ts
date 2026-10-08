@@ -17,7 +17,7 @@ test('SEO 이미지 소스가 바뀌면 버전 키도 바뀌다', () => {
   assert.notEqual(before.searchParams.get('v'), after.searchParams.get('v'))
 })
 
-test('인물 합성 변경은 같은 아바타도 새 캐시 키를 쓰고 작품 키는 유지한다', () => {
+test('인물과 작품은 서로 다른 이미지 버전 키를 쓴다', () => {
   const source = 'https://img.example/avatar.webp'
   const person = new URL(getSeoImageUrl('celeb', 'person', 'ko', source))
   const content = new URL(getSeoImageUrl('content', 'book', 'ko', source))

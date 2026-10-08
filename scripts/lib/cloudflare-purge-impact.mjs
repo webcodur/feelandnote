@@ -141,6 +141,8 @@ const CELEB_FILES = new Set([
   'sw/web/src/components/shared/BookShelf/BookShelfReviewDetail.tsx',
   // Public shelf reads and approval badges affect the cached figure detail.
   'sw/web/src/actions/contents/getUserContents.ts',
+  // 초기 소개와 펼침 모달은 보관 HTML 중 인물 상세에서 소비한다. 기록·실험실은 캐시하지 않는다.
+  'sw/web/src/actions/contents/getContentBrief.ts',
   'sw/web/src/actions/contents/getCelebContentExpand.ts',
   'sw/web/src/actions/contents/celebContentExpandRows.ts',
   // 세계관 배너와 스냅 캐러셀은 보관 대상 화면 중 인물 상세(히어로·스펙트럼)에만 실린다.

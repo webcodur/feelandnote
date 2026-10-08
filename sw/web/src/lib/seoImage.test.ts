@@ -10,26 +10,38 @@ const compiled = ts.transpileModule(readFileSync(new URL('./seoImage.ts', import
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
 }).outputText
 
-async function render(source: Buffer, variant = 'person') {
-  const loaded = { exports: {} as { createSquareSeoImage: (url: string, variant: string) => Promise<Buffer> } }
+function loadImageModule(fetcher: () => Promise<Response>) {
+  const loaded = { exports: {} as {
+    createSquareSeoImage: (url: string | null, variant: string) => Promise<Buffer>
+    createSeoImageResponse: (image: Buffer) => Response
+    createSeoImageFailureResponse: (variant: string) => Promise<Response>
+  } }
   new Function('require', 'module', 'exports', compiled)((id: string) => {
     if (id === 'server-only') return {}
     if (id === '@/lib/seoImageOrigin') return { isAllowedSeoImageUrl: () => true }
-    if (id === '@/lib/rawFetch') return { rawFetch: async () => new Response(new Uint8Array(source), { headers: { 'content-type': 'image/png' } }) }
+    if (id === '@/lib/rawFetch') return { rawFetch: fetcher }
     return require(id)
   }, loaded, loaded.exports)
-  return loaded.exports.createSquareSeoImage('https://assets.feelandnote.com/test.png', variant)
+  return loaded.exports
 }
 
-test('portrait keeps its full 4:5 composition, original brightness and light side margins', async () => {
-  const source = await sharp({ create: { width: 400, height: 500, channels: 3, background: '#e05020' } }).png().toBuffer()
+async function render(source: Buffer, variant = 'person') {
+  return loadImageModule(async () => new Response(new Uint8Array(source), { headers: { 'content-type': 'image/png' } }))
+    .createSquareSeoImage('https://assets.feelandnote.com/test.png', variant)
+}
+
+test('portrait fills the square without margins, retaining the top and original brightness', async () => {
+  const source = await sharp(Buffer.from('<svg width="400" height="500"><rect width="400" height="500" fill="#e05020"/><rect width="400" height="20" fill="#20c060"/><rect y="480" width="400" height="20" fill="#2040e0"/></svg>')).png().toBuffer()
   const rendered = await render(source)
   const { data, info } = await sharp(rendered).raw().toBuffer({ resolveWithObject: true })
   const pixel = (x: number, y: number) => [...data.subarray((y * info.width + x) * info.channels, (y * info.width + x) * info.channels + 3)]
   assert.equal(info.width, 800)
   assert.equal(info.height, 800)
-  for (const [x, y] of [[0, 0], [79, 400], [721, 400]]) assert.ok(pixel(x, y).every(channel => channel > 220))
-  for (const [x, y] of [[81, 0], [400, 0], [400, 799], [719, 400]]) {
+  for (const x of [0, 400, 799]) {
+    const [red, green, blue] = pixel(x, 0)
+    assert.ok(green > 170 && red < 50 && blue < 110, 'top of the portrait should remain visible')
+  }
+  for (const [x, y] of [[0, 400], [799, 400], [0, 799], [400, 799], [799, 799]]) {
     const [red, green, blue] = pixel(x, y)
     assert.ok(red > 200 && green > 65 && green < 100 && blue < 50, `${x},${y}: ${pixel(x, y)}`)
   }
@@ -49,4 +61,45 @@ test('avatar gets a stable ochre texture while foreground colors remain intact',
   assert.ok(Math.max(...tones) - Math.min(...tones) > 8, 'background should have visible texture and lighting')
   assert.ok(pixel(400, 400)[0] > 200)
   assert.deepEqual(rendered, await render(source, 'avatar'))
+})
+
+test('a genuinely missing source returns a cacheable fallback without fetching', async () => {
+  const images = loadImageModule(async () => { throw new Error('must not fetch') })
+  const response = images.createSeoImageResponse(await images.createSquareSeoImage(null, 'person'))
+  assert.equal(response.status, 200)
+  assert.match(response.headers.get('cache-control')!, /s-maxage=2592000/)
+  assert.equal(response.headers.get('retry-after'), null)
+  assert.equal((await sharp(Buffer.from(await response.arrayBuffer())).metadata()).width, 800)
+})
+
+test('download and decode failures propagate rather than becoming cacheable images', async () => {
+  const failures = [
+    async () => { throw new Error('timeout') },
+    async () => new Response('unavailable', { status: 503 }),
+    async () => new Response('invalid bytes', { headers: { 'content-type': 'image/png' } }),
+  ]
+  for (const fetcher of failures) {
+    const images = loadImageModule(fetcher)
+    await assert.rejects(images.createSquareSeoImage('https://assets.feelandnote.com/test.png', 'person'))
+    const response = await images.createSeoImageFailureResponse('person')
+    assert.equal(response.status, 503)
+    assert.equal(response.headers.get('cache-control'), 'no-store')
+    assert.equal(response.headers.get('retry-after'), '60')
+    assert.equal(response.headers.get('content-type'), 'image/jpeg')
+    assert.equal((await sharp(Buffer.from(await response.arrayBuffer())).metadata()).width, 800)
+  }
+})
+
+test('a failed download can recover on the next request', async () => {
+  const source = await sharp({ create: { width: 400, height: 500, channels: 3, background: '#e05020' } }).png().toBuffer()
+  let attempts = 0
+  const images = loadImageModule(async () => {
+    if (++attempts === 1) throw new Error('temporary failure')
+    return new Response(new Uint8Array(source), { headers: { 'content-type': 'image/png' } })
+  })
+  await assert.rejects(images.createSquareSeoImage('https://assets.feelandnote.com/test.png', 'person'))
+  const response = images.createSeoImageResponse(await images.createSquareSeoImage('https://assets.feelandnote.com/test.png', 'person'))
+  assert.equal(attempts, 2)
+  assert.equal(response.status, 200)
+  assert.match(response.headers.get('cache-control')!, /s-maxage=2592000/)
 })
