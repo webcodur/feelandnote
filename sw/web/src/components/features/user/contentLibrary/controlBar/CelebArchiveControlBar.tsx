@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 
 import LibraryCategoryPicker from "@/components/shared/LibraryCategoryPicker";
+import { LIBRARY_CONTROL_LAYOUT as layout } from "@/components/shared/libraryControlLayout";
 import { CATEGORIES, getCategoryById } from "@/constants/categories";
 
 import type { ArchiveControlBarProps } from "./types";
@@ -21,7 +22,7 @@ export default function CelebArchiveControlBar({
   });
 
   return (
-    <div className="mx-auto flex w-fit max-w-full flex-col items-center gap-1">
+    <div className={`mx-auto flex flex-col items-center gap-2 ${layout.width}`}>
       <LibraryCategoryPicker
         options={options}
         value={props.activeTab}

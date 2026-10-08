@@ -46,12 +46,23 @@ export interface BookShelfContext {
   expandedReading?: boolean
 }
 
+export interface BookShelfListGroup {
+  key: string
+  label: string
+  books: BookShelfBook[]
+}
+
 export interface BookShelfGroup {
   key: string
   label: string
+  /** 책 수를 붙이는 대신 칩에 그대로 표시할 문구. */
+  chipLabel?: string
   intro: string
   listSubtitle?: string
   books: BookShelfBook[]
+  /** 목록 창에서는 모든 소속의 책을 묶음별로 펼친다. */
+  listGroups?: BookShelfListGroup[]
+  onSelectListGroup?: (key: string) => void
   /** 직군을 고른 뒤 책 목록 위에서 선택하는 두 목적. */
   choices?: { key: string; label: string; intro: string; books: BookShelfBook[] }[]
   /** 소속 선택 등 책 목록 앞에 붙는 부가 기능. 책 표시는 항상 공통 모듈이 맡는다. */

@@ -296,7 +296,7 @@
     "virtueReasonEmpty": "No background is recorded for this virtue yet.",
     "relatedLinksTitle": "Related Figures",
     "relatedLinksSimilar": "Similar figure",
-    "relatedProducts": "Bookshelf",
+    "relatedProducts": "Related Books",
     "carouselMetricPrev": "Previous metric",
     "carouselMetricNext": "Next metric",
     "carouselComparePrev": "Previous comparison",
@@ -351,11 +351,12 @@
     "moreReadBooks": "More books read",
     "groupProfession": "Profession",
     "groupAffiliation": "Affiliations",
+    "affiliationCount": "{count} {count, plural, one {affiliation} other {affiliations}}",
     "factionShelfIntroFaction": "Books of their factions",
     "factionShelfIntroMyth": "Books of their myths",
     "factionShelfIntroMixed": "Books from their affiliations",
     "authoredByBadge": "by {name}",
-    "affiliationBooksOpen": "View the full {name} bookshelf",
+    "affiliationBooksOpen": "View all books related to {name}",
     "bookRelationsLoading": "Loading people connected to this book",
     "bookRelationAppeared": "People in this book",
     "bookRelationAuthored": "Written by",
@@ -373,8 +374,6 @@
     "bookShelfPeopleSearch": "Find by name",
     "bookShelfPeopleEmpty": "No matching people.",
     "bookShelfPeopleCount": "{count} people",
-    "bookShelfPeopleList": "View list",
-    "bookShelfReadersList": "View readers",
     "bookShelfPeopleListFor": "{role} · {count} people",
     "bookShelfReadPage": "Go to reading record",
     "bookShelfExpand": "Expand",
@@ -402,7 +401,6 @@
     "professionBecome": "Learn",
     "professionAbout": "Explore",
     "professionBecomeIntro": "Knowledge and skills for the profession.",
-    "professionAboutIntro": "People, lives, and ideas behind the profession.",
-    "professionBookSource": "View selection source"
+    "professionAboutIntro": "People, lives, and ideas behind the profession."
   }
 }

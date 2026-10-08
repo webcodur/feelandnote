@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { ChevronRight } from 'lucide-react'
 import { getBookShelfPeople, type BookShelfPeople, type BookShelfPerson } from '@/actions/books/getBookShelfPeople'
 import { selectBookShelfPeople } from '@/lib/books/bookShelfPeople'
 import { RetryBlock } from '@/components/ui/pending'
@@ -68,7 +67,6 @@ export default function BookShelfRelations({ contentId, bookTitle, context, read
   if (!roles.length) return <BookShelfArrival name="relations" ready />
   const roleLabel = (role: keyof BookShelfPeople) => t(`bookRelation${role === 'appeared' ? 'Appeared' : role === 'authored' ? 'Authored' : 'Read'}`)
   const linkClass = 'inline-flex min-h-9 items-center rounded px-2 text-sm text-text-primary outline-none hover:bg-accent/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent'
-  const actionClass = `${linkClass} col-start-2 row-start-1 justify-self-end text-xs text-accent sm:col-start-3 sm:text-sm`
   return (
     <BookShelfArrival name="relations" ready>
     <div data-bookshelf-relations data-content-id={contentId} className={`${styles.relations} space-y-2 border-t p-4 sm:px-6`}>
@@ -78,22 +76,19 @@ export default function BookShelfRelations({ contentId, bookTitle, context, read
         const inlinePeople = persons.slice(0, BOOK_SHELF_INLINE_PEOPLE)
         const remaining = persons.length - inlinePeople.length
         return (
-          <div key={role} data-bookshelf-relation={role} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 py-2 first:pt-0 last:pb-0 sm:grid-cols-[144px_minmax(0,1fr)_auto] sm:gap-x-4">
+          <div key={role} data-bookshelf-relation={role} className="grid grid-cols-1 items-center gap-x-3 gap-y-1 py-2 first:pt-0 last:pb-0 sm:grid-cols-[144px_minmax(0,1fr)] sm:gap-x-4">
             <span className="col-start-1 row-start-1 text-xs font-medium leading-5 text-text-tertiary sm:text-sm">{roleLabel(role)} <span className="tabular-nums">({persons.length})</span></span>
-            <div className="col-span-2 col-start-1 row-start-2 flex min-w-0 flex-wrap items-center gap-1 sm:col-span-1 sm:col-start-2 sm:row-start-1">
+            <div className="col-start-1 row-start-2 flex min-w-0 flex-wrap items-center gap-1 sm:col-start-2 sm:row-start-1">
             {inlinePeople.map((person) => (
               <span key={person.id} data-relation-person={person.id}>
                 {person.id === context?.personId ? <span className="inline-flex min-h-9 items-center rounded bg-white/5 px-2 text-sm font-semibold text-text-primary">{person.name}</span>
                   : <button type="button" onClick={() => openPerson(person)} aria-haspopup="dialog" className={`${linkClass} bg-white/5`}>{person.name}</button>}
               </span>
             ))}
-            {remaining > 0 && <span className="px-1 text-xs tabular-nums text-text-secondary">+{remaining}</span>}
+            {remaining > 0 && <button type="button" onClick={() => setListRole(role)} data-bookshelf-open-people={role}
+              aria-label={t('bookShelfPeopleListFor', { role: roleLabel(role), count: persons.length })} aria-haspopup="dialog"
+              className="inline-flex min-h-9 min-w-9 items-center justify-center rounded border border-white/[0.15] bg-white/5 px-2 text-xs font-semibold tabular-nums text-accent outline-none hover:border-accent/60 hover:bg-accent/10 focus-visible:ring-2 focus-visible:ring-accent">+{remaining}</button>}
             </div>
-            {(remaining > 0 || role === 'read') && (
-              <button type="button" onClick={() => setListRole(role)} data-bookshelf-open-people={role}
-                aria-label={t('bookShelfPeopleListFor', { role: roleLabel(role), count: persons.length })}
-                className={actionClass}>{t(role === 'read' ? 'bookShelfReadersList' : 'bookShelfPeopleList')}<ChevronRight size={14} className="ms-1 shrink-0" aria-hidden /></button>
-            )}
           </div>
         )
       })}

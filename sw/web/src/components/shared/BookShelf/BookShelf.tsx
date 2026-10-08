@@ -5,6 +5,7 @@ import { BookOpen } from 'lucide-react'
 import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 import BookShelfSelection from './BookShelfSelection'
 import LibraryCategoryPicker from '@/components/shared/LibraryCategoryPicker'
+import { LIBRARY_CONTROL_LAYOUT as layout } from '@/components/shared/libraryControlLayout'
 import type { BookShelfGroup } from './types'
 import styles from './BookShelf.module.css'
 
@@ -20,6 +21,9 @@ interface Props {
 export default function BookShelf({ groups, ariaLabel, title, id, className = '' }: Props) {
   const normalized = groups.map((group) => ({ ...group,
     books: [...new Map(group.books.filter(isBookShelfAvailable).map((book) => [book.id, book])).values()],
+    listGroups: group.listGroups?.map((item) => ({ ...item,
+      books: [...new Map(item.books.filter(isBookShelfAvailable).map((book) => [book.id, book])).values()],
+    })).filter((item) => item.books.length > 0),
     choices: group.choices?.map((choice) => ({ ...choice,
       books: [...new Map(choice.books.filter(isBookShelfAvailable).map((book) => [book.id, book])).values()],
     })),
@@ -35,23 +39,28 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
     ?? active.choices?.find((item) => item.books.length > 0)
   const shownBooks = choice?.books ?? active.books
   const shownIntro = choice?.intro ?? active.intro
-  const categoryPicker = <div className="flex flex-col gap-2"><LibraryCategoryPicker
-    layout="wrap"
-    options={normalized.map((group) => ({ key: group.key, label: group.label, count: group.books.length, disabled: group.books.length === 0 }))}
+  const groupPicker = <LibraryCategoryPicker
+    options={normalized.map((group) => ({ key: group.key, label: group.chipLabel ?? group.label, count: group.chipLabel !== undefined ? undefined : group.books.length, disabled: group.books.length === 0 }))}
     value={active.key} ariaLabel={ariaLabel}
     onChange={(key) => { setActiveKey(key); if (!listOpen) setTitlePulseRequest((current) => current + 1) }} />
-    {choice && <LibraryCategoryPicker layout="wrap" options={active.choices!.map((item) => ({ key: item.key, label: item.label, count: item.books.length, disabled: item.books.length === 0 }))}
+  const choicePicker = choice && <LibraryCategoryPicker className={layout.secondaryPicker}
+      options={active.choices!.map((item) => ({ key: item.key, label: item.label, count: item.books.length, disabled: item.books.length === 0 }))}
       value={choice.key} ariaLabel={active.label}
-      onChange={(key) => { setChoiceKeys((current) => ({ ...current, [active.key]: key })); if (!listOpen) setTitlePulseRequest((current) => current + 1) }} />}
-  </div>
+      onChange={(key) => { setChoiceKeys((current) => ({ ...current, [active.key]: key })); if (!listOpen) setTitlePulseRequest((current) => current + 1) }} />
+  const categoryPicker = <div className="flex flex-col gap-2">{groupPicker}{choicePicker}</div>
 
   return (
     <div className="min-w-0" aria-label={ariaLabel} data-bookshelf>
       {title && <h3 className="flex items-center gap-2 border-b border-white/10 px-4 py-4 text-lg font-bold text-text-primary sm:px-6"><BookOpen size={17} aria-hidden />{title}</h3>}
-      <div className="mx-auto mb-3 w-fit max-w-full">{categoryPicker}</div>
+      <div className={`mx-auto flex flex-col gap-2 ${layout.width} ${layout.contentGap}`}>
+        {groupPicker}
+        {(choicePicker || active.addon) && <div className={layout.secondary} data-bookshelf-subcontrols>
+          {choicePicker}{active.addon}
+        </div>}
+      </div>
       <section id={id} className={`${styles.shelf} min-w-0 ${className}`} aria-label={active.label}>
-        {active.addon}
         <BookShelfSelection selectionKey={`${active.key}:${choice?.key ?? ''}:${active.selectionKey ?? ''}`} intro={`${active.label}: ${shownIntro}`} listSubtitle={choice ? `${active.label} · ${choice.label}: ${shownIntro}` : active.listSubtitle} books={shownBooks} context={active.context} pagination={active.pagination}
+          listGroups={active.listGroups?.map((group) => ({ ...group, selectionKey: `${active.key}:${choice?.key ?? ''}:${group.key}` }))} onSelectListGroup={active.onSelectListGroup}
           listOpen={listOpen} onListOpenChange={setListOpen} categoryPicker={categoryPicker} titlePulseRequest={titlePulseRequest} />
       </section>
     </div>

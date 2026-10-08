@@ -1,6 +1,5 @@
 'use client'
 
-import SourceLink from "@/components/ui/SourceLink";
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { useLocale, useTranslations } from 'next-intl'
@@ -12,7 +11,7 @@ import { prefetchBookIntroduction } from '@/hooks/useBookIntroduction'
 import { TOP_OVERLAY_MIN_BOTTOM, topOverlayBottom } from '@/lib/utils/topOverlayBottom'
 import BookShelfBookList from './BookShelfBookList'
 import { LIBRARY_DETAIL_FRAME_CLASS, LibraryArrowButton, LibraryBottomNavigation, LibraryTitleHeader } from '@/components/shared/LibraryDetailNavigation'
-import type { BookShelfBook, BookShelfContext, BookShelfGroup } from './types'
+import type { BookShelfBook, BookShelfContext, BookShelfGroup, BookShelfListGroup } from './types'
 
 const BookShelfReviewDetail = dynamic(() => import('./BookShelfReviewDetail'))
 
@@ -30,11 +29,13 @@ function requestBook(id: string, locale: string) {
   return request
 }
 
-export default function BookShelfSelection({ selectionKey, intro, listSubtitle, books, context, pagination, listOpen, onListOpenChange, categoryPicker, titlePulseRequest }: {
+export default function BookShelfSelection({ selectionKey, intro, listSubtitle, books, context, pagination, listOpen, onListOpenChange, categoryPicker, titlePulseRequest, listGroups, onSelectListGroup }: {
   selectionKey: string;
   intro: string; listSubtitle?: string; books: BookShelfBook[]; context?: BookShelfContext; pagination?: BookShelfGroup['pagination'];
   listOpen: boolean; onListOpenChange: (open: boolean) => void; categoryPicker?: ReactNode;
   titlePulseRequest?: number;
+  listGroups?: (BookShelfListGroup & { selectionKey: string })[];
+  onSelectListGroup?: (key: string) => void;
 }) {
   const locale = useLocale()
   const t = useTranslations('celebPage')
@@ -42,6 +43,11 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
   const [selections, setSelections] = useState<Record<string, string>>({})
   const selected = books.find((book) => book.id === selections[selectionKey]) ?? books[0]
   const setSelectedId = (id: string) => setSelections((current) => ({ ...current, [selectionKey]: id }))
+  const selectListBook = (id: string, groupKey?: string) => {
+    const group = listGroups?.find((item) => item.key === groupKey)
+    setSelections((current) => ({ ...current, [group?.selectionKey ?? selectionKey]: id }))
+    if (group) onSelectListGroup?.(group.key)
+  }
   const selectedContentId = selected?.id
   const selectedIndex = books.findIndex((book) => book.id === selectedContentId)
   const nextBook = books.length > 1 ? books[(selectedIndex + 1) % books.length] : undefined
@@ -125,7 +131,8 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
 
   return (
     <div data-bookshelf-selection>
-      {listOpen && <BookShelfBookList selectionKey={selectionKey} title={t('bookShelfBookList')} subtitle={listSubtitle ?? intro} books={books} selectedId={selected.id} onSelect={setSelectedId} onClose={closeList} pagination={pagination} categoryPicker={categoryPicker} indexId={indexId} />}
+      {listOpen && <BookShelfBookList selectionKey={selectionKey} title={t('bookShelfBookList')} subtitle={listSubtitle ?? intro} books={books} listGroups={listGroups}
+        selectedGroupKey={listGroups?.find((group) => group.selectionKey === selectionKey)?.key} selectedId={selected.id} onSelect={selectListBook} onClose={closeList} pagination={pagination} categoryPicker={categoryPicker} indexId={indexId} />}
       <div ref={detailRef} className={LIBRARY_DETAIL_FRAME_CLASS} data-bookshelf-detail>
         <LibraryArrowButton direction="previous" label={previousLabel} disabled={disabled} placement="desktop" onClick={goPrevious} testPrefix="bookshelf" />
         <LibraryTitleHeader title={selected.title} creator={selected.creator?.replace(/\^/g, ', ') ?? null}
@@ -138,8 +145,6 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
           }} />}
           {selected.selectionReason && <div className="mb-4 rounded-lg border border-accent/20 bg-accent/5 px-4 py-3 text-sm text-text-secondary">
             <p>{selected.selectionReason}</p>
-            {selected.selectionSourceUrl && <SourceLink sourceUrl={selected.selectionSourceUrl}
-              className="mt-2 inline-block rounded text-xs text-accent underline underline-offset-4 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">{t('professionBookSource')}</SourceLink>}
           </div>}
           {showReview ? <BookShelfReviewDetail record={selected.readingRecord!} celebId={context!.personId!}
             ownerNickname={context?.personName} contentIds={contentIds} selectedIndex={selectedIndex} expanded={context?.expandedReading} /> : <>

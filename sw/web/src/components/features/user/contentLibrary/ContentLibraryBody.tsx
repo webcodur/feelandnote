@@ -2,11 +2,13 @@ import type { ReactNode } from "react";
 
 import { Pagination } from "@/components/ui";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
+import { cn } from "@/lib/utils";
 
 import { ErrorState } from "./ContentLibraryStates";
 import type { ViewMode } from "./contentLibraryTypes";
 
 interface ContentLibraryBodyProps {
+  contentClassName?: string;
   animateHeight: boolean;
   compact: boolean;
   currentPage: number;
@@ -27,6 +29,7 @@ interface ContentLibraryBodyProps {
 }
 
 export default function ContentLibraryBody({
+  contentClassName,
   animateHeight,
   compact,
   currentPage,
@@ -46,7 +49,7 @@ export default function ContentLibraryBody({
   totalPages,
 }: ContentLibraryBodyProps) {
   const contents = (
-    <div aria-busy={isRefreshing} className="py-8 [overflow-anchor:none]">
+    <div aria-busy={isRefreshing} className={cn("py-8 [overflow-anchor:none]", contentClassName)}>
       {hasFilteredContents ? (
         renderContentsForMode(presentationViewMode)
       ) : (

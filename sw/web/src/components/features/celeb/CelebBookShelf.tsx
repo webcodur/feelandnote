@@ -45,8 +45,11 @@ export default function CelebBookShelf({ celebId, celebName, appeared, authored,
     { key: 'profession', context: { personId: celebId, kind: 'profession', showReading }, label: t('groupProfession'), intro: professionIntro, books: professionShelfBooks, choices: professionChoices },
     {
       key: 'faction', context: { personId: celebId, kind: 'affiliation', showReading }, label: t('groupAffiliation'),
+      chipLabel: t('affiliationCount', { count: factionGroups.length }),
       intro: t(selectedFaction?.isMyth ? 'factionShelfIntroMyth' : 'factionShelfIntroFaction'),
       books: selectedFaction?.books.map(affiliateBookToShelfBook) ?? [], selectionKey: selectedFaction?.factionId,
+      listGroups: factionGroups.map((group) => ({ key: group.factionId, label: group.factionName, books: group.books.map(affiliateBookToShelfBook) })),
+      onSelectListGroup: setFactionId,
       addon: selectedFaction
         ? <BookShelfAffiliationAddon groups={factionGroups} selected={selectedFaction} onSelect={setFactionId} />
         : undefined,

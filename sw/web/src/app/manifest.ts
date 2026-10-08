@@ -25,7 +25,7 @@ export default function manifest(): MetadataRoute.Manifest {
     id: '/',
     name: 'feelandnote - 감상 아카이브',
     short_name: 'feelandnote',
-    description: '인물의 책장과 감상 경로를 탐색하고, 나의 문화 기록을 빠르게 남기는 앱',
+    description: '인물의 관련 도서와 감상 경로를 탐색하고, 나의 문화 기록을 빠르게 남기는 앱',
     lang: 'ko',
     dir: 'ltr',
     start_url: `/?${TWA_UTM}`,

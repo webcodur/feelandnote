@@ -296,7 +296,7 @@
     "virtueReasonEmpty": "이 덕목의 배경이 아직 없습니다.",
     "relatedLinksTitle": "관련 인물",
     "relatedLinksSimilar": "비슷한 인물",
-    "relatedProducts": "책장",
+    "relatedProducts": "관련 도서",
     "carouselMetricPrev": "이전 지표",
     "carouselMetricNext": "다음 지표",
     "carouselComparePrev": "이전 비교",
@@ -351,11 +351,12 @@
     "moreReadBooks": "감상한 책 더 보기",
     "groupProfession": "직군",
     "groupAffiliation": "소속",
+    "affiliationCount": "{count} 소속",
     "factionShelfIntroFaction": "소속 세력의 책",
     "factionShelfIntroMyth": "소속 신화의 책",
     "factionShelfIntroMixed": "소속의 책",
     "authoredByBadge": "{name} 지음",
-    "affiliationBooksOpen": "{name} 책장 전체 보기",
+    "affiliationBooksOpen": "{name} 관련 도서 전체 보기",
     "bookRelationsLoading": "책과 인물의 관계를 불러오는 중",
     "bookRelationAppeared": "등장한 인물",
     "bookRelationAuthored": "집필한 인물",
@@ -373,8 +374,6 @@
     "bookShelfPeopleSearch": "이름으로 찾기",
     "bookShelfPeopleEmpty": "일치하는 인물이 없습니다.",
     "bookShelfPeopleCount": "{count}명",
-    "bookShelfPeopleList": "목록 보기",
-    "bookShelfReadersList": "감상자 보기",
     "bookShelfPeopleListFor": "{role} · {count}명",
     "bookShelfReadPage": "감상 기록으로 이동",
     "bookShelfExpand": "펼치기",
@@ -402,7 +401,6 @@
     "professionBecome": "직업 수업",
     "professionAbout": "직업 탐구",
     "professionBecomeIntro": "이 일을 하는 데 필요한 지식과 방법을 배우는 책",
-    "professionAboutIntro": "이 분야의 사람과 삶, 현장과 역사를 살펴보는 책",
-    "professionBookSource": "선정 근거 보기"
+    "professionAboutIntro": "이 분야의 사람과 삶, 현장과 역사를 살펴보는 책"
   }
 }

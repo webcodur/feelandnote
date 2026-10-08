@@ -134,7 +134,57 @@
   background: var(--shelf-surface, var(--color-bg-card));
 }
 
-.affiliation {
-  border-bottom: 1px solid rgb(255 255 255 / 0.08);
-  background: color-mix(in srgb, var(--shelf-surface) 85%, transparent);
+/* 펼친 항목도 선택기와 같은 꺾쇠 여백 안에서 정렬한다. */
+@supports (appearance: base-select) {
+  .affiliationSelect,
+  .affiliationSelect::picker(select) {
+    appearance: base-select;
+  }
+
+  .affiliationSelect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .affiliationSelect > button {
+    width: 100%;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: center;
+  }
+
+  .affiliationSelect svg {
+    display: inline-block;
+    vertical-align: -2px;
+  }
+
+  .affiliationSelect::picker-icon,
+  .affiliationSelect option::checkmark {
+    display: none;
+  }
+
+  .affiliationSelect::picker(select) {
+    min-width: anchor-size(width);
+    border: 1px solid rgb(255 255 255 / 0.15);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+  }
+
+  .affiliationSelect option {
+    display: block;
+    padding: 4px 32px 4px 12px;
+    text-align: center;
+    font-weight: 400;
+  }
+
+  .affiliationSelect option:checked,
+  .affiliationSelect option:hover,
+  .affiliationSelect option:focus-visible {
+    background: var(--color-accent);
+    color: var(--color-bg-secondary);
+  }
 }

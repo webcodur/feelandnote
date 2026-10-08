@@ -14,6 +14,7 @@ import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import ContentLibraryControls from "./ContentLibraryControls";
 import ContentLibraryBody from "./ContentLibraryBody";
 import type { CategoryId } from "@/constants/categories";
+import { LIBRARY_CONTROL_LAYOUT as layout } from "@/components/shared/libraryControlLayout";
 
 const READ_ONLY_DELETE = () => undefined;
 
@@ -151,7 +152,7 @@ export default function ContentLibrary({
         </div>
       )}
 
-      <div className={ownerKind === "celeb" ? "mx-auto w-fit max-w-full" : undefined}>
+      <div className={ownerKind === "celeb" ? `mx-auto ${layout.width} ${layout.contentGap}` : undefined}>
         <ContentLibraryControls
           ownerKind={ownerKind}
           categoryItems={lib.contents.map((item) => ({ type: item.content.type }))}
@@ -189,6 +190,7 @@ export default function ContentLibrary({
       </div>
 
       <ContentLibraryBody
+        contentClassName={ownerKind === "celeb" ? "pt-0" : undefined}
         animateHeight={ownerKind === "celeb"}
         compact={compact}
         currentPage={lib.currentPage}

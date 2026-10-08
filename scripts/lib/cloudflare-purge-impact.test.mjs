@@ -13,6 +13,16 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('related-book controls evict celeb HTML while the app manifest needs no HTML purge', () => {
+  for (const file of [
+    'sw/web/src/components/features/celeb/CelebBookShelf.tsx',
+    'sw/web/src/components/features/celeb/BookShelfAffiliationAddon.tsx',
+  ]) {
+    assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['celeb'])
+  }
+  assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/app/manifest.ts']).scopes, ['none'])
+})
+
 test('works and rest landing pages need no purge while shared layout still evicts cached HTML', () => {
   const pages = [
     'sw/web/src/app/[locale]/(main)/explore/works/page.tsx',

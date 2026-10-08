@@ -22,7 +22,7 @@ export default function ContentLibraryControls({
 
   if (hideWrapper) {
     return (
-      <div className="mb-2">
+      <div className={controlProps.ownerKind === "celeb" ? undefined : "mb-2"}>
         <ArchiveControlBar {...controlProps} />
       </div>
     );
@@ -34,7 +34,7 @@ export default function ContentLibraryControls({
       icon={<SlidersHorizontal size={16} className="text-accent/70" />}
       isExpanded={isExpanded}
       onToggleExpand={() => setIsExpanded((previous) => !previous)}
-      className="sticky top-0 z-30 mx-auto mb-6 max-w-2xl"
+      className={`sticky top-0 z-30 mx-auto max-w-2xl ${controlProps.ownerKind === "celeb" ? "" : "mb-6"}`}
     >
       <ArchiveControlBar {...controlProps} />
     </ControlPanel>

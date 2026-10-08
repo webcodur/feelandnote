@@ -1,8 +1,9 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import CategoryChip from "@/components/ui/CategoryChip";
 import { cn } from "@/lib/utils";
+import { LIBRARY_CONTROL_LAYOUT as layout } from "./libraryControlLayout";
 
 export interface LibraryCategoryOption {
   key: string;
@@ -12,7 +13,7 @@ export interface LibraryCategoryOption {
 }
 
 export default function LibraryCategoryPicker({
-  options, value, onChange, ariaLabel, trailing, className, layout = "equal",
+  options, value, onChange, ariaLabel, trailing, className,
 }: {
   options: LibraryCategoryOption[];
   value: string;
@@ -20,12 +21,12 @@ export default function LibraryCategoryPicker({
   ariaLabel: string;
   trailing?: ReactNode;
   className?: string;
-  layout?: "equal" | "wrap";
 }) {
   return (
-    <div className={cn("flex min-w-0 items-stretch justify-center gap-1", className)}>
-      <div role="radiogroup" aria-label={ariaLabel} className={cn("min-w-0 flex-1 gap-1", layout === "wrap" ? "flex flex-wrap justify-center" : "grid")}
-        style={layout === "equal" ? { gridTemplateColumns: `repeat(${Math.max(1, options.length)}, minmax(0, 1fr))` } : undefined}
+    <div className={cn("mx-auto flex min-w-0 items-stretch justify-center gap-2", layout.width, className)}>
+      <div role="radiogroup" aria-label={ariaLabel}
+        className="grid min-w-0 flex-1 auto-rows-fr grid-cols-2 gap-2 [&>button:last-child:nth-child(odd)]:col-span-2 sm:grid-cols-[repeat(var(--category-count),minmax(0,1fr))] sm:[&>button:last-child:nth-child(odd)]:col-span-1"
+        style={{ "--category-count": Math.max(1, options.length) } as CSSProperties}
         onKeyDown={(event) => {
           const buttons = Array.from(event.currentTarget.querySelectorAll<HTMLButtonElement>("button:not(:disabled)"));
           const index = buttons.indexOf(event.target as HTMLButtonElement);
@@ -47,10 +48,10 @@ export default function LibraryCategoryPicker({
             selected={option.key === value && !option.disabled}
             disabled={option.disabled}
             onClick={() => onChange(option.key)}
-            className={cn("min-w-0 gap-1 py-1 text-xs", layout === "wrap" ? "min-h-11 max-w-full px-3" : "h-9 min-h-9 px-1.5")}
+            className={layout.chip}
           >
-            <span className={layout === "wrap" ? "break-words text-center" : "truncate"}>{option.label}</span>
-            {option.count !== undefined && <span className="hidden shrink-0 tabular-nums sm:inline">{option.count}</span>}
+            <span className="min-w-0 text-center leading-5 [overflow-wrap:anywhere]">{option.label}</span>
+            {option.count !== undefined && <span className="shrink-0 tabular-nums">{option.count}</span>}
           </CategoryChip>
         ))}
       </div>

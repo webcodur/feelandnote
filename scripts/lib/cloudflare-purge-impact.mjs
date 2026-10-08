@@ -127,6 +127,9 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // 공통 책장은 인물 상세·세력·가상독백에서 쓰며 보관 HTML 소비자는 인물 상세다.
+  'sw/web/src/components/features/celeb/CelebBookShelf.tsx',
+  'sw/web/src/components/features/celeb/BookShelfAffiliationAddon.tsx',
   // 책장 감상의 보관 HTML 소비자는 인물 상세뿐이다. 홈은 앞단 캐시가 없다.
   'sw/web/src/components/shared/BookShelf/BookShelfReviewDetail.tsx',
   // Public shelf reads and approval badges affect the cached figure detail.
@@ -233,6 +236,8 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // 앱 설치 설명은 manifest 응답이며 Cloudflare HTML 캐시 대상이 아니다.
+  'sw/web/src/app/manifest.ts',
   // External-resource searches are member record UI, never cached public detail HTML.
   'sw/web/src/components/features/quickRecord/ExternalResourceSearch.tsx',
   'sw/web/src/components/features/quickRecord/SearchHelper.tsx',

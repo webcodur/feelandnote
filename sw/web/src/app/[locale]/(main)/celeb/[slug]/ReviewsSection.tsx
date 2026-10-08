@@ -9,6 +9,7 @@
 import { useCallback, useState } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { ArrowUpRight } from "lucide-react";
 
 import ContentLibrary from "@/components/features/user/contentLibrary/ContentLibrary";
 import { getCelebProfileUrl } from "@/lib/url";
@@ -88,9 +89,10 @@ export default function ReviewsSection({
             title={t("records.viewAll")}
             aria-haspopup="dialog"
             aria-expanded={isRecordsConfirmOpen}
-            className="inline-flex min-h-9 items-center justify-center rounded-control px-3 py-1 text-xs text-text-secondary hover:bg-white/[0.07] hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="relative inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/[0.18] bg-white/[0.04] px-9 py-2 text-sm font-semibold text-text-secondary hover:border-accent/60 hover:bg-white/[0.07] hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
-            <span className="whitespace-nowrap">{t("records.viewAll")}</span>
+            <span className="text-center leading-5">{t("records.viewAll")}</span>
+            <ArrowUpRight size={16} className="absolute end-3 top-1/2 -translate-y-1/2" aria-hidden />
           </Link>
         ) : undefined}
       />
