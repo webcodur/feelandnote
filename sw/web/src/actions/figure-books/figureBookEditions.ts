@@ -48,7 +48,7 @@ export async function loadFigureBookEditions(
       .from('content_locales')
       .select('content_id,locale,title,isbn,affiliate_url,sources')
       .in('content_id', ids)),
-    selectInChunks<{ id: string; figureBook: { series?: unknown } | null }>(contentIds, (ids) => db
+    selectInChunks<{ id: string; figureBook: { series?: unknown; workTitle?: string; originalTitle?: string } | null }>(contentIds, (ids) => db
       .from('contents')
       .select('id,figureBook:metadata->figureBook')
       .in('id', ids)),
@@ -62,7 +62,8 @@ export async function loadFigureBookEditions(
   for (const contentId of new Set([...rowsByContent.keys(), ...optionsByContent.keys()])) {
     const isOriginalLocaleWork = isFigureBookOriginalLocale(works.find(work => work.id === contentId)?.figureBook, locale)
     const editions = mergeFigureBookEditions(rowsByContent.get(contentId) ?? [], optionsByContent.get(contentId) ?? [], locale, includeAll, isOriginalLocaleWork,
-      works.find(work => work.id === contentId)?.figureBook?.series)
+      works.find(work => work.id === contentId)?.figureBook?.series,
+      [works.find(work => work.id === contentId)?.figureBook?.workTitle,works.find(work => work.id === contentId)?.figureBook?.originalTitle].filter((value): value is string => typeof value==='string'))
     // 빈 배열도 남긴다. 시작권 없는 시리즈를 locale의 중간 권 정보로 되살리지 않는다.
     byContent.set(contentId, editions.map((edition) => ({
       ...attachFigureBookLocaleLinks(edition, cards.find(card => card.content_id === contentId && card.locale === locale)),

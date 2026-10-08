@@ -184,6 +184,7 @@ async function fetchSourcesByCeleb(
       false,
       isOriginalLocaleWork,
       content.figureBook?.series,
+      [content.figureBook?.workTitle,content.figureBook?.originalTitle].filter((value): value is string => typeof value==='string'),
     )
     // 인물의 등장·연관 도서는 요청 언어 판본이 없어도 관계 자체를 보여준다.
     // 창작 목록은 기존대로 해당 언어의 작품 메타가 있을 때만 판본 없이 허용한다.

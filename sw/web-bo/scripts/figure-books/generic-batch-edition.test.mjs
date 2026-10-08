@@ -4,9 +4,10 @@ import { readFileSync } from 'node:fs'
 import { isDeepStrictEqual } from 'node:util'
 import ts from 'typescript'
 import { createClient } from '@feelandnote/db'
-import * as figureWork from './lib/figure-work.mjs'
+import * as seriesWork from './lib/series-work.mjs'
 
 process.env.KAKAO_REST_API_KEY = 'test-only'
+const figureWork = await import('./lib/figure-work.mjs')
 const guards = await import('./lib/verified-batch-edition.mjs')
 const koIsbn = '9788991290808', enIsbn = '9780140432169'
 const scripts = ['bulk-register-books', 'en-edition-fill', 'translated-original-work']
@@ -92,6 +93,7 @@ function fixture(script) {
     './lib/figure-work.mjs': { ...figureWork, dbClient: () => db, hasFlag: flag => flag === 'apply',
       argumentValue: (name, fallback) => ({ out: 'out.jsonl', muse: 'missing.jsonl', 'merge-out': 'merge.json', backup: 'backup.json' })[name] ?? fallback },
     './lib/verified-batch-edition.mjs': guards,
+    './lib/series-work.mjs': seriesWork,
     './lib/research.mjs': { research: () => { throw Error('Paid research attempted') }, declaredNone: () => false, parsePipeRow: () => null },
   }
   return { tables, state, db, providerFetch, async run() {

@@ -79,7 +79,7 @@ export async function resolveExternalBookInput(
       throw new Error('선택한 OpenLibrary 판본과 ISBN의 작품이 다릅니다. 판본을 다시 확인하세요')
     }
   } else if (!sameBookIdentity(input, resolved)) throw new Error('ISBN의 제목·원저자가 선택한 작품과 다릅니다. 판본을 다시 확인하세요')
-  if (excludedBookEditionReason({title:resolved.title,editionKind: typeof resolved.metadata.editionKind === 'string' ? resolved.metadata.editionKind : null, textScope:typeof resolved.metadata.physical_format === 'string' ? resolved.metadata.physical_format : null})) throw new Error('축약본·요약본·학습용 리더는 서비스에 등록하지 않습니다')
+  if (excludedBookEditionReason({title:resolved.title,editionKind: typeof resolved.metadata.editionKind === 'string' ? resolved.metadata.editionKind : null, textScope:typeof resolved.metadata.physical_format === 'string' ? resolved.metadata.physical_format : null,providerDescription:typeof resolved.metadata.description === 'string' ? resolved.metadata.description : null})) throw new Error('축약본·요약본·학습용 리더는 서비스에 등록하지 않습니다')
   return resolved
 }
 
@@ -89,6 +89,6 @@ async function resolveEnglishBook(isbn: string, lookup: typeof getOpenLibraryBoo
   return {
     externalId: book.isbn, externalSource: 'openlibrary', locale: 'en',
     title: book.title, creator: book.creator, coverImageUrl: book.coverImageUrl,
-    metadata: { isbn: book.isbn, publisher: book.publisher, publishDate: book.publishDate, link: book.sourceUrl, editionKey: new URL(book.sourceUrl).pathname, workKey: book.workKey, workTitle: book.workTitle ?? null, languages: book.languages, physical_format: book.physicalFormat ?? null },
+    metadata: { isbn: book.isbn, publisher: book.publisher, publishDate: book.publishDate, link: book.sourceUrl, editionKey: new URL(book.sourceUrl).pathname, workKey: book.workKey, workTitle: book.workTitle ?? null, languages: book.languages, physical_format: book.physicalFormat ?? null, translators: book.translators ?? [] },
   }
 }

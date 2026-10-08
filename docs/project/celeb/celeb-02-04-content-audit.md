@@ -2,6 +2,8 @@
 
 이 문서는 인물과 콘텐츠의 관계, 작품 정체성, locale, 표지 데이터를 함께 대조해 잘못 연결되거나 근거 없이 채워진 값을 찾고 보완하는 규칙을 쥔다.
 
+데이터의 기준과 검수는 [데이터 문서](../data/README.md)를 따른다.
+
 실존 인물의 관계 채택 근거는 [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md), 작품·판본·외부 메타·locale 규칙은 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), `review`·`review_en` 문장은 [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md)가 정본이다. 등장 관계와 설명은 [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md)를 따른다.
 
 ## 감사 대상
@@ -29,7 +31,7 @@
 - 등장·연관 도서는 `figure_book_characters → figure_book_contents → contents → content_locales`를 본다.
 - 판본이 있는 작품은 `figure_book_editions`와 연결 상품도 조회한다. 카드에 없는 구판과 비활성 상품 이력을 빠뜨리지 않는다.
 - locale이 없는 작품도 결과에서 사라지지 않도록 LEFT JOIN한다.
-- 수정 전 관계 ID·콘텐츠 ID와 원래 값을 보존한다.
+- 수정 전 관계 ID·콘텐츠 ID·서버의 현재값을 조회해 변경 대상을 고정한다.
 
 관계 행과 locale의 존재·부재를 모두 목록에 올렸을 때 조회가 끝난다.
 
@@ -66,7 +68,7 @@ locale은 실제 언어판 카드와 등록 규칙에 따른 표시용 제목 �
 - locale별 제목·저자·ISBN·표지가 실제 같은 판본인지 확인한다.
 - 표지를 확인할 수 없고 `sources.thumbnail='confirmed_unavailable'`로 기록됐다면 정상 예외로 둔다.
 - 다른 판본의 표지를 쓰려면 그 판본의 ISBN과 메타도 함께 맞아야 한다.
-- `verified=false`만으로 판본이 화면에서 숨겨지는 것은 아니다. 실재 여부가 모순된 판본은 실제 소비 코드의 노출 경로를 확인하고, 역참조가 없을 때 원행 전체를 metadata·백업에 보존한 뒤 노출용 판본에서 분리한다.
+- `verified=false`만으로 판본이 화면에서 숨겨지는 것은 아니다. 실재 여부가 모순된 판본은 실제 소비 코드의 노출 경로와 참조를 확인하고, 참조를 보존하면서 노출용 판본에서 분리한다.
 - 전체 한영 감사를 요청받았다면 `review`와 `review_en`을 각각 같은 근거 범위에서 검사한다. 한국어만 감사하라는 요청에서는 영문값을 만들거나 고치지 않는다.
 
 `review_en`은 `content_locales`의 en 행과 별개인 인물×작품 관계 값이다. 영문판 locale의 유무만으로 `review_en`의 정상 여부를 판정하지 않는다.
@@ -94,16 +96,16 @@ locale은 실제 언어판 카드와 등록 규칙에 따른 표시용 제목 �
 | `ko` 카드 ISBN 없음 | `isbn` NULL이고 표시용 제목 행이 아님 | 공급자 코드로 확인된 실재 구판이면 카탈로그를 유지한다. 그 외는 카카오 제목·저자·결합 질의로 한국어판을 찾아 채우고, 미확인이면 등록 규칙에 따른 표시용 제목 행으로 바꾼다 |
 | `ko` 카드 비한국 ISBN | 978·979로 시작하는데 978-89·979-11이 아님 | 한글 제목에 영문판 ISBN을 복사한 카드(「고기를 먹어야 할까?」 9781118278727). 한국어판을 찾아 교체하고, 없으면 ISBN을 비워 표시용 제목 행으로 바꾼다. 카카오가 옛 국내서에 주는 바코드형 13자리(2008238000098 등)는 ISBN이 아니므로 제외한다 |
 | `en` 카드 비영어권 ISBN | 978-0·978-1·979-8 밖 | OL 작품→판본 경로로 `eng` 판본을 찾아 교체한다. OL 태그만 믿지 않고 제목 언어·출판사를 같이 본다. 못 찾으면 [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md)「작품 정체성」의 미확인 `en` 처리 규칙을 따른다 |
-| 언어 카드 0장 작품 | `content_locales` 행 없음 | 관계가 있으면 대표 ISBN으로 카드를 만든다. 관계·기록 참조가 전혀 없으면 원행을 백업하고 지운다 |
+| 언어 카드 0장 작품 | `content_locales` 행 없음 | 관계가 있으면 대표 ISBN으로 카드를 만든다. 관계·기록 참조가 전혀 없으면 해당 작품을 지운다 |
 | 대표 ISBN 불일치 | `contents.external_id`가 어느 카드 ISBN과도 다름(카드에 ISBN이 하나도 없는 작품은 제외) | 같은 원전의 실재 구판이면 정상으로 보존한다. 다른 작품의 ISBN이 붙은 경우에만 정체성을 교정한다. 동일 원전의 중복은 출처로 확정한 뒤 `merge-works.mjs`로 통합하며, 대표값 충돌만으로 동일 원전이라고 단정하지 않는다. 회원 기록(`member_contents`)은 보존하고, `contents.record_count`는 셀럽 감상 수까지 합친 값이라 회원 기록 유무의 판정 기준으로 쓰지 않는다 |
 
 - 정상 예외(결함으로 잡지 않는다): ISBN 없이 공급자 코드로 확인되는 옛 국내서 카탈로그(코드는 ISBN 칸에 넣지 않는다), 악보의 ISMN, 한국 ISBN을 단 영문 원문 POD(`en`만 둔다), 영어권 출판사(Springer·Tuttle·인도·싱가포르·홍콩 등)의 `en` 카드, 기관 선정 적재분에서 옮겨 온 수입 원서 `en` 카드(`sources.primary='kakao_book'`, `note`에 imported foreign edition — [`../service/service-03-curated-lists.md`](../service/service-03-curated-lists.md) 5-4).
 - `content_locales.updated_at`은 갱신에도 바뀌지 않아 시각으로 변경을 추적할 수 없다. 26.09.11 갱신한 「바리바리 전설」·「화학 원론」 `ko` 행이 03-06 원상태로 돌아가 있던 원인 미상 사례가 있다(다시 반영함). 재발하면 원인을 찾는다.
-- 동일 원전의 분권·축약은 범위를 보존해 통합하고, 독립 저작의 범위 차이는 정상으로 유지한다. 정체성을 확인하지 못해 보류한 쌍만 [`../../todo/celeb/README.md`](../../todo/celeb/README.md)에 남긴다.
+- 동일 원전의 같은 번역은 대표 판본 하나로 정리하고, 축약본은 서비스 판본에서 제거한다. 기록이 확인한 실독 범위와 독립 저작은 보존한다. 정체성이 미확인인 행은 추가 조사한 뒤 처리한다.
 - 집계: `locale-census.mjs`(전체·배치별, `--out`으로 목록 저장) · `locale-verify.mjs`(인물 연결분·비연결분 분리).
 - 교정: `locale-plan-apply.mjs`(계획 JSON의 `koFix`·`koDel`·`enFix`) · `locale-restore.mjs`(지운 카드 복구·카드 0장 작품에 카드 신설) · `locale-display-title.mjs`(미확인 언어 카드를 표시용 제목 행으로 전환·신설) · `locale-dead-works.mjs`(참조 없는 카드 0장 작품 삭제 — `contents`를 가리키는 표 전부를 참조로 본다) · `../contents/display-names-apply.mjs`(표시용 행 저자명을 그 언어 표기로, ko 표시행 신설) · `../contents/book-availability-sync.mjs --aladin`(실판본 절판 표식, 표본 점검용). 모두 dry-run이 기본이고 `--apply`로 반영한다.
 - 카카오 저자 검색은 결과 10건이 한도라 다작 저자(스티븐 킹)의 책을 놓친다. 제목 검색과 제목+저자 결합 질의를 함께 돌리고, 후보의 저자·역자·출판사로 동명이서를 가른 뒤 채택한다. 카드 제목만 보고 고르면 「열역학 강의」(플랑크)에 손탁의 교재가 붙는다.
-- ISBN을 바꾼 행은 `data/celeb/figure-books/locale-restore-log.jsonl`에 `op`가 `koFix`·`enFix`·`ko-restore`·`en-create`·`ko-create`로 남는다. 소개 출처 재선정이 이 로그를 읽는다. 지운 행은 같은 폴더의 `*-backup.jsonl`에 원행이 있다.
+- 소개 출처 재선정은 서버의 현재 `content_locales`와 `sources`를 조회해 판단한다.
 - 새 카드의 소개 표식은 `@feelandnote/content-search/book-introduction`의 `fetchBookIntroduction({ isbn, locale })`로만 정한다. 소개를 받지 못하면 `description`은 NULL이다.
 - 표시용 제목 행 판정은 `sources.primary='none'`이고 `sources.title`이 `translated`·`romanized`·`original` 중 하나일 때다. `sources.title`은 옛 등록 경로가 제목 필드의 출처 URL로도 쓰던 키라(3,788행) 값이 있다는 것만으로 표시행으로 보면 정상 한국어판에 `[no-ko]`가 붙는다. 웹 배지·검증 스크립트·배치 모두 같은 기준을 쓴다.
 

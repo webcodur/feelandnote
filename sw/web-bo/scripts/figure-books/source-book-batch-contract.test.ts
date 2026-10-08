@@ -148,6 +148,23 @@ function storedLocale(
   }
 }
 
+test('기존 시리즈의 다른 권을 신규 작품으로 넣는 계획은 충돌로 막는다', () => {
+  const { manifest, resolved } = resolvedPublished()
+  const seriesContent = storedContent({
+    external_id: '9791189658366',
+    metadata: { figureBook: { series: {
+      title: '그림피아노: 아이유', creator: 'PhildaveMusic 콘텐츠제작부', locale: 'ko',
+      sourceUrl: 'https://www.yes24.com/product/category/series/001001007013002?SeriesNumber=251328',
+    } } },
+  })
+  const target = { ...resolved, locales: resolved.locales.map(row => row.locale === 'ko'
+    ? { ...row, title: '그림피아노: 아이유 금요일에 만나요', creator: 'PhildaveMusic 콘텐츠제작부' } : row) }
+  const plan = buildFigureBookPlan(manifest, target, { contents: [seriesContent], locales: [] })
+  assert.equal(plan.action, 'conflict')
+  assert.equal(plan.expectedAfterMaterial, null)
+  assert.match(plan.conflicts.join('\n'), /registered series.*representative volume/)
+})
+
 function reviewedDistinctJttw(
   reviewedDistinctContentIds: string[],
 ): {
@@ -598,33 +615,9 @@ test('full/complete라도 ISBN·범위 메타 없는 legacy 제목 후보는 자
   assert.match(plan.conflicts.join('\n'), /no stored work identity/)
 })
 
-test('같은 작품의 축약본과 완역본은 contents를 복제하지 않고 별도 판본 등록으로 넘긴다', () => {
+test('축약본은 작품이나 추가 판본으로 등록하지 않는다', () => {
   const raw = publishedInput() as Record<string, unknown>
-  const abridgedManifest = parseFigureBookManifest({
-    ...raw,
-    edition: { kind: 'abridged', scope: 'school-reader' },
-  })
-  const resolved = buildResolvedSourceBookRegistration(abridgedManifest, {
-    ko: edition('kakao_book', KO_ISBN),
-    en: edition('openlibrary', EN_ISBN),
-  })
-  const catalog: BookCatalogSnapshot = {
-    contents: [storedContent({
-      external_id: isbn13('978893746999'),
-      metadata: {
-        figureBook: {
-          workIdentity: abridgedManifest.work.identity,
-          editionKind: 'full',
-          textScope: 'complete',
-        },
-      },
-    })],
-    locales: [storedLocale('ko', resolved, { isbn: isbn13('978893746999') })],
-  }
-  const plan = buildFigureBookPlan(abridgedManifest, resolved, catalog)
-  assert.equal(plan.action, 'conflict')
-  assert.equal(plan.contentId, CONTENT_ID)
-  assert.match(plan.conflicts.join('\n'), /ko\.isbn belongs to a different edition/)
+  assert.throws(() => parseFigureBookManifest({ ...raw, edition: { kind: 'abridged', scope: 'school-reader' } }), /edition.kind must be one of/)
 })
 
 test('범위 메타가 없는 기존 비완역 후보는 명시적인 reuseContentId 전까지 중단한다', () => {

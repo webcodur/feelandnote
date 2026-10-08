@@ -36,6 +36,8 @@ interface OpenLibraryEdition {
   description?: OpenLibraryDescription
   works?: { key: string }[]
   languages?: { key: string }[]
+  contributions?: string[]
+  by_statement?: string
 }
 
 interface OpenLibraryWork {
@@ -57,6 +59,22 @@ export interface OpenLibraryBookMetadata {
   workTitle?: string | null
   languages: string[]
   physicalFormat?: string | null
+  translators?: string[]
+}
+
+/** 원저자 목록과 구분된 공식 판본의 번역 기여자만 읽는다. */
+export function getOpenLibraryTranslatorNames(details: { contributions?: unknown; by_statement?: unknown }): string[] {
+  const roles = Array.isArray(details.contributions) ? details.contributions.filter((value): value is string => typeof value === 'string') : []
+  const names = roles.flatMap(value => {
+    const match = value.match(/^(.+?)\s*\((?:translat(?:or|ed)|translation)[^)]*\)$/iu)
+      ?? value.match(/^(.+?),\s*translat(?:or|ed)$/iu)
+    return match ? [match[1].trim()] : []
+  })
+  if (!names.length && typeof details.by_statement === 'string') {
+    const match = details.by_statement.match(/\btranslat(?:ed|ion)\b[^;]*?\bby\s+([^;]+)(?:;|$)/iu)
+    if (match && match[1].length < 100) names.push(match[1].trim().replace(/[.]$/u, ''))
+  }
+  return [...new Set(names)]
 }
 
 /** 판본 언어는 판본 응답으로 확인한다. 국가군과 원전 언어는 번역판 언어의 근거가 아니다. */
@@ -124,6 +142,7 @@ export async function getOpenLibraryBookMetadata(
     publishDate: edition.publish_date ?? null, coverImageUrl,
     sourceUrl: `${OPENLIBRARY_BASE_URL}${edition.key}`, workKey, workTitle: work?.data.title?.trim() || null, languages,
     physicalFormat: typeof edition.physical_format === 'string' ? edition.physical_format : null,
+    translators: getOpenLibraryTranslatorNames(edition),
   }
 }
 

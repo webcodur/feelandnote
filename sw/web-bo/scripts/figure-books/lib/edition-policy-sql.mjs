@@ -1,8 +1,12 @@
-BEGIN; SET LOCAL lock_timeout='5s'; SET LOCAL statement_timeout='30s';
+import { BOOK_EDITION_EXCLUDED_TITLE, BOOK_EDITION_ENGLISH_SOURCE_TITLE, BOOK_EDITION_GRADED_READER, BOOK_EDITION_EXCLUDED_SCOPE, BOOK_EDITION_KAKAO_PAGE, BOOK_EDITION_NONSTART_SCOPE, BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION, BOOK_TRANSLATOR_IGNORED_CHARACTERS, BOOK_EDITION_VOLUME_TITLE, BOOK_EDITION_VOLUME_TITLE_FORMAT, BOOK_EDITION_WORK_TITLE_ARTICLE, BOOK_EDITION_WORK_TITLE_PUNCTUATION, SERVICE_BOOK_EDITION_KINDS } from '../../../../../packages/content-search/src/book-edition-policy.ts'
+import { sqlLiteral } from './merge-work-sql.mjs'
+const pg = regex => sqlLiteral(regex.source.replaceAll('\\b','\\y'))
+export function editionPolicySql() {
+ return `BEGIN; SET LOCAL lock_timeout='5s'; SET LOCAL statement_timeout='30s';
 CREATE OR REPLACE FUNCTION public.book_translator_identity(value jsonb) RETURNS text
 LANGUAGE sql IMMUTABLE SET search_path='pg_catalog' AS $names$
 SELECT string_agg(name,'|' ORDER BY name) FROM (
- SELECT DISTINCT regexp_replace(lower(normalize(item,NFKC)),E'[\\s.’'']','','g') name
+ SELECT DISTINCT regexp_replace(lower(normalize(item,NFKC)),${pg(BOOK_TRANSLATOR_IGNORED_CHARACTERS)},'','g') name
  FROM jsonb_array_elements_text(CASE WHEN jsonb_typeof(value)='array' THEN value ELSE '[]'::jsonb END) item
  WHERE btrim(item)<>''
 ) names WHERE name<>'';
@@ -12,12 +16,12 @@ LANGUAGE plpgsql IMMUTABLE SET search_path='pg_catalog' AS $volume$
 DECLARE matched text[]; prefix text;
 BEGIN
  IF coalesce(figure #>> '{series,sourceUrl}','') !~ '^https://' AND (nullif(scope,'') IS NULL OR scope ~* '^(complete|full|unknown)$') THEN RETURN false; END IF;
- matched=regexp_match(regexp_replace(normalize(coalesce(title,''),NFKC),E',\\s*revised edition','','gi'),E'^(.+?)[\\s,:\\-]+(?:vol(?:ume)?\\.?|part|book)\\s*(\\d{1,3}|VIII|VII|III|VI|IV|IX|II|X|V|I)(?=$|[\\s,:.])','i');
+ matched=regexp_match(regexp_replace(normalize(coalesce(title,''),NFKC),${pg(BOOK_EDITION_VOLUME_TITLE_FORMAT)},'','gi'),${pg(BOOK_EDITION_VOLUME_TITLE)},'i');
  IF matched IS NULL THEN RETURN false; END IF;
  IF upper(matched[2])='I' OR (CASE WHEN matched[2] ~ '^[0-9]+$' THEN matched[2]::numeric<=1 ELSE false END) THEN RETURN false; END IF;
- prefix=regexp_replace(regexp_replace(lower(normalize(matched[1],NFKC)),E'^the\\s+','','i'),E'[\\s,:.\\-]','','g');
+ prefix=regexp_replace(regexp_replace(lower(normalize(matched[1],NFKC)),${pg(BOOK_EDITION_WORK_TITLE_ARTICLE)},'','i'),${pg(BOOK_EDITION_WORK_TITLE_PUNCTUATION)},'','g');
  RETURN EXISTS(SELECT 1 FROM (VALUES(figure->>'workTitle'),(figure->>'originalTitle')) roots(value)
-   WHERE regexp_replace(regexp_replace(lower(normalize(coalesce(value,''),NFKC)),E'^the\\s+','','i'),E'[\\s,:.\\-]','','g')=prefix);
+   WHERE regexp_replace(regexp_replace(lower(normalize(coalesce(value,''),NFKC)),${pg(BOOK_EDITION_WORK_TITLE_ARTICLE)},'','i'),${pg(BOOK_EDITION_WORK_TITLE_PUNCTUATION)},'','g')=prefix);
 END;
 $volume$;
 CREATE OR REPLACE FUNCTION public.guard_figure_book_edition_policy() RETURNS trigger
@@ -25,20 +29,20 @@ LANGUAGE plpgsql SET search_path='pg_catalog' AS $policy$
 DECLARE translators text; figure jsonb; original_locale boolean;
 BEGIN
  SELECT metadata->'figureBook' INTO figure FROM public.contents WHERE id=new.content_id FOR NO KEY UPDATE;
- IF (new.locale='ko' AND coalesce(new.title,'') ~ E'[（(]\\s*(?:영문판|영문원서|영어\\s*원서)\\s*(?:[）)]|[-–])') OR public.book_nonstart_work_volume(new.title,figure,new.text_scope) OR new.edition_kind='abridged' OR coalesce(new.title,'') ~* E'축약(?:본|판)|축역|요약본|원서\\s*발췌|[（(]발췌[）)]|천줄읽기|\\yabridg(?:ed|ement|ment)\\y|^(?:인스타리드\\s|Instaread\\y|Outlines and Highlights for\\y)'
-  OR coalesce(new.title,'') ~* E'\\y(?:penguin\\s+(?:longman\\s+)?readers|(?:oxford\\s+)?bookworms)\\y'
-  OR (new.sources->>'provider_edition_isbn'=new.isbn AND (coalesce(new.sources->>'provider_edition_title','') ~* E'축약(?:본|판)|축역|요약본|원서\\s*발췌|[（(]발췌[）)]|천줄읽기|\\yabridg(?:ed|ement|ment)\\y|^(?:인스타리드\\s|Instaread\\y|Outlines and Highlights for\\y)' OR coalesce(new.sources->>'provider_edition_title','') ~* E'\\y(?:penguin\\s+(?:longman\\s+)?readers|(?:oxford\\s+)?bookworms)\\y'))
-  OR (new.locale='ko' AND new.sources->>'provider_edition_isbn'=new.isbn AND coalesce(new.sources->>'provider_edition_title','') ~ E'[（(]\\s*(?:영문판|영문원서|영어\\s*원서)\\s*(?:[）)]|[-–])')
-  OR coalesce(new.text_scope,'') ~* E'^(?:abridg(?:ed|ement|ment)|selection\\/abridged|축약(?:본|판)|축역(?:본|판)|요약본|발췌·요약\\s*단권|two-percent-original-extract|selection\\/approximately-\\d+-percent)(?=$|[\\s/:;,])'
-  OR coalesce(new.text_scope,'') ~* E'^(?:(?:[a-z]+[-/])*(?:volume|part)[-/\\s]+(?:book\\/)?(?:0*(?:[2-9]|\\d{2,3})|II|III|IV|V|VI|VII|VIII|IX|X)(?=$|[-\\s/:])|『[^』]+』\\s*제\\s*0*(?:[2-9]|\\d{2,3})권;\\s*(?:전체\\s*)?시리즈\\s*중\\s*해당\\s*권의\\s*본문|(?:한국어\\s*(?:번역|원작)\\s*분권|원작\\s*분권)\\s*(?:하권|0*(?:[2-9]|\\d{2,3})권)(?=$|[\\s(])|제\\s*0*(?:[2-9]|\\d{2,3})권\\s)|\\yvolume\\s+0*(?:[2-9]|\\d{2,3})\\s+of\\s+\\d{1,3}\\y'
-  OR coalesce(new.sources->>'provider_scope_description',new.sources #>> '{provider_metadata,contents}','') ~* E'세계명작다이제스트\\s*시리즈|\\ySheet\\s+eBook\\y|\\d+(?:\\.\\d+)?\\s*%\\s*(?:를\\s*)?발췌(?:로|해|하여)\\s*번역|반복되는\\s*부분을\\s*덜어내[^.。\\n]{0,40}축약(?:했|하였)|한\\s*품도\\s*빠뜨리지\\s*않고\\s*그\\s*요지를\\s*간추렸'
+ IF (new.locale='ko' AND coalesce(new.title,'') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)}) OR public.book_nonstart_work_volume(new.title,figure,new.text_scope) OR new.edition_kind='abridged' OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)}
+  OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_GRADED_READER)}
+  OR (new.sources->>'provider_edition_isbn'=new.isbn AND (coalesce(new.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)} OR coalesce(new.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_GRADED_READER)}))
+  OR (new.locale='ko' AND new.sources->>'provider_edition_isbn'=new.isbn AND coalesce(new.sources->>'provider_edition_title','') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)})
+  OR coalesce(new.text_scope,'') ~* ${pg(BOOK_EDITION_EXCLUDED_SCOPE)}
+  OR coalesce(new.text_scope,'') ~* ${pg(BOOK_EDITION_NONSTART_SCOPE)}
+  OR coalesce(new.sources->>'provider_scope_description',new.sources #>> '{provider_metadata,contents}','') ~* ${pg(BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION)}
   OR (new.sources->>'primary'='none' AND new.sources->>'title'='display_only')
-  OR (nullif(btrim(new.isbn),'') IS NULL AND new.sources->>'title'='kakao_title_search' AND coalesce(new.sources->>'series_source_url','') !~ E'^https:\\/\\/(?:m\\.)?search\\.daum\\.net\\/search\\?.*bookId=\\d+')
+  OR (nullif(btrim(new.isbn),'') IS NULL AND new.sources->>'title'='kakao_title_search' AND coalesce(new.sources->>'series_source_url','') !~ ${pg(BOOK_EDITION_KAKAO_PAGE)})
   OR (nullif(btrim(new.isbn),'') IS NULL AND nullif(btrim(new.publisher),'') IS NULL AND new.release_date IS NULL
     AND new.sources->>'primary' IN ('manual','manual-research','wikidata')
     AND nullif(new.sources->>'edition_key','') IS NULL AND nullif(new.sources->>'provider_edition_url','') IS NULL
     AND NOT EXISTS (SELECT 1 FROM (VALUES(new.sources->>'title'),(new.sources->>'isbn'),(new.sources->>'primary')) v(url)
-      WHERE coalesce(url,'') ~ E'^https:\\/\\/(?:m\\.)?search\\.daum\\.net\\/search\\?.*bookId=\\d+' OR coalesce(url,'') ~ '^https://openlibrary[.]org/books/OL[0-9]+M(/|$)'))
+      WHERE coalesce(url,'') ~ ${pg(BOOK_EDITION_KAKAO_PAGE)} OR coalesce(url,'') ~ '^https://openlibrary[.]org/books/OL[0-9]+M(/|$)'))
  THEN RAISE EXCEPTION 'Abridged books, graded readers and unverified placeholders are not service editions'; END IF;
  translators=public.book_translator_identity(new.sources->'translators');
  original_locale=coalesce(figure->>'originalLanguage'=new.locale AND coalesce(figure->>'identityEvidence','') ~ '^https://',false);
@@ -56,7 +60,12 @@ $policy$;
 DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON public.figure_book_editions;
 CREATE TRIGGER guard_figure_book_edition_policy BEFORE INSERT OR UPDATE OF content_id,locale,title,isbn,edition_kind,text_scope,sources ON public.figure_book_editions
 FOR EACH ROW EXECUTE FUNCTION public.guard_figure_book_edition_policy();
-create or replace function public.seed_figure_book_editions()
+${seedPolicySql()}
+COMMIT;`
+}
+
+function seedPolicySql() {
+ return `create or replace function public.seed_figure_book_editions()
 returns trigger
 language plpgsql
 set search_path to 'pg_catalog'
@@ -79,7 +88,7 @@ begin
     case when content.release_date ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
       then left(content.release_date, 10)::date else null end,
     case when content.metadata #>> '{fictionSource,editionKind}'
-      in (E'full',E'retelling',E'adaptation',E'selection',E'volume')
+      in (${SERVICE_BOOK_EDITION_KINDS.map(sqlLiteral).join(',')})
       then content.metadata #>> '{fictionSource,editionKind}' else null end,
     nullif(content.metadata #>> '{fictionSource,textScope}', ''),
     0, locale.verified, locale.sources
@@ -89,20 +98,20 @@ begin
     and NOT public.book_nonstart_work_volume(locale.title,content.metadata->'figureBook',content.metadata #>> '{fictionSource,textScope}')
     and coalesce(content.metadata #>> '{fictionSource,editionKind}', '') <> 'abridged'
     and coalesce(content.metadata #>> '{figureBook,editionKind}', '') <> 'abridged'
-    and NOT (locale.locale='ko' AND coalesce(locale.title,'') ~ E'[（(]\\s*(?:영문판|영문원서|영어\\s*원서)\\s*(?:[）)]|[-–])')
-    and coalesce(locale.title, '') !~* E'축약(?:본|판)|축역|요약본|원서\\s*발췌|[（(]발췌[）)]|천줄읽기|\\yabridg(?:ed|ement|ment)\\y|^(?:인스타리드\\s|Instaread\\y|Outlines and Highlights for\\y)'
-    and coalesce(locale.title, '') !~* E'\\y(?:penguin\\s+(?:longman\\s+)?readers|(?:oxford\\s+)?bookworms)\\y'
-    and NOT coalesce(locale.sources->>'provider_edition_isbn'=locale.isbn AND (coalesce(locale.sources->>'provider_edition_title','') ~* E'축약(?:본|판)|축역|요약본|원서\\s*발췌|[（(]발췌[）)]|천줄읽기|\\yabridg(?:ed|ement|ment)\\y|^(?:인스타리드\\s|Instaread\\y|Outlines and Highlights for\\y)' OR coalesce(locale.sources->>'provider_edition_title','') ~* E'\\y(?:penguin\\s+(?:longman\\s+)?readers|(?:oxford\\s+)?bookworms)\\y'),false)
-    and NOT coalesce(locale.locale='ko' AND locale.sources->>'provider_edition_isbn'=locale.isbn AND coalesce(locale.sources->>'provider_edition_title','') ~ E'[（(]\\s*(?:영문판|영문원서|영어\\s*원서)\\s*(?:[）)]|[-–])',false)
-    and coalesce(locale.sources->>'provider_scope_description',locale.sources #>> '{provider_metadata,contents}','') !~* E'세계명작다이제스트\\s*시리즈|\\ySheet\\s+eBook\\y|\\d+(?:\\.\\d+)?\\s*%\\s*(?:를\\s*)?발췌(?:로|해|하여)\\s*번역|반복되는\\s*부분을\\s*덜어내[^.。\\n]{0,40}축약(?:했|하였)|한\\s*품도\\s*빠뜨리지\\s*않고\\s*그\\s*요지를\\s*간추렸'
-    and coalesce(content.metadata #>> '{fictionSource,textScope}', '') !~* E'^(?:abridg(?:ed|ement|ment)|selection\\/abridged|축약(?:본|판)|축역(?:본|판)|요약본|발췌·요약\\s*단권|two-percent-original-extract|selection\\/approximately-\\d+-percent)(?=$|[\\s/:;,])'
-    and coalesce(content.metadata #>> '{fictionSource,textScope}', '') !~* E'^(?:(?:[a-z]+[-/])*(?:volume|part)[-/\\s]+(?:book\\/)?(?:0*(?:[2-9]|\\d{2,3})|II|III|IV|V|VI|VII|VIII|IX|X)(?=$|[-\\s/:])|『[^』]+』\\s*제\\s*0*(?:[2-9]|\\d{2,3})권;\\s*(?:전체\\s*)?시리즈\\s*중\\s*해당\\s*권의\\s*본문|(?:한국어\\s*(?:번역|원작)\\s*분권|원작\\s*분권)\\s*(?:하권|0*(?:[2-9]|\\d{2,3})권)(?=$|[\\s(])|제\\s*0*(?:[2-9]|\\d{2,3})권\\s)|\\yvolume\\s+0*(?:[2-9]|\\d{2,3})\\s+of\\s+\\d{1,3}\\y'
+    and NOT (locale.locale='ko' AND coalesce(locale.title,'') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)})
+    and coalesce(locale.title, '') !~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)}
+    and coalesce(locale.title, '') !~* ${pg(BOOK_EDITION_GRADED_READER)}
+    and NOT coalesce(locale.sources->>'provider_edition_isbn'=locale.isbn AND (coalesce(locale.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)} OR coalesce(locale.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_GRADED_READER)}),false)
+    and NOT coalesce(locale.locale='ko' AND locale.sources->>'provider_edition_isbn'=locale.isbn AND coalesce(locale.sources->>'provider_edition_title','') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)},false)
+    and coalesce(locale.sources->>'provider_scope_description',locale.sources #>> '{provider_metadata,contents}','') !~* ${pg(BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION)}
+    and coalesce(content.metadata #>> '{fictionSource,textScope}', '') !~* ${pg(BOOK_EDITION_EXCLUDED_SCOPE)}
+    and coalesce(content.metadata #>> '{fictionSource,textScope}', '') !~* ${pg(BOOK_EDITION_NONSTART_SCOPE)}
     and not (locale.locale = 'en' and coalesce(locale.sources->>'primary', '') = 'kakao_book')
     and not (coalesce(locale.sources->>'primary', '') = 'none'
       and coalesce(locale.sources->>'title', '') in ('translated', 'romanized', 'original', 'display_only'))
     and not (nullif(btrim(locale.isbn), '') is null
       and coalesce(locale.sources->>'title', '') = 'kakao_title_search'
-      and coalesce(locale.sources->>'series_source_url', '') !~ E'^https:\\/\\/(?:m\\.)?search\\.daum\\.net\\/search\\?.*bookId=\\d+')
+      and coalesce(locale.sources->>'series_source_url', '') !~ ${pg(BOOK_EDITION_KAKAO_PAGE)})
     and (nullif(btrim(locale.isbn), '') is not null
       or locale.sources->>'primary' in ('kakao_book', 'openlibrary'))
     and not exists (
@@ -125,5 +134,5 @@ begin
   on conflict (content_id, locale, isbn) where isbn is not null do nothing;
   return new;
 end;
-$function$;
-COMMIT;
+$function$;`
+}

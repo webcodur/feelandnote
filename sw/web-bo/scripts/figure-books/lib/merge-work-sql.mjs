@@ -1,7 +1,7 @@
 /** 작품 통합은 한 PostgreSQL transaction에서만 실행한다. 충돌은 전체 pair를 되돌린다. */
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { CONTENT_ARRAY_REFERENCES } from './content-array-references.mjs'
-export const REFERENCE_TABLES = ['content_locales', 'figure_book_contents', 'figure_book_characters', 'figure_book_editions', 'member_contents', 'celeb_contents', 'curated_list_items', 'flow_nodes', 'records', 'notes', 'activity_logs']
+export const REFERENCE_TABLES = ['content_locales', 'figure_book_contents', 'figure_book_characters', 'figure_book_editions', 'member_contents', 'celeb_contents', 'curated_list_items', 'flow_nodes', 'records', 'notes', 'activity_logs', 'commerce_events', 'profession_book_picks']
 const arrayReferences = table => CONTENT_ARRAY_REFERENCES.filter(ref => ref.table === table)
 const rankedReferences = CONTENT_ARRAY_REFERENCES.filter(ref => ref.shape === 'tiers')
 export const ARRAY_REFERENCE_TABLES = [...new Set(CONTENT_ARRAY_REFERENCES.map(ref => ref.table))].filter(table => !REFERENCE_TABLES.includes(table))
@@ -16,7 +16,7 @@ function arrayReferenceWhere(ref, id, prefix = '') {
   if (ref.shape === 'tiers') return `jsonb_path_exists(${column}, '$.*[*] ? (@ == $drop)', jsonb_build_object('drop', ${id}))`
   return ref.storage === 'text[]' ? `${id} = ANY(${column})` : `${column} @> jsonb_build_array(${id})`
 }
-function referenceWhere(table, k, d, alias = '') {
+export function referenceWhere(table, k, d, alias = '') {
   const p = alias ? `${alias}.` : ''
   if (table === 'contents') return `${p}id IN (${k}, ${d})`
   if (table === 'figure_book_products') return `${p}edition_id IN (SELECT id FROM public.figure_book_editions WHERE content_id IN (${k}, ${d}))`
@@ -52,8 +52,22 @@ function unrepresentedExternalIsbn(snapshot, pair) {
   const drop = snapshot.contents?.find(row => row.id === pair.drop), isbn = toIsbn13(drop?.external_id ?? '')
   return isbn && ![...(snapshot.content_locales ?? []), ...(snapshot.figure_book_editions ?? [])].some(row => toIsbn13(row.isbn ?? '') === isbn) ? isbn : null
 }
+const displayIsbn = snapshot => (snapshot.content_locales ?? []).some(row => row.isbn
+  && row.sources?.primary === 'none' && ['translated','romanized','original'].includes(row.sources?.title))
+function unrepresentedEnglishKakaoIsbn(snapshot) {
+  const locales = snapshot.content_locales ?? [], editions = snapshot.figure_book_editions ?? []
+  return locales.some(row => {
+    const isbn = toIsbn13(row.isbn ?? '')
+    return row.locale === 'en' && row.sources?.primary === 'kakao_book' && isbn
+      && !editions.some(edition => toIsbn13(edition.isbn ?? '') === isbn)
+      && !locales.some(other => other !== row && toIsbn13(other.isbn ?? '') === isbn
+        && !(other.locale === 'en' && other.sources?.primary === 'kakao_book'))
+  })
+}
 export function findConflicts(snapshot, pair) {
   validatePair(pair)
+  if (displayIsbn(snapshot)) return 'display-title-isbn-needs-review'
+  if (unrepresentedEnglishKakaoIsbn(snapshot)) return 'english-kakao-isbn-needs-review'
   if (unrepresentedExternalIsbn(snapshot, pair)) return 'external-isbn-edition-needs-review'
   const rows = table => snapshot[table] ?? []
   const duplicates = (table, key) => rows(table).filter(row => row.content_id === pair.drop).flatMap(drop => rows(table).filter(keep => keep.content_id === pair.keep && keep[key] === drop[key]).map(keep => ({ keep, drop })))
@@ -86,6 +100,8 @@ export function findConflicts(snapshot, pair) {
 
 export function buildMergeSql(pair, snapshot) {
   validatePair(pair)
+  if (displayIsbn(snapshot)) throw new Error('MERGE_REVIEW: display title still has an unverified ISBN')
+  if (unrepresentedEnglishKakaoIsbn(snapshot)) throw new Error('MERGE_REVIEW: English Kakao card ISBN has no preserved edition')
   for (const table of SNAPSHOT_TABLES) if (!Array.isArray(snapshot[table])) throw new Error(`백업 누락: ${table}`)
   if (unrepresentedExternalIsbn(snapshot, pair)) throw new Error('MERGE_REVIEW: external ISBN has no preserved edition')
   const k = sqlLiteral(pair.keep), d = sqlLiteral(pair.drop)
@@ -161,9 +177,12 @@ BEGIN
       AND NOT EXISTS(SELECT 1 FROM public.figure_book_products p WHERE p.edition_id=seeded.id);
   -- 같은 언어의 다른 ISBN 카드도 판본으로 보존한 뒤 대표 카드를 합친다.
   INSERT INTO public.figure_book_editions(content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,verified,sources)
-    SELECT CASE WHEN EXISTS(SELECT 1 FROM public.figure_book_contents f WHERE f.content_id=l.content_id) THEN l.content_id ELSE keep_id END,l.locale,l.title,l.creator,l.description,l.isbn,l.publisher,l.thumbnail_url,l.verified,l.sources
-    FROM public.content_locales l WHERE l.content_id IN(keep_id,drop_id) AND (l.isbn IS NOT NULL OR coalesce(l.sources->>'primary','none')<>'none')
-      AND NOT EXISTS(SELECT 1 FROM public.figure_book_editions e WHERE e.content_id IN(keep_id,drop_id) AND e.locale=l.locale AND (e.isbn=l.isbn OR (l.isbn IS NULL AND e.isbn IS NULL AND e.title=l.title AND e.sources IS NOT DISTINCT FROM l.sources)))
+    SELECT CASE WHEN EXISTS(SELECT 1 FROM public.figure_book_contents f WHERE f.content_id=l.content_id) THEN l.content_id ELSE keep_id END,l.locale,coalesce(l.sources->>'edition_title',l.title),l.creator,l.description,l.isbn,l.publisher,l.thumbnail_url,l.verified,l.sources
+    FROM public.content_locales l WHERE l.content_id IN(keep_id,drop_id) AND (l.isbn IS NOT NULL OR l.sources->>'primary' IN ('kakao_book','openlibrary'))
+      AND NOT(coalesce(l.sources->>'primary','')='none' AND coalesce(l.sources->>'title','') IN('translated','romanized','original'))
+      AND NOT(l.locale='en' AND coalesce(l.sources->>'primary','')='kakao_book')
+      AND NOT(l.isbn IS NULL AND coalesce(l.sources->>'title','')='kakao_title_search' AND coalesce(l.sources->>'series_source_url','') !~ '^https://(m\\.)?search\\.daum\\.net/search\\?.*bookId=[0-9]+')
+      AND NOT EXISTS(SELECT 1 FROM public.figure_book_editions e WHERE e.content_id IN(keep_id,drop_id) AND e.locale=l.locale AND (e.isbn=l.isbn OR (l.isbn IS NULL AND e.title=coalesce(l.sources->>'edition_title',l.title) AND e.creator IS NOT DISTINCT FROM l.creator AND (l.publisher IS NULL OR e.publisher IS NOT DISTINCT FROM l.publisher) AND e.sources - 'edition_work_evidence' - 'scope_evidence' - 'edition_title' - 'series_title' - 'series_source_url' IS NOT DISTINCT FROM l.sources - 'edition_work_evidence' - 'scope_evidence' - 'edition_title' - 'series_title' - 'series_source_url')))
     ORDER BY CASE WHEN l.content_id=keep_id THEN 0 ELSE 1 END
     ON CONFLICT (content_id, locale, isbn) WHERE isbn IS NOT NULL DO NOTHING;
   UPDATE public.figure_book_characters a SET description=coalesce(nullif(a.description,''),b.description), description_en=coalesce(nullif(a.description_en,''),b.description_en), relation_type=CASE WHEN a.relation_type='authored' OR b.relation_type='authored' THEN 'authored' WHEN a.relation_type='appearance' OR b.relation_type='appearance' THEN 'appearance' ELSE a.relation_type END
@@ -191,7 +210,7 @@ BEGIN
     FROM public.celeb_contents b WHERE a.content_id=keep_id AND b.content_id=drop_id AND a.celeb_id=b.celeb_id;
   DELETE FROM public.celeb_contents b USING public.celeb_contents a WHERE b.content_id=drop_id AND a.content_id=keep_id AND a.celeb_id=b.celeb_id;
   UPDATE public.celeb_contents SET content_id=keep_id WHERE content_id=drop_id;
-  ${['curated_list_items', 'flow_nodes', 'records', 'notes', 'activity_logs'].map(table => `UPDATE public.${table} SET content_id=keep_id WHERE content_id=drop_id;`).join('\n')}
+  ${['curated_list_items', 'flow_nodes', 'records', 'notes', 'activity_logs', 'commerce_events', 'profession_book_picks'].map(table => `UPDATE public.${table} SET content_id=keep_id WHERE content_id=drop_id;`).join('\n')}
   ${CONTENT_ARRAY_REFERENCES.map(arrayUpdateSql).join('\n')}
   DELETE FROM public.figure_book_contents WHERE content_id=drop_id;
   -- 모든 참조 이동을 확인한 뒤에만 원래 작품을 지운다.
@@ -201,7 +220,7 @@ BEGIN
   IF (SELECT count(*) FROM public.celeb_contents WHERE content_id=keep_id) <> ${new Set(snapshot.celeb_contents.map(row => row.celeb_id)).size} THEN RAISE EXCEPTION 'MERGE_REVIEW: celeb relationships lost'; END IF;
   IF (SELECT count(*) FROM public.figure_book_characters WHERE content_id=keep_id) <> ${new Set(snapshot.figure_book_characters.map(row => row.celeb_id)).size} THEN RAISE EXCEPTION 'MERGE_REVIEW: character relationships lost'; END IF;
   IF (SELECT count(*) FROM public.figure_book_products p JOIN public.figure_book_editions e ON e.id=p.edition_id WHERE e.content_id=keep_id) <> ${snapshot.figure_book_products.length} THEN RAISE EXCEPTION 'MERGE_REVIEW: product history lost'; END IF;
-  ${['records', 'notes', 'flow_nodes', 'curated_list_items', 'activity_logs'].map(table => `IF (SELECT count(*) FROM public.${table} WHERE content_id=keep_id) <> ${snapshot[table].filter(row => [pair.keep, pair.drop].includes(row.content_id)).length} THEN RAISE EXCEPTION 'MERGE_REVIEW: ${table} rows lost'; END IF;`).join('\n')}
+  ${['records', 'notes', 'flow_nodes', 'curated_list_items', 'activity_logs', 'commerce_events', 'profession_book_picks'].map(table => `IF (SELECT count(*) FROM public.${table} WHERE content_id=keep_id) <> ${snapshot[table].filter(row => [pair.keep, pair.drop].includes(row.content_id)).length} THEN RAISE EXCEPTION 'MERGE_REVIEW: ${table} rows lost'; END IF;`).join('\n')}
   IF EXISTS(SELECT 1 FROM public.contents c WHERE c.id=keep_id AND (c.member_count IS DISTINCT FROM (SELECT count(*) FROM public.member_contents WHERE content_id=keep_id) OR c.celeb_count IS DISTINCT FROM (SELECT count(*) FROM public.celeb_contents WHERE content_id=keep_id) OR c.record_count IS DISTINCT FROM (SELECT count(*) FROM public.member_contents WHERE content_id=keep_id)+(SELECT count(*) FROM public.celeb_contents WHERE content_id=keep_id))) THEN RAISE EXCEPTION 'MERGE_REVIEW: content counters differ from relationships'; END IF;
   DELETE FROM public.contents WHERE id=drop_id;
 END;

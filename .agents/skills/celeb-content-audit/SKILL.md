@@ -12,6 +12,7 @@ description: 감상 관계·review와 등장·연관 도서 관계를 작품 메
 실행 전 아래 문서를 처음부터 끝까지 읽는다.
 
 - `docs/project/celeb/celeb-02-04-content-audit.md` — 감사 대상, 5단계 감사 절차, 보고 형식
+- `docs/project/data/README.md` — 데이터의 기준과 서버 재조회 검수
 
 이 문서가 연결하는 조사·등록·감상경위·등장 도서 규칙 가운데 대상에 해당하는 문서도 반영 전에 읽는다.
 

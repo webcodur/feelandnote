@@ -1,7 +1,9 @@
+import { SERVICE_BOOK_EDITION_KINDS, excludedBookEditionReason } from '@feelandnote/content-search/book-edition-policy'
 import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { createHash, randomUUID } from 'node:crypto'
+import { registeredSeriesMatches, bookEditionTitleKey } from './lib/series-work.mjs'
 import {
   existsSync,
   mkdirSync,
@@ -14,14 +16,7 @@ import {
 } from 'node:fs'
 import { basename, dirname, resolve, win32 } from 'node:path'
 
-export const FICTION_SOURCE_BOOK_EDITION_KINDS = [
-  'full',
-  'abridged',
-  'retelling',
-  'adaptation',
-  'selection',
-  'volume',
-] as const
+export const FICTION_SOURCE_BOOK_EDITION_KINDS = SERVICE_BOOK_EDITION_KINDS
 
 export type FigureBookEditionKind = typeof FICTION_SOURCE_BOOK_EDITION_KINDS[number]
 export type BookMetadataSource = 'kakao_book' | 'openlibrary'
@@ -362,6 +357,7 @@ function assertEdition(value: ExternalBookEdition | undefined, source: BookMetad
   for (const key of ['title', 'creator', 'thumbnailUrl', 'sourceUrl'] as const) {
     if (!value[key]?.trim()) throw new Error(`${field}.${key} is missing for the selected edition`)
   }
+  if (excludedBookEditionReason({title:value.title})) throw new Error(`${field}: 축약본·학습용 리더는 서비스에 등록하지 않습니다`)
   if (value.publisher === null ? source !== 'openlibrary' : !value.publisher.trim()) {
     throw new Error(`${field}.publisher is missing for the selected edition`)
   }
@@ -771,7 +767,7 @@ export function buildFigureBookPlan(
     manifest.work.title,
     ...manifest.work.titleAliases,
     ...resolved.locales.map((row) => row.title),
-  ].map(normalizeIdentityText))
+  ].map(bookEditionTitleKey))
   const creatorSet = new Set([
     manifest.work.creator,
     ...manifest.work.creatorAliases,
@@ -795,7 +791,7 @@ export function buildFigureBookPlan(
     }
     for (const locale of localesByContent.get(content.id) ?? []) {
       if (isbnSet.has(toIsbn13(locale.isbn ?? '') ?? '')) addReason(content.id, `${locale.locale}.isbn`)
-      if (titleSet.has(normalizeIdentityText(locale.title ?? ''))
+      if (titleSet.has(bookEditionTitleKey(locale.title ?? ''))
           && creatorSet.has(normalizeIdentityText(locale.creator ?? ''))) {
         addReason(content.id, `${locale.locale}.title+creator`)
       }
@@ -831,6 +827,10 @@ export function buildFigureBookPlan(
     .sort((left, right) => left.id.localeCompare(right.id))
   const conflicts: string[] = []
   let selectedId: string | undefined
+
+  for (const series of registeredSeriesMatches(catalog.contents, resolved.locales)) {
+    conflicts.push(`registered series ${series.title} (${series.contentId}): reuse the existing work and representative volume; do not add every numbered volume as another edition`)
+  }
 
   if (manifest.reuseContentId) {
     const selected = contentsById.get(manifest.reuseContentId)

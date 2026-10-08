@@ -12,7 +12,8 @@
 import { createHash } from 'node:crypto'
 import { createClient } from '@feelandnote/db'
 import { toIsbn13 } from '../../../../../packages/content-search/src/book-isbn.ts'
-import { getBookOriginalAuthorKeys } from '../../../../../packages/content-search/src/book-original-authors.ts'
+import { pickKakaoBookIsbn } from '../../../../../packages/content-search/src/kakao-books.ts'
+import { getBookOriginalAuthorKeys, canUseBookWorkIntroduction } from '../../../../../packages/content-search/src/book-original-authors.ts'
 
 export const PAGE_SIZE = 1000
 export const KAKAO_URL = 'https://dapi.kakao.com/v3/search/book'
@@ -118,7 +119,7 @@ export async function kakaoByIsbn(isbn) {
   const response = await fetch(`${KAKAO_URL}?${params}`, { headers: { Authorization: `KakaoAK ${key}` } })
   if (!response.ok) throw new Error(`카카오 ISBN 조회 실패: ${response.status}`)
   const payload = await response.json()
-  return (payload.documents ?? []).find(document => String(document.isbn ?? '').split(/\s+/).some(value => toIsbn13(value) === selected)) ?? null
+  return (payload.documents ?? []).find(document => pickKakaoBookIsbn(String(document.isbn ?? '')) === selected) ?? null
 }
 
 /** 제목으로 카카오를 찾는다. 판정은 호출자가 한다(제목 일치 + 저자에 인물명). */
@@ -187,7 +188,9 @@ export async function openLibraryByIsbn(isbn) {
     publisher: (edition.publishers ?? []).map((value) => String(value).trim()).find(Boolean) ?? null,
     publishDate: edition.publish_date ?? null,
     thumbnailUrl: coverId ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg` : null,
-    description: typeof work?.description === 'string' ? work.description : (work?.description?.value ?? null),
+    description: (typeof edition.description === 'string' ? edition.description : edition.description?.value)
+      ?? (canUseBookWorkIntroduction(title, editionAuthors, work?.title, workAuthors)
+        ? (typeof work?.description === 'string' ? work.description : work?.description?.value ?? null) : null),
     sourceUrl: `${OPENLIBRARY_URL}${edition.key}`,
     physicalFormat: typeof edition.physical_format === 'string' ? edition.physical_format : null,
   }

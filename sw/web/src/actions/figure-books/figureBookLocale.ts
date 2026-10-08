@@ -4,7 +4,7 @@ import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
 import { AFFILIATE_PLATFORMS, toAffiliateLinks, type AffiliateLink } from '@/constants/affiliatePlatforms'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { decodeHtmlEntities } from '@feelandnote/content-search/html-entities'
-import { bookPublisherKey, selectSeriesRepresentatives } from '@feelandnote/content-search/book-series'
+import { selectSeriesRepresentatives } from '@feelandnote/content-search/book-series'
 
 export type FigureBookProductPlatform = 'coupang' | 'amazon'
 
@@ -139,7 +139,6 @@ export function mapFigureBookEditions(
           return proof.method === 'independent_work_review' && proof.content_id === row.content_id
             && proof.locale === row.locale && proof.original_language === row.locale
             && proof.isbn === row.isbn && proof.edition_title === row.title && proof.edition_creator === row.creator
-            && row.edition_kind === 'full' && row.text_scope === 'complete'
             && proof.edition_kind === row.edition_kind && proof.text_scope === row.text_scope
             && typeof proof.work_identity === 'string' && new URL(String(proof.source_url)).protocol === 'https:'
         } catch { return false }
@@ -190,78 +189,51 @@ export function attachFigureBookLocaleLinks<T extends FigureBookEdition>(edition
   return { ...edition, affiliateLinks: links }
 }
 
-/** 표제가 판차·장정 꼬리표만 다르면 같은 책으로 본다 — 재판·개정판을 칩으로 나열하지 않는다. */
-const EDITION_VARIANT_SUFFIX = /[([](?:개정판|개정증보판|개역판|개역증보판|양장본|하드커버|HardCover|전자책|소장판|보급판|문고판|큰글자책|큰글자도서)[^\])]*[\])]/gi
-
-/**
- * 같은 책 판본 그룹 키. 제목·저자·역자·판본 성격·범위가 같으면 같은 책이다.
- * 역자가 같으면 출판사가 달라도 같은 번역의 재출간이다(판권 이전). 출판사는 역자를 모를 때와
- * 번역 작품에서만 구분자로 쓴다 — 원어 작품(`crossPublisher`)은 출판사 변경 재출간도 같은 책이다.
- */
-function sameBookEditionKey(edition: FigureBookEdition, crossPublisher: boolean): string {
-  const norm = (value: string | null | undefined) => (value ?? '')
-    .replace(EDITION_VARIANT_SUFFIX, '')
-    .replace(/\s+/g, '')
-    .toLowerCase()
-  const translation = bookEditionTranslationKey(edition, crossPublisher)
-  if (translation) return [translation, norm(edition.creator)].join('|')
-  const translator = norm(edition.translator)
-  const kind = edition.editionKind && edition.editionKind !== 'full' ? edition.editionKind : 'full'
-  const scope = edition.textScope && edition.textScope !== 'complete' ? edition.textScope : 'complete'
-  return [
-    crossPublisher && !translator && edition.originalWorkIdentity ? edition.originalWorkIdentity : norm(edition.title),
-    norm(edition.creator) || bookPublisherKey(edition.publisher, edition.locale),
-    translator,
-    translator || crossPublisher ? '' : bookPublisherKey(edition.publisher, edition.locale),
-    kind,
-    scope,
-  ].join('|')
+/** 추가 판본 선택지는 확인된 원문·번역 키가 있어야 한다. */
+function sameBookEditionKey(edition: FigureBookEdition, crossPublisher: boolean): string | null {
+  const translation = bookEditionTranslationKey(edition, crossPublisher || !!edition.originalWorkIdentity)
+  return translation
 }
 
-/** 같은 책 판본이 여럿이면 구매 링크가 있는 판본, 없으면 최신 판 하나를 대표로 둔다. */
+/** 확인된 판본은 역자별 하나를, 확인 정보가 없는 작품은 대표 도서 하나를 보여 준다. */
 function collapseSameBookEditions(editions: FigureBookEdition[], crossPublisher: boolean): FigureBookEdition[] {
   const reps = new Map<string, FigureBookEdition>()
+  let fallback: FigureBookEdition | null = null
+  const prefer = (candidate: FigureBookEdition, current: FigureBookEdition) => {
+    if ((candidate.purchaseUrl != null) !== (current.purchaseUrl != null)) return candidate.purchaseUrl != null
+    if ((candidate.releaseDate ?? '') !== (current.releaseDate ?? '')) return (candidate.releaseDate ?? '') > (current.releaseDate ?? '')
+    return candidate.sortOrder < current.sortOrder || (candidate.sortOrder === current.sortOrder && candidate.id < current.id)
+  }
   for (const edition of editions) {
     const key = sameBookEditionKey(edition, crossPublisher)
-    const prev = reps.get(key)
-    if (!prev) { reps.set(key, edition); continue }
-    const prefer = (candidate: FigureBookEdition, current: FigureBookEdition) => {
-      if ((candidate.purchaseUrl != null) !== (current.purchaseUrl != null)) return candidate.purchaseUrl != null
-      if ((candidate.releaseDate ?? '') !== (current.releaseDate ?? '')) return (candidate.releaseDate ?? '') > (current.releaseDate ?? '')
-      return candidate.sortOrder < current.sortOrder || (candidate.sortOrder === current.sortOrder && candidate.id < current.id)
-    }
-    reps.set(key, prefer(edition, prev) ? edition : prev)
+    if (!key) { if (!fallback || prefer(edition, fallback)) fallback = edition; continue }
+    const previous = reps.get(key)
+    if (!previous || prefer(edition, previous)) reps.set(key, edition)
   }
-  return [...reps.values()]
+  return reps.size ? [...reps.values()] : fallback ? [fallback] : []
 }
 
 /**
  * 한국어 판본은 쿠팡 상품 유무와 관계없이 선택하고, 저장된 구매 링크만 같은 판본에 붙인다.
  * 같은 책의 재판·개정판·전자책은 대표 판본 하나만 노출한다.
  * `crossPublisherSameBook`(독립 근거로 원어를 확인한 작품)이면 출판사가 바뀐 재출간도 같은 책으로 접는다 —
- * 번역 작품에서는 출판사가 다르면 다른 번역본일 수 있어 그대로 둔다.
+ * 번역 작품은 확인된 역자로 구분한다.
  */
 export function mergeFigureBookEditions(
   rows: FigureBookEditionRow[],
   options: FigureBookPurchaseOptionRow[],
   locale: string,
-  includeAll = false,
+  _includeAll = false,
   crossPublisherSameBook = false,
   series?: unknown,
+  workTitles: readonly string[] = [],
 ): FigureBookEdition[] {
-  const allowed = (row: FigureBookEditionRow | FigureBookPurchaseOptionRow) => !excludedBookEditionReason({title:row.title,editionKind:row.edition_kind,textScope:row.text_scope})
+  const allowed = (row: FigureBookEditionRow | FigureBookPurchaseOptionRow) => !excludedBookEditionReason({...row,workTitles,reviewedSeries:!!(series && typeof series==='object' && 'sourceUrl' in series && /^https:\/\//u.test(String(series.sourceUrl))),editionKind:row.edition_kind,textScope:row.text_scope})
+  const blockedIds = new Set(rows.filter(row => !allowed(row)).map(row => row.id))
   rows = rows.filter(allowed)
-  options = options.filter(allowed)
+  options = options.filter(row => allowed(row) && !blockedIds.has(row.edition_id))
   const purchasable = mapFigureBookPurchaseOptions(options, locale)
   const editions = mapFigureBookEditions(rows, locale)
-  if (locale !== 'ko' && !includeAll) {
-    const byId = new Map(editions.map((edition) => [edition.id, edition]))
-    const candidates = purchasable.length > 0 ? purchasable.map((edition) => ({
-      ...edition, translator: byId.get(edition.id)?.translator,
-      originalWorkIdentity: byId.get(edition.id)?.originalWorkIdentity,
-    })) : editions
-    return collapseSameBookEditions(selectSeriesRepresentatives(candidates, series), crossPublisherSameBook)
-  }
   const byId = new Map(purchasable.map((edition) => [edition.id, edition]))
   const merged = editions.map((edition) => {
     const purchase = byId.get(edition.id)
@@ -269,7 +241,7 @@ export function mergeFigureBookEditions(
       ? { ...edition, platform: purchase.platform, purchaseUrl: purchase.purchaseUrl }
       : edition
   })
-  return collapseSameBookEditions(selectSeriesRepresentatives(merged, series), crossPublisherSameBook)
+  return collapseSameBookEditions(selectSeriesRepresentatives(merged.length ? merged : purchasable, series), crossPublisherSameBook)
 }
 
 /**

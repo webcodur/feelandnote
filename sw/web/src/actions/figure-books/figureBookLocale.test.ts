@@ -44,8 +44,8 @@ test('독립 확인한 원어 본문은 미국·영국 부제를 접고 축약 �
   const uk = edition(2, 'Elon Musk: How the Billionaire CEO Is Shaping Our Future', 'Virgin Books')
   const reader = { ...edition(3, 'Penguin Readers Level 3: Elon Musk', 'Penguin'), edition_kind: 'abridged', text_scope: 'Level 3 A2' }
   assert.deepEqual(mergeFigureBookEditions([us, uk, reader], [], 'en', false, true).map(e => e.id), [1])
-  assert.equal(mergeFigureBookEditions([us, uk], [], 'en', false, false).length, 2)
-  assert.equal(mergeFigureBookEditions([us, { ...uk, creator: 'Walter Isaacson' }], [], 'en', false, true).length, 2)
+  assert.equal(mergeFigureBookEditions([us, uk], [], 'en', false, false).length, 1)
+  assert.equal(mergeFigureBookEditions([us, { ...uk, creator: 'Ashlee Vance, editor credit' }], [], 'en', false, true).length, 1)
   assert.equal(mergeFigureBookEditions([us, uk, reader], [], 'en', true, true).length, 1)
 })
 
@@ -77,8 +77,8 @@ test('다른 locale이나 플랫폼의 판본은 대체 노출하지 않는다',
 })
 
 test('쿠팡 상품이 없는 한국어 판본도 보존하고 같은 판본의 기존 링크만 합친다', () => {
-  const first: FigureBookEditionRow = { ...BASE_ROW, id: 7 }
-  const second = { ...first, id: 8, isbn: '9788937460012', creator: '호메로스,김기영', sort_order: 2 }
+  const first: FigureBookEditionRow = { ...BASE_ROW, id: 7, sources: { translators: ['천병희'] } }
+  const second = { ...first, id: 8, isbn: '9788937460012', sources: { translators: ['김기영'] }, sort_order: 2 }
   const editions = mergeFigureBookEditions([second, first], [BASE_ROW], 'ko')
   assert.deepEqual(editions.map((edition) => edition.id), [7, 8])
   assert.equal(editions[0].purchaseUrl, BASE_ROW.affiliate_url)
@@ -97,6 +97,17 @@ test('같은 책의 재판·개정판·전자책은 대표 하나만 노출한�
     row(3, '9791175790834', '2026-08-14'),
   ], [], 'ko')
   assert.deepEqual(editions.map((edition) => edition.id), [3])
+})
+
+test('확인된 한 저작의 초판·개정판·증보판은 표제와 ISBN이 달라도 한 권으로 안내한다', () => {
+  const rows: FigureBookEditionRow[] = [
+    { ...BASE_ROW, id: 1, title: '저작 초판', release_date: '1990-01-01', isbn: '9788937460012' },
+    { ...BASE_ROW, id: 2, title: '저작: 개정판의 새 부제', release_date: '2000-01-01', isbn: '9788937460883' },
+    { ...BASE_ROW, id: 3, title: '저작(증보판)', release_date: '2010-01-01', isbn: '9788932925929' },
+  ]
+  assert.deepEqual(mergeFigureBookEditions(rows, [], 'ko', true, true).map(row => row.id), [3])
+  const translation = rows.map(row => ({ ...row, sources: { translators: ['천병희'] } }))
+  assert.deepEqual(mergeFigureBookEditions(translation, [], 'ko', true).map(row => row.id), [3])
 })
 
 test('역자가 같으면 출판사가 바뀐 재출간도 같은 책으로 접고, 역자가 다르면 다른 번역으로 남긴다', () => {
@@ -122,7 +133,7 @@ test('역자가 같으면 출판사가 바뀐 재출간도 같은 책으로 접�
     row(1, '9791188626007', '케이디북스', []),
     row(2, '9791188626069', '백산출판사', []),
   ], [], 'ko', false, false)
-  assert.deepEqual(unknownTranslations.map((edition) => edition.id), [1, 2])
+  assert.deepEqual(unknownTranslations.map((edition) => edition.id), [1])
 })
 
 test('같은 책 그룹에서는 구매 링크가 있는 판본이 대표가 된다', () => {
@@ -169,7 +180,7 @@ test('한국어 카드가 함께 있어도 영문 원서의 출판사 USA 표기
   const product = { ...hardback, edition_id: hardback.id, platform: 'amazon', affiliate_url: 'https://amazon.com/dp/example' }
   assert.deepEqual(mergeFigureBookEditions([paperback, hardback], [product], 'en', false, false).map(e => e.id), [1796])
   assert.equal(mergeFigureBookEditions([paperback, hardback], [], 'en', true).length, 1)
-  assert.equal(mergeFigureBookEditions([paperback, { ...hardback, publisher: 'Another Press' }], [], 'en').length, 2)
+  assert.equal(mergeFigureBookEditions([paperback, { ...hardback, publisher: 'Another Press' }], [], 'en').length, 1)
   assert.equal(mergeFigureBookEditions([
     { ...paperback, sources: { translators: ['Translator A'] } },
     { ...hardback, sources: { translators: ['Translator B'] } },
@@ -211,4 +222,26 @@ test('시리즈 메타가 없는 원전 아래의 다른 번역본도 명시된 
   const retelling = [volume(1),volume(5)].map(row=>({...row,edition_kind:'adaptation',text_scope:`comic-adaptation-volume-${row.id}`}))
   assert.deepEqual(mergeFigureBookEditions(retelling, [], 'ko').map(e=>e.id),[1])
   assert.deepEqual(mergeFigureBookEditions([{...volume(6),text_scope:'volume-6'}], [], 'ko'),[])
+})
+
+test('원작 표제 뒤의 권 번호는 자연어 범위·누락된 범위에도 원전 전체로 노출하지 않는다',()=>{
+ const tail={id:900,content_id:'journey',locale:'en',title:'The Journey to the West, Revised Edition, Volume 3',creator:'Anthony C. Yu',description:null,isbn:'9780226971389',publisher:'University of Chicago Press',thumbnail_url:null,release_date:null,edition_kind:null,text_scope:'chapters-051-075',sort_order:0}
+ assert.deepEqual(mergeFigureBookEditions([tail],[], 'en',true,false,undefined,['Journey to the West']),[])
+ assert.equal(mergeFigureBookEditions([{...tail,title:'The Journey to the West, Revised Edition, Volume 1'}],[], 'en',true,false,undefined,['Journey to the West']).length,1)
+})
+
+test('확인된 번역 옆에 출판사·ISBN만 다른 미확인 상품을 추가 판본으로 만들지 않는다',()=>{
+ const known={...BASE_ROW,id:501,sources:{translators:['천병희']}}
+ const unknown={...BASE_ROW,id:502,publisher:'다른 출판사',isbn:'9788934971016',release_date:'2026-10-08'}
+ assert.deepEqual(mergeFigureBookEditions([known,unknown],[],'ko',true).map(e=>e.id),[501])
+ assert.deepEqual(mergeFigureBookEditions([unknown,{...unknown,id:503,publisher:'또 다른 출판사'}],[],'ko',true).map(e=>e.id),[502])
+})
+
+test('다른 영어 번역에 상품이 없어도 판본을 보존하고 제외 판본의 상품은 되살리지 않는다',()=>{
+ const first={...BASE_ROW,id:700,locale:'en',sources:{translators:['Translator A']}}
+ const second={...first,id:701,isbn:'9788937460012',sources:{translators:['Translator B']}}
+ const product={...first,edition_id:700,platform:'amazon',affiliate_url:'https://amazon.com/dp/valid'}
+ assert.deepEqual(mergeFigureBookEditions([first,second],[product],'en').map(e=>e.id),[700,701])
+ const blocked={...first,sources:{provider_edition_title:'Penguin Readers Level 3',provider_edition_isbn:first.isbn}}
+ assert.deepEqual(mergeFigureBookEditions([blocked],[product],'en'),[])
 })

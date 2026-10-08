@@ -1,3 +1,4 @@
+import { SERVICE_BOOK_EDITION_KINDS, excludedBookEditionReason } from '@feelandnote/content-search/book-edition-policy'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test, { before } from 'node:test'
@@ -5,12 +6,42 @@ import ts from 'typescript'
 import { createClient } from '@feelandnote/db'
 import { equivalentIsbns, toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { getOpenLibraryBookMetadata } from '@feelandnote/content-search/openlibrary'
-import { verifyEditionWork } from '../../src/lib/book-edition-work'
+import { verifyEditionWork, assertDistinctOriginalBookText } from '../../src/lib/book-edition-work'
+import { seriesVolumeInfo } from '@feelandnote/content-search/book-series'
 import { normalizeBookIdentity, resolveExternalBookInput } from '@feelandnote/content-search/external-book-input'
 
 before(() => { process.env.KAKAO_REST_API_KEY = 'test-only' })
+
+test('원어 본문이 같으면 출판사·ISBN·오디오 형식이 달라도 추가 판본 등록을 막는다', () => {
+  const input = { contentId: 'vance', locale: 'en' as const, isbn: '9780062301239', title: 'Elon Musk EXPORT',
+    creator: 'Ashlee Vance', sourceUrl: 'https://openlibrary.org/books/OL1M', editionKind: 'full', textScope: 'complete' }
+  const figure = { originalLanguage: 'en', identityEvidence: 'https://publisher.example/elon-musk' }
+  const rows = [{ locale: 'en', isbn: '9780062301260', title: 'Elon Musk', creator: 'Ashlee Vance',
+    edition_kind: 'full', text_scope: 'complete', sources: {} }]
+  assert.throws(() => assertDistinctOriginalBookText(input, figure, rows), /대표 한 종.*9780062301260/)
+  assert.doesNotThrow(() => assertDistinctOriginalBookText({ ...input, isbn: rows[0].isbn }, figure, rows))
+  assert.throws(() => assertDistinctOriginalBookText({ ...input, editionKind: 'abridged', textScope: 'Level 3 A2' }, figure, rows), /서비스에 등록하지/)
+  assert.doesNotThrow(() => assertDistinctOriginalBookText({ ...input, locale: 'ko' }, figure, rows))
+  assert.throws(() => assertDistinctOriginalBookText(input, {}, rows), /다른 역자를 확인/)
+})
+
+test('원전과 같은 제목·저자로 조회되는 학습 안내서도 독립 근거 없이 연결하지 않는다', async () => {
+  const f = fixture()
+  const input = { contentId, locale: 'en' as const, isbn, title: 'The Essays', creator: 'Francis Bacon',
+    sourceUrl: 'https://openlibrary.org/books/OL1M', workKey: '/works/OL1W', workTitle: 'The Essays', publisher: 'Cram101 Textbook Reviews' }
+  await assert.rejects(verifyEditionWork(f.db, input), /학습 안내서.*독립 저작/)
+  assert.equal(f.state.writes.length, 0)
+})
 type Row = Record<string, unknown>
 const isbn = '9780140432169', contentId = 'bacon-original'
+test('같은 번역의 상품은 추가 판본이 아니며 다른 역자는 별도 판본이다', () => {
+  const rows = [{ id: 1508, locale: 'ko', isbn: '9788934971016', sources: { translators: ['김철수'] } }]
+  const input = { contentId, locale: 'ko' as const, isbn: '9780241430903', title: '일론 머스크', creator: '애슐리 밴스', sourceUrl: 'https://publisher.example/book', translators: ['김철수'] }
+  assert.throws(() => assertDistinctOriginalBookText(input, {}, rows), /같은 번역은 대표 한 판본/)
+  assert.doesNotThrow(() => assertDistinctOriginalBookText({ ...input, translators: ['김헌'] }, {}, rows))
+  assert.throws(() => assertDistinctOriginalBookText({ ...input, editionKind: 'abridged' }, {}, rows), /서비스에 등록하지/)
+})
+
 const compiled = ts.transpileModule(readFileSync(new URL('./source-edition-batch.ts', import.meta.url), 'utf8').replace(/\nmain\(\)\.catch\([\s\S]*$/, ''), {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
 }).outputText
@@ -53,7 +84,8 @@ function fixture(editionIsbn = isbn) {
       })
       if (method === 'GET') {
         const offset = Number(url.searchParams.get('offset') ?? 0), limit = Number(url.searchParams.get('limit') ?? tables[table].length)
-        return Response.json(tables[table].filter(matches).slice(offset, offset + limit))
+        const selected = tables[table].filter(matches).slice(offset, offset + limit)
+        return Response.json(new Headers(init?.headers).get('Accept')?.includes('vnd.pgrst.object') ? selected[0] ?? null : selected)
       }
       const body = JSON.parse(String(init?.body)) as Row
       state.writes.push({ table, method, body })
@@ -86,13 +118,17 @@ function fixture(editionIsbn = isbn) {
   // Execute the shared provider policy with HTTP-backed official lookup mocks, rather than
   // reproducing its KO/import-language decision in the test.
   const providerMocks: Record<string, unknown> = {
+    '@feelandnote/content-search/book-edition-policy': { excludedBookEditionReason },
     '@feelandnote/content-search/book-isbn': { toIsbn13 },
     '@feelandnote/content-search/kakao-books': { getKakaoBookByIsbn: kakaoLookup },
     '@feelandnote/content-search/openlibrary': { getOpenLibraryBookMetadata },
+    '@feelandnote/content-search/book-series': { seriesVolumeInfo },
   }
   const inputModule = { exports: {} as { resolveExternalBookInput: typeof resolveExternalBookInput } }
   new Function('require', 'module', 'exports', inputCompiled)((name: string) => { assert.ok(name in providerMocks); return providerMocks[name] }, inputModule, inputModule.exports)
   const common: Record<string, unknown> = {
+    '@feelandnote/content-search/book-edition-policy': { SERVICE_BOOK_EDITION_KINDS },
+    '@feelandnote/content-search/book-series': { seriesVolumeInfo },
     '@feelandnote/db': { createClient: () => db },
     '@feelandnote/content-search/book-isbn': { toIsbn13 },
     '@feelandnote/content-search/openlibrary': { getOpenLibraryBookMetadata },
@@ -108,6 +144,7 @@ function fixture(editionIsbn = isbn) {
   new Function('require', 'module', 'exports', 'process', compiled)(requireMock, loaded, loaded.exports,
     { env: { NEXT_PUBLIC_DB_API_URL: 'https://db.test', DB_SECRET_KEY: 'test-key' }, argv: ['node', 'source-edition-batch.ts', '--file', 'fixture.json', '--apply'], cwd: () => '.' })
   const manualMocks: Record<string, unknown> = {
+    '@feelandnote/content-search/book-edition-policy': { SERVICE_BOOK_EDITION_KINDS },
     'next/cache': { revalidatePath: () => {} },
     '@feelandnote/shared/constants/cache-tags': { CACHE_TAGS: {} },
     '@/lib/admin-auth': { requireAdmin: async () => {} },
@@ -135,6 +172,38 @@ test('CLI --apply writes a normal audio edition with raw physical format and ind
   assert.equal((sources.work_attribution as Row).work_key, '/works/OL1W')
   assert.equal((sources.work_attribution as Row).original_creator, 'Francis Bacon')
   assert.equal(f.state.writes[0].body.text_scope, 'complete unabridged reading')
+})
+
+test('CLI와 BO 모두 같은 원어 본문의 다른 ISBN을 쓰기 전에 거부한다', async t => {
+  for (const route of ['run', 'saveManual'] as const) {
+    const f = fixture()
+    f.tables.contents[0].metadata = { workKey: '/works/OL1W', figureBook: {
+      workTitle: 'The Essays', workCreator: 'Francis Bacon', originalLanguage: 'en',
+      identityEvidence: 'https://publisher.example/the-essays',
+    } }
+    f.tables.figure_book_editions.push({ id: 7, content_id: contentId, locale: 'en', isbn: '9780062301260',
+      title: 'The Essays', creator: 'Francis Bacon', edition_kind: 'full', text_scope: 'complete', sources: {} })
+    f.state.manifest.textScope = 'complete'
+    const mock = t.mock.method(globalThis, 'fetch', f.providerFetch)
+    await assert.rejects(f[route](), /같은 원어 본문.*대표 한 종/)
+    assert.equal(f.state.writes.length, 0)
+    mock.mock.restore()
+  }
+})
+
+test('대표가 있는 시리즈에 41권을 기본 --apply로 추가하지 않는다', async t => {
+  const f = fixture()
+  f.state.title = 'The Essays 41'
+  f.state.manifest.editionKind = 'volume'
+  f.state.manifest.textScope = 'volume/41'
+  f.tables.contents[0].metadata = { figureBook: {
+    workTitle: 'The Essays', workCreator: 'Francis Bacon',
+    series: { title: 'The Essays', creator: 'Francis Bacon', locale: 'en', sourceUrl: 'https://publisher.test/series' },
+  } }
+  t.mock.method(globalThis, 'fetch', f.providerFetch)
+  t.mock.method(console, 'log', () => {})
+  await assert.rejects(f.run(), /시리즈는 시작권 하나/)
+  assert.equal(f.state.writes.length, 0)
 })
 
 test('matching candidate title cannot conceal another official original work ID or original title', async t => {

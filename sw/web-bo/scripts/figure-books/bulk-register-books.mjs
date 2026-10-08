@@ -21,6 +21,7 @@ import { createClient } from '@feelandnote/db'
 import { existsSync } from 'node:fs'
 import { backfillEditionKinds as backfillKinds, wikidataIdentity } from './lib/figure-work.mjs'
 import { resolveBatchBook, reviewedBatchScope, verifyBatchWork } from './lib/verified-batch-edition.mjs'
+import { registeredSeriesMatches } from './lib/series-work.mjs'
 
 const PAGE_SIZE = 1000
 
@@ -94,7 +95,7 @@ async function main() {
   // 1) 이미 있는 것을 한 번만 읽는다.
   const [existingContents, existingEditions] = await Promise.all([
     allRows('contents', (from, to) => db.from('contents')
-      .select('id,external_id').eq('type', 'BOOK').order('id').range(from, to)),
+      .select('id,external_id,metadata').eq('type', 'BOOK').order('id').range(from, to)),
     allRows('figure_book_editions', (from, to) => db.from('figure_book_editions')
       .select('content_id,isbn,locale').eq('locale', 'ko').order('content_id').range(from, to)),
   ])
@@ -156,6 +157,12 @@ async function main() {
     const title = String(document.title ?? '').trim()
     const creator = document.creator
     if (!title || !creator) { skipped.push({ isbn: target.isbn, reason: 'title_or_creator_missing' }); continue }
+
+    const series = registeredSeriesMatches(existingContents, [{ title, creator, locale: 'ko' }])
+    if (series.length) {
+      skipped.push({ isbn: target.isbn, reason: 'existing_series_reuse_representative', series })
+      continue
+    }
 
     const qid = wikidataByIsbn.get(target.isbn) ?? null
     const identity = qid ? wikidataIdentity(qid) : `book/${target.isbn}`

@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 
-import { getBookDescriptionByIsbn, getOpenLibraryBookMetadata, getOpenLibraryBookUrl, getOpenLibraryBookIntroduction } from './openlibrary'
+import { getBookDescriptionByIsbn, getOpenLibraryBookMetadata, getOpenLibraryBookUrl, getOpenLibraryBookIntroduction, getOpenLibraryTranslatorNames } from './openlibrary'
+
+test('공식 번역 기여자를 원저자·편집자와 구분해 보존한다', () => {
+ assert.deepEqual(getOpenLibraryTranslatorNames({contributions:['Ben Fowkes (Translator)','Other (Editor)']}),['Ben Fowkes'])
+ assert.deepEqual(getOpenLibraryTranslatorNames({by_statement:'translated with an introduction by Robin Waterfield.'}),['Robin Waterfield'])
+ assert.deepEqual(getOpenLibraryTranslatorNames({by_statement:'edited by Robin Waterfield.'}),[])
+})
 
 test('공식 제목 경로를 같은 책·저작의 정본 조회 주소로 정규화한다', async (t) => {
   const source = "https://openlibrary.org/books/OL1122267M/Darwin's_dangerous_idea"

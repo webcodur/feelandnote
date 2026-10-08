@@ -1,3 +1,4 @@
+import { SERVICE_BOOK_EDITION_KINDS } from '@feelandnote/content-search/book-edition-policy'
 /**
  * 기존 원전 작품 아래에 ISBN별 판본을 일괄 등록한다. 기본은 dry-run이다.
  * 한국어판 메타는 카카오, 영문판은 OpenLibrary에서만 가져온다.
@@ -24,14 +25,7 @@ if (!DB_URL || !SERVICE_KEY) {
 const db = createClient(DB_URL, SERVICE_KEY, {
   auth: { autoRefreshToken: false, persistSession: false },
 })
-const EDITION_KINDS = new Set([
-  'full',
-  'abridged',
-  'retelling',
-  'adaptation',
-  'selection',
-  'volume',
-])
+const EDITION_KINDS = new Set<string>(SERVICE_BOOK_EDITION_KINDS)
 const LOOKUP_CONCURRENCY = 4
 
 type Locale = 'ko' | 'en'
@@ -87,7 +81,8 @@ function usage() {
 판본.json은 객체 한 건 또는 객체 배열이다.
 [{"contentId":"...","locale":"ko","isbn":"979...","editionTitle":"완역 특별판","editionKind":"full","textScope":"complete","sortOrder":0}]
 editionTitle은 ISBN 상세에 있는 판본 수식어가 메타 정규화 과정에서 빠질 때만 쓴다.
-상품은 선택 사항이며 product에 productId/productUrl/affiliateUrl/qualityEvidence를 함께 둔다.`)
+상품은 선택 사항이며 product에 productId/productUrl/affiliateUrl/qualityEvidence를 함께 둔다.
+연속 시리즈는 시작권만 등록한다.`)
 }
 
 function parseOptions() {
@@ -233,7 +228,8 @@ async function resolveOpenLibrary(input: EditionInput): Promise<ResolvedEdition>
     ...input, title: input.editionTitle ?? book.title,
     creator: book.creator, description: null, publisher: book.publisher,
     thumbnailUrl: book.coverImageUrl, releaseDate: exactDate(book.publishDate),
-    sources: { primary: book.sourceUrl, physical_format: book.physicalFormat ?? null },
+    sources: { primary: book.sourceUrl, physical_format: book.physicalFormat ?? null,
+      ...(book.translators?.length ? { translators: book.translators } : {}) },
     workKey: book.workKey, workTitle: book.workTitle ?? null,
   }
 }
@@ -281,7 +277,7 @@ async function concurrentMap<T, R>(items: T[], worker: (item: T) => Promise<R>):
 async function verifySourceWorks(inputs: ResolvedEdition[]) {
   await concurrentMap(inputs, async input => {
     input.sources.work_attribution = await verifyEditionWork(db, {
-      ...input, sourceUrl: String(input.sources.primary ?? ''),
+      ...input, translators: Array.isArray(input.sources.translators) ? input.sources.translators as string[] : undefined, sourceUrl: String(input.sources.primary ?? ''),
     })
   })
 }

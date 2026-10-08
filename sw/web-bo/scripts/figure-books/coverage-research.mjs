@@ -1,3 +1,4 @@
+import { SERVICE_BOOK_EDITION_KINDS } from '../../../../packages/content-search/src/book-edition-policy.ts'
 /** Each lane researches, self-checks, then saves through trusted local prepare/apply scripts.
  * node scripts/figure-books/coverage-research.mjs --apply --swe-workers 1
  * External CLIs receive no DB credentials. Local scripts alone handle Kakao and DB access.
@@ -91,7 +92,7 @@ function parseBook(book) {
   for (const key of ['originalTitle', 'originalCreator', 'originalLanguage', 'editionKind', 'textScope', 'identityEvidenceQuote']) {
     if (book[key]) parsed[key] = requiredText(book[key], 500)
   }
-  if (parsed.editionKind && !['full', 'abridged', 'retelling', 'adaptation', 'selection', 'volume'].includes(parsed.editionKind)) throw new Error('Invalid edition kind')
+  if (parsed.editionKind && !SERVICE_BOOK_EDITION_KINDS.includes(parsed.editionKind)) throw new Error('Invalid edition kind')
   if (book.workQid) { if (!/^Q[1-9]\d*$/.test(book.workQid)) throw new Error('Invalid work QID'); parsed.workQid = book.workQid }
   if (book.contentId) { if (!UUID.test(book.contentId)) throw new Error('Invalid known work ID'); parsed.contentId = book.contentId }
   if (book.identityEvidenceUrl) { if (!publicUrl(book.identityEvidenceUrl)) throw new Error('Invalid identity source'); parsed.identityEvidenceUrl = book.identityEvidenceUrl }
@@ -146,7 +147,7 @@ const rules = `[판정]
 - 번역서는 확인되는 원제·원저자·언어·작품QID와 그 확인URL을 남긴다. 확인 못한 값은 생략한다.
 - QID가 곧바로 확인되지 않으면 원제·원저자와 그 증빙으로 정체성을 정리한다. 선택적인 QID를 찾느라 추가 검색을 늘리지 않는다.
 - 국내 원작이면 domesticOriginal:true와 국내원작임을 확인한 identityEvidenceUrl/identityEvidenceQuote를 남기고 자체확인 뒤 domesticOriginalConfirmed:true를 적는다. 번역서/영문 POD는 국내원작이 아니다.
-- editionKind는 full/abridged/retelling/adaptation/selection/volume 중 확인한 값만 쓴다. textScope는 전체이면 complete, 일부이면 어느 권/편/구간인지 구체적으로 쓴다.
+- editionKind는 ${SERVICE_BOOK_EDITION_KINDS.join("/")} 중 확인한 값만 쓴다. textScope는 전체이면 complete, 일부이면 어느 권/편/구간인지 구체적으로 쓴다.
 - 같은 작품의 다른 판본으로 권수를 채우지 않는다. 관계 설명은 UI/DB용 창작글이 아니라 검수용 짧은 근거만 남긴다.`
 
 function promptFor(person) {
@@ -155,7 +156,7 @@ function promptFor(person) {
 ISBN 서지와 인물 등장/연관 근거는 서로 다른 페이지에서 확인해도 된다. 한 페이지에 모두 있어야 한다는 조건은 없다. 검색 접근 실패를 작품 부재로 단정하지 않는다.
 output.json을 저장한 뒤 같은 조사자가 한 번 다시 읽고 대상/ISBN/출처/번역서 정체성/판본 범위/누락/깨진 문자를 자체검증하여 자기 결과만 바로 고친다. 이 과정이 끝나면 selfChecked:true로 저장한다. 별도 검수자나 승인 단계는 없다.
 input.json에 previousAttempt가 있으면 앞선 조사에서 빠진 필드를 확인해 보완하는 단 한 번의 재요청이다. 기존 후보/원문을 재사용하고 누락 필드를 실제 출처에서 채워라.
-JSON: {"celebId":"${person.id}","selfChecked":true,"books":[{"title":"한국어판정식제목","creator":"원저자","publisher":"출판사","isbn":"확인한한국어판ISBN13","relation_type":"appearance|related","evidenceUrl":"직접 연 근거URL","evidence":"짧은 확인 근거","evidenceQuote":"페이지의 짧은 원문","scope":"등장범위 또는 직접관련 분야","originalTitle":"확인되는경우만","originalCreator":"확인되는경우만","originalLanguage":"확인되는경우만","workQid":"확인되는경우만","identityEvidenceUrl":"원작확인URL","identityEvidenceQuote":"원작확인짧은원문","editionKind":"full|abridged|retelling|adaptation|selection|volume","textScope":"complete 또는 실제부분범위","domesticOriginal":false,"domesticOriginalConfirmed":false}],"searchedUrls":["직접 확인한 URL"],"notes":"조사결론"}`
+JSON: {"celebId":"${person.id}","selfChecked":true,"books":[{"title":"한국어판정식제목","creator":"원저자","publisher":"출판사","isbn":"확인한한국어판ISBN13","relation_type":"appearance|related","evidenceUrl":"직접 연 근거URL","evidence":"짧은 확인 근거","evidenceQuote":"페이지의 짧은 원문","scope":"등장범위 또는 직접관련 분야","originalTitle":"확인되는경우만","originalCreator":"확인되는경우만","originalLanguage":"확인되는경우만","workQid":"확인되는경우만","identityEvidenceUrl":"원작확인URL","identityEvidenceQuote":"원작확인짧은원문","editionKind":"${SERVICE_BOOK_EDITION_KINDS.join("|")}","textScope":"complete 또는 실제부분범위","domesticOriginal":false,"domesticOriginalConfirmed":false}],"searchedUrls":["직접 확인한 URL"],"notes":"조사결론"}`
 }
 
 function atomicWrite(path, value) {
@@ -349,7 +350,7 @@ async function main() {
               logPath = join(OUTPUT, 'logs', `correction-${person.id}-${started}.log`)
               active.set(worker.name, { worker: worker.name, stage: 'self-correction', personId: person.id, name: person.nickname, startedAt: new Date(started).toISOString(), work, logPath })
               event('person-start', active.get(worker.name))
-              text = await call(`${prompt}\nCorrect only YOUR missing fields from input.previousAttempt, then re-read output.json. This is the only correction attempt. Do not search for another book or change any ISBN. Use at most two source-page requests, no websearch/Exa. Required book fields include editionKind (full/abridged/retelling/adaptation/selection/volume) and textScope (complete or exact part). Never invent a value; drop an unconfirmable book with a reason. End with the complete corrected JSON and selfChecked:true.`, CORRECTION_TIMEOUT_MS)
+              text = await call(`${prompt}\nCorrect only YOUR missing fields from input.previousAttempt, then re-read output.json. This is the only correction attempt. Do not search for another book or change any ISBN. Use at most two source-page requests, no websearch/Exa. Required book fields include editionKind (${SERVICE_BOOK_EDITION_KINDS.join("/")}) and textScope (complete or exact part). Never invent a value; drop an unconfirmable book with a reason. End with the complete corrected JSON and selfChecked:true.`, CORRECTION_TIMEOUT_MS)
               const correctedRaw = existsSync(outputPath) ? readFileSync(outputPath, 'utf8') : text
               writeFileSync(logPath.replace(/\.log$/, '.raw.txt'), correctedRaw, 'utf8')
               const corrected = parseJson(correctedRaw)
