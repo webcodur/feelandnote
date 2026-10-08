@@ -14,6 +14,12 @@ async function fixture(t, options = {}) {
       res.setHeader('content-type', 'application/json')
       res.end(JSON.stringify({ id }))
     } else if (url.pathname.startsWith('/_next/static/')) {
+      const assetRequests = requests.filter(request => request.pathname === url.pathname).length
+      if (options.assetStatus && (!options.transientAsset || assetRequests === 1)) {
+        res.writeHead(options.assetStatus)
+        res.end('unavailable')
+        return
+      }
       res.writeHead(200, { 'content-type': 'text/javascript', 'content-length': 10 })
       if (options.stalledAsset) res.write('x')
       else res.end('0123456789')
@@ -61,6 +67,26 @@ test('an inactive runtime fails before public requests', async t => {
     readRuntime: async () => ({ service: 'failed', mainPid: 0 }),
   }), /not active/i)
   assert.equal(f.requests.length, 0)
+})
+
+test('a transient upstream 503 retries assets and still requires complete 200 bodies', async t => {
+  const f = await fixture(t, { assetStatus: 503, transientAsset: true })
+  const result = await verifyProduction({ origin: f.origin, releaseId: f.id })
+  assert.equal(result.staticAssets.checked, 2)
+  assert.equal(result.staticAssets.bytes, 20)
+  assert.equal(f.requests.filter(url => url.pathname.startsWith('/_next/static/')).length, 4)
+})
+
+test('persistent upstream failure aborts after three attempts per asset', async t => {
+  const f = await fixture(t, { assetStatus: 503 })
+  await assert.rejects(verifyProduction({ origin: f.origin, releaseId: f.id }), /HTTP 503/)
+  assert.equal(f.requests.filter(url => url.pathname === '/_next/static/app.js').length, 3)
+})
+
+test('a missing static file fails immediately instead of being retried', async t => {
+  const f = await fixture(t, { assetStatus: 404 })
+  await assert.rejects(verifyProduction({ origin: f.origin, releaseId: f.id }), /HTTP 404/)
+  assert.equal(f.requests.filter(url => url.pathname === '/_next/static/app.js').length, 1)
 })
 
 test('an inactive tunnel fails before public requests', async t => {

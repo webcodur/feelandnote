@@ -1,4 +1,5 @@
 import { pathToFileURL } from 'node:url'
+import { setTimeout as delay } from 'node:timers/promises'
 import { inspectVersionedDeploymentHtml } from './oracle-web-remote.mjs'
 
 const ORIGIN_CACHE_STATES = new Set(['DYNAMIC', 'BYPASS', 'MISS', 'EXPIRED'])
@@ -12,10 +13,18 @@ export async function verifyProduction({
     `/celeb/${encodeURIComponent(probeSlug)}`, `/en/celeb/${encodeURIComponent(probeSlug)}`]
   const started = now()
   async function read(url, { json = false, asset = false } = {}) {
-    const response = await fetch(url, {
-      signal: AbortSignal.timeout(timeoutMs),
-      headers: { 'user-agent': 'feelandnote-deploy-verify/1.0', 'cache-control': 'no-cache' },
-    })
+    let response
+    // DB 갱신 알림이 admission 한도에 몰린 순간에도 실제 정적 파일의 존재를 확인한다.
+    // 파일 없음·잘못된 HTML은 즉시 실패하고, 앞단의 일시적 장애만 최대 두 번 재확인한다.
+    for (let attempt = 0; attempt < 3; attempt++) {
+      response = await fetch(url, {
+        signal: AbortSignal.timeout(timeoutMs),
+        headers: { 'user-agent': 'feelandnote-deploy-verify/1.0', 'cache-control': 'no-cache' },
+      })
+      if (!asset || ![502, 503, 504].includes(response.status) || attempt === 2) break
+      await response.body?.cancel()
+      await delay(3_000 * (attempt + 1))
+    }
     if (response.status !== 200) throw new Error(`Public request returned HTTP ${response.status}: ${url}`)
     const body = await response.arrayBuffer() // The timeout covers the entire body, not only headers.
     if (!body.byteLength) throw new Error(`Public response is empty: ${url}`)
