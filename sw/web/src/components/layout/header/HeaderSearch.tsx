@@ -218,7 +218,7 @@ export default function HeaderSearch() {
       {MobileExpandedSearch}
 
       {/* 데스크톱: 인라인 검색창 */}
-      <div ref={containerRef} className="hidden xl:block flex-1 max-w-md mx-auto relative">
+      <div ref={containerRef} className="hidden xl:block absolute left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2">
       {/* Search Bar */}
       <div
         className={`w-full h-10 bg-white/5 backdrop-blur-sm border rounded-lg flex items-center
