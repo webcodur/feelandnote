@@ -316,6 +316,11 @@ const NON_HTML_RUNTIME_FILES = new Set([
   // 이 모달과 감상 구획은 세력 화면에서만 연다.
   'sw/web/src/components/features/faction/entry/FactionMemberModal.tsx',
   'sw/web/src/components/features/faction/entry/FactionPersonReviews.tsx',
+  // MythOverview and atlas person portraits open these client-only viewers; neither route caches HTML at Cloudflare.
+  'sw/web/src/components/features/faction/FactionArtworkViewer.tsx',
+  'sw/web/src/components/features/faction/FactionSceneNavigator.tsx',
+  'sw/web/src/components/features/faction/FactionStoryGuide.tsx',
+  'sw/web/src/components/features/faction/storyBoundaries.ts',
   // 도서 차트·구매 실험·본문 실험 화면은 앞단 보관 대상이 아니다.
   'sw/web/src/components/features/library/ChartSourceNotice.tsx',
   'sw/web/src/components/features/library/ChartWorkModal.tsx',

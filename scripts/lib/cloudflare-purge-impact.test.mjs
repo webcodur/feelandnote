@@ -530,3 +530,10 @@ test('R2 genre banners and shared detail UI evict only their consuming detail HT
     'sw/web/public/images/content/banners/unverified-mb.webp',
   ]), /Unclassified public asset/);
 });
+
+
+test('myth story guide viewer changes do not evict unrelated cached details', () => {
+  for (const file of ['FactionArtworkViewer.tsx', 'FactionSceneNavigator.tsx', 'FactionStoryGuide.tsx', 'storyBoundaries.ts']) {
+    assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/components/features/faction/' + file]).scopes, ['none'])
+  }
+})
