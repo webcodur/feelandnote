@@ -27,6 +27,7 @@ export interface CelebProfileMediaProps {
   /** 요약 카드에서는 이미지 아래 한 줄로 조작을 모은다. */
   actionLayout?: "corners" | "toolbar";
   extraAction?: ReactNode;
+  imageSizes?: string;
 }
 
 /**
@@ -50,6 +51,7 @@ export default function CelebProfileMedia({
   avatarAlignment = "start",
   actionLayout = "corners",
   extraAction,
+  imageSizes,
 }: CelebProfileMediaProps) {
   const t = useTranslations("celebPage");
   const canShowGreeting = Boolean(onGreet);
@@ -142,6 +144,7 @@ export default function CelebProfileMedia({
               src={photoUrl}
               alt={nickname}
               priority
+              sizes={imageSizes ? `${CELEB_HERO_PHOTO_SPEC.desktopHeightPx}px` : undefined}
               className="object-cover"
               style={{ filter: "none" }}
             />
@@ -176,6 +179,7 @@ export default function CelebProfileMedia({
               alt={nickname}
               width={224}
               height={224}
+              sizes={imageSizes}
               className="h-full w-full object-cover"
               style={{ filter: "none" }}
             />

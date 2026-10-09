@@ -12,15 +12,49 @@ const { outputFiles } = await build({ absWorkingDir: root, stdin: { resolveDir: 
   import { createRoot } from 'react-dom/client';
   import { flushSync } from 'react-dom';
   import Portrait from './src/components/ui/ResponsivePortraitImage';
+  import Avatar from './src/components/ui/CelebAvatarImage';
   import Title from './src/components/features/user/explore/myth/MythTitleImage';
   const root = createRoot(document.getElementById('root'));
-  window.renderArtwork = ({kind,src,hidden=false,width=240,height=300}) => flushSync(() => root.render(
+  window.renderArtwork = ({kind,src,hidden=false,width=240,height=300,native=false}) => flushSync(() => root.render(
     <StrictMode><div id="frame" style={{position:'relative',width,height,display:hidden?'none':'block'}}>
-      {kind==='title' ? <Title src={src} alt="title" priority /> : <Portrait src={src} alt="portrait" priority style={{objectPosition:'35% 20%'}} />}
+      {kind==='title' ? <Title src={src} alt="title" priority /> : kind==='avatar'
+        ? <Avatar src={src} alt="avatar" sizes={native ? Math.max(width,height)+'px' : undefined} />
+        : <Portrait src={src} alt="portrait" priority sizes={native ? Math.max(width,height)+'px' : undefined} style={{objectPosition:'35% 20%'}} />}
     </div></StrictMode>));
   window.clearArtwork = () => flushSync(() => root.unmount());
 ` }, bundle: true, write: false, platform: 'browser', jsx: 'automatic', define: { 'process.env.NODE_ENV': '"development"', 'process.env.NEXT_PUBLIC_DEPLOYMENT_ID': '""' } });
 const photo = 'https://assets.feelandnote.com/celebs/person/photo.webp?v=test';
+const avatar = 'https://assets.feelandnote.com/celebs/person/avatar.webp?v=test';
+const {outputFiles:ssrFiles} = await build({absWorkingDir:root,stdin:{resolveDir:root,loader:'tsx',contents:`
+  import {renderToStaticMarkup} from 'react-dom/server';
+  import Portrait from './src/components/ui/ResponsivePortraitImage';
+  import Avatar from './src/components/ui/CelebAvatarImage';
+  export const render = (src, avatar=false, native=true) => renderToStaticMarkup(avatar
+    ? <Avatar src={src} alt="person" sizes={native ? '176px' : undefined} />
+    : <Portrait src={src} alt="person" priority sizes={native ? '300px' : undefined} />);
+  import Media from './src/components/shared/CelebProfileMedia';
+  import {NextIntlClientProvider} from 'next-intl';
+  export const renderMedia = (photoUrl, avatarUrl) => renderToStaticMarkup(
+    <NextIntlClientProvider locale="ko" timeZone="Asia/Seoul" messages={{celebPage:{serviceDialogueVoice:'대사',servicePreparing:'준비 중'}}}>
+      <Media photoUrl={photoUrl} avatarUrl={avatarUrl} nickname="인물" onZoom={()=>{}} zoomLabel="확대"
+        hasVoice={false} avatarSize="h-28 w-28" initialSize="text-2xl" imageSizes="112px" />
+    </NextIntlClientProvider>);
+`},bundle:true,write:false,platform:'node',format:'cjs',jsx:'automatic',external:['react','react-dom/server']});
+const ssrModule={exports:{}};
+new Function('require','module','exports',ssrFiles[0].text)(require,ssrModule,ssrModule.exports);
+for(const [src,isAvatar] of [[photo,false],[avatar,true]]) {
+  const html=ssrModule.exports.render(src,isAvatar);
+  assert.ok(html.includes('src="'+src+'"'), 'initial HTML includes the person image URL');
+  assert.ok(html.includes('srcSet='), 'initial HTML includes responsive sources');
+  assert.ok(!html.includes('rel="preload"'), 'CSS-hidden hero does not preload');
+}
+assert.ok(!ssrModule.exports.render(avatar,true,false).includes('src="'), 'list avatars still wait for measurement');
+const withPhoto=ssrModule.exports.renderMedia(photo,avatar);
+assert.ok(withPhoto.includes('src="'+photo+'"')&&!withPhoto.includes('src="'+avatar+'"'), 'portrait has priority over avatar');
+assert.ok(ssrModule.exports.renderMedia(null,avatar).includes('src="'+avatar+'"'), 'missing portrait uses avatar in initial HTML');
+const withoutImages=ssrModule.exports.renderMedia(null,null);
+assert.ok(!withoutImages.includes('<img')&&withoutImages.includes('인'), 'missing images retain name initial');
+console.log('PASS initial HTML for portrait and avatar without JavaScript');
 const title = 'https://assets.feelandnote.com/myth/title-art/homer-iliad-000000000000.png';
 const titleBody = await sharp({create:{width:1600,height:1000,channels:3,background:'#486785'}}).png().toBuffer();
 const browser = await puppeteer.launch({ headless: true });
@@ -34,7 +68,7 @@ async function scenario(name, dpr, run, missing = false) {
   page.on('request', async request => {
     const url=request.url(); requests.push(url);
     const parsed=new URL(url), path=parsed.pathname;
-    if (missing && (/\.display-\d+\.webp/.test(url) || path.startsWith('/api/myth-title/'))) {
+    if (missing && (/\.display-\d+\.webp/.test(url) || /avatar-(?:sm|md)\.webp/.test(url) || path.startsWith('/api/myth-title/'))) {
       await request.respond({status:404,body:''}); return;
     }
     const titleVariant=path.startsWith('/api/myth-title/');
@@ -60,6 +94,24 @@ async function scenario(name, dpr, run, missing = false) {
   } finally {await page.close();}
 }
 try {
+  for (const [name,dpr,kind,src,width,height,expected] of [
+    ['native portrait DPR 1',1,'portrait',photo,240,300,'display-480'],
+    ['native portrait DPR 2',2,'portrait',photo,240,300,'display-768'],
+    ['native avatar DPR 2',2,'avatar',avatar,176,176,'avatar-md'],
+    ['native avatar DPR 3',3,'avatar',avatar,176,176,'avatar.webp'],
+  ]) await scenario(name,dpr,async({requests,render,loaded})=>{
+    await render({kind,src,width,height,native:true});await loaded(expected);assert.equal(requests.length,1);
+  });
+  await scenario('native CSS-hidden portrait avoids request until shown',2,async({page,requests,render,loaded})=>{
+    await render({src:photo,native:true,hidden:true});await page.evaluate(()=>new Promise(r=>setTimeout(r,100)));
+    assert.deepEqual(requests,[]);await page.$eval('#frame',e=>e.style.display='block');await loaded('display-768');
+  });
+  for (const [kind,src,expected] of [['portrait',photo,'photo.webp'],['avatar',avatar,'avatar.webp']]) {
+    await scenario('native '+kind+' missing variant falls back once',2,async({requests,render,loaded})=>{
+      await render({kind,src,native:true,width:176,height:176});await loaded(expected);assert.equal(requests.length,2);
+      await render({kind,src:src.replace('person','other'),native:true,width:176,height:176});await loaded('/other/'+expected);assert.equal(requests.length,4);
+    },true);
+  }
   for(const [dpr,width]of [[2,768],[3,1024]]) await scenario('mobile title DPR '+dpr,dpr,async({requests,render,loaded})=>{
     await render({kind:'title',src:title,width:332,height:221});await loaded('w='+width);
     assert.equal(requests.length,1);assert.ok(new URL(requests[0]).pathname.startsWith('/api/myth-title/'));

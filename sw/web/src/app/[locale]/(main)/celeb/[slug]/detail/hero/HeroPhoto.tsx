@@ -15,6 +15,7 @@ import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import type { Locale } from "@/types/locale";
 
 import CelebPortrait from "@/components/shared/CelebPortrait";
+import { BREAKPOINT_MD } from "@/constants/breakpoints";
 import styles from "../../CelebPageContent.module.css";
 
 interface MaybeWorldFrameProps {
@@ -79,6 +80,7 @@ export default function HeroPhoto({
             onGreet={onGreet}
             greetLabel={greetLabel}
             avatarSize="h-36 w-36 md:h-44 md:w-44"
+            imageSizes={`(min-width: ${BREAKPOINT_MD}px) 176px, 144px`}
             initialSize="text-2xl md:text-3xl"
           />
         </MaybeWorldFrame>
@@ -97,6 +99,7 @@ export default function HeroPhoto({
           onGreet={onGreet}
           greetLabel={greetLabel}
           avatarSize="h-28 w-28"
+          imageSizes="112px"
           initialSize="text-2xl"
         />
       </div>
