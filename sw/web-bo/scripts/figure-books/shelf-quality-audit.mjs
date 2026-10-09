@@ -7,6 +7,14 @@ import {dbClient,allRows} from './lib/figure-work.mjs'
 import {excludedBookEditionReason} from '../../../../packages/content-search/src/book-edition-policy.ts'
 import {createYes24ShelfQualityLoader,needsShelfQualityReview,SHELF_QUALITY_AUDIT,YES24_DAILY_QUOTA_EXHAUSTED} from './lib/yes24-shelf-quality.mjs'
 
+/** 대량 점검은 운영 조회용 키를 빌려 쓰지 않는다. */
+export function shelfQualityAuditKey(env,webApiKey) {
+ const key=env.YES24_AUDIT_API_KEY?.trim()
+ if(!key)throw Error('YES24_AUDIT_API_KEY required; production YES24_API_KEY is not used for bulk audits')
+ if([env.YES24_API_KEY,webApiKey].some(value=>value?.trim()===key))throw Error('Bulk audit key must differ from the production YES24_API_KEY')
+ return key
+}
+
 export async function loadPublicShelfEditions(catalog,db) {
  const active=new Set(catalog.people.filter(p=>p.publication_status==='active').map(p=>p.id))
  const ids=new Set([...catalog.relations,...catalog.readings].filter(r=>active.has(r.celeb_id)).map(r=>r.content_id))
@@ -47,8 +55,8 @@ async function main(){
  if(args.some(arg=>!/^--offset=\d+$/u.test(arg))||args.length>1)throw Error('Usage: shelf-quality-audit.mjs [--offset=N] (read-only; no output file)')
  const offset=Number(args[0]?.split('=')[1]??0)
  const env=readFileSync(fileURLToPath(new URL('../../../../sw/web/.env',import.meta.url)),'utf8')
- const key=process.env.YES24_API_KEY??env.split(/\r?\n/u).find(line=>line.startsWith('YES24_API_KEY='))?.slice('YES24_API_KEY='.length).trim().replace(/^["']|["']$/gu,'')
- if(!key)throw Error('YES24_API_KEY required')
+ const webApiKey=env.split(/\r?\n/u).find(line=>line.startsWith('YES24_API_KEY='))?.slice('YES24_API_KEY='.length).trim().replace(/^["']|["']$/gu,'')
+ const key=shelfQualityAuditKey(process.env,webApiKey)
  const editions=await loadPublicShelfEditions(loadSeriesAuditCatalog(),dbClient())
  console.log(JSON.stringify({publicShelfEditionAudit:{editions:editions.length,uniqueIsbns:new Set(editions.map(e=>e.isbn)).size}}))
  const report=await auditShelfQuality(editions,createYes24ShelfQualityLoader(key),result=>console.log(JSON.stringify(result)),offset)

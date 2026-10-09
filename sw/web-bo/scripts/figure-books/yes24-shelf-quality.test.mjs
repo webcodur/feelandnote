@@ -1,7 +1,14 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {parseYes24ShelfQuality,needsShelfQualityReview,createYes24ShelfQualityLoader,YES24_DAILY_QUOTA_EXHAUSTED,SHELF_QUALITY_AUDIT} from './lib/yes24-shelf-quality.mjs'
-import {auditShelfQuality} from './shelf-quality-audit.mjs'
+import {auditShelfQuality,shelfQualityAuditKey} from './shelf-quality-audit.mjs'
+
+test('대량 점검은 운영 키로 폴백하지 않고 동일한 키도 거부한다',()=>{
+ assert.throws(()=>shelfQualityAuditKey({YES24_API_KEY:'production'},'production'),/YES24_AUDIT_API_KEY required/)
+ assert.throws(()=>shelfQualityAuditKey({YES24_AUDIT_API_KEY:'production'},'production'),/must differ/)
+ assert.throws(()=>shelfQualityAuditKey({YES24_AUDIT_API_KEY:'inherited',YES24_API_KEY:'inherited'},'production'),/must differ/)
+ assert.equal(shelfQualityAuditKey({YES24_AUDIT_API_KEY:'audit'},'production'),'audit')
+})
 const isbn='9791130321561',url='https://www.yes24.com/product/goods/161408465'
 const html=(rating='2.0',count='1',sales='216')=>'<h2 class="gd_name">실제 책</h2><div class="gd_infoTop"><span id="spanGdRating"><em class="yes_b">'+rating+'</em></span><span class="gd_reviewCount moreRating"><em>'+count+'</em></span><span class="gd_sellNum">판매지수 '+sales+'</span></div><div class="gd_infoBot"></div><th class="txt">ISBN13</th><td class="txt lastCol">'+isbn+'</td>'
 test('같은 ISBN 상품의 평점·리뷰 수·판매지수를 읽는다',()=>{
