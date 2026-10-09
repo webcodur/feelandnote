@@ -1,5 +1,5 @@
 /**
- * 작품 일치 확인 — 위키데이터에서 꺼낸 작품 항목이 DB 작품과 같은지 확인한다. 인물 도서 정비의 둘째 단계.
+ * 작품 일치 후보 조회(읽기 전용). 위키데이터·ISBN·이름 대조는 초벌이며 최종 판단은 LLM이 출처와 맥락을 확인해 내린다.
  *   판본 항목(P629 있음)은 그 저작으로 접는다. 확인·등록은 저작 단위다.
  *   같은 작품  → wikidataQid를 붙이고 정체성을 wikidata:로 올린다 (metadata.figureBook, 스키마 무변경)
  *   없는 작품  → 새 작품 책 정보 채우기: 카카오·OpenLibrary에서 책 정보를 받은 것만 만든다 (위키데이터 라벨로 언어 카드를 만들지 않는다)
@@ -7,7 +7,7 @@
  *   저자(P50·P170·P800)와 작품 사이에 관계가 없으면 창작 관계(authored)를 만들고, related로 남아 있으면 authored로 올린다.
  *
  * node --env-file=.env scripts/figure-books/wikidata-works-match.mjs            (dry-run)
- * node --env-file=.env scripts/figure-books/wikidata-works-match.mjs --apply
+ * --apply는 거부한다. LLM이 신원·원전·본문 범위를 검수한 변경만 별도 반영 코드로 실행한다.
  *   --slug <인물>   한 인물만   --limit N  새 작품 상한   --concurrency 6
  *   --repair        미완성 작품 복구(언어 카드 없는 작품 행) + 잘못 붙은 영문 카드 제거(비영어권 ISBN)
  */
@@ -425,6 +425,7 @@ async function repair(db, canonical, enrichCachePath) {
 // ── 본문 ─────────────────────────────────────────────────────────────────
 
 async function main() {
+  if(apply)throw new Error('기계 매칭만으로 작품·인물 관계를 반영할 수 없습니다. 후보와 출처를 LLM이 검수한 뒤 확정한 변경만 반영하세요.')
   const inPath = resolve(process.cwd(), argumentValue('in', '../../data/celeb/figure-books/wikidata-works.jsonl'))
   const reportPath = resolve(process.cwd(), argumentValue('report', '../../data/celeb/figure-books/wikidata-works-reconcile.json'))
   const mergePath = resolve(dirname(reportPath), 'merge-candidates-wikidata.json')

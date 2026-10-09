@@ -1,4 +1,4 @@
-/** 작품 전체를 메모리에서 다시 읽고 원문·역자별 판본을 정리한다. 파일 원장은 만들지 않는다. */
+/** 원문·역자별 판본 정리 후보를 찾는다(읽기 전용). 최종 판단은 LLM이 출처와 본문 범위를 확인해 내린다. */
 import { pathToFileURL } from 'node:url'
 import { resolve } from 'node:path'
 import { randomUUID } from 'node:crypto'
@@ -111,6 +111,7 @@ IF EXISTS(SELECT 1 FROM pg_constraint c JOIN pg_class r ON r.oid=c.conrelid JOIN
 ${statements.join('\n')} END $translation$;COMMIT;SELECT 'MERGE_COMMITTED';`
 }
 export async function main(args=process.argv.slice(2)) {
+  if(args.includes('--apply'))throw Error('기계 판정만으로 판본을 통합·삭제할 수 없습니다. 후보와 출처를 LLM이 검수한 뒤 확정한 변경만 반영하세요.')
   const catalog=loadSeriesAuditCatalog(), initial=planEditionTranslations(catalog)
   console.log(JSON.stringify({before:{works:catalog.contents.length,editions:catalog.editions.length,excluded:initial.excluded.length,duplicateGroups:initial.duplicates.length,unresolved:initial.unresolved.length}}))
   if(args.includes('--research')||args.includes('--apply')) {

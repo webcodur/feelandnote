@@ -61,6 +61,7 @@ GET DIAGNOSTICS changed=ROW_COUNT;IF changed<>${rows.length} THEN RAISE EXCEPTIO
 }
 
 export async function main(args=process.argv.slice(2)) {
+  if(args.some(arg=>arg.startsWith('--apply-')||arg==='--bind-work-keys'))throw Error('공식 메타 대조는 초벌입니다. LLM이 작품·언어·판본 귀속을 검수한 뒤 확정한 변경만 반영하세요.')
   for(const arg of args)if(!['--providers','--apply-provider-metadata','--bind-work-keys','--kakao','--apply-kakao-metadata','--english-imports','--apply-english-imports'].includes(arg))throw Error('Usage: edition-catalog-audit.mjs [--providers] [--apply-provider-metadata] [--bind-work-keys] [--kakao] [--apply-kakao-metadata] [--english-imports] [--apply-english-imports]')
   if(args.some(arg=>arg.includes('english-imports'))&&args.some(arg=>!arg.includes('english-imports')))throw Error('Run the language audit separately')
   if(args.some(arg=>arg.includes('kakao'))&&args.some(arg=>['--providers','--apply-provider-metadata','--bind-work-keys'].includes(arg)))throw Error('Run each official provider audit separately')

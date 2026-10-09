@@ -44,7 +44,7 @@ description: 픽션·신화·실존 인물의 등장 작품과 연관 작품을 
 3. (폐기) 과거엔 이 자리에서 `appearance-by-work.mjs`로 작품 기준을 훑었다. 지금은 인물 기준만 돈다 — 위 「조사 단위」 참고.
 4. 연관 작품은 `figure-books:context-candidates`로 프로필의 구체 맥락과 기존 선정 도서가 만나는 후보만 추린다. 출력은 후보일 뿐이므로 모델이 관계를 최종 검수하고, `figure-books:apply-reviewed --verified-kakao-only`로 후보 밖 ID와 미검증 ISBN을 거부한 뒤 반영한다.
 5. 신규 ISBN을 등록하기 전에 룰북의 「작품·판본·상품」에 따라 기존 시리즈 대표와 판본을 먼저 확인한다. 작품이 없으면 「작품 정체성」 순서(QID → ISBN → 원제·원저자)로 기존 작품을 찾는다. 없을 때만 만든다. 한두 권은 `figure-books:book`, 검수표 단위 대량 등록은 `scripts/figure-books/bulk-register-books.mjs`를 쓴다. 번역서는 `scripts/figure-books/translated-original-work.mjs`로 원제·원저자·영문판 ISBN을 찾아 정체성을 원작으로 바꾸고 `en` 언어 카드·판본을 붙인다. 같은 작품의 추가 판본은 `scripts/figure-books/source-edition-batch.ts`로 넣고, 작품별 인물 관계는 `figure-books:batch`로 dry-run한다. 운영 DB 반영은 사용자가 등록·반영을 명시했을 때만 `--apply`한다.
-6. 위키데이터에 작품 항목이 있는 실존 인물은 `scripts/figure-books/wikidata-works-extract.mjs` → `wikidata-works-match.mjs`로 작품 항목을 DB 작품과 맞춘다. 같은 작품에는 QID를 붙이고, 카카오·OpenLibrary에서 책 정보를 채운 새 작품만 들이며, 창작 관계(`authored`)를 만든다. 정체성이 같은 중복 작품은 `merge-works.mjs`로 통합한다.
+6. 위키데이터에 작품 항목이 있는 실존 인물은 `scripts/figure-books/wikidata-works-extract.mjs` → `wikidata-works-match.mjs`로 작품 일치 후보를 찾는다. 이 결과와 판본·시리즈 검사 결과는 초벌이며, LLM이 인물 신원·원저자·원전·본문 범위를 출처에서 읽고 최종 판단한다. 확정한 작품에만 QID·창작 관계(`authored`)를 붙이고, 신규 책 정보는 카카오·OpenLibrary로 확인한다. 통합·삭제도 LLM이 확정한 대상만 반영 코드로 실행한다.
 7. **등장 설명은 쓰지 않는다.** `description`·`description_en`은 세 관계 모두 `NULL`이다. 판본 본문을 열 수 없어 등장을 확정할 수 없고, 확정한들 카드에 있는 정보를 사전체로 되풀이할 뿐이라 26.09.07에 폐기했다. 화면도 등장과 연관을 「연관 작품」 하나로 합쳤다(`celeb-02-05-figure-books.md`).
 8. 제휴링크가 없다는 이유로 콘텐츠나 관계를 삭제하지 않는다. 관계 자체가 잘못됐을 때만 지정을 해제하며 기존 콘텐츠와 이용 기록은 보존한다.
 

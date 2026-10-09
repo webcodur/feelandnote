@@ -1,4 +1,4 @@
-/** ISBN 출처로 확인한 후보만 기존 통합기로 반영한다. 프로세스는 서로 다른 작품을 맡는다. */
+/** 기계 대조는 초벌이며, LLM의 독립 출처 검수가 있는 후보만 기존 통합기로 반영한다. */
 import {readFileSync,writeFileSync} from 'node:fs'
 import {fork} from 'node:child_process'
 import {fileURLToPath,pathToFileURL} from 'node:url'
@@ -43,6 +43,15 @@ export function previousIndependentReview(candidate,candidates) {
  return candidates.find(c=>c.sourceReview?.verdict==='different_originals_confirmed'&&c.sourceReview.method==='independent_work_review'&&key(c.contentIds)===target)?.sourceReview
 }
 
+export function batchCandidateReview(candidate,facts,apply) {
+ if(!apply)return reviewCandidate(candidate,facts)
+ const review=candidate.sourceReview
+ if(!['same_original_confirmed','same_edition_confirmed','series_split_confirmed'].includes(review?.verdict))return null
+ const method=review.verdict==='series_split_confirmed'?'independent_series_review':'independent_work_review'
+ if(review.method!==method||!Array.isArray(review.sources)||!review.sources.length||review.sources.some(url=>typeof url!=='string'||!/^https:\/\//u.test(url)))return null
+ return review
+}
+
 async function repairOriginal(db,candidate,facts,apply) {
   const [contents,editions,locales,members,readings]=await Promise.all(['contents','figure_book_editions','content_locales','member_contents','celeb_contents'].map(t=>read(db,t,candidate.contentIds)))
   if(!contents.length)throw Error('기존 ID가 모두 이동됨: 현재 대표 추적 필요')
@@ -83,6 +92,7 @@ async function worker() {
   process.on('message',async job=>{
     try {
       const candidate=job.candidate
+      if(job.apply&&!batchCandidateReview(candidate,facts,true))throw Error('LLM의 독립 출처 검수 없는 후보는 반영할 수 없습니다')
       const result=candidate.sourceReview.verdict==='series_split_confirmed'?await repairSeries(db,candidate,job.apply):await repairOriginal(db,candidate,facts,job.apply)
       const {editionSources,...compact}=result
       process.send({type:'result',index:job.index,result:{...compact,mergedContentIds:result.completed?candidate.contentIds.filter(id=>id!==result.keep):result.mergedContentIds??result.drops,checkedAt:new Date().toISOString()}})
@@ -100,7 +110,7 @@ async function main() {
     report.lastScan={observedAt:fresh.observedAt,counts:fresh.counts,candidates:fresh.candidates.length,bySignal:fresh.bySignal}
     console.log(JSON.stringify({rescanned:true,newCandidates:added,...report.lastScan}))
   }
-  for(const candidate of [...report.candidates].filter(c=>!c.repair?.completed&&!c.sourceSubsetOf))for(const subset of verifiedSeriesSubsets(candidate,facts)) {
+  for(const candidate of [...report.candidates].filter(c=>!apply&&!c.repair?.completed&&!c.sourceSubsetOf))for(const subset of verifiedSeriesSubsets(candidate,facts)) {
     const key=[...subset.contentIds].sort().join('|')
     if(!sets.has(key)){sets.add(key);report.candidates.push(subset)}
   }
@@ -108,9 +118,9 @@ async function main() {
   const mapped=id=>{const seen=new Set();while(mapping.has(id)&&!seen.has(id)){seen.add(id);id=mapping.get(id)}return id}
   for(const c of report.candidates)if(c.repair?.completed)for(const id of c.repair.mergedContentIds??[])mapping.set(id,c.repair.keep)
   for(const [index,c] of report.candidates.entries()) {
-    const review=reviewCandidate(c,facts)
-    if(c.repair?.completed||!['same_original_confirmed','same_edition_confirmed','series_split_confirmed'].includes(review.verdict))continue
-    c.sourceReview={...review,checkedAt:new Date().toISOString(),...(review.verdict==='series_split_confirmed'?{editions:Object.fromEntries(c.works.flatMap(w=>w.isbns).filter(i=>facts[i]).map(i=>[i,facts[i]]))}:{})}
+    const review=batchCandidateReview(c,facts,apply)
+    if(c.repair?.completed||!review||!['same_original_confirmed','same_edition_confirmed','series_split_confirmed'].includes(review.verdict))continue
+    if(!apply)c.sourceReview={...review,checkedAt:new Date().toISOString(),...(review.verdict==='series_split_confirmed'?{editions:Object.fromEntries(c.works.flatMap(w=>w.isbns).filter(i=>facts[i]).map(i=>[i,facts[i]]))}:{})}
     pending.push(index)
   }
   if(apply)writeFileSync(file,JSON.stringify(report,null,2)+'\n','utf8')

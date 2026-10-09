@@ -46,17 +46,17 @@
 | 작품 후보 조사 | Candidate work search | `appearance-muse-candidates` | 모델에 물어 인물이 나오는 책 후보를 받고 카카오로 실재를 확인한다. **인물 기준만 돈다**(아래 「작품 기준 폐기」 참고) |
 | 책장 정비 대상 선정 | Shelf audit targeting | `shelf-audit-targets` | 조회수·영향력 합집합 상위 인물 중 관계 부족·판본 결손·중복 작품이 있는 사람을 점수 순으로 낸다(읽기 전용). 절차는 `docs/continuous/figure-books.md` 「인물 단위 정밀 정비」 |
 | 작품·시리즈 분리 탐지 | Split work and series detection | `series-split-audit` | 전체 BOOK의 작품 식별자·ISBN·제목·권수·저자·출판사를 색인해 서로 다른 작품 ID로 갈라진 후보와 판본·관계·기록 수를 낸다(읽기 전용). 단일 작품 내부의 저자 불일치·학습안내서·분권 전체 수록 주장도 검사한다. 다른 원작·저자 표기·해설·합본은 확인 경고를 붙이며 후보만으로 통합하지 않는다. 실행은 `pnpm --filter web-bo figure-books:series-audit` |
-| 판본 전수 검사 | Edition catalogue audit | `edition-catalog-audit` | 전체 BOOK·locale·실판본의 ISBN·표시용 행 혼입·메타를 검사한다. `--kakao`는 국내 ISBN을 카카오 공식 서지와 전량 대조하고, `--apply-kakao-metadata`는 실제 도서 URL·ISBN·제목이 일치하는 미검수 행만 교정한다. `--providers`는 공식 ISBN 응답을 전량 대조하고, `--apply-provider-metadata`는 같은 공급자 판본 URL에 귀속된 미검수 행의 확인된 메타만 교정한다. `--english-imports`는 한국어 판본에 섞인 영문 수입서를 검사하며, `--apply-english-imports`는 실제 영어·ISBN·제목·원작 키가 모두 일치하는 행만 언어를 교정한다. 원작 키는 분리 후보로 쓰며 본문 범위 검수 없이 통합하지 않는다. 공급자 응답과 후보는 메모리에서만 처리한다 |
-| 원문·번역별 판본 재정리 | Edition translation audit | `edition-translation-audit` | 전체 BOOK을 읽고 공식 역자·원문 언어를 대조해 같은 번역의 상품 중복을 대표 판본으로 정리하며 축약·요약·학습용 판본을 제거한다. 상품 참조·감상 기록을 보존하고 서버에서 재조회한다. `--apply`가 반영하며 응답·후보는 메모리에서만 처리한다 |
+| 판본 전수 검사 | Edition catalogue audit | `edition-catalog-audit` | 전체 BOOK·locale·실판본의 ISBN·표시용 행 혼입·메타를 검사한다(읽기 전용). `--kakao`·`--providers`로 공식 서지를 대조하고, `--english-imports`로 한국어 판본에 섞인 영문 수입서 후보를 찾는다. LLM이 작품·언어·판본 귀속을 확인한 뒤 확정한 메타·언어·원작 키 변경만 반영한다. 공급자 응답과 후보는 메모리에서만 처리한다 |
+| 원문·번역별 판본 재정리 | Edition translation audit | `edition-translation-audit` | 전체 BOOK의 공식 역자·원문 언어를 대조해 상품 중복·축약·요약·학습용 판본 후보를 찾는다(읽기 전용). LLM이 출처와 실제 본문 범위를 읽고 판본별로 판단한 뒤, 확정한 변경만 반영한다. 응답·후보는 메모리에서만 처리한다 |
 | 위키데이터 작품 정보 추출 | Wikidata work extraction | `wikidata-works-extract` | 인물에 걸린 작품 항목(P50·P800·P170)을 꺼내 JSONL로 쌓는다 |
-| 작품 일치 확인 | Work matching | `wikidata-works-match` | 꺼낸 항목이 DB 작품인지 QID → ISBN → 제목 순으로 확인한다. 있으면 QID를 붙이고, 없으면 새 작품을 만들고, 두 작품에 걸리면 통합 후보로만 남긴다 |
+| 작품 일치 확인 | Work matching | `wikidata-works-match` | 꺼낸 항목과 DB 작품의 QID → ISBN → 제목을 대조해 일치·신규·통합 후보를 찾는다(읽기 전용). LLM이 인물 신원·원저자·원전·본문 범위를 확인한 뒤 확정한 변경만 반영한다 |
 | └ 새 작품 책 정보 채우기 | Filling in book details for new works | 같은 스크립트 안 | 카카오·OpenLibrary에서 제목·저자·출판사·ISBN·표지·소개를 받아 작품 행과 언어 카드를 채운다. 두 곳 다 못 받으면 만들지 않는다 |
 | 번역서 원작 확인 | Original-work identification | `translated-original-work` | 국내서로 굳은 번역서의 원제·원저자·영문판을 찾아 정체성을 원작으로 바꾸고 영문 언어 카드·판본을 붙인다 |
 | 중복 작품 통합 | Duplicate work merge | `merge-works` | 같은 저작이 두 행이면 관계·판본·언어 카드·감상 기록을 한 행으로 옮기고 나머지를 지운다 |
-| 미완성 작품 복구 | Incomplete work recovery | `wikidata-works-match --repair` | 반영이 끊겨 언어 카드 없이 남은 작품 행을 채우거나 지운다 |
+| 미완성 작품 복구 | Incomplete work recovery | `wikidata-works-match --repair` | 반영이 끊겨 언어 카드 없이 남은 작품의 보완·삭제 후보를 찾는다(읽기 전용). LLM이 실제 작품과 기존 참조를 확인한 뒤 처리한다 |
 | 잘못 붙은 영문 카드 제거 | Removing wrongly attached English cards | `wikidata-works-match --repair` · `en-locale-audit` | 비영어 판본이 영문 카드로 들어간 것, 해설서에 원전의 영문 카드가 붙은 것을 뗀다. `--repair`는 지우지 않고 표시용 제목 행 전환 계획(`en-display-title-plan.json`)을 써서 `locale-display-title`에 넘긴다 |
 
-탐지와 공식 ISBN 대조(`scripts/figure-books/series-split-source-check.mjs`, `--all`로 전체 ID·ISBN·공식 부제와 권 구성을 표준 출력), 교정 검증(`series-split-verify.mjs --revalidate`)은 기본적으로 현재 DB를 메모리에서 읽는다. 검수 근거는 판본의 `sources.edition_work_evidence`에 실제 출처 URL과 원작·판본·수록 범위를 함께 저장한다. `series-split-batch.mjs --apply --rescan`에는 검토한 후보와 근거를 `--file`·`--evidence`로 명시하며, 임시 파일을 DB의 원장으로 쓰지 않고 작업 뒤 폐기한다. 모두 `sw/web-bo`에서 `node --env-file=.env --import tsx`로 실행한다. 출처 미확인·독립 원작·합본·실독 범위 충돌은 자동 통합하지 않는다. `series-split-audit.mjs --all`은 전수 후보와 판본 오귀속 위험을 출력하고, `series-split-toc-check.mjs`는 동명 국내서의 실제 ISBN·전체 저자·출판사·목차를 대조한다. 목차의 장·연도 숫자는 지우지 않으며, 같은 OpenLibrary work 키에 다른 부제가 묶였어도 원전이 같다고 단정하지 않는다.
+탐지와 공식 ISBN 대조(`scripts/figure-books/series-split-source-check.mjs`, `--all`로 전체 ID·ISBN·공식 부제와 권 구성을 표준 출력), 교정 검증(`series-split-verify.mjs --revalidate`)은 기본적으로 현재 DB를 메모리에서 읽는다. 검수 근거는 판본의 `sources.edition_work_evidence`에 실제 출처 URL과 원작·판본·수록 범위를 함께 저장한다. `series-split-batch.mjs --apply --rescan`에는 LLM이 독립 출처를 읽고 판단한 후보와 근거를 `--file`·`--evidence`로 명시한다. 기존 `sourceReview`의 독립 검수 판정만 반영하고, 기계가 확정한 후보나 새로 탐지한 부분집합은 반영하지 않으며 LLM 판정을 기계 결과로 덮어쓰지 않는다. 임시 파일은 DB의 원장으로 쓰지 않고 작업 뒤 폐기한다. 모두 `sw/web-bo`에서 `node --env-file=.env --import tsx`로 실행한다. 출처 미확인·독립 원작·합본·실독 범위 충돌은 자동 통합하지 않는다. `series-split-audit.mjs --all`은 전수 후보와 판본 오귀속 위험을 출력하고, `series-split-toc-check.mjs`는 동명 국내서의 실제 ISBN·전체 저자·출판사·목차를 대조한다. 목차의 장·연도 숫자는 지우지 않으며, 같은 OpenLibrary work 키에 다른 부제가 묶였어도 원전이 같다고 단정하지 않는다.
 
 ## 작품 기준 폐기(26.09.07)
 
@@ -119,7 +119,7 @@
 - **마지막 카드는 지우지 않는다.** 2026-09-10 전역 정리가 `en` 없는 작품의 `ko`를 지워 카드 0장 작품 213개가 생겼고, 그중 10개는 인물 관계가 있는데 화면에서 사라졌다. 한국 ISBN(978-89·979-11)을 가진 `ko` 카드는 제목에 한글이 없어도(「1Q84 1」·「G」·「AI 2041」) 카카오 ISBN 역조회로 제목이 맞으면 한국어판이다. 단, 한국 ISBN이라도 영문 원문 POD(문학일독·Mooi Boek 등)는 한국어판이 아니다.
 - 역자 정보가 비어 있다는 이유만으로 국내 저작이라고 단정하지 않는다. 원제·원저자·목차를 확인한 뒤 정체성을 정한다. `assign-domestic-identity.mjs`의 ISBN 키는 원작이 확인될 때까지의 임시 식별이며, 번역 여부를 입증하지 않는다.
 - 카카오의 수입 원서와 본문 언어 판정은 등록 문서의 「locale」을 따른다.
-- 위키데이터 작품 항목은 `wikidata-works-extract.mjs`로 꺼내고 `wikidata-works-match.mjs`로 DB 작품과 일치를 확인한다. 같은 작품이면 QID를 붙이고 정체성을 1순위로 올리며, 없는 작품은 카카오 또는 OpenLibrary에서 책 정보를 채운 것만 만든다. 위키데이터 라벨만으로 언어 카드를 만들지 않는다.
+- 위키데이터 작품 항목은 `wikidata-works-extract.mjs`로 꺼내고 `wikidata-works-match.mjs`로 DB 작품과의 일치 후보를 찾는다. QID·ISBN·이름 일치도 초벌 근거이며 LLM이 인물 신원·원저자·원전·본문 범위를 읽고 판단한다. 확정한 작품만 QID를 붙이거나 새로 등록하며, 신규 책 정보는 카카오 또는 OpenLibrary로 확인한다. 위키데이터 라벨만으로 언어 카드를 만들지 않는다.
 - 같은 정체성으로 모인 행도 원제·저자·본문 범위로 동일 저작을 확인한 뒤 `merge-works.mjs`로 통합한다. 공유 ISBN·QID에는 해설서나 다른 저작의 오연결이 섞일 수 있다. [데이터 문서](../data/README.md)에 따라 dry-run과 서버 현재값·참조 보존 검사를 거치며, 회원 기록이나 감상이 충돌해 도구가 보류한 쌍을 강제로 지우지 않는다.
 - 한 작품의 ko·en 언어 카드는 같은 저작이어야 한다. 한국 저자의 해설서·입문서·강의록(『…읽기』·『…강해』)에 원전의 영문 카드를 붙이지 않는다. 그런 행은 영문 사이트에 해설서가 원전으로 뜨고 일치 확인이 해설서를 원전으로 잡는다. 의심 행은 `en-locale-audit.mjs`로 판정해 `en` 카드를 뗀다.
 
@@ -129,7 +129,7 @@
 |---|---|
 | `appearance` | 등장 — 인물이 본문에 실제 등장하거나 그 인물을 직접 다루는 작품. 중심 대상인지는 따지지 않는다 |
 | `related` | 폐기(26.09.17) — 인물이 나오거나 직접 다루는 책의 자리를 `appearance`가 흡수했다. 잔여 행 없음 |
-| `authored` | 창작 — 인물이 쓴 작품. 위키데이터 작품 항목(P50·P800·P170)을 들여올 때 `wikidata-works-match.mjs`가 만들고, 같은 쌍이 `related`·`appearance`로 남아 있으면 `authored`로 올린다(`mark-authored-relations.mjs`가 이름 표기 검수 뒤 승격) |
+| `authored` | 창작 — 인물이 쓴 작품. 위키데이터 작품 항목(P50·P800·P170)과 저자 표기는 후보 근거이며, LLM이 실제 집필자와 서비스 인물의 신원을 확인한 뒤 관계를 만들거나 교정한다. `mark-authored-relations.mjs`는 이름 일치 후보 조회만 한다 |
 
 창작을 저자 이름 비교로 가르던 방식(`related` + 저자 표기 일치)은 이름 표기 변형마다 어긋나 DB 값으로 확정했다(마이그레이션 `20260907010000_add_authored_relation_type`). 인물 화면은 `appearance`(기존 `related`도 읽음)를 참고도서의 등장 탭, `authored`를 집필 탭에 표시한다. 관계 분류와 노출 기준은 `sw/web/src/lib/celeb/authoredBooks.ts`가 쥔다. 감상 기록이 없어도 표시하며, 관련성이 약해 보인다는 이유로 창작 관계를 지우지 않는다.
 
