@@ -22,7 +22,7 @@ ISBN이 있어도 본문이 없는 빈 노트·스케치북·달력·엽서 상�
 | │ ├ 작품 정체성 | Work identity | `metadata.figureBook.workIdentity` | 이 행이 세상의 어떤 저작인지 나타내는 키. 같은 키면 같은 작품 ID |
 | │ │ ├ 위키데이터 작품 | Wikidata work | `wikidata:q…` | 1순위. 위키데이터에 그 저작 항목이 있을 때 |
 | │ │ ├ 원작 | Original work | `<원저자>/<원제>` | 2순위. 원저자 Original author · 원제 Original title을 확인한 번역서 |
-| │ │ └ 국내서 | Domestic book | `book/<ISBN>` | 3순위. 원서가 없는 한국어 책. 이 책이 곧 저작 |
+| │ │ └ 국내서 | Domestic book | `book/<ISBN>` | 3순위. 국내서의 카탈로그 키. ISBN 차이로 작품·판본을 나누지 않으며, 같은 원문은 기존 대표를 재사용한다 |
 | │ ├ 언어 카드 | Locale card | `content_locales` (ko · en) | 언어별 표시 정보 — 제목·저자·표지·소개. 두 카드는 같은 저작이어야 한다 |
 | │ └ 판본 | Edition | `figure_book_editions` | 작품의 원문 또는 번역. 천병희 역·김헌 역처럼 역자가 다르면 다른 판본이며, 같은 원문·같은 번역은 하나 |
 | │ 　 └ 상품 | Product | `figure_book_products` | 판본의 판매 링크. 쿠팡(ko) · 아마존(en). 활성 상품 Active product는 판본·플랫폼당 하나 |

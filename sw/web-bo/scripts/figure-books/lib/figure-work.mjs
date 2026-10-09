@@ -5,7 +5,8 @@
  * 작품 정체성(workIdentity) 우선순위
  *   1. wikidata:q<id>           위키데이터에 저작 항목이 있으면
  *   2. <원저자>/<원제> 슬러그    원서가 확인된 번역서
- *   3. book/<ko-isbn>           원서가 없는 국내서 — 판본이 곧 작품
+ *   3. book/<ko-isbn>           국내서의 카탈로그 키. ISBN 차이가 작품·판본 차이를 뜻하지 않는다.
+ * 같은 저자의 같은 원문은 개정·재판·판매 형식이 달라도 하나로 안내한다. 동일 작품·본문 판단은 LLM 검수가 맡는다.
  * content_id는 어느 규칙이든 `fiction-source-work:<identity>`의 UUID v5다. figure-books:book과 같다.
  */
 
