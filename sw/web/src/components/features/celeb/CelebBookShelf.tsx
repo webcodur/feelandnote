@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import type { CelebFactionBookGroup } from '@/actions/celebs/getCelebFactionBooks'
@@ -27,6 +27,7 @@ interface Props {
 /** 개인 상세와 도감 인물 창은 자료를 이 어댑터에 넘기고 공통 책장 한 벌을 쓴다. */
 export default function CelebBookShelf({ celebId, celebName, appeared, authored, professionBooks, profession, factionGroups, readBooks, id, title }: Props) {
   const t = useTranslations('celebPage')
+  const locale = useLocale()
   const tProfession = useTranslations('profession')
   const professionIntro = profession && profession !== 'other' && tProfession.has(profession)
     ? t('professionShelfIntro', { profession: tProfession(profession) }) : t('relatedShelfIntro')
@@ -38,7 +39,7 @@ export default function CelebBookShelf({ celebId, celebName, appeared, authored,
     train: t('professionTrain'), become: t('professionBecome'), about: t('professionAbout'),
     trainIntro: t('professionTrainIntro'),
     becomeIntro: t('professionBecomeIntro'), aboutIntro: t('professionAboutIntro'),
-  })
+  }, { profession, locale })
   const groups: BookShelfGroup[] = [
     { key: 'appeared', context: { personId: celebId, kind: 'appeared', showReading }, label: t('groupAppeared'), intro: t('sourceWorksIntro'), books: appeared.map(figureBookToShelfBook) },
     ...(readBooks !== undefined ? [{ key: 'read', context: { personId: celebId, personName: celebName, kind: 'read' as const, showReading }, label: t('groupRead'), intro: t('readShelfIntro'), books: readBooks }] : []),

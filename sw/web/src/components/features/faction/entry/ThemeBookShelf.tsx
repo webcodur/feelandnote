@@ -56,7 +56,7 @@ export default function ThemeBookShelf({ books, memberIds, name, isMyth }: Props
     train: tCeleb('professionTrain'), become: tCeleb('professionBecome'), about: tCeleb('professionAbout'),
     trainIntro: tCeleb('professionTrainIntro'),
     becomeIntro: tCeleb('professionBecomeIntro'), aboutIntro: tCeleb('professionAboutIntro'),
-  })
+  }, { profession, locale })
   const groups: BookShelfGroup[] = [
     { key: 'theme', context: { memberIds, kind: 'theme' }, label: tCeleb('groupTheme'), intro: t(isMyth ? 'worksLeadOwn' : 'worksThemeLead'), listSubtitle: name, books: own.map(affiliateBookToShelfBook) },
     { key: 'appeared', context: { memberIds, kind: 'appeared' }, label: tCeleb('groupAppeared'), intro: t(isMyth ? 'worksLeadOthers' : 'worksAppearedLead'), books: appeared.map(affiliateBookToShelfBook) },

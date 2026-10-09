@@ -98,5 +98,5 @@ async function ProfessionBookList({ profession, label, locale }: { profession: s
     const t = await getTranslations('library.professionBooks')
     return <p className="py-8 text-center text-sm text-text-secondary">{t('empty')}</p>
   }
-  return <ProfessionBooksShelf books={books} profession={label} />
+  return <ProfessionBooksShelf books={books} profession={profession} professionLabel={label} />
 }

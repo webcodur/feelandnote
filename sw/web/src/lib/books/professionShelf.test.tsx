@@ -6,6 +6,8 @@ import { getCelebProfessionMessages, type ProfessionOption } from '@feelandnote/
 import { getProfessionIcon, getProfessionColor } from '@/constants/professionIcons'
 import { affiliateBookToShelfBook } from '@/components/shared/BookShelf/types'
 import { getProfessionShelfChoices } from './professionShelf'
+import { PROFESSION_BOOK_GUIDES } from './professionBookGuides'
+import { PROFESSION_BOOK_CATEGORIES } from '@feelandnote/shared/constants/profession-books'
 
 test('DB가 추가한 직업을 이름·설명·필터·기본 표식·세 책장 분류에 표시한다', () => {
   const profession: ProfessionOption = { value: 'physician', label: '의사', label_en: 'Physician', description: '질병을 진단하고 치료합니다.', description_en: 'Diagnoses and treats illness.' }
@@ -38,4 +40,26 @@ test('훈련의 추천 순서를 지키고 같은 작품의 수업 선정 이유
   assert.equal(choices[0].books[0].selectionReason, '응용')
   assert.equal(choices[1].books[0].selectionReason, '큰 그림')
   assert.equal(choices[2].books.length, 0)
+})
+
+test('직군 식별자로 한영 선정 개요를 연결하고 새 직군에는 기존 안내를 유지한다', () => {
+  const labels = { train: 'Train', become: 'Learn', about: 'Explore', trainIntro: 'Basics', becomeIntro: 'Perspectives', aboutIntro: 'Experience' }
+  assert.equal(Object.keys(PROFESSION_BOOK_GUIDES).length, 15)
+  for (const profession of Object.keys(PROFESSION_BOOK_GUIDES)) {
+    for (const locale of ['ko', 'en']) {
+      const choices = getProfessionShelfChoices([], labels, { profession, locale })
+      assert.deepEqual(choices.map(choice => choice.key), [...PROFESSION_BOOK_CATEGORIES])
+      assert.equal(new Set(choices.map(choice => choice.overview?.title)).size, 3)
+      for (const choice of choices) {
+        assert.ok(choice.overview?.title)
+        assert.equal(choice.overview.paragraphs.length, 2)
+        assert.ok(choice.overview.paragraphs.every(paragraph => paragraph.trim().length > 40))
+        assert.equal(/[가-힣]/u.test(choice.overview.title), locale === 'ko')
+      }
+    }
+  }
+  const future = getProfessionShelfChoices([], labels, { profession: 'physician', locale: 'en' })
+  assert.ok(future.every(choice => choice.overview === undefined))
+  assert.deepEqual(future.map(choice => choice.intro), ['Basics', 'Perspectives', 'Experience'])
+  assert.ok(getProfessionShelfChoices([], labels).every(choice => choice.overview === undefined))
 })

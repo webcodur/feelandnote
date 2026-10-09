@@ -41,6 +41,7 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
     ?? active.choices?.find((item) => item.books.length > 0)
   const shownBooks = choice?.books ?? active.books
   const shownIntro = choice?.intro ?? active.intro
+  const overview = choice?.overview ?? active.overview
   const groupPicker = <LibraryCategoryPicker
     className={pageControls ? layout.professionPagePicker : undefined}
     chipClassName={pageControls ? layout.professionChip : undefined}
@@ -64,9 +65,14 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
           {choicePicker}{active.addon}
         </div>}
       </div>
-      {active.context?.kind === 'profession' && <p className="mx-auto mb-5 max-w-2xl px-4 text-center text-sm leading-relaxed text-text-secondary">
-        {shownIntro}
-      </p>}
+      {active.context?.kind === 'profession' && (overview
+        ? <section data-profession-overview className="mx-auto mb-6 max-w-2xl border-y border-accent/20 px-4 py-5 text-left sm:mb-8 sm:px-6 sm:py-6">
+            <h3 className="mb-2 break-keep text-pretty text-base font-semibold leading-relaxed text-accent">{overview.title}</h3>
+            <p className="break-keep text-pretty text-sm leading-7 text-text-secondary sm:text-[15px]">
+              {overview.paragraphs.join(' ')}
+            </p>
+          </section>
+        : <p className="mx-auto mb-5 max-w-2xl px-4 text-center text-sm leading-relaxed text-text-secondary">{shownIntro}</p>)}
       <section id={id} className={`${styles.shelf} min-w-0 ${className}`} aria-label={active.label}>
         <BookShelfSelection selectionKey={`${active.key}:${choice?.key ?? ''}:${active.selectionKey ?? ''}`} intro={`${active.label}: ${shownIntro}`} listSubtitle={choice ? `${active.label} · ${choice.label}: ${shownIntro}` : active.listSubtitle} books={shownBooks} context={active.context} pagination={active.pagination}
           listGroups={active.listGroups?.map((group) => ({ ...group, selectionKey: `${active.key}:${choice?.key ?? ''}:${group.key}` }))} onSelectListGroup={active.onSelectListGroup}

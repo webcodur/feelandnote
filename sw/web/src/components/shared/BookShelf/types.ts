@@ -6,6 +6,7 @@ import type { AffiliateLink } from '@/constants/affiliatePlatforms'
 import type { BookIntroductionReference, BookIntroductionAttribution } from '@/lib/utils/book-description'
 import type { TitleBadge } from '@/lib/utils/content-locale'
 import type { UserContentPublic } from '@/actions/contents/getUserContents'
+import type { ProfessionBookOverview } from '@/lib/books/professionBookGuides'
 
 /** 관계 유형과 무관하게 책장 안의 모든 책이 사용하는 표시 자료. */
 export interface BookShelfBook {
@@ -59,13 +60,14 @@ export interface BookShelfGroup {
   /** 책 수를 붙이는 대신 칩에 그대로 표시할 문구. */
   chipLabel?: string
   intro: string
+  overview?: ProfessionBookOverview
   listSubtitle?: string
   books: BookShelfBook[]
   /** 목록 창에서는 모든 소속의 책을 묶음별로 펼친다. */
   listGroups?: BookShelfListGroup[]
   onSelectListGroup?: (key: string) => void
   /** 직군을 고른 뒤 책 목록 위에서 선택하는 읽기 목적. */
-  choices?: { key: string; label: string; intro: string; books: BookShelfBook[] }[]
+  choices?: { key: string; label: string; intro: string; overview?: ProfessionBookOverview; books: BookShelfBook[] }[]
   /** 소속 선택 등 책 목록 앞에 붙는 부가 기능. 책 표시는 항상 공통 모듈이 맡는다. */
   addon?: ReactNode
   /** 다음 책 묶음은 책 목록 안에서만 불러온다. */
