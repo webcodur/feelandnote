@@ -59,7 +59,13 @@ async function main(){
  const key=shelfQualityAuditKey(process.env,webApiKey)
  const editions=await loadPublicShelfEditions(loadSeriesAuditCatalog(),dbClient())
  console.log(JSON.stringify({publicShelfEditionAudit:{editions:editions.length,uniqueIsbns:new Set(editions.map(e=>e.isbn)).size}}))
- const report=await auditShelfQuality(editions,createYes24ShelfQualityLoader(key),result=>console.log(JSON.stringify(result)),offset)
+ const report=await auditShelfQuality(editions,createYes24ShelfQualityLoader(key),result=>{
+  const kind=result.qualityReview?'qualityReview':result.qualityEditionReview?'qualityEditionReview':null
+  if(!kind){console.log(JSON.stringify(result));return}
+  // 출처 본문은 LLM이 상품 페이지에서 읽는다. 긴 분류 원문으로 검수 후보 출력이 잘리지 않게 한다.
+  const {categories,...review}=result[kind]
+  console.log(JSON.stringify({[kind]:review}))
+ },offset)
  const summary={checked:report.checked,total:report.total,offset:report.offset,verified:report.verified,unconfirmed:report.unconfirmed,review:report.review.length,editionReview:report.editionReview.length,errors:report.errors}
  console.log(JSON.stringify(report.stopped?{qualityAuditStopped:{...summary,...report.stopped}}:{qualityAuditComplete:summary}))
  if(report.stopped)process.exitCode=2
