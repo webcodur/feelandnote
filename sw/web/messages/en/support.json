@@ -34,7 +34,11 @@
       "timer": "Focus timers",
       "speaker": "Pixel speakers",
       "labelPrinter": "Label printers",
-      "object": "Desk objects"
+      "object": "Desk objects",
+      "frozen": "Frozen food",
+      "meal": "Quick meals",
+      "penCase": "Pen cases",
+      "penHolder": "Pen holders"
     },
     "viewProduct": "View on Amazon",
     "productLinkLabel": "{name} · View on Amazon US (opens in a new tab)",
@@ -65,7 +69,7 @@
         "devices": "E-readers & lighting",
         "bookTools": "Book stands & desks",
         "readingAccessories": "Bookmarks & book weights",
-        "writing": "Pens & notebooks",
+        "writing": "Writing & storage",
         "deskObjects": "Desk objects & gadgets"
       }
     },
@@ -89,9 +93,12 @@
     "groups": {
       "food": "Rice & pantry",
       "drinks": "Milk, drinks & coffee",
-      "household": "Household essentials"
+      "household": "Household essentials",
+      "frozen": "Dumplings & frozen food",
+      "meals": "Quick meals & breakfast"
     },
-    "freshNote": "Tofu and refrigerated milk use Rocket Fresh delivery. Please check delivery availability and order requirements.",
-    "zoomImageLabel": "Enlarge image of {name}"
+    "freshNote": "Chilled and frozen food uses Rocket Fresh delivery. Please check delivery availability and order requirements.",
+    "zoomImageLabel": "Enlarge image of {name}",
+    "productsLoadError": "We could not load the products. Please try again shortly."
   }
 }

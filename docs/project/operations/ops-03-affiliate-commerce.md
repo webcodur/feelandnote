@@ -11,6 +11,7 @@
 | 일반 콘텐츠의 언어별 판매 링크 | `content_locales.affiliate_url`의 `{ platform, url }` 배열. 구조는 [콘텐츠 데이터](../data/data-02-content.md) |
 | 인물의 등장·연관 도서 | 작품·판본·판매 상품을 분리한 `figure_book_contents`·`figure_book_editions`·`figure_book_products`. 관계와 공개 기준은 [인물 도서](../celeb/celeb-02-05-figure-books.md) |
 | 플랫폼 라벨·언어·고지 문구 | [affiliatePlatforms.ts](../../../sw/web/src/constants/affiliatePlatforms.ts) |
+| 응원하기·Shop의 실물 상품 목록 | `commerce_products`. 상품·옵션·이미지·공식 제휴 링크·가격·배송·평가·확인일·순서를 저장한다. [commerce-products.ts](../../../sw/web/src/lib/commerce-products.ts)가 공개 상태의 상품을 요청마다 읽으며, 영어판은 제휴 준비 전까지 비공개다 |
 | 인물 도서의 언어별 판매처 선택 | [figureBookLocale.ts](../../../sw/web/src/actions/figure-books/figureBookLocale.ts) |
 | 일반 제휴 도서 조회·순위 | [getAffiliateBooks.ts](../../../sw/web/src/actions/home/getAffiliateBooks.ts)와 [affiliateBookPicks.ts](../../../sw/web/src/constants/affiliateBookPicks.ts) |
 | 작품 카드·책장·상세의 구매·감상 진입점 | [ContentPurchaseAction.tsx](../../../sw/web/src/components/features/commerce/ContentPurchaseAction.tsx). 모든 매체가 같은 [PurchaseOpener.tsx](../../../sw/web/src/components/features/commerce/PurchaseOpener.tsx)로 공통 구매 창을 연다 |
@@ -24,8 +25,7 @@
 한국어판 주소를 영어 화면에 복사하거나 제목만 번역해 영문판으로 취급하지 않는다.
 화면 언어에 따른 분기는 배송 가능 국가를 보장하지 않는다.
 
-새로운 비도서 상품의 장기 관리 구조는 주요 화면 연구와 함께 정해야 한다. 기존 도서 판본 표에 기기·굿즈를 억지로 넣거나,
-시안 확장을 이유로 테이블·컬럼을 자동 신설하지 않는다.
+기기·굿즈를 기존 도서 판본 표에 억지로 넣지 않는다. 시안 확장을 이유로 테이블·컬럼을 자동 신설하지 않는다.
 
 ## 클릭 장부
 

@@ -9,6 +9,77 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      commerce_products: {
+        Row: {
+          id: number
+          collection: 'support' | 'shop'
+          locale: 'ko' | 'en'
+          kind: string
+          name: string
+          size_label: string
+          description: string | null
+          pair_key: string | null
+          product_url: string
+          image_url: string
+          affiliate_url: string
+          price: number
+          currency: 'KRW' | 'USD'
+          checked_at: string
+          delivery: 'rocket' | 'rocketFresh' | 'sellerRocket' | 'rocketWow' | 'standard'
+          review_count: number
+          rating: number | null
+          monthly_purchase_count: number | null
+          price_condition: 'coupon' | null
+          sort_order: number
+          is_active: boolean
+        }
+        Insert: {
+          id?: never
+          collection: 'support' | 'shop'
+          locale: 'ko' | 'en'
+          kind: string
+          name: string
+          size_label: string
+          description?: string | null
+          pair_key?: string | null
+          product_url: string
+          image_url: string
+          affiliate_url: string
+          price: number
+          currency: 'KRW' | 'USD'
+          checked_at: string
+          delivery: 'rocket' | 'rocketFresh' | 'sellerRocket' | 'rocketWow' | 'standard'
+          review_count: number
+          rating?: number | null
+          monthly_purchase_count?: number | null
+          price_condition?: 'coupon' | null
+          sort_order?: number
+          is_active?: boolean
+        }
+        Update: {
+          collection?: 'support' | 'shop'
+          locale?: 'ko' | 'en'
+          kind?: string
+          name?: string
+          size_label?: string
+          description?: string | null
+          pair_key?: string | null
+          product_url?: string
+          image_url?: string
+          affiliate_url?: string
+          price?: number
+          currency?: 'KRW' | 'USD'
+          checked_at?: string
+          delivery?: 'rocket' | 'rocketFresh' | 'sellerRocket' | 'rocketWow' | 'standard'
+          review_count?: number
+          rating?: number | null
+          monthly_purchase_count?: number | null
+          price_condition?: 'coupon' | null
+          sort_order?: number
+          is_active?: boolean
+        }
+        Relationships: []
+      }
       faction_likes: {
         Row: { faction_id: string; visitor_hash: string; votes: number; last_liked_at: string }
         Insert: { faction_id: string; visitor_hash: string; votes?: number; last_liked_at?: string }

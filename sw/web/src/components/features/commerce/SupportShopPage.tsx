@@ -3,7 +3,9 @@ import { getTranslations } from 'next-intl/server'
 import PageContainer from '@/components/layout/PageContainer'
 import SupportShopNavigation from '@/components/features/commerce/SupportShopNavigation'
 import SupportProductGrid from '@/components/features/commerce/SupportProductGrid'
-import { getCommerceProductGroups, getSupportProductLink, SHOP_PRODUCTS, SUPPORT_PRODUCTS } from '@/constants/supportProducts'
+import { getCommerceProductGroups, getSupportProductLink, type SupportProduct } from '@/constants/supportProducts'
+import { getCommerceProducts } from '@/lib/commerce-products'
+import { withQueryFallback } from '@/lib/cache'
 import { AFFILIATE_PLATFORMS } from '@/constants/affiliatePlatforms'
 import AtlasNavSections from '@/components/shared/atlasNav/AtlasNavSections'
 import AsyncIntlProvider from '@/components/shared/AsyncIntlProvider'
@@ -11,7 +13,8 @@ import AsyncIntlProvider from '@/components/shared/AsyncIntlProvider'
 export default async function SupportShopPage({ locale, page }: { locale: 'ko' | 'en'; page: 'support' | 'shop' }) {
   const t = await getTranslations('support')
   const shop = page === 'shop'
-  const products = (shop ? SHOP_PRODUCTS : SUPPORT_PRODUCTS)[locale]
+  const productResult = await withQueryFallback<SupportProduct[] | null>('commerce_products', () => getCommerceProducts(locale, page), null)
+  const products = productResult ?? []
   const sectionId = shop ? 'reading-tools' : 'essentials'
   const titleId = `${page}-title`
   const copyKey = (key: 'titleFirst' | 'titleSecond' | 'intro' | 'productsTitle' | 'thanks') => shop ? `shop.${key}` : key
@@ -48,7 +51,9 @@ export default async function SupportShopPage({ locale, page }: { locale: 'ko' |
 
         <div id={sectionId} className="scroll-mt-20">
           <section aria-label={t(copyKey('productsTitle'))}>
-            <SupportProductGrid products={products} locale={locale} collection={page} />
+            {productResult === null ? (
+              <p role="alert" className="py-12 text-center text-sm text-text-secondary">{t('productsLoadError')}</p>
+            ) : <SupportProductGrid products={products} locale={locale} collection={page} />}
             {shop && <p className="mx-auto mt-3 max-w-2xl break-keep text-center text-sm leading-7 text-text-secondary">{t('shop.readerNote')}</p>}
           </section>
 

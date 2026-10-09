@@ -6,7 +6,7 @@ import HubSection from '@/components/shared/HubSection'
 import { getCommerceProductGroups, getSupportProductLink, type SupportProduct, type SupportProductKind } from '@/constants/supportProducts'
 
 function ProductIcon({ kind }: { kind: SupportProductKind }) {
-  const icons = { rice: Wheat, laundry: Sparkles, water: Droplets, bath: ShowerHead, kitchen: Utensils, food: CookingPot, drink: CupSoda, coffee: Coffee, stand: BookOpen, desk: LampDesk, pen: PenTool, notebook: NotebookPen, reader: Tablet, light: LampDesk, remote: Radio, bookHolder: BookOpen, bookmark: Bookmark, timer: Timer, speaker: Speaker, labelPrinter: Printer, object: ToyBrick }
+  const icons = { rice: Wheat, laundry: Sparkles, water: Droplets, bath: ShowerHead, kitchen: Utensils, food: CookingPot, frozen: CookingPot, meal: Utensils, drink: CupSoda, coffee: Coffee, stand: BookOpen, desk: LampDesk, pen: PenTool, penCase: NotebookPen, penHolder: PenTool, notebook: NotebookPen, reader: Tablet, light: LampDesk, remote: Radio, bookHolder: BookOpen, bookmark: Bookmark, timer: Timer, speaker: Speaker, labelPrinter: Printer, object: ToyBrick }
   if (kind !== 'paper') {
     const Icon = icons[kind]
     return <Icon className="size-8" strokeWidth={1.25} aria-hidden="true" />
@@ -71,8 +71,11 @@ export default async function SupportProductGrid({ products, locale, collection 
       if (pair) pair.push(product)
       else units.push([product])
     }
+    // 두 칸을 쓰는 짝을 먼저 놓아 모바일에서도 앞줄에 빈 칸이 생기지 않게 한다.
+    units.sort((a, b) => b.length - a.length)
+    const tabletColumns = units.some(unit => unit.length === 2) ? 'sm:grid-cols-2' : 'sm:grid-cols-3'
     return (
-      <div data-product-grid className={`mx-auto grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-3 sm:gap-x-4 sm:gap-y-5 lg:gap-x-5 lg:gap-y-6 ${items.length === 3 ? 'lg:w-3/4 lg:grid-cols-3' : items.length === 2 ? 'lg:w-1/2 lg:grid-cols-2' : 'lg:grid-cols-4'}`}>
+      <div data-product-grid className={`mx-auto grid grid-cols-2 gap-x-3 gap-y-4 ${tabletColumns} sm:gap-x-4 sm:gap-y-5 lg:gap-x-5 lg:gap-y-6 ${items.length === 3 ? 'lg:w-3/4 lg:grid-cols-3' : items.length === 2 ? 'lg:w-1/2 lg:grid-cols-2' : 'lg:grid-cols-4'}`}>
         {units.map(unit => unit.length === 2 ? (
           <div key={unit[0].productUrl} data-product-pair={unit[0].pair} className="col-span-2 grid grid-cols-2 gap-x-3 sm:gap-x-4 lg:gap-x-5">
             {unit.map(renderCard)}

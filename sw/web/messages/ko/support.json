@@ -34,7 +34,11 @@
       "timer": "집중 타이머",
       "speaker": "픽셀 스피커",
       "labelPrinter": "라벨 프린터",
-      "object": "책상 오브젝트"
+      "object": "책상 오브젝트",
+      "frozen": "냉동식품",
+      "meal": "간편식",
+      "penCase": "펜케이스",
+      "penHolder": "펜 홀더"
     },
     "viewProduct": "상품 보기",
     "productLinkLabel": "{name} · 쿠팡에서 상품 보기 (새 창)",
@@ -65,7 +69,7 @@
         "devices": "전자책·조명",
         "bookTools": "독서대·책상",
         "readingAccessories": "책갈피·문진",
-        "writing": "필기구·노트",
+        "writing": "필기구·노트·수납",
         "deskObjects": "책상 위 오브젝트·가젯"
       }
     },
@@ -89,9 +93,12 @@
     "groups": {
       "food": "쌀·식료품",
       "drinks": "우유·음료·커피",
-      "household": "생활용품"
+      "household": "생활용품",
+      "frozen": "만두·냉동식품",
+      "meals": "간편식·아침 대용"
     },
-    "freshNote": "두부·냉장 우유는 로켓프레시 상품입니다. 배송 가능 지역과 주문 조건을 확인해 주세요.",
-    "zoomImageLabel": "{name} 이미지 확대"
+    "freshNote": "냉장·냉동 식품은 로켓프레시 상품입니다. 배송 가능 지역과 주문 조건을 확인해 주세요.",
+    "zoomImageLabel": "{name} 이미지 확대",
+    "productsLoadError": "상품 목록을 불러오지 못했습니다. 잠시 후 다시 방문해 주세요."
   }
 }
