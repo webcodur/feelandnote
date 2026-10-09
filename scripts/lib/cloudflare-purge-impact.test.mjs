@@ -13,6 +13,18 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('profile image components evict cached HTML without purging generated SEO images', () => {
+  for (const file of [
+    'sw/web/src/components/ui/CelebAvatarImage.tsx',
+    'sw/web/src/components/ui/ResponsivePortraitImage.tsx',
+  ]) {
+    const plan = classifyCloudflarePurgeImpact([file])
+    assert.deepEqual(plan.scopes, ['cached-html'])
+    assert.equal(plan.emergencyZone, false)
+    assert.equal(JSON.stringify(plan).includes('seo-image'), false)
+  }
+})
+
 test('exploration menu objects and profession diagrams purge their asset paths only', () => {
   const plan = classifyCloudflarePurgeImpact([
     'sw/web/public/images/explore/quicknav/classics-sculpture-v1-square.webp',

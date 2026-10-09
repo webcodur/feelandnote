@@ -435,6 +435,9 @@ const CACHED_HTML_PREFIXES = [
 ]
 
 const CACHED_HTML_FILES = new Set([
+  // 인물 사진·아바타는 상세와 공통 HeaderSearch의 인물 모달에서도 소비한다.
+  'sw/web/src/components/ui/CelebAvatarImage.tsx',
+  'sw/web/src/components/ui/ResponsivePortraitImage.tsx',
   // 인물 모달은 공통 HeaderSearch에서도 열어 명부·연표를 포함한 보관 HTML이 소비한다.
   'sw/web/src/components/features/celeb/modals/CelebDetailModal/CelebDetailModal.tsx',
   // Modal과 대기 표시는 공통 레이아웃·상세·명부·연표에서 사용한다.
