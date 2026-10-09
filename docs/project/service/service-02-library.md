@@ -19,6 +19,7 @@
 |---|---|---|
 | `/explore/works` | **베스트셀러**(작품 모드 첫 화면). 분야 선택과 도서·영상·게임·음악 순위, 아래 「주제별 탐색」 안내 | `getBestsellers`, `getMusicChart`, `getStoreChart`, `getSteamChart` |
 | `/explore/works/popular?mode=classics` | **불후의 명작.** 인물이 감상한 작품을 시대·직군·매체로 탐색. `mode` 없는 옛 베스트셀러 주소는 분야·출처 조건을 들고 `/explore/works`로 영구 이동 | `getChosenLibrary`, `getProfessionContentCounts` |
+| `/explore/works/professions` | **직업별 도서.** 직군을 고르고 「직업 훈련·직업 수업·직업 탐구」 선정 도서를 공통 책장으로 읽는다 | `getProfessionBookCatalog`, `getProfessionBooks` |
 | `/explore/works/curated` | **기관 선정.** 대학·언론·시상 기관이 발표한 선정 목록 카드 | `getCuratedHub` |
 | `/explore/works/curated/[curator]` · `/[curator]/[list]` | 기관 상세 · 목록 상세 | `actions/library/curated.ts` |
 | `/explore/works/museum` | 박물관. 매체 역사 전시 | `constants/libraryMuseum.ts` (정적 JSON) |
@@ -32,9 +33,11 @@
 
 작품 상세(`/content/[contentId]`)는 인물 상세와 같은 `PageContainer`·`HubSection`·`AtlasNav`와 공통 상세 폭을 쓴다. 첫 구획 「작품 정보」는 배너 아래 표지·제목·서지·기록·공유·판본 선택을 모으고, 「작품 소개」 전문을 표지 오른쪽 정보 열에 이어 표시하고, 모바일에서는 아래 전체 너비로 옮긴다. 도서 배너는 `lib/books/bookBanner.ts`가 분류한다. 기기별 이미지 전환·표시·원본 로드 실패 시 대체 처리는 인물 상세와 같은 `components/shared/DetailBanner.tsx`를 쓴다. 배너 원본은 `public/images/content/banners/`에 두고, `lib/contentBannerAssets.ts`가 PC·모바일별 해시 키로 등록한 R2 공개 주소를 연결한다. 공개 감상 인물의 시대·문화권과 작품 발행일을 사용하며, 판본 발행일로 고전을 현대 도서로 바꾸지 않는다. 도서 외 배너는 영상의 가로 배경·게임 스크린샷을 먼저 쓰고, 없거나 로드에 실패하면 `lib/contentBanner.ts`가 장르별 이미지를 고른다. 영상·게임의 한영 장르 배열과 음악의 단일 장르 값 모두 처리하며, 표시 언어를 걸러내기 전에 테마를 정해 국문·영문을 맞춘다. 장르가 없거나 대응되지 않을 때만 매체별 기본 배너를 쓴다. 포스터·음반 표지는 배너로 확대하지 않는다. 구획 머리는 공용 번호·제목을 유지하면서 여백을 줄이고, 모바일도 작은 표지와 핵심 정보를 나란히 둔다. 관련 인물·기관 선정·내 리뷰·내 노트·다른 리뷰·최근 본 작품은 실제 표시된 순서대로 구획 번호와 목차를 맞춘다. 「내 리뷰」는 직접 작성과 짧은 반응 중 하나로 기록한다. 짧은 반응을 선택하면 별점·본문·스포일러 설정이 비활성화된다. 본문 칸을 클릭하거나 선택한 반응을 다시 누르면 선택을 해제하고 작성 중이던 내용으로 돌아간다. 별도 전환 버튼·제목·안내 문구는 두지 않는다. 반응 저장은 기존 `review_presets`만 갱신하며 비활성화된 초안은 저장하지 않는다. 직접 작성으로 저장하면 반응을 비운다. 외부자료 탐색은 제공하지 않는다. 리뷰 카드는 전문을 기본으로 표시하고 아주 긴 리뷰만 「더보기」로 펼친다. 장문 판정은 `ReviewCard.tsx`가 실제 표시 높이로 판단하며 카드 내부 세로 스크롤은 두지 않는다. 구매·감상은 표지 아래 공통 모듈을 쓰며, 음악 표지는 정사각형으로 표시한다.
 
-첫 화면은 **베스트셀러**다(`explore/works/page.tsx` → `sections.tsx`의 `BestsellerMain` → `BestsellerSection`). 첫 화면에서 곧바로 작품의 표지가 보여야 한다 — 기관 선정을 첫 화면에 두었을 때는 기관 로고나 선정 목록이 먼저 나와 작품까지 두 번 더 눌러야 했다(26.09.28 유저 지시로 자리 교체). 그 아래 기관 선정·불후의 명작·박물관·학당은 `ExploreFeatureCard`와 [FNN-흑동주조](../production/prod-01-image-generation.md#fnn-흑동주조) 이미지로 안내한다. 그림·재편 표시는 `constants/exploreLenses.ts`가 쥔다. 박물관·학당은 카드와 진입 화면에 「재편 중」을 표시하되 현재 콘텐츠는 계속 열어 둔다. 재편 중 카드는 큰 카드 아래 낮은 줄 카드로 둔다(`REORGANIZING_WORK_LENSES`). 첫 목록에서는 큰 모드 탭·번호 구획 제목을 두지 않고, 공용 아틀라스 목차로 아래 「주제별 탐색」 안내 카드에 이동한다([인물](service-01-explore.md)). 링크와 푸터는 `navigation.tsx`의 `WORKS_LINKS`를 공유한다.
+첫 화면은 **베스트셀러**다(`explore/works/page.tsx` → `sections.tsx`의 `BestsellerMain` → `BestsellerSection`). 첫 화면에서 곧바로 작품의 표지가 보여야 한다 — 기관 선정을 첫 화면에 두었을 때는 기관 로고나 선정 목록이 먼저 나와 작품까지 두 번 더 눌러야 했다(26.09.28 유저 지시로 자리 교체). 그 아래 기관 선정·불후의 명작·직업별 도서·박물관·학당은 `ExploreFeatureCard`와 [FNN-흑동주조](../production/prod-01-image-generation.md#fnn-흑동주조) 이미지로 안내한다. 그림·재편 표시는 `constants/exploreLenses.ts`가 쥔다. 박물관·학당은 카드와 진입 화면에 「재편 중」을 표시하되 현재 콘텐츠는 계속 열어 둔다. 재편 중 카드는 큰 카드 아래 낮은 줄 카드로 둔다(`REORGANIZING_WORK_LENSES`). 첫 목록에서는 큰 모드 탭·번호 구획 제목을 두지 않고, 공용 아틀라스 목차로 아래 「주제별 탐색」 안내 카드에 이동한다([인물](service-01-explore.md)). 링크와 푸터는 `navigation.tsx`의 `WORKS_LINKS`를 공유한다.
 
 하위 화면은 선택한 항목의 이름을 배너 경로 줄에 표시하고 해당 목록·필터만 보여준다. 불후의 명작은 `/explore/works/popular?mode=classics`로 진입하며 메타·canonical·사이트맵과 한영 웜업(`scripts/lib/oracle-web-remote.mjs`·`.github/workflows/warm-web.yml`)도 이 주소를 쓴다. 옛 베스트셀러 주소(`/explore/works/popular`, `mode` 없음)는 사이트맵·웜업에서 빼고 페이지가 `/explore/works`로 영구 이동시킨다.
+
+직업별 도서는 작품 첫 화면 「주제별 탐색」과 공통 작품 링크에서 들어온다. `profession` 검색 파라미터로 직군을 선택하며, 책이 등록된 직군만 DB 순서로 표시한다. 선택하지 않았거나 유효하지 않은 값이면 첫 직군을 연다. 훈련·수업·탐구의 구분·선정 이유·판본은 인물 책장과 같은 데이터와 공통 책장 모듈을 쓴다. 기존 직군·선정 도서의 데이터 관리는 [인물 상세](service-04-celeb-detail.md)가 쥔다.
 
 ## 인기 작품 갱신
 

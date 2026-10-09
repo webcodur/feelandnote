@@ -1,11 +1,11 @@
 import type { BookShelfBook, BookShelfGroup } from '@/components/shared/BookShelf/types'
+import { PROFESSION_BOOK_CATEGORIES, type ProfessionBookCategory } from '@feelandnote/shared/constants/profession-books'
 
-/** 같은 책이 두 목적에 들어가도 각각의 선정 이유를 유지한다. */
+/** 훈련의 읽기 순서와 각 분류의 선정 이유를 DB 조회 순서 그대로 유지한다. */
 export function getProfessionShelfChoices(books: BookShelfBook[], labels: {
-  become: string; about: string; becomeIntro: string; aboutIntro: string
+  train: string; become: string; about: string; trainIntro: string; becomeIntro: string; aboutIntro: string
 }): NonNullable<BookShelfGroup['choices']> {
-  return [
-    { key: 'become', label: labels.become, intro: labels.becomeIntro, books: books.filter((book) => book.professionCategory === 'become') },
-    { key: 'about', label: labels.about, intro: labels.aboutIntro, books: books.filter((book) => book.professionCategory === 'about') },
-  ]
+  const intros: Record<ProfessionBookCategory, string> = { train: labels.trainIntro, become: labels.becomeIntro, about: labels.aboutIntro }
+  return PROFESSION_BOOK_CATEGORIES.map((key) => ({ key, label: labels[key], intro: intros[key],
+    books: books.filter((book) => book.professionCategory === key) }))
 }

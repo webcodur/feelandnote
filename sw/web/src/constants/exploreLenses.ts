@@ -26,10 +26,11 @@ export const EXPLORE_LENS_IMAGES: Record<string, ExploreLensImage> = {
   myth: { src: `${QUICKNAV}/myth-square.webp`, kind: "art" },
   ranking: { src: `${QUICKNAV}/ranking-square.webp`, kind: "art" },
   monologue: { src: `${QUICKNAV}/monologue-right-square.webp`, kind: "art" },
-  // 작품 모드 — 베스트셀러가 첫 화면으로 올라가 안내 카드에서 빠졌다. 기관 선정은 「골라 세운 책 몇 권 + 인증 인장」 청동상
-  // (원본·발주서: output/imagegen/explore-works/curated-v2.png·prompts-v2.json)
-  curated: { src: `${QUICKNAV}/curated-v2-square.webp`, kind: "art" },
-  classics: { src: `${QUICKNAV}/classics-v2-square.webp`, kind: "art" },
+  // 작품 모드 — 인장·월계관·디바이더·망원경의 실물 구조를 살린 흑동주조 소품.
+  curated: { src: `${QUICKNAV}/curated-sculpture-v2-square.webp`, kind: "art", fit: "contain" },
+  classics: { src: `${QUICKNAV}/classics-sculpture-v1-square.webp`, kind: "art", fit: "contain" },
+  professionBooks: { src: `${QUICKNAV}/profession-books-sculpture-v2-square.webp`, kind: "art", fit: "contain" },
+  topicExplore: { src: `${QUICKNAV}/topic-explore-sculpture-v1-square.webp`, kind: "art", fit: "contain" },
   museum: { src: `${QUICKNAV}/museum-v2-square.webp`, kind: "art" },
   academy: { src: `${QUICKNAV}/academy-v2-square.webp`, kind: "art" },
 };

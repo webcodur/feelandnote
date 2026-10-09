@@ -61,7 +61,12 @@
         "kind": "기관"
       },
       "listResults": "선정 목록 {lists, number}개 · 기관 {count, number}곳",
-      "bestsellerLabel": "베스트셀러"
+      "bestsellerLabel": "베스트셀러",
+      "professionBooksLabel": "직업별 도서",
+      "professionBooks": "기초 교재부터 대표 교양서와 깊이 있는 경험서까지, 직군별로 읽을 책을 찾아보세요.",
+      "topicExploreLabel": "주제별 탐구",
+      "topicExplore": "하나의 질문을 여러 책으로 살펴봅니다. 관심 있는 주제에서 읽기를 시작해 보세요.",
+      "opening": "개설 작업 중"
     },
     "meta": {
       "title": "베스트셀러 - 도서·영화·게임·음악 인기 순위",
@@ -565,6 +570,12 @@
       "showMoreRanks": "{from}~{to}위 더 보기",
       "classicsMetaTitle": "불후의 명작 - 가장 많은 인물이 감상한 작품",
       "classicsMetaDescription": "시대와 분야를 넘어 여러 인물이 거듭 감상한 책·영화·음악·게임을 시대·직군·매체별로 찾아보세요."
+    },
+    "professionBooks": {
+      "title": "직업별 도서",
+      "description": "순서대로 기초를 쌓는 직업 훈련, 큰 그림을 배우는 직업 수업, 현장의 경험을 깊이 읽는 직업 탐구. 직군을 골라 나에게 맞는 책을 찾아보세요.",
+      "chooseProfession": "직군 선택",
+      "empty": "표시할 선정 도서가 없습니다."
     }
   }
 }

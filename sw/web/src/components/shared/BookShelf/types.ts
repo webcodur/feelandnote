@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import type { ProfessionBookCategory } from '@feelandnote/shared/constants/profession-books'
 import type { FigureBookContent, FigureBookEdition } from '@/actions/figure-books/getFigureBooks'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import type { AffiliateLink } from '@/constants/affiliatePlatforms'
@@ -30,7 +31,7 @@ export interface BookShelfBook {
   readerIds?: string[]
   /** 감상 분류는 인물 상세와 같은 리뷰 카드로 읽는다. */
   readingRecord?: UserContentPublic
-  professionCategory?: 'become' | 'about'
+  professionCategory?: ProfessionBookCategory
   selectionReason?: string
   selectionSourceUrl?: string
 }
@@ -63,7 +64,7 @@ export interface BookShelfGroup {
   /** 목록 창에서는 모든 소속의 책을 묶음별로 펼친다. */
   listGroups?: BookShelfListGroup[]
   onSelectListGroup?: (key: string) => void
-  /** 직군을 고른 뒤 책 목록 위에서 선택하는 두 목적. */
+  /** 직군을 고른 뒤 책 목록 위에서 선택하는 읽기 목적. */
   choices?: { key: string; label: string; intro: string; books: BookShelfBook[] }[]
   /** 소속 선택 등 책 목록 앞에 붙는 부가 기능. 책 표시는 항상 공통 모듈이 맡는다. */
   addon?: ReactNode

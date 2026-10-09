@@ -143,8 +143,12 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
             setDetails((value) => { const next = { ...value }; delete next[detailKey]; return next })
             setAttempt((value) => value + 1)
           }} />}
-          {selected.selectionReason && <div className="mb-4 rounded-lg border border-accent/20 bg-accent/5 px-4 py-3 text-sm text-text-secondary">
-            <p>{selected.selectionReason}</p>
+          {(selected.selectionReason || selected.professionCategory === 'train') && <div
+            className="mx-3 my-4 rounded-lg border border-accent/20 bg-accent/5 px-4 py-3 text-sm text-text-secondary sm:mx-4 md:mx-5" data-bookshelf-guidance>
+            {selected.professionCategory === 'train' && <p className="mb-2 text-xs font-semibold text-accent" data-profession-reading-order>
+              {t('professionReadingOrder', { current: selectedIndex + 1, total: books.length })}
+            </p>}
+            {selected.selectionReason && <p>{selected.selectionReason}</p>}
           </div>}
           {showReview ? <BookShelfReviewDetail record={selected.readingRecord!} celebId={context!.personId!}
             ownerNickname={context?.personName} contentIds={contentIds} selectedIndex={selectedIndex} expanded={context?.expandedReading} /> : <>

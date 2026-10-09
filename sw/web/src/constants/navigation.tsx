@@ -129,10 +129,15 @@ export const WORKS_LINKS: NavSubLink[] = [
   { key: "bestseller", href: "/explore/works", label: "베스트셀러" },
   { key: "curated", href: "/explore/works/curated", label: "기관 선정" },
   { key: "classics", href: "/explore/works/popular?mode=classics", label: "불후의 명작" },
+  { key: "professionBooks", href: "/explore/works/professions", label: "직업별 도서" },
   { key: "museum", href: "/explore/works/museum", label: "박물관" },
   { key: "academy", href: "/explore/works/academy", label: "학당" },
 ];
 export const WORKS_FEATURED_LINKS = WORKS_LINKS.filter(link => link.key !== "bestseller");
+/** 아직 개설하지 않은 작품 메뉴는 주소 없이 안내 카드에만 표시한다. */
+export const WORKS_UPCOMING_LINKS: readonly Pick<NavSubLink, "key" | "label">[] = [
+  { key: "topicExplore", label: "주제별 탐구" },
+];
 export const SUPPORT_LINK: NavSubLink = { key: "support", href: "/support", label: "응원하기" };
 export const SUPPORT_SHOP_LINKS: NavSubLink[] = [
   SUPPORT_LINK,

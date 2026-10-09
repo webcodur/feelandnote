@@ -400,8 +400,8 @@
     "spectrumComparison": "유사 스펙트럼",
     "professionBecome": "직업 수업",
     "professionAbout": "직업 탐구",
-    "professionBecomeIntro": "이 일을 하는 데 필요한 지식과 방법을 배우는 책",
-    "professionAboutIntro": "이 분야의 사람과 삶, 현장과 역사를 살펴보는 책",
+    "professionBecomeIntro": "이 분야의 큰 그림과 사고방식을 익히는 대표 교양서입니다. 관심 가는 책부터 읽으며 어떤 질문을 다루는 일인지 알아보세요.",
+    "professionAboutIntro": "실제로 이 일을 해 온 사람들의 경험과 현장을 깊이 읽는 책입니다. 회고록·인터뷰·구체적인 사례를 통해 선택과 시행착오를 살펴보세요.",
     "relAxesLabel": "관계 축",
     "relAxis_received": "영향을 받음",
     "relAxis_given": "영향을 줌",
@@ -416,6 +416,9 @@
       "timelineEmpty": "아직 등록된 생애 기록이 없습니다.",
       "relatedEmpty": "표시할 연결 인물이 없습니다.",
       "analysis": "인물의 평가를 불러오고 있습니다."
-    }
+    },
+    "professionTrain": "직업 훈련",
+    "professionTrainIntro": "기초 지식과 기술을 쌓는 교재·기술서입니다. 안내된 순서로 읽으며 책 속 설명과 예제를 따라가 보세요.",
+    "professionReadingOrder": "읽기 순서 {current} / {total}"
   }
 }

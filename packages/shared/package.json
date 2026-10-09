@@ -59,7 +59,8 @@
     "./hooks/use-professions": "./src/hooks/use-professions.tsx",
     "./lib/source-links": "./src/lib/source-links.ts",
     "./ui/source-link": "./src/ui/source-link.tsx",
-    "./lib/modal-layout": "./src/lib/modal-layout.ts"
+    "./lib/modal-layout": "./src/lib/modal-layout.ts",
+    "./constants/profession-books": "./src/constants/profession-books.ts"
   },
   "peerDependencies": {
     "next": ">=15",

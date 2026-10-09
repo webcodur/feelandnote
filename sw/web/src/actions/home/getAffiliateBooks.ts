@@ -1,4 +1,5 @@
 'use server'
+import type { ProfessionBookCategory } from '@feelandnote/shared/constants/profession-books'
 
 import { cache } from 'react'
 import { compressedJsonCache } from '@/lib/compressedJsonCache'
@@ -20,7 +21,7 @@ import {
 export interface AffiliateBook {
   contentId: string
   /** 직군 선정 도서의 목적과 편집 사유. 감상자 기록과는 별개다. */
-  professionCategory?: 'become' | 'about'
+  professionCategory?: ProfessionBookCategory
   selectionReason?: string
   selectionSourceUrl?: string
   editionId?: number

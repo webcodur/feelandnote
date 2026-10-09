@@ -9,7 +9,7 @@
 
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
-import { WORKS_FEATURED_LINKS } from "@/constants/navigation";
+import { WORKS_FEATURED_LINKS, WORKS_UPCOMING_LINKS } from "@/constants/navigation";
 import ExploreFeatureCard from "@/components/shared/ExploreFeatureCard";
 import HubSection from "@/components/shared/HubSection";
 import { hubAtlasNavItems, hubSectionId } from "@/components/shared/hubSectionUtils";
@@ -65,9 +65,19 @@ export default async function WorksPage({ searchParams }: { searchParams: Promis
           <nav aria-label={titles[1]}>
         {/* 크기는 두 단계 — 큰 카드(휴대폰 두 열 타일) | 낮은 줄 카드 */}
         <div className="grid grid-cols-2 gap-3 md:gap-4">
-          {readyPages.map(page => (
-            <ExploreFeatureCard key={page.key} href={page.href} title={t(`${page.key}Label`)} description={t(page.key!)} imageSrc={imageOf(page.key!)} />
-          ))}
+          {readyPages.map(page => {
+            const image = EXPLORE_LENS_IMAGES[page.key!];
+            const compact = image?.kind === "icon";
+            return <div key={page.key} className={compact ? "col-span-2" : undefined}>
+              <ExploreFeatureCard compact={compact} href={page.href} title={t(`${page.key}Label`)} description={t(page.key!)}
+                imageSrc={imageOf(page.key!)} imageKind={image?.kind} imageFit={image?.fit} />
+            </div>;
+          })}
+          {WORKS_UPCOMING_LINKS.map(page => {
+            const image = EXPLORE_LENS_IMAGES[page.key!];
+            return <ExploreFeatureCard key={page.key} title={t(`${page.key}Label`)} description={t(page.key!)}
+              imageSrc={imageOf(page.key!)} imageKind={image?.kind} imageFit={image?.fit} badge={t("opening")} />;
+          })}
         </div>
         {/* 재편 중인 화면 — 내용은 계속 열어 두되 완성된 입구와 같은 크기로 앞세우지 않는다 */}
         {reorganizingPages.length > 0 && (

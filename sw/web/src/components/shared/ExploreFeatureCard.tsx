@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import styles from "./ExploreFeatureCard.module.css";
@@ -14,8 +15,16 @@ import styles from "./ExploreFeatureCard.module.css";
 */
 const ZOOM = "transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:transform-none";
 
+function CardFrame({ href, className, children }: { href?: string; className: string; children: ReactNode }) {
+  if (!href) return <div aria-disabled="true" className={className}>{children}</div>;
+  return <Link href={href} prefetch={false}
+    className={`group hover:border-accent/60 active:bg-accent/10 outline-none focus-visible:ring-2 focus-visible:ring-accent ${className}`}>
+    {children}
+  </Link>;
+}
+
 export default function ExploreFeatureCard({ href, title, description, imageSrc, imageKind = "art", imageFit = "cover", wide = false, compact = false, badge }: {
-  href: string;
+  href?: string;
   title: string;
   description: string;
   imageSrc: string;
@@ -31,8 +40,8 @@ export default function ExploreFeatureCard({ href, title, description, imageSrc,
 
   if (compact) {
     return (
-      <Link href={href} prefetch={false}
-        className="group relative grid min-h-[72px] grid-cols-[minmax(0,1fr)_56px] items-center overflow-hidden rounded-card border border-line bg-bg-card hover:border-accent/60 active:bg-accent/10 outline-none focus-visible:ring-2 focus-visible:ring-accent sm:min-h-24 sm:grid-cols-[minmax(0,1fr)_88px] md:min-h-28 md:grid-cols-[minmax(0,1fr)_112px]">
+      <CardFrame href={href}
+        className="relative grid min-h-[72px] grid-cols-[minmax(0,1fr)_56px] items-center overflow-hidden rounded-card border border-line bg-bg-card sm:min-h-24 sm:grid-cols-[minmax(0,1fr)_88px] md:min-h-28 md:grid-cols-[minmax(0,1fr)_112px]">
         <div className={`relative order-2 flex aspect-square w-full items-center justify-center overflow-hidden ${imageKind === "art" ? styles.compactArtwork : ""}`}>
           {imageKind === "icon" ? (
             <span className="flex size-11 items-center justify-center rounded-full border border-line-strong bg-bg-card sm:size-14">
@@ -44,7 +53,7 @@ export default function ExploreFeatureCard({ href, title, description, imageSrc,
         </div>
         <div className="relative z-10 flex min-w-0 flex-col justify-center gap-1.5 px-3 py-3 sm:px-4 md:px-5">
           <h3 className="flex flex-wrap items-center gap-x-2 gap-y-1 break-keep text-[15px] font-semibold leading-snug text-text-primary group-hover:text-accent sm:text-base">
-            <span className="inline-flex items-center gap-1.5">{title}<ArrowRight size={15} className="shrink-0 text-accent" aria-hidden /></span>
+            <span className="inline-flex items-center gap-1.5">{title}{href && <ArrowRight size={15} className="shrink-0 text-accent" aria-hidden />}</span>
             {badgeNode}
           </h3>
           {/* 줄 수 자르기(line-clamp)가 display를 쓰므로 숨김은 바깥 칸이 맡는다 */}
@@ -52,13 +61,13 @@ export default function ExploreFeatureCard({ href, title, description, imageSrc,
             <p className="line-clamp-2 break-keep text-sm leading-relaxed text-text-secondary">{description}</p>
           </div>
         </div>
-      </Link>
+      </CardFrame>
     );
   }
 
   return (
-    <Link href={href} prefetch={false}
-      className={`group relative flex flex-col overflow-hidden rounded-card border border-line bg-bg-card hover:border-accent/60 active:bg-accent/10 outline-none focus-visible:ring-2 focus-visible:ring-accent md:grid md:min-h-56 md:grid-cols-[minmax(0,1fr)_44%] md:items-center ${wide ? "lg:grid-cols-[minmax(0,1fr)_24%]" : ""}`}>
+    <CardFrame href={href}
+      className={`relative flex flex-col overflow-hidden rounded-card border border-line bg-bg-card md:grid md:min-h-56 md:grid-cols-[minmax(0,1fr)_44%] md:items-center ${wide ? "lg:grid-cols-[minmax(0,1fr)_24%]" : ""}`}>
       <div className={`relative aspect-[4/3] w-full overflow-hidden md:order-2 md:aspect-square ${styles.largeArtwork}`}>
         <Image src={imageSrc} alt="" fill sizes={wide ? "(min-width: 1024px) 256px, (min-width: 768px) 44vw, 50vw" : "(min-width: 1024px) 260px, (min-width: 768px) 22vw, 50vw"}
           className={`${imageFit === "contain" ? "object-contain" : "object-cover"} object-center ${ZOOM}`} />
@@ -66,10 +75,10 @@ export default function ExploreFeatureCard({ href, title, description, imageSrc,
       <div className="relative z-10 flex min-w-0 flex-col justify-center px-3 pb-3.5 pt-1 md:pl-6 md:pr-3 md:py-5">
         {badgeNode && <div className="mb-2">{badgeNode}</div>}
         <h3 className="text-base font-semibold leading-snug text-text-primary group-hover:text-accent md:text-xl">
-          <span className="inline-flex items-center gap-1.5">{title}<ArrowRight size={17} className="shrink-0 text-accent" aria-hidden /></span>
+          <span className="inline-flex items-center gap-1.5">{title}{href && <ArrowRight size={17} className="shrink-0 text-accent" aria-hidden />}</span>
         </h3>
         <p className="mt-1 line-clamp-2 max-w-sm break-keep text-sm leading-relaxed text-text-secondary md:mt-2 md:line-clamp-none">{description}</p>
       </div>
-    </Link>
+    </CardFrame>
   );
 }

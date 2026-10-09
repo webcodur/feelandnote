@@ -34,7 +34,8 @@
       "monologue": "가상독백",
       "bestseller": "베스트셀러",
       "classics": "불후의 명작",
-      "influence": "영향력"
+      "influence": "영향력",
+      "professionBooks": "직업별 도서"
     },
     "footer": {
       "sectionFigures": "인물",
@@ -67,7 +68,8 @@
       "monologue": "가상독백",
       "free": "자유게시판",
       "support": "응원하기",
-      "shop": "Shop"
+      "shop": "Shop",
+      "professionBooks": "직업별 도서"
     },
     "modes": {
       "figures": "인물",

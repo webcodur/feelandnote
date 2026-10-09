@@ -400,8 +400,8 @@
     "spectrumComparison": "Similar spectra",
     "professionBecome": "Learn",
     "professionAbout": "Explore",
-    "professionBecomeIntro": "Knowledge and skills for the profession.",
-    "professionAboutIntro": "People, lives, and ideas behind the profession.",
+    "professionBecomeIntro": "Representative books that introduce the field’s ideas and ways of thinking. Start wherever your curiosity takes you to understand the questions behind the work.",
+    "professionAboutIntro": "An in-depth look at lived experience and real practice. Read memoirs, interviews, and case studies to understand the choices and setbacks behind the work.",
     "relAxesLabel": "Relationship axes",
     "relAxis_received": "Influenced by",
     "relAxis_given": "Influenced",
@@ -416,6 +416,9 @@
       "timelineEmpty": "No timeline entries have been added yet.",
       "relatedEmpty": "No connected figures are available yet.",
       "analysis": "Loading this figure’s assessments."
-    }
+    },
+    "professionTrain": "Train",
+    "professionTrainIntro": "Textbooks and practical guides for building foundational knowledge and skills. Read in the suggested order and work through the explanations and examples in each book.",
+    "professionReadingOrder": "Reading order {current} / {total}"
   }
 }

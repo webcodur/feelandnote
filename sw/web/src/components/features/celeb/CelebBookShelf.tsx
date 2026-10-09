@@ -35,7 +35,8 @@ export default function CelebBookShelf({ celebId, celebName, appeared, authored,
   const showReading = readBooks !== undefined
   const professionShelfBooks = professionBooks.map(affiliateBookToShelfBook)
   const professionChoices = getProfessionShelfChoices(professionShelfBooks, {
-    become: t('professionBecome'), about: t('professionAbout'),
+    train: t('professionTrain'), become: t('professionBecome'), about: t('professionAbout'),
+    trainIntro: t('professionTrainIntro'),
     becomeIntro: t('professionBecomeIntro'), aboutIntro: t('professionAboutIntro'),
   })
   const groups: BookShelfGroup[] = [

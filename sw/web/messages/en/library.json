@@ -61,7 +61,12 @@
         "kind": "Institution"
       },
       "listResults": "{lists, plural, one {# list} other {# lists}} · {count, plural, one {# institution} other {# institutions}}",
-      "bestsellerLabel": "Bestsellers"
+      "bestsellerLabel": "Bestsellers",
+      "professionBooksLabel": "Books by Profession",
+      "professionBooks": "Find foundational textbooks, representative introductions, and in-depth accounts of professional life.",
+      "topicExploreLabel": "Explore by Topic",
+      "topicExplore": "Explore a question through several books. Start with a topic that interests you.",
+      "opening": "In development"
     },
     "meta": {
       "title": "Bestsellers - Top Books, Movies, Games & Music",
@@ -565,6 +570,12 @@
       "showMoreRanks": "Show #{from}–{to}",
       "classicsMetaTitle": "Timeless Classics - Works Recorded by the Most Figures",
       "classicsMetaDescription": "Find the books, films, music, and games that notable figures across eras and fields have recorded again and again, by era, profession, and medium."
+    },
+    "professionBooks": {
+      "title": "Books by Profession",
+      "description": "Train with an ordered reading path, learn the field’s big ideas, or explore lived experience. Choose a profession to find your next book.",
+      "chooseProfession": "Choose a profession",
+      "empty": "No selected books are available."
     }
   }
 }

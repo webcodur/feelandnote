@@ -23,6 +23,7 @@ const SUBPAGE_KEY: Record<string, string> = {
   curated: "curated",
   museum: "museum",
   academy: "academy",
+  professions: "professionBooks",
 };
 
 interface Crumb {

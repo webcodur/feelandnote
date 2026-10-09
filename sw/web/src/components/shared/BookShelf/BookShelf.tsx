@@ -40,10 +40,12 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
   const shownBooks = choice?.books ?? active.books
   const shownIntro = choice?.intro ?? active.intro
   const groupPicker = <LibraryCategoryPicker
+    columns={active.context?.kind === 'profession' && normalized.length === 3 ? 3 : 2}
     options={normalized.map((group) => ({ key: group.key, label: group.chipLabel ?? group.label, count: group.chipLabel !== undefined ? undefined : group.books.length, disabled: group.books.length === 0 }))}
     value={active.key} ariaLabel={ariaLabel}
     onChange={(key) => { setActiveKey(key); if (!listOpen) setTitlePulseRequest((current) => current + 1) }} />
   const choicePicker = choice && <LibraryCategoryPicker className={layout.secondaryPicker}
+      columns={active.context?.kind === 'profession' && active.choices?.length === 3 ? 3 : 2}
       options={active.choices!.map((item) => ({ key: item.key, label: item.label, count: item.books.length, disabled: item.books.length === 0 }))}
       value={choice.key} ariaLabel={active.label}
       onChange={(key) => { setChoiceKeys((current) => ({ ...current, [active.key]: key })); if (!listOpen) setTitlePulseRequest((current) => current + 1) }} />
@@ -58,6 +60,9 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
           {choicePicker}{active.addon}
         </div>}
       </div>
+      {active.context?.kind === 'profession' && <p className="mx-auto mb-5 max-w-2xl px-4 text-center text-sm leading-relaxed text-text-secondary">
+        {shownIntro}
+      </p>}
       <section id={id} className={`${styles.shelf} min-w-0 ${className}`} aria-label={active.label}>
         <BookShelfSelection selectionKey={`${active.key}:${choice?.key ?? ''}:${active.selectionKey ?? ''}`} intro={`${active.label}: ${shownIntro}`} listSubtitle={choice ? `${active.label} · ${choice.label}: ${shownIntro}` : active.listSubtitle} books={shownBooks} context={active.context} pagination={active.pagination}
           listGroups={active.listGroups?.map((group) => ({ ...group, selectionKey: `${active.key}:${choice?.key ?? ''}:${group.key}` }))} onSelectListGroup={active.onSelectListGroup}

@@ -34,7 +34,8 @@
       "monologue": "Monologues",
       "bestseller": "Bestsellers",
       "classics": "Timeless Classics",
-      "influence": "Influence"
+      "influence": "Influence",
+      "professionBooks": "Books by Profession"
     },
     "footer": {
       "sectionFigures": "Figures",
@@ -67,7 +68,8 @@
       "monologue": "Monologues",
       "free": "Community Board",
       "support": "Support us",
-      "shop": "Shop"
+      "shop": "Shop",
+      "professionBooks": "Books by Profession"
     },
     "modes": {
       "figures": "Figures",

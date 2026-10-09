@@ -1,6 +1,7 @@
 'use server'
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import type { ProfessionBookCategory } from '@feelandnote/shared/constants/profession-books'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { loadFigureBookEditions } from '@/actions/figure-books/figureBookEditions'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
@@ -12,12 +13,12 @@ import { CL_SELECT_LIST_WITH_AFFILIATE, type ContentLocaleRow } from '@/lib/util
 /** 직군별 선정 목록. 해당 인물의 감상·등장 관계를 새로 만들지 않는다. */
 export async function getProfessionBooks(profession: string, locale: string): Promise<AffiliateBook[]> {
   const language = locale === 'en' ? 'en' : 'ko'
-  return cachedList(CACHE_TAGS.CONTENTS, ['profession-book-picks-db-v2-edition-policy', profession, language], async () => {
+  return cachedList(CACHE_TAGS.CONTENTS, ['profession-book-picks-db-v3-training', profession, language], async () => {
     const db = createStaticClient()
     const { data, error } = await db.from('profession_book_picks')
       .select('category,content_id,note,note_en,source_url').eq('profession', profession)
       .order('sort_order').order('category').order('content_id')
-      .overrideTypes<{ category: 'become' | 'about'; content_id: string; note: string; note_en: string; source_url: string }[], { merge: false }>()
+      .overrideTypes<{ category: ProfessionBookCategory; content_id: string; note: string; note_en: string; source_url: string }[], { merge: false }>()
     throwOnQueryError('직업 선정 도서 조회', error)
     const picks = data ?? []
     if (!picks.length) return []

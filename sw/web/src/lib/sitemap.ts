@@ -177,6 +177,7 @@ function entry(
 const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
   ['/', 'daily', 1],
   ['/explore', 'daily', 0.8],
+  ['/explore/works/professions', 'weekly', 0.7],
   ['/explore/ranking', 'daily', 0.7],
   ['/explore/ranking?category=video', 'daily', 0.7],
   ['/explore/ranking?category=game', 'daily', 0.7],
