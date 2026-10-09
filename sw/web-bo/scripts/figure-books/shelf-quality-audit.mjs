@@ -5,7 +5,7 @@ import {pathToFileURL,fileURLToPath} from 'node:url'
 import {loadSeriesAuditCatalog} from './series-split-audit.mjs'
 import {dbClient,allRows} from './lib/figure-work.mjs'
 import {excludedBookEditionReason} from '../../../../packages/content-search/src/book-edition-policy.ts'
-import {createYes24ShelfQualityLoader,needsShelfQualityReview,SHELF_QUALITY_AUDIT} from './lib/yes24-shelf-quality.mjs'
+import {createYes24ShelfQualityLoader,needsShelfQualityReview,SHELF_QUALITY_AUDIT,YES24_DAILY_QUOTA_EXHAUSTED} from './lib/yes24-shelf-quality.mjs'
 
 export async function loadPublicShelfEditions(catalog,db) {
  const active=new Set(catalog.people.filter(p=>p.publication_status==='active').map(p=>p.id))
@@ -22,10 +22,16 @@ export async function auditShelfQuality(editions,loader,progress=()=>{},offset=0
  const byIsbn=new Map()
  for(const edition of editions){const rows=byIsbn.get(edition.isbn)??[];rows.push(edition);byIsbn.set(edition.isbn,rows)}
  const groups=[...byIsbn.values()].sort((a,b)=>Number(/부크크|유페이퍼|퍼플|삼국지/iu.test(b[0].publisher+' '+b[0].title))-Number(/부크크|유페이퍼|퍼플|삼국지/iu.test(a[0].publisher+' '+a[0].title))||String(a[0].isbn??'').localeCompare(String(b[0].isbn??'')))
- const results=[],errors={},review=[],editionReview=[],total=groups.length;let cursor=offset,checked=0,verified=0
+ const results=[],errors={},review=[],editionReview=[],total=groups.length;let cursor=offset,checked=0,verified=0,stopped=null
  await Promise.all(Array.from({length:SHELF_QUALITY_AUDIT.concurrency},async()=>{
-  while(cursor<total){
-   const rows=groups[cursor++],result=await loader(rows[0]);checked++
+  while(cursor<total&&!stopped){
+   const rows=groups[cursor++];let result
+   try{result=await loader(rows[0])}catch(error){
+    if(error.code!==YES24_DAILY_QUOTA_EXHAUSTED)throw error
+    if(!stopped){stopped={reason:error.code,retryAt:error.retryAt??null};progress({qualityStopped:stopped})}
+    break
+   }
+   checked++
    if(result.verified)verified++;else errors[result.error]=(errors[result.error]??0)+1
    const record={...result,editionIds:rows.map(r=>r.id),contentIds:[...new Set(rows.map(r=>r.content_id))]};results.push(record)
    if(needsShelfQualityReview(result)){review.push(record);progress({qualityReview:record})}
@@ -33,7 +39,7 @@ export async function auditShelfQuality(editions,loader,progress=()=>{},offset=0
    if(checked%100===0||checked===total-offset)progress({qualityProgress:{checked,total,offset,verified,unconfirmed:checked-verified,review:review.length,errors}})
   }
  }))
- return {checked,total,offset,verified,unconfirmed:checked-verified,review:review.sort((a,b)=>a.rating-b.rating||(a.salesIndex??Infinity)-(b.salesIndex??Infinity)),editionReview,errors,results}
+ return {checked,total,offset,verified,unconfirmed:checked-verified,stopped,review:review.sort((a,b)=>a.rating-b.rating||(a.salesIndex??Infinity)-(b.salesIndex??Infinity)),editionReview,errors,results}
 }
 
 async function main(){
@@ -46,6 +52,8 @@ async function main(){
  const editions=await loadPublicShelfEditions(loadSeriesAuditCatalog(),dbClient())
  console.log(JSON.stringify({publicShelfEditionAudit:{editions:editions.length,uniqueIsbns:new Set(editions.map(e=>e.isbn)).size}}))
  const report=await auditShelfQuality(editions,createYes24ShelfQualityLoader(key),result=>console.log(JSON.stringify(result)),offset)
- console.log(JSON.stringify({qualityAuditComplete:{checked:report.checked,total:report.total,offset:report.offset,verified:report.verified,unconfirmed:report.unconfirmed,review:report.review.length,editionReview:report.editionReview.length,errors:report.errors}}))
+ const summary={checked:report.checked,total:report.total,offset:report.offset,verified:report.verified,unconfirmed:report.unconfirmed,review:report.review.length,editionReview:report.editionReview.length,errors:report.errors}
+ console.log(JSON.stringify(report.stopped?{qualityAuditStopped:{...summary,...report.stopped}}:{qualityAuditComplete:summary}))
+ if(report.stopped)process.exitCode=2
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)await main()

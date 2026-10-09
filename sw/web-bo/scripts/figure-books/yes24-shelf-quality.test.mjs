@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import {parseYes24ShelfQuality,needsShelfQualityReview,createYes24ShelfQualityLoader} from './lib/yes24-shelf-quality.mjs'
+import {parseYes24ShelfQuality,needsShelfQualityReview,createYes24ShelfQualityLoader,YES24_DAILY_QUOTA_EXHAUSTED,SHELF_QUALITY_AUDIT} from './lib/yes24-shelf-quality.mjs'
 import {auditShelfQuality} from './shelf-quality-audit.mjs'
 const isbn='9791130321561',url='https://www.yes24.com/product/goods/161408465'
 const html=(rating='2.0',count='1',sales='216')=>'<h2 class="gd_name">실제 책</h2><div class="gd_infoTop"><span id="spanGdRating"><em class="yes_b">'+rating+'</em></span><span class="gd_reviewCount moreRating"><em>'+count+'</em></span><span class="gd_sellNum">판매지수 '+sales+'</span></div><div class="gd_infoBot"></div><th class="txt">ISBN13</th><td class="txt lastCol">'+isbn+'</td>'
@@ -12,11 +12,25 @@ test('같은 ISBN 상품의 평점·리뷰 수·판매지수를 읽는다',()=>{
 test('다른 ISBN의 평점으로 현재 책을 폐기 후보로 만들지 않는다',()=>{
  const r=parseYes24ShelfQuality(html(),url,'9788934971016');assert.equal(r.verified,false);assert.equal(needsShelfQualityReview(r),false)
 })
-test('리뷰 없음·평점 없음·판매지수 없음은 0점 책으로 해석하지 않는다',()=>{
- assert.equal(needsShelfQualityReview(parseYes24ShelfQuality(html('0','0','0'),url,isbn)),false)
+test('리뷰 0건은 검수 후보이며 누락·조회 실패를 0건으로 해석하지 않는다',()=>{
+ const unrated=parseYes24ShelfQuality(html('0','0','0'),url,isbn)
+ assert.equal(unrated.rating,null);assert.equal(unrated.reviewCount,0);assert.equal(needsShelfQualityReview(unrated),true)
  const r=parseYes24ShelfQuality('<th>ISBN13</th><td>'+isbn+'</td>',url,isbn)
- assert.equal(r.rating,null);assert.equal(r.salesIndex,null);assert.equal(needsShelfQualityReview(r),false)
+ assert.equal(r.rating,null);assert.equal(r.reviewCount,null);assert.equal(r.salesIndex,null);assert.equal(needsShelfQualityReview(r),false)
+ assert.equal(needsShelfQualityReview({verified:false,reviewCount:0,rating:null}),false)
  assert.equal(needsShelfQualityReview(parseYes24ShelfQuality(html('9.8','1','216'),url,isbn)),false)
+})
+test('리뷰 0건도 초벌 후보로 전달하며 DB 변경은 수행하지 않는다',async()=>{
+ const report=await auditShelfQuality([{id:1,content_id:'a',isbn}],async()=>({verified:true,isbn,rating:null,reviewCount:0,salesIndex:200}))
+ assert.equal(report.review.length,1);assert.equal(report.review[0].reviewCount,0);assert.equal(report.review[0].rating,null)
+})
+test('실제 무리뷰 화면의 첫번째 리뷰어 안내는 0건으로 읽는다',()=>{
+ const empty='<span class="gd_reviewCount"><a href="javascript:void(0);" onclick="fnFirstReview();">첫번째 리뷰어가 되어주세요.</a></span>'
+ const page=html().replace('<span class="gd_reviewCount moreRating"><em>1</em></span>',empty)
+ const result=parseYes24ShelfQuality(page,url,isbn)
+ assert.equal(result.reviewCount,0);assert.equal(needsShelfQualityReview(result),true)
+ const absent=html().replace('<span class="gd_reviewCount moreRating"><em>1</em></span>','')+empty
+ assert.equal(parseYes24ShelfQuality(absent,url,isbn).reviewCount,null)
 })
 test('다른 추천 상품의 평점을 현재 상품 정보 밖에서 가져오지 않는다',()=>{
  const page=html().replace('<span id="spanGdRating"><em class="yes_b">2.0</em></span>','')+'<span id="spanGdRating"><em class="yes_b">1.0</em></span>'
@@ -41,6 +55,17 @@ test('여러 작품이 공유하는 ISBN은 한 번 조회하고 모든 소유�
 test('조회 실패는 미확인으로 집계하며 정상 검수로 보고하지 않는다',async()=>{
  const r=await auditShelfQuality([{id:1,content_id:'a',isbn}],async()=>({verified:false,error:'HTTP 429'}))
  assert.equal(r.verified,0);assert.equal(r.unconfirmed,1);assert.deepEqual(r.errors,{'HTTP 429':1})
+})
+test('일일 할당량 소진은 재시도·후속 API 호출을 멈추고 전수 완료로 보고하지 않는다',async()=>{
+ let calls=0
+ const loader=createYes24ShelfQualityLoader('test',async()=>{calls++;return new Response('',{status:429,headers:{'x-ratelimit-remaining-day':'0','x-ratelimit-reset-day':'1791558000'}})})
+ await assert.rejects(loader({isbn}),error=>error.code===YES24_DAILY_QUOTA_EXHAUSTED)
+ await assert.rejects(loader({isbn:'9788934971016'}),error=>error.code===YES24_DAILY_QUOTA_EXHAUSTED)
+ assert.equal(calls,1)
+ let auditCalls=0
+ const report=await auditShelfQuality(Array.from({length:20},(_,i)=>({id:i,isbn:String(i)})),async()=>{auditCalls++;throw Object.assign(Error('quota'),{code:YES24_DAILY_QUOTA_EXHAUSTED})})
+ assert.equal(report.stopped.reason,YES24_DAILY_QUOTA_EXHAUSTED);assert.equal(report.checked,0);assert.equal(report.unconfirmed,0)
+ assert.ok(auditCalls<=SHELF_QUALITY_AUDIT.concurrency)
 })
 test('재개 위치 이전 ISBN은 다시 조회하지 않는다',async()=>{
  const calls=[]
