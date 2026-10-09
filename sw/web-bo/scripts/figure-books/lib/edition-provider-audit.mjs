@@ -2,10 +2,18 @@
 import {toIsbn13} from '../../../../../packages/content-search/src/book-isbn.ts'
 import {bookEditionTitleKey} from '../../../../../packages/content-search/src/book-series.ts'
 import {OPENLIBRARY_BOOK_BATCH_SIZE,requestOpenLibraryBookBatch} from '../../../../../packages/content-search/src/openlibrary.ts'
+import {nonReadingFormatReviewSignals} from './edition-catalog-checks.mjs'
 
 export const PROVIDER_AUDIT_BATCH_SIZE = OPENLIBRARY_BOOK_BATCH_SIZE
 const english = value => typeof value === 'string' && /[a-z]/iu.test(value) && !/[가-힣]/u.test(value)
 const text = value => typeof value === 'string' ? value.trim() : ''
+
+export function providerReadingFormatReview(isbn,detail,data) {
+  if(!/^\/books\/OL\d+M$/u.test(detail?.key??'')||![...(detail?.isbn_13??[]),...(detail?.isbn_10??[])].map(toIsbn13).includes(isbn))return null
+  const row={title:[text(detail.title),text(detail.subtitle)].filter(Boolean).join(': '),creator:(data?.authors??[]).map(a=>text(a.name)).filter(Boolean).join(', '),physicalFormat:text(detail.physical_format)}
+  const reviewSignals=nonReadingFormatReviewSignals(row)
+  return reviewSignals.length?{...row,reviewSignals,sourceUrl:'https://openlibrary.org'+detail.key}:null
+}
 
 export function readOfficialEdition(isbn, detail, data) {
   const key = detail?.key
@@ -61,7 +69,7 @@ export function providerWorkCandidates(catalog, officialByIsbn) {
 
 export async function auditEnglishProviders(catalog,{fetchImpl=null,progress=()=>{},batchSize=PROVIDER_AUDIT_BATCH_SIZE}={}) {
   const isbns=[...new Set([...catalog.editions,...catalog.locales].filter(row=>row.locale==='en').map(row=>toIsbn13(row.isbn??'')).filter(Boolean))]
-  const officialByIsbn=new Map();let lastRequest=0
+  const officialByIsbn=new Map(),formatReviews=new Map();let lastRequest=0
   const request=async(url)=>{
     for(let attempt=0;attempt<3;attempt++){
       const wait=1100-(Date.now()-lastRequest);if(wait>0)await new Promise(resolve=>setTimeout(resolve,wait))
@@ -84,15 +92,18 @@ export async function auditEnglishProviders(catalog,{fetchImpl=null,progress=()=
     const selected=isbns.slice(start,start+batchSize),bibkeys=selected.map(isbn=>'ISBN:'+isbn).join(',')
     const details=await request('https://openlibrary.org/api/books?'+new URLSearchParams({bibkeys,jscmd:'details',format:'json'}))
     const data=await request('https://openlibrary.org/api/books?'+new URLSearchParams({bibkeys,jscmd:'data',format:'json'}))
-    for(const isbn of selected){const key='ISBN:'+isbn;officialByIsbn.set(isbn,details[key]?.details?readOfficialEdition(isbn,details[key].details,data[key]):{error:'provider_not_found'})}
+    for(const isbn of selected){const key='ISBN:'+isbn;officialByIsbn.set(isbn,details[key]?.details?readOfficialEdition(isbn,details[key].details,data[key]):{error:'provider_not_found'})
+      const review=providerReadingFormatReview(isbn,details[key]?.details,data[key]);if(review)formatReviews.set(isbn,review)
+    }
     progress({checked:Math.min(start+batchSize,isbns.length),total:isbns.length})
   }
-  const differences=[],errors=[]
+  const differences=[],errors=[],reviewCandidates=[]
   for(const row of [...catalog.editions.map(row=>({...row,table:'figure_book_editions'})),...catalog.locales.map(row=>({...row,table:'content_locales'}))].filter(row=>row.locale==='en')){
     const isbn=toIsbn13(row.isbn??'');if(!isbn)continue
+    const review=formatReviews.get(isbn);if(review)reviewCandidates.push({table:row.table,id:row.id,contentId:row.content_id,isbn,...review})
     const diff=providerMetadataDifference(row,officialByIsbn.get(isbn));
     if(diff.error)errors.push({table:row.table,id:row.id,contentId:row.content_id,isbn,error:diff.error})
     else if(Object.keys(diff.fields).length)differences.push({table:row.table,id:row.id,contentId:row.content_id,isbn,...diff})
   }
-  return {officialByIsbn,differences,errors,workCandidates:providerWorkCandidates(catalog,officialByIsbn)}
+  return {officialByIsbn,differences,errors,reviewCandidates,workCandidates:providerWorkCandidates(catalog,officialByIsbn)}
 }

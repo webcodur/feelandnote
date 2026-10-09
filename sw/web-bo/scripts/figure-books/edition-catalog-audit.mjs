@@ -69,6 +69,7 @@ export async function main(args=process.argv.slice(2)) {
   const inspection=inspectEditionCatalog(catalog)
   console.log(JSON.stringify({catalogInspection:{...inspection,
     issues:Object.fromEntries([...new Set(inspection.issues.map(row=>row.error))].map(error=>[error,inspection.issues.filter(row=>row.error===error).length])),
+    reviewCandidates:inspection.reviewCandidates.length,reviewSamples:inspection.reviewCandidates.slice(0,10),
     sharedIsbns:inspection.sharedIsbns.length,samples:inspection.issues.slice(0,10)}}))
   console.log(JSON.stringify({catalogCounts:Object.fromEntries(['contents','locales','editions','relations','readings'].map(key=>[key,catalog[key].length])),splitCandidates:split.candidates.length,attributionRisks:risks.length,bySignal:split.bySignal}))
   if(!args.length)return
@@ -113,6 +114,7 @@ export async function main(args=process.argv.slice(2)) {
   if(args.includes('--apply-provider-metadata'))console.log(JSON.stringify({applied:await applyProviderMetadata(result.differences)}))
   const unresolved=Object.fromEntries([...new Set(result.errors.map(row=>row.error))].map(error=>[error,result.errors.filter(row=>row.error===error).length]))
   console.log(JSON.stringify({providerChecked:result.officialByIsbn.size,metadataDifferences:result.differences.length,sourceBoundDifferences:result.differences.filter(row=>row.bound).length,providerErrors:unresolved,providerDuplicateWorkCandidates:result.workCandidates.length,
+    nonReadingReviewCandidates:result.reviewCandidates.length,nonReadingReviewSamples:result.reviewCandidates.slice(0,12),
     elon:result.workCandidates.filter(group=>group.members.some(member=>member.editions.some(edition=>/elon musk|penguin readers level 3/iu.test(edition.title)))),sample:result.workCandidates.slice(0,10)}))
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)main().catch(error=>{console.error(error.message);process.exitCode=1})

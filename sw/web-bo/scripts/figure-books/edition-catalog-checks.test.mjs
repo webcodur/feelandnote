@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import {inspectEditionCatalog} from './lib/edition-catalog-checks.mjs'
+import {inspectEditionCatalog,nonReadingFormatReviewSignals} from './lib/edition-catalog-checks.mjs'
 
 test('모든 작품·언어 카드·판본을 세고 표시용 행을 실판본과 구별한다',()=>{
  const c={contents:[{id:'a'}],locales:[{content_id:'a',locale:'ko',title:'번역 제목',sources:{primary:'none',title:'translated'}}],editions:[
@@ -28,4 +28,18 @@ test('제목 검색만 있는 행은 실판본이 아니며 실제 첫 권 출�
  c.editions.push({...base,id:3,publisher:'실제 출판사',thumbnail_url:'https://example.com/cover.jpg'})
  assert.equal(inspectEditionCatalog(c).unresolvedTitleSearchEditions,1)
  assert.deepEqual(inspectEditionCatalog(c).issues.map(row=>row.id),[1])
+})
+
+test('그림 이름만 있는 문구 상품도 형식·제작자로 후보에 잡고 확정 오류와 구별한다',()=>{
+ const row={id:1,content_id:'a',locale:'en',title:'Vincent van Gogh: Starry Night',creator:'Flame Tree Studio',sources:{physical_format:'Notebook / blank book'}}
+ const catalog={contents:[{id:'a'}],locales:[],editions:[row]},before=structuredClone(catalog)
+ const result=inspectEditionCatalog(catalog)
+ assert.deepEqual(result.issues,[])
+ assert.deepEqual(result.reviewCandidates[0].reviewSignals,['non_reading_format','stationery_creator'])
+ assert.deepEqual(catalog,before)
+})
+
+test('그림책 제목·일기·미술서라는 이유만으로 비독서 상품 후보를 만들지 않는다',()=>{
+ for(const title of ['The Diary of a Young Girl','Vincent van Gogh','그림책 꽃이 피었습니다','Edvard Munch Masterpieces of Art'])assert.deepEqual(nonReadingFormatReviewSignals({title,physicalFormat:'Hardback'}),[])
+ assert.deepEqual(nonReadingFormatReviewSignals({title:'Gustav Klimt: The Kiss (Blank Sketch Book)'}),['non_reading_title'])
 })
