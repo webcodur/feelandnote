@@ -34,6 +34,7 @@ export function toFactionThemeData(entry: FeaturedFaction, celebs: CelebProfile[
     headline: localizedFactionHeadline(entry, locale),
     description: localizedFactionDescription(entry, locale),
     isPublished: true, regionId: "faction", music: entry.music,
+    scenesComplete: entry.scenes_complete === true,
     images: [...(image ? [{ url: image, label: null }] : []), ...toSceneImages(entry.team_images, locale)],
     personIds, leadPersonIds: [],
     groups: clusters.length > 1 ? clusters.map((cluster) => ({

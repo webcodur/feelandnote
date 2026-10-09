@@ -6,11 +6,12 @@
 import { Fragment } from "react";
 import { Link } from "@/i18n/navigation";
 import { MYTH_LAYOUT } from "./mythLayout";
+import SceneCompletionBadge from "./SceneCompletionBadge";
 
 export interface AtlasIndexGroup {
   id: string;
   name: string;
-  items: Array<{ id: string; name: string; href: string; current?: boolean }>;
+  items: Array<{ id: string; name: string; href: string; current?: boolean; scenesComplete?: boolean }>;
 }
 
 interface Props {
@@ -42,6 +43,7 @@ export default function AtlasIndex({ heading, groups, stacked = false }: Props) 
                       <Link href={item.href} aria-current={item.current ? "page" : undefined}
                         className={`outline-none hover:text-accent hover:underline focus-visible:ring-2 focus-visible:ring-accent ${item.current ? "font-bold underline decoration-accent underline-offset-4" : ""} text-text-primary`}>
                         {item.name}
+                        {item.scenesComplete && <span className="ms-1.5 inline-flex align-middle"><SceneCompletionBadge compact /></span>}
                       </Link>
                       {sep}
                     </span>

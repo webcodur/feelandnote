@@ -49,6 +49,7 @@ export interface FeaturedFaction {
   slug: string | null
   /** 단체 사진 — 주소마다 「어느 묶음을 찍었고 누가 나오는지」가 함께 온다 */
   team_images: FactionTeamImage[]
+  scenes_complete?: boolean
   /** 이 테마 구간에 흐르는 배경음악. 없으면 null */
   music: FactionMusic | null
   celebs: FeaturedCeleb[]
@@ -88,6 +89,7 @@ interface FeaturedFactionRow {
   color: string
   slug: string | null
   team_images: unknown
+  scenes_complete: boolean
   theme_music: unknown
   is_featured: boolean | null
   is_fiction: boolean | null
@@ -129,7 +131,7 @@ async function fetchFactionRows(): Promise<FeaturedFactionRow[]> {
       .eq('is_myth', false)
       .order('sort_order', { ascending: true }),
     db.from('faction_lv2')
-      .select('id, lv1_id, name, name_en, headline, headline_en, description, description_en, color, slug, team_images, theme_music, is_featured, is_fiction')
+      .select('id, lv1_id, name, name_en, headline, headline_en, description, description_en, color, slug, team_images, scenes_complete, theme_music, is_featured, is_fiction')
       .eq('is_myth', false)
       .order('sort_order', { ascending: true }),
   ])
@@ -139,7 +141,7 @@ async function fetchFactionRows(): Promise<FeaturedFactionRow[]> {
   const lv1ById = new Map((lv1Result.data ?? []).map((row) => [row.id, row]))
   return [
     ...(lv1Result.data ?? []).map((row): FeaturedFactionRow => ({
-      ...row, headline: null, headline_en: null, team_images: null, theme_music: null, parentSlug: null, isGroup: true,
+      ...row, headline: null, headline_en: null, team_images: null, scenes_complete: false, theme_music: null, parentSlug: null, isGroup: true,
     })),
     ...(lv2Result.data ?? []).map((row): FeaturedFactionRow => ({
       ...row, parentSlug: lv1ById.get(row.lv1_id)?.slug ?? null, isGroup: false,
@@ -219,7 +221,7 @@ async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, Fea
 
 // 팩션 편성 전용 공유 자료다. 일반 인물·서고 수정이 모든 인물 상세을 연쇄 무효화하지 않도록
 // TAGS만 즉시 갱신하고, 프로필 표시값은 한 시간 만료로 흡수한다.
-const getCachedFactionRows = unstable_cache(() => coalesceCacheQuery('faction-rows', fetchFactionRows), ['featured-faction-rows-v3-db-cover'], {
+const getCachedFactionRows = unstable_cache(() => coalesceCacheQuery('faction-rows', fetchFactionRows), ['featured-faction-rows-v4-scene-completion'], {
   revalidate: LIST_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS],
 })
@@ -242,6 +244,7 @@ function toFeaturedFaction(faction: FeaturedFactionRow, celebs: FeaturedCeleb[],
     color: faction.color,
     slug: faction.slug ?? null,
     team_images: toImageArray(faction.team_images),
+    scenes_complete: faction.scenes_complete === true,
     music: toFactionMusic(faction.theme_music),
     celebs,
     is_featured: faction.is_featured === true,

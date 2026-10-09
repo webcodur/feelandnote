@@ -19,8 +19,9 @@ export interface AtlasEntry {
   disabled?: boolean;
   href?: string;
   imageUrl?: string;
-  /** 「주요 장면」 자료가 있는 항목은 선택기 칩 왼쪽에 이미지 아이콘을 띄운다 */
+  /** 해당 언어에 공개된 주요 장면 수 */
   scenes?: number;
+  scenesComplete?: boolean;
   groups: AtlasGroup[];
 }
 export interface AtlasTheme { id: string; name: string; entries: AtlasEntry[] }

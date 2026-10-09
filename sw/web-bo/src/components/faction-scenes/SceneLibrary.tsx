@@ -35,7 +35,7 @@ export default function SceneLibrary({ entries, detail }: { entries: SceneEntryS
             <Link key={entry.id} href={`/faction-scenes?entry=${entry.slug || entry.id}`} aria-current={entry.id === detail?.id ? 'page' : undefined}
               className={`mb-1 block rounded-lg border px-3 py-2.5 outline-none focus-visible:ring-2 focus-visible:ring-accent ${entry.id === detail?.id ? 'border-accent/50 bg-accent/10 text-accent' : 'border-transparent text-text-secondary hover:border-border hover:bg-bg-secondary hover:text-text-primary'}`}>
               <div className="flex items-center gap-2"><span className="min-w-0 flex-1 truncate text-sm font-medium">{entry.name}</span><span className="text-xs tabular-nums">{entry.sceneCount}장</span></div>
-              <div className="mt-1 flex gap-2 text-[11px] text-text-tertiary"><span>{entry.isMyth ? '신화' : '팩션'}</span><span>KO {entry.koCount} · EN {entry.enCount}</span>{entry.sceneCount > entry.enCount && <span className="text-amber-500">영문 보완</span>}</div>
+              <div className="mt-1 flex gap-2 text-[11px] text-text-tertiary"><span>{entry.isMyth ? '신화' : '팩션'}</span><span>KO {entry.koCount} · EN {entry.enCount}</span>{entry.scenesComplete && <span className="text-accent">완결</span>}{entry.sceneCount > entry.enCount && <span className="text-amber-500">영문 보완</span>}</div>
             </Link>
           ))}
           {!visible.length && <p className="p-3 text-sm text-text-tertiary">검색 결과가 없습니다.</p>}

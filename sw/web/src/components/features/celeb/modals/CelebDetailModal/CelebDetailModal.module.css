@@ -109,11 +109,6 @@
   transform: rotate(180deg);
 }
 
-.withFooter {
-  border-end-start-radius: 0;
-  border-end-end-radius: 0;
-}
-
 .footer {
   position: relative;
   display: flex;

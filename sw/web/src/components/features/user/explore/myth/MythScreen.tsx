@@ -22,6 +22,7 @@ import AtlasNavSections from "@/components/shared/atlasNav/AtlasNavSections";
 import type { AtlasNavItem } from "@/components/shared/atlasNav/AtlasNav";
 import HubSection from "@/components/shared/HubSection";
 import AtlasIndex, { type AtlasIndexGroup } from "./AtlasIndex";
+import SceneCompletionBadge from "./SceneCompletionBadge";
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import ContentTextModal from "@/components/ui/ContentTextModal";
 import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
@@ -190,6 +191,10 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
   const selectedPerson = activePeople.find((person) => person.id === selectedPersonId) ?? null;
   const hasContent = Boolean(activeMyth) && activePeople.length > 0;
   const navigationTree: AtlasTheme[] = faction?.navigationTree ?? buildMythNavigation(data, groupLabels);
+  const completedEntryIds = new Set(navigationTree.flatMap(theme => theme.entries.filter(entry => entry.scenesComplete).map(entry => entry.id)));
+  const completedIndexGroups = indexGroups.map(group => ({
+    ...group, items: group.items.map(item => ({ ...item, scenesComplete: completedEntryIds.has(item.id) })),
+  }));
   const recentItems = useRecentAtlas(faction ? "faction" : "myth", activeMyth?.id ?? null, activeGroup?.id ?? null, selectedPerson?.id ?? null, navigationTree);
 
   /* 상단 구획 목차 — 공용 아틀라스 내비게이션. 구성·책장은 자료가 있을 때만, 전체는 목록이
@@ -287,6 +292,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
           「선택」이라는 역할 이름은 목차에만 두고 겹쳐 쓰지 않는다 */}
       <div className={layout.navigationOuter}>
         <HubSection id="atlas-selection" title={selectionTitle} titleAs={ownsTitle && activeMyth ? "h1" : "h2"}
+          headerActions={activeMyth && completedEntryIds.has(activeMyth.id) ? <SceneCompletionBadge /> : undefined}
           subtitle={activeMyth?.headline ? <span className="text-accent">{activeMyth.headline}</span> : undefined}
           index={0} total={sectionTotal} hideDivider groupId={navGroupId}>
           <div className={layout.selectionPanel} data-faction-selection>
@@ -363,7 +369,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
       {hasIndex ? (
         <div className={layout.overviewOuter}>
           <HubSection id="atlas-index" title={indexHeading} index={sectionTotal - 1} total={sectionTotal} groupId={navGroupId}>
-            <AtlasIndex heading={indexHeading} groups={indexGroups} stacked={Boolean(faction)} />
+            <AtlasIndex heading={indexHeading} groups={completedIndexGroups} stacked={Boolean(faction)} />
           </HubSection>
         </div>
       ) : null}

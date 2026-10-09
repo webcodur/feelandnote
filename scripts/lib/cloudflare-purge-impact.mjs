@@ -142,6 +142,9 @@ const CELEB_FILES = new Set([
   'sw/web/src/actions/home/getAffiliateBooks.ts',
   // professionShelf는 인물 상세와 도감 책장을 묶는다. 보관 HTML 소비자는 인물 상세다.
   'sw/web/src/lib/books/professionShelf.ts',
+  'sw/web/src/lib/books/professionBookGuides.ts',
+  // 소속 자료는 인물 상세의 소속 세력 구획에서도 읽는다.
+  'sw/web/src/actions/home/getFeaturedFactions.ts',
   // getCelebFactionBooks가 개인 책장의 소속 도서를 이 헬퍼로 채운다.
   'sw/web/src/actions/home/factionBookHydrate.ts',
   'sw/web/src/actions/home/getFactionFigureBooks.ts',
@@ -286,10 +289,13 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/commerce/SupportProductGrid.tsx',
   'sw/web/src/components/features/commerce/SupportShopNavigation.tsx',
   'sw/web/src/components/features/commerce/SupportShopPage.tsx',
+  'sw/web/src/lib/commerce-products.ts',
   'sw/web/src/components/features/commerce/CommerceProductCard.tsx',
   'sw/web/src/components/features/faction/entry/ThemeBookShelf.tsx',
   // 도감 이동·최근 방문 자료는 도감/클라이언트 localStorage에서만 읽는다.
   'sw/web/src/lib/atlas-navigation.ts',
+  'sw/web/src/lib/faction-theme.ts',
+  'sw/web/src/lib/faction-scene-completion.ts',
   'sw/web/src/lib/recent-atlas.ts',
   'sw/web/src/lib/recent-history.ts',
   'sw/web/src/components/features/profile/RecentProfileTracker.tsx',
@@ -440,6 +446,8 @@ const CACHED_HTML_FILES = new Set([
   'sw/web/src/components/ui/ResponsivePortraitImage.tsx',
   // 인물 모달은 공통 HeaderSearch에서도 열어 명부·연표를 포함한 보관 HTML이 소비한다.
   'sw/web/src/components/features/celeb/modals/CelebDetailModal/CelebDetailModal.tsx',
+  'sw/web/src/components/features/celeb/modals/CelebDetailModal/CelebDetailModal.module.css',
+  'sw/web/src/components/features/celeb/modals/CelebFactionsModal.tsx',
   // Modal과 대기 표시는 공통 레이아웃·상세·명부·연표에서 사용한다.
   'sw/web/src/components/ui/modalLayout.ts',
   'sw/web/src/components/ui/pending/PendingBlock.tsx',

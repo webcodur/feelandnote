@@ -132,24 +132,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         overlayClassName="bg-black/70 backdrop-blur-sm"
         boxClassName={`${styles.frame} ${influenceRank ? "" : `bg-gradient-to-br ${AURA_GRADIENTS[1]}`}`}
         boxStyle={{ ...rankStyle, "--card-aura": "var(--rank-accent, var(--color-accent))" } as CSSProperties}
-        scrollAreaClassName={`${styles.scrollArea} ${celeb.influence ? styles.withFooter : ""}`}
-        footer={celeb.influence && (
-          <div className={styles.footer}>
-            <span className="flex items-baseline gap-2 text-xs text-text-secondary">
-              {tCeleb("influence")}
-              <span className="text-sm font-bold tabular-nums text-text-primary">{celeb.influence.total_score}<span className="ms-1 text-xs font-normal text-text-tertiary">/100</span></span>
-            </span>
-            <button
-              type="button"
-              onClick={() => setIsInfluenceOpen(true)}
-              aria-label={`${tCeleb("influence")} · ${influenceRank}`}
-              aria-haspopup="dialog"
-              title={`${tCeleb("influence")} · ${influenceRank}`}
-              data-celeb-influence
-              className={styles.influenceCorner}
-            >{influenceRank && <InfluenceRankGlyph rank={influenceRank} className={styles.rankGlyph} />}</button>
-          </div>
-        )}
+        scrollAreaClassName={styles.scrollArea}
         closeButtonClassName="absolute -top-3 -right-3 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-line-strong bg-bg-raised text-text-secondary shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] hover:bg-bg-stone-light hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         animateHeightDuration={220}
         zIndex={zIndex}
@@ -364,6 +347,24 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           )}
 
         </div>
+        {/* 영향력과 랭크는 본문을 끝까지 읽으면 만나는 카드의 마지막 부분이다. */}
+        {celeb.influence && (
+          <div className={styles.footer} data-celeb-modal-influence-footer>
+            <span className="flex items-baseline gap-2 text-xs text-text-secondary">
+              {tCeleb("influence")}
+              <span className="text-sm font-bold tabular-nums text-text-primary">{celeb.influence.total_score}<span className="ms-1 text-xs font-normal text-text-tertiary">/100</span></span>
+            </span>
+            <button
+              type="button"
+              onClick={() => setIsInfluenceOpen(true)}
+              aria-label={`${tCeleb("influence")} · ${influenceRank}`}
+              aria-haspopup="dialog"
+              title={`${tCeleb("influence")} · ${influenceRank}`}
+              data-celeb-influence
+              className={styles.influenceCorner}
+            >{influenceRank && <InfluenceRankGlyph rank={influenceRank} className={styles.rankGlyph} />}</button>
+          </div>
+        )}
       </Modal>
 
       {/* 태그 상세 모달 */}

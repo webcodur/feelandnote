@@ -21,7 +21,6 @@ interface CelebFactionsModalProps {
 export default function CelebFactionsModal({ isOpen, onClose, factions, personName, zIndex }: CelebFactionsModalProps) {
   const tHome = useTranslations("home.ui");
   const t = useTranslations("home.ui.tags");
-  const tFaction = useTranslations("explore.faction");
   const locale = useLocale() as Locale;
 
   return (
@@ -32,14 +31,14 @@ export default function CelebFactionsModal({ isOpen, onClose, factions, personNa
       frame="plain"
       size="md"
       overlayClassName="bg-black/60 backdrop-blur-sm"
-      boxClassName="rounded-2xl border border-border bg-bg-main shadow-2xl"
+      boxClassName="rounded-panel border border-line bg-bg-main shadow-2xl"
       animateHeight={false}
       zIndex={zIndex}
     >
       {/* Header */}
-      <div className="shrink-0 px-6 py-4 pe-14 border-b border-border/50 bg-bg-card/50">
-        <p className="mb-1 text-xs font-medium tracking-widest text-accent/80">{t("atlasTitle")}</p>
-        <h3 className="font-serif font-bold text-lg text-text-primary">
+      <div className="shrink-0 px-6 py-4 pe-14 border-b border-line bg-bg-card">
+        <p className="mb-1 text-xs font-medium text-accent">{t("atlasTitle")}</p>
+        <h3 className="font-semibold text-lg text-text-primary">
           {tHome("affiliationsTitle", { name: personName })}
         </h3>
       </div>
@@ -56,19 +55,19 @@ export default function CelebFactionsModal({ isOpen, onClose, factions, personNa
             : null;
           const heading = (
             <>
-              <span>{tFaction.rich("personInTheme", { theme: factionName, name: personName, accent: (chunks) => <span style={{ color: readableFactionColor(faction.color) }}>{chunks}</span> })}</span>
-              {href && <ArrowUpRight size={14} className="shrink-0" aria-hidden />}
+              <span className="min-w-0 break-words">{factionName}</span>
+              {href && <ArrowUpRight size={18} className="shrink-0" aria-hidden />}
             </>
           );
           return (
-          <section key={faction.id} className="border-s-2 ps-4" style={{ borderColor: readableFactionColor(faction.color) }}>
-            <h4 className="mb-2 text-sm font-semibold leading-relaxed text-text-primary">
+          <section key={faction.id} className="border-b border-line pb-6 last:border-b-0 last:pb-0">
+            <h4 className="mb-3 text-lg font-semibold leading-snug" style={{ color: readableFactionColor(faction.color) }}>
               {href ? (
                 <Link
                   href={href}
                   onClick={onClose}
                   title={t("goToFaction")}
-                  className="inline-flex items-center gap-1.5 rounded hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="-mx-2 flex min-h-11 w-fit max-w-[calc(100%+1rem)] items-center gap-2 rounded-control px-2 py-1.5 hover:bg-bg-raised hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   {heading}
                 </Link>
@@ -77,8 +76,8 @@ export default function CelebFactionsModal({ isOpen, onClose, factions, personNa
               )}
             </h4>
             {description ? (
-              <p className="text-sm text-text-secondary leading-relaxed">{description}</p>
-            ) : <p className="text-sm italic">{t("noDescription")}</p>}
+              <p className="text-sm font-normal leading-[1.8] text-text-secondary whitespace-pre-line break-words">{description}</p>
+            ) : <p className="text-sm font-normal leading-[1.8] text-text-secondary">{t("noDescription")}</p>}
           </section>
           );
         })}

@@ -32,7 +32,11 @@ export default function AtlasPicker({ tree, selection, initialLevel, myth, onClo
   const { theme, entry, group } = atlasSelection(picker.tree, picker.draft);
   const all = { id: null, name: t("allMembers"), count: entry?.count };
   const currentIds = [theme?.id ?? null, entry?.id ?? null, group?.id ?? null];
-  const lists: AtlasPickerOption[][] = [picker.tree.map((item) => ({ ...item, disabled: !firstAtlasEntry(item) })), theme?.entries ?? [], entry ? [all, ...entry.groups] : []];
+  const lists: AtlasPickerOption[][] = [picker.tree.map((item) => ({
+    ...item,
+    disabled: !firstAtlasEntry(item),
+    completedSceneNames: item.entries.filter((child) => !child.disabled && child.scenesComplete).map((child) => child.name),
+  })), theme?.entries ?? [], entry ? [all, ...entry.groups] : []];
   const search = query.trim().normalize("NFKC").toLocaleLowerCase().replace(/\s+/g, "");
   const items = search ? picker.tree.flatMap((parent) => parent.entries
     .filter((item) => `${parent.name}${item.name}`.normalize("NFKC").toLocaleLowerCase().replace(/\s+/g, "").includes(search))
@@ -83,15 +87,15 @@ export default function AtlasPicker({ tree, selection, initialLevel, myth, onClo
   const searchChoices = items.filter((item) => !item.disabled);
   return (
     <Modal isOpen onClose={onClose} title={path || (picker.world === "myth" ? tMyth("title") : tFaction("title"))} ariaLabel={t("browseAll")} titleClassName="max-w-full truncate font-semibold text-accent" stickyHeader
-      widthClassName="max-w-2xl" frame="plain" boxClassName={FACTION_PERSON_LAYOUT.modal} animateHeightDuration={260}>
-      <div className="flex min-h-0 max-h-[var(--modal-body-max-height)] flex-col" data-atlas-picker data-atlas-picker-level={initialLevel} data-atlas-world={picker.world}>
+      widthClassName="max-w-2xl" frame="plain" boxClassName={FACTION_PERSON_LAYOUT.modal} scrollAreaClassName="[overflow-anchor:none]" animateHeightDuration={260}>
+      <div className="flex flex-col" data-atlas-picker data-atlas-picker-level={initialLevel} data-atlas-world={picker.world}>
         <AtlasPickerControls world={picker.world} active={active} query={query} resultCount={items.length}
           selectionNames={[theme?.name ?? "—", entry?.name ?? "—", group?.name ?? t("allMembers")]} ready={ready}
           onQueryChange={(value) => { setQuery(value); setArmed(null); if (value.trim()) setActive(1); }}
           onWorldChange={(world) => { if (world !== picker.world) { picker.switchWorld(world); setActive(1); setArmed(null); } }}
           onTabChange={changeLevel}
           onSearchSelect={() => { if (searchChoices.length === 1) choose(searchChoices[0]); }} />
-        <div className="flex min-h-0 flex-col px-4 pt-3 sm:px-5 [@media(max-height:560px)]:pt-1">
+        <div className="flex flex-col px-4 pt-3 sm:px-5 [@media(max-height:560px)]:pt-1">
           <AtlasPickerOptions transitionKey={`${picker.world}:${active}`} level={active} items={items} currentId={currentIds[active]}
             searching={Boolean(search)} onSelect={choose} loading={picker.loading} error={picker.error} onRetry={picker.retry}
             pulseId={ready ? currentIds[active] : null} nextLabel={nextLabel} />

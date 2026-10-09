@@ -14,31 +14,33 @@ import { coverIndex, mergeSceneArtwork, validateSceneDraft, stableArtworkJSON, S
 import { getFactionMembers } from './factions/entries'
 import { uploadFactionTeamImage } from './storage'
 
-const revisionOf = (value: unknown) => createHash('sha256').update(stableArtworkJSON(value)).digest('hex')
-type ArtworkRow = { id: string; name: string; name_en: string | null; slug: string | null; is_myth: boolean; team_images: unknown }
+const revisionOf = (value: unknown, complete = false) => createHash('sha256').update(stableArtworkJSON({ images: value, complete })).digest('hex')
+type ArtworkRow = { id: string; name: string; name_en: string | null; slug: string | null; is_myth: boolean; team_images: unknown; scenes_complete: boolean }
 
 export interface SceneEntrySummary {
   id: string; name: string; nameEn: string | null; slug: string | null; isMyth: boolean
   sceneCount: number; koCount: number; enCount: number; hasCover: boolean
+  scenesComplete: boolean
 }
 
 export async function listSceneEntries(): Promise<SceneEntrySummary[]> {
   await requireAdmin()
   const db = await createClient()
   const rows = await selectAllPages<ArtworkRow>((from, to) => db.from('faction_lv2')
-    .select('id,name,name_en,slug,is_myth,team_images').order('name').order('id').range(from, to))
+    .select('id,name,name_en,slug,is_myth,team_images,scenes_complete').order('name').order('id').range(from, to))
   return rows.map(row => ({
     id: row.id, name: row.name, nameEn: row.name_en, slug: row.slug, isMyth: row.is_myth,
     sceneCount: toTeamImages(row.team_images).filter(image => image.kind === 'scene').length,
     koCount: toSceneImages(row.team_images, 'ko').length, enCount: toSceneImages(row.team_images, 'en').length,
     hasCover: coverIndex(row.team_images, row.is_myth) >= 0,
+    scenesComplete: row.scenes_complete === true,
   }))
 }
 
 export async function getSceneEditorData(id: string) {
   await requireAdmin()
   const db = await createClient()
-  const { data, error } = await db.from('faction_lv2').select('id,name,slug,is_myth,team_images').eq('id', id).maybeSingle()
+  const { data, error } = await db.from('faction_lv2').select('id,name,slug,is_myth,team_images,scenes_complete').eq('id', id).maybeSingle()
   if (error) throw new Error(error.message)
   if (!data) return null
   const images = toTeamImages(data.team_images)
@@ -46,7 +48,8 @@ export async function getSceneEditorData(id: string) {
   const raw = Array.isArray(data.team_images) ? data.team_images : []
   return {
     id: data.id, name: data.name, slug: data.slug, isMyth: data.is_myth,
-    revision: revisionOf(data.team_images),
+    revision: revisionOf(data.team_images, data.scenes_complete === true),
+    scenesComplete: data.scenes_complete === true,
     cover: index < 0 ? null : toTeamImages([raw[index]])[0] ?? null,
     scenes: images.filter(image => image.kind === 'scene'),
     members: await getFactionMembers(id),
@@ -54,22 +57,24 @@ export async function getSceneEditorData(id: string) {
 }
 export type SceneEditorData = NonNullable<Awaited<ReturnType<typeof getSceneEditorData>>>
 
-export async function saveSceneArtwork(input: { id: string; revision: string; scenes: FactionTeamImage[]; cover: FactionTeamImage | null }) {
+export async function saveSceneArtwork(input: { id: string; revision: string; scenes: FactionTeamImage[]; cover: FactionTeamImage | null; scenesComplete?: boolean }) {
   await requireAdmin()
   const db = await createClient()
-  const { data: current, error } = await db.from('faction_lv2').select('team_images,is_myth,xmin').eq('id', input.id).single()
+  const { data: current, error } = await db.from('faction_lv2').select('team_images,is_myth,scenes_complete,xmin').eq('id', input.id).single()
   if (error) return { success: false as const, error: error.message || '저장 전 내용을 확인하지 못했습니다. 잠시 뒤 다시 저장해 주세요.' }
-  if (revisionOf(current.team_images) !== input.revision) return { success: false as const, error: '다른 곳에서 이미지나 설명이 수정됐습니다. 입력한 내용을 복사한 뒤 새로고침해 주세요.' }
+  if (revisionOf(current.team_images, current.scenes_complete === true) !== input.revision) return { success: false as const, error: '다른 곳에서 장면이나 완결 여부가 수정됐습니다. 입력한 내용을 복사한 뒤 새로고침해 주세요.' }
+  if (input.scenesComplete !== undefined && typeof input.scenesComplete !== 'boolean') return { success: false as const, error: '완결 여부를 확인해 주세요.' }
   const invalid = validateSceneDraft(input.scenes, input.cover, current.is_myth)
   if (invalid) return { success: false as const, error: invalid }
   const next = mergeSceneArtwork(current.team_images, input.scenes, input.cover, current.is_myth)
-  const revision = revisionOf(next)
+  const complete = input.scenesComplete ?? (current.scenes_complete === true)
+  const revision = revisionOf(next, complete)
   let warning: string | undefined
   if (revision !== input.revision) {
     // 긴 JSON 비교 조건은 REST 주소 제한(414)에 걸린다. 방금 읽은 PostgreSQL 행 버전으로 경합을 막는다.
     // xmin은 DB의 기존 시스템 열이며, 장기 편집 충돌은 위의 내용 해시로 검사한다.
     const saved = await db.from('faction_lv2')
-      .update({ team_images: next, updated_at: new Date().toISOString() })
+      .update({ team_images: next, scenes_complete: complete, updated_at: new Date().toISOString() })
       .eq('id', input.id).eq('xmin', current.xmin).select('id').maybeSingle()
     if (saved.error) return { success: false as const, error: saved.error.message || `저장 요청이 실패했습니다 (${saved.status}). 편집 내용은 유지되므로 다시 시도해 주세요.` }
     if (!saved.data) return { success: false as const, error: '저장하는 사이 다른 수정이 들어왔습니다. 새로고침 후 다시 확인해 주세요.' }

@@ -19,6 +19,7 @@ export default function SceneEditor({ data }: { data: SceneEditorData }) {
   const [cover, setCover] = useState(data.cover)
   const [ending, setEnding] = useState(data.scenes.at(-1)?.ending ?? emptyEnding)
   const [hasEnding, setHasEnding] = useState(!!data.scenes.at(-1)?.ending)
+  const [scenesComplete, setScenesComplete] = useState(data.scenesComplete)
   const [selected, setSelected] = useState<number | 'cover'>(data.scenes.length ? 0 : 'cover')
   const [query, setQuery] = useState('')
   const [jump, setJump] = useState('')
@@ -26,7 +27,7 @@ export default function SceneEditor({ data }: { data: SceneEditorData }) {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [revision, setRevision] = useState(data.revision)
-  const draft = { scenes, cover, ending, hasEnding }
+  const draft = { scenes, cover, ending, hasEnding, scenesComplete }
   const [saved, setSaved] = useState(draft)
   const dirty = JSON.stringify(draft) !== JSON.stringify(saved)
   const addInput = useRef<HTMLInputElement>(null)
@@ -57,7 +58,7 @@ export default function SceneEditor({ data }: { data: SceneEditorData }) {
   }
 
   const downloadDraft = () => {
-    const payload = { id: data.id, revision, scenes: withEnding(), cover }
+    const payload = { id: data.id, revision, scenes: withEnding(), cover, scenesComplete }
     const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' }))
     const anchor = document.createElement('a')
     anchor.href = url; anchor.target = '_blank'
@@ -72,7 +73,7 @@ export default function SceneEditor({ data }: { data: SceneEditorData }) {
     if (invalid) return setError(invalid)
     setBusy(true); setError(''); setMessage('')
     try {
-      const result = await saveSceneArtwork({ id: data.id, revision, scenes: images, cover })
+      const result = await saveSceneArtwork({ id: data.id, revision, scenes: images, cover, scenesComplete })
       if (!result.success) throw new Error(result.error)
       setRevision(result.revision); setSaved(draft); setMessage(result.warning || '저장했습니다. 제목과 해설을 갖춘 장면이 해당 언어 화면에 노출됩니다.')
       router.refresh()
@@ -125,10 +126,17 @@ export default function SceneEditor({ data }: { data: SceneEditorData }) {
           <Link href={data.isMyth ? `/myths?myth=${data.id}` : `/factions/${data.id}`} className={SCENE_BUTTON}>기본 정보</Link>
           {data.slug && <a href={`${(process.env.NEXT_PUBLIC_WEB_URL || 'http://localhost:3000').replace(/\/$/, '')}/explore/${data.isMyth ? 'myth?myth=' : 'faction/'}${data.slug}`} target="_blank" rel="noreferrer" className={SCENE_BUTTON}><ExternalLink size={14} />서비스 보기</a>}
           <button type="button" onClick={downloadDraft} className={SCENE_BUTTON}><Download size={14} />편집본 백업</button>
-          <button type="button" onClick={() => { if (confirm('저장 전 변경을 되돌릴까요?')) { setScenes(saved.scenes); setCover(saved.cover); setEnding(saved.ending); setHasEnding(saved.hasEnding); setSelected(saved.scenes.length ? 0 : 'cover'); setMessage(''); setError('') } }} disabled={!dirty || busy} className={SCENE_BUTTON}>되돌리기</button>
+          <button type="button" onClick={() => { if (confirm('저장 전 변경을 되돌릴까요?')) { setScenes(saved.scenes); setCover(saved.cover); setEnding(saved.ending); setHasEnding(saved.hasEnding); setScenesComplete(saved.scenesComplete); setSelected(saved.scenes.length ? 0 : 'cover'); setMessage(''); setError('') } }} disabled={!dirty || busy} className={SCENE_BUTTON}>되돌리기</button>
           <button type="button" onClick={save} disabled={!dirty || busy} className={`${SCENE_BUTTON} border-accent/50 bg-accent/10 text-accent`}><Save size={15} />{busy ? '처리 중…' : '저장'}</button>
         </div>
       </div>
+      <fieldset disabled={busy} className="space-y-2 border-b border-border px-4 py-3">
+        <label className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-text-primary hover:text-accent">
+          <input type="checkbox" checked={scenesComplete} onChange={e => { setScenesComplete(e.target.checked); setMessage('') }} className="accent-amber-500 outline-none focus-visible:ring-2 focus-visible:ring-accent" />
+          주요 장면 완결
+        </label>
+        <p className="text-xs leading-5 text-text-tertiary">현재 주요 장면의 그림과 해설 구성이 일단락됐을 때 직접 지정합니다. 저장하면 서비스의 완성 표시와 지역별 편수에 반영됩니다.</p>
+      </fieldset>
       {error && <p role="alert" className="border-b border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">{error}</p>}
       {message && <p role="status" className="border-b border-border px-4 py-3 text-sm text-text-secondary">{message}</p>}
       <input ref={addInput} type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" multiple hidden onChange={e => void upload(e.target.files, false)} />

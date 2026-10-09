@@ -42,9 +42,20 @@ test('exploration menu objects and profession diagrams purge their asset paths o
 test('profession helpers follow shelf consumers while standalone hubs and local history bypass HTML caches', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/lib/books/professionShelf.ts']).scopes, ['celeb'])
   assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/lib/books/professionBookGuides.ts',
+    'sw/web/src/actions/home/getFeaturedFactions.ts',
+  ]).scopes, ['celeb'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/celeb/modals/CelebDetailModal/CelebDetailModal.module.css',
+    'sw/web/src/components/features/celeb/modals/CelebFactionsModal.tsx',
+  ]).scopes, ['cached-html'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/actions/books/getProfessionBookCatalog.ts',
     'sw/web/src/app/[locale]/(main)/explore/works/professions/page.tsx',
     'sw/web/src/components/features/commerce/CommerceProductCard.tsx',
+    'sw/web/src/lib/commerce-products.ts',
+    'sw/web/src/lib/faction-theme.ts',
+    'sw/web/src/lib/faction-scene-completion.ts',
     'sw/web/src/components/features/faction/entry/ThemeBookShelf.tsx',
     'sw/web/src/components/features/profile/RecentProfileTracker.tsx',
     'sw/web/src/lib/recent-history.ts',

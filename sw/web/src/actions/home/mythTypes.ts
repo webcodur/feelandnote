@@ -28,6 +28,7 @@ export interface Myth {
   headline: string | null;
   description: string | null;
   isPublished: boolean;
+  scenesComplete?: boolean;
   /** 지역(faction_lv1) id. 어느 지역에도 못 걸리면 "other" */
   regionId: string;
   images: Array<{ url: string; label: string | null; caption?: string | null; kind?: 'scene'; ending?: LocalizedSceneEnding }>;

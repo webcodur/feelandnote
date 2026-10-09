@@ -26,6 +26,7 @@ interface Lv2Row {
   theme_music: unknown;
   theme_book_ids: string[] | null;
   team_images: unknown;
+  scenes_complete: boolean;
   lead_person_ids: string[] | null;
   /* 공개 여부는 DB가 쥔다. 전에는 코드에 이름 목록을 적어 두어 신화 하나를 잠그는 데도 배포가 필요했다 */
   published: boolean;
@@ -106,7 +107,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
       .select("id,slug,name,name_en,sort_order")
       .eq("is_myth", true).order("sort_order"),
     db.from("faction_lv2")
-      .select("id,lv1_id,slug,name,name_en,headline,headline_en,description,description_en,published,theme_music,theme_book_ids,lead_person_ids,team_images")
+      .select("id,lv1_id,slug,name,name_en,headline,headline_en,description,description_en,published,theme_music,theme_book_ids,lead_person_ids,team_images,scenes_complete")
       .eq("is_myth", true).order("sort_order"),
   ]);
   if (lv1Result.error) throw new Error(`신화 지역 조회 실패: ${lv1Result.error.message}`);
@@ -237,6 +238,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
       headline: (isEn ? faction.headline_en : faction.headline)?.trim() || null,
       description: isEn ? faction.description_en || faction.description : faction.description,
       isPublished: faction.published === true,
+      scenesComplete: faction.scenes_complete === true,
       regionId: regionIds.has(faction.lv1_id) ? faction.lv1_id : "other",
       images, personIds: ids, music: toFactionMusic(faction.theme_music),
       groups: groupsForMyth(members.filter((member) => member.lv2_id === faction.id), ids, isEn,
@@ -254,7 +256,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
   return { regions, myths, people, works };
 }
 
-const getCachedMythData = compressedJsonCache(fetchMythData, ['myth-data-v32-compressed'], {
+const getCachedMythData = compressedJsonCache(fetchMythData, ['myth-data-v33-scene-completion'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });

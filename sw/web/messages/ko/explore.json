@@ -238,7 +238,8 @@
         "openNext": "선택한 칩을 다시 눌러 {next} 선택",
         "groupPickHint": "고른 그룹을 다시 누르거나 아래에서 선택 완료",
         "searchPickHint": "검색 결과를 눌러 선택하세요",
-        "clickAgainConfirm": "다시 눌러 선택 완료"
+        "clickAgainConfirm": "다시 눌러 선택 완료",
+        "peopleCount": "등장인물 {count}명"
       }
     },
     "hub": {
@@ -391,7 +392,13 @@
         },
         "helpCaptionMode": "전체 / 문장별 자막 전환",
         "helpCaptionSize": "누를 때마다 글자 크기 변경",
-        "helpCaptionHeight": "누를 때마다 자막 위치 변경"
+        "helpCaptionHeight": "누를 때마다 자막 위치 변경",
+        "scenesComplete": "주요 장면 완성",
+        "scenesCompleteHint": "주요 장면의 그림과 해설 구성이 일단락되었습니다.",
+        "scenesCompleteCountLegend": "완성: 주요 장면 제작이 일단락된 작품",
+        "scenesCompleteCount": "주요 장면 완성 {count}편",
+        "scenesCompleteCountShort": "완성 {count}편",
+        "scenesCompleteShort": "완성"
       },
       "relationMap": {
         "title": "관계망",

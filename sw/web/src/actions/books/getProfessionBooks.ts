@@ -13,7 +13,7 @@ import { CL_SELECT_LIST_WITH_AFFILIATE, type ContentLocaleRow } from '@/lib/util
 /** 직군별 선정 목록. 해당 인물의 감상·등장 관계를 새로 만들지 않는다. */
 export async function getProfessionBooks(profession: string, locale: string): Promise<AffiliateBook[]> {
   const language = locale === 'en' ? 'en' : 'ko'
-  return cachedList(CACHE_TAGS.CONTENTS, ['profession-book-picks-db-v3-training', profession, language], async () => {
+  return cachedList(CACHE_TAGS.CONTENTS, ['profession-book-picks-db-v4-foundations', profession, language], async () => {
     const db = createStaticClient()
     const { data, error } = await db.from('profession_book_picks')
       .select('category,content_id,note,note_en,source_url').eq('profession', profession)

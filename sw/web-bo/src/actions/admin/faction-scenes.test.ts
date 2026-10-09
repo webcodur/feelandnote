@@ -5,7 +5,7 @@ import test from 'node:test'
 import vm from 'node:vm'
 import ts from 'typescript'
 import sharp from 'sharp'
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
 import * as editor from '../../lib/faction-scene-editor'
 import type { FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 
@@ -14,30 +14,30 @@ const code = ts.transpileModule(readFileSync(new URL('./faction-scenes.ts', impo
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
 }).outputText
 
-function fixture(authorized = true, transportDb?: SupabaseClient) {
+function fixture(authorized = true, transportDb?: DatabaseClient) {
   let images: unknown = [
     { url: 'https://assets.test/group.png', label: '단체', custom: 'keep' },
     { url: 'https://assets.test/scene.webp', kind: 'scene', label: '장면', caption: '설명', labelEn: 'Scene', captionEn: 'Caption' },
   ]
-  let writes = 0, race = false, version = 42
+  let writes = 0, race = false, version = 42, complete = false
   const uploads: Array<{ key: string; body: Buffer; contentType: string }> = []
   const sceneUploads: Array<{ lv2Id: string; image: string }> = []
   const db = { from(table: string) {
     assert.equal(table, 'faction_lv2')
-    let update: { team_images: unknown } | null = null
+    let update: { team_images: unknown; scenes_complete: boolean } | null = null
     const filters = new Map<string, unknown>()
     const query = {
       select() { return query },
       eq(key: string, value: unknown) { filters.set(key, value); return query },
       is(key: string, value: unknown) { filters.set(key, value); return query },
-      update(value: { team_images: unknown }) { update = value; return query },
-      async single() { return { data: { id: 'entry', name: '신화', slug: 'myth', is_myth: true, team_images: structuredClone(images), xmin: String(version) }, error: null } },
+      update(value: { team_images: unknown; scenes_complete: boolean }) { update = value; return query },
+      async single() { return { data: { id: 'entry', name: '신화', slug: 'myth', is_myth: true, team_images: structuredClone(images), scenes_complete: complete, xmin: String(version) }, error: null } },
       async maybeSingle() {
         if (!update) return query.single()
         assert.ok(filters.has('xmin'), '쓰기에는 방금 읽은 행 버전의 원자적 비교 조건이 필요하다')
         if (race) { images = [...images as unknown[], { url: 'https://assets.test/concurrent.png' }]; race = false; version++ }
         if (filters.get('xmin') !== String(version)) return { data: null, error: null }
-        images = JSON.parse(editor.stableArtworkJSON(update.team_images)); writes++; version++
+        images = JSON.parse(editor.stableArtworkJSON(update.team_images)); complete = update.scenes_complete; writes++; version++
         return { data: { id: 'entry' }, error: null }
       },
     }
@@ -55,8 +55,36 @@ function fixture(authorized = true, transportDb?: SupabaseClient) {
   }
   const context = { exports: {}, require: (name: string) => dependencies[name] ?? req(name), Buffer, File, console }
   vm.runInNewContext(code, context)
-  return { actions: context.exports as typeof import('./faction-scenes'), uploads, sceneUploads, images: () => images, writes: () => writes, race: () => { race = true }, externalEdit: () => { images = [...images as unknown[], { url: 'https://assets.test/external.png' }]; version++ } }
+  return { actions: context.exports as typeof import('./faction-scenes'), uploads, sceneUploads, images: () => images, complete: () => complete, writes: () => writes, race: () => { race = true }, externalCompletion: () => { complete = !complete; version++ }, externalEdit: () => { images = [...images as unknown[], { url: 'https://assets.test/external.png' }]; version++ } }
 }
+
+test('그림 변경 없이 완결 여부를 저장하고, 이후 해설 편집은 기존 완결 상태를 유지한다', async () => {
+  const f = fixture(), initial = await f.actions.getSceneEditorData('entry')
+  assert.ok(initial)
+  const before = structuredClone(f.images())
+  const saved = await f.actions.saveSceneArtwork({ id: 'entry', revision: initial.revision, scenes: initial.scenes, cover: initial.cover, scenesComplete: true })
+  assert.ok(saved.success)
+  assert.equal(f.complete(), true)
+  assert.deepEqual(f.images(), before)
+  const updated = await f.actions.getSceneEditorData('entry')
+  assert.ok(updated?.scenesComplete)
+  const edited = await f.actions.saveSceneArtwork({ id: 'entry', revision: updated.revision, scenes: [{ ...updated.scenes[0], caption: '새 해설' }], cover: updated.cover })
+  assert.ok(edited.success)
+  assert.equal(f.complete(), true)
+  const reopened = await f.actions.saveSceneArtwork({ id: 'entry', revision: edited.revision!, scenes: [{ ...updated.scenes[0], caption: '새 해설' }], cover: updated.cover, scenesComplete: false })
+  assert.ok(reopened.success)
+  assert.equal(f.complete(), false)
+})
+
+test('다른 편집기가 완결 여부만 바꿔도 오래 열린 편집기는 그 상태를 덮어쓰지 않는다', async () => {
+  const f = fixture(), initial = await f.actions.getSceneEditorData('entry')
+  assert.ok(initial)
+  f.externalCompletion()
+  const saved = await f.actions.saveSceneArtwork({ id: 'entry', revision: initial.revision, scenes: initial.scenes, cover: initial.cover, scenesComplete: false })
+  assert.equal(saved.success, false)
+  assert.equal(f.complete(), true)
+  assert.equal(f.writes(), 0)
+})
 
 test('116개 장면을 저장해도 REST 요청 주소는 짧고 전체 편집 내용은 본문에 실린다', async () => {
   let row = {

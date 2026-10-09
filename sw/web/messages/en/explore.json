@@ -238,7 +238,8 @@
         "openNext": "Press the selected chip again to open {next}",
         "groupPickHint": "Click the selected group again or press Done below",
         "searchPickHint": "Choose a search result",
-        "clickAgainConfirm": "Click again to confirm"
+        "clickAgainConfirm": "Click again to confirm",
+        "peopleCount": "{count, plural, one {# character} other {# characters}}"
       }
     },
     "hub": {
@@ -391,7 +392,13 @@
         },
         "helpCaptionMode": "Whole / sentence captions",
         "helpCaptionSize": "Click to cycle text size",
-        "helpCaptionHeight": "Click to cycle caption position"
+        "helpCaptionHeight": "Click to cycle caption position",
+        "scenesComplete": "Key scenes complete",
+        "scenesCompleteHint": "The current sequence of scene illustrations and captions is complete.",
+        "scenesCompleteCountLegend": "Complete: the key scene illustrations and captions are finished",
+        "scenesCompleteCount": "Key scenes complete for {count} titles",
+        "scenesCompleteCountShort": "{count} complete",
+        "scenesCompleteShort": "Complete"
       },
       "relationMap": {
         "title": "Relation Map",
