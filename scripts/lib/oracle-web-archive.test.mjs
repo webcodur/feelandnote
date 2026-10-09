@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { spawnSync } from 'node:child_process'
 import test from 'node:test'
-import { createReleaseArchive, normalizeStandaloneCacheHandler } from '../oracle-web-deploy.mjs'
+import { collectStandaloneLinks, createReleaseArchive, normalizeStandaloneCacheHandler } from '../oracle-web-deploy.mjs'
 
 test('archive uses its own gzip path and preserves files plus dereferenced directory links', t => {
   const root = mkdtempSync(path.join(tmpdir(), 'fn-archive-'))
@@ -21,6 +21,30 @@ test('archive uses its own gzip path and preserves files plus dereferenced direc
   assert.equal(unpack.status, 0, unpack.stderr)
   assert.equal(readFileSync(path.join(output, 'module/file.txt'), 'utf8'), 'standalone payload')
   assert.equal(readFileSync(path.join(output, 'linked-module/file.txt'), 'utf8'), 'standalone payload')
+})
+
+test('link manifests distinguish internal POSIX links from source worktree junctions', t => {
+  const repo = mkdtempSync(path.join(tmpdir(), 'fn-standalone-links-'))
+  t.after(() => rmSync(repo, { recursive: true, force: true }))
+  const standalone = path.join(repo, 'sw/web/.next-verify/standalone')
+  const packagePath = 'node_modules/.pnpm/next/node_modules/next'
+  const traced = path.join(standalone, packagePath)
+  const source = path.join(repo, packagePath)
+  mkdirSync(traced, { recursive: true })
+  mkdirSync(source, { recursive: true })
+  writeFileSync(path.join(traced, 'index.js'), 'traced')
+  const appModules = path.join(standalone, 'sw/web/node_modules')
+  mkdirSync(appModules, { recursive: true })
+  symlinkSync(path.relative(appModules, traced), path.join(appModules, 'next-posix'), 'dir')
+  symlinkSync(source, path.join(appModules, 'next-junction'), 'junction')
+  assert.deepEqual(collectStandaloneLinks(repo, standalone), { version: 1, links: [
+    { link: 'sw/web/node_modules/next-junction', target: packagePath },
+    { link: 'sw/web/node_modules/next-posix', target: packagePath },
+  ] })
+  const outside = mkdtempSync(path.join(tmpdir(), 'fn-standalone-outside-'))
+  t.after(() => rmSync(outside, { recursive: true, force: true }))
+  symlinkSync(outside, path.join(appModules, 'outside'), 'junction')
+  assert.throws(() => collectStandaloneLinks(repo, standalone), /outside its build worktree/)
 })
 
 

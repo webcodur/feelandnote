@@ -372,10 +372,11 @@ export function normalizeStandaloneCacheHandler(appRoot) {
   return normalized
 }
 
-function collectStandaloneLinks(repoRoot, standaloneRoot) {
+export function collectStandaloneLinks(repoRoot, standaloneRoot) {
   const links = []
   const pending = [standaloneRoot]
   const repoReal = realpathSync(repoRoot)
+  const standaloneReal = realpathSync(standaloneRoot)
 
   while (pending.length) {
     const directory = pending.pop()
@@ -394,13 +395,19 @@ function collectStandaloneLinks(repoRoot, standaloneRoot) {
           throw new Error(`Standalone junction points outside its build worktree: ${entryPath}`)
         }
 
-        const archiveTarget = path.join(standaloneRoot, targetInRepo)
+        // POSIX standalone links already point into the traced output; Windows
+        // junctions may still point at the source worktree's node_modules.
+        const targetInStandalone = path.relative(standaloneReal, absoluteTarget)
+        const internal = targetInStandalone && targetInStandalone !== '..'
+          && !targetInStandalone.startsWith(`..${path.sep}`) && !path.isAbsolute(targetInStandalone)
+        const target = internal ? targetInStandalone : targetInRepo
+        const archiveTarget = path.join(standaloneRoot, target)
         if (!existsSync(archiveTarget)) {
           throw new Error(`Standalone junction target was not traced: ${targetInRepo}`)
         }
         links.push({
           link: path.relative(standaloneRoot, entryPath).replaceAll('\\', '/'),
-          target: targetInRepo.replaceAll('\\', '/'),
+          target: target.replaceAll('\\', '/'),
         })
         continue
       }
