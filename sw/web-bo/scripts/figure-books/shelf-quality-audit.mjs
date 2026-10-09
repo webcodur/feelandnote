@@ -1,10 +1,11 @@
-/** 현재 공개 책장에 연결된 한국어 판본을 ISBN으로 전수 조회한다. 파일·DB에 원장을 쓰지 않는다. */
+/** 공개 책장의 ISBN 조회와 판본 없는 작품 후보 추출. 읽기 전용이며 파일·DB에 원장을 쓰지 않는다. */
 import {readFileSync} from 'node:fs'
 import {resolve} from 'node:path'
 import {pathToFileURL,fileURLToPath} from 'node:url'
 import {loadSeriesAuditCatalog} from './series-split-audit.mjs'
 import {dbClient,allRows} from './lib/figure-work.mjs'
 import {excludedBookEditionReason} from '../../../../packages/content-search/src/book-edition-policy.ts'
+import {toIsbn13} from '../../../../packages/content-search/src/book-isbn.ts'
 import {createYes24ShelfQualityLoader,needsShelfQualityReview,SHELF_QUALITY_AUDIT,YES24_DAILY_QUOTA_EXHAUSTED} from './lib/yes24-shelf-quality.mjs'
 
 /** 대량 점검은 운영 조회용 키를 빌려 쓰지 않는다. */
@@ -15,7 +16,20 @@ export function shelfQualityAuditKey(env,webApiKey) {
  return key
 }
 
-export async function loadPublicShelfEditions(catalog,db) {
+export function detectShelfCatalogGaps(catalog,publicIds,editions) {
+ const byWork=new Map()
+ for(const edition of editions){const rows=byWork.get(edition.content_id)??[];rows.push(edition);byWork.set(edition.content_id,rows)}
+ const locales=new Map()
+ for(const card of catalog.locales){const rows=locales.get(card.content_id)??[];rows.push(card);locales.set(card.content_id,rows)}
+ return catalog.contents.filter(work=>publicIds.has(work.id)&&!(byWork.get(work.id)??[]).some(row=>toIsbn13(row.isbn??''))
+  &&(work.catalog||(byWork.get(work.id)?.length??0)>0||!(locales.get(work.id)??[]).some(card=>card.sources?.primary!=='none'&&toIsbn13(card.isbn??''))))
+  .map(work=>({contentId:work.id,reason:(byWork.get(work.id)?.length??0)>0?'no_valid_edition_isbn':'no_physical_edition',
+   externalId:work.external_id,workIdentity:work.figureBook?.workIdentity??work.metadata?.workIdentity??null,
+   referenceCounts:work.referenceCounts,locales:locales.get(work.id)??[],editionIds:(byWork.get(work.id)??[]).map(row=>row.id)}))
+  .sort((a,b)=>a.contentId.localeCompare(b.contentId))
+}
+
+export async function loadPublicShelfAuditCatalog(catalog,db) {
  const active=new Set(catalog.people.filter(p=>p.publication_status==='active').map(p=>p.id))
  const ids=new Set([...catalog.relations,...catalog.readings].filter(r=>active.has(r.celeb_id)).map(r=>r.content_id))
  const [professions,themes]=await Promise.all([
@@ -23,7 +37,12 @@ export async function loadPublicShelfEditions(catalog,db) {
   allRows('theme shelves',(a,b)=>db.from('faction_lv2').select('id,theme_book_ids').order('id').range(a,b))])
  for(const row of professions)ids.add(row.content_id)
  for(const row of themes)for(const id of row.theme_book_ids??[])ids.add(id)
- return catalog.editions.filter(row=>row.locale==='ko'&&ids.has(row.content_id)&&!excludedBookEditionReason({...row,editionKind:row.edition_kind,textScope:row.text_scope}))
+ const editions=catalog.editions.filter(row=>ids.has(row.content_id)&&!excludedBookEditionReason({...row,editionKind:row.edition_kind,textScope:row.text_scope}))
+ return {editions:editions.filter(row=>row.locale==='ko'),catalogReview:detectShelfCatalogGaps(catalog,ids,editions)}
+}
+
+export async function loadPublicShelfEditions(catalog,db) {
+ return (await loadPublicShelfAuditCatalog(catalog,db)).editions
 }
 
 export async function auditShelfQuality(editions,loader,progress=()=>{},offset=0) {
@@ -52,12 +71,17 @@ export async function auditShelfQuality(editions,loader,progress=()=>{},offset=0
 
 async function main(){
  const args=process.argv.slice(2)
- if(args.some(arg=>!/^--offset=\d+$/u.test(arg))||args.length>1)throw Error('Usage: shelf-quality-audit.mjs [--offset=N] (read-only; no output file)')
- const offset=Number(args[0]?.split('=')[1]??0)
+ if(args.some(arg=>arg!=='--catalog-only'&&!/^--offset=\d+$/u.test(arg))||args.filter(arg=>arg==='--catalog-only').length>1||args.filter(arg=>arg.startsWith('--offset=')).length>1)throw Error('Usage: shelf-quality-audit.mjs [--offset=N] [--catalog-only] (read-only; no output file)')
+ const offset=Number(args.find(arg=>arg.startsWith('--offset='))?.split('=')[1]??0)
+ const {editions,catalogReview}=await loadPublicShelfAuditCatalog(loadSeriesAuditCatalog(),dbClient())
+ console.log(JSON.stringify({publicShelfCatalogAudit:{unconfirmedWorks:catalogReview.length}}))
+ if(args.includes('--catalog-only')){
+  for(const candidate of catalogReview)console.log(JSON.stringify({qualityCatalogReview:candidate}))
+  return
+ }
  const env=readFileSync(fileURLToPath(new URL('../../../../sw/web/.env',import.meta.url)),'utf8')
  const webApiKey=env.split(/\r?\n/u).find(line=>line.startsWith('YES24_API_KEY='))?.slice('YES24_API_KEY='.length).trim().replace(/^["']|["']$/gu,'')
  const key=shelfQualityAuditKey(process.env,webApiKey)
- const editions=await loadPublicShelfEditions(loadSeriesAuditCatalog(),dbClient())
  console.log(JSON.stringify({publicShelfEditionAudit:{editions:editions.length,uniqueIsbns:new Set(editions.map(e=>e.isbn)).size}}))
  const report=await auditShelfQuality(editions,createYes24ShelfQualityLoader(key),result=>{
   const kind=result.qualityReview?'qualityReview':result.qualityEditionReview?'qualityEditionReview':null

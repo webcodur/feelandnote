@@ -1,7 +1,41 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {parseYes24ShelfQuality,needsShelfQualityReview,createYes24ShelfQualityLoader,YES24_DAILY_QUOTA_EXHAUSTED,SHELF_QUALITY_AUDIT} from './lib/yes24-shelf-quality.mjs'
-import {auditShelfQuality,shelfQualityAuditKey} from './shelf-quality-audit.mjs'
+import {auditShelfQuality,shelfQualityAuditKey,detectShelfCatalogGaps,loadPublicShelfAuditCatalog} from './shelf-quality-audit.mjs'
+
+test('공개 작품에 판본이 없으면 ISBN 점검에서 빠지지 않고 원문 검수 후보로 남긴다',()=>{
+ const catalog={contents:[{id:'fragment',external_id:'480121107100',metadata:{workIdentity:'book/480121107100'},referenceCounts:{}},{id:'private'}],
+  locales:[{content_id:'fragment',locale:'ko',title:'삼국연의 1회 2회',isbn:null,sources:{primary:'none'}}]}
+ const report=detectShelfCatalogGaps(catalog,new Set(['fragment']),[])
+ assert.equal(report.length,1);assert.equal(report[0].reason,'no_physical_edition')
+ assert.equal(report[0].externalId,'480121107100');assert.equal(report[0].locales[0].title,'삼국연의 1회 2회')
+ assert.deepEqual(report[0].editionIds,[]);assert.equal(catalog.contents.length,2)
+})
+
+test('ISBN 없는 판본도 별도 검수하며 정상 영문 원서만 있는 작품은 결손으로 취급하지 않는다',()=>{
+ const catalog={contents:[{id:'invalid'},{id:'english'}],locales:[]}
+ const result=detectShelfCatalogGaps(catalog,new Set(['invalid','english']),[
+  {id:1,content_id:'invalid',locale:'ko',isbn:'480121107100'},
+  {id:2,content_id:'english',locale:'en',isbn:'9780520224780'}])
+ assert.deepEqual(result.map(row=>[row.contentId,row.reason,row.editionIds]),[['invalid','no_valid_edition_isbn',[1]]])
+})
+
+test('판본 없는 직군·테마 책장 작품도 공개 인물 관계와 함께 추적한다',async()=>{
+ const catalog={people:[{id:'active',publication_status:'active'},{id:'draft',publication_status:'draft'}],
+  relations:[{celeb_id:'active',content_id:'appearance'},{celeb_id:'draft',content_id:'hidden'}],readings:[],
+  contents:['appearance','profession','theme','hidden'].map(id=>({id})),locales:[],editions:[]}
+ const db={from:table=>{const query={select:()=>query,order:()=>query,range:async()=>({data:table==='profession_book_picks'?[{content_id:'profession'}]:[{id:'theme-shelf',theme_book_ids:['theme']}],error:null})};return query}}
+ const result=await loadPublicShelfAuditCatalog(catalog,db)
+ assert.deepEqual(result.editions,[])
+ assert.deepEqual(result.catalogReview.map(row=>row.contentId),['appearance','profession','theme'])
+})
+
+test('감상 책장은 정상 언어 카드만으로도 표시하므로 판본 테이블 행을 요구하지 않는다',()=>{
+ const catalog={contents:[{id:'reading',catalog:false},{id:'figure',catalog:true}],locales:[
+  {content_id:'reading',locale:'ko',isbn:'9791130321561',sources:{primary:'kakao_book'}},
+  {content_id:'figure',locale:'ko',isbn:'9791130321561',sources:{primary:'kakao_book'}}]}
+ assert.deepEqual(detectShelfCatalogGaps(catalog,new Set(['reading','figure']),[]).map(row=>row.contentId),['figure'])
+})
 
 test('대량 점검은 운영 키로 폴백하지 않고 동일한 키도 거부한다',()=>{
  assert.throws(()=>shelfQualityAuditKey({YES24_API_KEY:'production'},'production'),/YES24_AUDIT_API_KEY required/)
