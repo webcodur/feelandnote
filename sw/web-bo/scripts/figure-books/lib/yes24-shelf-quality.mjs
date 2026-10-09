@@ -3,6 +3,12 @@ import {excludedBookEditionReason} from '../../../../../packages/content-search/
 
 const clean=value=>String(value??'').replace(/<[^>]+>/gu,' ').replace(/&nbsp;|&#160;/gu,' ').replace(/&amp;/gu,'&').replace(/\s+/gu,' ').trim()
 const number=value=>value===undefined?null:Number(value.replaceAll(',',''))
+const sectionText=(html,id)=>{
+ const opening=html.match(new RegExp('<div\\b[^>]*id="'+id+'"[^>]*>','iu'))
+ if(!opening)return ''
+ const remainder=html.slice(opening.index+opening[0].length),next=remainder.search(/<div\b[^>]*id="infoset_/iu)
+ return clean((next<0?remainder:remainder.slice(0,next)).replace(/<script\b[^>]*>[\s\S]*?<\/script>/giu,''))
+}
 export const SHELF_QUALITY_AUDIT = Object.freeze({concurrency:4,requestTimeoutMs:20000,requestSpacingMs:150,poorRating:4})
 export const YES24_DAILY_QUOTA_EXHAUSTED = 'YES24_DAILY_QUOTA_EXHAUSTED'
 
@@ -19,13 +25,17 @@ export function parseYes24ShelfQuality(html,url,expectedIsbn) {
  const salesIndex=number(top.match(/class="gd_sellNum"[\s\S]*?판매지수\s*([\d,]+)/u)?.[1])
  const title=clean(html.match(/<h2\b[^>]*class="gd_name"[^>]*>([\s\S]*?)<\/h2>/iu)?.[1])
  const authors=clean(top.match(/<span\b[^>]*class="gd_auth"[^>]*>([\s\S]*?)<\/span>/iu)?.[1])
- const publisherText=[...html.matchAll(/<div\b[^>]*id="infoset_(?:introduce|pubReivew)"[^>]*>[\s\S]*?<textarea\b[^>]*>([\s\S]*?)<\/textarea>/giu)].map(match=>clean(match[1])).join(' ')
+ const publisherText=['infoset_introduce','infoset_pubReivew'].map(id=>sectionText(html,id)).join(' ')
+ const categories=sectionText(html,'infoset_goodsCate')
+ const reviewSignals=[]
+ if(/국내도서\s*(?:&gt;|>)\s*(?:어린이|유아)(?:\s|&gt;|>)/u.test(categories))reviewSignals.push('children_category')
+ if(/아동\s*학습\s*만화|어린이(?:들)?(?:의|를\s*위한)\s*(?:눈높이|그림책|학습만화)|초등학생(?:들)?을\s*위한/u.test(publisherText))reviewSignals.push('children_description')
  const policyReason=excludedBookEditionReason({locale:'ko',title:[title,clean(top)].join(' '),isbn,providerDescription:publisherText})
- return {isbn,url,verified:true,title,authors,rating:rating>0&&rating<=10?rating:null,reviewCount,salesIndex,policyReason}
+ return {isbn,url,verified:true,title,authors,rating:rating>0&&rating<=10?rating:null,reviewCount,salesIndex,policyReason,reviewSignals,categories}
 }
 
 export function needsShelfQualityReview(result) {
- return result.verified&&(result.reviewCount===0||result.rating!==null&&result.reviewCount>0&&result.rating<=SHELF_QUALITY_AUDIT.poorRating)
+ return result.verified&&(result.reviewSignals?.length>0||result.reviewCount===0||result.rating!==null&&result.reviewCount>0&&result.rating<=SHELF_QUALITY_AUDIT.poorRating)
 }
 
 /** 서점 수치는 검수 후보를 찾는 단서다. 이 도구는 관계·판본을 자동 삭제하지 않는다. */

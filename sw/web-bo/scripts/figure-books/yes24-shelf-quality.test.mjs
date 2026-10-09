@@ -49,6 +49,20 @@ test('점수가 높아도 현재 상품의 출판사 소개가 축역본이면 �
  assert.equal(parseYes24ShelfQuality(page,url,isbn).policyReason,'abridged')
  assert.equal(parseYes24ShelfQuality(html()+'<div id="userReview"><textarea>세계문학 축역본의 정본</textarea></div>',url,isbn).policyReason,null)
 })
+test('어린이 분류는 높은 평점과 별개로 LLM 검수 후보에 전달한다',()=>{
+ const page=html('9.8','120','4000')+'<div id="infoset_goodsCate">국내도서 &gt; 어린이 &gt; 인물이야기</div><div id="infoset_introduce">어린이를 위한 만화 위인전</div><div id="infoset_reivew">사용자 리뷰</div>'
+ const r=parseYes24ShelfQuality(page,url,isbn)
+ assert.deepEqual(r.reviewSignals,['children_category']);assert.equal(needsShelfQualityReview(r),true)
+ assert.equal(r.policyReason,null)
+ const recommendation=html('9.8','120','4000')+'<div id="recommendedGoods">국내도서 &gt; 어린이 &gt; 인물이야기</div>'
+ assert.deepEqual(parseYes24ShelfQuality(recommendation,url,isbn).reviewSignals,[])
+ assert.equal(parseYes24ShelfQuality(page,url,'9788934971016').verified,false)
+})
+test('현재 출판사 소개의 본문을 읽고 다른 구획의 발췌본 안내는 섞지 않는다',()=>{
+ const page=html('9.8','10','500')+'<div id="infoset_introduce">정상 완역본</div><div id="infoset_reivew"><textarea>세계문학 축역본의 정본</textarea></div>'
+ assert.equal(parseYes24ShelfQuality(page,url,isbn).policyReason,null)
+ assert.equal(parseYes24ShelfQuality(html()+'<div id="infoset_pubReivew">세계문학 축역본의 정본</div>',url,isbn).policyReason,'abridged')
+})
 test('ISBN 검색의 다른 결과와 전자책은 물리 판본으로 대체하지 않는다',async()=>{
  let requests=0
  const loader=createYes24ShelfQualityLoader('test',async()=>{requests++;return new Response(JSON.stringify({success:true,data:{items:[{isbn13:'9788934971016',goodsType:'도서'},{isbn13:isbn,goodsType:'eBook'}]}}),{status:200})})
