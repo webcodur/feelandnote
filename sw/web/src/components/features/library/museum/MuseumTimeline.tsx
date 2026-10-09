@@ -6,6 +6,8 @@
 
 "use client";
 
+import hubStyles from "@/components/shared/HubSection.module.css";
+
 import { motion } from "framer-motion";
 import { getLibraryData, MUSEUM_CATEGORY_IDS, SUB_CATEGORY_VIEW_TYPE } from "@/constants/libraryMuseum";
 import TypographyCatalog from "./TypographyCatalog";
@@ -98,20 +100,17 @@ export default function MuseumTimeline({
     : t(`category.${activeCategoryId}.description`);
 
   return (
-    <div className="w-full max-w-5xl mx-auto py-8 sm:py-12 md:py-20 pb-28 min-[1340px]:pb-20">
+    <div className={`w-full max-w-5xl mx-auto ${hubStyles.page} ${hubStyles.intro}`}>
       {viewType === 'timeline' && (
         <AtlasNav items={atlasItems} activeId={activeSectionId} onNavigate={navigate} />
       )}
 
-      <div className="mb-6 sm:mb-10 md:mb-12 text-center px-4">
+      <div className={`text-center px-4 ${hubStyles.header}`}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black text-white mb-3 sm:mb-4 leading-tight">
-            {t("pageTitle")}
-          </h2>
           <p className="text-white/60 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 line-clamp-2">
             {description ?? t("defaultDescription")}
           </p>
@@ -134,7 +133,7 @@ export default function MuseumTimeline({
           <div className="px-4 sm:px-0">
             <EraGanttChart key={timelineKey} eras={eras} />
           </div>
-          <div className="flex flex-col">
+          <div>
             {eras.map((era, index) => (
               <MuseumEraSection key={era.id} era={era} index={index} eras={eras} keyContentsLabel={t("keyContents")}
                 targetProducts={targetProducts.filter((match) => match.timelineKey === timelineKey && match.eraId === era.id)} />

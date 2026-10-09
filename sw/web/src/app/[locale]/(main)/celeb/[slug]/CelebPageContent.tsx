@@ -6,6 +6,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
+import hubStyles from "@/components/shared/HubSection.module.css";
 import { useRef, type ReactNode } from "react";
 import { useLocale } from "next-intl";
 import { useRecentHistory } from "@/hooks/useRecentHistory";
@@ -72,8 +73,8 @@ export default function CelebPageContent({
 
   /* ── 2. 머리말·본문 렌더 ── */
   return (
-    <div ref={contentRef} className={styles.page}>
-      <RecentHistoryRail items={recentItems} className="pt-3" />
+    <div ref={contentRef} className={`${styles.page} ${hubStyles.page}`}>
+      <RecentHistoryRail items={recentItems} />
       <CelebHeroSection
         profile={profile}
         slug={slug}

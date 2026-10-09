@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 280"><defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0V6" stroke="#b9ad8e" stroke-width=".7" opacity=".4"/></pattern></defs><style>.ink{fill:none;stroke:#d8d0b6;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.fine{fill:none;stroke:#b9ad8e;stroke-width:.8;stroke-linecap:round}.guide{fill:none;stroke:#8f8266;stroke-width:.75;stroke-dasharray:3 5}.wash{fill:#d8d0b6;fill-opacity:.04;stroke:#d8d0b6;stroke-width:1.5}.dot{fill:#d8d0b6}.dim{fill:none;stroke:#82765d;stroke-width:.8}</style>
+<path class="ink" d="M80 52v171h345M75 57l5-7 5 7M418 218l7 5-7 5"/>
+<path class="guide" d="M81 185h327M81 146h327M81 107h327M81 68h327"/>
+<rect class="wash" x="102" y="201" width="23" height="22"/><rect class="wash" x="127" y="181" width="23" height="42"/><rect class="wash" x="152" y="142" width="23" height="81"/><rect class="wash" x="177" y="112" width="23" height="111"/><rect class="wash" x="202" y="85" width="23" height="138"/><rect class="wash" x="227" y="94" width="23" height="129"/><rect class="wash" x="252" y="123" width="23" height="100"/><rect class="wash" x="277" y="156" width="23" height="67"/><rect class="wash" x="302" y="181" width="23" height="42"/><rect class="wash" x="327" y="210" width="23" height="13"/>
+<path class="ink" d="M87 220c46 0 58-15 79-65s31-88 53-88 38 40 59 89 33 64 68 64"/>
+<path class="guide" d="M219 68v155M211 238h16m-8-7v14"/>
+<circle class="dot" cx="108" cy="253" r="2.1"/><circle class="dot" cx="145" cy="253" r="2.1"/><circle class="dot" cx="182" cy="253" r="2.1"/><circle class="dot" cx="219" cy="253" r="2.1"/><circle class="dot" cx="256" cy="253" r="2.1"/><circle class="dot" cx="293" cy="253" r="2.1"/><circle class="dot" cx="330" cy="253" r="2.1"/>
+<path class="dim" d="M363 99h48m-48 6h31M363 148h48m-48 6h37M363 191h48m-48 6h25"/>
+<path class="fine" d="M359 96h-8v12h8m0 37h-8v12h8m0 31h-8v12h8"/>
+</svg>

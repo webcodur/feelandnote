@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 280"><defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0V6" stroke="#b9ad8e" stroke-width=".7" opacity=".4"/></pattern></defs><style>.ink{fill:none;stroke:#d8d0b6;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.fine{fill:none;stroke:#b9ad8e;stroke-width:.8;stroke-linecap:round}.guide{fill:none;stroke:#8f8266;stroke-width:.75;stroke-dasharray:3 5}.wash{fill:#d8d0b6;fill-opacity:.04;stroke:#d8d0b6;stroke-width:1.5}.dot{fill:#d8d0b6}.dim{fill:none;stroke:#82765d;stroke-width:.8}</style>
+<rect class="fine" x="76" y="45" width="344" height="188"/>
+<path class="dim" d="M82 79c50-37 86 13 124 9s67-32 103-20 63 26 105 12M82 91c47-29 84 17 122 11s63-27 102-17 64 27 108 9M82 108c44-20 83 17 126 11s62-22 100-13 64 27 106 10M80 197c31-24 41-38 75-32s49 31 73 16 39-54 70-40 51 21 116-4M80 216c40-35 43-39 75-35s49 29 79 15 38-54 66-40 51 23 114-2"/>
+<path class="fine" d="M107 220c35-47 45-48 73-43s45 10 58-8 33-56 58-59 42 2 73-48"/>
+<path class="ink" d="M115 133l50-12 63 17 61-42M281 96l8 0-3 8M244 208l34-33 57-7 43-38M370 132l8-2-1 8"/>
+<rect class="wash" x="110" y="129" width="9" height="9"/><rect class="wash" x="161" y="117" width="9" height="9"/><rect class="wash" x="224" y="134" width="9" height="9"/><rect class="wash" x="240" y="204" width="9" height="9"/><rect class="wash" x="274" y="171" width="9" height="9"/><rect class="wash" x="331" y="164" width="9" height="9"/>
+<path class="fine" d="M92 60v25m-5-17 5-8 5 8M89 222h67m-67-4v8m22-8v8m22-8v8m23-8v8"/>
+<circle class="guide" cx="289" cy="96" r="10"/>
+<circle class="guide" cx="378" cy="130" r="10"/>
+</svg>

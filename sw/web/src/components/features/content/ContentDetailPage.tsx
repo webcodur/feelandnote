@@ -41,8 +41,8 @@ export default function ContentDetailPage({ initialData, relatedSections, review
         <Button variant="ghost" className="flex items-center gap-2 text-sm font-semibold text-text-secondary"
           onClick={() => router.back()}><ArrowLeft size={16} /><span>{t("back")}</span></Button>
       </div>
-      <RecentHistoryRail items={recentItems} className="pt-2" />
-      <div className={`${styles.stack} ${recentItems.length > 0 ? "pt-6! md:pt-8!" : ""}`}>
+      <RecentHistoryRail items={recentItems} />
+      <div className={styles.stack}>
         <ContentDetailSection id="work-information" title={t("contentInfo")} opening>
           <ContentInfoSection key={content.purchaseEditionId ?? "work"} content={content} unavailable={unavailable} bannerTheme={bannerTheme}
             actions={<>

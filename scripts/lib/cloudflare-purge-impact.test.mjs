@@ -13,6 +13,33 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('exploration menu objects and profession diagrams purge their asset paths only', () => {
+  const plan = classifyCloudflarePurgeImpact([
+    'sw/web/public/images/explore/quicknav/classics-sculpture-v1-square.webp',
+    'sw/web/public/images/library/professions/athlete-stopwatch.svg',
+  ])
+  assert.deepEqual(plan.scopes, ['explore-art'])
+  assert.deepEqual(plan.prefixes, [
+    'feelandnote.com/images/explore/quicknav/',
+    'feelandnote.com/images/library/professions/',
+  ])
+  assert.deepEqual(plan.files, [])
+  assert.throws(() => classifyCloudflarePurgeImpact(['sw/web/public/images/unreviewed.webp']), /Unclassified public asset/)
+})
+
+test('profession helpers follow shelf consumers while standalone hubs and local history bypass HTML caches', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/lib/books/professionShelf.ts']).scopes, ['celeb'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/actions/books/getProfessionBookCatalog.ts',
+    'sw/web/src/app/[locale]/(main)/explore/works/professions/page.tsx',
+    'sw/web/src/components/features/commerce/CommerceProductCard.tsx',
+    'sw/web/src/components/features/faction/entry/ThemeBookShelf.tsx',
+    'sw/web/src/components/features/profile/RecentProfileTracker.tsx',
+    'sw/web/src/lib/recent-history.ts',
+    'sw/web/src/app/[locale]/(main)/agora/board/feedback/[id]/page.tsx',
+  ]).scopes, ['none'])
+})
+
 test('progressive loading and shared detail modals follow their actual cached consumers', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/actions/celebs/getCelebReferenceBooks.ts',

@@ -4,7 +4,7 @@
 
 사용자끼리 글을 쓰고 서로를 팔로우하는 커뮤니티 영역이다.
 
-광장은 주요 메뉴에 두지 않는다. 공지·자유게시판은 홈과 푸터, 친구·팔로우는 프로필 메뉴, 문의·의견 보내기는 프로필 메뉴와 푸터에서 연다. 기존 주소와 게시판 데이터는 유지한다.
+광장은 주요 메뉴에 두지 않는다. 공지·자유게시판은 홈과 푸터, 친구·팔로우는 프로필 메뉴에서 연다. 문의·의견은 서비스 소개의 이메일 안내(`/about#contact`)로 받는다. 기존 피드백 데이터는 유지한다.
 
 ## 색인 제외
 
@@ -24,8 +24,7 @@
 | `/agora/board/free/[id]/edit` | 자유게시판 수정 | `getFreePost` |
 | `/agora/board/notice` | 공지사항 목록 | `getNotices` |
 | `/agora/board/notice/write`, `/[id]`, `/[id]/edit` | 공지 작성·상세·수정 | `actions/board/notices` |
-| `/agora/board/feedback` | 피드백 목록(카테고리 필터) | `getFeedbacks` |
-| `/agora/board/feedback/write`, `/[id]`, `/[id]/edit` | 피드백 작성·상세·수정 | `actions/board/feedbacks` |
+| `/agora/board/feedback`, 하위 주소 | 철거한 문의 게시판. 언어를 유지해 `/about#contact`로 영구 이동 | — |
 | `/agora/feed` | 레거시. `/explore/feed`로 리다이렉트 | — |
 | `/agora/celeb-feed` | 레거시. `/explore/feed`로 리다이렉트 | — |
 | `/agora/social-feed`, `/agora/friend-feed` | 철거한 친구 피드. `/agora/social`로 영구 이동 | — |
@@ -34,7 +33,7 @@
 
 ## 레이아웃·탭
 
-`agora/layout.tsx`는 `PageContainer`와 `AgoraTabs`를 씌운다. `AgoraTabs`는 현재 주소의 제목을 표시하고 공지·자유게시판에서만 두 게시판의 전환 탭을 표시한다. 친구·팔로우와 문의·의견 보내기에는 게시판 전환 탭을 두지 않는다. 게시판 본문 폭은 `board/layout.tsx`가 쥔다.
+`agora/layout.tsx`는 `PageContainer`와 `AgoraTabs`를 씌운다. `AgoraTabs`는 현재 주소의 제목을 표시하고 공지·자유게시판에서만 두 게시판의 전환 탭을 표시한다. 친구·팔로우에는 게시판 전환 탭을 두지 않는다. 게시판 본문 폭은 `board/layout.tsx`가 쥔다.
 
 화면 목록은 `sw/web/src/constants/agora.tsx`의 `AGORA_ITEMS`, 게시판 전환 탭은 여기서 추린 `AGORA_BOARD_ITEMS`가 단일원천이다.
 
@@ -78,15 +77,9 @@
 
 - 목록: 한 쪽에 10건. `isAdmin(db)` 결과를 목록에 넘겨 관리자에게만 쓰기 동선을 준다.
 
-### 피드백 (`feedback`)
-
-- 목록: 한 쪽에 10건. `?category=`로 거른다.
-- 유효 카테고리는 `CELEB_REQUEST`, `CONTENT_REPORT`, `FEATURE_SUGGESTION` 셋뿐이고, 그 밖의 값은 무시하고 전체를 보여준다.
-- 상태(`FeedbackStatus`)는 `PENDING`, `IN_PROGRESS`, `COMPLETED`, `REJECTED`다. 카테고리·상태의 배지 색은 `sw/web/src/constants/board.tsx`가 정한다.
-
 ## 소셜
 
-`/agora/social`은 네 섹션을 한 페이지에 세운다. 각 섹션의 컴포넌트는 `components/features/user/explore/sections/` 아래에 있다(탐색 영역 폴더에 있으나 광장에서 쓴다).
+`/agora/social`은 친구·팔로잉·팔로워·취향 유사 네 구획을 공통 `HubSection`의 01~04 번호와 가운데 제목으로 표시하고 아틀라스 목차로 연결한다. 좁은 화면은 하단 목차 띠·목차 창을 쓴다. 각 섹션의 컴포넌트는 `components/features/user/explore/sections/` 아래에 있다(탐색 영역 폴더에 있으나 광장에서 쓴다).
 
 추리는 일은 섹션 컴포넌트가 아니라 `social/page.tsx`가 먼저 해서 넘긴다.
 

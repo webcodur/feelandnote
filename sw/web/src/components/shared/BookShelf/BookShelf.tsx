@@ -15,10 +15,12 @@ interface Props {
   title?: string
   id?: string
   className?: string
+  controlsLayout?: 'default' | 'profession-page'
 }
 
 /** 개인·신화·팩션의 공통 책장. 분류는 칩으로 바꾸고 제목에서 선택 목록을 연다. */
-export default function BookShelf({ groups, ariaLabel, title, id, className = '' }: Props) {
+export default function BookShelf({ groups, ariaLabel, title, id, className = '', controlsLayout = 'default' }: Props) {
+  const pageControls = controlsLayout === 'profession-page'
   const normalized = groups.map((group) => ({ ...group,
     books: [...new Map(group.books.filter(isBookShelfAvailable).map((book) => [book.id, book])).values()],
     listGroups: group.listGroups?.map((item) => ({ ...item,
@@ -40,6 +42,8 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
   const shownBooks = choice?.books ?? active.books
   const shownIntro = choice?.intro ?? active.intro
   const groupPicker = <LibraryCategoryPicker
+    className={pageControls ? layout.professionPagePicker : undefined}
+    chipClassName={pageControls ? layout.professionChip : undefined}
     columns={active.context?.kind === 'profession' && normalized.length === 3 ? 3 : 2}
     options={normalized.map((group) => ({ key: group.key, label: group.chipLabel ?? group.label, count: group.chipLabel !== undefined ? undefined : group.books.length, disabled: group.books.length === 0 }))}
     value={active.key} ariaLabel={ariaLabel}
@@ -54,7 +58,7 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
   return (
     <div className="min-w-0" aria-label={ariaLabel} data-bookshelf>
       {title && <h3 className="flex items-center justify-center gap-2 px-4 py-4 text-center text-lg font-bold text-text-primary sm:px-6"><BookOpen size={17} aria-hidden />{title}</h3>}
-      <div className={`mx-auto flex flex-col gap-2 ${layout.width} ${layout.contentGap}`}>
+      <div className={`mx-auto flex flex-col gap-2 ${pageControls ? layout.professionPageWidth : layout.width} ${layout.contentGap}`}>
         {groupPicker}
         {(choicePicker || active.addon) && <div className={layout.secondary} data-bookshelf-subcontrols>
           {choicePicker}{active.addon}

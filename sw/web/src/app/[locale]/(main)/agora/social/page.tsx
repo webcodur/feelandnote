@@ -1,3 +1,4 @@
+import hubStyles from "@/components/shared/HubSection.module.css";
 /*
   파일명: /app/(main)/agora/social/page.tsx
   기능: 광장 소셜 페이지
@@ -6,10 +7,13 @@
 */ // ------------------------------
 
 import Lane from "@/components/ui/pending/Lane";
-import { Users, UserCheck, UserPlus, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { PendingBlock } from "@/components/ui/pending";
 import { FriendsSection, FollowingSection, FollowersSection, SimilarSection } from "./sections";
+import HubSection from "@/components/shared/HubSection";
+import AtlasNavSections from "@/components/shared/atlasNav/AtlasNavSections";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
+import { hubAtlasNavItems, hubSectionId } from "@/components/shared/hubSectionUtils";
 
 export async function generateMetadata() {
   const t = await getTranslations("agora.social");
@@ -19,47 +23,28 @@ export async function generateMetadata() {
   };
 }
 
-function SectionHeader({ icon: Icon, title }: { icon: React.ComponentType<{ className?: string }>; title: string }) {
-  return (
-    <div className="flex items-center gap-2 mb-3">
-      <Icon className="w-4 h-4 text-accent" />
-      <h2 className="text-sm font-semibold text-white/90">{title}</h2>
-    </div>
-  );
-}
-
 export default async function Page() {
   const t = await getTranslations("explore.people");
+  const sections = [
+    { title: t("friends"), Content: FriendsSection },
+    { title: t("following"), Content: FollowingSection },
+    { title: t("followers"), Content: FollowersSection },
+    { title: t("similar"), Content: SimilarSection },
+  ];
+  const groupId = "social";
 
   return (
-    <div className="space-y-8">
-      <section>
-        <SectionHeader icon={Users} title={t("friends")} />
-        <Lane fallback={<PendingBlock variant="rows" count={3} />}>
-          <FriendsSection />
-        </Lane>
-      </section>
-
-      <section>
-        <SectionHeader icon={UserCheck} title={t("following")} />
-        <Lane fallback={<PendingBlock variant="rows" count={3} />}>
-          <FollowingSection />
-        </Lane>
-      </section>
-
-      <section>
-        <SectionHeader icon={UserPlus} title={t("followers")} />
-        <Lane fallback={<PendingBlock variant="rows" count={3} />}>
-          <FollowersSection />
-        </Lane>
-      </section>
-
-      <section>
-        <SectionHeader icon={Star} title={t("similar")} />
-        <Lane fallback={<PendingBlock variant="rows" count={3} />}>
-          <SimilarSection />
-        </Lane>
-      </section>
-    </div>
+    <AsyncIntlProvider>
+      <AtlasNavSections items={hubAtlasNavItems(sections.map(section => section.title), groupId)} />
+      <div className={`mx-auto max-w-3xl ${hubStyles.page}`}>
+        {sections.map(({ title, Content }, index) => (
+          <HubSection key={title} id={hubSectionId(index, groupId)} title={title} index={index} total={sections.length} compact hideDivider={index === 0}>
+            <Lane fallback={<PendingBlock variant="rows" count={3} />}>
+              <Content />
+            </Lane>
+          </HubSection>
+        ))}
+      </div>
+    </AsyncIntlProvider>
   );
 }

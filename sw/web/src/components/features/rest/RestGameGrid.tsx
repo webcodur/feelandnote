@@ -91,7 +91,7 @@ export default function RestGameGrid({
 
   return (
     <>
-      <div className="space-y-8 md:space-y-10">
+      <div>
         {visibleSections.map((game, index) => {
           const labels = gameLabels[game.valueKey];
           if (!labels) return null;

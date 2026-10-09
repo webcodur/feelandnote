@@ -1,3 +1,4 @@
+import hubStyles from "@/components/shared/HubSection.module.css";
 /*
   파일명: /app/(main)/about/page.tsx
   기능: 서비스 소개 페이지
@@ -17,13 +18,38 @@ import { Link } from "@/i18n/navigation";
 import { ArrowLeft } from "lucide-react";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { getAboutShowcase } from "@/actions/policy/getAboutShowcase";
-import AboutBody, { SectionHead, SectionClose } from "./AboutBody";
+import AboutBody from "./AboutBody";
+import AboutContact from "./AboutContact";
 import Lane from "@/components/ui/pending/Lane";
 import { PendingBlock } from "@/components/ui/pending";
 import SupportCallout from "@/components/features/commerce/SupportCallout";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
+import AtlasNavSections from "@/components/shared/atlasNav/AtlasNavSections";
+import { ABOUT_SECTIONS, aboutSection } from "./aboutSections";
 
 async function AboutContent({ locale }: { locale: string }) {
-  return <AboutBody showcase={await getAboutShowcase(locale)} />;
+  const t = await getTranslations("policy");
+  const showcase = await getAboutShowcase(locale);
+
+  // 문의 앵커를 본문과 함께 그려 지연 로딩 뒤에도 문의 위치가 바뀌지 않게 한다.
+  return (
+    <AsyncIntlProvider>
+      <AboutBody showcase={showcase} />
+      <AboutContact {...aboutSection(3, t)}>
+        <div className="space-y-6">
+          <p className="mx-auto max-w-2xl text-center text-base leading-relaxed text-text-secondary md:text-lg">{t("aboutOperatorBody")}</p>
+          <SupportCallout />
+
+          <a
+            href="mailto:feelandnote@gmail.com"
+            className="engraved-plate rounded-lg px-5 py-4 flex items-center justify-center text-base md:text-lg text-accent hover:text-accent-hover font-medium tracking-wide"
+          >
+            feelandnote@gmail.com
+          </a>
+        </div>
+      </AboutContact>
+    </AsyncIntlProvider>
+  );
 }
 
 export async function generateMetadata() {
@@ -39,7 +65,10 @@ export default async function AboutPage() {
   const t = await getTranslations("policy");
   const locale = await getLocale();
   return (
-    <div className="max-w-3xl mx-auto px-2 md:px-0 text-text-primary">
+    <div className={`max-w-3xl mx-auto text-text-primary ${hubStyles.page}`}>
+      <AsyncIntlProvider>
+        <AtlasNavSections items={ABOUT_SECTIONS.map((section, index) => ({ key: section.id, sectionId: section.id, chapter: String(index + 1).padStart(2, "0"), label: t(section.titleKey) }))} />
+      </AsyncIntlProvider>
       {/* 되돌아가기 — 단일 화면이라 배너·브레드크럼 대신 조용한 문 하나만 둔다 */}
       <div className="pt-2 mb-2">
         <Link
@@ -53,7 +82,7 @@ export default async function AboutPage() {
 
       {/* 들머리 — 명패 하나로 연다. 첫인사 액자는 홈이 맡으므로 여기 없다.
           설명 문장은 검색용 메타로만 남긴다 */}
-      <header className="pt-4 mb-8 md:mb-12 text-center space-y-5">
+      <header className={`text-center space-y-5 ${hubStyles.intro}`}>
         <div aria-hidden className="flex items-center justify-center gap-3">
           <span className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent to-accent-dim" />
           <span className="w-1.5 h-1.5 rotate-45 bg-accent shadow-glow-sm" />
@@ -65,33 +94,6 @@ export default async function AboutPage() {
       </header>
 
       <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-80" />}><AboutContent locale={locale} /></Lane>
-
-      {/* 운영 안내 · 문의 */}
-      <section id="contact" className="mt-20 md:mt-28 pb-4 space-y-6 scroll-mt-24">
-        <SectionHead title={t("aboutOperatorTitle")} lead={t("aboutOperatorBody")} breakLead />
-
-        <SupportCallout />
-
-        <a
-          href="mailto:feelandnote@gmail.com"
-          className="engraved-plate rounded-lg px-5 py-4 flex items-center justify-center text-base md:text-lg text-accent hover:text-accent-hover font-medium tracking-wide"
-        >
-          feelandnote@gmail.com
-        </a>
-
-        <div className="space-y-3">
-          <h3 className="font-serif text-lg text-text-primary">{t("contactFeedback")}</h3>
-          <p className="text-base leading-relaxed text-text-secondary">{t("contactFeedbackDesc")}</p>
-          <Link
-            href="/agora/board/feedback"
-            className="inline-block rounded-lg border border-accent-dim px-5 py-3 text-base text-accent hover:text-accent-hover hover:border-accent font-medium"
-          >
-            {t("contactFeedbackLink")}
-          </Link>
-        </div>
-        <SectionClose />
-      </section>
-
     </div>
   );
 }

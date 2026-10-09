@@ -276,7 +276,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
   return (
     <section id={faction ? "faction" : "myth"} aria-label={faction?.title ?? t("title")} className={`${layout.shell} ${locale === "ko" ? "break-all" : ""}`}>
       <AtlasNavSections items={tocItems} />
-      <RecentHistoryRail items={recentItems} className="pt-3" onSelect={item => {
+      <RecentHistoryRail items={recentItems} onSelect={item => {
         if (item.kind !== (faction ? "faction" : "myth")) return false;
         const theme = navigationTree.find(theme => theme.entries.some(entry => entry.id === item.id && !entry.disabled));
         if (!theme) return false;
@@ -331,9 +331,8 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
             ? <FactionPerson renderPerson={faction.renderPerson} person={selectedPerson} onClose={closePerson} />
             : <MythPersonDetail key={`${activeMyth.id}-${selectedPerson.id}`} person={selectedPerson} myth={activeMyth} onClose={closePerson} />
           )}
-          <div className={`${faction ? layout.factionShelfOuter : layout.overviewOuter} pt-3 md:pt-4`}>
-            <HubSection id="atlas-shelf" title={shelfTitle} index={2} total={sectionTotal} groupId={navGroupId}
-              dividerClassName="mb-16 md:mb-24">
+          <div className={faction ? layout.factionShelfOuter : layout.overviewOuter}>
+            <HubSection id="atlas-shelf" title={shelfTitle} index={2} total={sectionTotal} groupId={navGroupId}>
               <div className={faction ? layout.factionShelfContainer : layout.container}>
                 {/* 모달을 열어도 목록·책장의 높이와 스크롤 위치는 그대로 유지한다. */}
                 {faction ? faction.renderWorks(railPeople.map((person) => person.id)) : shelfWorks.length > 0 && (

@@ -7,6 +7,7 @@ export const CLOUDFLARE_PURGE_SCOPES = Object.freeze([
   'celeb',
   'content',
   'content-banners',
+  'explore-art',
   'seo',
   'cached-html',
   'emergency-zone',
@@ -35,6 +36,14 @@ const SCOPE_TARGETS = Object.freeze({
   }),
   'content-banners': Object.freeze({
     prefixes: [SITE_HOST + '/images/content/banners/'],
+    files: [],
+  }),
+  'explore-art': Object.freeze({
+    // exploreLenses의 메뉴 소품과 ProfessionStudyHeader의 직군 도해만 갱신한다.
+    prefixes: [
+      `${SITE_HOST}/images/explore/quicknav/`,
+      `${SITE_HOST}/images/library/professions/`,
+    ],
     files: [],
   }),
   seo: Object.freeze({
@@ -131,6 +140,8 @@ const CELEB_FILES = new Set([
   'sw/web/src/actions/books/getProfessionBooks.ts',
   'sw/web/src/actions/celebs/getCelebReferenceBooks.ts',
   'sw/web/src/actions/home/getAffiliateBooks.ts',
+  // professionShelf는 인물 상세와 도감 책장을 묶는다. 보관 HTML 소비자는 인물 상세다.
+  'sw/web/src/lib/books/professionShelf.ts',
   // getCelebFactionBooks가 개인 책장의 소속 도서를 이 헬퍼로 채운다.
   'sw/web/src/actions/home/factionBookHydrate.ts',
   'sw/web/src/actions/home/getFactionFigureBooks.ts',
@@ -259,6 +270,38 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // 직업별 도서·박물관·구매 화면과 그 전용 부품은 앞단 HTML 보관 대상이 아니다.
+  'sw/web/src/actions/books/getProfessionBookCatalog.ts',
+  'sw/web/src/actions/home/getFactionMemberShelf.ts',
+  'sw/web/src/app/[locale]/(main)/explore/works/professions/page.tsx',
+  'sw/web/src/app/[locale]/(main)/explore/works/museum/page.tsx',
+  'sw/web/src/app/[locale]/(main)/support/page.tsx',
+  'sw/web/src/app/[locale]/(main)/shop/page.tsx',
+  'sw/web/src/components/features/library/hub/LibraryBanner.tsx',
+  'sw/web/src/components/features/library/professions/ProfessionBooksShelf.tsx',
+  'sw/web/src/components/features/library/professions/ProfessionStudyHeader.tsx',
+  'sw/web/src/components/features/library/museum/MuseumEraSection.tsx',
+  'sw/web/src/components/features/library/museum/MuseumTimeline.tsx',
+  'sw/web/src/components/features/commerce/SupportCallout.tsx',
+  'sw/web/src/components/features/commerce/SupportProductGrid.tsx',
+  'sw/web/src/components/features/commerce/SupportShopNavigation.tsx',
+  'sw/web/src/components/features/commerce/SupportShopPage.tsx',
+  'sw/web/src/components/features/commerce/CommerceProductCard.tsx',
+  'sw/web/src/components/features/faction/entry/ThemeBookShelf.tsx',
+  // 도감 이동·최근 방문 자료는 도감/클라이언트 localStorage에서만 읽는다.
+  'sw/web/src/lib/atlas-navigation.ts',
+  'sw/web/src/lib/recent-atlas.ts',
+  'sw/web/src/lib/recent-history.ts',
+  'sw/web/src/components/features/profile/RecentProfileTracker.tsx',
+  // 소셜·개인 설정·쉼터는 비공개 또는 앞단 캐시를 우회하는 화면이다.
+  'sw/web/src/app/[locale]/(main)/agora/social/page.tsx',
+  'sw/web/src/app/[locale]/(main)/[userId]/chamber/page.tsx',
+  'sw/web/src/components/features/moderation/BlockedUsersCard.tsx',
+  'sw/web/src/components/features/rest/RestGameGrid.tsx',
+  'sw/web/src/components/features/user/explore/sections/FollowersSection.tsx',
+  'sw/web/src/components/features/user/explore/sections/FollowingSection.tsx',
+  'sw/web/src/components/features/user/explore/sections/FriendsSection.tsx',
+  'sw/web/src/components/features/user/explore/sections/SimilarSection.tsx',
   // 검색·등록과 서비스 소개는 앞단 보관 HTML 경로가 아니다.
   'sw/web/src/actions/contents/fetchBookMetadata.ts',
   'sw/web/src/actions/policy/getAboutShowcase.ts',
@@ -433,6 +476,9 @@ const NON_RUNTIME_PREFIXES = [
 ]
 
 const NON_HTML_RUNTIME_PREFIXES = [
+  // 철거한 문의 게시판도 배포 diff의 삭제 경로로 들어온다. 현재 이메일 안내로 이동한다.
+  'sw/web/src/app/[locale]/(main)/agora/board/feedback/',
+  'sw/web/src/components/features/board/feedbacks/',
   'sw/web/src/app/api/',
   'sw/web/src/app/[locale]/(main)/about/',
   'sw/web/src/app/[locale]/(standalone)/search/',
@@ -535,6 +581,12 @@ function classifyFile(file) {
   // Known work-detail artwork has its own asset prefix; never pretend HTML purging refreshes images.
   if (/^sw\/web\/public\/images\/content\/banners\/(?:ancient-archive|chinese-classics|contemporary|early-modern|library|western-classics)-(?:pc|mb)\.webp$/u.test(file)) {
     return ['content-banners']
+  }
+
+  // 두 경로의 실제 소비자는 탐색 메뉴와 직업별 도서의 도해다. 자산 캐시를 따로 비운다.
+  if (file.startsWith('sw/web/public/images/explore/quicknav/')
+    || file.startsWith('sw/web/public/images/library/professions/')) {
+    return ['explore-art']
   }
 
   // 공개 자산은 HTML 스코프로 갱신할 수 없다. 같은 URL을 덮어썼는지는 경로만으로

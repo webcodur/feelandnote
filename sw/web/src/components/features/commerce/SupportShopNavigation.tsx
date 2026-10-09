@@ -1,14 +1,16 @@
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { ShoppingBag, Wheat } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
-import { SUPPORT_SHOP_LINKS } from '@/constants/navigation'
+import { getSupportShopLinks } from '@/constants/navigation'
 
 /** 세력도감의 화면 전환과 같은 두 칸짜리 내비게이션. */
 export default async function SupportShopNavigation({ active }: { active: 'support' | 'shop' }) {
   const t = await getTranslations('support')
+  const links = getSupportShopLinks(await getLocale())
+  if (links.length < 2) return null
   return (
-    <nav aria-label={t('tabs.label')} className="mx-auto mb-4 mt-3 grid w-full max-w-[420px] grid-cols-2 gap-1 rounded-lg border border-white/20 bg-bg-main p-1 lg:mb-10 lg:mt-5">
-      {SUPPORT_SHOP_LINKS.map(item => {
+    <nav aria-label={t('tabs.label')} className="mx-auto grid w-full max-w-[420px] grid-cols-2 gap-1 rounded-lg border border-white/20 bg-bg-main p-1">
+      {links.map(item => {
         const Icon = item.key === 'support' ? Wheat : ShoppingBag
         const label = <><Icon className="size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />{t(`tabs.${item.key}`)}</>
         return item.key === active ? (

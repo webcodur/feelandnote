@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import { recentHistoryKey, type RecentHistoryItem } from "@/lib/recent-history";
 import MythTitleImage from "@/components/features/user/explore/myth/MythTitleImage";
+import styles from "./HubSection.module.css";
 
 function RecentCover({ item }: { item: RecentHistoryItem }) {
   const [failedSource, setFailedSource] = useState<string | null>(null);
@@ -22,10 +23,9 @@ function RecentCover({ item }: { item: RecentHistoryItem }) {
 }
 
 /** 본문 번호·목차와 독립된 상단 도구. 해당 페이지 종류의 기록만 받는다. */
-export default function RecentHistoryRail({ items, onSelect, className = "" }: {
+export default function RecentHistoryRail({ items, onSelect }: {
   items: RecentHistoryItem[];
   onSelect?: (item: RecentHistoryItem) => boolean;
-  className?: string;
 }) {
   const { ref, cursorClassName, dragProps } = useMouseDragScroll<HTMLElement>();
   const locale = useLocale();
@@ -33,7 +33,7 @@ export default function RecentHistoryRail({ items, onSelect, className = "" }: {
   if (items.length === 0) return null;
 
   return (
-    <div className={`min-w-0 w-full pb-6 md:pb-8 ${className}`} data-recent-history-controls>
+    <div className={`min-w-0 w-full ${styles.recent}`} data-recent-history-controls>
       <div className="mb-3 text-center text-xs font-medium text-text-secondary">{t("recentHistory")}</div>
       <nav ref={ref} {...dragProps} aria-label={t("recentHistory")} data-recent-history
         className={`scrollbar-hide flex justify-center-safe gap-3 overflow-x-auto overscroll-x-contain select-none pointer-coarse:snap-x ${cursorClassName}`}>
@@ -53,7 +53,7 @@ export default function RecentHistoryRail({ items, onSelect, className = "" }: {
             );
           })}
       </nav>
-      <div aria-hidden className="mt-6 h-px w-full bg-line md:mt-8" />
+      <div aria-hidden className={`h-px w-full bg-line ${styles.recentDivider}`} />
     </div>
   );
 }

@@ -8,7 +8,7 @@
 
 import { useState, useEffect } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Wheat } from "lucide-react";
 import HeaderSearch from "./HeaderSearch";
 import HeaderRecentProfiles from "./HeaderRecentProfiles";
@@ -18,7 +18,7 @@ import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 import { LinkPending } from "@/components/ui/pending";
 import { Z_INDEX } from "@/constants/zIndex";
 import useNavigationToTop from "@/hooks/useNavigationToTop";
-import { HEADER_NAV_ITEMS, SUPPORT_LINK, activeNavigationHref } from "@/constants/navigation";
+import { HEADER_NAV_ITEMS, SUPPORT_LINK, activeNavigationHref, isSupportShopAvailable } from "@/constants/navigation";
 
 
 import { createClient } from "@/lib/db/client";
@@ -34,6 +34,7 @@ interface UserProfile {
 export default function Header() {
   const pathname = usePathname();
   const t = useTranslations();
+  const locale = useLocale();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   useEffect(() => {
@@ -110,7 +111,7 @@ export default function Header() {
 
         {/* 우측 영역 */}
         <div className="flex items-center gap-0.5 sm:gap-1 ms-auto shrink-0">
-          <Link
+          {isSupportShopAvailable(locale) && <Link
             href={SUPPORT_LINK.href}
             onNavigate={() => navigateToTop(SUPPORT_LINK.href)}
             aria-label={t("nav.footer.support")}
@@ -119,7 +120,7 @@ export default function Header() {
             className={`inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-lg px-2 text-sm hover:bg-white/5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${pathname === SUPPORT_LINK.href ? "text-accent" : "text-text-secondary"}`}
           >
             <Wheat size={18} strokeWidth={1.5} aria-hidden="true" />
-          </Link>
+          </Link>}
 
           {/* 최근 방문 (모바일만 — 데스크톱은 좌측 중앙 패널이 쥔다) */}
           <HeaderRecentProfiles />

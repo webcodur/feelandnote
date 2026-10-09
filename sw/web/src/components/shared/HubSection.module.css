@@ -1,0 +1,65 @@
+/* 번호 구획의 세로 간격은 이 파일에서만 조정한다. 페이지 부모에는 gap·space-y를 더하지 않는다. */
+.page {
+  min-width: 0;
+  padding-bottom: 60px;
+}
+
+.section {
+  margin-top: 32px;
+}
+
+.opening {
+  margin-top: 0;
+  padding-top: 24px;
+}
+
+.divider {
+  margin-bottom: 48px;
+}
+
+.afterDivider {
+  padding-top: 48px;
+}
+
+.header {
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.more {
+  margin-top: 20px;
+}
+
+.intro {
+  padding-top: 24px;
+}
+
+.closing {
+  margin-top: 32px;
+}
+
+.recent {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.recentDivider {
+  margin-top: 24px;
+}
+
+@media (min-width: 768px) {
+  .section { margin-top: 40px; }
+  .opening { margin-top: 0; padding-top: 32px; }
+  .divider { margin-bottom: 64px; }
+  .afterDivider { padding-top: 64px; }
+  .header { gap: 12px; margin-bottom: 40px; }
+  .more { margin-top: 28px; }
+  .intro { padding-top: 32px; }
+  .closing { margin-top: 40px; }
+  .recent { padding-top: 32px; padding-bottom: 32px; }
+  .recentDivider { margin-top: 32px; }
+}
+
+@media (min-width: 1340px) {
+  .page { padding-bottom: 32px; }
+}

@@ -1,5 +1,5 @@
-.page { min-width: 0; padding-bottom: 60px; }
-.stack { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; min-width: 0; padding-top: 8px; }
+.page { min-width: 0; }
+.stack { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; }
 .section { scroll-margin-top: var(--layer-header-h); outline: none; min-width: 0; }
 .sectionBody { min-width: 0; padding-inline: 24px; }
 .hero {
@@ -93,9 +93,7 @@
 .reactionRadio:disabled + .reactionLabel { cursor: wait; opacity: 0.65; }
 .reactionStatus { color: var(--color-accent); font-size: 12px; }
 .composerFooter { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-@media (min-width: 1340px) { .page { padding-bottom: 0; } }
 @media (max-width: 767px) {
-  .stack { gap: 24px; }
   .sectionBody { padding-inline: 14px; }
   .identity { grid-template-columns: 96px minmax(0, 1fr); gap: 14px; margin-top: -16px; padding: 14px; }
   .coverColumn { grid-row: 1; margin-top: -30px; gap: 8px; }

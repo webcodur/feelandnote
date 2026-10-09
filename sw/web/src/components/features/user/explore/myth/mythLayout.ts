@@ -1,19 +1,18 @@
+import hubStyles from "@/components/shared/HubSection.module.css";
 import { EXPLORE_NAV_LAYOUT } from "@/components/shared/exploreNavLayout";
 import { CELEB_GRID_LAYOUT } from "@/components/shared/celebGridLayout";
 
 // Keep loading geometry tied to the shell at every breakpoint.
 export const MYTH_LAYOUT = {
-  shell: "scroll-mt-20 [overflow-anchor:none]",
+  shell: `scroll-mt-20 [overflow-anchor:none] ${hubStyles.page}`,
   container: "w-full min-w-0",
-  navigationOuter: "pb-5 md:pb-6",
+  navigationOuter: "min-w-0",
   selectionPanel: "w-full min-w-0",
   selectionDetails: "grid grid-cols-1 items-stretch gap-3 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-4",
   selectionWithoutArtwork: "grid-cols-1 md:grid-cols-1",
   selectionArtwork: "relative order-last aspect-[3/2] min-h-0 min-w-0 md:aspect-auto",
   selectionControls: "flex min-w-0 flex-col justify-center rounded-xl border border-white/20 bg-bg-secondary p-2 md:rounded-2xl md:p-4",
   membersOuter: "min-w-0",
-  // 제목 아래 본문 구획(구성원·책장·전체 목록)이 공유하는 구분선 리듬 — 간격은 다음 구획의 mt가 쥔다
-  sectionDivider: "mt-8 border-t border-white/5 pt-6 md:mt-12 md:pt-8",
   // 연대기의 국가 선택기도 쓰는 공통 칩 값.
   navigation: EXPLORE_NAV_LAYOUT.navigation,
   chipNav: EXPLORE_NAV_LAYOUT.chipNav,

@@ -229,25 +229,11 @@
 .recordsGrid {
   width: 100%;
   margin: 0 auto;
-  /* 좁은 화면에서는 하단 목차 띠가 본문 위에 떠 있다 — 마지막 줄이 가리지 않게 비운다.
-     띠가 물러나는 1340px부터는 되돌린다 */
-  padding-bottom: 60px;
-}
-
-@media (min-width: 1340px) {
-  .recordsGrid {
-    padding-bottom: 0;
-  }
-}
-
-.opening {
-  margin-block-end: 24px;
 }
 
 .sectionStack {
   display: grid;
   min-width: 0;
-  gap: 24px;
 }
 
 .recordSection {
@@ -404,14 +390,6 @@
 }
 
 @media (min-width: 768px) {
-  .opening {
-    margin-block-end: 32px;
-  }
-
-  .sectionStack {
-    gap: 32px;
-  }
-
   .avatarHeroColumn {
     transform: translateY(-24px);
   }

@@ -124,9 +124,9 @@ export const EXPLORE_FEATURED_LINKS: NavSubLink[] =
   NAV_ITEMS.find((item) => item.key === "explore")?.subLinks?.filter((link) =>
     ["influence", "spectrum", "myth", "faction"].includes(link.key ?? ""),
   ) ?? [];
-/** 작품 모드의 첫 화면은 베스트셀러다(곧바로 작품이 보인다). 나머지는 아래 「주제별 탐색」 카드로 안내한다(26.09.28). */
+/** 작품 모드의 첫 화면은 인기 작품이다(곧바로 작품이 보인다). 나머지는 아래 「주제별 탐색」 카드로 안내한다(26.09.28). */
 export const WORKS_LINKS: NavSubLink[] = [
-  { key: "bestseller", href: "/explore/works", label: "베스트셀러" },
+  { key: "bestseller", href: "/explore/works", label: "인기 작품" },
   { key: "curated", href: "/explore/works/curated", label: "기관 선정" },
   { key: "classics", href: "/explore/works/popular?mode=classics", label: "불후의 명작" },
   { key: "professionBooks", href: "/explore/works/professions", label: "직업별 도서" },
@@ -141,8 +141,20 @@ export const WORKS_UPCOMING_LINKS: readonly Pick<NavSubLink, "key" | "label">[] 
 export const SUPPORT_LINK: NavSubLink = { key: "support", href: "/support", label: "응원하기" };
 export const SUPPORT_SHOP_LINKS: NavSubLink[] = [
   SUPPORT_LINK,
-  { key: "shop", href: "/shop", label: "Shop" },
+  { key: "shop", href: "/shop", label: "상품구매" },
 ];
+/** 응원하기와 상품구매는 한국어에서만 공개한다. */
+export function isSupportShopAvailable(locale: string) {
+  return locale === "ko";
+}
+
+export function isSupportShopPath(pathname: string) {
+  return SUPPORT_SHOP_LINKS.some(link => link.href === pathname);
+}
+
+export function getSupportShopLinks(locale: string) {
+  return isSupportShopAvailable(locale) ? SUPPORT_SHOP_LINKS : [];
+}
 // #endregion
 
 // #region 풋터 섹션 구조 정의
@@ -185,9 +197,6 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     titleKey: "nav.footer.sectionAbout",
     links: [
       { key: "about", href: "/about", label: "서비스 소개" },
-      ...SUPPORT_SHOP_LINKS,
-      { key: "search", href: "/search", label: "통합 검색" },
-      { key: "feedback", href: "/agora/board/feedback", label: "문의·의견 보내기" },
       { key: "terms", href: "/terms", label: "이용약관" },
       { key: "privacy", href: "/privacy", label: "개인정보처리방침" },
     ],

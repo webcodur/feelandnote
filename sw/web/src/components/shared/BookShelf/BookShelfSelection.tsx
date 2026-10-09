@@ -105,6 +105,10 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
   }, [selectedContentId])
 
   if (!selected) return null
+  const guidanceLabel = selected.professionCategory === 'train'
+    ? t('professionReadingOrder', { current: selectedIndex + 1, total: books.length })
+    : selected.professionCategory === 'become' ? t('professionLearningPoint')
+      : selected.professionCategory === 'about' ? t('professionExplorationPoint') : undefined
   const source = current?.book
     ? { ...current.book, title: selected.title, preferredEditionId: selected.preferredEditionId ?? current.book.preferredEditionId, readerIds: selected.readerIds }
     : selected
@@ -144,9 +148,10 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
             setAttempt((value) => value + 1)
           }} />}
           {(selected.selectionReason || selected.professionCategory === 'train') && <div
-            className="mx-3 my-4 rounded-lg border border-accent/20 bg-accent/5 px-4 py-3 text-sm text-text-secondary sm:mx-4 md:mx-5" data-bookshelf-guidance>
-            {selected.professionCategory === 'train' && <p className="mb-2 text-xs font-semibold text-accent" data-profession-reading-order>
-              {t('professionReadingOrder', { current: selectedIndex + 1, total: books.length })}
+            className="mx-3 my-4 rounded-lg border border-accent/20 bg-accent/5 px-4 py-3 text-center text-sm text-text-secondary sm:mx-4 md:mx-5" data-bookshelf-guidance>
+            {guidanceLabel && <p className="mb-2 text-xs font-semibold text-accent" data-bookshelf-guidance-label
+              data-profession-reading-order={selected.professionCategory === 'train' ? true : undefined}>
+              {guidanceLabel}
             </p>}
             {selected.selectionReason && <p>{selected.selectionReason}</p>}
           </div>}

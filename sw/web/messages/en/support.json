@@ -25,28 +25,21 @@
       "pen": "Pens & pencils",
       "notebook": "Notebooks",
       "reader": "E-readers",
-      "light": "Reading lights"
+      "light": "Reading lights",
+      "drink": "Drinks",
+      "remote": "Page-turning remotes",
+      "bookHolder": "Book weights & clips",
+      "bookmark": "Bookmarks & page markers",
+      "desk": "Desks",
+      "timer": "Focus timers",
+      "speaker": "Pixel speakers",
+      "labelPrinter": "Label printers",
+      "object": "Desk objects"
     },
     "viewProduct": "View on Amazon",
     "productLinkLabel": "{name} · View on Amazon US (opens in a new tab)",
     "purchaseNote": "Please check Amazon.com for current prices, product options, shipping fees, and availability at your address.",
     "affiliateNotice": "We may earn a commission from qualifying purchases through these links.",
-    "howTitle": "How your purchase helps",
-    "howBody": "When you make a qualifying purchase through these links, Amazon pays feelandnote a commission. You pay the usual price, with no extra cost.",
-    "steps": [
-      {
-        "title": "Choose what you need",
-        "body": "Browse when you need to pick something up."
-      },
-      {
-        "title": "Shop as usual",
-        "body": "Buy on Amazon at the same price as shopping directly."
-      },
-      {
-        "title": "Support the service",
-        "body": "The commission from Amazon helps cover the cost of running feelandnote."
-      }
-    ],
     "thanks": "Thank you for using and supporting feelandnote.",
     "samePrice": "The same price",
     "tabs": {
@@ -56,29 +49,49 @@
     },
     "shop": {
       "metaTitle": "Shop · Reading essentials",
-      "metaDescription": "Book stands, pens, notebooks, and e-readers. Browse tools for reading and writing in one place.",
-      "title": "Tools for reading and writing",
-      "intro": "Book stands, pens, notebooks, and e-readers.\nFind the tools you need for reading and taking notes.",
-      "productsTitle": "Reading essentials",
-      "productsIntro": "Browse {count} tools for reading and taking notes.",
+      "metaDescription": "Browse book stands, desks, pens, e-readers, and small gadgets for reading and writing.",
+      "titleFirst": "Time with a book.",
+      "titleSecond": "A little more comfortable.",
+      "intro": "Book stands, pens, and small tools for your desk.\nUseful things for reading and keeping notes.",
+      "productsTitle": "Reading & desk essentials",
+      "productsIntro": "Browse {count} useful tools for reading, writing, and your desk.",
       "readerNote": "Before choosing an e-reader, please check that it supports your preferred bookstore and file formats.",
       "thanks": "Thank you for using and supporting feelandnote.",
       "browse": "Browse reading tools",
-      "usualShopping": "Shop on Amazon"
+      "usualShopping": "Shop on Amazon",
+      "groupNavigation": "Product categories",
+      "groupCount": "{count} items",
+      "groups": {
+        "devices": "E-readers & lighting",
+        "bookTools": "Book stands & desks",
+        "readingAccessories": "Bookmarks & book weights",
+        "writing": "Pens & notebooks",
+        "deskObjects": "Desk objects & gadgets"
+      }
     },
     "shipping": {
       "rocket": "Rocket delivery",
       "sellerRocket": "Seller Rocket delivery",
       "rocketWow": "Rocket Wow delivery",
-      "standard": "Standard delivery"
+      "standard": "Standard delivery",
+      "rocketFresh": "Rocket Fresh"
     },
     "reviewCount": "{count} reviews",
     "monthlyPurchaseCount": "{count}+ bought in the past month",
     "couponPrice": "With coupon",
-    "priceNote": "Prices, delivery, reviews, and purchase counts were checked on {date}. They may vary by option, location, and membership benefits. Please check the store for shipping fees and the final total.",
+    "priceNote": "Prices, delivery, ratings, reviews, and purchase counts were checked on {date}. They may vary by option, location, and membership benefits. Please check the store for shipping fees and the final total.",
     "entry": {
       "title": "If you enjoy feelandnote",
       "body": "Shopping for everyday essentials through our links helps keep feelandnote running, at no extra cost to you."
-    }
+    },
+    "ratingLabel": "Rated {rating} out of 5",
+    "storeName": "Amazon",
+    "groups": {
+      "food": "Rice & pantry",
+      "drinks": "Milk, drinks & coffee",
+      "household": "Household essentials"
+    },
+    "freshNote": "Tofu and refrigerated milk use Rocket Fresh delivery. Please check delivery availability and order requirements.",
+    "zoomImageLabel": "Enlarge image of {name}"
   }
 }

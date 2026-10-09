@@ -419,6 +419,8 @@
     },
     "professionTrain": "Train",
     "professionTrainIntro": "Textbooks and practical guides for building foundational knowledge and skills. Read in the suggested order and work through the explanations and examples in each book.",
-    "professionReadingOrder": "Reading order {current} / {total}"
+    "professionReadingOrder": "Study step {current} of {total}",
+    "professionLearningPoint": "Learning focus",
+    "professionExplorationPoint": "Exploration focus"
   }
 }

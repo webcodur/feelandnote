@@ -419,6 +419,8 @@
     },
     "professionTrain": "직업 훈련",
     "professionTrainIntro": "기초 지식과 기술을 쌓는 교재·기술서입니다. 안내된 순서로 읽으며 책 속 설명과 예제를 따라가 보세요.",
-    "professionReadingOrder": "읽기 순서 {current} / {total}"
+    "professionReadingOrder": "학습 순서 {current} / {total}",
+    "professionLearningPoint": "학습 포인트",
+    "professionExplorationPoint": "탐구 포인트"
   }
 }

@@ -23,9 +23,10 @@ import type { BlockedUser } from "@/actions/moderation";
 interface BlockedUsersCardProps {
   users: BlockedUser[];
   total: number;
+  hideHeading?: boolean;
 }
 
-export default function BlockedUsersCard({ users, total }: BlockedUsersCardProps) {
+export default function BlockedUsersCard({ users, total, hideHeading = false }: BlockedUsersCardProps) {
   const t = useTranslations("moderation.blockedList");
   const router = useRouter();
   const [pendingId, setPendingId] = useState<string | null>(null);
@@ -49,9 +50,9 @@ export default function BlockedUsersCard({ users, total }: BlockedUsersCardProps
 
   return (
     <ClassicalBox className="p-0 md:p-8">
-      <div className="flex justify-center mb-6">
+      {!hideHeading && <div className="flex justify-center mb-6">
         <DecorativeLabel label={t("title")} />
-      </div>
+      </div>}
 
       <p className="text-sm text-text-secondary">{t("description")}</p>
 

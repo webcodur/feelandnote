@@ -61,7 +61,7 @@
         "kind": "Institution"
       },
       "listResults": "{lists, plural, one {# list} other {# lists}} · {count, plural, one {# institution} other {# institutions}}",
-      "bestsellerLabel": "Bestsellers",
+      "bestsellerLabel": "Popular Works",
       "professionBooksLabel": "Books by Profession",
       "professionBooks": "Find foundational textbooks, representative introductions, and in-depth accounts of professional life.",
       "topicExploreLabel": "Explore by Topic",
@@ -69,7 +69,7 @@
       "opening": "In development"
     },
     "meta": {
-      "title": "Bestsellers - Top Books, Movies, Games & Music",
+      "title": "Popular Works - Top Books, Movies, Games & Music",
       "description": "Top paid Apple Books, popular Apple movies, Steam's most played games, and top Apple Music songs by category, plus curated lists and timeless classics."
     },
     "museum": {
@@ -474,7 +474,7 @@
       "criteriaBasisAll": "Aggregated by total recommendations and records across feelandnote figures",
       "criteriaBasisEra": "Aggregated by records of figures from the selected era",
       "criteriaBasisProfession": "Aggregated by records of figures from the selected profession",
-      "tabBestseller": "Book chart",
+      "tabBestseller": "Popular Works",
       "tabClassics": "All-Time Classics",
       "basisAll": "All",
       "basisEra": "By era",
@@ -508,7 +508,7 @@
         "amazonStore": "Amazon.com · US store"
       },
       "charts": {
-        "categories": "Choose a bestseller category",
+        "categories": "Choose a popular works category",
         "loadFailed": "We could not load the chart right now. Try again shortly or check the source website.",
         "updated": "Updated {date} {zone}",
         "BOOK": {
@@ -575,7 +575,40 @@
       "title": "Books by Profession",
       "description": "Train with an ordered reading path, learn the field’s big ideas, or explore lived experience. Choose a profession to find your next book.",
       "chooseProfession": "Choose a profession",
-      "empty": "No selected books are available."
+      "empty": "No selected books are available.",
+      "plates": {
+        "scientist": "The motion of a pendulum",
+        "musician": "Pitch and rhythm",
+        "visual_artist": "Perspective and the vanishing point",
+        "leader": "Direction and course",
+        "politician": "Choices and balance",
+        "commander": "Terrain and strategy",
+        "entrepreneur": "Organization and mechanisms",
+        "investor": "Time and compounding",
+        "humanities_scholar": "Texts and interpretation",
+        "social_scientist": "Observation and distribution",
+        "director": "Lenses and framing",
+        "author": "Prose and revision",
+        "actor": "Stage and blocking",
+        "influencer": "Voice and reach",
+        "athlete": "Time and performance"
+      },
+      "readingSection": "Reading",
+      "readingGuide": "Three ways to read",
+      "guide": {
+        "train": {
+          "title": "Train",
+          "description": "Build foundations with textbooks and practical guides, in order."
+        },
+        "become": {
+          "title": "Learn",
+          "description": "Understand the field through its defining ideas and books."
+        },
+        "about": {
+          "title": "Explore",
+          "description": "Read lived experience and case studies to understand real practice."
+        }
+      }
     }
   }
 }

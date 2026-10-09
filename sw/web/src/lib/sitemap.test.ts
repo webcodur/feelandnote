@@ -1,9 +1,23 @@
 import assert from 'node:assert/strict'
+import { AsyncLocalStorage } from 'node:async_hooks'
+import { createRequire } from 'node:module'
 import test from 'node:test'
 import type { MetadataRoute } from 'next'
 
-import { getSitemapEntries, serializeSitemap } from './sitemap'
 import { INFLUENCE_RANKING_FIELDS, getInfluenceRankingHref } from '@/constants/influenceRanking'
+
+// 직군 목록도 실제 Next 캐시를 거친다. 서버 저장소를 마련하고 각 호출은 빈 캐시에서 검증한다.
+Object.assign(globalThis, { AsyncLocalStorage })
+const require = createRequire(import.meta.url)
+const { workAsyncStorage } = require('next/dist/server/app-render/work-async-storage.external')
+const { workUnitAsyncStorage } = require('next/dist/server/app-render/work-unit-async-storage.external')
+const sitemap = require('./sitemap') as typeof import('./sitemap')
+const { serializeSitemap } = sitemap
+function getSitemapEntries(name: string) {
+  const incrementalCache = { generateCacheKey: async (key: string) => key, get: async () => null, set: async () => {} }
+  return workAsyncStorage.run({ route: '/sitemaps/core', incrementalCache }, () =>
+    workUnitAsyncStorage.run({ type: 'prerender-legacy', phase: 'render', tags: null, revalidate: Infinity }, () => sitemap.getSitemapEntries(name))) as ReturnType<typeof sitemap.getSitemapEntries>
+}
 
 const CREATED_AT = '2026-08-01T00:00:00.000Z'
 
@@ -15,6 +29,7 @@ test('works and curated URLs use canonical explore paths in both locales', async
   process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = 'test-anon-key'
   globalThis.fetch = async (input) => {
     const path = new URL(String(input)).pathname
+    if (path === '/rest/v1/celeb_professions') return Response.json([{ value: 'scientist', label: '과학자', label_en: 'Scientist' }])
     if (path === '/rest/v1/faction_lv2') {
       return Response.json([
         { id: 'm1', slug: 'homer-odyssey', is_myth: true, published: true, is_featured: false },
@@ -50,6 +65,12 @@ test('works and curated URLs use canonical explore paths in both locales', async
   assert.ok(entries.every(({ url }) => !url.includes('/library')))
   // 신화·세력은 화면이 여는 것만 — 닫힌 신화와 인물 없는 세력은 싣지 않는다
   const urls = entries.map(({ url }) => url)
+  for (const path of ['/support', '/shop']) {
+    const entry = entries.find(({ url }) => url === `https://feelandnote.com${path}`)
+    assert.ok(entry)
+    assert.equal(entry.alternates?.languages?.en, undefined)
+    assert.ok(!urls.includes(`https://feelandnote.com/en${path}`))
+  }
   for (const path of ['/explore/myth/homer-odyssey', '/en/explore/myth/homer-odyssey', '/explore/faction/openai', '/en/explore/faction/openai']) {
     assert.ok(urls.includes(`https://feelandnote.com${path}`), `missing ${path}`)
   }
@@ -165,6 +186,7 @@ test('기관·도감 조회도 1,000행을 넘어 끝까지 읽고 실패한 묶
   globalThis.fetch = async (input) => {
     const url = new URL(String(input))
     const table = url.pathname.split('/').pop()
+    if (table === 'celeb_professions') return Response.json([{ value: 'scientist', label: '과학자', label_en: 'Scientist' }])
     if (table === failedTable) return new Response('Bad Gateway', { status: 502 })
     const offset = Number(url.searchParams.get('offset'))
     const ids = Array.from({ length: offset === 0 ? 1000 : 1 }, (_, index) => offset + index)

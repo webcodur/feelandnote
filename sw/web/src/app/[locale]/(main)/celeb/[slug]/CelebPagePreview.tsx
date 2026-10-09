@@ -1,3 +1,4 @@
+import hubStyles from "@/components/shared/HubSection.module.css";
 import type { CSSProperties } from 'react';
 import { getTranslations } from 'next-intl/server';
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo';
@@ -19,7 +20,7 @@ export default async function CelebPagePreview({ identity, locale }: { identity:
   const worldId = resolveCelebWorld({ nationality: identity.nationality, birthDate: identity.birth_date,
     deathDate: identity.death_date, reality: identity.celeb_reality });
   return (
-    <div className={styles.page} data-page-identity>
+    <div className={`${styles.page} ${hubStyles.page}`} data-page-identity>
       <HubSection id="introduction" title={t('serviceIntroduction')} index={0} total={1} hideDivider className={styles.opening}>
         <div className={styles.openingFrame}>
           <div className={styles.bannerStage}><CelebWorldBannerView worldId={worldId} images={getWorldBannerImages(worldId)} /></div>

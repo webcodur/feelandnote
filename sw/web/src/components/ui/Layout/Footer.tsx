@@ -1,15 +1,15 @@
 /*
   파일명: /components/ui/Layout/Footer.tsx
   기능: 사이트 풋터
-  책임: 브랜드·섹션 링크·언어·저작권을 한 벌로 그린다. 브랜드는 가운데, 링크는 폭에 따라
+  책임: 브랜드·구매 진입점·섹션 링크·언어·저작권을 한 벌로 그린다. 브랜드는 가운데, 구매 진입점은 메뉴 아래 좌우 두 칸에 둔다. 링크는 폭에 따라
         칸 배치만 바뀐다(휴대폰 2열 가운데 → md 4열). 같은 링크를 두 번 그리지 않는다.
         휴대폰·태블릿에서는 하단 고정층(하단 탭 + 도크에 붙는 목차 띠) 높이만큼 아래를 더 비운다.
 */ // ------------------------------
 
 import { Link } from "@/i18n/navigation";
 import { getTranslations, getLocale } from "next-intl/server";
-import { ShoppingBag, Wheat, Youtube } from "lucide-react";
-import { FOOTER_SECTIONS } from "@/constants/navigation";
+import { Youtube } from "lucide-react";
+import { FOOTER_SECTIONS, getSupportShopLinks } from "@/constants/navigation";
 import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
 import { getYoutubeChannel } from "@/constants/youtube";
 import Logo from "@/components/ui/Logo";
@@ -24,6 +24,7 @@ export default async function Footer() {
   const t = await getTranslations();
   const currentYear = new Date().getFullYear();
   const locale = await getLocale();
+  const commerceLinks = getSupportShopLinks(locale);
   const youtube = { url: getYoutubeChannel(locale).url, label: t("policy.aboutActivityTitle") };
   const isDev = process.env.NODE_ENV !== "production";
   const isEn = locale === "en";
@@ -51,9 +52,7 @@ export default async function Footer() {
               )}
               <nav aria-label={t(section.titleKey)}>
                 {section.links.map((link) => (
-                  <Link key={link.href} href={link.href} className={`${LINK_CLASS} ${link.key === "support" ? "font-medium text-accent hover:text-accent-hover" : "text-text-secondary hover:text-text-primary"}`}>
-                    {link.key === "support" && <Wheat size={13} strokeWidth={1.5} aria-hidden="true" className="me-1.5 inline-block align-[-2px]" />}
-                    {link.key === "shop" && <ShoppingBag size={13} strokeWidth={1.5} aria-hidden="true" className="me-1.5 inline-block align-[-2px]" />}
+                  <Link key={link.href} href={link.href} className={`${LINK_CLASS} text-text-secondary hover:text-text-primary`}>
                     {t(`nav.footer.${link.key}`)}
                   </Link>
                 ))}
@@ -62,8 +61,17 @@ export default async function Footer() {
           ))}
         </div>
 
+        {commerceLinks.length > 0 && <nav aria-label={t("support.tabs.label")} className="mt-3 grid grid-cols-2 gap-4 text-center md:mt-4 md:gap-8">
+          {commerceLinks.map((link) => (
+            <Link key={link.href} href={link.href} className="flex min-h-11 flex-col justify-center rounded-control px-2 py-1 text-text-secondary hover:text-accent active:text-accent-dim focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+              <span className="text-sm font-semibold">{t(`nav.footer.${link.key}`)}</span>
+              <span className="mt-1 text-xs">{t(link.key === "support" ? "support.productsTitle" : "support.shop.productsTitle")}</span>
+            </Link>
+          ))}
+        </nav>}
+
         {/* 채널·언어 · 저작권 — 휴대폰은 가운데로 쌓고, 넓은 화면은 저작권 왼쪽·채널 오른쪽 */}
-        <div className="mt-6 flex flex-col items-center gap-3 border-t border-line pt-8 md:mt-8 md:flex-row-reverse md:justify-between md:pt-10">
+        <div className="mt-4 flex flex-col items-center gap-3 border-t border-line pt-4 md:mt-5 md:flex-row-reverse md:justify-between md:pt-5">
           <div className="flex items-center gap-2">
             <a
               href={youtube.url}

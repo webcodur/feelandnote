@@ -1,5 +1,6 @@
 "use client";
 
+import hubStyles from "@/components/shared/HubSection.module.css";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Ghost, SkeletonFrame } from "../hub/ExploreSkeleton";
@@ -13,11 +14,11 @@ export default function MythScreenSkeleton({ title, hasArtwork = true, faction =
   return (
     <SkeletonFrame label={`${title ?? t("title")} · ${common("loading")}`} className={layout.shell}>
       <div aria-hidden="true">
-        <div className={layout.navigationOuter}>
+        <div className={`${layout.navigationOuter} ${hubStyles.section} ${hubStyles.opening}`}>
           <div className={layout.selectionPanel}>
             {/* 실화면의 구획 머리(HubSection) — 번호 대시 + 이름 + 한 줄 정의가 한 덩어리로 선다.
                 로딩 때도 자리를 잡아 제목이 튀지 않게 한다 */}
-            <div className="mb-6 flex flex-col items-center gap-2 px-1 md:mb-10 md:gap-3">
+            <div className={`flex flex-col items-center px-1 ${hubStyles.header}`}>
               <Ghost className="h-4 w-20 rounded-full" />
               <Ghost className="h-7 w-44 md:h-8" />
               <Ghost className="h-5 w-64 max-w-[75%]" />
@@ -36,9 +37,10 @@ export default function MythScreenSkeleton({ title, hasArtwork = true, faction =
           </div>
         </div>
         <div className={layout.membersOuter}>
-          <div className={`${layout.container} ${layout.sectionDivider}`}>
+          <div className={`${layout.container} ${hubStyles.section}`}>
+            <div className={`h-px w-full bg-line ${hubStyles.divider}`} />
             {/* 구획 머리(HubSection)와 같은 쌓기 — 번호 대시 + 명단 이름 + 인원 */}
-            <div className="mb-3 flex flex-col items-center gap-2">
+            <div className={`flex flex-col items-center ${hubStyles.header}`}>
               <Ghost className="h-0.5 w-8 rounded-full" />
               <Ghost className="h-6 w-28 md:h-7" />
               <Ghost className="h-5 w-36" />
@@ -56,9 +58,10 @@ export default function MythScreenSkeleton({ title, hasArtwork = true, faction =
         {/* 책장 구획 — 같은 구분선 리듬 위에 중앙 제목·모드 탭·카드 행이 선다 */}
         <div className={faction ? layout.factionShelfOuter : layout.overviewOuter}>
           <div className={faction ? layout.factionShelfContainer : layout.container}>
-            <div className={layout.sectionDivider}>
-              {/* 책장 머리(CenteredSectionHeading) — 대시+제목, mb-3/md:mb-5 */}
-              <div className="mb-3 flex flex-col items-center gap-2 md:mb-5">
+            <div className={hubStyles.section}>
+              <div className={`h-px w-full bg-line ${hubStyles.divider}`} />
+              {/* 실화면과 같은 공통 구획 머리 */}
+              <div className={`flex flex-col items-center ${hubStyles.header}`}>
                 <Ghost className="h-0.5 w-8 rounded-full" />
                 <Ghost className="h-6 w-24 md:h-7" />
               </div>

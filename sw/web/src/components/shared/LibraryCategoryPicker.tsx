@@ -13,7 +13,7 @@ export interface LibraryCategoryOption {
 }
 
 export default function LibraryCategoryPicker({
-  options, value, onChange, ariaLabel, trailing, className, columns = 2,
+  options, value, onChange, ariaLabel, trailing, className, chipClassName, columns = 2,
 }: {
   options: LibraryCategoryOption[];
   value: string;
@@ -21,6 +21,7 @@ export default function LibraryCategoryPicker({
   ariaLabel: string;
   trailing?: ReactNode;
   className?: string;
+  chipClassName?: string;
   columns?: 2 | 3;
 }) {
   return (
@@ -50,7 +51,7 @@ export default function LibraryCategoryPicker({
             selected={option.key === value && !option.disabled}
             disabled={option.disabled}
             onClick={() => onChange(option.key)}
-            className={cn(layout.chip, columns === 3 && "px-2 text-[13px] sm:px-3 sm:text-sm")}
+            className={cn(layout.chip, columns === 3 && "px-2 text-[13px] sm:px-3 sm:text-sm", chipClassName)}
           >
             <span className={cn("min-w-0 text-center leading-5", columns === 3 ? "whitespace-nowrap" : "[overflow-wrap:anywhere]")}>{option.label}</span>
             {option.count !== undefined && <span className="shrink-0 tabular-nums">{option.count}</span>}

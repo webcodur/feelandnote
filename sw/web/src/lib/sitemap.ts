@@ -156,22 +156,15 @@ function entry(
 ): SitemapEntry[] {
   const { languages } = getAlternates(path)
 
-  return [
+  return Object.entries(languages).flatMap(([language, url]) => language !== 'x-default' && url ? [
     {
-      url: languages.ko,
+      url,
       ...(lastModified && { lastModified }),
       changeFrequency,
       priority,
       alternates: { languages },
     },
-    {
-      url: languages.en,
-      ...(lastModified && { lastModified }),
-      changeFrequency,
-      priority,
-      alternates: { languages },
-    },
-  ]
+  ] : [])
 }
 
 const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [

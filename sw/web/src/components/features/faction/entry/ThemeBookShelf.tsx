@@ -53,7 +53,8 @@ export default function ThemeBookShelf({ books, memberIds, name, isMyth }: Props
     ? tCeleb('professionShelfIntro', { profession: tProfession(profession) }) : tCeleb('relatedShelfIntro')
   const professionShelfBooks = (extras?.professionBooks ?? []).map(affiliateBookToShelfBook)
   const professionChoices = getProfessionShelfChoices(professionShelfBooks, {
-    become: tCeleb('professionBecome'), about: tCeleb('professionAbout'),
+    train: tCeleb('professionTrain'), become: tCeleb('professionBecome'), about: tCeleb('professionAbout'),
+    trainIntro: tCeleb('professionTrainIntro'),
     becomeIntro: tCeleb('professionBecomeIntro'), aboutIntro: tCeleb('professionAboutIntro'),
   })
   const groups: BookShelfGroup[] = [

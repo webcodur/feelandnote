@@ -61,7 +61,7 @@
         "kind": "기관"
       },
       "listResults": "선정 목록 {lists, number}개 · 기관 {count, number}곳",
-      "bestsellerLabel": "베스트셀러",
+      "bestsellerLabel": "인기 작품",
       "professionBooksLabel": "직업별 도서",
       "professionBooks": "기초 교재부터 대표 교양서와 깊이 있는 경험서까지, 직군별로 읽을 책을 찾아보세요.",
       "topicExploreLabel": "주제별 탐구",
@@ -69,7 +69,7 @@
       "opening": "개설 작업 중"
     },
     "meta": {
-      "title": "베스트셀러 - 도서·영화·게임·음악 인기 순위",
+      "title": "인기 작품 - 도서·영화·게임·음악 인기 순위",
       "description": "YES24 국내 도서 일별 판매 순위, Apple 영화 한국 스토어 인기 영화, Steam 동시 플레이 순위, Apple Music 한국 인기곡을 분야별로 봅니다. 기관 선정 목록과 불후의 명작으로 이어집니다."
     },
     "museum": {
@@ -474,7 +474,7 @@
       "criteriaBasisAll": "feelandnote 등록 인물들의 누적 추천 및 감상 기록 수 기준",
       "criteriaBasisEra": "해당 시대(고대·중세·근대·현대) 인물들의 누적 감상 수 기준",
       "criteriaBasisProfession": "해당 직군 인물들의 누적 감상 수 기준",
-      "tabBestseller": "베스트셀러",
+      "tabBestseller": "인기 작품",
       "tabClassics": "불후의 명작",
       "basisAll": "전체",
       "basisEra": "시대별",
@@ -508,7 +508,7 @@
         "amazonStore": "Amazon.com · 미국 스토어"
       },
       "charts": {
-        "categories": "베스트셀러 분야 선택",
+        "categories": "인기 작품 분야 선택",
         "loadFailed": "지금 순위를 불러오지 못했습니다. 잠시 뒤 다시 시도하거나 원본 사이트에서 확인해 주세요.",
         "updated": "{date} {zone} 갱신",
         "BOOK": {
@@ -575,7 +575,40 @@
       "title": "직업별 도서",
       "description": "순서대로 기초를 쌓는 직업 훈련, 큰 그림을 배우는 직업 수업, 현장의 경험을 깊이 읽는 직업 탐구. 직군을 골라 나에게 맞는 책을 찾아보세요.",
       "chooseProfession": "직군 선택",
-      "empty": "표시할 선정 도서가 없습니다."
+      "empty": "표시할 선정 도서가 없습니다.",
+      "plates": {
+        "scientist": "진자의 운동",
+        "musician": "음계와 리듬",
+        "visual_artist": "원근과 소실점",
+        "leader": "방향과 항로",
+        "politician": "선택과 균형",
+        "commander": "지형과 작전",
+        "entrepreneur": "조직과 작동 원리",
+        "investor": "시간과 복리",
+        "humanities_scholar": "원전과 해석",
+        "social_scientist": "관찰과 분포",
+        "director": "렌즈와 프레임",
+        "author": "문장과 퇴고",
+        "actor": "무대와 동선",
+        "influencer": "목소리와 전달",
+        "athlete": "시간과 기록"
+      },
+      "readingSection": "도서 읽기",
+      "readingGuide": "세 가지 읽기 목적",
+      "guide": {
+        "train": {
+          "title": "직업 훈련",
+          "description": "기초 교재와 기술서를 차례로 읽습니다."
+        },
+        "become": {
+          "title": "직업 수업",
+          "description": "대표 교양서로 분야의 큰 그림을 익힙니다."
+        },
+        "about": {
+          "title": "직업 탐구",
+          "description": "경험서와 사례로 현장의 판단을 깊이 읽습니다."
+        }
+      }
     }
   }
 }

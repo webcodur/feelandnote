@@ -1,3 +1,4 @@
+import hubStyles from "@/components/shared/HubSection.module.css";
 import { getTranslations } from "next-intl/server";
 import { cookies, headers } from "next/headers";
 import { NAV_ITEMS } from "@/constants/navigation";
@@ -41,22 +42,22 @@ export default async function ExplorePage({ searchParams }: {
   // 주제별 탐색 — 주소·이름은 메뉴 설정(NAV_ITEMS), 그림·묶음·순서는 exploreLenses가 쥔다
   const hrefByKey = new Map(NAV_ITEMS.find((item) => item.key === "explore")!.subLinks!.map((page) => [page.key!, page.href]));
 
-  // 첫 목록은 검색·카드를 바로 보여 준다. 목차는 목록과 주제별 탐색 구획을 잇는다.
+  // 홈과 같은 번호 구획으로 목록과 주제별 탐색을 목차에 연결한다.
   const hubGroup = EXPLORE_HUB_GROUP.figures;
   const titles = [t("navCelebs"), t("quickNav")];
 
   return (
-    <div className="pb-[60px] min-[1340px]:pb-8">
+    <div className={hubStyles.page}>
       <AsyncIntlProvider>
         <AtlasNavSections items={hubAtlasNavItems(titles, hubGroup)} />
       </AsyncIntlProvider>
-      <div className="space-y-8 md:space-y-10">
-        <section id={hubSectionId(0, hubGroup)} aria-label={titles[0]}>
+      <div>
+        <HubSection title={titles[0]} id={hubSectionId(0, hubGroup)} index={0} total={titles.length} hideDivider>
           <Lane fallback={<PendingBlock variant="grid" count={24} label={pending("loading")} />}>
             <FiguresFilterResult params={filters} />
           </Lane>
-        </section>
-        <HubSection title={titles[1]} id={hubSectionId(1, hubGroup)}>
+        </HubSection>
+        <HubSection title={titles[1]} id={hubSectionId(1, hubGroup)} index={1} total={titles.length}>
           {/* 쓰임새별 묶음. 크기는 큰 카드(휴대폰 두 열 타일) | 낮은 줄 카드 두 단계뿐이다 */}
           <nav aria-label={titles[1]} className="space-y-8 md:space-y-10">
           {FIGURE_LENS_GROUPS.map((group) => (

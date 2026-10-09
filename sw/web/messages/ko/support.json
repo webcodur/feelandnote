@@ -1,9 +1,9 @@
 {
   "support": {
-    "metaTitle": "응원하기 · Support us",
+    "metaTitle": "응원하기",
     "metaDescription": "쌀과 생필품을 평소 구매하시던 가격 그대로 구매하고 필앤노트 운영에 힘을 보태 주세요.",
     "back": "홈으로",
-    "titleFirst": "평소의 장보기가",
+    "titleFirst": "평소의 장보기만으로",
     "titleSecond": "필앤노트에 힘이 됩니다.",
     "intro": "필앤노트를 이용해 주셔서 감사합니다.\n이 링크를 이용하시면 필앤노트 운영에 큰 힘이 됩니다.",
     "browse": "생필품 살펴보기",
@@ -25,60 +25,73 @@
       "pen": "필기구",
       "notebook": "노트",
       "reader": "전자책 리더기",
-      "light": "독서 조명"
+      "light": "독서 조명",
+      "drink": "음료",
+      "remote": "페이지 넘김 리모컨",
+      "bookHolder": "문진·북스토퍼",
+      "bookmark": "책갈피·인덱스",
+      "desk": "책상",
+      "timer": "집중 타이머",
+      "speaker": "픽셀 스피커",
+      "labelPrinter": "라벨 프린터",
+      "object": "책상 오브젝트"
     },
-    "viewProduct": "쿠팡에서 보기",
+    "viewProduct": "상품 보기",
     "productLinkLabel": "{name} · 쿠팡에서 상품 보기 (새 창)",
     "purchaseNote": "가격·배송비·재고·상품 옵션은 쿠팡에서 확인해 주세요.",
     "affiliateNotice": "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
-    "howTitle": "구매가 응원으로 이어집니다",
-    "howBody": "이곳의 링크로 구매하시면 쿠팡이 필앤노트에 제휴 수수료를 지급합니다. 평소 구매하시던 가격 그대로이며, 추가로 부담하실 비용은 없습니다.",
-    "steps": [
-      {
-        "title": "필요한 물건 선택",
-        "body": "필요한 물건이 있을 때 둘러봐 주세요."
-      },
-      {
-        "title": "평소처럼 구매",
-        "body": "쿠팡에서 평소 구매하시던 가격 그대로 구매하실 수 있습니다."
-      },
-      {
-        "title": "서비스 운영에 보탬",
-        "body": "쿠팡이 지급하는 제휴 수수료를 필앤노트 운영에 보탭니다."
-      }
-    ],
     "thanks": "필앤노트를 이용하고 응원해 주셔서 감사합니다.",
     "samePrice": "평소 구매하시던 가격 그대로",
     "tabs": {
-      "label": "응원하기와 Shop",
+      "label": "응원하기와 상품구매",
       "support": "응원하기",
-      "shop": "Shop"
+      "shop": "상품구매"
     },
     "shop": {
-      "metaTitle": "Shop · 독서용품",
-      "metaDescription": "독서대, 필기구, 노트와 전자책 리더기. 독서와 기록에 필요한 도구를 한곳에서 살펴보세요.",
-      "title": "독서와 기록을 위한 도구",
-      "intro": "독서대와 필기구, 전자책 리더기까지.\n읽고 기록할 때 필요한 도구를 모았습니다.",
-      "productsTitle": "독서용품",
-      "productsIntro": "독서와 기록에 필요한 {count}가지 도구를 준비했습니다.",
+      "metaTitle": "상품구매 · 독서용품",
+      "metaDescription": "투명 독서대와 책상, 필기구, 전자책 리더기와 책상용 가젯. 읽고 기록할 때 쓸 물건을 한곳에서 살펴보세요.",
+      "titleFirst": "책 읽는 시간을",
+      "titleSecond": "조금 더 편하게.",
+      "intro": "독서대와 필기구, 책상 위 작은 도구까지.\n읽고 기록할 때 쓸 만한 물건을 모았습니다.",
+      "productsTitle": "독서·책상용품",
+      "productsIntro": "독서와 기록에 유용한 도구, 책상에 두고 쓸 물건 {count}가지를 모았습니다.",
       "readerNote": "전자책 리더기는 이용하시는 서점과 지원하는 파일 형식을 확인하신 뒤 선택해 주세요.",
       "thanks": "필앤노트를 이용하고 응원해 주셔서 감사합니다.",
       "browse": "독서용품 살펴보기",
-      "usualShopping": "쿠팡에서 평소처럼"
+      "usualShopping": "쿠팡에서 평소처럼",
+      "groupNavigation": "상품 종류",
+      "groupCount": "{count}개",
+      "groups": {
+        "devices": "전자책·조명",
+        "bookTools": "독서대·책상",
+        "readingAccessories": "책갈피·문진",
+        "writing": "필기구·노트",
+        "deskObjects": "책상 위 오브젝트·가젯"
+      }
     },
     "shipping": {
       "rocket": "로켓배송",
       "sellerRocket": "판매자로켓",
       "rocketWow": "로켓와우",
-      "standard": "일반배송"
+      "standard": "일반배송",
+      "rocketFresh": "로켓프레시"
     },
     "reviewCount": "상품평 {count}개",
     "monthlyPurchaseCount": "한 달간 {count}명 이상 구매",
     "couponPrice": "쿠폰 적용가",
-    "priceNote": "가격·배송·상품평·구매 표시는 {date} 확인 기준입니다. 옵션·배송지·회원 혜택에 따라 달라질 수 있으며, 배송비와 최종 결제 금액은 쿠팡에서 확인해 주세요.",
+    "priceNote": "가격·배송·별점·상품평·구매 표시는 {date} 확인 기준입니다. 옵션·배송지·회원 혜택에 따라 달라질 수 있으며, 배송비와 최종 결제 금액은 쿠팡에서 확인해 주세요.",
     "entry": {
       "title": "필앤노트가 마음에 드셨다면",
       "body": "필요한 물건을 구매하실 때 응원하기를 둘러봐 주세요. 평소 구매하시던 가격 그대로, 서비스 운영에 힘을 보태실 수 있습니다."
-    }
+    },
+    "ratingLabel": "별점 {rating}점, 5점 만점",
+    "storeName": "쿠팡",
+    "groups": {
+      "food": "쌀·식료품",
+      "drinks": "우유·음료·커피",
+      "household": "생활용품"
+    },
+    "freshNote": "두부·냉장 우유는 로켓프레시 상품입니다. 배송 가능 지역과 주문 조건을 확인해 주세요.",
+    "zoomImageLabel": "{name} 이미지 확대"
   }
 }

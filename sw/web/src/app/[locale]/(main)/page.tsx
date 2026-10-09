@@ -1,3 +1,4 @@
+import hubStyles from "@/components/shared/HubSection.module.css";
 /*
   파일명: /app/(main)/page.tsx
   기능: 홈 — 오늘의 신문 1면
@@ -7,7 +8,8 @@
         로그인 유저용 빠른기록은 일단 주석 처리했다 — 재투입 여부는 상황에 맞게 정한다(sections.tsx).
 */ // ------------------------------
 
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import { isSupportShopAvailable } from "@/constants/navigation";
 import { getLocalizedAlternates, getWebSiteJsonLd } from "@/lib/seo";
 import { serializeJsonLd } from "@/lib/jsonLd";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
@@ -44,6 +46,7 @@ export async function generateMetadata() {
 }
 
 export default async function MainPage() {
+  const locale = await getLocale();
   const [t, siteT, tPending] = await Promise.all([
     getTranslations("home.hub"),
     getTranslations("site"),
@@ -64,7 +67,7 @@ export default async function MainPage() {
         {/* 구획별 본문 폭은 안쪽에서 제한한다. */}
         <AtlasNavSections items={hubAtlasNavItems(HOME_SECTIONS.map((s) => t(s.navTitleKey ?? s.titleKey)), HOME_GROUP_ID)} />
         {/* 좁은 화면에서는 하단 목차 띠가 본문 위에 떠 있다 — 마지막 줄이 가리지 않게 비운다 */}
-        <PageContainer width="detail" className="pb-[60px] min-[1340px]:pb-8">
+        <PageContainer width="detail" className={hubStyles.page}>
           {/* 브랜드 줄 — 한 줄로 압축, 소개 본문은 /about이 쥔다 */}
           <HomeBrandHeader
             brandHeading={siteT("brandHeading")}
@@ -80,15 +83,15 @@ export default async function MainPage() {
 
           {/* 방문자 첫인사 액자 — 서비스 최상단, 브랜드 줄 바로 아래에 둔다.
               로그인 유저에게는 그리지 않는다 */}
-          <div className="mt-8 md:mt-10">
+          <div className={hubStyles.closing}>
             <Lane fallback={null}>
               <VisitorIntroSection />
             </Lane>
           </div>
 
           {/* 목차는 아틀라스 내비(옆 레일·하단 띠)가 진다. 라벨·순서·번호는 config 단일원천에서 온다.
-              첫 구획 머리가 첫인사 액자 바로 아래에 오도록 같은 간격을 둔다 */}
-          <div className="mt-8 space-y-8 md:mt-10 md:space-y-10">
+              구획 간격은 HubSection이 쥔다 */}
+          <div>
 
             {/* 오늘의 인물 — 머리기사. 첫 화면 안에 인물과 작품이 들어오도록 브랜드 줄 바로 아래에 둔다 */}
             <HubSection {...withoutMore(sec("todayFigure"))} hideDivider>
@@ -125,9 +128,9 @@ export default async function MainPage() {
             */}
 
           </div>
-          <div className="mx-auto mt-10 max-w-3xl md:mt-12">
+          {isSupportShopAvailable(locale) && <div className={`mx-auto max-w-3xl ${hubStyles.closing}`}>
             <SupportCallout />
-          </div>
+          </div>}
         </PageContainer>
 
       </AsyncIntlProvider>

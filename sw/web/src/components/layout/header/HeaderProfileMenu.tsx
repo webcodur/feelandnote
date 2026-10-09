@@ -101,7 +101,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
           <Users size={16} className="text-text-secondary" />{t("social")}
         </Link>
       )}
-      <Link href="/agora/board/feedback" onNavigate={() => navigateToTop("/agora/board/feedback")} onClick={() => setShowDropdown(false)}
+      <Link href="/about#contact" onClick={() => setShowDropdown(false)}
         className="flex min-h-11 items-center gap-3 px-4 py-2.5 text-sm text-text-primary no-underline hover:bg-white/5 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
         <MessageCircle size={16} className="text-text-secondary" />{t("feedback")}
       </Link>

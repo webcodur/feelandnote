@@ -1,5 +1,7 @@
 "use client";
 
+import hubStyles from "@/components/shared/HubSection.module.css";
+
 import { createContext, useEffect, useRef, useState, type ReactNode } from "react";
 import AtlasNav, { type AtlasNavItem } from "@/components/shared/atlasNav/AtlasNav";
 import { useSectionNavigation } from "@/lib/scroll/useSectionNavigation";
@@ -40,7 +42,7 @@ export default function ContentDetailNavigation({ children, workId }: { children
   return (
     <ContentDetailSectionsContext.Provider value={items}>
       <PageContainer width="detail">
-        <div ref={rootRef} className={styles.page} data-content-work-id={workId}>
+        <div ref={rootRef} className={`${styles.page} ${hubStyles.page}`} data-content-work-id={workId}>
           <AtlasNav items={items} activeId={activeSectionId} onNavigate={navigate} />
           {children}
         </div>

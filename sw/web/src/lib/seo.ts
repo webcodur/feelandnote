@@ -1,6 +1,7 @@
 import { getLocale } from 'next-intl/server';
 import { YOUTUBE_CHANNELS } from '@/constants/youtube';
 import { summarizeSentences } from './seoSentences';
+import { isSupportShopPath, isSupportShopAvailable } from '@/constants/navigation';
 
 export const SITE_URL = 'https://feelandnote.com';
 /** 워드마크는 한 단어 `feelandnote`다. 검색어 토큰과 일치해야 하므로 `Feel&Note`·`Feel & Note`로 되돌리지 않는다. */
@@ -117,7 +118,7 @@ export function getAlternates(path: string, locale: 'ko' | 'en' = 'ko') {
     canonical: locale === 'en' ? `${BASE_URL}/en${normalizedPath}` : `${BASE_URL}${normalizedPath}`,
     languages: {
       ko: `${BASE_URL}${normalizedPath}`,
-      en: `${BASE_URL}/en${normalizedPath}`,
+      ...(!isSupportShopPath(path) || isSupportShopAvailable('en') ? { en: `${BASE_URL}/en${normalizedPath}` } : {}),
       'x-default': `${BASE_URL}${normalizedPath}`,
     },
   };

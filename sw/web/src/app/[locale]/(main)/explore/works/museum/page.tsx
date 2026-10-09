@@ -30,7 +30,7 @@ export default async function MuseumPage({ searchParams }: { searchParams: Promi
   const { cat, sub } = await searchParams;
 
   return (
-    <div className="w-full pb-20">
+    <div className="w-full">
       <WorksRevisionNotice section="museum" />
       <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-80" />}><MuseumContent cat={cat} sub={sub} /></Lane>
     </div>

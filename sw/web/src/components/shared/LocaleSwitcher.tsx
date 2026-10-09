@@ -6,9 +6,16 @@ import { getPathname, usePathname } from "@/i18n/navigation";
 import { saveLocalePreference } from "@/i18n/entryLocale";
 import { Globe, Check, Hourglass } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
+import { isSupportShopPath, isSupportShopAvailable } from "@/constants/navigation";
 
-function chooseLocale(event: ReactMouseEvent<HTMLAnchorElement>, locale: string) {
+function localeHref(pathname: string, locale: string) {
+  const href = isSupportShopPath(pathname) && !isSupportShopAvailable(locale) ? "/" : pathname;
+  return getPathname({ href, locale });
+}
+
+function chooseLocale(event: ReactMouseEvent<HTMLAnchorElement>, locale: string, pathname: string) {
   saveLocalePreference(locale);
+  if (isSupportShopPath(pathname) && !isSupportShopAvailable(locale)) return;
   // Keep filters, pagination and section anchors, including repeated query keys.
   event.currentTarget.href = event.currentTarget.pathname + window.location.search + window.location.hash;
 }
@@ -92,10 +99,10 @@ function LocaleDropdown({ locale, pathname, className, label }: { locale: string
               return (
                 <a
                   key={option.code}
-                  href={getPathname({ href: pathname, locale: option.code })}
+                  href={localeHref(pathname, option.code)}
                   hrefLang={option.code}
-                  onClick={(event) => { chooseLocale(event, option.code); setIsOpen(false); }}
-                  onAuxClick={(event) => chooseLocale(event, option.code)}
+                  onClick={(event) => { chooseLocale(event, option.code, pathname); setIsOpen(false); }}
+                  onAuxClick={(event) => chooseLocale(event, option.code, pathname)}
                   aria-current={isCurrent || undefined}
                   className={`flex items-center justify-between px-4 py-2.5 text-sm no-underline hover:bg-white/5 ${isCurrent ? "text-accent font-medium" : "text-text-primary"}`}
                 >
@@ -132,7 +139,7 @@ export default function LocaleSwitcher({ variant = "icon", className }: LocaleSw
   const pathname = usePathname();
   const t = useTranslations("layout.locale");
   const targetLocale = locale === "ko" ? "en" : "ko";
-  const targetHref = getPathname({ href: pathname, locale: targetLocale });
+  const targetHref = localeHref(pathname, targetLocale);
 
   if (variant === "icon") {
     return <LocaleDropdown locale={locale} pathname={pathname} className={className} label={t("label")} />;
@@ -143,8 +150,8 @@ export default function LocaleSwitcher({ variant = "icon", className }: LocaleSw
       <a
         href={targetHref}
         hrefLang={targetLocale}
-        onClick={(event) => chooseLocale(event, targetLocale)}
-        onAuxClick={(event) => chooseLocale(event, targetLocale)}
+        onClick={(event) => chooseLocale(event, targetLocale, pathname)}
+        onAuxClick={(event) => chooseLocale(event, targetLocale, pathname)}
         className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 active:bg-white/10 w-full text-text-primary ${className ?? ""}`}
       >
         <Globe size={16} className="text-text-secondary" />
@@ -157,8 +164,8 @@ export default function LocaleSwitcher({ variant = "icon", className }: LocaleSw
     <a
       href={targetHref}
       hrefLang={targetLocale}
-      onClick={(event) => chooseLocale(event, targetLocale)}
-      onAuxClick={(event) => chooseLocale(event, targetLocale)}
+      onClick={(event) => chooseLocale(event, targetLocale, pathname)}
+      onAuxClick={(event) => chooseLocale(event, targetLocale, pathname)}
       className={`text-sm hover:text-white active:text-accent ${className ?? ""}`}
     >
       {t("switchTo")}

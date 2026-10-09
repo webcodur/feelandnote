@@ -117,7 +117,7 @@
 
 본인만 들어간다. 로그인하지 않았거나 id가 다르면 `notFound()`다. 메타에 `robots: { index: false, follow: false }`를 건다.
 
-`getProfile()`과 `getDetailedStats(userId)`를 읽어 통계 섹션과 설정 섹션을 세운다. 로그인 수단이 이메일인지(`app_metadata.provider === 'email'`)를 설정 섹션에 넘긴다 — 비밀번호 관련 동선을 가르는 값으로 보인다.
+`getDetailedStats(userId)`와 `getBlockedUsers()`를 읽어 통계·차단한 사용자·설정 세 구획을 세운다. 공통 `HubSection`의 01~03 번호·제목과 아틀라스 목차를 맞추며, 차단 카드에는 구획 제목을 중복 표시하지 않는다. 로그인 수단이 이메일인지(`app_metadata.provider === 'email'`)를 설정 섹션에 넘긴다 — 비밀번호 관련 동선을 가르는 값으로 보인다.
 
 **차단한 사용자 관리(26.07.30)** — 같은 화면에 카드 하나로 붙어 있다(통계와 설정 사이). `getBlockedUsers()`를 서버에서 읽어 넘기고, 해제는 카드에서 처리한 뒤 화면을 다시 읽는다. 별도 라우트를 만들지 않았다 — 이 화면이 이미 본인 전용이고 계정 관리가 모여 있어 네비게이션에 새 항목을 낼 이유가 없다.
 

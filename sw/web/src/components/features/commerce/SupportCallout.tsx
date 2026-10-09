@@ -1,9 +1,10 @@
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { ArrowRight, Wheat } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
-import { SUPPORT_LINK } from '@/constants/navigation'
+import { SUPPORT_LINK, isSupportShopAvailable } from '@/constants/navigation'
 
 export default async function SupportCallout() {
+  if (!isSupportShopAvailable(await getLocale())) return null
   const t = await getTranslations('support')
 
   return (

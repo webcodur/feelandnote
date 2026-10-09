@@ -12,9 +12,10 @@ import { LinkPending } from "@/components/ui/pending";
 
 import { hubSectionId } from "./hubSectionUtils";
 import { useTranslations } from "next-intl";
+import styles from "./HubSection.module.css";
 
 interface HubSectionProps {
-  /** 상세 정보 화면에서 공용 번호·제목을 유지하며 여백을 줄인다. */
+  /** 상세 정보 화면의 제목 크기를 줄인다. 세로 간격은 모든 구획이 공유한다. */
   compact?: boolean;
   className?: string;
   tabIndex?: number;
@@ -22,14 +23,13 @@ interface HubSectionProps {
   id?: string;
   title: string;
   /** 제목 요소 수준 — 한 편의 주소(신화·세력 상세)에서는 고른 이름이 페이지의 h1이다 */
-  titleAs?: "h1" | "h2";
+  titleAs?: "h1" | "h2" | "h3";
   subtitle?: React.ReactNode;
   headerActions?: React.ReactNode;
   moreHref?: string;
   moreLabel?: string;
   children: React.ReactNode;
   hideDivider?: boolean;
-  dividerClassName?: string;
   /** 0-based 인덱스 (넘버링 · 네비게이션용) */
   index?: number;
   /** 전체 섹션 수 */
@@ -51,7 +51,6 @@ export default function HubSection({
   moreLabel,
   children,
   hideDivider = false,
-  dividerClassName,
   index,
   total,
   groupId,
@@ -63,16 +62,16 @@ export default function HubSection({
   const TitleTag = titleAs ?? "h2";
 
   return (
-    <section id={sectionId} tabIndex={tabIndex} className={`w-full flex flex-col scroll-mt-20 ${hideDivider && !compact ? "pt-6 md:pt-8" : ""} ${className ?? ""}`}>
-      {/* 구획 사이 선 — 위 구획 끝에서 짧게 끊고(간격은 부모의 space-y), 아래 새 구획은 넉넉히 띄운다
+    <section id={sectionId} tabIndex={tabIndex} data-hub-section className={`w-full flex flex-col scroll-mt-20 ${styles.section} ${hideDivider ? styles.opening : ""} ${className ?? ""}`}>
+      {/* 구획 사이 선 — 위 구획 끝에서 짧게 끊고, 아래 새 구획은 넉넉히 띄운다
           (platform-02-code-rules.md 「구분선」) */}
-      {!hideDivider && <div className={`h-px w-full bg-line ${dividerClassName ?? "mb-12 md:mb-16"}`} />}
+      {!hideDivider && <div data-hub-divider className={`h-px w-full bg-line ${styles.divider}`} />}
 
       {/* 헤더 — 가운데 정렬. 허브·홈 구획 머리의 공통 문법이다(platform-02-code-rules.md 「정렬」)
           윗줄은 금선 사이 번호(「— 01 —」, 책의 장 번호 모양), 아랫줄은 제목 하나다(26.09.28 유저 선택).
           예전의 「1/3」 줄·제목 옆 번호·좌우 화살표는 걷었다 — 화살표는 바로 위 목차와 같은 이동을 되풀이했고,
           제목 옆 번호·화살표는 좌우 거리가 달라 머리 규격이 어긋나 보였다 */}
-      <div className={`flex flex-col items-center text-center px-1 ${compact ? "mb-4 gap-1" : "mb-6 md:mb-10 gap-2 md:gap-3"}`}>
+      <div data-hub-header className={`flex flex-col items-center text-center px-1 ${styles.header}`}>
         {hasNumber ? (
           <div aria-hidden className="flex select-none items-center gap-2.5">
             <span className="h-0.5 w-6 rounded-full bg-accent" />
@@ -113,7 +112,7 @@ export default function HubSection({
 /** 구획 끝 더보기 링크 — 래퍼 없이 자기 모드에 맞는 주소를 직접 잇는 구획도 이걸 쓴다 */
 export function HubMoreLink({ href, label }: { href: string; label: string }) {
   return (
-    <div className="mt-5 flex justify-center md:mt-7">
+    <div className={`flex justify-center ${styles.more}`}>
       <Link
         href={href}
         className="flex min-h-11 items-center gap-1.5 rounded-full border border-line bg-bg-raised px-5 text-sm font-medium text-text-secondary hover:border-line-strong hover:text-text-primary"
