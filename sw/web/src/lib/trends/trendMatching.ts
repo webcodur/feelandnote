@@ -76,10 +76,11 @@ export function parseTrendPage(html: string, country: TrendCountry, now = Date.n
       related: (related as string[]).map((query) => query.trim()).filter(Boolean),
       volume: row[6] as number,
       started,
+      active: row[4] === null,
     }
   })
   return rows
-    .filter((row) => row.started >= now - TREND_PERIOD_HOURS * 3_600_000)
+    .filter((row) => row.active && row.started >= now - TREND_PERIOD_HOURS * 3_600_000)
     .sort((a, b) => b.volume - a.volume || b.started - a.started || (a.title < b.title ? -1 : a.title > b.title ? 1 : 0))
     .map(({ title, volume, started }) => ({ title, volume, started }))
 }
