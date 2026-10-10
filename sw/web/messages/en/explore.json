@@ -398,7 +398,9 @@
         "scenesCompleteCountLegend": "Complete: the key scene illustrations and captions are finished",
         "scenesCompleteCount": "Key scenes complete for {count} titles",
         "scenesCompleteCountShort": "{count} complete",
-        "scenesCompleteShort": "Complete"
+        "scenesCompleteShort": "Complete",
+        "storyGuideOpening": "STORY",
+        "storyGuideClosing": "END"
       },
       "relationMap": {
         "title": "Relation Map",

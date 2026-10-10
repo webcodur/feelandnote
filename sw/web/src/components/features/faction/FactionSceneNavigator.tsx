@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import Modal from "@/components/ui/Modal";
+import type { StoryGuide } from "./storyBoundaries";
 
 interface Props {
-  images: { url: string; label?: string | null }[];
+  images: { url: string; label?: string | null; guide?: StoryGuide }[];
   title: string;
   activeIndex: number;
   endingTitle?: string;
@@ -58,7 +59,7 @@ export default function FactionSceneNavigator({ images, title, activeIndex, endi
                   aria-current={activeIndex === image.index ? "step" : undefined} data-scene-jump={image.index + 1}
                   className={`${itemClass} ${activeIndex === image.index ? "border-accent/60 bg-accent/10 text-accent" : "border-white/10 text-text-primary"}`}>
                   <span className="min-w-7 shrink-0 tabular-nums text-accent/80">{image.index + 1}</span>
-                  <span className="break-keep">{image.label || title}</span>
+                  <span className="break-keep">{image.guide && <span className="me-2 text-accent">{t(image.guide.phase === 'opening' ? 'storyGuideOpening' : 'storyGuideClosing')} ·</span>}{image.label || title}</span>
                 </button>
               </li>
             ))}

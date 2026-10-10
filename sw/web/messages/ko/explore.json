@@ -398,7 +398,9 @@
         "scenesCompleteCountLegend": "완성: 주요 장면 제작이 일단락된 작품",
         "scenesCompleteCount": "주요 장면 완성 {count}편",
         "scenesCompleteCountShort": "완성 {count}편",
-        "scenesCompleteShort": "완성"
+        "scenesCompleteShort": "완성",
+        "storyGuideOpening": "이야기",
+        "storyGuideClosing": "끝"
       },
       "relationMap": {
         "title": "관계망",
