@@ -90,6 +90,24 @@ test('리뷰 0건도 초벌 후보로 전달하며 DB 변경은 수행하지 않
  const report=await auditShelfQuality([{id:1,content_id:'a',isbn}],async()=>({verified:true,isbn,rating:null,reviewCount:0,salesIndex:200}))
  assert.equal(report.review.length,1);assert.equal(report.review[0].reviewCount,0);assert.equal(report.review[0].rating,null)
 })
+
+test('ISBN이 같아도 카탈로그와 다른 제목이면 평점과 무관하게 검수 후보로 남긴다',async()=>{
+ const rows=[{id:1,content_id:'literature',isbn:'9788979140019',title:'상허 이태준 문학연구'}]
+ const report=await auditShelfQuality(rows,async()=>({verified:true,isbn:'9788979140019',title:'파워업! 한글 파워포인트 97',rating:9.8,reviewCount:100,reviewSignals:[]}))
+ assert.equal(report.review.length,1)
+ assert.deepEqual(report.review[0].reviewSignals,['catalog_title_mismatch'])
+ assert.deepEqual(report.review[0].catalogTitles,['상허 이태준 문학연구'])
+ assert.equal(rows[0].title,'상허 이태준 문학연구')
+})
+
+test('제목의 부제·띄어쓰기 차이나 조회 실패만으로 서명 충돌을 확정하지 않는다',async()=>{
+ const rows=[{id:1,content_id:'book',isbn,title:'상앙: 이목지신을 지킨 아이언 맨'}]
+ const result={verified:true,isbn,title:'상앙',rating:9.8,reviewCount:100,reviewSignals:[]}
+ assert.equal((await auditShelfQuality(rows,async()=>result)).review.length,0)
+ assert.equal((await auditShelfQuality(rows,async()=>({...result,title:'상앙, 이목지신을 지킨 아이언맨'}))).review.length,0)
+ const missing=await auditShelfQuality(rows,async()=>({verified:false,error:'HTTP 404'}))
+ assert.equal(missing.review.length,0);assert.deepEqual(missing.results[0].reviewSignals,[])
+})
 test('실제 무리뷰 화면의 첫번째 리뷰어 안내는 0건으로 읽는다',()=>{
  const empty='<span class="gd_reviewCount"><a href="javascript:void(0);" onclick="fnFirstReview();">첫번째 리뷰어가 되어주세요.</a></span>'
  const page=html().replace('<span class="gd_reviewCount moreRating"><em>1</em></span>',empty)

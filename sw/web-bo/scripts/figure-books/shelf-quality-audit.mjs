@@ -83,8 +83,15 @@ export async function auditShelfQuality(editions,loader,progress=()=>{},offset=0
    }
    checked++
    if(result.verified)verified++;else errors[result.error]=(errors[result.error]??0)+1
-   const record={...result,editionIds:rows.map(r=>r.id),contentIds:[...new Set(rows.map(r=>r.content_id))]};results.push(record)
-   if(needsShelfQualityReview(result)){review.push(record);progress({qualityReview:record})}
+   const catalogTitles=[...new Set(rows.map(row=>row.title).filter(Boolean))]
+   const normalizeTitle=title=>String(title??'').normalize('NFKC').toLocaleLowerCase().replace(/[^\p{L}\p{N}]/gu,'')
+   const sourceTitle=normalizeTitle(result.title)
+   const titleConflict=result.verified&&sourceTitle&&catalogTitles.length>0&&!catalogTitles.some(title=>{
+    const catalogTitle=normalizeTitle(title)
+    return catalogTitle&&(catalogTitle.includes(sourceTitle)||sourceTitle.includes(catalogTitle))
+   })
+   const record={...result,catalogTitles,reviewSignals:[...(result.reviewSignals??[]),...(titleConflict?['catalog_title_mismatch']:[])],editionIds:rows.map(r=>r.id),contentIds:[...new Set(rows.map(r=>r.content_id))]};results.push(record)
+   if(needsShelfQualityReview(record)){review.push(record);progress({qualityReview:record})}
    if(result.verified&&result.policyReason){editionReview.push(record);progress({qualityEditionReview:record})}
    if(checked%100===0||checked===total-offset)progress({qualityProgress:{checked,total,offset,verified,unconfirmed:checked-verified,review:review.length,errors}})
   }
