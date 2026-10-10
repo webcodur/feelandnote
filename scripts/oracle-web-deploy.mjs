@@ -551,10 +551,10 @@ function removeBuildWorktree(repoRoot, build) {
   }
 }
 
-function removeTaskRoot(build) {
+export function removeTaskRoot(build) {
   if (!build?.taskRoot || !existsSync(build.taskRoot)) return
   const expectedPrefix = realpathSync(tmpdir()) + path.sep
-  const taskPath = path.resolve(build.taskRoot)
+  const taskPath = realpathSync(build.taskRoot)
   if (!taskPath.startsWith(expectedPrefix) || !path.basename(taskPath).startsWith('feelandnote-oracle-')) {
     throw new Error(`Refusing to clean unexpected task directory: ${taskPath}`)
   }

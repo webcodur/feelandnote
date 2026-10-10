@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { spawnSync } from 'node:child_process'
 import test from 'node:test'
-import { collectStandaloneLinks, createReleaseArchive, normalizeStandaloneCacheHandler } from '../oracle-web-deploy.mjs'
+import { collectStandaloneLinks, createReleaseArchive, normalizeStandaloneCacheHandler, removeTaskRoot } from '../oracle-web-deploy.mjs'
 
 test('archive uses its own gzip path and preserves files plus dereferenced directory links', t => {
   const root = mkdtempSync(path.join(tmpdir(), 'fn-archive-'))
@@ -45,6 +45,18 @@ test('link manifests distinguish internal POSIX links from source worktree junct
   t.after(() => rmSync(outside, { recursive: true, force: true }))
   symlinkSync(outside, path.join(appModules, 'outside'), 'junction')
   assert.throws(() => collectStandaloneLinks(repo, standalone), /outside its build worktree/)
+})
+
+test('temporary cleanup resolves parent aliases before validating the temp boundary', t => {
+  const root = mkdtempSync(path.join(tmpdir(), 'fn-cleanup-test-'))
+  t.after(() => rmSync(root, { recursive: true, force: true }))
+  const alias = path.join(root, 'alias')
+  symlinkSync(root, alias, 'junction')
+  const task = path.join(root, 'feelandnote-oracle-cleanup-test')
+  mkdirSync(task)
+  removeTaskRoot({ taskRoot: path.join(alias, path.basename(task)) })
+  assert.equal(existsSync(task), false)
+  assert.throws(() => removeTaskRoot({ taskRoot: root }), /Refusing to clean/)
 })
 
 
