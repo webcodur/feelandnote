@@ -516,6 +516,8 @@ test('atlas artwork viewers and deleted story guides do not affect cached HTML',
     'sw/web/src/components/features/faction/FactionStoryGuide.tsx',
     'sw/web/src/components/features/faction/storyBoundaries.ts',
     'sw/web/src/components/features/home/CelebCompactControls.tsx',
+    'sw/web/src/lib/trends/countryTrending.ts',
+    'sw/web/src/lib/trends/trendMatching.ts',
   ]).scopes, ['none']);
 });
 

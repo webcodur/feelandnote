@@ -337,6 +337,9 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/lib/reviews/featuredReviewLength.ts',
   'sw/web/src/lib/reviews/featuredReviewAvailability.ts',
   'sw/web/src/actions/home/getCelebs.ts',
+  // 국가 트렌드는 홈 추천·검색 급증 인물과 /explore 명부에서만 소비한다.
+  'sw/web/src/lib/trends/countryTrending.ts',
+  'sw/web/src/lib/trends/trendMatching.ts',
   'sw/web/src/actions/contents/addContent.ts',
   'sw/web/src/actions/contents/getMyContents.ts',
   'sw/web/src/types/database.generated.ts',
