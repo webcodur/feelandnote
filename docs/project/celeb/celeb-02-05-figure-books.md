@@ -58,7 +58,14 @@ ISBN이 있어도 본문이 없는 빈 노트·스케치북·달력·엽서 상�
 | 미완성 작품 복구 | Incomplete work recovery | `wikidata-works-match --repair` | 반영이 끊겨 언어 카드 없이 남은 작품의 보완·삭제 후보를 찾는다(읽기 전용). LLM이 실제 작품과 기존 참조를 확인한 뒤 처리한다 |
 | 잘못 붙은 영문 카드 제거 | Removing wrongly attached English cards | `wikidata-works-match --repair` · `en-locale-audit` | 비영어 판본이 영문 카드로 들어간 것, 해설서에 원전의 영문 카드가 붙은 것을 뗀다. `--repair`는 지우지 않고 표시용 제목 행 전환 계획(`en-display-title-plan.json`)을 써서 `locale-display-title`에 넘긴다 |
 
-탐지와 공식 ISBN 대조(`scripts/figure-books/series-split-source-check.mjs`, `--all`로 전체 ID·ISBN·공식 부제와 권 구성을 표준 출력), 교정 검증(`series-split-verify.mjs --revalidate`)은 기본적으로 현재 DB를 메모리에서 읽는다. 검수 근거는 판본의 `sources.edition_work_evidence`에 실제 출처 URL과 원작·판본·수록 범위를 함께 저장한다. `series-split-batch.mjs --apply --rescan`에는 LLM이 독립 출처를 읽고 판단한 후보와 근거를 `--file`·`--evidence`로 명시한다. 기존 `sourceReview`의 독립 검수 판정만 반영하고, 기계가 확정한 후보나 새로 탐지한 부분집합은 반영하지 않으며 LLM 판정을 기계 결과로 덮어쓰지 않는다. 임시 파일은 DB의 원장으로 쓰지 않고 작업 뒤 폐기한다. 모두 `sw/web-bo`에서 `node --env-file=.env --import tsx`로 실행한다. 출처 미확인·독립 원작·합본·실독 범위 충돌은 자동 통합하지 않는다. `series-split-audit.mjs --all`은 전수 후보와 판본 오귀속 위험을 출력하고, `series-split-toc-check.mjs`는 동명 국내서의 실제 ISBN·전체 저자·출판사·목차를 대조한다. 목차의 장·연도 숫자는 지우지 않으며, 같은 OpenLibrary work 키에 다른 부제가 묶였어도 원전이 같다고 단정하지 않는다.
+탐지와 공식 ISBN 대조(`scripts/figure-books/series-split-source-check.mjs`, `--all`로 전체 ID·ISBN·공식 부제와 권 구성을 표준 출력), 교정 검증(`series-split-verify.mjs --revalidate`)은 기본적으로 현재 DB를 메모리에서 읽는다. 검수 근거는 판본의 `sources.edition_work_evidence` 배열에 실제 출처 URL과 원작·판본·수록 범위를 함께 저장한다. `series-split-batch.mjs --apply --rescan`에는 LLM이 독립 출처를 읽고 판단한 후보와 근거를 `--file`·`--evidence`로 명시한다. 기존 `sourceReview`의 독립 검수 판정만 반영하고, 기계가 확정한 후보나 새로 탐지한 부분집합은 반영하지 않으며 LLM 판정을 기계 결과로 덮어쓰지 않는다. 임시 파일은 DB의 원장으로 쓰지 않고 작업 뒤 폐기한다. 모두 `sw/web-bo`에서 `node --env-file=.env --import tsx`로 실행한다. 출처 미확인·독립 원작·합본·실독 범위 충돌은 자동 통합하지 않는다. `series-split-audit.mjs --all`은 전수 후보와 판본 오귀속 위험을 출력하고, `series-split-toc-check.mjs`는 동명 국내서의 실제 ISBN·전체 저자·출판사·목차를 대조한다. 목차의 장·연도 숫자는 지우지 않으며, 같은 OpenLibrary work 키에 다른 부제가 묶였어도 원전이 같다고 단정하지 않는다.
+
+## 기존 등록분 검수
+
+- 신규 후보 발굴은 아래의 인물 기준을 따른다. 이미 등록된 데이터의 정합성·선정 검수는 한 작품에 붙은 모든 언어 카드·판본·상품·서비스 연결을 함께 읽으며, 같은 원전 의심 작품은 함께 판단한다.
+- 기계는 전체 대상·모순·후보와 출처를 초벌로 모은다. LLM은 기존 확정 근거가 현재 작품·ISBN·본문 범위에 맞는지 먼저 확인하고, 미확인 부분을 판단한다. `verified`·소개 보완·기계 검사 통과를 다른 검수 항목의 완료로 확대하지 않는다.
+- 한 묶음의 작품 정체성·원문 및 번역 대표·선정 적합성·연결 근거를 판단한 뒤 유지할 대표의 소개·표지·구매 정보를 보완한다. 확정 변경을 반영하고 저장값·참조·서비스 표시를 검증한 뒤 다음 묶음으로 넘어간다. 미확인 항목은 사유와 다음 확인 대상을 남긴다.
+- 착수 전 대상 ID와 확인할 항목을 추적문서에 적고, 반영·검증 뒤 같은 문서의 처리 범위·다음 위치·미확인 예외를 갱신한다. 근거는 기존 DB 필드에 보존하며, 후보·작업 상태용 테이블이나 컬럼은 만들지 않는다. 현재 전체 범위와 처리 위치는 [작품·판본 정합성](../../todo/content-data-integrity.md)이 쥔다.
 
 ## 작품 기준 폐기(26.09.07)
 
@@ -103,6 +110,7 @@ ISBN이 있어도 본문이 없는 빈 노트·스케치북·달력·엽서 상�
 - `figure_book_editions`는 같은 원문·같은 번역마다 한 행만 둔다. 같은 책의 초판·개정판·증보판과 출판사·ISBN·장정·전자책·재판·판매 형식 차이로 판본을 늘리지 않는다. 역자는 공식 메타에서 확인해 `sources.translators`에 보존하며, 역자 미상이라는 이유로 서로 다른 번역을 합치지 않는다. 확인된 원문·역자별 번역만 추가 판본 선택지로 노출하며, 확인 정보가 없는 작품은 대표 도서 하나를 보여 준다. 같은 번역의 분권은 시작권으로 대표하고 중간 권을 선택지에 나열하지 않는다.
 - 같은 저자·제작부가 동일한 구성으로 낸 연속권·곡별 악보는 시리즈 대표 작품 하나로 정리한다. 작품의 기존 메타 `figureBook.series`에 검수한 제목·저자·언어·출처를 두고 신규 등록은 대표를 재사용한다. 같은 번역·출간본은 시작권 하나로 대표하며 후속권 ISBN을 판본으로 계속 적재하지 않는다. 인물 관계와 감상 출처가 확인한 실독 범위는 보존하되, 대표가 시리즈라고 전권 감상이나 등장으로 확대하지 않는다.
 - `figure_book_products`는 판본 아래 판매 상품을 둔다. 같은 번역의 상품이 나뉘어도 판본 행을 복제하지 않는다. 상품 교체 이력은 같은 판본에 보존하고 판본·플랫폼당 현재 상품 하나만 활성화한다. 대표 판본을 바꿀 때 기존 상품 참조를 잃지 않는다.
+- 작품 상세의 기본 선택은 요청 언어의 실제 판본을 우선하며, 없으면 등록된 다른 언어 판본을 선택한다. 소개·표지·ISBN·구매 연결은 선택한 판본의 언어와 서지를 함께 사용한다. 명시한 판본 ID가 없거나 다른 작품의 것이면 기본 판본으로 바꾸지 않는다.
 - 원문·역자별 판본 키와 서비스에서 제외할 판본의 실행 기준은 `packages/content-search/src/book-edition-policy.ts`가 쥔다. 등록·노출·전수 검사·DB 가드는 이 기준을 공유한다.
 - 축약본·요약본·원서 발췌본·수준별 학습용 리더는 서비스에 등록·노출하지 않는다. 같은 원전 아래 별도 판본으로 남기는 예외도 없다. 독립 선집·해설·새 저자가 쓴 재화·각색은 실제 독립 저작인지 확인한 뒤 별도 작품으로 판단한다.
 - 단권이라는 이유로 `full/complete`를 채우지 않는다. 범위가 확인되지 않으면 판본 종류를 비워 두고 확인된 권·연대 범위만 기록한다.
@@ -170,7 +178,7 @@ pnpm exec node --env-file=sw/web-bo/.env --import tsx sw/web-bo/scripts/figure-b
 
 카카오·OpenLibrary 정규화 제목에서 합본·완역·일러스트 같은 실제 판본 수식어가 빠질 때만 명세의 `editionTitle`로 복원한다. 작품명과 판본명을 다시 섞기 위한 임의 제목에는 쓰지 않는다.
 
-판본 배치는 공식 ISBN의 제목·전체 저자가 서버 작품의 앵커(각 언어 카드의 제목·전체 저자와 `metadata.figureBook.workTitle`·`workCreator`)와 일치해야 통과한다(`verifyEditionWork`, `sw/web-bo/src/lib/book-edition-work.ts`). 같은 책인데 저자 표기·제목 변형으로 어긋나면 그 ISBN·공식 제목·전체 저자·원전·본문 범위를 담은 독립 검수 근거(`sources.edition_work_evidence`의 `method:'independent_work_review'` 객체)를 해당 작품의 언어 카드 `sources`에 먼저 보존한 뒤 다시 돌린다 — 근거의 `source_url`은 OpenLibrary 밖의 독립 HTTPS 출처여야 하고 필드·허용 조건은 같은 코드가 쥔다. en 판본은 게이트가 하나 더 있다: **OpenLibrary 원전 작품의 제목·저자도 앵커와 같아야 하며 이 불일치는 검수 근거로도 못 넘는다** — 원전을 다른 제목(공저·다른 명칭)으로 잡은 판본은 OL 데이터를 고치기 전까지 붙일 수 없다.
+판본 배치는 공식 ISBN의 제목·전체 저자가 서버 작품의 앵커(각 언어 카드의 제목·전체 저자와 `metadata.figureBook.workTitle`·`workCreator`)와 일치해야 통과한다(`verifyEditionWork`, `sw/web-bo/src/lib/book-edition-work.ts`). 같은 책인데 저자 표기·제목 변형으로 어긋나면 그 ISBN·공식 제목·전체 저자·원전·본문 범위를 담은 독립 검수 근거(`sources.edition_work_evidence` 배열 원소의 `method:'independent_work_review'` 객체)를 해당 작품의 언어 카드 `sources`에 먼저 보존한 뒤 다시 돌린다 — 근거의 `source_url`은 OpenLibrary 밖의 독립 HTTPS 출처여야 하고 필드·허용 조건은 같은 코드가 쥔다. en 판본은 게이트가 하나 더 있다: **OpenLibrary 원전 작품의 제목·저자도 앵커와 같아야 하며 이 불일치는 검수 근거로도 못 넘는다** — 원전을 다른 제목(공저·다른 명칭)으로 잡은 판본은 OL 데이터를 고치기 전까지 붙일 수 없다.
 
 책 정보와 표시용 제목 행은 등록 문서의 「한국어판 확인」·「영문판과 표지」를 따른다. 상품은 판본이 확정된 뒤 `coupang-book-affiliate` 절차로 연결한다.
 

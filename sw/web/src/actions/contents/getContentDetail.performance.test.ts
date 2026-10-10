@@ -4,6 +4,8 @@ import { createRequire } from 'node:module'
 import test from 'node:test'
 import ts from 'typescript'
 import * as localeText from '../../lib/utils/content-locale-text'
+import { applyContentBookEdition } from '../../lib/books/contentEdition'
+import { pickPurchaseEdition } from '../figure-books/figureBookLocale'
 
 const require = createRequire(import.meta.url)
 const id = '47b7b3d9-ebe8-4d39-a04c-c3f5c0b0d026'
@@ -16,6 +18,56 @@ function load<T>(file: string, mocks: Record<string, unknown>): T {
   new Function('require', 'module', 'exports', compiled)((key: string) => mocks[key] ?? require(key), loaded, loaded.exports)
   return loaded.exports as T
 }
+
+test('book detail selects an available edition when the requested language has none, keeping introduction and purchase in that edition', async () => {
+  const english = { id: 46591, title: 'Ernest Hemingway', creator: 'Mary V. Dearborn', isbn: '9780525563617',
+    publisher: 'Vintage', thumbnailUrl: 'https://example.test/english-cover', description: 'English introduction',
+    bookIntroduction: { isbn: '9780525563617', source: 'OPEN', sourceUrl: 'https://openlibrary.org/books/OL1M' },
+    sortOrder: 0, purchaseUrl: null, platform: null }
+  const korean = { ...english, id: 46592, title: '한국어 판본', isbn: '9788991290808',
+    description: '한국어 소개', bookIntroduction: null }
+  let koreanAvailable = false
+  let englishAvailable = true
+  const introCalls: unknown[][] = []
+  const row = { id, type: 'BOOK', external_id: 'old-isbn', metadata: {}, figure_book_contents: [{ content_id: id }],
+    content_locales: [{ locale: 'en', title: english.title, isbn: english.isbn }] }
+  const query = { select: () => query, eq: () => query, maybeSingle: async () => ({ data: row, error: null }) }
+  const api = load<{ getPublicContentInfo: (id: string, locale: string) => Promise<Record<string, unknown>> }>('./getContentDetail.ts', {
+    '@/lib/db/static': { createStaticClient: () => ({ from: () => query }) },
+    '@/lib/db/server': {}, './getContentById': {}, './fetchContentMetadata': {}, './getReviewFeed': {}, '@/actions/user': {},
+    '@/actions/figure-books/getFigureBooks': {}, '@/actions/library/curated': {}, 'next-intl/server': {},
+    '@/actions/figure-books/figureBookEditions': { loadFigureBookEditions: async (_db: unknown, _ids: string[], locale: string) =>
+      new Map([[id, locale === 'en' ? englishAvailable ? [english] : [] : koreanAvailable ? [korean] : []]]) },
+    '@/actions/figure-books/figureBookLocale': { pickPurchaseEdition },
+    '@/lib/developer-mode': { isDeveloperMode: () => false },
+    '@/lib/cache': { cachedDetail: (_tag: string, _id: string, _keys: string[], read: () => unknown) => read(), throwOnQueryError: () => {} },
+    '@/lib/utils/content-locale': { CL_SELECT: '*', flattenLocales: () => ({ title: english.title, title_badge: 'no-ko' }) },
+    '@/lib/utils/content-locale-text': localeText,
+    '@/lib/utils/book-description': { resolveBookIsbn: (_locale: string, edition: string) => edition },
+    '@/lib/books/contentEdition': { applyContentBookEdition }, '@/lib/books/amazonBookSearch': {},
+    './fetchBookMetadata': { getBookIntroduction: async (...args: unknown[]) => { introCalls.push(args); return 'Fetched English introduction' } },
+  })
+  const fallback = await api.getPublicContentInfo(id, 'ko')
+  assert.equal(fallback.purchaseEditionId, english.id)
+  assert.equal(fallback.editionLocale, 'en')
+  assert.equal(fallback.titleBadge, null)
+  assert.equal(fallback.thumbnail, english.thumbnailUrl)
+  assert.equal((fallback.metadata as Record<string, unknown>).isbn, english.isbn)
+  assert.equal(fallback.description, 'Fetched English introduction')
+  assert.equal(introCalls[0][1], 'en')
+  koreanAvailable = true
+  const preferred = await api.getPublicContentInfo(id, 'ko')
+  assert.equal(preferred.purchaseEditionId, korean.id)
+  assert.equal(preferred.editionLocale, 'ko')
+  assert.equal(preferred.description, korean.description)
+  assert.equal(introCalls.length, 1)
+  englishAvailable = false
+  const reverseFallback = await api.getPublicContentInfo(id, 'en')
+  assert.equal(reverseFallback.purchaseEditionId, korean.id)
+  assert.equal(reverseFallback.editionLocale, 'ko')
+  assert.equal((reverseFallback.metadata as Record<string, unknown>).isbn, korean.isbn)
+  assert.equal(reverseFallback.description, korean.description)
+})
 
 test('first content information returns without external enrichment, reviews, characters or curated queries', async () => {
   const unexpected = async () => { throw new Error('supplementary query blocked first paint') }

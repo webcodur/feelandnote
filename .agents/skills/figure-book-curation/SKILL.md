@@ -10,6 +10,7 @@ description: 픽션·신화·실존 인물의 등장 작품과 연관 작품을 
 ## 먼저 읽기
 
 - 용어·관계 유형·DB 반영 규칙은 [`celeb-02-05-figure-books.md`](../../../docs/project/celeb/celeb-02-05-figure-books.md)를 따른다. 이 스킬은 그 룰북의 「용어」 표에 있는 말만 쓴다.
+- 기존 등록분의 전체 검수는 같은 룰북의 「기존 등록분 검수」를 따른다. [작품·판본 정합성](../../../docs/todo/content-data-integrity.md)의 대상·현재 위치를 착수 전과 반영·검증 후에 갱신한다. 아래 인물 기준은 신규 작품·관계 발굴에 적용한다.
 - 실존 인물의 인물 도서를 채우는 작업의 현재 도달점과 조사 경로는 [`../../../docs/continuous/figure-books.md`](../../../docs/continuous/figure-books.md)에 있다.
 - 후보 작품을 확정한 뒤 한국어 판본과 쿠팡 상품을 고를 때는 [`coupang-book-affiliate`](../coupang-book-affiliate/SKILL.md)를 이어서 사용한다.
 

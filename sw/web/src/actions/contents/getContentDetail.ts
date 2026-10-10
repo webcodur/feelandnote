@@ -132,7 +132,9 @@ async function fetchDefaultFigureBookEdition(
   } catch (error) {
     throw new Error(`원전 기본 판본 조회 실패: ${error instanceof Error ? error.message : String(error)}`)
   }
+  const fallbackLocale = locale === 'en' ? 'ko' : 'en'
   const selected = pickPurchaseEdition(editions.filter(edition => edition.locale === locale), locale)
+    ?? pickPurchaseEdition(editions.filter(edition => edition.locale === fallbackLocale), fallbackLocale)
   return { selected: selected ? editions.find(edition => edition.id === selected.id) ?? null : null, editions }
 }
 
@@ -352,7 +354,7 @@ async function withBookIntroduction(
   if (!content || content.type !== 'BOOK' || !content.bookIntroduction) return content
   const { isbn, source, sourceUrl, storedText } = content.bookIntroduction
   try {
-    const description = await getBookIntroduction(isbn, locale, source, sourceUrl, storedText)
+    const description = await getBookIntroduction(isbn, content.editionLocale ?? locale, source, sourceUrl, storedText)
     return {
       ...content,
       description: description ?? undefined,

@@ -70,17 +70,19 @@ test('malformed/duplicate/cross-work/missing physical IDs cannot silently select
   assert.equal(selectContentBookEdition({ ...content, type: 'VIDEO' }, ['12']).status, 'invalid')
 })
 
-test('full detail edition list retains English editions without products and attaches products only to their own ISBN', () => {
+test('detail retains confirmed translations without products and attaches products only to their own ISBN', () => {
   const rows: FigureBookEditionRow[] = [1, 2].map(id => ({ id, content_id: 'work-id', locale: 'en', title: `Edition ${id}`,
     creator: 'Original Author', description: null, isbn: id === 1 ? '9780140432169' : '9788991290808', publisher: 'Publisher',
-    thumbnail_url: null, release_date: null, edition_kind: null, text_scope: null, sort_order: id }))
+    thumbnail_url: null, release_date: null, edition_kind: null, text_scope: null, sort_order: id,
+    sources: { translators: [`Translator ${id}`] } }))
   const product: FigureBookPurchaseOptionRow = { ...rows[0], edition_id: 1, platform: 'amazon', affiliate_url: 'https://amazon.com/edition1' }
-  assert.deepEqual(mergeFigureBookEditions(rows, [product], 'en').map(row => row.id), [1])
+  assert.deepEqual(mergeFigureBookEditions(rows, [product], 'en').map(row => row.id), [1, 2])
   const all = mergeFigureBookEditions(rows, [product], 'en', true)
   assert.deepEqual(all.map(row => row.id), [1, 2])
   assert.equal(all[0].purchaseUrl, product.affiliate_url)
   assert.equal(all[1].purchaseUrl, null)
   assert.equal(mergeFigureBookEditions(rows, [{ ...product, isbn: rows[1].isbn }], 'en', true)[0].purchaseUrl, null)
+  assert.equal(mergeFigureBookEditions(rows.map(row => ({ ...row, sources: {} })), [product], 'en', true).length, 1)
 })
 
 test('same actual locale ISBN retains verified existing links, while another ISBN, language or unknown attribution cannot borrow them', () => {
