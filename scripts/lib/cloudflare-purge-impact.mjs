@@ -316,6 +316,12 @@ const NON_HTML_RUNTIME_FILES = new Set([
   // 이 모달과 감상 구획은 세력 화면에서만 연다.
   'sw/web/src/components/features/faction/entry/FactionMemberModal.tsx',
   'sw/web/src/components/features/faction/entry/FactionPersonReviews.tsx',
+  // 신화·세력도감의 장면/인물 뷰어만 소비한다. 이 화면들은 앞단 HTML 캐시 대상이 아니다.
+  // 삭제된 이야기 안내 파일도 이전 배포본과의 diff에서 분류할 수 있게 남긴다.
+  'sw/web/src/components/features/faction/FactionArtworkViewer.tsx',
+  'sw/web/src/components/features/faction/FactionSceneNavigator.tsx',
+  'sw/web/src/components/features/faction/FactionStoryGuide.tsx',
+  'sw/web/src/components/features/faction/storyBoundaries.ts',
   // 도서 차트·구매 실험·본문 실험 화면은 앞단 보관 대상이 아니다.
   'sw/web/src/components/features/library/ChartSourceNotice.tsx',
   'sw/web/src/components/features/library/ChartWorkModal.tsx',
@@ -372,6 +378,7 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/app/[locale]/not-found.tsx',
   // 홈 전용 부품. 같은 폴더의 AffiliateBookList는 인물 상세도 그리므로 celeb에 남는다.
   'sw/web/src/components/features/home/HomeBrandHeader.tsx',
+  'sw/web/src/components/features/home/CelebCompactControls.tsx',
   'sw/web/src/components/features/home/HomeNoticeList.tsx',
   'sw/web/src/components/features/home/HomeNoticeSection.tsx',
   'sw/web/src/components/features/home/HomeFeaturedReview.tsx',

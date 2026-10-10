@@ -31,7 +31,7 @@ test('sorts volume then start then title and excludes trends older than the peri
   assert.deepEqual(trends.map((trend) => trend.title), ['Most searched', 'A', 'B', '서울 날씨'])
 })
 
-test('ended surges cannot keep a person promoted even when their search volume is highest', () => {
+test('recent ended surges remain eligible, matching Google’s default 48-hour list', () => {
   const trends = parseTrendPage(page([
     row('빌 게이츠', 1000000, seconds - 3600, [], seconds - 60),
     row('다리오 아모데이', 500),
@@ -40,8 +40,9 @@ test('ended surges cannot keep a person promoted even when their search volume i
     { id: 'bill', nickname: '빌 게이츠', nickname_en: 'Bill Gates' },
     { id: 'dario', nickname: '다리오 아모데이', nickname_en: 'Dario Amodei' },
   ])
-  assert.deepEqual(matches.map(match => [match.id, match.rank]), [['dario', 1]])
-  assert.deepEqual(parseTrendPage(page([row('Ended', 100, seconds - 3600, [], seconds)]), 'KR', now), [])
+  assert.deepEqual(matches.map(match => [match.id, match.rank]), [['bill', 1], ['dario', 2]])
+  assert.equal(parseTrendPage(page([row('Ended', 100, seconds - 3600, [], seconds)]), 'KR', now).length, 1)
+  assert.deepEqual(parseTrendPage(page([row('Old ended', 100, seconds - 48 * 3600 - 1, [], seconds)]), 'KR', now), [])
 })
 
 test('active surges leave the list after 48 hours; the exact boundary remains eligible', () => {

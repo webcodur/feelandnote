@@ -95,11 +95,9 @@ export default function CelebCompactControls({ filters, onInteraction, resultLab
               {getNationality(filters.trendCountry)}<ChevronDown size={14} aria-hidden />
             </button>
           </div>
-          {(filters.isLoading || !filters.trend?.available || filters.trend.matchedCount === 0) && (
+          {(filters.isLoading || !filters.trend?.available) && (
             <p className="text-xs leading-5 text-text-secondary" role="status">
-              {filters.isLoading ? t("trends.loading")
-                : !filters.trend?.available ? t("trends.unavailable")
-                : t("trends.noMatches")}
+              {filters.isLoading ? t("trends.loading") : t("trends.unavailable")}
             </p>
           )}
           {!filters.isLoading && filters.trend?.available && filters.trend.matchedCount > 0 && (

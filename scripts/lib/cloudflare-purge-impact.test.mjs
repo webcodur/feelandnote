@@ -509,6 +509,16 @@ test('world banner URLs and material changes evict celeb HTML on deployment', ()
   }
 });
 
+test('atlas artwork viewers and deleted story guides do not affect cached HTML', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/faction/FactionArtworkViewer.tsx',
+    'sw/web/src/components/features/faction/FactionSceneNavigator.tsx',
+    'sw/web/src/components/features/faction/FactionStoryGuide.tsx',
+    'sw/web/src/components/features/faction/storyBoundaries.ts',
+    'sw/web/src/components/features/home/CelebCompactControls.tsx',
+  ]).scopes, ['none']);
+});
+
 test('R2 genre banners and shared detail UI evict only their consuming detail HTML', () => {
   const localSource = 'sw/web/public/images/content/banners/acoustic-mb.webp';
   assert.deepEqual(classifyCloudflarePurgeImpact([localSource]).scopes, ['none']);

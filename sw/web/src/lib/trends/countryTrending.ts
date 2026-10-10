@@ -44,7 +44,7 @@ async function fetchCountryMatches(country: TrendCountry): Promise<TrendMatch[]>
 }
 
 // Share simultaneous cold reads per country; failures aren't stored as an empty feed.
-const getCountryMatches = unstable_cache(coalescePublicRead(fetchCountryMatches), ['country-trending-people-page-v9-active-48h'], {
+const getCountryMatches = unstable_cache(coalescePublicRead(fetchCountryMatches), ['country-trending-people-page-v10-all-48h'], {
   revalidate: TREND_REVALIDATE_SECONDS,
   tags: [CACHE_TAGS.CELEBS],
 })
