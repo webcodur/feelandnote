@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {parseYes24ShelfQuality,needsShelfQualityReview,createYes24ShelfQualityLoader,YES24_DAILY_QUOTA_EXHAUSTED,SHELF_QUALITY_AUDIT} from './lib/yes24-shelf-quality.mjs'
-import {auditShelfQuality,shelfQualityAuditKey,detectShelfCatalogGaps,loadPublicShelfAuditCatalog} from './shelf-quality-audit.mjs'
+import {auditShelfQuality,shelfQualityAuditKey,createShelfQualityResearchLoader,detectShelfCatalogGaps,loadPublicShelfAuditCatalog} from './shelf-quality-audit.mjs'
 
 test('공개 작품에 판본이 없으면 ISBN 점검에서 빠지지 않고 원문 검수 후보로 남긴다',()=>{
  const catalog={contents:[{id:'fragment',external_id:'480121107100',metadata:{workIdentity:'book/480121107100'},referenceCounts:{}},{id:'private'}],
@@ -44,6 +44,31 @@ test('대량 점검은 운영 키로 폴백하지 않고 동일한 키도 거부
  assert.equal(shelfQualityAuditKey({YES24_AUDIT_API_KEY:'audit'},'production'),'audit')
 })
 const isbn='9791130321561',url='https://www.yes24.com/product/goods/161408465'
+test('연구용 보조 키도 운영 키와 같으면 호출 전에 거부한다',()=>{
+ for(const secondary of ['production','local-production'])assert.throws(()=>createShelfQualityResearchLoader({YES24_AUDIT_API_KEY:'research',YES24_AUDIT_SECONDARY_API_KEY:secondary,YES24_API_KEY:'local-production'},'production'),/secondary key must differ/)
+})
+test('동시 소진 응답은 보조 연구 키로 한 번 전환하고 이후에도 보조 키를 쓴다',async()=>{
+ const requests=[],switches=[]
+ const loader=createShelfQualityResearchLoader({YES24_AUDIT_API_KEY:'primary',YES24_AUDIT_SECONDARY_API_KEY:'secondary'},'production',async(_url,{headers})=>{
+  requests.push(headers['X-Api-Key'])
+  return headers['X-Api-Key']==='primary'?new Response('',{status:429,headers:{'x-ratelimit-remaining-day':'0'}}):new Response(JSON.stringify({success:true,data:{items:[]}}),{status:200})
+ },result=>switches.push(result))
+ const results=await Promise.all([loader({isbn}),loader({isbn:'9788934971016'})])
+ assert.ok(results.every(result=>result.error==='isbn_not_found'))
+ await loader({isbn:'9780231129695'})
+ assert.deepEqual(switches,[{researchKeyPosition:2,reason:YES24_DAILY_QUOTA_EXHAUSTED}])
+ assert.equal(requests.at(-1),'secondary');assert.ok(!requests.includes('production'))
+})
+test('일반 조회 실패에는 키를 전환하지 않고 연구 키가 모두 소진되면 멈춘다',async()=>{
+ const requests=[]
+ const env={YES24_AUDIT_API_KEY:'primary',YES24_AUDIT_SECONDARY_API_KEY:'secondary'}
+ const missing=createShelfQualityResearchLoader(env,'production',async(_url,{headers})=>{requests.push(headers['X-Api-Key']);return new Response('',{status:404})})
+ assert.equal((await missing({isbn})).error,'HTTP 404');assert.deepEqual(requests,['primary'])
+ const exhausted=createShelfQualityResearchLoader(env,'production',async(_url,{headers})=>{requests.push(headers['X-Api-Key']);return new Response('',{status:429,headers:{'x-ratelimit-remaining-day':'0'}})})
+ await assert.rejects(exhausted({isbn}),error=>error.code===YES24_DAILY_QUOTA_EXHAUSTED)
+ await assert.rejects(exhausted({isbn:'9788934971016'}),error=>error.code===YES24_DAILY_QUOTA_EXHAUSTED)
+ assert.deepEqual(requests,['primary','primary','secondary'])
+})
 const html=(rating='2.0',count='1',sales='216')=>'<h2 class="gd_name">실제 책</h2><div class="gd_infoTop"><span id="spanGdRating"><em class="yes_b">'+rating+'</em></span><span class="gd_reviewCount moreRating"><em>'+count+'</em></span><span class="gd_sellNum">판매지수 '+sales+'</span></div><div class="gd_infoBot"></div><th class="txt">ISBN13</th><td class="txt lastCol">'+isbn+'</td>'
 test('같은 ISBN 상품의 평점·리뷰 수·판매지수를 읽는다',()=>{
  const r=parseYes24ShelfQuality(html(),url,isbn)

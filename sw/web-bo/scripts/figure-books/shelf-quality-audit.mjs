@@ -16,6 +16,29 @@ export function shelfQualityAuditKey(env,webApiKey) {
  return key
 }
 
+/** 연구용 키만 순서대로 사용하며 일일 할당량 소진이 확인된 경우에만 전환한다. */
+export function createShelfQualityResearchLoader(env,webApiKey,fetcher=fetch,onSwitch=()=>{}) {
+ const primary=shelfQualityAuditKey(env,webApiKey)
+ const secondary=env.YES24_AUDIT_SECONDARY_API_KEY?.trim()
+ if(secondary&&[env.YES24_API_KEY,webApiKey].some(value=>value?.trim()===secondary))throw Error('Bulk audit secondary key must differ from the production YES24_API_KEY')
+ const keys=[primary,...(secondary&&secondary!==primary?[secondary]:[])]
+ const loaders=keys.map(key=>createYes24ShelfQualityLoader(key,fetcher))
+ let current=0
+ return async edition=>{
+  for(;;){
+   const attempted=current
+   try{return await loaders[attempted](edition)}catch(error){
+    if(error.code!==YES24_DAILY_QUOTA_EXHAUSTED)throw error
+    // 병렬 요청의 같은 소진 응답이 다음 연구 키까지 건너뛰지 않게 한다.
+    if(current!==attempted)continue
+    if(current+1>=loaders.length)throw error
+    current++
+    onSwitch({researchKeyPosition:current+1,reason:YES24_DAILY_QUOTA_EXHAUSTED})
+   }
+  }
+ }
+}
+
 export function detectShelfCatalogGaps(catalog,publicIds,editions) {
  const byWork=new Map()
  for(const edition of editions){const rows=byWork.get(edition.content_id)??[];rows.push(edition);byWork.set(edition.content_id,rows)}
@@ -81,9 +104,9 @@ async function main(){
  }
  const env=readFileSync(fileURLToPath(new URL('../../../../sw/web/.env',import.meta.url)),'utf8')
  const webApiKey=env.split(/\r?\n/u).find(line=>line.startsWith('YES24_API_KEY='))?.slice('YES24_API_KEY='.length).trim().replace(/^["']|["']$/gu,'')
- const key=shelfQualityAuditKey(process.env,webApiKey)
+ const loader=createShelfQualityResearchLoader(process.env,webApiKey,fetch,result=>console.log(JSON.stringify({qualityResearchKeySwitched:result})))
  console.log(JSON.stringify({publicShelfEditionAudit:{editions:editions.length,uniqueIsbns:new Set(editions.map(e=>e.isbn)).size}}))
- const report=await auditShelfQuality(editions,createYes24ShelfQualityLoader(key),result=>{
+ const report=await auditShelfQuality(editions,loader,result=>{
   const kind=result.qualityReview?'qualityReview':result.qualityEditionReview?'qualityEditionReview':null
   if(!kind){console.log(JSON.stringify(result));return}
   // 출처 본문은 LLM이 상품 페이지에서 읽는다. 긴 분류 원문으로 검수 후보 출력이 잘리지 않게 한다.
