@@ -15,9 +15,12 @@ import { coalesceCacheQuery } from '@/lib/cacheQuery'
 const readIntroduction = cache(unstable_cache(
   async (isbn: string | null, locale: 'ko' | 'en', source: BookIntroductionSource, sourceUrl: string | null) => {
     const result = await fetchBookIntroduction({ isbn, locale, source, sourceUrl })
-    return pickIntroForLocale(locale, [result.description])
+    const description = pickIntroForLocale(locale, [result.description])
+    // 빈 응답은 외부 조회 실패일 수 있으므로 장기 캐시에 저장하지 않는다.
+    if (!description) throw new Error('Book introduction unavailable')
+    return description
   },
-  ['book-introduction-selected-source-v2'],
+  ['book-introduction-selected-source-v3'],
   { revalidate: STATIC_REVALIDATE },
 ))
 

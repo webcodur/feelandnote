@@ -13,7 +13,10 @@ function requestIntroduction(reference: BookIntroductionReference, locale: strin
   const key = JSON.stringify([locale, isbn, source, sourceUrl, storedText])
   const existing = requests.get(key)
   if (existing) return existing
-  const request = getBookIntroduction(isbn, locale, source, sourceUrl, storedText).catch((error: unknown) => {
+  const request = getBookIntroduction(isbn, locale, source, sourceUrl, storedText).then((description) => {
+    if (!description) requests.delete(key)
+    return description
+  }).catch((error: unknown) => {
     requests.delete(key)
     throw error
   })
