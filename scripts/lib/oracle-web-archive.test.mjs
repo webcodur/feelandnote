@@ -35,11 +35,18 @@ test('link manifests distinguish internal POSIX links from source worktree junct
   writeFileSync(path.join(traced, 'index.js'), 'traced')
   const appModules = path.join(standalone, 'sw/web/node_modules')
   mkdirSync(appModules, { recursive: true })
-  symlinkSync(path.relative(appModules, traced), path.join(appModules, 'next-posix'), 'dir')
+  let posixLinkCreated = true
+  try {
+    symlinkSync(path.relative(appModules, traced), path.join(appModules, 'next-posix'), 'dir')
+  } catch (error) {
+    if (process.platform !== 'win32' || error.code !== 'EPERM') throw error
+    posixLinkCreated = false
+    t.diagnostic('Windows cannot create POSIX symlinks; junction and outside-root validation still run.')
+  }
   symlinkSync(source, path.join(appModules, 'next-junction'), 'junction')
   assert.deepEqual(collectStandaloneLinks(repo, standalone), { version: 1, links: [
     { link: 'sw/web/node_modules/next-junction', target: packagePath },
-    { link: 'sw/web/node_modules/next-posix', target: packagePath },
+    ...(posixLinkCreated ? [{ link: 'sw/web/node_modules/next-posix', target: packagePath }] : []),
   ] })
   const outside = mkdtempSync(path.join(tmpdir(), 'fn-standalone-outside-'))
   t.after(() => rmSync(outside, { recursive: true, force: true }))
