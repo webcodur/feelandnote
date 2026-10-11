@@ -57,7 +57,7 @@ SELECT jsonb_build_object(
   'products', (SELECT coalesce(jsonb_agg(to_jsonb(p)),'[]'::jsonb) FROM figure_book_products p JOIN figure_book_editions e ON e.id=p.edition_id JOIN books b ON b.id=e.content_id),
   'relations', (SELECT coalesce(jsonb_agg(jsonb_build_object('content_id',r.content_id,'celeb_id',r.celeb_id,'relation_type',r.relation_type)),'[]'::jsonb)
     FROM figure_book_characters r JOIN books b ON b.id=r.content_id),
-  'readings', (SELECT coalesce(jsonb_agg(jsonb_build_object('content_id',r.content_id,'celeb_id',r.celeb_id)),'[]'::jsonb)
+  'readings', (SELECT coalesce(jsonb_agg(jsonb_build_object('content_id',r.content_id,'celeb_id',r.celeb_id,'visibility',r.visibility)),'[]'::jsonb)
     FROM celeb_contents r JOIN books b ON b.id=r.content_id),
   'people', (SELECT coalesce(jsonb_agg(jsonb_build_object('id',id,'slug',slug,'nickname',nickname,'publication_status',publication_status)),'[]'::jsonb) FROM celebs)
 );
