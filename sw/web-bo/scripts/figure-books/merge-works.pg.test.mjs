@@ -90,6 +90,30 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
   const snapshot = () => JSON.parse(query(`SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table => `'${table}',(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM ${table} t ${table === 'contents' ? "WHERE id IN ('keep','drop')" : ''})`).join(',')});`))
   const merge = s => query(buildMergeSql(pair, s))
 
+  await t.test('source-reviewed foreign and card-deck locales are not regenerated as editions during merge', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    for (const reason of ['wrong_locale','non_reading_product']) {
+      reset(`UPDATE contents SET metadata='{"figureBook":{"originalLanguage":"en","identityEvidence":"https://publisher.example/book"}}' WHERE id IN ('keep','drop');
+        INSERT INTO figure_book_contents VALUES('keep'),('drop');
+        INSERT INTO figure_book_editions(id,content_id,locale,title,creator,isbn,sources) VALUES
+        (1,'keep','en','Egon Schiele','Reinhard Steiner','9783836504423','{"primary":"openlibrary"}');
+        INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
+        ('drop','en','Egon Schiele','Reinhard Steiner','9783822802397',
+        '{"primary":"openlibrary","edition_selection_evidence":[{"method":"independent_selection_review","reason":"${reason}","isbn":"9783822802397","locale":"en","edition_title":"Egon Schiele","source_url":"https://publisher.example/exact-isbn","explanation":"Actual ISBN body language or card-deck format independently verified."}]}');
+        INSERT INTO member_contents VALUES('reader','drop','user','Original member review',5);
+        INSERT INTO celeb_contents VALUES('public-review','drop','person','Original Korean review','Original English review','https://interview.example/original');`)
+      query(editionPolicySql())
+      const before=snapshot(), representative=structuredClone(before.figure_book_editions[0])
+      merge(before)
+      assert.deepEqual(snapshot().figure_book_editions,[representative])
+      assert.equal(query("SELECT content_id || ':' || review FROM member_contents WHERE id='reader'"),'keep:Original member review')
+      assert.equal(query("SELECT content_id || ':' || review || ':' || review_en || ':' || source_url FROM celeb_contents WHERE id='public-review'"),
+        'keep:Original Korean review:Original English review:https://interview.example/original')
+      assert.equal(query("SELECT count(*) FROM pg_trigger WHERE tgname='guard_figure_book_edition_policy' AND tgenabled='O'"),'1')
+      query('DROP TRIGGER guard_figure_book_edition_policy ON figure_book_editions')
+    }
+  })
+
   await t.test('독립 출처로 확정한 미상 역자 재판 대응만 정상 트리거 아래 상품 이력을 이동한다', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`INSERT INTO figure_book_contents VALUES('keep'),('drop');

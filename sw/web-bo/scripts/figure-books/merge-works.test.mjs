@@ -224,6 +224,29 @@ test('번호 없는 기존 판본에 검수 근거를 붙이고 대표 제목을
   assert.doesNotMatch(seed, /e\.sources IS NOT DISTINCT FROM l\.sources/)
   assert.doesNotMatch(sql, /DELETE FROM public\.figure_book_editions WHERE id=27310/)
 })
+
+test('source-reviewed rejected card products are not seeded again during work merge', () => {
+  for (const reason of ['wrong_locale','non_reading_product']) {
+    const s = fixture(), title='Egon Schiele', isbn='9783822802397'
+    const proof={method:'independent_selection_review',reason,isbn,locale:'en',edition_title:title,
+      source_url:'https://library.example/exact-isbn',explanation:'Actual ISBN and body language or non-reading format independently confirmed.'}
+    s.content_locales=[{content_id:'drop',locale:'en',title,isbn,sources:{primary:'openlibrary',edition_selection_evidence:[proof]}}]
+    const before=structuredClone(s),sql=buildMergeSql(pair,s)
+    const rejected="AND NOT ((l.content_id=E'drop' AND l.locale=E'en' AND l.isbn IS NOT DISTINCT FROM E'9783822802397'))"
+    assert.ok(sql.includes(rejected))
+    assert.ok(sql.indexOf(rejected)>sql.indexOf('INSERT INTO public.figure_book_editions(content_id,locale,title'))
+    assert.deepEqual(s,before)
+    for (const difference of [{isbn:'9783836504423'},{locale:'ko'},{edition_title:'Other title'},{source_url:'https://openlibrary.org/books/OL1M'},
+      {reason:'low_rating'},{explanation:'Short'}, {method:'machine_selection'}]) {
+      const stale=structuredClone(s);stale.content_locales[0].sources.edition_selection_evidence=[{...proof,...difference}]
+      assert.ok(!buildMergeSql(pair,stale).includes(rejected))
+    }
+    const matchedTitle=structuredClone(s);matchedTitle.content_locales[0].title='Series title';matchedTitle.content_locales[0].sources.edition_title=title
+    assert.ok(buildMergeSql(pair,matchedTitle).includes(rejected))
+    matchedTitle.content_locales[0].sources.edition_title='Other edition'
+    assert.ok(!buildMergeSql(pair,matchedTitle).includes(rejected))
+  }
+})
 test('세력 배열 참조는 원값 백업·잠금·동시변경 검증 후 순서 보존 치환', () => {
   const s = fixture(); s.faction_lv2 = [{ id: 'f', theme_book_ids: ['a', 'drop', 'keep', 'b', 'drop'] }]
   const sql = buildMergeSql(pair, s)
