@@ -1,5 +1,6 @@
 import { BOOK_EDITION_EXCLUDED_TITLE, BOOK_EDITION_ENGLISH_SOURCE_TITLE, BOOK_EDITION_GRADED_READER, BOOK_EDITION_EXCLUDED_SCOPE, BOOK_EDITION_KAKAO_PAGE, BOOK_EDITION_NONSTART_SCOPE, BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION, BOOK_TRANSLATOR_IGNORED_CHARACTERS, BOOK_EDITION_VOLUME_TITLE, BOOK_EDITION_VOLUME_TITLE_FORMAT, BOOK_EDITION_WORK_TITLE_ARTICLE, BOOK_EDITION_WORK_TITLE_PUNCTUATION, SERVICE_BOOK_EDITION_KINDS, BOOK_EDITION_SELECTION_REASONS, BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH } from '../../../../../packages/content-search/src/book-edition-policy.ts'
 import { ISBN13_PATTERN, ISBN10_PATTERN, ISBN_FORMATTING_PATTERN, ISBN13_WEIGHTS, ISBN10_WEIGHTS } from '../../../../../packages/content-search/src/book-isbn.ts'
+import { BOOK_EDITION_WORK_BOUND_SELECTION_REASONS } from '../../../../../packages/content-search/src/book-edition-policy.ts'
 import { sqlLiteral } from './merge-work-sql.mjs'
 const pg = regex => sqlLiteral(regex.source.replaceAll('\\b','\\y'))
 // The shared ISBN patterns and weights also govern proof matching in PostgreSQL.
@@ -19,7 +20,7 @@ function selectionExcludedSql(title,isbn,locale,sources,contentId) {
  AND ${normalizedIsbnSql(isbn)} IS NOT NULL AND ${normalizedIsbnSql("proof->>'isbn'")}=${normalizedIsbnSql(isbn)}
  AND proof->>'locale'=${locale} AND nullif(${locale},'') IS NOT NULL AND proof->>'edition_title'=${title} AND nullif(btrim(${title}),'') IS NOT NULL
  AND proof->>'reason' IN (${BOOK_EDITION_SELECTION_REASONS.map(sqlLiteral).join(',')})
- AND (proof->>'reason'<>'wrong_work' OR (jsonb_typeof(proof->'content_id')='string' AND nullif(proof->>'content_id','')=${contentId}))
+ AND (proof->>'reason' NOT IN (${BOOK_EDITION_WORK_BOUND_SELECTION_REASONS.map(sqlLiteral).join(',')}) OR (jsonb_typeof(proof->'content_id')='string' AND nullif(proof->>'content_id','')=${contentId}))
  AND char_length(btrim(coalesce(proof->>'explanation','')))>=${BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH}
  AND coalesce(proof->>'source_url','') ~ '^https://[A-Za-z0-9.-]*[A-Za-z][A-Za-z0-9-]*[.]?(:[0-9]{1,5})?([/?#][^[:space:]]*)?$'
  AND (CASE WHEN proof->>'source_url' ~ '^https://[A-Za-z0-9.-]+:[0-9]{1,5}([/?#]|$)' THEN substring(proof->>'source_url' from '^https://[^/?#:]+:([0-9]+)')::int ELSE 0 END)<=65535

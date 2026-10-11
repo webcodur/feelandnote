@@ -2,7 +2,8 @@
 import { toIsbn13 } from './book-isbn'
 
 export const SERVICE_BOOK_EDITION_KINDS = ['full', 'retelling', 'adaptation', 'selection', 'volume'] as const
-export const BOOK_EDITION_SELECTION_REASONS = ['children_picture', 'children_only', 'graded_reader', 'abridged', 'non_reading_product', 'wrong_locale', 'wrong_work'] as const
+export const BOOK_EDITION_SELECTION_REASONS = ['children_picture', 'children_only', 'graded_reader', 'abridged', 'non_reading_product', 'wrong_locale', 'wrong_work', 'editorial_exclusion'] as const
+export const BOOK_EDITION_WORK_BOUND_SELECTION_REASONS = ['wrong_work', 'editorial_exclusion'] as const
 export const BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH = 20
 export type BookEditionSelectionReason = typeof BOOK_EDITION_SELECTION_REASONS[number]
 export type BookEditionSelectionEvidence = {
@@ -47,7 +48,7 @@ export function reviewedBookEditionSelectionReason(input: BookEditionPolicyInput
     if (proof.method !== 'independent_selection_review' || typeof proof.isbn !== 'string' || toIsbn13(proof.isbn) !== isbn
       || proof.locale !== input.locale || proof.edition_title !== input.title
       || !BOOK_EDITION_SELECTION_REASONS.some(reason => reason === proof.reason)
-      || proof.reason === 'wrong_work' && (typeof proof.content_id !== 'string' || !proof.content_id || proof.content_id !== (input.content_id ?? input.contentId))
+      || BOOK_EDITION_WORK_BOUND_SELECTION_REASONS.some(reason => reason === proof.reason) && (typeof proof.content_id !== 'string' || !proof.content_id || proof.content_id !== (input.content_id ?? input.contentId))
       || typeof proof.explanation !== 'string' || proof.explanation.trim().length < BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
       || typeof proof.source_url !== 'string' || !proof.source_url.startsWith('https://')) continue
     try {

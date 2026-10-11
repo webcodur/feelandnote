@@ -1,6 +1,6 @@
 /** 작품 통합은 한 PostgreSQL transaction에서만 실행한다. 충돌은 전체 pair를 되돌린다. */
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
-import { bookEditionTranslationKey, excludedBookEditionReason, reviewedBookEditionSelectionReason } from '@feelandnote/content-search/book-edition-policy'
+import { bookEditionTranslationKey, excludedBookEditionReason, reviewedBookEditionSelectionReason, BOOK_EDITION_WORK_BOUND_SELECTION_REASONS } from '@feelandnote/content-search/book-edition-policy'
 import { isOriginalEdition } from './edition-translation-policy.mjs'
 import { CONTENT_ARRAY_REFERENCES } from './content-array-references.mjs'
 import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
@@ -219,7 +219,7 @@ export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [], re
     if (!source || typeof source !== 'object') return []
     const sources = { ...source }
     if (Array.isArray(source.edition_work_evidence)) sources.edition_work_evidence = source.edition_work_evidence.map(rebindProof)
-    if (Array.isArray(source.edition_selection_evidence)) sources.edition_selection_evidence = source.edition_selection_evidence.map(proof => proof?.method === 'independent_selection_review' && proof.reason === 'wrong_work' && proof.content_id === pair.drop ? {...proof, content_id:pair.keep} : proof)
+    if (Array.isArray(source.edition_selection_evidence)) sources.edition_selection_evidence = source.edition_selection_evidence.map(proof => proof?.method === 'independent_selection_review' && BOOK_EDITION_WORK_BOUND_SELECTION_REASONS.includes(proof.reason) && proof.content_id === pair.drop ? {...proof, content_id:pair.keep} : proof)
     if (source.work_attribution) sources.work_attribution = rebindProof(source.work_attribution)
     if (JSON.stringify(sources) === JSON.stringify(source)) return []
     const where = table === 'content_locales' ? `content_id=drop_id AND locale=${sqlLiteral(row.locale)}` : `id=${Number(row.id)}`

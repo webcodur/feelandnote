@@ -462,7 +462,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     }
     for(const changed of [{isbn:'9780394800165'},{isbn:'9781524773459'},{isbn:9781524773458},{locale:'en'},
       {edition_title:'Another title'},{explanation:''},{explanation:123456789012345678901234567890},
-      {reason:'low_rating'},{method:'machine_review'},{reason:'wrong_work',content_id:'another-original'},{reason:'wrong_work',content_id:undefined},{source_url:'https://openlibrary.org/books/OL1M'},
+      {reason:'low_rating'},{method:'machine_review'},{reason:'wrong_work',content_id:'another-original'},{reason:'wrong_work',content_id:undefined},{reason:'editorial_exclusion',content_id:'another-original'},{reason:'editorial_exclusion',content_id:undefined},{source_url:'https://openlibrary.org/books/OL1M'},
       {source_url:'https://sub.openlibrary.org./books/OL1M'},{source_url:'https://user:password@publisher.example/book'},
       {source_url:'https://999999999999999999999/book'},{source_url:'https://publisher.123/book'},
       {source_url:'https://publisher.example:99999999999999999999999999999999999/book'}]) {
@@ -492,7 +492,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
 
   await t.test('source-reviewed foreign and card-deck locales are not regenerated as editions during merge', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
-    for (const reason of ['wrong_locale','non_reading_product','wrong_work']) {
+    for (const reason of ['wrong_locale','non_reading_product','wrong_work','editorial_exclusion']) {
       reset(`UPDATE contents SET metadata='{"figureBook":{"originalLanguage":"en","identityEvidence":"https://publisher.example/book"}}' WHERE id IN ('keep','drop');
         INSERT INTO figure_book_contents VALUES('keep'),('drop');
         INSERT INTO figure_book_editions(id,content_id,locale,title,creator,isbn,sources) VALUES
@@ -506,7 +506,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
       const before=snapshot(), representative=structuredClone(before.figure_book_editions[0])
       merge(before)
       assert.deepEqual(snapshot().figure_book_editions,[representative])
-      if(reason==='wrong_work') assert.equal(snapshot().content_locales[0].sources.edition_selection_evidence[0].content_id,'keep')
+      if(['wrong_work','editorial_exclusion'].includes(reason)) assert.equal(snapshot().content_locales[0].sources.edition_selection_evidence[0].content_id,'keep')
       assert.equal(query("SELECT content_id || ':' || review FROM member_contents WHERE id='reader'"),'keep:Original member review')
       assert.equal(query("SELECT content_id || ':' || review || ':' || review_en || ':' || source_url FROM celeb_contents WHERE id='public-review'"),
         'keep:Original Korean review:Original English review:https://interview.example/original')
