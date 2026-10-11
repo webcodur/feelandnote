@@ -13,11 +13,17 @@ export function nonReadingFormatReviewSignals(row) {
 /** 전 행을 한 번 순회한다. 확인되지 않은 메타와 확정된 참조 오류를 구별한다. */
 export function inspectEditionCatalog(catalog) {
   const works=new Set(catalog.contents.map(row=>row.id)),owners=new Map(),issues=[],reviewCandidates=[]
+  const rows=[...catalog.editions.map(row=>({...row,table:'figure_book_editions'})),...catalog.locales.map(row=>({...row,table:'content_locales'}))],prefixGroups=new Map()
+  for(const row of rows){const isbn=toIsbn13(row.isbn??'');if(!isbn)continue
+    const key=isbn.slice(3,12),group=prefixGroups.get(key)??[];group.push({...row,normalizedIsbn:isbn});prefixGroups.set(key,group)}
   const enMetadata={koreanTitle:0,koreanCreator:0,missingCreator:0,missingIsbn:0};let unresolvedTitleSearchEditions=0
-  for(const row of [...catalog.editions.map(row=>({...row,table:'figure_book_editions'})),...catalog.locales.map(row=>({...row,table:'content_locales'}))]){
+  for(const row of rows){
     const isbn=toIsbn13(row.isbn??''),base={table:row.table,id:row.id,contentId:row.content_id,locale:row.locale,isbn:row.isbn}
     const reviewSignals=nonReadingFormatReviewSignals(row)
-    if(reviewSignals.length)reviewCandidates.push({...base,title:row.title,creator:row.creator,reviewSignals})
+    const counterparts=isbn?(prefixGroups.get(isbn.slice(3,12))??[]).filter(other=>other.normalizedIsbn.slice(0,3)!==isbn.slice(0,3)):[]
+    if(counterparts.length)reviewSignals.push('isbn_prefix_counterpart')
+    if(reviewSignals.length)reviewCandidates.push({...base,title:row.title,creator:row.creator,reviewSignals,
+      ...(counterparts.length?{counterparts:counterparts.map(other=>({table:other.table,id:other.id,contentId:other.content_id,locale:other.locale,isbn:other.isbn}))}:{})})
     if(!works.has(row.content_id))issues.push({...base,error:'missing_book_work'})
     if(row.isbn&&!isbn)issues.push({...base,error:'invalid_isbn'})
     if(!row.title?.trim())issues.push({...base,error:'missing_title'})

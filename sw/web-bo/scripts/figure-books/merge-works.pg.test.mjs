@@ -315,6 +315,52 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.deepEqual(snapshot().figure_book_editions,[reference])
   })
 
+  await t.test('removing ISBN-less other-author prose retains Seneca representative introduction without copying the wrong text', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,description,sources) VALUES
+      ('keep','en','On the Shortness of Life','Seneca','9780143036326','Seneca examines the time we waste and the deliberate choices through which we may reclaim our lives.',
+       '{"primary":"openlibrary","description":"https://penguinrandomhouselibrary.com/book/?isbn=9780143036326"}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,description,sources) VALUES
+      ('keep','en','On the Shortness of Life','Seneca','Dean Rickles describes death as the most necessary limit on our lives.',
+       '{"primary":"openlibrary","description":"https://search.daum.net/search?w=bookpage&bookId=6654898"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reading','keep','person','Human review',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('curation','keep','celeb','원문 감상','Original review','https://evidence.example/reading');`)
+    query(editionPolicySql())
+    const before=snapshot(),placeholder=before.figure_book_editions.find(row=>row.isbn===null),reference=before.figure_book_editions.find(row=>row.isbn==='9780143036326')
+    const proof={method:'independent_placeholder_review',contentId:'keep',editionId:placeholder.id,locale:placeholder.locale,editionTitle:placeholder.title,
+      referenceEditionId:reference.id,referenceLocale:reference.locale,referenceTitle:reference.title,referenceCreator:reference.creator,referenceIsbn:reference.isbn,
+      sourceUrl:reference.sources.description,reason:'The actual Seneca edition is independently confirmed; the ISBN-less row is not a verified product.',
+      misattachedIntroduction:{method:'independent_other_work_introduction_review',isbn:'9788932475196',workTitle:'인생의 짧음에 관하여',creator:'Dean Rickles',
+       sourceUrl:'https://www.yes24.com/product/goods/127044088',reason:'The reviewed Korean product and introduction identify Dean Rickles, not Seneca; this placeholder copied the other book.'}}
+    const changes=[{table:'figure_book_editions',before:placeholder,remove:true,reviewedPlaceholderRemoval:proof}],expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
+    query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes));assert.deepEqual(snapshot(),expected)
+    assert.deepEqual(snapshot().figure_book_editions,[reference])
+  })
+
+  await t.test('source-free ISBN candidate removal keeps the actual 979 product and rejects stale or historical-product rows', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO content_locales(content_id,locale,title,creator,publisher,isbn,sources) VALUES
+      ('keep','ko','완전한 행복','정유정','은행나무','9791167370280','{"primary":"kakao_book","isbn":"https://search.daum.net/search?w=bookpage&bookId=5698013"}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,publisher,isbn,sources) VALUES
+      ('keep','ko','완전한 행복','정유정','은행나무','9781167370281','{"primary":"kakao_book","isbn":"kakao_title_search","title":"kakao_title_search","creator":"kakao_title_search"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reading','keep','person','Human review',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('curation','keep','celeb','원문 감상','Original review','https://evidence.example/reading');`)
+    query(editionPolicySql())
+    const before=snapshot(),candidate=before.figure_book_editions.find(row=>row.isbn==='9781167370281'),reference=before.figure_book_editions.find(row=>row.isbn==='9791167370280')
+    const proof={method:'independent_unbound_isbn_review',contentId:'keep',editionId:candidate.id,locale:'ko',editionTitle:candidate.title,isbn:candidate.isbn,
+      referenceEditionId:reference.id,referenceTitle:reference.title,referenceCreator:reference.creator,referencePublisher:reference.publisher,referenceIsbn:reference.isbn,
+      providerSourceUrl:reference.sources.isbn,sourceUrl:'https://www.yes24.com/product/goods/101908580',
+      reason:'The actual provider and independently reviewed product identify the 979 ISBN; the old 978 title-search row has no actual physical source.'}
+    const changes=[{table:'figure_book_editions',before:candidate,remove:true,reviewedUnboundIsbnRemoval:proof}],sql=buildGuardedCatalogRepairSql(['keep','drop'],before,changes)
+    query(`INSERT INTO figure_book_products(id,edition_id,platform,is_active) VALUES(1,${candidate.id},'yes24',false)`)
+    const withProduct=snapshot();assert.throws(()=>query(sql),/rowset mismatch/);assert.deepEqual(snapshot(),withProduct)
+    query('DELETE FROM figure_book_products WHERE id=1')
+    const expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
+    query(sql);assert.deepEqual(snapshot(),expected);assert.deepEqual(snapshot().figure_book_editions,[reference])
+  })
+
   await t.test('automatic seed and edition guard honor exact independent selection proofs, including ISBN10 normalization', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     const proof={method:'independent_selection_review',content_id:'keep',reason:'children_picture',isbn:'9781524773458',locale:'ko',edition_title:'Activity card',
