@@ -155,12 +155,14 @@ export function createReviewSession(catalog, detected, { maxLanes = 8, fullCatal
   }
   const previousCounts = job => {
     const counts = Object.create(null)
-    for (const report of job.reportHistory ?? []) for (const [key, n] of Object.entries(report.counts)) counts[key] = (counts[key] ?? 0) + n
+    for (const report of job.reportHistory ?? []) for (const [key, n] of Object.entries(report.counts))
+      counts[key] = key === 'reviewedWorks' ? Math.max(counts[key] ?? 0, n) : (counts[key] ?? 0) + n
     return counts
   }
   const reportCounts = job => {
     const counts = previousCounts(job)
-    for (const [key, n] of Object.entries(job.report?.counts ?? {})) counts[key] = (counts[key] ?? 0) + n
+    for (const [key, n] of Object.entries(job.report?.counts ?? {}))
+      counts[key] = key === 'reviewedWorks' ? Math.max(counts[key] ?? 0, n) : (counts[key] ?? 0) + n
     return counts
   }
   const owned = (lane, jobId) => {

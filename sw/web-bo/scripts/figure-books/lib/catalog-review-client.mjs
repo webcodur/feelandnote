@@ -2,6 +2,29 @@
 import {request} from 'node:http'
 import {coordinatorUrl} from './catalog-session-url.mjs'
 
+/** FIFO 취득 뒤 확정 SQL을 한 번만 실행하고, 자기 lease를 반드시 반환한다. */
+export async function withCatalogMutationLease(api,{lane,jobId},mutate,{pollMs=1500}={}){
+ if(typeof lane!=='string'||!lane||!/^job-\d+$/u.test(jobId)||typeof mutate!=='function'
+  ||!Number.isSafeInteger(pollMs)||pollMs<1||pollMs>5000)throw Error('Invalid mutation lease request')
+ const owner={lane,jobId};let acquired=false,result,error
+ try{
+  for(;;){
+   const state=await api.post('/mutation-lease',owner)
+   if(state?.acquired===true&&state.lease?.lane===lane&&state.lease.jobId===jobId){acquired=true;break}
+   if(state?.acquired!==false||state.busy!==true)throw Error('Invalid mutation lease response')
+   await new Promise(resolve=>setTimeout(resolve,pollMs))
+  }
+  result=await mutate()
+ }catch(cause){error=cause}
+ try{await api.post('/mutation-release',owner)}catch(cause){
+  // 서버는 다른 소유자의 lease를 반환하지 않는다. 취득 여부가 불명확해도 자기 ID로만 요청한다.
+  error=new AggregateError(error?[error,cause]:[cause],'Mutation lease release failed; check actual DB state before retry')
+  error.mutationAttempted=acquired
+ }
+ if(error)throw error
+ return result
+}
+
 export function createCatalogReviewClient(origin,{timeoutMs=180000}={}){
  const base=coordinatorUrl(origin)
  const call=(path,body)=>new Promise((resolve,reject)=>{
@@ -17,5 +40,7 @@ export function createCatalogReviewClient(origin,{timeoutMs=180000}={}){
   req.on('error',error=>reject(Object.assign(Error('Coordinator transport failure'),{code:error.code})))
   req.end(body===undefined?undefined:JSON.stringify(body))
  })
- return {get:path=>call(path),post:(path,body)=>call(path,body)}
+ const api={get:path=>call(path),post:(path,body)=>call(path,body)}
+ api.withMutationLease=(owner,mutate,options)=>withCatalogMutationLease(api,owner,mutate,options)
+ return api
 }

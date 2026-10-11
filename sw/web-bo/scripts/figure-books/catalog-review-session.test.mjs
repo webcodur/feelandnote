@@ -90,7 +90,7 @@ test('full completion requires explicit complete reviewedWorks and status counts
   assert.equal(session.status().worksUnresolved,3);assert.equal(session.status().worksDone,0)
   const reopened=session.reopen({lane:'retry',contentIds:job.contentIds})
   session.finish(finish('retry',reopened.id,{counts:{reviewedWorks:3},keptIds:job.contentIds,droppedIds:[],independentSourceUrls:[]}))
-  assert.equal(session.status().counts.reviewedWorks,5)
+  assert.equal(session.status().counts.reviewedWorks,3)
   assert.equal(session.status().worksDone,3);assert.equal(session.status().worksTotal,4)
   const fresh=createReviewSession(data,detected,{fullCatalogPass:true});fresh.restoreProgress(session.exportProgress())
   assert.equal(fresh.status().worksDone,3);assert.equal(fresh.status().worksQueued,1)
@@ -300,6 +300,21 @@ test('mutation FIFO prevents a just-released lane from jumping ahead of waiting 
   assert.equal(session.acquire({ lane: 'three', jobId: three.id }).acquired, true)
   session.finish(finish('one', one.id))
   assert.equal(session.status().mutationQueue.length, 0)
+})
+
+test('reopening a full review preserves unique coverage while adding actual actions',()=>{
+ const session=createReviewSession(catalog(),detected,{fullCatalogPass:true}),job=session.claim({lane:'one'})
+ session.finish(finish('one',job.id,{result:'unresolved',counts:{reviewedWorks:3,merged:1},reason:'One item needs source'}))
+ for(let i=0;i<2;i++){
+  const reopened=session.reopen({lane:'one',contentIds:['a','b','c']})
+  assert.equal(reopened.previousCounts.reviewedWorks,3)
+  session.finish(finish('one',job.id,{result:'unresolved',counts:{reviewedWorks:3,merged:1},reason:'Source repair continues'}))
+ }
+ assert.equal(session.status().counts.reviewedWorks,3)
+ assert.equal(session.status().counts.merged,3)
+ const progress=session.exportProgress();assert.equal(progress.reports[0].report.counts.reviewedWorks,3)
+ const restored=createReviewSession(catalog(),detected,{fullCatalogPass:true});restored.restoreProgress(progress)
+ assert.equal(restored.status().counts.reviewedWorks,3);assert.equal(restored.status().counts.merged,3)
 })
 
 test('claim-batch combines independent simple pairs within maxWorks and leaves complex/claimed components untouched', () => {
