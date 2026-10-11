@@ -156,14 +156,14 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.deepEqual(after.member_contents,before.member_contents)
   })
 
-  await t.test('source-confirmed co-translator completion deletes the duplicate before canonical credits update under live policy',t=>{
+  await t.test('source-confirmed scope, co-translator and introduction choice deletes the duplicate before canonical update under live policy',t=>{
     t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
       ('keep','ko','Novel','Author','9788932910673','{"primary":"kakao","translators":["Translator A","Translator B"]}');
       INSERT INTO figure_book_contents VALUES('keep');
-      UPDATE figure_book_editions SET edition_kind='full',text_scope='Complete seven-story collection (US)';
-      INSERT INTO figure_book_editions(content_id,locale,title,creator,isbn,edition_kind,text_scope,sources) VALUES
-      ('keep','ko','Novel reprint','Author','9788932910680','full','Complete seven-story collection (UK)','{"translators":["Translator A"]}');
+      UPDATE figure_book_editions SET edition_kind='full',text_scope='Complete seven-story collection (US)',description='Verified representative introduction for the same complete seven stories',sources='{"translators":["Translator A","Translator B"],"description":"https://publisher.example/first-intro"}';
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,isbn,edition_kind,text_scope,description,sources) VALUES
+      ('keep','ko','Novel reprint','Author','9788932910680','full','Complete seven-story collection (UK)','Different publisher advertisement for the same complete seven stories','{"translators":["Translator A"],"description":"https://publisher.example/reprint-intro"}');
       INSERT INTO figure_book_products(id,edition_id,platform,is_active) SELECT 7,id,'shop',true FROM figure_book_editions WHERE isbn='9788932910680';
       INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
       INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','Original review','English review','https://example.org/review');`)
@@ -176,7 +176,10 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
         keepBeforeTextScope:first.text_scope,dropBeforeTextScope:duplicate.text_scope,keepSourceUrl:'https://publisher.example/first',dropSourceUrl:'https://publisher.example/reprint',
         reason:'The actual exact ISBN tables of contents contain the same complete seven stories in regional products.'},
       reviewedTranslatorCompletion:{method:'independent_translator_completion',translators:['Translator A','Translator B'],keepBeforeTranslators:['Translator A','Translator B'],dropBeforeTranslators:['Translator A'],
-        keepSourceUrl:'https://publisher.example/first',dropSourceUrl:'https://publisher.example/reprint',reason:'Both exact ISBN copyright credits identify Translator A and Translator B; the old row omitted the second co-translator.'}}
+        keepSourceUrl:'https://publisher.example/first',dropSourceUrl:'https://publisher.example/reprint',reason:'Both exact ISBN copyright credits identify Translator A and Translator B; the old row omitted the second co-translator.'},
+      reviewedRepresentativeIntroduction:{method:'independent_representative_introduction',locale:'ko',keepBeforeDescription:first.description,dropBeforeDescription:duplicate.description,
+        keepBeforeSource:first.sources.description,dropBeforeSource:duplicate.sources.description,keepSourceUrl:'https://publisher.example/first',dropSourceUrl:'https://publisher.example/reprint',
+        reason:'The actual two ISBN bodies contain the same seven stories; the verified first-product introduction is selected for the sole representative.'}}
     const plan=planReviewedEditionConsolidation(before,[review])
     query(buildReviewedEditionConsolidationSql(before,[review]))
     const after=JSON.parse(query(buildCatalogRepairSnapshotSql(['keep'])))
@@ -184,6 +187,8 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.deepEqual(after.celeb_contents,before.celeb_contents)
     assert.deepEqual(after.member_contents,before.member_contents)
     assert.deepEqual(after.figure_book_editions[0].sources.translators,['Translator A','Translator B'])
+    assert.equal(after.figure_book_editions[0].description,first.description)
+    assert.ok(!JSON.stringify(after.figure_book_editions[0].sources).includes(duplicate.description))
     assert.equal(after.figure_book_products[0].edition_id,first.id)
   })
 

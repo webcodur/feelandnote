@@ -128,6 +128,39 @@ test('unique introductions and their source cannot be lost, but a surviving real
   locale.sources.primary = 'openlibrary'; locale.isbn = null
   assert.throws(() => planReviewedEditionConsolidation(before, [review]), /preserve exact introduction/)
 })
+test('LLM selects one sourced representative introduction after reviewing both products without retaining old prose copies', () => {
+  const before = fixture(), keep = before.figure_book_editions[0], drop = before.figure_book_editions[1]
+  keep.description = 'The verified representative introduction describes the complete original book.'
+  keep.sources.description = 'https://publisher.example/paper-introduction'
+  drop.description = 'A different hardcover advertisement describes the same original book.'
+  drop.sources.description = 'https://publisher.example/hard-introduction'
+  const proof = { method: 'independent_representative_introduction', locale: 'en',
+    keepBeforeDescription: keep.description, dropBeforeDescription: drop.description,
+    keepBeforeSource: keep.sources.description, dropBeforeSource: drop.sources.description,
+    keepSourceUrl: 'https://publisher.example/paper', dropSourceUrl: 'https://publisher.example/hard',
+    reason: 'Both ISBNs contain the same original body; the paperback introduction explains that body without the hardcover sales advertisement.' }
+  const mapping = { ...review, reviewedRepresentativeIntroduction: proof }
+  assert.throws(() => planReviewedEditionConsolidation(before, [review]), /preserve exact introduction/)
+  const plan = planReviewedEditionConsolidation(before, [mapping]), representative = plan.expected.figure_book_editions[0]
+  assert.equal(representative.description, keep.description)
+  assert.equal(representative.sources.description, keep.sources.description)
+  assert.equal(representative.sources.edition_work_evidence[0].introduction_source_url, keep.sources.description)
+  assert.ok(!JSON.stringify(representative.sources).includes(drop.description))
+  assert.ok(!JSON.stringify(representative.sources).includes('BeforeDescription'))
+  for (const table of SNAPSHOT_TABLES.filter(table => !['figure_book_editions', 'figure_book_products'].includes(table))) assert.deepEqual(plan.expected[table], before[table])
+  for (const patch of [{ locale: 'ko' }, { keepBeforeDescription: 'changed' }, { dropBeforeSource: null },
+    { keepSourceUrl: 'https://books.google.com/books?id=x' }, { dropSourceUrl: proof.keepSourceUrl }, { reason: '' }])
+    assert.throws(() => planReviewedEditionConsolidation(before, [{ ...mapping, reviewedRepresentativeIntroduction: { ...proof, ...patch } }]), /representative introduction/)
+  for (const prose of [null, 'OPEN', 'too short']) {
+    const missing = structuredClone(before); missing.figure_book_editions[0].description = prose
+    assert.throws(() => planReviewedEditionConsolidation(missing, [{ ...mapping, reviewedRepresentativeIntroduction: { ...proof, keepBeforeDescription: prose } }]), /representative introduction/)
+  }
+  const translated = structuredClone(before); translated.figure_book_editions[0].sources.translators = ['A']; translated.figure_book_editions[1].sources.translators = ['B']
+  assert.throws(() => planReviewedEditionConsolidation(translated, [{ ...mapping, textIdentity: 'translation' }]), /translator conflict/)
+  const later = structuredClone(before); later.figure_book_editions[1].text_scope = 'volume/2'
+  assert.throws(() => planReviewedEditionConsolidation(later, [mapping]), /text scope conflict|excluded edition/)
+})
+
 test('source markers are not introduction prose, while similar real text remains protected', () => {
   for (const marker of ['KAKAO', 'DAUM', 'OPEN']) {
     const before = fixture(), drop = before.figure_book_editions[1]

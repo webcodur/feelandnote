@@ -41,6 +41,23 @@ function snapshotValid(snapshot) {
   for (const table of SNAPSHOT_TABLES) if (!Array.isArray(snapshot?.[table])) throw Error('EDITION_REVIEW: missing snapshot ' + table)
 }
 const descriptionSource = row => row.sources && typeof row.sources === 'object' ? row.sources.description : undefined
+function reviewedRepresentativeIntroduction(review, keep, drop) {
+  const proof = review.reviewedRepresentativeIntroduction
+  if (proof === undefined) return null
+  if (!proof || typeof proof !== 'object' || Array.isArray(proof)
+    || proof.method !== 'independent_representative_introduction' || proof.locale !== keep.locale
+    || !isDeepStrictEqual(proof.keepBeforeDescription, keep.description ?? null)
+    || !isDeepStrictEqual(proof.dropBeforeDescription, drop.description ?? null)
+    || !isDeepStrictEqual(proof.keepBeforeSource, descriptionSource(keep) ?? null)
+    || !isDeepStrictEqual(proof.dropBeforeSource, descriptionSource(drop) ?? null)
+    || typeof keep.description !== 'string' || keep.description.trim().length < 30 || isBookIntroductionSource(keep.description)
+    || !publicSource(descriptionSource(keep))
+    || !publicSource(proof.keepSourceUrl, true) || !publicSource(proof.dropSourceUrl, true)
+    || proof.keepSourceUrl === proof.dropSourceUrl
+    || typeof proof.reason !== 'string' || proof.reason.trim().length < 20)
+    throw Error('EDITION_REVIEW: representative introduction requires exact current prose and sources, both independent ISBN sources and explicit selection')
+  return proof
+}
 function reviewedScopeEquivalence(review,keep,drop,crossWork){
   const proof=review.reviewedScopeEquivalence
   if(proof===undefined)return null
@@ -118,11 +135,12 @@ export function planReviewedEditionConsolidation(snapshot, reviews) {
     const a = translator(keep), b = translator(drop)
     const completion=reviewedTranslatorCompletion(review,keep,drop)
     if (!completion&&a && b && a !== b || review.textIdentity === 'original' && (a || b)) throw Error('EDITION_REVIEW: known translator conflict')
-    retained.push({ review, work, keep, drop, crossWork,completion,scopeEquivalence })
+    const introductionSelection = reviewedRepresentativeIntroduction(review, keep, drop)
+    retained.push({ review, work, keep, drop, crossWork,completion,scopeEquivalence,introductionSelection })
   }
   const survivors = [...snapshot.content_locales, ...snapshot.figure_book_editions.filter(row => !removed.has(String(row.id)))]
-  for (const { review, work, keep, drop, crossWork,completion,scopeEquivalence } of retained) {
-    if (!introRetained(drop, survivors, snapshot, crossWork)) throw Error('EDITION_REVIEW: preserve exact introduction and its source in a surviving real same-locale row first')
+  for (const { review, work, keep, drop, crossWork,completion,scopeEquivalence,introductionSelection } of retained) {
+    if (!introductionSelection && !introRetained(drop, survivors, snapshot, crossWork)) throw Error('EDITION_REVIEW: preserve exact introduction and its source in a surviving real same-locale row first')
     const canonical = expected.figure_book_editions.find(row => String(row.id) === String(keep.id))
     const figure = work.metadata?.figureBook ?? {}, sources = canonical.sources && typeof canonical.sources === 'object' && !Array.isArray(canonical.sources) ? canonical.sources : {}
     const accumulatedTranslator=bookTranslatorKey(sources.translators),dropTranslator=bookTranslatorKey(drop.sources?.translators)
@@ -138,7 +156,8 @@ export function planReviewedEditionConsolidation(snapshot, reviews) {
       ...(review.textIdentity === 'original' && figure.originalLanguage === keep.locale && /^https:\/\//u.test(figure.identityEvidence ?? '') ? { original_language: figure.originalLanguage } : {}),
       source_url: review.sourceUrl, explanation: review.reason, text_identity: review.textIdentity,
       ...(scopeEquivalence?{scope_source_urls:[scopeEquivalence.keepSourceUrl,scopeEquivalence.dropSourceUrl],scope_explanation:scopeEquivalence.reason}:{}),
-      ...(completion?{translators:structuredClone(completion.translators),translator_source_urls:[completion.keepSourceUrl,completion.dropSourceUrl]}:{}) }
+      ...(completion?{translators:structuredClone(completion.translators),translator_source_urls:[completion.keepSourceUrl,completion.dropSourceUrl]}:{}),
+      ...(introductionSelection ? { introduction_source_url: descriptionSource(keep), introduction_selection_reason: introductionSelection.reason } : {}) }
     const evidence = Array.isArray(sources.edition_work_evidence) ? sources.edition_work_evidence : []
     canonical.sources = { ...sources,
       ...(completion?{translators:structuredClone(completion.translators)}:{}),
