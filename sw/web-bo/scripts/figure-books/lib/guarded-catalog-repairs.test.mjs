@@ -11,6 +11,92 @@ const snapshot=()=>({...Object.fromEntries(SNAPSHOT_TABLES.map(table=>[table,[]]
  member_contents:[{id:'reading',content_id:'work',review:'Human review',rating:5}],faction_lv2:[{id:'theme',theme_book_ids:['other','work']}]})
 const change=data=>({table:'contents',before:data.contents[0],patch:{metadata:{figureBook:{workTitle:'Confirmed Title'}},external_id:'confirmed'}})
 
+const figureSnapshot=()=>{
+ const data=snapshot()
+ for(const row of [...data.content_locales,...data.figure_book_editions])Object.assign(row,{isbn:'9780140449136',creator:'Actual Writer',sources:{primary:'openlibrary'}})
+ data.figure_book_characters=[{content_id:'work',celeb_id:'figure',relation_type:'authored',description:null,description_en:null,sort_order:3},
+  {content_id:'work',celeb_id:'other-figure',relation_type:'appearance',description:null,description_en:null,sort_order:9}]
+ data.celeb_contents=[{id:'protected-review',content_id:'work',review:'Original reading prose',review_en:'Original English prose',source_url:'https://interview.example/reading',visibility:'public'}]
+ return data
+}
+const figureChange=(data,{remove=false,after='appearance'}={})=>({table:'figure_book_characters',before:data.figure_book_characters[0],
+ ...(remove?{remove:true}:{patch:{relation_type:after}}),reviewedFigureRelation:{method:'independent_figure_relation_review',llmReviewed:true,
+ contentId:'work',celebId:'figure',beforeRelationType:data.figure_book_characters[0].relation_type,afterRelationType:remove?null:after,
+ decision:remove?'remove_wrong_person':'correct_role',actualPersonName:'Modern artist with the same first name',figureName:'The service figure',
+ isbn:'9780140449136',locale:'en',editionTitle:'Title',editionCreator:'Actual Writer',sourceUrl:'https://publisher.example/exact-book',
+ identitySourceUrl:'https://museum.example/figure-identity',identityStatement:'The identity source identifies the exact service figure and distinguishes the modern person.',
+ bodyEvidence:'The actual book text and author credits identify the person as a subject, not its writer.',
+ reason:'The LLM read the exact book and identity sources and confirmed this one existing relation is wrong.'}})
+
+test('source-reviewed figure roles use the composite PK and preserve every other figure and all 13 protected tables',()=>{
+ for(const [beforeRole,afterRole] of [['authored','appearance'],['appearance','authored']]){
+  const data=figureSnapshot();data.figure_book_characters[0].relation_type=beforeRole
+  const plan=planGuardedCatalogRepairs(['work'],data,[figureChange(data,{after:afterRole})])
+  assert.deepEqual(plan.expected.figure_book_characters[0],{...data.figure_book_characters[0],relation_type:afterRole})
+  assert.deepEqual(plan.expected.figure_book_characters[1],data.figure_book_characters[1])
+  for(const table of SNAPSHOT_TABLES.filter(t=>t!=='figure_book_characters'))assert.deepEqual(plan.expected[table],data[table])
+ }
+})
+test('explicit wrong-person removal deletes only its reviewed existing relation, never a reading or a whole book',()=>{
+ const data=figureSnapshot(),plan=planGuardedCatalogRepairs(['work'],data,[figureChange(data,{remove:true})])
+ assert.deepEqual(plan.expected.figure_book_characters,[data.figure_book_characters[1]])
+ for(const table of SNAPSHOT_TABLES.filter(t=>t!=='figure_book_characters'))assert.deepEqual(plan.expected[table],data[table])
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...figureChange(data),before:{...data.figure_book_characters[0],celeb_id:'new-person'}}]),/before row differs/)
+})
+test('figure relation evidence rejects stale identities, missing normal ISBN, providers and unreviewed decisions',()=>{
+ const edits=[p=>delete p.llmReviewed,p=>p.llmReviewed=false,p=>p.celebId='another',p=>p.contentId='another',p=>p.beforeRelationType='appearance',
+  p=>p.isbn='9780679724773',p=>p.locale='ko',p=>p.editionTitle='Different book',p=>p.editionCreator='Different author',p=>p.figureName='',
+  p=>p.identityStatement='Guessed',p=>p.bodyEvidence='Name match',p=>p.reason='Probably',p=>p.sourceUrl='https://openlibrary.org/books/OL1M',
+  p=>p.sourceUrl='https://books.google.com/books?id=one',p=>p.identitySourceUrl='http://museum.example/figure',p=>p.identitySourceUrl=p.sourceUrl,
+  p=>p.identitySourceUrl='https://[::1]/figure',p=>p.afterRelationType='authored',p=>p.figureName={},p=>p.editionCreator=5,p=>p.isbn=9780140449136]
+ for(const edit of edits){const data=figureSnapshot(),c=figureChange(data);edit(c.reviewedFigureRelation);assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[c]),/Figure relation/)}
+ const data=figureSnapshot(),c=figureChange(data);delete c.reviewedFigureRelation
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[c]),/Figure relation/)
+})
+test('figure corrections cannot change descriptions, PK, ordering, other roles or smuggle edition proofs',()=>{
+ for(const patch of [{relation_type:'appearance',description:null},{relation_type:'appearance',sort_order:1},{celeb_id:'other'},
+  {content_id:'other'},{relation_type:'related'},{relation_type:'authored'},{}]){
+  const data=figureSnapshot(),c=figureChange(data);c.patch=patch;assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[c]),/Figure relation patch/)
+ }
+ const data=figureSnapshot(),c=figureChange(data);c.reviewedIntroductionCorrection={}
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[c]),/Figure relation repair/)
+ for(const edit of [p=>p.actualPersonName=p.figureName,p=>p.decision='correct_role',p=>p.afterRelationType='appearance']){
+  const c=figureChange(data,{remove:true});edit(c.reviewedFigureRelation);assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[c]),/different person/)
+ }
+ const duplicate=figureChange(data);assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[duplicate,duplicate]),/before row differs/)
+})
+test('the reviewed normal edition must remain valid in the final batch snapshot',()=>{
+ const data=figureSnapshot()
+ for(const row of [...data.content_locales,...data.figure_book_editions])row.sources.primary='none'
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[figureChange(data)]),/retained live normal edition/)
+ for(const row of [...data.content_locales,...data.figure_book_editions])row.sources.primary='openlibrary'
+ const exclusions=['content_locales','figure_book_editions'].map(table=>({table,before:data[table][0],patch:{sources:{primary:'none'}}}))
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[figureChange(data),...exclusions]),/retained live normal edition/)
+})
+test('figure SQL binds both PK fields and old role, rejects unknown child FK and checks exactly one affected row',()=>{
+ const data=figureSnapshot(),sql=buildGuardedCatalogRepairSql(['work'],data,[figureChange(data,{remove:true})])
+ assert.match(sql,/DELETE FROM public.figure_book_characters WHERE content_id=E?'work' AND celeb_id=E?'figure' AND relation_type IS NOT DISTINCT FROM E?'authored'/)
+ assert.match(sql,/unhandled figure relation reference/);assert.match(sql,/GET DIAGNOSTICS affected_rows=ROW_COUNT;IF affected_rows<>1/)
+ for(const table of SNAPSHOT_TABLES)assert.ok(sql.includes('rowset mismatch in '+table))
+ assert.equal((sql.match(/FOR UPDATE/g)||[]).length,18)
+ assert.doesNotMatch(sql,/INSERT INTO public.figure_book_characters|UPDATE public.celeb_contents|DELETE FROM public.celeb_contents/)
+})
+
+test('figure readback ignores only its changed timestamp and rejects other relation or protected prose drift',async()=>{
+ for(const drift of ['none','other-figure','review']){
+  const before=figureSnapshot();for(const row of before.figure_book_characters)row.updated_at='old'
+  const changes=[figureChange(before)],actual=planGuardedCatalogRepairs(['work'],before,changes).expected
+  actual.figure_book_characters[0].updated_at='new'
+  if(drift==='other-figure')actual.figure_book_characters[1].updated_at='unexpected'
+  if(drift==='review')actual.celeb_contents[0].review='Unexpected reading change'
+  let captures=0
+  const run=()=>guardedCatalogRepairs(null,['work'],changes,{capture:async()=>structuredClone(captures++?actual:before),
+   execute:()=>({status:0,stdout:'MERGE_COMMITTED',stderr:''})})
+  if(drift==='none')await run()
+  else await assert.rejects(run,/readback mismatch/)
+ }
+})
+
 test('provider text objects are rejected before SQL instead of becoming a serialized description',()=>{
  for(const table of ['content_locales','figure_book_editions']){
   const data=snapshot(),before=data[table][0]

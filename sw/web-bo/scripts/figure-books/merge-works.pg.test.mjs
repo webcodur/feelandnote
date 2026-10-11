@@ -95,6 +95,82 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
   const snapshot = () => JSON.parse(query(`SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table => `'${table}',(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM ${table} t ${table === 'contents' ? "WHERE id IN ('keep','drop')" : ''})`).join(',')});`))
   const merge = s => query(buildMergeSql(pair, s))
 
+  const resetFigureRelation=()=>reset(`
+    INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
+      ('keep','en','Reviewed book','Actual Writer','9780140449136','{"primary":"openlibrary","openlibrary":"https://openlibrary.org/books/OL1M"}');
+    INSERT INTO figure_book_contents VALUES('keep');
+    INSERT INTO figure_book_characters VALUES('keep','figure','authored',NULL,NULL),('keep','other-figure','appearance',NULL,NULL);
+    INSERT INTO figure_book_products SELECT 77,id,'amazon',false FROM figure_book_editions WHERE content_id='keep' AND isbn='9780140449136';
+    INSERT INTO celeb_contents VALUES('reading','keep','figure','Original review','Original English review','https://interview.example/reading');
+    INSERT INTO member_contents VALUES('member','keep','member','Original member review',5);
+    INSERT INTO records VALUES('record','keep','member','Original record');
+    INSERT INTO notes VALUES('note','keep','Original note');
+    INSERT INTO flow_nodes VALUES('node','keep','["keep"]');
+    INSERT INTO activity_logs VALUES('activity','keep','{"original":"keep"}');
+    INSERT INTO commerce_events VALUES(1,'keep','original');
+    INSERT INTO profession_book_picks VALUES('writer','classics','keep',1);
+    INSERT INTO curated_lists VALUES('list') ON CONFLICT DO NOTHING;
+    INSERT INTO curated_list_items VALUES('curated','keep','list',1,1,'Original title','Original note');
+    INSERT INTO faction_lv2 VALUES('faction',ARRAY['keep']);
+    INSERT INTO flows VALUES('flow','[{"content_ids":["keep"]}]');
+    INSERT INTO tier_lists VALUES('tier','[{"content_ids":["keep"]}]',ARRAY['keep']);`)
+  const reviewedFigureChange=(s,{remove=false,after='appearance'}={})=>({table:'figure_book_characters',
+    before:s.figure_book_characters.find(row=>row.celeb_id==='figure'),...(remove?{remove:true}:{patch:{relation_type:after}}),
+    reviewedFigureRelation:{method:'independent_figure_relation_review',llmReviewed:true,contentId:'keep',celebId:'figure',
+      beforeRelationType:s.figure_book_characters.find(row=>row.celeb_id==='figure').relation_type,afterRelationType:remove?null:after,
+      decision:remove?'remove_wrong_person':'correct_role',actualPersonName:'Modern artist with the same first name',figureName:'The service figure',
+      isbn:'9780140449136',locale:'en',editionTitle:'Reviewed book',editionCreator:'Actual Writer',
+      sourceUrl:'https://publisher.example/exact-book',identitySourceUrl:'https://museum.example/figure-identity',
+      identityStatement:'The identity source identifies this service figure and distinguishes the modern person.',
+      bodyEvidence:'The actual book text and author credits identify the figure as its subject, not its writer.',
+      reason:'The LLM read the independent book and identity sources and confirmed this exact existing relation.'}})
+  const sortedSnapshot=s=>Object.fromEntries(SNAPSHOT_TABLES.map(table=>[table,s[table].map(row=>JSON.stringify(row)).sort()]))
+  const assertFigureSnapshot=(actual,expected)=>assert.deepEqual(sortedSnapshot(actual),sortedSnapshot(expected))
+
+  await t.test('reviewed figure role corrections and wrong-person removal preserve the other relation and all protected rows',()=>{
+    resetFigureRelation()
+    for(const options of [{after:'appearance'},{after:'authored'},{remove:true}]){
+      const before=snapshot(),changes=[reviewedFigureChange(before,options)]
+      const plan=planGuardedCatalogRepairs(['keep','drop'],before,changes)
+      query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes))
+      const actual=snapshot();assertFigureSnapshot(actual,plan.expected)
+      for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_characters'))assertFigureSnapshot({...before,[table]:actual[table]},before)
+      assert.deepEqual(actual.figure_book_characters.find(row=>row.celeb_id==='other-figure'),before.figure_book_characters.find(row=>row.celeb_id==='other-figure'))
+    }
+  })
+
+  await t.test('stale figure relation or protected reading fails full18 CAS without applying sibling metadata',()=>{
+    for(const drift of ["UPDATE figure_book_characters SET description='Concurrent figure text' WHERE celeb_id='figure';",
+      "UPDATE celeb_contents SET review='Concurrent reading text' WHERE id='reading';"]){
+      resetFigureRelation();const before=snapshot(),changes=[{table:'contents',before:before.contents.find(row=>row.id==='keep'),patch:{metadata:{reviewed:true}}},reviewedFigureChange(before)]
+      const sql=buildGuardedCatalogRepairSql(['keep','drop'],before,changes)
+      query(drift);const current=snapshot()
+      assert.throws(()=>query(sql),/changed|snapshot|mismatch|before|concurrent/iu);assertFigureSnapshot(snapshot(),current)
+    }
+  })
+
+  await t.test('unknown composite figure FK rejects correction and deletion and rolls back sibling writes',()=>{
+    resetFigureRelation()
+    query("CREATE TABLE figure_relation_child(content_id text,celeb_id text,body text,FOREIGN KEY(content_id,celeb_id) REFERENCES figure_book_characters(content_id,celeb_id) ON DELETE CASCADE); INSERT INTO figure_relation_child VALUES('keep','figure','Child body');")
+    try{
+      for(const options of [{after:'appearance'},{remove:true}]){
+        const before=snapshot(),changes=[{table:'contents',before:before.contents.find(row=>row.id==='keep'),patch:{metadata:{reviewed:true}}},reviewedFigureChange(before,options)]
+        assert.throws(()=>query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes)),/unhandled figure relation reference/iu)
+        assertFigureSnapshot(snapshot(),before);assert.equal(query('SELECT body FROM figure_relation_child;'),'Child body')
+      }
+    }finally{query('DROP TABLE figure_relation_child;')}
+  })
+
+  await t.test('a figure trigger that changes protected reading causes expected18 rollback of the complete repair',()=>{
+    resetFigureRelation()
+    query("CREATE FUNCTION drift_figure_reading() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN UPDATE celeb_contents SET review='Unexpected trigger text' WHERE id='reading'; RETURN NEW; END $$; CREATE TRIGGER drift_figure_reading AFTER UPDATE ON figure_book_characters FOR EACH ROW EXECUTE FUNCTION drift_figure_reading();")
+    try{
+      const before=snapshot(),changes=[{table:'contents',before:before.contents.find(row=>row.id==='keep'),patch:{metadata:{reviewed:true}}},reviewedFigureChange(before)]
+      assert.throws(()=>query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes)),/rowset mismatch in celeb_contents/iu)
+      assertFigureSnapshot(snapshot(),before)
+    }finally{query('DROP TRIGGER drift_figure_reading ON figure_book_characters; DROP FUNCTION drift_figure_reading();')}
+  })
+
   await t.test('nested and JSON-encoded backup provenance clears source copies with all 18 rowsets protected',()=>{
     const backup={type:'backup-restored',backup:'old/book-descriptions.json',original_locale:'ko',original_sources:{primary:'kakao_book'}}
     const nested={type:'locale-translation',snapshot_hash:'existing-hash',source_locale:'en',source_content_id:'keep',original_sources:{primary:'openlibrary',description:backup}}
