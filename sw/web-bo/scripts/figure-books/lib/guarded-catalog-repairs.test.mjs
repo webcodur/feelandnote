@@ -11,6 +11,20 @@ const snapshot=()=>({...Object.fromEntries(SNAPSHOT_TABLES.map(table=>[table,[]]
  member_contents:[{id:'reading',content_id:'work',review:'Human review',rating:5}],faction_lv2:[{id:'theme',theme_book_ids:['other','work']}]})
 const change=data=>({table:'contents',before:data.contents[0],patch:{metadata:{figureBook:{workTitle:'Confirmed Title'}},external_id:'confirmed'}})
 
+test('new selection evidence uses the resolver array and canonical reason contract',()=>{
+ const data=snapshot(),before=data.content_locales[0]
+ const proof={method:'independent_selection_review',reason:'children_picture',isbn:'9780140449136',locale:'en',edition_title:'Title',
+  source_url:'https://publisher.example/exact-book',explanation:'The exact ISBN and publisher description identify the illustrated children\'s adaptation.'}
+ const patch=evidence=>[{table:'content_locales',before,patch:{sources:{...before.sources,edition_selection_evidence:evidence}}}]
+ for(const evidence of [proof,[{...proof,reason:'childrens_adaptation'}],[{...proof,method:'automatic_review'}],[{...proof,source_url:'https://openlibrary.org/books/OL1M'}],[{...proof,locale:'ko'}],[{...proof,isbn:'0'}],[null]])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,patch(evidence)),/array of reviews with canonical selection reasons/)
+ assert.equal(planGuardedCatalogRepairs(['work'],data,patch([proof])).expected.content_locales[0].sources.edition_selection_evidence[0].reason,'children_picture')
+ // Existing malformed provenance does not block an unrelated repair; correcting it must use the current contract.
+ before.sources.edition_selection_evidence=proof
+ assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,[{table:'content_locales',before,patch:{publisher:'Actual publisher'}}]))
+ assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,patch([proof])))
+})
+
 function completeSetSnapshot(){
  const data=snapshot()
  const first={id:1,content_id:'work',locale:'ko',title:'Novel 1',creator:'Author',isbn:'9788932910680',edition_kind:'volume',text_scope:'volume/1',

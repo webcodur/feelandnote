@@ -147,6 +147,12 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   const key=rowKey(table,before),identity=table+'|'+key,index=expected[table].findIndex(row=>rowKey(table,row)===key)
   if(seen.has(identity)||index<0||!isDeepStrictEqual(snapshot[table].find(row=>rowKey(table,row)===key),before))throw Error('Catalog before row differs from full snapshot')
   seen.add(identity)
+  const evidence=patch?.sources?.edition_selection_evidence
+  if(evidence!==undefined&&!isDeepStrictEqual(evidence,before.sources?.edition_selection_evidence)
+   &&(!Array.isArray(evidence)||evidence.some(proof=>!reviewedBookEditionSelectionReason({...before,
+    isbn:proof?.isbn,title:proof?.edition_title,sources:{edition_selection_evidence:[proof]}})
+    &&!reviewedBookEditionSelectionReason({...before,...patch,isbn:proof?.isbn,title:proof?.edition_title,
+     sources:{edition_selection_evidence:[proof]}}))))throw Error('Selection evidence must be an array of reviews with canonical selection reasons and valid source evidence')
   const selectionProof=change.reviewedSelectionExclusion
   const placeholderProof=change.reviewedPlaceholderRemoval
   const setProof=change.reviewedCompleteSetVolumeRemoval

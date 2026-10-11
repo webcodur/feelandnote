@@ -50,13 +50,30 @@ test('one parent per original seeds both reviewed real languages while preservin
   const plan = planReviewedCatalogInsert(ids, before, reviews)
   assert.deepEqual(plan.parentIds, ids); assert.equal(plan.editions.length, 3)
   assert.equal(plan.editions[0].edition_kind, null); assert.equal(plan.editions[0].text_scope, null)
-  assert.equal(plan.editions[0].publisher, 'English Publisher'); assert.equal(plan.editions[0].release_date, '2013-10-10')
+  assert.equal(plan.editions[0].publisher, 'English Publisher'); assert.equal(plan.editions[0].release_date, null)
   assert.deepEqual(plan.editions[1].sources.translators, ['실제 역자'])
   assert.equal(plan.editions[1].description, before.content_locales[1].description)
   assert.equal(plan.editions[1].sources.description, before.content_locales[1].sources.description)
   assert.deepEqual(before, original)
 })
 
+test('physical edition dates remain unknown unless independently reviewed for each ISBN', () => {
+  const { before, reviews } = fixture()
+  const original = structuredClone(before)
+  reviews[0].editionReleaseDate = '2017-02-28'
+  reviews[1].editionReleaseDate = '2024-02-29'
+  const plan = planReviewedCatalogInsert(ids, before, reviews)
+  assert.deepEqual(plan.editions.map(row => row.release_date), ['2017-02-28', '2024-02-29', null])
+  assert.deepEqual(before, original)
+  const sql = buildReviewedCatalogInsertSql(ids, before, reviews)
+  assert.match(sql, /release_date=E'2017-02-28'/)
+  assert.match(sql, /release_date=E'2024-02-29'/)
+  assert.match(sql, /release_date=NULL/)
+  for (const invalid of ['2023-02-29', '2024-02-30', '2024-13-01', '2024-01', '2024-01-01T00:00:00Z', '', 20240101]) {
+    reviews[0].editionReleaseDate = invalid
+    assert.throws(() => planReviewedCatalogInsert(ids, before, reviews), /invalid reviewed edition release date/)
+  }
+})
 const compactReviews = (before, reviews) => bindReviewedCatalogInsertIdentity(before, reviews.map(review => {
   const result = { ...review }
   for (const key of ['title', 'creator', 'workTitle', 'workCreator', 'translators']) delete result[key]
