@@ -22,12 +22,14 @@ test('ISBN 없는 판본도 별도 검수하며 정상 영문 원서만 있는 �
 
 test('판본 없는 직군·테마 책장 작품도 공개 인물 관계와 함께 추적한다',async()=>{
  const catalog={people:[{id:'active',publication_status:'active'},{id:'draft',publication_status:'draft'}],
-  relations:[{celeb_id:'active',content_id:'appearance'},{celeb_id:'draft',content_id:'hidden'}],readings:[],
-  contents:['appearance','profession','theme','hidden'].map(id=>({id})),locales:[],editions:[]}
+  relations:[{celeb_id:'active',content_id:'appearance'},{celeb_id:'draft',content_id:'hidden'}],
+  readings:[{celeb_id:'active',content_id:'public-reading',visibility:'public'},{celeb_id:'active',content_id:'private-reading',visibility:'private'},
+   {celeb_id:'draft',content_id:'draft-reading',visibility:'public'},{celeb_id:'active',content_id:'appearance',visibility:'private'}],
+  contents:['appearance','profession','theme','hidden','public-reading','private-reading','draft-reading'].map(id=>({id})),locales:[],editions:[]}
  const db={from:table=>{const query={select:()=>query,order:()=>query,range:async()=>({data:table==='profession_book_picks'?[{content_id:'profession'}]:[{id:'theme-shelf',theme_book_ids:['theme']}],error:null})};return query}}
  const result=await loadPublicShelfAuditCatalog(catalog,db)
  assert.deepEqual(result.editions,[])
- assert.deepEqual(result.catalogReview.map(row=>row.contentId),['appearance','profession','theme'])
+ assert.deepEqual(result.catalogReview.map(row=>row.contentId),['appearance','profession','public-reading','theme'])
 })
 
 test('감상 책장은 정상 언어 카드만으로도 표시하므로 판본 테이블 행을 요구하지 않는다',()=>{

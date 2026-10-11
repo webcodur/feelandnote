@@ -54,7 +54,7 @@ export function detectShelfCatalogGaps(catalog,publicIds,editions) {
 
 export async function loadPublicShelfAuditCatalog(catalog,db) {
  const active=new Set(catalog.people.filter(p=>p.publication_status==='active').map(p=>p.id))
- const ids=new Set([...catalog.relations,...catalog.readings].filter(r=>active.has(r.celeb_id)).map(r=>r.content_id))
+ const ids=new Set([...catalog.relations,...catalog.readings.filter(r=>r.visibility==='public')].filter(r=>active.has(r.celeb_id)).map(r=>r.content_id))
  const [professions,themes]=await Promise.all([
   allRows('profession shelves',(a,b)=>db.from('profession_book_picks').select('content_id').order('content_id').range(a,b)),
   allRows('theme shelves',(a,b)=>db.from('faction_lv2').select('id,theme_book_ids').order('id').range(a,b))])
