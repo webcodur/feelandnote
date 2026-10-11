@@ -1,6 +1,6 @@
 # SEO
 
-사이트맵·robots·메타데이터·구조화 데이터·검색엔진 등록과 색인 운영 규칙이다. Google 일일 색인 신청과 현재 도달점은 [Google 일일 색인 신청](../../continuous/google-indexing.md), URL별 검사·접수 결과는 [신청 데이터](../../../data/seo-index-inspection-20260909.json)가 쥔다. 검색 노출·색인의 날짜별 실측을 이 문서에 쌓지 않는다.
+사이트맵·robots·메타데이터·구조화 데이터·검색엔진 등록과 색인 운영 규칙이다. Google 일일 색인 신청과 현재 도달점은 [Google 일일 색인 신청](../../continuous/google-indexing.md). URL별 작업 결과를 별도로 보관하지 않는다. 검색 노출·색인의 날짜별 실측을 이 문서에 쌓지 않는다.
 
 인물 상세의 감상 목록은 초기 본문과 같은 데이터·순서로 JSON-LD를 만든다. 후속 기록은 「감상 기록 전체 보기」에서 `/celeb/<slug>/records/<page>`로 연결한다. 각 쪽은 감상·출처와 이전·다음 링크를 HTML에 싣고, 한국어·영어마다 자기 canonical과 hreflang을 제공한다. 페이지 크기는 `recordsPageData.ts`의 `RECORDS_PAGE_SIZE`가 쥔다. [Google 크롤 가능한 링크](https://developers.google.com/search/docs/crawling-indexing/links-crawlable) · [구조화 데이터 정책](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)
 

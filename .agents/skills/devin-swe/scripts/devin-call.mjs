@@ -33,9 +33,9 @@ export function resolveDevin() {
  * logPath를 주면 stdout·stderr를 받는 대로 그 파일에 흘린다. --export는 첫 턴이 끝나야 쓰이므로
  * 시작부터 멈춘 세션은 그것만으로 아무 흔적이 없다 — 긴 작업에는 logPath를 함께 준다.
  */
-/** 계정 전체 메시지 속도 제한 — 세션이 통째로 실패한다. 안내된 시간을 읽어 쉬었다 다시 건다 */
-const RATE_LIMIT = /Reached overall message rate limit[\s\S]*?reset in (\d+)\s*(second|minute)/i
-function rateLimitWaitMs(text) {
+/** 계정 메시지·무료 모델 속도 제한 — 세션이 통째로 실패한다. 안내된 시간을 읽어 쉬었다 다시 건다 */
+const RATE_LIMIT = /\bReached (?:overall message|free model) rate limit\b[\s\S]*?\breset in (\d+)\s*(seconds?|minutes?)\b/i
+export function rateLimitWaitMs(text) {
   const hit = RATE_LIMIT.exec(text ?? '')
   if (!hit) return 0
   const n = Number(hit[1])
@@ -53,7 +53,8 @@ export async function devinCallWithRetry(prompt, options = {}, { tries = 12, onW
     try {
       return await devinCall(prompt, options)
     } catch (error) {
-      const waitMs = rateLimitWaitMs(error.message)
+      // message의 표시용 400자 밖이나 stdout에 한도 안내가 있을 수 있다.
+      const waitMs = rateLimitWaitMs([error.stderr, error.stdout, error.message].filter(Boolean).join('\n'))
       if (!waitMs || attempt >= tries) throw error
       onWait?.(waitMs, attempt)
       await new Promise((resolve) => setTimeout(resolve, waitMs))
@@ -91,8 +92,15 @@ export function devinCall(prompt, { model = DEVIN_FREE_MODEL, cwd, timeoutMs = 1
       child.kill()
       finish(() => reject(new Error(`시간 초과 ${Math.round(timeoutMs / 1000)}초 — 로그인(auth status)·첫 실행 설정(devin setup)부터 본다`)))
     }, timeoutMs)
-    child.on('exit', (code) => finish(() => (code === 0
-      ? resolve(out.trim())
-      : reject(new Error(`devin exit ${code}: ${(err || out).slice(0, 400)}`)))))
+    child.on('error', (error) => finish(() => reject(error)))
+    // exit 이후에도 pipe에 남은 출력이 도착한다. close에서 전체 stdout·stderr를 확정한다.
+    child.on('close', (code) => finish(() => {
+      if (code === 0) return resolve(out.trim())
+      const error = new Error(`devin exit ${code}: ${(err || out).slice(0, 400)}`)
+      error.stdout = out
+      error.stderr = err
+      error.exitCode = code
+      reject(error)
+    }))
   })
 }

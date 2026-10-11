@@ -107,7 +107,7 @@ pnpm voice:chunk -- --check -- --episode <name>
 
 - **ElevenLabs는 `--engine elevenlabs` 명시 시에만 동작한다.** 자동 호출 없음.
 - ElevenLabs 모델: `eleven_multilingual_v2`, 출력: `pcm_24000`
-- `.env`에 `ELEVENLABS_API_KEY` 필요
+- 계정별 키 등록·기본 계정 전환은 [환경변수 룰북의 음성 합성](../../../platform/platform-04-env-vars.md#3-5-음성-합성)을 따른다.
 
 ### ElevenLabs와 Gemini 파이프라인의 관계
 

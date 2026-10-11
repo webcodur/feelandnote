@@ -158,9 +158,10 @@ pnpm dev:bo
 
 - **소속 분류는 `faction_lv2.lv1_id`가 쥔다(NOT NULL).** 세력은 반드시 분류 하나에 속하고, 분류는 목록에서 한 줄이 아니라 묶음 머리로 선다. 서비스 도감도 같은 값으로 섹션을 세운다. 분류 삭제는 아래 세력이 비어 있을 때만 된다.
 - **인물 검색은 기존 셀럽을 고르는 기능만 가진다.** 신규 인물은 `/celebs/new`에서 정식 등록한 뒤 추가한다. 신화 인물을 비공개로 한꺼번에 선등록할 때는 `pnpm --dir sw/web-bo faction:seed:inactive`를 쓴다([셀럽 파이프라인](../celeb/celeb-00-01-pipeline.md)).
+- 인물별 상세 소개(`long_desc`·`long_desc_en`)를 작성·교정할 때는 [세력별 인물 소개](../celeb/celeb-10-01-faction-long-desc.md)를 따른다.
 - **그룹의 설명·영문 이름·차례는 신화 편집(`/myths`)만 고친다.** 세력 편집 화면은 그룹 지정과 새 그룹 추가만 한다.
 - 목록·편집 데이터 조회는 `src/actions/admin/factions/board.ts`, 화면 부품은 `src/components/factions/entry/`다.
-- 이미지 R2 키: 개인화보 `faction/{lv2Id}/celeb-{celebId}.webp`(인물당 한 장, 고정 키 덮어쓰기, 주소는 `faction_members.image_url`), 단체 사진 `faction/{lv2Id}/team/<uuid>.<원본 확장자>`(주소 배열은 `faction_lv2.team_images`), 테마 음악 `faction-music/`(신화 편집의 음악 반영이 올린다). 업로드는 `src/actions/admin/storage.ts`다. 이미지 발주 규칙은 `faction-image` 스킬, 슬롯과 fallback은 [인물 이미지 지도](../celeb/celeb-08-00-image-map.md)가 쥔다.
+- 이미지 R2 키: 개인화보 `faction/{lv2Id}/celeb-{celebId}.webp`(인물당 한 장, 고정 키 덮어쓰기, 주소는 `faction_members.image_url`), 단체 사진 `faction/{lv2Id}/team/<uuid>.<원본 확장자>`(주소 배열은 `faction_lv2.team_images`), 테마 음악 `faction-music/`(신화 편집의 음악 반영이 올린다). 업로드는 `src/actions/admin/storage.ts`다. 공통 이미지 발주는 [이미지 생성·발주 규칙](../production/prod-01-image-generation.md), 테마 표지는 `faction-image` 스킬, 슬롯과 fallback은 [인물 이미지 지도](../celeb/celeb-08-00-image-map.md)가 쥔다.
 - 쓰기 액션은 백오피스 화면(`/factions`·`/factions/[entry]`·`/myths`)을 `revalidatePath`로, 서비스 캐시를 `revalidateWebLists`로 갱신한다.
 
 ### 가상 담화
@@ -242,7 +243,7 @@ pnpm dev:bo
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
 | `/activity-logs` | 활동 로그 | 활동 로그(30건 단위), 동작 유형 필터와 유형별 개수. 화면 안내상 90일 보관 | `activity_logs`, `member_profiles` |
-| `/settings` | 운영 상태·설정 | 사용자 웹 응답, Oracle 웹 VM의 서비스·메모리·스왑·릴리스, DB VM의 PostgreSQL·연결·백업 상태를 조회하고 미구현 설정을 구분해 표시 | 읽기 전용 SSH + DB 시스템 통계 RPC |
+| `/settings` | 운영 상태·설정 | 사용자 웹 응답, 웹·DB VM의 디스크·메모리·보관 정책, 웹 캐시 청소·메일 알림의 최근 결과와 다음 실행, PostgreSQL·연결·백업 상태를 조회한다. 캐시 크기는 직전 청소 측정 시각과 함께 표시하며 화면을 보는 동안 1분마다 자동 갱신한다. 「다시 확인」으로 즉시 갱신할 수 있다 | 읽기 전용 SSH + DB 시스템 통계 RPC |
 
 ## API 라우트
 

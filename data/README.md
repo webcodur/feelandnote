@@ -1,18 +1,5 @@
-# 데이터 창고
+# 데이터 임시 작업
 
-서비스와 제작이 쓰는 데이터 파일을 여기에 둔다. 규칙과 설명은 `docs/`가 쥐고, 이 폴더는 값만 담는다.
+서비스 값은 DB 필드와 R2 서비스 리소스가 쥔다. 작업 자료는 반영·검증 뒤 전량 폐기하며 [데이터 원칙](../docs/project/data/README.md)을 따른다. 앱이 직접 사용하는 데이터와 제작 리소스는 해당 앱·자산 경로에서 관리한다.
 
-| 경로 | 내용 | 현역 규격 |
-|---|---|---|
-| [`celeb/`](celeb/README.md) | DB 반영 전 인물 대사 원고와 조사 스냅샷 | [`docs/project/celeb/`](../docs/project/celeb/README.md) |
-| `coupang/` | 제휴 상품 연결 대상과 선별 결과 | [`docs/project/operations/ops-01-service-strategy.md`](../docs/project/operations/ops-01-service-strategy.md) |
-| [`service-strategy/research.json`](service-strategy/research.json) | 경쟁사 공개 인물 명단 대조·검색 실측·구매 상품 조회값 | [서비스 방향과 수익화](../docs/project/operations/ops-01-service-strategy.md) |
-| `naver-blog/` | 네이버 블로그 글 번호·인물 slug·링크 처리 상태 대응표 | [`docs/continuous/blog-naver-book.md`](../docs/continuous/blog-naver-book.md) |
-| `seo-index-inspection-*.json` | Search Console 입력 URL과 URL별 색인 검사 결과 | [`docs/project/operations/ops-02-seo.md`](../docs/project/operations/ops-02-seo.md) |
-
-## 배치 원칙
-
-- 서비스 값의 단일 원천은 DB다. 이 폴더에는 DB에 넣기 전 원고와 기계가 만든 중간 산출물만 둔다.
-- 문서 폴더에 데이터를 쌓지 않는다. 반대로 이 폴더에 규격 문서를 쓰지 않는다.
-- 앱이 직접 읽어야 하는 값(다국어 문구, 화면 상수)은 각 앱 안에 두고 여기로 옮기지 않는다.
-- 제작 자산 옆에서 짝으로 관리하는 데이터(에피소드·세력도감 폴더 안의 JSON)는 자산과 함께 둔다.
+인물 작업은 [인물 룰북](../docs/project/celeb/README.md)을 따른다.

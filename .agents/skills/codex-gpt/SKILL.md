@@ -1,6 +1,6 @@
 ---
 name: codex-gpt
-description: Claude Code에서 codex CLI로 GPT(gpt-5.6)를 호출해 텍스트를 생성하거나 대량 배치 처리할 때, 또는 codex 내장 image_gen으로 이미지를 생성할 때 적용한다. codex exec 비대화 실행, 순수 결과만 수신하는 법, Windows spawn 함정('codex' is not recognized / ENOENT) 회피, 동시 실행 수와 rate limit(20달러 1x 플랜 기준 누적 500~560건에서 도달, 5시간 주기 회복) 통제, 이미지 생성(입력 이미지 첨부·세션 로그 base64 회수)을 다룬다. "GPT로 뽑아줘", "챗지피티 시켜봐", "codex로 생성", "GPT 배치 생성", "GPT와 클로드 결과 비교", "codex로 이미지 생성", "코덱스로 그려/뽑아", GPT에게 대량 텍스트를 맡기거나 codex로 이미지를 만드는 작업에 호출한다.
+description: Claude Code에서 codex CLI로 GPT(gpt-6.1-sol)를 호출해 텍스트를 생성하거나 대량 배치 처리할 때, 또는 codex 내장 image_gen으로 이미지를 생성할 때 적용한다. codex exec 비대화 실행, 순수 결과만 수신하는 법, Windows spawn 함정('codex' is not recognized / ENOENT) 회피, 동시 실행 수와 rate limit(20달러 1x 플랜 기준 누적 500~560건에서 도달, 5시간 주기 회복) 통제, 이미지 생성(입력 이미지 첨부·세션 로그 base64 회수)을 다룬다. "GPT로 뽑아줘", "챗지피티 시켜봐", "codex로 생성", "GPT 배치 생성", "GPT와 클로드 결과 비교", "codex로 이미지 생성", "코덱스로 그려/뽑아", GPT에게 대량 텍스트를 맡기거나 codex로 이미지를 만드는 작업에 호출한다.
 ---
 
 # codex로 GPT 호출·통제
@@ -10,7 +10,7 @@ Codex 구독 인증으로 도는 로컬 CLI다. 종량제 청구는 없지만 **
 ## 핵심 호출법
 
 ```bash
-codex exec - -m gpt-6-astra --output-last-message OUT.txt --color never
+codex exec - -m gpt-6.1-sol --output-last-message OUT.txt --color never
 # 프롬프트는 stdin으로 넣는다. 결과는 OUT.txt 에 순수 텍스트로 떨어진다.
 ```
 
@@ -20,16 +20,7 @@ codex exec - -m gpt-6-astra --output-last-message OUT.txt --color never
 2. **결과는 `--output-last-message` 파일로 받는다.** stdout에는 세션 헤더(workdir/model/session id), 프롬프트 에코, `tokens used` 같은 노이즈가 섞여 파싱이 지저분하다.
 3. `--color never` 로 ANSI 코드를 없앤다.
 
-기본값: 모델 `gpt-6-astra`, reasoning effort `xhigh`. effort 는 고정이고 모델은 **작업 성격으로 고른다.**
-
-| 작업 | 모델 | 왜 |
-|---|---|---|
-| 채점·판정·연대 추론·사실 검증 | `gpt-6-astra` | 추론이 결과를 가른다. 영향력 일곱 축, 스펙트럼 16축, 세대 관계를 맞춘 생몰 배치가 이쪽이다 |
-| 산문·대사·안내글·수식어 집필 | `gpt-5.6-sol` | **글쓰기는 sol 이 astra 보다 낫다.** 상황 대사 21개, bio_en, 전승 안내글, title·headline 이 이쪽이다 |
-
-한 배치에 둘이 섞이면 **분량이 큰 쪽**을 따른다. 대사 배치는 한마디 조사 1건과 상황 대사 21개가 함께 있지만 글쓰기가 주력이라 sol 로 부른다 — sol 과 astra 의 조사 깊이(출처 수·호스트 수)는 실측에서 같았다.
-
-`~/.codex/config.toml` 이 이미 이 값을 쥐고 있지만, `codexCall` 이 `-m` 과 `-c model_reasoning_effort` 를 넘기므로 헬퍼 기본값이 실제로 적용되는 값이다. 예전 기본값 `gpt-5.6-sol`·`medium` 이 사용자 설정을 덮어쓰고 있었다. gpt-5.6 계열의 결(variant)은 `sol`/`terra`/`luna` 다.
+GPT 호출은 모두 `gpt-6.1-sol`을 쓴다. 헬퍼 기본 reasoning effort는 `xhigh`이며 호출부가 필요에 맞게 지정한다. 현재 작업별 도구 배정은 `docs/project/agent-tools.md`를 따른다. 영향력·스펙트럼 채점은 GPT에 맡기지 않는다.
 
 ## 스크립트에서 부를 때 (Windows 함정)
 
@@ -72,7 +63,7 @@ ERROR codex_core::session::session: failed to load skill ...: missing YAML front
 구독제라 종량 과금 없음, rate limit만 있다. 발주 원칙(구도·시선·REF 사용법)은 `docs/project/production/prod-01-image-generation.md`, API 직접 호출 규격·비용은 `docs/resource/res-31-openai-usage.md`. 여기는 **codex로 부를 때의 실행 규칙만** 둔다.
 
 ```bash
-codex exec - -m gpt-6-astra --skip-git-repo-check \
+codex exec - -m gpt-6.1-sol --skip-git-repo-check \
   -s workspace-write --dangerously-bypass-approvals-and-sandbox \
   -i 소스.png -i 얼굴REF.jpg \
   --output-last-message OUT.txt --color never < 프롬프트.txt

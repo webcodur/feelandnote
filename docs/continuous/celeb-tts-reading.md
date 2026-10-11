@@ -1,6 +1,6 @@
 # 읽어보기 한영 음성 일일 작업
 
-인물 5,501명(active 3,283 + inactive 2,218)의 한국어·영어 읽어보기 11,002개가 대상이다. 9/19부터 inactive도 생성 대상이다. DB 본문은 모두 존재한다.
+현재 DB에 본문이 있는 인물의 한국어·영어 읽어보기가 대상이다. inactive도 포함한다.
 
 ## 승인된 규칙
 
@@ -16,9 +16,9 @@
 
 자동 배치는 `sw/web-bo/scripts/celeb/reading-voice-batch.mjs`다. 생성·등록은 `reading-voice.mjs`, 음성 검수는 `sw/audio-bo/scripts/celeb-reading-voice-qc.py`가 맡는다. 검수·등록 스캔을 「작업 필요분」으로 좁히는 큐 생성기는 `reading-voice-work-queue.mjs`다 — 정주행(published + 최종검수 해시 일치 + timing.published + 소스·음원 해시 일치)만 빼고 전부 담는다. manifest 유실 재구축으로 생긴 로컬 파일 없는 published 스텁(26.09.21 시점 5,457개)은 검수도 폐기 점검도 못 하므로 큐에서 빠진다. 속도·인코딩·재시도 상수와 연속 실패 상한은 이 코드들이 쥔다. 등록 시 문장 따라읽기 타이밍(`celebs/{id}/voice/{ko|en}/reading.json`)을 함께 올리며, 등록분마다 manifest에 타이밍 상태가 남는다. 이미 등록된 음원의 타이밍만 다시 맞출 때는 `reading-voice-timing-backfill.mjs --publish`를 쓴다.
 
-합성 모델은 `reading-voice.mjs`의 `MODEL`이 쥔다 — 26.09.30에 `gemini-2.5-flash-preview-tts`에서 `gemini-3.8-flash-tts`로 교체했다. 3.8은 입력 텍스트를 그대로 읽는 verbatim 모델이라 읽기 지시는 본문에 붙이지 않고 `speech_metadata.style`(parts[0] 내부)로 보낸다 — 본문에 붙인 지시문은 전부 음성으로 나와 QC에서 `unexpected-spoken-head`로 떨어진다. 응답은 기본 `audio/wav`(RIFF 헤더)라 코드는 WAV와 구형 `audio/L16` 둘 다 받는다. settings 해시는 구형 2.5 설정을 허용목록으로 인정해 기존 manifest·런 폴더를 그대로 재개한다.
+합성 모델은 `reading-voice.mjs`의 `MODEL`이 쥔다 — 26.09.30에 `gemini-2.5-flash-preview-tts`에서 `gemini-3.8-flash-tts`로 교체했다가, 26.10.06 사용자 지시로 2.5 구형식(`ENGINE_25`: 지시문을 본문 앞에 붙이고 `audio/L16` 응답을 받는 형식)으로 되돌렸다. 3.8은 입력 텍스트를 그대로 읽는 verbatim 모델이라 읽기 지시는 본문에 붙이지 않고 `speech_metadata.style`(parts[0] 내부)로 보낸다 — 본문에 붙인 지시문은 전부 음성으로 나와 QC에서 `unexpected-spoken-head`로 떨어진다. 응답은 기본 `audio/wav`(RIFF 헤더)라 코드는 WAV와 구형 `audio/L16` 둘 다 받는다. settings 해시는 구형 2.5 설정을 허용목록으로 인정해 기존 manifest·런 폴더를 그대로 재개한다.
 
-현재 생성 폴더: `D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908`. 기존 오디오와 검수 기록을 재사용하므로 재개할 때 새 폴더를 만들지 않는다. 합성 큐는 같은 폴더의 `reading-voice-synthesis-queue.json`이며 `celebs.id asc → ko → en` 순서로 만들어진다. 보류·등록·재사용 가능한 후보는 큐에서 빠진다. 배치 로그는 `reading-voice-batch.log`에 이어 쓰고, 배치 상태의 `partialQc`는 마지막 회차의 검수 결과다.
+기존 로컬 생성 폴더와 manifest·합성 큐·검수 기록은 폐기했다. 발행된 음원은 DB 본문과 R2 오브젝트로 확인한다.
 
 위스퍼의 자원 확인·직렬 실행·보류 규칙은 [Audio BO](../project/apps/apps-02-audio-bo.md)가 쥔다.
 
@@ -44,7 +44,7 @@ R2 음원을 교체할 때 파이프라인이 이전 파일을 `_backup/<id>/<lo
 생성 없이 확보된 음성만 검수·등록할 때는 다음 명령을 쓴다.
 
 ```powershell
-node --import tsx scripts/celeb/reading-voice.mjs --all-active --locales ko,en --publish --existing-only --concurrency 3 --device auto --run D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908
+node --import tsx scripts/celeb/reading-voice.mjs --all-active --locales ko,en --publish --existing-only --concurrency 3 --device auto --run <검수 중인 생성 폴더>
 ```
 
 등록분이 수천 개가 넘어가면 전량 순회의 등록분 재검증(R2 GET + timing PUT, 건당 ~1초)이 지배적 비용이다. 26.09.21부터 일상 회차는 작업큐로 좁혀 돌린다 — 합성이 끝난 뒤 큐를 만들고 검수·등록에 넘긴다.
@@ -58,7 +58,7 @@ node --import tsx scripts/celeb/reading-voice.mjs --all-active --include-inactiv
 
 ## 키 관리
 
-무료 키는 `sw/remotion/.env`와 `sw/web-bo/.env`의 `GOOGLE_GENAI_API_KEY_FREE<n>`이며 파이프라인은 이름을 숫자 정렬한 배열로 돌린다. 로그의 `key-disabled` 이벤트 `keyIndex`는 이 배열의 0부터 세는 순번이라, 무효 키(`API_KEY_INVALID`)는 `googleFreeKeyName(keyIndex + 1)`로 변수 이름을 특정한 뒤 두 파일에서 지운다(순번과 변수 번호가 다를 수 있다 — `FREE11~19`가 비어 있다). 2026-09-11에 17번을, 2026-09-14에 무효 키 16번과 프로젝트가 정지(`CONSUMER_SUSPENDED`)돼 403을 내던 11~15·18·19번을 지워 90개가 남았다. 2026-09-15에 ykj 묶음 AQ(Auth) 키 10개를 `FREE100~109`로 양쪽에 추가해 100개가 됐다. `web-5`·`web-6`·`web-7` 묶음은 발급 즉시 정지라 적용하지 않았다. 같은 날 `web-bo`의 `FREE20` 중복 줄도 정리했다. 키 상태는 생성 호출 없이 모델 조회(`GET v1beta/models/<모델>`)로 가른다 — 한도를 쓰지 않고, 로그 순번을 변수 이름으로 되짚지 않아도 된다.
+무료 키는 `sw/remotion/.env`와 `sw/web-bo/.env`의 `GOOGLE_GENAI_API_KEY_FREE<n>`이며 파이프라인은 이름을 숫자 정렬한 배열로 돌린다. 로그의 `key-disabled` 이벤트 `keyIndex`는 이 배열의 0부터 세는 순번이라, 무효 키(`API_KEY_INVALID`)는 `googleFreeKeyName(keyIndex + 1)`로 변수 이름을 특정한 뒤 두 파일에서 지운다(순번과 변수 번호가 다를 수 있다 — `FREE11~19`가 비어 있다). 2026-09-11에 17번을, 2026-09-14에 무효 키 16번과 프로젝트가 정지(`CONSUMER_SUSPENDED`)돼 403을 내던 11~15·18·19번을 지워 90개가 남았다. 2026-09-15에 ykj 묶음 AQ(Auth) 키 10개를 `FREE100~109`로 양쪽에 추가해 100개가 됐다. `web-5`·`web-6`·`web-7` 묶음은 발급 즉시 정지라 적용하지 않았다. 같은 날 `web-bo`의 `FREE20` 중복 줄도 정리했다. 26.10.06에 생성 호출에서 403 forbidden을 내던 `FREE61~70` 10개를 두 `.env` 끝에 주석 처리해 순회에서 뺐다 — 모델 조회는 200이라 키는 살아 있으나 generate가 거부된다. 현재 순회 풀은 90개다. 키 상태는 생성 호출 없이 모델 조회(`GET v1beta/models/<모델>`)로 가른다 — 한도를 쓰지 않고, 로그 순번을 변수 이름으로 되짚지 않아도 된다.
 
 ## 들숨·쉼 정리
 
@@ -68,7 +68,6 @@ node --import tsx scripts/celeb/reading-voice.mjs --all-active --include-inactiv
 - **mp3가 아니라 원본 attempt wav에 적용한다.** 등록 mp3를 풀어 다시 압축하면 2세대 손실 압축이 되고, 파이프라인 표준(`reading-voice.mjs`의 `MP3_SETTINGS`)과 비트레이트도 어긋난다. 26.09.13에 mp3에 적용했다가 96kbps 처리본 343건이 R2에 올라가 wav 경로로 다시 처리했다. wav를 정리해 `attempt.wav`·`wavHash`를 바꾸고 `entry.mp3`·`mp3Hash`·`finalQcHash`와 `candidateMp3`, attempt의 판정 기록(`status`·`qc`·`finalQc`·`qcScriptHash`·`processingHash`·`speed`)을 비우면 파이프라인이 wav부터 다시 검수·인코딩·등록한다. **판정 기록을 남기면 wav를 바꿔도 이전 판정을 그대로 재사용해 정리·검수를 건너뛴다**(26.09.14 파이프라인 실전 시험에서 확인).
 - 등록분을 다시 정리해 올릴 때 R2 교체는 replace-first다 — 새 음원이 올라가기 전에 구 음원을 내리지 않는다.
 - 정리 뒤에도 검수에서 떨어지는 경우는 둘이다. 끝에 발화 수준의 웅얼거림이 남은 `untranscribed-audio-tail`은 정리가 발화를 자르지 않으므로 풀리지 않아 재생성으로 보낸다. 원래 등록돼 있던 음원이 정리 뒤에만 떨어지면 R2에서 서비스 중인 이전 음원으로 manifest를 되돌린다. R2 공개 주소는 파이썬 기본 User-Agent 요청을 403으로 막으므로 브라우저 User-Agent를 붙여 받는다.
-- `celeb-reading-voice-qc.py`의 `LONG_PAUSE_SECONDS`·`TARGET_PAUSE_SECONDS`는 들숨이 쉼 자리를 메우던 시절 값(0.75·0.45초)이라 들숨을 지운 음원을 전부 `pause-repair-required`로 걸었다. 26.09.13에 문장 사이 기준(1.2·1.05초)으로 올렸다. 이 플래그는 결함 판정이 아니라 「쉼을 줄이는 수리가 필요한데 출력 경로가 없어 못 했다」는 상태 표시다.
 
 ## 검수 실패분 폐기
 
@@ -96,12 +95,11 @@ node --import tsx scripts/celeb/reading-voice-reset-discarded.mjs --apply       
 ## 현재 도달점
 
 <!-- reading-voice-status:start -->
-2026-10-01 05:05 KST 확인: `gemini-3.8-flash-tts` 전환 후 첫 회차. 원고 개편으로 소스 해시가 어긋난 3,501건을 폐기·재큐했고(777건은 R2 음원이 이미 최신이라 유지), 구 프롬프트 오염분 944건 검수에서 942건이 지시문 발화로 떨어져 전량 폐기·복귀했다. 신스키마로 24건 재합성해 7건 등록(rm/ko, satoru-iwata/en, gedik-ahmed-pasha/en, mathias-ortmann/ko, cch-pounder/ko, taika-waititi/ko, sobeoldori/ko). 잔여 17건은 QC 불합격으로 폐기·복귀. 100개 키 전량 소진(90 daily, 10 forbidden) — 다음 리셋 10-01 16:02 KST. manifest: 정상 등록 6,560, pending 2,446(전부 음성 미보유), 보류·실패 0. 합성 큐 2,940행 + inactive 큐 2,348행이 다음 회차 대상.
+2026-10-11 19:00 KST 확인: 이번 배치 중단, 남은 항목은 다음 지시 때 재개. 전체 7411개 중 현재 원본 음성 6917개, 정상 등록 2881개, 음성이 있는 검수·등록 대기 3425개, 보류 968개, 실패 3개, 음성 미보유 494개다.
 <!-- reading-voice-status:end -->
 
 3.8 전환 후속 정비(26.10.01): `reading-voice.mjs`는 모델 계열별 실행을 `ENGINE_25`/`ENGINE_38`으로 완전 분리했다 — `TTS_ENGINES` 표에 모델을 넣어 전환하며 미등록 모델은 즉시 에러다. `celeb-reading-voice-qc.py`는 v5로 올려 차용어 표기 차이를 양성 처리한다 — 원문의 영어 단어를 3.8이 영어로 읽으면 Whisper가 한글로 받아써(physical↔피지컬) 문자 diff가 `source-content-gap`으로 오인되던 문제다. 라틴↔한글 단어 교환(replace, 길이비 0.2~1.5)만 무시하고 지어낸 꼬리·실제 누락·insert/delete는 그대로 불합격이다. 폐기분 재검증: 신 QC로 18건 백업의 원문·전사를 대조해 14건이 정합, 4건(환각 꼬리·괄호 영문 누락·실제 삽입)만 불량으로 남았다. 의심 구간 스펙트로그램 도구는 `sw/audio-bo/scripts/_scratch-spectro-review.py`, 산출물은 `_backup/spectro-review/`다.
 
-다음 회차 첫 작업(한도 리셋 후): ① 단위 테스트 — `node --import tsx scripts/celeb/reading-voice.test.mjs` + `python sw/audio-bo/scripts/test_celeb_reading_voice_qc.py`. ② 소량 파일럿 — 합성 큐로 `--synthesize-only --single-pass`를 돌려 20건 안쪽에서 멈추고 바로 검수·등록해 통과율을 본다. ③ 통과율이 높으면 전량 큐 투입, 낮으면 실패 사유를 나눠 QC 재조정 또는 모델 재검토. ④ 폐기 백업 회수 — `_backup/discard-unsettled-2026-09-30T20-02-24-766Z/`의 디렉터리를 원위치로 되돌리고 엔트리를 `pending`+기존 attempt 필드로 되살리면 신 QC가 한도 소모 없이 재검수·등록한다(문자 정합으로 확인된 14건). FREE61~70은 3.8에서 403이라 두 `.env`에 주석을 달았다.
 
 웹의 읽어보기 듣기 버튼, MP3 우선 재생, 문장 강조는 개발 서버에서 사용자가 확인했다(다케다 신겐·오다 에이이치로). 운영 웹 코드 배포는 아직 하지 않았다.
 

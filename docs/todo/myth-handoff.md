@@ -39,15 +39,11 @@
 그룹 기준은 [`../project/service/service-01-explore.md`](../project/service/service-01-explore.md) 「신화 그룹 기준」이 쥔다.
 
 - Devin 위임 절차·검수에서 자주 걸린 흠: `devin-swe` 스킬
-- 백업: `data/celeb/_backup/faction-web-roster/`. 영상 이관은 `<slug>-*.json`, 정비안 반영 직전
-  명단은 `myth-plan-<slug>-*.json`이다.
 
 남은 것:
 
 - **신화 편성 후속**: 아프리카·켈트의 혼합 전승을 원전·문화권에 맞게 재편한다. 편성 기준은 [`탐색`](../project/service/service-01-explore.md)의 「신화 편성 기준」을 따른다.
-- **미등록 인물**: 정비안이 넣자고 했지만 아직 등록되지 않은 사람들이다. 목록과 사유는
-  [`data/celeb/myth-plan/missing-figures.md`](../../data/celeb/myth-plan/missing-figures.md)에 있고,
-  등록한 뒤 명단에 넣는다. 인물이 적어 1~2명뿐인 그룹(페르시아·고려세계 등)이 이때 채워진다.
+- **미등록 인물**: 현재 DB 명단을 대조해 필요한 인물을 등록·배정한다.
 - **인물 표기 — 반영 끝났다(26.09.17).** 서유기 명단의 「사부육」(slug `princess-iron-fan`)은
   원작의 철선공주(나찰녀)다. 「사부육」은 어느 판본·자료에도 없는 오기여서 「철선공주」로 고쳤고,
   독백(한·영)에 박힌 같은 이름과 영문 오기(`Samguk`)도 함께 바로잡았다.
@@ -55,13 +51,11 @@
 - **대표 3인을 DB로 옮겼다(26.09.17).** 신화 대표 인물(타이틀 아트 얼굴 셋)은 `faction_lv2.lead_person_ids`가
   쥐고 `/myths`의 대표 인물 칸에서 고른다. `getMythData.ts`는 그 값을 읽고, 모자라면 노출 명단의
   차례로 채운다. `MYTH_LEAD_BY_SLUG` 상수는 걷어냈다.
-- **대표 원전을 DB로 옮긴다**: 등장 작품 선반의 「이 신화의 책」 분류는 `MythWorkShelf.tsx`의
-  `MYTH_OWN_WORK_IDS` 상수가 쥔다(26.09.17). 신들의 계보·변신 이야기 같은 종합 신화서와
-  일리아스처럼 인물이 겹치는 별개 서사시는 인물 그래프 신호(전승 소속 비율·명단 커버리지·
-  관계 유형)로 가를 수 없음을 실측으로 확인했고, 제목 접두 매칭만으로는 제목이 신화 이름과
-  다른 원전을 못 잡는다. 정석은 `faction_lv2`에 `canon_content_ids`(uuid 배열)를 두고 `/myths`
-  편집기에서 고르게 하는 것 — 대표 3인(`lead_person_ids`)과 같은 경로다. 옮길 때 제목 접두
-  매칭은 이름 딴 신화(오디세이아 → 『오디세이아』)의 원전을 잡는 안전망으로 남길지 정한다.
+- **대표 원전을 DB로 옮겼다(26.10.02).** 「이 신화의 책」 주제책 명단은 `faction_lv2.theme_book_ids`
+  (text[])가 쥔다. `FACTION_OWN_WORK_IDS`·`MYTH_OWN_WORK_IDS` 상수는 걷어냈고 세력·신화 146행이
+  백필됐다. 서버가 카드에 `isTheme` 표식을 붙이고, 제목 접두 매칭은 이름 딴 신화(오디세이아 →
+  『오디세이아』)의 원전을 잡는 안전망으로 `themeBooks.ts`에 남겼다. `/myths` 편집기에서 이 컬럼을
+  고르는 UI는 아직 없다 — 스크립트·SQL로만 고친다.
 - **주요 장면 확장**: 다음 신화·팩션에 장면과 한·영 해설을 보탠다. **이미지 생성 모듈 사용 가능 + 사용자 허용 시에만 진행.**
   짧게 완결되고 인물 REF가 준비된 이야기를 먼저 고른다.
   기존 자료 선별, 이미지가 없을 때의 제작, 해설 압축·로케일·용량 처리는 [주요 장면 룰북](../project/production/prod-02-myth-image-captions.md)을 따른다.
@@ -92,7 +86,7 @@ pnpm purge:web:cloudflare -- --scope <범위> --execute       # 출력이 요구
 ## 쿠팡 상품을 다룰 때
 
 공개 전승이 쓰는 링크 10건은 전수 대조를 마쳤다. 기록은
-`data/coupang/myth-edition-verify-2026-09-05.json`과 `data/coupang/myth-source-picks-2026-09-05.json`에 있다.
+현재 DB 값에서 확인한다.
 
 - `inspect.mjs`의 `hasDeliveryEvidence`를 1차 판정으로 쓰지 않는다. 페이지 전역을 긁어
   상단 메뉴의 로켓 아이콘까지 담는다. 후보 7건이 전부 「근거 있음」으로 나왔지만 실제 배지는

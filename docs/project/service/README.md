@@ -2,6 +2,8 @@
 
 사용자 대면 웹(`sw/web`)의 화면 지도다. 백오피스(`sw/web-bo`)·데이터 파이프라인은 다루지 않는다.
 
+서비스 데이터는 DB 필드와 R2 서비스 리소스를 사용한다. 부가데이터 생성·보관 금지와 반영 뒤 전량 폐기는 [`데이터 원칙`](../data/README.md)을 따른다.
+
 라우팅은 App Router이며 모든 화면이 `src/app/[locale]/` 아래에 있다(`locale` = `ko` | `en`). 네비게이션 단일원천은 `sw/web/src/constants/navigation.tsx`다.
 
 ## 문서 목록

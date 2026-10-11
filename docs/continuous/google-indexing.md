@@ -1,9 +1,10 @@
 # Google 일일 색인 신청
 
-**현재 도달점(2026-09-30):** 신화·세력 한 편 주소 개편이 배포됐다(`694e2e46`) — 신화 `/explore/myth/<slug>` 78편·세력 `/explore/faction/<slug>` 188개가 core.xml에 올랐고 옛 `?myth=` 주소는 308로 옮겨 간다. 배포 뒤 새 주소 한·영 532 URL을 Bing 공용·네이버 공식 IndexNow로 통지해 둘 다 HTTP 200이고, 사이트맵 API 재제출(204)도 끝냈다. 새 주소 520건을 `nextQueue`의 인물 백로그 앞에 삽입했다(639건).
-같은 날 사전 API 검사에서 큐 639건 중 7건이 이미 색인됨으로 건너뛰고, `en/celeb/odysseus` 1건을 접수한 뒤 `en/explore/myth`에서 「할당량 초과」로 끝났다(조사 데이터 `dailyIndexingRequests`의 09-30 항목).
-다음 신청은 **`en/explore/myth` → `en/explore/faction` → 세력도감 상세 6테마(ko·en) → 나머지 허브 → 신화·세력 한 편 주소 520건(ko·en 교대)** 순이며 이후는 인물 큐다. 조사 데이터 09-30 항목의 `nextQueue`(638건)가 쥔다.
-다음 확인은 09-29 접수분(홈·허브 재수집)과 오늘 접수한 `en/celeb/odysseus`의 크롤·색인 반영 여부다.
+**현재 도달점(2026-10-10):** 대기열 654건을 API로 검사했고 이미 색인된 항목은 0건이었다. 빌 게이츠 한영 재수집 2건과 쉼터·아르고호 원정대·홍길동전·임꺽정·북유럽 신화 한영 10건, 총 12건을 접수했다. `explore/faction/jang-gilsan`에서 「할당량 초과」가 표시돼 끝냈다. 신청 오류는 0건이며, API 검사 중 오류가 난 19건은 재검사해 모두 결과를 받았다.
+이전에 신청한 en directory·monologue·feed와 works/curated 한영 5건은 후속 API 검사에서 색인 생성을 확인했다. 오늘 접수한 URL의 재크롤·색인 반영은 아직 확인되지 않았다. 요청 접수와 색인 완료를 구분한다.
+`en/explore`는 여전히 「크롤링됨 - 현재 미색인」이다. 공개 응답은 HTTP 200·자기 canonical이며 noindex는 없다.
+《독재자들》에 배정된 공개 인물 23명의 한영 46주소는 HTTP 200·자기 canonical·한영 연결·검색 허용·사이트맵 등재를 확인했지만 Google에는 아직 알려지지 않아 다음 신청 큐에 추가했다. 팩션 한영 주소는 노출 스위치가 꺼져 404이며 사이트맵에 없어 신청 대상에서 제외했다. 공개 준비는 [기존 TODO](../todo/faction-authoritarianism.md)에서 이어간다.
+다음 신청은 **`explore/faction/jang-gilsan` → `en/explore/faction/jang-gilsan` → 아트레우스 가문 한영 등 신화·세력 한 편 주소 → 인물** 순이다. 인물 순번 앞에는 《독재자들》 공개 인물 46주소가 들어 있다. 조사 데이터 10-10 항목의 `nextQueue`(644건)가 쥔다.
 
 주요 미색인 인물 URL은 Search Console에서 색인 생성을 직접 요청한다. 자동 재수집만 기다리지 않고,
 매일 아직 요청하지 않은 URL을 Google이 요청 한도·제한을 표시할 때까지 순차 신청한다.
@@ -26,7 +27,7 @@
 
 - Aside에는 프로필이 여럿이고 `webcodur@gmail.com`은 `u0`(Profile 0)에 로그인돼 있다. `aside account list`로 먼저 확인하고 `aside repl --account u0`로 연다. 기본 프로필(`u1`)만 보고 구글 전체 로그아웃·재로그인으로 풀지 않는다(이날 그렇게 해 기본 프로필의 구글 계정 10개를 불필요하게 로그아웃했다).
 - `openTab()`으로 연 탭은 repl 호출이 끝나면 닫힌다. 검사 → 「색인 생성 요청」 → 결과 대화상자 확인·닫기를 URL당 repl 한 호출(45~95초) 안에 끝냈다. 요청 버튼은 검사 완료 뒤 본문에 대상 URL이 보이고 스냅숏에 「색인 생성 요청」 버튼이 있을 때만 누른다.
-- 이 경로를 스크립트로 남겼다. `sw/remotion`에서 `node scripts/_scratch-gsc-aside-queue.mjs [우선 경로 ...]`를 실행하면 우선 경로와 조사 데이터 최신 `nextQueue`를 API로 먼저 검사하고(큐 항목은 색인됨이면 건너뛴다), URL마다 `_scratch-gsc-aside-request.js`를 `aside repl --account u0`로 돌려 할당량 초과나 결과 미확인(PENDING)에서 멈춘 뒤 오늘 항목을 조사 데이터에 붙인다. 같은 날 두 번 돌리지 않는다. PENDING처럼 할당량이 아닌 이유로 일찍 멈춘 날은 `GSC_QUEUE_CONTINUE=1`을 붙여 이어 돌린다 — 오늘 이미 누른 URL(접수·오류·정지)은 자동으로 빼고 오늘 항목에 병합한다. 이 문서의 도달점 문장은 사람이 고친다.
+- 이 경로를 스크립트로 남겼다. `sw/remotion`에서 `node scripts/_scratch-gsc-aside-queue.mjs [우선 경로 ...]`를 실행하면 우선 경로와 조사 데이터 최신 `nextQueue`를 API로 먼저 검사하고(큐 항목은 색인됨이면 건너뛰고 다음 큐에서도 뺀다), URL마다 `_scratch-gsc-aside-request.js`를 `aside repl --account u0`로 돌려 할당량 초과나 결과 미확인·조작 실패에서 멈춘 뒤 오늘 항목을 조사 데이터에 붙인다. 같은 날 두 번 돌리지 않는다. PENDING처럼 할당량이 아닌 이유로 일찍 멈춘 날은 `GSC_QUEUE_CONTINUE=1`을 붙여 이어 돌린다 — 오늘 이미 누른 URL(접수·오류·정지)은 자동으로 빼고 오늘 항목에 병합한다. 할당량 초과가 확인된 날은 이어 실행도 거부한다. 이 문서의 도달점 문장은 사람이 고친다.
 - URL Inspection API 호출은 건당 약 7초이고, 이날 96건 중 8건이 `Internal error`·시간 초과로 실패했다. 실패한 큐 항목은 미색인으로 보고 신청 대상에 남긴다.
 
 Chrome을 UIA로 돌릴 때 요령(09-23 확인):
@@ -68,5 +69,5 @@ URL 접두어 속성(`https://feelandnote.com/`)에서 홈·영문 홈·소개(`
 같은 날 코어 사이트맵 298 URL을 Bing 공용·네이버 IndexNow에
 통지해 둘 다 HTTP 200을 받았다.
 
-URL별 요청·제한 결과는 [조사 데이터](../../data/seo-index-inspection-20260909.json),
+URL별 요청·제한 결과를 별도 조사 파일로 보관하지 않는다.
 검색 노출·색인에 관해 확인된 사실은 [SEO 현황](../project/operations/ops-02-seo.md)을 참고한다.

@@ -7,6 +7,8 @@ description: 이미지 배경 제거(누끼)를 할 때 항상 적용한다. 전
 
 **누끼는 `C:\project\nobg` 로 한다. rembg 호출 코드를 새로 짜지 마라.** 이미 만들어 둔 도구가 있다.
 
+누끼 뒤 아바타 재배치까지 필요하면 `sw/web-bo/scripts/avatar/reframe.ts --nobg --sheet`를 쓴다. 같은 nobg 배치를 재사용하며, 실행법은 `celeb-avatar-reframe` 스킬이 쥔다. 누끼만 필요하면 아래 독립 도구를 그대로 쓴다.
+
 원본 저장소는 GitHub `webcodur/nobg`(비공개)다. 폴더가 없으면 반드시 `C:\project\nobg` 에 clone하고 `py -3.12 -m pip install -r batch/requirements.txt` 로 설치한다. 백오피스 누끼 버튼(`sw/web-bo/src/lib/image-processing/nobg-avatar.ts`)이 이 경로를 고정으로 부른다. `rembg` 명령은 `.env` 없이 돈다.
 
 백오피스에서 누끼가 걸리는 길은 셋이다 — 아바타 옆 「nobg 배경 제거」 버튼, 목록의 일괄 처리 바, 그리고 자르기 창의 「적용과 동시에 nobg 배경 제거」 체크(기본 꺼짐, 켜면 그대로 유지된다). 셋 다 같은 큐(`image-processing/queue.ts`)를 거쳐 한 번에 한 프로세스만 돈다.

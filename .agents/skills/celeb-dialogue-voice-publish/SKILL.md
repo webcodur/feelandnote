@@ -60,7 +60,7 @@ D:\audios\interview-cleaner\.venv\Scripts\python.exe sw/audio-bo/scripts/celeb-d
 
 `low-match`는 받아쓰기 후보이므로 원문과 transcript를 직접 대조한다. 고유명사·띄어쓰기 오인식만으로 재생성하지 않는다. `unmatched-tail`과 `tag-spoken`은 공개 전에 반드시 해소한다.
 
-ElevenLabs 계정이 다른 경우 `--account feelandnote`를 사용한다. UI와 같은 기본 설정은 stability 0.5, similarity 0.75, style 0.3, 합성 속도 1.0이다. DB의 `voice_speed`는 사용자 웹 재생 배속이며 합성 속도와 독립적이다. 사용자가 원음 자체의 속도 변경을 명시한 경우에만 `--speed`를 사용한다.
+ElevenLabs 계정은 `--account <계정 ID>`로 선택한다. 여러 계정의 키 등록·전환·다른 컴퓨터로의 이동은 [환경변수 룰북의 음성 합성](../../../docs/project/platform/platform-04-env-vars.md#3-5-음성-합성)을 따른다. UI와 같은 기본 설정은 stability 0.5, similarity 0.75, style 0.3, 합성 속도 1.0이다. DB의 `voice_speed`는 사용자 웹 재생 배속이며 합성 속도와 독립적이다. 사용자가 원음 자체의 속도 변경을 명시한 경우에만 `--speed`를 사용한다.
 
 ## 등록
 
@@ -76,7 +76,7 @@ node --env-file=.env --import tsx scripts/celeb/dialogue-voice-publish.ts --run 
 node --env-file=.env --import tsx scripts/celeb/dialogue-voice-publish.ts --run <절대 run 경로> --apply
 ```
 
-등록 스크립트는 기존 R2 음원을 run 아래 `_backup`에 먼저 보존하고, 22개 전량 업로드와 크기 검증이 끝난 뒤 `voice_id_<locale>`, `has_voice`, `voice_v`를 갱신한다. 공개 URL의 SHA-256까지 일치해야 `publish.json`을 남긴다. 일부 파일, 실패 manifest, 검증되지 않은 복구본은 등록하지 않는다.
+등록 스크립트는 기존 R2 음원을 run 아래 `_backup`에 먼저 보존하고, 22개 전량 업로드와 크기 검증이 끝난 뒤 `voice_id_<locale>`, `has_voice`, `voice_v`를 갱신한다. 공개 URL의 SHA-256까지 일치하면 run의 음원·manifest·검수 기록·백업을 전량 폐기한다. 일부 파일, 실패 manifest, 검증되지 않은 복구본은 등록하지 않는다.
 
 ## 끝부분 문제가 생긴 경우
 
