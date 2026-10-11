@@ -187,6 +187,36 @@ test('complete-set removal rejects unverified translators, unrelated scopes, ISB
  data.figure_book_products=[{id:4,edition_id:1}]
  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/product history/)
 })
+function originalCompleteSetSnapshot(){
+ const {data,removal}=completeSetSnapshot()
+ for(const row of data.figure_book_editions)row.sources.translators=[]
+ data.content_locales[0].sources.translators=[]
+ data.contents[0].metadata.figureBook={originalLanguage:'ko',identityEvidence:'https://publisher.example/original'}
+ Object.assign(removal.reviewedCompleteSetVolumeRemoval,{textIdentity:'original',originalLanguage:'ko',translators:[]})
+ return {data,removal}
+}
+test('complete original set removes its first volume without inventing a translator or changing protected rows',()=>{
+ const {data,removal}=originalCompleteSetSnapshot(),plan=planGuardedCatalogRepairs(['work'],data,[removal])
+ assert.deepEqual(plan.expected.figure_book_editions,[data.figure_book_editions[1]])
+ for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(plan.expected[table],data[table],table)
+ const sql=buildGuardedCatalogRepairSql(['work'],data,[removal])
+ assert.ok(!sql.includes('UPDATE public.celeb_contents'))
+})
+test('original complete-set path rejects absent original review, language drift and any actual translation',()=>{
+ for(const mutate of [
+  (d,r)=>delete r.reviewedCompleteSetVolumeRemoval.textIdentity,
+  (d,r)=>r.reviewedCompleteSetVolumeRemoval.textIdentity='translation',
+  (d,r)=>r.reviewedCompleteSetVolumeRemoval.originalLanguage='en',
+  (d,r)=>r.reviewedCompleteSetVolumeRemoval.translators=['Invented translator'],
+  d=>d.contents[0].metadata.figureBook.originalLanguage='en',
+  d=>delete d.contents[0].metadata.figureBook.identityEvidence,
+  d=>d.contents[0].metadata.figureBook.identityEvidence='https://openlibrary.org/works/OL1W',
+  d=>d.figure_book_editions[0].sources.translators=['Actual translator'],
+  d=>d.figure_book_editions[1].sources.translators=['Actual translator']]){
+  const {data,removal}=originalCompleteSetSnapshot();mutate(data,removal)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Complete-set/)
+ }
+})
 function nonstartSnapshot(original=false){
  const {data,removal}=completeSetSnapshot(),later=data.figure_book_editions[0],first=data.figure_book_editions[1]
  later.title='Novel lower volume';later.edition_kind='full';later.text_scope=null

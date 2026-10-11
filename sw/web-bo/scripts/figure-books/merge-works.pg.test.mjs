@@ -234,7 +234,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.equal(after.figure_book_products[0].edition_id,first.id)
   })
 
-  await t.test('complete-set choice replaces its included first volume without merging different body scopes or changing protected prose', t => {
+  for(const original of [false,true])await t.test(`${original?'Original':'Translation'} complete-set choice replaces its included first volume without merging different body scopes or changing protected prose`, t => {
     t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
       ('keep','ko','Novel complete set','Author','Complete novel introduction','9788932910673','{"primary":"kakao","translators":["Translator"],"description":"https://publisher.example/set"}');
@@ -244,16 +244,27 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
       ('keep','ko','Novel 1','Author','First volume introduction','9788932910680','volume','volume/1','{"translators":["Translator"],"description":"https://publisher.example/first"}');
       INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
       INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','원래 감상','Original review','https://example.org/review');`)
+    if(original)query(`UPDATE contents SET metadata=jsonb_set(coalesce(metadata,'{}'::jsonb),'{figureBook}',
+      '{"originalLanguage":"ko","identityEvidence":"https://publisher.example/original"}'::jsonb) WHERE id='keep';
+      UPDATE figure_book_editions SET sources=jsonb_set(sources,'{translators}','[]'::jsonb) WHERE content_id='keep';
+      UPDATE content_locales SET sources=jsonb_set(sources,'{translators}','[]'::jsonb) WHERE content_id='keep';`)
     query(editionPolicySql())
     const before=snapshot(),first=before.figure_book_editions.find(row=>row.text_scope==='volume/1'),whole=before.figure_book_editions.find(row=>row.text_scope==='complete')
     const split=structuredClone(before)
     split.figure_book_editions.find(row=>row.id===first.id).content_id='drop'
-    assert.throws(()=>buildMergeSql(pair,split),/automatic translation mapping scope conflict/)
+    if(!original)assert.throws(()=>buildMergeSql(pair,split),/automatic translation mapping scope conflict/)
     const proof={method:'independent_complete_set_review',contentId:'keep',editionId:first.id,locale:'ko',editionTitle:first.title,isbn:first.isbn,
       referenceEditionId:whole.id,referenceTitle:whole.title,referenceCreator:whole.creator,referenceIsbn:whole.isbn,translators:['Translator'],
       volumeNumber:1,totalVolumes:2,completeSet:true,sourceUrl:'https://publisher.example/first',referenceSourceUrl:'https://publisher.example/set',
       reason:'The exact two-volume complete set contains this first volume of the same verified translation and supplies the whole original.'}
+    if(original)Object.assign(proof,{textIdentity:'original',originalLanguage:'ko',translators:[],
+      reason:'Independent exact ISBN sources confirm this complete original set includes its first volume; no translator is invented.'})
     const changes=[{table:'figure_book_editions',before:first,remove:true,reviewedCompleteSetVolumeRemoval:proof}]
+    if(original){
+      const unreviewed=structuredClone(before)
+      unreviewed.contents.find(row=>row.id==='keep').metadata.figureBook.originalLanguage='en'
+      assert.throws(()=>buildGuardedCatalogRepairSql(['keep','drop'],unreviewed,changes),/Complete-set/)
+    }
     const sql=buildGuardedCatalogRepairSql(['keep','drop'],before,changes)
     query("UPDATE content_locales SET title='Concurrent selected title' WHERE content_id='keep'")
     assert.throws(()=>query(sql),/rowset mismatch/)
