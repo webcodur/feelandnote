@@ -315,7 +315,8 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
       ('keep','ko','Actual translation','Author','9780674250703','{"primary":"kakao"}');
       INSERT INTO figure_book_contents VALUES('keep');
-      INSERT INTO figure_book_editions(content_id,locale,title,sources) VALUES('keep','en','Original work','{"primary":"openlibrary"}');
+      INSERT INTO figure_book_editions(content_id,locale,title,description,sources) VALUES('keep','en','Original work','Retained original introduction','{"primary":"openlibrary","description":null}');
+      INSERT INTO content_locales(content_id,locale,title,description,sources) VALUES('keep','en','Original work','Retained original introduction','{"primary":"none"}');
       INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reading','keep','person','Human review',5);
       INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('curation','keep','celeb','원문 감상','Original review','https://evidence.example/reading');`)
     query(editionPolicySql())

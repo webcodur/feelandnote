@@ -519,6 +519,14 @@ test('explicit placeholder removal retains the actual edition and protected rows
  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/introduction/)
  data.content_locales[0].description=before.description;data.content_locales[0].sources.description=before.sources.description
  assert.equal(planGuardedCatalogRepairs(['work'],data,[removal]).expected.figure_book_editions.length,1)
+ for(const [editionSource,localeSource] of [[null,undefined],[undefined,null]]){
+  before.sources.description=editionSource;data.content_locales[0].sources.description=localeSource
+  assert.equal(planGuardedCatalogRepairs(['work'],data,[removal]).expected.figure_book_editions.length,1)
+ }
+ before.sources.description='https://publisher.example/retained-introduction'
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/introduction/)
+ data.content_locales[0].sources.description='https://publisher.example/different-introduction'
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/introduction/)
 })
 
 test('ISBN-less placeholder with other-author prose needs independent discard review and a retained real introduction',()=>{

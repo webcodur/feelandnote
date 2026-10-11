@@ -354,7 +354,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   }
   if(table==='contents'||!String(before.description??'').trim()||isBookIntroductionSource(before.description))continue
   const retained=[...expected.content_locales,...expected.figure_book_editions].some(row=>row.content_id===before.content_id&&row.locale===before.locale&&row.description===before.description
-   &&isDeepStrictEqual(row.sources?.description,before.sources?.description))
+   &&isDeepStrictEqual(row.sources?.description??null,before.sources?.description??null))
   if(!retained)throw Error('Existing introduction must be retained before changing/removing its row')
  }
  return {assigned,expected,changedKeys}
