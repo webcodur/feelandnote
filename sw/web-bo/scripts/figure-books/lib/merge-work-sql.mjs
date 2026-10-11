@@ -1,6 +1,6 @@
 /** 작품 통합은 한 PostgreSQL transaction에서만 실행한다. 충돌은 전체 pair를 되돌린다. */
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
-import { bookEditionTranslationKey, excludedBookEditionReason } from '@feelandnote/content-search/book-edition-policy'
+import { bookEditionTranslationKey, excludedBookEditionReason, reviewedBookEditionSelectionReason } from '@feelandnote/content-search/book-edition-policy'
 import { isOriginalEdition } from './edition-translation-policy.mjs'
 import { CONTENT_ARRAY_REFERENCES } from './content-array-references.mjs'
 import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
@@ -139,6 +139,10 @@ export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [] } =
   for (const table of SNAPSHOT_TABLES) if (!Array.isArray(snapshot[table])) throw new Error(`백업 누락: ${table}`)
   if (unrepresentedExternalIsbn(snapshot, pair)) throw new Error('MERGE_REVIEW: external ISBN has no preserved edition')
   const k = sqlLiteral(pair.keep), d = sqlLiteral(pair.drop)
+  const excludedLocaleSeeds = snapshot.content_locales.filter(row => [pair.keep,pair.drop].includes(row.content_id)
+    && reviewedBookEditionSelectionReason({...row,title:row.sources?.edition_title??row.title}))
+    .map(row => `(l.content_id=${sqlLiteral(row.content_id)} AND l.locale=${sqlLiteral(row.locale)} AND l.isbn IS NOT DISTINCT FROM ${sqlLiteral(row.isbn)})`)
+  const excludedLocaleSeedSql = excludedLocaleSeeds.join(' OR ') || 'FALSE'
   const originalEditionIds = snapshot.figure_book_editions.map(row => sqlLiteral(String(row.id))).join(', ') || 'NULL'
   const works = new Map(snapshot.contents.map(row => [row.id, { ...row, figureBook: row.metadata?.figureBook }]))
   const translationKey = row => excludedBookEditionReason({ ...row, editionKind: row.edition_kind, textScope: row.text_scope })
@@ -249,6 +253,7 @@ BEGIN
   INSERT INTO public.figure_book_editions(content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,verified,sources)
     SELECT CASE WHEN EXISTS(SELECT 1 FROM public.figure_book_contents f WHERE f.content_id=l.content_id) THEN l.content_id ELSE keep_id END,l.locale,coalesce(l.sources->>'edition_title',l.title),l.creator,l.description,l.isbn,l.publisher,l.thumbnail_url,l.verified,l.sources
     FROM public.content_locales l WHERE l.content_id IN(keep_id,drop_id) AND (l.isbn IS NOT NULL OR l.sources->>'primary' IN ('kakao_book','openlibrary'))
+      AND NOT (${excludedLocaleSeedSql})
       AND NOT(coalesce(l.sources->>'primary','')='none' AND coalesce(l.sources->>'title','') IN('translated','romanized','original'))
       AND NOT(l.locale='en' AND coalesce(l.sources->>'primary','')='kakao_book')
       AND NOT(l.isbn IS NULL AND coalesce(l.sources->>'title','')='kakao_title_search' AND coalesce(l.sources->>'series_source_url','') !~ '^https://(m\\.)?search\\.daum\\.net/search\\?.*bookId=[0-9]+')
