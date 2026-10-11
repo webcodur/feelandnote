@@ -43,3 +43,17 @@ test('그림책 제목·일기·미술서라는 이유만으로 비독서 상품
  for(const title of ['The Diary of a Young Girl','Vincent van Gogh','그림책 꽃이 피었습니다','Edvard Munch Masterpieces of Art'])assert.deepEqual(nonReadingFormatReviewSignals({title,physicalFormat:'Hardback'}),[])
  assert.deepEqual(nonReadingFormatReviewSignals({title:'Gustav Klimt: The Kiss (Blank Sketch Book)'}),['non_reading_title'])
 })
+
+test('978·979 대응 번호는 출처 검수 후보만 만들며 ISBN을 바꾸거나 오류로 확정하지 않는다',()=>{
+ const c={contents:[{id:'a'},{id:'b'}],locales:[{content_id:'a',locale:'ko',title:'실제 책',isbn:'9791167370280'}],editions:[
+  {id:1,content_id:'a',locale:'ko',title:'실제 책',isbn:'9791167370280'},
+  {id:2,content_id:'a',locale:'ko',title:'옛 제목 검색 후보',isbn:'9781167370281'},
+  {id:3,content_id:'b',locale:'en',title:'독립 원작 검수 필요',isbn:'9781167370281'},
+ ]},before=structuredClone(c),r=inspectEditionCatalog(c)
+ assert.deepEqual(r.issues,[]);assert.equal(r.reviewCandidates.length,4)
+ assert.ok(r.reviewCandidates.every(row=>row.reviewSignals.includes('isbn_prefix_counterpart')))
+ assert.deepEqual(r.reviewCandidates.find(row=>row.id===1).counterparts.map(row=>row.contentId),['a','b'])
+ assert.deepEqual(c,before)
+ c.editions=c.editions.filter(row=>row.isbn.startsWith('979'))
+ assert.deepEqual(inspectEditionCatalog(c).reviewCandidates,[])
+})

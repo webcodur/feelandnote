@@ -502,6 +502,67 @@ test('explicit placeholder removal retains the actual edition and protected rows
  assert.equal(planGuardedCatalogRepairs(['work'],data,[removal]).expected.figure_book_editions.length,1)
 })
 
+test('ISBN-less placeholder with other-author prose needs independent discard review and a retained real introduction',()=>{
+ const data=snapshot(),before=data.figure_book_editions[0]
+ Object.assign(before,{isbn:null,publisher:null,release_date:null,title:'On the Shortness of Life',creator:'Seneca',
+  description:'Dean Rickles describes death as the most necessary limit on our lives.',sources:{primary:'openlibrary',description:'https://search.daum.net/search?w=bookpage&bookId=6654898'}})
+ const reference={id:2,content_id:'work',locale:'en',title:before.title,creator:before.creator,isbn:'9780143036326',
+  description:'Seneca examines how people squander their finite time and how deliberate attention changes the way they live.',
+  sources:{primary:'openlibrary',description:'https://penguinrandomhouselibrary.com/book/?isbn=9780143036326'}}
+ data.figure_book_editions.push(reference)
+ const proof={method:'independent_placeholder_review',contentId:'work',editionId:before.id,locale:before.locale,editionTitle:before.title,
+  referenceEditionId:reference.id,referenceLocale:reference.locale,referenceTitle:reference.title,referenceCreator:reference.creator,referenceIsbn:reference.isbn,
+  sourceUrl:reference.sources.description,reason:'The physical Seneca collection is verified; the ISBN-less placeholder never identified a physical edition.'}
+ const removal={table:'figure_book_editions',before,remove:true,reviewedPlaceholderRemoval:proof}
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Existing introduction/)
+ proof.misattachedIntroduction={method:'independent_other_work_introduction_review',isbn:'9788932475196',workTitle:'인생의 짧음에 관하여',creator:'Dean Rickles',
+  sourceUrl:'https://www.yes24.com/product/goods/127044088',reason:'The exact Korean product describes Dean Rickles, not Seneca; the placeholder copied that unrelated introduction.'}
+ const expected=planGuardedCatalogRepairs(['work'],data,[removal]).expected
+ for(const table of SNAPSHOT_TABLES)assert.deepEqual(expected[table],table==='figure_book_editions'?[reference]:data[table])
+ assert.ok(!buildGuardedCatalogRepairSql(['work'],data,[removal]).includes('independent_other_work_introduction_review'))
+ for(const difference of [{method:'automatic'},{isbn:reference.isbn},{isbn:null},{workTitle:''},{creator:'Seneca'},
+  {sourceUrl:'https://openlibrary.org/books/OL1M'},{sourceUrl:proof.sourceUrl},{reason:'Short'}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...removal,reviewedPlaceholderRemoval:{...proof,misattachedIntroduction:{...proof.misattachedIntroduction,...difference}}}]),/Placeholder introduction discard/)
+ reference.description=null
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Placeholder introduction discard/)
+})
+
+test('unbound ISBN candidate removal requires explicit review and leaves the real product and protected rows intact',()=>{
+ const data=snapshot(),before=data.figure_book_editions[0]
+ Object.assign(before,{locale:'ko',title:'완전한 행복',creator:'정유정',publisher:'은행나무',isbn:'9781167370281',release_date:null,
+  thumbnail_url:'https://example.com/copied-cover.jpg',sources:{isbn:'kakao_title_search',title:'kakao_title_search',creator:'kakao_title_search',primary:'kakao_book'}})
+ const reference={...structuredClone(before),id:2,isbn:'9791167370280',sources:{primary:'kakao_book',isbn:'https://search.daum.net/search?w=bookpage&bookId=5698013'}}
+ data.figure_book_editions.push(reference)
+ Object.assign(data.content_locales[0],{locale:'ko',isbn:reference.isbn})
+ const proof={method:'independent_unbound_isbn_review',contentId:'work',editionId:1,locale:'ko',editionTitle:before.title,isbn:before.isbn,
+  referenceEditionId:2,referenceTitle:reference.title,referenceCreator:reference.creator,referencePublisher:reference.publisher,referenceIsbn:reference.isbn,
+  providerSourceUrl:reference.sources.isbn,sourceUrl:'https://publisher.example/actual-product',
+  reason:'Actual provider and publisher identify only the 979 product; the older 978 title-search row has no physical product evidence.'}
+ const removal={table:'figure_book_editions',before,remove:true,reviewedUnboundIsbnRemoval:proof}
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:removal.table,before,remove:true}]),/policy-excluded/)
+ const expected=planGuardedCatalogRepairs(['work'],data,[removal]).expected
+ for(const table of SNAPSHOT_TABLES)assert.deepEqual(expected[table],table==='figure_book_editions'?[reference]:data[table])
+ const sql=buildGuardedCatalogRepairSql(['work'],data,[removal])
+ assert.ok(!sql.includes('independent_unbound_isbn_review'));assert.ok(!sql.includes('UPDATE public.celeb_contents'))
+ for(const difference of [{method:'automatic'},{contentId:'other'},{editionId:99},{locale:'en'},{editionTitle:'Other title'},{isbn:'9791167370280'},
+  {referenceEditionId:99},{referenceTitle:'Other title'},{referenceCreator:'Other author'},{referencePublisher:'Other publisher'},
+  {referenceIsbn:before.isbn},{providerSourceUrl:'https://search.daum.net/search?w=bookpage&bookId=1'},
+  {sourceUrl:'https://openlibrary.org/books/OL1M'},{sourceUrl:'https://books.google.com/books?id=1'},{sourceUrl:proof.providerSourceUrl},{reason:'Short'}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...removal,reviewedUnboundIsbnRemoval:{...proof,...difference}}]),/Unbound ISBN removal/)
+ for(const difference of [{description:'Source-backed introduction'},{release_date:'2020-01-01'},{title:'Another book'},
+  {creator:'Different author'},{publisher:'Different publisher'},
+  {sources:{...before.sources,isbn:'https://publisher.example/actual-978'}},
+  {sources:{...before.sources,translators:['Actual translator']}},{isbn:'9780140449136'}]){
+  const changed=structuredClone(data);Object.assign(changed.figure_book_editions[0],difference)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],changed,[{...removal,before:changed.figure_book_editions[0]}]),/Unbound ISBN removal/)
+ }
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal,{table:'figure_book_editions',before:reference,patch:{title:'Changed'}}]),/retain/)
+ data.content_locales[0].isbn=before.isbn
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/selected ISBN/)
+ data.content_locales[0].isbn=reference.isbn;data.figure_book_products=[{id:3,edition_id:1,is_active:false}]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/product history/)
+})
+
 test('removing an excluded edition does not treat provider markers as prose to preserve',()=>{
  for(const marker of ['OPEN','KAKAO','DAUM']){
   const data=snapshot(),before=data.figure_book_editions[0]

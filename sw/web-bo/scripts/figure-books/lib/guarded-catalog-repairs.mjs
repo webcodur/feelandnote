@@ -58,6 +58,42 @@ function reviewedPlaceholderReference(before,proof,snapshot){
  return reference
 }
 
+// 번호가 비슷한 두 ISBN은 서로 다른 상품일 수 있다. 출처 없는 옛 제목 검색 행만 명시 검수 후 제거한다.
+function reviewedUnboundIsbnReference(before,proof,snapshot){
+ const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(proof?.referenceEditionId))
+ const isbn=toIsbn13(before.isbn??''),referenceIsbn=toIsbn13(reference?.isbn??'')
+ const titleSearchSources={isbn:'kakao_title_search',title:'kakao_title_search',creator:'kakao_title_search',primary:'kakao_book'}
+ if(proof?.method!=='independent_unbound_isbn_review'||proof.contentId!==before.content_id||String(proof.editionId)!==String(before.id)
+  ||proof.locale!==before.locale||proof.editionTitle!==before.title||!isbn||toIsbn13(proof.isbn??'')!==isbn
+  ||!isDeepStrictEqual(before.sources,titleSearchSources)||String(before.description??'').trim()
+  ||String(before.release_date??before.releaseDate??'').trim()
+  ||!reference||String(reference.id)===String(before.id)||reference.content_id!==before.content_id||reference.locale!==before.locale
+  ||reference.title!==proof.referenceTitle||reference.creator!==proof.referenceCreator||reference.publisher!==proof.referencePublisher
+  ||![reference.title,reference.creator,reference.publisher].every(value=>typeof value==='string'&&value.trim())
+  ||before.title!==reference.title||before.creator!==reference.creator||before.publisher!==reference.publisher
+  ||!referenceIsbn||toIsbn13(proof.referenceIsbn??'')!==referenceIsbn||isbn.slice(0,3)===referenceIsbn.slice(0,3)||isbn.slice(3,12)!==referenceIsbn.slice(3,12)
+  ||reference.sources?.isbn!==proof.providerSourceUrl||!/^https:\/\/(?:m\.)?search\.daum\.net\/search\?.*bookId=\d+/u.test(proof.providerSourceUrl??'')
+  ||!independentSource(proof.sourceUrl)||proof.sourceUrl===proof.providerSourceUrl||/(^|\.)books\.google\.[a-z.]+$|(^|\.)googleapis\.com$/iu.test(new URL(proof.sourceUrl).hostname)
+  ||typeof proof.reason!=='string'||proof.reason.trim().length<BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
+  ||excludedBookEditionReason({...reference,editionKind:reference.edition_kind,textScope:reference.text_scope}))
+  throw Error('Unbound ISBN removal requires exact source-free title-search row, actual provider ISBN and independent same-work product review')
+ return reference
+}
+
+function reviewedPlaceholderIntroductionDiscard(before,proof,snapshot){
+ const reference=reviewedPlaceholderReference(before,proof,snapshot),discard=proof?.misattachedIntroduction
+ if(discard?.method!=='independent_other_work_introduction_review'||!toIsbn13(discard.isbn??'')
+  ||toIsbn13(discard.isbn)===toIsbn13(reference.isbn)||!independentSource(discard.sourceUrl)||discard.sourceUrl===proof.sourceUrl
+  ||![discard.workTitle,discard.creator,discard.reason].every(value=>typeof value==='string'&&value.trim())
+  ||discard.creator===reference.creator||discard.reason.trim().length<BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
+  ||!String(before.description??'').trim()||isBookIntroductionSource(before.description)
+  ||!independentSource(before.sources?.description)
+  ||typeof reference.description!=='string'||reference.description.trim().length<30||isBookIntroductionSource(reference.description)
+  ||!independentSource(reference.sources?.description))
+  throw Error('Placeholder introduction discard requires independently reviewed other-work prose and retained actual representative introduction')
+ return reference
+}
+
 export function buildCatalogRepairSnapshotSql(workIds) {
  const assigned=ids(workIds)
  return `BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY;SET LOCAL statement_timeout='60s';
@@ -177,17 +213,21 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   const placeholderProof=change.reviewedPlaceholderRemoval
   const setProof=change.reviewedCompleteSetVolumeRemoval
   const nonstartProof=change.reviewedNonstartEditionRemoval
+  const unboundProof=change.reviewedUnboundIsbnRemoval
+  if(unboundProof!==undefined&&(!remove||table!=='figure_book_editions'||selectionProof!==undefined||placeholderProof!==undefined||setProof!==undefined||nonstartProof!==undefined||change.reviewedIntroductionCorrection!==undefined))throw Error('Unbound ISBN review is only valid for explicit source-free candidate removal')
+  if(unboundProof!==undefined)reviewedUnboundIsbnReference(before,unboundProof,snapshot)
   if(nonstartProof!==undefined&&(!remove||table!=='figure_book_editions'||selectionProof!==undefined||placeholderProof!==undefined||setProof!==undefined||change.reviewedIntroductionCorrection!==undefined))throw Error('Nonstart review is only valid for explicit later-volume removal')
   if(nonstartProof!==undefined&&nonstartProof.referenceAfterPatch!==true)reviewedNonstartReference(before,nonstartProof,snapshot)
   if(setProof!==undefined&&(!remove||table!=='figure_book_editions'||selectionProof!==undefined||placeholderProof!==undefined||change.reviewedIntroductionCorrection!==undefined))throw Error('Complete-set review is only valid for explicit included-volume removal')
   if(setProof!==undefined)reviewedCompleteSetReference(before,setProof,snapshot)
   if(placeholderProof!==undefined&&(!remove||selectionProof!==undefined))throw Error('Placeholder review is only valid for explicit edition removal')
-  if(placeholderProof!==undefined)reviewedPlaceholderReference(before,placeholderProof,snapshot)
+  if(placeholderProof!==undefined){reviewedPlaceholderReference(before,placeholderProof,snapshot)
+   if(placeholderProof.misattachedIntroduction!==undefined)reviewedPlaceholderIntroductionDiscard(before,placeholderProof,snapshot)}
   if(selectionProof!==undefined&&(!remove||!independentSource(selectionProof?.source_url)
    ||!reviewedBookEditionSelectionReason({...before,sources:{edition_selection_evidence:[selectionProof]}})))throw Error('Source-reviewed edition exclusion requires exact live ISBN, locale, title and independent selection evidence')
   if(remove){
    const work=snapshot.contents.find(row=>row.id===before.content_id),figure=work.metadata?.figureBook??{}
-   if(selectionProof===undefined&&placeholderProof===undefined&&setProof===undefined&&nonstartProof===undefined&&!excludedBookEditionReason({...before,editionKind:before.edition_kind,textScope:before.text_scope,workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)}))throw Error('Only a policy-excluded edition may be removed')
+   if(selectionProof===undefined&&placeholderProof===undefined&&setProof===undefined&&nonstartProof===undefined&&unboundProof===undefined&&!excludedBookEditionReason({...before,editionKind:before.edition_kind,textScope:before.text_scope,workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)}))throw Error('Only a policy-excluded edition may be removed')
    if(snapshot.figure_book_products.some(product=>String(product.edition_id)===String(before.id)))throw Error('Edition has product history; removal forbidden')
    expected[table].splice(index,1)
   }else{
@@ -207,6 +247,12 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   const reference=reviewedPlaceholderReference(before,proof,snapshot)
   if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference)))throw Error('Placeholder removal must retain the reviewed physical edition unchanged')
  }
+ for(const {before,reviewedUnboundIsbnRemoval:proof} of changes)if(proof!==undefined){
+  const reference=reviewedUnboundIsbnReference(before,proof,snapshot)
+  if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference))
+   ||!expected.content_locales.some(row=>row.content_id===before.content_id&&row.locale===before.locale&&toIsbn13(row.isbn??'')===toIsbn13(reference.isbn)))
+   throw Error('Unbound ISBN removal must retain the reviewed actual product and selected ISBN')
+ }
  for(const {before,reviewedCompleteSetVolumeRemoval:proof} of changes)if(proof!==undefined){
   const reference=reviewedCompleteSetReference(before,proof,snapshot)
   if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference))
@@ -221,7 +267,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    throw Error('Nonstart removal must retain the reviewed first or whole edition and its representative ISBN unchanged')
  }
  // 소개 보존 예외도 정확한 ISBN의 독립 원문을 읽은 명시 판단으로만 허용한다.
- for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
+ for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedPlaceholderRemoval:placeholderProof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
   if(archiveProof!==undefined){
    const old=before.sources?.description,remaining=structuredClone(before.sources??{})
    const copiedSources=old?.original_sources===null||old?.original_sources&&typeof old.original_sources==='object'&&!Array.isArray(old.original_sources)
@@ -234,6 +280,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
     throw Error('Raw provenance discard may only remove a verified backup wrapper while retaining introduction and every live source field')
    continue
   }
+  if(placeholderProof?.misattachedIntroduction!==undefined){reviewedPlaceholderIntroductionDiscard(before,placeholderProof,snapshot);continue}
   if(setProof!==undefined||nonstartProof!==undefined)continue // 분권 소개는 검수된 대표의 정상 소개로 대표된다. 감상 필드는 보존한다.
   if(proof!==undefined){
    if(proof?.method==='independent_locale_reference_introduction_review'){
