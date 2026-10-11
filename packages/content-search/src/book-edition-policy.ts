@@ -2,14 +2,15 @@
 import { toIsbn13 } from './book-isbn'
 
 export const SERVICE_BOOK_EDITION_KINDS = ['full', 'retelling', 'adaptation', 'selection', 'volume'] as const
-export const BOOK_EDITION_SELECTION_REASONS = ['children_picture', 'graded_reader', 'abridged', 'non_reading_product', 'wrong_locale'] as const
+export const BOOK_EDITION_SELECTION_REASONS = ['children_picture', 'graded_reader', 'abridged', 'non_reading_product', 'wrong_locale', 'wrong_work'] as const
 export const BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH = 20
 export type BookEditionSelectionReason = typeof BOOK_EDITION_SELECTION_REASONS[number]
 export type BookEditionSelectionEvidence = {
   method: 'independent_selection_review'; isbn: string; locale: string; edition_title: string
-  reason: BookEditionSelectionReason; source_url: string; explanation: string
+  reason: BookEditionSelectionReason; source_url: string; explanation: string; content_id?: string
 }
 export type BookEditionPolicyInput = {
+  contentId?: string; content_id?: string
   locale?: string; title?: string | null; isbn?: string | null; publisher?: string | null; releaseDate?: string | null; release_date?: string | null; editionKind?: string | null; textScope?: string | null
   workTitles?: readonly string[]; reviewedSeries?: boolean; translator?: string | null; translators?: unknown; sources?: unknown; providerDescription?: string | null
 }
@@ -46,6 +47,7 @@ export function reviewedBookEditionSelectionReason(input: BookEditionPolicyInput
     if (proof.method !== 'independent_selection_review' || typeof proof.isbn !== 'string' || toIsbn13(proof.isbn) !== isbn
       || proof.locale !== input.locale || proof.edition_title !== input.title
       || !BOOK_EDITION_SELECTION_REASONS.some(reason => reason === proof.reason)
+      || proof.reason === 'wrong_work' && (typeof proof.content_id !== 'string' || !proof.content_id || proof.content_id !== (input.content_id ?? input.contentId))
       || typeof proof.explanation !== 'string' || proof.explanation.trim().length < BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
       || typeof proof.source_url !== 'string' || !proof.source_url.startsWith('https://')) continue
     try {

@@ -7,9 +7,9 @@ import { wikipediaBookLanguage } from './lib/edition-original-language-research.
 const row=(id,translator,extra={})=>({id,content_id:'odyssey',locale:'ko',title:'오디세이아',creator:'호메로스',isbn:String(id),sources:translator?{translators:[translator]}:{},...extra})
 const catalog=editions=>({contents:[{id:'odyssey',figureBook:{}}],editions,locales:[],products:[]})
 
-const selectionBook = { locale: 'en', title: 'Green Eggs and Ham', isbn: '9781524773458' }
+const selectionBook = { content_id:'work', locale: 'en', title: 'Green Eggs and Ham', isbn: '9781524773458' }
 const selectionProof = { method: 'independent_selection_review', isbn: selectionBook.isbn, locale: selectionBook.locale, edition_title: selectionBook.title,
- reason: 'children_picture', source_url: 'https://publisher.example/books/magnetic-play',
+ reason: 'children_picture', content_id:selectionBook.content_id, source_url: 'https://publisher.example/books/magnetic-play',
  explanation: 'Publisher describes a magnetic play book for young children rather than the original novel text.' }
 const withSelection = proof => ({ ...selectionBook, sources: { edition_selection_evidence: [proof] } })
 test('독립 선정 근거는 체크된 같은 ISBN·언어·정확한 판본 제목과 출처·설명을 갖춘 경우에만 적용한다', () => {
@@ -147,6 +147,19 @@ test('실제 본문 언어가 다른 상품은 출처 검수한 정확 ISBN의 �
  assert.equal(excludedBookEditionReason({...input,isbn:'9780140444735'}),null)
  assert.equal(excludedBookEditionReason({...input,sources:{edition_selection_evidence:[{...proof,method:'machine_language_guess'}]}}),null)
  assert.equal(excludedBookEditionReason({...book,providerDescription:'French stories mentioned in this edition.'}),null)
+})
+
+test('다른 원작에 오귀속된 상품은 독립 출처의 정확한 ISBN 판정으로만 선정 해제한다',()=>{
+ const book={content_id:'gubijinso',locale:'en',title:'The Poppy War',isbn:'9780008455194'}
+ const proof={method:'independent_selection_review',content_id:book.content_id,isbn:book.isbn,locale:book.locale,edition_title:book.title,reason:'wrong_work',
+  source_url:'https://publisher.example/exact-isbn',explanation:'Independent ISBN evidence identifies a different novel and author from the original work owning this edition.'}
+ const input={...book,sources:{edition_selection_evidence:[proof]}}
+ assert.equal(excludedBookEditionReason(input),'wrong_work')
+ for(const changed of[{content_id:'poppy-war'},{content_id:undefined},{isbn:'9788932317021'},{locale:'ko'},{title:'Gubijinso'}])
+  assert.equal(excludedBookEditionReason({...input,...changed}),null)
+ assert.equal(excludedBookEditionReason({...input,sources:{edition_selection_evidence:[{...proof,method:'machine_work_guess'}]}}),null)
+ assert.equal(excludedBookEditionReason({...input,sources:{edition_selection_evidence:[{...proof,content_id:undefined}]}}),null)
+ assert.equal(excludedBookEditionReason({...book,providerDescription:'Another novel is mentioned in this description.'}),null)
 })
 
 test('본문 제목에서 숨겨진 공식 Penguin Reader 총서도 정규 판본에서 제외한다',()=>{
