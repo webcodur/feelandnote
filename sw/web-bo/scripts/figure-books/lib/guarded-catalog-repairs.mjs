@@ -192,6 +192,8 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    expected[table].splice(index,1)
   }else{
    if(!patch||Array.isArray(patch)||typeof patch!=='object'||!Object.keys(patch).length||Object.keys(patch).some(field=>!allowed[table].includes(field)||patch[field]===undefined))throw Error('Unsupported catalog patch field')
+   for(const field of ['title','creator','description','publisher','isbn','thumbnail_url','affiliate_url','release_date','edition_kind','text_scope','locale','content_id','external_id','external_source'])
+    if(Object.hasOwn(patch,field)&&patch[field]!==null&&typeof patch[field]!=='string')throw Error('Catalog text field requires string or null: '+field)
    preventNewArchiveCopies(table,before,patch)
    if(patch.content_id&&patch.content_id!==before.content_id){
     const proof=patch.sources?.work_attribution
