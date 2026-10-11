@@ -227,6 +227,56 @@ function nonstartSnapshot(original=false){
   originalLanguage:'ko',identityEvidence:'https://publisher.example/original-author'}}
  return {data,removal:{table:'figure_book_editions',before:later,remove:true,reviewedNonstartEditionRemoval:proof}}
 }
+
+test('complete-set selection can normalize the actual whole set after deleting its included first choice atomically',()=>{
+ const {data,removal}=originalCompleteSetSnapshot(),whole=data.figure_book_editions[1],locale=data.content_locales[0]
+ whole.edition_kind=null;whole.text_scope=null;locale.isbn=data.figure_book_editions[0].isbn
+ const edits=[{table:'figure_book_editions',before:whole,patch:{edition_kind:'full',text_scope:'complete'}},
+  {table:'content_locales',before:locale,patch:{isbn:whole.isbn}},removal]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,edits),/Complete-set/)
+ removal.reviewedCompleteSetVolumeRemoval.referenceAfterPatch=true
+ const plan=planGuardedCatalogRepairs(['work'],data,edits)
+ assert.equal(plan.expected.figure_book_editions.length,1);assert.equal(plan.expected.figure_book_editions[0].text_scope,'complete')
+ for(const table of SNAPSHOT_TABLES.filter(table=>!['figure_book_editions','content_locales'].includes(table)))assert.deepEqual(plan.expected[table],data[table],table)
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...edits[0],patch:{edition_kind:'full',text_scope:'abridged'}},...edits.slice(1)]),/Complete-set/)
+})
+
+function songScoreSnapshot(){
+ const {data,removal}=nonstartSnapshot(true),later=data.figure_book_editions[0],first=data.figure_book_editions[1]
+ later.text_scope='song/Later song';later.edition_kind='volume';first.text_scope='song/Representative song'
+ const series={title:'One-song teaching scores',creator:first.creator,locale:'ko',sourceUrl:'https://publisher.example/series'}
+ data.contents[0].metadata.figureBook.series=series
+ const proof={...removal.reviewedNonstartEditionRemoval,method:'independent_song_score_series_review',
+  textScope:later.text_scope,referenceTextScope:first.text_scope,sameTeachingFormat:true,individualSongScores:true,
+  seriesTitle:series.title,seriesCreator:series.creator,seriesSourceUrl:series.sourceUrl}
+ delete proof.textIdentity;delete proof.continuousText;delete proof.volumeNumber
+ return {data,removal:{table:'figure_book_editions',before:later,remove:true,reviewedSongScoreSeriesEditionRemoval:proof}}
+}
+
+test('reviewed one-song teaching series retains one score without asserting the songs are identical',()=>{
+ const {data,removal}=songScoreSnapshot(),plan=planGuardedCatalogRepairs(['work'],data,[removal])
+ assert.deepEqual(plan.expected.figure_book_editions,[data.figure_book_editions[1]])
+ for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(plan.expected[table],data[table],table)
+})
+
+test('song-score series selection rejects independent collections, invented continuity, provenance drift and protected history',()=>{
+ for(const difference of [{sameTeachingFormat:false},{individualSongScores:false},{continuousText:true},{textIdentity:'original'},
+  {seriesTitle:'Unrelated series'},{seriesCreator:'Other creator'},{seriesSourceUrl:'https://openlibrary.org/works/OL1W'},
+  {textScope:'song/Other song'},{referenceTextScope:'song/Other song'},{referenceIsbn:'9780140449136'},
+  {sourceUrl:'https://books.google.com/books?id=source'},{referenceSourceUrl:'https://www.googleapis.com/books/v1/volumes/first'}]){
+  const {data,removal}=songScoreSnapshot();Object.assign(removal.reviewedSongScoreSeriesEditionRemoval,difference)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Song-score/)
+ }
+ for(const mutate of [d=>d.figure_book_editions[0].text_scope='complete',d=>d.figure_book_editions[1].text_scope='complete',
+  d=>d.figure_book_editions[0].sources.translators=['Translator'],d=>d.contents[0].metadata.figureBook.series.locale='en',
+  d=>d.content_locales[0].isbn=d.figure_book_editions[0].isbn]){
+  const {data,removal}=songScoreSnapshot();mutate(data);assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Song-score/)
+ }
+ const history=songScoreSnapshot();history.data.figure_book_products=[{id:5,edition_id:history.removal.before.id}]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],history.data,[history.removal]),/product history/)
+ const changed=songScoreSnapshot();assert.throws(()=>planGuardedCatalogRepairs(['work'],changed.data,[changed.removal,
+  {table:'figure_book_editions',before:changed.data.figure_book_editions[1],patch:{description:'Changed score introduction'}}]),/unchanged/)
+})
 test('direct later-volume selection removes a source-confirmed subset even when live scope metadata is wrong',()=>{
  for(const original of [false,true]){
   const {data,removal}=nonstartSnapshot(original),plan=planGuardedCatalogRepairs(['work'],data,[removal])
