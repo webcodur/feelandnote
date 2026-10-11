@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import {readFileSync,existsSync} from 'node:fs'
 import {SNAPSHOT_TABLES} from './merge-work-sql.mjs'
-import {buildCatalogRepairSnapshotSql,captureCatalogRepairSnapshot,planGuardedCatalogRepairs,buildGuardedCatalogRepairSql,guardedCatalogRepairs,
+import {buildCatalogRepairSnapshotSql,captureCatalogRepairSnapshot,expandReviewedExactIsbnIntroductionChanges,planGuardedCatalogRepairs,buildGuardedCatalogRepairSql,guardedCatalogRepairs,
  planGuardedCatalogExclusions,buildGuardedCatalogExclusionSql,guardedCatalogExclusions} from './guarded-catalog-repairs.mjs'
 
 const snapshot=()=>({...Object.fromEntries(SNAPSHOT_TABLES.map(table=>[table,[]])),contents:[{id:'work',type:'BOOK',metadata:{figureBook:{workTitle:'Title'}},external_id:'old',updated_at:'old'}],
@@ -10,6 +10,61 @@ const snapshot=()=>({...Object.fromEntries(SNAPSHOT_TABLES.map(table=>[table,[]]
  figure_book_editions:[{id:1,content_id:'work',locale:'en',title:'Title',description:null,sources:{},updated_at:'old'}],
  member_contents:[{id:'reading',content_id:'work',review:'Human review',rating:5}],faction_lv2:[{id:'theme',theme_book_ids:['other','work']}]})
 const change=data=>({table:'contents',before:data.contents[0],patch:{metadata:{figureBook:{workTitle:'Confirmed Title'}},external_id:'confirmed'}})
+
+const reviewedIntroduction=()=>({contentId:'work',locale:'en',isbn:'9780674250703',description:'The author’s letters to friends and family reveal the composition of the poems.',
+ sourceUrl:'https://publisher.example/letters',method:'research',sourceLocale:'en',reason:'The publisher identifies this exact ISBN as the letters; the existing introduction describes another collection.'})
+function exactIntroductionSnapshot(){
+ const data=snapshot()
+ for(const table of ['content_locales','figure_book_editions']){
+  data[table][0].isbn='9780674250703';data[table][0].description='Wrong poetry introduction'
+  data[table][0].sources={primary:'openlibrary',description:'https://publisher.example/poems',translators:['Verified translator']}
+ }
+ data.figure_book_editions.push({...data.figure_book_editions[0],id:2,isbn:'9780140449136',sources:{translators:['Other translator']}})
+ data.figure_book_editions.push({...data.figure_book_editions[0],id:3,content_id:'other'})
+ data.figure_book_editions.push({...data.figure_book_editions[0],id:4,locale:'ko'})
+ return data
+}
+test('reviewed introduction expands only to exact work, locale and physical ISBN while retaining other translations and protected data',()=>{
+ const data=exactIntroductionSnapshot(),review=reviewedIntroduction(),changes=expandReviewedExactIsbnIntroductionChanges(data,[review])
+ assert.equal(changes.length,2)
+ assert.deepEqual(changes.map(row=>[row.table,row.before.id??row.before.content_id]),[['content_locales','work'],['figure_book_editions',1]])
+ const expected=planGuardedCatalogRepairs(['work'],data,changes).expected
+ for(const table of ['content_locales','figure_book_editions']){
+  assert.equal(expected[table][0].description,review.description)
+  assert.deepEqual(expected[table][0].sources.translators,['Verified translator'])
+ }
+ assert.deepEqual(expected.figure_book_editions.slice(1),data.figure_book_editions.slice(1))
+ assert.deepEqual(expected.member_contents,data.member_contents)
+ assert.deepEqual(expected.faction_lv2,data.faction_lv2)
+ assert.notEqual(changes[0].before,data.content_locales[0])
+ assert.equal(data.content_locales[0].description,'Wrong poetry introduction')
+})
+test('exact introduction assembly rejects stale reviewed rows, overlapping decisions and missing independent evidence',()=>{
+ const data=exactIntroductionSnapshot(),review=reviewedIntroduction(),changes=expandReviewedExactIsbnIntroductionChanges(data,[review])
+ data.content_locales[0].title='Changed after the source review'
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/before row differs/)
+ assert.throws(()=>expandReviewedExactIsbnIntroductionChanges(exactIntroductionSnapshot(),[review,review]),/Repeated/)
+ for(const patch of [{contentId:'other'},{isbn:'9780140449181'},{isbn:'invalid'},{locale:'fr'},{description:'OPEN'},
+  {sourceUrl:'https://openlibrary.org/books/OL1M'},{sourceUrl:'https://publisher.example/?api_key=secret'},{reason:''},
+  {method:'research',sourceLocale:'ko'},{method:'translation',sourceLocale:'en'}])
+  assert.throws(()=>expandReviewedExactIsbnIntroductionChanges(exactIntroductionSnapshot(),[{...review,...patch}]))
+ const incomplete=exactIntroductionSnapshot();delete incomplete.celeb_contents
+ assert.throws(()=>expandReviewedExactIsbnIntroductionChanges(incomplete,[review]),/Missing catalog snapshot/)
+})
+test('normalized ISBN10 binds the same physical book but display-only cards and different ISBNs are not guessed',()=>{
+ const data=exactIntroductionSnapshot(),review={...reviewedIntroduction(),isbn:'0674250702'}
+ data.content_locales[0].isbn=null
+ const changes=expandReviewedExactIsbnIntroductionChanges(data,[review])
+ assert.equal(changes.length,1);assert.equal(changes[0].before.id,1)
+ assert.equal(changes[0].reviewedIntroductionCorrection.isbn,'9780674250703')
+})
+test('verbatim provider introductions retain their method and body language without being relabeled as generated prose',()=>{
+ const data=exactIntroductionSnapshot(),changes=expandReviewedExactIsbnIntroductionChanges(data,[{...reviewedIntroduction(),method:'provider'}])
+ assert.equal(changes[0].patch.sources.description_method,'provider')
+ assert.equal(changes[0].patch.sources.description_source_locale,'en')
+ assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,changes))
+ assert.throws(()=>expandReviewedExactIsbnIntroductionChanges(data,[{...reviewedIntroduction(),method:'provider',sourceLocale:'ko'}]))
+})
 
 test('wrongly attributed introduction correction requires explicit exact-edition independent source review',()=>{
  const data=snapshot(),before=data.figure_book_editions[0]

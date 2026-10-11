@@ -53,6 +53,39 @@ export async function captureCatalogRepairSnapshot(_db,workIds,spawn) {
  snapshotCheck(snapshot);return snapshot
 }
 
+/** LLM이 확정한 소개 한 건을 검토한 snapshot의 동일 작품·언어·ISBN 행에만 조립한다. DB 쓰기는 기존 가드가 한다. */
+export function expandReviewedExactIsbnIntroductionChanges(snapshot,reviews) {
+ snapshotCheck(snapshot)
+ if(!Array.isArray(reviews)||!reviews.length||reviews.length>200)throw Error('Explicit reviewed exact-ISBN introductions required')
+ const changes=[],seen=new Set()
+ for(const review of reviews){
+  const {contentId,locale,isbn,description,sourceUrl,method,sourceLocale,reason}=review??{}
+  const normalized=toIsbn13(isbn??'')
+  if(!snapshot.contents.some(row=>row.id===contentId&&row.type==='BOOK')||!['ko','en'].includes(locale)||!normalized
+   ||typeof description!=='string'||!description.trim()||isBookIntroductionSource(description)
+   ||!independentSource(sourceUrl)||typeof reason!=='string'||!reason.trim()
+   ||!['provider','research','translation'].includes(method)||!['ko','en'].includes(sourceLocale)
+   ||(method==='translation'?sourceLocale===locale:sourceLocale!==locale))
+   throw Error('Introduction expansion requires reviewed BOOK, exact ISBN, body language, independent source and explicit reason')
+  let matched=0
+  for(const table of ['content_locales','figure_book_editions']){
+   const rows=snapshot[table].filter(row=>row.content_id===contentId&&row.locale===locale&&toIsbn13(row.isbn??'')===normalized)
+   if(table==='content_locales'&&rows.length>1)throw Error('Ambiguous exact-ISBN locale row')
+   for(const row of rows){
+    const key=table+'|'+rowKey(table,row)
+    if(seen.has(key))throw Error('Repeated introduction decision for the same reviewed row')
+    seen.add(key);matched++
+    const before=structuredClone(row)
+    changes.push({table,before,patch:{description,sources:{...structuredClone(before.sources??{}),description:sourceUrl,
+     description_method:method,description_source_locale:sourceLocale}},
+     reviewedIntroductionCorrection:{isbn:before.isbn,locale:before.locale,editionTitle:before.title,sourceUrl,reason}})
+   }
+  }
+  if(!matched)throw Error('No exact reviewed work/locale/ISBN introduction row')
+ }
+ return changes
+}
+
 export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
  const assigned=ids(workIds);snapshotCheck(snapshot)
  if(!Array.isArray(changes)||!changes.length)throw Error('Confirmed catalog changes required')
