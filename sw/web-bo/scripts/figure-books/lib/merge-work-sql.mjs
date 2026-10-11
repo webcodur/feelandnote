@@ -132,15 +132,53 @@ export function validateReviewedEditionMappings(pair, snapshot, mappings = []) {
   })
 }
 
-export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [] } = {}) {
+/** Later parts are removed, never represented as equivalent copies of the first part. */
+export function validateReviewedNonstartEditionRemovals(pair, snapshot, removals = []) {
+  validatePair(pair)
+  if (!Array.isArray(removals)) throw Error('MERGE_REVIEW: reviewedNonstartEditionRemovals must be an array')
+  const seen = new Set()
+  return removals.map(review => {
+    if (![review?.keepEditionId, review?.dropEditionId].every(id => /^\d+$/u.test(String(id)) && Number.isSafeInteger(Number(id)) && Number(id) > 0)) throw Error('MERGE_REVIEW: nonstart edition IDs must be positive safe integers')
+    const keep = snapshot.figure_book_editions.find(row => String(row.id) === String(review?.keepEditionId))
+    const drop = snapshot.figure_book_editions.find(row => String(row.id) === String(review?.dropEditionId))
+    if (!keep || !drop || keep.content_id !== pair.keep || drop.content_id !== pair.drop
+      || keep.locale !== drop.locale || review.locale !== keep.locale || seen.has(String(drop.id))) throw Error('MERGE_REVIEW: nonstart owner/locale/duplicate mismatch')
+    seen.add(String(drop.id))
+    if (!toIsbn13(review.keepIsbn ?? '') || !toIsbn13(review.dropIsbn ?? '')
+      || toIsbn13(review.keepIsbn) !== toIsbn13(keep.isbn ?? '') || toIsbn13(review.dropIsbn) !== toIsbn13(drop.isbn ?? '')
+      || review.keepTitle !== keep.title || review.dropTitle !== drop.title) throw Error('MERGE_REVIEW: nonstart ISBN/title changed or missing')
+    if (!Number.isSafeInteger(review.volumeNumber) || review.volumeNumber < 2 || review.volumeNumber > 999
+      || typeof review.reason !== 'string' || review.reason.trim().length < 20) throw Error('MERGE_REVIEW: nonstart requires reviewed continuous-body reason and part number')
+    for (const value of [review.sourceUrl, review.startSourceUrl]) {
+      let source
+      try { source = new URL(value) } catch { throw Error('MERGE_REVIEW: nonstart requires independent HTTPS sources for both parts') }
+      if (typeof value !== 'string' || source.protocol !== 'https:' || source.username || source.password
+        || /(?:^|\.)openlibrary\.org\.?$/iu.test(source.hostname)) throw Error('MERGE_REVIEW: nonstart requires independent HTTPS sources for both parts')
+    }
+    if (!/^(?:volume\/1|full|complete)$/iu.test(keep.text_scope ?? '')
+      || excludedBookEditionReason({ ...keep, editionKind: keep.edition_kind, textScope: keep.text_scope })
+      || !snapshot.content_locales.some(row => row.content_id === pair.keep && row.locale === keep.locale && toIsbn13(row.isbn ?? '') === toIsbn13(keep.isbn ?? ''))) throw Error('MERGE_REVIEW: nonstart requires an existing selected first or complete edition and locale')
+    const keepTranslation = bookEditionTranslationKey(keep), dropTranslation = bookEditionTranslationKey(drop)
+    if (keepTranslation && dropTranslation && keepTranslation !== dropTranslation) throw Error('MERGE_REVIEW: nonstart different verified translators')
+    if (snapshot.figure_book_products.some(row => String(row.edition_id) === String(drop.id))) throw Error('MERGE_REVIEW: nonstart product references require separate review; do not attach later-part purchases to first part')
+    return drop
+  })
+}
+
+export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [], reviewedNonstartEditionRemovals = [] } = {}) {
   validatePair(pair)
   if (displayIsbn(snapshot)) throw new Error('MERGE_REVIEW: display title still has an unverified ISBN')
   if (unrepresentedEnglishKakaoIsbn(snapshot)) throw new Error('MERGE_REVIEW: English Kakao card ISBN has no preserved edition')
   for (const table of SNAPSHOT_TABLES) if (!Array.isArray(snapshot[table])) throw new Error(`백업 누락: ${table}`)
   if (unrepresentedExternalIsbn(snapshot, pair)) throw new Error('MERGE_REVIEW: external ISBN has no preserved edition')
   const k = sqlLiteral(pair.keep), d = sqlLiteral(pair.drop)
+  const removedParts = validateReviewedNonstartEditionRemovals(pair, snapshot, reviewedNonstartEditionRemovals)
+  const removedPartIds = new Set(removedParts.map(row => String(row.id)))
+  if (!Array.isArray(reviewedEditionMappings)) throw Error('MERGE_REVIEW: reviewedEditionMappings must be an array')
+  if (reviewedEditionMappings.some(mapping => removedPartIds.has(String(mapping.dropEditionId)))) throw Error('MERGE_REVIEW: a later part cannot also be mapped as an equivalent')
   const excludedLocaleSeeds = snapshot.content_locales.filter(row => [pair.keep,pair.drop].includes(row.content_id)
-    && reviewedBookEditionSelectionReason({...row,title:row.sources?.edition_title??row.title}))
+    && (reviewedBookEditionSelectionReason({...row,title:row.sources?.edition_title??row.title})
+      || removedParts.some(part => part.content_id === row.content_id && part.locale === row.locale && toIsbn13(part.isbn ?? '') === toIsbn13(row.isbn ?? ''))))
     .map(row => `(l.content_id=${sqlLiteral(row.content_id)} AND l.locale=${sqlLiteral(row.locale)} AND l.isbn IS NOT DISTINCT FROM ${sqlLiteral(row.isbn)})`)
   const excludedLocaleSeedSql = excludedLocaleSeeds.join(' OR ') || 'FALSE'
   const originalEditionIds = snapshot.figure_book_editions.map(row => sqlLiteral(String(row.id))).join(', ') || 'NULL'
@@ -155,6 +193,7 @@ export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [] } =
     representatives.set(key, row)
   }
   const equivalents = snapshot.figure_book_editions.filter(row => row.content_id === pair.drop)
+    .filter(row => !removedPartIds.has(String(row.id)))
     .flatMap(row => { const key = translationKey(row), keep = key && representatives.get(key); return keep && keep.isbn !== row.isbn ? [{ drop: row.id, keep: keep.id }] : [] })
   for (const mapping of validateReviewedEditionMappings(pair, snapshot, reviewedEditionMappings)) {
     const automatic = equivalents.find(row => String(row.drop) === String(mapping.drop))
@@ -169,7 +208,7 @@ export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [] } =
   }
   const rebindProof = proof => proof?.method === 'independent_work_review' && proof.content_id === pair.drop ? { ...proof, ...proofOwner } : proof
   // 독립 검수의 ISBN·URL은 그대로 두고 검수 대상 작품만 통합된 소유자로 옮긴다.
-  const evidenceUpdates = ['figure_book_editions', 'content_locales'].flatMap(table => snapshot[table].filter(row => row.content_id === pair.drop).flatMap(row => {
+  const evidenceUpdates = ['figure_book_editions', 'content_locales'].flatMap(table => snapshot[table].filter(row => row.content_id === pair.drop && (table !== 'figure_book_editions' || !removedPartIds.has(String(row.id)))).flatMap(row => {
     const source = row.sources
     if (!source || typeof source !== 'object') return []
     const sources = { ...source }
@@ -239,6 +278,7 @@ BEGIN
     END LOOP;
   END LOOP;
   ${evidenceUpdates}
+  ${removedParts.length ? `DELETE FROM public.figure_book_editions WHERE content_id=drop_id AND id IN (${removedParts.map(row => Number(row.id)).join(',')});` : ''}
   IF NOT EXISTS(SELECT 1 FROM public.figure_book_contents WHERE content_id=keep_id) THEN
     INSERT INTO public.figure_book_contents(content_id) VALUES(keep_id);
     -- seed가 만든 표시용 제목 행은 실제 판본이 아니다. 기존 ISBN 없는 판본은 삭제하지 않는다.
