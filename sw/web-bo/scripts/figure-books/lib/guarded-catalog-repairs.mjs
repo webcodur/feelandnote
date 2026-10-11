@@ -14,6 +14,21 @@ const {researchIntroductionText}=researchIntroductionContract
 const allowed={contents:['metadata','external_id','external_source','release_date'],content_locales:['title','creator','description','publisher','isbn','thumbnail_url','sources','affiliate_url','verified'],
  figure_book_editions:['title','creator','description','publisher','isbn','thumbnail_url','release_date','edition_kind','text_scope','sort_order','sources','verified','locale','content_id']}
 const rowKey=(table,row)=>table==='content_locales'?JSON.stringify([row.content_id,row.locale]):String(row.id)
+// 현재 출처는 보존하되, 조사 원문·옛 행 복사본을 새 변경안에 다시 넣지 않는다.
+const archiveCopyPaths={
+ contents:[...['unverifiedEditions','historicalMergedWorks','historicalMisattachedISBNs','historicalMisattachedReviews','historicalMixedMetadata','historicalReadingProvenance','rejectedLocaleData','historicalMisidentifiedContent','historicalRepresentativeScope','historicalRepresentativeIsbn'].map(key=>['metadata',key]),
+  ...['unverifiedEditions','historicalMixedLocale','historicalMixedMetadata','detachedLocaleData'].map(key=>['metadata','figureBook',key])],
+ content_locales:['legacy_isbn_restoration','original_value','originalRows','sourceSnapshot'].map(key=>['sources',key]),
+ figure_book_editions:['legacy_isbn_restoration','original_value','originalRows','sourceSnapshot'].map(key=>['sources',key])
+}
+const pathValue=(row,path)=>path.reduce((value,key)=>value?.[key],row)
+function preventNewArchiveCopies(table,before,patch){
+ const after={...before,...patch}
+ for(const path of archiveCopyPaths[table]??[]){
+  const previous=pathValue(before,path),next=pathValue(after,path)
+  if(next!==undefined&&!isDeepStrictEqual(previous,next))throw Error('Catalog patch must not create or restore research archives: '+path.join('.'))
+ }
+}
 const ids=workIds=>{if(!Array.isArray(workIds)||!workIds.length||workIds.length>100||workIds.some(id=>typeof id!=='string'||!id||id.includes('\0')))throw Error('Assigned work IDs required (1..100)');return [...new Set(workIds)]}
 const where=(table,workIds,alias='')=>workIds.map(id=>referenceWhere(table,sqlLiteral(id),sqlLiteral(id),alias)).map(value=>'('+value+')').join(' OR ')
 const json=value=>sqlLiteral(JSON.stringify(value))+'::jsonb'
@@ -172,6 +187,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    expected[table].splice(index,1)
   }else{
    if(!patch||Array.isArray(patch)||typeof patch!=='object'||!Object.keys(patch).length||Object.keys(patch).some(field=>!allowed[table].includes(field)||patch[field]===undefined))throw Error('Unsupported catalog patch field')
+   preventNewArchiveCopies(table,before,patch)
    if(patch.content_id&&patch.content_id!==before.content_id){
     const proof=patch.sources?.work_attribution
     if(!assigned.includes(patch.content_id)||proof?.method!=='independent_work_review'||proof.content_id!==patch.content_id||proof.isbn!==before.isbn||!/^https:\/\//u.test(proof.source_url??''))throw Error('Edition move requires assigned owner and explicit source evidence')

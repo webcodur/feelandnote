@@ -11,6 +11,30 @@ const snapshot=()=>({...Object.fromEntries(SNAPSHOT_TABLES.map(table=>[table,[]]
  member_contents:[{id:'reading',content_id:'work',review:'Human review',rating:5}],faction_lv2:[{id:'theme',theme_book_ids:['other','work']}]})
 const change=data=>({table:'contents',before:data.contents[0],patch:{metadata:{figureBook:{workTitle:'Confirmed Title'}},external_id:'confirmed'}})
 
+test('fresh catalog repairs reject reinstating discarded research rows and raw provider archives',()=>{
+ for(const table of ['content_locales','figure_book_editions'])for(const key of ['legacy_isbn_restoration','original_value','originalRows','sourceSnapshot']){
+  const data=snapshot(),before=data[table][0]
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table,before,patch:{sources:{...before.sources,[key]:{oldRow:{title:'Old value'}}}}}]),/must not create or restore research archives/)
+ }
+ for(const nested of [false,true]){
+  const data=snapshot(),before=data.contents[0],metadata=structuredClone(before.metadata)
+  if(nested)metadata.figureBook.detachedLocaleData=[{description:'Old unrelated book'}]
+  else metadata.unverifiedEditions=[{originalRows:[{title:'Old value'}]}]
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:'contents',before,patch:{metadata}}]),/must not create or restore research archives/)
+ }
+})
+test('catalog repairs can discard existing research archives while retaining live provenance and protected reviews',()=>{
+ const data=snapshot(),before=data.content_locales[0]
+ before.sources={primary:'openlibrary',isbn:'https://openlibrary.org/books/OL1M',originalRows:[{title:'Old row'}],historical_voice:'https://assets.example/current.mp3'}
+ const sources=structuredClone(before.sources);delete sources.originalRows
+ const plan=planGuardedCatalogRepairs(['work'],data,[{table:'content_locales',before,patch:{sources}}])
+ assert.deepEqual(plan.expected.content_locales[0].sources,sources)
+ assert.deepEqual(plan.expected.member_contents,data.member_contents)
+ assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,[{table:'content_locales',before,patch:{publisher:'Actual publisher'}}]))
+ sources.originalRows=[{title:'A new backup'}]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:'content_locales',before,patch:{sources}}]),/must not create or restore research archives/)
+})
+
 test('new selection evidence uses the resolver array and canonical reason contract',()=>{
  const data=snapshot(),before=data.content_locales[0]
  const proof={method:'independent_selection_review',reason:'children_picture',isbn:'9780140449136',locale:'en',edition_title:'Title',
