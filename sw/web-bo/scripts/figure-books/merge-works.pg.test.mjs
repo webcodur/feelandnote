@@ -99,7 +99,6 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
       INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
       ('keep','ko','Memoir upper','Author','Introduction to the memoir','9788936470487','{"primary":"kakao","description":"https://publisher.example/upper"}');
       INSERT INTO figure_book_contents VALUES('keep');
-      UPDATE figure_book_editions SET edition_kind='volume',text_scope='volume/1';
       INSERT INTO figure_book_editions(content_id,locale,title,creator,description,isbn,edition_kind,text_scope,sources) VALUES
       ('keep','ko','Memoir lower','Author','Introduction to the lower volume','9788936470494','full','full','{"description":"https://publisher.example/lower"}');
       INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
@@ -108,10 +107,12 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     const before=snapshot(),later=before.figure_book_editions.find(row=>row.isbn==='9788936470494'),first=before.figure_book_editions.find(row=>row.isbn==='9788936470487')
     const proof={method:'independent_nonstart_volume_review',contentId:'keep',editionId:later.id,locale:'ko',editionTitle:later.title,isbn:later.isbn,
       referenceEditionId:first.id,referenceTitle:first.title,referenceCreator:first.creator,referenceIsbn:first.isbn,
-      textIdentity:'original',originalLanguage:'ko',volumeNumber:2,continuousText:true,
+      textIdentity:'original',originalLanguage:'ko',volumeNumber:2,continuousText:true,referenceVolumeNumber:1,
       sourceUrl:'https://publisher.example/lower',referenceSourceUrl:'https://publisher.example/upper',
       reason:'Both exact publisher entries confirm these are successive upper and lower parts of one original memoir, with the selected upper part kept.'}
     const changes=[{table:'figure_book_editions',before:later,remove:true,reviewedNonstartEditionRemoval:proof}],sql=buildGuardedCatalogRepairSql(['keep','drop'],before,changes)
+    assert.throws(()=>query("UPDATE figure_book_editions SET edition_kind='volume',text_scope='volume/1' WHERE isbn='9788936470487'"),/representative edition/)
+    assert.equal(query("SELECT edition_kind IS NULL AND text_scope IS NULL FROM figure_book_editions WHERE isbn='9788936470487'"),'t')
     query("UPDATE member_contents SET review='Concurrent member text' WHERE id='reader'")
     assert.throws(()=>query(sql),/rowset mismatch/)
     assert.equal(query("SELECT count(*) FROM figure_book_editions"),'2')
@@ -119,6 +120,8 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     query(sql)
     const after=snapshot();assert.deepEqual(after.figure_book_editions,[first])
     for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(after[table],before[table],table)
+    query("UPDATE figure_book_editions SET edition_kind='volume',text_scope='volume/1' WHERE isbn='9788936470487'")
+    assert.equal(query("SELECT edition_kind||':'||text_scope FROM figure_book_editions WHERE isbn='9788936470487'"),'volume:volume/1')
   })
 
   await t.test('complete-set choice replaces its included first volume without merging different body scopes or changing protected prose', t => {
