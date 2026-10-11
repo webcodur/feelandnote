@@ -22,13 +22,33 @@ const archiveCopyPaths={
  figure_book_editions:['legacy_isbn_restoration','original_value','originalRows','sourceSnapshot'].map(key=>['sources',key])
 }
 const pathValue=(row,path)=>path.reduce((value,key)=>value?.[key],row)
+const provenanceObject=value=>{if(typeof value==='string'){try{value=JSON.parse(value)}catch{return undefined}}
+ return value&&typeof value==='object'&&!Array.isArray(value)?value:undefined}
+const hasBackupProvenance=value=>{const object=provenanceObject(value)
+ return object?.type==='backup-restored'||object?.type==='locale-translation'&&hasBackupProvenance(object.original_sources?.description)}
+const containsLiveUrl=value=>typeof value==='string'?/https?:\/\//iu.test(value):value&&typeof value==='object'?Object.values(value).some(containsLiveUrl):false
+function discardedBackupProvenance(value,before){
+ const old=provenanceObject(value)
+ if(old?.type==='locale-translation'){
+  if(!Object.keys(old).every(key=>['type','snapshot_hash','source_locale','original_sources','source_content_id'].includes(key))
+   ||!['ko','en'].includes(old.source_locale)||old.source_content_id!==before.content_id
+   ||typeof old.snapshot_hash!=='string'||!old.snapshot_hash||containsLiveUrl(old))return undefined
+  const nested=provenanceObject(old.original_sources?.description)
+  return nested?.type==='backup-restored'&&discardedBackupProvenance(nested,before)===null?null:undefined
+ }
+ if(old?.type!=='backup-restored'||typeof old.backup!=='string'||!old.backup.trim())return undefined
+ const currentPointer=independentSource(old.source)&&Object.keys(old).every(key=>['type','backup','source','verification'].includes(key))
+ if(currentPointer)return Object.fromEntries(Object.entries(old).filter(([key])=>!['type','backup'].includes(key)))
+ const copiedSources=old.original_sources===null||old.original_sources&&typeof old.original_sources==='object'&&!Array.isArray(old.original_sources)
+ return copiedSources&&!containsLiveUrl(old)?null:undefined
+}
 function preventNewArchiveCopies(table,before,patch){
  const after={...before,...patch}
  for(const path of archiveCopyPaths[table]??[]){
   const previous=pathValue(before,path),next=pathValue(after,path)
   if(next!==undefined&&!isDeepStrictEqual(previous,next))throw Error('Catalog patch must not create or restore research archives: '+path.join('.'))
  }
- if(['content_locales','figure_book_editions'].includes(table)&&after.sources?.description?.type==='backup-restored'
+ if(['content_locales','figure_book_editions'].includes(table)&&hasBackupProvenance(after.sources?.description)
   &&!isDeepStrictEqual(before.sources?.description,after.sources.description))throw Error('Catalog patch must not create or restore research archives: sources.description')
 }
 const ids=workIds=>{if(!Array.isArray(workIds)||!workIds.length||workIds.length>100||workIds.some(id=>typeof id!=='string'||!id||id.includes('\0')))throw Error('Assigned work IDs required (1..100)');return [...new Set(workIds)]}
@@ -294,13 +314,11 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
  // 소개 보존 예외도 정확한 ISBN의 독립 원문을 읽은 명시 판단으로만 허용한다.
  for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedPlaceholderRemoval:placeholderProof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
   if(archiveProof!==undefined){
-   const old=before.sources?.description,remaining=structuredClone(before.sources??{})
-   const copiedSources=old?.original_sources===null||old?.original_sources&&typeof old.original_sources==='object'&&!Array.isArray(old.original_sources)
-   const currentPointer=independentSource(old?.source)&&Object.keys(old).every(key=>['type','backup','source','verification'].includes(key))
-   remaining.description=currentPointer?Object.fromEntries(Object.entries(old).filter(([key])=>!['type','backup'].includes(key))):null
+   const remaining=structuredClone(before.sources??{}),discarded=discardedBackupProvenance(before.sources?.description,before)
+   remaining.description=discarded
    if(!['content_locales','figure_book_editions'].includes(table)||remove||proof!==undefined||setProof!==undefined||nonstartProof!==undefined
     ||archiveProof.method!=='discard_raw_source_copy'||archiveProof.path!=='sources.description'||!String(archiveProof.reason??'').trim()
-    ||old?.type!=='backup-restored'||typeof old.backup!=='string'||!copiedSources&&!currentPointer
+    ||discarded===undefined
     ||!patch||Object.keys(patch).length!==1||!isDeepStrictEqual(patch.sources,remaining))
     throw Error('Raw provenance discard may only remove a verified backup wrapper while retaining introduction and every live source field')
    continue
