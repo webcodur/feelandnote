@@ -151,3 +151,15 @@ test('provider error without binding still collects exact ISBN raw context for L
  assert.equal(result[0].unapprovedEditionContext.sourceUrl,'https://openlibrary.org/books/OL123M')
  assert.equal(row.officialBinding,undefined)
 })
+
+
+test('explicit unapproved edition context can be read without inventing a provider-language error',async()=>{
+ const row={contentId:'one',locale:'en',isbn,sourceIntro:null,scopeWarnings:['unapproved_official_edition_context'],sourceCandidates:[]}
+ const enrichment=createUnboundOriginalContextResearch({readOpenLibraryEdition:async()=>({detail:{key:'/books/OL123M',title:'Raw title'},binding:{editionIsbns:[isbn],languageKeys:[],workKeys:['/works/OL123W']}}),readOpenLibraryWork:async()=>({data:work})})
+ const [result]=await enrichment.enrich([row])
+ assert.equal(result.sourceIntro,null)
+ assert.equal(result.sourceCandidates[0].text,prose)
+ assert.ok(result.scopeWarnings.includes('unapproved_official_edition_context'))
+ assert.ok(!result.scopeWarnings.includes('english_language_not_confirmed'))
+ assert.equal(row.officialBinding,undefined)
+})
