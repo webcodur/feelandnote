@@ -196,6 +196,31 @@ function reviewedNonstartReference(before,proof,snapshot){
   throw Error('Nonstart removal requires exact selected first or whole edition, source-reviewed continuous body and verified original or same translator')
  return reference
 }
+// A reviewed one-song teaching series keeps one entry, without claiming identical or continuous music.
+function reviewedSongScoreSeriesReference(before,proof,snapshot){
+ const bodySource=url=>independentSource(url)&&!/(^|\.)books\.google\.[a-z.]+$|(^|\.)googleapis\.com$/iu.test(new URL(url).hostname)
+ const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(proof?.referenceEditionId))
+ const selected=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===before.locale)
+ const series=snapshot.contents.find(row=>row.id===before.content_id)?.metadata?.figureBook?.series
+ if(proof?.method!=='independent_song_score_series_review'||proof.contentId!==before.content_id||String(proof.editionId)!==String(before.id)
+  ||proof.locale!==before.locale||proof.editionTitle!==before.title||!toIsbn13(before.isbn??'')||toIsbn13(proof.isbn??'')!==toIsbn13(before.isbn)
+  ||proof.sameTeachingFormat!==true||proof.individualSongScores!==true||proof.continuousText!==undefined||proof.textIdentity!==undefined
+  ||before.edition_kind!=='volume'||!/^song\/.+/u.test(before.text_scope??'')||proof.textScope!==before.text_scope
+  ||!series||!String(proof.seriesTitle??'').trim()||series.title!==proof.seriesTitle||series.creator!==proof.seriesCreator
+  ||series.locale!==before.locale||series.sourceUrl!==proof.seriesSourceUrl||!bodySource(proof.seriesSourceUrl)
+  ||before.creator!==series.creator||bookTranslatorKey(before.sources?.translators)||bookTranslatorKey(reference?.sources?.translators)
+  ||!bodySource(proof.sourceUrl)||!bodySource(proof.referenceSourceUrl)||proof.sourceUrl===proof.referenceSourceUrl
+  ||typeof proof.reason!=='string'||proof.reason.trim().length<BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
+  ||!reference||String(reference.id)===String(before.id)||reference.content_id!==before.content_id||reference.locale!==before.locale
+  ||reference.title!==proof.referenceTitle||reference.creator!==proof.referenceCreator||reference.creator!==series.creator
+  ||reference.edition_kind!=='volume'||!/^song\/.+/u.test(reference.text_scope??'')||reference.text_scope!==proof.referenceTextScope
+  ||reference.text_scope===before.text_scope||!toIsbn13(reference.isbn??'')||toIsbn13(reference.isbn)!==toIsbn13(proof.referenceIsbn??'')
+  ||toIsbn13(reference.isbn)===toIsbn13(before.isbn)||!selected||toIsbn13(selected.isbn??'')!==toIsbn13(reference.isbn)
+  ||excludedBookEditionReason({...reference,editionKind:reference.edition_kind,textScope:reference.text_scope})
+  ||!String(reference.description??'').trim()||isBookIntroductionSource(reference.description)||!independentSource(reference.sources?.description))
+  throw Error('Song-score series removal requires exact reviewed one-song teaching series and retained selected score; independent collections are not eligible')
+ return reference
+}
 export async function captureCatalogRepairSnapshot(_db,workIds,spawn) {
  const sql=buildCatalogRepairSnapshotSql(workIds),command='docker exec -i feelandnote-db psql -XqAt -v ON_ERROR_STOP=1 -U postgres -d postgres'
  const snapshot=JSON.parse(runProcess('ssh',['-i','C:/Users/webco/.ssh/feelandnote_oracle','-o','BatchMode=yes','-o','ConnectTimeout=15','ubuntu@152.67.198.197',command],
@@ -258,13 +283,15 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   const placeholderProof=change.reviewedPlaceholderRemoval
   const setProof=change.reviewedCompleteSetVolumeRemoval
   const nonstartProof=change.reviewedNonstartEditionRemoval
+  const scoreProof=change.reviewedSongScoreSeriesEditionRemoval
   const unboundProof=change.reviewedUnboundIsbnRemoval
+  if(scoreProof!==undefined&&(!remove||table!=='figure_book_editions'||selectionProof!==undefined||placeholderProof!==undefined||setProof!==undefined||nonstartProof!==undefined||unboundProof!==undefined||change.reviewedIntroductionCorrection!==undefined))throw Error('Song-score series review is only valid for explicit alternative-score removal')
   if(unboundProof!==undefined&&(!remove||table!=='figure_book_editions'||selectionProof!==undefined||placeholderProof!==undefined||setProof!==undefined||nonstartProof!==undefined||change.reviewedIntroductionCorrection!==undefined))throw Error('Unbound ISBN review is only valid for explicit source-free candidate removal')
   if(unboundProof!==undefined)reviewedUnboundIsbnReference(before,unboundProof,snapshot)
   if(nonstartProof!==undefined&&(!remove||table!=='figure_book_editions'||selectionProof!==undefined||placeholderProof!==undefined||setProof!==undefined||change.reviewedIntroductionCorrection!==undefined))throw Error('Nonstart review is only valid for explicit later-volume removal')
   if(nonstartProof!==undefined&&nonstartProof.referenceAfterPatch!==true)reviewedNonstartReference(before,nonstartProof,snapshot)
   if(setProof!==undefined&&(!remove||table!=='figure_book_editions'||selectionProof!==undefined||placeholderProof!==undefined||change.reviewedIntroductionCorrection!==undefined))throw Error('Complete-set review is only valid for explicit included-volume removal')
-  if(setProof!==undefined)reviewedCompleteSetReference(before,setProof,snapshot)
+  if(setProof!==undefined&&setProof.referenceAfterPatch!==true)reviewedCompleteSetReference(before,setProof,snapshot)
   if(placeholderProof!==undefined&&(!remove||selectionProof!==undefined))throw Error('Placeholder review is only valid for explicit edition removal')
   if(placeholderProof!==undefined){reviewedPlaceholderReference(before,placeholderProof,snapshot)
    if(placeholderProof.misattachedIntroduction!==undefined)reviewedPlaceholderIntroductionDiscard(before,placeholderProof,snapshot)}
@@ -272,7 +299,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    ||!reviewedBookEditionSelectionReason({...before,sources:{edition_selection_evidence:[selectionProof]}})))throw Error('Source-reviewed edition exclusion requires exact live ISBN, locale, title and independent selection evidence')
   if(remove){
    const work=snapshot.contents.find(row=>row.id===before.content_id),figure=work.metadata?.figureBook??{}
-   if(selectionProof===undefined&&placeholderProof===undefined&&setProof===undefined&&nonstartProof===undefined&&unboundProof===undefined&&!excludedBookEditionReason({...before,editionKind:before.edition_kind,textScope:before.text_scope,workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)}))throw Error('Only a policy-excluded edition may be removed')
+   if(selectionProof===undefined&&placeholderProof===undefined&&setProof===undefined&&nonstartProof===undefined&&scoreProof===undefined&&unboundProof===undefined&&!excludedBookEditionReason({...before,editionKind:before.edition_kind,textScope:before.text_scope,workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)}))throw Error('Only a policy-excluded edition may be removed')
    if(snapshot.figure_book_products.some(product=>String(product.edition_id)===String(before.id)))throw Error('Edition has product history; removal forbidden')
    expected[table].splice(index,1)
   }else{
@@ -314,10 +341,14 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    throw Error('Unbound ISBN removal must retain the reviewed actual product and selected ISBN')
  }
  for(const {before,reviewedCompleteSetVolumeRemoval:proof} of changes)if(proof!==undefined){
-  const reference=reviewedCompleteSetReference(before,proof,snapshot)
+  const reference=reviewedCompleteSetReference(before,proof,proof.referenceAfterPatch===true?expected:snapshot)
   if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference))
    ||!expected.content_locales.some(row=>row.content_id===before.content_id&&row.locale===before.locale&&toIsbn13(row.isbn??'')===toIsbn13(reference.isbn)))
    throw Error('Complete-set removal must retain the reviewed whole edition and its representative ISBN unchanged')
+ }
+ for(const {before,reviewedSongScoreSeriesEditionRemoval:proof} of changes)if(proof!==undefined){
+  const reference=reviewedSongScoreSeriesReference(before,proof,expected)
+  if(!snapshot.figure_book_editions.some(row=>isDeepStrictEqual(row,reference)))throw Error('Song-score series removal must retain the reviewed representative score unchanged')
  }
  for(const {before,reviewedNonstartEditionRemoval:proof} of changes)if(proof!==undefined){
   // 시작권 교체와 후속 삭제를 한 transaction으로 확정한 경우에도 최종 대표를 ISBN·본문으로 검수한다.
@@ -327,7 +358,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    throw Error('Nonstart removal must retain the reviewed first or whole edition and its representative ISBN unchanged')
  }
  // 소개 보존 예외도 정확한 ISBN의 독립 원문을 읽은 명시 판단으로만 허용한다.
- for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedPlaceholderRemoval:placeholderProof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
+ for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedPlaceholderRemoval:placeholderProof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedSongScoreSeriesEditionRemoval:scoreProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
   if(archiveProof!==undefined){
    const remaining=structuredClone(before.sources??{}),discarded=discardedBackupProvenance(before.sources?.description,before,archiveProof.retainedSourceUrl)
    remaining.description=discarded
@@ -339,7 +370,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    continue
   }
   if(placeholderProof?.misattachedIntroduction!==undefined){reviewedPlaceholderIntroductionDiscard(before,placeholderProof,snapshot);continue}
-  if(setProof!==undefined||nonstartProof!==undefined)continue // 분권 소개는 검수된 대표의 정상 소개로 대표된다. 감상 필드는 보존한다.
+  if(setProof!==undefined||nonstartProof!==undefined||scoreProof!==undefined)continue // 분권 소개는 검수된 대표의 정상 소개로 대표된다. 감상 필드는 보존한다.
   if(proof!==undefined){
    if(proof?.method==='independent_locale_reference_introduction_review'){
     const clear=patch?.description===null&&patch?.sources?.description===null

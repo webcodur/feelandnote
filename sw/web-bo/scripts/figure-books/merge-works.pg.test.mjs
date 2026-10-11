@@ -136,6 +136,59 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.deepEqual(snapshot(),expected)
   })
 
+  await t.test('reviewed one-song series deletes alternatives under live policy and preserves consumer text',t=>{
+    t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`UPDATE contents SET metadata='{"figureBook":{"series":{"title":"One-song teaching series","creator":"Music team","locale":"ko","sourceUrl":"https://publisher.example/series"}}}' WHERE id='keep';
+      INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
+      ('keep','ko','Teaching score: First song','Music team','Actual first-song score introduction','9788936470487','{"description":"https://publisher.example/first"}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      UPDATE figure_book_editions SET edition_kind='volume',text_scope='song/First song';
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,description,isbn,edition_kind,text_scope,sources) VALUES
+      ('keep','ko','Teaching score: Later song','Music team','Actual second-song score introduction','9788936470494','volume','song/Later song','{"description":"https://publisher.example/later"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','Original review','English review','https://example.org/review');`)
+    query(editionPolicySql())
+    const before=snapshot(),first=before.figure_book_editions[0],later=before.figure_book_editions[1]
+    const proof={method:'independent_song_score_series_review',contentId:'keep',editionId:later.id,locale:'ko',editionTitle:later.title,isbn:later.isbn,
+      textScope:later.text_scope,referenceEditionId:first.id,referenceTitle:first.title,referenceCreator:first.creator,referenceIsbn:first.isbn,
+      referenceTextScope:first.text_scope,seriesTitle:'One-song teaching series',seriesCreator:'Music team',seriesSourceUrl:'https://publisher.example/series',
+      sameTeachingFormat:true,individualSongScores:true,sourceUrl:'https://publisher.example/later',referenceSourceUrl:'https://publisher.example/first',
+      reason:'Exact entries confirm these individual songs use the same teaching series format; one selected representative remains without claiming identical music.'}
+    const edits=[{table:'figure_book_editions',before:later,remove:true,reviewedSongScoreSeriesEditionRemoval:proof}]
+    const sql=buildGuardedCatalogRepairSql(['keep','drop'],before,edits)
+    query("UPDATE member_contents SET review='Concurrent text' WHERE id='reader'");assert.throws(()=>query(sql),/rowset mismatch/)
+    assert.equal(query('SELECT count(*) FROM figure_book_editions'),'2')
+    query("UPDATE member_contents SET review='Existing member text' WHERE id='reader'");query(sql)
+    const after=snapshot();assert.deepEqual(after,planGuardedCatalogRepairs(['keep','drop'],before,edits).expected)
+    for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(after[table],before[table],table)
+  })
+
+  await t.test('actual complete-set normalization deletes included first volume before updating representative under live policy',t=>{
+    t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`UPDATE contents SET metadata='{"figureBook":{"originalLanguage":"ko","identityEvidence":"https://publisher.example/original"}}' WHERE id='keep';
+      INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
+      ('keep','ko','Novel first','Author','Actual novel introduction','9788936470487','{"description":"https://publisher.example/first"}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      UPDATE figure_book_editions SET edition_kind='volume',text_scope='volume/1';
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,description,isbn,sources) VALUES
+      ('keep','ko','Novel complete set','Author','Actual complete-set introduction','9788936470494','{"description":"https://publisher.example/set"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);`)
+    query(editionPolicySql())
+    const before=snapshot(),first=before.figure_book_editions[0],whole=before.figure_book_editions[1],locale=before.content_locales[0]
+    const proof={method:'independent_complete_set_review',contentId:'keep',editionId:first.id,locale:'ko',editionTitle:first.title,isbn:first.isbn,
+      referenceEditionId:whole.id,referenceTitle:whole.title,referenceCreator:whole.creator,referenceIsbn:whole.isbn,referenceAfterPatch:true,
+      textIdentity:'original',originalLanguage:'ko',volumeNumber:1,totalVolumes:2,completeSet:true,
+      sourceUrl:'https://publisher.example/first',referenceSourceUrl:'https://publisher.example/set',
+      reason:'The exact original complete two-volume set includes the first volume; normalization retains the selected entire original without altering consumer records.'}
+    const edits=[{table:'figure_book_editions',before:whole,patch:{edition_kind:'full',text_scope:'complete'}},
+      {table:'content_locales',before:locale,patch:{isbn:whole.isbn}},
+      {table:'figure_book_editions',before:first,remove:true,reviewedCompleteSetVolumeRemoval:proof}]
+    assert.throws(()=>query("UPDATE figure_book_editions SET edition_kind='full',text_scope='complete' WHERE isbn='9788936470494'"),/representative edition/)
+    query(buildGuardedCatalogRepairSql(['keep','drop'],before,edits))
+    const after=snapshot();assert.deepEqual(after,planGuardedCatalogRepairs(['keep','drop'],before,edits).expected)
+    assert.deepEqual(after.member_contents,before.member_contents);assert.equal(after.figure_book_editions[0].text_scope,'complete')
+  })
+
   await t.test('source-reviewed later-volume deletion handles wrong live full scope without a forbidden metadata update', t=>{
     t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`UPDATE contents SET metadata='{"figureBook":{"originalLanguage":"ko","identityEvidence":"https://publisher.example/original"}}' WHERE id='keep';
