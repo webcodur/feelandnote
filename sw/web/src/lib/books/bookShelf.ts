@@ -28,7 +28,7 @@ export function resolveBookShelfBook(
   if (!edition && (!allowLocaleEditionFallback || flat.title_badge)) return null
   if (!edition) {
     const exactLocale = content.content_locales?.find(row => row.locale === locale)
-    if (!exactLocale || excludedBookEditionReason(exactLocale)) return null
+    if (!exactLocale || excludedBookEditionReason({...exactLocale,contentId:content.id})) return null
   }
   const title = edition?.title || flat.title
   if (!title.trim()) return null

@@ -92,7 +92,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
 
   await t.test('automatic seed and edition guard honor exact independent selection proofs, including ISBN10 normalization', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
-    const proof={method:'independent_selection_review',reason:'children_picture',isbn:'9781524773458',locale:'ko',edition_title:'Activity card',
+    const proof={method:'independent_selection_review',content_id:'keep',reason:'children_picture',isbn:'9781524773458',locale:'ko',edition_title:'Activity card',
       source_url:'https://publisher.example/confirmed-product',explanation:'Publisher confirms that the exact ISBN contains a magnetic activity picture book.'}
     const prepare=value=>{
       reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
@@ -103,7 +103,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
       query("INSERT INTO figure_book_contents VALUES('keep')")
       assert.deepEqual(snapshot().content_locales,before)
     }
-    for(const reason of ['children_picture','graded_reader','abridged','non_reading_product','wrong_locale']) {
+    for(const reason of ['children_picture','graded_reader','abridged','non_reading_product','wrong_locale','wrong_work']) {
       prepare({...proof,reason})
       assert.equal(query("SELECT string_agg(locale,',' ORDER BY locale) FROM figure_book_editions"),'en')
       assert.throws(()=>query(`INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','ko','Activity card','9781524773458',${sqlLiteral(JSON.stringify({edition_selection_evidence:[{...proof,reason}]}))})`),/not service editions/)
@@ -114,7 +114,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     }
     for(const changed of [{isbn:'9780394800165'},{isbn:'9781524773459'},{isbn:9781524773458},{locale:'en'},
       {edition_title:'Another title'},{explanation:''},{explanation:123456789012345678901234567890},
-      {reason:'low_rating'},{method:'machine_review'},{source_url:'https://openlibrary.org/books/OL1M'},
+      {reason:'low_rating'},{method:'machine_review'},{reason:'wrong_work',content_id:'another-original'},{reason:'wrong_work',content_id:undefined},{source_url:'https://openlibrary.org/books/OL1M'},
       {source_url:'https://sub.openlibrary.org./books/OL1M'},{source_url:'https://user:password@publisher.example/book'},
       {source_url:'https://999999999999999999999/book'},{source_url:'https://publisher.123/book'},
       {source_url:'https://publisher.example:99999999999999999999999999999999999/book'}]) {
@@ -125,20 +125,21 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
 
   await t.test('source-reviewed foreign and card-deck locales are not regenerated as editions during merge', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
-    for (const reason of ['wrong_locale','non_reading_product']) {
+    for (const reason of ['wrong_locale','non_reading_product','wrong_work']) {
       reset(`UPDATE contents SET metadata='{"figureBook":{"originalLanguage":"en","identityEvidence":"https://publisher.example/book"}}' WHERE id IN ('keep','drop');
         INSERT INTO figure_book_contents VALUES('keep'),('drop');
         INSERT INTO figure_book_editions(id,content_id,locale,title,creator,isbn,sources) VALUES
         (1,'keep','en','Egon Schiele','Reinhard Steiner','9783836504423','{"primary":"openlibrary"}');
         INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
         ('drop','en','Egon Schiele','Reinhard Steiner','9783822802397',
-        '{"primary":"openlibrary","edition_selection_evidence":[{"method":"independent_selection_review","reason":"${reason}","isbn":"9783822802397","locale":"en","edition_title":"Egon Schiele","source_url":"https://publisher.example/exact-isbn","explanation":"Actual ISBN body language or card-deck format independently verified."}]}');
+        '{"primary":"openlibrary","edition_selection_evidence":[{"method":"independent_selection_review","content_id":"drop","reason":"${reason}","isbn":"9783822802397","locale":"en","edition_title":"Egon Schiele","source_url":"https://publisher.example/exact-isbn","explanation":"Actual ISBN body language or card-deck format independently verified."}]}');
         INSERT INTO member_contents VALUES('reader','drop','user','Original member review',5);
         INSERT INTO celeb_contents VALUES('public-review','drop','person','Original Korean review','Original English review','https://interview.example/original');`)
       query(editionPolicySql())
       const before=snapshot(), representative=structuredClone(before.figure_book_editions[0])
       merge(before)
       assert.deepEqual(snapshot().figure_book_editions,[representative])
+      if(reason==='wrong_work') assert.equal(snapshot().content_locales[0].sources.edition_selection_evidence[0].content_id,'keep')
       assert.equal(query("SELECT content_id || ':' || review FROM member_contents WHERE id='reader'"),'keep:Original member review')
       assert.equal(query("SELECT content_id || ':' || review || ':' || review_en || ':' || source_url FROM celeb_contents WHERE id='public-review'"),
         'keep:Original Korean review:Original English review:https://interview.example/original')

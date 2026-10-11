@@ -58,6 +58,17 @@ test('카탈로그에서 제외한 판본은 보존된 감상·언어 카드로 
   assert.equal(resolveBookShelfBook(saved, [], 'en'), null)
   assert.deepEqual(saved, before)
 })
+test('오귀속 상품은 잘못 붙은 작품에서만 제외하고 정상 원작의 같은 ISBN은 안내한다', () => {
+  const title='The Poppy War',isbn='9780008455194'
+  const sources={primary:'openlibrary',edition_selection_evidence:[{method:'independent_selection_review',content_id:'work',
+    isbn,locale:'en',edition_title:title,reason:'wrong_work',source_url:'https://publisher.example/exact-isbn',
+    explanation:'The exact ISBN belongs to another novel and author, not the original work owning this shelf entry.'}]}
+  const original=content([{...row('en',sources),title,isbn}]),before=structuredClone(original)
+  assert.equal(resolveBookShelfBook(original,[],'en'),null)
+  assert.deepEqual(original,before)
+  assert.equal(resolveBookShelfBook({...original,id:'actual-poppy-war'},[],'en')?.isbn,isbn)
+})
+
 test('기존에 확인된 학습용·축약 제목과 공급처 범위도 locale fallback에서 제외한다', () => {
   for (const title of ['Penguin Readers Level 3: Elon Musk', 'Oxford Bookworms 1', '마리 퀴리(요약본)']) {
     assert.equal(resolveBookShelfBook(content([{ ...row('en'), title, isbn: '9781524773458' }]), [], 'en'), null)

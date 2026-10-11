@@ -174,6 +174,7 @@ export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [] } =
     if (!source || typeof source !== 'object') return []
     const sources = { ...source }
     if (Array.isArray(source.edition_work_evidence)) sources.edition_work_evidence = source.edition_work_evidence.map(rebindProof)
+    if (Array.isArray(source.edition_selection_evidence)) sources.edition_selection_evidence = source.edition_selection_evidence.map(proof => proof?.method === 'independent_selection_review' && proof.reason === 'wrong_work' && proof.content_id === pair.drop ? {...proof, content_id:pair.keep} : proof)
     if (source.work_attribution) sources.work_attribution = rebindProof(source.work_attribution)
     if (JSON.stringify(sources) === JSON.stringify(source)) return []
     const where = table === 'content_locales' ? `content_id=drop_id AND locale=${sqlLiteral(row.locale)}` : `id=${Number(row.id)}`

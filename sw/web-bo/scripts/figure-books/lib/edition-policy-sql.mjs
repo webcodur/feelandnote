@@ -11,7 +11,7 @@ function normalizedIsbnSql(value) {
  WHEN ${compact} ~ ${pg(ISBN10_PATTERN)} THEN CASE WHEN (${sum(compact,ISBN10_WEIGHTS)})%11=0 THEN ${prefix}||((10-(${sum(prefix,ISBN13_WEIGHTS.slice(0,12))})%10)%10)::text END END)`
 }
 /** Only exact source-reviewed exclusions suppress a seed; uncertain or stale proofs do not. */
-function selectionExcludedSql(title,isbn,locale,sources) {
+function selectionExcludedSql(title,isbn,locale,sources,contentId) {
  return `EXISTS(SELECT 1 FROM jsonb_array_elements(CASE WHEN jsonb_typeof(${sources}->'edition_selection_evidence')='array' THEN ${sources}->'edition_selection_evidence' ELSE '[]'::jsonb END) proof
  WHERE proof->>'method'='independent_selection_review'
  AND jsonb_typeof(proof->'isbn')='string' AND jsonb_typeof(proof->'locale')='string'
@@ -19,6 +19,7 @@ function selectionExcludedSql(title,isbn,locale,sources) {
  AND ${normalizedIsbnSql(isbn)} IS NOT NULL AND ${normalizedIsbnSql("proof->>'isbn'")}=${normalizedIsbnSql(isbn)}
  AND proof->>'locale'=${locale} AND nullif(${locale},'') IS NOT NULL AND proof->>'edition_title'=${title} AND nullif(btrim(${title}),'') IS NOT NULL
  AND proof->>'reason' IN (${BOOK_EDITION_SELECTION_REASONS.map(sqlLiteral).join(',')})
+ AND (proof->>'reason'<>'wrong_work' OR (jsonb_typeof(proof->'content_id')='string' AND nullif(proof->>'content_id','')=${contentId}))
  AND char_length(btrim(coalesce(proof->>'explanation','')))>=${BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH}
  AND coalesce(proof->>'source_url','') ~ '^https://[A-Za-z0-9.-]*[A-Za-z][A-Za-z0-9-]*[.]?(:[0-9]{1,5})?([/?#][^[:space:]]*)?$'
  AND (CASE WHEN proof->>'source_url' ~ '^https://[A-Za-z0-9.-]+:[0-9]{1,5}([/?#]|$)' THEN substring(proof->>'source_url' from '^https://[^/?#:]+:([0-9]+)')::int ELSE 0 END)<=65535
@@ -52,7 +53,7 @@ LANGUAGE plpgsql SET search_path='pg_catalog' AS $policy$
 DECLARE translators text; figure jsonb; original_locale boolean;
 BEGIN
  SELECT metadata->'figureBook' INTO figure FROM public.contents WHERE id=new.content_id FOR NO KEY UPDATE;
- IF ${selectionExcludedSql('new.title','new.isbn','new.locale','new.sources')} OR (new.locale='ko' AND coalesce(new.title,'') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)}) OR public.book_nonstart_work_volume(new.title,figure,new.text_scope) OR new.edition_kind='abridged' OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)}
+ IF ${selectionExcludedSql('new.title','new.isbn','new.locale','new.sources','new.content_id')} OR (new.locale='ko' AND coalesce(new.title,'') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)}) OR public.book_nonstart_work_volume(new.title,figure,new.text_scope) OR new.edition_kind='abridged' OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)}
   OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_GRADED_READER)}
   OR (new.sources->>'provider_edition_isbn'=new.isbn AND (coalesce(new.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)} OR coalesce(new.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_GRADED_READER)}))
   OR (new.locale='ko' AND new.sources->>'provider_edition_isbn'=new.isbn AND coalesce(new.sources->>'provider_edition_title','') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)})
@@ -119,7 +120,7 @@ begin
   from public.contents as content
   join public.content_locales as locale on locale.content_id = content.id
   where content.id = new.content_id and content.type = 'BOOK'
-    and NOT ${selectionExcludedSql("coalesce(nullif(btrim(locale.sources->>'edition_title'),''),nullif(btrim(locale.title),''),content.external_id,content.id)",'locale.isbn','locale.locale','locale.sources')}
+    and NOT ${selectionExcludedSql("coalesce(nullif(btrim(locale.sources->>'edition_title'),''),nullif(btrim(locale.title),''),content.external_id,content.id)",'locale.isbn','locale.locale','locale.sources','locale.content_id')}
     and NOT public.book_nonstart_work_volume(locale.title,content.metadata->'figureBook',content.metadata #>> '{fictionSource,textScope}')
     and coalesce(content.metadata #>> '{fictionSource,editionKind}', '') <> 'abridged'
     and coalesce(content.metadata #>> '{figureBook,editionKind}', '') <> 'abridged'
