@@ -41,6 +41,16 @@ function reviewedIntroductionLanguage(before,patch,proof){
  return method==='research'&&sourceLocale===before.locale
   ||method==='translation'&&['ko','en'].includes(proof.referenceLocale)&&proof.referenceLocale!==before.locale&&sourceLocale===proof.referenceLocale
 }
+function reviewedProviderTranslationSource(reference,patch,proof){
+ const sources=reference?.sources??{},sourceUrl=proof?.sourceUrl
+ return patch?.sources?.description_method==='translation'
+  &&sources.primary==='openlibrary'&&/^https:\/\/openlibrary\.org\/books\/OL\d+M\/?$/u.test(sourceUrl??'')
+  &&sources.provider_edition_url===sourceUrl
+  &&!!toIsbn13(reference.isbn??'')&&toIsbn13(sources.provider_edition_isbn??'')===toIsbn13(reference.isbn)
+  &&String(reference.description??'').trim()&&!isBookIntroductionSource(reference.description)
+  &&independentSource(sources.description)
+  &&proof.evidence?.some(item=>item.url===sources.description)
+}
 
 function reviewedPlaceholderReference(before,proof,snapshot){
  const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(proof?.referenceEditionId))
@@ -308,7 +318,8 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
      ||patch.isbn!==undefined&&patch.isbn!==null||patch.sources?.primary!=='none'
      ||!clear&&!reviewedIntroductionLanguage(before,patch,proof)
      ||proof.locale!==before.locale||proof.editionTitle!==(patch.title??before.title)
-     ||!independentSource(proof.sourceUrl)||!clear&&patch.sources.description!==proof.sourceUrl||!String(proof.reason??'').trim()
+     ||!(independentSource(proof.sourceUrl)||!clear&&reviewedProviderTranslationSource(reference,patch,proof))
+     ||!clear&&patch.sources.description!==proof.sourceUrl||!String(proof.reason??'').trim()
      ||!Array.isArray(proof.evidence)||proof.evidence.some(item=>!independentSource(item?.url)))
      throw Error('Locale reference introduction correction requires the exact same-work ISBN, author and independent source review')
     if(clear){

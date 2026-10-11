@@ -404,6 +404,28 @@ test('ISBN-less introduction translation binds the independent source to the exa
  }
 })
 
+test('ISBN-less display translation preserves its bound OpenLibrary original URL with independent same-work evidence',()=>{
+ const data=snapshot();data.figure_book_editions=[]
+ const source='https://openlibrary.org/books/OL7424935M',independent='https://www.readinglength.com/work/WYHHcjR'
+ const reference=data.content_locales[0];Object.assign(reference,{isbn:'9780375403255',creator:'Actual author',description:'Actual independently reviewed introduction describing this original book.',
+  sources:{primary:'openlibrary',provider_edition_url:source,provider_edition_isbn:'9780375403255',description:independent}})
+ const before={content_id:'work',locale:'ko',title:'원작 안내',creator:'실제 저자',isbn:null,description:null,sources:{primary:'none'}};data.content_locales.push(before)
+ const description='이 책은 작가가 가족과 친구들에게 보낸 편지를 모은 서간집이다. 편지에는 일상에서 겪은 사건과 주변 사람들과의 관계, 글을 쓰는 과정에서 마주한 고민이 담겨 있다. 독자는 시기와 상대에 따라 달라지는 목소리를 통해 공개된 작품 뒤에 놓인 개인적인 경험을 살펴볼 수 있다.\n\n서간은 완성된 작품만으로는 드러나지 않는 작가의 생활과 생각을 읽게 한다. 수록된 편지와 그 맥락을 함께 따라가며 인간관계와 창작 활동이 어떻게 이어졌는지 확인할 수 있다는 점에서 작가의 작품을 이해하는 데 도움이 된다.'
+ const proof={method:'independent_locale_reference_introduction_review',contentId:'work',referenceLocale:'en',referenceWorkTitle:reference.title,referenceCreator:reference.creator,isbn:reference.isbn,locale:'ko',editionTitle:before.title,
+  sourceUrl:source,reason:'The exact OpenLibrary edition supplies the translated text; the independently reviewed jacket verifies this original and ISBN.',evidence:[{url:independent,note:'Original, author and exact edition reviewed.'}]}
+ const patch={description,sources:{primary:'none',description:source,description_method:'translation',description_source_locale:'en'}},correction={table:'content_locales',before,patch,reviewedIntroductionCorrection:proof}
+ const expected=planGuardedCatalogRepairs(['work'],data,[correction]).expected
+ assert.deepEqual(expected.content_locales[0],reference);assert.equal(expected.content_locales[1].sources.description,source)
+ assert.equal(expected.content_locales[1].isbn,null);assert.deepEqual(expected.figure_book_editions,[])
+ for(const difference of [{sourceUrl:'https://openlibrary.org/books/OL1M'},{isbn:'9780140449136'},{evidence:[]},{evidence:[{url:source,note:'Provider alone.'}]}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...correction,reviewedIntroductionCorrection:{...proof,...difference}}]))
+ for(const difference of [{provider_edition_isbn:'9780140449136'},{provider_edition_url:'https://openlibrary.org/books/OL1M'},{description:source},{primary:'none'}]){
+  const changed=structuredClone(data);Object.assign(changed.content_locales[0].sources,difference)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],changed,[correction]))
+ }
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...correction,patch:{...patch,sources:{...patch.sources,description_method:'research',description_source_locale:'ko'}}}]))
+})
+
 test('single SSH capture uses all snapshot tables and work-specific direct/array predicates',async()=>{
  const data=snapshot(),calls=[]
  const result=await captureCatalogRepairSnapshot(null,Array.from({length:20},(_,i)=>'work-'+i),(command,args,options)=>{calls.push({command,args,options});return {status:0,stdout:JSON.stringify(data)}})
