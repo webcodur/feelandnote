@@ -30,6 +30,14 @@ test('fresh catalog repairs reject reinstating discarded research rows and raw p
   else metadata.unverifiedEditions=[{originalRows:[{title:'Old value'}]}]
   assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:'contents',before,patch:{metadata}}]),/must not create or restore research archives/)
  }
+ for(const path of [['restoredOriginalRows'],['unverifiedReviews'],['figureBook','rejectedLocaleData']]){
+  const data=snapshot(),before=data.contents[0],metadata=structuredClone(before.metadata)
+  const target=path.length===1?metadata:metadata.figureBook,key=path.at(-1);target[key]={oldRow:{title:'Copied old value'}}
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:'contents',before,patch:{metadata}}]),/must not create or restore research archives/)
+  before.metadata=metadata
+  const clean=structuredClone(metadata);delete (path.length===1?clean:clean.figureBook)[key]
+  assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,[{table:'contents',before,patch:{metadata:clean}}]))
+ }
 })
 test('catalog repairs can discard existing research archives while retaining live provenance and protected reviews',()=>{
  const data=snapshot(),before=data.content_locales[0]

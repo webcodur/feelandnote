@@ -16,8 +16,8 @@ const allowed={contents:['metadata','external_id','external_source','release_dat
 const rowKey=(table,row)=>table==='content_locales'?JSON.stringify([row.content_id,row.locale]):String(row.id)
 // 현재 출처는 보존하되, 조사 원문·옛 행 복사본을 새 변경안에 다시 넣지 않는다.
 const archiveCopyPaths={
- contents:[...['unverifiedEditions','historicalMergedWorks','historicalMisattachedISBNs','historicalMisattachedReviews','historicalMixedMetadata','historicalReadingProvenance','rejectedLocaleData','historicalMisidentifiedContent','historicalRepresentativeScope','historicalRepresentativeIsbn'].map(key=>['metadata',key]),
-  ...['unverifiedEditions','historicalMixedLocale','historicalMixedMetadata','detachedLocaleData'].map(key=>['metadata','figureBook',key])],
+ contents:[...['unverifiedEditions','unverifiedReviews','restoredOriginalRows','historicalMergedWorks','historicalMisattachedISBNs','historicalMisattachedReviews','historicalMixedMetadata','historicalReadingProvenance','rejectedLocaleData','historicalMisidentifiedContent','historicalRepresentativeScope','historicalRepresentativeIsbn'].map(key=>['metadata',key]),
+  ...['unverifiedEditions','historicalMixedLocale','historicalMixedMetadata','detachedLocaleData','rejectedLocaleData'].map(key=>['metadata','figureBook',key])],
  content_locales:['legacy_isbn_restoration','original_value','originalRows','sourceSnapshot'].map(key=>['sources',key]),
  figure_book_editions:['legacy_isbn_restoration','original_value','originalRows','sourceSnapshot'].map(key=>['sources',key])
 }
