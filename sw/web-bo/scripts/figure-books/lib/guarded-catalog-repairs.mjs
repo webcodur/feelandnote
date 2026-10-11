@@ -134,6 +134,26 @@ function reviewedPlaceholderIntroductionDiscard(before,proof,snapshot){
  return reference
 }
 
+function reviewedSelectionIntroductionDiscard(before,proof,snapshot){
+ const discard=proof?.misattachedIntroduction
+ const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(discard?.referenceEditionId))
+ if(proof?.reason!=='wrong_work'||discard?.method!=='independent_other_work_introduction_review'
+  ||!toIsbn13(before.isbn??'')||toIsbn13(discard.isbn??'')!==toIsbn13(before.isbn)
+  ||discard.sourceUrl!==proof.source_url||!independentSource(discard.sourceUrl)
+  ||![discard.workTitle,discard.creator,discard.reason].every(value=>typeof value==='string'&&value.trim())
+  ||discard.reason.trim().length<BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
+  ||!String(before.description??'').trim()||isBookIntroductionSource(before.description)
+  ||!reference||String(reference.id)===String(before.id)||reference.content_id!==before.content_id
+  ||reference.locale!==discard.referenceLocale||reference.title!==discard.referenceTitle||reference.creator!==discard.referenceCreator
+  ||!String(reference.creator??'').trim()||discard.creator===reference.creator
+  ||!toIsbn13(reference.isbn??'')||toIsbn13(reference.isbn)!==toIsbn13(discard.referenceIsbn??'')||toIsbn13(reference.isbn)===toIsbn13(before.isbn)
+  ||typeof reference.description!=='string'||reference.description.trim().length<30||isBookIntroductionSource(reference.description)
+  ||!independentSource(reference.sources?.description)
+  ||excludedBookEditionReason({...reference,editionKind:reference.edition_kind,textScope:reference.text_scope}))
+  throw Error('Wrong-work introduction discard requires the exact rejected ISBN and an independently reviewed retained original edition and introduction')
+ return reference
+}
+
 export function buildCatalogRepairSnapshotSql(workIds) {
  const assigned=ids(workIds)
  return `BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY;SET LOCAL statement_timeout='60s';
@@ -297,6 +317,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    if(placeholderProof.misattachedIntroduction!==undefined)reviewedPlaceholderIntroductionDiscard(before,placeholderProof,snapshot)}
   if(selectionProof!==undefined&&(!remove||!independentSource(selectionProof?.source_url)
    ||!reviewedBookEditionSelectionReason({...before,sources:{edition_selection_evidence:[selectionProof]}})))throw Error('Source-reviewed edition exclusion requires exact live ISBN, locale, title and independent selection evidence')
+  if(selectionProof?.misattachedIntroduction!==undefined)reviewedSelectionIntroductionDiscard(before,selectionProof,snapshot)
   if(remove){
    const work=snapshot.contents.find(row=>row.id===before.content_id),figure=work.metadata?.figureBook??{}
    if(selectionProof===undefined&&placeholderProof===undefined&&setProof===undefined&&nonstartProof===undefined&&scoreProof===undefined&&unboundProof===undefined&&!excludedBookEditionReason({...before,editionKind:before.edition_kind,textScope:before.text_scope,workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)}))throw Error('Only a policy-excluded edition may be removed')
@@ -318,6 +339,11 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
  for(const {before,reviewedPlaceholderRemoval:proof} of changes)if(proof!==undefined){
   const reference=reviewedPlaceholderReference(before,proof,snapshot)
   if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference)))throw Error('Placeholder removal must retain the reviewed physical edition unchanged')
+ }
+ for(const {before,reviewedSelectionExclusion:proof} of changes)if(proof?.misattachedIntroduction!==undefined){
+  const reference=reviewedSelectionIntroductionDiscard(before,proof,snapshot)
+  if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference)))
+   throw Error('Wrong-work introduction discard must retain the reviewed original edition and introduction unchanged')
  }
  for(const {before,reviewedUnboundIsbnRemoval:proof} of changes)if(proof!==undefined){
   const reference=reviewedUnboundIsbnReference(before,proof,snapshot)
@@ -358,7 +384,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    throw Error('Nonstart removal must retain the reviewed first or whole edition and its representative ISBN unchanged')
  }
  // 소개 보존 예외도 정확한 ISBN의 독립 원문을 읽은 명시 판단으로만 허용한다.
- for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedPlaceholderRemoval:placeholderProof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedSongScoreSeriesEditionRemoval:scoreProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
+ for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedPlaceholderRemoval:placeholderProof,reviewedSelectionExclusion:selectionProof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedSongScoreSeriesEditionRemoval:scoreProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
   if(archiveProof!==undefined){
    const remaining=structuredClone(before.sources??{}),discarded=discardedBackupProvenance(before.sources?.description,before,archiveProof.retainedSourceUrl)
    remaining.description=discarded
@@ -370,6 +396,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    continue
   }
   if(placeholderProof?.misattachedIntroduction!==undefined){reviewedPlaceholderIntroductionDiscard(before,placeholderProof,snapshot);continue}
+  if(selectionProof?.misattachedIntroduction!==undefined){reviewedSelectionIntroductionDiscard(before,selectionProof,snapshot);continue}
   if(setProof!==undefined||nonstartProof!==undefined||scoreProof!==undefined)continue // 분권 소개는 검수된 대표의 정상 소개로 대표된다. 감상 필드는 보존한다.
   if(proof!==undefined){
    if(proof?.method==='independent_locale_reference_introduction_review'){

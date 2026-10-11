@@ -480,6 +480,34 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.deepEqual(snapshot().figure_book_editions,[reference])
   })
 
+  await t.test('exact wrong-work ISBN and prose removal keeps the verified original and protected reviews under the active guard', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,description,sources) VALUES
+      ('keep','en','The Dead Zone','Stephen King','9780670260775','A teacher wakes from a coma with an ability that forces him to confront a political threat.',
+       '{"primary":"openlibrary","description":"https://publisher.example/king"}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,isbn,description,sources) VALUES
+      ('keep','ko','데드존','스티븐 킹','9788956990521','Reinhold Messner explores mountaineers altered awareness in extreme conditions.',
+       '{"primary":"kakao","description":"https://publisher.example/messner"}');
+      INSERT INTO content_locales(content_id,locale,title,creator,isbn,description,sources) VALUES
+      ('keep','ko','데드존','스티븐 킹','9788956990521','Reinhold Messner explores mountaineers altered awareness in extreme conditions.',
+       '{"primary":"kakao","description":"https://publisher.example/messner"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reading','keep','person','Human review',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('curation','keep','celeb','원문 감상','Original review','https://evidence.example/reading');`)
+    query(editionPolicySql())
+    const before=snapshot(),wrong=before.figure_book_editions.find(row=>row.locale==='ko'),reference=before.figure_book_editions.find(row=>row.locale==='en'),card=before.content_locales.find(row=>row.locale==='ko')
+    const selection={method:'independent_selection_review',content_id:'keep',isbn:wrong.isbn,locale:wrong.locale,edition_title:wrong.title,reason:'wrong_work',source_url:'https://publisher.example/messner',explanation:'The independently reviewed exact ISBN identifies the Messner mountaineering book, not the King novel.'}
+    const discard={method:'independent_other_work_introduction_review',isbn:wrong.isbn,workTitle:'Dead Zone',creator:'Reinhold Messner',sourceUrl:selection.source_url,reason:'The actual product body and copied prose concern Messner mountaineering rather than the King novel.',
+      referenceEditionId:reference.id,referenceLocale:reference.locale,referenceTitle:reference.title,referenceCreator:reference.creator,referenceIsbn:reference.isbn}
+    const changes=[{table:'figure_book_editions',before:wrong,remove:true,reviewedSelectionExclusion:{...selection,misattachedIntroduction:discard}},
+      {table:'content_locales',before:card,patch:{description:null,sources:{...card.sources,description:null,edition_selection_evidence:[selection]}},reviewedIntroductionCorrection:{isbn:card.isbn,locale:card.locale,editionTitle:card.title,sourceUrl:selection.source_url,reason:selection.explanation}}]
+    const expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
+    query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes));assert.deepEqual(snapshot(),expected)
+    assert.deepEqual(snapshot().figure_book_editions,[reference]);assert.deepEqual(snapshot().member_contents,before.member_contents);assert.deepEqual(snapshot().celeb_contents,before.celeb_contents)
+    query('DELETE FROM figure_book_contents WHERE content_id=\'keep\'; INSERT INTO figure_book_contents VALUES(\'keep\');')
+    assert.equal(snapshot().figure_book_editions.some(row=>row.isbn===wrong.isbn),false)
+  })
+
   await t.test('source-free ISBN candidate removal keeps the actual 979 product and rejects stale or historical-product rows', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,publisher,isbn,sources) VALUES

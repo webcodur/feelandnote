@@ -786,6 +786,31 @@ test('a source-reviewed exclusion removes an actually abridged edition with miss
  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/product history/)
 })
 
+test('wrong-work prose removal requires a bound rejection and retains the independently reviewed original unchanged',()=>{
+ const data=snapshot(),reference=data.figure_book_editions[0]
+ Object.assign(reference,{creator:'Stephen King',isbn:'9780670260775',description:'A teacher wakes from a coma with an ability that changes his life and forces him to confront a political threat.',sources:{description:'https://publisher.example/king'}})
+ const before={...structuredClone(reference),id:2,locale:'ko',title:'데드존',isbn:'9788956990521',description:'Reinhold Messner explores the altered awareness experienced by mountaineers in extreme conditions.',sources:{description:'https://publisher.example/messner'}}
+ data.figure_book_editions.push(before)
+ const proof={method:'independent_selection_review',content_id:'work',isbn:before.isbn,locale:before.locale,edition_title:before.title,
+  reason:'wrong_work',source_url:'https://publisher.example/messner',explanation:'The exact ISBN identifies Messner rather than the original King novel.',
+  misattachedIntroduction:{method:'independent_other_work_introduction_review',isbn:before.isbn,workTitle:'Dead Zone',creator:'Reinhold Messner',
+   sourceUrl:'https://publisher.example/messner',reason:'The exact product body and introduction describe Messner mountaineering, not the King novel.',
+   referenceEditionId:reference.id,referenceLocale:reference.locale,referenceTitle:reference.title,referenceCreator:reference.creator,referenceIsbn:reference.isbn}}
+ const removal={table:'figure_book_editions',before,remove:true,reviewedSelectionExclusion:proof}
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...removal,reviewedSelectionExclusion:{...proof,misattachedIntroduction:undefined}}]),/Existing introduction/)
+ const plan=planGuardedCatalogRepairs(['work'],data,[removal])
+ assert.deepEqual(plan.expected.figure_book_editions,[reference]);assert.deepEqual(plan.expected.member_contents,data.member_contents)
+ for(const difference of [{method:'machine_review'},{isbn:reference.isbn},{sourceUrl:'https://publisher.example/unread'},
+  {creator:reference.creator},{referenceEditionId:99},{referenceIsbn:before.isbn},{referenceCreator:'Guessed author'}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...removal,reviewedSelectionExclusion:{...proof,misattachedIntroduction:{...proof.misattachedIntroduction,...difference}}}]),/Wrong-work introduction discard/)
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...removal,reviewedSelectionExclusion:{...proof,reason:'editorial_exclusion'}}]),/Wrong-work introduction discard/)
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal,{table:'figure_book_editions',before:reference,patch:{publisher:'Another publisher'}}]),/must retain/)
+ const originalSource=reference.sources.description;reference.sources.description='https://openlibrary.org/books/OL1M'
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Wrong-work introduction discard/)
+ reference.sources.description=originalSource;data.figure_book_products=[{id:3,edition_id:before.id,is_active:false}]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/product history/)
+})
+
 test('execute failures still remove owned temporary files',async()=>{
  const data=snapshot();let path
  await assert.rejects(guardedCatalogRepairs(null,['work'],[change(data)],{capture:async()=>data,execute:file=>{path=file;throw Error('Mock SQL rejected')}}),/Mock SQL rejected/)
