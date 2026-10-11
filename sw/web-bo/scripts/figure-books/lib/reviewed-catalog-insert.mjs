@@ -1,5 +1,5 @@
 /** 기존 BOOK의 누락 카탈로그·판본만 보완한다. ISBN·원작·본문 언어의 최종 판단은 호출한 LLM이 한다. */
-import { randomUUID } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
 import { isDeepStrictEqual } from 'node:util'
 import { executeTemporaryMergeSql } from '../merge-works.mjs'
 import { captureCatalogRepairSnapshot } from './guarded-catalog-repairs.mjs'
@@ -51,6 +51,34 @@ IS DISTINCT FROM (SELECT coalesce(jsonb_agg(v ORDER BY v::text),'[]'::jsonb) FRO
 THEN RAISE EXCEPTION 'CATALOG_INSERT: rowset mismatch in ${table}';END IF;`
 }
 
+function reviewedSnapshotIdentity(review, snapshot) {
+  if (review?.useReviewedSnapshotIdentity !== true) return review
+  if (['title', 'creator', 'workTitle', 'workCreator', 'translators'].some(key => Object.hasOwn(review, key)))
+    throw Error('CATALOG_INSERT: compact snapshot identity cannot be mixed with explicit identity fields')
+  const work = snapshot.contents.find(row => row.id === review.contentId)
+  const locales = snapshot.content_locales.filter(row => row.content_id === review.contentId && row.locale === review.locale)
+  const locale = locales.length === 1 && locales[0]
+  const figure = work?.metadata?.figureBook
+  if (!locale || !nonempty(figure?.workTitle) || !nonempty(figure?.workCreator))
+    throw Error('CATALOG_INSERT: compact snapshot identity requires one live locale and a reviewed original anchor')
+  return { ...review, title: locale.sources?.edition_title?.trim() || locale.title?.trim(), creator: locale.creator?.trim(),
+    workTitle: figure.workTitle, workCreator: figure.workCreator,
+    ...(locale.sources?.translators !== undefined ? { translators: locale.sources.translators } : {}) }
+}
+
+const reviewedIdentityHash = review => createHash('sha256').update(JSON.stringify(canonical({ title: review.title, creator: review.creator,
+  workTitle: review.workTitle, workCreator: review.workCreator, translators: review.translators ?? [] }))).digest('hex')
+
+/** LLM이 검토한 RAM snapshot에 compact 입력을 묶는다. 읽은 뒤 서지·원작이 바뀌면 실행을 거부한다. */
+export function bindReviewedCatalogInsertIdentity(snapshot, reviews) {
+  snapshotValid(snapshot)
+  if (!Array.isArray(reviews) || !reviews.length || reviews.length > 200) throw Error('CATALOG_INSERT: explicit source-reviewed editions required')
+  return reviews.map(input => {
+    const review = { ...input, useReviewedSnapshotIdentity: true }
+    return { ...review, reviewedIdentityHash: reviewedIdentityHash(reviewedSnapshotIdentity(review, snapshot)) }
+  })
+}
+
 /**
  * reviews: {contentId,locale,isbn,title,creator,textLanguage,workTitle,workCreator,
  *   sourceUrl,reason,translators?:string[],editionKind:null|serviceKind,textScope:null|string}.
@@ -60,13 +88,20 @@ THEN RAISE EXCEPTION 'CATALOG_INSERT: rowset mismatch in ${table}';END IF;`
  * sourceUrl is independent of OpenLibrary; sources in the live card must already bind the official ISBN.
  * A missing parent uses its automatic seed; an existing parent with zero editions receives only reviewed cards.
  * It never creates another BOOK, changes an existing parent or patches a card.
+ * useReviewedSnapshotIdentity:true explicitly confirms the caller reviewed the current card/original identity;
+ * omit title/creator/workTitle/workCreator/translators to copy those exact fields from the guarded snapshot.
+ * bindReviewedCatalogInsertIdentity binds them to the snapshot actually reviewed; stale identities are refused.
+ * ISBN, actual language, independent source, reason and kind/scope remain explicit LLM decisions.
  */
 export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
   const assigned = assignedValid(workIds); snapshotValid(snapshot)
   if (!Array.isArray(reviews) || !reviews.length || reviews.length > 200) throw Error('CATALOG_INSERT: explicit source-reviewed editions required')
   if (assigned.some(id => snapshot.contents.filter(row => row.id === id && row.type === 'BOOK').length !== 1)) throw Error('CATALOG_INSERT: existing assigned BOOK missing')
   const keys = new Set(), isbns = new Set(), parentIds = [...new Set(reviews.map(review => review?.contentId))]
-  const editions = reviews.map(review => {
+  const editions = reviews.map(input => {
+    const review = reviewedSnapshotIdentity(input, snapshot)
+    if (input?.useReviewedSnapshotIdentity === true && input.reviewedIdentityHash !== reviewedIdentityHash(review))
+      throw Error('CATALOG_INSERT: reviewed snapshot identity changed or binding missing')
     if (!review || !assigned.includes(review.contentId) || !['ko', 'en'].includes(review.locale)
       || review.textLanguage !== review.locale || !nonempty(review.title) || !nonempty(review.creator)
       || !nonempty(review.workTitle) || !nonempty(review.workCreator) || !nonempty(review.reason)
