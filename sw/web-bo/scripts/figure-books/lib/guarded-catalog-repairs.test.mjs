@@ -11,6 +11,14 @@ const snapshot=()=>({...Object.fromEntries(SNAPSHOT_TABLES.map(table=>[table,[]]
  member_contents:[{id:'reading',content_id:'work',review:'Human review',rating:5}],faction_lv2:[{id:'theme',theme_book_ids:['other','work']}]})
 const change=data=>({table:'contents',before:data.contents[0],patch:{metadata:{figureBook:{workTitle:'Confirmed Title'}},external_id:'confirmed'}})
 
+test('provider text objects are rejected before SQL instead of becoming a serialized description',()=>{
+ for(const table of ['content_locales','figure_book_editions']){
+  const data=snapshot(),before=data[table][0]
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table,before,patch:{description:{type:'/type/text',value:'Already reviewed introduction'}}}]),/Catalog text field requires string or null: description/)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table,before,patch:{isbn:9780500295779}}]),/Catalog text field requires string or null: isbn/)
+ }
+})
+
 test('fresh catalog repairs reject reinstating discarded research rows and raw provider archives',()=>{
  for(const table of ['content_locales','figure_book_editions'])for(const key of ['legacy_isbn_restoration','original_value','originalRows','sourceSnapshot']){
   const data=snapshot(),before=data[table][0]

@@ -161,9 +161,9 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
       ('keep','ko','Novel','Author','9788932910673','{"primary":"kakao","translators":["Translator A","Translator B"]}');
       INSERT INTO figure_book_contents VALUES('keep');
-      UPDATE figure_book_editions SET edition_kind='full',text_scope='complete';
+      UPDATE figure_book_editions SET edition_kind='full',text_scope='Complete seven-story collection (US)';
       INSERT INTO figure_book_editions(content_id,locale,title,creator,isbn,edition_kind,text_scope,sources) VALUES
-      ('keep','ko','Novel reprint','Author','9788932910680','full','complete','{"translators":["Translator A"]}');
+      ('keep','ko','Novel reprint','Author','9788932910680','full','Complete seven-story collection (UK)','{"translators":["Translator A"]}');
       INSERT INTO figure_book_products(id,edition_id,platform,is_active) SELECT 7,id,'shop',true FROM figure_book_editions WHERE isbn='9788932910680';
       INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
       INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','Original review','English review','https://example.org/review');`)
@@ -172,6 +172,9 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.throws(()=>query(`UPDATE figure_book_editions SET sources='{"translators":["Translator A","Translator B"]}' WHERE id=${duplicate.id}`),/representative edition/)
     const review={contentId:'keep',keepEditionId:first.id,dropEditionId:duplicate.id,keepIsbn:first.isbn,dropIsbn:duplicate.isbn,locale:'ko',textIdentity:'translation',
       sourceUrl:'https://publisher.example/reprint',reason:'The exact publisher copyright pages identify identical complete joint-translated text in two formats.',
+      reviewedScopeEquivalence:{method:'independent_same_body_scope',keepBeforeEditionKind:first.edition_kind,dropBeforeEditionKind:duplicate.edition_kind,
+        keepBeforeTextScope:first.text_scope,dropBeforeTextScope:duplicate.text_scope,keepSourceUrl:'https://publisher.example/first',dropSourceUrl:'https://publisher.example/reprint',
+        reason:'The actual exact ISBN tables of contents contain the same complete seven stories in regional products.'},
       reviewedTranslatorCompletion:{method:'independent_translator_completion',translators:['Translator A','Translator B'],keepBeforeTranslators:['Translator A','Translator B'],dropBeforeTranslators:['Translator A'],
         keepSourceUrl:'https://publisher.example/first',dropSourceUrl:'https://publisher.example/reprint',reason:'Both exact ISBN copyright credits identify Translator A and Translator B; the old row omitted the second co-translator.'}}
     const plan=planReviewedEditionConsolidation(before,[review])

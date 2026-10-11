@@ -14,7 +14,7 @@ function publicSource(value, independent = false) {
   try {
     const source = new URL(value)
     return source.protocol === 'https:' && !source.username && !source.password
-      && (!independent || !/(?:^|\.)openlibrary\.org$/iu.test(source.hostname.replace(/\.$/u, '')))
+      && (!independent || !/(?:^|\.)openlibrary\.org$|^(?:books\.google\.[a-z.]+|www\.googleapis\.com)$/iu.test(source.hostname.replace(/\.$/u, '')))
       && !['localhost', '127.0.0.1', '[::1]'].includes(source.hostname)
       && ![...source.searchParams.keys()].some(key => /(?:api.?key|token|secret|password|authorization)/iu.test(key))
   } catch { return false }
@@ -41,6 +41,18 @@ function snapshotValid(snapshot) {
   for (const table of SNAPSHOT_TABLES) if (!Array.isArray(snapshot?.[table])) throw Error('EDITION_REVIEW: missing snapshot ' + table)
 }
 const descriptionSource = row => row.sources && typeof row.sources === 'object' ? row.sources.description : undefined
+function reviewedScopeEquivalence(review,keep,drop,crossWork){
+  const proof=review.reviewedScopeEquivalence
+  if(proof===undefined)return null
+  if(!proof||typeof proof!=='object'||Array.isArray(proof)||crossWork
+    ||proof.method!=='independent_same_body_scope'
+    ||!isDeepStrictEqual(proof.keepBeforeEditionKind,keep.edition_kind??null)||!isDeepStrictEqual(proof.dropBeforeEditionKind,drop.edition_kind??null)
+    ||!isDeepStrictEqual(proof.keepBeforeTextScope,keep.text_scope??null)||!isDeepStrictEqual(proof.dropBeforeTextScope,drop.text_scope??null)
+    ||!publicSource(proof.keepSourceUrl,true)||!publicSource(proof.dropSourceUrl,true)||proof.keepSourceUrl===proof.dropSourceUrl
+    ||typeof proof.reason!=='string'||proof.reason.trim().length<20)
+    throw Error('EDITION_REVIEW: scope equivalence requires exact existing scopes and both independent ISBN body sources')
+  return proof
+}
 // 공동 역자 일부만 복사된 옛 행은 두 실물 ISBN의 역할을 읽은 명시 보완으로만 정리한다.
 function reviewedTranslatorCompletion(review,keep,drop){
   const proof=review.reviewedTranslatorCompletion
@@ -90,24 +102,26 @@ export function planReviewedEditionConsolidation(snapshot, reviews) {
       || typeof attribution.isbn !== 'string' || toIsbn13(attribution.isbn) !== toIsbn13(drop.isbn ?? '')
       || attribution.locale !== drop.locale || attribution.edition_title !== drop.title || attribution.edition_creator !== drop.creator
       || !publicSource(attribution.source_url, true) || typeof attribution.explanation !== 'string' || !attribution.explanation.trim())) throw Error('EDITION_REVIEW: cross-work move requires exact independent work attribution')
+    const scopeEquivalence=reviewedScopeEquivalence(review,keep,drop,crossWork)
     const effectiveDrop = { ...drop }
     for (const key of ['edition_kind', 'text_scope']) {
       if (keep[key] && drop[key] && keep[key] !== drop[key] || crossWork && drop[key] && drop[key] !== keep[key]) {
+        if(scopeEquivalence){effectiveDrop[key]=keep[key];continue}
         if (!crossWork || !Object.hasOwn(attribution, 'before_' + key) || attribution['before_' + key] !== drop[key]
           || !Object.hasOwn(attribution, key) || attribution[key] !== keep[key]) throw Error('EDITION_REVIEW: known text scope conflict')
         effectiveDrop[key] = attribution[key]
       } else if (crossWork && Object.hasOwn(attribution, key) && attribution[key] !== keep[key]) throw Error('EDITION_REVIEW: attribution scope differs from selected edition')
     }
     const policy = row => excludedBookEditionReason({ ...row, editionKind: row.edition_kind, textScope: row.text_scope })
-    if (policy(keep) || policy(effectiveDrop)) throw Error('EDITION_REVIEW: excluded edition must be corrected separately')
+    if (policy(keep) || policy(effectiveDrop) || scopeEquivalence&&policy(drop)) throw Error('EDITION_REVIEW: excluded edition must be corrected separately')
     const translator = row => bookTranslatorKey(row.sources?.translators ?? row.translators ?? row.translator)
     const a = translator(keep), b = translator(drop)
     const completion=reviewedTranslatorCompletion(review,keep,drop)
     if (!completion&&a && b && a !== b || review.textIdentity === 'original' && (a || b)) throw Error('EDITION_REVIEW: known translator conflict')
-    retained.push({ review, work, keep, drop, crossWork,completion })
+    retained.push({ review, work, keep, drop, crossWork,completion,scopeEquivalence })
   }
   const survivors = [...snapshot.content_locales, ...snapshot.figure_book_editions.filter(row => !removed.has(String(row.id)))]
-  for (const { review, work, keep, drop, crossWork,completion } of retained) {
+  for (const { review, work, keep, drop, crossWork,completion,scopeEquivalence } of retained) {
     if (!introRetained(drop, survivors, snapshot, crossWork)) throw Error('EDITION_REVIEW: preserve exact introduction and its source in a surviving real same-locale row first')
     const canonical = expected.figure_book_editions.find(row => String(row.id) === String(keep.id))
     const figure = work.metadata?.figureBook ?? {}, sources = canonical.sources && typeof canonical.sources === 'object' && !Array.isArray(canonical.sources) ? canonical.sources : {}
@@ -123,6 +137,7 @@ export function planReviewedEditionConsolidation(snapshot, reviews) {
       // "same original text" does not establish its language (bilingual commentaries exist).
       ...(review.textIdentity === 'original' && figure.originalLanguage === keep.locale && /^https:\/\//u.test(figure.identityEvidence ?? '') ? { original_language: figure.originalLanguage } : {}),
       source_url: review.sourceUrl, explanation: review.reason, text_identity: review.textIdentity,
+      ...(scopeEquivalence?{scope_source_urls:[scopeEquivalence.keepSourceUrl,scopeEquivalence.dropSourceUrl],scope_explanation:scopeEquivalence.reason}:{}),
       ...(completion?{translators:structuredClone(completion.translators),translator_source_urls:[completion.keepSourceUrl,completion.dropSourceUrl]}:{}) }
     const evidence = Array.isArray(sources.edition_work_evidence) ? sources.edition_work_evidence : []
     canonical.sources = { ...sources,

@@ -42,7 +42,7 @@ test('explicit consolidation preserves all product IDs and noncatalog records wh
 test('source judgment is mandatory and ownership, exact current checked ISBNs, language and IDs fail closed', () => {
   for (const patch of [{ contentId: 'other' }, { keepEditionId: 2 }, { dropEditionId: 999 }, { keepIsbn: review.dropIsbn },
     { dropIsbn: '9780500544786' }, { locale: 'ko' }, { textIdentity: 'same_book' }, { reason: '' }, { sourceUrl: 'http://publisher.example' },
-    { sourceUrl: 'https://openlibrary.org/books/OL1M' }, { sourceUrl: 'https://sub.openlibrary.org./x' }, { sourceUrl: 'https://user:pass@publisher.example' },
+    { sourceUrl: 'https://openlibrary.org/books/OL1M' }, { sourceUrl: 'https://sub.openlibrary.org./x' }, {sourceUrl:'https://books.google.com/books?id=other'}, {sourceUrl:'https://www.googleapis.com/books/v1/volumes/other'}, { sourceUrl: 'https://user:pass@publisher.example' },
     { sourceUrl: 'https://publisher.example?api_key=secret' }, { sourceUrl: 'https://localhost/book' }, { keepEditionId: '1;DELETE' }]) {
     assert.throws(() => planReviewedEditionConsolidation(fixture(), [{ ...review, ...patch }]), /EDITION_REVIEW/, JSON.stringify(patch))
   }
@@ -61,6 +61,24 @@ test('known different translators and body scopes never become equivalent throug
   assert.deepEqual(plan.expected.figure_book_editions[0].sources.translators, ['Translator A'])
   const scoped = fixture(); scoped.figure_book_editions[1].text_scope = 'complete revised appendix'
   assert.throws(() => planReviewedEditionConsolidation(scoped, [review]), /text scope conflict/)
+})
+test('explicit ISBN body review resolves wording-only scope differences without merging later volumes or conflicting translators',()=>{
+ const before=fixture();before.figure_book_editions[0].text_scope='Complete seven-story collection (US 2021)';before.figure_book_editions[1].text_scope='Complete seven-story collection (UK 2022)'
+ const scope={method:'independent_same_body_scope',keepBeforeEditionKind:'full',dropBeforeEditionKind:'full',keepBeforeTextScope:before.figure_book_editions[0].text_scope,
+  dropBeforeTextScope:before.figure_book_editions[1].text_scope,keepSourceUrl:'https://publisher.example/us',dropSourceUrl:'https://publisher.example/uk',reason:'Both exact ISBN tables of contents contain the same complete seven stories, with only regional publication details differing.'}
+ const mapping={...review,reviewedScopeEquivalence:scope}
+ assert.throws(()=>planReviewedEditionConsolidation(before,[review]),/text scope conflict/)
+ const plan=planReviewedEditionConsolidation(before,[mapping]);assert.equal(plan.expected.figure_book_editions.length,1)
+ assert.equal(plan.expected.figure_book_editions[0].text_scope,scope.keepBeforeTextScope)
+ assert.deepEqual(plan.expected.figure_book_editions[0].sources.edition_work_evidence[0].scope_source_urls,[scope.keepSourceUrl,scope.dropSourceUrl])
+ assert.ok(!JSON.stringify(plan.expected.figure_book_editions[0].sources).includes('BeforeTextScope'))
+ for(const table of SNAPSHOT_TABLES.filter(table=>!['figure_book_editions','figure_book_products'].includes(table)))assert.deepEqual(plan.expected[table],before[table])
+ for(const patch of [{dropBeforeTextScope:'wrong'},{keepSourceUrl:'https://books.google.com/books?id=x'},{dropSourceUrl:scope.keepSourceUrl},{reason:''}])
+  assert.throws(()=>planReviewedEditionConsolidation(before,[{...mapping,reviewedScopeEquivalence:{...scope,...patch}}]),/scope equivalence/)
+ const later=structuredClone(before);later.figure_book_editions[1].edition_kind='volume';later.figure_book_editions[1].text_scope='volume/2'
+ assert.throws(()=>planReviewedEditionConsolidation(later,[{...mapping,reviewedScopeEquivalence:{...scope,dropBeforeEditionKind:'volume',dropBeforeTextScope:'volume/2'}}]),/excluded edition/)
+ const translated=structuredClone(before);translated.figure_book_editions[0].sources.translators=['A'];translated.figure_book_editions[1].sources.translators=['B']
+ assert.throws(()=>planReviewedEditionConsolidation(translated,[{...mapping,textIdentity:'translation'}]),/translator conflict/)
 })
 test('an original-text equivalence never invents the language of a bilingual commentary', () => {
   const before = fixture()
