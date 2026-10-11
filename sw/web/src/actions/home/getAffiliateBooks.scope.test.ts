@@ -31,8 +31,9 @@ function load(selectedSources?: unknown) {
     const entry: { table: string; ids?: string[] } = { table }
     queries.push(entry)
     let rows = tables[table] ?? []
+    let selectedFields=''
     const builder = {
-      select() { return builder }, order() { return builder }, limit() { return builder }, overrideTypes() { return builder },
+      select(fields='') { selectedFields=fields;return builder }, order() { return builder }, limit() { return builder }, overrideTypes() { return builder },
       eq(key: string, value: unknown) {
         rows = rows.filter(row => key === 'contents.type' ? (row.contents as { type: string })?.type === value : row[key] === value)
         return builder
@@ -40,7 +41,11 @@ function load(selectedSources?: unknown) {
       gte() { return builder },
       in(key: string, ids: string[]) { entry.ids = ids; rows = rows.filter(row => ids.includes(row[key] as string)); return builder },
       range(from: number, to: number) { rows = rows.slice(from, to + 1); return builder },
-      then(resolve: (result: unknown) => void) { return Promise.resolve({ data: rows, error: failed ? { message: 'DB unavailable' } : null }).then(resolve) },
+      then(resolve: (result: unknown) => void) {
+        const data=table==='content_locales'&&!/(?:^|,)locale(?:,|$)/u.test(selectedFields)
+          ?rows.map(({locale: _locale,...projected})=>projected):rows
+        return Promise.resolve({ data, error: failed ? { message: 'DB unavailable' } : null }).then(resolve)
+      },
     }
     return builder
   } }
