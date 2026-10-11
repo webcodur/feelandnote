@@ -166,7 +166,7 @@ async function fetchFactionSharedLibrary(factionId: string): Promise<SharedConte
 
 const getFactionSharedLibraryCached = unstable_cache(
   fetchFactionSharedLibrary,
-  ['faction-shared-library-v7-edition-policy'],
+  ['faction-shared-library-v8-edition-policy'],
   // faction_member_rows(편성) + celebs + celeb_contents + 한국어 판본
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );

@@ -9,7 +9,7 @@ const compiled = ts.transpileModule(readFileSync(new URL('./getAffiliateBooks.ts
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
 }).outputText
 
-function load() {
+function load(selectedSources?: unknown) {
   const queries: { table: string; ids?: string[] }[] = []
   const tables: Record<string, Record<string, unknown>[]> = {
     celebs: ['peer', 'self'].map(id => ({ id, profession: 'inventor', publication_status: 'active', birth_date: '1960-01-01' })),
@@ -25,6 +25,7 @@ function load() {
       sources: {}, affiliate_url: null, contents: { type: 'BOOK', user_count: 1 },
     })),
   }
+  if(selectedSources) tables.content_locales.find(row=>row.content_id==='book-b')!.sources=selectedSources
   let failed = false
   const db = { from(table: string) {
     const entry: { table: string; ids?: string[] } = { table }
@@ -76,4 +77,15 @@ test('failed scoped recommendation reads reject and a subsequent request can rec
   await assert.rejects(state.get('inventor', 'ko', ['self'], new Set(), 24), /DB unavailable/)
   state.fail(false)
   assert.equal((await state.get('inventor', 'ko', ['self'], new Set(), 24)).length, 2)
+})
+
+test('profession recommendations honor exact independent selections outside the edition catalog without editing reviews', async () => {
+  const proof={method:'independent_selection_review',reason:'children_only',isbn:'9788937460012',locale:'ko',edition_title:'book-b',
+    source_url:'https://publisher.example/childrens-fiction',explanation:'Publisher confirms this exact ISBN is original fiction written specifically for elementary-school children.'}
+  const selected={primary:'kakao_book',edition_selection_evidence:[proof]},before=structuredClone(selected)
+  assert.deepEqual((await load(selected).get('inventor','ko',['self'],new Set(),24)).map(book=>book.contentId),['book-a'])
+  assert.deepEqual(selected,before)
+  for(const changed of [{isbn:'9780394800165'},{edition_title:'Another book'},{explanation:''}]) {
+    assert.equal((await load({edition_selection_evidence:[{...proof,...changed}]}).get('inventor','ko',['self'],new Set(),24)).length,2)
+  }
 })

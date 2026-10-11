@@ -58,6 +58,18 @@ test('카탈로그에서 제외한 판본은 보존된 감상·언어 카드로 
   assert.equal(resolveBookShelfBook(saved, [], 'en'), null)
   assert.deepEqual(saved, before)
 })
+test('독립 판정된 아동 전용 창작물은 책장 연결을 보존하면서 locale fallback 노출을 막는다', () => {
+  const title='꼬마 토끼 조지의 언덕',isbn='9788949170244'
+  const sources={primary:'kakao_book',edition_selection_evidence:[{method:'independent_selection_review',
+    isbn,locale:'ko',edition_title:title,reason:'children_only',source_url:'https://publisher.example/childrens-fiction',
+    explanation:'Publisher confirms the exact ISBN is original fiction written specifically for elementary-school children.'}]}
+  const saved={...content([{...row('ko',sources),title,isbn}]),curated_list_items:[{id:'protected-item',note:'Keep original curator note'}]}
+  const before=structuredClone(saved)
+  assert.equal(resolveBookShelfBook(saved,[],'ko'),null)
+  assert.deepEqual(saved,before)
+  assert.ok(resolveBookShelfBook(content([{...row('ko'),title,isbn}]),[],'ko'))
+})
+
 test('오귀속 상품은 잘못 붙은 작품에서만 제외하고 정상 원작의 같은 ISBN은 안내한다', () => {
   const title='The Poppy War',isbn='9780008455194'
   const sources={primary:'openlibrary',edition_selection_evidence:[{method:'independent_selection_review',content_id:'work',

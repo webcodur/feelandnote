@@ -2,7 +2,7 @@
 import { toIsbn13 } from './book-isbn'
 
 export const SERVICE_BOOK_EDITION_KINDS = ['full', 'retelling', 'adaptation', 'selection', 'volume'] as const
-export const BOOK_EDITION_SELECTION_REASONS = ['children_picture', 'graded_reader', 'abridged', 'non_reading_product', 'wrong_locale', 'wrong_work'] as const
+export const BOOK_EDITION_SELECTION_REASONS = ['children_picture', 'children_only', 'graded_reader', 'abridged', 'non_reading_product', 'wrong_locale', 'wrong_work'] as const
 export const BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH = 20
 export type BookEditionSelectionReason = typeof BOOK_EDITION_SELECTION_REASONS[number]
 export type BookEditionSelectionEvidence = {

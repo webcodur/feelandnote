@@ -7,6 +7,7 @@ import { join, resolve, basename } from 'node:path'
 import { spawnSync, spawn } from 'node:child_process'
 import { createServer } from 'node:net'
 import { editionPolicySql } from './lib/edition-policy-sql.mjs'
+import { BOOK_EDITION_SELECTION_REASONS } from '../../../../packages/content-search/src/book-edition-policy.ts'
 import { translationRepairSql } from './edition-translation-audit.mjs'
 import { buildMergeSql, SNAPSHOT_TABLES, sqlLiteral } from './lib/merge-work-sql.mjs'
 import { buildGuardedCatalogRepairSql,planGuardedCatalogRepairs,expandReviewedExactIsbnIntroductionChanges } from './lib/guarded-catalog-repairs.mjs'
@@ -431,7 +432,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
       query("INSERT INTO figure_book_contents VALUES('keep')")
       assert.deepEqual(snapshot().content_locales,before)
     }
-    for(const reason of ['children_picture','graded_reader','abridged','non_reading_product','wrong_locale','wrong_work']) {
+    for(const reason of BOOK_EDITION_SELECTION_REASONS) {
       prepare({...proof,reason})
       assert.equal(query("SELECT string_agg(locale,',' ORDER BY locale) FROM figure_book_editions"),'en')
       assert.throws(()=>query(`INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','ko','Activity card','9781524773458',${sqlLiteral(JSON.stringify({edition_selection_evidence:[{...proof,reason}]}))})`),/not service editions/)
@@ -449,6 +450,25 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
       prepare({...proof,...changed})
       assert.equal(query("SELECT string_agg(locale,',' ORDER BY locale) FROM figure_book_editions"),'en,ko')
     }
+  })
+
+  await t.test('children-only selection preserves curated and reading records while preventing automatic reseeding', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    const proof={method:'independent_selection_review',reason:'children_only',isbn:'9788949170244',locale:'ko',edition_title:'꼬마 토끼 조지의 언덕',
+      source_url:'https://publisher.example/confirmed-childrens-fiction',explanation:'The publisher confirms the actual body is original fiction written specifically for elementary-school children.'}
+    reset(`INSERT INTO content_locales(content_id,locale,title,isbn,sources) VALUES('keep','ko','꼬마 토끼 조지의 언덕','9788949170244',${sqlLiteral(JSON.stringify({primary:'kakao_book',edition_selection_evidence:[proof]}))});
+      INSERT INTO curated_lists VALUES('curated');
+      INSERT INTO curated_list_items(id,content_id,list_id,note) VALUES('item','keep','curated','Original curator note');
+      INSERT INTO celeb_contents VALUES('reading','keep','person','Original Korean review','Original English review','https://interview.example/original');`)
+    query(editionPolicySql())
+    const before=snapshot()
+    query("INSERT INTO figure_book_contents VALUES('keep')")
+    const after=snapshot()
+    assert.equal(after.figure_book_editions.length,0)
+    assert.deepEqual(after.contents,before.contents)
+    assert.deepEqual(after.content_locales,before.content_locales)
+    assert.deepEqual(after.curated_list_items,before.curated_list_items)
+    assert.deepEqual(after.celeb_contents,before.celeb_contents)
   })
 
   await t.test('source-reviewed foreign and card-deck locales are not regenerated as editions during merge', t => {
