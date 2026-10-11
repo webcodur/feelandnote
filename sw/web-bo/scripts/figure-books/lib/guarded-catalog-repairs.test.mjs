@@ -50,6 +50,36 @@ test('complete-set removal rejects unverified translators, unrelated scopes, ISB
  data.figure_book_products=[{id:4,edition_id:1}]
  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/product history/)
 })
+function nonstartSnapshot(original=false){
+ const {data,removal}=completeSetSnapshot(),later=data.figure_book_editions[0],first=data.figure_book_editions[1]
+ later.title='Novel lower volume';later.edition_kind='full';later.text_scope=null
+ first.title='Novel upper volume';first.edition_kind='volume';first.text_scope='volume/1'
+ const proof={...removal.reviewedCompleteSetVolumeRemoval,method:'independent_nonstart_volume_review',editionTitle:later.title,
+  referenceTitle:first.title,volumeNumber:2,continuousText:true,textIdentity:original?'original':'translation'}
+ if(original){later.sources.translators=[];first.sources.translators=[];proof.originalLanguage='ko';data.contents[0].metadata.figureBook={
+  originalLanguage:'ko',identityEvidence:'https://publisher.example/original-author'}}
+ return {data,removal:{table:'figure_book_editions',before:later,remove:true,reviewedNonstartEditionRemoval:proof}}
+}
+test('direct later-volume selection removes a source-confirmed subset even when live scope metadata is wrong',()=>{
+ for(const original of [false,true]){
+  const {data,removal}=nonstartSnapshot(original),plan=planGuardedCatalogRepairs(['work'],data,[removal])
+  assert.deepEqual(plan.expected.figure_book_editions,[data.figure_book_editions[1]])
+  for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(plan.expected[table],data[table],table)
+ }
+})
+test('later-volume removal rejects unverified continuity, original language, translation, identity drift and lost representative',()=>{
+ for(const difference of [{volumeNumber:1},{continuousText:false},{isbn:'9780140449136'},{referenceTitle:'Other first'},
+  {textIdentity:'original'},{translators:[]},{referenceSourceUrl:'http://publisher.example/first'},{sourceUrl:'https://openlibrary.org/books/OL1M'}]){
+  const {data,removal}=nonstartSnapshot();assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...removal,
+   reviewedNonstartEditionRemoval:{...removal.reviewedNonstartEditionRemoval,...difference}}]),/Nonstart/)
+ }
+ const {data,removal}=nonstartSnapshot(true);data.contents[0].metadata.figureBook.originalLanguage='en'
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Nonstart/)
+ const valid=nonstartSnapshot();valid.data.figure_book_products=[{id:5,edition_id:1}]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],valid.data,[valid.removal]),/product history/)
+ const altered=nonstartSnapshot();assert.throws(()=>planGuardedCatalogRepairs(['work'],altered.data,[altered.removal,
+  {table:'figure_book_editions',before:altered.data.figure_book_editions[1],patch:{description:'Changed first intro'}}]),/retain/)
+})
 
 const reviewedIntroduction=()=>({contentId:'work',locale:'en',isbn:'9780674250703',description:'The author’s letters to friends and family reveal the composition of the poems.',
  sourceUrl:'https://publisher.example/letters',method:'research',sourceLocale:'en',reason:'The publisher identifies this exact ISBN as the letters; the existing introduction describes another collection.'})

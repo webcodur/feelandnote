@@ -69,6 +69,28 @@ function reviewedCompleteSetReference(before,proof,snapshot){
   throw Error('Complete-set removal requires exact selected whole set, included first volume, same verified translator and independent ISBN sources')
  return reference
 }
+function reviewedNonstartReference(before,proof,snapshot){
+ const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(proof?.referenceEditionId))
+ const selected=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===before.locale)
+ const work=snapshot.contents.find(row=>row.id===before.content_id),figure=work?.metadata?.figureBook??{}
+ const a=bookTranslatorKey(before.sources?.translators),b=bookTranslatorKey(reference?.sources?.translators)
+ const sameText=proof?.textIdentity==='translation'&&a&&a===b&&a===bookTranslatorKey(proof.translators)
+  ||proof?.textIdentity==='original'&&!a&&!b&&proof.originalLanguage===before.locale&&figure.originalLanguage===before.locale&&independentSource(figure.identityEvidence)
+ if(proof?.method!=='independent_nonstart_volume_review'||proof.contentId!==before.content_id||String(proof.editionId)!==String(before.id)
+  ||proof.locale!==before.locale||proof.editionTitle!==before.title||!toIsbn13(before.isbn??'')||toIsbn13(proof.isbn??'')!==toIsbn13(before.isbn)
+  ||!Number.isInteger(proof.volumeNumber)||proof.volumeNumber<2||proof.volumeNumber>999||proof.continuousText!==true||!sameText
+  ||!independentSource(proof.sourceUrl)||!independentSource(proof.referenceSourceUrl)||proof.sourceUrl===proof.referenceSourceUrl
+  ||typeof proof.reason!=='string'||proof.reason.trim().length<BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
+  ||!reference||String(reference.id)===String(before.id)||reference.content_id!==before.content_id||reference.locale!==before.locale
+  ||reference.title!==proof.referenceTitle||reference.creator!==proof.referenceCreator||!String(proof.referenceCreator??'').trim()||before.creator!==reference.creator
+  ||!(reference.edition_kind==='volume'&&reference.text_scope==='volume/1'||reference.edition_kind==='full'&&['full','complete'].includes(reference.text_scope))
+  ||!toIsbn13(reference.isbn??'')||toIsbn13(reference.isbn)!==toIsbn13(proof.referenceIsbn??'')||toIsbn13(reference.isbn)===toIsbn13(before.isbn)
+  ||!selected||toIsbn13(selected.isbn??'')!==toIsbn13(reference.isbn)
+  ||excludedBookEditionReason({...reference,editionKind:reference.edition_kind,textScope:reference.text_scope})
+  ||!String(reference.description??'').trim()||isBookIntroductionSource(reference.description)||!independentSource(reference.sources?.description))
+  throw Error('Nonstart removal requires exact selected first or whole edition, source-reviewed continuous body and verified original or same translator')
+ return reference
+}
 export async function captureCatalogRepairSnapshot(_db,workIds,spawn) {
  const sql=buildCatalogRepairSnapshotSql(workIds),command='docker exec -i feelandnote-db psql -XqAt -v ON_ERROR_STOP=1 -U postgres -d postgres'
  const snapshot=JSON.parse(runProcess('ssh',['-i','C:/Users/webco/.ssh/feelandnote_oracle','-o','BatchMode=yes','-o','ConnectTimeout=15','ubuntu@152.67.198.197',command],
@@ -124,6 +146,9 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   const selectionProof=change.reviewedSelectionExclusion
   const placeholderProof=change.reviewedPlaceholderRemoval
   const setProof=change.reviewedCompleteSetVolumeRemoval
+  const nonstartProof=change.reviewedNonstartEditionRemoval
+  if(nonstartProof!==undefined&&(!remove||table!=='figure_book_editions'||selectionProof!==undefined||placeholderProof!==undefined||setProof!==undefined||change.reviewedIntroductionCorrection!==undefined))throw Error('Nonstart review is only valid for explicit later-volume removal')
+  if(nonstartProof!==undefined)reviewedNonstartReference(before,nonstartProof,snapshot)
   if(setProof!==undefined&&(!remove||table!=='figure_book_editions'||selectionProof!==undefined||placeholderProof!==undefined||change.reviewedIntroductionCorrection!==undefined))throw Error('Complete-set review is only valid for explicit included-volume removal')
   if(setProof!==undefined)reviewedCompleteSetReference(before,setProof,snapshot)
   if(placeholderProof!==undefined&&(!remove||selectionProof!==undefined))throw Error('Placeholder review is only valid for explicit edition removal')
@@ -132,7 +157,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    ||!reviewedBookEditionSelectionReason({...before,sources:{edition_selection_evidence:[selectionProof]}})))throw Error('Source-reviewed edition exclusion requires exact live ISBN, locale, title and independent selection evidence')
   if(remove){
    const work=snapshot.contents.find(row=>row.id===before.content_id),figure=work.metadata?.figureBook??{}
-   if(selectionProof===undefined&&placeholderProof===undefined&&setProof===undefined&&!excludedBookEditionReason({...before,editionKind:before.edition_kind,textScope:before.text_scope,workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)}))throw Error('Only a policy-excluded edition may be removed')
+   if(selectionProof===undefined&&placeholderProof===undefined&&setProof===undefined&&nonstartProof===undefined&&!excludedBookEditionReason({...before,editionKind:before.edition_kind,textScope:before.text_scope,workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)}))throw Error('Only a policy-excluded edition may be removed')
    if(snapshot.figure_book_products.some(product=>String(product.edition_id)===String(before.id)))throw Error('Edition has product history; removal forbidden')
    expected[table].splice(index,1)
   }else{
@@ -155,9 +180,15 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    ||!expected.content_locales.some(row=>row.content_id===before.content_id&&row.locale===before.locale&&toIsbn13(row.isbn??'')===toIsbn13(reference.isbn)))
    throw Error('Complete-set removal must retain the reviewed whole edition and its representative ISBN unchanged')
  }
+ for(const {before,reviewedNonstartEditionRemoval:proof} of changes)if(proof!==undefined){
+  const reference=reviewedNonstartReference(before,proof,snapshot)
+  if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference))
+   ||!expected.content_locales.some(row=>row.content_id===before.content_id&&row.locale===before.locale&&toIsbn13(row.isbn??'')===toIsbn13(reference.isbn)))
+   throw Error('Nonstart removal must retain the reviewed first or whole edition and its representative ISBN unchanged')
+ }
  // 소개 보존 예외도 정확한 ISBN의 독립 원문을 읽은 명시 판단으로만 허용한다.
- for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedCompleteSetVolumeRemoval:setProof} of changes){
-  if(setProof!==undefined)continue // 포함 낱권 소개는 검수된 완질의 정상 소개로 대표된다. 감상 필드는 보존한다.
+ for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof} of changes){
+  if(setProof!==undefined||nonstartProof!==undefined)continue // 분권 소개는 검수된 대표의 정상 소개로 대표된다. 감상 필드는 보존한다.
   if(proof!==undefined){
    if(proof?.method==='independent_locale_reference_introduction_review'){
     const reference=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===proof.referenceLocale
