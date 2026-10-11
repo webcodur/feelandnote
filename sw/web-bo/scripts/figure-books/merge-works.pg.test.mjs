@@ -10,6 +10,8 @@ import { editionPolicySql } from './lib/edition-policy-sql.mjs'
 import { translationRepairSql } from './edition-translation-audit.mjs'
 import { buildMergeSql, SNAPSHOT_TABLES, sqlLiteral } from './lib/merge-work-sql.mjs'
 import { buildGuardedCatalogRepairSql,planGuardedCatalogRepairs } from './lib/guarded-catalog-repairs.mjs'
+import { buildReviewedCatalogInsertSql,bindReviewedCatalogInsertIdentity,verifyReviewedCatalogInsertReadback } from './lib/reviewed-catalog-insert.mjs'
+import { buildCatalogRepairSnapshotSql } from './lib/guarded-catalog-repairs.mjs'
 
 const bin = process.env.PG_TEST_BIN
 const executable = name => join(bin, name + (process.platform === 'win32' ? '.exe' : ''))
@@ -90,6 +92,33 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
   const reset = extra => query(`TRUNCATE ${SNAPSHOT_TABLES.join(',')} RESTART IDENTITY CASCADE; INSERT INTO contents(id,type) VALUES('keep','BOOK'),('drop','BOOK'),('other','BOOK'); ${extra}`)
   const snapshot = () => JSON.parse(query(`SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table => `'${table}',(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM ${table} t ${table === 'contents' ? "WHERE id IN ('keep','drop')" : ''})`).join(',')});`))
   const merge = s => query(buildMergeSql(pair, s))
+
+  await t.test('reviewed compact catalog insertion preserves the exact decision under unicode whitespace and live drift', t => {
+    query(`ALTER TABLE figure_book_contents ADD COLUMN created_at timestamptz DEFAULT now(),ADD COLUMN updated_at timestamptz DEFAULT now();
+      ALTER TABLE figure_book_editions ADD COLUMN created_at timestamptz DEFAULT now(),ADD COLUMN updated_at timestamptz DEFAULT now();`)
+    t.after(() => query(`ALTER TABLE figure_book_contents DROP COLUMN created_at,DROP COLUMN updated_at;
+      ALTER TABLE figure_book_editions DROP COLUMN created_at,DROP COLUMN updated_at;`))
+    reset(`UPDATE contents SET metadata='{"figureBook":{"workTitle":"Actual original","workCreator":"Actual author"}}' WHERE id='keep';
+      INSERT INTO content_locales(content_id,locale,title,creator,isbn,publisher,sources) VALUES
+      ('keep','en',E'Actual original\\u00a0',E'Actual author\\u00a0','9780451464163',E'Actual publisher\\u00a0',
+      '{"primary":"openlibrary","isbn":"https://openlibrary.org/books/OL1234M"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('celeb-reading','keep','celeb','원래 감상','Original review','https://example.org/review');`)
+    const assigned=['keep'], read=()=>JSON.parse(query(buildCatalogRepairSnapshotSql(assigned))), before=read()
+    const reviews=bindReviewedCatalogInsertIdentity(before,[{contentId:'keep',locale:'en',isbn:'9780451464163',textLanguage:'en',
+      sourceUrl:'https://publisher.example/exact-original',reason:'The exact original and ISBN were independently reviewed before insertion.',editionKind:null,textScope:null}])
+    query(buildReviewedCatalogInsertSql(assigned,before,reviews))
+    const after=read()
+    assert.equal(verifyReviewedCatalogInsertReadback(assigned,before,reviews,after).checkedTables,18)
+    assert.equal(after.figure_book_editions[0].title,'Actual original')
+    assert.equal(after.figure_book_editions[0].creator,'Actual author')
+    assert.equal(after.figure_book_editions[0].publisher,'Actual publisher')
+    assert.deepEqual(after.celeb_contents,before.celeb_contents)
+    assert.deepEqual(after.member_contents,before.member_contents)
+    query("DELETE FROM figure_book_contents WHERE content_id='keep'; UPDATE content_locales SET creator='Changed author' WHERE content_id='keep';")
+    assert.throws(()=>buildReviewedCatalogInsertSql(assigned,read(),reviews),/snapshot identity changed/)
+    assert.equal(read().figure_book_contents.length,0)
+  })
 
   await t.test('explicit placeholder removal preserves physical edition, locale and reading rows under the active edition guard', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
