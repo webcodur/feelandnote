@@ -35,6 +35,19 @@ function reviewedEditionFixture() {
 }
 const reviewedMapping = { keepEditionId: 1, dropEditionId: 2, keepIsbn: '9780500295779', dropIsbn: '9780500544785', locale: 'en',
   sourceUrl: 'https://www.thamesandhudson.com/products/wim-wenders-instant-stories', reason: 'Publisher confirms reduced-format reprint with the same 403 Polaroids.' }
+test('automatic same-translator mappings reject known whole/subset scopes before any SQL mutation',()=>{
+ for(const field of ['edition_kind','text_scope']){
+  const data=reviewedEditionFixture()
+  for(const row of data.figure_book_editions)row.sources.translators=['Verified translator']
+  data.figure_book_editions[0][field]=field==='edition_kind'?'full':'complete'
+  data.figure_book_editions[1][field]=field==='edition_kind'?'volume':'volume/1'
+  assert.throws(()=>buildMergeSql(pair,data),/automatic translation mapping scope conflict/)
+  assert.throws(()=>buildMergeSql(pair,data,{reviewedEditionMappings:[reviewedMapping]}),/scope conflict/)
+ }
+ const same=reviewedEditionFixture()
+ for(const row of same.figure_book_editions){row.sources.translators=['Verified translator'];row.edition_kind='full';row.text_scope='complete'}
+ assert.match(buildMergeSql(pair,same),/WHEN 2 THEN 1/)
+})
 test('explicit source-reviewed edition equivalence maps products without inventing original language or weakening transaction guards', () => {
   const snapshot = reviewedEditionFixture()
   assert.match(buildMergeSql(pair, snapshot), /canonical_id := NULL;/)

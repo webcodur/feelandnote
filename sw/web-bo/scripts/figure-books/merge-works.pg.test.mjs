@@ -93,6 +93,40 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
   const snapshot = () => JSON.parse(query(`SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table => `'${table}',(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM ${table} t ${table === 'contents' ? "WHERE id IN ('keep','drop')" : ''})`).join(',')});`))
   const merge = s => query(buildMergeSql(pair, s))
 
+  await t.test('complete-set choice replaces its included first volume without merging different body scopes or changing protected prose', t => {
+    t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
+      ('keep','ko','Novel complete set','Author','Complete novel introduction','9788932910673','{"primary":"kakao","translators":["Translator"],"description":"https://publisher.example/set"}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      UPDATE figure_book_editions SET edition_kind='full',text_scope='complete';
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,description,isbn,edition_kind,text_scope,sources) VALUES
+      ('keep','ko','Novel 1','Author','First volume introduction','9788932910680','volume','volume/1','{"translators":["Translator"],"description":"https://publisher.example/first"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','원래 감상','Original review','https://example.org/review');`)
+    query(editionPolicySql())
+    const before=snapshot(),first=before.figure_book_editions.find(row=>row.text_scope==='volume/1'),whole=before.figure_book_editions.find(row=>row.text_scope==='complete')
+    const split=structuredClone(before)
+    split.figure_book_editions.find(row=>row.id===first.id).content_id='drop'
+    assert.throws(()=>buildMergeSql(pair,split),/automatic translation mapping scope conflict/)
+    const proof={method:'independent_complete_set_review',contentId:'keep',editionId:first.id,locale:'ko',editionTitle:first.title,isbn:first.isbn,
+      referenceEditionId:whole.id,referenceTitle:whole.title,referenceCreator:whole.creator,referenceIsbn:whole.isbn,translators:['Translator'],
+      volumeNumber:1,totalVolumes:2,completeSet:true,sourceUrl:'https://publisher.example/first',referenceSourceUrl:'https://publisher.example/set',
+      reason:'The exact two-volume complete set contains this first volume of the same verified translation and supplies the whole original.'}
+    const changes=[{table:'figure_book_editions',before:first,remove:true,reviewedCompleteSetVolumeRemoval:proof}]
+    const sql=buildGuardedCatalogRepairSql(['keep','drop'],before,changes)
+    query("UPDATE content_locales SET title='Concurrent selected title' WHERE content_id='keep'")
+    assert.throws(()=>query(sql),/rowset mismatch/)
+    assert.equal(query("SELECT count(*) FROM figure_book_editions WHERE text_scope='volume/1'"),'1')
+    query("UPDATE content_locales SET title='Novel complete set' WHERE content_id='keep'")
+    query(`INSERT INTO figure_book_products(id,edition_id,platform,is_active) VALUES(100,${first.id},'shop',true)`)
+    assert.throws(()=>query(sql),/rowset mismatch|product history/)
+    query('DELETE FROM figure_book_products WHERE id=100')
+    query(sql)
+    const after=snapshot()
+    assert.deepEqual(after.figure_book_editions,[whole])
+    for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(after[table],before[table],table)
+  })
+
   await t.test('exact-ISBN introduction assembly preserves other translators and protected prose and rejects concurrent identity drift', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES

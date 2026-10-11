@@ -6,7 +6,7 @@ import {runProcess,executeTemporaryMergeSql,checkFixedReferences} from '../merge
 import {SNAPSHOT_TABLES,REFERENCE_TABLES,hasArrayReference,referenceWhere,sqlLiteral} from './merge-work-sql.mjs'
 import {CONTENT_ARRAY_REFERENCES} from './content-array-references.mjs'
 import {toIsbn13} from '../../../../../packages/content-search/src/book-isbn.ts'
-import {excludedBookEditionReason,reviewedBookEditionSelectionReason,BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH} from '../../../../../packages/content-search/src/book-edition-policy.ts'
+import {excludedBookEditionReason,reviewedBookEditionSelectionReason,bookTranslatorKey,BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH} from '../../../../../packages/content-search/src/book-edition-policy.ts'
 import {isBookIntroductionSource} from '../../../../../packages/content-search/src/book-introduction-contract.ts'
 import researchIntroductionContract from '../../contents/book-research-introduction-contract.ts'
 const {researchIntroductionText}=researchIntroductionContract
@@ -45,6 +45,29 @@ export function buildCatalogRepairSnapshotSql(workIds) {
  const assigned=ids(workIds)
  return `BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY;SET LOCAL statement_timeout='60s';
 SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table=>`${sqlLiteral(table)},(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM public.${table} t WHERE ${where(table,assigned,'t')})`).join(',')});COMMIT;`
+}
+
+// 전권 세트와 그 안의 첫 권은 동일본문 판본이 아니다. 검수한 완질만 대표로 남긴다.
+function reviewedCompleteSetReference(before,proof,snapshot){
+ const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(proof?.referenceEditionId))
+ const translator=bookTranslatorKey(proof?.translators)
+ const selected=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===before.locale)
+ if(proof?.method!=='independent_complete_set_review'||proof.contentId!==before.content_id||String(proof.editionId)!==String(before.id)
+  ||proof.locale!==before.locale||proof.editionTitle!==before.title||!toIsbn13(before.isbn??'')||toIsbn13(proof.isbn??'')!==toIsbn13(before.isbn)
+  ||before.edition_kind!=='volume'||before.text_scope!=='volume/1'||proof.volumeNumber!==1
+  ||!Number.isInteger(proof.totalVolumes)||proof.totalVolumes<2||proof.totalVolumes>999||proof.completeSet!==true
+  ||!independentSource(proof.sourceUrl)||!independentSource(proof.referenceSourceUrl)||proof.sourceUrl===proof.referenceSourceUrl
+  ||typeof proof.reason!=='string'||proof.reason.trim().length<BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
+  ||!reference||String(reference.id)===String(before.id)||reference.content_id!==before.content_id||reference.locale!==before.locale
+  ||reference.title!==proof.referenceTitle||reference.creator!==proof.referenceCreator||!String(proof.referenceCreator??'').trim()
+  ||before.creator!==reference.creator||reference.edition_kind!=='full'||reference.text_scope!=='complete'
+  ||!toIsbn13(reference.isbn??'')||toIsbn13(reference.isbn)!==toIsbn13(proof.referenceIsbn??'')
+  ||toIsbn13(reference.isbn)===toIsbn13(before.isbn)||!selected||toIsbn13(selected.isbn??'')!==toIsbn13(reference.isbn)
+  ||!translator||bookTranslatorKey(before.sources?.translators)!==translator||bookTranslatorKey(reference.sources?.translators)!==translator
+  ||excludedBookEditionReason({...reference,editionKind:reference.edition_kind,textScope:reference.text_scope})
+  ||!String(reference.description??'').trim()||isBookIntroductionSource(reference.description)||!independentSource(reference.sources?.description))
+  throw Error('Complete-set removal requires exact selected whole set, included first volume, same verified translator and independent ISBN sources')
+ return reference
 }
 export async function captureCatalogRepairSnapshot(_db,workIds,spawn) {
  const sql=buildCatalogRepairSnapshotSql(workIds),command='docker exec -i feelandnote-db psql -XqAt -v ON_ERROR_STOP=1 -U postgres -d postgres'
@@ -100,13 +123,16 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   seen.add(identity)
   const selectionProof=change.reviewedSelectionExclusion
   const placeholderProof=change.reviewedPlaceholderRemoval
+  const setProof=change.reviewedCompleteSetVolumeRemoval
+  if(setProof!==undefined&&(!remove||table!=='figure_book_editions'||selectionProof!==undefined||placeholderProof!==undefined||change.reviewedIntroductionCorrection!==undefined))throw Error('Complete-set review is only valid for explicit included-volume removal')
+  if(setProof!==undefined)reviewedCompleteSetReference(before,setProof,snapshot)
   if(placeholderProof!==undefined&&(!remove||selectionProof!==undefined))throw Error('Placeholder review is only valid for explicit edition removal')
   if(placeholderProof!==undefined)reviewedPlaceholderReference(before,placeholderProof,snapshot)
   if(selectionProof!==undefined&&(!remove||!independentSource(selectionProof?.source_url)
    ||!reviewedBookEditionSelectionReason({...before,sources:{edition_selection_evidence:[selectionProof]}})))throw Error('Source-reviewed edition exclusion requires exact live ISBN, locale, title and independent selection evidence')
   if(remove){
    const work=snapshot.contents.find(row=>row.id===before.content_id),figure=work.metadata?.figureBook??{}
-   if(selectionProof===undefined&&placeholderProof===undefined&&!excludedBookEditionReason({...before,editionKind:before.edition_kind,textScope:before.text_scope,workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)}))throw Error('Only a policy-excluded edition may be removed')
+   if(selectionProof===undefined&&placeholderProof===undefined&&setProof===undefined&&!excludedBookEditionReason({...before,editionKind:before.edition_kind,textScope:before.text_scope,workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)}))throw Error('Only a policy-excluded edition may be removed')
    if(snapshot.figure_book_products.some(product=>String(product.edition_id)===String(before.id)))throw Error('Edition has product history; removal forbidden')
    expected[table].splice(index,1)
   }else{
@@ -123,8 +149,15 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   const reference=reviewedPlaceholderReference(before,proof,snapshot)
   if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference)))throw Error('Placeholder removal must retain the reviewed physical edition unchanged')
  }
- // 정확한 ISBN의 독립 원문으로 오귀속을 판단한 명시 교정만 기존 소개 보존 예외다.
- for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof} of changes){
+ for(const {before,reviewedCompleteSetVolumeRemoval:proof} of changes)if(proof!==undefined){
+  const reference=reviewedCompleteSetReference(before,proof,snapshot)
+  if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference))
+   ||!expected.content_locales.some(row=>row.content_id===before.content_id&&row.locale===before.locale&&toIsbn13(row.isbn??'')===toIsbn13(reference.isbn)))
+   throw Error('Complete-set removal must retain the reviewed whole edition and its representative ISBN unchanged')
+ }
+ // 소개 보존 예외도 정확한 ISBN의 독립 원문을 읽은 명시 판단으로만 허용한다.
+ for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedCompleteSetVolumeRemoval:setProof} of changes){
+  if(setProof!==undefined)continue // 포함 낱권 소개는 검수된 완질의 정상 소개로 대표된다. 감상 필드는 보존한다.
   if(proof!==undefined){
    if(proof?.method==='independent_locale_reference_introduction_review'){
     const reference=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===proof.referenceLocale
