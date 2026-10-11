@@ -5,7 +5,7 @@ import {isBookIntroductionSource} from '../../../../../packages/content-search/s
 import {bookEditionTitleKey} from '../../../../../packages/content-search/src/book-series.ts'
 import {canUseBookWorkIntroduction} from '../../../../../packages/content-search/src/book-original-authors.ts'
 import {excludedBookEditionReason} from '../../../../../packages/content-search/src/book-edition-policy.ts'
-import {getOpenLibraryBookUrl} from '../../../../../packages/content-search/src/openlibrary.ts'
+import {getOpenLibraryBookUrl,requestOpenLibraryBookBatch} from '../../../../../packages/content-search/src/openlibrary.ts'
 import {requestOpenLibrary} from '../../../../../packages/content-search/src/openlibrary-request.ts'
 
 const text=value=>typeof value==='string'?value.trim():''
@@ -126,4 +126,64 @@ export function createCatalogIntroductionResearch({collect,readOpenLibraryWork=n
   return artifacts
  }
  return {prefetch}
+}
+
+/** 언어 검증에서 보류된 ISBN의 원자료만 다시 읽는다. 승인 메타와 구분해 전달한다. */
+export async function readOpenLibraryEditionContext(isbn) {
+ const response=await requestOpenLibraryBookBatch([isbn],'details')
+ if(!response.ok)throw Error('OpenLibrary edition context HTTP '+response.status)
+ const detail=(await response.json())['ISBN:'+isbn]?.details
+ const ids=[...(detail?.isbn_13??[]),...(detail?.isbn_10??[])].map(toIsbn13).filter(Boolean)
+ if(!/^\/books\/OL\d+M$/u.test(detail?.key??'')||!ids.includes(isbn))return null
+ const context=Object.fromEntries(['key','title','subtitle','authors','author','languages','description','notes','table_of_contents','subjects','physical_format','number_of_pages','publishers','publish_date','isbn_13','isbn_10','works'].filter(key=>detail[key]!==undefined).map(key=>[key,detail[key]]))
+ return {detail:context,binding:{isbn,editionIsbns:[...new Set(ids)],languageKeys:(detail.languages??[]).map(x=>x.key).filter(Boolean),editionAuthorKeys:(detail.authors??[]).map(x=>x.key).filter(x=>/^\/authors\/OL\d+A$/u.test(x??'')),workKeys:[...new Set((detail.works??[]).map(x=>x.key).filter(x=>/^\/works\/OL\d+W$/u.test(x??'')))]}}
+}
+
+/** 공식 판본의 언어 표기가 빠져도 원작 본문은 LLM 검수 자료로 읽는다. 소개 승인·DB 쓰기는 하지 않는다. */
+export function createUnboundOriginalContextResearch({readOpenLibraryWork=readOpenLibraryIntroductionWork,readOpenLibraryEdition=readOpenLibraryEditionContext}={}) {
+ const cache=new Map(),editions=new Map(),pending=[];let active=0
+ const advance=()=>{while(active<2&&pending.length){active++;const {read,resolve,reject}=pending.shift();Promise.resolve().then(read).then(resolve,reject).finally(()=>{active--;advance()})}}
+ function original(key){
+  if(!cache.has(key)){
+   const lookup=new Promise((resolve,reject)=>{pending.push({read:()=>readOpenLibraryWork('https://openlibrary.org'+key),resolve,reject});advance()})
+   cache.set(key,lookup);lookup.catch(()=>{if(cache.get(key)===lookup)cache.delete(key)})
+  }
+  return cache.get(key)
+ }
+ async function enrich(artifacts){
+  if(!Array.isArray(artifacts))throw Error('Introduction artifact rows required')
+  const rows=structuredClone(artifacts)
+  await Promise.all(rows.map(async row=>{
+   const isbn=toIsbn13(row.isbn??'')
+   if(row.locale!=='en'||row.sourceIntro||!isbn)return
+   if(!row.officialBinding&&row.scopeWarnings?.some(warning=>['english_language_not_confirmed','english_title_not_confirmed','english_creator_not_confirmed'].includes(warning))){
+    try{
+     if(!editions.has(isbn)){
+      const lookup=new Promise((resolve,reject)=>{pending.push({read:()=>readOpenLibraryEdition(isbn),resolve,reject});advance()})
+      editions.set(isbn,lookup);lookup.catch(()=>{if(editions.get(isbn)===lookup)editions.delete(isbn)})
+     }
+     const raw=await editions.get(isbn)
+     if(raw){row.officialBinding=raw.binding;row.unapprovedEditionContext={...raw.detail,sourceUrl:'https://openlibrary.org'+raw.detail.key}}
+    }catch{row.scopeWarnings=[...new Set([...(row.scopeWarnings??[]),'edition_context_lookup_failed'])];return}
+   }
+   const binding=row.officialBinding,keys=binding?.workKeys
+   if(row.locale!=='en'||row.sourceIntro||!isbn||!binding?.editionIsbns?.includes(isbn)
+    ||!Array.isArray(keys)||keys.length!==1||!/^\/works\/OL\d+W$/u.test(keys[0])
+    ||row.sourceCandidates?.some(source=>source.sourceMethod==='openlibrary_candidate_work'))return
+   try{
+    const loaded=await original(keys[0]),work=loaded?.data??loaded
+    if(!work)return
+    if(work.key!==keys[0])throw Error('Original work key mismatch')
+    const authors=(work.authors??[]).map(author=>author.author?.key).filter(Boolean),proposed=description(work.description)
+    row.originalWorkBinding={key:work.key,title:work.title??null,authorKeys:authors}
+    if(proposed&&!isBookIntroductionSource(proposed)){
+     row.sourceCandidates??=[]
+     row.sourceCandidates.push({text:proposed,sourceUrl:'https://openlibrary.org'+keys[0],sourceMethod:'openlibrary_candidate_work',title:work.title??null,authorKeys:authors})
+     row.scopeWarnings=[...new Set([...(row.scopeWarnings??[]),'original_context_requires_llm_edition_review'])]
+    }
+   }catch{row.scopeWarnings=[...new Set([...(row.scopeWarnings??[]),'original_context_lookup_failed'])]}
+  }))
+  return rows
+ }
+ return {enrich}
 }
