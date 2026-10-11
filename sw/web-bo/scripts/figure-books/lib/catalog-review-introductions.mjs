@@ -156,7 +156,7 @@ export function createUnboundOriginalContextResearch({readOpenLibraryWork=readOp
   await Promise.all(rows.map(async row=>{
    const isbn=toIsbn13(row.isbn??'')
    if(row.locale!=='en'||row.sourceIntro||!isbn)return
-   if(!row.officialBinding&&row.scopeWarnings?.some(warning=>['english_language_not_confirmed','english_title_not_confirmed','english_creator_not_confirmed'].includes(warning))){
+   if(!row.officialBinding&&row.scopeWarnings?.some(warning=>['english_language_not_confirmed','english_title_not_confirmed','english_creator_not_confirmed','unapproved_official_edition_context'].includes(warning))){
     try{
      if(!editions.has(isbn)){
       const lookup=new Promise((resolve,reject)=>{pending.push({read:()=>readOpenLibraryEdition(isbn),resolve,reject});advance()})
