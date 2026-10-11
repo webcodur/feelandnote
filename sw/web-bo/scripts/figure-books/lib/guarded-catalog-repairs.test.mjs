@@ -68,6 +68,21 @@ test('discarding a known raw provenance wrapper preserves introduction, current 
   patch:{sources:{...row.sources,description:before.sources.description}}}]),/must not create or restore research archives/)
 })
 
+test('legacy backup labels discard empty copies while preserving an existing live URL and its verification metadata',()=>{
+ for(const pointer of [false,true]){
+  const data=snapshot(),before=data.content_locales[0]
+  before.description='Existing introduction'
+  before.sources={primary:'none',description:pointer?{type:'backup-restored',backup:'temporary-file',source:'https://publisher.example/current-isbn',verification:'existing verification'}:
+   {type:'backup-restored',backup:'temporary-file',original_sources:null}}
+  const description=pointer?{source:before.sources.description.source,verification:before.sources.description.verification}:null
+  const edit={table:'content_locales',before,patch:{sources:{...before.sources,description}},
+   reviewedArchiveProvenanceDiscard:{method:'discard_raw_source_copy',path:'sources.description',reason:'Remove the old backup reference while retaining the exact current source pointer.'}}
+  const after=planGuardedCatalogRepairs(['work'],data,[edit]).expected.content_locales[0]
+  assert.deepEqual(after.sources.description,description);assert.equal(after.description,before.description)
+  if(pointer)assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...edit,patch:{sources:{...before.sources,description:null}}}]),/Raw provenance discard/)
+ }
+})
+
 function completeSetSnapshot(){
  const data=snapshot()
  const first={id:1,content_id:'work',locale:'ko',title:'Novel 1',creator:'Author',isbn:'9788932910680',edition_kind:'volume',text_scope:'volume/1',

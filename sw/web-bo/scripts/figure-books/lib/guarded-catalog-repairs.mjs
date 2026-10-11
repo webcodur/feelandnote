@@ -221,10 +221,13 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
  // 소개 보존 예외도 정확한 ISBN의 독립 원문을 읽은 명시 판단으로만 허용한다.
  for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
   if(archiveProof!==undefined){
-   const old=before.sources?.description,remaining=structuredClone(before.sources??{});remaining.description=null
+   const old=before.sources?.description,remaining=structuredClone(before.sources??{})
+   const copiedSources=old?.original_sources===null||old?.original_sources&&typeof old.original_sources==='object'&&!Array.isArray(old.original_sources)
+   const currentPointer=independentSource(old?.source)&&Object.keys(old).every(key=>['type','backup','source','verification'].includes(key))
+   remaining.description=currentPointer?Object.fromEntries(Object.entries(old).filter(([key])=>!['type','backup'].includes(key))):null
    if(!['content_locales','figure_book_editions'].includes(table)||remove||proof!==undefined||setProof!==undefined||nonstartProof!==undefined
     ||archiveProof.method!=='discard_raw_source_copy'||archiveProof.path!=='sources.description'||!String(archiveProof.reason??'').trim()
-    ||old?.type!=='backup-restored'||typeof old.backup!=='string'||!old.original_sources||typeof old.original_sources!=='object'||Array.isArray(old.original_sources)
+    ||old?.type!=='backup-restored'||typeof old.backup!=='string'||!copiedSources&&!currentPointer
     ||!patch||Object.keys(patch).length!==1||!isDeepStrictEqual(patch.sources,remaining))
     throw Error('Raw provenance discard may only remove a verified backup wrapper while retaining introduction and every live source field')
    continue
