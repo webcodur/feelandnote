@@ -310,6 +310,26 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.deepEqual(snapshot().figure_book_editions,[])
   })
 
+  await t.test('translated display introduction retains its bound provider URL while independent identity evidence and protected prose survive', () => {
+    const source='https://openlibrary.org/books/OL7424935M',independent='https://www.readinglength.com/work/WYHHcjR'
+    reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,description,sources) VALUES
+      ('keep','en','Original work','Actual author','9780375403255','Actual independently reviewed introduction about this original book.',
+       '{"primary":"openlibrary","provider_edition_url":"${source}","provider_edition_isbn":"9780375403255","description":"${independent}"}'),
+      ('keep','ko','원작 안내','실제 저자',NULL,NULL,'{"primary":"none"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reading','keep','person','Human review',5);`)
+    const before=snapshot(),locale=before.content_locales.find(row=>row.locale==='ko'),reference=before.content_locales.find(row=>row.locale==='en')
+    const description='이 책은 작가가 가족과 친구들에게 보낸 편지를 모은 서간집이다. 편지에는 일상에서 겪은 사건과 주변 사람들과의 관계, 글을 쓰는 과정에서 마주한 고민이 담겨 있다. 독자는 시기와 상대에 따라 달라지는 목소리를 통해 공개된 작품 뒤에 놓인 개인적인 경험을 살펴볼 수 있다.\n\n서간은 완성된 작품만으로는 드러나지 않는 작가의 생활과 생각을 읽게 한다. 수록된 편지와 그 맥락을 함께 따라가며 인간관계와 창작 활동이 어떻게 이어졌는지 확인할 수 있다는 점에서 작가의 작품을 이해하는 데 도움이 된다.'
+    const proof={method:'independent_locale_reference_introduction_review',contentId:'keep',referenceLocale:'en',referenceWorkTitle:reference.title,referenceCreator:reference.creator,isbn:reference.isbn,
+      locale:'ko',editionTitle:locale.title,sourceUrl:source,reason:'The exact provider edition supplies the translation; the independently reviewed jacket verifies this original and ISBN.',
+      evidence:[{url:independent,note:'Exact original and author reviewed.'}]}
+    const changes=[{table:'content_locales',before:locale,patch:{description,sources:{primary:'none',description:source,description_method:'translation',description_source_locale:'en'}},reviewedIntroductionCorrection:proof}]
+    const expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
+    query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes));assert.deepEqual(snapshot(),expected)
+    assert.deepEqual(snapshot().content_locales.find(row=>row.locale==='en'),reference)
+    assert.equal(snapshot().content_locales.find(row=>row.locale==='ko').isbn,null)
+    assert.deepEqual(snapshot().figure_book_editions,[])
+  })
+
   await t.test('explicit placeholder removal preserves physical edition, locale and reading rows under the active edition guard', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
