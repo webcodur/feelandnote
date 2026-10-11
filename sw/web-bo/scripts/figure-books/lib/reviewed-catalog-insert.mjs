@@ -1,4 +1,4 @@
-/** 기존 BOOK의 누락 카탈로그만 보완한다. ISBN·원작·본문 언어의 최종 판단은 호출한 LLM이 한다. */
+/** 기존 BOOK의 누락 카탈로그·판본만 보완한다. ISBN·원작·본문 언어의 최종 판단은 호출한 LLM이 한다. */
 import { randomUUID } from 'node:crypto'
 import { isDeepStrictEqual } from 'node:util'
 import { executeTemporaryMergeSql } from '../merge-works.mjs'
@@ -57,7 +57,8 @@ THEN RAISE EXCEPTION 'CATALOG_INSERT: rowset mismatch in ${table}';END IF;`
  * title is the effective seed title (sources.edition_title, otherwise the trimmed locale title).
  * All real locale cards of each new parent need an explicit review; display cards must have no ISBN.
  * sourceUrl is independent of OpenLibrary; sources in the live card must already bind the official ISBN.
- * This limited path refuses an existing parent/edition: it never creates another BOOK or patches a card.
+ * A missing parent uses its automatic seed; an existing parent with zero editions receives only reviewed cards.
+ * It never creates another BOOK, changes an existing parent or patches a card.
  */
 export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
   const assigned = assignedValid(workIds); snapshotValid(snapshot)
@@ -75,8 +76,10 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
     if (keys.has(key) || isbns.has(isbn)) throw Error('CATALOG_INSERT: duplicate locale or ISBN in reviews')
     keys.add(key); isbns.add(isbn)
     const work = snapshot.contents.find(row => row.id === review.contentId)
-    if (snapshot.figure_book_contents.some(row => row.content_id === review.contentId)
-      || snapshot.figure_book_editions.some(row => row.content_id === review.contentId || toIsbn13(row.isbn ?? '') === isbn)) throw Error('CATALOG_INSERT: existing catalog/edition/ISBN; limited missing-parent path only')
+    if (snapshot.figure_book_contents.filter(row => row.content_id === review.contentId).length > 1)
+      throw Error('CATALOG_INSERT: duplicate existing catalog parents')
+    if (snapshot.figure_book_editions.some(row => row.content_id === review.contentId || toIsbn13(row.isbn ?? '') === isbn))
+      throw Error('CATALOG_INSERT: existing edition/ISBN; zero-edition path only')
     if (snapshot.content_locales.some(row => row.content_id !== review.contentId && toIsbn13(row.isbn ?? '') === isbn)) throw Error('CATALOG_INSERT: ISBN already belongs to another assigned work')
     const locales = snapshot.content_locales.filter(row => row.content_id === review.contentId && row.locale === review.locale)
     const locale = locales.length === 1 && locales[0]
@@ -109,22 +112,27 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
       sources: { ...locale.sources, edition_text_scope_evidence: { isbn, source_url: review.sourceUrl, reason: review.reason } },
     }
   })
-  for (const id of parentIds) for (const locale of snapshot.content_locales.filter(row => row.content_id === id)) {
+  const newParentIds = parentIds.filter(id => !snapshot.figure_book_contents.some(row => row.content_id === id))
+  const existingParentIds = parentIds.filter(id => !newParentIds.includes(id))
+  for (const id of newParentIds) for (const locale of snapshot.content_locales.filter(row => row.content_id === id)) {
     if (keys.has(JSON.stringify([id, locale.locale]))) continue
     const display = !locale.isbn && locale.sources?.primary === 'none'
       && ['translated', 'romanized', 'original', 'display_only'].includes(locale.sources?.title)
     if (!display) throw Error('CATALOG_INSERT: unreviewed locale would be automatically seeded; review every real card first')
   }
-  return { assigned, parentIds, editions }
+  return { assigned, parentIds, newParentIds, existingParentIds, editions }
 }
 
 export function buildReviewedCatalogInsertSql(workIds, snapshot, reviews) {
   const plan = planReviewedCatalogInsert(workIds, snapshot, reviews)
-  const parentStatements = plan.parentIds.map(id => `INSERT INTO public.figure_book_contents(content_id,created_at,updated_at) VALUES(${sqlLiteral(id)},ts,ts);
+  const parentStatements = plan.newParentIds.map(id => `INSERT INTO public.figure_book_contents(content_id,created_at,updated_at) VALUES(${sqlLiteral(id)},ts,ts);
 expected_parents:=expected_parents||jsonb_build_array(jsonb_build_object('content_id',${sqlLiteral(id)},'created_at',ts,'updated_at',ts));`).join('\n')
-  const editionStatements = plan.editions.map(row => `SELECT id INTO STRICT seeded_id FROM public.figure_book_editions
+  const editionStatements = plan.editions.map(row => `${plan.newParentIds.includes(row.content_id)
+    ? `SELECT id INTO STRICT seeded_id FROM public.figure_book_editions
 WHERE content_id=${sqlLiteral(row.content_id)} AND locale=${sqlLiteral(row.locale)} AND isbn=${sqlLiteral(row.isbn)};
-UPDATE public.figure_book_editions SET verified=TRUE,edition_kind=${nullable(row.edition_kind)},text_scope=${nullable(row.text_scope)},sources=${json(row.sources)} WHERE id=seeded_id;
+UPDATE public.figure_book_editions SET verified=TRUE,edition_kind=${nullable(row.edition_kind)},text_scope=${nullable(row.text_scope)},sources=${json(row.sources)} WHERE id=seeded_id;`
+    : `INSERT INTO public.figure_book_editions(${Object.keys(row).join(',')},created_at,updated_at)
+VALUES(${Object.entries(row).map(([key, value]) => key === 'sources' ? json(value) : value === null ? 'NULL' : typeof value === 'boolean' || typeof value === 'number' ? String(value) : sqlLiteral(value)).join(',')},ts,ts) RETURNING id INTO seeded_id;`}
 expected_editions:=expected_editions||jsonb_build_array(${json(row)}||jsonb_build_object('id',seeded_id,'created_at',ts,'updated_at',ts));`).join('\n')
   const arrayLocks = [...new Set(['figure_book_editions', 'activity_logs', ...CONTENT_ARRAY_REFERENCES.map(ref => ref.table)])]
   const contentsChildren = REFERENCE_TABLES.map(sqlLiteral).join(',')
@@ -140,7 +148,7 @@ BEGIN
 LOCK TABLE ${arrayLocks.map(table => 'public.' + table).join(',')} IN SHARE ROW EXCLUSIVE MODE;
 ${SNAPSHOT_TABLES.map(table => `PERFORM 1 FROM public.${table} t WHERE ${where(table, plan.assigned)} ORDER BY to_jsonb(t)::text FOR UPDATE;`).join('\n')}
 ${SNAPSHOT_TABLES.map(table => aggregateCheck(table, plan.assigned, json(snapshot[table]))).join('\n')}
-IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgrelid='public.figure_book_contents'::regclass AND tgfoid='public.seed_figure_book_editions()'::regprocedure AND tgtype=5 AND tgenabled IN ('O','A')) THEN RAISE EXCEPTION 'CATALOG_INSERT: active automatic edition seed required';END IF;
+${plan.newParentIds.length ? "IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgrelid='public.figure_book_contents'::regclass AND tgfoid='public.seed_figure_book_editions()'::regprocedure AND tgtype=5 AND tgenabled IN ('O','A')) THEN RAISE EXCEPTION 'CATALOG_INSERT: active automatic edition seed required';END IF;" : ''}
 IF EXISTS(SELECT 1 FROM pg_constraint c JOIN pg_class r ON r.oid=c.conrelid JOIN pg_namespace n ON n.oid=r.relnamespace
 LEFT JOIN pg_attribute a ON a.attrelid=c.conrelid AND a.attnum=c.conkey[1]
 LEFT JOIN pg_attribute b ON b.attrelid=c.confrelid AND b.attnum=c.confkey[1]
@@ -165,7 +173,7 @@ COMMIT;SELECT 'MERGE_COMMITTED';`
 export function verifyReviewedCatalogInsertReadback(workIds, before, reviews, after) {
   const plan = planReviewedCatalogInsert(workIds, before, reviews); snapshotValid(after)
   const expected = structuredClone(before), parents = []
-  for (const id of plan.parentIds) {
+  for (const id of plan.newParentIds) {
     const rows = after.figure_book_contents.filter(row => row.content_id === id)
     const parent = rows.length === 1 && rows[0]
     if (!parent || typeof parent.created_at !== 'string' || !Number.isFinite(Date.parse(parent.created_at))
@@ -175,19 +183,22 @@ export function verifyReviewedCatalogInsertReadback(workIds, before, reviews, af
     expected.figure_book_contents.push({ content_id: id, created_at: parent.created_at, updated_at: parent.created_at })
   }
   const generated = new Set()
+  let insertionTimestamp = parents[0]?.created_at
   for (const row of plan.editions) {
     const rows = after.figure_book_editions.filter(candidate => candidate.content_id === row.content_id && candidate.locale === row.locale && candidate.isbn === row.isbn)
     const actual = rows.length === 1 && rows[0]
     if (!actual || !Number.isSafeInteger(actual.id) || actual.id < 1 || generated.has(actual.id)
       || before.figure_book_editions.some(edition => edition.id === actual.id)
-      || actual.created_at !== parents[0].created_at || actual.updated_at !== actual.created_at)
+      || typeof actual.created_at !== 'string' || !Number.isFinite(Date.parse(actual.created_at))
+      || insertionTimestamp && actual.created_at !== insertionTimestamp || actual.updated_at !== actual.created_at)
       throw Error('CATALOG_INSERT_READBACK: generated edition identity/timestamp mismatch')
+    insertionTimestamp ??= actual.created_at
     generated.add(actual.id)
     expected.figure_book_editions.push({ ...row, id: actual.id, created_at: actual.created_at, updated_at: actual.created_at })
   }
   for (const table of SNAPSHOT_TABLES) if (!isDeepStrictEqual(rowsCanonical(expected[table]), rowsCanonical(after[table])))
     throw Error('CATALOG_INSERT_READBACK: ' + table + ' rows differ')
-  return { insertedParents: plan.parentIds.length, insertedEditions: plan.editions.map(row => ({ contentId: row.content_id, locale: row.locale, isbn: row.isbn,
+  return { insertedParents: plan.newParentIds.length, insertedEditions: plan.editions.map(row => ({ contentId: row.content_id, locale: row.locale, isbn: row.isbn,
     id: after.figure_book_editions.find(edition => edition.content_id === row.content_id && edition.locale === row.locale && edition.isbn === row.isbn).id })), checkedTables: SNAPSHOT_TABLES.length }
 }
 

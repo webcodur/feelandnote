@@ -40,7 +40,7 @@ function fixture() {
 }
 function committed(before, reviews) {
   const plan = planReviewedCatalogInsert(ids, before, reviews), after = structuredClone(before)
-  for (const content_id of plan.parentIds) after.figure_book_contents.push({ content_id, created_at: timestamp, updated_at: timestamp })
+  for (const content_id of plan.newParentIds) after.figure_book_contents.push({ content_id, created_at: timestamp, updated_at: timestamp })
   plan.editions.forEach((row, index) => after.figure_book_editions.push({ ...row, id: 100 + index, created_at: timestamp, updated_at: timestamp }))
   return after
 }
@@ -67,11 +67,11 @@ test('missing 18-table state, absent BOOK and unassigned work fail before execut
   assert.throws(() => planReviewedCatalogInsert([ids[0], ids[0]], before, reviews), /distinct assigned/)
 })
 
-test('existing catalog, existing editions and a duplicate ISBN are refused instead of being duplicated', () => {
-  for (const change of [s => s.figure_book_contents.push({ content_id: ids[0] }), s => s.figure_book_editions.push({ id: 99, content_id: ids[0], isbn: null }),
+test('existing editions, duplicate parents and duplicate ISBNs are refused instead of being duplicated', () => {
+  for (const change of [s => s.figure_book_contents.push({ content_id: ids[0] }, { content_id: ids[0] }), s => s.figure_book_editions.push({ id: 99, content_id: ids[0], isbn: null }),
     s => s.figure_book_editions.push({ id: 99, content_id: 'other', isbn: '9780451464163' }), s => s.content_locales.push({ content_id: 'other', locale: 'en', isbn: '9780451464163' })]) {
     const { before, reviews } = fixture(); change(before)
-    assert.throws(() => planReviewedCatalogInsert(ids, before, reviews), /existing catalog|ISBN already/)
+    assert.throws(() => planReviewedCatalogInsert(ids, before, reviews), /existing catalog|existing edition|ISBN already/)
   }
   const { before, reviews } = fixture()
   assert.throws(() => planReviewedCatalogInsert(ids, before, [...reviews, reviews[0]]), /duplicate locale or ISBN/)
@@ -216,4 +216,47 @@ test('an original referenced by Remotion keeps its exact BOOK ID, locale cards a
   assert.equal(after.figure_book_contents[0].content_id, fixedOriginalId)
   assert.ok(after.figure_book_editions.filter(row => row.content_id === fixedOriginalId).length === 2)
   assert.doesNotMatch(readFileSync(new URL('./reviewed-catalog-insert.mjs', import.meta.url), 'utf8'), /checkFixedReferences/)
+})
+
+test('existing zero-edition parents keep every original field and timestamp and receive only explicitly reviewed real cards', async () => {
+  const { before, reviews } = fixture()
+  before.figure_book_contents = ids.map(content_id => ({ content_id, created_at: '2020-01-01T00:00:00+00:00', updated_at: '2023-02-03T04:05:06+00:00', synopsis: '기존 값' }))
+  // 자동 seed가 없는 기존 부모 경로에서는 ISBN 미확인 카드를 추가하지 않는다.
+  before.content_locales[1].isbn = null
+  const selected = [reviews[0], reviews[2]], original = structuredClone(before)
+  const plan = planReviewedCatalogInsert(ids, before, selected), after = committed(before, selected)
+  assert.deepEqual(plan.newParentIds, []); assert.deepEqual(plan.existingParentIds, ids)
+  assert.equal(plan.editions.length, 2)
+  const sql = buildReviewedCatalogInsertSql(ids, before, selected)
+  assert.equal(sql.match(/INSERT INTO public.figure_book_editions\(/g)?.length, 2)
+  assert.equal(sql.match(/RETURNING id INTO seeded_id/g)?.length, 2)
+  assert.doesNotMatch(sql, /INSERT INTO public.figure_book_contents|UPDATE public.figure_book_contents|SELECT id INTO STRICT seeded_id/)
+  assert.match(sql, /unhandled foreign reference/)
+  for (const table of SNAPSHOT_TABLES) assert.equal(sql.match(new RegExp('rowset mismatch in ' + table + "'", 'g'))?.length, 2)
+  let reads = 0
+  const result = await applyReviewedCatalogInsert(null, ids, selected, {
+    capture: async () => ++reads === 1 ? before : after,
+    execute: () => 'CATALOG_INSERT_EXPECTED:' + JSON.stringify(after) + '\nMERGE_COMMITTED',
+  })
+  assert.equal(result.insertedParents, 0); assert.equal(result.insertedEditions.length, 2)
+  assert.deepEqual(before, original)
+  for (const table of SNAPSHOT_TABLES.filter(table => table !== 'figure_book_editions')) assert.deepEqual(after[table], before[table])
+  const changed = structuredClone(after); changed.figure_book_contents[0].updated_at = timestamp
+  assert.throws(() => verifyReviewedCatalogInsertReadback(ids, before, selected, changed), /figure_book_contents rows differ/)
+})
+
+test('mixed missing-parent automatic seed and existing-parent zero-edition insert remain one atomic plan', () => {
+  const { before, reviews } = fixture()
+  before.figure_book_contents.push({ content_id: ids[0], created_at: '2018-01-01T00:00:00Z', updated_at: '2019-01-01T00:00:00Z' })
+  const plan = planReviewedCatalogInsert(ids, before, reviews), after = committed(before, reviews)
+  assert.deepEqual(plan.newParentIds, [ids[1]]); assert.deepEqual(plan.existingParentIds, [ids[0]])
+  const sql = buildReviewedCatalogInsertSql(ids, before, reviews)
+  assert.equal(sql.match(/INSERT INTO public.figure_book_contents\(/g)?.length, 1)
+  assert.equal(sql.match(/INSERT INTO public.figure_book_editions\(/g)?.length, 2)
+  assert.equal(sql.match(/SELECT id INTO STRICT seeded_id/g)?.length, 1)
+  assert.match(sql, /active automatic edition seed required/)
+  assert.equal(verifyReviewedCatalogInsertReadback(ids, before, reviews, after).insertedParents, 1)
+  const altered = structuredClone(after); altered.figure_book_editions[0].created_at = '2026-10-12T00:00:00Z'
+  altered.figure_book_editions[0].updated_at = altered.figure_book_editions[0].created_at
+  assert.throws(() => verifyReviewedCatalogInsertReadback(ids, before, reviews, altered), /identity\/timestamp/)
 })
