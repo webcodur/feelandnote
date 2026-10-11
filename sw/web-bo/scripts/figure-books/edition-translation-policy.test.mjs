@@ -123,6 +123,13 @@ test('같은 ISBN 공식 메타가 영문 원서라고 확인한 상품은 한�
  assert.throws(()=>translationRepairSql({duplicates:[],excluded:[{row:book,reason:'wrong_locale'}]},{}),/must not be deleted/)
 })
 
+test('verified plural volume ranges cannot expose later volumes as a representative',()=>{
+ for(const textScope of ['Volumes 11 and 12; continuous translation','Volumes 11–12; continuous translation','Parts II–III; continuous text'])
+  assert.equal(excludedBookEditionReason({textScope}),'nonstart_volume')
+ for(const textScope of ['Volumes 1 and 2; first combined volume','Parts I–II; first combined part','A collection of twelve independent stories'])
+  assert.equal(excludedBookEditionReason({textScope}),null)
+})
+
 test('Sheet eBook 판매 형식만으로 실제 악보 본문을 축약본으로 판정하지 않는다',()=>{
  assert.equal(excludedBookEditionReason({title:'Violin Sonatas',providerDescription:'Sheet eBook; complete printed music for violin and piano.'}),null)
  assert.equal(excludedBookEditionReason({providerDescription:'세계명작다이제스트 시리즈 Sheet eBook'}),'abridged')
