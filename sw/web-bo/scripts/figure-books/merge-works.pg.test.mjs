@@ -124,6 +124,37 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.equal(query("SELECT edition_kind||':'||text_scope FROM figure_book_editions WHERE isbn='9788936470487'"),'volume:volume/1')
   })
 
+  await t.test('reviewed first ISBN replacement removes later choices before policy checks and preserves every protected row', t=>{
+    t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
+      ('keep','ko','Novel 10','Author','Existing introduction','9780140449136','{"description":"https://publisher.example/first"}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,description,isbn,sources) VALUES
+      ('keep','ko','Novel 2','Author','Later introduction','9788932910680','{"description":"https://publisher.example/later"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','Original review','English review','https://example.org/review');`)
+    query(editionPolicySql())
+    const before=snapshot(),first=before.figure_book_editions.find(row=>row.isbn==='9780140449136'),later=before.figure_book_editions.find(row=>row.isbn==='9788932910680'),locale=before.content_locales[0],work=before.contents.find(row=>row.id==='keep')
+    assert.throws(()=>query("UPDATE figure_book_editions SET isbn='9788932910673',title='Novel 1' WHERE isbn='9780140449136'"),/additional edition/)
+    const proof={method:'independent_nonstart_volume_review',contentId:'keep',editionId:later.id,locale:'ko',editionTitle:later.title,isbn:later.isbn,
+      referenceEditionId:first.id,referenceTitle:'Novel 1',referenceCreator:'Author',referenceIsbn:'9788932910673',referenceAfterPatch:true,
+      textIdentity:'original',originalLanguage:'ko',volumeNumber:2,continuousText:true,
+      sourceUrl:'https://publisher.example/later',referenceSourceUrl:'https://publisher.example/first',
+      reason:'The exact publisher ISBN entries establish the first and second parts of one continuous original novel; the final locale selects the first.'}
+    const changes=[{table:'figure_book_editions',before:first,patch:{title:'Novel 1',isbn:'9788932910673',edition_kind:'volume',text_scope:'volume/1'}},
+      {table:'content_locales',before:locale,patch:{title:'Novel 1',isbn:'9788932910673'}},
+      {table:'contents',before:work,patch:{metadata:{figureBook:{originalLanguage:'ko',identityEvidence:'https://publisher.example/first'}}}},
+      {table:'figure_book_editions',before:later,remove:true,reviewedNonstartEditionRemoval:proof}]
+    const plan=planGuardedCatalogRepairs(['keep','drop'],before,changes)
+    query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes))
+    const after=snapshot()
+    for(const table of SNAPSHOT_TABLES)assert.deepEqual(after[table],plan.expected[table],table)
+    assert.equal(after.figure_book_editions.length,1)
+    assert.equal(after.figure_book_editions[0].isbn,'9788932910673')
+    assert.deepEqual(after.celeb_contents,before.celeb_contents)
+    assert.deepEqual(after.member_contents,before.member_contents)
+  })
+
   await t.test('complete-set choice replaces its included first volume without merging different body scopes or changing protected prose', t => {
     t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
