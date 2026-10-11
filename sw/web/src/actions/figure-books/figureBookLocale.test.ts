@@ -205,6 +205,28 @@ test('시리즈 시작권이 없으면 41권을 임의의 대표로 선택하지
   assert.deepEqual(mergeFigureBookEditions([volume(41), volume(17)], [], 'ko', false, false, SERIES), [])
 })
 
+test('실제 연속 번역의 11·12권은 최신 구매 상품이 있어도 첫 합본을 대신하지 않는다', () => {
+  const first: FigureBookEditionRow = {
+    ...BASE_ROW, id: 444, content_id: 'casanova', locale: 'en',
+    title: 'History of My Life', creator: 'Giacomo Casanova', isbn: '9780801856624',
+    publisher: 'Johns Hopkins University Press', release_date: '1997-01-01',
+    text_scope: 'Volumes 1 and 2; first combined volume', sources: { translators: ['Willard R. Trask'] },
+  }
+  const later = { ...first, id: 12309, isbn: '9780151410859', release_date: '2026-01-01',
+    text_scope: 'Volumes 11–12; continuous translation' }
+  const purchase = { ...later, edition_id: later.id, platform: 'amazon', affiliate_url: 'https://amazon.com/dp/example' }
+  const rows = [later, first]
+  const before = structuredClone(rows)
+  for (const all of [false, true]) {
+    const result = mergeFigureBookEditions(rows, [purchase], 'en', all)
+    assert.deepEqual(result.map(row => row.id), [444])
+    assert.equal(result[0].isbn, first.isbn)
+    assert.equal(result[0].purchaseUrl, null)
+    assert.deepEqual(mergeFigureBookEditions([later], [purchase], 'en', all), [])
+  }
+  assert.deepEqual(rows, before)
+})
+
 test('서로 다른 번역본은 각각 시작권을 남기고 곡별 악보와 권별 범위 없는 항목은 그대로 둔다', () => {
   const other = { ...volume(1, '다른 역자'), id: 101 }
   assert.deepEqual(mergeFigureBookEditions([volume(1), volume(2), other], [], 'ko', false, false, SERIES).map(e => e.id), [1, 101])
