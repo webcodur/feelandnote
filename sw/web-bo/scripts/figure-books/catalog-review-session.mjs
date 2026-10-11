@@ -303,7 +303,10 @@ export function createReviewSession(catalog, detected, { maxLanes = 8, fullCatal
         : titleKey ? titleIndex.get(titleKey) : creatorKey ? creatorIndex.get(creatorKey) : null
       if (titleKey || creatorKey) for (const id of textMatches ?? []) exactIds.add(id)
       if (!contentIds.length && !isbns.length && !titleKey && !creatorKey) fail(400, 'At least one exact lookup criterion is required')
-      return { works: compactJob({ id: null, lane: null, contentIds: [...exactIds].sort(), candidates: [] }).works }
+      return { works: compactJob({ id: null, lane: null, contentIds: [...exactIds].sort(), candidates: [] }).works.map(work => {
+        const job = workToJob.get(work.id)
+        return { ...work, assignment: job ? { jobId: job.id, state: job.state, lane: job.lane } : null }
+      }) }
     },
     exportProgress() { return { reports: jobs.filter(job => ['done', 'unresolved'].includes(job.state))
       .map(job => ({ contentIds: [...(job.reportContentIds ?? job.contentIds)], report: structuredClone({ ...job.report, counts: reportCounts(job) }) })) } },
