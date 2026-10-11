@@ -91,6 +91,25 @@ test('legacy backup labels discard empty copies while preserving an existing liv
  }
 })
 
+test('encoded and translated legacy backups discard only source copies and never a live URL',()=>{
+ const backup={type:'backup-restored',backup:'old/book-descriptions.json',verification:'Existing attribution',original_locale:'ko',original_sources:{primary:'kakao_book'}}
+ const translated={type:'locale-translation',snapshot_hash:'existing-hash',source_locale:'en',source_content_id:'work',original_sources:{primary:'openlibrary',description:backup}}
+ for(const table of ['content_locales','figure_book_editions'])for(const source of [JSON.stringify(backup),translated]){
+  const data=snapshot(),before=data[table][0];before.description='Existing body preserved';before.sources={primary:'openlibrary',description:source,identity:'https://publisher.example/current'}
+  const edit={table,before,patch:{sources:{...before.sources,description:null}},reviewedArchiveProvenanceDiscard:{method:'discard_raw_source_copy',path:'sources.description',reason:'Discard the verified nested old source copy, preserving the actual body and current identity.'}}
+  const plan=planGuardedCatalogRepairs(['work'],data,[edit]);assert.equal(plan.expected[table][0].description,before.description)
+  assert.deepEqual(plan.expected.member_contents,data.member_contents);assert.equal(plan.expected[table][0].sources.identity,before.sources.identity)
+  const clean=snapshot(),row=clean[table][0]
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],clean,[{table,before:row,patch:{sources:{...row.sources,description:source}}}]),/must not create or restore research archives/)
+  for(const invalid of ['{bad json',JSON.stringify({...backup,original_sources:{description:'https://publisher.example/live'}}),
+   {...translated,source_content_id:'other'}, {...translated,original_sources:{description:{...backup,type:'provider'}}},
+   {...translated,original_sources:{...translated.original_sources,current:'https://publisher.example/live'}}]){
+   before.sources.description=invalid
+   assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...edit,patch:{sources:{...before.sources,description:null}}}]),/Raw provenance discard/)
+  }
+ }
+})
+
 function completeSetSnapshot(){
  const data=snapshot()
  const first={id:1,content_id:'work',locale:'ko',title:'Novel 1',creator:'Author',isbn:'9788932910680',edition_kind:'volume',text_scope:'volume/1',

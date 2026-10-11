@@ -95,6 +95,25 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
   const snapshot = () => JSON.parse(query(`SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table => `'${table}',(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM ${table} t ${table === 'contents' ? "WHERE id IN ('keep','drop')" : ''})`).join(',')});`))
   const merge = s => query(buildMergeSql(pair, s))
 
+  await t.test('nested and JSON-encoded backup provenance clears source copies with all 18 rowsets protected',()=>{
+    const backup={type:'backup-restored',backup:'old/book-descriptions.json',original_locale:'ko',original_sources:{primary:'kakao_book'}}
+    const nested={type:'locale-translation',snapshot_hash:'existing-hash',source_locale:'en',source_content_id:'keep',original_sources:{primary:'openlibrary',description:backup}}
+    reset(`INSERT INTO content_locales(content_id,locale,title,description,sources) VALUES
+      ('keep','ko','Existing title','Existing Korean body',${sqlLiteral(JSON.stringify({primary:'none',description:nested,identity:'https://publisher.example/live'}))}::jsonb);
+      INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO figure_book_editions(content_id,locale,title,description,sources) VALUES
+      ('keep','en','Existing title','Existing English body',${sqlLiteral(JSON.stringify({primary:'none',description:JSON.stringify(backup),identity:'https://publisher.example/live'}))}::jsonb);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','Existing review','Existing English review','https://publisher.example/reading');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('member','keep','member','Existing member review',5);`)
+    const before=snapshot(),changes=['content_locales','figure_book_editions'].map(table=>({table,before:before[table][0],
+      patch:{sources:{...before[table][0].sources,description:null}},reviewedArchiveProvenanceDiscard:{method:'discard_raw_source_copy',path:'sources.description',reason:'Discard only verified old source copies; keep existing prose and live identity.'}}))
+    const expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected,sql=buildGuardedCatalogRepairSql(['keep','drop'],before,changes)
+    query(sql);assert.deepEqual(snapshot(),expected)
+    for(const table of SNAPSHOT_TABLES.filter(table=>!['content_locales','figure_book_editions'].includes(table)))assert.deepEqual(snapshot()[table],before[table],table)
+    assert.throws(()=>query(sql),/changed|snapshot|mismatch|before|concurrent/iu)
+    assert.deepEqual(snapshot(),expected)
+  })
+
   await t.test('source-reviewed later-volume deletion handles wrong live full scope without a forbidden metadata update', t=>{
     t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`UPDATE contents SET metadata='{"figureBook":{"originalLanguage":"ko","identityEvidence":"https://publisher.example/original"}}' WHERE id='keep';
