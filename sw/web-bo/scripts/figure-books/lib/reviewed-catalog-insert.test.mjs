@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync, existsSync } from 'node:fs'
 import { SNAPSHOT_TABLES } from './merge-work-sql.mjs'
-import { applyReviewedCatalogInsert, buildReviewedCatalogInsertSql, planReviewedCatalogInsert, verifyReviewedCatalogInsertReadback } from './reviewed-catalog-insert.mjs'
+import { applyReviewedCatalogInsert, bindReviewedCatalogInsertIdentity, buildReviewedCatalogInsertSql, planReviewedCatalogInsert, verifyReviewedCatalogInsertReadback } from './reviewed-catalog-insert.mjs'
 
 const ids = ['existing-a', 'existing-b']
 const timestamp = '2026-10-11T07:00:00+00:00'
@@ -55,6 +55,59 @@ test('one parent per original seeds both reviewed real languages while preservin
   assert.equal(plan.editions[1].description, before.content_locales[1].description)
   assert.equal(plan.editions[1].sources.description, before.content_locales[1].sources.description)
   assert.deepEqual(before, original)
+})
+
+const compactReviews = (before, reviews) => bindReviewedCatalogInsertIdentity(before, reviews.map(review => {
+  const result = { ...review }
+  for (const key of ['title', 'creator', 'workTitle', 'workCreator', 'translators']) delete result[key]
+  return result
+}))
+
+test('explicitly reviewed snapshot identity produces the identical plan and SQL without duplicating bibliography', () => {
+  const { before, reviews } = fixture(), original = structuredClone(before), compact = compactReviews(before, reviews)
+  assert.deepEqual(planReviewedCatalogInsert(ids, before, compact), planReviewedCatalogInsert(ids, before, reviews))
+  assert.equal(buildReviewedCatalogInsertSql(ids, before, compact), buildReviewedCatalogInsertSql(ids, before, reviews))
+  const after = committed(before, compact)
+  assert.equal(verifyReviewedCatalogInsertReadback(ids, before, compact, after).checkedTables, 18)
+  assert.deepEqual(before, original)
+  assert.deepEqual(compact, compactReviews(before, reviews))
+})
+
+test('compact input cannot silently invent an anchor, mask conflicting explicit identity or infer the review decision', () => {
+  for (const change of [s => { delete s.contents[0].metadata.figureBook.workTitle },
+    s => { s.contents[0].metadata.figureBook.workCreator = '' },
+    s => { s.content_locales.push(structuredClone(s.content_locales[0])) }]) {
+    const { before, reviews } = fixture(); change(before)
+    assert.throws(() => compactReviews(before, reviews), /reviewed original anchor/)
+  }
+  for (const key of ['title', 'creator', 'workTitle', 'workCreator', 'translators']) {
+    const { before, reviews } = fixture(), compact = compactReviews(before, reviews)
+    compact[0][key] = key === 'translators' ? [] : 'Conflicting input'
+    assert.throws(() => planReviewedCatalogInsert(ids, before, compact), /mixed with explicit identity/)
+  }
+  for (const [field, value, message] of [['useReviewedSnapshotIdentity', false, /independent work review/],
+    ['isbn', '9780140444964', /live locale/], ['textLanguage', 'ko', /exact text language/],
+    ['sourceUrl', 'https://openlibrary.org/books/OL1234M', /independent work review/],
+    ['reason', '', /independent work review/], ['editionKind', undefined, /reviewed kind/],
+    ['textScope', undefined, /reviewed kind/]]) {
+    const { before, reviews } = fixture(), compact = compactReviews(before, reviews); compact[0][field] = value
+    assert.throws(() => planReviewedCatalogInsert(ids, before, compact), message)
+  }
+})
+
+test('compact decisions stay bound to the exact reviewed identity before a fresh live capture', () => {
+  for (const change of [s => { s.content_locales[0].title = 'Other book' }, s => { s.content_locales[0].creator = 'Other writer' },
+    s => { s.contents[0].metadata.figureBook.workTitle = 'Other original' },
+    s => { s.contents[0].metadata.figureBook.workCreator = 'Other original writer' },
+    s => { s.content_locales[1].sources.translators = ['다른 역자'] }]) {
+    const { before, reviews } = fixture(), compact = compactReviews(before, reviews); change(before)
+    assert.throws(() => planReviewedCatalogInsert(ids, before, compact), /snapshot identity changed/)
+  }
+  for (const value of [undefined, '', '0'.repeat(64)]) {
+    const { before, reviews } = fixture(), compact = compactReviews(before, reviews)
+    compact[0].reviewedIdentityHash = value
+    assert.throws(() => planReviewedCatalogInsert(ids, before, compact), /binding missing/)
+  }
 })
 
 test('missing 18-table state, absent BOOK and unassigned work fail before execution', () => {
