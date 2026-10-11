@@ -41,6 +41,22 @@ function snapshotValid(snapshot) {
   for (const table of SNAPSHOT_TABLES) if (!Array.isArray(snapshot?.[table])) throw Error('EDITION_REVIEW: missing snapshot ' + table)
 }
 const descriptionSource = row => row.sources && typeof row.sources === 'object' ? row.sources.description : undefined
+// 공동 역자 일부만 복사된 옛 행은 두 실물 ISBN의 역할을 읽은 명시 보완으로만 정리한다.
+function reviewedTranslatorCompletion(review,keep,drop){
+  const proof=review.reviewedTranslatorCompletion
+  if(proof===undefined)return null
+  if(!proof||typeof proof!=='object'||Array.isArray(proof))throw Error('EDITION_REVIEW: invalid translator completion')
+  const credit=row=>row.sources?.translators??row.translators??row.translator??null
+  const names=value=>(typeof value==='string'?value.split(/[,;·]/u):Array.isArray(value)?value:[]).map(name=>bookTranslatorKey([name])).filter(Boolean)
+  const complete=names(proof.translators),known=[...names(credit(keep)),...names(credit(drop))]
+  if(review.textIdentity!=='translation'||proof.method!=='independent_translator_completion'
+    ||!Array.isArray(proof.translators)||!complete.length||complete.length!==proof.translators.length||new Set(complete).size!==complete.length
+    ||!isDeepStrictEqual(proof.keepBeforeTranslators,credit(keep))||!isDeepStrictEqual(proof.dropBeforeTranslators,credit(drop))
+    ||!publicSource(proof.keepSourceUrl,true)||!publicSource(proof.dropSourceUrl,true)||proof.keepSourceUrl===proof.dropSourceUrl
+    ||typeof proof.reason!=='string'||proof.reason.trim().length<20||known.some(name=>!complete.includes(name)))
+    throw Error('EDITION_REVIEW: translator completion requires exact prior credits, both independent ISBN sources and no conflicting credited translator')
+  return proof
+}
 function introRetained(drop, survivors, snapshot, crossWork = false) {
   if (!String(drop.description ?? '').trim() || isBookIntroductionSource(drop.description)) return true
   const origin = snapshot.contents.find(row => row.id === drop.content_id)
@@ -86,27 +102,33 @@ export function planReviewedEditionConsolidation(snapshot, reviews) {
     if (policy(keep) || policy(effectiveDrop)) throw Error('EDITION_REVIEW: excluded edition must be corrected separately')
     const translator = row => bookTranslatorKey(row.sources?.translators ?? row.translators ?? row.translator)
     const a = translator(keep), b = translator(drop)
-    if (a && b && a !== b || review.textIdentity === 'original' && (a || b)) throw Error('EDITION_REVIEW: known translator conflict')
-    retained.push({ review, work, keep, drop, crossWork })
+    const completion=reviewedTranslatorCompletion(review,keep,drop)
+    if (!completion&&a && b && a !== b || review.textIdentity === 'original' && (a || b)) throw Error('EDITION_REVIEW: known translator conflict')
+    retained.push({ review, work, keep, drop, crossWork,completion })
   }
   const survivors = [...snapshot.content_locales, ...snapshot.figure_book_editions.filter(row => !removed.has(String(row.id)))]
-  for (const { review, work, keep, drop, crossWork } of retained) {
+  for (const { review, work, keep, drop, crossWork,completion } of retained) {
     if (!introRetained(drop, survivors, snapshot, crossWork)) throw Error('EDITION_REVIEW: preserve exact introduction and its source in a surviving real same-locale row first')
     const canonical = expected.figure_book_editions.find(row => String(row.id) === String(keep.id))
     const figure = work.metadata?.figureBook ?? {}, sources = canonical.sources && typeof canonical.sources === 'object' && !Array.isArray(canonical.sources) ? canonical.sources : {}
     const accumulatedTranslator=bookTranslatorKey(sources.translators),dropTranslator=bookTranslatorKey(drop.sources?.translators)
-    if(accumulatedTranslator&&dropTranslator&&accumulatedTranslator!==dropTranslator)throw Error('EDITION_REVIEW: known translator conflict across mappings to one representative')
+    if(completion){
+      const earlier=retained.filter(item=>String(item.keep.id)===String(keep.id)&&item.completion)
+      if(earlier.some(item=>bookTranslatorKey(item.completion.translators)!==bookTranslatorKey(completion.translators)))throw Error('EDITION_REVIEW: translator completion conflicts across mappings')
+    }else if(accumulatedTranslator&&dropTranslator&&accumulatedTranslator!==dropTranslator)throw Error('EDITION_REVIEW: known translator conflict across mappings to one representative')
     if (sources.edition_work_evidence != null && !Array.isArray(sources.edition_work_evidence)) throw Error('EDITION_REVIEW: correct malformed canonical work evidence before consolidation')
     const proof = { method: 'independent_work_review', content_id: review.contentId, isbn: keep.isbn, locale: keep.locale,
       edition_title: keep.title, edition_creator: keep.creator, edition_kind: keep.edition_kind, text_scope: keep.text_scope,
       ...(typeof figure.workIdentity === 'string' && figure.workIdentity ? { work_identity: figure.workIdentity } : {}),
       // "same original text" does not establish its language (bilingual commentaries exist).
       ...(review.textIdentity === 'original' && figure.originalLanguage === keep.locale && /^https:\/\//u.test(figure.identityEvidence ?? '') ? { original_language: figure.originalLanguage } : {}),
-      source_url: review.sourceUrl, explanation: review.reason, text_identity: review.textIdentity }
+      source_url: review.sourceUrl, explanation: review.reason, text_identity: review.textIdentity,
+      ...(completion?{translators:structuredClone(completion.translators),translator_source_urls:[completion.keepSourceUrl,completion.dropSourceUrl]}:{}) }
     const evidence = Array.isArray(sources.edition_work_evidence) ? sources.edition_work_evidence : []
     canonical.sources = { ...sources,
+      ...(completion?{translators:structuredClone(completion.translators)}:{}),
       // A confirmed identical translation carries its known credits into an empty canonical slot.
-      ...(review.textIdentity === 'translation' && !bookTranslatorKey(sources.translators) && bookTranslatorKey(drop.sources?.translators) ? { translators: structuredClone(drop.sources.translators) } : {}),
+      ...(!completion&&review.textIdentity === 'translation' && !bookTranslatorKey(sources.translators) && bookTranslatorKey(drop.sources?.translators) ? { translators: structuredClone(drop.sources.translators) } : {}),
       edition_work_evidence: evidence.some(row => isDeepStrictEqual(row, proof)) ? evidence : [...evidence, proof] }
     const editionKeys = changed.get('figure_book_editions') ?? new Set(); editionKeys.add(String(keep.id)); changed.set('figure_book_editions', editionKeys)
     const productKeys = changed.get('figure_book_products') ?? new Set()

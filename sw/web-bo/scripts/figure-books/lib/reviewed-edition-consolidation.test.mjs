@@ -70,6 +70,24 @@ test('an original-text equivalence never invents the language of a bilingual com
   before.contents[0].metadata.figureBook.identityEvidence = 'https://author.example/work'
   assert.equal(planReviewedEditionConsolidation(before, [review]).expected.figure_book_editions[0].sources.edition_work_evidence[0].original_language, 'en')
 })
+
+test('independent exact-ISBN review completes omitted co-translator credits without storing old row copies',()=>{
+ const before=fixture();before.figure_book_editions[0].sources.translators=['Translator A','Translator B'];before.figure_book_editions[1].sources.translators=['Translator A']
+ const completion={method:'independent_translator_completion',translators:['Translator A','Translator B'],keepBeforeTranslators:['Translator A','Translator B'],dropBeforeTranslators:['Translator A'],
+  keepSourceUrl:'https://publisher.example/paper',dropSourceUrl:'https://publisher.example/hardcover',reason:'The two exact ISBN copyright credits identify the same joint translation by Translator A and Translator B.'}
+ const mapping={...review,textIdentity:'translation',reviewedTranslatorCompletion:completion}
+ assert.throws(()=>planReviewedEditionConsolidation(before,[{...review,textIdentity:'translation'}]),/translator conflict/)
+ const plan=planReviewedEditionConsolidation(before,[mapping]),canonical=plan.expected.figure_book_editions[0]
+ assert.deepEqual(canonical.sources.translators,completion.translators)
+ assert.deepEqual(canonical.sources.edition_work_evidence[0].translator_source_urls,[completion.keepSourceUrl,completion.dropSourceUrl])
+ assert.ok(!JSON.stringify(canonical.sources).includes('BeforeTranslators'))
+ for(const table of SNAPSHOT_TABLES.filter(table=>!['figure_book_editions','figure_book_products'].includes(table)))assert.deepEqual(plan.expected[table],before[table])
+ const sql=buildReviewedEditionConsolidationSql(before,[mapping]);assert.ok(sql.indexOf('DELETE FROM public.figure_book_editions')<sql.indexOf('UPDATE public.figure_book_editions SET sources'))
+ for(const patch of [{translators:['Translator A']},{dropBeforeTranslators:[]},{keepSourceUrl:'https://openlibrary.org/books/OL1M'},
+  {dropSourceUrl:completion.keepSourceUrl},{reason:''}])assert.throws(()=>planReviewedEditionConsolidation(before,[{...mapping,reviewedTranslatorCompletion:{...completion,...patch}}]),/translator completion/)
+ const conflict=structuredClone(before);conflict.figure_book_editions[1].sources.translators=['Other translator']
+ assert.throws(()=>planReviewedEditionConsolidation(conflict,[{...mapping,reviewedTranslatorCompletion:{...completion,dropBeforeTranslators:['Other translator']}}]),/translator completion/)
+})
 test('the same source-reviewed translation preserves known duplicate credits without inventing unknown translators', () => {
   const before = fixture(); before.figure_book_editions[1].sources.translators = ['Known Translator']
   const plan = planReviewedEditionConsolidation(before, [{ ...review, textIdentity: 'translation' }])

@@ -12,6 +12,7 @@ import { buildMergeSql, SNAPSHOT_TABLES, sqlLiteral } from './lib/merge-work-sql
 import { buildGuardedCatalogRepairSql,planGuardedCatalogRepairs,expandReviewedExactIsbnIntroductionChanges } from './lib/guarded-catalog-repairs.mjs'
 import { buildReviewedCatalogInsertSql,bindReviewedCatalogInsertIdentity,verifyReviewedCatalogInsertReadback } from './lib/reviewed-catalog-insert.mjs'
 import { buildCatalogRepairSnapshotSql } from './lib/guarded-catalog-repairs.mjs'
+import {buildReviewedEditionConsolidationSql,planReviewedEditionConsolidation} from './lib/reviewed-edition-consolidation.mjs'
 
 const bin = process.env.PG_TEST_BIN
 const executable = name => join(bin, name + (process.platform === 'win32' ? '.exe' : ''))
@@ -153,6 +154,34 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.equal(after.figure_book_editions[0].isbn,'9788932910673')
     assert.deepEqual(after.celeb_contents,before.celeb_contents)
     assert.deepEqual(after.member_contents,before.member_contents)
+  })
+
+  await t.test('source-confirmed co-translator completion deletes the duplicate before canonical credits update under live policy',t=>{
+    t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
+      ('keep','ko','Novel','Author','9788932910673','{"primary":"kakao","translators":["Translator A","Translator B"]}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      UPDATE figure_book_editions SET edition_kind='full',text_scope='complete';
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,isbn,edition_kind,text_scope,sources) VALUES
+      ('keep','ko','Novel reprint','Author','9788932910680','full','complete','{"translators":["Translator A"]}');
+      INSERT INTO figure_book_products(id,edition_id,platform,is_active) SELECT 7,id,'shop',true FROM figure_book_editions WHERE isbn='9788932910680';
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','Original review','English review','https://example.org/review');`)
+    query(editionPolicySql())
+    const before=JSON.parse(query(buildCatalogRepairSnapshotSql(['keep']))),first=before.figure_book_editions.find(row=>row.isbn==='9788932910673'),duplicate=before.figure_book_editions.find(row=>row.isbn==='9788932910680')
+    assert.throws(()=>query(`UPDATE figure_book_editions SET sources='{"translators":["Translator A","Translator B"]}' WHERE id=${duplicate.id}`),/representative edition/)
+    const review={contentId:'keep',keepEditionId:first.id,dropEditionId:duplicate.id,keepIsbn:first.isbn,dropIsbn:duplicate.isbn,locale:'ko',textIdentity:'translation',
+      sourceUrl:'https://publisher.example/reprint',reason:'The exact publisher copyright pages identify identical complete joint-translated text in two formats.',
+      reviewedTranslatorCompletion:{method:'independent_translator_completion',translators:['Translator A','Translator B'],keepBeforeTranslators:['Translator A','Translator B'],dropBeforeTranslators:['Translator A'],
+        keepSourceUrl:'https://publisher.example/first',dropSourceUrl:'https://publisher.example/reprint',reason:'Both exact ISBN copyright credits identify Translator A and Translator B; the old row omitted the second co-translator.'}}
+    const plan=planReviewedEditionConsolidation(before,[review])
+    query(buildReviewedEditionConsolidationSql(before,[review]))
+    const after=JSON.parse(query(buildCatalogRepairSnapshotSql(['keep'])))
+    for(const table of SNAPSHOT_TABLES)assert.deepEqual(after[table],plan.expected[table],table)
+    assert.deepEqual(after.celeb_contents,before.celeb_contents)
+    assert.deepEqual(after.member_contents,before.member_contents)
+    assert.deepEqual(after.figure_book_editions[0].sources.translators,['Translator A','Translator B'])
+    assert.equal(after.figure_book_products[0].edition_id,first.id)
   })
 
   await t.test('complete-set choice replaces its included first volume without merging different body scopes or changing protected prose', t => {
