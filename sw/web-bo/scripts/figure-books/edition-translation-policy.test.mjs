@@ -34,6 +34,13 @@ test('어린이·자석 상품 판단은 다른 ISBN 정본이나 성인용 illu
  excludedBookEditionReason(saved)
  assert.deepEqual(saved, before)
 })
+test('운영자가 명시한 선정 제외는 실제 상품과 작품에만 적용하고 낮은 평점 자체로 추정하지 않는다',()=>{
+ const proof={...selectionProof,reason:'editorial_exclusion',explanation:'The operator explicitly excluded this verified ISBN from the public shelf after reviewing the actual edition.'}
+ assert.equal(excludedBookEditionReason(withSelection(proof)),'editorial_exclusion')
+ for(const changed of [{content_id:'another-work'},{content_id:undefined}]) assert.equal(excludedBookEditionReason(withSelection({...proof,...changed})),null)
+ assert.equal(excludedBookEditionReason({...withSelection(proof),content_id:'another-work'}),null)
+ assert.equal(excludedBookEditionReason({...selectionBook,sources:{rating:2,review_count:0,sales_index:200}}),null)
+})
 test('아동 전용 창작물은 정확한 독립 판정으로만 제외하고 권장 학년이나 제목에서 추정하지 않는다',()=>{
  const book={locale:'ko',title:'꼬마 토끼 조지의 언덕',isbn:'9788949170244'}
  const proof={...selectionProof,...book,edition_title:book.title,reason:'children_only',

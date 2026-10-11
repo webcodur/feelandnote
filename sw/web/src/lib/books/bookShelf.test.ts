@@ -80,6 +80,18 @@ test('오귀속 상품은 잘못 붙은 작품에서만 제외하고 정상 원�
   assert.deepEqual(original,before)
   assert.equal(resolveBookShelfBook({...original,id:'actual-poppy-war'},[],'en')?.isbn,isbn)
 })
+test('운영자 선정 제외는 기존 기록을 보존하며 카탈로그 밖 언어 카드로 되살리지 않는다',()=>{
+ const title='삼국지 조조 천하 꿈 펼친 모신 무장들',isbn='9791130321561'
+ const sources={primary:'kakao_book',edition_selection_evidence:[{method:'independent_selection_review',content_id:'work',
+  isbn,locale:'ko',edition_title:title,reason:'editorial_exclusion',source_url:'https://www.pybook.co.kr/mall/goods/detail?goodsno=9328',
+  explanation:'The operator explicitly excluded this actual publisher edition from the service shelf; it is not misclassified as abridged.'}]}
+ const saved={...content([{...row('ko',sources),title,isbn}]),commerce_events:[{id:'purchase-click',content_id:'work'}]}
+ const before=structuredClone(saved)
+ assert.equal(resolveBookShelfBook(saved,[],'ko'),null)
+ assert.deepEqual(saved,before)
+ assert.equal(resolveBookShelfBook({...saved,id:'another-original'},[],'ko')?.isbn,isbn)
+ assert.ok(resolveBookShelfBook(content([{...row('ko'),title,isbn}]),[],'ko'))
+})
 
 test('기존에 확인된 학습용·축약 제목과 공급처 범위도 locale fallback에서 제외한다', () => {
   for (const title of ['Penguin Readers Level 3: Elon Musk', 'Oxford Bookworms 1', '마리 퀴리(요약본)']) {
