@@ -123,6 +123,13 @@ test('같은 ISBN 공식 메타가 영문 원서라고 확인한 상품은 한�
  assert.throws(()=>translationRepairSql({duplicates:[],excluded:[{row:book,reason:'wrong_locale'}]},{}),/must not be deleted/)
 })
 
+test('Sheet eBook 판매 형식만으로 실제 악보 본문을 축약본으로 판정하지 않는다',()=>{
+ assert.equal(excludedBookEditionReason({title:'Violin Sonatas',providerDescription:'Sheet eBook; complete printed music for violin and piano.'}),null)
+ assert.equal(excludedBookEditionReason({providerDescription:'세계명작다이제스트 시리즈 Sheet eBook'}),'abridged')
+ assert.equal(excludedBookEditionReason(withSelection({...selectionProof,reason:'non_reading_product',
+  explanation:'Independent publisher and page preview confirm blank staff paper with no printed music.'})),'non_reading_product')
+})
+
 test('본문 제목에서 숨겨진 공식 Penguin Reader 총서도 정규 판본에서 제외한다',()=>{
  assert.equal(excludedBookEditionReason({title:'Doctor Zhivago',sources:{provider_scope_description:'Penguin Reader , Level 5 (2300 words)'}}),'graded_reader')
  assert.equal(excludedBookEditionReason({title:'Doctor Zhivago',providerDescription:'Readers discuss the original novel'}),null)
