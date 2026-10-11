@@ -167,7 +167,7 @@ expected_parents:=expected_parents||jsonb_build_array(jsonb_build_object('conten
   const editionStatements = plan.editions.map(row => `${plan.newParentIds.includes(row.content_id)
     ? `SELECT id INTO STRICT seeded_id FROM public.figure_book_editions
 WHERE content_id=${sqlLiteral(row.content_id)} AND locale=${sqlLiteral(row.locale)} AND isbn=${sqlLiteral(row.isbn)};
-UPDATE public.figure_book_editions SET verified=TRUE,edition_kind=${nullable(row.edition_kind)},text_scope=${nullable(row.text_scope)},sources=${json(row.sources)} WHERE id=seeded_id;`
+UPDATE public.figure_book_editions SET title=${sqlLiteral(row.title)},creator=${sqlLiteral(row.creator)},publisher=${nullable(row.publisher)},verified=TRUE,edition_kind=${nullable(row.edition_kind)},text_scope=${nullable(row.text_scope)},sources=${json(row.sources)} WHERE id=seeded_id;`
     : `INSERT INTO public.figure_book_editions(${Object.keys(row).join(',')},created_at,updated_at)
 VALUES(${Object.entries(row).map(([key, value]) => key === 'sources' ? json(value) : value === null ? 'NULL' : typeof value === 'boolean' || typeof value === 'number' ? String(value) : sqlLiteral(value)).join(',')},ts,ts) RETURNING id INTO seeded_id;`}
 expected_editions:=expected_editions||jsonb_build_array(${json(row)}||jsonb_build_object('id',seeded_id,'created_at',ts,'updated_at',ts));`).join('\n')
