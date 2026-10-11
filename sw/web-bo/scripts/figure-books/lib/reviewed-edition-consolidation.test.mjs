@@ -92,6 +92,20 @@ test('unique introductions and their source cannot be lost, but a surviving real
   locale.sources.primary = 'openlibrary'; locale.isbn = null
   assert.throws(() => planReviewedEditionConsolidation(before, [review]), /preserve exact introduction/)
 })
+test('source markers are not introduction prose, while similar real text remains protected', () => {
+  for (const marker of ['KAKAO', 'DAUM', 'OPEN']) {
+    const before = fixture(), drop = before.figure_book_editions[1]
+    drop.description = marker; drop.sources.description = 'https://publisher.example/marker-source'
+    const plan = planReviewedEditionConsolidation(before, [review])
+    assert.equal(plan.expected.figure_book_editions.length, 1)
+    assert.deepEqual(plan.expected.content_locales, before.content_locales)
+    assert.deepEqual(plan.expected.celeb_contents, before.celeb_contents)
+  }
+  for (const prose of ['KAKAO 소개 본문', 'OPEN: actual introduction', 'DAUM source discussion']) {
+    const before = fixture(); before.figure_book_editions[1].description = prose
+    assert.throws(() => planReviewedEditionConsolidation(before, [review]), /preserve exact introduction/)
+  }
+})
 test('an introduction on a second drop row in the same batch is not considered surviving', () => {
   const before = fixture()
   const a = { ...review, keepEditionId: 3, dropEditionId: 4 }
