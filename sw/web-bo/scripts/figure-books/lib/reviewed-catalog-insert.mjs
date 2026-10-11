@@ -6,7 +6,7 @@ import { captureCatalogRepairSnapshot } from './guarded-catalog-repairs.mjs'
 import { SNAPSHOT_TABLES, REFERENCE_TABLES, referenceWhere, sqlLiteral } from './merge-work-sql.mjs'
 import { CONTENT_ARRAY_REFERENCES } from './content-array-references.mjs'
 import { toIsbn13 } from '../../../../../packages/content-search/src/book-isbn.ts'
-import { SERVICE_BOOK_EDITION_KINDS, bookTranslatorKey, excludedBookEditionReason } from '../../../../../packages/content-search/src/book-edition-policy.ts'
+import { SERVICE_BOOK_EDITION_KINDS, bookTranslatorKey, excludedBookEditionReason, reviewedBookEditionSelectionReason } from '../../../../../packages/content-search/src/book-edition-policy.ts'
 
 const prefix = 'CATALOG_INSERT_EXPECTED:'
 const json = value => sqlLiteral(JSON.stringify(value)) + '::jsonb'
@@ -55,7 +55,8 @@ THEN RAISE EXCEPTION 'CATALOG_INSERT: rowset mismatch in ${table}';END IF;`
  * reviews: {contentId,locale,isbn,title,creator,textLanguage,workTitle,workCreator,
  *   sourceUrl,reason,translators?:string[],editionKind:null|serviceKind,textScope:null|string}.
  * title is the effective seed title (sources.edition_title, otherwise the trimmed locale title).
- * All real locale cards of each new parent need an explicit review; display cards must have no ISBN.
+ * Each real card needs either an explicit edition review or an exact source-reviewed exclusion.
+ * Display cards must have no ISBN. The live seed trigger excludes reviewed rejected cards.
  * sourceUrl is independent of OpenLibrary; sources in the live card must already bind the official ISBN.
  * A missing parent uses its automatic seed; an existing parent with zero editions receives only reviewed cards.
  * It never creates another BOOK, changes an existing parent or patches a card.
@@ -118,7 +119,8 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
     if (keys.has(JSON.stringify([id, locale.locale]))) continue
     const display = !locale.isbn && locale.sources?.primary === 'none'
       && ['translated', 'romanized', 'original', 'display_only'].includes(locale.sources?.title)
-    if (!display) throw Error('CATALOG_INSERT: unreviewed locale would be automatically seeded; review every real card first')
+    const excluded = reviewedBookEditionSelectionReason({...locale,title:locale.sources?.edition_title?.trim()||locale.title?.trim()})
+    if (!display && !excluded) throw Error('CATALOG_INSERT: unreviewed locale would be automatically seeded; review every real card first')
   }
   return { assigned, parentIds, newParentIds, existingParentIds, editions }
 }
