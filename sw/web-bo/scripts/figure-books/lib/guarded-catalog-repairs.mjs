@@ -249,8 +249,23 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
  }
  for(const {before,reviewedUnboundIsbnRemoval:proof} of changes)if(proof!==undefined){
   const reference=reviewedUnboundIsbnReference(before,proof,snapshot)
+  const selected=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===before.locale)
+  const selectedIsbn=toIsbn13(selected?.isbn??'')
+  const selectedEdition=snapshot.figure_book_editions.find(row=>row.content_id===before.content_id&&row.locale===before.locale
+   &&toIsbn13(row.isbn??'')===selectedIsbn&&String(row.id)!==String(before.id))
+  const selectedSource=selectedEdition?.sources?.isbn??selectedEdition?.sources?.description
+  const sameSelectedPointer=selectedSource===proof.selectedProviderSourceUrl
+   ||/^https:\/\/(?:m\.)?search\.daum\.net\/search\?.*bookId=\d+/u.test(selectedSource??'')
+    &&/^https:\/\/(?:m\.)?search\.daum\.net\/search\?.*bookId=\d+/u.test(proof.selectedProviderSourceUrl??'')
+    &&new URL(selectedSource).searchParams.get('bookId')===new URL(proof.selectedProviderSourceUrl).searchParams.get('bookId')
+  const keepExisting=proof.keepExistingRepresentative===true&&selectedIsbn&&selectedIsbn!==toIsbn13(before.isbn)
+   &&selectedEdition&&!excludedBookEditionReason({...selectedEdition,editionKind:selectedEdition.edition_kind,textScope:selectedEdition.text_scope})
+   &&String(selectedEdition.id)===String(proof.selectedEditionId)&&toIsbn13(proof.selectedIsbn??'')===selectedIsbn&&sameSelectedPointer
+   &&(/^https:\/\/(?:m\.)?search\.daum\.net\/search\?.*bookId=\d+/u.test(proof.selectedProviderSourceUrl??'')
+    ||/^https:\/\/openlibrary\.org\/books\/OL\d+M(?:\/|$)/u.test(proof.selectedProviderSourceUrl??''))
+   &&expected.content_locales.some(row=>isDeepStrictEqual(row,selected))&&expected.figure_book_editions.some(row=>isDeepStrictEqual(row,selectedEdition))
   if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference))
-   ||!expected.content_locales.some(row=>row.content_id===before.content_id&&row.locale===before.locale&&toIsbn13(row.isbn??'')===toIsbn13(reference.isbn)))
+   ||!keepExisting&&!expected.content_locales.some(row=>row.content_id===before.content_id&&row.locale===before.locale&&toIsbn13(row.isbn??'')===toIsbn13(reference.isbn)))
    throw Error('Unbound ISBN removal must retain the reviewed actual product and selected ISBN')
  }
  for(const {before,reviewedCompleteSetVolumeRemoval:proof} of changes)if(proof!==undefined){
@@ -284,17 +299,23 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   if(setProof!==undefined||nonstartProof!==undefined)continue // 분권 소개는 검수된 대표의 정상 소개로 대표된다. 감상 필드는 보존한다.
   if(proof!==undefined){
    if(proof?.method==='independent_locale_reference_introduction_review'){
+    const clear=patch?.description===null&&patch?.sources?.description===null
     const reference=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===proof.referenceLocale
      &&row.title===proof.referenceWorkTitle&&row.creator===proof.referenceCreator&&toIsbn13(row.isbn??'')===toIsbn13(proof.isbn??''))
     if(table!=='content_locales'||remove||!patch||before.isbn!==null||before.sources?.primary!=='none'
      ||proof.contentId!==before.content_id||proof.referenceLocale===before.locale||!reference||!toIsbn13(reference.isbn??'')
      ||!String(proof.referenceWorkTitle??'').trim()||!String(proof.referenceCreator??'').trim()
      ||patch.isbn!==undefined&&patch.isbn!==null||patch.sources?.primary!=='none'
-     ||!reviewedIntroductionLanguage(before,patch,proof)
+     ||!clear&&!reviewedIntroductionLanguage(before,patch,proof)
      ||proof.locale!==before.locale||proof.editionTitle!==(patch.title??before.title)
-     ||!independentSource(proof.sourceUrl)||patch.sources.description!==proof.sourceUrl||!String(proof.reason??'').trim()
+     ||!independentSource(proof.sourceUrl)||!clear&&patch.sources.description!==proof.sourceUrl||!String(proof.reason??'').trim()
      ||!Array.isArray(proof.evidence)||proof.evidence.some(item=>!independentSource(item?.url)))
      throw Error('Locale reference introduction correction requires the exact same-work ISBN, author and independent source review')
+    if(clear){
+     if(!String(before.description??'').trim()||isBookIntroductionSource(before.description)||proof.reason.trim().length<BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH||!proof.evidence.length)
+      throw Error('Locale reference introduction clear requires actual incorrect prose and independent source evidence')
+     continue
+    }
     researchIntroductionText({contentId:before.content_id,locale:before.locale,title:patch.title??before.title,creator:patch.creator??before.creator,
      description:patch.description,sourceUrl:proof.sourceUrl,evidence:proof.evidence})
     continue

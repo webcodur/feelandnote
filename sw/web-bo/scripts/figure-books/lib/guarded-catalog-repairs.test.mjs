@@ -307,6 +307,25 @@ test('invalid introduction can be explicitly cleared; ISBN-less display translat
  assert.deepEqual(expected.member_contents,data.member_contents)
 })
 
+test('incorrect ISBN-less locale prose can be cleared using the same-work physical locale without creating an edition',()=>{
+ const data=snapshot();data.figure_book_editions=[]
+ const reference=data.content_locales[0];Object.assign(reference,{isbn:'9780007455669',title:'Steve Biddulph’s Raising Girls',creator:'Steve Biddulph'})
+ const before={content_id:'work',locale:'ko',title:'여자아이 키우기',creator:'스티브 비덜프',isbn:null,
+  description:'스티브 프랜시스의 농구 선수 경력과 한국 현대문학의 역사에 관한 잘못된 소개가 함께 붙어 있다.',sources:{primary:'none',description:'https://encyclopedia.example/wrong-person'}}
+ data.content_locales.push(before)
+ const source='https://obnb.uk/p16171714-steve-biddulphs-raising-girls'
+ const proof={method:'independent_locale_reference_introduction_review',contentId:'work',referenceLocale:'en',referenceWorkTitle:reference.title,referenceCreator:reference.creator,
+  isbn:reference.isbn,locale:'ko',editionTitle:before.title,sourceUrl:source,reason:'Independent bibliography confirms the parenting original and author; the Korean prose describes unrelated basketball and literature.',evidence:[{url:source,note:'Actual title, original author and parenting subject confirmed.'}]}
+ const correction={table:'content_locales',before,patch:{description:null,sources:{primary:'none',description:null}},reviewedIntroductionCorrection:proof}
+ const expected=planGuardedCatalogRepairs(['work'],data,[correction]).expected
+ assert.deepEqual(expected.figure_book_editions,[]);assert.deepEqual(expected.content_locales[0],reference)
+ assert.equal(expected.content_locales[1].isbn,null);assert.equal(expected.content_locales[1].description,null)
+ for(const table of SNAPSHOT_TABLES.filter(table=>table!=='content_locales'))assert.deepEqual(expected[table],data[table])
+ for(const difference of [{contentId:'other'},{referenceCreator:'Other author'},{referenceWorkTitle:'Other work'},{isbn:'9780140449136'},{reason:'Short'},{evidence:[]}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...correction,reviewedIntroductionCorrection:{...proof,...difference}}]))
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...correction,patch:{description:null,sources:{primary:'none',description:source}}}]))
+})
+
 test('independently researched ISBN-less original correction binds the actual author and keeps all protected rows',()=>{
  const data=snapshot();data.figure_book_editions=[];data.contents[0].metadata={}
  const before=data.content_locales[0];Object.assign(before,{title:'Original work',creator:'Actual author',isbn:null,description:'Wrong imported account of another book.',sources:{primary:'none'}})
@@ -559,7 +578,21 @@ test('unbound ISBN candidate removal requires explicit review and leaves the rea
  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal,{table:'figure_book_editions',before:reference,patch:{title:'Changed'}}]),/retain/)
  data.content_locales[0].isbn=before.isbn
  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/selected ISBN/)
- data.content_locales[0].isbn=reference.isbn;data.figure_book_products=[{id:3,edition_id:1,is_active:false}]
+ const other={...structuredClone(reference),id:3,isbn:'9788932323770',publisher:'Other publisher',sources:{primary:'kakao_book',isbn:'https://search.daum.net/search?w=bookpage&bookId=7125930',translators:['Other translator']}}
+ data.figure_book_editions.push(other);data.content_locales[0].isbn=other.isbn
+ const keepSelected={...removal,reviewedUnboundIsbnRemoval:{...proof,keepExistingRepresentative:true,selectedEditionId:other.id,selectedIsbn:other.isbn,selectedProviderSourceUrl:other.sources.isbn}}
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/selected ISBN/)
+ const kept=planGuardedCatalogRepairs(['work'],data,[keepSelected]).expected
+ assert.deepEqual(kept.content_locales,data.content_locales);assert.deepEqual(kept.figure_book_editions,[reference,other])
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[keepSelected,{table:'figure_book_editions',before:other,patch:{publisher:'Changed'}}]),/selected ISBN/)
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[keepSelected,{table:'content_locales',before:data.content_locales[0],patch:{title:'Changed'}}]),/selected ISBN/)
+ for(const difference of [{selectedEditionId:1},{selectedIsbn:reference.isbn},{selectedProviderSourceUrl:'https://search.daum.net/search?w=bookpage&bookId=1'}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...keepSelected,reviewedUnboundIsbnRemoval:{...keepSelected.reviewedUnboundIsbnRemoval,...difference}}]),/selected ISBN/)
+ other.sources.description='https://m.search.daum.net/search?w=bookpage&bookId=7125930&tab=introduction';delete other.sources.isbn
+ assert.deepEqual(planGuardedCatalogRepairs(['work'],data,[keepSelected]).expected.content_locales,data.content_locales)
+ other.sources.isbn='kakao_title_search'
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[keepSelected]),/selected ISBN/)
+ data.content_locales[0].isbn=reference.isbn;data.figure_book_products=[{id:4,edition_id:1,is_active:false}]
  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/product history/)
 })
 
