@@ -145,6 +145,11 @@ function reviewedCompleteSetReference(before,proof,snapshot){
  const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(proof?.referenceEditionId))
  const translator=bookTranslatorKey(proof?.translators)
  const selected=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===before.locale)
+ const figure=snapshot.contents.find(row=>row.id===before.content_id)?.metadata?.figureBook??{}
+ const a=bookTranslatorKey(before.sources?.translators),b=bookTranslatorKey(reference?.sources?.translators)
+ const sameText=proof?.textIdentity==='original'&&!translator&&!a&&!b
+  &&proof.originalLanguage===before.locale&&figure.originalLanguage===before.locale&&independentSource(figure.identityEvidence)
+  ||(proof?.textIdentity===undefined||proof.textIdentity==='translation')&&translator&&a===translator&&b===translator
  if(proof?.method!=='independent_complete_set_review'||proof.contentId!==before.content_id||String(proof.editionId)!==String(before.id)
   ||proof.locale!==before.locale||proof.editionTitle!==before.title||!toIsbn13(before.isbn??'')||toIsbn13(proof.isbn??'')!==toIsbn13(before.isbn)
   ||before.edition_kind!=='volume'||before.text_scope!=='volume/1'||proof.volumeNumber!==1
@@ -156,10 +161,10 @@ function reviewedCompleteSetReference(before,proof,snapshot){
   ||before.creator!==reference.creator||reference.edition_kind!=='full'||reference.text_scope!=='complete'
   ||!toIsbn13(reference.isbn??'')||toIsbn13(reference.isbn)!==toIsbn13(proof.referenceIsbn??'')
   ||toIsbn13(reference.isbn)===toIsbn13(before.isbn)||!selected||toIsbn13(selected.isbn??'')!==toIsbn13(reference.isbn)
-  ||!translator||bookTranslatorKey(before.sources?.translators)!==translator||bookTranslatorKey(reference.sources?.translators)!==translator
+  ||!sameText
   ||excludedBookEditionReason({...reference,editionKind:reference.edition_kind,textScope:reference.text_scope})
   ||!String(reference.description??'').trim()||isBookIntroductionSource(reference.description)||!independentSource(reference.sources?.description))
-  throw Error('Complete-set removal requires exact selected whole set, included first volume, same verified translator and independent ISBN sources')
+  throw Error('Complete-set removal requires exact selected whole set, included first volume, verified original or same translator and independent ISBN sources')
  return reference
 }
 function reviewedNonstartReference(before,proof,snapshot){
