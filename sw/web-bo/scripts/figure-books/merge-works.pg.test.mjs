@@ -8,7 +8,7 @@ import { spawnSync, spawn } from 'node:child_process'
 import { createServer } from 'node:net'
 import { editionPolicySql } from './lib/edition-policy-sql.mjs'
 import { translationRepairSql } from './edition-translation-audit.mjs'
-import { buildMergeSql, SNAPSHOT_TABLES } from './lib/merge-work-sql.mjs'
+import { buildMergeSql, SNAPSHOT_TABLES, sqlLiteral } from './lib/merge-work-sql.mjs'
 
 const bin = process.env.PG_TEST_BIN
 const executable = name => join(bin, name + (process.platform === 'win32' ? '.exe' : ''))
@@ -89,6 +89,39 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
   const reset = extra => query(`TRUNCATE ${SNAPSHOT_TABLES.join(',')} RESTART IDENTITY CASCADE; INSERT INTO contents(id,type) VALUES('keep','BOOK'),('drop','BOOK'),('other','BOOK'); ${extra}`)
   const snapshot = () => JSON.parse(query(`SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table => `'${table}',(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM ${table} t ${table === 'contents' ? "WHERE id IN ('keep','drop')" : ''})`).join(',')});`))
   const merge = s => query(buildMergeSql(pair, s))
+
+  await t.test('automatic seed and edition guard honor exact independent selection proofs, including ISBN10 normalization', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    const proof={method:'independent_selection_review',reason:'children_picture',isbn:'9781524773458',locale:'ko',edition_title:'Activity card',
+      source_url:'https://publisher.example/confirmed-product',explanation:'Publisher confirms that the exact ISBN contains a magnetic activity picture book.'}
+    const prepare=value=>{
+      reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
+        ('keep','en','Normal English edition','Author','9783836504423','{"primary":"openlibrary"}'),
+        ('keep','ko','Activity card','Author','9781524773458',${sqlLiteral(JSON.stringify({primary:'kakao_book',edition_selection_evidence:[value]}))});`)
+      query(editionPolicySql())
+      const before=snapshot().content_locales
+      query("INSERT INTO figure_book_contents VALUES('keep')")
+      assert.deepEqual(snapshot().content_locales,before)
+    }
+    for(const reason of ['children_picture','graded_reader','abridged','non_reading_product','wrong_locale']) {
+      prepare({...proof,reason})
+      assert.equal(query("SELECT string_agg(locale,',' ORDER BY locale) FROM figure_book_editions"),'en')
+      assert.throws(()=>query(`INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','ko','Activity card','9781524773458',${sqlLiteral(JSON.stringify({edition_selection_evidence:[{...proof,reason}]}))})`),/not service editions/)
+    }
+    for(const isbn of ['978-1-5247-7345-8','152477345X']) {
+      prepare({...proof,isbn})
+      assert.equal(query("SELECT string_agg(locale,',' ORDER BY locale) FROM figure_book_editions"),'en')
+    }
+    for(const changed of [{isbn:'9780394800165'},{isbn:'9781524773459'},{isbn:9781524773458},{locale:'en'},
+      {edition_title:'Another title'},{explanation:''},{explanation:123456789012345678901234567890},
+      {reason:'low_rating'},{method:'machine_review'},{source_url:'https://openlibrary.org/books/OL1M'},
+      {source_url:'https://sub.openlibrary.org./books/OL1M'},{source_url:'https://user:password@publisher.example/book'},
+      {source_url:'https://999999999999999999999/book'},{source_url:'https://publisher.123/book'},
+      {source_url:'https://publisher.example:99999999999999999999999999999999999/book'}]) {
+      prepare({...proof,...changed})
+      assert.equal(query("SELECT string_agg(locale,',' ORDER BY locale) FROM figure_book_editions"),'en,ko')
+    }
+  })
 
   await t.test('source-reviewed foreign and card-deck locales are not regenerated as editions during merge', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))

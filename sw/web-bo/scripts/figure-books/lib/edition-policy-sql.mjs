@@ -1,6 +1,29 @@
-import { BOOK_EDITION_EXCLUDED_TITLE, BOOK_EDITION_ENGLISH_SOURCE_TITLE, BOOK_EDITION_GRADED_READER, BOOK_EDITION_EXCLUDED_SCOPE, BOOK_EDITION_KAKAO_PAGE, BOOK_EDITION_NONSTART_SCOPE, BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION, BOOK_TRANSLATOR_IGNORED_CHARACTERS, BOOK_EDITION_VOLUME_TITLE, BOOK_EDITION_VOLUME_TITLE_FORMAT, BOOK_EDITION_WORK_TITLE_ARTICLE, BOOK_EDITION_WORK_TITLE_PUNCTUATION, SERVICE_BOOK_EDITION_KINDS } from '../../../../../packages/content-search/src/book-edition-policy.ts'
+import { BOOK_EDITION_EXCLUDED_TITLE, BOOK_EDITION_ENGLISH_SOURCE_TITLE, BOOK_EDITION_GRADED_READER, BOOK_EDITION_EXCLUDED_SCOPE, BOOK_EDITION_KAKAO_PAGE, BOOK_EDITION_NONSTART_SCOPE, BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION, BOOK_TRANSLATOR_IGNORED_CHARACTERS, BOOK_EDITION_VOLUME_TITLE, BOOK_EDITION_VOLUME_TITLE_FORMAT, BOOK_EDITION_WORK_TITLE_ARTICLE, BOOK_EDITION_WORK_TITLE_PUNCTUATION, SERVICE_BOOK_EDITION_KINDS, BOOK_EDITION_SELECTION_REASONS, BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH } from '../../../../../packages/content-search/src/book-edition-policy.ts'
+import { ISBN13_PATTERN, ISBN10_PATTERN, ISBN_FORMATTING_PATTERN, ISBN13_WEIGHTS, ISBN10_WEIGHTS } from '../../../../../packages/content-search/src/book-isbn.ts'
 import { sqlLiteral } from './merge-work-sql.mjs'
 const pg = regex => sqlLiteral(regex.source.replaceAll('\\b','\\y'))
+// The shared ISBN patterns and weights also govern proof matching in PostgreSQL.
+function normalizedIsbnSql(value) {
+ const compact=`upper(regexp_replace(coalesce(${value},''),${pg(ISBN_FORMATTING_PATTERN)},'','g'))`
+ const sum=(input,weights)=>weights.map((weight,index)=>`(CASE substring(${input},${index+1},1) WHEN 'X' THEN 10 ELSE substring(${input},${index+1},1)::int END)*${weight}`).join('+')
+ const prefix=`('978'||left(${compact},9))`
+ return `(CASE WHEN ${compact} ~ ${pg(ISBN13_PATTERN)} THEN CASE WHEN (${sum(compact,ISBN13_WEIGHTS)})%10=0 THEN ${compact} END
+ WHEN ${compact} ~ ${pg(ISBN10_PATTERN)} THEN CASE WHEN (${sum(compact,ISBN10_WEIGHTS)})%11=0 THEN ${prefix}||((10-(${sum(prefix,ISBN13_WEIGHTS.slice(0,12))})%10)%10)::text END END)`
+}
+/** Only exact source-reviewed exclusions suppress a seed; uncertain or stale proofs do not. */
+function selectionExcludedSql(title,isbn,locale,sources) {
+ return `EXISTS(SELECT 1 FROM jsonb_array_elements(CASE WHEN jsonb_typeof(${sources}->'edition_selection_evidence')='array' THEN ${sources}->'edition_selection_evidence' ELSE '[]'::jsonb END) proof
+ WHERE proof->>'method'='independent_selection_review'
+ AND jsonb_typeof(proof->'isbn')='string' AND jsonb_typeof(proof->'locale')='string'
+ AND jsonb_typeof(proof->'edition_title')='string' AND jsonb_typeof(proof->'explanation')='string'
+ AND ${normalizedIsbnSql(isbn)} IS NOT NULL AND ${normalizedIsbnSql("proof->>'isbn'")}=${normalizedIsbnSql(isbn)}
+ AND proof->>'locale'=${locale} AND nullif(${locale},'') IS NOT NULL AND proof->>'edition_title'=${title} AND nullif(btrim(${title}),'') IS NOT NULL
+ AND proof->>'reason' IN (${BOOK_EDITION_SELECTION_REASONS.map(sqlLiteral).join(',')})
+ AND char_length(btrim(coalesce(proof->>'explanation','')))>=${BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH}
+ AND coalesce(proof->>'source_url','') ~ '^https://[A-Za-z0-9.-]*[A-Za-z][A-Za-z0-9-]*[.]?(:[0-9]{1,5})?([/?#][^[:space:]]*)?$'
+ AND (CASE WHEN proof->>'source_url' ~ '^https://[A-Za-z0-9.-]+:[0-9]{1,5}([/?#]|$)' THEN substring(proof->>'source_url' from '^https://[^/?#:]+:([0-9]+)')::int ELSE 0 END)<=65535
+ AND lower(split_part(split_part(substring(proof->>'source_url' from '^https://([^/?#]+)'),':',1),'@',1)) !~ '(^|[.])openlibrary[.]org[.]?$')`
+}
 export function editionPolicySql() {
  return `BEGIN; SET LOCAL lock_timeout='5s'; SET LOCAL statement_timeout='30s';
 CREATE OR REPLACE FUNCTION public.book_translator_identity(value jsonb) RETURNS text
@@ -29,7 +52,7 @@ LANGUAGE plpgsql SET search_path='pg_catalog' AS $policy$
 DECLARE translators text; figure jsonb; original_locale boolean;
 BEGIN
  SELECT metadata->'figureBook' INTO figure FROM public.contents WHERE id=new.content_id FOR NO KEY UPDATE;
- IF (new.locale='ko' AND coalesce(new.title,'') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)}) OR public.book_nonstart_work_volume(new.title,figure,new.text_scope) OR new.edition_kind='abridged' OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)}
+ IF ${selectionExcludedSql('new.title','new.isbn','new.locale','new.sources')} OR (new.locale='ko' AND coalesce(new.title,'') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)}) OR public.book_nonstart_work_volume(new.title,figure,new.text_scope) OR new.edition_kind='abridged' OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)}
   OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_GRADED_READER)}
   OR (new.sources->>'provider_edition_isbn'=new.isbn AND (coalesce(new.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)} OR coalesce(new.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_GRADED_READER)}))
   OR (new.locale='ko' AND new.sources->>'provider_edition_isbn'=new.isbn AND coalesce(new.sources->>'provider_edition_title','') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)})
@@ -96,6 +119,7 @@ begin
   from public.contents as content
   join public.content_locales as locale on locale.content_id = content.id
   where content.id = new.content_id and content.type = 'BOOK'
+    and NOT ${selectionExcludedSql("coalesce(nullif(btrim(locale.sources->>'edition_title'),''),nullif(btrim(locale.title),''),content.external_id,content.id)",'locale.isbn','locale.locale','locale.sources')}
     and NOT public.book_nonstart_work_volume(locale.title,content.metadata->'figureBook',content.metadata #>> '{fictionSource,textScope}')
     and coalesce(content.metadata #>> '{fictionSource,editionKind}', '') <> 'abridged'
     and coalesce(content.metadata #>> '{figureBook,editionKind}', '') <> 'abridged'

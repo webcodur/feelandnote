@@ -96,6 +96,21 @@ test('every real card must be reviewed before the parent trigger runs; no-ISBN r
   assert.throws(() => planReviewedCatalogInsert(ids, invalidDisplay, reviews), /unreviewed locale/)
 })
 
+test('a source-reviewed excluded card is preserved while only the other real language is registered', () => {
+  const {before,reviews}=fixture(),card=before.content_locales[1]
+  const proof={method:'independent_selection_review',reason:'abridged',isbn:card.isbn,locale:card.locale,edition_title:card.title,
+    source_url:'https://publisher.example/exact-abridged-isbn',explanation:'Publisher explicitly confirms that this ISBN reduces the original chapter bodies.'}
+  card.sources.edition_selection_evidence=[proof]
+  const selected=[reviews[0],reviews[2]],original=structuredClone(before)
+  assert.equal(planReviewedCatalogInsert(ids,before,selected).editions.length,2)
+  assert.deepEqual(before,original)
+  for(const changed of [{isbn:'9780451464163'},{locale:'en'},{edition_title:'Different edition'},
+    {source_url:'https://openlibrary.org/books/OL123M'},{reason:'low_rating'},{method:'machine_review'},{explanation:''}]) {
+    const stale=structuredClone(before);stale.content_locales[1].sources.edition_selection_evidence=[{...proof,...changed}]
+    assert.throws(()=>planReviewedCatalogInsert(ids,stale,selected),/unreviewed locale/)
+  }
+})
+
 test('source, original anchor, actual language, live bibliography and known translators are explicit and cannot be fabricated', () => {
   for (const [field, value, message] of [
     ['sourceUrl', 'https://openlibrary.org/books/OL1234M', /independent work review/],
