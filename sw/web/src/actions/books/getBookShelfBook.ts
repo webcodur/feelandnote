@@ -12,7 +12,7 @@ import type { BookShelfBook } from '@/components/shared/BookShelf/types'
 
 /** 책을 선택할 때 개인·신화·팩션이 같은 판본·소개 자료를 읽는다. */
 export async function getBookShelfBook(contentId: string, locale: string): Promise<BookShelfBook | null> {
-  return cachedDetail(CACHE_TAGS.CONTENTS, contentId, ['book-shelf-detail-v3-edition-policy', contentId, locale], async () => {
+  return cachedDetail(CACHE_TAGS.CONTENTS, contentId, ['book-shelf-detail-v4-edition-policy', contentId, locale], async () => {
     const db = createStaticClient()
     const [result, editionMap] = await Promise.all([
       db.from('contents').select(`id,type,release_date,content_locales(${CL_SELECT})`)
