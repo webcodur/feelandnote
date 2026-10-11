@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import {extractCatalogIntroductionCandidates,createCatalogIntroductionResearch} from './catalog-review-introductions.mjs'
+import {extractCatalogIntroductionCandidates,createCatalogIntroductionResearch,createUnboundOriginalContextResearch} from './catalog-review-introductions.mjs'
 import {readOfficialEdition} from './edition-provider-audit.mjs'
 
 const isbn='9780141439518',other='9780141439587',koIsbn='9788937460012'
@@ -9,6 +9,28 @@ const edition=(id,changes={})=>({id,content_id:'work',locale:'en',isbn,title:'Pr
 const catalog=(editions,locales=[])=>({contents:[{id:'work',figureBook:{originalTitle:'Pride and Prejudice'}}],editions,locales})
 const official=(value,changes={})=>({isbn:value,key:'/books/OL123M',sourceUrl:'https://openlibrary.org/books/OL123M',editionIsbns:[value],languageKeys:['/languages/eng'],editionAuthorKeys:['/authors/OL123A'],title:'Pride and Prejudice',mainTitle:'Pride and Prejudice',creator:'Jane Austen',workKeys:['/works/OL123W'],...changes})
 const work={key:'/works/OL123W',title:'Pride and Prejudice',authors:[{author:{key:'/authors/OL123A'}}],description:{value:prose}}
+
+test('missing edition language still offers unapproved original context, deduplicated without changing approval or input',async()=>{
+ const source=createCatalogIntroductionResearch({collect:async()=>[{isbn,data:official(isbn,{languageKeys:[]})}]})
+ const artifacts=await source.prefetch(extractCatalogIntroductionCandidates(catalog([edition(1),edition(2)])))
+ const before=structuredClone(artifacts);let reads=0
+ const enrichment=createUnboundOriginalContextResearch({readOpenLibraryWork:async()=>{reads++;return {data:work}}})
+ const [a,b]=await Promise.all([enrichment.enrich(artifacts),enrichment.enrich(artifacts)])
+ assert.equal(reads,1);assert.deepEqual(a,b);assert.deepEqual(artifacts,before)
+ assert.ok(a.every(row=>row.sourceIntro===null&&row.scopeWarnings.includes('english_language_not_confirmed')))
+ assert.equal(a[0].sourceCandidates[0].text,prose)
+ assert.ok(a[0].scopeWarnings.includes('original_context_requires_llm_edition_review'))
+})
+
+test('unbound context rejects unverified ISBN/work paths and retries failed reads without pretending source approval',async()=>{
+ let reads=0
+ const enrichment=createUnboundOriginalContextResearch({readOpenLibraryWork:async()=>{if(++reads===1)throw Error('Temporary failure');return {data:work}}})
+ const row={locale:'en',isbn,sourceIntro:null,scopeWarnings:[],officialBinding:{editionIsbns:[isbn],workKeys:[work.key]}}
+ const skipped=await enrichment.enrich([{...row,isbn:other},{...row,officialBinding:{...row.officialBinding,workKeys:['/works/OL123W?token=secret']}}])
+ assert.equal(reads,0);assert.ok(skipped.every(value=>!value.sourceCandidates))
+ const [failed]=await enrichment.enrich([row]);assert.ok(failed.scopeWarnings.includes('original_context_lookup_failed'))
+ const [retried]=await enrichment.enrich([row]);assert.equal(reads,2);assert.equal(retried.sourceIntro,null);assert.equal(retried.sourceCandidates[0].text,prose)
+})
 
 test('candidate extraction separates legitimate markers and reuses only same work/locale/ISBN prose',()=>{
  const editions=[edition(1),edition(2,{description:'OPEN'}),edition(3,{description:'KAKAO'}),edition(4,{description:'한국어 설명'}),edition(5,{isbn:other}),edition(6,{content_id:'other'}),edition(7,{isbn:null})]
@@ -115,4 +137,17 @@ test('failed source requests are retryable and do not poison all ISBN promises',
  const result=await research.prefetch(candidates)
  assert.equal(calls,2)
  assert.ok(result.every(row=>row.sourceIntro===prose))
+})
+
+
+test('provider error without binding still collects exact ISBN raw context for LLM and never approves English',async()=>{
+ const row={contentId:'one',locale:'en',isbn,sourceIntro:null,scopeWarnings:['english_language_not_confirmed'],sourceCandidates:[]}
+ let reads=0
+ const enrich=createUnboundOriginalContextResearch({readOpenLibraryEdition:async value=>{reads++;assert.equal(value,isbn);return {detail:{key:'/books/OL123M',title:'Raw title',languages:[]},binding:{editionIsbns:[isbn],languageKeys:[],workKeys:['/works/OL123W']}}},readOpenLibraryWork:async()=>({data:work})})
+ const result=await enrich.enrich([row,row])
+ assert.equal(reads,1)
+ assert.ok(result.every(x=>x.sourceIntro===null&&x.scopeWarnings.includes('english_language_not_confirmed')))
+ assert.equal(result[0].sourceCandidates[0].text,prose)
+ assert.equal(result[0].unapprovedEditionContext.sourceUrl,'https://openlibrary.org/books/OL123M')
+ assert.equal(row.officialBinding,undefined)
 })
