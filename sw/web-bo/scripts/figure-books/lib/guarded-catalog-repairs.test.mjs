@@ -214,6 +214,40 @@ test('multiple deletions retain original row matching and SQL literal safety',()
  assert.ok(sql.includes("''quoted''"))
 })
 
+test('explicit placeholder removal retains the actual edition and protected rows without inventing physical metadata',()=>{
+ const data=snapshot(),before=data.figure_book_editions[0]
+ Object.assign(before,{isbn:null,publisher:null,release_date:null,sources:{primary:'openlibrary',description:'https://search.daum.net/search?w=bookpage&bookId=123'}})
+ const reference={id:2,content_id:'work',locale:'ko',title:'정상 번역',creator:'실제 저자',isbn:'9780674250703',description:null,sources:{primary:'kakao'}}
+ data.figure_book_editions.push(reference)
+ const proof={method:'independent_placeholder_review',contentId:'work',editionId:before.id,locale:before.locale,editionTitle:before.title,
+  referenceEditionId:reference.id,referenceLocale:reference.locale,referenceTitle:reference.title,referenceCreator:reference.creator,referenceIsbn:reference.isbn,
+  sourceUrl:'https://publisher.example/actual-translation',reason:'The reviewed physical translation belongs to this original; the English row has no identifiable physical edition.'}
+ const removal={table:'figure_book_editions',before,remove:true,reviewedPlaceholderRemoval:proof}
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:removal.table,before,remove:true}]),/policy-excluded/)
+ const expected=planGuardedCatalogRepairs(['work'],data,[removal]).expected
+ assert.deepEqual(expected.figure_book_editions,[reference]);assert.deepEqual(expected.content_locales,data.content_locales)
+ for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(expected[table],data[table])
+ const sql=buildGuardedCatalogRepairSql(['work'],data,[removal]);assert.ok(sql.includes('DELETE FROM public.figure_book_editions'))
+ assert.ok(!sql.includes('independent_placeholder_review'));assert.ok(!sql.includes('UPDATE public.celeb_contents'))
+ for(const difference of[{method:'automatic'},{contentId:'other'},{editionId:99},{locale:'ko'},{editionTitle:'Wrong title'},
+  {referenceEditionId:1},{referenceEditionId:99},{referenceLocale:'en'},{referenceTitle:'Other translation'},{referenceCreator:'Other author'},
+  {referenceIsbn:'9780140449136'},{sourceUrl:'https://openlibrary.org/books/OL1M'},{reason:'Short'}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...removal,reviewedPlaceholderRemoval:{...proof,...difference}}]),/Placeholder removal/)
+ for(const difference of[{isbn:'9780140449136'},{publisher:'Actual publisher'},{release_date:'2000-01-01'},
+  {sources:{primary:'openlibrary',edition_key:'/books/OL1M'}},{sources:{primary:'openlibrary',provider_edition_url:'https://openlibrary.org/books/OL1M'}},
+  {sources:{primary:'openlibrary',isbn:'https://openlibrary.org/books/OL1M'}}]){
+  const changed=structuredClone(data);Object.assign(changed.figure_book_editions[0],difference)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],changed,[{...removal,before:changed.figure_book_editions[0]}]),/Placeholder removal/)
+ }
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal,{table:'figure_book_editions',before:reference,patch:{title:'Changed reference'}}]),/retain/)
+ data.figure_book_products=[{id:3,edition_id:1,is_active:false}]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/product history/)
+ data.figure_book_products=[];before.description='Existing source-backed introduction'
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/introduction/)
+ data.content_locales[0].description=before.description;data.content_locales[0].sources.description=before.sources.description
+ assert.equal(planGuardedCatalogRepairs(['work'],data,[removal]).expected.figure_book_editions.length,1)
+})
+
 test('removing an excluded edition does not treat provider markers as prose to preserve',()=>{
  for(const marker of ['OPEN','KAKAO','DAUM']){
   const data=snapshot(),before=data.figure_book_editions[0]

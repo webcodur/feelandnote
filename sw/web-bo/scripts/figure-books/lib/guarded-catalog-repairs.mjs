@@ -6,7 +6,7 @@ import {runProcess,executeTemporaryMergeSql,checkFixedReferences} from '../merge
 import {SNAPSHOT_TABLES,REFERENCE_TABLES,hasArrayReference,referenceWhere,sqlLiteral} from './merge-work-sql.mjs'
 import {CONTENT_ARRAY_REFERENCES} from './content-array-references.mjs'
 import {toIsbn13} from '../../../../../packages/content-search/src/book-isbn.ts'
-import {excludedBookEditionReason,reviewedBookEditionSelectionReason} from '../../../../../packages/content-search/src/book-edition-policy.ts'
+import {excludedBookEditionReason,reviewedBookEditionSelectionReason,BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH} from '../../../../../packages/content-search/src/book-edition-policy.ts'
 import {isBookIntroductionSource} from '../../../../../packages/content-search/src/book-introduction-contract.ts'
 import researchIntroductionContract from '../../contents/book-research-introduction-contract.ts'
 const {researchIntroductionText}=researchIntroductionContract
@@ -23,6 +23,22 @@ function reviewedIntroductionLanguage(before,patch,proof){
  const method=patch.sources?.description_method,sourceLocale=patch.sources?.description_source_locale
  return method==='research'&&sourceLocale===before.locale
   ||method==='translation'&&['ko','en'].includes(proof.referenceLocale)&&proof.referenceLocale!==before.locale&&sourceLocale===proof.referenceLocale
+}
+
+function reviewedPlaceholderReference(before,proof,snapshot){
+ const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(proof?.referenceEditionId))
+ const sources=before.sources??{}
+ const physicalSource=Object.values(sources).some(value=>typeof value==='string'&&(/^https:\/\/openlibrary\.org\/books\/OL\d+M(?:\/|$)/u.test(value)||/^https:\/\/(?:m\.)?search\.daum\.net\/search\?.*bookId=\d+/u.test(value)&&value!==sources.description))
+ if(proof?.method!=='independent_placeholder_review'||proof.contentId!==before.content_id||String(proof.editionId)!==String(before.id)
+  ||proof.locale!==before.locale||proof.editionTitle!==before.title||[before.isbn,before.publisher,before.release_date,before.releaseDate].some(value=>String(value??'').trim())
+  ||sources.edition_key||sources.provider_edition_url||sources.provider_edition_isbn||physicalSource
+  ||!independentSource(proof.sourceUrl)||typeof proof.reason!=='string'||proof.reason.trim().length<BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
+  ||!reference||String(reference.id)===String(before.id)||reference.content_id!==before.content_id||reference.locale!==proof.referenceLocale
+  ||reference.title!==proof.referenceTitle||reference.creator!==proof.referenceCreator||!String(proof.referenceCreator??'').trim()
+  ||!toIsbn13(reference.isbn??'')||toIsbn13(reference.isbn)!==toIsbn13(proof.referenceIsbn??'')
+  ||excludedBookEditionReason({...reference,editionKind:reference.edition_kind,textScope:reference.text_scope}))
+  throw Error('Placeholder removal requires an exact unverified row and independently reviewed same-work physical edition')
+ return reference
 }
 
 export function buildCatalogRepairSnapshotSql(workIds) {
@@ -50,11 +66,14 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   if(seen.has(identity)||index<0||!isDeepStrictEqual(snapshot[table].find(row=>rowKey(table,row)===key),before))throw Error('Catalog before row differs from full snapshot')
   seen.add(identity)
   const selectionProof=change.reviewedSelectionExclusion
+  const placeholderProof=change.reviewedPlaceholderRemoval
+  if(placeholderProof!==undefined&&(!remove||selectionProof!==undefined))throw Error('Placeholder review is only valid for explicit edition removal')
+  if(placeholderProof!==undefined)reviewedPlaceholderReference(before,placeholderProof,snapshot)
   if(selectionProof!==undefined&&(!remove||!independentSource(selectionProof?.source_url)
    ||!reviewedBookEditionSelectionReason({...before,sources:{edition_selection_evidence:[selectionProof]}})))throw Error('Source-reviewed edition exclusion requires exact live ISBN, locale, title and independent selection evidence')
   if(remove){
    const work=snapshot.contents.find(row=>row.id===before.content_id),figure=work.metadata?.figureBook??{}
-   if(selectionProof===undefined&&!excludedBookEditionReason({...before,editionKind:before.edition_kind,textScope:before.text_scope,workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)}))throw Error('Only a policy-excluded edition may be removed')
+   if(selectionProof===undefined&&placeholderProof===undefined&&!excludedBookEditionReason({...before,editionKind:before.edition_kind,textScope:before.text_scope,workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)}))throw Error('Only a policy-excluded edition may be removed')
    if(snapshot.figure_book_products.some(product=>String(product.edition_id)===String(before.id)))throw Error('Edition has product history; removal forbidden')
    expected[table].splice(index,1)
   }else{
@@ -66,6 +85,10 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    expected[table][index]={...expected[table][index],...structuredClone(patch)}
    const keys=changedKeys.get(table)??new Set();keys.add(key);changedKeys.set(table,keys)
   }
+ }
+ for(const {before,reviewedPlaceholderRemoval:proof} of changes)if(proof!==undefined){
+  const reference=reviewedPlaceholderReference(before,proof,snapshot)
+  if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference)))throw Error('Placeholder removal must retain the reviewed physical edition unchanged')
  }
  // 정확한 ISBN의 독립 원문으로 오귀속을 판단한 명시 교정만 기존 소개 보존 예외다.
  for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof} of changes){

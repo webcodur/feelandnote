@@ -9,6 +9,7 @@ import { createServer } from 'node:net'
 import { editionPolicySql } from './lib/edition-policy-sql.mjs'
 import { translationRepairSql } from './edition-translation-audit.mjs'
 import { buildMergeSql, SNAPSHOT_TABLES, sqlLiteral } from './lib/merge-work-sql.mjs'
+import { buildGuardedCatalogRepairSql,planGuardedCatalogRepairs } from './lib/guarded-catalog-repairs.mjs'
 
 const bin = process.env.PG_TEST_BIN
 const executable = name => join(bin, name + (process.platform === 'win32' ? '.exe' : ''))
@@ -89,6 +90,26 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
   const reset = extra => query(`TRUNCATE ${SNAPSHOT_TABLES.join(',')} RESTART IDENTITY CASCADE; INSERT INTO contents(id,type) VALUES('keep','BOOK'),('drop','BOOK'),('other','BOOK'); ${extra}`)
   const snapshot = () => JSON.parse(query(`SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table => `'${table}',(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM ${table} t ${table === 'contents' ? "WHERE id IN ('keep','drop')" : ''})`).join(',')});`))
   const merge = s => query(buildMergeSql(pair, s))
+
+  await t.test('explicit placeholder removal preserves physical edition, locale and reading rows under the active edition guard', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
+      ('keep','ko','Actual translation','Author','9780674250703','{"primary":"kakao"}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO figure_book_editions(content_id,locale,title,sources) VALUES('keep','en','Original work','{"primary":"openlibrary"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reading','keep','person','Human review',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('curation','keep','celeb','원문 감상','Original review','https://evidence.example/reading');`)
+    query(editionPolicySql())
+    const before=snapshot(),placeholder=before.figure_book_editions.find(row=>row.locale==='en'),reference=before.figure_book_editions.find(row=>row.locale==='ko')
+    const proof={method:'independent_placeholder_review',contentId:'keep',editionId:placeholder.id,locale:placeholder.locale,editionTitle:placeholder.title,
+      referenceEditionId:reference.id,referenceLocale:reference.locale,referenceTitle:reference.title,referenceCreator:reference.creator,referenceIsbn:reference.isbn,
+      sourceUrl:'https://publisher.example/actual-translation',reason:'The independently reviewed translation belongs to this original; the English row does not identify a physical edition.'}
+    const changes=[{table:'figure_book_editions',before:placeholder,remove:true,reviewedPlaceholderRemoval:proof}]
+    const expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
+    query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes))
+    assert.deepEqual(snapshot(),expected)
+    assert.deepEqual(snapshot().figure_book_editions,[reference])
+  })
 
   await t.test('automatic seed and edition guard honor exact independent selection proofs, including ISBN10 normalization', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
