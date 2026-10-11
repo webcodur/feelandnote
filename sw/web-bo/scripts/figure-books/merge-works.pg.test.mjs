@@ -401,6 +401,39 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.equal(read().figure_book_contents.length,0)
   })
 
+  await t.test('reviewed missing English edition preserves Korean edition and product history under the active policy guard', t => {
+    query(`ALTER TABLE figure_book_contents ADD COLUMN created_at timestamptz DEFAULT now(),ADD COLUMN updated_at timestamptz DEFAULT now();
+      ALTER TABLE figure_book_editions ADD COLUMN created_at timestamptz DEFAULT now(),ADD COLUMN updated_at timestamptz DEFAULT now();`)
+    t.after(() => query(`DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions;
+      ALTER TABLE figure_book_contents DROP COLUMN created_at,DROP COLUMN updated_at;
+      ALTER TABLE figure_book_editions DROP COLUMN created_at,DROP COLUMN updated_at;`))
+    reset(`UPDATE contents SET metadata='{"figureBook":{"workTitle":"Actual original","workCreator":"Actual author"}}' WHERE id='keep';
+      INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
+      ('keep','ko','한국어 번역','Actual author','9791167972064','{"primary":"kakao_book","isbn":"https://dapi.kakao.com/v3/search/book?target=isbn&query=9791167972064","translators":["Translator"]}');
+      INSERT INTO figure_book_contents(content_id) VALUES('keep');
+      INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
+      ('keep','en','Actual original','Actual author','9780451464163','{"primary":"openlibrary","isbn":"https://openlibrary.org/books/OL1234M"}');
+      INSERT INTO figure_book_products(id,edition_id,platform,is_active) SELECT 100,id,'shop',true FROM figure_book_editions WHERE content_id='keep';
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('celeb-reading','keep','celeb','원래 감상','Original review','https://example.org/review');`)
+    query(editionPolicySql())
+    const assigned=['keep'],read=()=>JSON.parse(query(buildCatalogRepairSnapshotSql(assigned))),before=read(),retained=before.figure_book_editions[0]
+    const reviews=bindReviewedCatalogInsertIdentity(before,[{contentId:'keep',locale:'en',isbn:'9780451464163',textLanguage:'en',
+      sourceUrl:'https://publisher.example/exact-original',reason:'The English original and exact ISBN were reviewed independently; the Korean translation remains intact.',editionKind:null,textScope:null}])
+    const sql=buildReviewedCatalogInsertSql(assigned,before,reviews)
+    query("UPDATE content_locales SET creator='Concurrent changed author' WHERE content_id='keep' AND locale='en';")
+    assert.throws(()=>query(sql),/rowset mismatch/)
+    assert.equal(read().figure_book_editions.length,1)
+    query("UPDATE content_locales SET creator='Actual author' WHERE content_id='keep' AND locale='en';")
+    query(sql)
+    const after=read()
+    assert.equal(verifyReviewedCatalogInsertReadback(assigned,before,reviews,after).checkedTables,18)
+    assert.deepEqual(after.figure_book_editions.find(row=>row.locale==='ko'),retained)
+    assert.deepEqual(after.figure_book_products,before.figure_book_products)
+    assert.deepEqual(after.celeb_contents,before.celeb_contents);assert.deepEqual(after.member_contents,before.member_contents)
+    assert.throws(()=>buildReviewedCatalogInsertSql(assigned,after,reviews),/existing edition for locale/)
+  })
+
   await t.test('clear wrong prose from ISBN-less locale using the actual same-work English locale without seeding physical editions', t => {
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,description,sources) VALUES
       ('keep','en','Steve Biddulph Raising Girls','Steve Biddulph','9780007455669',NULL,'{"primary":"openlibrary"}'),
