@@ -194,7 +194,13 @@ export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [], re
   }
   const equivalents = snapshot.figure_book_editions.filter(row => row.content_id === pair.drop)
     .filter(row => !removedPartIds.has(String(row.id)))
-    .flatMap(row => { const key = translationKey(row), keep = key && representatives.get(key); return keep && keep.isbn !== row.isbn ? [{ drop: row.id, keep: keep.id }] : [] })
+    .flatMap(row => {
+      const key = translationKey(row), keep = key && representatives.get(key)
+      if (!keep || keep.isbn === row.isbn) return []
+      for (const field of ['edition_kind','text_scope']) if (keep[field] && row[field] && keep[field] !== row[field])
+        throw Error('MERGE_REVIEW: automatic translation mapping scope conflict; review included-volume selection separately')
+      return [{ drop: row.id, keep: keep.id }]
+    })
   for (const mapping of validateReviewedEditionMappings(pair, snapshot, reviewedEditionMappings)) {
     const automatic = equivalents.find(row => String(row.drop) === String(mapping.drop))
     if (automatic && String(automatic.keep) !== String(mapping.keep)) throw Error('MERGE_REVIEW: reviewed mapping conflicts with verified original/translation representative')

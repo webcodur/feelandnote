@@ -11,6 +11,46 @@ const snapshot=()=>({...Object.fromEntries(SNAPSHOT_TABLES.map(table=>[table,[]]
  member_contents:[{id:'reading',content_id:'work',review:'Human review',rating:5}],faction_lv2:[{id:'theme',theme_book_ids:['other','work']}]})
 const change=data=>({table:'contents',before:data.contents[0],patch:{metadata:{figureBook:{workTitle:'Confirmed Title'}},external_id:'confirmed'}})
 
+function completeSetSnapshot(){
+ const data=snapshot()
+ const first={id:1,content_id:'work',locale:'ko',title:'Novel 1',creator:'Author',isbn:'9788932910680',edition_kind:'volume',text_scope:'volume/1',
+  description:'Introduction to the first volume.',sources:{translators:['Translator'],description:'https://publisher.example/first'}}
+ const whole={...first,id:2,title:'Novel complete set',isbn:'9788932910673',edition_kind:'full',text_scope:'complete',
+  description:'Introduction to the complete original novel.',sources:{translators:['Translator'],description:'https://publisher.example/set'}}
+ data.figure_book_editions=[first,whole]
+ data.content_locales=[{content_id:'work',locale:'ko',title:whole.title,isbn:whole.isbn,description:whole.description,sources:structuredClone(whole.sources)}]
+ const proof={method:'independent_complete_set_review',contentId:'work',editionId:1,locale:'ko',editionTitle:first.title,isbn:first.isbn,
+  referenceEditionId:2,referenceTitle:whole.title,referenceCreator:whole.creator,referenceIsbn:whole.isbn,translators:['Translator'],
+  volumeNumber:1,totalVolumes:2,completeSet:true,sourceUrl:'https://publisher.example/first',referenceSourceUrl:'https://publisher.example/set',
+  reason:'Both exact ISBN entries identify the same translation; the complete two-volume set contains this first volume and supplies the whole original.'}
+ return {data,removal:{table:'figure_book_editions',before:first,remove:true,reviewedCompleteSetVolumeRemoval:proof}}
+}
+test('source-reviewed complete set removes only its included first-volume choice while preserving whole edition and protected text',()=>{
+ const {data,removal}=completeSetSnapshot(),before=structuredClone(data)
+ const plan=planGuardedCatalogRepairs(['work'],data,[removal])
+ assert.deepEqual(plan.expected.figure_book_editions,[data.figure_book_editions[1]])
+ for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(plan.expected[table],data[table],table)
+ assert.deepEqual(data,before)
+ const sql=buildGuardedCatalogRepairSql(['work'],data,[removal])
+ assert.ok(sql.includes('edition product history'));assert.ok(!sql.includes('UPDATE public.celeb_contents'))
+})
+test('complete-set removal rejects unverified translators, unrelated scopes, ISBN drift and lost whole representative',()=>{
+ const invalidProofs=[{translators:[]},{translators:['Other translator']},{isbn:'9780140449136'},
+  {referenceIsbn:'9780140449136'},{referenceEditionId:1},{volumeNumber:2},{totalVolumes:1},{completeSet:false},
+  {sourceUrl:'http://publisher.example/first'},{referenceSourceUrl:'https://openlibrary.org/books/OL1234M'},{reason:''}]
+ for(const difference of invalidProofs){const {data,removal}=completeSetSnapshot();assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{
+  ...removal,reviewedCompleteSetVolumeRemoval:{...removal.reviewedCompleteSetVolumeRemoval,...difference}}]),/Complete-set/)}
+ for(const mutate of [d=>d.figure_book_editions[0].sources.translators=[],d=>d.figure_book_editions[1].sources.translators=['Other'],
+  d=>d.figure_book_editions[1].text_scope='1-2',d=>d.figure_book_editions[1].content_id='other',d=>d.figure_book_editions[1].description=null,
+  d=>d.figure_book_editions[1].sources.description=null,d=>d.content_locales[0].isbn='9788932910680']){
+  const {data,removal}=completeSetSnapshot();mutate(data);assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Complete-set/)
+ }
+ const {data,removal}=completeSetSnapshot()
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal,{table:'figure_book_editions',before:data.figure_book_editions[1],patch:{title:'Other whole title'}}]),/retain/)
+ data.figure_book_products=[{id:4,edition_id:1}]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/product history/)
+})
+
 const reviewedIntroduction=()=>({contentId:'work',locale:'en',isbn:'9780674250703',description:'The author’s letters to friends and family reveal the composition of the poems.',
  sourceUrl:'https://publisher.example/letters',method:'research',sourceLocale:'en',reason:'The publisher identifies this exact ISBN as the letters; the existing introduction describes another collection.'})
 function exactIntroductionSnapshot(){
