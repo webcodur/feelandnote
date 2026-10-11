@@ -1,11 +1,39 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { planEditionTranslations, sameOfficialKakaoEdition } from './lib/edition-translation-policy.mjs'
-import { excludedBookEditionReason, bookTranslatorKey } from '../../../../packages/content-search/src/book-edition-policy.ts'
+import { excludedBookEditionReason, bookTranslatorKey, BOOK_EDITION_SELECTION_REASONS } from '../../../../packages/content-search/src/book-edition-policy.ts'
 import { wikidataOriginalLanguage, translationRepairSql } from './edition-translation-audit.mjs'
 import { wikipediaBookLanguage } from './lib/edition-original-language-research.mjs'
 const row=(id,translator,extra={})=>({id,content_id:'odyssey',locale:'ko',title:'오디세이아',creator:'호메로스',isbn:String(id),sources:translator?{translators:[translator]}:{},...extra})
 const catalog=editions=>({contents:[{id:'odyssey',figureBook:{}}],editions,locales:[],products:[]})
+
+const selectionBook = { locale: 'en', title: 'Green Eggs and Ham', isbn: '9781524773458' }
+const selectionProof = { method: 'independent_selection_review', isbn: selectionBook.isbn, locale: selectionBook.locale, edition_title: selectionBook.title,
+ reason: 'children_picture', source_url: 'https://publisher.example/books/magnetic-play',
+ explanation: 'Publisher describes a magnetic play book for young children rather than the original novel text.' }
+const withSelection = proof => ({ ...selectionBook, sources: { edition_selection_evidence: [proof] } })
+test('독립 선정 근거는 체크된 같은 ISBN·언어·정확한 판본 제목과 출처·설명을 갖춘 경우에만 적용한다', () => {
+ for (const reason of BOOK_EDITION_SELECTION_REASONS) assert.equal(excludedBookEditionReason(withSelection({ ...selectionProof, reason })), reason)
+ assert.equal(excludedBookEditionReason({ ...withSelection(selectionProof), isbn: '978-1-5247-7345-8' }), 'children_picture')
+ for (const change of [{ method: 'machine_title_match' }, { isbn: '9780394800165' }, { isbn: '9781524773459' }, { locale: 'ko' },
+  { edition_title: 'A Different Book' }, { edition_title: selectionBook.title + ' ' }, { reason: 'illustrated' }, { explanation: 'confirmed' },
+  { source_url: 'http://publisher.example/book' }, { source_url: 'https://openlibrary.org/books/OL1M' },
+  { source_url: 'https://sub.openlibrary.org./books/OL1M' }, { source_url: 'https://user:password@publisher.example/book' }, { source_url: 'not a URL' }]) {
+  assert.equal(excludedBookEditionReason(withSelection({ ...selectionProof, ...change })), null, JSON.stringify(change))
+ }
+ assert.equal(excludedBookEditionReason({ ...selectionBook, sources: { edition_selection_evidence: selectionProof } }), null)
+ assert.equal(excludedBookEditionReason({ ...withSelection(selectionProof), isbn: null }), null)
+ assert.equal(excludedBookEditionReason(withSelection({ ...selectionProof, isbn: undefined })), null)
+})
+test('어린이·자석 상품 판단은 다른 ISBN 정본이나 성인용 illustrated 도서를 자동 배제하지 않는다', () => {
+ assert.equal(excludedBookEditionReason({ ...withSelection(selectionProof), isbn: '9780394800165' }), null)
+ for (const title of ['An Illustrated History of Art', 'Children in Renaissance Painting', 'A Study of Picture Books for Adults', 'Magnetic Fields: Complete Poems']) {
+  assert.equal(excludedBookEditionReason({ ...withSelection(selectionProof), title }), null)
+ }
+ const saved = withSelection(selectionProof), before = structuredClone(saved)
+ excludedBookEditionReason(saved)
+ assert.deepEqual(saved, before)
+})
 test('작품 하나 아래 역자마다 한 판본을 남기며 ISBN·출판사·분량은 추가 판본 기준이 아니다',()=>{
  const c=catalog([row(1,'천병희'),row(2,'천병희',{publisher:'다른 출판사',text_scope:'complete translation'}),row(3,'김헌'),row(4,'임명현')])
  const plan=planEditionTranslations(c)

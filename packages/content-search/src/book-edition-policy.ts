@@ -1,5 +1,14 @@
 /** 작품의 원문·번역이 판본이다. 판매 형식은 판본 정체성이 아니다. */
+import { toIsbn13 } from './book-isbn'
+
 export const SERVICE_BOOK_EDITION_KINDS = ['full', 'retelling', 'adaptation', 'selection', 'volume'] as const
+export const BOOK_EDITION_SELECTION_REASONS = ['children_picture', 'graded_reader', 'abridged', 'non_reading_product'] as const
+export const BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH = 20
+export type BookEditionSelectionReason = typeof BOOK_EDITION_SELECTION_REASONS[number]
+export type BookEditionSelectionEvidence = {
+  method: 'independent_selection_review'; isbn: string; locale: string; edition_title: string
+  reason: BookEditionSelectionReason; source_url: string; explanation: string
+}
 export type BookEditionPolicyInput = {
   locale?: string; title?: string | null; isbn?: string | null; publisher?: string | null; releaseDate?: string | null; release_date?: string | null; editionKind?: string | null; textScope?: string | null
   workTitles?: readonly string[]; reviewedSeries?: boolean; translator?: string | null; translators?: unknown; sources?: unknown; providerDescription?: string | null
@@ -26,7 +35,30 @@ export function bookWorkVolumeNumber(title: string, workTitles: readonly string[
 }
 export const BOOK_TRANSLATOR_IGNORED_CHARACTERS = /[\s.’']/gu
 const object = (value: unknown): Record<string, unknown> => value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {}
+/** 선정자의 실제 ISBN별 판정을 읽는다. 어린이·삽화 제목만으로 선정 제외를 추정하지 않는다. */
+export function reviewedBookEditionSelectionReason(input: BookEditionPolicyInput): BookEditionSelectionReason | null {
+  if (typeof input.isbn !== 'string' || typeof input.locale !== 'string' || !input.locale
+    || typeof input.title !== 'string' || !input.title.trim()) return null
+  const isbn = toIsbn13(input.isbn), evidence = object(input.sources).edition_selection_evidence
+  if (!isbn || !Array.isArray(evidence)) return null
+  for (const value of evidence) {
+    const proof = object(value)
+    if (proof.method !== 'independent_selection_review' || typeof proof.isbn !== 'string' || toIsbn13(proof.isbn) !== isbn
+      || proof.locale !== input.locale || proof.edition_title !== input.title
+      || !BOOK_EDITION_SELECTION_REASONS.some(reason => reason === proof.reason)
+      || typeof proof.explanation !== 'string' || proof.explanation.trim().length < BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
+      || typeof proof.source_url !== 'string' || !proof.source_url.startsWith('https://')) continue
+    try {
+      const source = new URL(proof.source_url)
+      if (source.protocol === 'https:' && !source.username && !source.password
+        && !/(?:^|\.)openlibrary\.org$/iu.test(source.hostname.replace(/\.$/u, ''))) return proof.reason as BookEditionSelectionReason
+    } catch { /* malformed evidence does not change the edition's selection */ }
+  }
+  return null
+}
 export function excludedBookEditionReason(input: BookEditionPolicyInput): string | null {
+  const reviewedSelection = reviewedBookEditionSelectionReason(input)
+  if (reviewedSelection) return reviewedSelection
   if (input.locale === 'ko' && BOOK_EDITION_ENGLISH_SOURCE_TITLE.test(input.title ?? '')) return 'wrong_locale'
   if (input.editionKind === 'abridged') return 'abridged'
   if (BOOK_EDITION_EXCLUDED_TITLE.test(input.title ?? '')) return 'abridged'

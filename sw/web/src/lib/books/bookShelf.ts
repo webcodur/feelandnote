@@ -4,6 +4,7 @@ import { findAffiliateLink } from '@/actions/home/affiliateLinks'
 import { getEnglishBookAmazonUrl } from './amazonBookSearch'
 import { flattenLocales, type ContentLocaleRow, type TitleBadge } from '@/lib/utils/content-locale'
 import { getThemeBookTextScope } from '@/lib/figure-books/themeBooks'
+import { excludedBookEditionReason } from '@feelandnote/content-search/book-edition-policy'
 
 /** 서점 링크 생성 여부와 별개로, 확인된 언어판만 책장에 세운다. */
 export function isBookShelfAvailable(book: { titleBadge?: TitleBadge | null }): boolean {
@@ -25,6 +26,10 @@ export function resolveBookShelfBook(
   const edition = (textScope && editions.find((edition) => edition.textScope === textScope)) || pickPurchaseEdition(editions, locale)
   // 카탈로그 밖의 감상 도서는 확인된 locale을 쓴다. 표시용 번역 제목이나 다른 언어로 대체하지 않는다.
   if (!edition && (!allowLocaleEditionFallback || flat.title_badge)) return null
+  if (!edition) {
+    const exactLocale = content.content_locales?.find(row => row.locale === locale)
+    if (!exactLocale || excludedBookEditionReason(exactLocale)) return null
+  }
   const title = edition?.title || flat.title
   if (!title.trim()) return null
   const creator = edition?.creator ?? flat.creator

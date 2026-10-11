@@ -44,3 +44,42 @@ test('시작권이 없어 제외된 카탈로그 판본을 locale의 중간 권 
   assert.equal(resolveBookShelfBook(content([middle]), [], 'ko', undefined, false), null)
   assert.equal(resolveBookShelfBook(content([middle]), [edition], 'ko', undefined, false)?.editionId, 1)
 })
+
+const selectedTitle = 'Green Eggs and Ham'
+const selectedSources = { primary: 'openlibrary', edition_selection_evidence: [{
+  method: 'independent_selection_review', isbn: '9781524773458', locale: 'en', edition_title: selectedTitle,
+  reason: 'children_picture', source_url: 'https://publisher.example/books/magnetic-play',
+  explanation: 'Publisher confirms this ISBN is a magnetic play activity book intended for young children.',
+}] }
+test('카탈로그에서 제외한 판본은 보존된 감상·언어 카드로 책장에 다시 노출하지 않는다', () => {
+  const excluded = { ...row('en', selectedSources), title: selectedTitle, isbn: '9781524773458', description: 'The stored original introduction.' }
+  const saved = { ...content([excluded]), celeb_contents: [{ id: 'protected-review', content_id: 'work', review: 'Keep this original reading record.' }] }
+  const before = structuredClone(saved)
+  assert.equal(resolveBookShelfBook(saved, [], 'en'), null)
+  assert.deepEqual(saved, before)
+})
+test('기존에 확인된 학습용·축약 제목과 공급처 범위도 locale fallback에서 제외한다', () => {
+  for (const title of ['Penguin Readers Level 3: Elon Musk', 'Oxford Bookworms 1', '마리 퀴리(요약본)']) {
+    assert.equal(resolveBookShelfBook(content([{ ...row('en'), title, isbn: '9781524773458' }]), [], 'en'), null)
+  }
+  const source = { primary: 'openlibrary', provider_scope_description: 'Penguin Reader, Level 5 (2300 words)' }
+  assert.equal(resolveBookShelfBook(content([{ ...row('en', source), title: 'Doctor Zhivago' }]), [], 'en'), null)
+})
+test('다른 ISBN 정규 판본을 선정 제외 근거가 붙은 언어 카드 때문에 막지 않는다', () => {
+  const excluded = { ...row('en', selectedSources), title: selectedTitle, isbn: '9781524773458' }
+  const normal = { ...edition, locale: 'en' as const, title: selectedTitle, isbn: '9780394800165' }
+  const book = resolveBookShelfBook(content([excluded]), [normal], 'en')
+  assert.equal(book?.editionId, normal.id)
+  assert.equal(book?.isbn, normal.isbn)
+  assert.equal(book?.title, normal.title)
+})
+test('ISBN·제목이 다른 근거와 불완전한 출처는 정상 언어 카드 노출을 바꾸지 않는다', () => {
+  const proof = selectedSources.edition_selection_evidence[0]
+  for (const changed of [{ isbn: '9780394800165' }, { locale: 'ko' }, { edition_title: 'Another Book' }, { explanation: '' }, { source_url: 'https://openlibrary.org/books/OL1M' }]) {
+    const sources = { primary: 'openlibrary', edition_selection_evidence: [{ ...proof, ...changed }] }
+    assert.ok(resolveBookShelfBook(content([{ ...row('en', sources), title: selectedTitle, isbn: '9781524773458' }]), [], 'en'))
+  }
+  for (const title of ['An Illustrated History of Art', 'Picture Books: An Adult Literary Study']) {
+    assert.equal(resolveBookShelfBook(content([{ ...row('en'), title, isbn: '9781524773458' }]), [], 'en')?.title, title)
+  }
+})
