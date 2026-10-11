@@ -7,6 +7,7 @@ import { SNAPSHOT_TABLES, referenceWhere, sqlLiteral } from './merge-work-sql.mj
 import { CONTENT_ARRAY_REFERENCES } from './content-array-references.mjs'
 import { toIsbn13 } from '../../../../../packages/content-search/src/book-isbn.ts'
 import { bookTranslatorKey, excludedBookEditionReason } from '../../../../../packages/content-search/src/book-edition-policy.ts'
+import { isBookIntroductionSource } from '../../../../../packages/content-search/src/book-introduction-contract.ts'
 
 function publicSource(value, independent = false) {
   if (typeof value !== 'string' || !value.startsWith('https://')) return false
@@ -41,7 +42,7 @@ function snapshotValid(snapshot) {
 }
 const descriptionSource = row => row.sources && typeof row.sources === 'object' ? row.sources.description : undefined
 function introRetained(drop, survivors, snapshot, crossWork = false) {
-  if (!String(drop.description ?? '').trim()) return true
+  if (!String(drop.description ?? '').trim() || isBookIntroductionSource(drop.description)) return true
   const origin = snapshot.contents.find(row => row.id === drop.content_id)
   const confirmedOriginal = publicSource(origin?.metadata?.figureBook?.identityEvidence)
     || survivors.some(row => row.content_id === drop.content_id && typeof row.isbn === 'string' && toIsbn13(row.isbn))
