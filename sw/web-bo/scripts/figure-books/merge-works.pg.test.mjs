@@ -9,7 +9,7 @@ import { createServer } from 'node:net'
 import { editionPolicySql } from './lib/edition-policy-sql.mjs'
 import { translationRepairSql } from './edition-translation-audit.mjs'
 import { buildMergeSql, SNAPSHOT_TABLES, sqlLiteral } from './lib/merge-work-sql.mjs'
-import { buildGuardedCatalogRepairSql,planGuardedCatalogRepairs } from './lib/guarded-catalog-repairs.mjs'
+import { buildGuardedCatalogRepairSql,planGuardedCatalogRepairs,expandReviewedExactIsbnIntroductionChanges } from './lib/guarded-catalog-repairs.mjs'
 import { buildReviewedCatalogInsertSql,bindReviewedCatalogInsertIdentity,verifyReviewedCatalogInsertReadback } from './lib/reviewed-catalog-insert.mjs'
 import { buildCatalogRepairSnapshotSql } from './lib/guarded-catalog-repairs.mjs'
 
@@ -92,6 +92,38 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
   const reset = extra => query(`TRUNCATE ${SNAPSHOT_TABLES.join(',')} RESTART IDENTITY CASCADE; INSERT INTO contents(id,type) VALUES('keep','BOOK'),('drop','BOOK'),('other','BOOK'); ${extra}`)
   const snapshot = () => JSON.parse(query(`SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table => `'${table}',(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM ${table} t ${table === 'contents' ? "WHERE id IN ('keep','drop')" : ''})`).join(',')});`))
   const merge = s => query(buildMergeSql(pair, s))
+
+  await t.test('exact-ISBN introduction assembly preserves other translators and protected prose and rejects concurrent identity drift', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
+      ('keep','en','Letters','Author','Wrong poetry introduction','9780674250703','{"primary":"openlibrary","translators":["A Translator"]}'),
+      ('drop','en','Another owner','Author','Keep this other introduction','9780674250703','{"primary":"openlibrary","translators":["A Translator"]}');
+      INSERT INTO figure_book_contents VALUES('keep'),('drop');
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,description,isbn,sources) VALUES
+      ('keep','en','Other translation','Author','Keep this other translation','9780140449136','{"translators":["B Translator"]}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','원래 감상','Original review','https://example.org/review');`)
+    query(editionPolicySql())
+    const before=snapshot(),review={contentId:'keep',locale:'en',isbn:'9780674250703',
+      description:'The letters record the author’s correspondence with family, friends and fellow writers.',sourceUrl:'https://publisher.example/letters',
+      method:'research',sourceLocale:'en',reason:'The exact publisher entry confirms this ISBN is the letters rather than the poetry collection.'}
+    const changes=expandReviewedExactIsbnIntroductionChanges(before,[review])
+    assert.equal(changes.length,2)
+    const sql=buildGuardedCatalogRepairSql(['keep','drop'],before,changes)
+    query("UPDATE content_locales SET title='Concurrent title change' WHERE content_id='keep';")
+    assert.throws(()=>query(sql),/rowset mismatch/)
+    assert.equal(query("SELECT description FROM content_locales WHERE content_id='keep'"),'Wrong poetry introduction')
+    query("UPDATE content_locales SET title='Letters' WHERE content_id='keep';")
+    query(sql)
+    const actual=snapshot(),expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
+    const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'
+      ?Object.fromEntries(Object.keys(value).sort().map(key=>[key,canonical(value[key])])):value
+    const rows=values=>values.map(value=>JSON.stringify(canonical(value))).sort()
+    for(const table of SNAPSHOT_TABLES)assert.deepEqual(rows(actual[table]),rows(expected[table]),table)
+    assert.equal(query("SELECT description FROM figure_book_editions WHERE content_id='keep' AND isbn='9780140449136'"),'Keep this other translation')
+    assert.deepEqual(snapshot().celeb_contents,before.celeb_contents)
+    assert.deepEqual(snapshot().member_contents,before.member_contents)
+  })
 
   await t.test('reviewed compact catalog insertion preserves the exact decision under unicode whitespace and live drift', t => {
     query(`ALTER TABLE figure_book_contents ADD COLUMN created_at timestamptz DEFAULT now(),ADD COLUMN updated_at timestamptz DEFAULT now();
