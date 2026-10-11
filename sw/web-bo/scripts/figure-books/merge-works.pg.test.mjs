@@ -93,6 +93,34 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
   const snapshot = () => JSON.parse(query(`SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table => `'${table}',(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM ${table} t ${table === 'contents' ? "WHERE id IN ('keep','drop')" : ''})`).join(',')});`))
   const merge = s => query(buildMergeSql(pair, s))
 
+  await t.test('source-reviewed later-volume deletion handles wrong live full scope without a forbidden metadata update', t=>{
+    t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`UPDATE contents SET metadata='{"figureBook":{"originalLanguage":"ko","identityEvidence":"https://publisher.example/original"}}' WHERE id='keep';
+      INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
+      ('keep','ko','Memoir upper','Author','Introduction to the memoir','9788936470487','{"primary":"kakao","description":"https://publisher.example/upper"}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      UPDATE figure_book_editions SET edition_kind='volume',text_scope='volume/1';
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,description,isbn,edition_kind,text_scope,sources) VALUES
+      ('keep','ko','Memoir lower','Author','Introduction to the lower volume','9788936470494','full','full','{"description":"https://publisher.example/lower"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','원래 감상','Original review','https://example.org/review');`)
+    query(editionPolicySql())
+    const before=snapshot(),later=before.figure_book_editions.find(row=>row.isbn==='9788936470494'),first=before.figure_book_editions.find(row=>row.isbn==='9788936470487')
+    const proof={method:'independent_nonstart_volume_review',contentId:'keep',editionId:later.id,locale:'ko',editionTitle:later.title,isbn:later.isbn,
+      referenceEditionId:first.id,referenceTitle:first.title,referenceCreator:first.creator,referenceIsbn:first.isbn,
+      textIdentity:'original',originalLanguage:'ko',volumeNumber:2,continuousText:true,
+      sourceUrl:'https://publisher.example/lower',referenceSourceUrl:'https://publisher.example/upper',
+      reason:'Both exact publisher entries confirm these are successive upper and lower parts of one original memoir, with the selected upper part kept.'}
+    const changes=[{table:'figure_book_editions',before:later,remove:true,reviewedNonstartEditionRemoval:proof}],sql=buildGuardedCatalogRepairSql(['keep','drop'],before,changes)
+    query("UPDATE member_contents SET review='Concurrent member text' WHERE id='reader'")
+    assert.throws(()=>query(sql),/rowset mismatch/)
+    assert.equal(query("SELECT count(*) FROM figure_book_editions"),'2')
+    query("UPDATE member_contents SET review='Existing member text' WHERE id='reader'")
+    query(sql)
+    const after=snapshot();assert.deepEqual(after.figure_book_editions,[first])
+    for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(after[table],before[table],table)
+  })
+
   await t.test('complete-set choice replaces its included first volume without merging different body scopes or changing protected prose', t => {
     t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
