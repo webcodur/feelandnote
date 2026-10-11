@@ -90,6 +90,30 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
   const snapshot = () => JSON.parse(query(`SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table => `'${table}',(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM ${table} t ${table === 'contents' ? "WHERE id IN ('keep','drop')" : ''})`).join(',')});`))
   const merge = s => query(buildMergeSql(pair, s))
 
+  await t.test('독립 출처로 확정한 미상 역자 재판 대응만 정상 트리거 아래 상품 이력을 이동한다', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO figure_book_contents VALUES('keep'),('drop');
+      INSERT INTO figure_book_editions(id,content_id,locale,title,creator,isbn,sources) VALUES
+      (1,'keep','en','Wim Wenders: Instant Stories','Wim Wenders','9780500295779','{}'),
+      (2,'drop','en','Wim Wenders: Instant Stories','Wim Wenders','9780500544785','{}');
+      INSERT INTO figure_book_products VALUES(1,1,'amazon',true),(2,2,'amazon',true);
+      INSERT INTO member_contents VALUES('reader','drop','user','review',5);`)
+    query(editionPolicySql())
+    const before = snapshot(), canonical = structuredClone(before.figure_book_editions.find(row => row.id === 1))
+    assert.throws(() => merge(before), /additional edition requires a verified different translation/iu)
+    assert.equal(query('SELECT count(*) FROM figure_book_editions'), '2')
+    query(buildMergeSql(pair, before, { reviewedEditionMappings: [{ keepEditionId: 1, dropEditionId: 2,
+      keepIsbn: '9780500295779', dropIsbn: '9780500544785', locale: 'en',
+      sourceUrl: 'https://www.thamesandhudson.com/products/wim-wenders-instant-stories',
+      reason: 'Publisher confirms reduced-format reprint with the same 403 Polaroids.' }] }))
+    assert.equal(query('SELECT count(*) FROM figure_book_editions'), '1')
+    assert.deepEqual(JSON.parse(query('SELECT to_jsonb(e)::text FROM figure_book_editions e WHERE id=1')), canonical)
+    assert.equal(query('SELECT count(*) FROM figure_book_products WHERE edition_id=1'), '2')
+    assert.equal(query('SELECT count(*) FROM figure_book_products WHERE is_active'), '1')
+    assert.equal(query("SELECT content_id || ':' || review FROM member_contents WHERE id='reader'"), 'keep:review')
+    assert.equal(query("SELECT count(*) FROM pg_trigger WHERE tgname='guard_figure_book_edition_policy' AND tgenabled='O'"), '1')
+  })
+
   await t.test('작품 병합은 ISBN이 다른 같은 원문을 하나로 줄이고 상품 이력·감상을 보존한다', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`UPDATE contents SET metadata='{"figureBook":{"originalLanguage":"en","identityEvidence":"https://publisher.example/book"}}' WHERE id IN ('keep','drop');

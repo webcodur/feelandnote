@@ -32,7 +32,15 @@ export function readOfficialEdition(isbn, detail, data) {
     authorKeys:[...new Set((data.authors ?? []).map(author=>{
       try { return new URL(author.url).pathname.match(/^\/authors\/OL\d+A/u)?.[0] } catch { return null }
     }).filter(Boolean))], sourceUrl:`https://openlibrary.org${key}`,
-    physicalFormat:text(detail.physical_format) || null, pages:detail.number_of_pages ?? null}
+    physicalFormat:text(detail.physical_format) || null, pages:detail.number_of_pages ?? null,
+    // 소개 검수에서 ISBN·본문 언어·원저자 연결을 다시 읽지 않도록 공식 판본 필드를 보존한다.
+    editionIsbns:[...new Set(ids.filter(Boolean))],
+    languageKeys:(detail.languages??[]).map(language=>language.key).filter(Boolean),
+    editionAuthorKeys:(detail.authors??[]).map(author=>author.key).filter(key=>/^\/authors\/OL\d+A$/u.test(key??'')),
+    ...(detail.description!==undefined?{description:detail.description}:{}),
+    ...(detail.subjects!==undefined?{subjects:detail.subjects}:{}),
+    ...(detail.table_of_contents!==undefined?{tableOfContents:detail.table_of_contents}:{}),
+    ...(detail.notes!==undefined?{notes:detail.notes}:{})}
 }
 
 export function providerMetadataDifference(row, official) {

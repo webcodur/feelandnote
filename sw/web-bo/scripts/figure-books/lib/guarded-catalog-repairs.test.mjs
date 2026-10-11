@@ -1,0 +1,304 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import {readFileSync,existsSync} from 'node:fs'
+import {SNAPSHOT_TABLES} from './merge-work-sql.mjs'
+import {buildCatalogRepairSnapshotSql,captureCatalogRepairSnapshot,planGuardedCatalogRepairs,buildGuardedCatalogRepairSql,guardedCatalogRepairs,
+ planGuardedCatalogExclusions,buildGuardedCatalogExclusionSql,guardedCatalogExclusions} from './guarded-catalog-repairs.mjs'
+
+const snapshot=()=>({...Object.fromEntries(SNAPSHOT_TABLES.map(table=>[table,[]])),contents:[{id:'work',type:'BOOK',metadata:{figureBook:{workTitle:'Title'}},external_id:'old',updated_at:'old'}],
+ content_locales:[{content_id:'work',locale:'en',title:'Title',description:null,sources:{primary:'openlibrary'},updated_at:'old'}],
+ figure_book_editions:[{id:1,content_id:'work',locale:'en',title:'Title',description:null,sources:{},updated_at:'old'}],
+ member_contents:[{id:'reading',content_id:'work',review:'Human review',rating:5}],faction_lv2:[{id:'theme',theme_book_ids:['other','work']}]})
+const change=data=>({table:'contents',before:data.contents[0],patch:{metadata:{figureBook:{workTitle:'Confirmed Title'}},external_id:'confirmed'}})
+
+test('wrongly attributed introduction correction requires explicit exact-edition independent source review',()=>{
+ const data=snapshot(),before=data.figure_book_editions[0]
+ before.isbn='9780674250703';before.description='Poetry collection introduction wrongly attached to the letters.'
+ before.sources.description='https://publisher.example/wrong-poems'
+ const source='https://publisher.example/selected-letters'
+ const patch={title:'Selected Letters',description:'Letters from the author to family, friends and literary correspondents.',sources:{...before.sources,description:source,description_method:'research'}}
+ const proof={isbn:before.isbn,locale:before.locale,editionTitle:patch.title,sourceUrl:source,reason:'Publisher identifies this exact ISBN as the letters, while the existing prose describes a poetry collection.'}
+ const correction={table:'figure_book_editions',before,patch,reviewedIntroductionCorrection:proof}
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:correction.table,before,patch}]),/retained/)
+ const plan=planGuardedCatalogRepairs(['work'],data,[correction])
+ assert.equal(plan.expected.figure_book_editions[0].description,patch.description)
+ assert.deepEqual(plan.expected.member_contents,data.member_contents)
+ for(const difference of[{isbn:'9780140449136'},{locale:'ko'},{editionTitle:'Another Book'},{sourceUrl:'http://publisher.example/book'},{sourceUrl:'https://openlibrary.org/books/OL1M'},{reason:''}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...correction,reviewedIntroductionCorrection:{...proof,...difference}}]),/Introduction correction/)
+ for(const difference of[{description:null},{description:'OPEN'},{sources:{description:'https://publisher.example/unrelated'}}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...correction,patch:{...patch,...difference}}]),/Introduction correction/)
+ const sql=buildGuardedCatalogRepairSql(['work'],data,[correction])
+ for(const table of SNAPSHOT_TABLES)assert.equal(sql.split('CATALOG_REPAIR: rowset mismatch in '+table+"'").length-1,2)
+ assert.ok(!sql.includes('UPDATE public.celeb_contents'))
+ assert.ok(!sql.includes('reviewedIntroductionCorrection'))
+ assert.equal(data.figure_book_editions[0].description,before.description)
+})
+
+test('invalid introduction can be explicitly cleared; ISBN-less display translation binds only to its actual work edition',()=>{
+ const data=snapshot(),edition=data.figure_book_editions[0],before=data.content_locales[0]
+ edition.isbn='9780674250703';before.isbn=null;before.sources={primary:'none'};before.description='Wrong inherited introduction';before.locale='ko'
+ const source='https://publisher.example/selected-letters'
+ const proof={isbn:edition.isbn,locale:'ko',editionTitle:'선택된 서간',referenceEditionId:edition.id,referenceLocale:'en',sourceUrl:source,reason:'Wrong poetry prose inherited from the actual English letters edition.'}
+ const patch={title:proof.editionTitle,description:'시인이 가족과 친구들에게 보낸 편지를 모은 서간집이다.',sources:{primary:'none',description:source,description_method:'translation',description_source_locale:'en'}}
+ const correction={table:'content_locales',before,patch,reviewedIntroductionCorrection:proof}
+ const expected=planGuardedCatalogRepairs(['work'],data,[correction]).expected
+ assert.equal(expected.content_locales[0].isbn,null)
+ assert.equal(expected.content_locales[0].sources.primary,'none')
+ for(const difference of[{referenceEditionId:99},{referenceLocale:'ko'},{isbn:'9780140449136'}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...correction,reviewedIntroductionCorrection:{...proof,...difference}}]),/Introduction correction/)
+ const old=structuredClone(data);old.figure_book_editions[0].content_id='other'
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],old,[correction]),/Introduction correction/)
+ const clearing={...correction,patch:{...patch,description:null,sources:{...patch.sources,description:null}}}
+ assert.equal(planGuardedCatalogRepairs(['work'],data,[clearing]).expected.content_locales[0].description,null)
+ assert.deepEqual(expected.member_contents,data.member_contents)
+})
+
+test('single SSH capture uses all snapshot tables and work-specific direct/array predicates',async()=>{
+ const data=snapshot(),calls=[]
+ const result=await captureCatalogRepairSnapshot(null,Array.from({length:20},(_,i)=>'work-'+i),(command,args,options)=>{calls.push({command,args,options});return {status:0,stdout:JSON.stringify(data)}})
+ assert.deepEqual(result,data)
+ assert.equal(calls.length,1);assert.equal(calls[0].command,'ssh')
+ assert.ok(calls[0].options.input.includes('work-19'))
+ assert.ok(calls[0].options.input.length>8192)
+ assert.ok(calls[0].args.at(-1).includes('docker exec -i'))
+ assert.ok(!calls[0].args.join(' ').includes('work-19'))
+ const sql=buildCatalogRepairSnapshotSql(['work','other'])
+ for(const table of SNAPSHOT_TABLES)assert.ok(sql.includes('public.'+table))
+ assert.ok(sql.includes('READ ONLY'))
+ assert.ok(sql.includes('theme_book_ids'))
+ assert.ok(sql.includes('jsonb_path_exists'))
+})
+
+test('SQL has exact before and expected-after guards for every table and changes only whitelisted rows',()=>{
+ const data=snapshot(),sql=buildGuardedCatalogRepairSql(['work'],data,[change(data)])
+ for(const table of SNAPSHOT_TABLES)assert.equal(sql.split('CATALOG_REPAIR: rowset mismatch in '+table+"'").length-1,2)
+ assert.ok(sql.includes('ISOLATION LEVEL SERIALIZABLE'))
+ assert.ok(!sql.includes('LOCK TABLE'))
+ assert.equal(sql.split('FOR UPDATE;').length-1,SNAPSHOT_TABLES.length)
+ assert.ok(sql.includes('UPDATE public.contents SET metadata='))
+ assert.ok(!sql.includes('UPDATE public.member_contents'))
+ assert.ok(!sql.includes('UPDATE public.celeb_contents'))
+ assert.ok(sql.includes("to_jsonb(t)-'updated_at'"))
+ assert.ok(sql.indexOf(';COMMIT;')>sql.lastIndexOf('rowset mismatch'))
+})
+
+test('guarded execution uses existing temporary SQL cleanup and all-table self-readback',async()=>{
+ const data=snapshot(),changes=[change(data)],expected=planGuardedCatalogRepairs(['work'],data,changes).expected
+ expected.contents[0].updated_at='server-trigger-time';let reads=0,path
+ const result=await guardedCatalogRepairs(null,['work'],changes,{capture:async()=>structuredClone(reads++?expected:data),execute:file=>{path=file;assert.ok(readFileSync(file,'utf8').includes('MERGE_COMMITTED'));return 'MERGE_COMMITTED'}})
+ assert.equal(reads,2)
+ assert.equal(result.checkedTables,SNAPSHOT_TABLES.length)
+ assert.equal(result.changed,1)
+ assert.equal(existsSync(path),false)
+})
+
+test('unexpected reference/trigger mutations are rejected during readback',async()=>{
+ const data=snapshot(),changes=[change(data)],expected=planGuardedCatalogRepairs(['work'],data,changes).expected
+ expected.member_contents[0].rating=4;let reads=0
+ await assert.rejects(guardedCatalogRepairs(null,['work'],changes,{capture:async()=>structuredClone(reads++?expected:data),execute:()=>'MERGE_COMMITTED'}),/member_contents/)
+})
+
+test('unsupported tables, fields, stale before rows and out-of-scope ownership fail before execute',()=>{
+ const data=snapshot()
+ for(const bad of [
+  {table:'member_contents',before:data.member_contents[0],patch:{review:'Changed'}},
+  {table:'contents',before:data.contents[0],remove:true},
+  {table:'contents',before:data.contents[0],patch:{type:'VIDEO'}},
+  {...change(data),before:{...data.contents[0],external_id:'stale'}},
+  {table:'figure_book_editions',before:data.figure_book_editions[0],patch:{content_id:'other'}},
+ ])assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[bad]))
+ const partial=snapshot();delete partial.notes
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],partial,[change(data)]),/Missing catalog snapshot/)
+})
+
+test('edition removal requires excluded policy, no product history and retained introduction',()=>{
+ const data=snapshot(),edition=data.figure_book_editions[0]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:'figure_book_editions',before:edition,remove:true}]),/policy-excluded/)
+ edition.title='Abridged Title';edition.description='Human introduction'
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:'figure_book_editions',before:edition,remove:true}]),/introduction/)
+ data.content_locales[0].description=edition.description;data.content_locales[0].sources.description=edition.sources.description
+ data.figure_book_products=[{id:3,edition_id:1,is_active:false}]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:'figure_book_editions',before:edition,remove:true}]),/product history/)
+ data.figure_book_products=[]
+ const plan=planGuardedCatalogRepairs(['work'],data,[{table:'figure_book_editions',before:edition,remove:true}])
+ assert.equal(plan.expected.figure_book_editions.length,0)
+ const sql=buildGuardedCatalogRepairSql(['work'],data,[{table:'figure_book_editions',before:edition,remove:true}])
+ assert.ok(sql.includes('unhandled edition reference'))
+})
+
+test('multiple deletions retain original row matching and SQL literal safety',()=>{
+ const data=snapshot();data.figure_book_editions[0].title='Abridged Title';data.figure_book_editions.push({...data.figure_book_editions[0],id:2})
+ const changes=data.figure_book_editions.map(before=>({table:'figure_book_editions',before,remove:true}))
+ assert.equal(planGuardedCatalogRepairs(['work'],data,changes).expected.figure_book_editions.length,0)
+ const locale=data.content_locales[0];locale.title="Title $catalog_repair$ 'quoted'"
+ const sql=buildGuardedCatalogRepairSql(['work'],data,[{table:'content_locales',before:locale,patch:{title:'Confirmed'}}])
+ assert.ok(sql.includes('DO $catalog_repair_1$'))
+ assert.ok(sql.includes("''quoted''"))
+})
+
+test('removing an excluded edition does not treat provider markers as prose to preserve',()=>{
+ for(const marker of ['OPEN','KAKAO','DAUM']){
+  const data=snapshot(),before=data.figure_book_editions[0]
+  before.title='Abridged Title';before.description=marker;before.sources.description='https://publisher.example/source'
+  const plan=planGuardedCatalogRepairs(['work'],data,[{table:'figure_book_editions',before,remove:true}])
+  assert.equal(plan.expected.figure_book_editions.length,0)
+  assert.deepEqual(plan.expected.member_contents,data.member_contents)
+ }
+})
+test('a source-reviewed exclusion removes an actually abridged edition with missing legacy flags without first persisting forbidden flags',()=>{
+ const data=snapshot(),before=data.figure_book_editions[0];before.isbn='9780140444278';before.edition_kind=null;before.text_scope=null
+ const proof={method:'independent_selection_review',isbn:before.isbn,locale:before.locale,edition_title:before.title,
+  reason:'abridged',source_url:'https://publisher.example/books/on-war',explanation:'The publisher explicitly identifies this exact ISBN as an abridged translation.'}
+ const removal={table:'figure_book_editions',before,remove:true,reviewedSelectionExclusion:proof}
+ const plan=planGuardedCatalogRepairs(['work'],data,[removal])
+ assert.equal(plan.expected.figure_book_editions.length,0);assert.deepEqual(plan.expected.member_contents,data.member_contents)
+ const sql=buildGuardedCatalogRepairSql(['work'],data,[removal]);assert.ok(sql.includes('DELETE FROM public.figure_book_editions'));assert.ok(!sql.includes("edition_kind='abridged'"))
+ for(const difference of[{isbn:'9780140449136'},{locale:'ko'},{edition_title:'Stale title'},{source_url:'https://openlibrary.org/books/OL1M'},{reason:'low_rating'},{explanation:'Short'}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...removal,reviewedSelectionExclusion:{...proof,...difference}}]),/Source-reviewed edition exclusion/)
+ data.figure_book_products=[{id:3,edition_id:1,is_active:false}]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/product history/)
+})
+
+test('execute failures still remove owned temporary files',async()=>{
+ const data=snapshot();let path
+ await assert.rejects(guardedCatalogRepairs(null,['work'],[change(data)],{capture:async()=>data,execute:file=>{path=file;throw Error('Mock SQL rejected')}}),/Mock SQL rejected/)
+ assert.equal(existsSync(path),false)
+})
+
+const unwantedSnapshot=()=>{
+ const data=snapshot();data.member_contents=[];data.faction_lv2=[]
+ data.figure_book_editions[0].isbn='9780140449136'
+ data.content_locales[0].isbn='9780140449136'
+ data.figure_book_contents=[{content_id:'work',metadata:{}}]
+ data.figure_book_characters=[{content_id:'work',celeb_id:'figure',description:'Existing appearance relation'}]
+ return data
+}
+const exclusion=()=>({contentId:'work',isbns:['9780140449136'],reason:'LLM reviewed the entire work and every edition: this entry is an unwanted abridged reader, not the original.',sourceUrl:'https://publisher.example/books/reader'})
+
+test('whole-work exclusion requires explicit independent evidence covering every actual ISBN',()=>{
+ const data=unwantedSnapshot(),proof=exclusion()
+ assert.equal(planGuardedCatalogExclusions(['work'],data,[proof]).excluded.length,1)
+ // An ISBN10 equivalent is accepted, but a single bad edition cannot cover another current edition.
+ assert.equal(planGuardedCatalogExclusions(['work'],data,[{...proof,isbns:['0140449132']}]).excluded.length,1)
+ data.figure_book_editions.push({...data.figure_book_editions[0],id:2,title:'Unabridged original',isbn:'9780140449181'})
+ assert.throws(()=>planGuardedCatalogExclusions(['work'],data,[proof]),/EVERY/)
+ data.figure_book_editions.pop();data.content_locales.push({...data.content_locales[0],locale:'ko',isbn:'9780140449181'})
+ assert.throws(()=>planGuardedCatalogExclusions(['work'],data,[proof]),/EVERY/)
+ data.content_locales.at(-1).sources={primary:'none',title:'display_only'}
+ assert.equal(planGuardedCatalogExclusions(['work'],data,[proof]).excluded.length,1)
+ for(const bad of [{...proof,reason:''},{...proof,sourceUrl:'http://publisher.example/book'},{...proof,sourceUrl:'https://openlibrary.org/books/OL1M'},
+  {...proof,sourceUrl:'https://publisher.example/?api_key=secret'},{...proof,contentId:'outside'},{...proof,isbns:['invalid']}])assert.throws(()=>planGuardedCatalogExclusions(['work'],data,[bad]))
+ assert.throws(()=>planGuardedCatalogExclusions(['work'],data,[proof,proof]))
+})
+
+test('every protected table, array-only references and inactive product history block exclusion',async()=>{
+ const allowed=new Set(['contents','content_locales','figure_book_contents','figure_book_editions','figure_book_characters'])
+ for(const table of SNAPSHOT_TABLES.filter(table=>!allowed.has(table))){
+  const data=unwantedSnapshot()
+  data[table]=[table==='figure_book_products'?{edition_id:1,is_active:false}:table==='flows'?{tiers:{A:['work']}}:
+   table==='tier_lists'?{tiers:{},unranked:['work']}:table==='faction_lv2'?{theme_book_ids:['work']}:
+    table==='flow_nodes'?{content_id:'other',bonus_content_ids:['work']}:{content_id:'work',review:'Protected human review',rating:5}]
+  let executed=false
+  const result=await guardedCatalogExclusions(null,['work'],[exclusion()],{capture:async()=>data,checkReferences:()=>{},execute:()=>{executed=true}})
+  assert.equal(executed,false,table)
+  assert.deepEqual(result.blocked[0].references,[{table,count:1}])
+ }
+})
+
+test('fixed-reference guard receives the exact content ID and blocks the entire batch before SQL',async()=>{
+ const data=unwantedSnapshot();let captured=0,executed=false,checked=[]
+ const result=await guardedCatalogExclusions(null,['work'],[exclusion()],{capture:async()=>{captured++;return data},checkReferences:id=>{checked.push(id);throw Error('Code still uses ID')},execute:()=>{executed=true}})
+ assert.deepEqual(checked,['work']);assert.equal(captured,1);assert.equal(executed,false)
+ assert.deepEqual(result.blocked,[{contentId:'work',reason:'fixed_references'}]);assert.equal(result.excluded,0)
+})
+
+test('exclusion SQL orders five deletes, guards unknown FK cascades, and checks exact 18 rowsets twice',()=>{
+ const data=unwantedSnapshot(),sql=buildGuardedCatalogExclusionSql(['work'],data,[exclusion()])
+ for(const table of SNAPSHOT_TABLES)assert.equal(sql.split('CATALOG_REPAIR: rowset mismatch in '+table+"'").length-1,2)
+ const tables=['figure_book_characters','figure_book_editions','figure_book_contents','content_locales','contents']
+ assert.deepEqual([...sql.matchAll(/DELETE FROM public\.(\w+)/gu)].map(match=>match[1]),tables)
+ assert.ok(sql.includes('ISOLATION LEVEL READ COMMITTED'))
+ assert.ok(sql.includes('unhandled foreign reference'))
+ assert.ok(sql.includes("c.confrelid IN ('public.figure_book_characters'::regclass"))
+ assert.ok(sql.includes('cardinality(c.confkey)<>1'))
+ assert.ok(sql.includes('LOCK TABLE public.activity_logs,public.flow_nodes,public.flows,public.tier_lists,public.faction_lv2'))
+ assert.ok(!sql.includes('LOCK TABLE public.contents'))
+ assert.ok(!sql.includes('UPDATE public.'))
+ assert.ok(sql.indexOf(';COMMIT;')>sql.lastIndexOf('rowset mismatch'))
+})
+
+test('successful exclusion deletes only reviewed works and self-reads all 18 tables with temporary cleanup',async()=>{
+ const data=unwantedSnapshot();data.contents.push({id:'other',type:'BOOK'})
+ data.member_contents=[{content_id:'other',review:'Retained review',rating:4}]
+ data.faction_lv2=[{id:'theme',theme_book_ids:['other']}]
+ const expected=planGuardedCatalogExclusions(['work','other'],data,[exclusion()]).expected
+ let reads=0,path
+ const result=await guardedCatalogExclusions(null,['work','other'],[exclusion()],{capture:async()=>structuredClone(reads++?expected:data),checkReferences:id=>assert.equal(id,'work'),execute:file=>{path=file;assert.ok(readFileSync(file,'utf8').includes('protected figure_book_products'));return 'MERGE_COMMITTED'}})
+ assert.equal(reads,2);assert.equal(existsSync(path),false);assert.equal(result.excluded,1)
+ assert.equal(result.checkedTables,SNAPSHOT_TABLES.length)
+ assert.equal(expected.contents[0].id,'other')
+ assert.equal(expected.member_contents[0].review,'Retained review')
+ for(const table of ['content_locales','figure_book_contents','figure_book_editions','figure_book_characters'])assert.equal(expected[table].length,0)
+})
+
+test('exclusion rejects unexpected readback changes and cleans its SQL on execution failure',async()=>{
+ const data=unwantedSnapshot(),expected=planGuardedCatalogExclusions(['work'],data,[exclusion()]).expected
+ expected.notes=[{content_id:'work',body:'Unexpected trigger side effect'}];let reads=0
+ await assert.rejects(guardedCatalogExclusions(null,['work'],[exclusion()],{capture:async()=>structuredClone(reads++?expected:data),checkReferences:()=>{},execute:()=>'MERGE_COMMITTED'}),/notes/)
+ let path
+ await assert.rejects(guardedCatalogExclusions(null,['work'],[exclusion()],{capture:async()=>data,checkReferences:()=>{},execute:file=>{path=file;throw Error('Exclusion SQL failed')}}),/Exclusion SQL failed/)
+ assert.equal(existsSync(path),false)
+})
+
+test('catalog_only explicitly removes three catalog tables and preserves contents, locales and every protected row',async()=>{
+ const data=unwantedSnapshot()
+ for(const table of SNAPSHOT_TABLES.filter(table=>!['contents','content_locales','figure_book_contents','figure_book_editions','figure_book_characters','figure_book_products'].includes(table)))
+  data[table]=[table==='flows'?{id:'flow',tiers:{A:['work']}}:table==='tier_lists'?{id:'tiers',tiers:{A:['work']},unranked:['work']}:
+   table==='faction_lv2'?{id:'faction',theme_book_ids:['work']}:table==='flow_nodes'?{id:'node',content_id:'work',bonus_content_ids:['work']}:
+    {id:table,content_id:'work',review:'Protected prose',rating:5,updated_at:'unchanged'}]
+ data.celeb_contents.push({...data.celeb_contents[0],id:'second-celeb',review:'Second public review'})
+ assert.equal(planGuardedCatalogExclusions(['work'],data,[exclusion()]).excluded.length,0)
+ const plan=planGuardedCatalogExclusions(['work'],data,[exclusion()],{mode:'catalog_only'})
+ assert.equal(plan.blocked.length,0)
+ const deleted=['figure_book_characters','figure_book_editions','figure_book_contents']
+ for(const table of SNAPSHOT_TABLES){
+  if(deleted.includes(table))assert.equal(plan.expected[table].length,0)
+  else assert.deepEqual(plan.expected[table],data[table])
+ }
+ const sql=buildGuardedCatalogExclusionSql(['work'],data,[exclusion()],{mode:'catalog_only'})
+ assert.deepEqual([...sql.matchAll(/DELETE FROM public\.(\w+)/gu)].map(match=>match[1]),deleted)
+ assert.ok(!sql.includes('CATALOG_EXCLUSION: protected celeb_contents'))
+ assert.ok(sql.includes('CATALOG_EXCLUSION: protected figure_book_products'))
+ for(const table of SNAPSHOT_TABLES)assert.equal(sql.split('CATALOG_REPAIR: rowset mismatch in '+table+"'").length-1,2)
+ let reads=0
+ const result=await guardedCatalogExclusions(null,['work'],[exclusion()],{mode:'catalog_only',capture:async()=>structuredClone(reads++?plan.expected:data),checkReferences:id=>assert.equal(id,'work'),execute:()=> 'MERGE_COMMITTED'})
+ assert.deepEqual(result,{excluded:0,mode:'catalog_only',catalogExcluded:1,contentIds:['work'],blocked:[],checkedTables:18})
+ assert.equal(reads,2)
+})
+
+test('catalog_only still blocks inactive products, missing ISBN evidence and fixed references',async()=>{
+ const data=unwantedSnapshot();data.figure_book_products=[{id:2,edition_id:1,is_active:false}]
+ let executed=false
+ const options={mode:'catalog_only',capture:async()=>data,checkReferences:()=>{},execute:()=>{executed=true}}
+ const result=await guardedCatalogExclusions(null,['work'],[exclusion()],options)
+ assert.equal(executed,false);assert.equal(result.catalogExcluded,0)
+ assert.deepEqual(result.blocked[0].references,[{table:'figure_book_products',count:1}])
+ data.figure_book_products=[]
+ const fixed=await guardedCatalogExclusions(null,['work'],[exclusion()],{...options,checkReferences:()=>false})
+ assert.equal(executed,false);assert.deepEqual(fixed.blocked,[{contentId:'work',reason:'fixed_references'}])
+ data.figure_book_editions.push({...data.figure_book_editions[0],id:2,isbn:'9780140449181'})
+ assert.throws(()=>planGuardedCatalogExclusions(['work'],data,[exclusion()],{mode:'catalog_only'}),/EVERY/)
+ assert.throws(()=>planGuardedCatalogExclusions(['work'],data,[exclusion()],{mode:'unapproved'}),/mode/)
+})
+
+test('catalog_only readback rejects altered public prose and consumer records',async()=>{
+ for(const table of ['contents','content_locales','celeb_contents']){
+  const data=unwantedSnapshot();data.celeb_contents=[{content_id:'work',review:'Public review',rating:4}]
+  const expected=planGuardedCatalogExclusions(['work'],data,[exclusion()],{mode:'catalog_only'}).expected
+  if(table==='contents')expected.contents[0].metadata={unexpected:'change'}
+  else if(table==='content_locales')expected.content_locales[0].description='Unexpected introduction edit'
+  else expected.celeb_contents[0].review='Unexpected review edit'
+  let reads=0
+  await assert.rejects(guardedCatalogExclusions(null,['work'],[exclusion()],{mode:'catalog_only',capture:async()=>structuredClone(reads++?expected:data),checkReferences:()=>{},execute:()=>'MERGE_COMMITTED'}),new RegExp(table))
+ }
+})

@@ -3,6 +3,7 @@ import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { bookEditionTranslationKey, excludedBookEditionReason } from '@feelandnote/content-search/book-edition-policy'
 import { isOriginalEdition } from './edition-translation-policy.mjs'
 import { CONTENT_ARRAY_REFERENCES } from './content-array-references.mjs'
+import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
 export const REFERENCE_TABLES = ['content_locales', 'figure_book_contents', 'figure_book_characters', 'figure_book_editions', 'member_contents', 'celeb_contents', 'curated_list_items', 'flow_nodes', 'records', 'notes', 'activity_logs', 'commerce_events', 'profession_book_picks']
 const arrayReferences = table => CONTENT_ARRAY_REFERENCES.filter(ref => ref.table === table)
 const rankedReferences = CONTENT_ARRAY_REFERENCES.filter(ref => ref.shape === 'tiers')
@@ -100,7 +101,38 @@ export function findConflicts(snapshot, pair) {
   return null
 }
 
-export function buildMergeSql(pair, snapshot) {
+/** LLM-reviewed equivalence is explicit and bound to the current pair's exact editions and ISBNs. */
+export function validateReviewedEditionMappings(pair, snapshot, mappings = []) {
+  validatePair(pair)
+  if (!Array.isArray(mappings)) throw Error('MERGE_REVIEW: reviewedEditionMappings must be an array')
+  const seen = new Set()
+  return mappings.map(mapping => {
+    if (!mapping || !Number.isSafeInteger(Number(mapping.keepEditionId)) || Number(mapping.keepEditionId) < 1
+      || !Number.isSafeInteger(Number(mapping.dropEditionId)) || Number(mapping.dropEditionId) < 1
+      || !/^\d+$/u.test(String(mapping.keepEditionId)) || !/^\d+$/u.test(String(mapping.dropEditionId))) throw Error('MERGE_REVIEW: reviewed edition IDs must be positive safe integers')
+    const keep = snapshot.figure_book_editions.find(row => String(row.id) === String(mapping.keepEditionId))
+    const drop = snapshot.figure_book_editions.find(row => String(row.id) === String(mapping.dropEditionId))
+    if (!keep || !drop || keep.content_id !== pair.keep || drop.content_id !== pair.drop || keep.locale !== drop.locale
+      || mapping.locale !== keep.locale || seen.has(String(drop.id))) throw Error('MERGE_REVIEW: reviewed edition mapping owner/locale/duplicate mismatch')
+    seen.add(String(drop.id))
+    const keepIsbn = toIsbn13(mapping.keepIsbn ?? ''), dropIsbn = toIsbn13(mapping.dropIsbn ?? '')
+    if (!keepIsbn || !dropIsbn || keepIsbn !== toIsbn13(keep.isbn ?? '') || dropIsbn !== toIsbn13(drop.isbn ?? '')) throw Error('MERGE_REVIEW: reviewed edition mapping ISBN changed or missing')
+    let source
+    try { source = new URL(mapping.sourceUrl) } catch { throw Error('MERGE_REVIEW: reviewed edition mapping requires an independent HTTPS source') }
+    if (typeof mapping.sourceUrl !== 'string' || source.protocol !== 'https:' || source.username || source.password
+      || /(?:^|\.)openlibrary\.org$/iu.test(source.hostname) || typeof mapping.reason !== 'string' || !mapping.reason.trim()) throw Error('MERGE_REVIEW: reviewed edition mapping requires independent HTTPS source and reviewed reason')
+    const policyInput = row => ({ ...row, editionKind: row.edition_kind, textScope: row.text_scope })
+    if ([keep, drop].some(row => excludedBookEditionReason(policyInput(row)))) throw Error('MERGE_REVIEW: excluded edition cannot be mapped as an equivalent')
+    const keepTranslation = bookEditionTranslationKey(keep), dropTranslation = bookEditionTranslationKey(drop)
+    if (keepTranslation && dropTranslation && keepTranslation !== dropTranslation) throw Error('MERGE_REVIEW: different verified translators cannot be mapped as equivalent')
+    for (const field of ['edition_kind', 'text_scope']) if (keep[field] && drop[field] && keep[field] !== drop[field]) throw Error('MERGE_REVIEW: reviewed edition scope conflict')
+    if (String(drop.description ?? '').trim() && (drop.description !== keep.description
+      || (isBookIntroductionSource(drop.description) && drop.sources?.description !== keep.sources?.description))) throw Error('MERGE_REVIEW: preserve the duplicate edition introduction before reviewed mapping')
+    return { drop: drop.id, keep: keep.id }
+  })
+}
+
+export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [] } = {}) {
   validatePair(pair)
   if (displayIsbn(snapshot)) throw new Error('MERGE_REVIEW: display title still has an unverified ISBN')
   if (unrepresentedEnglishKakaoIsbn(snapshot)) throw new Error('MERGE_REVIEW: English Kakao card ISBN has no preserved edition')
@@ -120,6 +152,11 @@ export function buildMergeSql(pair, snapshot) {
   }
   const equivalents = snapshot.figure_book_editions.filter(row => row.content_id === pair.drop)
     .flatMap(row => { const key = translationKey(row), keep = key && representatives.get(key); return keep && keep.isbn !== row.isbn ? [{ drop: row.id, keep: keep.id }] : [] })
+  for (const mapping of validateReviewedEditionMappings(pair, snapshot, reviewedEditionMappings)) {
+    const automatic = equivalents.find(row => String(row.drop) === String(mapping.drop))
+    if (automatic && String(automatic.keep) !== String(mapping.keep)) throw Error('MERGE_REVIEW: reviewed mapping conflicts with verified original/translation representative')
+    if (!automatic) equivalents.push(mapping)
+  }
   const equivalentEdition = equivalents.length ? `CASE duplicate_edition.id ${equivalents.map(row => `WHEN ${Number(row.drop)} THEN ${Number(row.keep)}`).join(' ')} ELSE NULL END` : 'NULL'
   const figure = works.get(pair.keep)?.figureBook ?? {}
   const proofOwner = { content_id: pair.keep }

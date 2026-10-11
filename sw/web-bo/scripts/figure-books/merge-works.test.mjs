@@ -1,9 +1,10 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
-import { dirname } from 'node:path'
+import { dirname, resolve, toNamespacedPath } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { buildMergeSql, findConflicts, hasArrayReference, SNAPSHOT_TABLES, sqlLiteral } from './lib/merge-work-sql.mjs'
-import { planSnapshot, executeMergeFile, executeTemporaryMergeSql, checkFixedReferences, remapArrayReferences, buildSnapshotSql, captureDatabaseSnapshot } from './merge-works.mjs'
+import { planSnapshot, executeMergeFile, executeTemporaryMergeSql, checkFixedReferences, remapArrayReferences, buildSnapshotSql, captureDatabaseSnapshot, applyOne } from './merge-works.mjs'
 const pair = { keep: 'keep', drop: 'drop' }
 test('대량 조회는 자유 등급명과 모든 배열 참조를 동일한 DB 시점에서 읽는다',()=>{
   const sql=buildSnapshotSql(pair)
@@ -24,6 +25,54 @@ function fixture() {
   value.contents = [{ id: 'keep', type: 'BOOK' }, { id: 'drop', type: 'BOOK' }]
   return value
 }
+function reviewedEditionFixture() {
+  const snapshot = fixture()
+  snapshot.figure_book_editions = [
+    { id: 1, content_id: 'keep', locale: 'en', title: 'Wim Wenders: Instant Stories', creator: 'Wim Wenders', isbn: '9780500295779', description: null, sources: {} },
+    { id: 2, content_id: 'drop', locale: 'en', title: 'Wim Wenders: Instant Stories', creator: 'Wim Wenders', isbn: '9780500544785', description: null, sources: {} },
+  ]
+  return snapshot
+}
+const reviewedMapping = { keepEditionId: 1, dropEditionId: 2, keepIsbn: '9780500295779', dropIsbn: '9780500544785', locale: 'en',
+  sourceUrl: 'https://www.thamesandhudson.com/products/wim-wenders-instant-stories', reason: 'Publisher confirms reduced-format reprint with the same 403 Polaroids.' }
+test('explicit source-reviewed edition equivalence maps products without inventing original language or weakening transaction guards', () => {
+  const snapshot = reviewedEditionFixture()
+  assert.match(buildMergeSql(pair, snapshot), /canonical_id := NULL;/)
+  const before = structuredClone(snapshot), sql = buildMergeSql(pair, snapshot, { reviewedEditionMappings: [reviewedMapping] })
+  assert.match(sql, /canonical_id := CASE duplicate_edition.id WHEN 2 THEN 1 ELSE NULL END;/)
+  for (const table of SNAPSHOT_TABLES) assert.ok(sql.includes('concurrent change in ' + table))
+  assert.ok(sql.indexOf('concurrent change') < sql.indexOf('INSERT INTO'))
+  assert.match(sql, /FOR UPDATE/); assert.match(sql, /unhandled edition FK/); assert.match(sql, /product history lost/)
+  assert.ok(sql.indexOf('SET is_active=false') < sql.indexOf('SET edition_id=canonical_id'))
+  assert.doesNotMatch(sql, /DISABLE TRIGGER|session_replication_role|SET originalLanguage|SET translators/iu)
+  assert.deepEqual(snapshot, before)
+})
+test('reviewed mappings are bound to exact pair ownership, locale and ISBN and reject conflicting translations/scope or lost introductions', () => {
+  for (const change of [{ keepEditionId: 2 }, { dropEditionId: 999 }, { keepIsbn: '9783775735131' }, { locale: 'ko' },
+    { sourceUrl: 'http://publisher.example/book' }, { sourceUrl: 'https://openlibrary.org/books/OL1M' }, { sourceUrl: 'https://user:password@publisher.example/book' },
+    { reason: '' }, { dropEditionId: '2;DELETE' }]) assert.throws(() => buildMergeSql(pair, reviewedEditionFixture(), { reviewedEditionMappings: [{ ...reviewedMapping, ...change }] }), /MERGE_REVIEW/)
+  assert.throws(() => buildMergeSql(pair, reviewedEditionFixture(), { reviewedEditionMappings: [reviewedMapping, reviewedMapping] }), /duplicate mismatch/)
+  const translations = reviewedEditionFixture(); translations.figure_book_editions[0].sources.translators = ['Translator A']; translations.figure_book_editions[1].sources.translators = ['Translator B']
+  assert.throws(() => buildMergeSql(pair, translations, { reviewedEditionMappings: [reviewedMapping] }), /different verified translators/)
+  const scoped = reviewedEditionFixture(); scoped.figure_book_editions[0].text_scope = 'complete'; scoped.figure_book_editions[1].text_scope = 'volume/1'
+  assert.throws(() => buildMergeSql(pair, scoped, { reviewedEditionMappings: [reviewedMapping] }), /scope conflict/)
+  const abridged = reviewedEditionFixture(); abridged.figure_book_editions[1].title += ' abridged'
+  assert.throws(() => buildMergeSql(pair, abridged, { reviewedEditionMappings: [reviewedMapping] }), /excluded edition/)
+  const described = reviewedEditionFixture(); described.figure_book_editions[1].description = 'A unique stored introduction'
+  assert.throws(() => buildMergeSql(pair, described, { reviewedEditionMappings: [reviewedMapping] }), /preserve.*introduction/)
+})
+test('applyOne passes reviewed mappings through the normal fixed reference, capture, execution and selfverification path', async () => {
+  const before = reviewedEditionFixture(), after = structuredClone(before), calls = []
+  after.contents = after.contents.filter(row => row.id === 'keep'); after.figure_book_editions = after.figure_book_editions.filter(row => row.id === 1)
+  let captured = 0
+  const result = await applyOne(null, pair, { reviewedEditionMappings: [reviewedMapping],
+    checkReferences: checked => { assert.deepEqual(checked, pair); calls.push('fixed references') },
+    capture: async () => { calls.push('capture'); return captured++ ? after : before },
+    execute: file => { calls.push('execute'); assert.match(readFileSync(file, 'utf8'), /WHEN 2 THEN 1/); return 'MERGE_COMMITTED' },
+  })
+  assert.equal(result.completed, true)
+  assert.deepEqual(calls, ['fixed references', 'capture', 'execute', 'capture'])
+})
 test('회원 중복은 리뷰·평점 같아도 전체 pair 차단', () => {
   const s = fixture(); s.member_contents = [{ id: 'a', member_id: 'm', content_id: 'keep' }, { id: 'b', member_id: 'm', content_id: 'drop' }]
   assert.equal(findConflicts(s, pair), 'member-duplicate-needs-review')
@@ -226,6 +275,29 @@ test('감상 원문에 DO 달러 구분자가 있어도 SQL 밖으로 탈출하�
 test('코드·Remotion ID 참조가 있거나 검색 실패하면 mutation 실행 전 차단', () => {
   assert.throws(() => checkFixedReferences(pair, () => ({ status: 0, stdout: 'sw/web/src/lib/faction-theme.ts' })), /drop ID/)
   assert.throws(() => checkFixedReferences(pair, () => ({ status: 2, stderr: 'failure' })), /failure/)
+})
+test('fixed ID scan preserves every source root and hidden/no-ignore scope with extended absolute Windows paths', () => {
+  const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..')
+  const roots = ['sw/web/src', 'sw/web-bo/src', 'packages', 'sw/remotion/src', 'sw/remotion/public']
+    .map(path => toNamespacedPath(resolve(repositoryRoot, path)))
+  let called = false
+  assert.doesNotThrow(() => checkFixedReferences(pair, (command, args, options) => {
+    called = true
+    assert.equal(command, 'rg')
+    assert.deepEqual(args.slice(args.indexOf('--') + 1), [pair.drop, ...roots])
+    assert.deepEqual(args.slice(0, args.indexOf('--')), ['--files-with-matches', '--fixed-strings', '--hidden', '--no-ignore',
+      '-g', '*.ts', '-g', '*.tsx', '-g', '*.json', '-g', '*.mjs', '-g', '*.js'])
+    if (process.platform === 'win32') for (const root of roots) assert.ok(root.startsWith('\\\\?\\'))
+    assert.equal(options.cwd, repositoryRoot)
+    assert.equal(options.shell, false)
+    return { status: 1, stdout: '', stderr: '' }
+  }))
+  assert.equal(called, true)
+})
+test('fixed ID scan blocks genuine filesystem/process failures even alongside no matches', () => {
+  assert.throws(() => checkFixedReferences(pair, () => ({ status: 1, stdout: '', stderr: 'existing file: Access is denied (os error 5)' })), /Access is denied/)
+  assert.throws(() => checkFixedReferences(pair, () => ({ status: 2, stdout: '', stderr: 'existing long path: file not found (os error 2)' })), /file not found/)
+  assert.throws(() => checkFixedReferences(pair, () => ({ status: 1, stdout: '', stderr: '', error: new Error('rg timed out') })), /rg timed out/)
 })
 
 

@@ -3,7 +3,7 @@
  */
 import { readFileSync, writeFileSync, mkdtempSync, unlinkSync, rmdirSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { resolve, dirname, join } from 'node:path'
+import { resolve, dirname, join, toNamespacedPath } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { randomUUID } from 'node:crypto'
 import { spawnSync } from 'node:child_process'
@@ -70,8 +70,11 @@ export function runProcess(command, args, spawn = spawnSync) {
   return r.stdout
 }
 export function checkFixedReferences(pair, spawn = spawnSync) {
-  const r = spawn('rg', ['--files-with-matches', '--fixed-strings', '--hidden', '--no-ignore', '-g', '*.ts', '-g', '*.tsx', '-g', '*.json', '-g', '*.mjs', '-g', '*.js', '--', pair.drop, 'sw/web/src', 'sw/web-bo/src', 'packages', 'sw/remotion/src', 'sw/remotion/public'], { cwd: repositoryRoot, encoding: 'utf8', shell: false, windowsHide: true, timeout: 30_000 })
-  if (r.error || ![0, 1].includes(r.status)) throw new Error(r.error?.message ?? r.stderr ?? 'ID 참조 검색 실패')
+  // Extended absolute Windows paths let rg inspect long Remotion asset paths without skipping them.
+  const roots = ['sw/web/src', 'sw/web-bo/src', 'packages', 'sw/remotion/src', 'sw/remotion/public']
+    .map(path => toNamespacedPath(resolve(repositoryRoot, path)))
+  const r = spawn('rg', ['--files-with-matches', '--fixed-strings', '--hidden', '--no-ignore', '-g', '*.ts', '-g', '*.tsx', '-g', '*.json', '-g', '*.mjs', '-g', '*.js', '--', pair.drop, ...roots], { cwd: repositoryRoot, encoding: 'utf8', shell: false, windowsHide: true, timeout: 30_000 })
+  if (r.error || ![0, 1].includes(r.status) || r.stderr?.trim()) throw new Error(r.error?.message ?? r.stderr?.trim() ?? 'ID 참조 검색 실패')
   if (r.status === 0) throw new Error('MERGE_REVIEW: 코드·Remotion에 drop ID 참조: ' + r.stdout.trim())
 }
 export function executeMergeFile(localFile, token, spawn = spawnSync) {
@@ -95,11 +98,11 @@ export function executeMergeFile(localFile, token, spawn = spawnSync) {
     if(cleanupError)console.warn('원격 임시 SQL 정리 실패 ('+remoteDirectory+'): '+cleanupError.message)
   }
 }
-export async function applyOne(db, pair, { execute = executeMergeFile, checkReferences = checkFixedReferences, capture = captureSnapshot } = {}) {
+export async function applyOne(db, pair, { execute = executeMergeFile, checkReferences = checkFixedReferences, capture = captureSnapshot, reviewedEditionMappings = [] } = {}) {
   checkReferences(pair)
   const snapshot = await capture(db, pair), plan = planSnapshot(snapshot, pair)
   if (plan.skip) return plan
-  executeTemporaryMergeSql(buildMergeSql(pair, snapshot), randomUUID(), execute)
+  executeTemporaryMergeSql(buildMergeSql(pair, snapshot, { reviewedEditionMappings }), randomUUID(), execute)
   const after = await capture(db, pair)
   if (after.contents.some(r => r.id === pair.drop) || after.contents.length !== 1 || after.member_contents.length !== snapshot.member_contents.length || after.figure_book_products.length !== snapshot.figure_book_products.length) throw new Error('재조회 불일치. 서버의 작품과 참조를 확인하십시오: ' + pair.keep + ', ' + pair.drop)
   for (const table of ['flow_nodes', ...ARRAY_REFERENCE_TABLES]) {
