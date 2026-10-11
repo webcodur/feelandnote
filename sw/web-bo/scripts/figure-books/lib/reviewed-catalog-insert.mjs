@@ -81,7 +81,7 @@ export function bindReviewedCatalogInsertIdentity(snapshot, reviews) {
 
 /**
  * reviews: {contentId,locale,isbn,title,creator,textLanguage,workTitle,workCreator,
- *   sourceUrl,reason,translators?:string[],editionKind:null|serviceKind,textScope:null|string}.
+ *   sourceUrl,reason,translators?:string[],editionKind:null|serviceKind,textScope:null|string,editionReleaseDate?:string|null}.
  * title is the effective seed title (sources.edition_title, otherwise the trimmed locale title).
  * Each real card needs either an explicit edition review or an exact source-reviewed exclusion.
  * Display cards must have no ISBN. The live seed trigger excludes reviewed rejected cards.
@@ -138,12 +138,15 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
       workTitles: [figure.workTitle, figure.originalTitle].filter(Boolean) })
     if (policy(review) || policy({ editionKind: work.metadata?.fictionSource?.editionKind, textScope: work.metadata?.fictionSource?.textScope })
       || figure.editionKind === 'abridged') throw Error('CATALOG_INSERT: excluded or non-start edition must be resolved separately')
-    const release = work.release_date ?? ''
-    if (/^\d{4}-\d{2}-\d{2}/u.test(release) && !Number.isFinite(Date.parse(release.slice(0, 10)))) throw Error('CATALOG_INSERT: invalid live release date')
+    // 작품의 발행일을 다른 언어/상품의 출간일로 복사하지 않는다.
+    const release = review.editionReleaseDate ?? null
+    if (release !== null && (typeof release !== 'string' || !/^\d{4}-\d{2}-\d{2}$/u.test(release)
+      || !Number.isFinite(Date.parse(release + 'T00:00:00Z'))
+      || new Date(release + 'T00:00:00Z').toISOString().slice(0, 10) !== release)) throw Error('CATALOG_INSERT: invalid reviewed edition release date')
     return {
       content_id: review.contentId, locale: review.locale, isbn, title, creator: review.creator,
       publisher: locale.publisher?.trim() || null, description: locale.description ?? null,
-      thumbnail_url: locale.thumbnail_url ?? null, release_date: /^\d{4}-\d{2}-\d{2}/u.test(release) ? release.slice(0, 10) : null,
+      thumbnail_url: locale.thumbnail_url ?? null, release_date: release,
       edition_kind: review.editionKind, text_scope: review.textScope, sort_order: 0, verified: true,
       sources: { ...locale.sources, edition_text_scope_evidence: { isbn, source_url: review.sourceUrl, reason: review.reason } },
     }
@@ -167,7 +170,7 @@ expected_parents:=expected_parents||jsonb_build_array(jsonb_build_object('conten
   const editionStatements = plan.editions.map(row => `${plan.newParentIds.includes(row.content_id)
     ? `SELECT id INTO STRICT seeded_id FROM public.figure_book_editions
 WHERE content_id=${sqlLiteral(row.content_id)} AND locale=${sqlLiteral(row.locale)} AND isbn=${sqlLiteral(row.isbn)};
-UPDATE public.figure_book_editions SET title=${sqlLiteral(row.title)},creator=${sqlLiteral(row.creator)},publisher=${nullable(row.publisher)},verified=TRUE,edition_kind=${nullable(row.edition_kind)},text_scope=${nullable(row.text_scope)},sources=${json(row.sources)} WHERE id=seeded_id;`
+UPDATE public.figure_book_editions SET title=${sqlLiteral(row.title)},creator=${sqlLiteral(row.creator)},publisher=${nullable(row.publisher)},release_date=${nullable(row.release_date)},verified=TRUE,edition_kind=${nullable(row.edition_kind)},text_scope=${nullable(row.text_scope)},sources=${json(row.sources)} WHERE id=seeded_id;`
     : `INSERT INTO public.figure_book_editions(${Object.keys(row).join(',')},created_at,updated_at)
 VALUES(${Object.entries(row).map(([key, value]) => key === 'sources' ? json(value) : value === null ? 'NULL' : typeof value === 'boolean' || typeof value === 'number' ? String(value) : sqlLiteral(value)).join(',')},ts,ts) RETURNING id INTO seeded_id;`}
 expected_editions:=expected_editions||jsonb_build_array(${json(row)}||jsonb_build_object('id',seeded_id,'created_at',ts,'updated_at',ts));`).join('\n')

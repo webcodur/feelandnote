@@ -195,7 +195,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
       ALTER TABLE figure_book_editions ADD COLUMN created_at timestamptz DEFAULT now(),ADD COLUMN updated_at timestamptz DEFAULT now();`)
     t.after(() => query(`ALTER TABLE figure_book_contents DROP COLUMN created_at,DROP COLUMN updated_at;
       ALTER TABLE figure_book_editions DROP COLUMN created_at,DROP COLUMN updated_at;`))
-    reset(`UPDATE contents SET metadata='{"figureBook":{"workTitle":"Actual original","workCreator":"Actual author"}}' WHERE id='keep';
+    reset(`UPDATE contents SET release_date='2013-10-10',metadata='{"figureBook":{"workTitle":"Actual original","workCreator":"Actual author"}}' WHERE id='keep';
       INSERT INTO content_locales(content_id,locale,title,creator,isbn,publisher,sources) VALUES
       ('keep','en',E'Actual original\\u00a0',E'Actual author\\u00a0','9780451464163',E'Actual publisher\\u00a0',
       '{"primary":"openlibrary","isbn":"https://openlibrary.org/books/OL1234M"}');
@@ -210,8 +210,18 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.equal(after.figure_book_editions[0].title,'Actual original')
     assert.equal(after.figure_book_editions[0].creator,'Actual author')
     assert.equal(after.figure_book_editions[0].publisher,'Actual publisher')
+    assert.equal(after.figure_book_editions[0].release_date,null)
     assert.deepEqual(after.celeb_contents,before.celeb_contents)
     assert.deepEqual(after.member_contents,before.member_contents)
+    query("DELETE FROM figure_book_contents WHERE content_id='keep';")
+    const datedBefore=read(),datedReviews=reviews.map(review=>({...review,editionReleaseDate:'2017-02-28'}))
+    query(buildReviewedCatalogInsertSql(assigned,datedBefore,datedReviews))
+    const datedAfter=read()
+    assert.equal(verifyReviewedCatalogInsertReadback(assigned,datedBefore,datedReviews,datedAfter).checkedTables,18)
+    assert.equal(datedAfter.figure_book_editions[0].release_date,'2017-02-28')
+    assert.equal(datedAfter.contents[0].release_date,'2013-10-10')
+    assert.deepEqual(datedAfter.celeb_contents,datedBefore.celeb_contents)
+    assert.deepEqual(datedAfter.member_contents,datedBefore.member_contents)
     query("DELETE FROM figure_book_contents WHERE content_id='keep'; UPDATE content_locales SET creator='Changed author' WHERE content_id='keep';")
     assert.throws(()=>buildReviewedCatalogInsertSql(assigned,read(),reviews),/snapshot identity changed/)
     assert.equal(read().figure_book_contents.length,0)
