@@ -105,6 +105,32 @@ test('ISBN-less display introduction can bind its same-work locale ISBN without 
  assert.ok(!sql.includes('UPDATE public.celeb_contents'))
 })
 
+test('ISBN-less introduction translation binds the independent source to the exact other-language work',()=>{
+ for(const withIsbn of [false,true]){
+  const data=snapshot();data.figure_book_editions=[]
+  const reference=data.content_locales[0];Object.assign(reference,{title:'Original work',creator:'Actual author',isbn:withIsbn?'9780674250703':null})
+  const before={content_id:'work',locale:'ko',title:'원작 안내',creator:'실제 저자',isbn:null,description:'잘못 붙은 한국어 출간 주장이다.',sources:{primary:'none'}}
+  data.content_locales.push(before)
+  const source='https://publisher.example/original-work'
+  const description='이 책은 작가가 가족과 친구들에게 보낸 편지를 모은 서간집이다. 편지에는 일상에서 겪은 사건과 주변 사람들과의 관계, 글을 쓰는 과정에서 마주한 고민이 담겨 있다. 독자는 시기와 상대에 따라 달라지는 목소리를 통해 공개된 작품 뒤에 놓인 개인적인 경험을 살펴볼 수 있다.\n\n서간은 완성된 작품만으로는 드러나지 않는 작가의 생활과 생각을 읽게 한다. 수록된 편지와 그 맥락을 함께 따라가며 인간관계와 창작 활동이 어떻게 이어졌는지 확인할 수 있다는 점에서 작가의 작품을 이해하는 데 도움이 된다.'
+  const proof={method:withIsbn?'independent_locale_reference_introduction_review':'independent_work_introduction_review',contentId:'work',referenceLocale:'en',referenceWorkTitle:reference.title,referenceCreator:reference.creator,
+   ...(withIsbn?{isbn:reference.isbn}:{}),locale:'ko',editionTitle:before.title,sourceUrl:source,reason:'The English publisher text identifies this exact original and author; it does not claim Korean publication.',evidence:[{url:source,note:'English introduction and actual author reviewed.'}]}
+  const patch={description,sources:{primary:'none',description:source,description_method:'translation',description_source_locale:'en'}}
+  const correction={table:'content_locales',before,patch,reviewedIntroductionCorrection:proof}
+  const expected=planGuardedCatalogRepairs(['work'],data,[correction]).expected
+  assert.equal(expected.content_locales[1].description,description)
+  assert.equal(expected.content_locales[1].isbn,null)
+  assert.deepEqual(expected.content_locales[0],reference)
+  assert.deepEqual(expected.member_contents,data.member_contents)
+  for(const difference of [{referenceLocale:'ko'},{referenceLocale:'fr'},{referenceWorkTitle:'Other work'},{referenceCreator:'Other author'},{contentId:'other'},{evidence:[]}])
+   assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...correction,reviewedIntroductionCorrection:{...proof,...difference}}]))
+  for(const sourceLocale of ['ko','fr',undefined])assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...correction,patch:{...patch,sources:{...patch.sources,description_source_locale:sourceLocale}}}]))
+  const sql=buildGuardedCatalogRepairSql(['work'],data,[correction])
+  for(const table of SNAPSHOT_TABLES)assert.equal(sql.split('CATALOG_REPAIR: rowset mismatch in '+table+"'").length-1,2)
+  assert.ok(!sql.includes('UPDATE public.celeb_contents'))
+ }
+})
+
 test('single SSH capture uses all snapshot tables and work-specific direct/array predicates',async()=>{
  const data=snapshot(),calls=[]
  const result=await captureCatalogRepairSnapshot(null,Array.from({length:20},(_,i)=>'work-'+i),(command,args,options)=>{calls.push({command,args,options});return {status:0,stdout:JSON.stringify(data)}})

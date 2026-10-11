@@ -19,6 +19,11 @@ const where=(table,workIds,alias='')=>workIds.map(id=>referenceWhere(table,sqlLi
 const json=value=>sqlLiteral(JSON.stringify(value))+'::jsonb'
 const value=v=>v===null?'NULL':typeof v==='object'?json(v):typeof v==='boolean'?(v?'TRUE':'FALSE'):typeof v==='number'&&Number.isFinite(v)?String(v):sqlLiteral(v)
 function snapshotCheck(snapshot){for(const table of SNAPSHOT_TABLES)if(!Array.isArray(snapshot?.[table]))throw Error('Missing catalog snapshot: '+table)}
+function reviewedIntroductionLanguage(before,patch,proof){
+ const method=patch.sources?.description_method,sourceLocale=patch.sources?.description_source_locale
+ return method==='research'&&sourceLocale===before.locale
+  ||method==='translation'&&['ko','en'].includes(proof.referenceLocale)&&proof.referenceLocale!==before.locale&&sourceLocale===proof.referenceLocale
+}
 
 export function buildCatalogRepairSnapshotSql(workIds) {
  const assigned=ids(workIds)
@@ -72,7 +77,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
      ||proof.contentId!==before.content_id||proof.referenceLocale===before.locale||!reference||!toIsbn13(reference.isbn??'')
      ||!String(proof.referenceWorkTitle??'').trim()||!String(proof.referenceCreator??'').trim()
      ||patch.isbn!==undefined&&patch.isbn!==null||patch.sources?.primary!=='none'
-     ||patch.sources.description_method!=='research'||patch.sources.description_source_locale!==before.locale
+     ||!reviewedIntroductionLanguage(before,patch,proof)
      ||proof.locale!==before.locale||proof.editionTitle!==(patch.title??before.title)
      ||!independentSource(proof.sourceUrl)||patch.sources.description!==proof.sourceUrl||!String(proof.reason??'').trim()
      ||!Array.isArray(proof.evidence)||proof.evidence.some(item=>!independentSource(item?.url)))
@@ -88,7 +93,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
     if(table!=='content_locales'||remove||!patch||proof.contentId!==before.content_id||before.isbn!==null
      ||before.sources?.primary!=='none'||!reference||!String(proof.referenceWorkTitle??'').trim()||!String(proof.referenceCreator??'').trim()
      ||workRows.some(row=>String(row.isbn??'').trim())||patch.isbn!==undefined&&patch.isbn!==null
-     ||patch.sources?.primary!=='none'||patch.sources?.description_method!=='research'||patch.sources.description_source_locale!==before.locale
+     ||patch.sources?.primary!=='none'||!reviewedIntroductionLanguage(before,patch,proof)
      ||proof.locale!==before.locale||proof.editionTitle!==(patch.title??before.title)
      ||!independentSource(proof.sourceUrl)||patch.sources.description!==proof.sourceUrl||!String(proof.reason??'').trim()
      ||!Array.isArray(proof.evidence)||proof.evidence.some(item=>!independentSource(item?.url)))
