@@ -68,7 +68,7 @@ test('direct later-volume selection removes a source-confirmed subset even when 
  }
 })
 test('later-volume removal rejects unverified continuity, original language, translation, identity drift and lost representative',()=>{
- for(const difference of [{volumeNumber:1},{continuousText:false},{isbn:'9780140449136'},{referenceTitle:'Other first'},
+ for(const difference of [{volumeNumber:1},{referenceVolumeNumber:2},{continuousText:false},{isbn:'9780140449136'},{referenceTitle:'Other first'},
   {textIdentity:'original'},{translators:[]},{referenceSourceUrl:'http://publisher.example/first'},{sourceUrl:'https://openlibrary.org/books/OL1M'}]){
   const {data,removal}=nonstartSnapshot();assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...removal,
    reviewedNonstartEditionRemoval:{...removal.reviewedNonstartEditionRemoval,...difference}}]),/Nonstart/)
@@ -79,6 +79,18 @@ test('later-volume removal rejects unverified continuity, original language, tra
  assert.throws(()=>planGuardedCatalogRepairs(['work'],valid.data,[valid.removal]),/product history/)
  const altered=nonstartSnapshot();assert.throws(()=>planGuardedCatalogRepairs(['work'],altered.data,[altered.removal,
   {table:'figure_book_editions',before:altered.data.figure_book_editions[1],patch:{description:'Changed first intro'}}]),/retain/)
+})
+test('source-confirmed first volume may keep its unchanged unknown scope until later-volume removal unblocks normalization',()=>{
+ const {data,removal}=nonstartSnapshot(true),first=data.figure_book_editions[1]
+ first.edition_kind=null;first.text_scope=null
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Nonstart/)
+ removal.reviewedNonstartEditionRemoval.referenceVolumeNumber=1
+ const plan=planGuardedCatalogRepairs(['work'],data,[removal])
+ assert.deepEqual(plan.expected.figure_book_editions,[first])
+ for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(plan.expected[table],data[table],table)
+ for(const scope of ['volume/2','abridged','unknown']){
+  first.text_scope=scope;assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Nonstart/)
+ }
 })
 
 const reviewedIntroduction=()=>({contentId:'work',locale:'en',isbn:'9780674250703',description:'The author’s letters to friends and family reveal the composition of the poems.',

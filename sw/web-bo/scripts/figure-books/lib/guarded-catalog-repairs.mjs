@@ -76,14 +76,18 @@ function reviewedNonstartReference(before,proof,snapshot){
  const a=bookTranslatorKey(before.sources?.translators),b=bookTranslatorKey(reference?.sources?.translators)
  const sameText=proof?.textIdentity==='translation'&&a&&a===b&&a===bookTranslatorKey(proof.translators)
   ||proof?.textIdentity==='original'&&!a&&!b&&proof.originalLanguage===before.locale&&figure.originalLanguage===before.locale&&independentSource(figure.identityEvidence)
+ const selectedStart=reference?.edition_kind==='volume'&&reference.text_scope==='volume/1'
+  ||reference?.edition_kind==='full'&&['full','complete'].includes(reference.text_scope)
+  ||proof?.referenceVolumeNumber===1&&reference?.edition_kind==null&&reference?.text_scope==null
  if(proof?.method!=='independent_nonstart_volume_review'||proof.contentId!==before.content_id||String(proof.editionId)!==String(before.id)
   ||proof.locale!==before.locale||proof.editionTitle!==before.title||!toIsbn13(before.isbn??'')||toIsbn13(proof.isbn??'')!==toIsbn13(before.isbn)
   ||!Number.isInteger(proof.volumeNumber)||proof.volumeNumber<2||proof.volumeNumber>999||proof.continuousText!==true||!sameText
+  ||proof.referenceVolumeNumber!==undefined&&proof.referenceVolumeNumber!==1
   ||!independentSource(proof.sourceUrl)||!independentSource(proof.referenceSourceUrl)||proof.sourceUrl===proof.referenceSourceUrl
   ||typeof proof.reason!=='string'||proof.reason.trim().length<BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
   ||!reference||String(reference.id)===String(before.id)||reference.content_id!==before.content_id||reference.locale!==before.locale
   ||reference.title!==proof.referenceTitle||reference.creator!==proof.referenceCreator||!String(proof.referenceCreator??'').trim()||before.creator!==reference.creator
-  ||!(reference.edition_kind==='volume'&&reference.text_scope==='volume/1'||reference.edition_kind==='full'&&['full','complete'].includes(reference.text_scope))
+  ||!selectedStart
   ||!toIsbn13(reference.isbn??'')||toIsbn13(reference.isbn)!==toIsbn13(proof.referenceIsbn??'')||toIsbn13(reference.isbn)===toIsbn13(before.isbn)
   ||!selected||toIsbn13(selected.isbn??'')!==toIsbn13(reference.isbn)
   ||excludedBookEditionReason({...reference,editionKind:reference.edition_kind,textScope:reference.text_scope})
