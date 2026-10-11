@@ -132,7 +132,7 @@ async function buildAffiliatePool(locale: AffiliateBookLocale, sourceRows: Sourc
     // 절판은 제휴 링크 유무와 무관하게 후보에서 뺀다.
     const outOfPrint = (row.sources as { availability?: unknown } | null | undefined)?.availability === 'out_of_print'
     if (seen.has(row.content_id) || sourceIds.has(row.content_id) || !row.title || isDisplayTitleRow(row.sources) || outOfPrint
-      || excludedBookEditionReason(row)) continue
+      || excludedBookEditionReason({...row,locale})) continue
     const url = locale === 'en'
       ? getEnglishBookAmazonUrl({ title: row.title, creator: row.creator, url: findAffiliateLink(row.affiliate_url, 'amazon')?.url })
       : findAffiliateLink(row.affiliate_url, 'coupang')?.url ?? ''
