@@ -61,7 +61,7 @@ ${readFileSync(new URL('../../../web/database/migrations/20261008120000_figure_b
 ${readFileSync(new URL('../../../web/database/migrations/20261008170000_figure_book_seed_translation_policy.sql', import.meta.url), 'utf8')}
 `
 
-test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 쓰기 차단', { skip: !bin && 'PG_TEST_BIN을 로컬 PostgreSQL bin 경로로 지정하세요', timeout: 180000 }, async t => {
+test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 쓰기 차단', { skip: !bin && 'PG_TEST_BIN을 로컬 PostgreSQL bin 경로로 지정하세요', timeout: 600000 }, async t => {
   assert.ok(existsSync(executable('initdb')))
   const directory = mkdtempSync(join(tmpdir(), 'feelandnote-merge-test-'))
   const data = join(directory, 'db')
@@ -295,6 +295,21 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.equal(read().figure_book_contents.length,0)
   })
 
+  await t.test('clear wrong prose from ISBN-less locale using the actual same-work English locale without seeding physical editions', t => {
+    reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,description,sources) VALUES
+      ('keep','en','Steve Biddulph Raising Girls','Steve Biddulph','9780007455669',NULL,'{"primary":"openlibrary"}'),
+      ('keep','ko','여자아이 키우기','스티브 비덜프',NULL,'스티브 프랜시스의 농구 선수 경력과 한국 현대문학의 역사가 잘못 소개되어 있다.','{"primary":"none","description":"https://encyclopedia.example/wrong-person"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reading','keep','person','Human review',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('curation','keep','celeb','원문 감상','Original review','https://evidence.example/reading');`)
+    const before=snapshot(),locale=before.content_locales.find(row=>row.locale==='ko'),reference=before.content_locales.find(row=>row.locale==='en')
+    const source='https://obnb.uk/p16171714-steve-biddulphs-raising-girls'
+    const proof={method:'independent_locale_reference_introduction_review',contentId:'keep',referenceLocale:'en',referenceWorkTitle:reference.title,referenceCreator:reference.creator,
+      isbn:reference.isbn,locale:'ko',editionTitle:locale.title,sourceUrl:source,reason:'Independent bibliography confirms the parenting original; the Korean prose describes an unrelated basketball player and literature.',evidence:[{url:source,note:'Original title, author and parenting subject confirmed.'}]}
+    const changes=[{table:'content_locales',before:locale,patch:{description:null,sources:{primary:'none',description:null}},reviewedIntroductionCorrection:proof}],expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
+    query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes));assert.deepEqual(snapshot(),expected)
+    assert.deepEqual(snapshot().figure_book_editions,[])
+  })
+
   await t.test('explicit placeholder removal preserves physical edition, locale and reading rows under the active edition guard', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
@@ -359,6 +374,27 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     query('DELETE FROM figure_book_products WHERE id=1')
     const expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
     query(sql);assert.deepEqual(snapshot(),expected);assert.deepEqual(snapshot().figure_book_editions,[reference])
+  })
+
+  await t.test('unbound candidate removal keeps a different verified translator selected with legacy description-only provider pointer', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO content_locales(content_id,locale,title,creator,publisher,isbn,sources) VALUES
+      ('keep','ko','맹자','맹자','Selected publisher','9788932323770','{"primary":"kakao_book","description":"https://m.search.daum.net/search?w=bookpage&bookId=6701655&tab=introduction","translators":["박소동"]}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,publisher,isbn,sources) VALUES
+      ('keep','ko','맹자','맹자','휴머니스트','9791160805352','{"primary":"kakao_book","isbn":"https://search.daum.net/search?w=bookpage&bookId=5581926","translators":["김원중"]}'),
+      ('keep','ko','맹자','맹자','휴머니스트','9781160805353','{"primary":"kakao_book","isbn":"kakao_title_search","title":"kakao_title_search","creator":"kakao_title_search"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reading','keep','person','Human review',5);`)
+    query(editionPolicySql())
+    const before=snapshot(),candidate=before.figure_book_editions.find(row=>row.isbn==='9781160805353'),reference=before.figure_book_editions.find(row=>row.isbn==='9791160805352'),selected=before.figure_book_editions.find(row=>row.isbn==='9788932323770')
+    const proof={method:'independent_unbound_isbn_review',contentId:'keep',editionId:candidate.id,locale:'ko',editionTitle:candidate.title,isbn:candidate.isbn,
+      referenceEditionId:reference.id,referenceTitle:reference.title,referenceCreator:reference.creator,referencePublisher:reference.publisher,referenceIsbn:reference.isbn,
+      providerSourceUrl:reference.sources.isbn,sourceUrl:'https://www.yes24.com/product/goods/97048188',
+      reason:'Actual provider and product confirm the 979 Kim translation; remove only the source-free 978 candidate while keeping the selected Park translation.',
+      keepExistingRepresentative:true,selectedEditionId:selected.id,selectedIsbn:selected.isbn,selectedProviderSourceUrl:'https://search.daum.net/search?w=bookpage&bookId=6701655&q=맹자'}
+    const changes=[{table:'figure_book_editions',before:candidate,remove:true,reviewedUnboundIsbnRemoval:proof}],expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
+    query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes));assert.deepEqual(snapshot(),expected)
+    assert.deepEqual(snapshot().content_locales,before.content_locales);assert.equal(snapshot().figure_book_editions.length,2)
   })
 
   await t.test('automatic seed and edition guard honor exact independent selection proofs, including ISBN10 normalization', t => {
