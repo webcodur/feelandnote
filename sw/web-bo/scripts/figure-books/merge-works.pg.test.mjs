@@ -114,6 +114,28 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.deepEqual(snapshot(),expected)
   })
 
+  await t.test('nested live URL survives raw-copy disposal with protected text and replay CAS preserved',()=>{
+    const url='https://openlibrary.org/works/OL85239W'
+    const backup={type:'backup-restored',backup:'old/book-descriptions.json',original_locale:'ko',
+      original_sources:{primary:'kakao_book',thumbnail:'kakao_book',description:url}}
+    reset(`INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO figure_book_editions(content_id,locale,title,description,sources) VALUES
+      ('keep','en','Existing title','Existing introduction',${sqlLiteral(JSON.stringify({primary:'openlibrary',description:JSON.stringify(backup),identity:'https://publisher.example/current'}))}::jsonb);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','Existing review','Existing English review','https://publisher.example/reading');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('member','keep','member','Existing member review',5);`)
+    const before=snapshot(),row=before.figure_book_editions[0]
+    const changes=[{table:'figure_book_editions',before:row,patch:{sources:{...row.sources,description:url}},
+      reviewedArchiveProvenanceDiscard:{method:'discard_raw_source_copy',path:'sources.description',retainedSourceUrl:url,
+        reason:'Retain the exact live source already nested in the verified old wrapper; discard only the copied archive.'}}]
+    const expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
+    const sql=buildGuardedCatalogRepairSql(['keep','drop'],before,changes)
+    query(sql);assert.deepEqual(snapshot(),expected)
+    for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(snapshot()[table],before[table],table)
+    assert.equal(snapshot().figure_book_editions[0].sources.description,url)
+    assert.throws(()=>query(sql),/changed|snapshot|mismatch|before|concurrent/iu)
+    assert.deepEqual(snapshot(),expected)
+  })
+
   await t.test('source-reviewed later-volume deletion handles wrong live full scope without a forbidden metadata update', t=>{
     t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`UPDATE contents SET metadata='{"figureBook":{"originalLanguage":"ko","identityEvidence":"https://publisher.example/original"}}' WHERE id='keep';

@@ -118,6 +118,36 @@ test('encoded and translated legacy backups discard only source copies and never
  }
 })
 
+test('explicit archive discard retains the exact nested live URL and refuses losing or inventing sources',()=>{
+ const url='https://openlibrary.org/works/OL85239W'
+ for(const table of ['content_locales','figure_book_editions'])for(const encoded of [false,true]){
+  const data=snapshot(),before=data[table][0]
+  const backup={type:'backup-restored',backup:'old/book-descriptions.json',verification:'Existing attribution',original_locale:'ko',
+   original_sources:{primary:'kakao_book',thumbnail:'kakao_book',description:url}}
+  before.description='Existing introduction remains unchanged'
+  before.sources={primary:'openlibrary',description:encoded?JSON.stringify(backup):backup,identity:'https://publisher.example/current'}
+  const proof={method:'discard_raw_source_copy',path:'sources.description',retainedSourceUrl:url,
+   reason:'The reviewed old wrapper contains this exact live introduction URL; retain it while discarding the copied archive.'}
+  const edit={table,before,patch:{sources:{...before.sources,description:url}},reviewedArchiveProvenanceDiscard:proof}
+  const plan=planGuardedCatalogRepairs(['work'],data,[edit])
+  assert.equal(plan.expected[table][0].sources.description,url)
+  assert.equal(plan.expected[table][0].description,before.description)
+  assert.equal(plan.expected[table][0].sources.identity,before.sources.identity)
+  assert.deepEqual(plan.expected.member_contents,data.member_contents)
+  for(const invalid of [
+   {...edit,reviewedArchiveProvenanceDiscard:{...proof,retainedSourceUrl:'https://publisher.example/guessed'}},
+   {...edit,reviewedArchiveProvenanceDiscard:{...proof,retainedSourceUrl:undefined}},
+   {...edit,patch:{sources:{...before.sources,description:null}}},
+   {...edit,patch:{...edit.patch,description:'Changed body'}},
+  ])assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[invalid]),/Raw provenance discard/)
+  for(const other of [{...backup,verification:'See https://publisher.example/another'},
+   {...backup,original_sources:{...backup.original_sources,isbn:'https://publisher.example/other-isbn'}}]){
+   before.sources.description=encoded?JSON.stringify(other):other
+   assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...edit,patch:{sources:{...before.sources,description:url}}}]),/Raw provenance discard/)
+  }
+ }
+})
+
 function completeSetSnapshot(){
  const data=snapshot()
  const first={id:1,content_id:'work',locale:'ko',title:'Novel 1',creator:'Author',isbn:'9788932910680',edition_kind:'volume',text_scope:'volume/1',

@@ -27,7 +27,7 @@ const provenanceObject=value=>{if(typeof value==='string'){try{value=JSON.parse(
 const hasBackupProvenance=value=>{const object=provenanceObject(value)
  return object?.type==='backup-restored'||object?.type==='locale-translation'&&hasBackupProvenance(object.original_sources?.description)}
 const containsLiveUrl=value=>typeof value==='string'?/https?:\/\//iu.test(value):value&&typeof value==='object'?Object.values(value).some(containsLiveUrl):false
-function discardedBackupProvenance(value,before){
+function discardedBackupProvenance(value,before,retainedSourceUrl){
  const old=provenanceObject(value)
  if(old?.type==='locale-translation'){
   if(!Object.keys(old).every(key=>['type','snapshot_hash','source_locale','original_sources','source_content_id'].includes(key))
@@ -37,6 +37,16 @@ function discardedBackupProvenance(value,before){
   return nested?.type==='backup-restored'&&discardedBackupProvenance(nested,before)===null?null:undefined
  }
  if(old?.type!=='backup-restored'||typeof old.backup!=='string'||!old.backup.trim())return undefined
+ if(retainedSourceUrl!==undefined){
+  const copied=old.original_sources,other=structuredClone(old)
+  // 현행 포인터를 보존하는 것이며, OpenLibrary를 독립 본문 근거로 승격하지 않는다.
+  const livePointer=typeof retainedSourceUrl==='string'&&(independentSource(retainedSourceUrl)||/^https:\/\/openlibrary\.org\/(?:works\/OL\d+W|books\/OL\d+M)\/?$/u.test(retainedSourceUrl))
+  if(!livePointer||!Object.keys(old).every(key=>['type','backup','verification','original_locale','original_sources'].includes(key))
+   ||!copied||typeof copied!=='object'||Array.isArray(copied)
+   ||!Object.keys(copied).every(key=>['primary','thumbnail','description'].includes(key))||copied.description!==retainedSourceUrl)return undefined
+  delete other.original_sources.description
+  return containsLiveUrl(other)?undefined:retainedSourceUrl
+ }
  const currentPointer=independentSource(old.source)&&Object.keys(old).every(key=>['type','backup','source','verification'].includes(key))
  if(currentPointer)return Object.fromEntries(Object.entries(old).filter(([key])=>!['type','backup'].includes(key)))
  const copiedSources=old.original_sources===null||old.original_sources&&typeof old.original_sources==='object'&&!Array.isArray(old.original_sources)
@@ -314,11 +324,11 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
  // 소개 보존 예외도 정확한 ISBN의 독립 원문을 읽은 명시 판단으로만 허용한다.
  for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedPlaceholderRemoval:placeholderProof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
   if(archiveProof!==undefined){
-   const remaining=structuredClone(before.sources??{}),discarded=discardedBackupProvenance(before.sources?.description,before)
+   const remaining=structuredClone(before.sources??{}),discarded=discardedBackupProvenance(before.sources?.description,before,archiveProof.retainedSourceUrl)
    remaining.description=discarded
    if(!['content_locales','figure_book_editions'].includes(table)||remove||proof!==undefined||setProof!==undefined||nonstartProof!==undefined
     ||archiveProof.method!=='discard_raw_source_copy'||archiveProof.path!=='sources.description'||!String(archiveProof.reason??'').trim()
-    ||discarded===undefined
+    ||discarded===undefined||archiveProof.retainedSourceUrl!==undefined&&discarded!==archiveProof.retainedSourceUrl
     ||!patch||Object.keys(patch).length!==1||!isDeepStrictEqual(patch.sources,remaining))
     throw Error('Raw provenance discard may only remove a verified backup wrapper while retaining introduction and every live source field')
    continue
