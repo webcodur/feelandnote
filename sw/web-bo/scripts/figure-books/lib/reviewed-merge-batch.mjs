@@ -76,7 +76,7 @@ export function buildReviewedMergeBatchSql(pairs, snapshot) {
   const bodies = pairs.map((pair, index) => {
     const conflict = findConflicts(slices[index], pair), plan = planSnapshot(slices[index], pair)
     if (conflict || plan.skip) throw Error(`MERGE_BATCH_REVIEW: ${pair.keep}/${pair.drop}: ${conflict ?? plan.skip}`)
-    const sql = buildMergeSql(pair, slices[index], { reviewedEditionMappings: pair.reviewedEditionMappings ?? [] })
+    const sql = buildMergeSql(pair, slices[index], { reviewedEditionMappings: pair.reviewedEditionMappings ?? [], reviewedNonstartEditionRemovals: pair.reviewedNonstartEditionRemovals ?? [] })
     const match = /^\\set ON_ERROR_STOP on\r?\nBEGIN;\r?\n([\s\S]*)\r?\nCOMMIT;\r?\nSELECT 'MERGE_COMMITTED';\s*$/u.exec(sql)
     if (!match) throw Error('MERGE_BATCH_REVIEW: existing merge SQL envelope changed')
     const body = match[1]

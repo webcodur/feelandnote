@@ -114,6 +114,31 @@ test('explicit source-reviewed edition mappings reach the unchanged canonical pr
   const wrong = structuredClone(reviewed); wrong[0].reviewedEditionMappings[0].keepEditionId = 999
   assert.throws(() => buildReviewedMergeBatchSql(wrong, before), /owner\/locale\/duplicate/)
 })
+
+test('reviewed later parts are removed without equivalent mapping, title guesses, or product reassignment', () => {
+  const before = fixture(), pair = pairs[0]
+  before.figure_book_editions.push({id:1,content_id:pair.keep,locale:'en',isbn:'9781781945155',title:'My Great Predecessors Part 1',text_scope:'volume/1',sources:{}},
+    {id:2,content_id:pair.drop,locale:'en',isbn:'9781781945162',title:'My Great Predecessors Part 2',sources:{}})
+  Object.assign(before.content_locales.find(row=>row.content_id===pair.keep),{isbn:'9781781945155'})
+  Object.assign(before.content_locales.find(row=>row.content_id===pair.drop),{isbn:'9781781945162'})
+  const removal={keepEditionId:1,dropEditionId:2,keepIsbn:'9781781945155',dropIsbn:'9781781945162',keepTitle:'My Great Predecessors Part 1',dropTitle:'My Great Predecessors Part 2',locale:'en',volumeNumber:2,
+    sourceUrl:'https://publisher.example/part-2',startSourceUrl:'https://publisher.example/part-1',reason:'LLM read both publisher descriptions and confirmed parts of one continuous original, not independent sequels.'}
+  const reviewed=[{...pair,reviewedNonstartEditionRemovals:[removal]},pairs[1]]
+  const sql=buildReviewedMergeBatchSql(reviewed,before)
+  assert.match(sql,/DELETE FROM public.figure_book_editions WHERE content_id=drop_id AND id IN \(2\)/)
+  assert.match(sql,/canonical_id := NULL/)
+  assert.match(sql,/AND NOT \(\(l.content_id=E'drop-a' AND l.locale=E'en' AND l.isbn IS NOT DISTINCT FROM E'9781781945162'\)\)/)
+  for(const changed of [{keepEditionId:999},{dropIsbn:'9781781945179'},{dropTitle:'Another work'},{volumeNumber:1},{reason:'machine match'},
+    {sourceUrl:'https://openlibrary.org/books/OL1M'},{startSourceUrl:'http://publisher.example/part-1'}]) {
+    assert.throws(()=>buildReviewedMergeBatchSql([{...pair,reviewedNonstartEditionRemovals:[{...removal,...changed}]},pairs[1]],before),/MERGE_REVIEW: nonstart/)
+  }
+  const otherTranslation=structuredClone(before);otherTranslation.figure_book_editions[0].sources.translators=['A'];otherTranslation.figure_book_editions[1].sources.translators=['B']
+  assert.throws(()=>buildReviewedMergeBatchSql(reviewed,otherTranslation),/different verified translators/)
+  const products=structuredClone(before);products.figure_book_products.push({id:1,edition_id:2})
+  assert.throws(()=>buildReviewedMergeBatchSql(reviewed,products),/product references require separate review/)
+  const nonstart=structuredClone(before);nonstart.figure_book_editions[0].text_scope='volume/3'
+  assert.throws(()=>buildReviewedMergeBatchSql(reviewed,nonstart),/existing selected first or complete/)
+})
 test('pair context keeps SQL literals and replacement metacharacters inside the error string', () => {
   const pair = { keep: "keep$&'\\", drop: 'drop$1' }, before = empty()
   before.contents = [pair.keep, pair.drop].map(id => ({ id, type: 'BOOK', external_id: null, metadata: {} }))

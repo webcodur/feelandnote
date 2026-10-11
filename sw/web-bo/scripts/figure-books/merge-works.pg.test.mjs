@@ -148,6 +148,30 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     }
   })
 
+  await t.test('confirmed continuous later parts disappear while first edition and protected records survive under active guards', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO figure_book_contents VALUES('keep'),('drop');
+      INSERT INTO content_locales(content_id,locale,title,isbn,sources) VALUES
+      ('keep','en','My Great Predecessors Part 1','9781781945155','{}'),
+      ('drop','en','My Great Predecessors Part 2','9781781945162','{}');
+      INSERT INTO figure_book_editions(id,content_id,locale,title,isbn,text_scope,sources) VALUES
+      (1,'keep','en','My Great Predecessors Part 1','9781781945155','volume/1','{}'),
+      (2,'drop','en','My Great Predecessors Part 2','9781781945162',NULL,'{}');
+      INSERT INTO member_contents VALUES('reader','drop','user','Original review',5);
+      INSERT INTO celeb_contents VALUES('public-review','drop','person','Original Korean','Original English','https://interview.example/original');`)
+    query(editionPolicySql())
+    const before=snapshot(),first=structuredClone(before.figure_book_editions[0])
+    assert.throws(()=>query("UPDATE figure_book_editions SET text_scope='volume/2' WHERE id=2"),/not service editions/)
+    assert.deepEqual(snapshot(),before)
+    query(buildMergeSql(pair,before,{reviewedNonstartEditionRemovals:[{keepEditionId:1,dropEditionId:2,keepIsbn:'9781781945155',dropIsbn:'9781781945162',keepTitle:'My Great Predecessors Part 1',dropTitle:'My Great Predecessors Part 2',locale:'en',volumeNumber:2,
+      sourceUrl:'https://publisher.example/part-2',startSourceUrl:'https://publisher.example/part-1',reason:'LLM confirmed two parts of the same continuous original body using both publisher pages.'}]}))
+    assert.deepEqual(snapshot().figure_book_editions,[first])
+    assert.equal(query("SELECT isbn FROM content_locales WHERE content_id='keep'"),'9781781945155')
+    assert.equal(query("SELECT content_id||':'||review FROM member_contents WHERE id='reader'"),'keep:Original review')
+    assert.equal(query("SELECT content_id||':'||review||':'||review_en||':'||source_url FROM celeb_contents WHERE id='public-review'"),'keep:Original Korean:Original English:https://interview.example/original')
+    assert.equal(query("SELECT count(*) FROM pg_trigger WHERE tgname='guard_figure_book_edition_policy' AND tgenabled='O'"),'1')
+  })
+
   await t.test('독립 출처로 확정한 미상 역자 재판 대응만 정상 트리거 아래 상품 이력을 이동한다', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`INSERT INTO figure_book_contents VALUES('keep'),('drop');
