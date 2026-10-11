@@ -342,7 +342,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-progressive-v22-edition-policy', initial ? 'initial' : 'complete', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale, bookLanguage ?? ''],
+    ['content-data-public-progressive-v23-edition-policy', initial ? 'initial' : 'complete', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale, bookLanguage ?? ''],
     () => fetchContentDataPublic(contentId, category, locale, bookLanguage, initial),
   )
 

@@ -34,6 +34,18 @@ test('어린이·자석 상품 판단은 다른 ISBN 정본이나 성인용 illu
  excludedBookEditionReason(saved)
  assert.deepEqual(saved, before)
 })
+test('아동 전용 창작물은 정확한 독립 판정으로만 제외하고 권장 학년이나 제목에서 추정하지 않는다',()=>{
+ const book={locale:'ko',title:'꼬마 토끼 조지의 언덕',isbn:'9788949170244'}
+ const proof={...selectionProof,...book,edition_title:book.title,reason:'children_only',
+  explanation:'Publisher identifies the exact ISBN as fiction written specifically for elementary-school children.'}
+ assert.equal(excludedBookEditionReason({...book,sources:{edition_selection_evidence:[proof]}}),'children_only')
+ assert.equal(excludedBookEditionReason({...book,sources:{provider_scope_description:'초등학교 5~6학년 권장 도서'}}),null)
+ for(const title of ['어린 왕자','오디세이아','An Illustrated History of Art','Children in Renaissance Painting']) {
+  assert.equal(excludedBookEditionReason({...book,title,sources:{edition_selection_evidence:[proof]}}),null)
+ }
+ assert.equal(excludedBookEditionReason({...book,isbn:'9780394800165',sources:{edition_selection_evidence:[proof]}}),null)
+})
+
 test('작품 하나 아래 역자마다 한 판본을 남기며 ISBN·출판사·분량은 추가 판본 기준이 아니다',()=>{
  const c=catalog([row(1,'천병희'),row(2,'천병희',{publisher:'다른 출판사',text_scope:'complete translation'}),row(3,'김헌'),row(4,'임명현')])
  const plan=planEditionTranslations(c)

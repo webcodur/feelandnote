@@ -12,6 +12,7 @@ import { getEnglishBookAmazonUrl } from '@/lib/books/amazonBookSearch'
 import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
 import { isDisplayTitleRow } from '@/lib/utils/content-locale'
 import { resolveBookShelfBook } from '@/lib/books/bookShelf'
+import { excludedBookEditionReason } from '@feelandnote/content-search/book-edition-policy'
 import type { ContentLocaleRow } from '@/lib/utils/content-locale'
 import { findAffiliateLink } from './affiliateLinks'
 import {
@@ -130,7 +131,8 @@ async function buildAffiliatePool(locale: AffiliateBookLocale, sourceRows: Sourc
   for (const row of rows) {
     // 절판은 제휴 링크 유무와 무관하게 후보에서 뺀다.
     const outOfPrint = (row.sources as { availability?: unknown } | null | undefined)?.availability === 'out_of_print'
-    if (seen.has(row.content_id) || sourceIds.has(row.content_id) || !row.title || isDisplayTitleRow(row.sources) || outOfPrint) continue
+    if (seen.has(row.content_id) || sourceIds.has(row.content_id) || !row.title || isDisplayTitleRow(row.sources) || outOfPrint
+      || excludedBookEditionReason(row)) continue
     const url = locale === 'en'
       ? getEnglishBookAmazonUrl({ title: row.title, creator: row.creator, url: findAffiliateLink(row.affiliate_url, 'amazon')?.url })
       : findAffiliateLink(row.affiliate_url, 'coupang')?.url ?? ''
@@ -212,7 +214,7 @@ async function countModernReaders(contentIds: string[]): Promise<Map<string, num
   return counts
 }
 
-const fetchScopedAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, ['affiliate-pool-scoped-v4-edition-policy'], {
+const fetchScopedAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, ['affiliate-pool-scoped-v5-edition-policy'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CELEBS],
 })
@@ -365,7 +367,7 @@ async function getAffiliateBooksForCelebInner(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['affiliate-books-celeb-v11-edition-policy', celebId, locale, String(limit), excluded ? exclusionFingerprint([...excluded]) : ''],
+    ['affiliate-books-celeb-v12-edition-policy', celebId, locale, String(limit), excluded ? exclusionFingerprint([...excluded]) : ''],
     () => fetchAffiliateBooksForCeleb({ origins, read, peers }, limit, pool, excluded),
     // 수명은 기본값(1주)을 쓴다. 위 풀과 같은 이유다 — 인물 상세 초기 렌더가 이 결과를
     // 쓰므로 짧게 두면 페이지 한 장의 수명이 함께 내려간다. 상품이 바뀌면 아래 태그로 비워진다.
