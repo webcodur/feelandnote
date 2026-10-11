@@ -65,6 +65,22 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
  // 정확한 ISBN의 독립 원문으로 오귀속을 판단한 명시 교정만 기존 소개 보존 예외다.
  for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof} of changes){
   if(proof!==undefined){
+   if(proof?.method==='independent_locale_reference_introduction_review'){
+    const reference=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===proof.referenceLocale
+     &&row.title===proof.referenceWorkTitle&&row.creator===proof.referenceCreator&&toIsbn13(row.isbn??'')===toIsbn13(proof.isbn??''))
+    if(table!=='content_locales'||remove||!patch||before.isbn!==null||before.sources?.primary!=='none'
+     ||proof.contentId!==before.content_id||proof.referenceLocale===before.locale||!reference||!toIsbn13(reference.isbn??'')
+     ||!String(proof.referenceWorkTitle??'').trim()||!String(proof.referenceCreator??'').trim()
+     ||patch.isbn!==undefined&&patch.isbn!==null||patch.sources?.primary!=='none'
+     ||patch.sources.description_method!=='research'||patch.sources.description_source_locale!==before.locale
+     ||proof.locale!==before.locale||proof.editionTitle!==(patch.title??before.title)
+     ||!independentSource(proof.sourceUrl)||patch.sources.description!==proof.sourceUrl||!String(proof.reason??'').trim()
+     ||!Array.isArray(proof.evidence)||proof.evidence.some(item=>!independentSource(item?.url)))
+     throw Error('Locale reference introduction correction requires the exact same-work ISBN, author and independent source review')
+    researchIntroductionText({contentId:before.content_id,locale:before.locale,title:patch.title??before.title,creator:patch.creator??before.creator,
+     description:patch.description,sourceUrl:proof.sourceUrl,evidence:proof.evidence})
+    continue
+   }
    if(proof?.method==='independent_work_introduction_review'){
     const reference=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===proof.referenceLocale
      &&row.title===proof.referenceWorkTitle&&row.creator===proof.referenceCreator)
