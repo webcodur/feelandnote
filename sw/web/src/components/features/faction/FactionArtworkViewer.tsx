@@ -9,7 +9,8 @@ import { CLOSE_BUTTON_STYLE } from "@/components/ui/Modal";
 import FactionArtworkTitle from "./FactionArtworkTitle";
 import FactionArtworkHelp from "./FactionArtworkHelp";
 import { Z_INDEX } from "@/constants/zIndex";
-import type { LocalizedSceneEnding } from "@feelandnote/shared/lib/faction-team-image";
+import { buildStorySlides, type StoryArtwork, type StoryGuide } from "./storyBoundaries";
+import FactionStoryGuide from "./FactionStoryGuide";
 import FactionSceneNavigator from "./FactionSceneNavigator";
 import FactionSceneText from "./FactionSceneText";
 import FactionStoryCaption from "./FactionStoryCaption";
@@ -33,7 +34,7 @@ const CAPTION_TEXT_STYLE = {
 } as const;
 
 interface Props {
-  images: { url: string; label?: string | null; caption?: string | null; kind?: 'scene'; ending?: LocalizedSceneEnding }[];
+  images: StoryArtwork[];
   title: string;
   /** 세력 표지는 원본 오른쪽에 제목을 위한 여백이 있다. */
   titleInArtwork?: boolean;
@@ -46,7 +47,18 @@ interface Props {
 }
 
 /** 표지·인물 화보·주요 장면의 원본과 해설을 연다. 개요 읽기와 독립된 창이다. */
-export default function FactionArtworkViewer({ images, title, titleInArtwork = false, onClose, nested = false, initialIndex = 0, onIndexChange }: Props) {
+export default function FactionArtworkViewer(props: Props) {
+  const { images, onIndexChange, initialIndex = 0 } = props;
+  const slides = useMemo(() => buildStorySlides(images), [images]);
+  const rememberedIndex = Math.max(0, Math.min(images.length - 1, initialIndex));
+  const firstSlide = Math.max(0, slides.findIndex(slide => slide.sourceIndex === rememberedIndex));
+  const reportIndex = useCallback((index: number) => {
+    onIndexChange?.(slides[index]?.sourceIndex ?? Math.max(0, images.length - 1));
+  }, [onIndexChange, images.length, slides]);
+  return <ArtworkSlides {...props} images={slides} initialIndex={firstSlide} onIndexChange={reportIndex} />;
+}
+
+function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested = false, initialIndex = 0, onIndexChange }: Omit<Props, 'images'> & { images: (StoryArtwork & { guide?: StoryGuide })[] }) {
   const t = useTranslations("explore.hub.myth");
   const tAccess = useTranslations("shared.accessibility");
   const [index, setIndex] = useState(() => Math.max(0, Math.min(images.length - 1, initialIndex)));
@@ -291,7 +303,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
     : "max(clamp(5rem, 10vw, 9rem), 20%)";
   const artworkImage = <Image key="current" src={image.url} alt={image.label ?? title} fill unoptimized draggable={false} className="object-contain select-none"
     onLoad={event => recordImageRatio(image.url, event)} />;
-  const artwork = slideCount === 1 && !isScene ? (
+  const artwork = image.guide ? <FactionStoryGuide guide={image.guide} url={image.url} onLoad={event => recordImageRatio(image.url, event)} /> : slideCount === 1 && !isScene ? (
     <button type="button" data-artwork-single-close onClick={onClose} aria-label={tAccess("close")}
       className="absolute inset-0 cursor-zoom-out border border-transparent outline-none hover:border-accent/50 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
       {artworkImage}
@@ -398,11 +410,11 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
           className={`@container relative min-h-0 flex-1 overflow-hidden bg-black ${zoomView.scale > 1 ? (panning ? "cursor-grabbing" : "cursor-grab") : ""}`}
           style={{ touchAction: "pan-y", containerType: "size" }}>
           {endingSlide}
-          {!isEnding && <div key={image.url} className="absolute inset-0" data-artwork-current
+          {!isEnding && <div key={index} className="absolute inset-0" data-artwork-current
             style={{ transform: `translate(${zoomView.x}px, ${zoomView.y}px) scale(${zoomView.scale})`, transformOrigin: "center" }}>
             {artwork}
           </div>}
-          {titleInArtwork && !isScene && !isEnding && imageRatio && (
+          {titleInArtwork && !isScene && !isEnding && !image.guide && imageRatio && (
             <div className="@container pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
               style={{ aspectRatio: imageRatio, width: `min(100%, calc(100cqh * ${imageRatio}))` }}>
               <FactionArtworkTitle title={title} heading />
