@@ -130,6 +130,18 @@ test('Sheet eBook 판매 형식만으로 실제 악보 본문을 축약본으로
   explanation:'Independent publisher and page preview confirm blank staff paper with no printed music.'})),'non_reading_product')
 })
 
+test('실제 본문 언어가 다른 상품은 출처 검수한 정확 ISBN의 서비스 언어에서만 선정 해제한다',()=>{
+ const book={locale:'en',title:'Voltaire: Choix de contes',isbn:'9781107641068'}
+ const proof={method:'independent_selection_review',...book,edition_title:book.title,reason:'wrong_locale',
+  source_url:'https://www.cambridge.org/books/choix-de-contes',explanation:'The publisher confirms six stories in French; this product is not the English translation offered by the shelf.'}
+ const input={...book,sources:{edition_selection_evidence:[proof]}}
+ assert.equal(excludedBookEditionReason(input),'wrong_locale')
+ assert.equal(excludedBookEditionReason({...input,locale:'ko'}),null)
+ assert.equal(excludedBookEditionReason({...input,isbn:'9780140444735'}),null)
+ assert.equal(excludedBookEditionReason({...input,sources:{edition_selection_evidence:[{...proof,method:'machine_language_guess'}]}}),null)
+ assert.equal(excludedBookEditionReason({...book,providerDescription:'French stories mentioned in this edition.'}),null)
+})
+
 test('본문 제목에서 숨겨진 공식 Penguin Reader 총서도 정규 판본에서 제외한다',()=>{
  assert.equal(excludedBookEditionReason({title:'Doctor Zhivago',sources:{provider_scope_description:'Penguin Reader , Level 5 (2300 words)'}}),'graded_reader')
  assert.equal(excludedBookEditionReason({title:'Doctor Zhivago',providerDescription:'Readers discuss the original novel'}),null)

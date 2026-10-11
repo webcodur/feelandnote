@@ -53,6 +53,29 @@ test('invalid introduction can be explicitly cleared; ISBN-less display translat
  assert.deepEqual(expected.member_contents,data.member_contents)
 })
 
+test('independently researched ISBN-less original correction binds the actual author and keeps all protected rows',()=>{
+ const data=snapshot();data.figure_book_editions=[];data.contents[0].metadata={}
+ const before=data.content_locales[0];Object.assign(before,{title:'Original work',creator:'Actual author',isbn:null,description:'Wrong imported account of another book.',sources:{primary:'none'}})
+ const source='https://encyclopedia.example/original-work'
+ const description=('This original novella follows people whose lives are changed by war and the division of their homeland. It examines their separation, memories and choices through the author’s account of the conflict, bringing together the experiences of families separated by historical events.\n\nThe narrative connects private loss with the wider social consequences of division and shows how those historical events affect ordinary people and their sense of belonging. The book offers a view of the period through the lives of its characters rather than through a general historical survey.')
+ const proof={method:'independent_work_introduction_review',contentId:'work',referenceLocale:'en',referenceWorkTitle:before.title,referenceCreator:before.creator,
+  locale:'en',editionTitle:'Original work',sourceUrl:source,reason:'Independent encyclopedia identifies this original and author; the old introduction describes another text.',evidence:[{url:source,note:'Author, original publication and narrative verified in the encyclopedia.'}]}
+ const patch={description,sources:{primary:'none',description:source,description_method:'research',description_source_locale:'en'}}
+ const correction={table:'content_locales',before,patch,reviewedIntroductionCorrection:proof}
+ const plan=planGuardedCatalogRepairs(['work'],data,[correction])
+ assert.equal(plan.expected.content_locales[0].description,description)
+ assert.deepEqual(plan.expected.contents,data.contents);assert.deepEqual(plan.expected.member_contents,data.member_contents)
+ for(const difference of[{contentId:'other'},{referenceWorkTitle:'Other original'},{referenceCreator:'Another author'},{referenceLocale:'ko'},{sourceUrl:'https://openlibrary.org/books/OL1M'},{evidence:[]}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...correction,reviewedIntroductionCorrection:{...proof,...difference}}]))
+ for(const difference of[{isbn:'9780140449136'},{description:'Too short.'},{sources:{...patch.sources,primary:'openlibrary'}},{sources:{...patch.sources,description_method:'machine'}}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...correction,patch:{...patch,...difference}}]))
+ const real=structuredClone(data);real.figure_book_editions=[{id:1,content_id:'work',locale:'ko',isbn:'9780140449136'}]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],real,[correction]),/ISBN-less original/)
+ const sql=buildGuardedCatalogRepairSql(['work'],data,[correction])
+ for(const table of SNAPSHOT_TABLES)assert.equal(sql.split('CATALOG_REPAIR: rowset mismatch in '+table+"'").length-1,2)
+ assert.ok(!sql.includes('UPDATE public.celeb_contents'))
+})
+
 test('single SSH capture uses all snapshot tables and work-specific direct/array predicates',async()=>{
  const data=snapshot(),calls=[]
  const result=await captureCatalogRepairSnapshot(null,Array.from({length:20},(_,i)=>'work-'+i),(command,args,options)=>{calls.push({command,args,options});return {status:0,stdout:JSON.stringify(data)}})
@@ -271,12 +294,12 @@ test('catalog_only explicitly removes three catalog tables and preserves content
  assert.ok(sql.includes('CATALOG_EXCLUSION: protected figure_book_products'))
  for(const table of SNAPSHOT_TABLES)assert.equal(sql.split('CATALOG_REPAIR: rowset mismatch in '+table+"'").length-1,2)
  let reads=0
- const result=await guardedCatalogExclusions(null,['work'],[exclusion()],{mode:'catalog_only',capture:async()=>structuredClone(reads++?plan.expected:data),checkReferences:id=>assert.equal(id,'work'),execute:()=> 'MERGE_COMMITTED'})
+ const result=await guardedCatalogExclusions(null,['work'],[exclusion()],{mode:'catalog_only',capture:async()=>structuredClone(reads++?plan.expected:data),checkReferences:()=>assert.fail('The BOOK ID survives catalog-only exclusion, including fixed code references'),execute:()=> 'MERGE_COMMITTED'})
  assert.deepEqual(result,{excluded:0,mode:'catalog_only',catalogExcluded:1,contentIds:['work'],blocked:[],checkedTables:18})
  assert.equal(reads,2)
 })
 
-test('catalog_only still blocks inactive products, missing ISBN evidence and fixed references',async()=>{
+test('catalog_only still blocks inactive products and missing ISBN evidence',async()=>{
  const data=unwantedSnapshot();data.figure_book_products=[{id:2,edition_id:1,is_active:false}]
  let executed=false
  const options={mode:'catalog_only',capture:async()=>data,checkReferences:()=>{},execute:()=>{executed=true}}
@@ -284,8 +307,6 @@ test('catalog_only still blocks inactive products, missing ISBN evidence and fix
  assert.equal(executed,false);assert.equal(result.catalogExcluded,0)
  assert.deepEqual(result.blocked[0].references,[{table:'figure_book_products',count:1}])
  data.figure_book_products=[]
- const fixed=await guardedCatalogExclusions(null,['work'],[exclusion()],{...options,checkReferences:()=>false})
- assert.equal(executed,false);assert.deepEqual(fixed.blocked,[{contentId:'work',reason:'fixed_references'}])
  data.figure_book_editions.push({...data.figure_book_editions[0],id:2,isbn:'9780140449181'})
  assert.throws(()=>planGuardedCatalogExclusions(['work'],data,[exclusion()],{mode:'catalog_only'}),/EVERY/)
  assert.throws(()=>planGuardedCatalogExclusions(['work'],data,[exclusion()],{mode:'unapproved'}),/mode/)
