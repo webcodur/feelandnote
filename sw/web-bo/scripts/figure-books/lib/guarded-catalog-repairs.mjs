@@ -28,6 +28,8 @@ function preventNewArchiveCopies(table,before,patch){
   const previous=pathValue(before,path),next=pathValue(after,path)
   if(next!==undefined&&!isDeepStrictEqual(previous,next))throw Error('Catalog patch must not create or restore research archives: '+path.join('.'))
  }
+ if(['content_locales','figure_book_editions'].includes(table)&&after.sources?.description?.type==='backup-restored'
+  &&!isDeepStrictEqual(before.sources?.description,after.sources.description))throw Error('Catalog patch must not create or restore research archives: sources.description')
 }
 const ids=workIds=>{if(!Array.isArray(workIds)||!workIds.length||workIds.length>100||workIds.some(id=>typeof id!=='string'||!id||id.includes('\0')))throw Error('Assigned work IDs required (1..100)');return [...new Set(workIds)]}
 const where=(table,workIds,alias='')=>workIds.map(id=>referenceWhere(table,sqlLiteral(id),sqlLiteral(id),alias)).map(value=>'('+value+')').join(' OR ')
@@ -89,7 +91,10 @@ function reviewedNonstartReference(before,proof,snapshot){
  const selected=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===before.locale)
  const work=snapshot.contents.find(row=>row.id===before.content_id),figure=work?.metadata?.figureBook??{}
  const a=bookTranslatorKey(before.sources?.translators),b=bookTranslatorKey(reference?.sources?.translators)
- const sameText=proof?.textIdentity==='translation'&&a&&a===b&&a===bookTranslatorKey(proof.translators)
+ const reviewedTranslator=bookTranslatorKey(proof?.translators)
+ const sameText=proof?.textIdentity==='translation'&&reviewedTranslator
+  &&(a===reviewedTranslator&&b===reviewedTranslator
+   ||proof.reviewedTranslationAttribution===true&&(!a||a===reviewedTranslator)&&(!b||b===reviewedTranslator))
   ||proof?.textIdentity==='original'&&!a&&!b&&proof.originalLanguage===before.locale&&figure.originalLanguage===before.locale&&independentSource(figure.identityEvidence)
  const selectedStart=reference?.edition_kind==='volume'&&reference.text_scope==='volume/1'
   ||reference?.edition_kind==='full'&&['full','complete'].includes(reference.text_scope)
@@ -173,7 +178,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   const setProof=change.reviewedCompleteSetVolumeRemoval
   const nonstartProof=change.reviewedNonstartEditionRemoval
   if(nonstartProof!==undefined&&(!remove||table!=='figure_book_editions'||selectionProof!==undefined||placeholderProof!==undefined||setProof!==undefined||change.reviewedIntroductionCorrection!==undefined))throw Error('Nonstart review is only valid for explicit later-volume removal')
-  if(nonstartProof!==undefined)reviewedNonstartReference(before,nonstartProof,snapshot)
+  if(nonstartProof!==undefined&&nonstartProof.referenceAfterPatch!==true)reviewedNonstartReference(before,nonstartProof,snapshot)
   if(setProof!==undefined&&(!remove||table!=='figure_book_editions'||selectionProof!==undefined||placeholderProof!==undefined||change.reviewedIntroductionCorrection!==undefined))throw Error('Complete-set review is only valid for explicit included-volume removal')
   if(setProof!==undefined)reviewedCompleteSetReference(before,setProof,snapshot)
   if(placeholderProof!==undefined&&(!remove||selectionProof!==undefined))throw Error('Placeholder review is only valid for explicit edition removal')
@@ -207,13 +212,23 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    throw Error('Complete-set removal must retain the reviewed whole edition and its representative ISBN unchanged')
  }
  for(const {before,reviewedNonstartEditionRemoval:proof} of changes)if(proof!==undefined){
-  const reference=reviewedNonstartReference(before,proof,snapshot)
+  // 시작권 교체와 후속 삭제를 한 transaction으로 확정한 경우에도 최종 대표를 ISBN·본문으로 검수한다.
+  const reference=reviewedNonstartReference(before,proof,proof.referenceAfterPatch===true?expected:snapshot)
   if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference))
    ||!expected.content_locales.some(row=>row.content_id===before.content_id&&row.locale===before.locale&&toIsbn13(row.isbn??'')===toIsbn13(reference.isbn)))
    throw Error('Nonstart removal must retain the reviewed first or whole edition and its representative ISBN unchanged')
  }
  // 소개 보존 예외도 정확한 ISBN의 독립 원문을 읽은 명시 판단으로만 허용한다.
- for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof} of changes){
+ for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
+  if(archiveProof!==undefined){
+   const old=before.sources?.description,remaining=structuredClone(before.sources??{});remaining.description=null
+   if(!['content_locales','figure_book_editions'].includes(table)||remove||proof!==undefined||setProof!==undefined||nonstartProof!==undefined
+    ||archiveProof.method!=='discard_raw_source_copy'||archiveProof.path!=='sources.description'||!String(archiveProof.reason??'').trim()
+    ||old?.type!=='backup-restored'||typeof old.backup!=='string'||!old.original_sources||typeof old.original_sources!=='object'||Array.isArray(old.original_sources)
+    ||!patch||Object.keys(patch).length!==1||!isDeepStrictEqual(patch.sources,remaining))
+    throw Error('Raw provenance discard may only remove a verified backup wrapper while retaining introduction and every live source field')
+   continue
+  }
   if(setProof!==undefined||nonstartProof!==undefined)continue // 분권 소개는 검수된 대표의 정상 소개로 대표된다. 감상 필드는 보존한다.
   if(proof!==undefined){
    if(proof?.method==='independent_locale_reference_introduction_review'){
@@ -284,7 +299,11 @@ function aggregateCheck(table,workIds,expected,changedKeys=null){
 }
 export function buildGuardedCatalogRepairSql(workIds,snapshot,changes) {
  const plan=planGuardedCatalogRepairs(workIds,snapshot,changes)
- const statements=changes.map(({table,before,patch,remove})=>remove?
+ // 기존 후속을 먼저 제거해야 시작권 ISBN 교체가 중복 판본 trigger와 충돌하지 않는다.
+ // 삭제 자체는 위의 전체 변경안 검수와 상품·참조 검사를 통과한 행만 허용된다.
+ const ordered=[...changes].sort((a,b)=>Number(!a.remove)-Number(!b.remove)
+  ||(a.remove?0:Number(a.table!=='contents')-Number(b.table!=='contents')))
+ const statements=ordered.map(({table,before,patch,remove})=>remove?
   `IF EXISTS(SELECT 1 FROM pg_constraint c JOIN pg_class r ON r.oid=c.conrelid JOIN pg_namespace n ON n.oid=r.relnamespace LEFT JOIN pg_attribute a ON a.attrelid=c.conrelid AND a.attnum=c.conkey[1] WHERE c.contype='f' AND c.confrelid='public.figure_book_editions'::regclass AND (n.nspname<>'public' OR r.relname<>'figure_book_products' OR cardinality(c.conkey)<>1 OR a.attname<>'edition_id')) THEN RAISE EXCEPTION 'CATALOG_REPAIR: unhandled edition reference';END IF;
 IF EXISTS(SELECT 1 FROM public.figure_book_products WHERE edition_id::text=${sqlLiteral(String(before.id))}) THEN RAISE EXCEPTION 'CATALOG_REPAIR: edition product history';END IF;DELETE FROM public.${table} WHERE ${rowSql(table,before)};`:
   `UPDATE public.${table} SET ${Object.entries(patch).map(([field,v])=>field+'='+value(v)).join(',')} WHERE ${rowSql(table,before)};`).join('\n')

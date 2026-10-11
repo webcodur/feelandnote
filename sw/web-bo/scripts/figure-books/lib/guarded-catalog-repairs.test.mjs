@@ -49,6 +49,25 @@ test('new selection evidence uses the resolver array and canonical reason contra
  assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,patch([proof])))
 })
 
+test('discarding a known raw provenance wrapper preserves introduction, current sources and protected text without inventing a URL',()=>{
+ const data=snapshot(),before=data.content_locales[0]
+ before.description='A short existing factual introduction.'
+ before.sources={primary:'none',description:{type:'backup-restored',backup:'old-row-copy',original_isbn:'9780140449136',original_sources:{primary:'old'}},identity:'https://publisher.example/work'}
+ const edit={table:'content_locales',before,patch:{sources:{...before.sources,description:null}},
+  reviewedArchiveProvenanceDiscard:{method:'discard_raw_source_copy',path:'sources.description',reason:'The field contains a raw old row copy rather than a live introduction source URL.'}}
+ const plan=planGuardedCatalogRepairs(['work'],data,[edit])
+ assert.equal(plan.expected.content_locales[0].description,before.description)
+ assert.equal(plan.expected.content_locales[0].sources.description,null)
+ assert.equal(plan.expected.content_locales[0].sources.identity,before.sources.identity)
+ assert.deepEqual(plan.expected.member_contents,data.member_contents)
+ for(const patch of [{...edit.patch,description:'Changed body'},{sources:{...edit.patch.sources,identity:null}},
+  {sources:{...edit.patch.sources,description:'https://publisher.example/guessed'}}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...edit,patch}]),/Raw provenance discard/)
+ const clean=snapshot(),row=clean.content_locales[0]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],clean,[{table:'content_locales',before:row,
+  patch:{sources:{...row.sources,description:before.sources.description}}}]),/must not create or restore research archives/)
+})
+
 function completeSetSnapshot(){
  const data=snapshot()
  const first={id:1,content_id:'work',locale:'ko',title:'Novel 1',creator:'Author',isbn:'9788932910680',edition_kind:'volume',text_scope:'volume/1',
@@ -129,6 +148,43 @@ test('source-confirmed first volume may keep its unchanged unknown scope until l
  for(const scope of ['volume/2','abridged','unknown']){
   first.text_scope=scope;assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Nonstart/)
  }
+})
+
+test('explicit exact-ISBN translator review removes a later part without first writing rejected metadata',()=>{
+ const {data,removal}=nonstartSnapshot(),first=data.figure_book_editions[1]
+ data.figure_book_editions[0].sources.translators=[]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Nonstart/)
+ removal.reviewedNonstartEditionRemoval.reviewedTranslationAttribution=true
+ assert.deepEqual(planGuardedCatalogRepairs(['work'],data,[removal]).expected.figure_book_editions,[first])
+ data.figure_book_editions[0].sources.translators=['Another translator']
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Nonstart/)
+ data.figure_book_editions[0].sources.translators=[];first.sources.translators=['Another translator']
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Nonstart/)
+})
+
+test('reviewed future first replacement and later removal validate the final exact representative and execute deletion first',()=>{
+ const {data,removal}=nonstartSnapshot(true),first=data.figure_book_editions[1],locale=data.content_locales[0]
+ first.title='Novel volume 10';first.isbn='9780140449136';first.text_scope='volume/10'
+ locale.title=first.title;locale.isbn=first.isbn
+ const patch={title:'Novel first volume',isbn:'9788932910673',edition_kind:'volume',text_scope:'volume/1'}
+ const edits=[{table:'figure_book_editions',before:first,patch},
+  {table:'content_locales',before:locale,patch:{title:patch.title,isbn:patch.isbn}},removal]
+ const proof=removal.reviewedNonstartEditionRemoval
+ proof.referenceTitle=patch.title;proof.referenceIsbn=patch.isbn
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,edits),/Nonstart/)
+ proof.referenceAfterPatch=true
+ const plan=planGuardedCatalogRepairs(['work'],data,edits)
+ assert.equal(plan.expected.figure_book_editions[0].isbn,patch.isbn)
+ assert.equal(plan.expected.content_locales[0].isbn,patch.isbn)
+ assert.deepEqual(plan.expected.member_contents,data.member_contents)
+ const sql=buildGuardedCatalogRepairSql(['work'],data,edits)
+ assert.ok(sql.indexOf('DELETE FROM public.figure_book_editions')<sql.indexOf('UPDATE public.figure_book_editions'))
+ const drift=structuredClone(edits);drift[0].patch.isbn='9780140449136'
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,drift),/Nonstart/)
+ const missing=edits.filter(edit=>edit.table!=='content_locales')
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,missing),/Nonstart/)
+ data.figure_book_products=[{id:7,edition_id:removal.before.id}]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,edits),/product history/)
 })
 
 const reviewedIntroduction=()=>({contentId:'work',locale:'en',isbn:'9780674250703',description:'The author’s letters to friends and family reveal the composition of the poems.',
