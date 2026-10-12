@@ -2,6 +2,12 @@
 
 현재 DB를 작업할 때 먼저 알아야 할 물리 관계와 불변사항만 설명한다. 전체 컬럼 목록을 복제한 데이터 사전은 아니다.
 
+데이터 생성의 공통 판단 기준은 [서사·감정·목적성 파악](../agent-rules.md#데이터-생성의-이해)을 따른다.
+
+데이터의 SSoT는 서버의 현재 데이터이며, 작업 기준의 SSoT는 프로젝트 룰북이다. 데이터 작업에서 별도 백업·스냅샷·복구 파일을 만들지 않는다. 반영 전 서버의 현재값과 변경 범위를 확인하고, 반영 뒤 같은 대상과 참조를 재조회해 검수한다.
+
+**데이터는 한 번 생성하고 DB 필드와 R2 서비스 리소스에 반영·검증한 뒤 작업 자료를 전량 폐기한다.** 서비스가 사용하는 최종값과 리소스 외에 조사 자료, 출처 사본, 후보 목록, 원장, 프롬프트, 모델 응답, 검수 기록, 실행 상태와 부가 메타데이터를 별도로 생성·보관하지 않는다. 작업에 필요한 중간 자료는 현재 세션의 메모리나 임시 파일로만 사용하고 반영 검증 뒤 삭제한다. 로컬·Git·R2로 옮겨 보존하거나 보관용 DB 테이블·컬럼을 만들지 않는다. 출처가 서비스의 기존 필드에 필요한 경우 그 필드에만 기록한다.
+
 스키마의 원천은 적용 순서대로 쌓인 [`sw/web/database/migrations/`](../../../sw/web/database/migrations/)다. [`sw/web/src/types/database.generated.ts`](../../../sw/web/src/types/database.generated.ts)는 애플리케이션이 소비하는 생성 타입 스냅샷이며, 마이그레이션보다 늦을 수 있다. 둘이 다르면 최신 마이그레이션과 실제 소비 코드를 확인하고 타입을 갱신한다. 티어·직군·점수처럼 코드가 판정하는 허용값은 각 도메인 문서가 가리키는 공용 상수를 SSoT로 삼는다.
 
 파일명의 숫자는 실행 단계가 아니라 탐색기 정렬용 주소다.
@@ -24,6 +30,6 @@
 
 - **세력도감 명단 `faction_member_rows`는 뷰다.** 직접 고치면 권한 오류가 난다. 원천은 `faction_members`(배정)와 `faction_lv3`(그룹)다. `faction_members`에는 문장마다 세력도감 캐시를 다시 쌓는 트리거가 있어, 여러 건을 한 건씩 고치면 재구축이 건수만큼 돌아 statement timeout이 난다. 여러 건은 한 문장으로 묶는다.
 
-운영 DB 접속은 [외부 서비스](../platform/platform-05-external-services.md)의 Oracle DB 실행 경로를 따른다. **PowerShell 파이프는 한글을 깨뜨리므로** SQL을 파일로 만들어 `scp`한 뒤 파일에서 읽힌다.
+접속은 원격의 `feelandnote-db` 컨테이너다. `docker exec -i feelandnote-db psql -X -v ON_ERROR_STOP=1 -U postgres -d postgres`로 들어간다. **PowerShell 파이프는 한글을 깨뜨리므로** SQL을 파일로 만들어 `scp`한 뒤 파일에서 읽힌다.
 
 도메인 규칙과 작업 절차는 이 폴더에 복제하지 않는다. 인물 데이터의 작성·검수는 [`../celeb/README.md`](../celeb/README.md), 외부 메타 제공자는 [`../platform/platform-05-external-services.md`](../platform/platform-05-external-services.md), 화면 동작은 [`../service/README.md`](../service/README.md)가 각각 쥔다. 실측 건수와 마이그레이션 경위는 현행 문서에 쌓지 않는다.

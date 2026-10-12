@@ -5,9 +5,10 @@
 
 | 문서 | 다음 작업 |
 |---|---|
-| [`influence-spectrum.md`](influence-spectrum.md) | 영향력·스펙트럼 잔여 검토 — 다른 15축 근거 적정성, 영향력 검사기, 사실성, 검사기 구멍. **Claude·Kimi·SWE-2 안에서 처리한다** |
+| [`viewing-review-verbatim.md`](viewing-review-verbatim.md) | 감상배경 소스 원문 재구축 소급 — 오프라·빌 게이츠·머스크 등 발췌형 기록에 쿠셔닝+구분선 구조 적용 |
+| [`influence-spectrum.md`](influence-spectrum.md) | 영향력·스펙트럼 잔여 검토 — 다른 15축 근거 적정성, 영향력 검사기, 사실성, 검사기 구멍. |
 
-신규 인물 등록 원장과 미등록 후보는 데이터 폴더 [`data/celeb/new-figures/`](../../../data/celeb/new-figures/README.md), 인물 1명 등록 절차는 [`celeb-00-03-new-figure-checklist.md`](../../project/celeb/celeb-00-03-new-figure-checklist.md)가 쥔다.
+미등록 후보의 조사 자료를 별도로 보관하지 않는다. [데이터 원칙](../../project/data/README.md)을 따르며, 인물 1명 등록 절차는 [`celeb-00-04-new-figure-checklist.md`](../../project/celeb/celeb-00-04-new-figure-checklist.md)가 쥔다. 등록용 원고는 반영·재조회 검증 뒤 폐기한다.
 
 ## 문서 없이 남은 판단
 

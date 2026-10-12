@@ -153,7 +153,7 @@ API가 열렸다고 다른 종류의 쿠팡 API를 파트너스 API로 혼동하
 [참여 정책](https://affiliate-program.amazon.com/help/operating/policies) · [운영계약](https://affiliate-program.amazon.com/help/operating/agreement)
 
 **계정(2026-09-21 생성·신청 완료):** amazon.com 계정 `webcodur@gmail.com`(이름 윤시준)으로 가입했다. 추적 ID는 **`feelandnote-20`**이다. 수취인 Sijun Yun, 국가 Korea. 신청 사이트 목록: `https://feelandnote.com`, `https://www.youtube.com/channel/UC9gpAfGsqcPG_XD7fSKDM7g`(@feelandnote-en). 선언한 콘텐츠 유형은 Content or Niche Website다. 지금 상태는 「180일 안 유효 판매 3건」 심사 대기 구간이고, 그 전부터 SiteStripe·태그 링크는 동작한다.
-세금은 2026-09-21 W-8BEN 인터뷰를 완료했다 — 개인·비미국인·미국 밖 수행 서비스로 신고해 **원천징수율 0.0%**로 확정됐다(계정 페이지 「United States Current Tax Status: Completed」). 지급 수단은 **Amazon 상품권(미국, $10~$2,000)을 임시 지정**해 뒀다 — Payoneer 가입은 완료했고 KYC 심사 대기 중이며, USD 수취계좌가 발급되면 「은행 계좌 추가」로 갈아탄다. 캐나다 세금 상태는 Incomplete로 남아 있다 — OneLink로 캐나다를 수익화할 때만 채우면 된다.
+세금은 2026-09-21 W-8BEN 인터뷰를 완료했다 — 개인·비미국인·미국 밖 수행 서비스로 신고해 **원천징수율 0.0%**로 확정됐다(계정 페이지 「United States Current Tax Status: Completed」). 지급 수단은 **Amazon 상품권(미국, $10~$2,000)을 임시 지정**해 뒀다. Payoneer 계정은 2026-09-23 승인됐고, 2026-09-28 은행 계좌 인증을 위한 추가 정보 요청을 받았다. **2026-10-06 출력일이 표시된 신한은행 통장사본 PDF를 Payoneer에 메일로 제출했으며, 검토 결과를 기다리고 있다.** USD 수취계좌 발급과 아마존 지급 계좌 등록은 아직 확인되지 않았으며, 계좌가 발급되면 「은행 계좌 추가」로 갈아탄다. 캐나다 세금 상태는 Incomplete로 남아 있다 — OneLink로 캐나다를 수익화할 때만 채우면 된다.
 SiteStripe은 Enabled 상태다. 추적 ID는 `feelandnote-20`(웹 기본)과 `feelandnote-yt-20`(유튜브용, 신규 ID는 OneLink 반영까지 최대 24시간) 두 개다.
 
 | 구분 | 확인한 구현과 남은 준비 |
@@ -232,12 +232,19 @@ PA-API 5는 폐기됐고 후속이 Creators API다 — 구형 호출은 403을 �
 
 ### 국제 커버리지(OneLink)
 
-미국 계정으로 캐나다·EU5(영·독·불·이·스)를 단일 스토어 ID로 수익화하는 설정이 있다.
-일본·싱가포르·호주·네덜란드·사우디·폴란드·스웨덴은 각국 어소시에이트 계정을 만들어 스토어 ID를 연결해야 한다.
-방문자를 지역 아마존으로 돌리고, 같은 상품이 없을 때 검색으로 보낼지(exact/close match)를 고른다. 한국에는 아마존 사이트가 없어 한국 방문자는 계속 .com에 머문다.
-[OneLink](https://affiliate-program.amazon.com/help/node/topic/G8JHEWQ9GTDUN7EH)
+미국 계정으로 캐나다와 EU5(영국, 독일, 프랑스, 이탈리아, 스페인)를 단일 스토어 ID로 수익화하는 설정이 있다. 일본, 싱가포르, 호주, 네덜란드, 사우디아라비아, 폴란드, 스웨덴은 별도 국가 제휴 계정을 등록한 뒤 미국 계정에 Store ID를 연결하고 국가별 기본 Tracking ID를 지정해야 한다. 미국 제휴 가입만으로 싱가포르 구매 수익까지 연결되지는 않는다. [공식 연결 절차](https://affiliate-program.amazon.com/help/node/topic/G62UTXAN2H3MRGJL)
 
-위 외부 조건은 2026-09-21 공식 문서 확인 기준이다. 수수료율·심사·지급 조건은 신청과 운영 시점에 다시 확인한다.
+OneLink는 방문자를 지역 아마존으로 보내고 상품의 exact match 또는 close match를 설정할 수 있다. 화면의 영어 locale과 구매처 국가 연결은 별개다. 현재 서비스의 영문 도서 구매 링크는 Amazon.com으로 연결되며, 미국 스토어와 배송 국가 확인 안내를 표시한다. [OneLink 안내](https://affiliate-program.amazon.com/help/node/topic/G8JHEWQ9GTDUN7EH)
+
+2026-10-06 실제 계정 조회에서 미국 Store ID는 feelandnote-20이고 미국 세금 정보는 완료 상태였다. 미국 계정의 Link Stores 화면에는 연결된 국가 스토어가 표시되지 않았으며, OneLink 기본 Tracking ID가 설정되지 않았다는 안내가 나왔다. 같은 로그인 계정으로 Amazon.sg에 접속하면 싱가포르 제휴 계정에 연결돼 있지 않다는 안내가 나왔다. 싱가포르 가입과 OneLink 연결은 미완료다.
+
+싱가포르 가입 화면의 수취인 주소 국가에는 Singapore, Hong Kong, United States, United Kingdom만 제공되고 한국은 없다. 화면의 지급 설명도 직접입금은 위 네 나라 거주자에게 제공된다고 안내한다. 이는 현재 가입 폼에서 확인한 제한이며 한국 국적만 제외하는 규정으로 해석하지 않는다. [가입 화면](https://affiliate-program.amazon.sg/signup)
+
+공식 싱가포르 운영 약관의 Schedule 3에는 싱가포르 비거주자의 참여를 전제로 한 세금 조항이 있다. 이 조항이 모든 국가의 가입을 보장하지는 않으므로 한국 거주자의 가입 가능 여부는 별도 확인이 필요하다. 이번 검색에서는 한국 주소로 등록할 수 있는 공식 대체 경로를 찾지 못했다. Payoneer 등 해외 수취계좌 안내만으로 수취인 주소 국가 제한도 해결된다고 판단하지 않는다. [운영 약관](https://affiliate-program.amazon.sg/help/operating/agreement) 및 [국제 지급 안내](https://affiliate-program.amazon.sg/help/node/topic/G8VUMS6GTBCR9RGV)
+
+Amazon.sg 고객지원에 한국 거주자의 실제 한국 주소 등록 방법과 지급 설정, 가입이 지원되지 않을 경우 기존 미국 제휴 계정으로 싱가포르 구매를 수익화할 공식 방법을 문의했다. 문의 전송 완료 화면을 확인했으며 보통 24시간 안에 답변한다는 안내가 나왔다. 현재 답변 대기 중이다.
+
+국제 커버리지는 2026-10-06 공식 안내와 실제 화면 확인 기준이고, 위 수수료율과 심사 및 지급 조건은 2026-09-21 확인 기준이다. 신청과 운영 시점에 다시 확인한다.
 
 ## 다른 판매처
 

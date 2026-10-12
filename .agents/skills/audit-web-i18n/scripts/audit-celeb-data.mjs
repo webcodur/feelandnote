@@ -59,7 +59,7 @@ const webRoot = path.join(repoRoot, "sw", "web");
 const requireFromWeb = createRequire(path.join(webRoot, "package.json"));
 const requireFromRepo = createRequire(path.join(repoRoot, "package.json"));
 const dotenv = requireFromRepo("dotenv");
-const { createClient } = requireFromWeb("@supabase/supabase-js");
+const { createClient } = requireFromWeb("@feelandnote/db");
 for (const filename of [".env.local", ".env"]) {
   const envPath = path.join(webRoot, filename);
   if (fs.existsSync(envPath)) dotenv.config({ path: envPath, override: false, quiet: true });

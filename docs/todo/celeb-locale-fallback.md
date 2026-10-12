@@ -2,9 +2,9 @@
 
 판본·locale 규칙은 [`celeb-02-02-content-registration.md`](../project/celeb/celeb-02-02-content-registration.md) 「BOOK 영문판과 표지」, 감사 절차는 [`celeb-02-04-content-audit.md`](../project/celeb/celeb-02-04-content-audit.md)를 따른다. 요청 언어판이 없을 때 반대 언어 값으로 메우는 폴백은 설계다(`flattenLocales`, `sw/web/src/lib/utils/content-locale.ts`). 없는 언어판의 제목을 번역·음차로 지어내지 않는다.
 
-## 현재 분포 (26.09.29 DB 조회)
+## 현재 분포 (26.10.01 DB 조회)
 
-BOOK 17,042종 중 한영 행을 둘 다 가진 것 14,493종, KO만 1,958종, EN만 588종이다. 둘 다 있어도 **en 표지가 빈 것 6,046종**, ko 표지가 빈 것 6,275종이다. 26.09.11(en 표지 null 806종)보다 크게 늘었다 — 표시용 제목 행(`sources.primary='none'`)을 대량으로 붙인 결과로 보이며, 원인 구분이 첫 일이다.
+BOOK 17,042종 중 한영 행을 둘 다 가진 것 14,530종, KO만 1,921종, EN만 588종이다. 둘 다 있어도 **en 표지가 빈 것 5,918종**, ko 표지가 빈 것 6,339종이다. 표시용 제목 행(`sources.primary='none'`) 대량 부착 이후 수준이며, 원인 구분이 첫 일이다. 26.09.11(en 표지 null 806종)보다 크게 늘었다 — 표시용 제목 행(`sources.primary='none'`)을 대량으로 붙인 결과로 보이며, 원인 구분이 첫 일이다.
 
 ## 남은 일
 

@@ -4,11 +4,11 @@
 
 ## 웹 화면
 
-1. **단체화보 묶음을 그룹 표로 흡수** — 세력이 하나뿐인 분류(앤트로픽·오픈AI 등)는 단체 사진 묶음(`faction_lv2.team_images`의 이름·구성원)으로 인물을 나눈다. 이것도 `faction_lv3`로 옮기면 그룹 원천이 하나가 되고 사진 칸은 쓸모가 없어진다. 26.09.29 기준 세력 311개 중 95개가 `team_images`를 쓰고, `faction_lv3`는 907행이다.
+1. **단체화보 묶음을 그룹 표로 흡수** — 세력이 하나뿐인 분류(앤트로픽·오픈AI 등)는 단체 사진 묶음(`faction_lv2.team_images`의 이름·구성원)으로 인물을 나눈다. 이것도 `faction_lv3`로 옮기면 그룹 원천이 하나가 되고 사진 칸은 쓸모가 없어진다. 26.10.01 기준 세력 311개 중 96개가 `team_images`를 쓰고, `faction_lv3`는 909행이다.
 2. **그룹 편집 칸(후순위)** — 진영 설명(`faction_lv3.description`·`description_en`)·영문 이름·차례를 지금은 신화 편집(`/myths`)만 고친다. 같은 패널을 세력 편집 화면에도 연다.
 
 ## DB
 
-1. **RPC `p_tag_id` 제거** — `count_celebs_filtered`·`get_celebs_sorted`는 26.09.29에도 `p_tag_id`를 받는다. Oracle 반대 슬롯(롤백 자리)의 배포본이 더 이상 `p_tag_id`를 부르지 않는지 확인한 뒤 DROP+재생성으로 걷어낸다(시그니처 교체 함정은 [`data/README.md`](../project/data/README.md) 「마이그레이션을 쓸 때 걸리는 것」). 생성 타입도 이때 재생성한다.
+1. **RPC `p_tag_id` 제거** — `count_celebs_filtered`·`get_celebs_sorted`는 26.09.29에도 `p_tag_id`를 받는다. 코드 호출부는 26.10.01 기준 0건이다. Oracle 반대 슬롯(롤백 자리)의 배포본이 더 이상 `p_tag_id`를 부르지 않는지 확인한 뒤 DROP+재생성으로 걷어낸다(시그니처 교체 함정은 [`data/README.md`](../project/data/README.md) 「마이그레이션을 쓸 때 걸리는 것」). 생성 타입도 이때 재생성한다.
 
 주요 장면 확장은 [`myth-scenes-handoff.md`](myth-scenes-handoff.md)가 쥔다.

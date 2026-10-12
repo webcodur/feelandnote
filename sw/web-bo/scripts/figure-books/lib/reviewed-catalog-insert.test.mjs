@@ -149,6 +149,30 @@ test('existing editions, duplicate parents and duplicate ISBNs are refused inste
   assert.throws(() => planReviewedCatalogInsert(ids, before, duplicate), /duplicate locale or ISBN/)
 })
 
+test('a reviewed missing language preserves the existing physical edition and its product history exactly', () => {
+  const { before, reviews } = fixture()
+  before.figure_book_contents.push({ content_id: ids[0], created_at: timestamp, updated_at: timestamp })
+  const retained = { ...planReviewedCatalogInsert(ids, fixture().before, reviews).editions[1], id: 99, created_at: timestamp, updated_at: timestamp }
+  before.figure_book_editions.push(retained)
+  before.figure_book_products.push({ id: 70, edition_id: 99, platform: 'shop', is_active: true })
+  const selected = [reviews[0]], original = structuredClone(before)
+  const plan = planReviewedCatalogInsert(ids, before, selected)
+  assert.deepEqual(plan.newParentIds, []); assert.deepEqual(plan.existingParentIds, [ids[0]])
+  const after = committed(before, selected)
+  assert.equal(verifyReviewedCatalogInsertReadback(ids, before, selected, after).checkedTables, 18)
+  assert.deepEqual(after.figure_book_editions.find(row => row.id === 99), retained)
+  assert.deepEqual(after.figure_book_products, before.figure_book_products)
+  assert.deepEqual(before, original)
+  const sql = buildReviewedCatalogInsertSql(ids, before, selected)
+  assert.doesNotMatch(sql, /INSERT INTO public.figure_book_contents/)
+  assert.match(sql, /INSERT INTO public.figure_book_editions/)
+  assert.throws(() => planReviewedCatalogInsert(ids, before, [reviews[1]]), /existing edition for locale/)
+  const changed = structuredClone(after); changed.figure_book_editions.find(row => row.id === 99).description = 'Unexpected change'
+  assert.throws(() => verifyReviewedCatalogInsertReadback(ids, before, selected, changed), /figure_book_editions/)
+  const orphan = structuredClone(before); orphan.figure_book_contents = []
+  assert.throws(() => planReviewedCatalogInsert(ids, orphan, selected), /without catalog parent/)
+})
+
 test('English Kakao, swapped providers and unbound official URLs are rejected by the plan', () => {
   for (const change of [s => { s.content_locales[0].sources.primary = 'kakao_book' }, s => { s.content_locales[1].sources.primary = 'openlibrary' },
     s => { s.content_locales[0].sources.isbn = 'https://publisher.example/a' }, s => { s.content_locales[2].sources.isbn += '999' }]) {
