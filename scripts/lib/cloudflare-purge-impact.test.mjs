@@ -364,6 +364,12 @@ test('root Open Graph route and SEO image origin changes evict only SEO outputs'
   assert.equal(plan.files.includes('https://feelandnote.com/opengraph-image'), true)
 })
 
+test('shared brand, person descriptions and wordmarks evict their actual cached consumers', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact(['packages/shared/src/constants/site-brand.ts']).scopes, ['seo', 'cached-html'])
+  assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/lib/celeb/meta.ts']).scopes, ['celeb'])
+  assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/components/ui/LogoWordmark.tsx']).scopes, ['cached-html'])
+})
+
 test('shared celeb-tier changes evict cached HTML and the dependent SEO outputs', () => {
   const plan = classifyCloudflarePurgeImpact([
     'packages/shared/src/constants/celeb-tiers.ts',

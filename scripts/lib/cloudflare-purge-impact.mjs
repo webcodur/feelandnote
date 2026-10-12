@@ -136,6 +136,8 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // 인물 상세의 메타 설명과 본문 제목을 조립하는 공통 함수.
+  'sw/web/src/lib/celeb/meta.ts',
   // 인물 상세의 관련 도서 분류와 하단 세력 카드만 이 미리보기를 소비한다.
   'sw/web/src/lib/celeb/authoredBooks.ts',
   'sw/web/src/lib/celeb/factionPreview.ts',
@@ -488,9 +490,10 @@ const CACHED_HTML_FILES = new Set([
   'sw/web/src/components/ui/modalLayout.ts',
   'sw/web/src/components/ui/pending/PendingBlock.tsx',
   // 바닥글은 [locale]/layout.tsx에 있어 보관 대상 화면에도 그대로 실린다.
-  // 로고는 그 바닥글 안에서만 쓰인다.
+  // 로고와 워드마크는 공통 Header와 정책·인증 화면에서 함께 쓴다.
   'sw/web/src/components/ui/Layout/Footer.tsx',
   'sw/web/src/components/ui/Logo.tsx',
+  'sw/web/src/components/ui/LogoWordmark.tsx',
   'sw/web/src/components/ui/Logo.module.css',
   // 공용 UI 배럴은 보관 대상 화면 전반이 함께 끌어 쓴다.
   'sw/web/src/components/ui/index.ts',
