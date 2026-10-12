@@ -210,7 +210,7 @@ async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, Fea
 
 // 팩션 편성 전용 공유 자료다. 일반 인물·서고 수정이 모든 인물 상세을 연쇄 무효화하지 않도록
 // TAGS만 즉시 갱신하고, 프로필 표시값은 한 시간 만료로 흡수한다.
-const getCachedFactionRows = unstable_cache(() => coalesceCacheQuery('faction-rows', fetchFactionRows), ['featured-faction-rows-v4-scene-completion'], {
+const getCachedFactionRows = unstable_cache(() => coalesceCacheQuery('faction-rows', fetchFactionRows), ['featured-faction-rows-v6-single-html-boundary'], {
   revalidate: LIST_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS],
 })

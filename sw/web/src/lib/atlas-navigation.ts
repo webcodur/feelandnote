@@ -28,7 +28,7 @@ export function buildFactionNavigation(sections: FactionSection[], locale: Local
   return sections.map((section) => ({
     id: factionSectionKey(section), name: localizedFactionName(section.faction, locale),
     entries: section.entries.map((entry) => {
-      const groups = buildFactionClusters(entry.celebs, locale);
+      const groups = buildFactionClusters(entry.celebs, locale, entry.team_images);
       const scenes = toSceneImages(entry.team_images, locale).length;
       return {
         id: entry.id, name: localizedFactionName(entry, locale), count: entry.celebs.length,

@@ -17,11 +17,22 @@ export interface FactionSceneEnding {
   text: string
   titleEn?: string
   textEn?: string
+  /** 도입이 안내하는 기존 인물 그룹의 원문 이름. 그룹을 연결할 때만 지정한다. */
+  group?: string
+  /** 생략하면 도입은 이미지, 마무리는 HTML. 한 이야기에서 HTML은 한쪽만 쓴다. */
+  format?: 'image' | 'html'
 }
 
 export interface LocalizedSceneEnding {
   title: string
   text: string
+  group?: string
+  format?: 'image' | 'html'
+}
+
+/** 도입·마무리의 기본 표시 방식은 제작·저장·뷰어가 함께 쓴다. */
+export function sceneBoundaryFormat(boundary: Pick<FactionSceneEnding, 'format'>, side: 'opening' | 'ending') {
+  return boundary.format ?? (side === 'opening' ? 'image' : 'html')
 }
 
 export interface FactionTeamImage {
@@ -35,7 +46,9 @@ export interface FactionTeamImage {
   /** 대표 그림의 짧은 설명 또는 주요 장면의 해설. */
   caption?: string
   captionEn?: string
-  /** 마지막 장면 뒤에 이미지 없이 보여 주는 후속 이야기. */
+  /** 이 장면부터 시작하는 독립 이야기의 도입. */
+  opening?: FactionSceneEnding
+  /** 이야기의 마무리. 기본은 마지막 장면 뒤의 HTML 카드. */
   ending?: FactionSceneEnding
   /** 이 사진에 나오는 인물들의 셀럽 id. 도감에서 이름을 띄우고 그 사람으로 넘어가는 데 쓴다 */
   celebIds?: string[]
@@ -49,6 +62,8 @@ function toSceneEnding(value: unknown): FactionSceneEnding | undefined {
   if (!title || !text) return undefined
   return {
     title, text,
+    ...(row.format === 'image' || row.format === 'html' ? { format: row.format } : {}),
+    ...(typeof row.group === 'string' && row.group.trim() ? { group: row.group.trim() } : {}),
     ...(typeof row.titleEn === 'string' && row.titleEn.trim() ? { titleEn: row.titleEn.trim() } : {}),
     ...(typeof row.textEn === 'string' && row.textEn.trim() ? { textEn: row.textEn.trim() } : {}),
   }
@@ -71,6 +86,7 @@ export function toTeamImages(v: unknown): FactionTeamImage[] {
     const labelEn = typeof row.labelEn === 'string' && row.labelEn.trim() ? row.labelEn.trim() : undefined
     const caption = typeof row.caption === 'string' && row.caption.trim() ? row.caption.trim() : undefined
     const captionEn = typeof row.captionEn === 'string' && row.captionEn.trim() ? row.captionEn.trim() : undefined
+    const opening = row.kind === 'scene' ? toSceneEnding(row.opening) : undefined
     const ending = row.kind === 'scene' ? toSceneEnding(row.ending) : undefined
     const celebIds = Array.isArray(row.celebIds)
       ? row.celebIds.filter((x): x is string => typeof x === 'string' && x.length > 0)
@@ -82,6 +98,7 @@ export function toTeamImages(v: unknown): FactionTeamImage[] {
       ...(labelEn ? { labelEn } : {}),
       ...(caption ? { caption } : {}),
       ...(captionEn ? { captionEn } : {}),
+      ...(opening ? { opening } : {}),
       ...(ending ? { ending } : {}),
       ...(celebIds && celebIds.length ? { celebIds } : {}),
     })
@@ -105,6 +122,7 @@ export function serializeTeamImages(images: FactionTeamImage[]): FactionTeamImag
       ...(img.labelEn?.trim() ? { labelEn: img.labelEn.trim() } : {}),
       ...(img.caption?.trim() ? { caption: img.caption.trim() } : {}),
       ...(img.captionEn?.trim() ? { captionEn: img.captionEn.trim() } : {}),
+      ...(img.kind === 'scene' && toSceneEnding(img.opening) ? { opening: toSceneEnding(img.opening) } : {}),
       ...(img.kind === 'scene' && toSceneEnding(img.ending) ? { ending: toSceneEnding(img.ending) } : {}),
       ...(img.celebIds?.length ? { celebIds: [...img.celebIds] } : {}),
     }))
@@ -118,9 +136,12 @@ export function toSceneImages(value: unknown, locale: string) {
     const caption = locale === 'en' ? image.captionEn : image.caption
     const endingTitle = locale === 'en' ? image.ending?.titleEn : image.ending?.title
     const endingText = locale === 'en' ? image.ending?.textEn : image.ending?.text
+    const openingTitle = locale === 'en' ? image.opening?.titleEn : image.opening?.title
+    const openingText = locale === 'en' ? image.opening?.textEn : image.opening?.text
     return label && caption ? [{
       url: image.url, label, caption, kind: 'scene' as const,
-      ...(endingTitle && endingText ? { ending: { title: endingTitle, text: endingText } } : {}),
+      ...(openingTitle && openingText ? { opening: { title: openingTitle, text: openingText, ...(image.opening?.group ? { group: image.opening.group } : {}), ...(image.opening?.format ? { format: image.opening.format } : {}) } } : {}),
+      ...(endingTitle && endingText ? { ending: { title: endingTitle, text: endingText, ...(image.ending?.format ? { format: image.ending.format } : {}) } } : {}),
     }] : []
   })
 }

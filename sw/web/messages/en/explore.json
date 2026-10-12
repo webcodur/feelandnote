@@ -363,7 +363,7 @@
         "portraitImage": "Portrait",
         "keyScenes": "Key scenes",
         "selectImage": "Jump to a scene",
-        "imageNumber": "Image number (1–{count})",
+        "imageNumber": "Number (1–{count})",
         "goToImage": "Go",
         "searchImages": "Search scene titles",
         "noMatchingImages": "No matching scenes.",
@@ -400,7 +400,12 @@
         "scenesCompleteCountShort": "{count} complete",
         "scenesCompleteShort": "Complete",
         "storyGuideOpening": "STORY",
-        "storyGuideClosing": "END"
+        "storyGuideClosing": "END",
+        "storyOpening": "Story opening",
+        "storyEnding": "Story ending",
+        "startStory": "View scenes",
+        "nextStory": "Next story",
+        "closeStory": "Close key scenes"
       },
       "relationMap": {
         "title": "Relation Map",

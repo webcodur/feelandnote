@@ -4,6 +4,7 @@
  */
 import type { FeaturedCeleb, FeaturedFaction } from '@/actions/home'
 import type { Locale } from '@/types/locale'
+import type { FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 
 export interface FactionSection {
   /** 묶음 태그 — 묶음 없이 최상위에 선 테마면 그 테마 자신 */
@@ -63,7 +64,7 @@ export function buildFactionSections(factions: FeaturedFaction[]): FactionSectio
  * 테마 안 진영. 진영 순번 → 첫 등장 순으로 세우고, 진영 이름이 없는 인물은 맨 뒤에 모은다.
  * 진영 안에서는 명단 순서(배정 차례)를 그대로 지킨다.
  */
-export function buildFactionClusters(celebs: FeaturedCeleb[], locale: Locale): FactionCluster[] {
+export function buildFactionClusters(celebs: FeaturedCeleb[], locale: Locale, images: FactionTeamImage[] = []): FactionCluster[] {
   const byLabel = new Map<string, { cluster: FactionCluster; position: number; first: number }>()
   const unlabeled: string[] = []
 
@@ -91,5 +92,11 @@ export function buildFactionClusters(celebs: FeaturedCeleb[], locale: Locale): F
     .sort((a, b) => a.position - b.position || a.first - b.first)
     .map((entry) => entry.cluster)
   if (unlabeled.length > 0) clusters.push({ name: null, label: null, celebIds: unlabeled })
-  return clusters
+  // 장면 도입에서 명시적으로 연결한 그룹은 공개 인물이 없어도 개요를 읽을 수 있다.
+  const stories = images.filter(image => image.kind === 'scene' && image.opening?.group)
+    .map(image => ({ name: image.opening!.group!, label: locale === 'en' ? image.opening!.titleEn || image.opening!.title : image.opening!.title }))
+  if (!stories.length) return clusters
+  const named = new Set(stories.map(story => story.name))
+  return [...stories.map(story => ({ ...story, celebIds: clusters.find(cluster => cluster.name === story.name)?.celebIds ?? [] })),
+    ...clusters.filter(cluster => !cluster.name || !named.has(cluster.name))]
 }

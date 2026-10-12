@@ -9,11 +9,11 @@ import { CLOSE_BUTTON_STYLE } from "@/components/ui/Modal";
 import FactionArtworkTitle from "./FactionArtworkTitle";
 import FactionArtworkHelp from "./FactionArtworkHelp";
 import { Z_INDEX } from "@/constants/zIndex";
-import { buildStorySlides, type StoryArtwork, type StoryGuide } from "./storyBoundaries";
-import FactionStoryGuide from "./FactionStoryGuide";
+import { artworkEntryIndex, buildArtworkSlides, type ArtworkImage } from './artworkSlides';
 import FactionSceneNavigator from "./FactionSceneNavigator";
 import FactionSceneText from "./FactionSceneText";
 import FactionStoryCaption from "./FactionStoryCaption";
+import FactionStoryCards from './FactionStoryCards';
 import { splitSceneCaptionPages } from "./sceneCaptionPages";
 import FactionCaptionSize, { CAPTION_SIZE_CLASSES, type CaptionSize } from "./FactionCaptionSize";
 import FactionCaptionHeight, { CAPTION_HEIGHT_OFFSETS, type CaptionHeight } from "./FactionCaptionHeight";
@@ -34,7 +34,7 @@ const CAPTION_TEXT_STYLE = {
 } as const;
 
 interface Props {
-  images: StoryArtwork[];
+  images: ArtworkImage[];
   title: string;
   /** 세력 표지는 원본 오른쪽에 제목을 위한 여백이 있다. */
   titleInArtwork?: boolean;
@@ -47,21 +47,11 @@ interface Props {
 }
 
 /** 표지·인물 화보·주요 장면의 원본과 해설을 연다. 개요 읽기와 독립된 창이다. */
-export default function FactionArtworkViewer(props: Props) {
-  const { images, onIndexChange, initialIndex = 0 } = props;
-  const slides = useMemo(() => buildStorySlides(images), [images]);
-  const rememberedIndex = Math.max(0, Math.min(images.length - 1, initialIndex));
-  const firstSlide = Math.max(0, slides.findIndex(slide => slide.sourceIndex === rememberedIndex));
-  const reportIndex = useCallback((index: number) => {
-    onIndexChange?.(slides[index]?.sourceIndex ?? Math.max(0, images.length - 1));
-  }, [onIndexChange, images.length, slides]);
-  return <ArtworkSlides {...props} images={slides} initialIndex={firstSlide} onIndexChange={reportIndex} />;
-}
-
-function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested = false, initialIndex = 0, onIndexChange }: Omit<Props, 'images'> & { images: (StoryArtwork & { guide?: StoryGuide })[] }) {
+export default function FactionArtworkViewer({ images: sourceImages, title, titleInArtwork = false, onClose, nested = false, initialIndex = 0, onIndexChange }: Props) {
   const t = useTranslations("explore.hub.myth");
   const tAccess = useTranslations("shared.accessibility");
-  const [index, setIndex] = useState(() => Math.max(0, Math.min(images.length - 1, initialIndex)));
+  const images = useMemo(() => buildArtworkSlides(sourceImages), [sourceImages]);
+  const [index, setIndex] = useState(() => artworkEntryIndex(images, initialIndex));
   const [navigatorOpen, setNavigatorOpen] = useState(false);
   /* 장면 해설 자막 — 켜면 문장 한 쪽씩 넘겨 읽고, 끄면 해설 전체가 한 덩어리로 선다 */
   const [captionSplit, setCaptionSplit] = useState(true);
@@ -92,14 +82,14 @@ function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested 
     setIndex(nextIndex);
     setNavigatorOpen(false);
   }, []);
-  const ending = images.at(-1)?.ending;
-  const slideCount = images.length + (ending ? 1 : 0);
-  const isEnding = Boolean(ending && index === images.length);
+  const slideCount = images.length;
   const zIndex = Z_INDEX.modal + (nested ? 1 : 0);
-  useEffect(() => { onIndexChange?.(index) }, [index, onIndexChange]);
   const image = images[index] ?? images[0];
+  const isEnding = Boolean(image?.card);
+  const storyCount = sourceImages.filter(item => item.opening).length;
+  useEffect(() => { onIndexChange?.(image?.sourceIndex ?? index) }, [index, image?.sourceIndex, onIndexChange]);
   /* 칠해진 그림 영역 계산용 가로세로비 — 그림이 로드되기 전엔 없다 */
-  const imageRatio = image ? ratios[image.url] : undefined;
+  const imageRatio = image && !isEnding ? ratios[image.url] : undefined;
   /* 장면 해설의 자막 쪽 목록 — 장면이 아니면 빈 목록이라 넘길 게 없다 */
   const captionPages = useMemo(
     () => (image?.kind === "scene" && image.caption ? splitSceneCaptionPages(image.caption) : []),
@@ -112,8 +102,7 @@ function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested 
         ? Math.max(1, splitSceneCaptionPages(item.caption).length) : 1;
       return Array.from({ length: count }, (_, page) => ({ index: sceneIndex, page }));
     }),
-    ...(ending ? [{ index: images.length, page: 0 }] : []),
-  ], [images, captionSplit, ending]);
+  ], [images, captionSplit]);
   const navigationPosition = Math.max(0, navigationStops.findIndex(stop => stop.index === index && stop.page === (captionSplit ? captionPage : 0)));
   const selectPosition = (position: number) => {
     const stop = navigationStops[position];
@@ -146,7 +135,9 @@ function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested 
   const hasNavigation = slideCount > 1 || (paginatedCaption && captionPages.length > 1);
   const previousLabel = t(paginatedCaption ? "captionPrevious" : "previousImage");
   const nextLabel = paginatedCaption && captionPage < captionPages.length - 1 ? t("captionNext")
-    : ending && index === images.length - 1 ? t("readEnding") : t(paginatedCaption ? "captionNext" : "nextImage");
+    : image?.cardKind === 'opening' ? t('startStory')
+    : image?.cardKind === 'ending' && images[index + 1]?.opening ? t('nextStory')
+    : images[index + 1]?.cardKind === 'ending' ? t("readEnding") : t(paginatedCaption ? "captionNext" : "nextImage");
   useEffect(() => {
     if ((slideCount < 2 && captionPages.length < 2) || navigatorOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
@@ -166,7 +157,7 @@ function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested 
   }, [slideCount, navigatorOpen, captionPages.length, navigate, navigationStops]);
   // 다음 두 장을 미리 받는다. 임의 번호 이동과 엔딩에서도 범위를 넘지 않는다.
   const preloadUrls = useMemo(() => imageRatio
-    ? images.slice(index + 1, index + 1 + PRELOAD_AHEAD).map(item => item.url) : [], [images, index, imageRatio]);
+    ? [...new Set(images.slice(index + 1).filter(item => !item.card).slice(0, PRELOAD_AHEAD).map(item => item.url))] : [], [images, index, imageRatio]);
   usePreloadImages(preloadUrls);
   /* 휠은 영역을 가른다 — 칠해진 그림 위에서는 커서 지점 기준 확대·축소, 그림 밖 빈 여백에서는 공통 순서로 이동한다.
      확대된 그림은 여백 위로 넘치니 1배 초과일 때는 위치와 무관하게 줌이다.
@@ -303,7 +294,7 @@ function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested 
     : "max(clamp(5rem, 10vw, 9rem), 20%)";
   const artworkImage = <Image key="current" src={image.url} alt={image.label ?? title} fill unoptimized draggable={false} className="object-contain select-none"
     onLoad={event => recordImageRatio(image.url, event)} />;
-  const artwork = image.guide ? <FactionStoryGuide guide={image.guide} url={image.url} onLoad={event => recordImageRatio(image.url, event)} /> : slideCount === 1 && !isScene ? (
+  const artwork = slideCount === 1 && !isScene ? (
     <button type="button" data-artwork-single-close onClick={onClose} aria-label={tAccess("close")}
       className="absolute inset-0 cursor-zoom-out border border-transparent outline-none hover:border-accent/50 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
       {artworkImage}
@@ -311,24 +302,10 @@ function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested 
   ) : artworkImage;
   /* 타이틀아트는 그림 안 오른쪽 스트립에 제목을 얹는다 — 전체화면에서 object-contain은 그림을 중앙에 축소하니
      칠해진 그림 영역과 같은 비율의 상자를 만들고 거기에 제목을 얹는다(cqh = 본문 컨테이너 높이) */
-  // 엔딩 텍스트는 번역 결과를 보존하고 읽을 때만 화면 안에 둔다.
-  const endingSlide = ending && (
-    <div data-scene-ending data-wheel-pass aria-hidden={!isEnding || undefined}
-      className="absolute top-0 h-full w-full overflow-y-auto overscroll-contain"
-      style={{ left: isEnding ? 0 : "200%" }}>
-      <article className="mx-auto flex min-h-full w-full max-w-2xl flex-col justify-center px-6 py-10 text-center sm:px-10">
-        <p className="mb-5 text-xs tracking-[0.3em] text-accent">ENDING</p>
-        <h3 className="mb-8 break-keep text-2xl font-bold text-text-primary sm:text-3xl md:text-balance">{ending.title}</h3>
-        <div className="space-y-5 break-keep text-sm leading-7 text-text-primary sm:text-base sm:leading-8">
-          {ending.text.split(/\n\s*\n/).map((paragraph, paragraphIndex) => <p key={paragraphIndex} className="md:text-balance"><FactionSceneText text={paragraph} /></p>)}
-        </div>
-      </article>
-    </div>
-  );
   /* 헤더 칸 — 장면은 장면 제목, 엔딩은 엔딩 제목, 비장면 그림은 그 그림의 이름(없으면 뷰어 제목)이 서고 누르면 장면 바로가기가 열린다.
      타이틀아트는 제목을 그림 안에도 그리지만 헤더 중앙 자리는 비우지 않는다 — 전체화면에서 목록 역할은 헤더가 쥔다 */
-  const headerLabel = isEnding ? ending?.title : (image.label ?? title);
-  const headerNumber = isEnding ? "ENDING" : index + 1;
+  const headerLabel = image.label ?? title;
+  const headerNumber = image.cardKind ? t(image.cardKind === 'opening' ? 'storyOpening' : 'storyEnding') : index + 1;
 
   /* 자막 전체를 클립보드에 적는다 — 성공하면 칩이 「복사됨」으로 잠시 바뀐다 */
   const copyCaption = () => {
@@ -359,7 +336,7 @@ function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested 
                 className="col-span-2 col-start-1 row-start-1 inline-flex min-w-0 max-w-full items-center justify-self-center gap-2 rounded-lg px-2 py-1.5 text-sm font-semibold text-text-primary outline-none hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent md:col-span-1 md:col-start-2">
                 <span translate="no" className="shrink-0 tabular-nums text-accent">{headerNumber}</span>
                 <span className="relative block min-w-0 overflow-hidden">
-                  {[...images.map(item => item.label ?? title), ...(ending ? [ending.title] : [])].map((label, labelIndex) =>
+                  {images.map(item => item.label ?? title).map((label, labelIndex) =>
                     <span key={labelIndex} data-story-title={labelIndex} aria-hidden={labelIndex !== index || undefined}
                       className={labelIndex === index ? "block truncate" : "pointer-events-none absolute top-0 block w-full"}
                       style={labelIndex === index ? undefined : { left: "200%" }}>{label}</span>)}
@@ -369,7 +346,7 @@ function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested 
               <span data-scene-title className="col-span-2 col-start-1 row-start-1 inline-flex min-w-0 max-w-full items-center justify-self-center gap-2 px-2 py-1.5 text-sm font-semibold text-text-primary md:col-span-1 md:col-start-2">
                 <span translate="no" className="shrink-0 tabular-nums text-accent">{headerNumber}</span>
                 <span className="relative block min-w-0 overflow-hidden">
-                  {[...images.map(item => item.label ?? title), ...(ending ? [ending.title] : [])].map((label, labelIndex) =>
+                  {images.map(item => item.label ?? title).map((label, labelIndex) =>
                     <span key={labelIndex} data-story-title={labelIndex} aria-hidden={labelIndex !== index || undefined}
                       className={labelIndex === index ? "block truncate" : "pointer-events-none absolute top-0 block w-full"}
                       style={labelIndex === index ? undefined : { left: "200%" }}>{label}</span>)}
@@ -398,6 +375,16 @@ function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested 
             </button>
           </div>
         </div>
+        {storyCount > 0 && <p data-story-progress aria-hidden={!image.storyTitle || undefined}
+          className={image.storyTitle ? 'shrink-0 border-b border-white/10 px-4 py-2 text-center text-xs text-text-secondary' : 'sr-only'}>
+          <span translate="no" className="me-2 tabular-nums text-accent">{image.storyNumber} / {storyCount}</span>
+          <span className="relative inline-block max-w-[75%] overflow-hidden align-middle">
+            {sourceImages.filter(item => item.opening).map((item, storyIndex) => <span key={storyIndex}
+              data-story-heading={storyIndex + 1} aria-hidden={image.storyNumber !== storyIndex + 1 || undefined}
+              className={image.storyNumber === storyIndex + 1 ? 'block' : 'pointer-events-none absolute top-0 block'}
+              style={image.storyNumber === storyIndex + 1 ? undefined : { left: '200%' }}>{item.opening!.title}</span>)}
+          </span>
+        </p>}
         {infoOpen && <FactionArtworkHelp onClose={() => setInfoOpen(false)}
           caption={!isEnding && Boolean(image.caption)}
           settings={isScene && !isEnding && image.caption ? { split: captionSplit, onToggle: () => setCaptionSplit(on => !on), size: captionSize, onSize: setCaptionSize, height: captionHeight, onHeight: setCaptionHeight } : undefined}
@@ -409,12 +396,12 @@ function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested 
         <div ref={viewerBodyRef} data-artwork-viewer {...swipeHandlers}
           className={`@container relative min-h-0 flex-1 overflow-hidden bg-black ${zoomView.scale > 1 ? (panning ? "cursor-grabbing" : "cursor-grab") : ""}`}
           style={{ touchAction: "pan-y", containerType: "size" }}>
-          {endingSlide}
-          {!isEnding && <div key={index} className="absolute inset-0" data-artwork-current
+          <FactionStoryCards slides={images} activeIndex={index} onContinue={selectImage} onClose={onClose} />
+          {!isEnding && <div key={image.url} className="absolute inset-0" data-artwork-current
             style={{ transform: `translate(${zoomView.x}px, ${zoomView.y}px) scale(${zoomView.scale})`, transformOrigin: "center" }}>
             {artwork}
           </div>}
-          {titleInArtwork && !isScene && !isEnding && !image.guide && imageRatio && (
+          {titleInArtwork && !isScene && !isEnding && imageRatio && (
             <div className="@container pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
               style={{ aspectRatio: imageRatio, width: `min(100%, calc(100cqh * ${imageRatio}))` }}>
               <FactionArtworkTitle title={title} heading />
@@ -540,7 +527,7 @@ function ArtworkSlides({ images, title, titleInArtwork = false, onClose, nested 
       </div>,
       document.body,
     )}
-    {navigatorOpen && <FactionSceneNavigator images={images} title={title} activeIndex={index} endingTitle={ending?.title}
+    {navigatorOpen && <FactionSceneNavigator images={images} title={title} activeIndex={index}
       onSelect={selectImage} onClose={closeNavigator} zIndex={zIndex + 1} />}
     </>
   );
