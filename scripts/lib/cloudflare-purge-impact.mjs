@@ -136,6 +136,10 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // 인물 상세의 관련 도서 분류와 하단 세력 카드만 이 미리보기를 소비한다.
+  'sw/web/src/lib/celeb/authoredBooks.ts',
+  'sw/web/src/lib/celeb/factionPreview.ts',
+  'sw/web/src/lib/celeb/factionPreviewData.ts',
   // 초기 관련 도서와 추천의 보관 HTML 소비자는 인물 상세다.
   'sw/web/src/actions/books/getProfessionBooks.ts',
   'sw/web/src/actions/celebs/getCelebReferenceBooks.ts',
@@ -275,6 +279,13 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // 인물 소개 모달은 신화·세력 탐색에서 열며 앞단 HTML 보관 대상이 아니다.
+  'sw/web/src/components/features/faction/entry/FactionPersonBooks.tsx',
+  'sw/web/src/components/features/faction/entry/FactionPersonHeader.tsx',
+  'sw/web/src/components/features/faction/entry/factionPersonLayout.ts',
+  'sw/web/src/lib/scroll/useContainerSectionNavigation.ts',
+  // 오늘의 인물은 홈에서만 고르며 홈 HTML은 앞단 캐시를 쓰지 않는다.
+  'sw/web/src/lib/celeb/todayFigureSelection.ts',
   // 직업별 도서·박물관·구매 화면과 그 전용 부품은 앞단 HTML 보관 대상이 아니다.
   'sw/web/src/actions/books/getProfessionBookCatalog.ts',
   'sw/web/src/actions/home/getFactionMemberShelf.ts',
@@ -462,6 +473,9 @@ const CACHED_HTML_PREFIXES = [
 ]
 
 const CACHED_HTML_FILES = new Set([
+  // 공용 모달과 페이지 구획 이동은 보관하는 인물·작품·명부 HTML에서 함께 쓴다.
+  'sw/web/src/components/ui/Modal.tsx',
+  'sw/web/src/lib/scroll/sectionNavigation.ts',
   // 인물 사진·아바타는 상세와 공통 HeaderSearch의 인물 모달에서도 소비한다.
   'sw/web/src/components/ui/CelebAvatarImage.tsx',
   'sw/web/src/components/ui/ResponsivePortraitImage.tsx',
