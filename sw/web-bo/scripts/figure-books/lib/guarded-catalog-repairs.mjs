@@ -9,7 +9,9 @@ import {toIsbn13} from '../../../../../packages/content-search/src/book-isbn.ts'
 import {excludedBookEditionReason,reviewedBookEditionSelectionReason,reviewedBookWorkSelectionReason,bookTranslatorKey,BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH} from '../../../../../packages/content-search/src/book-edition-policy.ts'
 import {isBookIntroductionSource} from '../../../../../packages/content-search/src/book-introduction-contract.ts'
 import researchIntroductionContract from '../../contents/book-research-introduction-contract.ts'
+import mediaIntroductionContract from '../../contents/media-introduction-contract.ts'
 const {researchIntroductionText}=researchIntroductionContract
+const {mediaIntroductionText}=mediaIntroductionContract
 
 const allowed={contents:['metadata','external_id','external_source','release_date'],content_locales:['title','creator','description','publisher','isbn','thumbnail_url','sources','affiliate_url','verified'],
  figure_book_editions:['title','creator','description','publisher','isbn','thumbnail_url','release_date','edition_kind','text_scope','sort_order','sources','verified','locale','content_id'],
@@ -274,8 +276,63 @@ function reviewedSelectionIntroductionDiscard(before,proof,snapshot){
  return reference
 }
 
+// 선정 탈락을 축약·다른 원작으로 꾸미지 않는다. 기존 정상 대표의 실제 소개를 선택한다.
+function reviewedEditorialIntroductionReplacement(before,selection,snapshot,expected,changes){
+ const proof=selection?.replacementIntroduction
+ const figure=snapshot.contents.find(row=>row.id===before.content_id)?.metadata?.figureBook??{}
+ const finalFigure=expected.contents.find(row=>row.id===before.content_id)?.metadata?.figureBook??{}
+ const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(proof?.referenceEdition?.id))
+ const retained=expected.figure_book_editions.find(row=>String(row.id)===String(reference?.id))
+ const selected=expected.content_locales.find(row=>row.content_id===before.content_id&&row.locale===before.locale)
+ const oldSelected=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===before.locale)
+ const cardChange=changes.find(change=>change.table==='content_locales'&&change.before.content_id===before.content_id&&change.before.locale===before.locale)
+ const cardProof=cardChange?.reviewedIntroductionCorrection
+ const named=value=>typeof value==='string'&&!!value.trim()
+ const text=value=>typeof value==='string'&&value.trim().length>=BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
+ const anchorKeys=['workTitle','workCreator','workIdentity','originalTitle','originalCreator']
+ const creator=figure.workCreator??figure.originalCreator
+ const stableEdition=row=>{const copy=structuredClone(row);delete copy.description
+  for(const key of ['description_method','description_source_locale'])delete copy.sources?.[key];return copy}
+ if(selection.reason!=='editorial_exclusion'||selection.misattachedIntroduction!==undefined
+  ||proof?.method!=='independent_editorial_introduction_replacement_review'||proof.llmReviewed!==true
+  ||proof.contentId!==before.content_id||proof.workTitle!==figure.workTitle||proof.workCreator!==creator
+  ||!named(figure.workTitle)||!named(creator)
+  ||['workIdentity','originalTitle','originalCreator'].some(key=>(proof[key]??null)!==(figure[key]??null))
+  ||anchorKeys.some(key=>!isDeepStrictEqual(finalFigure[key],figure[key]))
+  ||!isDeepStrictEqual(proof.discardedEdition,before)||!toIsbn13(before.isbn??'')||!['ko','en'].includes(before.locale)
+  ||!named(before.description)||isBookIntroductionSource(before.description)
+  ||!independentSource(before.sources?.description)||selection.source_url!==before.sources.description
+  ||!text(proof.bodyEvidence)||!text(proof.reason)
+  ||!reference||!isDeepStrictEqual(proof.referenceEdition,reference)||String(reference.id)===String(before.id)
+  ||reference.content_id!==before.content_id||reference.locale!==before.locale||!named(reference.title)||!named(reference.creator)
+  ||!toIsbn13(reference.isbn??'')||toIsbn13(reference.isbn)===toIsbn13(before.isbn)||reference.sources?.primary==='none'
+  ||excludedBookEditionReason({...reference,editionKind:reference.edition_kind,textScope:reference.text_scope,
+   workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)})
+  ||!named(reference.description)||isBookIntroductionSource(reference.description)||reference.description.trim().length<30
+  ||!mediaIntroductionText(reference.description,reference.locale)
+  ||proof.referenceDescription!==reference.description||proof.referenceSourceUrl!==reference.sources?.description
+  ||!independentSource(proof.referenceSourceUrl)||proof.referenceSourceUrl===selection.source_url
+  ||!retained||!isDeepStrictEqual(stableEdition(retained),stableEdition(reference))||retained.description!==reference.description
+  ||!['provider','research'].includes(retained.sources?.description_method)||retained.sources.description_source_locale!==reference.locale
+  ||!selected||selected.title!==reference.title||selected.creator!==reference.creator||selected.isbn!==reference.isbn
+  ||(selected.publisher??null)!==(reference.publisher??null)||(selected.thumbnail_url??null)!==(reference.thumbnail_url??null)
+  ||selected.sources?.primary==='none'||selected.description!==reference.description||selected.sources?.description!==proof.referenceSourceUrl
+  ||selected.sources.description_method!==retained.sources.description_method||selected.sources.description_source_locale!==reference.locale
+  ||!isDeepStrictEqual(selected,oldSelected)&&(!cardChange||cardChange.remove
+   ||cardProof?.method!=='independent_editorial_representative_introduction_review'||cardProof.llmReviewed!==true
+   ||cardProof.contentId!==before.content_id||String(cardProof.referenceEditionId)!==String(reference.id)
+   ||cardProof.sourceUrl!==proof.referenceSourceUrl||!text(cardProof.reason)))
+  throw Error('Editorial introduction replacement requires exact live original and discarded/reference editions, explicit LLM body review and the normal representative card and source')
+ if(retained.sources.description_method==='research')researchIntroductionText({contentId:before.content_id,locale:reference.locale,
+  title:reference.title,creator:reference.creator,description:reference.description,sourceUrl:proof.referenceSourceUrl,
+  evidence:[{url:proof.referenceSourceUrl,note:proof.bodyEvidence}]})
+ return retained
+}
+
 // 축약본의 원저 소개가 틀렸다고 꾸미지 않는다. 읽은 정상 판본의 현재 소개·출처로 함께 교체한다.
-function reviewedAbridgedIntroductionReplacement(before,selection,snapshot,expected){
+function reviewedAbridgedIntroductionReplacement(before,selection,snapshot,expected,changes){
+ if(selection?.reason==='editorial_exclusion'&&selection.replacementIntroduction?.method==='independent_editorial_introduction_replacement_review')
+  return reviewedEditorialIntroductionReplacement(before,selection,snapshot,expected,changes)
  const proof=selection?.replacementIntroduction
  const figure=snapshot.contents.find(row=>row.id===before.content_id)?.metadata?.figureBook??{}
  const finalFigure=expected.contents.find(row=>row.id===before.content_id)?.metadata?.figureBook??{}
@@ -545,7 +602,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    throw Error('Wrong-work introduction discard must retain the reviewed original edition and introduction unchanged')
  }
  for(const {before,reviewedSelectionExclusion:proof} of changes)if(proof?.replacementIntroduction!==undefined)
-  reviewedAbridgedIntroductionReplacement(before,proof,snapshot,expected)
+  reviewedAbridgedIntroductionReplacement(before,proof,snapshot,expected,changes)
  for(const {before,reviewedUnboundIsbnRemoval:proof} of changes)if(proof!==undefined){
   const reference=reviewedUnboundIsbnReference(before,proof,snapshot)
   const selected=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===before.locale)
@@ -601,7 +658,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   }
   if(placeholderProof?.misattachedIntroduction!==undefined){reviewedPlaceholderIntroductionDiscard(before,placeholderProof,snapshot);continue}
   if(selectionProof?.misattachedIntroduction!==undefined){reviewedSelectionIntroductionDiscard(before,selectionProof,snapshot);continue}
-  if(selectionProof?.replacementIntroduction!==undefined){reviewedAbridgedIntroductionReplacement(before,selectionProof,snapshot,expected);continue}
+  if(selectionProof?.replacementIntroduction!==undefined){reviewedAbridgedIntroductionReplacement(before,selectionProof,snapshot,expected,changes);continue}
   if(setProof!==undefined||nonstartProof!==undefined||scoreProof!==undefined)continue // 분권 소개는 검수된 대표의 정상 소개로 대표된다. 감상 필드는 보존한다.
   if(proof!==undefined){
    if(proof?.method==='independent_locale_reference_introduction_review'){

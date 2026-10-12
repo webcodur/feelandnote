@@ -1276,6 +1276,172 @@ test('same-work representative replacement readback detects protected data or so
  }
 })
 
+const editorialReplacement=()=>{
+ const {data}=abridgedReplacement(),contentId='a6d825e0-4a08-48c9-9ac0-69e9e9e732f9'
+ for(const table of SNAPSHOT_TABLES)for(const row of data[table]){
+  if(row.content_id==='work')row.content_id=contentId
+  if(table==='contents')row.id=contentId
+ }
+ data.contents[0].metadata.figureBook={workTitle:'The Idiot',originalCreator:'Fyodor Dostoevsky',workIdentity:'wikidata:q210784',originalTitle:'Идиот'}
+ const before=data.figure_book_editions[0],reference=data.figure_book_editions[1],oldSource='https://cyj0347.upaper.kr/content/1214578'
+ Object.assign(before,{id:15580,title:'백치(1권)',creator:'도스토옙스키',isbn:'9791176604093',edition_kind:'volume',text_scope:'한국어 번역 분권 1권 (전체 4권)',sources:{primary:'kakao_book',description:oldSource}})
+ const description='도스토예프스키의 소설에서 미시킨 공작은 오랜 요양 생활을 마치고 러시아로 돌아온다. 그는 사람들을 선의로 대하지만, 나스타시야 필리포브나와 로고진을 비롯한 주변 인물들의 욕망과 질투 속에서 갈등에 휘말린다.\n\n이 한국어 번역판은 두 권으로 나뉜 소설의 첫 권이다. 인물들이 서로에게 품는 사랑과 연민, 돈과 체면을 둘러싼 선택을 따라가며 미시킨의 순수함이 당시 사회에서 어떤 반응을 일으키는지 보여 준다. 다음 권으로 이어지는 이야기의 시작을 담고 있다.'
+ const newSource='https://www.yes24.com/product/goods/105031244'
+ Object.assign(reference,{id:6985,title:'백치1',creator:'도스토예프스키',isbn:'9788954683432',edition_kind:'volume',text_scope:'The Idiot, Korean translation volume 1 of 2',description,
+  publisher:'문학동네',thumbnail_url:'https://image.yes24.com/goods/105031244/XL',
+  sources:{primary:'kakao_book',description:newSource,translators:['김정아']}})
+ Object.assign(data.content_locales[0],{title:before.title,creator:before.creator,isbn:before.isbn,sources:structuredClone(before.sources)})
+ const sources={...reference.sources,description_method:'research',description_source_locale:'ko'}
+ const proof={method:'independent_editorial_introduction_replacement_review',llmReviewed:true,contentId,
+  workTitle:'The Idiot',workCreator:'Fyodor Dostoevsky',workIdentity:'wikidata:q210784',originalTitle:'Идиот',originalCreator:'Fyodor Dostoevsky',
+  discardedEdition:structuredClone(before),referenceEdition:structuredClone(reference),referenceDescription:description,referenceSourceUrl:newSource,
+  bodyEvidence:'각 ISBN의 출판사 소개와 본문 구성은 도스토예프스키의 같은 원작을 번역한 첫 분권임을 확인한다. 독자 안내는 정상 번역 대표를 선택한다.',
+  reason:'기존 4권 분권 상품을 별도로 안내하지 않고 실제 검수한 정상 번역의 2권 분권 첫 권을 대표로 선택한다. 두 번역의 본문이 같다고 주장하지 않는다.'}
+ const changes=[{table:'figure_book_editions',before,remove:true,reviewedSelectionExclusion:{method:'independent_selection_review',content_id:contentId,
+  isbn:before.isbn,locale:before.locale,edition_title:before.title,reason:'editorial_exclusion',source_url:oldSource,explanation:proof.reason,replacementIntroduction:proof}},
+  {table:'figure_book_editions',before:reference,patch:{sources}},
+  {table:'content_locales',before:data.content_locales[0],patch:{title:reference.title,creator:reference.creator,isbn:reference.isbn,
+   publisher:reference.publisher,thumbnail_url:reference.thumbnail_url,description,sources},
+   reviewedIntroductionCorrection:{method:'independent_editorial_representative_introduction_review',llmReviewed:true,contentId,referenceEditionId:reference.id,
+    isbn:before.isbn,locale:'ko',editionTitle:reference.title,sourceUrl:newSource,reason:proof.reason}}]
+ return {data,changes,contentId}
+}
+
+test('editorial replacement binds originalCreator and both actual translations while selecting a normal first volume and preserving 13 protected tables',()=>{
+ const {data,changes,contentId}=editorialReplacement()
+ const plan=planGuardedCatalogRepairs([contentId],data,changes)
+ assert.equal(plan.expected.figure_book_editions[0].id,6985)
+ assert.equal(plan.expected.figure_book_editions[0].edition_kind,'volume')
+ assert.equal(plan.expected.content_locales[0].description,data.figure_book_editions[1].description)
+ assert.notEqual(plan.expected.content_locales[0].description,data.figure_book_editions[0].description)
+ assert.deepEqual(plan.expected.contents,data.contents)
+ for(const table of SNAPSHOT_TABLES.filter(table=>!['contents','content_locales','figure_book_contents','figure_book_characters','figure_book_editions'].includes(table)))
+  assert.deepEqual(plan.expected[table],data[table],table)
+ const sql=buildGuardedCatalogRepairSql([contentId],data,changes)
+ assert.ok(sql.includes('DELETE FROM public.figure_book_editions'))
+ assert.ok(!sql.includes('independent_editorial_introduction_replacement_review'))
+ assert.ok(!sql.includes('discardedEdition'))
+ assert.ok(!sql.includes('sourceSnapshot'))
+ for(const table of SNAPSHOT_TABLES)assert.ok(sql.includes('rowset mismatch in '+table),table)
+})
+
+test('editorial representative accepts honest NULL scope without claiming completeness, and an explicit workCreator anchor',()=>{
+ for(const explicitCreator of [false,true]){
+  const {data,changes,contentId}=editorialReplacement(),proof=changes[0].reviewedSelectionExclusion.replacementIntroduction
+  Object.assign(data.figure_book_editions[1],{edition_kind:null,text_scope:null})
+  proof.referenceEdition=structuredClone(data.figure_book_editions[1])
+  if(explicitCreator)data.contents[0].metadata.figureBook.workCreator='Fyodor Dostoevsky'
+  assert.equal(planGuardedCatalogRepairs([contentId],data,changes).expected.figure_book_editions[0].edition_kind,null)
+ }
+})
+
+test('editorial representative rejects another product publisher or cover and permits actual matching NULL metadata',()=>{
+ for(const patch of [{publisher:'다른 출판사'},{thumbnail_url:'https://image.yes24.com/goods/3755176/XL'},{publisher:null},{thumbnail_url:null}]){
+  const {data,changes,contentId}=editorialReplacement();Object.assign(changes[2].patch,patch)
+  assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/Editorial introduction replacement/)
+ }
+ const {data,changes,contentId}=editorialReplacement()
+ Object.assign(data.figure_book_editions[1],{publisher:null,thumbnail_url:null})
+ changes[0].reviewedSelectionExclusion.replacementIntroduction.referenceEdition=structuredClone(data.figure_book_editions[1])
+ Object.assign(changes[2].patch,{publisher:null,thumbnail_url:null})
+ const selected=planGuardedCatalogRepairs([contentId],data,changes).expected.content_locales[0]
+ assert.equal(selected.publisher,null);assert.equal(selected.thumbnail_url,null)
+})
+
+test('editorial replacement selects an existing third representative without removing other Korean translations or English editions',()=>{
+ const {data,changes,contentId}=editorialReplacement(),reference=data.figure_book_editions[1]
+ const other={...structuredClone(reference),id:7000,title:'백치',isbn:'9780140449136',description:null,sources:{primary:'kakao_book',translators:['다른 역자']}}
+ const english={...structuredClone(reference),id:7001,locale:'en',title:'The Idiot',creator:'Fyodor Dostoevsky',isbn:'9780140447927',description:null,sources:{primary:'openlibrary'}}
+ data.figure_book_editions.push(other,english)
+ Object.assign(data.content_locales[0],{title:other.title,creator:other.creator,isbn:other.isbn})
+ changes[2].reviewedIntroductionCorrection.isbn=other.isbn
+ const plan=planGuardedCatalogRepairs([contentId],data,changes)
+ assert.deepEqual(plan.expected.figure_book_editions.slice(1),[other,english])
+ assert.equal(plan.expected.content_locales[0].isbn,reference.isbn)
+})
+
+test('editorial provider introduction uses the verified existing body and rejects prose in the wrong language',()=>{
+ const {data,changes,contentId}=editorialReplacement()
+ changes[1].patch.sources.description_method='provider';changes[2].patch.sources.description_method='provider'
+ assert.equal(planGuardedCatalogRepairs([contentId],data,changes).expected.content_locales[0].description,data.figure_book_editions[1].description)
+ const wrong='This is the English introduction of a book and its main characters. '.repeat(4)
+ data.figure_book_editions[1].description=wrong;changes[2].patch.description=wrong
+ const proof=changes[0].reviewedSelectionExclusion.replacementIntroduction
+ proof.referenceEdition=structuredClone(data.figure_book_editions[1]);proof.referenceDescription=wrong
+ assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/Editorial introduction replacement/)
+})
+
+test('editorial replacement rejects stale original, edition fields, source/body, missing LLM review and unsupported selection reasons',()=>{
+ const mutations=[
+  proof=>{proof.llmReviewed=false},proof=>{proof.contentId='other'},proof=>{proof.workCreator='Other author'},proof=>{proof.workTitle='Other work'},
+  proof=>{proof.workIdentity='other'},proof=>{proof.originalTitle='Other'},proof=>{proof.originalCreator='Other'},
+  proof=>{proof.bodyEvidence='short'},proof=>{proof.reason='short'},proof=>{proof.referenceDescription='Unreviewed new body'},
+  proof=>{proof.referenceSourceUrl='https://publisher.example/unread'},proof=>{delete proof.referenceEdition},proof=>{delete proof.discardedEdition},
+  ...['discardedEdition','referenceEdition'].flatMap(key=>[
+   proof=>{proof[key].id=99999},proof=>{proof[key].content_id='other'},proof=>{proof[key].title='Other title'},
+   proof=>{proof[key].creator='Other author'},proof=>{proof[key].isbn='9780140449136'},proof=>{proof[key].locale='en'},
+   proof=>{proof[key].description='Stale prose'},proof=>{proof[key].sources.description='https://publisher.example/stale'},
+   proof=>{proof[key].text_scope='full'},proof=>{proof[key].edition_kind='full'}])]
+ for(const mutate of mutations){
+  const {data,changes,contentId}=editorialReplacement();mutate(changes[0].reviewedSelectionExclusion.replacementIntroduction)
+  assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/Editorial introduction replacement/)
+ }
+ for(const reason of ['wrong_work','children_only','abridged']){
+  const {data,changes,contentId}=editorialReplacement();changes[0].reviewedSelectionExclusion.reason=reason
+  assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/Abridged introduction replacement/)
+ }
+ const {data,changes,contentId}=editorialReplacement();delete changes[0].reviewedSelectionExclusion.replacementIntroduction
+ assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/Existing introduction/)
+})
+
+test('editorial replacement rejects wrong language, invalid sources, excluded or changed reference and stale final anchors',()=>{
+ for(const alter of [reference=>{reference.locale='en'},reference=>{reference.edition_kind='abridged'},reference=>{reference.text_scope='volume 2 of 2'},
+  reference=>{reference.sources.primary='none'},reference=>{reference.description='OPEN'},reference=>{reference.sources.description='https://openlibrary.org/books/OL1M'},
+  reference=>{reference.sources.description='https://localhost/actual'},reference=>{reference.sources.description='https://publisher.example/book?api_key=secret'}]){
+  const {data,changes,contentId}=editorialReplacement();alter(data.figure_book_editions[1])
+  changes[0].reviewedSelectionExclusion.replacementIntroduction.referenceEdition=structuredClone(data.figure_book_editions[1])
+  assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/Editorial introduction replacement/)
+ }
+ for(const patch of [{title:'Other'},{creator:'Other'},{isbn:'9780140449136'},{edition_kind:'full'},{text_scope:'complete'},
+  {description:'Other body'},{sources:{description:'https://publisher.example/other'}}]){
+  const {data,changes,contentId}=editorialReplacement();Object.assign(changes[1].patch,patch)
+  assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/Editorial introduction replacement/)
+ }
+ for(const key of ['workTitle','workCreator','workIdentity','originalTitle','originalCreator']){
+  const {data,changes,contentId}=editorialReplacement(),metadata=structuredClone(data.contents[0].metadata)
+  metadata.figureBook[key]='Different original';changes.push({table:'contents',before:data.contents[0],patch:{metadata}})
+  assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/Editorial introduction replacement/)
+ }
+})
+
+test('editorial representative card requires explicit bound companion review and refuses product history or protected readback drift',async()=>{
+ for(const patch of [{title:'Other'},{creator:'Other'},{isbn:'9780140449136'},{description:'Other prose'}]){
+  const {data,changes,contentId}=editorialReplacement();Object.assign(changes[2].patch,patch)
+  assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/Editorial introduction replacement/)
+ }
+ for(const diff of [{method:'automatic'},{llmReviewed:false},{contentId:'other'},{referenceEditionId:99999},{sourceUrl:'https://publisher.example/unread'},{reason:'short'}]){
+  const {data,changes,contentId}=editorialReplacement();Object.assign(changes[2].reviewedIntroductionCorrection,diff)
+  assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/Editorial introduction replacement/)
+ }
+ for(const diff of [{isbn:'9780140449136'},{locale:'en'},{editionTitle:'Stale representative title'}]){
+  const {data,changes,contentId}=editorialReplacement();Object.assign(changes[2].reviewedIntroductionCorrection,diff)
+  assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/Introduction correction requires exact ISBN/)
+ }
+ {const {data,changes,contentId}=editorialReplacement();delete changes[2].reviewedIntroductionCorrection
+  assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/Editorial introduction replacement/)}
+ {const {data,changes,contentId}=editorialReplacement();data.figure_book_products=[{id:10,edition_id:15580,is_active:false}]
+  assert.throws(()=>planGuardedCatalogRepairs([contentId],data,changes),/product history/)}
+ const protectedTables=SNAPSHOT_TABLES.filter(table=>!['contents','content_locales','figure_book_contents','figure_book_characters','figure_book_editions'].includes(table))
+ assert.equal(protectedTables.length,13)
+ for(const table of [null,...protectedTables]){
+  const {data,changes,contentId}=editorialReplacement(),actual=planGuardedCatalogRepairs([contentId],data,changes).expected
+  if(table)actual[table].push({id:'unexpected',content_id:contentId,review:'Unexpected protected change'})
+  let captures=0
+  const run=()=>guardedCatalogRepairs(null,[contentId],changes,{capture:async()=>structuredClone(captures++?actual:data),execute:()=>({status:0,stdout:'MERGE_COMMITTED',stderr:''})})
+  if(table)await assert.rejects(run,/readback mismatch/);else await run()
+ }
+})
+
 test('local PostgreSQL executes same-work representative replacement atomically and rejects protected-row CAS drift',{
  skip:!process.env.PG_TEST_BIN&&'PG_TEST_BIN requires a local PostgreSQL bin directory',timeout:120000,
 },async t=>{
