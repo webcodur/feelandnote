@@ -51,6 +51,22 @@ test('canonical figure and records routes keep their existing locale routing', a
   }
 })
 
+test('retired myth figure slugs keep Korean and English search links alive with their query', async () => {
+  for (const [oldSlug, canonicalSlug] of [
+    ['electra', 'electra-of-mycenae'],
+    ['sarpedon', 'sarpedon-of-lycia'],
+  ]) {
+    for (const prefix of ['', '/en']) {
+      const response = await middleware(new NextRequest(
+        `https://feelandnote.com${prefix}/celeb/${oldSlug}?focus=book&tag=a&tag=b`,
+      ))
+      assert.equal(response.status, 308)
+      assert.equal(response.headers.get('location'),
+        `https://feelandnote.com${prefix}/celeb/${canonicalSlug}?focus=book&tag=a&tag=b`)
+    }
+  }
+})
+
 test('old myth shortcuts move permanently to each myth address and keep other query', async () => {
   const cases: Array<[string, string]> = [
     ['/explore/myth?myth=homer-odyssey', 'https://feelandnote.com/explore/myth/homer-odyssey'],

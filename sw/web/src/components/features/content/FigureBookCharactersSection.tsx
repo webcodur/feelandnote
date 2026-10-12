@@ -37,9 +37,9 @@ export default function FigureBookCharactersSection({
       characters: characters.filter((character) => character.relationType === "appearance"),
     },
     {
-      relationType: "related" as const,
-      label: t("fictionCharactersRelated"),
-      characters: characters.filter((character) => character.relationType === "related"),
+      relationType: "authored" as const,
+      label: t("fictionCharactersAuthored"),
+      characters: characters.filter((character) => character.relationType === "authored"),
     },
   ].filter((group) => group.characters.length > 0);
 

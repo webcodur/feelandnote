@@ -59,7 +59,7 @@
     "realityChipReal": "사실",
     "realityChipFiction": "가상",
     "libraryEmpty": "아직 공개된 감상 기록이 없습니다.",
-    "sourceWorks": "연관 작품",
+    "sourceWorks": "등장 작품",
     "sourceWorksIntro": "인물이 직간접적으로 등장하는 책",
     "groupAppeared": "등장",
     "groupRead": "감상",
@@ -89,7 +89,7 @@
     "sourceWorkReleaseDate": "출간일",
     "sourceRelation": {
       "appearance": "등장 작품",
-      "related": "연관 작품"
+      "authored": "창작 작품"
     },
     "analysis": "평가",
     "fictionAnalysis": "인물 해석",
@@ -296,7 +296,7 @@
     "virtueReasonEmpty": "이 덕목의 배경이 아직 없습니다.",
     "relatedLinksTitle": "관련 인물",
     "relatedLinksSimilar": "비슷한 인물",
-    "relatedProducts": "관련 도서",
+    "relatedProducts": "참고도서",
     "carouselMetricPrev": "이전 지표",
     "carouselMetricNext": "다음 지표",
     "carouselComparePrev": "이전 비교",
@@ -415,12 +415,18 @@
       "booksEmpty": "아직 등록된 관련 도서가 없습니다.",
       "timelineEmpty": "아직 등록된 생애 기록이 없습니다.",
       "relatedEmpty": "표시할 연결 인물이 없습니다.",
-      "analysis": "인물의 평가를 불러오고 있습니다."
+      "analysis": "인물의 평가를 불러오고 있습니다.",
+      "factions": "연결된 세력을 불러오고 있습니다"
     },
     "professionTrain": "직업 훈련",
     "professionTrainIntro": "기초 지식과 기술을 쌓는 교재·기술서입니다. 안내된 순서로 읽으며 책 속 설명과 예제를 따라가 보세요.",
     "professionReadingOrder": "학습 순서 {current} / {total}",
     "professionLearningPoint": "학습 포인트",
-    "professionExplorationPoint": "탐구 포인트"
+    "professionExplorationPoint": "탐구 포인트",
+    "relatedFactionsTitle": "세력도감",
+    "relatedFactionOpen": "{name} 세력도감 보기",
+    "relatedFactionsIntro": "이 인물이 등장하는 세력과 이야기",
+    "relatedFactionMorePeople": "외 {count}명",
+    "relatedFactionMoreGroups": "외 {count}개 그룹"
   }
 }

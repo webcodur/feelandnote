@@ -21,7 +21,7 @@ for (const booksFail of [false, true]) test(`profile and reading render independ
     rejectBooks = reject
   })
   const profile = { id: 'pearl', nickname: '펄 벅', profession: 'writer', celeb_tier: 'full',
-    celeb_reality: 'REAL', contentTypeCounts: { BOOK: 7 }, relations: [], reading: { guide: '인물 안내' } }
+    celeb_reality: 'REAL', contentTypeCounts: { BOOK: 7 }, relations: [], factions: [], reading: { guide: '인물 안내' } }
   const stub = () => null
   const mocks = new Map<string, object>([
     ['@/lib/celeb-professions', { getCelebProfessions: async () => [] }],
@@ -42,6 +42,7 @@ for (const booksFail of [false, true]) test(`profile and reading render independ
     ['@/lib/celeb/world', { resolveCelebWorld: () => 'america' }],
     ['@/lib/celeb/worldImages', { getWorldBannerImages: stub }],
     ['./CelebPageContent', { default: stub }], ['./RelatedFigureLinks', { default: stub }],
+    ['./RelatedFactionLinks', { default: stub }],
     ['@/lib/celeb/meta', { buildCelebTitle: () => '펄 벅' }],
     ['./celebPageJsonLd', { buildCelebPageJsonLd: stub }],
     ['@/lib/jsonLd', { serializeJsonLd: () => '{}' }],

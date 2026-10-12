@@ -6,14 +6,14 @@
  *
  * 규칙
  *   - 한 개념에 이름 하나. 모든 이름은 부모가 있다(인물 도서 → 작품·관계 → …).
- *   - 관계 유형은 등장·연관·창작 셋이다(DB relation_type = appearance | related | authored).
- *   - 화면 구획 이름은 「관계명 + 작품」으로만 만든다. 등장 작품 · 연관 작품 · 창작 작품.
+ *   - 관계 유형은 등장·창작 둘이다(DB relation_type = appearance | authored).
+ *   - 화면 구획 이름은 「관계명 + 작품」으로만 만든다. 등장 작품 · 창작 작품.
  *   - 은유·수단 이름을 쓰지 않는다. 데이터에 무슨 일이 일어나는지로 이름을 짓는다.
  */
 
 export type FigureBookTermLocale = 'ko' | 'en'
 export type FigureBookTerm = Readonly<Record<FigureBookTermLocale, string>>
-export type FigureBookRelationType = 'appearance' | 'related' | 'authored'
+export type FigureBookRelationType = 'appearance' | 'authored'
 
 export const FIGURE_BOOK_TERMS = {
   /** 영역 전체 — 인물에 묶인 작품·판본·상품 */
@@ -25,7 +25,7 @@ export const FIGURE_BOOK_TERMS = {
   workIdentity: { ko: '작품 정체성', en: 'Work identity' },
   /** ko·en 언어별 표시 정보(제목·저자·표지·소개). 두 카드는 같은 저작이어야 한다 */
   localeCard: { ko: '언어 카드', en: 'Locale card' },
-  /** 언어·역자·출판사·ISBN이 다른 실제 책 한 종 */
+  /** 작품의 원문 또는 번역. 같은 원문·같은 번역은 판매 상품이 달라도 판본 하나다. */
   edition: { ko: '판본', en: 'Edition' },
   /** 판본의 판매 링크 */
   product: { ko: '상품', en: 'Product' },
@@ -34,7 +34,6 @@ export const FIGURE_BOOK_TERMS = {
   relation: { ko: '관계', en: 'Relation' },
   relationType: {
     appearance: { ko: '등장', en: 'Appearance' },
-    related: { ko: '연관', en: 'Related' },
     /** 인물이 쓴 작품. DB 값 authored로 확정한다 — 저자 이름 비교는 표기 변형마다 어긋났다 */
     authored: { ko: '창작', en: 'Creation' },
   },
@@ -43,14 +42,17 @@ export const FIGURE_BOOK_TERMS = {
   /** 화면 구획 이름. 관계명 + 작품 */
   section: {
     appearance: { ko: '등장 작품', en: 'Appearing Works' },
-    related: { ko: '연관 작품', en: 'Related Works' },
     authored: { ko: '창작 작품', en: 'Created Works' },
     /** 인물 화면의 통합 도서 구획. 인물과 책의 관계로 「등장」「감상」「집필」「추천」 모드 탭을 담는다 */
     relatedAndRecommended: { ko: '참고도서', en: 'Reference Books' },
   },
 } as const
 
-export const FIGURE_BOOK_RELATION_TYPES: readonly FigureBookRelationType[] = ['appearance', 'authored', 'related']
+export const FIGURE_BOOK_RELATION_TYPES: readonly FigureBookRelationType[] = ['appearance', 'authored']
+
+export function isFigureBookRelationType(value: unknown): value is FigureBookRelationType {
+  return typeof value === 'string' && FIGURE_BOOK_RELATION_TYPES.includes(value as FigureBookRelationType)
+}
 
 export function figureBookRelationLabel(type: FigureBookRelationType, locale: FigureBookTermLocale = 'ko'): string {
   return FIGURE_BOOK_TERMS.relationType[type][locale]

@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl'
 import { PendingBlock } from '@/components/ui/pending'
 import styles from './CelebSectionLoading.module.css'
 
-export type CelebLoadingKind = 'profile' | 'library' | 'books' | 'related' | 'timeline' | 'analysis'
+export type CelebLoadingKind = 'profile' | 'library' | 'books' | 'related' | 'factions' | 'timeline' | 'analysis'
 
 export default function CelebSectionPending({ kind, compact = false }: { kind: CelebLoadingKind; compact?: boolean }) {
   const t = useTranslations('celebPage.loading')

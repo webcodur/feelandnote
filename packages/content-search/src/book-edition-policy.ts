@@ -5,6 +5,8 @@ export const SERVICE_BOOK_EDITION_KINDS = ['full', 'retelling', 'adaptation', 's
 export const BOOK_EDITION_SELECTION_REASONS = ['children_picture', 'children_only', 'graded_reader', 'abridged', 'non_reading_product', 'wrong_locale', 'wrong_work', 'editorial_exclusion'] as const
 export const BOOK_EDITION_WORK_BOUND_SELECTION_REASONS = ['wrong_work', 'editorial_exclusion'] as const
 export const BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH = 20
+/** 작품 자체의 독자군·본문 성격 판정이다. 특정 번역·언어의 오류를 작품 전체로 확장하지 않는다. */
+export const BOOK_WORK_SELECTION_REASONS = ['children_picture', 'children_only', 'graded_reader', 'non_reading_product', 'editorial_exclusion'] as const
 export type BookEditionSelectionReason = typeof BOOK_EDITION_SELECTION_REASONS[number]
 export type BookEditionSelectionEvidence = {
   method: 'independent_selection_review'; isbn: string; locale: string; edition_title: string
@@ -14,6 +16,11 @@ export type BookEditionPolicyInput = {
   contentId?: string; content_id?: string
   locale?: string; title?: string | null; isbn?: string | null; publisher?: string | null; releaseDate?: string | null; release_date?: string | null; editionKind?: string | null; textScope?: string | null
   workTitles?: readonly string[]; reviewedSeries?: boolean; translator?: string | null; translators?: unknown; sources?: unknown; providerDescription?: string | null
+}
+export type BookWorkPolicyInput = { contentId?: string; content_id?: string; metadata?: unknown }
+export type BookWorkSelectionEvidence = {
+  method: 'independent_work_selection_review'; content_id: string; work_title: string; work_creator: string
+  work_identity?: string | null; reason: typeof BOOK_WORK_SELECTION_REASONS[number]; source_url: string; explanation: string
 }
 export const BOOK_EDITION_EXCLUDED_TITLE = /축약(?:본|판)|축역|요약본|원서\s*발췌|[（(]발췌[）)]|천줄읽기|진형준\s*교수의\s*세계문학컬렉션|\babridg(?:ed|ement|ment)\b|^(?:인스타리드\s|Instaread\b|Outlines and Highlights for\b)/iu
 export const BOOK_EDITION_ENGLISH_SOURCE_TITLE = /(?:[（(\[|]\s*(?:영문판|영문원서|영어\s*원서)\s*(?:[）)\]|]|[-–])|(?:^|[\s/|\-–])(?:영문판|영문원서|영어\s*원서)\s*$)/u
@@ -37,6 +44,30 @@ export function bookWorkVolumeNumber(title: string, workTitles: readonly string[
 }
 export const BOOK_TRANSLATOR_IGNORED_CHARACTERS = /[\s.’']/gu
 const object = (value: unknown): Record<string, unknown> => value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {}
+/** ISBN 미확인 작품도 LLM이 원문으로 확정한 선정만 읽는다. 현재 원작 앵커가 바뀌면 옛 판정은 적용하지 않는다. */
+export function reviewedBookWorkSelectionReason(input: BookWorkPolicyInput): typeof BOOK_WORK_SELECTION_REASONS[number] | null {
+  const id = input.contentId ?? input.content_id
+  const figure = object(object(input.metadata).figureBook), evidence = figure.workSelectionEvidence
+  if (typeof id !== 'string' || !id || typeof figure.workTitle !== 'string' || !figure.workTitle.trim()
+    || typeof figure.workCreator !== 'string' || !figure.workCreator.trim() || !Array.isArray(evidence)) return null
+  for (const value of evidence) {
+    const proof = object(value)
+    if (proof.method !== 'independent_work_selection_review' || proof.content_id !== id
+      || proof.work_title !== figure.workTitle || proof.work_creator !== figure.workCreator
+      || (typeof figure.workIdentity === 'string' && figure.workIdentity ? proof.work_identity !== figure.workIdentity : proof.work_identity != null)
+      || !BOOK_WORK_SELECTION_REASONS.some(reason => reason === proof.reason)
+      || typeof proof.explanation !== 'string' || proof.explanation.trim().length < BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
+      || typeof proof.source_url !== 'string') continue
+    try {
+      const source = new URL(proof.source_url), host = source.hostname.toLowerCase().replace(/\.$/u, '')
+      if (source.protocol === 'https:' && !source.username && !source.password
+        && !['localhost', '127.0.0.1', '::1', '[::1]'].includes(host) && !/(?:^|\.)openlibrary\.org$/iu.test(host)
+        && ![...source.searchParams.keys()].some(key => /api.?key|token|secret|password|authorization/iu.test(key)))
+        return proof.reason as typeof BOOK_WORK_SELECTION_REASONS[number]
+    } catch { /* 조회 실패·잘못된 근거는 선정 판정으로 쓰지 않는다. */ }
+  }
+  return null
+}
 /** 선정자의 실제 ISBN별 판정을 읽는다. 어린이·삽화 제목만으로 선정 제외를 추정하지 않는다. */
 export function reviewedBookEditionSelectionReason(input: BookEditionPolicyInput): BookEditionSelectionReason | null {
   if (typeof input.isbn !== 'string' || typeof input.locale !== 'string' || !input.locale

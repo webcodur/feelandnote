@@ -82,7 +82,7 @@ export default function HomeFeaturedReview({ item }: { item: HomeFeaturedReviewD
       </div>
       <div className="overflow-hidden rounded-xl border border-white/20 bg-bg-card">
         <BookShelfReviewDetail record={book.readingRecord!} celebId={item.figure.id} ownerNickname={item.figure.name}
-          contentIds={contentIds} selectedIndex={0} expanded reviewHeader={figure} recordIsComplete showMedia={false} />
+          contentIds={contentIds} selectedIndex={0} expanded reviewHeader={figure} recordIsComplete showMedia={false} introductionMode="modal" />
       </div>
     </article>
   );

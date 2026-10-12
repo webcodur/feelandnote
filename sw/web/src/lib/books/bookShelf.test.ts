@@ -107,6 +107,18 @@ test('다른 ISBN 정규 판본을 선정 제외 근거가 붙은 언어 카드 
   assert.equal(book?.editionId, normal.id)
   assert.equal(book?.isbn, normal.isbn)
   assert.equal(book?.title, normal.title)
+  assert.equal(book?.sources, undefined, '다른 ISBN의 선정 근거를 정상 판본으로 옮기지 않는다')
+})
+
+test('선택한 정상 판본에 구매·ISBN이 없으면 제외 locale의 상품과 서지를 빌리지 않는다', () => {
+  const excluded = { ...row('ko', { ...selectedSources, edition_selection_evidence: [{ ...selectedSources.edition_selection_evidence[0], locale: 'ko' }] }),
+    title: selectedTitle, isbn: '9781524773458', affiliate_url: [{ platform: 'coupang', url: 'https://link.coupang.com/a/excluded' }], thumbnail_url: 'https://example.com/excluded-cover' }
+  const normal = { ...edition, locale: 'ko' as const, title: '확인된 다른 판본', isbn: null, thumbnailUrl: null }
+  const book = resolveBookShelfBook(content([excluded]), [normal], 'ko')
+  assert.equal(book?.editionId, normal.id)
+  assert.equal(book?.isbn, undefined)
+  assert.equal(book?.thumbnail, undefined)
+  assert.equal(book?.url, '')
 })
 test('ISBN·제목이 다른 근거와 불완전한 출처는 정상 언어 카드 노출을 바꾸지 않는다', () => {
   const proof = selectedSources.edition_selection_evidence[0]
@@ -117,4 +129,40 @@ test('ISBN·제목이 다른 근거와 불완전한 출처는 정상 언어 카�
   for (const title of ['An Illustrated History of Art', 'Picture Books: An Adult Literary Study']) {
     assert.equal(resolveBookShelfBook(content([{ ...row('en'), title, isbn: '9781524773458' }]), [], 'en')?.title, title)
   }
+})
+
+const workSelection = { figureBook: { workTitle: '어린이를 위한 창작 그림책', workCreator: '확인된 작가', workIdentity: 'original/picture-book',
+  workSelectionEvidence: [{ method: 'independent_work_selection_review', content_id: 'work', work_title: '어린이를 위한 창작 그림책',
+    work_creator: '확인된 작가', work_identity: 'original/picture-book', reason: 'children_picture',
+    source_url: 'https://publisher.example/original-picture-book', explanation: '실제 출판사 소개와 본문을 대조하여 유아 전용 창작 그림책임을 확인했다.' }] } }
+
+test('ISBN 없는 그림책도 확정한 작품 선정 근거로 제외하며 기존 기록은 보존한다', () => {
+  const saved = { ...content([row('ko'), row('en')]), metadata: workSelection,
+    celeb_contents: [{ review: '기존 감상' }], member_contents: [{ id: 'member-record' }], curated_list_items: [{ note: '기관 선정' }] }
+  const before = structuredClone(saved)
+  for (const locale of ['ko', 'en']) {
+    assert.equal(resolveBookShelfBook(saved, [], locale), null)
+    assert.equal(resolveBookShelfBook(saved, [{ ...edition, isbn: null }], locale), null)
+  }
+  assert.deepEqual(saved, before)
+})
+
+test('작품 정체성이 바뀌거나 불완전한 작품 근거는 정상 책을 제외하지 않는다', () => {
+  const figure = workSelection.figureBook
+  for (const changed of [{ workTitle: '다른 실제 작품' }, { workCreator: '다른 작가' }, { workIdentity: 'original/other' }]) {
+    assert.ok(resolveBookShelfBook({ ...content([row('ko')]), metadata: { figureBook: { ...figure, ...changed } } }, [], 'ko'))
+  }
+  const proof = figure.workSelectionEvidence[0]
+  for (const changed of [{ content_id: 'other-work' }, { source_url: 'https://openlibrary.org/works/OL1W' }, { explanation: '' }]) {
+    assert.ok(resolveBookShelfBook({ ...content([row('ko')]), metadata: { figureBook: { ...figure, workSelectionEvidence: [{ ...proof, ...changed }] } } }, [], 'ko'))
+  }
+  assert.ok(resolveBookShelfBook({ ...content([row('ko')]), id: 'another-work', metadata: workSelection }, [], 'ko'))
+})
+
+test('locale에만 남은 검증된 ISBN 제외 근거는 동일 상품 판본으로 우회하지 않는다', () => {
+  const excluded = { ...row('en', selectedSources), title: selectedTitle, isbn: '9781524773458' }
+  const sameProduct = { ...edition, locale: 'en' as const, title: selectedTitle, isbn: excluded.isbn }
+  assert.equal(resolveBookShelfBook(content([excluded]), [sameProduct], 'en'), null)
+  const stale = { ...excluded, title: '현재 제목이 바뀐 정상 판본' }
+  assert.equal(resolveBookShelfBook(content([stale]), [sameProduct], 'en')?.editionId, sameProduct.id)
 })

@@ -154,9 +154,8 @@
     "contentInfo": "작품 정보",
     "fictionCharacters": "이 작품의 인물",
     "fictionCharactersCount": "{count}명",
-    "fictionCharactersIntro": "이 도서에 등장하거나 직접 연관된 인물입니다. 이름을 누르면 인물 기록으로 이동하고, 이미지 아이콘을 누르면 얼굴을 크게 볼 수 있습니다.",
+    "fictionCharactersIntro": "이 도서에 등장하거나 이 작품을 창작한 인물입니다. 이름을 누르면 인물 기록으로 이동하고, 이미지 아이콘을 누르면 얼굴을 크게 볼 수 있습니다.",
     "fictionCharactersAppearance": "등장 인물",
-    "fictionCharactersRelated": "연관 인물",
     "fictionCharactersMore": "인물 {count}명 더 보기",
     "fictionCharacterImage": "{name} 이미지 크게 보기",
     "imageViewer": {
@@ -248,7 +247,8 @@
     "invalidEdition": "판본 주소가 올바르지 않습니다. 아래에서 작품 정보를 열거나 위 목록에서 판본을 골라 주세요.",
     "unavailableEdition": "선택한 판본을 이 작품에서 찾을 수 없습니다. 다른 판본을 골라 주세요.",
     "openWorkInfo": "기본 작품 정보 열기",
-    "editionCompleteText": "전체 본문"
+    "editionCompleteText": "전체 본문",
+    "fictionCharactersAuthored": "창작 인물"
   },
   "review": {
     "positive": {

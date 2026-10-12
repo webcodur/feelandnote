@@ -12,12 +12,12 @@ import type { BookShelfBook } from '@/components/shared/BookShelf/types'
 
 /** 책을 선택할 때 개인·신화·팩션이 같은 판본·소개 자료를 읽는다. */
 export async function getBookShelfBook(contentId: string, locale: string): Promise<BookShelfBook | null> {
-  return cachedDetail(CACHE_TAGS.CONTENTS, contentId, ['book-shelf-detail-v4-edition-policy', contentId, locale], async () => {
+  return cachedDetail(CACHE_TAGS.CONTENTS, contentId, ['book-shelf-detail-v5-work-selection', contentId, locale], async () => {
     const db = createStaticClient()
     const [result, editionMap] = await Promise.all([
-      db.from('contents').select(`id,type,release_date,content_locales(${CL_SELECT})`)
+      db.from('contents').select(`id,type,metadata,release_date,content_locales(${CL_SELECT})`)
         .eq('id', contentId).maybeSingle()
-        .overrideTypes<{ id: string; type: string; release_date: string | null; content_locales: ContentLocaleRow[] | null }, { merge: false }>(),
+        .overrideTypes<{ id: string; type: string; metadata: Record<string, unknown> | null; release_date: string | null; content_locales: ContentLocaleRow[] | null }, { merge: false }>(),
       loadFigureBookEditions(db, [contentId], locale),
     ])
     throwOnQueryError('getBookShelfBook', result.error)
@@ -28,12 +28,19 @@ export async function getBookShelfBook(contentId: string, locale: string): Promi
     if (!available) return null
     const flat = flattenLocales(content.content_locales, locale, 'BOOK')
     const exactLocale = content.content_locales?.find((row) => row.locale === locale)
+    const selected = editions.find(edition => edition.id === available.editionId)
     return {
       id: content.id, title: available.title, creator: available.creator ?? null,
       thumbnailUrl: available.thumbnail ?? null, titleBadge: null,
-      editions, preferredEditionId: available.editionId, isbn: available.isbn, publisher: exactLocale?.publisher,
-      releaseDate: content.release_date, affiliateLinks: toAffiliateLinks(flat.affiliate_url),
-      ...selectBookIntroduction(locale, null, exactLocale),
+      editions, preferredEditionId: available.editionId, isbn: available.isbn, publisher: available.publisher,
+      releaseDate: selected ? selected.releaseDate : content.release_date,
+      affiliateLinks: selected ? [
+        ...(selected.platform && selected.purchaseUrl ? [{ platform: selected.platform, url: selected.purchaseUrl }] : []),
+        ...(selected.affiliateLinks ?? []),
+      ] : toAffiliateLinks(flat.affiliate_url),
+      metadata: content.metadata, sources: available.sources,
+      ...(selected ? { description: selected.description, bookIntroduction: selected.bookIntroduction,
+        introductionAttribution: selected.introductionAttribution } : selectBookIntroduction(locale, null, exactLocale)),
       detailsLoaded: true,
     }
   }, { extraTags: [CACHE_TAGS.FIGURE_BOOKS] })

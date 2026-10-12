@@ -18,7 +18,7 @@ export const CELEB_SERVICE_CHAPTERS = {
 
 /* 리뷰(library)는 기록만 남긴 구획으로 가상독백 다음에 서고, 참고도서(affiliateBooks)는
    인물과 책의 관계별 모드(등장·감상·집필·추천)를 그 다음 한 구획에 담는다.
-   꼬리는 관련 인물→방명록 순이고 방명록이 맨 끝이다.
+   꼬리는 관련 인물→연결된 세력→방명록 순이고 방명록이 맨 끝이다.
    본문 구획 순서(CelebRecordSections)와 반드시 같게 둔다 */
 const STANDARD_SECTION_ORDER = [
   "introduction",
@@ -29,6 +29,7 @@ const STANDARD_SECTION_ORDER = [
   "analysis",
   "connections",
   "relatedFigures",
+  "relatedFactions",
   "guestbook",
 ] as const;
 
@@ -39,6 +40,7 @@ const FICTION_SECTION_ORDER = [
   "connections",
   "affiliateBooks",
   "relatedFigures",
+  "relatedFactions",
   "guestbook",
 ] as const;
 

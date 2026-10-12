@@ -13,6 +13,28 @@ const content: ContentDetailData['content'] = { id: 'work-id', externalId: 'old-
   metadata: { isbn: '9788991290808', publisher: 'Default publisher', link: 'https://example.test/default-book', original: 'keep' },
   purchaseEditionId: 1, bookEditions: [edition], affiliateLinks: [{ platform: 'coupang', url: 'https://example.test/default-product' }] }
 
+test('정상 다른 ISBN 판본 선택은 기존 locale 차단을 풀고 자기 출처만 전달한다', () => {
+  const previous = { ...content, bookPurchaseBlocked: true, sources: { edition_selection_evidence: ['old-proof'] } }
+  const normal = { ...edition, title: 'Complete original', editionKind: 'full', textScope: 'complete', sources: { primary: 'openlibrary' } }
+  const selected = applyContentBookEdition(previous, normal)
+  assert.equal(selected.bookPurchaseBlocked, false)
+  assert.deepEqual(selected.sources, normal.sources)
+  assert.equal(previous.bookPurchaseBlocked, true)
+})
+
+test('작품 자체의 확정 선정 제외는 개별 판본을 골라도 구매만 차단한다', () => {
+  const metadata = { figureBook: { workTitle: '아이를 위한 원작', workCreator: '작가', workSelectionEvidence: [{
+    method: 'independent_work_selection_review', content_id: content.id, work_title: '아이를 위한 원작', work_creator: '작가',
+    reason: 'children_only', source_url: 'https://publisher.example/original', explanation: '출판사의 실제 독자 연령과 본문 구성으로 초등학생 전용 원작임을 확인했다.' }] } }
+  const previous = { ...content, metadata, bookPurchaseBlocked: false }
+  const before = structuredClone(previous)
+  const selected = applyContentBookEdition(previous, edition)
+  assert.equal(selected.bookPurchaseBlocked, true)
+  assert.equal(selected.id, content.id)
+  assert.equal(selected.title, edition.title)
+  assert.deepEqual(previous, before)
+})
+
 test('card edition language survives navigation while explicit edition IDs and other destinations stay intact', () => {
   assert.equal(withContentBookLanguage('/content/work-id?category=book&bookLanguage=ko#reviews', 'en'), '/content/work-id?category=book&bookLanguage=en#reviews')
   assert.equal(withContentBookLanguage('/en/content/work-id?category=book', 'ko'), '/en/content/work-id?category=book&bookLanguage=ko')

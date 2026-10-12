@@ -15,6 +15,7 @@ import { buildCelebTitle } from '@/lib/celeb/meta'
 import { createCelebMetaInput } from './celebPageMetadata'
 import CelebPageContent from './CelebPageContent'
 import RelatedFigureLinks from './RelatedFigureLinks'
+import RelatedFactionLinks from './RelatedFactionLinks'
 import CelebExternalLinksServer from './CelebExternalLinksServer'
 import CelebSectionPending from './CelebSectionPending'
 import { CelebLibraryServer, CelebBooksServer, CelebJsonLdServer, type SectionData } from './CelebDataSections'
@@ -64,9 +65,10 @@ export default async function CelebPageBody({ params }: PageProps) {
   const greeting = locale === 'en'
     ? greetingFromLines(dialogueData?.lines_en) ?? greetingFromLines(dialogueData?.lines)
     : greetingFromLines(dialogueData?.lines)
+  const factionMemberships = profile.factions.filter(faction => !faction.isMyth && faction.isPublished && faction.slug)
   const sideAvailability = { relations: profile.relations.length > 0,
     influence: sidePresence.influence, spectrum: sidePresence.spectrum,
-    relatedFigures: profile.relations.length > 0, affiliateBooks: true }
+    relatedFigures: profile.relations.length > 0, relatedFactions: factionMemberships.length > 0, affiliateBooks: true }
   const pageTitle = buildCelebTitle(createCelebMetaInput(profile), locale)
   const clientProfile = { ...profile, explanation: null, dialogue: null }
   const jsonLdLinks = initial
@@ -93,6 +95,9 @@ export default async function CelebPageBody({ params }: PageProps) {
       relatedFiguresSlot={sideAvailability.relatedFigures && <Lane fallback={<CelebSectionPending kind="related" compact />}>
         <RelatedFigureLinks celebId={userId} profession={profile.profession} nationality={profile.nationality}
           birthDate={profile.birth_date} celebReality={profile.celeb_reality} relations={profile.relations} waitFor={booksPromise} />
+      </Lane>}
+      relatedFactionsSlot={sideAvailability.relatedFactions && <Lane fallback={<CelebSectionPending kind="factions" compact />}>
+        <RelatedFactionLinks memberships={factionMemberships} personId={userId} waitFor={booksPromise} />
       </Lane>}
     />
   </>

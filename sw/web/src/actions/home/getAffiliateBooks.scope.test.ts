@@ -9,7 +9,7 @@ const compiled = ts.transpileModule(readFileSync(new URL('./getAffiliateBooks.ts
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
 }).outputText
 
-function load(selectedSources?: unknown) {
+function load(selectedSources?: unknown, metadata?: unknown) {
   const queries: { table: string; ids?: string[] }[] = []
   const tables: Record<string, Record<string, unknown>[]> = {
     celebs: ['peer', 'self'].map(id => ({ id, profession: 'inventor', publication_status: 'active', birth_date: '1960-01-01' })),
@@ -26,6 +26,7 @@ function load(selectedSources?: unknown) {
     })),
   }
   if(selectedSources) tables.content_locales.find(row=>row.content_id==='book-b')!.sources=selectedSources
+  if (metadata) (tables.content_locales.find(row => row.content_id === 'book-b')!.contents as Record<string, unknown>).metadata = metadata
   let failed = false
   const db = { from(table: string) {
     const entry: { table: string; ids?: string[] } = { table }
@@ -93,4 +94,15 @@ test('profession recommendations honor exact independent selections outside the 
   for(const changed of [{isbn:'9780394800165'},{edition_title:'Another book'},{explanation:''}]) {
     assert.equal((await load({edition_selection_evidence:[{...proof,...changed}]}).get('inventor','ko',['self'],new Set(),24)).length,2)
   }
+})
+
+test('직군 추천은 ISBN 유무와 무관한 작품 선정 제외를 반영하고 오래된 원작 근거는 무시한다', async () => {
+  const figureBook = { workTitle: '어린이용 창작 동화', workCreator: '정확한 작가', workSelectionEvidence: [{
+    method: 'independent_work_selection_review', content_id: 'book-b', work_title: '어린이용 창작 동화', work_creator: '정확한 작가',
+    reason: 'children_only', source_url: 'https://publisher.example/work', explanation: '실제 출판사가 밝힌 독자 연령과 본문을 읽고 초등학생 전용 창작동화임을 확정했다.' }] }
+  const metadata = { figureBook }, before = structuredClone(metadata)
+  assert.deepEqual((await load(undefined, metadata).get('inventor', 'ko', ['self'], new Set(), 24)).map(book => book.contentId), ['book-a'])
+  assert.deepEqual(metadata, before)
+  assert.equal((await load(undefined, { figureBook: { ...figureBook, workTitle: '새로 확인한 정상 원작' } })
+    .get('inventor', 'ko', ['self'], new Set(), 24)).length, 2)
 })

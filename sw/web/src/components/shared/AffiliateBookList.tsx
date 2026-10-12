@@ -117,6 +117,8 @@ export default function AffiliateBookList({ books, heading, hideHeading = false,
           const purchaseNode = <ContentPurchaseAction type="BOOK" placement="affiliate-books"
             contentId={book.contentId} editionId={book.editionId} bookLocale={platform === 'amazon' ? 'en' : 'ko'}
             isbn={book.isbn} title={book.title} creator={book.creator} thumbnail={book.thumbnail}
+            metadata={book.metadata} sources={book.sources} editionKind={book.editionKind} textScope={book.textScope}
+            publisher={book.publisher} releaseDate={book.releaseDate}
             yes24Href={platform === 'yes24' ? book.purchaseHref : undefined}
             links={book.url ? [{ platform: platform === 'amazon' ? 'amazon' : 'coupang', url: book.url }] : []} />
 

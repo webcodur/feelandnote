@@ -7,6 +7,7 @@
 import {
   BookOpen,
   BookOpenText,
+  Flag,
   ChartNoAxesCombined,
   ChartSpline,
   MessageSquare,
@@ -32,5 +33,6 @@ export const CELEB_SERVICE_ICONS = {
   spectrum: ChartSpline,
   guestbook: PenLine,
   relatedFigures: Users,
+  relatedFactions: Flag,
   affiliateBooks: BookOpenText,
 } as const;

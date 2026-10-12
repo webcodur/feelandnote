@@ -21,12 +21,13 @@ function pick(root: Record<string, unknown>, key: string): unknown {
 for (const locale of ['ko', 'en'] as const) {
   test(`celeb.json(${locale})의 인물 도서 구획 이름은 공유 상수와 같다`, () => {
     const root = messages(locale)
-    // 인물 화면은 등장·연관을 한 구획으로 보여 준다(등장 단정을 빼기로 함). 구획 이름은 연관 작품이다.
-    assert.equal(pick(root, 'sourceWorks'), FIGURE_BOOK_TERMS.section.related[locale])
+    // 등장·창작 구획과 관계명은 공유 상수에서 정한다.
+    assert.equal(pick(root, 'sourceWorks'), FIGURE_BOOK_TERMS.section.appearance[locale])
     assert.equal(pick(root, 'relatedProducts'), FIGURE_BOOK_TERMS.section.relatedAndRecommended[locale])
     const relation = pick(root, 'sourceRelation') as Record<string, string>
     assert.equal(relation.appearance, FIGURE_BOOK_TERMS.section.appearance[locale])
-    assert.equal(relation.related, FIGURE_BOOK_TERMS.section.related[locale])
+    assert.equal(relation.authored, FIGURE_BOOK_TERMS.section.authored[locale])
+    assert.equal('related' in relation, false)
     assert.equal(pick(root, 'tabCreate'), FIGURE_BOOK_TERMS.relationType.authored[locale])
   })
 }

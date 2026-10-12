@@ -43,6 +43,7 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
     ?? { id: undefined, title: source.title, creator: source.creator, thumbnailUrl: source.thumbnailUrl,
       isbn: source.isbn, publisher: source.publisher, releaseDate: source.releaseDate,
       description: source.description, bookIntroduction: source.bookIntroduction,
+      sources: source.sources, editionKind: null, textScope: null,
       introductionAttribution: source.introductionAttribution, platform: null, purchaseUrl: null,
       affiliateLinks: source.affiliateLinks, locale: undefined };
   const introduction = useBookIntroduction(edition.bookIntroduction, edition.locale ?? locale, edition.description, lazyIntroduction);
@@ -77,6 +78,8 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
         <ContentPurchaseAction type="BOOK" placement="bookshelf-edition" bookLocale={edition.locale} contentId={source.id} editionId={edition.id} isbn={edition.isbn ?? undefined}
           title={edition.title || source.title} creator={edition.creator || source.creator}
           thumbnail={edition.thumbnailUrl} links={purchaseLinks}
+          metadata={source.metadata} sources={edition.sources} bookPurchaseBlocked={edition.id === undefined ? source.bookPurchaseBlocked : undefined}
+          editionKind={edition.editionKind} textScope={edition.textScope} publisher={edition.publisher} releaseDate={edition.releaseDate}
           className="mt-1 w-full self-start sm:mt-0" />
       </div>
       <div className={`min-w-0 sm:col-start-2 sm:row-start-1 sm:flex sm:flex-col ${introFitsInline ? "" : "sm:contain-size"}`} aria-busy={busy}>

@@ -52,9 +52,10 @@ interface ContentIntroProps {
   inlineLabel?: boolean;
   expanded?: boolean;
   textLayout?: "inline" | "prose";
+  mode?: "inline" | "modal";
 }
 
-export default function ContentIntro({ brief, category, isLoading, inlineLabel = false, expanded = false, textLayout }: ContentIntroProps) {
+export default function ContentIntro({ brief, category, isLoading, inlineLabel = false, expanded = false, textLayout, mode = "inline" }: ContentIntroProps) {
   const t = useTranslations("archiveSearch");
   const locale = useLocale();
   const layout = textLayout ?? (isDeveloperMode() ? "prose" : "inline");
@@ -95,6 +96,32 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
   const openModal = () => setIsModalOpen(true);
   // 책은 보존된 소개 출처로, 음악은 지금 고른 바깥 소개로 나간다
   const modalSourceUrl = brief?.introductionAttribution?.url ?? active?.url ?? null;
+  const introductionModal = isModalOpen && fullText && (
+    <ContentTextModal
+      isOpen
+      onClose={() => setIsModalOpen(false)}
+      title={headingText}
+      text={fullText}
+      source={modalSourceUrl ? { href: modalSourceUrl, label: t("expandIntroSource") } : undefined}
+    />
+  );
+
+  if (mode === "modal") return (
+    <div className="flex justify-center" aria-busy={isLoading || undefined}>
+      <button
+        type="button"
+        onClick={openModal}
+        disabled={isLoading || !fullText}
+        aria-haspopup="dialog"
+        aria-expanded={isModalOpen}
+        title={!isLoading && !fullText ? t("expandNoIntro") : undefined}
+        className="inline-flex min-h-11 items-center justify-center rounded-control px-3 text-sm font-semibold text-text-secondary hover:bg-accent/10 hover:text-accent active:bg-accent/15 disabled:cursor-default disabled:text-text-tertiary disabled:hover:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      >
+        [{t("expandContentIntro")}]
+      </button>
+      {introductionModal}
+    </div>
+  );
 
   return (
     <section aria-label={inlineLabel ? t("expandContentIntro") : undefined} aria-labelledby={!inlineLabel ? headingId : undefined} className="sm:flex sm:h-full sm:flex-col">
@@ -199,19 +226,7 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
         <p className="text-sm italic text-text-tertiary">{t("expandNoIntro")}</p>
       )}
 
-      {isModalOpen && fullText ? (
-        <ContentTextModal
-          isOpen
-          onClose={() => setIsModalOpen(false)}
-          title={headingText}
-          text={fullText}
-          source={
-            modalSourceUrl
-              ? { href: modalSourceUrl, label: t("expandIntroSource") }
-              : undefined
-          }
-        />
-      ) : null}
+      {introductionModal}
     </section>
   );
 }

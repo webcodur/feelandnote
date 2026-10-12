@@ -35,6 +35,7 @@ interface CelebRecordSectionsProps {
   librarySlot: ReactNode;
   booksSlot: ReactNode;
   relatedFiguresSlot?: ReactNode;
+  relatedFactionsSlot?: ReactNode;
 }
 
 export default function CelebRecordSections({
@@ -46,6 +47,7 @@ export default function CelebRecordSections({
   librarySlot,
   booksSlot,
   relatedFiguresSlot,
+  relatedFactionsSlot,
 }: CelebRecordSectionsProps) {
 
   // 섹션 배치 순서(celebSectionChapters.ts)와 맞춰 FICTION만 이야기 우선 배치를 쓴다.
@@ -132,6 +134,7 @@ export default function CelebRecordSections({
         ))}
         {!isFiction && connectionsSection}
         {relatedFiguresSlot && renderSection("relatedFigures", relatedFiguresSlot)}
+        {relatedFactionsSlot && renderSection("relatedFactions", relatedFactionsSlot)}
         {renderSection("guestbook", (
           <GuestbookDeferred profileId={userId} isFiction={isFiction} />
         ))}

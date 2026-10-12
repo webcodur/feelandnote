@@ -154,9 +154,8 @@
     "contentInfo": "Work information",
     "fictionCharacters": "Figures in This Work",
     "fictionCharactersCount": "{count}",
-    "fictionCharactersIntro": "These figures either appear in this book or are directly related to it. Select a name to open the figure archive, or use the image icon to enlarge the image.",
+    "fictionCharactersIntro": "These figures appear in this book or created the work. Select a name to open the figure archive, or use the image icon to enlarge the image.",
     "fictionCharactersAppearance": "Appearing Figures",
-    "fictionCharactersRelated": "Related Figures",
     "fictionCharactersMore": "{count, plural, one {Show # more figure} other {Show # more figures}}",
     "fictionCharacterImage": "Enlarge image of {name}",
     "imageViewer": {
@@ -248,7 +247,8 @@
     "invalidEdition": "This edition address is invalid. Open the default work information below or choose an edition above.",
     "unavailableEdition": "The selected edition is not available for this work. Choose another edition.",
     "openWorkInfo": "Open default work information",
-    "editionCompleteText": "Complete text"
+    "editionCompleteText": "Complete text",
+    "fictionCharactersAuthored": "Creators"
   },
   "review": {
     "positive": {

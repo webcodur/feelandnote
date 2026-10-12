@@ -6,27 +6,30 @@ import { partitionFigureBooks, pickDisplayFigureBooks } from './authoredBooks'
 function book(overrides: Partial<FigureBookContent> = {}): FigureBookContent {
   return {
     id: 'book', title: '작품', creator: null, thumbnailUrl: null,
-    type: 'BOOK', category: 'book', relationType: 'related',
+    type: 'BOOK', category: 'book', relationType: 'appearance',
     editions: [], ...overrides,
   }
 }
 
-test('관계 유형 값으로만 가른다 — 등장·창작·연관', () => {
+test('관계 유형 값으로만 가른다 — 등장·창작', () => {
   const appearance = book({ id: 'appearance', creator: '전기 작가', relationType: 'appearance' })
   const authored = book({ id: 'authored', creator: '푸쉬킨', relationType: 'authored' })
-  const related = book({ id: 'related', creator: '다른 저자', relationType: 'related' })
-  assert.deepEqual(partitionFigureBooks([appearance, authored, related]), {
+  assert.deepEqual(partitionFigureBooks([appearance, authored]), {
     appearanceBooks: [appearance],
     authoredBooks: [authored],
-    relatedBooks: [related],
   })
 })
 
-test('저자 표기가 인물과 같아도 관계 유형이 연관이면 창작으로 올리지 않는다', () => {
+test('저자 표기가 인물과 같아도 등장 관계를 창작으로 올리지 않는다', () => {
   // 표기 비교는 DB 값(authored)으로 옮겼다. 화면은 이름을 보지 않는다.
-  const source = book({ id: 'same-name', creator: '칼 세이건', relationType: 'related' })
+  const source = book({ id: 'same-name', creator: '칼 세이건', relationType: 'appearance' })
   assert.deepEqual(partitionFigureBooks([source]).authoredBooks, [])
-  assert.deepEqual(partitionFigureBooks([source]).relatedBooks, [source])
+  assert.deepEqual(partitionFigureBooks([source]).appearanceBooks, [source])
+})
+
+test('폐기된 관계를 등장 관계로 묵인하지 않는다', () => {
+  const legacy = book({ relationType: 'related' as FigureBookContent['relationType'] })
+  assert.throws(() => partitionFigureBooks([legacy]), /지원하지 않는/)
 })
 
 test('입력 순서를 구획 안에서 지킨다', () => {

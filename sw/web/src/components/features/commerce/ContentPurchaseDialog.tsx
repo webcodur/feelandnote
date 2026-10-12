@@ -4,13 +4,13 @@ import dynamic from "next/dynamic";
 import { useLocale } from "next-intl";
 import { validate as isUuid } from "uuid";
 import { toAffiliateLinks, type AffiliateLink } from "@/constants/affiliatePlatforms";
-import { getBookPurchaseLinks } from "@/lib/books/bookPurchaseLinks";
+import { getBookPurchaseLinks, type BookPurchaseOptions } from "@/lib/books/bookPurchaseLinks";
 import { isAccessType, type ContentAccess } from "@/lib/commerce/contentAccess";
 
 const BookPurchaseModal = dynamic(() => import("./BookPurchaseModal"), { ssr: false });
 const ContentAccessModal = dynamic(() => import("./ContentAccessModal"), { ssr: false });
 
-export interface ContentPurchaseDetails {
+export interface ContentPurchaseDetails extends Pick<BookPurchaseOptions, 'metadata' | 'sources' | 'bookPurchaseBlocked' | 'editionKind' | 'textScope' | 'publisher' | 'releaseDate'> {
   contentId: string;
   type: string;
   title: string;
