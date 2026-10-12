@@ -22,6 +22,10 @@ export function parseYes24ShelfQuality(html,url,expectedIsbn) {
  const rating=number(top.match(/id="spanGdRating"[\s\S]*?<em\b[^>]*class="yes_b"[^>]*>\s*([\d.]+)\s*<\/em>/iu)?.[1])
  const firstReview=/<span\b[^>]*class="gd_reviewCount[^"\n]*"[^>]*>\s*<a\b[^>]*>\s*첫\s*번째\s*리뷰어가\s*되어\s*주세요\.?\s*<\/a>\s*<\/span>/iu.test(top)
  const reviewCount=firstReview?0:number(top.match(/class="gd_reviewCount[^"\n]*"[\s\S]*?<em\b[^>]*>\s*([\d,]+)\s*<\/em>/iu)?.[1])
+ // 상단 합계는 회원리뷰와 한줄평을 합친 값이다. 현재 상품 전용 카운터만 읽는다.
+ const reviewCounter=html.match(/<em\b[^>]*\bid=["']scroll_bar_count["'][^>]*>/iu)?.[0]??''
+ const writtenReviewCount=number(reviewCounter.match(/\bdata-review-count=["']([\d,]+)["']/iu)?.[1])
+ const oneLineReviewCount=number(reviewCounter.match(/\bdata-onecomment-count=["']([\d,]+)["']/iu)?.[1])
  const salesIndex=number(top.match(/class="gd_sellNum"[\s\S]*?판매지수\s*([\d,]+)/u)?.[1])
  const title=clean(html.match(/<h2\b[^>]*class="gd_name"[^>]*>([\s\S]*?)<\/h2>/iu)?.[1])
  const authors=clean(top.match(/<span\b[^>]*class="gd_auth"[^>]*>([\s\S]*?)<\/span>/iu)?.[1])
@@ -31,11 +35,11 @@ export function parseYes24ShelfQuality(html,url,expectedIsbn) {
  if(/국내도서\s*(?:&gt;|>)\s*(?:어린이|유아)(?:\s|&gt;|>)/u.test(categories))reviewSignals.push('children_category')
  if(/아동\s*학습\s*만화|어린이(?:들)?(?:의|를\s*위한)\s*(?:눈높이|그림책|학습만화)|초등학생(?:들)?을\s*위한/u.test(publisherText))reviewSignals.push('children_description')
  const policyReason=excludedBookEditionReason({locale:'ko',title:[title,clean(top)].join(' '),isbn,providerDescription:publisherText})
- return {isbn,url,verified:true,title,authors,rating:rating>0&&rating<=10?rating:null,reviewCount,salesIndex,policyReason,reviewSignals,categories}
+ return {isbn,url,verified:true,title,authors,rating:rating>0&&rating<=10?rating:null,reviewCount,writtenReviewCount,oneLineReviewCount,salesIndex,policyReason,reviewSignals,categories}
 }
 
 export function needsShelfQualityReview(result) {
- return result.verified&&(result.reviewSignals?.length>0||result.reviewCount===0||result.rating!==null&&result.reviewCount>0&&result.rating<=SHELF_QUALITY_AUDIT.poorRating)
+ return result.verified&&(result.reviewSignals?.length>0||result.reviewCount===0||result.writtenReviewCount===0||result.rating!==null&&result.reviewCount>0&&result.rating<=SHELF_QUALITY_AUDIT.poorRating)
 }
 
 /** 서점 수치는 검수 후보를 찾는 단서다. 이 도구는 관계·판본을 자동 삭제하지 않는다. */

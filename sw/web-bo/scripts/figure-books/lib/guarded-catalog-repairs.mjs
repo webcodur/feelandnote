@@ -60,6 +60,13 @@ function preventNewArchiveCopies(table,before,patch){
   const previous=pathValue(before,path),next=pathValue(after,path)
   if(next!==undefined&&!isDeepStrictEqual(previous,next))throw Error('Catalog patch must not create or restore research archives: '+path.join('.'))
  }
+ if(table==='contents'){
+  const previous=before.metadata?.figureBook?.foreignEditions,next=after.metadata?.figureBook?.foreignEditions
+  if(Array.isArray(next))for(const [index,edition] of next.entries())for(const key of ['originalLocale','originalEdition']){
+   if(edition?.[key]!==undefined&&!isDeepStrictEqual(Array.isArray(previous)?previous[index]?.[key]:undefined,edition[key]))
+    throw Error('Catalog patch must not create or restore research archives: metadata.figureBook.foreignEditions.'+index+'.'+key)
+  }
+ }
  if(['content_locales','figure_book_editions'].includes(table)&&hasBackupProvenance(after.sources?.description)
   &&!isDeepStrictEqual(before.sources?.description,after.sources.description))throw Error('Catalog patch must not create or restore research archives: sources.description')
 }

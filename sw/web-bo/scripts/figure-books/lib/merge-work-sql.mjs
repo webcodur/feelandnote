@@ -298,14 +298,17 @@ BEGIN
       AND NOT EXISTS(SELECT 1 FROM public.figure_book_products p WHERE p.edition_id=seeded.id);
   -- 같은 언어의 다른 ISBN 카드도 판본으로 보존한 뒤 대표 카드를 합친다.
   INSERT INTO public.figure_book_editions(content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,verified,sources)
-    SELECT CASE WHEN EXISTS(SELECT 1 FROM public.figure_book_contents f WHERE f.content_id=l.content_id) THEN l.content_id ELSE keep_id END,l.locale,coalesce(l.sources->>'edition_title',l.title),l.creator,l.description,l.isbn,l.publisher,l.thumbnail_url,l.verified,l.sources
+    -- 같은 목적 작품·언어·ISBN은 BEFORE trigger에 두 번 전달하지 않는다.
+    -- ISBN 없는 서로 다른 카드는 기존처럼 별개로 유지한다.
+    SELECT DISTINCT ON (CASE WHEN EXISTS(SELECT 1 FROM public.figure_book_contents f WHERE f.content_id=l.content_id) THEN l.content_id ELSE keep_id END,l.locale,l.isbn,CASE WHEN l.isbn IS NULL THEN l.content_id END)
+      CASE WHEN EXISTS(SELECT 1 FROM public.figure_book_contents f WHERE f.content_id=l.content_id) THEN l.content_id ELSE keep_id END,l.locale,coalesce(l.sources->>'edition_title',l.title),l.creator,l.description,l.isbn,l.publisher,l.thumbnail_url,l.verified,l.sources
     FROM public.content_locales l WHERE l.content_id IN(keep_id,drop_id) AND (l.isbn IS NOT NULL OR l.sources->>'primary' IN ('kakao_book','openlibrary'))
       AND NOT (${excludedLocaleSeedSql})
       AND NOT(coalesce(l.sources->>'primary','')='none' AND coalesce(l.sources->>'title','') IN('translated','romanized','original'))
       AND NOT(l.locale='en' AND coalesce(l.sources->>'primary','')='kakao_book')
       AND NOT(l.isbn IS NULL AND coalesce(l.sources->>'title','')='kakao_title_search' AND coalesce(l.sources->>'series_source_url','') !~ '^https://(m\\.)?search\\.daum\\.net/search\\?.*bookId=[0-9]+')
       AND NOT EXISTS(SELECT 1 FROM public.figure_book_editions e WHERE e.content_id IN(keep_id,drop_id) AND e.locale=l.locale AND (e.isbn=l.isbn OR (l.isbn IS NULL AND e.title=coalesce(l.sources->>'edition_title',l.title) AND e.creator IS NOT DISTINCT FROM l.creator AND (l.publisher IS NULL OR e.publisher IS NOT DISTINCT FROM l.publisher) AND e.sources - 'edition_work_evidence' - 'scope_evidence' - 'edition_title' - 'series_title' - 'series_source_url' IS NOT DISTINCT FROM l.sources - 'edition_work_evidence' - 'scope_evidence' - 'edition_title' - 'series_title' - 'series_source_url')))
-    ORDER BY CASE WHEN l.content_id=keep_id THEN 0 ELSE 1 END
+    ORDER BY CASE WHEN EXISTS(SELECT 1 FROM public.figure_book_contents f WHERE f.content_id=l.content_id) THEN l.content_id ELSE keep_id END,l.locale,l.isbn,CASE WHEN l.isbn IS NULL THEN l.content_id END,CASE WHEN l.content_id=keep_id THEN 0 ELSE 1 END
     ON CONFLICT (content_id, locale, isbn) WHERE isbn IS NOT NULL DO NOTHING;
   UPDATE public.figure_book_characters a SET description=coalesce(nullif(a.description,''),b.description), description_en=coalesce(nullif(a.description_en,''),b.description_en), relation_type=CASE WHEN a.relation_type='authored' OR b.relation_type='authored' THEN 'authored' WHEN a.relation_type='appearance' OR b.relation_type='appearance' THEN 'appearance' ELSE a.relation_type END
     FROM public.figure_book_characters b WHERE a.content_id=keep_id AND b.content_id=drop_id AND a.celeb_id=b.celeb_id;

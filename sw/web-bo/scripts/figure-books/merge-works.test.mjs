@@ -206,7 +206,8 @@ test('양쪽 catalog 없이 같은 ISBN locale을 옮겨도 keep 메타 우선�
   const s = fixture()
   s.content_locales = [{ content_id: 'keep', locale: 'ko', isbn: '9788932925929', title: 'Keep' }, { content_id: 'drop', locale: 'ko', isbn: '9788932925929', title: 'Drop' }]
   const sql = buildMergeSql(pair, s)
-  assert.match(sql, /ORDER BY CASE WHEN l.content_id=keep_id THEN 0 ELSE 1 END\n    ON CONFLICT \(content_id, locale, isbn\) WHERE isbn IS NOT NULL DO NOTHING/)
+  assert.match(sql, /SELECT DISTINCT ON \(CASE WHEN EXISTS[\s\S]*l.locale,l.isbn,CASE WHEN l.isbn IS NULL THEN l.content_id END\)/)
+  assert.match(sql, /ORDER BY[^\n]*CASE WHEN l.content_id=keep_id THEN 0 ELSE 1 END\n    ON CONFLICT \(content_id, locale, isbn\) WHERE isbn IS NOT NULL DO NOTHING/)
 })
 
 test('카드 seed는 pair의 기존 실판본부터 확인하고 신규 seed만 원판본 앞에서 제거', () => {

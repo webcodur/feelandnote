@@ -125,6 +125,22 @@ test('fresh catalog repairs reject reinstating discarded research rows and raw p
   assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,[{table:'contents',before,patch:{metadata:clean}}]))
  }
 })
+test('foreign edition facts remain usable but copied original locale and edition rows cannot be created or restored',()=>{
+ for(const key of ['originalLocale','originalEdition']){
+  const data=snapshot(),before=data.contents[0],fact={isbn:'9780140449136',locale:'el',source_url:'https://library.example/exact-isbn'}
+  before.metadata.figureBook.foreignEditions=[{...fact,[key]:{title:'Old row',description:'Old raw text',sources:{primary:'old'}}}]
+  const clean=structuredClone(before.metadata);clean.figureBook.foreignEditions=[fact]
+  const plan=planGuardedCatalogRepairs(['work'],data,[{table:'contents',before,patch:{metadata:clean}}])
+  assert.deepEqual(plan.expected.contents[0].metadata.figureBook.foreignEditions,[fact])
+  assert.deepEqual(plan.expected.member_contents,data.member_contents)
+  assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,[{table:'contents',before,patch:{external_id:'confirmed'}}]))
+  const restored=structuredClone(clean);restored.figureBook.foreignEditions[0][key]={title:'New copied row'}
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:'contents',before,patch:{metadata:restored}}]),/must not create or restore research archives/)
+  before.metadata=clean
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:'contents',before,patch:{metadata:restored}}]),/must not create or restore research archives/)
+ }
+})
+
 test('catalog repairs can discard existing research archives while retaining live provenance and protected reviews',()=>{
  const data=snapshot(),before=data.content_locales[0]
  before.sources={primary:'openlibrary',isbn:'https://openlibrary.org/books/OL1M',originalRows:[{title:'Old row'}],historical_voice:'https://assets.example/current.mp3'}

@@ -1006,6 +1006,24 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.equal(query("SELECT string_agg(isbn,',' ORDER BY isbn) FROM figure_book_editions WHERE content_id='keep'"), 'isbn-1,isbn-2')
   })
 
+  await t.test('같은 ISBN의 두 카드 seed는 운영 BEFORE 가드에 한 번만 전달하고 감상 원문을 보존한다', () => {
+    reset(`INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','ko','해그스 눅','9780000000002','{"translators":["실제 역자"]}');
+      INSERT INTO content_locales(content_id,locale,title,creator,isbn,publisher) VALUES
+        ('keep','en','Keeper title','John Dickson Carr','9781788852067','Birlinn'),
+        ('drop','en','Other title','John Dickson Carr','9781788852067','Birlinn');
+      INSERT INTO celeb_contents VALUES('reading-a','keep','a','원래 감상 A','Original A','https://example.com/a'),('reading-b','drop','b','원래 감상 B','Original B','https://example.com/b');`)
+    query(editionPolicySql())
+    const before=snapshot()
+    assert.match(merge(before), /MERGE_COMMITTED/)
+    assert.equal(query("SELECT count(*) FROM figure_book_editions WHERE locale='en' AND isbn='9781788852067'"),'1')
+    assert.equal(query("SELECT title FROM figure_book_editions WHERE locale='en' AND isbn='9781788852067'"),'Keeper title')
+    assert.equal(query("SELECT count(*) FROM figure_book_editions WHERE locale='ko'"),'1')
+    assert.deepEqual(snapshot().celeb_contents,before.celeb_contents.map(row=>({...row,content_id:'keep'})))
+    assert.equal(query("SELECT count(*) FROM contents WHERE id='drop'"),'0')
+    assert.throws(()=>query("INSERT INTO figure_book_editions(content_id,locale,title,isbn) VALUES('keep','en','Another product','9781788852074')"),/verified different translation|representative edition/)
+  })
+
   await t.test('catalog 없는 실판본 ISBN은 locale 충돌 후에도 남고 미확인 출처·상태를 날조하지 않음', () => {
     for (const sources of [null, { primary: 'none' }]) {
       reset(`
