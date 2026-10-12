@@ -9,6 +9,7 @@
  * 비율(4:5·1:1·9:16) 전환과 A 묶음 책 선별을 지원한다.
  */
 import { useEffect, useMemo, useState } from 'react'
+import { ADMIN_NAME } from '@feelandnote/shared/constants/site-brand'
 import { Player } from '@remotion/player'
 import { useEpisode } from '@/features/book-recommend/lib/episode-context'
 import { BookCard, type BookCardSpec } from '@feelandnote/remotion/src/compositions/BookCard'
@@ -36,7 +37,7 @@ export default function CardsPage() {
   const [activeEditorId, setActiveEditorId] = useState<string>('')
 
   useEffect(() => {
-    document.title = `${episode?.host?.nickname ?? name} 카드 — Feel & Note BO`
+    document.title = `${episode?.host?.nickname ?? name} 카드 — ${ADMIN_NAME}`
   }, [episode, name])
 
   // 인물이 바뀌면 초기화하고 저장된 편성을 불러온다

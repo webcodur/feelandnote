@@ -11,6 +11,7 @@ import { ChevronRight, Info, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import InspirationChainGraphic from "./InspirationChainGraphic";
+import { SITE_NAME } from "@feelandnote/shared/constants/site-brand";
 
 /**
  * [[인물명]] → 엑센트 색상
@@ -28,7 +29,7 @@ export function renderHighlighted(text: string, figureLinks: Record<string, stri
           </Link>
         );
       }
-      if (name === "feelandnote" || name === "Feel&Note") {
+      if (name === SITE_NAME) {
         return (
           <span key={i} className="font-cormorant font-semibold tracking-wide inline-flex items-baseline ml-0.5 mr-1.5 text-[17px] md:text-xl whitespace-nowrap">
             <span className="logo-text-cream">feel</span>

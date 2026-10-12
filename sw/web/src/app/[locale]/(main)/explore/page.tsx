@@ -36,9 +36,9 @@ export default async function ExplorePage({ searchParams }: {
   const filters = parseFilterParams(await searchParams);
   const [requestCookies, requestHeaders] = await Promise.all([cookies(), headers()]);
   filters.trendCountry = resolveTrendCountry(filters.trendCountry, requestCookies.get(TREND_COUNTRY_COOKIE)?.value, requestHeaders.get("CF-IPCountry"));
-  const t = await getTranslations("explore.hub");
-  const nav = await getTranslations("nav.sub");
-  const pending = await getTranslations("pending");
+  const [t, nav, pending, meta] = await Promise.all([
+    getTranslations("explore.hub"), getTranslations("nav.sub"), getTranslations("pending"), getTranslations("explore.meta"),
+  ]);
   // 주제별 탐색 — 주소·이름은 메뉴 설정(NAV_ITEMS), 그림·묶음·순서는 exploreLenses가 쥔다
   const hrefByKey = new Map(NAV_ITEMS.find((item) => item.key === "explore")!.subLinks!.map((page) => [page.key!, page.href]));
 
@@ -52,6 +52,9 @@ export default async function ExplorePage({ searchParams }: {
         <AtlasNavSections items={hubAtlasNavItems(titles, hubGroup)} />
       </AsyncIntlProvider>
       <div>
+        <p className="mx-auto mb-8 max-w-3xl px-4 text-center text-sm leading-relaxed text-text-secondary md:text-base">
+          {meta("description")}
+        </p>
         <HubSection title={titles[0]} id={hubSectionId(0, hubGroup)} index={0} total={titles.length} hideDivider>
           <Lane fallback={<PendingBlock variant="grid" count={24} label={pending("loading")} />}>
             <FiguresFilterResult params={filters} />

@@ -1,6 +1,13 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { getSeoImageUrl, toSeoSummary } from './seo'
+import { getSeoImageUrl, getOrganizationJsonLd, getWebSiteJsonLd, toSeoSummary } from './seo'
+
+test('사이트명과 조직명은 같은 브랜드를 선언하며 옛 영문 이름을 선택 후보로 주지 않는다', () => {
+  for (const data of [getWebSiteJsonLd('archive'), getOrganizationJsonLd('archive')]) {
+    assert.equal(data.name, 'feelandnote')
+    assert.deepEqual(data.alternateName, ['필앤노트', 'feelandnote.com'])
+  }
+})
 
 test('SEO 이미지 URL은 소스가 없어도 안정적인 버전 키를 갖는다', () => {
   const first = new URL(getSeoImageUrl('celeb', 'jensen-huang', 'ko'))

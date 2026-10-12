@@ -4,7 +4,7 @@ import { createClient } from '@/lib/db/server'
 import { createAdminClient } from '@/lib/db/admin'
 import { revalidatePath } from 'next/cache'
 import { type GeneratedInfluence } from '@feelandnote/ai-services/celeb-profile'
-import { notifyIndexNow } from '@/lib/indexnow'
+import { notifyCelebIndexNow } from '@/lib/indexnow'
 import {
   revalidateWebItems,
   revalidateWebLists,
@@ -1152,7 +1152,7 @@ export async function updateCeleb(
 
   // active 셀럽 정보 변경 시 IndexNow 색인 요청
   if (profile?.publication_status === 'active' && profile?.slug) {
-    notifyIndexNow([`/celeb/${profile.slug}`])
+    await notifyCelebIndexNow(profile.slug)
   }
 }
 // #endregion
@@ -1216,13 +1216,6 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
 
   if (error) throw error
 
-  // active 전환 시 IndexNow 색인 요청
-  if (newStatus === 'active') {
-    if (updated.slug) {
-      notifyIndexNow([`/celeb/${updated.slug}`])
-    }
-  }
-
   revalidatePath('/celebs')
   // 노출 목록과 이 인물의 상세만 갱신한다. 다른 인물 상세 전량 퍼지는 금지한다.
   await revalidateWebItems(
@@ -1233,6 +1226,10 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
     ],
     [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM, CACHE_TAGS.FACTIONS],
   )
+  // 운영 캐시를 갱신한 뒤 공개된 한영 상세 주소를 통지한다.
+  if (newStatus === 'active' && updated.slug) {
+    await notifyCelebIndexNow(updated.slug)
+  }
   return newStatus
 }
 // #endregion

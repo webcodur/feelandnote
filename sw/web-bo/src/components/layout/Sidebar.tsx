@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
+import { ADMIN_NAME, SITE_NAME } from '@feelandnote/shared/constants/site-brand'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -197,7 +198,7 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
         )}
         {!collapsed && (
           <Link href="/" className="text-xl font-bold text-text-primary whitespace-nowrap" onClick={onItemClick}>
-            FEEL&NOTE
+            {SITE_NAME}
           </Link>
         )}
       </div>
@@ -298,7 +299,7 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
       {!collapsed && (
         <div className="p-4 border-t border-border">
           <p className="text-xs text-text-secondary text-center">
-            Feel&Note Admin v0.1
+            {ADMIN_NAME} v0.1
           </p>
         </div>
       )}

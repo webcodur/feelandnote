@@ -7,6 +7,7 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import { SITE_NAME } from "@feelandnote/shared/constants/site-brand";
 import styles from "./Logo.module.css";
 import LogoWordmark from "./LogoWordmark";
 
@@ -49,7 +50,7 @@ export default function Logo({
 
   const logoContent = (
     <div className={rootClassName}>
-      <span className="sr-only">feelandnote</span>
+      <span className="sr-only">{SITE_NAME}</span>
       <span className={styles.fullMark}>
         <LogoWordmark className={styles.wordmark} />
       </span>
@@ -76,7 +77,7 @@ export default function Logo({
     <Link
       href="/"
       onClick={onClick}
-      aria-label="feelandnote" /* i18n-audit-ignore — 서비스 브랜드명 */
+      aria-label={SITE_NAME}
       className={styles.link}
     >
       {logoContent}

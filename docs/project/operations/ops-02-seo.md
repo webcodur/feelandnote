@@ -1,6 +1,6 @@
 # SEO
 
-사이트맵·robots·메타데이터·구조화 데이터·검색엔진 등록과 색인 운영 규칙이다. Google 일일 색인 신청과 현재 도달점은 [Google 일일 색인 신청](../../continuous/google-indexing.md), URL별 검사·접수 결과는 [신청 데이터](../../../data/seo-index-inspection-20260909.json)가 쥔다. 검색 노출·색인의 날짜별 실측을 이 문서에 쌓지 않는다.
+사이트맵·robots·메타데이터·구조화 데이터·검색엔진 등록과 색인 운영 규칙이다. Google·네이버 일일 색인·수집 신청과 현재 도달점은 [일일 색인·수집 신청](../../continuous/google-indexing.md)이 쥔다. URL별 작업 결과를 별도로 보관하지 않는다. 검색 노출·색인의 날짜별 실측을 이 문서에 쌓지 않는다.
 
 인물 상세의 감상 목록은 초기 본문과 같은 데이터·순서로 JSON-LD를 만든다. 후속 기록은 「감상 기록 전체 보기」에서 `/celeb/<slug>/records/<page>`로 연결한다. 각 쪽은 감상·출처와 이전·다음 링크를 HTML에 싣고, 한국어·영어마다 자기 canonical과 hreflang을 제공한다. 페이지 크기는 `recordsPageData.ts`의 `RECORDS_PAGE_SIZE`가 쥔다. [Google 크롤 가능한 링크](https://developers.google.com/search/docs/crawling-indexing/links-crawlable) · [구조화 데이터 정책](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)
 
@@ -8,12 +8,13 @@
 
 브랜드 표기 규약은 문서 문자열이 아니라 코드가 쥔다.
 
-**워드마크는 한 단어 `feelandnote`다(26.09.11).** Google은 `Feel&Note`를 feel·note 두 토큰으로 자른다. 홈·인물·소개 페이지 가시 본문에 `feelandnote`가 0회였고, 같은 날 「feelandnote」 검색 1페이지에는 그 철자를 쓰는 YouTube 채널·네이버 블로그만 나오고 사이트는 없었다. 그래서 사이트명·워드마크·본문 표기를 YouTube 채널과 같은 `feelandnote`로 통일했다. `Feel&Note`·`Feel & Note`는 `alternateName`으로만 남기고 새 문구에 쓰지 않는다. 로고는 `feel`·`and`·`note` 세 span을 공백 없이 붙여 DOM 텍스트가 한 단어가 되게 한다. 홈이 이미 색인돼 있으므로 「feelandnote」 검색 반영 여부를 1~2주 뒤 확인한다.
+**영문 브랜드는 `feelandnote`, 한글 브랜드는 `필앤노트`다.** 이름·주소·검색용 별칭은 `packages/shared/src/constants/site-brand.ts`가 쥐고 사용자 웹과 백오피스가 함께 쓴다. `Feel&Note`·`Feel and Note`는 검색용 별칭에도 넣지 않는다. `alternateName`은 검색엔진이 사이트명으로 선택할 수 있는 후보이며 과거 이름의 보관함이 아니다. 로고는 `feel`·`and`·`note` 세 span을 공백 없이 붙여 DOM 텍스트가 한 단어가 되게 한다. 언어별 소개 문장은 locale 메시지가 쥔다.
 
 같은 날 함께 반영한 조치 두 가지다. ① 미들웨어 matcher가 `.txt`·`.xml` 같은 확장자 경로를 건너뛰어 `/llms.txt`가 `locale="llms.txt"`로 레이아웃까지 와 홈 HTML을 200으로 돌려주던 소프트 404를 `[locale]/layout.tsx`의 locale 검증(`hasLocale` → `notFound`)으로 막았다. 루트 레이아웃이 던진 404는 Next 기본 404 셸로 나가며 상태 코드·noindex만 필요하므로 별도 루트 not-found를 두지 않는다. ② 홈의 오늘의 인물 구획을 `data-nosnippet`으로 감쌌다. `site:` 결과에서 홈 설명이 그날 인물의 소개문(프레디 머큐리)으로 나왔기 때문이며, 색인·순위와 무관한 미리보기 통제다.
 
 | 무엇 | 단일원천 |
 |------|----------|
+| 서비스 이름·주소·검색용 별칭 | `packages/shared/src/constants/site-brand.ts` |
 | 정본 URL·기본 사이트명·검색 별칭·Organization/WebSite JSON-LD 생성 | `sw/web/src/lib/seo.ts` |
 | locale별 홈페이지 제목·내부 페이지 제목 템플릿·설명·H1·가시 별칭 | `sw/web/messages/{ko,en}/core.json`의 `site` |
 | 홈페이지 자기참조 canonical·hreflang | `sw/web/src/app/[locale]/(main)/page.tsx` → `getLocalizedAlternates('/')` |
@@ -37,14 +38,14 @@
 Google은 `<title>`이 길거나 틀에 박혀 있으면 화면에서 크게 보이는 문구로 제목을 바꿔 쓴다.
 `headline`을 제목 앞에 두던 때 빌 게이츠 검색 결과 제목이 `headline`만 남고 이름이 빠졌다.
 26.09.28 URL Inspection API로 보니 빌 게이츠의 마지막 크롤은 09-09로, 09-13 제목 교체 전 버전을 들고 있었다.
-아래 규칙은 같은 날 커밋 `658a9cb6`로 운영 배포하고 `cached-html` 퍼지까지 마쳤다. 재수집 신청은 [Google 일일 색인 신청](../../continuous/google-indexing.md)이 쥔다.
+이름을 앞세우는 제목은 같은 날 커밋 `658a9cb6`로 운영 배포하고 `cached-html` 퍼지까지 마쳤다. 재수집 신청은 [Google·네이버 일일 색인 신청](../../continuous/google-indexing.md)이 쥔다.
 그래서 제목은 이름을 앞쪽에 두고, 한국어는 쉼표로 여러 토막을 내지 않으며, 제목의 말이 화면 머리
 (수식어·이름 h1·`headline`·건수 줄)에도 보이게 한다. [Google — Title links](https://developers.google.com/search/docs/appearance/title-link)
 
 | 대상 | 제목 | 설명문 |
 |---|---|---|
-| 감상 기록이 있는 실존 `full` | `빌 게이츠(MS 설립)가 감상한 책 177권·음악 73곡·영상 13편`. 영어는 `Bill Gates (Microsoft Founder): 177 Books Read`. 분야는 건수 많은 순으로 제목 폭(한글 30자 어림) 안에 드는 만큼 싣는다. 합계 2건 이하는 `이름(수식어)의 책 감상 기록` | `이름, headline.` → 가장 많은 분야의 대표작 3개 → 전 분야 건수. 넘치면 나머지 분야 건수, 대표작 순으로 덜어 낸다 |
-| `light`·`BOTH`·`FICTION`, 기록 없는 `full` | `이름, headline`. `headline`이 없으면 전승 인물은 `이름, 《원전》의 등장인물`, 그다음 `이름, title`, 이름만 | 인물 안내 첫 문장. 없으면 `이름, headline.` + bio 첫 문장(「…에 등장한다.」 같은 공통 첫 문장 제외) → 원전 속 행적·인물 관계, 실존 `light`는 실제 있는 영향력 평가·16축 스펙트럼·인물 관계만 |
+| 감상 기록이 있는 실존 `full` | `빌 게이츠(MS 설립)가 감상한 책 177권·음악 73곡·영상 13편`. 영어는 `Bill Gates (Microsoft Founder): 177 Books Read`. 분야는 건수 많은 순으로 제목 폭(한글 30자 어림) 안에 드는 만큼 싣는다. 합계 2건 이하는 `이름(수식어)의 책 감상 기록` | `이름, headline.` → 가장 많은 분야의 대표 작품을 읽었다·보았다·들었다·플레이했다는 사실. 폭을 넘치면 작품을 덜고, 작품이 없으면 안내·bio로 보완한다. 건수·기능 소개는 넣지 않는다 |
+| `light`·`BOTH`·`FICTION`, 기록 없는 `full` | `이름, headline`. `headline`이 없으면 전승 인물은 `이름, 《원전》의 등장인물`, 그다음 `이름, title`, 이름만 | 인물 안내 첫 문장. 없으면 `이름, headline.` + bio 첫 문장(「…에 등장한다.」 같은 공통 첫 문장 제외). 전승 인물은 등장 작품을 잇되 이미 나온 작품명은 반복하지 않는다. 분석 기능을 보라는 문구는 넣지 않는다 |
 
 - 감상 기록 제목에는 수식어(`title`)를 이름 뒤 괄호로 붙인다. 이름만으로는 누군지 모를 인물이 많아서다.
   수식어는 화면에서 이름 위에 얹는 딱지라 문장 속 꾸밈말로 두면 어색하거나(「MS 설립 빌 게이츠가」)
@@ -63,6 +64,7 @@ Google은 `<title>`이 길거나 틀에 박혀 있으면 화면에서 크게 보
   다시 쓴 책(retelling)·ISBN으로만 식별되는 요즘 책 순이다. 목록 차례만 보던 때 제우스의 원전이 《일리아스》가 아닌 책으로 나갔다.
 - 영어 제목은 `Name: headline`이 64자를 넘으면 `Name: title`로 줄인다(`EN_TITLE_MAX_CHARS`). 검색 결과 한 줄에 64자는 들고 76자는 잘렸다.
 - 인용문과 모든 인물에 똑같이 붙는 안내 문구(「한 페이지에서 살펴보세요」 등)는 설명문에 넣지 않는다.
+- 인물 허브 `/explore`는 한영 메타 설명을 본문 소개에도 표시한다. 검색엔진이 본문에서 설명을 고를 수 있으므로 메타 재수집만으로 문구 반영을 단정하지 않는다.
 - 영문 화면에서 한국어로 대체된 인물 안내·bio는 설명문에 싣지 않는다(`translationFallbacks`).
 - 화면 머리의 건수 줄은 `full` 인물에만 `HeroIdentity.tsx`가 그리고, 문구는 제목과 같은
   `formatCelebRecordCounts`를 쓴다.
@@ -362,11 +364,11 @@ verification: {
 
 - **키**: `4f3c45379c68dc5a57ad8927e92dda93`
 - **키 파일**: `sw/web/public/4f3c45379c68dc5a57ad8927e92dda93.txt`
-- **유틸**: `sw/web-bo/src/lib/indexnow.ts` → `notifyIndexNow(['/celeb/slug'])` (호출 주체가 BO이므로 web이 아니라 web-bo에 있다)
-- **대상 엔진**: 네이버, Bing, Yandex 등 IndexNow 지원 엔진
-- production 환경에서만 동작 (dev 환경 skip)
-- 셀럽 등록/수정 등 콘텐츠 변경 시 호출하면 즉시 색인 요청됨
-- **연동 완료** (2026-03-13): `web-bo` celebs.ts의 `toggleCelebStatus`(active 전환 시) + `updateCeleb`(active 셀럽 정보 변경 시) 호출
+- **유틸**: `sw/web-bo/src/lib/indexnow.ts` → 인물 변경은 `notifyCelebIndexNow(slug)`, 그 외 주소 통지는 `notifyIndexNow(paths)` (호출 주체가 BO이므로 web이 아니라 web-bo에 있다)
+- **대상 엔진**: 네이버, Bing, Yandex 등 IndexNow 지원 엔진. 공용 접수 한 번을 참여 엔진이 공유하므로 같은 변경을 엔진별로 중복 전송하지 않는다([공식 FAQ](https://www.indexnow.org/faq)).
+- 백오피스는 로컬에서 운영 DB를 수정하므로 개발 환경에서도 통지한다.
+- `updateCeleb`의 공개 인물 정보 저장과 `toggleCelebStatus`의 active 전환은 운영 캐시 갱신 뒤 한영 정식 주소를 함께 통지한다. 통신 실패·비정상 응답은 경고로 남기되 이미 저장한 인물 정보를 실패 처리하지 않는다.
+- 통지는 재수집 요청이며 검색엔진의 실제 재크롤·색인·대표 이미지 반영을 보장하지 않는다.
 - **500 복구 증분 통지** (2026-08-14): `full` 인물 1,508명의 한·영 3,016 URL을 Bing 계열 공용·네이버 공식 API에 각각 1배치 POST해 둘 다 HTTP 200을 받았다. 사이트맵에서 제외한 작품 URL은 통지하지 않는다.
 - **인물 전량 재통지** (2026-08-25): 네이버가 인물 페이지 대부분을 색인하지 않은 것을 실측으로 확인하고 `celebs.xml` 6,118 URL을 Bing 계열 공용·네이버 공식 API에 각각 2배치 POST했다. 4배치 전부 HTTP 200이다. 통지는 재수집 요청일 뿐 색인 보장이 아니다.
 - **인물 제목·설명문 개편 전량 통지** (2026-09-28): 인물 상세 제목·설명문을 전량 바꾼 배포(`658a9cb6`) 뒤 `celebs.xml` 11,122 URL을 Bing 계열 공용 API(5,000·5,000·1,122)와 네이버 공식 API(10,000·1,122)에 보냈고 5개 배치 전부 HTTP 200이다. 같은 날 Google은 사이트맵 API 재제출과 URL 색인 요청으로 처리했다([Google 일일 색인 신청](../../continuous/google-indexing.md)). Bing·네이버 콘솔의 사이트맵 재제출은 하지 않았다 — 등록된 사이트맵은 그대로이고 전량 갱신 신호는 IndexNow로 보낸다.

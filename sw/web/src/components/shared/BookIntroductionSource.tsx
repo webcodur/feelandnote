@@ -1,6 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { SITE_NAME, SITE_NAME_KO } from "@feelandnote/shared/constants/site-brand";
 import type { BookIntroductionAttribution } from "@/lib/utils/book-description";
 import { cn } from "@/lib/utils";
 
@@ -9,7 +10,7 @@ const PROVIDER_NAMES = {
   kakao: "Kakao",
   daum: "Daum",
   openlibrary: "OL",
-  feelandnote: "F&N",
+  feelandnote: SITE_NAME,
   tmdb: "TMDB",
   igdb: "IGDB",
   itunes: "Apple",
@@ -29,7 +30,7 @@ export const INTRO_PROVIDER_HEADING_NAME: Partial<
   kakao: { ko: "카카오", en: "Kakao" },
   yes24: { ko: "YES24", en: "YES24" },
   openlibrary: { ko: "Open Library", en: "Open Library" },
-  feelandnote: { ko: "F&N", en: "F&N" },
+  feelandnote: { ko: SITE_NAME_KO, en: SITE_NAME },
   tmdb: { ko: "TMDB", en: "TMDB" },
   igdb: { ko: "IGDB", en: "IGDB" },
   itunes: { ko: "Apple", en: "Apple" },
@@ -45,12 +46,13 @@ export default function BookIntroductionSource({ attribution, className }: {
   className?: string;
 }) {
   const t = useTranslations("content.introductionSource");
+  const brand = useLocale() === "ko" ? SITE_NAME_KO : SITE_NAME;
   const provider = attribution?.provider ?? "unknown";
   const name = provider === "unknown" ? t("unknown")
-    : provider === "other" ? t("external") : PROVIDER_NAMES[provider];
+    : provider === "other" ? t("external") : provider === "feelandnote" ? brand : PROVIDER_NAMES[provider];
   const label = name;
   const description = provider === "unknown" ? t("unknownDescription")
-    : provider === "feelandnote" ? t("originalDescription")
+    : provider === "feelandnote" ? t("originalDescription", { brand })
     : t("sourceDescription", { source: provider === "openlibrary" ? "Open Library" : name });
   const styles = cn(
     "inline-flex max-w-full shrink-0 items-center rounded border border-border/70 bg-bg-secondary px-1.5 py-0.5 text-xs font-medium leading-5 text-text-secondary",

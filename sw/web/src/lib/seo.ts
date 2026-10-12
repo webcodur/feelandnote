@@ -2,16 +2,9 @@ import { getLocale } from 'next-intl/server';
 import { YOUTUBE_CHANNELS } from '@/constants/youtube';
 import { summarizeSentences } from './seoSentences';
 import { isSupportShopPath, isSupportShopAvailable } from '@/constants/navigation';
+import { SITE_NAME, SITE_URL, SITE_ALTERNATE_NAMES } from '@feelandnote/shared/constants/site-brand';
 
-export const SITE_URL = 'https://feelandnote.com';
-/** 워드마크는 한 단어 `feelandnote`다. 검색어 토큰과 일치해야 하므로 `Feel&Note`·`Feel & Note`로 되돌리지 않는다. */
-export const SITE_NAME = 'feelandnote';
-export const SITE_ALTERNATE_NAMES = [
-  '필앤노트',
-  'Feel&Note',
-  'Feel and Note',
-  'feelandnote.com',
-] as const;
+export { SITE_NAME, SITE_NAME_KO, SITE_URL, SITE_ALTERNATE_NAMES } from '@feelandnote/shared/constants/site-brand';
 export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 
 const BASE_URL = SITE_URL;

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
+import { ADMIN_NAME } from '@feelandnote/shared/constants/site-brand'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { getSeriesById } from '@/features/book-recommend/lib/series-registry'
@@ -199,7 +200,7 @@ function BookRecommendSeriesHome({ series }: { series: string }) {
   const [changingStatus, setChangingStatus] = useState<string | null>(null)
 
   useEffect(() => {
-    if (seriesDef) document.title = `${seriesDef.label} — Feel & Note BO`
+    if (seriesDef) document.title = `${seriesDef.label} — ${ADMIN_NAME}`
   }, [seriesDef])
 
   const fetchAll = useCallback(() => {

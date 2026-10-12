@@ -1,5 +1,7 @@
 'use client'
 
+import { ADMIN_NAME } from '@feelandnote/shared/constants/site-brand'
+
 import { useState, useEffect, useCallback, use } from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -145,7 +147,7 @@ export default function YouTubeLineupPage({ params }: { params: Promise<{ series
   const [pushModal, setPushModal] = useState<PushModalState | null>(null)
 
   useEffect(() => {
-    if (seriesDef) document.title = `${seriesDef.label} YouTube 편성 — Feel & Note BO`
+    if (seriesDef) document.title = `${seriesDef.label} YouTube 편성 — ${ADMIN_NAME}`
   }, [seriesDef])
 
   const fetchAll = useCallback(() => {

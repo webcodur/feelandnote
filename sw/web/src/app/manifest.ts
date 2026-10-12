@@ -5,6 +5,7 @@
 */ // ------------------------------
 
 import type { MetadataRoute } from 'next'
+import { SITE_NAME } from '@feelandnote/shared/constants/site-brand'
 
 // TWA 실행을 웹 방문과 구분하는 계측 파라미터
 const TWA_UTM = 'utm_source=android_app&utm_medium=twa'
@@ -23,8 +24,8 @@ const SHORTCUTS = [
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/',
-    name: 'feelandnote - 감상 아카이브',
-    short_name: 'feelandnote',
+    name: `${SITE_NAME} - 감상 아카이브`,
+    short_name: SITE_NAME,
     description: '인물의 관련 도서와 감상 경로를 탐색하고, 나의 문화 기록을 빠르게 남기는 앱',
     lang: 'ko',
     dir: 'ltr',

@@ -590,7 +590,7 @@ function classifyFile(file) {
   }
 
   // 이 둘은 HTML 안의 canonical·이미지 URL과 SEO 응답 양쪽에 영향을 줄 수 있다.
-  if (file === 'sw/web/src/lib/seo.ts' || file === 'sw/web/src/lib/seoImage.ts') {
+  if (file === 'sw/web/src/lib/seo.ts' || file === 'sw/web/src/lib/seoImage.ts' || file === 'packages/shared/src/constants/site-brand.ts') {
     return ['cached-html', 'seo']
   }
 

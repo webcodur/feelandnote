@@ -5,6 +5,7 @@ import { createClient } from '@/lib/db/client'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { LogIn, Loader2, Eye, EyeOff } from 'lucide-react'
 import Button from '@/components/ui/Button'
+import { ADMIN_NAME } from '@feelandnote/shared/constants/site-brand'
 
 /**
  * '자동 로그인' 체크박스는 없앴다. 값을 저장하고 불러오기까지 했지만 정작 자동으로
@@ -168,7 +169,7 @@ export default function LoginPage() {
         <div className="bg-bg-card border border-border rounded-lg p-8">
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-text-primary mb-2">
-              Feel&Note Admin
+              {ADMIN_NAME}
             </h1>
             <p className="text-text-secondary text-sm">
               관리자 로그인

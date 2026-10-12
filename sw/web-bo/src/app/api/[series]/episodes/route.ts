@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { SITE_NAME_KO } from '@feelandnote/shared/constants/site-brand'
 import path from 'path'
 import { mkdir, rename, rm, writeFile } from 'fs/promises'
 import {
@@ -197,7 +198,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
       serviceIntro: `오늘 함께할 인물은 ${profile.nickname}입니다.`,
       celebIntro: '', // AI 초안 대상 (bio 기반 재작성)
       bridge: '이제 그의 서재를 열어보겠습니다.',
-      outro: `이상으로 ${profile.nickname}의 ${books.length}권의 책이었습니다. 더 깊은 이야기가 궁금하신가요? 지금 바로 Feel & Note 앱에서 만나보세요.`,
+      outro: `이상으로 ${profile.nickname}의 ${books.length}권의 책이었습니다. 더 깊은 이야기가 궁금하신가요? 지금 바로 ${SITE_NAME_KO} 앱에서 만나보세요.`,
     },
     host: {
       nickname: profile.nickname,

@@ -6,7 +6,9 @@
 
 import { cache } from "react";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { validate as isUuid } from "uuid";
 import ContentDetailPage from "@/components/features/content/ContentDetailPage";
 import { getInitialPublicContentInfo } from "@/actions/contents/getContentDetail";
 import { getBookBannerTheme } from "@/actions/contents/getBookBannerTheme";
@@ -38,6 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   setRequestLocale(locale);
 
   const content = await getContentInfo(contentId, locale);
+  if (!content && isUuid(contentId)) notFound();
   const t = await getTranslations({ locale, namespace: "contentDetail" });
   const alternates = getAlternates(
     `/content/${contentId}`,
@@ -110,6 +113,8 @@ function getSchemaType(type: string): string {
 export default async function Page({ params }: PageProps) {
   const { locale, contentId } = await params;
   setRequestLocale(locale);
+  // 저장된 작품의 UUID는 외부 검색 ID가 아니다. Lane을 보내기 전에 404를 확정한다.
+  if (isUuid(contentId) && !await getContentInfo(contentId, locale)) notFound();
   return <Lane fallback={<ContentDetailPending />}><ContentBody locale={locale} contentId={contentId} /></Lane>;
 }
 

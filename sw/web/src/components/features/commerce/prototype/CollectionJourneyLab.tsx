@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { SITE_NAME } from "@feelandnote/shared/constants/site-brand";
 import Image from "next/image";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -20,7 +21,7 @@ export default function CollectionJourneyLab() {
   const record = (action: PrototypeAction) => setCounts((old) => ({ ...old, [action]: old[action] + 1 }));
   return <div className="mx-auto max-w-5xl pb-12">
     <header className="mb-8 border-b border-white/10 pb-7">
-      <p className="mb-3 text-xs tracking-[0.2em] text-accent">FEEL & NOTE · 소장 흐름 모형</p>
+      <p className="mb-3 text-xs tracking-[0.2em] text-accent">{SITE_NAME} · 소장 흐름 모형</p>
       <h2 className="text-2xl font-semibold sm:text-4xl">마음에 남은 작품을, 내 곁에.</h2>
       <p className="mt-4 max-w-2xl text-sm leading-relaxed text-text-secondary">이야기를 읽고, 감상할 형태를 고른 뒤, 실제 판매처로 이동합니다. 게임·미술의 서로 다른 선택을 눌러보세요.</p>
       <Link href="/" className="mt-4 inline-flex min-h-10 items-center gap-2 rounded text-sm text-accent outline-none hover:text-accent-hover hover:underline focus-visible:ring-2 focus-visible:ring-accent">홈의 실제 배치 보기<ArrowRight size={14} /></Link>

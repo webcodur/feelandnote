@@ -2,13 +2,14 @@ import { ProfessionProvider } from "@feelandnote/shared/hooks/use-professions";
 import { getCelebProfessions } from "@/lib/celeb-professions";
 import type { Metadata } from "next";
 import "./globals.css";
+import { ADMIN_NAME, SITE_NAME } from "@feelandnote/shared/constants/site-brand";
 
 export const metadata: Metadata = {
   title: {
     template: '%s',
-    default: 'Feeln Admin',
+    default: ADMIN_NAME,
   },
-  description: "Feel&Note Back Office",
+  description: `${SITE_NAME} Back Office`,
 };
 
 export default async function RootLayout({

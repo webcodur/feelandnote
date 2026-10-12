@@ -64,15 +64,15 @@
     "purchaseInfo": {
       "trigger": "Purchase information",
       "title": "Buy & Enjoy",
-      "notice": "Feel & Note earns a small commission when you buy through affiliate links.",
+      "notice": "feelandnote earns a small commission when you buy through affiliate links.",
       "benefit": "Check prices and delivery at your preferred store.",
-      "support": "Your purchases help keep Feel & Note running."
+      "support": "Your purchases help keep feelandnote running."
     },
     "introductionSource": {
       "unknown": "Source unverified",
       "external": "External source",
       "unknownDescription": "The source of this introduction has not been verified.",
-      "originalDescription": "This introduction was written by F&N.",
+      "originalDescription": "This introduction was written by {brand}.",
       "sourceDescription": "Introduction source: {source}",
       "openSource": "Open source",
       "original": "Source"

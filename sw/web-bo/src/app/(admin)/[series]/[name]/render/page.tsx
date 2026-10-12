@@ -1,5 +1,7 @@
 'use client'
 
+import { ADMIN_NAME } from '@feelandnote/shared/constants/site-brand'
+
 import { useEffect } from 'react'
 import { useEpisode } from '@/features/book-recommend/lib/episode-context'
 import { TaskPanel } from '@/features/book-recommend/components/TaskPanel'
@@ -15,7 +17,7 @@ export default function RenderPage() {
   const { series, name, episode, post } = useEpisode()
 
   useEffect(() => {
-    document.title = `${episode?.host?.nickname ?? name} 렌더 — Feel & Note BO`
+    document.title = `${episode?.host?.nickname ?? name} 렌더 — ${ADMIN_NAME}`
   }, [episode, name])
 
   // 1권 모드 렌더 대상 — 솔로는 별도 데이터 없이 책 본문에서 자동 변환되므로 모든 책이 후보

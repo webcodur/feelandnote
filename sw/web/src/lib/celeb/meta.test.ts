@@ -11,6 +11,7 @@ import {
   rankRecordTypes,
   type CelebMetaInput,
 } from "./meta";
+import { estimateTextWidth, SNIPPET_WIDTH } from "../seoSentences";
 
 const emptyCounts = { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 };
 
@@ -75,7 +76,7 @@ test("thin full records keep numbers out of the title", () => {
   );
   assert.equal(
     buildCelebDescriptionKo({ ...input, signatureWorks: ["사피엔스"] }),
-    "빌 게이츠, 윈도우를 PC 표준으로 키운 마이크로소프트 공동창업자. 《사피엔스》의 감상 기록을 모았습니다.",
+    "빌 게이츠, 윈도우를 PC 표준으로 키운 마이크로소프트 공동창업자. 《사피엔스》를 읽었다.",
   );
 });
 
@@ -87,11 +88,11 @@ test("full profile without records falls back to name and headline", () => {
   assert.doesNotMatch(buildCelebTitleEn(input), /recommended/i);
 });
 
-test("full description names the person, signature works and every record count", () => {
+test("full description names the person and actual works without changing counts or feature pitches", () => {
   const ko = buildCelebDescriptionKo(billGates);
   assert.equal(
     ko,
-    "빌 게이츠, 윈도우를 PC 표준으로 키운 마이크로소프트 공동창업자. 《사피엔스》, 《권력의 조건》, 《힐빌리의 노래》 등 책 177권, 음악 73곡, 영상 13편, 게임 5개의 감상 기록을 모았습니다.",
+    "빌 게이츠, 윈도우를 PC 표준으로 키운 마이크로소프트 공동창업자. 《사피엔스》, 《권력의 조건》, 《힐빌리의 노래》 등을 읽었다.",
   );
   assert.ok(ko.length <= 175);
 
@@ -100,10 +101,10 @@ test("full description names the person, signature works and every record count"
     nickname: "Bill Gates",
     signatureWorks: ["Sapiens", "Team of Rivals", "Hillbilly Elegy"],
   });
-  // 영어는 길어 나머지 분야 건수를 먼저 덜고 대표작을 지킨다. 앞 두 분야 건수는 제목이 싣는다.
+  // 건수는 제목에만 두고 설명에는 감상 사실을 싣는다.
   assert.equal(
     en,
-    "Bill Gates, the Microsoft co-founder who drove Windows to PC dominance. Records of 177 books read, including Sapiens, Team of Rivals and Hillbilly Elegy.",
+    "Bill Gates, the Microsoft co-founder who drove Windows to PC dominance. Books read include Sapiens, Team of Rivals and Hillbilly Elegy.",
   );
   assert.equal(
     buildCelebDescriptionEn({
@@ -112,7 +113,7 @@ test("full description names the person, signature works and every record count"
       headline_en: "The Microsoft co-founder",
       signatureWorks: ["Sapiens"],
     }),
-    "Bill Gates, the Microsoft co-founder. Records of 177 books read, including Sapiens, plus 73 songs heard, 13 videos watched and 5 games played.",
+    "Bill Gates, the Microsoft co-founder. Books read include Sapiens.",
   );
 
   // 음악이 가장 많으면 대표작도 음악이고 괄호가 바뀐다.
@@ -122,7 +123,9 @@ test("full description names the person, signature works and every record count"
     counts: { ...emptyCounts, MUSIC: 40, BOOK: 3 },
     signatureWorks: ["Feeling Good"],
   });
-  assert.match(singer, /〈Feeling Good〉 등 음악 40곡, 책 3권의 감상 기록/);
+  assert.match(singer, /〈Feeling Good〉 등을 들었다\.$/);
+  assert.doesNotMatch(ko + en + singer, /177|73|13|40|모았습니다|함께 볼|Explore/);
+  assert.equal(buildCelebDescriptionKo({ ...billGates, counts: { BOOK: 178, VIDEO: 14, MUSIC: 74, GAME: 6 } }), ko);
 });
 
 test("full description drops signature works before cutting the identity", () => {
@@ -133,16 +136,16 @@ test("full description drops signature works before cutting the identity", () =>
   const ko = buildCelebDescriptionKo(input);
   assert.ok(ko.length <= 175, `${ko.length}`);
   assert.match(ko, /^빌 게이츠, 윈도우를 PC 표준으로 키운 마이크로소프트 공동창업자\. 《첫째/);
-  assert.match(ko, /《둘째/);
-  assert.doesNotMatch(ko, /셋째/);
-  assert.match(ko, /등 책 177권(, 음악 73곡, 영상 13편, 게임 5개)?의 감상 기록을 모았습니다\.$/);
+  assert.doesNotMatch(ko, /둘째|셋째/);
+  assert.match(ko, /등을 읽었다\.$/);
+  assert.ok(estimateTextWidth(ko) <= SNIPPET_WIDTH);
   assert.doesNotMatch(ko, /…/);
 
-  // 대표작이 하나도 안 들어갈 만큼 길면 작품 없이 건수로 마무리한다.
+  // 대표작이 하나도 안 들어가면 정체를 지킨다. 건수 문구로 채우지 않는다.
   const huge = buildCelebDescriptionKo({ ...input, signatureWorks: ["가".repeat(200)] });
   assert.equal(
     huge,
-    "빌 게이츠, 윈도우를 PC 표준으로 키운 마이크로소프트 공동창업자. 책 177권, 음악 73곡, 영상 13편, 게임 5개의 감상 기록을 모았습니다.",
+    "빌 게이츠, 윈도우를 PC 표준으로 키운 마이크로소프트 공동창업자.",
   );
 });
 
@@ -221,9 +224,9 @@ test("myth description opens with the figure guide and the linked source", () =>
   };
   assert.equal(
     buildCelebDescriptionKo(input),
-    "헤라클레스는 그리스 신화에서 제우스와 인간 여인 알크메네 사이에 태어난 영웅이다. 《헤라클레스》 등 원전 속 행적과 인물 관계를 함께 볼 수 있습니다.",
+    "헤라클레스는 그리스 신화에서 제우스와 인간 여인 알크메네 사이에 태어난 영웅이다. 《헤라클레스》에 등장한다.",
   );
-  // 둘째 문장이 자리에 들어가도 싣지 않는다 — 요약이 잘릴 때 뒤의 볼거리가 먼저 빠진다.
+  // 안내 첫 문장에 원전이 이미 있으면 반복하지 않는다.
   assert.equal(
     buildCelebDescriptionKo({
       ...input,
@@ -231,14 +234,14 @@ test("myth description opens with the figure guide and the linked source", () =>
       guide: "아킬레우스는 호메로스의 《일리아스》에서 아카이아군 최강으로 묘사되는 전사이다. 그는 전투에서 물러난다.",
       sourceWorks: [{ title: "《일리아스》", relationType: "appearance" }],
     }),
-    "아킬레우스는 호메로스의 《일리아스》에서 아카이아군 최강으로 묘사되는 전사이다. 《일리아스》 등 원전 속 행적과 인물 관계를 함께 볼 수 있습니다.",
+    "아킬레우스는 호메로스의 《일리아스》에서 아카이아군 최강으로 묘사되는 전사이다.",
   );
 
   // 인물 안내가 없으면 이름, headline 뒤에 bio를 잇되 누구에게나 붙는 첫 문장은 건너뛴다.
   const withoutGuide = buildCelebDescriptionKo({ ...input, guide: null, hasConnections: false });
   assert.equal(
     withoutGuide,
-    "헤라클레스, 열두 과업을 완수한 영웅. 제우스의 아들, 열두 과제의 수행자. 《헤라클레스》 등 원전 속 행적을 함께 볼 수 있습니다.",
+    "헤라클레스, 열두 과업을 완수한 영웅. 제우스의 아들, 열두 과제의 수행자. 《헤라클레스》에 등장한다.",
   );
   assert.doesNotMatch(withoutGuide, /전승에 등장한다/);
 
@@ -252,12 +255,12 @@ test("myth description opens with the figure guide and the linked source", () =>
   });
   assert.equal(
     en,
-    "Heracles, the hero who completed the twelve labors. Son of Zeus, performer of the twelve labors. Explore source works including Heracles and story relationships.",
+    "Heracles, the hero who completed the twelve labors. Son of Zeus, performer of the twelve labors. Appears in Heracles.",
   );
   assert.doesNotMatch(en, /influence|spectrum|recommended/i);
 });
 
-test("real light description only names the analyses the page has", () => {
+test("real light description contains biography instead of analysis feature pitches", () => {
   const input: CelebMetaInput = {
     nickname: "곽가",
     title: "군사좨주",
@@ -268,14 +271,14 @@ test("real light description only names the analyses the page has", () => {
   };
   assert.equal(
     buildCelebDescriptionKo({ ...input, hasInfluence: true, hasSpectrum: true, hasConnections: true }),
-    "곽가, 손책의 피살을 예견한 조조의 책사. 후한 말 조조의 책사. 영향력 평가, 16축 스펙트럼, 인물 관계를 함께 볼 수 있습니다.",
+    "곽가, 손책의 피살을 예견한 조조의 책사. 후한 말 조조의 책사.",
   );
-  assert.match(buildCelebDescriptionKo({ ...input, hasInfluence: true, hasSpectrum: true }), /영향력 평가와 16축 스펙트럼을 함께/);
+  assert.equal(buildCelebDescriptionKo({ ...input, hasInfluence: true, hasSpectrum: true }), buildCelebDescriptionKo(input));
   const bare = buildCelebDescriptionKo(input);
   assert.doesNotMatch(bare, /영향력|스펙트럼|함께 볼/);
   assert.match(
     buildCelebDescriptionEn({ ...input, nickname: "Guo Jia", headline_en: "Cao Cao's strategist", bio: null, hasSpectrum: true }),
-    /^Guo Jia: Cao Cao's strategist\. Explore a 16-axis spectrum\.$/,
+    /^Guo Jia: Cao Cao's strategist\.$/,
   );
 });
 
@@ -292,7 +295,7 @@ test("descriptions stay within the meta description budget", () => {
     hasConnections: true,
   });
   assert.ok(ko.length <= 175, `${ko.length}`);
-  assert.match(ko, /^가{60}다\. 신화와 이야기 속 행적과 인물 관계를 함께 볼 수 있습니다\.$/);
+  assert.match(ko, /^가{60}다\.$/);
 });
 
 test("a bio line without end punctuation gets a period before the tail", () => {
@@ -307,11 +310,11 @@ test("a bio line without end punctuation gets a period before the tail", () => {
   };
   assert.equal(
     buildCelebDescriptionEn(input),
-    "Paul Biya: World's oldest head of state, now serving an eighth term. President of Cameroon since 1982. Explore influence scores.",
+    "Paul Biya: World's oldest head of state, now serving an eighth term. President of Cameroon since 1982.",
   );
   assert.match(
     buildCelebDescriptionKo({ ...input, nickname: "닉 캐슬", headline: "《할로윈》에서 마이클 마이어스를 처음 입은 배우", bio: "미국의 영화 제작자 (1947년생)" }),
-    /\(1947년생\)\. 영향력 평가를/,
+    /\(1947년생\)\.$/,
   );
 });
 
@@ -325,7 +328,7 @@ test("a myth figure without a source work does not repeat 'story'", () => {
     counts: emptyCounts,
     hasConnections: true,
   });
-  assert.match(en, /Explore the figure's place in myth and story, plus their relationships\.$/);
+  assert.equal(en, "Dinga Cissé, the Soninke patriarch who faced down a well spirit.");
   assert.doesNotMatch(en, /story and story/);
 });
 
@@ -338,5 +341,6 @@ test("signature works spelled differently are listed once", () => {
     counts: { ...emptyCounts, MUSIC: 2 },
     signatureWorks: ["Back In Black", "Back in Black"],
   });
-  assert.match(en, /including Back In Black\.$/);
+  assert.match(en, /Music listened to includes Back In Black\.$/);
+  assert.equal(en.match(/Back In Black/gi)?.length, 1);
 });

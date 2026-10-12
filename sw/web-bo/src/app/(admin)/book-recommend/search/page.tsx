@@ -1,5 +1,7 @@
 'use client'
 
+import { ADMIN_NAME } from '@feelandnote/shared/constants/site-brand'
+
 import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -31,7 +33,7 @@ export default function SearchPage() {
   const router = useRouter()
   const [query, setQuery] = useState('')
 
-  useEffect(() => { document.title = '새 에피소드 — Feel & Note BO' }, [])
+  useEffect(() => { document.title = `새 에피소드 — ${ADMIN_NAME}` }, [])
   const [profession, setProfession] = useState('')
   const [hasVoice, setHasVoice] = useState(false)
   const [results, setResults] = useState<CelebResult[]>([])
