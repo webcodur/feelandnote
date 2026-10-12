@@ -96,6 +96,8 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 | `KAKAO_REST_API_KEY` | 서비스용 책 검색 키. `sw/web/.env`·`sw/web-bo/.env`와 Oracle `/etc/feelandnote/web.env`에 같은 값을 둔다. 영문 원서는 OpenLibrary — 키 불요 | 카카오 개발자센터 |
 | `KAKAO_RESEARCH_REST_API_KEY` | 기존 책 검색 키를 개인 연구·조사용으로 회수해 로컬 `sw/web-bo/.env`에 보관한다. 사용 구분은 아래 외부 서비스 규칙을 따른다 | 카카오 개발자센터 |
 | `YES24_API_KEY` | web 서버의 한국 전일 도서 순위 조회. DB 신규 메타 수집 키가 아니다 | [예스24 개발자센터](https://developers.yes24.com/) |
+| `YES24_AUDIT_API_KEY` | BOOK 연구의 ISBN별 상품·리뷰·판매 신호 조회 주 키. ykj5598 연구 계정이며 로컬 `sw/web/.env`·`sw/web-bo/.env`에 보관한다 | [예스24 개발자센터](https://developers.yes24.com/) |
+| `YES24_AUDIT_SECONDARY_API_KEY` | 같은 연구의 webcodur 보조 키. 주 키의 일일 할당량 소진을 실제 응답으로 확인한 때 전환한다. 로컬 `sw/web/.env`·`sw/web-bo/.env`에 보관한다 | [예스24 개발자센터](https://developers.yes24.com/) |
 | `YES24_CHARTS_ENABLED` | web 운영의 예스24 순위 활성화. 상업 이용 조건 확인 후 `true`로 설정하며, 개발 환경은 키만 있으면 검증 가능 | 운영자 설정 |
 | `YES24_PURCHASE_ENABLED` | web 운영의 ISBN별 예스24 구매 링크 활성화. 이용 조건 확인 후 `true`로 설정하며, 개발 환경은 키만 있으면 검증 가능 | 운영자 설정 |
 | `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 블로그·이미지·뉴스 검색. **책 검색에는 더 쓰지 않는다.** 운영 웹의 「오늘의 인물」 뉴스도 이 키로 부르므로 Oracle `/etc/feelandnote/web.env`에도 들어간다 — 빠지면 매일 0시 인물 수만큼 「네이버 API 키 미설정」이 저널에 쌓이고 뉴스 칸이 빈다 | 네이버 개발자센터 |

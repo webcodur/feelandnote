@@ -95,6 +95,82 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
   const snapshot = () => JSON.parse(query(`SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table => `'${table}',(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM ${table} t ${table === 'contents' ? "WHERE id IN ('keep','drop')" : ''})`).join(',')});`))
   const merge = s => query(buildMergeSql(pair, s))
 
+  const resetFigureRelation=()=>reset(`
+    INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
+      ('keep','en','Reviewed book','Actual Writer','9780140449136','{"primary":"openlibrary","openlibrary":"https://openlibrary.org/books/OL1M"}');
+    INSERT INTO figure_book_contents VALUES('keep');
+    INSERT INTO figure_book_characters VALUES('keep','figure','authored',NULL,NULL),('keep','other-figure','appearance',NULL,NULL);
+    INSERT INTO figure_book_products SELECT 77,id,'amazon',false FROM figure_book_editions WHERE content_id='keep' AND isbn='9780140449136';
+    INSERT INTO celeb_contents VALUES('reading','keep','figure','Original review','Original English review','https://interview.example/reading');
+    INSERT INTO member_contents VALUES('member','keep','member','Original member review',5);
+    INSERT INTO records VALUES('record','keep','member','Original record');
+    INSERT INTO notes VALUES('note','keep','Original note');
+    INSERT INTO flow_nodes VALUES('node','keep','["keep"]');
+    INSERT INTO activity_logs VALUES('activity','keep','{"original":"keep"}');
+    INSERT INTO commerce_events VALUES(1,'keep','original');
+    INSERT INTO profession_book_picks VALUES('writer','classics','keep',1);
+    INSERT INTO curated_lists VALUES('list') ON CONFLICT DO NOTHING;
+    INSERT INTO curated_list_items VALUES('curated','keep','list',1,1,'Original title','Original note');
+    INSERT INTO faction_lv2 VALUES('faction',ARRAY['keep']);
+    INSERT INTO flows VALUES('flow','[{"content_ids":["keep"]}]');
+    INSERT INTO tier_lists VALUES('tier','[{"content_ids":["keep"]}]',ARRAY['keep']);`)
+  const reviewedFigureChange=(s,{remove=false,after='appearance'}={})=>({table:'figure_book_characters',
+    before:s.figure_book_characters.find(row=>row.celeb_id==='figure'),...(remove?{remove:true}:{patch:{relation_type:after}}),
+    reviewedFigureRelation:{method:'independent_figure_relation_review',llmReviewed:true,contentId:'keep',celebId:'figure',
+      beforeRelationType:s.figure_book_characters.find(row=>row.celeb_id==='figure').relation_type,afterRelationType:remove?null:after,
+      decision:remove?'remove_wrong_person':'correct_role',actualPersonName:'Modern artist with the same first name',figureName:'The service figure',
+      isbn:'9780140449136',locale:'en',editionTitle:'Reviewed book',editionCreator:'Actual Writer',
+      sourceUrl:'https://publisher.example/exact-book',identitySourceUrl:'https://museum.example/figure-identity',
+      identityStatement:'The identity source identifies this service figure and distinguishes the modern person.',
+      bodyEvidence:'The actual book text and author credits identify the figure as its subject, not its writer.',
+      reason:'The LLM read the independent book and identity sources and confirmed this exact existing relation.'}})
+  const sortedSnapshot=s=>Object.fromEntries(SNAPSHOT_TABLES.map(table=>[table,s[table].map(row=>JSON.stringify(row)).sort()]))
+  const assertFigureSnapshot=(actual,expected)=>assert.deepEqual(sortedSnapshot(actual),sortedSnapshot(expected))
+
+  await t.test('reviewed figure role corrections and wrong-person removal preserve the other relation and all protected rows',()=>{
+    resetFigureRelation()
+    for(const options of [{after:'appearance'},{after:'authored'},{remove:true}]){
+      const before=snapshot(),changes=[reviewedFigureChange(before,options)]
+      const plan=planGuardedCatalogRepairs(['keep','drop'],before,changes)
+      query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes))
+      const actual=snapshot();assertFigureSnapshot(actual,plan.expected)
+      for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_characters'))assertFigureSnapshot({...before,[table]:actual[table]},before)
+      assert.deepEqual(actual.figure_book_characters.find(row=>row.celeb_id==='other-figure'),before.figure_book_characters.find(row=>row.celeb_id==='other-figure'))
+    }
+  })
+
+  await t.test('stale figure relation or protected reading fails full18 CAS without applying sibling metadata',()=>{
+    for(const drift of ["UPDATE figure_book_characters SET description='Concurrent figure text' WHERE celeb_id='figure';",
+      "UPDATE celeb_contents SET review='Concurrent reading text' WHERE id='reading';"]){
+      resetFigureRelation();const before=snapshot(),changes=[{table:'contents',before:before.contents.find(row=>row.id==='keep'),patch:{metadata:{reviewed:true}}},reviewedFigureChange(before)]
+      const sql=buildGuardedCatalogRepairSql(['keep','drop'],before,changes)
+      query(drift);const current=snapshot()
+      assert.throws(()=>query(sql),/changed|snapshot|mismatch|before|concurrent/iu);assertFigureSnapshot(snapshot(),current)
+    }
+  })
+
+  await t.test('unknown composite figure FK rejects correction and deletion and rolls back sibling writes',()=>{
+    resetFigureRelation()
+    query("CREATE TABLE figure_relation_child(content_id text,celeb_id text,body text,FOREIGN KEY(content_id,celeb_id) REFERENCES figure_book_characters(content_id,celeb_id) ON DELETE CASCADE); INSERT INTO figure_relation_child VALUES('keep','figure','Child body');")
+    try{
+      for(const options of [{after:'appearance'},{remove:true}]){
+        const before=snapshot(),changes=[{table:'contents',before:before.contents.find(row=>row.id==='keep'),patch:{metadata:{reviewed:true}}},reviewedFigureChange(before,options)]
+        assert.throws(()=>query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes)),/unhandled figure relation reference/iu)
+        assertFigureSnapshot(snapshot(),before);assert.equal(query('SELECT body FROM figure_relation_child;'),'Child body')
+      }
+    }finally{query('DROP TABLE figure_relation_child;')}
+  })
+
+  await t.test('a figure trigger that changes protected reading causes expected18 rollback of the complete repair',()=>{
+    resetFigureRelation()
+    query("CREATE FUNCTION drift_figure_reading() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN UPDATE celeb_contents SET review='Unexpected trigger text' WHERE id='reading'; RETURN NEW; END $$; CREATE TRIGGER drift_figure_reading AFTER UPDATE ON figure_book_characters FOR EACH ROW EXECUTE FUNCTION drift_figure_reading();")
+    try{
+      const before=snapshot(),changes=[{table:'contents',before:before.contents.find(row=>row.id==='keep'),patch:{metadata:{reviewed:true}}},reviewedFigureChange(before)]
+      assert.throws(()=>query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes)),/rowset mismatch in celeb_contents/iu)
+      assertFigureSnapshot(snapshot(),before)
+    }finally{query('DROP TRIGGER drift_figure_reading ON figure_book_characters; DROP FUNCTION drift_figure_reading();')}
+  })
+
   await t.test('nested and JSON-encoded backup provenance clears source copies with all 18 rowsets protected',()=>{
     const backup={type:'backup-restored',backup:'old/book-descriptions.json',original_locale:'ko',original_sources:{primary:'kakao_book'}}
     const nested={type:'locale-translation',snapshot_hash:'existing-hash',source_locale:'en',source_content_id:'keep',original_sources:{primary:'openlibrary',description:backup}}
@@ -112,6 +188,81 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     for(const table of SNAPSHOT_TABLES.filter(table=>!['content_locales','figure_book_editions'].includes(table)))assert.deepEqual(snapshot()[table],before[table],table)
     assert.throws(()=>query(sql),/changed|snapshot|mismatch|before|concurrent/iu)
     assert.deepEqual(snapshot(),expected)
+  })
+
+  await t.test('nested live URL survives raw-copy disposal with protected text and replay CAS preserved',()=>{
+    const url='https://openlibrary.org/works/OL85239W'
+    const backup={type:'backup-restored',backup:'old/book-descriptions.json',original_locale:'ko',
+      original_sources:{primary:'kakao_book',thumbnail:'kakao_book',description:url}}
+    reset(`INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO figure_book_editions(content_id,locale,title,description,sources) VALUES
+      ('keep','en','Existing title','Existing introduction',${sqlLiteral(JSON.stringify({primary:'openlibrary',description:JSON.stringify(backup),identity:'https://publisher.example/current'}))}::jsonb);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','Existing review','Existing English review','https://publisher.example/reading');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('member','keep','member','Existing member review',5);`)
+    const before=snapshot(),row=before.figure_book_editions[0]
+    const changes=[{table:'figure_book_editions',before:row,patch:{sources:{...row.sources,description:url}},
+      reviewedArchiveProvenanceDiscard:{method:'discard_raw_source_copy',path:'sources.description',retainedSourceUrl:url,
+        reason:'Retain the exact live source already nested in the verified old wrapper; discard only the copied archive.'}}]
+    const expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
+    const sql=buildGuardedCatalogRepairSql(['keep','drop'],before,changes)
+    query(sql);assert.deepEqual(snapshot(),expected)
+    for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(snapshot()[table],before[table],table)
+    assert.equal(snapshot().figure_book_editions[0].sources.description,url)
+    assert.throws(()=>query(sql),/changed|snapshot|mismatch|before|concurrent/iu)
+    assert.deepEqual(snapshot(),expected)
+  })
+
+  await t.test('reviewed one-song series deletes alternatives under live policy and preserves consumer text',t=>{
+    t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`UPDATE contents SET metadata='{"figureBook":{"series":{"title":"One-song teaching series","creator":"Music team","locale":"ko","sourceUrl":"https://publisher.example/series"}}}' WHERE id='keep';
+      INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
+      ('keep','ko','Teaching score: First song','Music team','Actual first-song score introduction','9788936470487','{"description":"https://publisher.example/first"}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      UPDATE figure_book_editions SET edition_kind='volume',text_scope='song/First song';
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,description,isbn,edition_kind,text_scope,sources) VALUES
+      ('keep','ko','Teaching score: Later song','Music team','Actual second-song score introduction','9788936470494','volume','song/Later song','{"description":"https://publisher.example/later"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','Original review','English review','https://example.org/review');`)
+    query(editionPolicySql())
+    const before=snapshot(),first=before.figure_book_editions[0],later=before.figure_book_editions[1]
+    const proof={method:'independent_song_score_series_review',contentId:'keep',editionId:later.id,locale:'ko',editionTitle:later.title,isbn:later.isbn,
+      textScope:later.text_scope,referenceEditionId:first.id,referenceTitle:first.title,referenceCreator:first.creator,referenceIsbn:first.isbn,
+      referenceTextScope:first.text_scope,seriesTitle:'One-song teaching series',seriesCreator:'Music team',seriesSourceUrl:'https://publisher.example/series',
+      sameTeachingFormat:true,individualSongScores:true,sourceUrl:'https://publisher.example/later',referenceSourceUrl:'https://publisher.example/first',
+      reason:'Exact entries confirm these individual songs use the same teaching series format; one selected representative remains without claiming identical music.'}
+    const edits=[{table:'figure_book_editions',before:later,remove:true,reviewedSongScoreSeriesEditionRemoval:proof}]
+    const sql=buildGuardedCatalogRepairSql(['keep','drop'],before,edits)
+    query("UPDATE member_contents SET review='Concurrent text' WHERE id='reader'");assert.throws(()=>query(sql),/rowset mismatch/)
+    assert.equal(query('SELECT count(*) FROM figure_book_editions'),'2')
+    query("UPDATE member_contents SET review='Existing member text' WHERE id='reader'");query(sql)
+    const after=snapshot();assert.deepEqual(after,planGuardedCatalogRepairs(['keep','drop'],before,edits).expected)
+    for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(after[table],before[table],table)
+  })
+
+  await t.test('actual complete-set normalization deletes included first volume before updating representative under live policy',t=>{
+    t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`UPDATE contents SET metadata='{"figureBook":{"originalLanguage":"ko","identityEvidence":"https://publisher.example/original"}}' WHERE id='keep';
+      INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
+      ('keep','ko','Novel first','Author','Actual novel introduction','9788936470487','{"description":"https://publisher.example/first"}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      UPDATE figure_book_editions SET edition_kind='volume',text_scope='volume/1';
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,description,isbn,sources) VALUES
+      ('keep','ko','Novel complete set','Author','Actual complete-set introduction','9788936470494','{"description":"https://publisher.example/set"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);`)
+    query(editionPolicySql())
+    const before=snapshot(),first=before.figure_book_editions[0],whole=before.figure_book_editions[1],locale=before.content_locales[0]
+    const proof={method:'independent_complete_set_review',contentId:'keep',editionId:first.id,locale:'ko',editionTitle:first.title,isbn:first.isbn,
+      referenceEditionId:whole.id,referenceTitle:whole.title,referenceCreator:whole.creator,referenceIsbn:whole.isbn,referenceAfterPatch:true,
+      textIdentity:'original',originalLanguage:'ko',volumeNumber:1,totalVolumes:2,completeSet:true,
+      sourceUrl:'https://publisher.example/first',referenceSourceUrl:'https://publisher.example/set',
+      reason:'The exact original complete two-volume set includes the first volume; normalization retains the selected entire original without altering consumer records.'}
+    const edits=[{table:'figure_book_editions',before:whole,patch:{edition_kind:'full',text_scope:'complete'}},
+      {table:'content_locales',before:locale,patch:{isbn:whole.isbn}},
+      {table:'figure_book_editions',before:first,remove:true,reviewedCompleteSetVolumeRemoval:proof}]
+    assert.throws(()=>query("UPDATE figure_book_editions SET edition_kind='full',text_scope='complete' WHERE isbn='9788936470494'"),/representative edition/)
+    query(buildGuardedCatalogRepairSql(['keep','drop'],before,edits))
+    const after=snapshot();assert.deepEqual(after,planGuardedCatalogRepairs(['keep','drop'],before,edits).expected)
+    assert.deepEqual(after.member_contents,before.member_contents);assert.equal(after.figure_book_editions[0].text_scope,'complete')
   })
 
   await t.test('source-reviewed later-volume deletion handles wrong live full scope without a forbidden metadata update', t=>{
@@ -212,7 +363,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.equal(after.figure_book_products[0].edition_id,first.id)
   })
 
-  await t.test('complete-set choice replaces its included first volume without merging different body scopes or changing protected prose', t => {
+  for(const original of [false,true])await t.test(`${original?'Original':'Translation'} complete-set choice replaces its included first volume without merging different body scopes or changing protected prose`, t => {
     t.after(()=>query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,sources) VALUES
       ('keep','ko','Novel complete set','Author','Complete novel introduction','9788932910673','{"primary":"kakao","translators":["Translator"],"description":"https://publisher.example/set"}');
@@ -222,16 +373,27 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
       ('keep','ko','Novel 1','Author','First volume introduction','9788932910680','volume','volume/1','{"translators":["Translator"],"description":"https://publisher.example/first"}');
       INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
       INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('reading','keep','celeb','원래 감상','Original review','https://example.org/review');`)
+    if(original)query(`UPDATE contents SET metadata=jsonb_set(coalesce(metadata,'{}'::jsonb),'{figureBook}',
+      '{"originalLanguage":"ko","identityEvidence":"https://publisher.example/original"}'::jsonb) WHERE id='keep';
+      UPDATE figure_book_editions SET sources=jsonb_set(sources,'{translators}','[]'::jsonb) WHERE content_id='keep';
+      UPDATE content_locales SET sources=jsonb_set(sources,'{translators}','[]'::jsonb) WHERE content_id='keep';`)
     query(editionPolicySql())
     const before=snapshot(),first=before.figure_book_editions.find(row=>row.text_scope==='volume/1'),whole=before.figure_book_editions.find(row=>row.text_scope==='complete')
     const split=structuredClone(before)
     split.figure_book_editions.find(row=>row.id===first.id).content_id='drop'
-    assert.throws(()=>buildMergeSql(pair,split),/automatic translation mapping scope conflict/)
+    if(!original)assert.throws(()=>buildMergeSql(pair,split),/automatic translation mapping scope conflict/)
     const proof={method:'independent_complete_set_review',contentId:'keep',editionId:first.id,locale:'ko',editionTitle:first.title,isbn:first.isbn,
       referenceEditionId:whole.id,referenceTitle:whole.title,referenceCreator:whole.creator,referenceIsbn:whole.isbn,translators:['Translator'],
       volumeNumber:1,totalVolumes:2,completeSet:true,sourceUrl:'https://publisher.example/first',referenceSourceUrl:'https://publisher.example/set',
       reason:'The exact two-volume complete set contains this first volume of the same verified translation and supplies the whole original.'}
+    if(original)Object.assign(proof,{textIdentity:'original',originalLanguage:'ko',translators:[],
+      reason:'Independent exact ISBN sources confirm this complete original set includes its first volume; no translator is invented.'})
     const changes=[{table:'figure_book_editions',before:first,remove:true,reviewedCompleteSetVolumeRemoval:proof}]
+    if(original){
+      const unreviewed=structuredClone(before)
+      unreviewed.contents.find(row=>row.id==='keep').metadata.figureBook.originalLanguage='en'
+      assert.throws(()=>buildGuardedCatalogRepairSql(['keep','drop'],unreviewed,changes),/Complete-set/)
+    }
     const sql=buildGuardedCatalogRepairSql(['keep','drop'],before,changes)
     query("UPDATE content_locales SET title='Concurrent selected title' WHERE content_id='keep'")
     assert.throws(()=>query(sql),/rowset mismatch/)
@@ -315,6 +477,39 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.equal(read().figure_book_contents.length,0)
   })
 
+  await t.test('reviewed missing English edition preserves Korean edition and product history under the active policy guard', t => {
+    query(`ALTER TABLE figure_book_contents ADD COLUMN created_at timestamptz DEFAULT now(),ADD COLUMN updated_at timestamptz DEFAULT now();
+      ALTER TABLE figure_book_editions ADD COLUMN created_at timestamptz DEFAULT now(),ADD COLUMN updated_at timestamptz DEFAULT now();`)
+    t.after(() => query(`DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions;
+      ALTER TABLE figure_book_contents DROP COLUMN created_at,DROP COLUMN updated_at;
+      ALTER TABLE figure_book_editions DROP COLUMN created_at,DROP COLUMN updated_at;`))
+    reset(`UPDATE contents SET metadata='{"figureBook":{"workTitle":"Actual original","workCreator":"Actual author"}}' WHERE id='keep';
+      INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
+      ('keep','ko','한국어 번역','Actual author','9791167972064','{"primary":"kakao_book","isbn":"https://dapi.kakao.com/v3/search/book?target=isbn&query=9791167972064","translators":["Translator"]}');
+      INSERT INTO figure_book_contents(content_id) VALUES('keep');
+      INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
+      ('keep','en','Actual original','Actual author','9780451464163','{"primary":"openlibrary","isbn":"https://openlibrary.org/books/OL1234M"}');
+      INSERT INTO figure_book_products(id,edition_id,platform,is_active) SELECT 100,id,'shop',true FROM figure_book_editions WHERE content_id='keep';
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reader','keep','reader','Existing member text',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('celeb-reading','keep','celeb','원래 감상','Original review','https://example.org/review');`)
+    query(editionPolicySql())
+    const assigned=['keep'],read=()=>JSON.parse(query(buildCatalogRepairSnapshotSql(assigned))),before=read(),retained=before.figure_book_editions[0]
+    const reviews=bindReviewedCatalogInsertIdentity(before,[{contentId:'keep',locale:'en',isbn:'9780451464163',textLanguage:'en',
+      sourceUrl:'https://publisher.example/exact-original',reason:'The English original and exact ISBN were reviewed independently; the Korean translation remains intact.',editionKind:null,textScope:null}])
+    const sql=buildReviewedCatalogInsertSql(assigned,before,reviews)
+    query("UPDATE content_locales SET creator='Concurrent changed author' WHERE content_id='keep' AND locale='en';")
+    assert.throws(()=>query(sql),/rowset mismatch/)
+    assert.equal(read().figure_book_editions.length,1)
+    query("UPDATE content_locales SET creator='Actual author' WHERE content_id='keep' AND locale='en';")
+    query(sql)
+    const after=read()
+    assert.equal(verifyReviewedCatalogInsertReadback(assigned,before,reviews,after).checkedTables,18)
+    assert.deepEqual(after.figure_book_editions.find(row=>row.locale==='ko'),retained)
+    assert.deepEqual(after.figure_book_products,before.figure_book_products)
+    assert.deepEqual(after.celeb_contents,before.celeb_contents);assert.deepEqual(after.member_contents,before.member_contents)
+    assert.throws(()=>buildReviewedCatalogInsertSql(assigned,after,reviews),/existing edition for locale/)
+  })
+
   await t.test('clear wrong prose from ISBN-less locale using the actual same-work English locale without seeding physical editions', t => {
     reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,description,sources) VALUES
       ('keep','en','Steve Biddulph Raising Girls','Steve Biddulph','9780007455669',NULL,'{"primary":"openlibrary"}'),
@@ -392,6 +587,34 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     const changes=[{table:'figure_book_editions',before:placeholder,remove:true,reviewedPlaceholderRemoval:proof}],expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
     query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes));assert.deepEqual(snapshot(),expected)
     assert.deepEqual(snapshot().figure_book_editions,[reference])
+  })
+
+  await t.test('exact wrong-work ISBN and prose removal keeps the verified original and protected reviews under the active guard', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO content_locales(content_id,locale,title,creator,isbn,description,sources) VALUES
+      ('keep','en','The Dead Zone','Stephen King','9780670260775','A teacher wakes from a coma with an ability that forces him to confront a political threat.',
+       '{"primary":"openlibrary","description":"https://publisher.example/king"}');
+      INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO figure_book_editions(content_id,locale,title,creator,isbn,description,sources) VALUES
+      ('keep','ko','데드존','스티븐 킹','9788956990521','Reinhold Messner explores mountaineers altered awareness in extreme conditions.',
+       '{"primary":"kakao","description":"https://publisher.example/messner"}');
+      INSERT INTO content_locales(content_id,locale,title,creator,isbn,description,sources) VALUES
+      ('keep','ko','데드존','스티븐 킹','9788956990521','Reinhold Messner explores mountaineers altered awareness in extreme conditions.',
+       '{"primary":"kakao","description":"https://publisher.example/messner"}');
+      INSERT INTO member_contents(id,content_id,member_id,review,rating) VALUES('reading','keep','person','Human review',5);
+      INSERT INTO celeb_contents(id,content_id,celeb_id,review,review_en,source_url) VALUES('curation','keep','celeb','원문 감상','Original review','https://evidence.example/reading');`)
+    query(editionPolicySql())
+    const before=snapshot(),wrong=before.figure_book_editions.find(row=>row.locale==='ko'),reference=before.figure_book_editions.find(row=>row.locale==='en'),card=before.content_locales.find(row=>row.locale==='ko')
+    const selection={method:'independent_selection_review',content_id:'keep',isbn:wrong.isbn,locale:wrong.locale,edition_title:wrong.title,reason:'wrong_work',source_url:'https://publisher.example/messner',explanation:'The independently reviewed exact ISBN identifies the Messner mountaineering book, not the King novel.'}
+    const discard={method:'independent_other_work_introduction_review',isbn:wrong.isbn,workTitle:'Dead Zone',creator:'Reinhold Messner',sourceUrl:selection.source_url,reason:'The actual product body and copied prose concern Messner mountaineering rather than the King novel.',
+      referenceEditionId:reference.id,referenceLocale:reference.locale,referenceTitle:reference.title,referenceCreator:reference.creator,referenceIsbn:reference.isbn}
+    const changes=[{table:'figure_book_editions',before:wrong,remove:true,reviewedSelectionExclusion:{...selection,misattachedIntroduction:discard}},
+      {table:'content_locales',before:card,patch:{description:null,sources:{...card.sources,description:null,edition_selection_evidence:[selection]}},reviewedIntroductionCorrection:{isbn:card.isbn,locale:card.locale,editionTitle:card.title,sourceUrl:selection.source_url,reason:selection.explanation}}]
+    const expected=planGuardedCatalogRepairs(['keep','drop'],before,changes).expected
+    query(buildGuardedCatalogRepairSql(['keep','drop'],before,changes));assert.deepEqual(snapshot(),expected)
+    assert.deepEqual(snapshot().figure_book_editions,[reference]);assert.deepEqual(snapshot().member_contents,before.member_contents);assert.deepEqual(snapshot().celeb_contents,before.celeb_contents)
+    query('DELETE FROM figure_book_contents WHERE content_id=\'keep\'; INSERT INTO figure_book_contents VALUES(\'keep\');')
+    assert.equal(snapshot().figure_book_editions.some(row=>row.isbn===wrong.isbn),false)
   })
 
   await t.test('source-free ISBN candidate removal keeps the actual 979 product and rejects stale or historical-product rows', t => {
