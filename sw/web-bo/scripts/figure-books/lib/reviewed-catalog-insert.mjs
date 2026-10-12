@@ -46,6 +46,29 @@ function officialBinding(locale, isbn) {
         && url.searchParams.get('target') === 'isbn' && toIsbn13(url.searchParams.get('query') ?? '') === isbn
   })
 }
+// 기존 작품의 정식 제공자 미등재 실물을 실제 출판사·도서관·서점 출처로 보완한다.
+function reviewedExistingSourceBinding(review, locale, figure) {
+  const proof = review.registeredBookSourceReview
+  if (proof === undefined) return false
+  const identity = { contentId: review.contentId, locale: review.locale, isbn: review.isbn,
+    title: review.title, creator: review.creator, workTitle: review.workTitle, workCreator: review.workCreator,
+    publisher: locale.publisher?.trim(), sourceUrl: review.sourceUrl, textLanguage: review.textLanguage }
+  const permitted = url => publicSource(url, true)
+    && !/(?:^|\.)(?:amazon\.[a-z.]+|books\.google\.[a-z.]+|googleapis\.com|daum\.net|kakao\.com)$/iu.test(new URL(url).hostname.replace(/\.$/u, ''))
+  if (!proof || proof.method !== 'independent_registered_book_source_review' || proof.llmReviewed !== true
+    || proof.userAuthorized !== true || proof.officialProviderUnavailable !== true
+    || !toIsbn13(review.isbn ?? '') || locale.verified !== true || !nonempty(locale.publisher)
+    || Object.entries(identity).some(([key, value]) => !isDeepStrictEqual(proof[key], value))
+    || figure.workTitle !== review.workTitle || figure.workCreator !== review.workCreator
+    || (figure.workIdentity ?? null) !== (proof.workIdentity ?? null)
+    || proof.physicalMedium !== 'paper' || !['publisher', 'library', 'bookseller'].includes(proof.sourceKind)
+    || !permitted(proof.sourceUrl) || !permitted(proof.corroboratingSourceUrl)
+    || new URL(proof.sourceUrl).hostname === new URL(proof.corroboratingSourceUrl).hostname
+    || typeof proof.bodyEvidence !== 'string' || proof.bodyEvidence.trim().length < 20
+    || ['primary', 'isbn', 'title', 'creator', 'publisher'].some(key => locale.sources?.[key] !== proof.sourceUrl))
+    throw Error('CATALOG_INSERT: existing-book fallback requires authorized LLM review, exact live identity, unavailable official provider and corroborated paper/text sources')
+  return true
+}
 function isbnlessPhysicalBinding(review, locale, figure) {
   const proof = review.isbnlessPhysicalEditionReview
   const english = review.locale === 'en'
@@ -221,9 +244,10 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
     const title = (locale?.sources?.edition_title?.trim() || locale?.title?.trim())
     if (!locale || (isbn === null ? locale.isbn !== null : locale.isbn?.trim() !== isbn) || title !== review.title || locale.creator?.trim() !== review.creator)
       throw Error('CATALOG_INSERT: exact live locale ISBN/title/creator mismatch')
-    if (isbn !== null && (locale.sources?.primary !== (review.locale === 'ko' ? 'kakao_book' : 'openlibrary') || !officialBinding(locale, isbn)))
-      throw Error('CATALOG_INSERT: wrong primary or missing official ISBN binding; correct the card first')
     const figure = work.metadata?.figureBook ?? {}
+    const fallback = reviewedExistingSourceBinding(review, locale, figure)
+    if (isbn !== null && !fallback && (locale.sources?.primary !== (review.locale === 'ko' ? 'kakao_book' : 'openlibrary') || !officialBinding(locale, isbn)))
+      throw Error('CATALOG_INSERT: wrong primary or missing official ISBN binding; correct the card first')
     if (figure.workTitle && figure.workTitle !== review.workTitle || figure.workCreator && figure.workCreator !== review.workCreator)
       throw Error('CATALOG_INSERT: reviewed original differs from live work anchor')
     if (review.translators !== undefined && (!Array.isArray(review.translators) || review.translators.some(name => !nonempty(name))))

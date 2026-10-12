@@ -38,6 +38,55 @@ function fixture() {
   ]
   return { before, reviews }
 }
+function fallbackFixture() {
+  const { before, reviews } = fixture(), review = reviews[0], card = before.content_locales[0]
+  const sourceUrl = 'https://publisher.example/a'
+  Object.assign(card, { verified: true, sources: { ...card.sources,
+    ...Object.fromEntries(['primary', 'isbn', 'title', 'creator', 'publisher'].map(key => [key, sourceUrl])) } })
+  review.registeredBookSourceReview = { method: 'independent_registered_book_source_review', llmReviewed: true,
+    userAuthorized: true, officialProviderUnavailable: true, contentId: review.contentId, locale: 'en', isbn: review.isbn,
+    title: review.title, creator: review.creator, workTitle: review.workTitle, workCreator: review.workCreator,
+    workIdentity: null, publisher: card.publisher.trim(), sourceUrl, textLanguage: 'en', physicalMedium: 'paper',
+    sourceKind: 'publisher', corroboratingSourceUrl: 'https://library.example/exact-isbn',
+    bodyEvidence: 'The LLM read the English novel excerpt and exact paperback bibliography from both actual sources.' }
+  return { before, reviews }
+}
+test('authorized source fallback restores only existing BOOK editions with truthful source URLs and unchanged histories', () => {
+  const { before, reviews } = fallbackFixture(), copy = structuredClone(before)
+  const plan = planReviewedCatalogInsert(ids, before, reviews)
+  assert.deepEqual(before, copy)
+  assert.equal(plan.editions[0].sources.primary, 'https://publisher.example/a')
+  assert.equal(plan.editions[0].sources.isbn, 'https://publisher.example/a')
+  assert.equal(plan.editions[0].sources.registeredBookSourceReview, undefined)
+  assert.doesNotThrow(() => verifyReviewedCatalogInsertReadback(ids, before, reviews, committed(before, reviews)))
+  const sql = buildReviewedCatalogInsertSql(ids, before, reviews)
+  assert.doesNotMatch(sql, /INSERT INTO public.contents|UPDATE public.celeb_contents|DELETE FROM public.celeb_contents/)
+  for (const table of SNAPSHOT_TABLES) assert.ok(sql.includes('rowset mismatch in ' + table))
+})
+test('fallback refuses guessed identities, wrong language/medium, unapproved or uncorroborated source decisions', () => {
+  for (const diff of [{ llmReviewed: false }, { userAuthorized: false }, { officialProviderUnavailable: false },
+    { contentId: 'other' }, { isbn: '9780140449136' }, { title: 'Other' }, { creator: 'Other' },
+    { workTitle: 'Other' }, { workCreator: 'Other' }, { workIdentity: 'other' }, { publisher: 'Other' },
+    { locale: 'ko' }, { textLanguage: 'ko' }, { physicalMedium: 'ebook' }, { sourceKind: 'search_snippet' },
+    { corroboratingSourceUrl: 'https://publisher.example/another-page' }, { bodyEvidence: 'Guess' },
+    { corroboratingSourceUrl: 'https://localhost/book' }, { sourceUrl: 'https://openlibrary.org/books/OL1234M' },
+    { sourceUrl: 'https://amazon.com/dp/book' }, { sourceUrl: 'https://books.google.com/books?id=one' }]) {
+    const { before, reviews } = fallbackFixture()
+    Object.assign(reviews[0].registeredBookSourceReview, diff)
+    assert.throws(() => planReviewedCatalogInsert(ids, before, reviews), /existing-book fallback/)
+  }
+  for (const key of ['primary', 'isbn', 'title', 'creator', 'publisher']) {
+    const { before, reviews } = fallbackFixture();before.content_locales[0].sources[key] = 'https://publisher.example/stale'
+    assert.throws(() => planReviewedCatalogInsert(ids, before, reviews), /existing-book fallback/)
+  }
+  const { before, reviews } = fallbackFixture();delete reviews[0].registeredBookSourceReview
+  assert.throws(() => planReviewedCatalogInsert(ids, before, reviews), /wrong primary/)
+})
+test('fallback still rejects protected changes and duplicate product history in actual readback', () => {
+  const { before, reviews } = fallbackFixture(), after = committed(before, reviews)
+  after.celeb_contents[0].review = 'Changed prose'
+  assert.throws(() => verifyReviewedCatalogInsertReadback(ids, before, reviews, after), /celeb_contents/)
+})
 function committed(before, reviews) {
   const plan = planReviewedCatalogInsert(ids, before, reviews), after = structuredClone(before)
   for (const content_id of plan.newParentIds) after.figure_book_contents.push({ content_id, created_at: timestamp, updated_at: timestamp })
