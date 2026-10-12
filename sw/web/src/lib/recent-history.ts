@@ -20,6 +20,18 @@ export type RecentHistoryVisit = Omit<RecentHistoryItem, "visitedAt">;
 
 export const recentHistoryKey = (item: Pick<RecentHistoryItem, "kind" | "id">) => `${item.kind}:${item.id}`;
 
+export function forgetRecentHistory(items: RecentHistoryItem[], target: Pick<RecentHistoryItem, "kind" | "id">): RecentHistoryItem[] {
+  const key = recentHistoryKey(target);
+  return items.filter(item => recentHistoryKey(item) !== key);
+}
+
+/** 판본·그룹·언어가 달라도 같은 상세 화면의 현재 항목을 표시한다. */
+export function isCurrentRecentHistory(item: RecentHistoryItem, pathname: string, currentId?: string) {
+  if (currentId) return item.id === currentId;
+  const path = (value: string) => value.split(/[?#]/, 1)[0].replace(/^\/(?:ko|en)(?=\/|$)/, "").replace(/\/$/, "");
+  return path(item.href) === path(pathname);
+}
+
 /** 다른 종류의 방문이 기존 기록을 밀어내지 않도록 종류마다 한도를 적용한다. */
 export function limitRecentHistory(items: RecentHistoryItem[]): RecentHistoryItem[] {
   const counts = new Map<RecentHistoryKind, number>();

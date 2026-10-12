@@ -1,9 +1,37 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { legacyRecentHistory, parseRecentHistory, recentHistoryForKind, rememberRecentHistory, RECENT_HISTORY_LIMIT, type RecentHistoryVisit } from "./recent-history";
+import { forgetRecentHistory, isCurrentRecentHistory, legacyRecentHistory, parseRecentHistory, recentHistoryForKind, rememberRecentHistory, RECENT_HISTORY_LIMIT, type RecentHistoryVisit } from "./recent-history";
 
 const myth: RecentHistoryVisit = { kind: "myth", id: "odyssey", href: "/explore/myth/homer-odyssey", title: "오디세이아", thumbnail: null };
 const book: RecentHistoryVisit = { kind: "content", id: "odyssey", href: "/content/odyssey?category=book&editionId=72", title: "Odyssey", thumbnail: null };
+
+test("삭제는 같은 ID의 다른 종류를 보존하고 나머지 기록·순서를 바꾸지 않는다", () => {
+  const items = rememberRecentHistory(rememberRecentHistory([], myth, 1), book, 2);
+  const removed = forgetRecentHistory(items, myth);
+  assert.deepEqual(removed, [items[0]]);
+  assert.deepEqual(parseRecentHistory(JSON.stringify(removed)), removed);
+  assert.deepEqual(forgetRecentHistory(removed, myth), removed);
+});
+
+test("마지막 기록을 지우면 빈 목록을 저장하며 실제 재방문은 다시 추가한다", () => {
+  const removed = forgetRecentHistory(rememberRecentHistory([], myth, 1), myth);
+  assert.deepEqual(parseRecentHistory(JSON.stringify(removed)), []);
+  assert.deepEqual(rememberRecentHistory(removed, myth, 2), [{ ...myth, titles: {}, subtitles: {}, visitedAt: 2 }]);
+});
+
+test("현재 항목 표시는 언어·판본·그룹 조건과 주소 끝 슬래시를 구분하지 않는다", () => {
+  const item = { ...book, visitedAt: 1 };
+  assert.equal(isCurrentRecentHistory(item, "/en/content/odyssey/?editionId=99#work-information"), true);
+  assert.equal(isCurrentRecentHistory(item, "/ko/content/odyssey"), true);
+  assert.equal(isCurrentRecentHistory(item, "/content/odyssey-other"), false);
+  assert.equal(isCurrentRecentHistory({ ...myth, href: myth.href + "?group=crew&person=odysseus", visitedAt: 1 }, myth.href), true);
+});
+
+test("현재 인물·작품의 ID가 있으면 이전 주소 형태에도 같은 항목을 표시한다", () => {
+  const item = { ...book, visitedAt: 1 };
+  assert.equal(isCurrentRecentHistory(item, "/content/canonical", "odyssey"), true);
+  assert.equal(isCurrentRecentHistory(item, "/content/odyssey", "other"), false);
+});
 
 test("종류가 다른 같은 ID를 구분하고 재방문을 해당 기록의 맨 앞으로 옮긴다", () => {
   const first = rememberRecentHistory([], myth, 1);

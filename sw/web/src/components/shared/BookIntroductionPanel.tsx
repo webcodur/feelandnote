@@ -15,6 +15,7 @@
 import { useCallback, useId, useRef, useState } from "react";
 import { ArrowUpRight, BookOpenText, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { SITE_NAME, SITE_NAME_KO } from "@feelandnote/shared/constants/site-brand";
 import FormattedText from "@/components/ui/FormattedText";
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import { INTRO_PROVIDER_HEADING_NAME } from "@/components/shared/BookIntroductionSource";
@@ -112,7 +113,7 @@ export default function BookIntroductionPanel({
     providerName,
     sourceUrl: showSource ? attribution?.url : null,
     title: attribution?.provider === "feelandnote"
-      ? tSource("originalDescription")
+      ? tSource("originalDescription", { brand: locale === "ko" ? SITE_NAME_KO : SITE_NAME })
       : providerName ? tSource("sourceDescription", { source: providerName }) : tSource("openSource"),
     originalLabel: tSource("original"),
   };

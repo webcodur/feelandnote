@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { useRecentHistory } from "@/hooks/useRecentHistory";
+import { useRecordRecentHistory } from "@/hooks/useRecentHistory";
 import { getContentDetail, getPublicContentInfo, getContentViewerState, type ContentDetailData } from "@/actions/contents/getContentDetail";
 import { createClient } from "@/lib/db/client";
 import { getContentDetailHref, selectContentBookEdition } from "@/lib/books/contentEdition";
@@ -51,7 +51,7 @@ export function useContentDetailState(initialData: ContentDetailData) {
   };
 
   // 최근 접근 콘텐츠
-  const recentItems = useRecentHistory({ kind: "content", id: content.id, title: content.title,
+  useRecordRecentHistory({ kind: "content", id: content.id, title: content.title,
     titles: { [locale]: content.title }, thumbnail: content.thumbnail ?? null,
     href: content.type === "BOOK" ? getContentDetailHref(content.id, unavailable ? undefined : content.purchaseEditionId) : `/content/${encodeURIComponent(content.id)}` });
 
@@ -86,5 +86,5 @@ export function useContentDetailState(initialData: ContentDetailData) {
   };
 
   return { content, userRecord, isLoggedIn, isAuthResolved, initialReviews, fictionCharacters, curatedEntries,
-    selection, unavailable, editions, changeEdition, recentItems, handleRecordChange };
+    selection, unavailable, editions, changeEdition, handleRecordChange };
 }

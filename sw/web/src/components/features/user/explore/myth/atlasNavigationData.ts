@@ -7,7 +7,7 @@ export function atlasStepKeys(world: AtlasWorld) {
 }
 export const ATLAS_NAV_LAYOUT = {
   root: "mx-auto flex w-full max-w-[420px] flex-col gap-2 md:gap-3",
-  row: "grid min-h-12 grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-stretch rounded-lg border border-white/20 bg-bg-main md:min-h-14 md:grid-cols-[3.5rem_2.75rem_minmax(0,1fr)_2.75rem]",
+  row: "grid min-h-12 grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-stretch overflow-hidden rounded-control border border-line-strong bg-bg-main md:min-h-14 md:grid-cols-[3.5rem_2.75rem_minmax(0,1fr)_2.75rem]",
   footer: "mt-1 flex flex-wrap items-center gap-2",
 } as const;
 

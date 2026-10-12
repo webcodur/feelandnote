@@ -5,13 +5,11 @@ import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import type { AtlasTheme } from "@/components/features/user/explore/myth/atlasNavigationData";
 import { buildFactionNavigation } from "@/lib/atlas-navigation";
 import FactionEntryView from "@/components/features/faction/entry/FactionEntryView";
-import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
 import { RetryBlock } from "@/components/ui/pending";
-import Lane from "@/components/ui/pending/Lane";
 import { buildFactionClusters, factionSectionKey, localizedFactionDescription, localizedFactionName, type FactionSection } from "@/lib/faction-sections";
 import { getFactionCelebs } from "@/lib/faction-celebs";
 import { getFactionGroupDescriptions } from "@/lib/faction-groups";
-import { getFactionThemeImage, toFactionThemeData, type FactionThemeGroup } from "@/lib/faction-theme";
+import { toFactionThemeData, type FactionThemeGroup } from "@/lib/faction-theme";
 import { getAlternates, toSeoSummary } from "@/lib/seo";
 import { serializeJsonLd } from "@/lib/jsonLd";
 import type { AtlasIndexGroup } from "@/components/features/user/explore/myth/AtlasIndex";
@@ -112,10 +110,9 @@ export default async function FactionScreen({ sections, section, entry, locale, 
       : []),
   }));
   return (
-    <Lane key={entry.id} fallback={<MythScreenSkeleton title={t("title")} faction
-      hasArtwork={Boolean(getFactionThemeImage(entry.team_images))} />}>
+    <>
       <EntryBody entry={entry} locale={locale} withJsonLd={withJsonLd} navigationTree={navigationTree} themeId={factionSectionKey(section)} groupRows={groupRows}
         indexHeading={t("allThemes")} indexGroups={index} />
-    </Lane>
+    </>
   );
 }

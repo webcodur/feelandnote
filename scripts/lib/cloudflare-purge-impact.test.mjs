@@ -13,6 +13,18 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('atlas routes bypass front HTML caches while the shared explore frame reaches directory and timeline', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/app/[locale]/(main)/explore/myth/layout.tsx',
+    'sw/web/src/app/[locale]/(main)/explore/myth/[slug]/page.tsx',
+    'sw/web/src/app/[locale]/(main)/explore/faction/layout.tsx',
+    'sw/web/src/app/[locale]/(main)/explore/faction/FactionScreen.tsx',
+  ]).scopes, ['none'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/user/explore/hub/ExploreLayoutFrame.tsx',
+  ]).scopes, ['cached-html'])
+})
+
 test('home selection, faction dialogs and celeb previews purge only their cached consumers', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/lib/celeb/todayFigureSelection.ts',

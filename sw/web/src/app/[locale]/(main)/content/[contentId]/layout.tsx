@@ -10,17 +10,22 @@ import type { ReactNode } from "react";
 import { setRequestLocale } from "next-intl/server";
 
 import MessageScope from "@/components/shared/MessageScope";
+import PageContainer from "@/components/layout/PageContainer";
+import { RecentHistorySection } from "@/components/shared/RecentHistoryRail";
 import { CONTENT_MESSAGE_PATHS } from "@/i18n/message-scope";
 
 interface Props {
   children: ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string; contentId: string }>;
 }
 
 export default async function ContentDetailLayout({ children, params }: Props) {
   // 문구 조회가 요청 헤더로 언어를 되짚지 않도록 미리 못 박는다. 이걸 빼면 정적이 깨진다.
-  const { locale } = await params;
+  const { locale, contentId } = await params;
   setRequestLocale(locale);
 
-  return <MessageScope paths={CONTENT_MESSAGE_PATHS}>{children}</MessageScope>;
+  return <MessageScope paths={CONTENT_MESSAGE_PATHS}>
+    <PageContainer width="detail"><RecentHistorySection kind="content" currentId={contentId} /></PageContainer>
+    {children}
+  </MessageScope>;
 }

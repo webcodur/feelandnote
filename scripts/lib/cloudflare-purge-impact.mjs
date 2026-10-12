@@ -478,6 +478,8 @@ const CACHED_HTML_PREFIXES = [
 ]
 
 const CACHED_HTML_FILES = new Set([
+  // explore 공통 레이아웃은 보관 대상인 directory·timeline에도 실린다.
+  'sw/web/src/components/features/user/explore/hub/ExploreLayoutFrame.tsx',
   // 공용 모달과 페이지 구획 이동은 보관하는 인물·작품·명부 HTML에서 함께 쓴다.
   'sw/web/src/components/ui/Modal.tsx',
   'sw/web/src/lib/scroll/sectionNavigation.ts',
@@ -528,6 +530,9 @@ const NON_RUNTIME_PREFIXES = [
 ]
 
 const NON_HTML_RUNTIME_PREFIXES = [
+  // 신화·세력도감의 페이지와 지속 레이아웃은 앞단 HTML 보관 대상이 아니다.
+  'sw/web/src/app/[locale]/(main)/explore/myth/',
+  'sw/web/src/app/[locale]/(main)/explore/faction/',
   // 철거한 문의 게시판도 배포 diff의 삭제 경로로 들어온다. 현재 이메일 안내로 이동한다.
   'sw/web/src/app/[locale]/(main)/agora/board/feedback/',
   'sw/web/src/components/features/board/feedbacks/',
