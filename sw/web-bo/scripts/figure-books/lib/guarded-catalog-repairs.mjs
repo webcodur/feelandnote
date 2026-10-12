@@ -90,7 +90,7 @@ function reviewedFigureRelation(snapshot,change){
  if(!proof||typeof proof!=='object'||Array.isArray(proof)||proof.method!=='independent_figure_relation_review'||proof.llmReviewed!==true
   ||typeof before.celeb_id!=='string'||!before.celeb_id.trim()||before.celeb_id.includes('\0')
   ||proof.contentId!==before.content_id||proof.celebId!==before.celeb_id||proof.beforeRelationType!==before.relation_type
-  ||!['authored','appearance'].includes(before.relation_type)||!['ko','en'].includes(proof.locale)
+  ||!['authored','appearance','related'].includes(before.relation_type)||!['ko','en'].includes(proof.locale)
   ||typeof proof.isbn!=='string'||!toIsbn13(proof.isbn)||!named(proof.editionTitle)||!named(proof.editionCreator)
   ||!named(proof.figureName)||!text(proof.identityStatement)||!text(proof.bodyEvidence)||!text(proof.reason)
   ||!source(proof.sourceUrl)||!source(proof.identitySourceUrl)||proof.sourceUrl===proof.identitySourceUrl
@@ -100,7 +100,15 @@ function reviewedFigureRelation(snapshot,change){
  const candidates=[...snapshot.figure_book_editions,...snapshot.content_locales].filter(row=>row.content_id===before.content_id
   &&row.locale===proof.locale&&toIsbn13(row.isbn??'')===toIsbn13(proof.isbn)
   &&row.title===proof.editionTitle&&row.creator===proof.editionCreator)
- if(!candidates.length||!candidates.some(row=>row.sources?.primary!=='none'
+ const origin=proof.originalAuthorship
+ const confirmedOriginal=origin?.method==='independent_original_authorship_review'&&origin.llmReviewed===true
+  &&!remove&&proof.decision==='correct_role'&&before.relation_type==='appearance'&&proof.afterRelationType==='authored'
+  &&origin.contentId===before.content_id&&named(figure.workTitle)&&named(figure.workCreator)&&named(figure.workIdentity)
+  &&origin.workTitle===figure.workTitle&&origin.workCreator===figure.workCreator&&origin.workIdentity===figure.workIdentity
+  &&origin.sourceUrl===figure.identityEvidence&&source(origin.sourceUrl)&&text(origin.bodyEvidence)
+  &&proof.editionCreator===figure.workCreator
+  &&candidates.some(row=>row.sources?.primary!=='none'&&reviewedBookEditionSelectionReason(row)==='abridged')
+ if(!candidates.length||!confirmedOriginal&&!candidates.some(row=>row.sources?.primary!=='none'
   &&!excludedBookEditionReason({...row,editionKind:row.edition_kind,textScope:row.text_scope,
    workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)})))
   throw Error('Figure relation repair requires a retained live normal edition with exact ISBN/title/creator/locale')

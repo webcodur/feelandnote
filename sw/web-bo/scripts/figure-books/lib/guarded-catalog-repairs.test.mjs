@@ -43,7 +43,7 @@ const figureChange=(data,{remove=false,after='appearance'}={})=>({table:'figure_
  reason:'The LLM read the exact book and identity sources and confirmed this one existing relation is wrong.'}})
 
 test('source-reviewed figure roles use the composite PK and preserve every other figure and all 13 protected tables',()=>{
- for(const [beforeRole,afterRole] of [['authored','appearance'],['appearance','authored']]){
+ for(const [beforeRole,afterRole] of [['authored','appearance'],['appearance','authored'],['related','appearance'],['related','authored']]){
   const data=figureSnapshot();data.figure_book_characters[0].relation_type=beforeRole
   const plan=planGuardedCatalogRepairs(['work'],data,[figureChange(data,{after:afterRole})])
   assert.deepEqual(plan.expected.figure_book_characters[0],{...data.figure_book_characters[0],relation_type:afterRole})
@@ -70,6 +70,29 @@ test('책의 실제 대상이 사람이 아닌 동명 선박이면 그 사실로
   {decision:'remove_wrong_person'},{afterRelationType:'appearance'}]){
   const invalid=structuredClone(edit);Object.assign(invalid.reviewedFigureRelation,difference)
   assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[invalid]),/Figure relation removal/)
+ }
+})
+
+test('축약 상품을 안내하지 않아도 확인된 원작의 기존 등장 역할은 집필로 교정한다',()=>{
+ const data=figureSnapshot();data.figure_book_editions=[];data.figure_book_characters[0].relation_type='appearance'
+ data.contents[0].metadata.figureBook={workTitle:'Title',workCreator:'Actual Writer',workIdentity:'original/title',identityEvidence:'https://publisher.example/exact-book'}
+ data.content_locales[0].sources.edition_selection_evidence=[{method:'independent_selection_review',content_id:'work',isbn:'9780140449136',locale:'en',edition_title:'Title',
+  reason:'abridged',source_url:'https://review.example/actual-abridgment',explanation:'The LLM read the academic comparison and confirmed omitted passages in this translation.'}]
+ const edit=figureChange(data,{after:'authored'}),origin={method:'independent_original_authorship_review',llmReviewed:true,contentId:'work',
+  workTitle:'Title',workCreator:'Actual Writer',workIdentity:'original/title',sourceUrl:'https://publisher.example/exact-book',
+  bodyEvidence:'The original author is identified in the publisher text and independent author profile; the shortened translation is still excluded.'}
+ edit.reviewedFigureRelation.originalAuthorship=origin
+ const plan=planGuardedCatalogRepairs(['work'],data,[edit])
+ assert.equal(plan.expected.figure_book_characters[0].relation_type,'authored')
+ for(const table of SNAPSHOT_TABLES.filter(t=>t!=='figure_book_characters'))assert.deepEqual(plan.expected[table],data[table])
+ for(const diff of [{llmReviewed:false},{contentId:'other'},{workTitle:'Other'},{workCreator:'Other'},{workIdentity:'other'},
+  {sourceUrl:'https://publisher.example/another'},{bodyEvidence:'Guessed'}]){
+  const invalid=structuredClone(edit);Object.assign(invalid.reviewedFigureRelation.originalAuthorship,diff)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[invalid]),/retained live normal edition/)
+ }
+ for(const reason of ['wrong_work','editorial_exclusion','wrong_locale']){
+  const invalid=structuredClone(data);invalid.content_locales[0].sources.edition_selection_evidence[0].reason=reason
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],invalid,[figureChange(invalid,{after:'authored'})]),/retained live normal edition/)
  }
 })
 
