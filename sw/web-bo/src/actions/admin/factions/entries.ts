@@ -762,7 +762,7 @@ export async function setFactionLeadPersons(
 /**
  * 도감 노출 스위치 — 세력마다 따로 잡는다.
  *
- * 셀럽 전역 상태(`celebs.publication_status`)와 무관하다. 도감이 보는 것은 이 스위치 하나다.
+ * 도감은 인물 전역 공개(active)와 이 배정의 공개(hidden=false)를 모두 요구한다.
  */
 export async function setFactionMemberHidden(
   lv2Id: string,
