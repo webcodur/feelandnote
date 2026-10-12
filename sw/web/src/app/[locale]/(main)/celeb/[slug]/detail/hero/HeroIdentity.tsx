@@ -64,7 +64,7 @@ export default function HeroIdentity({ profile, locale, preview = false }: HeroI
       : ageLabel;
 
   return (
-    <div className={styles.identityTop}>
+    <div className={`${styles.identityTop} ${!preview && !profile.bio ? 'daum-wm-content' : ''}`}>
       <div className={styles.identityPrimary}>
         {/* ── 2. 이름·헤드라인 ── */}
         <div

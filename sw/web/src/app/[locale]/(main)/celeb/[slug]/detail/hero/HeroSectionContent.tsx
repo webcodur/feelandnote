@@ -124,7 +124,8 @@ export default function CelebHeroSection({
 
             {/* ── 4. 내러티브(bio·인용) ── */}
             <div className={styles.identityNarrative}>
-              {profile.bio ? <p className={styles.bio}>{profile.bio}</p> : null}
+              {/* Daum이 첫 책의 소개·감상문 대신 이 인물 소개를 문서 본문으로 읽도록 지정한다. */}
+              {profile.bio ? <p className={`${styles.bio} daum-wm-content`}>{profile.bio}</p> : null}
               <CelebQuote
                 text={profile.quotes}
                 hasVoice={hasVoice}
