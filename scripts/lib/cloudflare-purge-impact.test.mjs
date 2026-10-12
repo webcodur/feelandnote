@@ -13,6 +13,25 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('home selection, faction dialogs and celeb previews purge only their cached consumers', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/lib/celeb/todayFigureSelection.ts',
+    'sw/web/src/components/features/faction/entry/FactionPersonBooks.tsx',
+    'sw/web/src/components/features/faction/entry/FactionPersonHeader.tsx',
+    'sw/web/src/components/features/faction/entry/factionPersonLayout.ts',
+    'sw/web/src/lib/scroll/useContainerSectionNavigation.ts',
+  ]).scopes, ['none'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/lib/celeb/authoredBooks.ts',
+    'sw/web/src/lib/celeb/factionPreview.ts',
+    'sw/web/src/lib/celeb/factionPreviewData.ts',
+  ]).scopes, ['celeb'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/ui/Modal.tsx',
+    'sw/web/src/lib/scroll/sectionNavigation.ts',
+  ]).scopes, ['cached-html'])
+})
+
 test('profile image components evict cached HTML without purging generated SEO images', () => {
   for (const file of [
     'sw/web/src/components/ui/CelebAvatarImage.tsx',
