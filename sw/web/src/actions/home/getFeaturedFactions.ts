@@ -169,24 +169,13 @@ async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, Fea
   }
   if (allCelebIds.size === 0) return {}
 
-  /*
-    배정된 인물을 태운다. 거르는 기준은 **배정의 `hidden`** 하나뿐이다(위 조회에서 이미 걸렀다).
-
-    ① **셀럽 전역 공개 상태(publication_status)로 거르지 않는다** — 그 값은 인물 전역의 공개 여부라
-       테마 진열 판단과 무관하고, 팩션에서 등록된 42명이 그 때문에 13개 테마에서 통째로 사라져
-       있었다(26.07.27 실측).
-    ② **등급(celeb_tier)으로도 거르지 않는다** — 목록·검색은 신화·허구 등급을 빼는 게 맞지만
-       (실존 인물 목록에 제우스가 섞이면 곤란하다), 도감은 테마별 진열이라 맥락이 분명하다.
-       뒤섞이지 않게 컬렉션 화면에서 「이야기 속 인물」 구획(`is_fiction`)으로 갈라 놓는다.
-       이 게이트 때문에 일리아스 19명·오디세이아 22명을 다 채워 넣고도 0명으로 떴었다.
-
-    게임용 celeb_dialogues는 읽지 않는다.
-  */
+  // 인물 공개(active)와 팩션 배정 공개(hidden=false)를 모두 통과해야 표시한다.
+  // 인물 등급·실존 여부는 도감의 공개 승인 조건에 넣지 않는다.
   const [celebRows, { scoreMap: influenceMap }] = await Promise.all([
     selectInChunks<FeaturedProfileRow>(Array.from(allCelebIds), (chunk) =>
       db.from('celebs').select(`
         id, nickname, nickname_en, avatar_url, portrait_url, title, title_en, profession, speech_tone
-      `).in('id', chunk).overrideTypes<FeaturedProfileRow[], { merge: false }>()
+      `).in('id', chunk).eq('publication_status', 'active').overrideTypes<FeaturedProfileRow[], { merge: false }>()
     ),
     // 출연진 판이 핵심 인물을 가르는 점수 — 인물 목록과 같은 영향력 캐시를 쓴다
     getInfluenceRanking(),
@@ -221,13 +210,13 @@ async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, Fea
 
 // 팩션 편성 전용 공유 자료다. 일반 인물·서고 수정이 모든 인물 상세을 연쇄 무효화하지 않도록
 // TAGS만 즉시 갱신하고, 프로필 표시값은 한 시간 만료로 흡수한다.
-const getCachedFactionRows = unstable_cache(() => coalesceCacheQuery('faction-rows', fetchFactionRows), ['featured-faction-rows-v4-scene-completion'], {
+const getCachedFactionRows = unstable_cache(() => coalesceCacheQuery('faction-rows', fetchFactionRows), ['featured-faction-rows-v6-single-html-boundary'], {
   revalidate: LIST_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS],
 })
 // 인자(테마 id 덩어리)가 캐시 키에 들어가 덩어리마다 따로 저장된다
 const getCachedFactionMembers = unstable_cache((ids: string[]) => coalesceCacheQuery(`faction-members:${ids.join(',')}`,
-  () => fetchFactionMembers(ids)), ['featured-faction-members-v4-complete-members'], {
+  () => fetchFactionMembers(ids)), ['featured-faction-members-v5-double-approval'], {
   revalidate: LIST_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS],
 })

@@ -26,7 +26,7 @@ export function toFactionThemeData(entry: FeaturedFaction, celebs: CelebProfile[
   const members = entry.celebs.filter((member) => byId.has(member.id));
   const personIds = members.map((member) => member.id);
   const descriptions = new Map(groupRows.map((group) => [group.name, (isEn ? group.description_en : group.description)?.trim() || null]));
-  const clusters = buildFactionClusters(members, locale);
+  const clusters = buildFactionClusters(members, locale, entry.team_images);
   const slug = entry.slug ?? entry.id;
   const image = getFactionThemeImage(entry.team_images);
   const theme = {

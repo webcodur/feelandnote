@@ -35,7 +35,7 @@ const getCachedFactionLongDescs = unstable_cache(
       (data ?? []).map((row) => [row.celeb_id, { ko: row.long_desc, en: row.long_desc_en }]),
     )
   },
-  ['faction-long-descs-v1'],
+  ['faction-long-descs-v2-double-approval'],
   { revalidate: LIST_REVALIDATE, tags: [CACHE_TAGS.FACTIONS] },
 )
 
