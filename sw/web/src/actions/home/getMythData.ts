@@ -137,7 +137,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
   const [profiles, allAssignments, explanationRows] = await Promise.all([
     selectInChunks<PersonRow>(personIds, (ids) => db.from("celebs")
       .select("id,slug,nickname,nickname_en,title,title_en,headline,headline_en,bio,bio_en,avatar_url,portrait_url,voice_v")
-      .in("id", ids).overrideTypes<PersonRow[], { merge: false }>()),
+      .in("id", ids).eq("publication_status", "active").overrideTypes<PersonRow[], { merge: false }>()),
     getFigureBookAssignmentsByCelebs(personIds),
     selectInChunks<ExplanationRow>(personIds, (ids) => db.from("celeb_explanations")
       .select("profile_id,plain_text,plain_text_en").in("profile_id", ids)
@@ -256,7 +256,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
   return { regions, myths, people, works };
 }
 
-const getCachedMythData = compressedJsonCache(fetchMythData, ['myth-data-v37-edition-policy'], {
+const getCachedMythData = compressedJsonCache(fetchMythData, ['myth-data-v38-double-approval'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });

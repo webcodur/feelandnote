@@ -67,7 +67,7 @@ async function fetchFactionFigureBooks(factionId: string, locale: string): Promi
 
 const getFactionFigureBooksCached = unstable_cache(
   fetchFactionFigureBooks,
-  ["faction-figure-books-v12-edition-policy"],
+  ["faction-figure-books-v13-double-approval"],
   // faction_member_rows(편성) + figure_book_characters(배정) + contents + 판본·구매 상품
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
 );

@@ -136,7 +136,7 @@ async function fetchFactionChronologicalLibrary(factionId: string, locale: strin
 
 const getFactionChronologicalLibraryCached = unstable_cache(
   fetchFactionChronologicalLibrary,
-  ['faction-chronological-library-v2-locale-cover'],
+  ['faction-chronological-library-v3-double-approval'],
   // faction_member_rows(편성) + celebs + celeb_contents
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );
