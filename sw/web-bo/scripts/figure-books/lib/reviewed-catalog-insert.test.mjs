@@ -66,6 +66,100 @@ function isbnlessFixture() {
   return { before, reviews: [review] }
 }
 
+function englishIsbnlessFixture() {
+  const { before } = fixture()
+  before.contents[0].metadata.figureBook = { workTitle: 'Paradise Lost', workCreator: 'John Milton' }
+  const providerProductId = 'OL20458778M', providerUrl = `https://openlibrary.org/books/${providerProductId}`
+  // 실제 OL의 1826년 영어 서지를 사용한다. 독립 판권·본문 근거는 명시적인 테스트 대역이다.
+  const sourceUrl = 'https://library.example/fixtures/milton-1826-title-page-and-text'
+  Object.assign(before.content_locales[0], { title: 'Paradise Lost: A Poem in Twelve Books', creator: 'John Milton', isbn: null,
+    publisher: 'T. Bedlington', verified: true, sources: { primary: 'openlibrary', title: providerUrl,
+      provider_product_id: providerProductId, provider_edition_url: providerUrl,
+      provider_edition_key: `/books/${providerProductId}`, provider_language_keys: ['/languages/eng'],
+      provider_physical_format: null, translators: [], description: sourceUrl } })
+  Object.assign(before.content_locales[1], { isbn: null, sources: { primary: 'none', title: 'translated' } })
+  const card = before.content_locales[0]
+  const review = { contentId: ids[0], locale: 'en', textLanguage: 'en', isbn: null, title: card.title, creator: card.creator,
+    workTitle: 'Paradise Lost', workCreator: 'John Milton', translators: [], sourceUrl,
+    reason: '독립 도서관의 판권·영문 본문 검토를 대체하는 테스트 입력이다. 1826년 T. Bedlington 영어 종이책 판본이며, 수록 권 범위를 확인하지 않아 kind와 scope는 null로 둔다.',
+    editionKind: null, textScope: null }
+  review.isbnlessPhysicalEditionReview = { method: 'independent_isbnless_physical_edition_review', llmReviewed: true,
+    contentId: review.contentId, locale: review.locale, isbn: null, title: review.title, creator: review.creator,
+    workTitle: review.workTitle, workCreator: review.workCreator, translators: [], publisher: card.publisher,
+    providerProductId, providerUrl, providerEditionKey: `/books/${providerProductId}`, providerLanguageKeys: ['/languages/eng'],
+    providerPhysicalFormat: null, physicalMedium: 'paper', sourceUrl, reason: review.reason, editionKind: null, textScope: null }
+  return { before, reviews: [review] }
+}
+
+test('independently reviewed pre-ISBN English paper edition binds the actual OpenLibrary M and raw language', async () => {
+  const { before, reviews } = englishIsbnlessFixture(), original = structuredClone(before)
+  const plan = planReviewedCatalogInsert(ids, before, reviews), compact = compactReviews(before, reviews)
+  assert.deepEqual(planReviewedCatalogInsert(ids, before, compact), plan)
+  assert.deepEqual(plan.editions[0].sources.isbnless_physical_edition_evidence, reviews[0].isbnlessPhysicalEditionReview)
+  assert.equal(plan.editions[0].isbn, null); assert.equal(plan.editions[0].edition_kind, null)
+  const after = committed(before, reviews); let reads = 0
+  const result = await applyReviewedCatalogInsert(null, ids, compact, {
+    capture: async () => ++reads === 1 ? before : after,
+    execute: () => 'CATALOG_INSERT_EXPECTED:' + JSON.stringify(after) + '\nMERGE_COMMITTED',
+  })
+  assert.equal(result.checkedTables, 18); assert.deepEqual(before, original)
+  assert.deepEqual(result.insertedEditions, [{ contentId: ids[0], locale: 'en', isbn: null, id: 100 }])
+  before.figure_book_contents.push({ content_id: ids[0], created_at: timestamp, updated_at: timestamp })
+  const sql = buildReviewedCatalogInsertSql(ids, before, reviews)
+  assert.match(sql, /INSERT INTO public.figure_book_editions/)
+  assert.doesNotMatch(sql, /ISBN already registered|isbn=NULL|isbn IN \(\)/)
+})
+
+test('ISBN-less English proof rejects display cards, foreign or unknown language, changed M keys and forged provider URLs', () => {
+  const changes = [
+    s => { s.content_locales[0].sources.primary = 'none' },
+    s => { s.content_locales[0].sources.primary = 'kakao_book' },
+    s => { s.content_locales[0].sources.title = 'display_only' },
+    s => { s.content_locales[0].verified = false },
+    (s, r) => { delete r.isbnlessPhysicalEditionReview },
+    (s, r) => { r.isbnlessPhysicalEditionReview.locale = 'ko' },
+    (s, r) => { r.isbnlessPhysicalEditionReview.providerProductId = 'OL20458778W' },
+    (s, r) => { r.isbnlessPhysicalEditionReview.providerProductId = 'OL16920547M' },
+    s => { s.content_locales[0].sources.provider_edition_key = '/books/OL16920547M' },
+    s => { delete s.content_locales[0].sources.provider_edition_key },
+    s => { delete s.content_locales[0].sources.provider_language_keys },
+    (s, r) => { s.content_locales[0].sources.provider_language_keys = r.isbnlessPhysicalEditionReview.providerLanguageKeys = [] },
+    (s, r) => { s.content_locales[0].sources.provider_language_keys = r.isbnlessPhysicalEditionReview.providerLanguageKeys = ['/languages/fre'] },
+    (s, r) => { r.isbnlessPhysicalEditionReview.providerLanguageKeys = ['/languages/eng', '/languages/fre'] },
+    (s, r) => { delete r.isbnlessPhysicalEditionReview.providerPhysicalFormat },
+    s => { delete s.content_locales[0].sources.provider_physical_format },
+    (s, r) => { r.isbnlessPhysicalEditionReview.physicalMedium = 'digital' },
+    (s, r) => { r.isbnlessPhysicalEditionReview.translators = ['Unverified Translator'] },
+    (s, r) => { r.isbnlessPhysicalEditionReview.publisher = 'Different Publisher' },
+  ]
+  for (const format of ['Microform', 'Microfilm', 'Microfiche', 'Audio CD', 'eBook', 'Electronic resource', 'Digital'])
+    changes.push((s, r) => { s.content_locales[0].sources.provider_physical_format = r.isbnlessPhysicalEditionReview.providerPhysicalFormat = format })
+  for (const url of ['https://openlibrary.org/books/OL16920547M', 'https://openlibrary.org/works/OL20458778W',
+    'https://openlibrary.org/books/OL20458778M?lang=en', 'https://openlibrary.org/books/OL20458778M#paper',
+    'http://openlibrary.org/books/OL20458778M', 'https://openlibrary.org.example/books/OL20458778M'])
+    changes.push((s, r) => { s.content_locales[0].sources.provider_edition_url = r.isbnlessPhysicalEditionReview.providerUrl = url })
+  for (const change of changes) {
+    const { before, reviews } = englishIsbnlessFixture(); change(before, reviews[0])
+    assert.throws(() => planReviewedCatalogInsert(ids, before, reviews), /ISBN-less physical|verified translators/)
+  }
+})
+
+test('ISBN-less English paper proof remains subject to full CAS and all protected relationships', async () => {
+  for (const change of [s => { s.celeb_contents[0].review = '변경' }, s => { s.celeb_contents[0].source_url = 'https://other.example' },
+    s => { s.celeb_contents[0].visibility = 'private' }, s => { s.member_contents[0].rating = 1 },
+    s => { s.content_locales[0].sources.provider_language_keys = [] },
+    s => { s.figure_book_editions[0].sources.isbnless_physical_edition_evidence.providerEditionKey = '/books/OL16920547M' }]) {
+    const { before, reviews } = englishIsbnlessFixture(), after = committed(before, reviews); change(after)
+    assert.throws(() => verifyReviewedCatalogInsertReadback(ids, before, reviews, after), /rows differ/)
+  }
+  const { before, reviews } = englishIsbnlessFixture(), compact = compactReviews(before, reviews)
+  before.content_locales[0].sources.provider_edition_key = '/books/OL16920547M'
+  let writes = 0
+  await assert.rejects(applyReviewedCatalogInsert(null, ids, compact, { capture: async () => before,
+    execute: () => { writes++; return '' } }), /ISBN-less physical/)
+  assert.equal(writes, 0)
+})
+
 test('independently read ISBN-less Kakao physical editions retain NULL and exact provider/source identity', async () => {
   const { before, reviews } = isbnlessFixture(), original = structuredClone(before)
   const plan = planReviewedCatalogInsert(ids, before, reviews), compact = compactReviews(before, reviews)

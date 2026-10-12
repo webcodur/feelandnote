@@ -46,14 +46,15 @@ function officialBinding(locale, isbn) {
 }
 function isbnlessPhysicalBinding(review, locale, figure) {
   const proof = review.isbnlessPhysicalEditionReview
+  const english = review.locale === 'en'
   if (!proof || proof.method !== 'independent_isbnless_physical_edition_review' || proof.llmReviewed !== true
-    || review.locale !== 'ko' || locale.isbn !== null || locale.verified !== true
-    || locale.sources?.primary !== 'kakao_book' || !nonempty(locale.publisher)
+    || !['ko', 'en'].includes(review.locale) || locale.isbn !== null || locale.verified !== true
+    || locale.sources?.primary !== (english ? 'openlibrary' : 'kakao_book') || !nonempty(locale.publisher)
     || ['translated', 'romanized', 'original', 'display_only', 'kakao_title_search'].includes(locale.sources?.title)
     || !nonempty(figure.workTitle) || !nonempty(figure.workCreator)
     || !Array.isArray(review.translators) || !Array.isArray(locale.sources?.translators)
     || !isDeepStrictEqual(review.translators, locale.sources.translators))
-    throw Error('CATALOG_INSERT: independently reviewed ISBN-less physical Kakao card required; correct the card first')
+    throw Error('CATALOG_INSERT: independently reviewed ISBN-less physical official card required; correct the card first')
   const identity = { contentId: review.contentId, locale: review.locale, isbn: null, title: review.title,
     creator: review.creator, workTitle: review.workTitle, workCreator: review.workCreator,
     translators: review.translators, publisher: locale.publisher.trim(),
@@ -61,11 +62,29 @@ function isbnlessPhysicalBinding(review, locale, figure) {
   if (Object.entries(identity).some(([key, value]) => !isDeepStrictEqual(proof[key], value))
     || !publicSource(proof.sourceUrl, true)
     || /(?:^|\.)(?:daum\.net|kakao\.com|openlibrary\.org)$/iu.test(new URL(proof.sourceUrl).hostname.replace(/\.$/u, ''))
-    || typeof proof.providerProductId !== 'string' || !/^\d+$/u.test(proof.providerProductId)
+    || typeof proof.providerProductId !== 'string' || !(english ? /^OL\d+M$/u : /^\d+$/u).test(proof.providerProductId)
     || locale.sources.provider_product_id !== proof.providerProductId
     || locale.sources.provider_edition_url !== proof.providerUrl || !publicSource(proof.providerUrl))
     throw Error('CATALOG_INSERT: ISBN-less physical proof does not match the exact live identity or independent source')
   const url = new URL(proof.providerUrl)
+  if (english) {
+    if (proof.providerUrl !== `https://openlibrary.org/books/${proof.providerProductId}`
+      || proof.providerEditionKey !== `/books/${proof.providerProductId}`
+      || locale.sources.provider_edition_key !== proof.providerEditionKey
+      || !Array.isArray(proof.providerLanguageKeys) || !proof.providerLanguageKeys.includes('/languages/eng')
+      || proof.providerLanguageKeys.some(key => typeof key !== 'string' || !/^\/languages\/[a-z]{3}$/u.test(key))
+      || !isDeepStrictEqual(locale.sources.provider_language_keys, proof.providerLanguageKeys)
+      || !Object.hasOwn(proof, 'providerPhysicalFormat') || !Object.hasOwn(locale.sources, 'provider_physical_format')
+      || !(proof.providerPhysicalFormat === null || nonempty(proof.providerPhysicalFormat))
+      || locale.sources.provider_physical_format !== proof.providerPhysicalFormat
+      || /micro(?:form|film|fiche)|audio|e-?book|electronic|digital|(?:^|\W)(?:CD|DVD)(?:\W|$)/iu.test(proof.providerPhysicalFormat ?? '')
+      || proof.physicalMedium !== 'paper')
+      throw Error('CATALOG_INSERT: ISBN-less physical OpenLibrary proof requires the exact English edition key, language and paper original')
+    return { method: proof.method, llmReviewed: true, ...identity,
+      providerProductId: proof.providerProductId, providerUrl: proof.providerUrl,
+      providerEditionKey: proof.providerEditionKey, providerLanguageKeys: [...proof.providerLanguageKeys],
+      providerPhysicalFormat: proof.providerPhysicalFormat, physicalMedium: proof.physicalMedium }
+  }
   if (!/^(?:m\.)?search\.daum\.net$/u.test(url.hostname) || url.pathname !== '/search'
     || url.searchParams.get('w') !== 'bookpage' || url.searchParams.get('bookId') !== proof.providerProductId)
     throw Error('CATALOG_INSERT: ISBN-less physical proof requires the exact HTTPS Daum product URL')
@@ -120,12 +139,16 @@ export function bindReviewedCatalogInsertIdentity(snapshot, reviews) {
  * omit title/creator/workTitle/workCreator/translators to copy those exact fields from the guarded snapshot.
  * bindReviewedCatalogInsertIdentity binds them to the snapshot actually reviewed; stale identities are refused.
  * ISBN, actual language, independent source, reason and kind/scope remain explicit LLM decisions.
- * isbn:null is permitted only for a verified Korean Kakao physical card with isbnlessPhysicalEditionReview:
+ * isbn:null is permitted only for a verified Kakao ko or OpenLibrary en physical card with isbnlessPhysicalEditionReview:
  * {method:'independent_isbnless_physical_edition_review',llmReviewed:true,contentId,locale,isbn:null,
  * title,creator,workTitle,workCreator,translators,publisher,providerProductId,providerUrl,sourceUrl,reason,editionKind,textScope}.
  * Its identity and scope must exactly match the review and live card; reason records the independently read
  * copyright and body/contents. sources.provider_product_id and provider_edition_url must already identify
- * the actual Kakao product. A translated display title or missing ISBN alone is never physical evidence.
+ * the actual official product. English proof additionally binds providerEditionKey, providerLanguageKeys,
+ * providerPhysicalFormat (explicit null when absent) and physicalMedium:'paper' to the actual OL M record:
+ * sources.provider_edition_key, provider_language_keys and provider_physical_format retain its raw API values.
+ * English must be explicitly among the recorded languages. Microform, audio and digital records cannot
+ * stand in for a paper original. A translated display title or missing ISBN alone is never physical evidence.
  */
 export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
   const assigned = assignedValid(workIds); snapshotValid(snapshot)
