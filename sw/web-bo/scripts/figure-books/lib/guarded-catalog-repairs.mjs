@@ -130,6 +130,68 @@ function reviewedProviderTranslationSource(reference,patch,proof){
   &&proof.evidence?.some(item=>item.url===sources.description)
 }
 
+// 실제 제공자 산문과 현재 소개가 완전히 같을 때만 출처 포인터를 정리한다.
+// OpenLibrary를 독립 판본 근거나 새 소개의 승인 경로로 취급하지 않는다.
+function reviewedPreservedIntroductionSource(snapshot,expected,change){
+ const {table,before,patch,remove,reviewedIntroductionSourcePointer:proof}=change
+ const fail=()=>{throw Error('Preserved introduction source requires unchanged prose, exact live original and explicitly reviewed OpenLibrary body')}
+ const named=value=>typeof value==='string'&&!!value.trim()
+ const reviewed=value=>typeof value==='string'&&value.trim().length>=20
+ const sameTitle=(a,b)=>named(a)&&named(b)&&a.trim().toLocaleLowerCase('en').replace(/\s+/gu,' ')===b.trim().toLocaleLowerCase('en').replace(/\s+/gu,' ')
+ const figure=snapshot.contents.find(row=>row.id===before.content_id)?.metadata?.figureBook
+ const reference=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale==='en')
+ const sources=reference?.sources??{},url=proof?.sourceUrl
+ const sourceMatch=typeof url==='string'?url.match(/^https:\/\/openlibrary\.org(\/(?:works\/OL\d+W|books\/OL\d+M))$/u):null
+ if(!proof||typeof proof!=='object'||Array.isArray(proof)||proof.method!=='preserved_openlibrary_introduction_source_review'||proof.llmReviewed!==true
+  ||!['content_locales','figure_book_editions'].includes(table)||remove||!patch||Object.keys(patch).length!==1||!Object.hasOwn(patch,'sources')
+  ||Object.keys(change).some(key=>key.startsWith('reviewed')&&key!=='reviewedIntroductionSourcePointer')
+  ||proof.contentId!==before.content_id||proof.locale!==before.locale||proof.isbn!==before.isbn
+  ||before.isbn!==null&&!toIsbn13(before.isbn??'')||proof.editionTitle!==before.title||proof.editionCreator!==before.creator
+  ||table==='figure_book_editions'&&proof.editionId!==before.id
+  ||!named(before.title)||!named(before.creator)||!named(before.description)||isBookIntroductionSource(before.description)
+  ||!figure||!named(figure.workTitle)||!named(figure.workCreator)||!named(figure.workIdentity)
+  ||proof.workTitle!==figure.workTitle||proof.workCreator!==figure.workCreator||proof.workIdentity!==figure.workIdentity
+  ||!reference||sources.primary!=='openlibrary'||!toIsbn13(reference.isbn??'')
+  ||proof.referenceIsbn!==reference.isbn||proof.referenceWorkTitle!==reference.title||proof.referenceCreator!==reference.creator
+  ||reference.creator!==figure.workCreator
+  ||!sourceMatch||proof.sourceFetchedUrl!==url+'.json'||proof.sourceFetchedKey!==sourceMatch[1]
+  ||!/^\/works\/OL\d+W$/u.test(sources.workKey??'')||proof.sourceFetchedWorkKey!==sources.workKey
+  ||!named(proof.sourceFetchedTitle)||!sameTitle(proof.sourceFetchedWorkTitle,figure.workTitle)||proof.sourceFetchedCreator!==figure.workCreator
+  ||!named(reference.description)||isBookIntroductionSource(reference.description)||proof.sourceFetchedDescription!==reference.description
+  ||!reviewed(proof.bodyEvidence)||!reviewed(proof.reason))fail()
+ if(sourceMatch[1].startsWith('/works/')){if(sourceMatch[1]!==sources.workKey||proof.sourceFetchedTitle!==proof.sourceFetchedWorkTitle)fail()}
+ else if(sources.provider_edition_url!==url||!Array.isArray(proof.sourceFetchedIsbns)
+  ||!proof.sourceFetchedIsbns.some(isbn=>typeof isbn==='string'&&toIsbn13(isbn)===toIsbn13(reference.isbn)))fail()
+ const method=before.locale==='en'?'provider':'translation'
+ const desired={...structuredClone(before.sources??{}),description:url,description_method:method,description_source_locale:'en'}
+ if(!isDeepStrictEqual(patch.sources,desired))fail()
+ // 원작·참조 ISBN·본문을 같은 batch의 다른 변경으로 바꿔 통과시키지 않는다.
+ const afterReference=expected.content_locales.find(row=>row.content_id===before.content_id&&row.locale==='en')
+ const stripPointer=row=>{const copy=structuredClone(row);for(const key of ['description','description_method','description_source_locale'])delete copy.sources?.[key];return copy}
+ if(!afterReference||!isDeepStrictEqual(stripPointer(reference),stripPointer(afterReference))
+  ||!isDeepStrictEqual(expected.contents.find(row=>row.id===before.content_id),snapshot.contents.find(row=>row.id===before.content_id)))fail()
+ if(before.locale==='en'){
+  if(before.description!==reference.description||before.isbn!==reference.isbn||before.title!==reference.title||before.creator!==reference.creator
+   ||before.sources?.primary!=='openlibrary'||before.sources?.workKey!==sources.workKey)fail()
+  const old=before.sources?.description
+  if(old!==undefined&&old!==null&&old!==url)fail()
+ }else if(before.locale==='ko'&&table==='content_locales'){
+  const wrapper=provenanceObject(before.sources?.description),original=wrapper?.original_sources,oldUrl=original?.isbn
+  if(!wrapper||wrapper.type!=='locale-translation'||wrapper.source_locale!=='en'||wrapper.source_content_id!==before.content_id
+   ||!Object.keys(wrapper).every(key=>['type','snapshot_hash','source_locale','source_content_id','original_sources'].includes(key))
+   ||!named(wrapper.snapshot_hash)||proof.translationSnapshotHash!==wrapper.snapshot_hash||proof.translationReviewed!==true
+   ||proof.translationOriginalDescription!==reference.description||proof.translationDescription!==before.description
+   ||!original||original.primary!=='openlibrary'||!/^https:\/\/openlibrary\.org\/books\/OL\d+M$/u.test(oldUrl??'')
+   ||original.title!==oldUrl||original.creator!==oldUrl||!named(sources.wikidata)||original.wikidata!==sources.wikidata
+   ||!Object.keys(original).every(key=>['isbn','title','creator','primary','wikidata','description'].includes(key))
+   ||original.description!==undefined&&original.description!==null&&original.description!==url
+   ||proof.translationSourceFetchedUrl!==oldUrl+'.json'||proof.translationSourceFetchedWorkKey!==sources.workKey
+   ||!named(proof.translationSourceFetchedTitle)||proof.translationSourceFetchedCreator!==reference.creator
+   ||afterReference.sources?.description!==url||afterReference.sources?.description_method!=='provider'
+   ||afterReference.sources?.description_source_locale!=='en')fail()
+ }else fail()
+}
+
 function reviewedPlaceholderReference(before,proof,snapshot){
  const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(proof?.referenceEditionId))
  const sources=before.sources??{}
@@ -513,8 +575,10 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    throw Error('Nonstart removal must retain the reviewed first or whole edition and its representative ISBN unchanged')
  }
  // 소개 보존 예외도 정확한 ISBN의 독립 원문을 읽은 명시 판단으로만 허용한다.
- for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedPlaceholderRemoval:placeholderProof,reviewedSelectionExclusion:selectionProof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedSongScoreSeriesEditionRemoval:scoreProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
+ for(const change of changes){
+  const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedPlaceholderRemoval:placeholderProof,reviewedSelectionExclusion:selectionProof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedSongScoreSeriesEditionRemoval:scoreProof,reviewedArchiveProvenanceDiscard:archiveProof}=change
   if(table==='figure_book_characters')continue
+  if(change.reviewedIntroductionSourcePointer!==undefined){reviewedPreservedIntroductionSource(snapshot,expected,change);continue}
   if(archiveProof!==undefined){
    const remaining=structuredClone(before.sources??{}),discarded=discardedBackupProvenance(before.sources?.description,before,archiveProof.retainedSourceUrl)
    remaining.description=discarded

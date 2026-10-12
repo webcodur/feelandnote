@@ -322,6 +322,18 @@ test('번호 없는 기존 판본에 검수 근거를 붙이고 대표 제목을
   assert.doesNotMatch(sql, /DELETE FROM public\.figure_book_editions WHERE id=27310/)
 })
 
+test('ISBN 없는 실판본 등록 검수만 ED에 추가된 경우 기존 판본을 다시 seed하지 않는다', () => {
+  const s=fixture(),sources={primary:'kakao_book',provider_product_id:'187269',translators:['강여규']}
+  s.figure_book_editions=[{id:54546,content_id:pair.drop,locale:'ko',isbn:null,title:'카산드라',creator:'크리스타 볼프',publisher:'작가정신',
+    sources:{...sources,isbnless_physical_edition_evidence:{method:'independent_isbnless_physical_edition_review',contentId:pair.drop},
+      edition_text_scope_evidence:{isbn:null,source_url:'https://product.kyobobook.co.kr/detail/S000000177940'}}}]
+  s.content_locales=[{content_id:pair.drop,locale:'ko',isbn:null,title:'카산드라',creator:'크리스타 볼프',publisher:'작가정신',sources}]
+  const sql=buildMergeSql(pair,s),seed=sql.slice(sql.indexOf('INSERT INTO public.figure_book_editions(content_id,locale,title'),sql.indexOf('FOR duplicate_edition IN'))
+  assert.match(seed,/e\.sources[^\n]+- 'isbnless_physical_edition_evidence' - 'edition_text_scope_evidence' IS NOT DISTINCT FROM l\.sources[^\n]+- 'isbnless_physical_edition_evidence' - 'edition_text_scope_evidence'/)
+  assert.doesNotMatch(seed,/- 'translators'|- 'provider_product_id'/)
+  assert.doesNotMatch(sql,/DELETE FROM public\.figure_book_editions WHERE id=54546|WHEN 54546 THEN/)
+})
+
 test('source-reviewed rejected card products are not seeded again during work merge', () => {
   for (const reason of ['wrong_locale','non_reading_product']) {
     const s = fixture(), title='Egon Schiele', isbn='9783822802397'

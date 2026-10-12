@@ -264,6 +264,135 @@ test('explicit archive discard retains the exact nested live URL and refuses los
  }
 })
 
+function preservedSourceSnapshot(){
+ const data=snapshot(),url='https://openlibrary.org/works/OL444779W'
+ data.contents[0].metadata.figureBook={workTitle:'Everything and Nothing',workCreator:'Jorge Luis Borges',workIdentity:'wikidata:q16510542'}
+ const description='Everything and nothing compiles the finest fictions by Jorge Luis Borges. These stories explore memory, language and imagined worlds.'
+ const sources={primary:'openlibrary',workKey:'/works/OL444779W',provider_edition_url:'https://openlibrary.org/books/OL25092567M',
+  isbn:'https://openlibrary.org/books/OL25092567M',thumbnail:'https://openlibrary.org/books/OL25092567M',wikidata:'https://www.wikidata.org/wiki/Q16510542'}
+ for(const row of [...data.content_locales,...data.figure_book_editions])Object.assign(row,{title:'Everything and Nothing',creator:'Jorge Luis Borges',isbn:'9780811218832',description,sources:structuredClone(sources)})
+ data.content_locales.push({content_id:'work',locale:'ko',title:'모든 것과 아무것도 아닌 것',creator:'호르헤 루이스 보르헤스',isbn:null,
+  description:'이 책은 호르헤 루이스 보르헤스의 뛰어난 허구 작품들을 모았다. 이야기들은 기억과 언어, 상상 속 세계를 탐구한다.',
+  sources:{primary:'none',title:'translated',description:{type:'locale-translation',source_content_id:'work',source_locale:'en',snapshot_hash:'existing-hash',
+   original_sources:{primary:'openlibrary',isbn:'https://openlibrary.org/books/OL40116989M',title:'https://openlibrary.org/books/OL40116989M',
+    creator:'https://openlibrary.org/books/OL40116989M',wikidata:sources.wikidata}}}})
+ data.celeb_contents=[{id:'protected-reading',content_id:'work',review:'Original personal reading',review_en:'Original English personal reading',source_url:'https://interview.example/reading'}]
+ const make=(table,before)=>({table,before,patch:{sources:{...before.sources,description:url,description_method:before.locale==='en'?'provider':'translation',description_source_locale:'en'}},
+  reviewedIntroductionSourcePointer:{method:'preserved_openlibrary_introduction_source_review',llmReviewed:true,contentId:'work',locale:before.locale,isbn:before.isbn,
+   editionTitle:before.title,editionCreator:before.creator,...(table==='figure_book_editions'?{editionId:before.id}:{}),
+   workTitle:'Everything and Nothing',workCreator:'Jorge Luis Borges',workIdentity:'wikidata:q16510542',referenceIsbn:'9780811218832',
+   referenceWorkTitle:'Everything and Nothing',referenceCreator:'Jorge Luis Borges',sourceUrl:url,sourceFetchedUrl:url+'.json',sourceFetchedKey:'/works/OL444779W',
+   sourceFetchedWorkKey:'/works/OL444779W',sourceFetchedTitle:'Everything and nothing',sourceFetchedWorkTitle:'Everything and nothing',sourceFetchedCreator:'Jorge Luis Borges',sourceFetchedDescription:description,
+   bodyEvidence:'The LLM read this actual OpenLibrary description and verified the retained prose describes this exact Borges collection.',
+   reason:'Retain every existing word and source field; supply the actual OpenLibrary prose URL without claiming independent publication evidence.',
+   ...(before.locale==='ko'?{translationReviewed:true,translationSnapshotHash:'existing-hash',translationOriginalDescription:description,translationDescription:before.description,
+    translationSourceFetchedUrl:'https://openlibrary.org/books/OL40116989M.json',translationSourceFetchedWorkKey:'/works/OL444779W',
+    translationSourceFetchedTitle:'Everything and Nothing',translationSourceFetchedCreator:'Jorge Luis Borges'}:{})}})
+ return {data,url,changes:[make('content_locales',data.content_locales[0]),make('figure_book_editions',data.figure_book_editions[0]),make('content_locales',data.content_locales[1])]}
+}
+
+test('actual OpenLibrary pointers preserve English prose, its existing Korean translation and every protected row',()=>{
+ const {data,url,changes}=preservedSourceSnapshot(),plan=planGuardedCatalogRepairs(['work'],data,changes)
+ for(const table of ['content_locales','figure_book_editions'])for(const before of data[table]){
+  const after=plan.expected[table].find(row=>rowKeyForTest(table,row)===rowKeyForTest(table,before))
+  assert.deepEqual(after,{...before,sources:{...before.sources,description:url,description_method:before.locale==='en'?'provider':'translation',description_source_locale:'en'}})
+ }
+ for(const table of SNAPSHOT_TABLES.filter(t=>!['content_locales','figure_book_editions'].includes(t)))assert.deepEqual(plan.expected[table],data[table],table)
+ assert.equal(plan.expected.content_locales[1].isbn,null)
+ const sql=buildGuardedCatalogRepairSql(['work'],data,changes)
+ assert.equal((sql.match(/FOR UPDATE/g)||[]).length,18)
+ for(const table of SNAPSHOT_TABLES)assert.equal(sql.split('CATALOG_REPAIR: rowset mismatch in '+table+"'").length-1,2)
+ assert.doesNotMatch(sql,/UPDATE public.celeb_contents|UPDATE public.member_contents|preserved_openlibrary_introduction_source_review|sourceFetchedDescription/)
+ const titled=preservedSourceSnapshot()
+ for(const row of [...titled.data.content_locales.filter(row=>row.locale==='en'),...titled.data.figure_book_editions])row.title='Everything and Nothing: A New Directions Edition'
+ for(const c of titled.changes){c.reviewedIntroductionSourcePointer.editionTitle=c.before.title;c.reviewedIntroductionSourcePointer.referenceWorkTitle=titled.data.content_locales[0].title}
+ assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],titled.data,titled.changes))
+})
+const rowKeyForTest=(table,row)=>table==='content_locales'?row.locale:String(row.id)
+
+test('source-pointer review refuses changed prose, other source fields, identities and additional review decisions',()=>{
+ for(const edit of [c=>c.patch.description='Changed prose',c=>c.patch.title='Another title',c=>c.patch.isbn='9780140449136',
+  c=>c.patch.sources.primary='none',c=>c.patch.sources.thumbnail='https://publisher.example/other',c=>delete c.patch.sources.isbn,
+  c=>c.patch.sources.description='https://publisher.example/unread',c=>c.patch.sources.description_method='research',
+  c=>c.patch.sources.description_source_locale='ko',c=>c.patch.sources.extraArchive={old:'body'},c=>c.reviewedIntroductionCorrection={},
+  c=>{delete c.patch;c.remove=true}]){
+  const {data,changes}=preservedSourceSnapshot();edit(changes[0]);assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes))
+ }
+ for(const difference of [{llmReviewed:false},{method:'independent_work_review'},{contentId:'other'},{locale:'ko'},{isbn:'9780140449136'},
+  {editionTitle:'Another book'},{editionCreator:'Another writer'},{workTitle:'Another original'},{workCreator:'Another writer'},{workIdentity:'wikidata:q0'},
+  {referenceIsbn:'9780140449136'},{referenceWorkTitle:'Other original'},{referenceCreator:'Other writer'},
+  {sourceFetchedDescription:'A changed description about another text.'},{sourceFetchedDescription:null},{bodyEvidence:'Guessed'},{reason:''},
+  {sourceFetchedKey:'/works/OL1W'},{sourceFetchedWorkKey:'/works/OL1W'},{sourceFetchedCreator:'Another author'},
+  {sourceFetchedWorkTitle:'Another original'},{sourceFetchedUrl:'https://openlibrary.org/works/OL1W.json'},
+  {sourceUrl:'https://openlibrary.org/works/OL444779W?token=secret'},{sourceUrl:'https://openlibrary.org/works/OL444779W/'},
+  {sourceUrl:'https://openlibrary.org.evil.example/works/OL444779W'}]){
+  const {data,changes}=preservedSourceSnapshot();Object.assign(changes[0].reviewedIntroductionSourcePointer,difference)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Preserved introduction source/)
+ }
+ const {data,changes}=preservedSourceSnapshot();changes[1].reviewedIntroductionSourcePointer.editionId=999
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Preserved introduction source/)
+})
+
+test('source pointer never replaces another live English source or survives changed original binding in the batch',()=>{
+ for(const existing of ['https://publisher.example/current', {type:'provider',source:'https://publisher.example/current'}]){
+  const {data,changes}=preservedSourceSnapshot();data.content_locales[0].sources.description=existing
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Preserved introduction source/)
+ }
+ for(const field of ['workTitle','workCreator','workIdentity']){
+  const {data,changes}=preservedSourceSnapshot(),before=data.contents[0]
+  changes.push({table:'contents',before,patch:{metadata:{figureBook:{...before.metadata.figureBook,[field]:'Changed original'}}}})
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Preserved introduction source/)
+ }
+ for(const field of ['title','creator','isbn']){
+  const {data,changes}=preservedSourceSnapshot();changes[0].patch[field]='Changed reference'
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Preserved introduction source/)
+ }
+})
+
+test('Korean translation pointer requires its exact current English body, actual wrapper owner and same-work old edition',()=>{
+ for(const difference of [{translationReviewed:false},{translationSnapshotHash:'other-hash'},{translationOriginalDescription:'Changed English prose'},
+  {translationDescription:'새로 쓴 한국어 소개이다.'},{translationSourceFetchedUrl:'https://openlibrary.org/books/OL1M.json'},
+  {translationSourceFetchedWorkKey:'/works/OL1W'},{translationSourceFetchedCreator:'Other author'}]){
+  const {data,changes}=preservedSourceSnapshot();Object.assign(changes[2].reviewedIntroductionSourcePointer,difference)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Preserved introduction source/)
+ }
+ for(const edit of [w=>w.source_content_id='other',w=>w.source_locale='ko',w=>w.type='provider',w=>w.extra_url='https://publisher.example/current',
+  w=>w.original_sources.wikidata='https://www.wikidata.org/wiki/Q0',w=>w.original_sources.title='https://openlibrary.org/books/OL1M',
+  w=>w.original_sources.description='https://publisher.example/live',w=>w.original_sources.cover='https://publisher.example/live']){
+  const {data,changes}=preservedSourceSnapshot();edit(data.content_locales[1].sources.description)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Preserved introduction source/)
+ }
+ const {data,changes}=preservedSourceSnapshot()
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[changes[2]]),/Preserved introduction source/)
+ const encoded=preservedSourceSnapshot();encoded.data.content_locales[1].sources.description=JSON.stringify(encoded.data.content_locales[1].sources.description)
+ assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],encoded.data,encoded.changes))
+})
+
+test('exact fetched OpenLibrary edition prose supports M pointers only with its current ISBN and original work key',()=>{
+ const {data,changes}=preservedSourceSnapshot(),url=data.content_locales[0].sources.provider_edition_url
+ for(const c of changes){c.patch.sources.description=url;Object.assign(c.reviewedIntroductionSourcePointer,{sourceUrl:url,sourceFetchedUrl:url+'.json',sourceFetchedKey:'/books/OL25092567M',
+  sourceFetchedTitle:'Everything and Nothing: A New Directions Edition',sourceFetchedIsbns:['9780811218832']})}
+ assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,changes))
+ for(const difference of [{sourceFetchedIsbns:[]},{sourceFetchedIsbns:['9780140449136']},{sourceFetchedWorkKey:'/works/OL1W'},
+  {sourceFetchedKey:'/books/OL1M'},{sourceFetchedWorkTitle:'Another original'}]){
+  const altered=structuredClone(changes);Object.assign(altered[0].reviewedIntroductionSourcePointer,difference)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,altered),/Preserved introduction source/)
+ }
+})
+
+test('source-pointer readback still rejects protected prose or unrelated source drift and accepts only its expected patch',async()=>{
+ for(const drift of ['none','review','source','prose']){
+  const {data,changes}=preservedSourceSnapshot(),actual=planGuardedCatalogRepairs(['work'],data,changes).expected
+  for(const row of [...actual.content_locales,...actual.figure_book_editions])row.updated_at='changed'
+  if(drift==='review')actual.celeb_contents[0].review='Changed personal reading'
+  if(drift==='source')actual.content_locales[0].sources.primary='other'
+  if(drift==='prose')actual.figure_book_editions[0].description+=' Changed prose'
+  let captures=0
+  const run=()=>guardedCatalogRepairs(null,['work'],changes,{capture:async()=>structuredClone(captures++?actual:data),execute:()=>({status:0,stdout:'MERGE_COMMITTED',stderr:''})})
+  if(drift==='none')await run();else await assert.rejects(run,/readback mismatch/)
+ }
+})
+
 function completeSetSnapshot(){
  const data=snapshot()
  const first={id:1,content_id:'work',locale:'ko',title:'Novel 1',creator:'Author',isbn:'9788932910680',edition_kind:'volume',text_scope:'volume/1',
