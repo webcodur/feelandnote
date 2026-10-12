@@ -267,7 +267,7 @@ JSON-LD는 서버 렌더 HTML에 싣는다. 클라이언트에서 주입하면 �
 | Google Analytics (GA4) | ✅ 수집 중 | — | — | Property ID: `526353156`. **MCP는 현재 미연결** — `.mcp.json`에 서버 정의 없음(`settings.local.json`의 허용 목록에 이름만 잔존) |
 | 네이버 서치어드바이저 | 등록됨 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 웹 페이지 수집 | 기존 사이트맵을 유지하고 변경된 주요 주소를 수집 요청한다 |
 | Bing Webmaster Tools | 등록됨 | 기존 확인된 사이트 속성 | 사이트맵·URL 검사 | 기존 사이트에서 사이트맵 `Re-submit`과 URL `Request indexing`을 사용한다 |
-| Daum 검색등록 | 제출 기록 있음 | 신규등록 폼 | URL + 사이트 설명 | 2026-03-12 제출. 승인·현재 노출은 미확인 |
+| Daum 검색등록 | 등록 조회·사이트 검색 노출 확인 | 등록변경 폼의 기존 신청자 인증 | 사이트명·URL·설명 | 기존 등록의 `Feel&Note`·HTTP 주소를 현행 표기로 변경해야 한다 |
 
 Daum 사이트 검색등록의 승인과 웹문서 수집 상태는 따로 확인한다. 웹마스터의 수집 Seed에는 기존 `https://feelandnote.com/sitemap.xml`과 인물 우선 사이트맵 `https://feelandnote.com/sitemaps/celebs.xml`을 사용한다. Seed 접수도 실제 수집·노출을 보장하지 않는다. [Daum 수집 Seed 안내](https://cs.daum.net/faq/service/15/category/4118/detail/38543)
 
@@ -380,8 +380,9 @@ verification: {
 
 ## Robots
 
-- **파일**: `sw/web/src/app/robots.ts`
+- **파일**: `sw/web/src/app/robots.txt/route.ts`(텍스트 응답·Daum 공개 인증 주석), `sw/web/src/lib/robots.ts`(크롤링 규칙)
 - **URL**: `https://feelandnote.com/robots.txt`
+- **Daum 인증**: 발급 화면의 공개 확인 문구를 응답 하단에 그대로 둔다. 로그인 PIN은 코드·문서에 보관하지 않는다. Next 메타데이터 자동 직렬화는 인증 주석을 출력하지 않으므로 명시적 텍스트 라우트를 사용한다.
 - **일반 크롤러(`*`)**: `allow: /` + `crawlDelay: 1`. Disallow는 아래.
   - 시스템: `/private/`, `/admin/`, `/api/`
   - 인증: `/login`, `/signup`, `/reset-password` (각각 `/en` 접두 변형 포함)

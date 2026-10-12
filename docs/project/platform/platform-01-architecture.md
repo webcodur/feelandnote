@@ -54,7 +54,7 @@ app/
   auth/callback/       # OAuth 콜백
   .well-known/         # assetlinks.json — 안드로이드 앱↔도메인 소유 검증. 지문은 환경변수로 읽는다
   feed.xml/            # RSS
-  layout.tsx  |  error.tsx  |  manifest.ts  |  robots.ts  |  sitemap.ts
+  layout.tsx  |  error.tsx  |  manifest.ts  |  robots.txt/  |  sitemap.ts
   opengraph-image.tsx  |  globals.css
 
 actions/               # Server Actions

@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import robots from './robots'
+import { createRequire } from 'node:module'
+import robots, { getRobotsText } from '@/lib/robots'
+import { GET } from './robots.txt/route'
 
 // Google REP: 경로는 접두어·*·$로 비교하고, 가장 긴 일치 규칙을 택한다. 동률은 Allow다.
 function allowed(agent: string, path: string): boolean {
@@ -41,4 +43,19 @@ test('학습용 봇의 기관 선정 차단은 유지된다', () => {
     assert.equal(allowed(agent, '/explore/works/curated?page=2'), false)
     assert.equal(allowed(agent, '/en/explore/works/curated?media=VIDEO&page=2'), false)
   }
+})
+
+test('다음 인증 주석만 robots 하단에 추가하고 기존 크롤링 본문은 유지한다', async () => {
+  const require = createRequire(import.meta.url)
+  const { resolveRobots } = require('next/dist/build/webpack/loaders/metadata/resolve-route-data')
+  assert.equal(getRobotsText(), resolveRobots(robots()))
+
+  const response = GET()
+  assert.equal(response.status, 200)
+  assert.equal(response.headers.get('content-type'), 'text/plain; charset=utf-8')
+  const text = await response.text()
+  const comment = text.match(/\n#DaumWebMasterTool:[a-f0-9]{64}:[A-Za-z0-9+/]+=*\n$/)
+  assert.ok(comment)
+  assert.equal(text.replace(comment[0], ''), getRobotsText())
+  assert.equal(text.split('#DaumWebMasterTool:').length, 2)
 })

@@ -112,6 +112,7 @@ const NON_RUNTIME_WEB_ROOT_FILES = new Set([
 ])
 
 const SEO_PREFIXES = [
+  'sw/web/src/app/robots.txt/',
   'sw/web/src/app/seo-image/',
   'sw/web/src/app/sitemap.xml/',
   'sw/web/src/app/sitemaps/',
@@ -122,6 +123,7 @@ const SEO_FILES = new Set([
   'sw/web/src/app/opengraph-image/route.tsx',
   'sw/web/src/app/opengraph-image.tsx',
   'sw/web/src/app/robots.ts',
+  'sw/web/src/lib/robots.ts',
   'sw/web/src/lib/seoImageOrigin.ts',
   'sw/web/src/lib/sitemap.ts',
 ])

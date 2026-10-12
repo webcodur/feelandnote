@@ -370,6 +370,18 @@ test('shared brand, person descriptions and wordmarks evict their actual cached 
   assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/components/ui/LogoWordmark.tsx']).scopes, ['cached-html'])
 })
 
+test('robots route and crawler policy changes evict only SEO outputs, including the former route deletion', () => {
+  for (const file of [
+    'sw/web/src/app/robots.txt/route.ts',
+    'sw/web/src/lib/robots.ts',
+    'sw/web/src/app/robots.ts',
+  ]) {
+    const plan = classifyCloudflarePurgeImpact([file])
+    assert.deepEqual(plan.scopes, ['seo'])
+    assert.equal(plan.files.includes('https://feelandnote.com/robots.txt'), true)
+  }
+})
+
 test('shared celeb-tier changes evict cached HTML and the dependent SEO outputs', () => {
   const plan = classifyCloudflarePurgeImpact([
     'packages/shared/src/constants/celeb-tiers.ts',

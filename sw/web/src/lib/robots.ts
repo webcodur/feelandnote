@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { MODEL_TRAINING_CRAWLERS, ROBOTS_ONLY_TRAINING_TOKENS } from '@/lib/blocked-crawlers'
 import { CURATED_FILTER_KEYS, CURATED_HUB_PATH } from '@/lib/library/curatedMeta'
-import { SITE_URL } from '@/lib/seo'
+import { SITE_URL } from '@feelandnote/shared/constants/site-brand'
 
 /** 검색·답변 노출과 사용자 요청에 쓰이는 봇. 학습용 봇과 분리해 공개 문서만 허용한다. */
 const ANSWER_CRAWLERS = [
@@ -111,4 +111,19 @@ export default function robots(): MetadataRoute.Robots {
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
   }
+}
+
+/** Next 메타데이터의 기존 robots 본문을 유지하면서 인증용 주석을 붙일 수 있게 한다. */
+export function getRobotsText(): string {
+  const policy = robots()
+  const rules = Array.isArray(policy.rules) ? policy.rules : [policy.rules]
+  const groups = rules.map((rule) => {
+    const lines = [rule.userAgent ?? '*'].flat().map((agent) => `User-Agent: ${agent}`)
+    for (const path of [rule.allow ?? []].flat()) lines.push(`Allow: ${path}`)
+    for (const path of [rule.disallow ?? []].flat()) lines.push(`Disallow: ${path}`)
+    if (rule.crawlDelay !== undefined) lines.push(`Crawl-delay: ${rule.crawlDelay}`)
+    return `${lines.join('\n')}\n\n`
+  })
+  const sitemaps = [policy.sitemap ?? []].flat().map((url) => `Sitemap: ${url}\n`)
+  return groups.join('') + sitemaps.join('')
 }
