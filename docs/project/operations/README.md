@@ -9,4 +9,4 @@
 | 03 | [`ops-03-affiliate-commerce.md`](ops-03-affiliate-commerce.md) | 도서 판매처 운영, 영상·게임·음악의 제휴 경로와 공개 이용 혜택 |
 | 04 | [`ops-04-adsense.md`](ops-04-adsense.md) | 광고 연결·승인 확인·콘텐츠 심사·게재 운영 |
 
-Google 일일 색인 신청은 [`continuous/google-indexing.md`](../../continuous/google-indexing.md), SNS 멀티채널 확장 보드는 [`todo/sns-expansion.md`](../../todo/sns-expansion.md)가 쥔다.
+Google·네이버·Bing·Daum 색인·수집 점검은 [`continuous/google-indexing.md`](../../continuous/google-indexing.md), SNS 멀티채널 확장 보드는 [`todo/sns-expansion.md`](../../todo/sns-expansion.md)가 쥔다.

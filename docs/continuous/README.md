@@ -4,7 +4,7 @@
 
 | 문서 | 지속 과제 |
 |---|---|
-| [`google-indexing.md`](google-indexing.md) | Google 일일 색인 직접 신청·실제 한도까지 요청·다음 신청 URL |
+| [`google-indexing.md`](google-indexing.md) | Google·네이버·Bing·Daum 색인·수집 점검과 셀럽 상세·대표사진·설명 반영 확인, 다음 신청 주소 |
 | [`celeb-tts-dialogue.md`](celeb-tts-dialogue.md) | 인물 대사 검수·한영 음성 합성·게시 규칙과 도달점(명단은 DB 조회) |
 | [`celeb-tts-reading.md`](celeb-tts-reading.md) | 읽어보기 한영 음성 일일 생성·검수·등록과 타이밍 불량분 폐기·재대기 도달점 |
 | [`faction-desc-voice.md`](faction-desc-voice.md) | 세력·신화 개요 한영 음성 생성·검수·등록 도달점 |
