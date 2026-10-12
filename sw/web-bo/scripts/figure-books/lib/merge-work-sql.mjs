@@ -179,6 +179,7 @@ export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [], re
   const removedPartIds = new Set(removedParts.map(row => String(row.id)))
   if (!Array.isArray(reviewedEditionMappings)) throw Error('MERGE_REVIEW: reviewedEditionMappings must be an array')
   if (reviewedEditionMappings.some(mapping => removedPartIds.has(String(mapping.dropEditionId)))) throw Error('MERGE_REVIEW: a later part cannot also be mapped as an equivalent')
+  const reviewedMappings = validateReviewedEditionMappings(pair, snapshot, reviewedEditionMappings)
   const excludedLocaleSeeds = snapshot.content_locales.filter(row => [pair.keep,pair.drop].includes(row.content_id)
     && (reviewedBookEditionSelectionReason({...row,title:row.sources?.edition_title??row.title})
       || removedParts.some(part => part.content_id === row.content_id && part.locale === row.locale && toIsbn13(part.isbn ?? '') === toIsbn13(row.isbn ?? ''))))
@@ -202,9 +203,15 @@ export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [], re
       if (!keep || keep.isbn === row.isbn) return []
       for (const field of ['edition_kind','text_scope']) if (keep[field] && row[field] && keep[field] !== row[field])
         throw Error('MERGE_REVIEW: automatic translation mapping scope conflict; review included-volume selection separately')
+      // 원문·역자 키는 수록 범위를 증명하지 않는다. 빈 범위의 후속권은 시작권의 재판으로 접지 않는다.
+      const knownScope = edition => typeof edition.text_scope === 'string' && !!edition.text_scope.trim()
+        && !/^unknown$/iu.test(edition.text_scope.trim())
+      if ((!knownScope(keep) || !knownScope(row))
+        && !reviewedMappings.some(mapping => String(mapping.drop) === String(row.id) && String(mapping.keep) === String(keep.id)))
+        throw Error('MERGE_REVIEW: automatic translation mapping scope unverified; use source-reviewed equivalence or nonstart removal')
       return [{ drop: row.id, keep: keep.id }]
     })
-  for (const mapping of validateReviewedEditionMappings(pair, snapshot, reviewedEditionMappings)) {
+  for (const mapping of reviewedMappings) {
     const automatic = equivalents.find(row => String(row.drop) === String(mapping.drop))
     if (automatic && String(automatic.keep) !== String(mapping.keep)) throw Error('MERGE_REVIEW: reviewed mapping conflicts with verified original/translation representative')
     if (!automatic) equivalents.push(mapping)
@@ -224,6 +231,9 @@ export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [], re
     if (Array.isArray(source.edition_work_evidence)) sources.edition_work_evidence = source.edition_work_evidence.map(rebindProof)
     if (Array.isArray(source.edition_selection_evidence)) sources.edition_selection_evidence = source.edition_selection_evidence.map(proof => proof?.method === 'independent_selection_review' && BOOK_EDITION_WORK_BOUND_SELECTION_REASONS.includes(proof.reason) && proof.content_id === pair.drop ? {...proof, content_id:pair.keep} : proof)
     if (source.work_attribution) sources.work_attribution = rebindProof(source.work_attribution)
+    const physicalProof = source.isbnless_physical_edition_evidence
+    if (physicalProof?.method === 'independent_isbnless_physical_edition_review' && physicalProof.contentId === pair.drop)
+      sources.isbnless_physical_edition_evidence = { ...physicalProof, contentId: pair.keep }
     if (JSON.stringify(sources) === JSON.stringify(source)) return []
     const where = table === 'content_locales' ? `content_id=drop_id AND locale=${sqlLiteral(row.locale)}` : `id=${Number(row.id)}`
     return [`UPDATE public.${table} SET sources=${sqlLiteral(JSON.stringify(sources))}::jsonb WHERE ${where};`]

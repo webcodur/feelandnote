@@ -45,6 +45,50 @@ function reviewedEditionFixture() {
 }
 const reviewedMapping = { keepEditionId: 1, dropEditionId: 2, keepIsbn: '9780500295779', dropIsbn: '9780500544785', locale: 'en',
   sourceUrl: 'https://www.thamesandhudson.com/products/wim-wenders-instant-stories', reason: 'Publisher confirms reduced-format reprint with the same 403 Polaroids.' }
+test('원문 또는 같은 역자라도 미확인 범위의 다른 ISBN 판본은 자동 등가 삭제하지 않는다',()=>{
+ for(const original of [false,true])for(const unknown of [null,undefined,'','  ','unknown'])for(const unknownSide of [0,1]){
+  const s=reviewedEditionFixture()
+  if(original)for(const work of s.contents)work.metadata={figureBook:{originalLanguage:'en',identityEvidence:'https://www.thamesandhudson.com/products/wim-wenders-instant-stories'}}
+  else for(const row of s.figure_book_editions)row.sources.translators=['Verified translator']
+  for(const row of s.figure_book_editions){row.edition_kind='volume';row.text_scope='volume/1'}
+  s.figure_book_editions[unknownSide].text_scope=unknown
+  const before=structuredClone(s)
+  assert.throws(()=>buildMergeSql(pair,s),/automatic translation mapping scope (?:unverified|conflict)/)
+  assert.deepEqual(s,before)
+ }
+ const s=reviewedEditionFixture()
+ for(const row of s.figure_book_editions)row.sources.translators=['Verified translator']
+ assert.throws(()=>buildMergeSql(pair,s),/scope unverified/)
+ assert.match(buildMergeSql(pair,s,{reviewedEditionMappings:[reviewedMapping]}),/WHEN 2 THEN 1/)
+ s.figure_book_editions[1].isbn=s.figure_book_editions[0].isbn
+ assert.doesNotThrow(()=>buildMergeSql(pair,s))
+})
+test('Newton 1664–1666 시작권과 NULL 범위의 1667–1670 제2권은 자동 삭제를 거절하고 검수된 후속 제거만 허용한다',async()=>{
+ const newton={keep:'522df841-df1b-5cfa-8074-04a3bf16fb16',drop:'981d9bc9-de7f-5770-b891-25f85e1d6a08'},s=fixture()
+ const figureBook={originalLanguage:'en',identityEvidence:'https://ci.nii.ac.jp/ncid/BA03628812',
+  originalTitle:'The Mathematical Papers of Isaac Newton',originalCreator:'Isaac Newton',workIdentity:'isaac-newton/the-mathematical-papers',
+  series:{title:'The Mathematical Papers of Isaac Newton',totalVolumes:8}}
+ s.contents=[newton.keep,newton.drop].map(id=>({id,type:'BOOK',metadata:{figureBook:structuredClone(figureBook)}}))
+ s.figure_book_editions=[
+  {id:47024,content_id:newton.keep,locale:'en',isbn:'9780521045957',title:'Mathematical Papers of Isaac Newton',creator:'Isaac Newton',
+   edition_kind:'volume',text_scope:'volume/1',sources:{text_scope_evidence:'https://ci.nii.ac.jp/ncid/BD18098044'}},
+  {id:47029,content_id:newton.drop,locale:'en',isbn:'9780521045964',title:'Mathematical Papers of Isaac Newton, 1667-1670 Volume 2',creator:'Isaac Newton',
+   edition_kind:null,text_scope:null,sources:{isbn:'https://ci.nii.ac.jp/ncid/BD18098146'}},
+ ]
+ s.content_locales=s.figure_book_editions.map(({content_id,locale,isbn,title})=>({content_id,locale,isbn,title}))
+ const before=structuredClone(s);let executed=0
+ await assert.rejects(applyOne(null,newton,{checkReferences(){},capture:async()=>s,execute(){executed++;return 'MERGE_COMMITTED'}}),/automatic translation mapping scope unverified/)
+ assert.equal(executed,0);assert.deepEqual(s,before)
+ const review={keepEditionId:47024,dropEditionId:47029,keepIsbn:'9780521045957',dropIsbn:'9780521045964',
+  keepTitle:s.figure_book_editions[0].title,dropTitle:s.figure_book_editions[1].title,locale:'en',volumeNumber:2,
+  startSourceUrl:'https://ci.nii.ac.jp/ncid/BD18098044',sourceUrl:'https://ci.nii.ac.jp/ncid/BD18098146',
+  reason:'The reviewed actual library records identify different continuous text: volume 1 covers 1664–1666 and volume 2 covers 1667–1670; the later part is not an equivalent reprint.'}
+ const sql=buildMergeSql(newton,s,{reviewedNonstartEditionRemovals:[review]})
+ assert.match(sql,/DELETE FROM public.figure_book_editions WHERE content_id=drop_id AND id IN \(47029\)/)
+ assert.match(sql,/canonical_id := NULL;/)
+ assert.doesNotMatch(sql,/WHEN 47029 THEN 47024/)
+ assert.deepEqual(s,before)
+})
 test('automatic same-translator mappings reject known whole/subset scopes before any SQL mutation',()=>{
  for(const field of ['edition_kind','text_scope']){
   const data=reviewedEditionFixture()
@@ -69,6 +113,35 @@ test('explicit source-reviewed edition equivalence maps products without inventi
   assert.ok(sql.indexOf('SET is_active=false') < sql.indexOf('SET edition_id=canonical_id'))
   assert.doesNotMatch(sql, /DISABLE TRIGGER|session_replication_role|SET originalLanguage|SET translators/iu)
   assert.deepEqual(snapshot, before)
+})
+test('ISBN 없는 실물 판본 증거는 통합된 소유자만 재바인딩하고 판권·공급자·본문 사실을 보존한다',()=>{
+ const s=fixture(),sourceUrl='https://library.example/fixtures/milton-1826-title-page-and-text'
+ // 실제 등록 계약의 영어 OL 서지를 쓰되, 독립 판권·본문 출처는 명시적인 테스트 대역이다.
+ const proof={method:'independent_isbnless_physical_edition_review',llmReviewed:true,contentId:pair.drop,locale:'en',isbn:null,
+  title:'Paradise Lost: A Poem in Twelve Books',creator:'John Milton',workTitle:'Paradise Lost',workCreator:'John Milton',
+  translators:[],publisher:'T. Bedlington',editionKind:null,textScope:null,sourceUrl,
+  reason:'The independently reviewed title page and English paper text are represented by a test fixture; scope remains unverified.',
+  providerProductId:'OL20458778M',providerUrl:'https://openlibrary.org/books/OL20458778M',providerEditionKey:'/books/OL20458778M',
+  providerLanguageKeys:['/languages/eng'],providerPhysicalFormat:null,physicalMedium:'paper'}
+ const sources={primary:'openlibrary',title:proof.providerUrl,description:sourceUrl,isbnless_physical_edition_evidence:proof}
+ s.figure_book_editions=[{id:47030,content_id:pair.drop,locale:'en',isbn:null,title:proof.title,creator:proof.creator,sources:structuredClone(sources)}]
+ s.content_locales=[{content_id:pair.drop,locale:'en',isbn:null,title:proof.title,creator:proof.creator,sources:structuredClone(sources)}]
+ const before=structuredClone(s),expected={...sources,isbnless_physical_edition_evidence:{...proof,contentId:pair.keep}},sql=buildMergeSql(pair,s)
+ const literal=sqlLiteral(JSON.stringify(expected))
+ for(const [table,where] of [['figure_book_editions','id=47030'],['content_locales',"content_id=drop_id AND locale=E'en'"]]){
+  const update=`UPDATE public.${table} SET sources=${literal}::jsonb WHERE ${where};`
+  assert.ok(sql.includes(update));assert.ok(sql.indexOf(update)<sql.indexOf('INSERT INTO public.figure_book_editions'))
+ }
+ assert.equal(sql.match(/UPDATE public\.(?:figure_book_editions|content_locales) SET sources=/g)?.length,2)
+ assert.deepEqual(s,before)
+ for(const changed of [{contentId:pair.keep},{contentId:'unrelated-owner'},{method:'machine_review'}]){
+  const other=structuredClone(s)
+  for(const row of [...other.figure_book_editions,...other.content_locales])Object.assign(row.sources.isbnless_physical_edition_evidence,changed)
+  assert.doesNotMatch(buildMergeSql(pair,other),/UPDATE public\.(?:figure_book_editions|content_locales) SET sources=/)
+ }
+ const keepOwned=structuredClone(s)
+ for(const row of [...keepOwned.figure_book_editions,...keepOwned.content_locales])row.content_id=pair.keep
+ assert.doesNotMatch(buildMergeSql(pair,keepOwned),/UPDATE public\.(?:figure_book_editions|content_locales) SET sources=/)
 })
 test('reviewed mappings are bound to exact pair ownership, locale and ISBN and reject conflicting translations/scope or lost introductions', () => {
   for (const change of [{ keepEditionId: 2 }, { dropEditionId: 999 }, { keepIsbn: '9783775735131' }, { locale: 'ko' },
