@@ -58,3 +58,13 @@ test('저장 중 조용히 유실될 불완전 엔딩과 잘못된 주소를 거
   assert.ok(validateSceneDraft([last, scene('two')], null, true))
   assert.ok(validateSceneDraft([{ ...scene('one'), url: 'javascript:alert(1)' }], null, true))
 })
+
+test('각 이야기의 종료를 저장하고 도입·종료 HTML 중복을 거절한다', () => {
+  const opening = { title: '시작', text: '도입', format: 'image' as const }
+  const ending = { title: '종료', text: '마무리', format: 'html' as const }
+  const draft = [{ ...scene('one'), opening, ending }, { ...scene('two'), opening, ending }]
+  assert.equal(validateSceneDraft(draft, null, false), null)
+  const bothHTML = [{ ...scene('one'), opening: { ...opening, format: 'html' as const }, ending }]
+  assert.match(validateSceneDraft(bothHTML, null, false)!, /한쪽만 HTML/)
+  assert.equal(validateSceneDraft([{ ...bothHTML[0], ending: { ...ending, format: 'image' } }], null, false), null)
+})

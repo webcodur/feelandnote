@@ -363,7 +363,7 @@
         "portraitImage": "대표 사진",
         "keyScenes": "주요 장면",
         "selectImage": "장면 바로가기",
-        "imageNumber": "이미지 번호 (1–{count})",
+        "imageNumber": "번호 (1–{count})",
         "goToImage": "이동",
         "searchImages": "장면 제목 검색",
         "noMatchingImages": "일치하는 장면이 없습니다.",
@@ -398,7 +398,12 @@
         "scenesCompleteCountLegend": "완성: 주요 장면 제작이 일단락된 작품",
         "scenesCompleteCount": "주요 장면 완성 {count}편",
         "scenesCompleteCountShort": "완성 {count}편",
-        "scenesCompleteShort": "완성"
+        "scenesCompleteShort": "완성",
+        "storyOpening": "이야기 시작",
+        "storyEnding": "이야기 마무리",
+        "startStory": "장면 보기",
+        "nextStory": "다음 이야기",
+        "closeStory": "주요 장면 닫기"
       },
       "relationMap": {
         "title": "관계망",
