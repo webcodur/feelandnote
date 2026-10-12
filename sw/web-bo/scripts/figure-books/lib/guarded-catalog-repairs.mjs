@@ -105,9 +105,11 @@ function reviewedFigureRelation(snapshot,change){
    workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)})))
   throw Error('Figure relation repair requires a retained live normal edition with exact ISBN/title/creator/locale')
  if(remove){
-  if(proof.decision!=='remove_wrong_person'||proof.afterRelationType!==null
-   ||!named(proof.actualPersonName)||proof.actualPersonName.trim()===proof.figureName.trim())
-   throw Error('Figure relation removal requires an explicitly reviewed different person')
+  const otherPerson=proof.decision==='remove_wrong_person'&&named(proof.actualPersonName)&&proof.actualPersonName.trim()!==proof.figureName.trim()
+  const otherSubject=proof.decision==='remove_wrong_subject'&&proof.actualPersonName===undefined
+   &&named(proof.actualSubjectName)&&proof.actualSubjectName.trim()!==proof.figureName.trim()
+  if(proof.afterRelationType!==null||!otherPerson&&!otherSubject)
+   throw Error('Figure relation removal requires an explicitly reviewed different person or actual book subject')
  }else if(!patch||Array.isArray(patch)||Object.keys(patch).length!==1||!Object.hasOwn(patch,'relation_type')
   ||!['authored','appearance'].includes(patch.relation_type)||patch.relation_type===before.relation_type
   ||proof.decision!=='correct_role'||proof.afterRelationType!==patch.relation_type)

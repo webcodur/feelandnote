@@ -57,6 +57,22 @@ test('explicit wrong-person removal deletes only its reviewed existing relation,
  for(const table of SNAPSHOT_TABLES.filter(t=>t!=='figure_book_characters'))assert.deepEqual(plan.expected[table],data[table])
  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{...figureChange(data),before:{...data.figure_book_characters[0],celeb_id:'new-person'}}]),/before row differs/)
 })
+test('책의 실제 대상이 사람이 아닌 동명 선박이면 그 사실로 오연결만 제거한다',()=>{
+ const data=figureSnapshot(),edit=figureChange(data,{remove:true}),proof=edit.reviewedFigureRelation
+ delete proof.actualPersonName
+ Object.assign(proof,{decision:'remove_wrong_subject',figureName:'Queen Victoria',actualSubjectName:'Queen Victoria cruise ship (2007)',
+  identityStatement:'The service figure is the nineteenth-century monarch, not the modern Cunard cruise ship.',
+  bodyEvidence:'The LLM read the actual photographic book about the ship and its public rooms, and confirmed the monarch was misidentified as this subject.'})
+ const plan=planGuardedCatalogRepairs(['work'],data,[edit])
+ assert.deepEqual(plan.expected.figure_book_characters,[data.figure_book_characters[1]])
+ for(const table of SNAPSHOT_TABLES.filter(t=>t!=='figure_book_characters'))assert.deepEqual(plan.expected[table],data[table])
+ for(const difference of [{actualSubjectName:''},{actualSubjectName:'Queen Victoria'},{actualPersonName:'A ship'},
+  {decision:'remove_wrong_person'},{afterRelationType:'appearance'}]){
+  const invalid=structuredClone(edit);Object.assign(invalid.reviewedFigureRelation,difference)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[invalid]),/Figure relation removal/)
+ }
+})
+
 test('figure relation evidence rejects stale identities, missing normal ISBN, providers and unreviewed decisions',()=>{
  const edits=[p=>delete p.llmReviewed,p=>p.llmReviewed=false,p=>p.celebId='another',p=>p.contentId='another',p=>p.beforeRelationType='appearance',
   p=>p.isbn='9780679724773',p=>p.locale='ko',p=>p.editionTitle='Different book',p=>p.editionCreator='Different author',p=>p.figureName='',
