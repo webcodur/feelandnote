@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { dirname, resolve, toNamespacedPath } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { buildMergeSql, findConflicts, hasArrayReference, SNAPSHOT_TABLES, sqlLiteral } from './lib/merge-work-sql.mjs'
+import { buildMergeSql, findConflicts, hasArrayReference, SNAPSHOT_TABLES, sqlLiteral, validateReviewedNonstartEditionRemovals } from './lib/merge-work-sql.mjs'
 import { planSnapshot, executeMergeFile, executeTemporaryMergeSql, checkFixedReferences, remapArrayReferences, buildSnapshotSql, captureDatabaseSnapshot, applyOne } from './merge-works.mjs'
 const pair = { keep: 'keep', drop: 'drop' }
 test('대량 조회는 자유 등급명과 모든 배열 참조를 동일한 DB 시점에서 읽는다',()=>{
@@ -25,6 +25,16 @@ function fixture() {
   value.contents = [{ id: 'keep', type: 'BOOK' }, { id: 'drop', type: 'BOOK' }]
   return value
 }
+test('LLM이 원문과 정확 현재 범위에 묶어 확인한 제1·2권 시작합본만 후속권 정리에 쓴다',()=>{
+  const s=fixture(),scope='원작 단행본 제1·2권 본문; 완전판 시리즈 시작권'
+  s.figure_book_editions=[{id:1,content_id:'keep',locale:'ko',isbn:'9791125684657',title:'20세기 소년',text_scope:scope},{id:2,content_id:'drop',locale:'ko',isbn:'9791134878030',title:'21세기 소년',text_scope:null}]
+  s.content_locales=[{content_id:'keep',locale:'ko',isbn:'9791125684657'}]
+  const review={keepEditionId:1,dropEditionId:2,keepIsbn:'9791125684657',dropIsbn:'9791134878030',keepTitle:'20세기 소년',dropTitle:'21세기 소년',locale:'ko',volumeNumber:12,
+    sourceUrl:'https://www.viz.com/blog/posts/naoki-urasawa-returns',startSourceUrl:'https://www.viz.com/read/manga/20th-century-boys-the-perfect-edition-volume-1/product/5630',reason:'Publisher identifies the later book as the final continuous volume and the keeper as the first combined volume.',startTextScope:scope,startVolumeNumbers:[1,2]}
+  assert.deepEqual(validateReviewedNonstartEditionRemovals(pair,s,[review]),[s.figure_book_editions[1]])
+  for(const change of [{startVolumeNumbers:[2,3]},{startVolumeNumbers:[1,3]},{startTextScope:'complete'},{startVolumeNumbers:[]}])
+    assert.throws(()=>validateReviewedNonstartEditionRemovals(pair,s,[{...review,...change}]),/existing selected first or complete/)
+})
 function reviewedEditionFixture() {
   const snapshot = fixture()
   snapshot.figure_book_editions = [

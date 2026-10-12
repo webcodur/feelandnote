@@ -753,8 +753,12 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     const before=snapshot(),first=structuredClone(before.figure_book_editions[0])
     assert.throws(()=>query("UPDATE figure_book_editions SET text_scope='volume/2' WHERE id=2"),/not service editions/)
     assert.deepEqual(snapshot(),before)
-    query(buildMergeSql(pair,before,{reviewedNonstartEditionRemovals:[{keepEditionId:1,dropEditionId:2,keepIsbn:'9781781945155',dropIsbn:'9781781945162',keepTitle:'My Great Predecessors Part 1',dropTitle:'My Great Predecessors Part 2',locale:'en',volumeNumber:2,
-      sourceUrl:'https://publisher.example/part-2',startSourceUrl:'https://publisher.example/part-1',reason:'LLM confirmed two parts of the same continuous original body using both publisher pages.'}]}))
+    // 원문에 근거한 시작 합본 범위는 가드용 full/volume 문자열로 덮어쓰지 않는다.
+    const combined='원작 단행본 제1·2권 본문; 완전판 시리즈 시작권'
+    query(`UPDATE figure_book_editions SET text_scope=${sqlLiteral(combined)} WHERE id=1`)
+    const reviewed=snapshot();first.text_scope=combined
+    query(buildMergeSql(pair,reviewed,{reviewedNonstartEditionRemovals:[{keepEditionId:1,dropEditionId:2,keepIsbn:'9781781945155',dropIsbn:'9781781945162',keepTitle:'My Great Predecessors Part 1',dropTitle:'My Great Predecessors Part 2',locale:'en',volumeNumber:2,
+      sourceUrl:'https://publisher.example/part-2',startSourceUrl:'https://publisher.example/combined-1-2',reason:'LLM confirmed the actual selected keeper contains first original volumes 1 and 2, and the dropped book is a later part of that body.',startTextScope:combined,startVolumeNumbers:[1,2]}]}))
     assert.deepEqual(snapshot().figure_book_editions,[first])
     assert.equal(query("SELECT isbn FROM content_locales WHERE content_id='keep'"),'9781781945155')
     assert.equal(query("SELECT content_id||':'||review FROM member_contents WHERE id='reader'"),'keep:Original review')

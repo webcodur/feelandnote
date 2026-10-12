@@ -155,7 +155,10 @@ export function validateReviewedNonstartEditionRemovals(pair, snapshot, removals
       if (typeof value !== 'string' || source.protocol !== 'https:' || source.username || source.password
         || /(?:^|\.)openlibrary\.org\.?$/iu.test(source.hostname)) throw Error('MERGE_REVIEW: nonstart requires independent HTTPS sources for both parts')
     }
-    if (!/^(?:volume\/1|full|complete)$/iu.test(keep.text_scope ?? '')
+    const reviewedCombinedStart = review.startTextScope === keep.text_scope && typeof keep.text_scope === 'string' && !!keep.text_scope.trim()
+      && Array.isArray(review.startVolumeNumbers) && review.startVolumeNumbers.length >= 2 && review.startVolumeNumbers.length <= 999
+      && review.startVolumeNumbers.every((number,index) => Number.isSafeInteger(number) && number === index + 1)
+    if ((!/^(?:volume\/1|full|complete)$/iu.test(keep.text_scope ?? '') && !reviewedCombinedStart)
       || excludedBookEditionReason({ ...keep, editionKind: keep.edition_kind, textScope: keep.text_scope })
       || !snapshot.content_locales.some(row => row.content_id === pair.keep && row.locale === keep.locale && toIsbn13(row.isbn ?? '') === toIsbn13(keep.isbn ?? ''))) throw Error('MERGE_REVIEW: nonstart requires an existing selected first or complete edition and locale')
     const keepTranslation = bookEditionTranslationKey(keep), dropTranslation = bookEditionTranslationKey(drop)
