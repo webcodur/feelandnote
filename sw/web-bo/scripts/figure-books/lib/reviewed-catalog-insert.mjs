@@ -44,6 +44,34 @@ function officialBinding(locale, isbn) {
         && url.searchParams.get('target') === 'isbn' && toIsbn13(url.searchParams.get('query') ?? '') === isbn
   })
 }
+function isbnlessPhysicalBinding(review, locale, figure) {
+  const proof = review.isbnlessPhysicalEditionReview
+  if (!proof || proof.method !== 'independent_isbnless_physical_edition_review' || proof.llmReviewed !== true
+    || review.locale !== 'ko' || locale.isbn !== null || locale.verified !== true
+    || locale.sources?.primary !== 'kakao_book' || !nonempty(locale.publisher)
+    || ['translated', 'romanized', 'original', 'display_only', 'kakao_title_search'].includes(locale.sources?.title)
+    || !nonempty(figure.workTitle) || !nonempty(figure.workCreator)
+    || !Array.isArray(review.translators) || !Array.isArray(locale.sources?.translators)
+    || !isDeepStrictEqual(review.translators, locale.sources.translators))
+    throw Error('CATALOG_INSERT: independently reviewed ISBN-less physical Kakao card required; correct the card first')
+  const identity = { contentId: review.contentId, locale: review.locale, isbn: null, title: review.title,
+    creator: review.creator, workTitle: review.workTitle, workCreator: review.workCreator,
+    translators: review.translators, publisher: locale.publisher.trim(),
+    sourceUrl: review.sourceUrl, reason: review.reason, editionKind: review.editionKind, textScope: review.textScope }
+  if (Object.entries(identity).some(([key, value]) => !isDeepStrictEqual(proof[key], value))
+    || !publicSource(proof.sourceUrl, true)
+    || /(?:^|\.)(?:daum\.net|kakao\.com|openlibrary\.org)$/iu.test(new URL(proof.sourceUrl).hostname.replace(/\.$/u, ''))
+    || typeof proof.providerProductId !== 'string' || !/^\d+$/u.test(proof.providerProductId)
+    || locale.sources.provider_product_id !== proof.providerProductId
+    || locale.sources.provider_edition_url !== proof.providerUrl || !publicSource(proof.providerUrl))
+    throw Error('CATALOG_INSERT: ISBN-less physical proof does not match the exact live identity or independent source')
+  const url = new URL(proof.providerUrl)
+  if (!/^(?:m\.)?search\.daum\.net$/u.test(url.hostname) || url.pathname !== '/search'
+    || url.searchParams.get('w') !== 'bookpage' || url.searchParams.get('bookId') !== proof.providerProductId)
+    throw Error('CATALOG_INSERT: ISBN-less physical proof requires the exact HTTPS Daum product URL')
+  return { method: proof.method, llmReviewed: true, ...identity,
+    providerProductId: proof.providerProductId, providerUrl: proof.providerUrl }
+}
 const where = (table, workIds, alias = 't') => workIds.map(id => '(' + referenceWhere(table, sqlLiteral(id), sqlLiteral(id), alias) + ')').join(' OR ')
 function aggregateCheck(table, workIds, expression) {
   return `IF (SELECT coalesce(jsonb_agg(v ORDER BY v::text),'[]'::jsonb) FROM (SELECT to_jsonb(t) v FROM public.${table} t WHERE ${where(table, workIds)}) a)
@@ -92,6 +120,12 @@ export function bindReviewedCatalogInsertIdentity(snapshot, reviews) {
  * omit title/creator/workTitle/workCreator/translators to copy those exact fields from the guarded snapshot.
  * bindReviewedCatalogInsertIdentity binds them to the snapshot actually reviewed; stale identities are refused.
  * ISBN, actual language, independent source, reason and kind/scope remain explicit LLM decisions.
+ * isbn:null is permitted only for a verified Korean Kakao physical card with isbnlessPhysicalEditionReview:
+ * {method:'independent_isbnless_physical_edition_review',llmReviewed:true,contentId,locale,isbn:null,
+ * title,creator,workTitle,workCreator,translators,publisher,providerProductId,providerUrl,sourceUrl,reason,editionKind,textScope}.
+ * Its identity and scope must exactly match the review and live card; reason records the independently read
+ * copyright and body/contents. sources.provider_product_id and provider_edition_url must already identify
+ * the actual Kakao product. A translated display title or missing ISBN alone is never physical evidence.
  */
 export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
   const assigned = assignedValid(workIds); snapshotValid(snapshot)
@@ -106,27 +140,29 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
       || review.textLanguage !== review.locale || !nonempty(review.title) || !nonempty(review.creator)
       || !nonempty(review.workTitle) || !nonempty(review.workCreator) || !nonempty(review.reason)
       || !publicSource(review.sourceUrl, true)) throw Error('CATALOG_INSERT: assigned owner, exact text language and independent work review required')
-    const isbn = typeof review.isbn === 'string' && toIsbn13(review.isbn)
-    if (!isbn || isbn !== review.isbn) throw Error('CATALOG_INSERT: exact normalized real ISBN13 required')
+    const isbn = review.isbn === null ? null : typeof review.isbn === 'string' && toIsbn13(review.isbn)
+    if (review.isbn !== null && (!isbn || isbn !== review.isbn)) throw Error('CATALOG_INSERT: exact normalized real ISBN13 required')
+    if (isbn !== null && review.isbnlessPhysicalEditionReview !== undefined)
+      throw Error('CATALOG_INSERT: ISBN-less physical proof requires an explicitly null ISBN')
     const key = JSON.stringify([review.contentId, review.locale])
-    if (keys.has(key) || isbns.has(isbn)) throw Error('CATALOG_INSERT: duplicate locale or ISBN in reviews')
-    keys.add(key); isbns.add(isbn)
+    if (keys.has(key) || isbn !== null && isbns.has(isbn)) throw Error('CATALOG_INSERT: duplicate locale or ISBN in reviews')
+    keys.add(key); if (isbn !== null) isbns.add(isbn)
     const work = snapshot.contents.find(row => row.id === review.contentId)
     if (snapshot.figure_book_contents.filter(row => row.content_id === review.contentId).length > 1)
       throw Error('CATALOG_INSERT: duplicate existing catalog parents')
     const existingEditions = snapshot.figure_book_editions.filter(row => row.content_id === review.contentId)
     if (existingEditions.some(row => !['ko', 'en'].includes(row.locale) || row.locale === review.locale)
-      || snapshot.figure_book_editions.some(row => toIsbn13(row.isbn ?? '') === isbn))
+      || isbn !== null && snapshot.figure_book_editions.some(row => toIsbn13(row.isbn ?? '') === isbn))
       throw Error('CATALOG_INSERT: existing edition for locale or ISBN')
     if (existingEditions.length && !snapshot.figure_book_contents.some(row => row.content_id === review.contentId))
       throw Error('CATALOG_INSERT: existing edition without catalog parent')
-    if (snapshot.content_locales.some(row => row.content_id !== review.contentId && toIsbn13(row.isbn ?? '') === isbn)) throw Error('CATALOG_INSERT: ISBN already belongs to another assigned work')
+    if (isbn !== null && snapshot.content_locales.some(row => row.content_id !== review.contentId && toIsbn13(row.isbn ?? '') === isbn)) throw Error('CATALOG_INSERT: ISBN already belongs to another assigned work')
     const locales = snapshot.content_locales.filter(row => row.content_id === review.contentId && row.locale === review.locale)
     const locale = locales.length === 1 && locales[0]
     const title = (locale?.sources?.edition_title?.trim() || locale?.title?.trim())
-    if (!locale || locale.isbn?.trim() !== isbn || title !== review.title || locale.creator?.trim() !== review.creator)
+    if (!locale || (isbn === null ? locale.isbn !== null : locale.isbn?.trim() !== isbn) || title !== review.title || locale.creator?.trim() !== review.creator)
       throw Error('CATALOG_INSERT: exact live locale ISBN/title/creator mismatch')
-    if (locale.sources?.primary !== (review.locale === 'ko' ? 'kakao_book' : 'openlibrary') || !officialBinding(locale, isbn))
+    if (isbn !== null && (locale.sources?.primary !== (review.locale === 'ko' ? 'kakao_book' : 'openlibrary') || !officialBinding(locale, isbn)))
       throw Error('CATALOG_INSERT: wrong primary or missing official ISBN binding; correct the card first')
     const figure = work.metadata?.figureBook ?? {}
     if (figure.workTitle && figure.workTitle !== review.workTitle || figure.workCreator && figure.workCreator !== review.workCreator)
@@ -138,6 +174,7 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
       throw Error('CATALOG_INSERT: exact verified translators must be preserved; correct the card first')
     if (review.editionKind !== null && !SERVICE_BOOK_EDITION_KINDS.includes(review.editionKind)
       || review.textScope !== null && !nonempty(review.textScope)) throw Error('CATALOG_INSERT: explicit reviewed kind/scope required; unknown must be null')
+    const physicalProof = isbn === null ? isbnlessPhysicalBinding(review, locale, figure) : null
     const policy = scope => excludedBookEditionReason({ ...locale, title, editionKind: scope.editionKind, textScope: scope.textScope,
       workTitles: [figure.workTitle, figure.originalTitle].filter(Boolean) })
     if (policy(review) || policy({ editionKind: work.metadata?.fictionSource?.editionKind, textScope: work.metadata?.fictionSource?.textScope })
@@ -152,7 +189,8 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
       publisher: locale.publisher?.trim() || null, description: locale.description ?? null,
       thumbnail_url: locale.thumbnail_url ?? null, release_date: release,
       edition_kind: review.editionKind, text_scope: review.textScope, sort_order: 0, verified: true,
-      sources: { ...locale.sources, edition_text_scope_evidence: { isbn, source_url: review.sourceUrl, reason: review.reason } },
+      sources: { ...locale.sources, ...(physicalProof ? { isbnless_physical_edition_evidence: physicalProof } : {}),
+        edition_text_scope_evidence: { isbn, source_url: review.sourceUrl, reason: review.reason } },
     }
   })
   const newParentIds = parentIds.filter(id => !snapshot.figure_book_contents.some(row => row.content_id === id))
@@ -173,13 +211,14 @@ export function buildReviewedCatalogInsertSql(workIds, snapshot, reviews) {
 expected_parents:=expected_parents||jsonb_build_array(jsonb_build_object('content_id',${sqlLiteral(id)},'created_at',ts,'updated_at',ts));`).join('\n')
   const editionStatements = plan.editions.map(row => `${plan.newParentIds.includes(row.content_id)
     ? `SELECT id INTO STRICT seeded_id FROM public.figure_book_editions
-WHERE content_id=${sqlLiteral(row.content_id)} AND locale=${sqlLiteral(row.locale)} AND isbn=${sqlLiteral(row.isbn)};
+WHERE content_id=${sqlLiteral(row.content_id)} AND locale=${sqlLiteral(row.locale)} AND ${row.isbn === null ? 'isbn IS NULL' : 'isbn=' + sqlLiteral(row.isbn)};
 UPDATE public.figure_book_editions SET title=${sqlLiteral(row.title)},creator=${sqlLiteral(row.creator)},publisher=${nullable(row.publisher)},release_date=${nullable(row.release_date)},verified=TRUE,edition_kind=${nullable(row.edition_kind)},text_scope=${nullable(row.text_scope)},sources=${json(row.sources)} WHERE id=seeded_id;`
     : `INSERT INTO public.figure_book_editions(${Object.keys(row).join(',')},created_at,updated_at)
 VALUES(${Object.entries(row).map(([key, value]) => key === 'sources' ? json(value) : value === null ? 'NULL' : typeof value === 'boolean' || typeof value === 'number' ? String(value) : sqlLiteral(value)).join(',')},ts,ts) RETURNING id INTO seeded_id;`}
 expected_editions:=expected_editions||jsonb_build_array(${json(row)}||jsonb_build_object('id',seeded_id,'created_at',ts,'updated_at',ts));`).join('\n')
   const arrayLocks = [...new Set(['figure_book_editions', 'activity_logs', ...CONTENT_ARRAY_REFERENCES.map(ref => ref.table)])]
   const contentsChildren = REFERENCE_TABLES.map(sqlLiteral).join(',')
+  const realIsbns = plan.editions.filter(row => row.isbn !== null).map(row => sqlLiteral(row.isbn)).join(',')
   let delimiter = '$reviewed_catalog_insert$'
   for (let n = 1; JSON.stringify({ snapshot, reviews }).includes(delimiter); n++) delimiter = `$reviewed_catalog_insert_${n}$`
   const selection = `SELECT ${sqlLiteral(prefix)}||jsonb_build_object(${SNAPSHOT_TABLES.map(table => `${sqlLiteral(table)},(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM public.${table} t WHERE ${where(table, plan.assigned)})`).join(',')})::text;`
@@ -202,9 +241,9 @@ c.confrelid='public.contents'::regclass AND r.relname IN (${contentsChildren}) A
 OR c.confrelid='public.figure_book_contents'::regclass AND r.relname IN ('figure_book_characters','figure_book_editions') AND a.attname='content_id' AND b.attname='content_id'
 OR c.confrelid='public.figure_book_editions'::regclass AND r.relname='figure_book_products' AND a.attname='edition_id' AND b.attname='id'
 ))) THEN RAISE EXCEPTION 'CATALOG_INSERT: unhandled foreign reference';END IF;
-IF EXISTS(SELECT 1 FROM public.figure_book_editions WHERE isbn IN (${plan.editions.map(row => sqlLiteral(row.isbn)).join(',')}))
-OR EXISTS(SELECT 1 FROM public.content_locales WHERE isbn IN (${plan.editions.map(row => sqlLiteral(row.isbn)).join(',')}) AND content_id NOT IN (${plan.parentIds.map(sqlLiteral).join(',')}))
-THEN RAISE EXCEPTION 'CATALOG_INSERT: ISBN already registered';END IF;
+${realIsbns ? `IF EXISTS(SELECT 1 FROM public.figure_book_editions WHERE isbn IN (${realIsbns}))
+OR EXISTS(SELECT 1 FROM public.content_locales WHERE isbn IN (${realIsbns}) AND content_id NOT IN (${plan.parentIds.map(sqlLiteral).join(',')}))
+THEN RAISE EXCEPTION 'CATALOG_INSERT: ISBN already registered';END IF;` : ''}
 ${parentStatements}
 ${editionStatements}
 ${SNAPSHOT_TABLES.map(table => aggregateCheck(table, plan.assigned, table === 'figure_book_contents' ? 'expected_parents' : table === 'figure_book_editions' ? 'expected_editions' : json(snapshot[table]))).join('\n')}

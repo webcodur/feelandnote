@@ -45,6 +45,135 @@ function committed(before, reviews) {
   return after
 }
 
+function isbnlessFixture() {
+  const { before } = fixture()
+  before.contents[0].metadata.figureBook = { workTitle: 'Apology; Protagoras', workCreator: 'Plato' }
+  const providerUrl = 'https://search.daum.net/search?w=bookpage&bookId=74319'
+  Object.assign(before.content_locales[0], { isbn: null, sources: { primary: 'none', title: 'original' } })
+  Object.assign(before.content_locales[1], { title: '플라톤(상)', creator: '플라톤', isbn: null, publisher: '명지', verified: true,
+    sources: { primary: 'kakao_book', title: providerUrl, provider_product_id: '74319', provider_edition_url: providerUrl,
+      translators: ['박양운'], description: 'https://www.nl.go.kr/contents/CNTS-00055343841' } })
+  const review = { contentId: ids[0], locale: 'ko', textLanguage: 'ko', isbn: null, title: '플라톤(상)', creator: '플라톤',
+    workTitle: 'Apology; Protagoras', workCreator: 'Plato', translators: ['박양운'],
+    sourceUrl: 'https://www.nl.go.kr/contents/CNTS-00055343841',
+    reason: '국립중앙도서관 판권과 목차를 읽고 1975년 명지문고 21의 박양운 번역, 222쪽짜리 플라톤(상) 실물 판본임을 확인했다. 본문에는 소크라테스의 변명과 프로타고라스 두 대화편이 수록되어 있다.',
+    editionKind: 'volume', textScope: '플라톤 대화편 선집 상권; 『소크라테스의 변명』·『프로타고라스』 합본, 시작권 대표' }
+  review.isbnlessPhysicalEditionReview = { method: 'independent_isbnless_physical_edition_review', llmReviewed: true,
+    contentId: review.contentId, locale: review.locale, isbn: null, title: review.title, creator: review.creator,
+    workTitle: review.workTitle, workCreator: review.workCreator, translators: [...review.translators], publisher: '명지',
+    providerProductId: '74319', providerUrl, sourceUrl: review.sourceUrl, reason: review.reason,
+    editionKind: review.editionKind, textScope: review.textScope }
+  return { before, reviews: [review] }
+}
+
+test('independently read ISBN-less Kakao physical editions retain NULL and exact provider/source identity', async () => {
+  const { before, reviews } = isbnlessFixture(), original = structuredClone(before)
+  const plan = planReviewedCatalogInsert(ids, before, reviews), compact = compactReviews(before, reviews)
+  assert.deepEqual(planReviewedCatalogInsert(ids, before, compact), plan)
+  assert.equal(plan.editions[0].isbn, null)
+  assert.deepEqual(plan.editions[0].sources.isbnless_physical_edition_evidence, reviews[0].isbnlessPhysicalEditionReview)
+  assert.equal(plan.editions[0].sources.edition_text_scope_evidence.isbn, null)
+  const sql = buildReviewedCatalogInsertSql(ids, before, reviews)
+  assert.match(sql, /AND isbn IS NULL;/)
+  assert.match(sql, /active automatic edition seed required/)
+  assert.doesNotMatch(sql, /isbn=E'null'|isbn=NULL|isbn IN \(\)|ISBN already registered/)
+  const after = committed(before, reviews), paths = []; let reads = 0
+  const result = await applyReviewedCatalogInsert(null, ids, compact, {
+    capture: async () => ++reads === 1 ? before : after,
+    execute(path) { paths.push(path); return 'CATALOG_INSERT_EXPECTED:' + JSON.stringify(after) + '\nMERGE_COMMITTED' },
+  })
+  assert.deepEqual(result.insertedEditions, [{ contentId: ids[0], locale: 'ko', isbn: null, id: 100 }])
+  assert.equal(result.checkedTables, 18); assert.equal(reads, 2)
+  assert.ok(paths.every(path => !existsSync(path))); assert.deepEqual(before, original)
+})
+
+test('unrelated NULL editions and two distinct ISBN-less works are not global ISBN duplicates', () => {
+  const { before, reviews } = isbnlessFixture()
+  before.figure_book_contents.push({ content_id: ids[1], created_at: timestamp, updated_at: timestamp })
+  before.figure_book_editions.push({ id: 99, content_id: ids[1], locale: 'en', isbn: null, title: 'Unrelated physical original' })
+  assert.equal(planReviewedCatalogInsert(ids, before, reviews).editions.length, 1)
+  const second = structuredClone(reviews[0]), card = before.content_locales[2]
+  Object.assign(card, structuredClone(before.content_locales[1]), { content_id: ids[1], title: '두 번째 실물', creator: '다른 작가',
+    sources: { ...structuredClone(before.content_locales[1].sources), provider_product_id: '74320',
+      provider_edition_url: 'https://search.daum.net/search?w=bookpage&bookId=74320' } })
+  Object.assign(second, { contentId: ids[1], title: card.title, creator: card.creator,
+    workTitle: 'Existing original B', workCreator: 'Original Author B' })
+  Object.assign(second.isbnlessPhysicalEditionReview, { contentId: second.contentId, title: second.title, creator: second.creator,
+    workTitle: second.workTitle, workCreator: second.workCreator, providerProductId: '74320', providerUrl: card.sources.provider_edition_url })
+  const selected = [...reviews, second], sql = buildReviewedCatalogInsertSql(ids, before, selected)
+  assert.equal(planReviewedCatalogInsert(ids, before, selected).editions.length, 2)
+  assert.match(sql, /INSERT INTO public.figure_book_editions/)
+  assert.doesNotMatch(sql, /ISBN already registered/)
+  assert.equal(verifyReviewedCatalogInsertReadback(ids, before, selected, committed(before, selected)).checkedTables, 18)
+  assert.throws(() => planReviewedCatalogInsert(ids, before, [...selected, second]), /duplicate locale/)
+})
+
+test('ISBN-less display cards, missing independent proof and stale live/proof identities are refused', () => {
+  const changes = [
+    (s, r) => { delete r.isbnlessPhysicalEditionReview },
+    (s, r) => { r.isbnlessPhysicalEditionReview.llmReviewed = false },
+    (s, r) => { r.isbnlessPhysicalEditionReview.method = 'machine_review' },
+    s => { s.content_locales[1].sources.primary = 'none' },
+    s => { s.content_locales[1].sources.primary = 'openlibrary' },
+    s => { s.content_locales[1].sources.title = 'display_only' },
+    s => { s.content_locales[1].sources.title = 'kakao_title_search' },
+    s => { s.content_locales[1].verified = false },
+    s => { s.content_locales[1].publisher = null },
+    s => { delete s.contents[0].metadata.figureBook.workTitle },
+    s => { s.content_locales[1].sources.provider_product_id = '999' },
+    s => { delete s.content_locales[1].sources.provider_edition_url },
+    s => { s.content_locales[1].sources.translators = ['다른 역자'] },
+    (s, r) => { r.isbnlessPhysicalEditionReview.providerProductId = 74319 },
+    (s, r) => { r.isbnlessPhysicalEditionReview.providerProductId = '999' },
+    (s, r) => { r.isbnlessPhysicalEditionReview.translators = ['다른 역자'] },
+    (s, r) => { r.isbnlessPhysicalEditionReview.publisher = '다른 출판사' },
+  ]
+  for (const field of ['contentId', 'locale', 'isbn', 'title', 'creator', 'workTitle', 'workCreator', 'sourceUrl', 'reason', 'editionKind', 'textScope'])
+    changes.push((s, r) => { r.isbnlessPhysicalEditionReview[field] = 'different' })
+  for (const change of changes) {
+    const { before, reviews } = isbnlessFixture(); change(before, reviews[0])
+    assert.throws(() => planReviewedCatalogInsert(ids, before, reviews), /ISBN-less physical|verified translators/)
+  }
+  for (const url of ['http://search.daum.net/search?w=bookpage&bookId=74319',
+    'https://search.daum.net/search?w=bookpage&bookId=999', 'https://search.daum.net/other?w=bookpage&bookId=74319',
+    'https://search.daum.net/search?w=book&bookId=74319', 'https://example.org/search?w=bookpage&bookId=74319']) {
+    const { before, reviews } = isbnlessFixture()
+    before.content_locales[1].sources.provider_edition_url = reviews[0].isbnlessPhysicalEditionReview.providerUrl = url
+    assert.throws(() => planReviewedCatalogInsert(ids, before, reviews), /ISBN-less physical/)
+  }
+  for (const sourceUrl of ['https://search.daum.net/search?w=bookpage&bookId=74319',
+    'https://dapi.kakao.com/v3/search/book?query=플라톤', 'https://openlibrary.org/books/OL123M']) {
+    const { before, reviews } = isbnlessFixture()
+    reviews[0].sourceUrl = reviews[0].isbnlessPhysicalEditionReview.sourceUrl = sourceUrl
+    assert.throws(() => planReviewedCatalogInsert(ids, before, reviews), /independent|ISBN-less physical/)
+  }
+  const real = fixture(); real.reviews[1].isbnlessPhysicalEditionReview = isbnlessFixture().reviews[0].isbnlessPhysicalEditionReview
+  assert.throws(() => planReviewedCatalogInsert(ids, real.before, real.reviews), /explicitly null ISBN/)
+})
+
+test('ISBN-less physical insertion retains full snapshot CAS and all protected rows', async () => {
+  for (const table of SNAPSHOT_TABLES) {
+    const { before, reviews } = isbnlessFixture(), after = committed(before, reviews)
+    after[table].push({ id: 'unexpected' })
+    assert.throws(() => verifyReviewedCatalogInsertReadback(ids, before, reviews, after), /rows differ|identity/)
+  }
+  for (const change of [s => { s.celeb_contents[0].review = '감상 변경' }, s => { s.celeb_contents[0].source_url = 'https://other.example' },
+    s => { s.celeb_contents[0].visibility = 'private' }, s => { s.member_contents[0].rating = 1 },
+    s => { s.contents[0].member_count = 0 }, s => { s.content_locales[1].isbn = '9780140449273' },
+    s => { s.figure_book_editions[0].sources.isbnless_physical_edition_evidence.reason = '변경' }]) {
+    const { before, reviews } = isbnlessFixture(), after = committed(before, reviews); change(after)
+    assert.throws(() => verifyReviewedCatalogInsertReadback(ids, before, reviews, after), /rows differ/)
+  }
+  const { before, reviews } = isbnlessFixture(), after = committed(before, reviews); let reads = 0
+  after.celeb_contents[0].review_en = 'Unexpected change'
+  await assert.rejects(applyReviewedCatalogInsert(null, ids, reviews, { capture: async () => { reads++; return before },
+    execute: () => 'CATALOG_INSERT_EXPECTED:' + JSON.stringify(after) + '\nMERGE_COMMITTED' }), /celeb_contents rows differ/)
+  assert.equal(reads, 1)
+  const sql = buildReviewedCatalogInsertSql(ids, before, reviews)
+  for (const table of SNAPSHOT_TABLES) assert.equal(sql.match(new RegExp('rowset mismatch in ' + table + "'", 'g'))?.length, 2)
+  assert.doesNotMatch(sql, /DISABLE TRIGGER|UPDATE public\.(?:contents|content_locales|celeb_contents|member_contents)/)
+})
+
 test('one parent per original seeds both reviewed real languages while preserving display cards and unknown scope', () => {
   const { before, reviews } = fixture(), original = structuredClone(before)
   const plan = planReviewedCatalogInsert(ids, before, reviews)
