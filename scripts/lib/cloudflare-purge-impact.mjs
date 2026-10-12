@@ -326,6 +326,11 @@ const NON_HTML_RUNTIME_FILES = new Set([
   // 신화·세력도감의 장면/인물 뷰어만 소비한다. 이 화면들은 앞단 HTML 캐시 대상이 아니다.
   'sw/web/src/components/features/faction/FactionArtworkViewer.tsx',
   'sw/web/src/components/features/faction/FactionSceneNavigator.tsx',
+  'sw/web/src/components/features/faction/FactionStoryCards.tsx',
+  'sw/web/src/components/features/faction/artworkSlides.ts',
+  'sw/web/src/lib/faction-sections.ts',
+  'sw/web/src/lib/faction-theme.ts',
+  'packages/shared/src/lib/faction-team-image.ts',
   'sw/web/src/components/features/faction/FactionStoryGuide.tsx',
   'sw/web/src/components/features/faction/storyBoundaries.ts',
   // 도서 차트·구매 실험·본문 실험 화면은 앞단 보관 대상이 아니다.
