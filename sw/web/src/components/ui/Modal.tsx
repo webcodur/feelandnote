@@ -168,9 +168,9 @@ export default function Modal({
       }
       if (e.key !== "Tab") return;
 
-      const focusable = boxRef.current?.querySelectorAll<HTMLElement>(
+      const focusable = Array.from(boxRef.current?.querySelectorAll<HTMLElement>(
         'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
-      );
+      ) ?? []).filter((element) => element.getClientRects().length > 0);
       if (!focusable?.length) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];

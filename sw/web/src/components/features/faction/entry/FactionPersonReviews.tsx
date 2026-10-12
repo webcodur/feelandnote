@@ -12,10 +12,11 @@ interface FactionPersonReviewsProps {
   celebId: string;
   name: string;
   avatarUrl?: string | null;
+  embedded?: boolean;
 }
 
 /** 인물 상세와 같은 공개 감상 목록·리뷰를 모달 안에서 펼친다. */
-export default function FactionPersonReviews({ celebId, name, avatarUrl }: FactionPersonReviewsProps) {
+export default function FactionPersonReviews({ celebId, name, avatarUrl, embedded = false }: FactionPersonReviewsProps) {
   const t = useTranslations("celebPage");
   const locale = useLocale();
   const titleId = useId();
@@ -36,11 +37,11 @@ export default function FactionPersonReviews({ celebId, name, avatarUrl }: Facti
   }, [celebId, locale, attempt]);
 
   return (
-    <section className={layout.shelf} aria-labelledby={titleId} data-person-reviews>
-      <h3 id={titleId} className="mb-5 flex items-center gap-2 text-lg font-bold text-text-primary">
+    <section className={embedded ? undefined : layout.shelf} aria-labelledby={embedded ? undefined : titleId} data-person-reviews>
+      {!embedded && <h3 id={titleId} className="mb-5 flex items-center gap-2 text-lg font-bold text-text-primary">
         <MessageSquareText size={18} aria-hidden />
         {t("recordCountsLabel")}
-      </h3>
+      </h3>}
       {failed && <RetryBlock onRetry={() => { setFailed(false); setAttempt(value => value + 1); }} />}
       {!failed && !data && <PendingBlock variant="panel" label={t("loading.library")} message={t("loading.library")} />}
       {data && (

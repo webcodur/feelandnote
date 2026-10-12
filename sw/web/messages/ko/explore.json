@@ -537,7 +537,7 @@
     "monologue": {
       "metaTitle": "가상독백 - 인물의 목소리로 듣는 삶과 철학",
       "metaDescription": "가상독백이 있는 인물을 이름·직군·국적으로 찾아보세요. 인물 소개와 독백 전문, 관련 도서와 감상 기록을 함께 살펴보고 낭독 음원을 들을 수 있습니다.",
-      "eyebrow": "Virtual Monologue",
+      "eyebrow": "Monologue",
       "lead": "인물의 삶과 생각을 1인칭 독백으로 만나보세요. 소개와 관련 도서를 함께 살펴보고, 낭독이 있는 인물은 목소리로 들을 수 있습니다.",
       "stats": "독백 {total, number}명 · 낭독 {voiced, number}명",
       "voicedTitle": "어떤 인물의 이야기를 들어볼까요?",

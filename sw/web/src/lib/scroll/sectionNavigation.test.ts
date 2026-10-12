@@ -71,3 +71,34 @@ test("navigation never takes the camera back after the reader moves", (t) => {
   p.shift(-1500);
   assert.equal(p.win.scrollY, y);
 });
+
+test("modal navigation scrolls its container without moving the page", (t) => {
+  const p = page(t);
+  const container = {
+    scrollTop: 200,
+    scrollHeight: 9000,
+    clientHeight: 600,
+    getBoundingClientRect: () => ({ top: 100 }),
+    scrollTo({ top, behavior }: ScrollToOptions) {
+      assert.equal(behavior, "smooth");
+      this.scrollTop = top!;
+    },
+  } as unknown as HTMLElement;
+  scrollToSection(p.section, container);
+  assert.equal(container.scrollTop, 5036);
+  assert.equal(p.win.scrollY, 0);
+});
+
+test("modal navigation clamps a short final section to the container bottom", (t) => {
+  const p = page(t);
+  const container = {
+    scrollTop: 0,
+    scrollHeight: 1800,
+    clientHeight: 600,
+    getBoundingClientRect: () => ({ top: 0 }),
+    scrollTo({ top }: ScrollToOptions) { this.scrollTop = top!; },
+  } as unknown as HTMLElement;
+  scrollToSection(p.section, container);
+  assert.equal(container.scrollTop, 1200);
+  assert.equal(p.win.scrollY, 0);
+});

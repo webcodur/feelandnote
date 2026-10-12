@@ -8,7 +8,7 @@ import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkelet
 import { RetryBlock } from "@/components/ui/pending";
 import { FACTION_PERSON_LAYOUT as layout } from "./factionPersonLayout";
 
-export default function FactionPersonBooks({ celebId }: { celebId: string }) {
+export default function FactionPersonBooks({ celebId, embedded = false }: { celebId: string; embedded?: boolean }) {
   const t = useTranslations("celebPage");
   const locale = useLocale();
   const [data, setData] = useState<CelebReferenceBooks | null>(null);
@@ -28,10 +28,10 @@ export default function FactionPersonBooks({ celebId }: { celebId: string }) {
 
 
   return (
-    <section className={layout.shelf} data-person-books data-books-ready={Boolean(data)}>
+    <section className={embedded ? undefined : layout.shelf} data-person-books data-books-ready={Boolean(data)}>
       {failed && <RetryBlock onRetry={() => { setFailed(false); setAttempt(value => value + 1); }} />}
       {!failed && !data && <CelebSectionSkeleton kind="books" english={locale === "en"} />}
-      {data && <CelebBookShelf key={celebId} celebId={celebId} {...data} title={t("relatedProducts")} />}
+      {data && <CelebBookShelf key={celebId} celebId={celebId} {...data} title={embedded ? undefined : t("relatedProducts")} />}
     </section>
   );
 }
