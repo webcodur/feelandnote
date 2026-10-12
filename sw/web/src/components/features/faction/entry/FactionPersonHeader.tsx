@@ -26,10 +26,11 @@ interface Props {
   monologue?: ReadingAction;
   voice?: Pick<CelebProfileMediaProps, "hasVoice" | "isVoicePlaying" | "onGreet" | "greetLabel">;
   nested?: boolean;
+  centered?: boolean;
 }
 
 /** 신화와 일반 세력은 같은 아바타·이름·버튼 배치를 쓴다. 소개 본문은 모달 본문 섹션이 담당한다. */
-export default function FactionPersonHeader({ person, factionName, group, portraitUrl, guide, monologue, voice, nested }: Props) {
+export default function FactionPersonHeader({ person, factionName, group, portraitUrl, guide, monologue, voice, nested, centered = false }: Props) {
   const t = useTranslations("explore.hub.myth");
   const tCeleb = useTranslations("celebPage");
   const [portraitOpen, setPortraitOpen] = useState(false);
@@ -41,8 +42,8 @@ export default function FactionPersonHeader({ person, factionName, group, portra
   return (
     <>
       <div data-faction-person-header>
-        <div className="grid grid-cols-[88px_minmax(0,1fr)] items-center gap-x-4 gap-y-4 sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-x-6 md:grid-cols-[164px_minmax(0,1fr)]">
-          <div className="flex items-start md:row-span-2">
+        <div className={centered ? "flex flex-col items-center gap-4" : "grid grid-cols-[88px_minmax(0,1fr)] items-center gap-x-4 gap-y-4 sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-x-6 md:grid-cols-[164px_minmax(0,1fr)]"}>
+          <div className={centered ? "flex justify-center" : "flex items-start md:row-span-2"}>
             <div className="rounded-full border border-accent/30 bg-bg-card p-px">
               <CelebPortrait key={person.id} photoUrl={null} avatarUrl={person.avatarUrl} nickname={person.name} imageAction="zoom"
                 zoomLabel={t("enlargeAvatar")}
@@ -50,12 +51,12 @@ export default function FactionPersonHeader({ person, factionName, group, portra
                 avatarSize="h-20 w-20 sm:h-32 sm:w-32 md:h-40 md:w-40" initialSize="text-4xl" avatarAlignment="center" />
             </div>
           </div>
-          <div className="min-w-0 text-start md:pe-8">
-            <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs leading-5 text-text-secondary sm:text-sm">
+          <div className={centered ? "min-w-0 text-center" : "min-w-0 text-start md:pe-8"}>
+            <p className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-xs leading-5 text-text-secondary sm:text-sm ${centered ? "justify-center" : ""}`}>
               <span className="text-accent">{factionName}</span>
               {group && <><span aria-hidden>·</span><span>{group}</span></>}
             </p>
-            <div className="mt-2 flex flex-wrap items-center gap-2.5">
+            <div className={`mt-2 flex flex-wrap items-center gap-2.5 ${centered ? "justify-center" : ""}`}>
               <h2 className="text-balance text-2xl font-bold leading-tight text-text-primary md:text-3xl">{person.name}</h2>
               {/* 인물 상세로 가는 문은 이름 옆 아이콘 하나로 둔다 */}
               <Link href={getCelebProfileUrl(person)} prefetch={false} aria-label={t("openFigure")} title={t("openFigure")}
@@ -66,7 +67,7 @@ export default function FactionPersonHeader({ person, factionName, group, portra
             </div>
             {person.title && <p className="mt-1.5 text-sm leading-6 text-text-secondary">{person.title}</p>}
           </div>
-          <div className="col-span-2 flex flex-wrap gap-2 md:col-span-1 md:col-start-2">
+          <div className={centered ? "flex flex-wrap justify-center gap-2" : "col-span-2 flex flex-wrap gap-2 md:col-span-1 md:col-start-2"}>
             {guide && <button type="button" onClick={guide.onOpen} aria-haspopup="dialog" className={guide.hasAudio ? audioActionClass : actionClass}><BookOpen size={14} aria-hidden />{tCeleb("personGuide")}</button>}
             {monologue && <button type="button" onClick={monologue.onOpen} aria-haspopup="dialog" className={monologue.hasAudio ? audioActionClass : actionClass}><Quote size={14} aria-hidden />{tCeleb("virtualMonologue")}</button>}
             {portraitUrl && <button type="button" onClick={() => setPortraitOpen(true)} aria-haspopup="dialog" className={actionClass}><ImageIcon size={14} aria-hidden />{t("portraitImage")}</button>}

@@ -537,10 +537,10 @@
       "worksAuthoredLead": "Books written by members"
     },
     "monologue": {
-      "metaTitle": "Virtual Monologues - Life & Philosophy in Their Own Voice",
-      "metaDescription": "Find figures with virtual monologues by name, profession, or nationality. Explore their introductions, full monologues, related books, and reading records, and listen when narration is available.",
-      "eyebrow": "Virtual Monologue",
-      "lead": "Meet people through first-person accounts of their lives and ideas. Explore their introductions and related books, and listen when narration is available.",
+      "metaTitle": "Monologues - Life & Philosophy in Their Own Voice",
+      "metaDescription": "Find figures with imagined first-person monologues by name, profession, or nationality. Explore their introductions, full monologues, related books, and reading records, and listen when narration is available.",
+      "eyebrow": "Monologue",
+      "lead": "Meet people through imagined first-person accounts of their lives and ideas. Explore their introductions and related books, and listen when narration is available.",
       "stats": "{total, number} monologues · {voiced, number} narrated",
       "voicedTitle": "Whose story would you like to explore?",
       "voicedDesc": "Find a figure by name, profession, or nationality.",

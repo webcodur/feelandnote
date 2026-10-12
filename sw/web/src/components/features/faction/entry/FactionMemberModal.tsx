@@ -8,12 +8,15 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { getFactionLongDescs, type FactionLongDescs } from "@/actions/home/getFactionLongDescs";
 import NarratedGuideModal from "@/components/shared/NarratedGuideModal";
 import NarratedMonologueModal from "@/components/shared/NarratedMonologueModal";
 import Modal from "@/components/ui/Modal";
+import AtlasNav, { type AtlasNavItem } from "@/components/shared/atlasNav/AtlasNav";
+import HubSection from "@/components/shared/HubSection";
+import { useContainerSectionNavigation } from "@/lib/scroll/useContainerSectionNavigation";
 import { splitReadableParagraphs } from "@/components/ui/FormattedText";
 import FactionPersonHeader from "./FactionPersonHeader";
 import FactionPersonBooks from "./FactionPersonBooks";
@@ -26,6 +29,7 @@ import { useCelebVoice } from "@/hooks/useCelebVoice";
 import { getReadingVoiceUrl, getVirtualMonologueVoiceUrl } from "@/lib/game/voice/voiceUrl";
 import type { CelebProfile } from "@/types/home";
 import type { Locale } from "@/types/locale";
+import { cn } from "@/lib/utils";
 
 /** 이 테마 안에서의 인물 정보 — 서버가 명단에서 만들어 넘긴다 */
 export interface FactionMemberMeta {
@@ -50,6 +54,15 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
   const [longDescs, setLongDescs] = useState<{ factionId: string; byCeleb: FactionLongDescs } | null>(null);
   const [guideOpen, setGuideOpen] = useState(false);
   const [monologueOpen, setMonologueOpen] = useState(false);
+  const articleRef = useRef<HTMLElement>(null);
+  const sectionPrefix = useId();
+  const hasRecords = celeb.celeb_reality !== "FICTION";
+  const items: AtlasNavItem[] = [
+    { key: "profile", label: tCeleb("serviceIntroduction"), sectionId: `${sectionPrefix}-profile` },
+    ...(hasRecords ? [{ key: "records", label: tCeleb("recordCountsLabel"), sectionId: `${sectionPrefix}-records` }] : []),
+    { key: "books", label: tCeleb("relatedProducts"), sectionId: `${sectionPrefix}-books` },
+  ].map((item, index) => ({ ...item, chapter: String(index + 1).padStart(2, "0") }));
+  const { activeSectionId, navigate } = useContainerSectionNavigation(items.map((item) => item.sectionId), articleRef);
   // 가상독백·인물 안내 — 인물 단위로 따로 받는다. 없는 인물은 단추를 두지 않거나 fallback 글을 담는다
   const monologue = useCelebVirtualMonologue(celeb.id);
   const guide = useCelebReadingGuide(celeb.id);
@@ -93,37 +106,47 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
 
   const content = (
     <>
-      <article className={layout.article}>
+      <AtlasNav items={items} activeId={activeSectionId} onNavigate={navigate} withinModal />
+      <article ref={articleRef} className={cn("mx-auto w-full max-w-[var(--content-max-default)] px-5 pt-12 pb-24 sm:px-7 md:px-8 md:pt-8 min-[1340px]:pb-10", !isEn && "[&_*]:break-all")}>
+        <HubSection compact hideDivider id={items[0].sectionId} title={items[0].label} titleAs="h3"
+          index={0} total={items.length} tabIndex={-1} className="scroll-mt-6 outline-none">
 
-        <FactionPersonHeader
-          person={{ id: celeb.id, slug: celeb.slug, name, title, avatarUrl: celeb.avatar_url, reality: celeb.celeb_reality }}
-          factionName={factionName} group={meta?.group} portraitUrl={portraitUrl} nested
-          guide={guideText ? { onOpen: () => setGuideOpen(true), hasAudio: guideAudio } : undefined}
-          monologue={monologue ? { onOpen: () => setMonologueOpen(true), hasAudio: monologueAudio } : undefined}
-          voice={{ hasVoice: hasGreetingAudio, isVoicePlaying: isVoiceActive,
-            onGreet: canGreet ? handleGreetingPlay : undefined,
-            greetLabel: hasGreetingAudio ? tCeleb("playGreetingVoice") : tCeleb("dialogue_greeting") }}
-        />
+          <FactionPersonHeader
+            person={{ id: celeb.id, slug: celeb.slug, name, title, avatarUrl: celeb.avatar_url, reality: celeb.celeb_reality }}
+            factionName={factionName} group={meta?.group} portraitUrl={portraitUrl} nested centered
+            guide={guideText ? { onOpen: () => setGuideOpen(true), hasAudio: guideAudio } : undefined}
+            monologue={monologue ? { onOpen: () => setMonologueOpen(true), hasAudio: monologueAudio } : undefined}
+            voice={{ hasVoice: hasGreetingAudio, isVoicePlaying: isVoiceActive,
+              onGreet: canGreet ? handleGreetingPlay : undefined,
+              greetLabel: hasGreetingAudio ? tCeleb("playGreetingVoice") : tCeleb("dialogue_greeting") }}
+          />
 
-        {longDesc && (
-          <section className={layout.body}>
-            <h3 className="mb-3 text-lg font-bold text-text-primary">
-              {t.rich("personInTheme", {
-                theme: factionName,
-                name,
-                accent: (chunks) => <span className="text-accent">{chunks}</span>,
-              })}
-            </h3>
-            <div className={layout.paragraphs}>
-              {splitReadableParagraphs(longDesc).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-            </div>
-          </section>
+          {longDesc && (
+            <section className={layout.body}>
+              <h3 className="mb-3 text-center text-lg font-bold text-text-primary">
+                {t.rich("personInTheme", {
+                  theme: factionName,
+                  name,
+                  accent: (chunks) => <span className="text-accent">{chunks}</span>,
+                })}
+              </h3>
+              <div className={cn(layout.paragraphs, isEn ? "break-words" : "break-all")}>
+                {splitReadableParagraphs(longDesc).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+              </div>
+            </section>
+          )}
+        </HubSection>
+
+        {hasRecords && (
+          <HubSection compact id={items[1].sectionId} title={items[1].label} titleAs="h3"
+            index={1} total={items.length} tabIndex={-1} className="scroll-mt-6 outline-none">
+            <FactionPersonReviews key={`${celeb.id}:${locale}`} celebId={celeb.id} name={name} avatarUrl={celeb.avatar_url} embedded />
+          </HubSection>
         )}
-
-        {celeb.celeb_reality !== "FICTION" && (
-          <FactionPersonReviews key={`${celeb.id}:${locale}`} celebId={celeb.id} name={name} avatarUrl={celeb.avatar_url} />
-        )}
-        <FactionPersonBooks celebId={celeb.id} />
+        <HubSection compact id={items[items.length - 1].sectionId} title={items[items.length - 1].label} titleAs="h3"
+          index={items.length - 1} total={items.length} tabIndex={-1} className="scroll-mt-6 outline-none">
+          <FactionPersonBooks celebId={celeb.id} embedded />
+        </HubSection>
       </article>
 
       {guideOpen && guideText && (
@@ -136,5 +159,13 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
       )}
     </>
   );
-  return <Modal isOpen onClose={onClose} ariaLabel={name} size="full" animateHeight={false} frame="plain" boxClassName={layout.modal} scrollAreaClassName="[overflow-anchor:none]">{content}</Modal>;
+  return (
+    <Modal isOpen onClose={onClose} ariaLabel={name} fullScreen widthClassName="max-w-none"
+      animateHeight={false} frame="plain" boxClassName="h-dvh overflow-hidden bg-bg-main"
+      boxStyle={{ "--content-max-default": "56rem" } as CSSProperties}
+      overlayClassName="w-screen bg-bg-main"
+      scrollAreaClassName="flex-1 [overflow-anchor:none]">
+      {content}
+    </Modal>
+  );
 }

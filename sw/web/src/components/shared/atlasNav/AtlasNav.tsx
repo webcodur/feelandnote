@@ -8,7 +8,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -17,6 +17,7 @@ import { useBottomNavDock } from "@/components/layout/bottomNavDock";
 import { Link, usePathname } from "@/i18n/navigation";
 import Modal from "@/components/ui/Modal";
 import { cn } from "@/lib/utils";
+import { Z_INDEX } from "@/constants/zIndex";
 
 import styles from "./AtlasNav.module.css";
 import AtlasRailHighlight from "./AtlasRailHighlight";
@@ -38,6 +39,7 @@ interface AtlasNavProps {
   items: AtlasNavItem[];
   activeId: string;
   onNavigate: (sectionId: string) => void;
+  withinModal?: boolean;
 }
 
 function usePortalTarget() {
@@ -63,13 +65,14 @@ function useFollowSamePageHash() {
 }
 
 /** 넓은 화면의 옆 목차 — 뷰포트 왼쪽에 고정되는 얇은 구획 목록 */
-function AtlasRail({ items, activeId, onNavigate }: AtlasNavProps) {
+function AtlasRail({ items, activeId, onNavigate, withinModal }: AtlasNavProps) {
   const t = useTranslations("shared.atlasNav");
   const portalTarget = usePortalTarget();
   const followSamePageHash = useFollowSamePageHash();
   const railRef = useRef<HTMLDivElement>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const activeItemRef = useRef<HTMLButtonElement>(null);
+  const titleId = useId();
 
   // 낮은 화면에서는 현재 구획이 목록 내부 스크롤 밖으로 숨지 않게 맞춘다.
   useEffect(() => {
@@ -89,9 +92,9 @@ function AtlasRail({ items, activeId, onNavigate }: AtlasNavProps) {
   }, [activeId]);
 
   const railNode = (
-    <div ref={railRef} className={styles.atlasRail}>
-      <h2 id="atlas-nav-title" className="sr-only">{t("rail")}</h2>
-      <nav aria-labelledby="atlas-nav-title" className={styles.atlasList} onMouseLeave={() => setHoveredId(null)}>
+    <div ref={railRef} className={cn(styles.atlasRail, withinModal && styles.atlasModalRail)}>
+      <h2 id={titleId} className="sr-only">{t("rail")}</h2>
+      <nav aria-labelledby={titleId} className={styles.atlasList} onMouseLeave={() => setHoveredId(null)}>
         <AtlasRailHighlight sectionId={hoveredId ?? activeId} hovering={hoveredId !== null} />
         {items.map((item) => {
           const isActive = item.sectionId === activeId;
@@ -134,7 +137,7 @@ function AtlasRail({ items, activeId, onNavigate }: AtlasNavProps) {
 
   return (
     <aside className={styles.atlasAside}>
-      {portalTarget ? createPortal(railNode, portalTarget) : railNode}
+      {portalTarget && !withinModal ? createPortal(railNode, portalTarget) : railNode}
     </aside>
   );
 }
@@ -142,7 +145,7 @@ function AtlasRail({ items, activeId, onNavigate }: AtlasNavProps) {
 /* ── 좁은 화면의 목차 ──
    옆 레일은 1340px부터만 선다. 그 아래에서는 이 띠가 같은 목차를 대신 쥔다:
    좌우로 이웃 구획을 즉시 오가고, 가운데를 누르면 전체 목차가 시트로 올라온다. */
-function AtlasBottomBar({ items, activeId, onNavigate }: AtlasNavProps) {
+function AtlasBottomBar({ items, activeId, onNavigate, withinModal }: AtlasNavProps) {
   const t = useTranslations("shared.atlasNav");
   const portalTarget = usePortalTarget();
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -160,7 +163,8 @@ function AtlasBottomBar({ items, activeId, onNavigate }: AtlasNavProps) {
   }, [onNavigate]);
 
   // 하단 내비가 서 있으면 그 고정 틀 안에 들어가 한 몸으로 움직인다(bottomNavDock)
-  const dock = useBottomNavDock();
+  const pageDock = useBottomNavDock();
+  const dock = withinModal ? null : pageDock;
 
   if (!current) return null;
 
@@ -184,7 +188,7 @@ function AtlasBottomBar({ items, activeId, onNavigate }: AtlasNavProps) {
     );
 
   const barNode = (
-    <div className={cn(styles.atlasBar, !dock && styles.atlasBarFloating)}>
+    <div className={cn(styles.atlasBar, !dock && styles.atlasBarFloating, withinModal && styles.atlasModalBar)}>
       <div className={styles.atlasBarInner}>
         {step(previous, <ChevronLeft size={20} strokeWidth={1.8} aria-hidden />,
           previous ? t("previous", { name: previous.label }) : t("noPrevious"))}
@@ -208,7 +212,8 @@ function AtlasBottomBar({ items, activeId, onNavigate }: AtlasNavProps) {
 
   // 목차 창은 공용 중앙 모달로 띄운다. 하단 내비 틀 안에 두면 그 틀의 층 순서에 갇힌다
   const sheetNode = (
-    <Modal isOpen={sheetOpen} onClose={() => setSheetOpen(false)} title={t("sheetTitle")} size="md" animateHeight={false}>
+    <Modal isOpen={sheetOpen} onClose={() => setSheetOpen(false)} title={t("sheetTitle")} size="md" animateHeight={false}
+      zIndex={withinModal ? Z_INDEX.modal + 1 : undefined} escapeCapture={withinModal}>
       <div className={`${styles.atlasSheetGrid} p-3`}>
         {items.map((item) => {
           const content = (
@@ -252,7 +257,7 @@ function AtlasBottomBar({ items, activeId, onNavigate }: AtlasNavProps) {
 
   return (
     <>
-      {createPortal(barNode, dock ?? portalTarget)}
+      {withinModal ? barNode : createPortal(barNode, dock ?? portalTarget)}
       {sheetNode}
     </>
   );
