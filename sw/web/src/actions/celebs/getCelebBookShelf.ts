@@ -4,6 +4,7 @@ import { findAffiliateLink } from '@/actions/home/affiliateLinks'
 import { figureBookToShelfBook, type BookShelfBook } from '@/components/shared/BookShelf/types'
 import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 import { getCelebReferenceBooks, type CelebReferenceBooks } from './getCelebReferenceBooks'
+import { excludedBookEditionReason, reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
 
 /** 가상독백 책장. 상세의 분류를 유지하면서 공개 도서 감상을 추가한다. */
 
@@ -23,15 +24,18 @@ export async function getCelebBookShelf(
   const appeared = reference.appeared.filter(book => book.type === 'BOOK')
   const authored = reference.authored.filter(book => book.type === 'BOOK')
   const related = new Map([...appeared, ...authored].map(book => [book.id, figureBookToShelfBook(book)]))
-  const read: BookShelfBook[] = readRecords.items.map((record) => {
+  const read: BookShelfBook[] = readRecords.items.flatMap((record): BookShelfBook[] => {
+    // 감상 원행은 보존하고, 작품 검수가 제외한 책만 이 책장 결과에서 뺀다.
+    if (reviewedBookWorkSelectionReason({ contentId: record.content_id, metadata: record.content.metadata })) return []
     // 리뷰 전문은 고른 책만 읽는다. 책장 응답에 모든 감상문을 중복해서 싣지 않는다.
     const readingRecord = { ...record, public_record: null }
     const existing = related.get(record.content_id)
-    if (existing) return { ...existing, readingRecord }
+    if (existing) return [{ ...existing, readingRecord }]
+    if (!record.content.bookLocale || excludedBookEditionReason({ ...record.content.bookLocale, contentId: record.content_id })) return []
     const platform = locale === 'en' ? 'amazon' : 'coupang'
     const link = findAffiliateLink(record.content.affiliate_url, platform)
     const url = httpsUrl(record.content.affiliate_url)
-    return {
+    return [{
       id: record.content_id,
       title: record.content.title,
       creator: record.content.creator,
@@ -41,7 +45,7 @@ export async function getCelebBookShelf(
       affiliateLinks: link ? [link] : url ? [{ platform, url }] : [],
       titleBadge: record.content.title_badge,
       readingRecord,
-    }
+    }]
   })
   return { ...reference, appeared, authored, readBooks: read.filter(isBookShelfAvailable) }
 }

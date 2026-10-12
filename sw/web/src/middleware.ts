@@ -45,9 +45,16 @@ const LEGACY_CELEB_SLUG_REDIRECTS: Record<string, string> = {
   'anura-kurankan-dissanayake': 'anura-kumara-dissanayake',
   // 26.09.28 같은 사람의 중복 프로필을 하나로 합쳤다(히로히토 → 쇼와 천황).
   'emperor-hirohito': 'emperor-showa',
+  'electra': 'electra-of-mycenae',
+  'sarpedon': 'sarpedon-of-lycia',
   'philip-henry-stanhope,-4th-earl-stanhope': 'philip-henry-stanhope',
   'daron-acemoglu': 'daron-acemoğlu',
   'park-in-hwan': 'park-jin-hwan',
+  'king-ijinasi': 'ijinasi',
+  'emperor-ojin': 'ojin',
+  'empress-jingu': 'jingu',
+  'emperor-sujin': 'sujin',
+  'prince-vijaya': 'vijaya',
 }
 
 export async function middleware(request: NextRequest) {

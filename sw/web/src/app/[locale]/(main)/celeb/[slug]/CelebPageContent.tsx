@@ -42,6 +42,7 @@ interface CelebPageContentProps {
   booksSlot: ReactNode;
   /** 본문末 구획(이어지는 인물). 서버가 그려 클라이언트가 자리만 받는다 */
   relatedFiguresSlot?: ReactNode;
+  relatedFactionsSlot?: ReactNode;
 }
 
 export default function CelebPageContent({
@@ -58,6 +59,7 @@ export default function CelebPageContent({
   librarySlot,
   booksSlot,
   relatedFiguresSlot,
+  relatedFactionsSlot,
 }: CelebPageContentProps) {
   const locale = useLocale() as Locale;
   const recentItems = useRecentHistory(null, "profile");
@@ -96,6 +98,7 @@ export default function CelebPageContent({
         booksSlot={booksSlot}
         serviceModel={serviceModel}
         relatedFiguresSlot={relatedFiguresSlot}
+        relatedFactionsSlot={relatedFactionsSlot}
       />
     </div>
   );

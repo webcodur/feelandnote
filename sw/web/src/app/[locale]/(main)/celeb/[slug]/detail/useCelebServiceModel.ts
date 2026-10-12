@@ -30,6 +30,7 @@ export interface CelebSideAvailability {
   spectrum: boolean;
   /** 이어지는 인물 구획이 그려지는가(관계가 있어야 채운다) */
   relatedFigures: boolean;
+  relatedFactions: boolean;
   /** 관련 도서 구획을 표시하는가. 대기·빈 결과도 같은 자리를 쓴다. */
   affiliateBooks: boolean;
 }
@@ -88,6 +89,16 @@ export function useCelebServiceModel({
         target: { sectionId: "related-figures" },
       });
     }
+    if (sideAvailability.relatedFactions) {
+      ordered.push({
+        key: "relatedFactions",
+        chapter: "",
+        label: t("relatedFactionsTitle"),
+        icon: CELEB_SERVICE_ICONS.relatedFactions,
+        ready: true,
+        target: { sectionId: "related-factions" },
+      });
+    }
     if (
       sideAvailability.affiliateBooks
     ) {
@@ -115,7 +126,7 @@ export function useCelebServiceModel({
         })),
       };
     });
-  }, [baseItems, sideAvailability.relatedFigures, sideAvailability.affiliateBooks, t, celebReality]);
+  }, [baseItems, sideAvailability.relatedFigures, sideAvailability.relatedFactions, sideAvailability.affiliateBooks, t, celebReality]);
 
   return { items };
 }

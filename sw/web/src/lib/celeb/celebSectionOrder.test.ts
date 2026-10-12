@@ -11,6 +11,7 @@ test("FICTION reality uses story-first section order without analysis", () => {
     "connections",
     "affiliateBooks",
     "relatedFigures",
+    "relatedFactions",
     "guestbook",
   ]);
 });
@@ -25,6 +26,7 @@ test("REAL and BOTH reality keep reviews before the unified books section", () =
     "analysis",
     "connections",
     "relatedFigures",
+    "relatedFactions",
     "guestbook",
   ];
 

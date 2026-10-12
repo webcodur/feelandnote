@@ -5,7 +5,7 @@ import { createRequire } from 'node:module'
 import { test } from 'node:test'
 import ts from 'typescript'
 import { coalescePublicRead } from '../../lib/coalescePublicRead'
-import { selectTodayFigure, TODAY_FIGURE_FALLBACK_COUNTRY } from '../../lib/celeb/todayFigureSelection'
+import { selectTodayFigure, TODAY_FIGURE_FALLBACK_COUNTRY, TODAY_FIGURE_MIN_INFLUENCE_SCORE } from '../../lib/celeb/todayFigureSelection'
 
 const require = createRequire(import.meta.url)
 const compiled = ts.transpileModule(readFileSync(new URL('./today-figure.ts', import.meta.url), 'utf8'), {
@@ -14,19 +14,27 @@ const compiled = ts.transpileModule(readFileSync(new URL('./today-figure.ts', im
 
 function fixture() {
   const request = new AsyncLocalStorage<{ country: string | null; locale: string }>()
-  const reads = { directory: 0, eligibility: 0, exclusions: 0, profile: 0, contents: 0 }
+  const reads = { directory: 0, eligibility: 0, exclusions: 0, influence: 0, profile: 0, contents: 0 }
   const people = Array.from({ length: 30 }, (_, index) => ({
-    id: `US-${index}`, nationality: 'US', birth_date: null,
+    id: `US-${index}`, nationality: 'US',
   }))
   // These rows must not enter the selection pool.
-  const directory = [...people, { id: 'excluded', nationality: 'JP', birth_date: null }, { id: 'ineligible', nationality: 'KR', birth_date: null }]
+  const directory = [...people, { id: 'excluded', nationality: 'JP' }, { id: 'ineligible', nationality: 'KR' },
+    { id: 'low-influence', nationality: 'KR' }, { id: 'unrated', nationality: 'KR' }]
   let failEligibility = false
+  let failInfluence = false
   class Query {
     id: string | null = null
+    minScore = 0
     constructor(readonly table: string) {}
     select() { return this }
     eq(column: string, value: string) { if (column === 'id') this.id = value; return this }
     in() { return this }
+    gte(column: string, value: number) {
+      assert.equal(column, 'total_score')
+      this.minScore = value
+      return this
+    }
     order() { return this }
     range() { return this }
     single() { return this }
@@ -36,7 +44,15 @@ function fixture() {
       if (this.table === 'get_seed_eligible_celebs') {
         reads.eligibility++
         if (failEligibility) throw new Error('eligibility unavailable')
-        return [...people, directory[30]].map(row => ({ celeb_id: row.id, content_count: 5 }))
+        return directory.filter(row => row.id !== 'ineligible').map(row => ({ celeb_id: row.id, content_count: 5 }))
+      }
+      if (this.table === 'celeb_influence') {
+        reads.influence++
+        if (failInfluence) throw new Error('influence unavailable')
+        assert.equal(this.minScore, TODAY_FIGURE_MIN_INFLUENCE_SCORE)
+        return directory.filter(row => row.id !== 'unrated')
+          .map(row => ({ celeb_id: row.id, total_score: row.id === 'low-influence' ? 39 : 40 }))
+          .filter(row => row.total_score >= this.minScore)
       }
       if (this.table === 'celebs' && !this.id) { reads.directory++; return directory }
       if (this.table === 'celebs') { reads.profile++; return { id: this.id, nickname: this.id, nickname_en: this.id } }
@@ -71,7 +87,7 @@ function fixture() {
     '@/lib/game/date-seed': { getKSTDateKey: () => '2026-10-07' },
     '@/lib/visitorCountryServer': { getVisitorCountry: async () => request.getStore()!.country },
     '@/lib/coalescePublicRead': { coalescePublicRead },
-    '@/lib/celeb/todayFigureSelection': { selectTodayFigure, TODAY_FIGURE_FALLBACK_COUNTRY },
+    '@/lib/celeb/todayFigureSelection': { selectTodayFigure, TODAY_FIGURE_FALLBACK_COUNTRY, TODAY_FIGURE_MIN_INFLUENCE_SCORE },
     '@/lib/celeb-feature-exclusion': { fetchFeatureExcludedCelebIds: async () => { reads.exclusions++; return new Set(['excluded']) } },
     '@/lib/utils/content-locale': { CL_SELECT_LIST_WITH_AFFILIATE: '', flattenLocales: () => ({ title: 'Book' }) },
     '@/lib/utils/celeb-dialogues': { DIALOGUE_BRIEF_SELECT: '' },
@@ -81,6 +97,7 @@ function fixture() {
   new Function('require', 'module', 'exports', compiled)((id: string) => mocks[id] ?? require(id), loaded, loaded.exports)
   return {
     reads, fail: (value: boolean) => { failEligibility = value },
+    failInfluence: (value: boolean) => { failInfluence = value },
     read: (country: string | null, locale = 'ko') => request.run({ country, locale }, loaded.exports.getTodayFigure),
   }
 }
@@ -91,9 +108,26 @@ test('cold requests across countries and languages share candidate reads and US 
   assert.equal(new Set(results.map(row => row.figure.id)).size, 1)
   assert.ok(results[0].figure.id.startsWith('US-'))
   assert.ok(results.every(row => row.date === '2026-10-07'))
-  assert.deepEqual(f.reads, { directory: 1, eligibility: 1, exclusions: 1, profile: 2, contents: 2 })
+  assert.deepEqual(f.reads, { directory: 1, eligibility: 1, exclusions: 1, influence: 1, profile: 2, contents: 2 })
   await f.read('FR')
-  assert.deepEqual(f.reads, { directory: 1, eligibility: 1, exclusions: 1, profile: 2, contents: 2 })
+  assert.deepEqual(f.reads, { directory: 1, eligibility: 1, exclusions: 1, influence: 1, profile: 2, contents: 2 })
+})
+
+test('low and missing influence scores are excluded; the C-rank boundary remains eligible', async () => {
+  const f = fixture()
+  assert.equal(TODAY_FIGURE_MIN_INFLUENCE_SCORE, 40)
+  const result = await f.read('KR')
+  assert.ok(result.figure.id.startsWith('US-'))
+  assert.equal(f.reads.influence, 1)
+})
+
+test('failed influence queries can recover without caching an empty directory', async () => {
+  const f = fixture()
+  f.failInfluence(true)
+  await assert.rejects(f.read('KR'), /influence unavailable/)
+  f.failInfluence(false)
+  assert.ok((await f.read('KR')).figure.id.startsWith('US-'))
+  assert.equal(f.reads.influence, 2)
 })
 
 test('failed candidate queries are not cached as empty and can recover on the next request', async () => {

@@ -11,7 +11,7 @@ import { getLocale } from 'next-intl/server'
 import { getKSTDateKey } from '@/lib/game/date-seed'
 import { getVisitorCountry } from '@/lib/visitorCountryServer'
 import { coalescePublicRead } from '@/lib/coalescePublicRead'
-import { selectTodayFigure, TODAY_FIGURE_FALLBACK_COUNTRY, type TodayFigureCandidate } from '@/lib/celeb/todayFigureSelection'
+import { selectTodayFigure, TODAY_FIGURE_FALLBACK_COUNTRY, TODAY_FIGURE_MIN_INFLUENCE_SCORE, type TodayFigureCandidate } from '@/lib/celeb/todayFigureSelection'
 import { fetchFeatureExcludedCelebIds } from '@/lib/celeb-feature-exclusion'
 import { CL_SELECT_LIST_WITH_AFFILIATE, flattenLocales } from '@/lib/utils/content-locale'
 import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dialogues'
@@ -41,7 +41,7 @@ interface TodayFigure {
 }
 
 interface TodayFigureSource {
-  type: 'news' | 'seed' | 'birthday'
+  type: 'news' | 'seed'
   newsCount: number
 }
 
@@ -60,28 +60,32 @@ export interface TodayFigureResult extends TodayFigureData {
 const getTodayFigureCandidates = unstable_cache(
   coalescePublicRead(async (): Promise<TodayFigureCandidate[]> => {
     const db = createStaticClient()
-    const [profiles, eligible, excluded] = await Promise.all([
-      selectAllPages<{ id: string; nationality: string | null; birth_date: string | null }>((from, to) => db
-        .from('celebs').select('id, nationality, birth_date')
+    const [profiles, eligible, excluded, influential] = await Promise.all([
+      selectAllPages<TodayFigureCandidate>((from, to) => db
+        .from('celebs').select('id, nationality')
         .eq('publication_status', 'active')
         .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
         .order('id').range(from, to)),
       selectAllPages<SeedEligibleRow>((from, to) => db.rpc('get_seed_eligible_celebs')
         .order('celeb_id', { ascending: true }).range(from, to)),
       fetchFeatureExcludedCelebIds(db),
+      selectAllPages<{ celeb_id: string }>((from, to) => db.from('celeb_influence')
+        .select('celeb_id')
+        .gte('total_score', TODAY_FIGURE_MIN_INFLUENCE_SCORE)
+        .order('celeb_id').range(from, to)),
     ])
-    const counts = new Map(eligible.map(row => [row.celeb_id, row.content_count]))
-    return profiles.filter(row => counts.has(row.id) && !excluded.has(row.id))
-      .map(row => ({ ...row, content_count: counts.get(row.id)! }))
+    const eligibleIds = new Set(eligible.map(row => row.celeb_id))
+    const influentialIds = new Set(influential.map(row => row.celeb_id))
+    return profiles.filter(row => eligibleIds.has(row.id) && influentialIds.has(row.id) && !excluded.has(row.id))
   }),
-  ['today-figure-candidates-v1'],
+  ['today-figure-candidates-v2'],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] },
 )
 
 const getTodayFigurePick = unstable_cache(
   coalescePublicRead(async (today: string, country: string) =>
     selectTodayFigure(await getTodayFigureCandidates(), today, country)),
-  ['today-figure-country-pick-v4'],
+  ['today-figure-country-pick-v5'],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] },
 )
 
@@ -98,7 +102,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
   const country = await getVisitorCountry() ?? TODAY_FIGURE_FALLBACK_COUNTRY
   const result: TodayFigureData = await withQueryFallback('getTodayFigure', async () => {
     const selected = await getTodayFigurePick(today, country)
-    const source: TodayFigureSource = { type: selected?.birthday ? 'birthday' : 'seed', newsCount: 0 }
+    const source: TodayFigureSource = { type: 'seed', newsCount: 0 }
     if (!selected) return { figure: null, contents: [], source }
     const data = await getFigureContentsCached(selected.id, locale)
     return data.figure && data.contents.length >= 5

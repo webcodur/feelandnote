@@ -59,7 +59,7 @@
     "realityChipReal": "Fact",
     "realityChipFiction": "Fiction",
     "libraryEmpty": "No public viewing records yet.",
-    "sourceWorks": "Related Works",
+    "sourceWorks": "Appearing Works",
     "sourceWorksIntro": "Books in which this figure appears directly or indirectly",
     "groupAppeared": "Appearing",
     "groupRead": "Read",
@@ -89,7 +89,7 @@
     "sourceWorkReleaseDate": "Publication date",
     "sourceRelation": {
       "appearance": "Appearing Works",
-      "related": "Related Works"
+      "authored": "Created Works"
     },
     "analysis": "Evaluation",
     "fictionAnalysis": "Character Reading",
@@ -296,7 +296,7 @@
     "virtueReasonEmpty": "No background is recorded for this virtue yet.",
     "relatedLinksTitle": "Related Figures",
     "relatedLinksSimilar": "Similar figure",
-    "relatedProducts": "Related Books",
+    "relatedProducts": "Reference Books",
     "carouselMetricPrev": "Previous metric",
     "carouselMetricNext": "Next metric",
     "carouselComparePrev": "Previous comparison",
@@ -415,12 +415,18 @@
       "booksEmpty": "No related books have been added yet.",
       "timelineEmpty": "No timeline entries have been added yet.",
       "relatedEmpty": "No connected figures are available yet.",
-      "analysis": "Loading this figure’s assessments."
+      "analysis": "Loading this figure’s assessments.",
+      "factions": "Loading connected factions"
     },
     "professionTrain": "Train",
     "professionTrainIntro": "Textbooks and practical guides for building foundational knowledge and skills. Read in the suggested order and work through the explanations and examples in each book.",
     "professionReadingOrder": "Study step {current} of {total}",
     "professionLearningPoint": "Learning focus",
-    "professionExplorationPoint": "Exploration focus"
+    "professionExplorationPoint": "Exploration focus",
+    "relatedFactionsTitle": "Faction Atlas",
+    "relatedFactionOpen": "Explore {name}",
+    "relatedFactionsIntro": "The groups and stories this figure is part of.",
+    "relatedFactionMorePeople": "and {count} more",
+    "relatedFactionMoreGroups": "and {count} more groups"
   }
 }

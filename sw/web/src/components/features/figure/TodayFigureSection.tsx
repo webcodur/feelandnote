@@ -11,7 +11,7 @@ import { Avatar, BlurDissolve } from "@/components/ui";
 import BookShelfSelection from "@/components/shared/BookShelf/BookShelfSelection";
 import { homeReadingBook } from "@/components/features/home/homeReadingBook";
 import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
-import { Calendar, BookOpen, Newspaper, Cake } from "lucide-react";
+import { Calendar, BookOpen, Newspaper } from "lucide-react";
 import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
 import type { ContentType } from "@/types/database";
 import type { TitleBadge } from "@/lib/utils/content-locale";
@@ -52,7 +52,7 @@ interface Content {
 }
 
 interface TodayFigureSource {
-    type: 'news' | 'seed' | 'birthday';
+    type: 'news' | 'seed';
     newsCount: number;
 }
 
@@ -105,9 +105,7 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
     if (!figure) return null;
 
     // 선정 사유 마크 — 알약 오른쪽 위에 걸리는 표시 하나에 문구·아이콘·색을 묶는다
-    const reasonMark = source?.type === "birthday"
-        ? { label: t("birthdayChip"), icon: <Cake size={9} strokeWidth={2.5} />, className: "bg-amber-500/90 text-black" }
-        : source?.type === "news"
+    const reasonMark = source?.type === "news"
             ? { label: t("newsChip", { count: source.newsCount }), icon: <Newspaper size={9} strokeWidth={2.5} />, className: "bg-blue-500/90 text-white" }
             : null;
 

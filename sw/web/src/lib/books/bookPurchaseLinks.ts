@@ -3,8 +3,9 @@ import { getEnglishBookPurchaseLinks } from './amazonBookSearch'
 import { getBookPurchaseHref } from './bookPurchaseHref'
 import { aladinBookLink, coupangBookLink, kyoboBookLink } from './bookPurchaseRedirect'
 import { isYes24PurchaseRequest } from './yes24Purchase'
+import { excludedBookEditionReason, reviewedBookWorkSelectionReason, type BookEditionPolicyInput } from '@feelandnote/content-search/book-edition-policy'
 
-export interface BookPurchaseOptions {
+export interface BookPurchaseOptions extends Pick<BookEditionPolicyInput, 'sources' | 'editionKind' | 'textScope' | 'publisher' | 'releaseDate' | 'workTitles' | 'reviewedSeries'> {
   locale: string
   contentId?: string
   editionId?: number
@@ -13,6 +14,8 @@ export interface BookPurchaseOptions {
   creator?: string | null
   links?: readonly AffiliateLink[]
   yes24Href?: string
+  metadata?: unknown
+  bookPurchaseBlocked?: boolean
 }
 
 function isPurchaseUrl(value: string): boolean {
@@ -26,7 +29,14 @@ function isPurchaseUrl(value: string): boolean {
 }
 
 // 작품·판본·외부 차트의 서점 선택은 이 함수 하나로 결정한다. 먼저 유효 링크를 고른 뒤 중복을 없앤다.
-export function getBookPurchaseLinks({ locale, contentId, editionId, isbn, title, creator, links = [], yes24Href }: BookPurchaseOptions): AffiliateLink[] {
+export function getBookPurchaseLinks(options: BookPurchaseOptions): AffiliateLink[] {
+  if (options.bookPurchaseBlocked || reviewedBookWorkSelectionReason(options) || excludedBookEditionReason(options)) return []
+  const { locale, contentId, editionId, isbn, title, creator, links = [], yes24Href } = options
+  const ownId = contentId && isYes24PurchaseRequest(contentId, 'ko', editionId) ? contentId : undefined
+  if (ownId && locale === 'en') return [{ platform: 'amazon', url: getBookPurchaseHref(ownId, editionId, 'amazon', 'en') }]
+  if (ownId && locale === 'ko') return (['yes24', 'kyobo', 'coupang', 'aladin'] as const).map(platform => ({
+    platform, url: getBookPurchaseHref(ownId, editionId, platform), ...(platform === 'coupang' ? { linkKind: 'search' as const } : {}),
+  }))
   const valid = links.filter(link => AFFILIATE_PLATFORMS[link.platform]?.locale === locale && isPurchaseUrl(link.url))
   const unique = (items: readonly AffiliateLink[]) => {
     const seen = new Set<string>()
@@ -40,7 +50,6 @@ export function getBookPurchaseLinks({ locale, contentId, editionId, isbn, title
     .filter(link => link.platform === 'amazon'))
   const usable = unique(valid)
 
-  const ownId = contentId && isYes24PurchaseRequest(contentId, 'ko', editionId) ? contentId : undefined
   const route = (platform: 'yes24' | 'kyobo' | 'coupang' | 'aladin'): AffiliateLink | null => ownId
     ? { platform, url: getBookPurchaseHref(ownId, editionId, platform), ...(platform === 'coupang' ? { linkKind: 'search' as const } : {}) }
     : null

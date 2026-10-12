@@ -6,6 +6,7 @@ import ts from 'typescript'
 import * as localeText from '../../lib/utils/content-locale-text'
 import { applyContentBookEdition } from '../../lib/books/contentEdition'
 import { pickPurchaseEdition } from '../figure-books/figureBookLocale'
+import * as bookDescription from '../../lib/utils/book-description'
 
 const require = createRequire(import.meta.url)
 const id = '47b7b3d9-ebe8-4d39-a04c-c3f5c0b0d026'
@@ -67,6 +68,55 @@ test('book detail selects an available edition when the requested language has n
   assert.equal(reverseFallback.editionLocale, 'ko')
   assert.equal((reverseFallback.metadata as Record<string, unknown>).isbn, korean.isbn)
   assert.equal(reverseFallback.description, korean.description)
+})
+
+test('선정 제외 작품의 상세와 기록은 유지하며 구매 fallback만 막고 정상 다른 언어 판본은 허용한다', async () => {
+  const figureBook = { workTitle: '유아용 원작', workCreator: '확인된 작가', workSelectionEvidence: [{
+    method: 'independent_work_selection_review', content_id: id, work_title: '유아용 원작', work_creator: '확인된 작가',
+    reason: 'children_picture', source_url: 'https://publisher.example/original-picture-book', explanation: '실제 출판사의 대상 독자와 본문을 대조하여 유아 전용 창작 그림책으로 확인했다.' }] }
+  const exact = { locale: 'ko', title: '유아용 원작', creator: '확인된 작가', isbn: null as string | null, sources: { primary: 'kakao_book' } as Record<string, unknown>,
+    affiliate_url: [{ platform: 'coupang', url: 'https://link.coupang.com/a/saved' }] }
+  const row = { id, type: 'BOOK', external_id: 'saved-work', metadata: { figureBook } as Record<string, unknown>,
+    content_locales: [exact], figure_book_contents: [] }
+  let catalog = false
+  let english: Record<string, unknown>[] = []
+  const query = { select: () => query, eq: () => query, maybeSingle: async () => ({ data: row, error: null }) }
+  const api = load<{ getInitialPublicContentInfo: (id: string, locale: string) => Promise<Record<string, unknown>> }>('./getContentDetail.ts', {
+    '@/lib/db/static': { createStaticClient: () => ({ from: () => query }) },
+    '@/lib/db/server': {}, './getContentById': {}, './fetchContentMetadata': {}, './getReviewFeed': {}, '@/actions/user': {},
+    '@/actions/figure-books/getFigureBooks': {}, '@/actions/library/curated': {}, 'next-intl/server': {},
+    '@/actions/figure-books/figureBookEditions': { loadFigureBookEditions: async (_db: unknown, _ids: unknown, locale: string) =>
+      catalog ? new Map([[id, locale === 'en' ? english : []]]) : new Map() },
+    '@/actions/figure-books/figureBookLocale': { pickPurchaseEdition },
+    '@/lib/developer-mode': { isDeveloperMode: () => false },
+    '@/lib/cache': { cachedDetail: (_tag: string, _id: string, _keys: string[], read: () => unknown) => read(), throwOnQueryError: () => {} },
+    '@/lib/utils/content-locale': { CL_SELECT: '*', flattenLocales: () => ({ title: exact.title, creator: exact.creator, affiliate_url: exact.affiliate_url }) },
+    '@/lib/utils/content-locale-text': localeText, '@/lib/utils/book-description': bookDescription,
+    '@/lib/books/contentEdition': { applyContentBookEdition }, '@/lib/books/amazonBookSearch': {}, './fetchBookMetadata': {},
+  })
+  const before = structuredClone(row)
+  const blocked = await api.getInitialPublicContentInfo(id, 'ko')
+  assert.equal(blocked.id, id)
+  assert.equal(blocked.title, exact.title)
+  assert.equal(blocked.bookPurchaseBlocked, true)
+  assert.equal(blocked.affiliateLinks, undefined)
+  assert.deepEqual(row, before)
+  row.metadata = {}
+  exact.isbn = '9788937460012'
+  exact.sources = { primary: 'kakao_book', edition_selection_evidence: [{ method: 'independent_selection_review', content_id: id,
+    isbn: exact.isbn, locale: 'ko', edition_title: exact.title, reason: 'editorial_exclusion', source_url: 'https://publisher.example/exact-edition',
+    explanation: '운영자가 해당 실제 판본을 서비스 책장 선정에서 명시적으로 제외했으며 기록은 보존한다.' }] }
+  assert.equal((await api.getInitialPublicContentInfo(id, 'ko')).bookPurchaseBlocked, true)
+  catalog = true
+  english = [{ id: 9, locale: 'en', title: 'Normal English edition', creator: 'Original Author', isbn: '9780140432169',
+    sortOrder: 0, sources: { primary: 'openlibrary' }, purchaseUrl: null, platform: null }]
+  const normal = await api.getInitialPublicContentInfo(id, 'ko')
+  assert.equal(normal.bookPurchaseBlocked, false)
+  assert.equal(normal.editionLocale, 'en')
+  assert.deepEqual(normal.sources, english[0].sources)
+  english = []
+  row.content_locales = [{ ...exact, sources: { primary: 'kakao_book' } }]
+  assert.equal((await api.getInitialPublicContentInfo(id, 'ko')).bookPurchaseBlocked, true, '전부 제외된 실제 판본을 locale 카드로 다시 구매하지 않는다')
 })
 
 test('first content information returns without external enrichment, reviews, characters or curated queries', async () => {

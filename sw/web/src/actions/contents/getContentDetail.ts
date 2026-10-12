@@ -35,6 +35,7 @@ import { applyContentBookEdition, type ContentBookEdition } from '@/lib/books/co
 import { getBookSearchLanguage, type BookSearchLanguage } from '@feelandnote/content-search/book-search-language'
 import { getEnglishBookPurchaseLinks } from '@/lib/books/amazonBookSearch'
 import { resolveMediaBannerTheme, type MediaBannerTheme } from '@/lib/contentBanner'
+import { excludedBookEditionReason, reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
 
 // #region 타입 정의
 export interface ContentDetailData {
@@ -55,6 +56,9 @@ export interface ContentDetailData {
     category: CategoryId
     metadata?: Record<string, unknown> | null
     affiliateLinks?: AffiliateLink[]
+    /** 감상·서지는 열람하되 선정에서 제외된 작품·언어 카드의 구매 연결은 차단한다. */
+    bookPurchaseBlocked?: boolean
+    sources?: unknown
     /** 현재 표시한 판본과 구매 링크 조회의 ISBN을 일치시킨다. */
     purchaseEditionId?: number
     /** 실제 판본 선택. 감상과 리뷰는 id의 작품에 그대로 귀속된다. */
@@ -121,21 +125,22 @@ function overrideBookLink(metadata: Record<string, unknown> | null, bookLocale: 
 async function fetchDefaultFigureBookEdition(
   contentId: string,
   locale: string,
-): Promise<{ selected: ContentBookEdition | null; editions: ContentBookEdition[] }> {
+): Promise<{ selected: ContentBookEdition | null; editions: ContentBookEdition[]; hasCatalogEditions: boolean }> {
   const db = createStaticClient()
   let editions: ContentBookEdition[]
+  let hasCatalogEditions = false
   try {
     const locales = locale === 'en' ? ['en', 'ko'] as const : ['ko', 'en'] as const
-    editions = (await Promise.all(locales.map(async bookLocale =>
-      ((await loadFigureBookEditions(db, [contentId], bookLocale, true)).get(contentId) ?? [])
-        .map(edition => ({ ...edition, locale: bookLocale }))))).flat()
+    const maps = await Promise.all(locales.map(bookLocale => loadFigureBookEditions(db, [contentId], bookLocale, true)))
+    hasCatalogEditions = maps.some(map => map.has(contentId))
+    editions = maps.flatMap((map, index) => (map.get(contentId) ?? []).map(edition => ({ ...edition, locale: locales[index] })))
   } catch (error) {
     throw new Error(`원전 기본 판본 조회 실패: ${error instanceof Error ? error.message : String(error)}`)
   }
   const fallbackLocale = locale === 'en' ? 'ko' : 'en'
   const selected = pickPurchaseEdition(editions.filter(edition => edition.locale === locale), locale)
     ?? pickPurchaseEdition(editions.filter(edition => edition.locale === fallbackLocale), fallbackLocale)
-  return { selected: selected ? editions.find(edition => edition.id === selected.id) ?? null : null, editions }
+  return { selected: selected ? editions.find(edition => edition.id === selected.id) ?? null : null, editions, hasCatalogEditions }
 }
 
 // #region 콘텐츠 자체 정보 (인증 비의존, 캐시)
@@ -227,6 +232,11 @@ async function fetchContentDataPublic(
       ? await fetchDefaultFigureBookEdition(dbContent.id, locale)
       : null
     const sourceEdition = editionSet?.selected ?? null
+    const bookPurchaseBlocked = dbContent.type === 'BOOK' && (
+      !!reviewedBookWorkSelectionReason({ contentId: dbContent.id, metadata: dbContent.metadata })
+      || !sourceEdition && (editionSet?.hasCatalogEditions
+        || !!excludedBookEditionReason({ ...dbContent.exactLocale, contentId: dbContent.id, locale }))
+    )
     // 판본 로더가 이미 출처 표시를 조회 정보로 변환했다. 다시 해석하면
     // description: null인 외부 소개의 bookIntroduction을 잃는다.
     const bookDisplay = dbContent.type === 'BOOK'
@@ -288,9 +298,10 @@ async function fetchContentDataPublic(
       mediaBannerTheme: resolveMediaBannerTheme(dbContent.type as ContentType, { ...fetchedMeta, ...storedMetadata }),
       purchaseEditionId: sourceEdition?.id,
       bookEditions: editionSet?.editions,
+      ...(dbContent.type === 'BOOK' ? { bookPurchaseBlocked, sources: sourceEdition?.sources ?? dbContent.exactLocale?.sources } : {}),
       ...(initial && needsMetadata
         ? { enrichmentPending: true } : {}),
-      affiliateLinks: dbContent.is_figure_book
+      affiliateLinks: bookPurchaseBlocked ? undefined : dbContent.is_figure_book
         // 구매처가 없는 판본도 책장에 서므로 링크가 실제로 있을 때만 내보낸다.
         ? sourceEdition?.platform && sourceEdition.purchaseUrl
           ? [{ platform: sourceEdition.platform, url: sourceEdition.purchaseUrl }]
@@ -342,7 +353,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-progressive-v24-edition-policy', initial ? 'initial' : 'complete', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale, bookLanguage ?? ''],
+    ['content-data-public-progressive-v25-work-selection', initial ? 'initial' : 'complete', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale, bookLanguage ?? ''],
     () => fetchContentDataPublic(contentId, category, locale, bookLanguage, initial),
   )
 

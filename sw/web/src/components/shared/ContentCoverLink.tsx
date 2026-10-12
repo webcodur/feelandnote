@@ -46,15 +46,19 @@ export default function ContentCoverLink({
         <button
           type="button"
           data-cover-zoom
+          data-no-drag
+          aria-haspopup="dialog"
           aria-label={tArchive("expandCover")}
           title={tArchive("expandCover")}
           onClick={(event) => {
             event.stopPropagation();
             setExpandedImage({ src: imageSrc, title });
           }}
-          className="pointer-events-none absolute end-2 top-2 z-10 hidden size-11 cursor-zoom-in items-center justify-center rounded-full border border-white/25 bg-black/80 text-white opacity-0 sm:[@media(hover:hover)]:flex group-hover/cover:pointer-events-auto group-hover/cover:opacity-100 group-focus-within/cover:pointer-events-auto group-focus-within/cover:opacity-100 hover:border-accent hover:bg-accent hover:text-bg-main active:bg-accent-hover focus-visible:border-accent focus-visible:bg-accent focus-visible:text-bg-main focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="group/zoom absolute end-0 top-0 z-10 size-18 cursor-zoom-in bg-bg-main/80 text-accent [clip-path:polygon(0_0,100%_0,100%_100%)] hover:bg-accent/25 active:bg-accent/35 focus-visible:bg-accent/25 focus-visible:outline-none"
         >
-          <ZoomIn size={18} aria-hidden />
+          <span className="pointer-events-none absolute end-1 top-1 flex size-8 items-center justify-center rounded-full border border-accent/50 bg-bg-card text-accent group-hover/zoom:border-accent group-hover/zoom:bg-accent group-hover/zoom:text-bg-main group-active/zoom:bg-accent-hover group-focus-visible/zoom:ring-2 group-focus-visible/zoom:ring-accent">
+            <ZoomIn size={18} aria-hidden />
+          </span>
         </button>
       )}
     </div>

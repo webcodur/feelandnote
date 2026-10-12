@@ -192,7 +192,7 @@ test("myth without headline uses its linked source, then its title", () => {
     reality: "FICTION",
     counts: emptyCounts,
     sourceWorks: [
-      { title: "트로이 전쟁", relationType: "related" },
+
       { title: "《일리아스》", relationType: "appearance" },
     ],
   };

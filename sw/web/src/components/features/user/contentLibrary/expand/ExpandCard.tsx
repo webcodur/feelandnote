@@ -53,6 +53,8 @@ interface ExpandCardProps {
   reviewHeader?: ReactNode;
   /** 홈에서 표지를 중앙 주인공으로 이미 표시한 경우 소개·감상만 이어 붙인다. */
   showMedia?: boolean;
+  /** 작품 소개를 본문 대신 버튼으로 열 때 사용한다. */
+  introductionMode?: "inline" | "modal";
 }
 
 function ExpandCard({
@@ -69,6 +71,7 @@ function ExpandCard({
   expanded = false,
   reviewHeader,
   showMedia = true,
+  introductionMode = "inline",
 }: ExpandCardProps) {
   const locale = useLocale();
   // 감상문 관련 문구(출처·스포일러·원문 안내)는 목록 카드와 같은 묶음을 쓴다
@@ -140,7 +143,7 @@ function ExpandCard({
             ) : (
               <div className="sm:flex sm:h-full sm:flex-col">
                 <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
-                  <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} inlineLabel expanded={expanded} textLayout={reviewHeader ? "prose" : undefined} />
+                  <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} inlineLabel expanded={expanded} textLayout={reviewHeader ? "prose" : undefined} mode={introductionMode} />
                 </div>
               </div>
             )}

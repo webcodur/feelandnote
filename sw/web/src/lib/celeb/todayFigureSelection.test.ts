@@ -3,14 +3,12 @@ import { test } from 'node:test'
 import { pickCountryTodayFigure, selectTodayFigure, TODAY_FIGURE_RECENT_DAYS, type TodayFigureCandidate } from './todayFigureSelection'
 
 const pool = (country: string, count: number): TodayFigureCandidate[] => Array.from({ length: count }, (_, index) => ({
-  id: `${country}-${index}`, nationality: country, birth_date: null, content_count: 5,
+  id: `${country}-${index}`, nationality: country,
 }))
 const date = (index: number) => new Date(Date.UTC(2026, 11, 20 + index)).toISOString().slice(0, 10)
 
 test('selection is stable across input order and rotates without recent repeats across year boundaries', () => {
   const candidates = pool('KR', 40)
-  candidates[0].birth_date = '1980-12-25'
-  candidates[1].birth_date = '1980-01-01'
   const last = new Map<string, number>()
   for (let day = 0; day < 45; day++) {
     const selected = selectTodayFigure(candidates, date(day), 'KR')!
@@ -19,7 +17,7 @@ test('selection is stable across input order and rotates without recent repeats 
     assert.ok(day - (last.get(selected.id) ?? -Infinity) > TODAY_FIGURE_RECENT_DAYS)
     last.set(selected.id, day)
   }
-  assert.equal(last.size, candidates.length)
+  assert.ok(last.size > TODAY_FIGURE_RECENT_DAYS + 1)
 })
 
 test('small national pools keep appearing with US filling the gaps, without repeated figures', () => {
@@ -45,17 +43,28 @@ test('unknown and empty countries share the US choice; an empty directory produc
   assert.equal(selectTodayFigure([], '2026-10-07', 'KR'), null)
 })
 
-test('birthdays take priority, then respect the recent window even in a small pool', () => {
-  const candidates = pool('KR', 2)
-  candidates[0].birth_date = '1980-10-07'
-  candidates[0].content_count = 10
-  candidates[1].birth_date = '1990-10-07'
-  const selected = pickCountryTodayFigure(candidates, '2026-10-07', 'KR')!
-  assert.equal(selected.birthday, true)
-  for (let day = 1; day <= TODAY_FIGURE_RECENT_DAYS; day++) {
-    const today = new Date(Date.UTC(2026, 9, 7 + day)).toISOString().slice(0, 10)
-    assert.notEqual(pickCountryTodayFigure(candidates, today, 'KR')?.id, selected.id)
+test('birthdays and content counts do not affect random selection', () => {
+  const candidates = pool('KR', 30)
+  const withBirthdays = candidates.map((row, index) => ({
+    ...row, birth_date: index % 2 ? '1980-12-25' : '1980-01-01', content_count: 100 - index,
+  }))
+  for (let day = 0; day < 30; day++) {
+    assert.deepEqual(selectTodayFigure(withBirthdays, date(day), 'KR'), selectTodayFigure(candidates, date(day), 'KR'))
   }
+})
+
+test('random selection does not follow a fixed circular order', () => {
+  const candidates = pool('KR', 30)
+  const following = new Map<string, Set<string>>()
+  let previous = selectTodayFigure(candidates, date(0), 'KR')!.id
+  for (let day = 1; day < 90; day++) {
+    const selected = selectTodayFigure(candidates, date(day), 'KR')!.id
+    const next = following.get(previous) ?? new Set<string>()
+    next.add(selected)
+    following.set(previous, next)
+    previous = selected
+  }
+  assert.ok([...following.values()].some(next => next.size > 1))
 })
 
 test('invalid dates do not select a figure', () => {
