@@ -36,6 +36,50 @@ function sameIds(value: unknown, ids: string[]): boolean {
   return Array.isArray(value) && value.length === ids.length && new Set(value).size === value.length
     && value.every(id => typeof id === 'string' && ids.includes(id))
 }
+/** The audit and edition registration share the same current-owner checks for reviewed omnibuses. */
+export function omnibusOriginalsMatch(proof: Record<string, unknown>, contentId: string, textScope: string | null | undefined,
+  ownerWorks: Record<string, unknown>[], ownerCards: Record<string, unknown>[], ownerEditions: IsbnOwnerRow[]): boolean {
+  if (!Array.isArray(proof.contained_originals)) return false
+  return proof.contained_originals.map(object).every(item => {
+    const work = ownerWorks.find(row => row.id === item.content_id)
+    if (!work || work.type !== 'BOOK') return false
+    const meta = object(work.metadata), original = object(meta.figureBook)
+    const title = string(original.workTitle ?? meta.workTitle), creator = string(original.workCreator ?? meta.workCreator)
+    const identity = string(original.workIdentity)
+    const matchesOriginal = title && creator ? same(title, string(item.title)) && same(creator, string(item.creator))
+      : ownerCards.some(card => card.content_id === item.content_id && same(string(card.title), string(item.title)) && same(string(card.creator), string(item.creator)))
+    return !!identity && item.work_identity === identity && matchesOriginal && !!string(item.text_scope)
+      && (item.content_id !== contentId || (same(string(item.title), string(proof.original_title))
+        && same(string(item.creator), string(proof.original_creator)) && item.text_scope === textScope))
+      && ownerEditions.every(edition => edition.content_id !== item.content_id || !string(edition.text_scope) || edition.text_scope === item.text_scope)
+  })
+}
+
+export function verifiedOmnibusIsbn(isbn: string, ownerIds: string[], ownerWorks: Record<string, unknown>[],
+  ownerCards: Record<string, unknown>[], ownerEditions: Record<string, unknown>[]): boolean {
+  if (ownerIds.length < 2 || !sameIds(ownerWorks.map(row => row.id), ownerIds)) return false
+  if (new Set(ownerWorks.map(row => string(object(object(row.metadata).figureBook).workIdentity))).size !== ownerIds.length) return false
+  return ownerIds.every(contentId => {
+    const work = ownerWorks.find(row => row.id === contentId), figure = object(object(work?.metadata).figureBook)
+    const editions = ownerEditions.filter(row => row.content_id === contentId && toIsbn13(string(row.isbn)) === isbn)
+    if (!editions.length) return false
+    return editions.every(edition => {
+      const sources = object(edition.sources), proofs = [sources.work_attribution,
+        ...(Array.isArray(sources.edition_work_evidence) ? sources.edition_work_evidence : [])].map(object)
+      return proofs.some(p => p.method === 'independent_omnibus_review' && p.content_id === contentId
+        && p.locale === edition.locale && toIsbn13(string(p.isbn)) === isbn
+        && same(string(p.edition_title), string(edition.title)) && same(string(p.edition_creator), string(edition.creator))
+        && !!string(figure.workIdentity) && p.work_identity === figure.workIdentity
+        && same(string(p.original_title), string(figure.workTitle)) && same(string(p.original_creator), string(figure.workCreator))
+        && !!string(edition.edition_kind) && p.edition_kind === edition.edition_kind
+        && !!string(edition.text_scope) && p.text_scope === edition.text_scope
+        && Number.isFinite(Date.parse(string(p.reviewed_at))) && independentSource(p.source_url) && independentSource(p.toc_source_url)
+        && sameIds(p.owner_content_ids, ownerIds) && Array.isArray(p.contained_originals)
+        && sameIds(p.contained_originals.map(item => object(item).content_id), ownerIds)
+        && omnibusOriginalsMatch(p, contentId, string(edition.text_scope), ownerWorks, ownerCards, ownerEditions))
+    })
+  })
+}
 type IsbnOwnerRow = { id?: unknown; content_id?: unknown; isbn?: unknown; external_id?: unknown; text_scope?: unknown }
 
 /** Fetch only digit-order candidates; normalize after lookup to reject unrelated subsequences. */

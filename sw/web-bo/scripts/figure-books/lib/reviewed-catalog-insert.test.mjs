@@ -91,6 +91,126 @@ function englishIsbnlessFixture() {
   return { before, reviews: [review] }
 }
 
+function omnibusFixture() {
+  const { before } = fixture(), isbn = '9781584653530'
+  const title = "Letter to D'Alembert and writings for the theater", creator = 'Jean-Jacques Rousseau'
+  const originals = [
+    { content_id: ids[0], work_identity: 'Jean-Jacques Rousseau/Pygmalion', title: 'Pygmalion', creator,
+      text_scope: 'English anthology; Pygmalion pp230–236 complete; also contains separate theatrical and political writings' },
+    { content_id: ids[1], work_identity: 'wikidata:q6533603', title: "Letter to M. D'Alembert on Spectacles", creator,
+      text_scope: "English anthology; Letter to M. D'Alembert on Spectacles pp251–352 complete; also contains separate plays and correspondence" },
+  ]
+  originals.forEach((original, index) => { before.contents[index].metadata.figureBook = {
+    workTitle: original.title, workCreator: creator, workIdentity: original.work_identity } })
+  const proof = index => ({ method: 'independent_omnibus_review', content_id: ids[index], locale: 'en', isbn,
+    work_identity: originals[index].work_identity, original_title: originals[index].title, original_creator: creator,
+    edition_title: title, edition_creator: creator, edition_kind: 'selection', text_scope: originals[index].text_scope,
+    source_url: 'https://books.google.co.kr/books?id=8PXayjdeC1gC&pg=PR3',
+    toc_source_url: 'https://books.google.co.kr/books?id=8PXayjdeC1gC&pg=PR5', reviewed_at: '2026-10-12T10:00:00Z',
+    owner_content_ids: [...ids], contained_originals: structuredClone(originals) })
+  const card = (index, translators) => ({ content_id: ids[index], locale: 'en', isbn, title, creator,
+    publisher: 'Dartmouth College', description: 'The exact original and its anthology scope are described here.',
+    thumbnail_url: null, verified: true, sources: { primary: 'openlibrary', translators,
+      provider_edition_url: 'https://openlibrary.org/books/OL3679063M', work_attribution: proof(index) } })
+  before.content_locales[0] = card(0, ['Christopher Kelly'])
+  Object.assign(before.content_locales[1], { isbn: null, sources: { primary: 'none', title: 'translated' } })
+  before.content_locales[3] = card(1, ['Allan Bloom'])
+  before.figure_book_contents.push({ content_id: ids[1], created_at: timestamp, updated_at: timestamp })
+  before.figure_book_editions.push({ ...card(1, ['Allan Bloom']), id: 99, edition_kind: 'selection',
+    text_scope: originals[1].text_scope, sort_order: 0, release_date: null, created_at: timestamp, updated_at: timestamp })
+  const reviews = [{ contentId: ids[0], locale: 'en', textLanguage: 'en', isbn, title, creator,
+    workTitle: originals[0].title, workCreator: creator, translators: ['Christopher Kelly'],
+    sourceUrl: proof(0).source_url, reason: 'The source-approved title, copyright, named translator, TOC and opening/ending of the complete Pygmalion were read; registered owners identify distinct originals, not the entire book contents.',
+    editionKind: 'selection', textScope: originals[0].text_scope }]
+  return { before, reviews }
+}
+
+test('a stored independent omnibus review shares the actual ISBN across distinct originals without merging or changing the retained edition', async () => {
+  const { before, reviews } = omnibusFixture(), original = structuredClone(before)
+  const plan = planReviewedCatalogInsert(ids, before, reviews), compact = compactReviews(before, reviews)
+  assert.deepEqual(planReviewedCatalogInsert(ids, before, compact), plan)
+  assert.deepEqual(plan.omnibusGroups, [{ isbn: reviews[0].isbn, ownerIds: ids, currentOwnerIds: ids }])
+  const after = committed(before, reviews); let reads = 0
+  const result = await applyReviewedCatalogInsert(null, ids, compact, {
+    capture: async () => ++reads === 1 ? before : after,
+    execute: () => 'CATALOG_INSERT_EXPECTED:' + JSON.stringify(after) + '\nMERGE_COMMITTED',
+  })
+  assert.equal(result.checkedTables, 18); assert.equal(result.insertedParents, 1)
+  assert.deepEqual(after.figure_book_editions.find(row => row.id === 99), before.figure_book_editions[0])
+  for (const table of SNAPSHOT_TABLES.filter(table => !['figure_book_contents', 'figure_book_editions'].includes(table)))
+    assert.deepEqual(after[table], before[table])
+  assert.deepEqual(before, original)
+  assert.notEqual(after.contents[0].metadata.figureBook.workIdentity, after.contents[1].metadata.figureBook.workIdentity)
+  const sql = buildReviewedCatalogInsertSql(ids, before, reviews)
+  assert.match(sql, /omnibus ISBN owner set changed/)
+  assert.match(sql, /'1584653531'/); assert.match(sql, /'9781584653530'/)
+  assert.match(sql, /FROM public.contents WHERE type='BOOK'/)
+  assert.match(sql, /UNION SELECT content_id::text FROM public.content_locales/)
+  assert.match(sql, /UNION SELECT content_id::text FROM public.figure_book_editions/)
+  assert.match(sql, /LOCK TABLE[^;]*public.contents,\s*public.content_locales IN SHARE ROW EXCLUSIVE MODE/)
+  assert.doesNotMatch(sql, /ISBN already registered|UPDATE public.figure_book_editions[^;]*WHERE id=99|DELETE FROM|SET content_id=/)
+})
+
+test('omnibus sharing refuses missing/stale owner proofs, different originals or scope, unsupported official cards and unassigned owners', () => {
+  const changes = [
+    s => { delete s.content_locales[0].sources.work_attribution },
+    s => { delete s.figure_book_editions[0].sources.work_attribution },
+    s => { s.content_locales[0].sources.primary = 'none' },
+    s => { s.figure_book_editions[0].verified = false },
+    s => { s.figure_book_editions[0].sources.provider_edition_url = 'https://publisher.example/edition' },
+    s => { s.contents[1].metadata.figureBook.workIdentity = s.contents[0].metadata.figureBook.workIdentity },
+    s => { s.figure_book_editions[0].text_scope = 'different scope' },
+    s => { s.content_locales.push({ content_id: 'unknown-owner', locale: 'en', isbn: '1584653531' }) },
+  ]
+  for (const field of ['content_id', 'locale', 'isbn', 'work_identity', 'original_title', 'original_creator', 'edition_title',
+    'edition_creator', 'edition_kind', 'text_scope', 'reviewed_at', 'source_url', 'toc_source_url'])
+    for (const place of ['card', 'retained']) changes.push(s => {
+      const row = place === 'card' ? s.content_locales[0] : s.figure_book_editions[0]
+      row.sources.work_attribution[field] = 'different'
+    })
+  for (const place of ['card', 'retained']) {
+    const getProof = s => (place === 'card' ? s.content_locales[0] : s.figure_book_editions[0]).sources.work_attribution
+    changes.push(s => { getProof(s).owner_content_ids = [ids[0]] })
+    changes.push(s => { getProof(s).owner_content_ids.push('unknown-owner') })
+    changes.push(s => { getProof(s).contained_originals.pop() })
+    for (const field of ['work_identity', 'title', 'creator', 'text_scope']) changes.push(s => {
+      getProof(s).contained_originals[1][field] = 'different'
+    })
+  }
+  for (const change of changes) {
+    const { before, reviews } = omnibusFixture(); change(before)
+    assert.throws(() => planReviewedCatalogInsert(ids, before, reviews), /omnibus reviews|wrong primary/)
+  }
+  const { before, reviews } = omnibusFixture()
+  assert.throws(() => planReviewedCatalogInsert([ids[0]], before, reviews), /assigned original/)
+  reviews[0].work_attribution = before.figure_book_editions[0].sources.work_attribution
+  delete before.content_locales[0].sources.work_attribution
+  assert.throws(() => planReviewedCatalogInsert(ids, before, reviews), /omnibus reviews/)
+  const sameOwner = fixture()
+  sameOwner.before.content_locales[1].isbn = sameOwner.reviews[1].isbn = sameOwner.reviews[0].isbn
+  sameOwner.before.content_locales[1].sources.isbn = 'https://search.daum.net/search?w=bookpage&bookId=123'
+  assert.throws(() => planReviewedCatalogInsert(ids, sameOwner.before, sameOwner.reviews), /duplicate locale or ISBN/)
+})
+
+test('omnibus ISBN owner races fail in the transaction and protected or retained-row mutations fail independent readback', async () => {
+  const { before, reviews } = omnibusFixture(), paths = []; let reads = 0, writes = 0
+  await assert.rejects(applyReviewedCatalogInsert(null, ids, reviews, {
+    capture: async () => { reads++; return before }, execute(path) {
+      paths.push(path); writes++
+      const sql = readFileSync(path, 'utf8')
+      assert.ok(sql.indexOf('omnibus ISBN owner set changed') < sql.indexOf('INSERT INTO public.figure_book_contents'))
+      throw Error('CATALOG_INSERT: omnibus ISBN owner set changed')
+    },
+  }), /owner set changed/)
+  assert.equal(reads, 1); assert.equal(writes, 1); assert.ok(paths.every(path => !existsSync(path)))
+  for (const change of [s => { s.celeb_contents[0].review = 'changed' }, s => { s.celeb_contents[0].visibility = 'private' },
+    s => { s.member_contents[0].rating = 1 }, s => { s.figure_book_editions[0].sources.translators = ['wrong translator'] },
+    s => { s.figure_book_editions[0].text_scope = 'changed' }, s => { s.content_locales[3].isbn = '9780140449136' }]) {
+    const after = committed(before, reviews); change(after)
+    assert.throws(() => verifyReviewedCatalogInsertReadback(ids, before, reviews, after), /rows differ/)
+  }
+})
+
 test('independently reviewed pre-ISBN English paper edition binds the actual OpenLibrary M and raw language', async () => {
   const { before, reviews } = englishIsbnlessFixture(), original = structuredClone(before)
   const plan = planReviewedCatalogInsert(ids, before, reviews), compact = compactReviews(before, reviews)
@@ -369,7 +489,7 @@ test('existing editions, duplicate parents and duplicate ISBNs are refused inste
   const { before, reviews } = fixture()
   assert.throws(() => planReviewedCatalogInsert(ids, before, [...reviews, reviews[0]]), /duplicate locale or ISBN/)
   const duplicate = structuredClone(reviews); duplicate[2].isbn = reviews[0].isbn
-  assert.throws(() => planReviewedCatalogInsert(ids, before, duplicate), /duplicate locale or ISBN/)
+  assert.throws(() => planReviewedCatalogInsert(ids, before, duplicate), /duplicate locale or ISBN|live locale/)
 })
 
 test('a reviewed missing language preserves the existing physical edition and its product history exactly', () => {

@@ -5,10 +5,12 @@ import { executeTemporaryMergeSql } from '../merge-works.mjs'
 import { captureCatalogRepairSnapshot } from './guarded-catalog-repairs.mjs'
 import { SNAPSHOT_TABLES, REFERENCE_TABLES, referenceWhere, sqlLiteral } from './merge-work-sql.mjs'
 import { CONTENT_ARRAY_REFERENCES } from './content-array-references.mjs'
-import { toIsbn13 } from '../../../../../packages/content-search/src/book-isbn.ts'
+import { equivalentIsbns, toIsbn13 } from '../../../../../packages/content-search/src/book-isbn.ts'
+import * as editionWorkModule from '../../../src/lib/book-edition-work.ts'
 import { SERVICE_BOOK_EDITION_KINDS, bookTranslatorKey, excludedBookEditionReason, reviewedBookEditionSelectionReason } from '../../../../../packages/content-search/src/book-edition-policy.ts'
 
 const prefix = 'CATALOG_INSERT_EXPECTED:'
+const { verifiedOmnibusIsbn } = editionWorkModule.default ?? editionWorkModule
 const json = value => sqlLiteral(JSON.stringify(value)) + '::jsonb'
 const nullable = value => value === null ? 'NULL' : sqlLiteral(value)
 const nonempty = value => typeof value === 'string' && !!value.trim() && !value.includes('\0')
@@ -91,6 +93,38 @@ function isbnlessPhysicalBinding(review, locale, figure) {
   return { method: proof.method, llmReviewed: true, ...identity,
     providerProductId: proof.providerProductId, providerUrl: proof.providerUrl }
 }
+function snapshotIsbnOwners(snapshot, isbn) {
+  return [...new Set([
+    ...snapshot.contents.filter(row => toIsbn13(row.external_id ?? '') === isbn).map(row => row.id),
+    ...snapshot.content_locales.filter(row => toIsbn13(row.isbn ?? '') === isbn).map(row => row.content_id),
+    ...snapshot.figure_book_editions.filter(row => toIsbn13(row.isbn ?? '') === isbn).map(row => row.content_id),
+  ])].sort()
+}
+function reviewedOmnibusGroups(assigned, snapshot, editions) {
+  const groups = []
+  for (const isbn of new Set(editions.map(row => row.isbn).filter(Boolean))) {
+    const added = editions.filter(row => row.isbn === isbn)
+    const retained = snapshot.figure_book_editions.filter(row => toIsbn13(row.isbn ?? '') === isbn)
+    const currentOwnerIds = snapshotIsbnOwners(snapshot, isbn)
+    const ownerIds = [...new Set([...currentOwnerIds, ...added.map(row => row.content_id)])].sort()
+    if (ownerIds.length < 2) {
+      if (added.length > 1 || retained.length) throw Error('CATALOG_INSERT: duplicate locale or ISBN; existing edition for ISBN')
+      continue
+    }
+    const candidates = [...retained, ...added]
+    const official = candidates.every(row => row.verified === true
+      && row.sources?.primary === (row.locale === 'ko' ? 'kakao_book' : 'openlibrary')
+      && officialBinding(row, isbn)
+      && [row.sources?.work_attribution, ...(Array.isArray(row.sources?.edition_work_evidence) ? row.sources.edition_work_evidence : [])]
+        .some(proof => proof?.method === 'independent_omnibus_review' && publicSource(proof.source_url, true) && publicSource(proof.toc_source_url, true)))
+    if (!ownerIds.every(id => assigned.includes(id)) || !official
+      || !verifiedOmnibusIsbn(isbn, ownerIds, snapshot.contents.filter(row => ownerIds.includes(row.id)),
+        snapshot.content_locales.filter(row => ownerIds.includes(row.content_id)), candidates))
+      throw Error('CATALOG_INSERT: duplicate locale or ISBN; existing edition or ISBN owner requires exact stored independent omnibus reviews for every assigned original')
+    groups.push({ isbn, ownerIds, currentOwnerIds })
+  }
+  return groups
+}
 const where = (table, workIds, alias = 't') => workIds.map(id => '(' + referenceWhere(table, sqlLiteral(id), sqlLiteral(id), alias) + ')').join(' OR ')
 function aggregateCheck(table, workIds, expression) {
   return `IF (SELECT coalesce(jsonb_agg(v ORDER BY v::text),'[]'::jsonb) FROM (SELECT to_jsonb(t) v FROM public.${table} t WHERE ${where(table, workIds)}) a)
@@ -149,12 +183,16 @@ export function bindReviewedCatalogInsertIdentity(snapshot, reviews) {
  * sources.provider_edition_key, provider_language_keys and provider_physical_format retain its raw API values.
  * English must be explicitly among the recorded languages. Microform, audio and digital records cannot
  * stand in for a paper original. A translated display title or missing ISBN alone is never physical evidence.
+ * An existing omnibus ISBN may be shared only when every current owner is assigned and its retained/new
+ * same-ISBN edition already stores an independent_omnibus_review accepted by verifiedOmnibusIsbn.
+ * That server-stored review binds every distinct original, its own scope, and the exact owner set.
+ * This insertion does not patch the retained editions or infer that every item in the book is registered.
  */
 export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
   const assigned = assignedValid(workIds); snapshotValid(snapshot)
   if (!Array.isArray(reviews) || !reviews.length || reviews.length > 200) throw Error('CATALOG_INSERT: explicit source-reviewed editions required')
   if (assigned.some(id => snapshot.contents.filter(row => row.id === id && row.type === 'BOOK').length !== 1)) throw Error('CATALOG_INSERT: existing assigned BOOK missing')
-  const keys = new Set(), isbns = new Set(), parentIds = [...new Set(reviews.map(review => review?.contentId))]
+  const keys = new Set(), parentIds = [...new Set(reviews.map(review => review?.contentId))]
   const editions = reviews.map(input => {
     const review = reviewedSnapshotIdentity(input, snapshot)
     if (input?.useReviewedSnapshotIdentity === true && input.reviewedIdentityHash !== reviewedIdentityHash(review))
@@ -168,18 +206,16 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
     if (isbn !== null && review.isbnlessPhysicalEditionReview !== undefined)
       throw Error('CATALOG_INSERT: ISBN-less physical proof requires an explicitly null ISBN')
     const key = JSON.stringify([review.contentId, review.locale])
-    if (keys.has(key) || isbn !== null && isbns.has(isbn)) throw Error('CATALOG_INSERT: duplicate locale or ISBN in reviews')
-    keys.add(key); if (isbn !== null) isbns.add(isbn)
+    if (keys.has(key)) throw Error('CATALOG_INSERT: duplicate locale or ISBN in reviews')
+    keys.add(key)
     const work = snapshot.contents.find(row => row.id === review.contentId)
     if (snapshot.figure_book_contents.filter(row => row.content_id === review.contentId).length > 1)
       throw Error('CATALOG_INSERT: duplicate existing catalog parents')
     const existingEditions = snapshot.figure_book_editions.filter(row => row.content_id === review.contentId)
-    if (existingEditions.some(row => !['ko', 'en'].includes(row.locale) || row.locale === review.locale)
-      || isbn !== null && snapshot.figure_book_editions.some(row => toIsbn13(row.isbn ?? '') === isbn))
+    if (existingEditions.some(row => !['ko', 'en'].includes(row.locale) || row.locale === review.locale))
       throw Error('CATALOG_INSERT: existing edition for locale or ISBN')
     if (existingEditions.length && !snapshot.figure_book_contents.some(row => row.content_id === review.contentId))
       throw Error('CATALOG_INSERT: existing edition without catalog parent')
-    if (isbn !== null && snapshot.content_locales.some(row => row.content_id !== review.contentId && toIsbn13(row.isbn ?? '') === isbn)) throw Error('CATALOG_INSERT: ISBN already belongs to another assigned work')
     const locales = snapshot.content_locales.filter(row => row.content_id === review.contentId && row.locale === review.locale)
     const locale = locales.length === 1 && locales[0]
     const title = (locale?.sources?.edition_title?.trim() || locale?.title?.trim())
@@ -216,6 +252,7 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
         edition_text_scope_evidence: { isbn, source_url: review.sourceUrl, reason: review.reason } },
     }
   })
+  const omnibusGroups = reviewedOmnibusGroups(assigned, snapshot, editions)
   const newParentIds = parentIds.filter(id => !snapshot.figure_book_contents.some(row => row.content_id === id))
   const existingParentIds = parentIds.filter(id => !newParentIds.includes(id))
   for (const id of newParentIds) for (const locale of snapshot.content_locales.filter(row => row.content_id === id)) {
@@ -225,7 +262,7 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
     const excluded = reviewedBookEditionSelectionReason({...locale,title:locale.sources?.edition_title?.trim()||locale.title?.trim()})
     if (!display && !excluded) throw Error('CATALOG_INSERT: unreviewed locale would be automatically seeded; review every real card first')
   }
-  return { assigned, parentIds, newParentIds, existingParentIds, editions }
+  return { assigned, parentIds, newParentIds, existingParentIds, editions, omnibusGroups }
 }
 
 export function buildReviewedCatalogInsertSql(workIds, snapshot, reviews) {
@@ -239,9 +276,19 @@ UPDATE public.figure_book_editions SET title=${sqlLiteral(row.title)},creator=${
     : `INSERT INTO public.figure_book_editions(${Object.keys(row).join(',')},created_at,updated_at)
 VALUES(${Object.entries(row).map(([key, value]) => key === 'sources' ? json(value) : value === null ? 'NULL' : typeof value === 'boolean' || typeof value === 'number' ? String(value) : sqlLiteral(value)).join(',')},ts,ts) RETURNING id INTO seeded_id;`}
 expected_editions:=expected_editions||jsonb_build_array(${json(row)}||jsonb_build_object('id',seeded_id,'created_at',ts,'updated_at',ts));`).join('\n')
-  const arrayLocks = [...new Set(['figure_book_editions', 'activity_logs', ...CONTENT_ARRAY_REFERENCES.map(ref => ref.table)])]
+  const arrayLocks = [...new Set(['figure_book_editions', 'activity_logs', ...CONTENT_ARRAY_REFERENCES.map(ref => ref.table),
+    ...(plan.omnibusGroups.length ? ['contents', 'content_locales'] : [])])]
   const contentsChildren = REFERENCE_TABLES.map(sqlLiteral).join(',')
-  const realIsbns = plan.editions.filter(row => row.isbn !== null).map(row => sqlLiteral(row.isbn)).join(',')
+  const realIsbns = plan.editions.filter(row => row.isbn !== null && !plan.omnibusGroups.some(group => group.isbn === row.isbn)).map(row => sqlLiteral(row.isbn)).join(',')
+  const omnibusOwnerChecks = plan.omnibusGroups.map(group => {
+    const aliases = equivalentIsbns(group.isbn).map(sqlLiteral).join(',')
+    return `IF (SELECT coalesce(jsonb_agg(owner_id ORDER BY owner_id),'[]'::jsonb) FROM (
+SELECT id::text owner_id FROM public.contents WHERE type='BOOK' AND regexp_replace(upper(coalesce(external_id,'')),'[^0-9X]','','g') IN (${aliases})
+UNION SELECT content_id::text FROM public.content_locales WHERE regexp_replace(upper(coalesce(isbn,'')),'[^0-9X]','','g') IN (${aliases})
+UNION SELECT content_id::text FROM public.figure_book_editions WHERE regexp_replace(upper(coalesce(isbn,'')),'[^0-9X]','','g') IN (${aliases})
+) owners) IS DISTINCT FROM ${json(group.currentOwnerIds)}
+THEN RAISE EXCEPTION 'CATALOG_INSERT: omnibus ISBN owner set changed';END IF;`
+  }).join('\n')
   let delimiter = '$reviewed_catalog_insert$'
   for (let n = 1; JSON.stringify({ snapshot, reviews }).includes(delimiter); n++) delimiter = `$reviewed_catalog_insert_${n}$`
   const selection = `SELECT ${sqlLiteral(prefix)}||jsonb_build_object(${SNAPSHOT_TABLES.map(table => `${sqlLiteral(table)},(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM public.${table} t WHERE ${where(table, plan.assigned)})`).join(',')})::text;`
@@ -267,6 +314,7 @@ OR c.confrelid='public.figure_book_editions'::regclass AND r.relname='figure_boo
 ${realIsbns ? `IF EXISTS(SELECT 1 FROM public.figure_book_editions WHERE isbn IN (${realIsbns}))
 OR EXISTS(SELECT 1 FROM public.content_locales WHERE isbn IN (${realIsbns}) AND content_id NOT IN (${plan.parentIds.map(sqlLiteral).join(',')}))
 THEN RAISE EXCEPTION 'CATALOG_INSERT: ISBN already registered';END IF;` : ''}
+${omnibusOwnerChecks}
 ${parentStatements}
 ${editionStatements}
 ${SNAPSHOT_TABLES.map(table => aggregateCheck(table, plan.assigned, table === 'figure_book_contents' ? 'expected_parents' : table === 'figure_book_editions' ? 'expected_editions' : json(snapshot[table]))).join('\n')}
