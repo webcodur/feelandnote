@@ -50,7 +50,7 @@ export async function searchFactions({ query, page = 1, limit = 20 }: {
   const needle = normalize(query.trim())
   if (!needle) return { items: [], total: 0, hasMore: false }
   const locale = await getLocale()
-  const rows = await cachedList(CACHE_TAGS.FACTIONS, ['faction-search-index-v1'], fetchSearchIndex)
+  const rows = await cachedList(CACHE_TAGS.FACTIONS, ['faction-search-index-v2-double-approval'], fetchSearchIndex)
   const names = (row: FactionSearchRow) => [row.name, row.name_en, row.slug].filter(Boolean).map((name) => normalize(name!))
   const rank = (row: FactionSearchRow) => names(row).some((name) => name === needle) ? 0
     : names(row).some((name) => name.startsWith(needle)) ? 1 : 2

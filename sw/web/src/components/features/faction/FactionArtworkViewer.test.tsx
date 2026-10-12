@@ -22,8 +22,8 @@ test("문장 쪽은 대사를 나누지 않고 원문의 개행과 문장 사이
   assert.equal(pages[2].text, '오디세우스: "집으로 가겠다. 기다려라!"');
 });
 
-test("페이지 번역으로 교체된 전체 스토리 DOM은 문장·장면·표시 모드·엔딩 이동 뒤에도 유지된다", async () => {
-  const output = await build({
+async function buildViewerFixture() {
+  return build({
     absWorkingDir: fileURLToPath(new URL("../../../../", import.meta.url)),
     tsconfig: fileURLToPath(new URL("../../../../tsconfig.json", import.meta.url)),
     stdin: {
@@ -33,12 +33,12 @@ test("페이지 번역으로 교체된 전체 스토리 DOM은 문장·장면·�
         import { createRoot } from 'react-dom/client';
         import Viewer from './FactionArtworkViewer';
         const pixel = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"/>');
-        const images = [
+        const images = window.fixtureImages ?? [
           { url: pixel + '#cover', label: '표지', kind: 'scene', caption: '이야기를 시작한다.' },
           { url: pixel + '#one', label: '첫 장면', kind: 'scene', caption: '먼 길을 떠났다. 바다를 건넜다.\\n오디세우스: "집으로 가겠다."' },
           { url: pixel + '#two', label: '둘째 장면', kind: 'scene', caption: '고향에 도착했다.', ending: { title: '그 후의 이야기', text: '마침내 집으로 돌아왔다.' } },
         ];
-        createRoot(document.getElementById('root')).render(<Viewer images={images} title="이야기" initialIndex={1} onClose={() => {}} />);
+        createRoot(document.getElementById('root')).render(<Viewer images={images} title="이야기" initialIndex={window.fixtureInitialIndex ?? 1} onClose={() => { window.viewerClosed = true; }} />);
       `,
     },
     bundle: true, write: false, platform: "browser", format: "iife", jsx: "automatic", loader: { ".css": "empty" },
@@ -61,6 +61,10 @@ test("페이지 번역으로 교체된 전체 스토리 DOM은 문장·장면·�
       },
     }],
   });
+}
+
+test("페이지 번역으로 교체된 전체 스토리 DOM은 문장·장면·표시 모드·엔딩 이동 뒤에도 유지된다", async () => {
+  const output = await buildViewerFixture();
   const browser = await puppeteer.launch({ headless: true });
   try {
     const page = await browser.newPage();
@@ -132,4 +136,53 @@ test("페이지 번역으로 교체된 전체 스토리 DOM은 문장·장면·�
   } finally {
     await browser.close();
   }
+});
+
+test('story boundaries work through caption pages, buttons, keyboard and the scene navigator on desktop and mobile', async () => {
+  const output = await buildViewerFixture();
+  const browser = await puppeteer.launch({ headless: true });
+  try {
+    for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+      const page = await browser.newPage();
+      await page.setViewport(viewport);
+      const errors: string[] = [];
+      page.on('pageerror', error => errors.push(String(error)));
+      await page.setContent('<html><body><div id="root"></div></body></html>');
+      await page.evaluate(() => {
+        const pixel = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800"/>');
+        Object.assign(window, { fixtureInitialIndex: 0, fixtureImages: [
+          { url: pixel + '#a', kind: 'scene', label: 'A scene', caption: '첫 문장. 다음 문장.', opening: { title: 'A', text: '첫 이야기.' }, ending: { title: 'A ending', text: '첫 이야기 마무리.' } },
+          { url: pixel + '#b', kind: 'scene', label: 'B scene', caption: '둘째 이야기.', opening: { title: 'B', text: '둘째 이야기 도입.' }, ending: { title: 'B ending', text: '둘째 이야기 마무리.' } },
+        ] });
+      });
+      await page.addScriptTag({ content: output.outputFiles[0].text });
+      await page.waitForSelector('[data-scene-caption-counter]');
+      assert.equal(await page.$$eval('[data-scene-opening]', nodes => nodes.length), 0);
+      const advance = async () => {
+        await page.evaluate(() => (document.querySelector('[data-scene-opening]:not([aria-hidden]) [data-story-continue], [data-scene-ending]:not([aria-hidden]) [data-story-continue]') as HTMLElement).click());
+        await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
+      };
+      await page.keyboard.press('ArrowRight');
+      await page.waitForFunction(() => document.querySelector('[data-scene-caption-counter]')?.textContent?.includes('2 / 2'));
+      await page.keyboard.press('ArrowRight');
+      await page.waitForSelector('[data-scene-ending]:not([aria-hidden])');
+      await advance();
+      await page.waitForFunction(() => document.querySelector('[data-scene-counter]')?.textContent?.includes('3 / 4'));
+      await page.keyboard.press('ArrowRight');
+      await page.waitForFunction(() => document.querySelector('[data-scene-ending]:not([aria-hidden]) h3')?.textContent === 'B ending');
+      await page.keyboard.press('ArrowLeft');
+      await page.waitForFunction(() => document.querySelector('[data-scene-counter]')?.textContent?.includes('3 / 4'));
+      await page.evaluate(() => (document.querySelector('[data-scene-title]') as HTMLElement).click());
+      await page.waitForSelector('[data-scene-navigator]');
+      assert.equal(await page.$$eval('[data-opening-jump]', nodes => nodes.length), 2);
+      assert.equal(await page.$$eval('[data-ending-jump]', nodes => nodes.length), 2);
+      await page.evaluate(() => (document.querySelector('[data-scene-jump="1"]') as HTMLElement).click());
+      await page.waitForFunction(() => document.querySelector('[data-scene-counter]')?.textContent?.includes('1 / 4'));
+      await page.keyboard.press('End');
+      await advance();
+      assert.equal(await page.evaluate(() => (window as unknown as { viewerClosed?: boolean }).viewerClosed), true);
+      assert.deepEqual(errors, []);
+      await page.close();
+    }
+  } finally { await browser.close(); }
 });

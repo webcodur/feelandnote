@@ -145,6 +145,8 @@ const CELEB_FILES = new Set([
   'sw/web/src/lib/books/professionBookGuides.ts',
   // 소속 자료는 인물 상세의 소속 세력 구획에서도 읽는다.
   'sw/web/src/actions/home/getFeaturedFactions.ts',
+  // 공통 배정 조회는 getFeaturedFactions를 통해 인물 상세의 소속 명단도 바꾼다.
+  'sw/web/src/lib/faction-members.ts',
   // getCelebFactionBooks가 개인 책장의 소속 도서를 이 헬퍼로 채운다.
   'sw/web/src/actions/home/factionBookHydrate.ts',
   'sw/web/src/actions/home/getFactionFigureBooks.ts',
@@ -313,12 +315,22 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/actions/policy/getAboutShowcase.ts',
   // 현재 런타임 소비자가 없는 공개 액션. 판본 자료 자체의 소비자는 위에서 판정한다.
   'sw/web/src/actions/home/getFactionSharedLibrary.ts',
+  // 소개문은 도감 모달의 클라이언트 요청에서만 읽으며, 연대기 서고는 현재 소비 화면이 없다.
+  'sw/web/src/actions/home/getFactionLongDescs.ts',
+  'sw/web/src/actions/home/getFactionChronologicalLibrary.ts',
+  // 팩션 검색은 HeaderSearch가 입력 뒤 호출하는 서버 액션이다.
+  'sw/web/src/actions/search/searchFactions.ts',
   // 이 모달과 감상 구획은 세력 화면에서만 연다.
   'sw/web/src/components/features/faction/entry/FactionMemberModal.tsx',
   'sw/web/src/components/features/faction/entry/FactionPersonReviews.tsx',
   // 신화·세력도감의 장면/인물 뷰어만 소비한다. 이 화면들은 앞단 HTML 캐시 대상이 아니다.
   'sw/web/src/components/features/faction/FactionArtworkViewer.tsx',
   'sw/web/src/components/features/faction/FactionSceneNavigator.tsx',
+  'sw/web/src/components/features/faction/FactionStoryCards.tsx',
+  'sw/web/src/components/features/faction/artworkSlides.ts',
+  'sw/web/src/lib/faction-sections.ts',
+  'sw/web/src/lib/faction-theme.ts',
+  'packages/shared/src/lib/faction-team-image.ts',
   'sw/web/src/components/features/faction/FactionStoryGuide.tsx',
   'sw/web/src/components/features/faction/storyBoundaries.ts',
   // 도서 차트·구매 실험·본문 실험 화면은 앞단 보관 대상이 아니다.

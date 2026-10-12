@@ -31,7 +31,7 @@ export interface Myth {
   scenesComplete?: boolean;
   /** 지역(faction_lv1) id. 어느 지역에도 못 걸리면 "other" */
   regionId: string;
-  images: Array<{ url: string; label: string | null; caption?: string | null; kind?: 'scene'; ending?: LocalizedSceneEnding }>;
+  images: Array<{ url: string; label: string | null; caption?: string | null; kind?: 'scene'; opening?: LocalizedSceneEnding; ending?: LocalizedSceneEnding }>;
   /** 이 신화의 테마곡 */
   music: FactionMusic | null;
   personIds: string[];
