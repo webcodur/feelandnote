@@ -6,7 +6,7 @@ import {runProcess,executeTemporaryMergeSql,checkFixedReferences} from '../merge
 import {SNAPSHOT_TABLES,REFERENCE_TABLES,hasArrayReference,referenceWhere,sqlLiteral} from './merge-work-sql.mjs'
 import {CONTENT_ARRAY_REFERENCES} from './content-array-references.mjs'
 import {toIsbn13} from '../../../../../packages/content-search/src/book-isbn.ts'
-import {excludedBookEditionReason,reviewedBookEditionSelectionReason,bookTranslatorKey,BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH} from '../../../../../packages/content-search/src/book-edition-policy.ts'
+import {excludedBookEditionReason,reviewedBookEditionSelectionReason,reviewedBookWorkSelectionReason,bookTranslatorKey,BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH} from '../../../../../packages/content-search/src/book-edition-policy.ts'
 import {isBookIntroductionSource} from '../../../../../packages/content-search/src/book-introduction-contract.ts'
 import researchIntroductionContract from '../../contents/book-research-introduction-contract.ts'
 const {researchIntroductionText}=researchIntroductionContract
@@ -61,6 +61,11 @@ function preventNewArchiveCopies(table,before,patch){
   if(next!==undefined&&!isDeepStrictEqual(previous,next))throw Error('Catalog patch must not create or restore research archives: '+path.join('.'))
  }
  if(table==='contents'){
+  const oldSelection=before.metadata?.figureBook?.workSelectionEvidence,newSelection=after.metadata?.figureBook?.workSelectionEvidence
+  if(newSelection!==undefined&&!isDeepStrictEqual(oldSelection,newSelection)
+   &&(!Array.isArray(newSelection)||newSelection.some(proof=>!reviewedBookWorkSelectionReason({contentId:before.id,
+    metadata:{...after.metadata,figureBook:{...after.metadata.figureBook,workSelectionEvidence:[proof]}}}))))
+   throw Error('Work selection evidence requires exact reviewed original identity and independent source')
   const previous=before.metadata?.figureBook?.foreignEditions,next=after.metadata?.figureBook?.foreignEditions
   if(Array.isArray(next))for(const [index,edition] of next.entries())for(const key of ['originalLocale','originalEdition']){
    if(edition?.[key]!==undefined&&!isDeepStrictEqual(Array.isArray(previous)?previous[index]?.[key]:undefined,edition[key]))

@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
 import { AFFILIATE_PLATFORMS, type AffiliateLink } from "@/constants/affiliatePlatforms";
-import { getBookPurchaseLinks } from "@/lib/books/bookPurchaseLinks";
+import { getBookPurchaseLinks, type BookPurchaseOptions } from "@/lib/books/bookPurchaseLinks";
 import PurchaseOpener from "./PurchaseOpener";
 import { trackEvent } from "@/lib/analytics/track";
 import { cn } from "@/lib/utils";
@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 // 서점 선택창과 판매 정보 조회는 버튼을 누를 때만 불러온다.
 const BookPurchaseModal = dynamic(() => import("./BookPurchaseModal"), { ssr: false });
 
-interface BookPurchaseSummaryProps {
+interface BookPurchaseSummaryProps extends Pick<BookPurchaseOptions, 'metadata' | 'sources' | 'bookPurchaseBlocked' | 'editionKind' | 'textScope' | 'publisher' | 'releaseDate'> {
   /** 구매 대상 판본의 언어. 화면 언어가 달라도 같은 판본으로 연결한다. */
   bookLocale?: 'ko' | 'en';
   /** 우리 작품 — YES24 경유 주소와 판매 정보를 얻는다 */
@@ -54,6 +54,13 @@ export default function BookPurchaseSummary({
   full = true,
   className,
   chipClassName,
+  metadata,
+  sources,
+  bookPurchaseBlocked,
+  editionKind,
+  textScope,
+  publisher,
+  releaseDate,
 }: BookPurchaseSummaryProps) {
   const displayLocale = useLocale();
   const locale = bookLocale ?? displayLocale;
@@ -64,7 +71,9 @@ export default function BookPurchaseSummary({
 
   const links = useMemo(() => enabled ? getBookPurchaseLinks({
     locale, contentId, editionId, isbn, title, creator, links: existingLinks, yes24Href,
-  }) : [], [enabled, existingLinks, locale, yes24Href, contentId, editionId, isbn, title, creator]);
+    metadata, sources, bookPurchaseBlocked, editionKind, textScope, publisher, releaseDate,
+  }) : [], [enabled, existingLinks, locale, yes24Href, contentId, editionId, isbn, title, creator,
+    metadata, sources, bookPurchaseBlocked, editionKind, textScope, publisher, releaseDate]);
 
   if (!enabled || !links.length) return null;
 

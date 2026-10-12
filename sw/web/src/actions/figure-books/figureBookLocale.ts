@@ -31,6 +31,8 @@ export interface FigureBookEdition {
   locale?: 'ko' | 'en'
   /** 원래 locale의 실제 ISBN과 출처가 이 판본에 맞는 기존 링크만 보존한다. */
   affiliateLinks?: AffiliateLink[]
+  /** 현재 판본의 출처와 ISBN별 선정 근거. 구매 조회에서도 같은 판정을 쓴다. */
+  sources?: unknown
   title: string
   creator: string | null
   description: string | null
@@ -149,6 +151,7 @@ export function mapFigureBookEditions(
         title: decodeHtmlEntities(row.title),
         creator: row.creator,
         description: row.description,
+        sources: row.sources,
         isbn: row.isbn,
         publisher: row.publisher,
         translator: translators.length ? translators.join(', ') : null,
@@ -186,7 +189,13 @@ export function attachFigureBookLocaleLinks<T extends FigureBookEdition>(edition
       try { const url = new URL(link.url); return ['http:', 'https:'].includes(url.protocol) && !url.username && !url.password }
       catch { return false }
     }) : []
-  return { ...edition, affiliateLinks: links }
+  const editionSources = edition.sources && typeof edition.sources === 'object' && !Array.isArray(edition.sources)
+    ? edition.sources as Record<string, unknown> : {}
+  const ownEvidence = Array.isArray(editionSources.edition_selection_evidence) ? editionSources.edition_selection_evidence : []
+  const cardEvidence = row.locale === edition.locale && row.title === edition.title && isbn && typeof row.isbn === 'string' && toIsbn13(row.isbn) === isbn
+    && Array.isArray(sources.edition_selection_evidence) ? sources.edition_selection_evidence : []
+  return { ...edition, affiliateLinks: links, sources: cardEvidence.length
+    ? { ...editionSources, edition_selection_evidence: [...ownEvidence, ...cardEvidence] } : edition.sources }
 }
 
 /** 추가 판본 선택지는 확인된 원문·번역 키가 있어야 한다. */
@@ -227,8 +236,12 @@ export function mergeFigureBookEditions(
   crossPublisherSameBook = false,
   series?: unknown,
   workTitles: readonly string[] = [],
+  localeCards: readonly { content_id: string; locale: string; title: string | null; isbn?: string | null; sources?: unknown }[] = [],
 ): FigureBookEdition[] {
+  const excludedCardIsbns = new Set(localeCards.filter(card => excludedBookEditionReason(card))
+    .flatMap(card => card.isbn && toIsbn13(card.isbn) ? [`${card.content_id}|${card.locale}|${toIsbn13(card.isbn)}`] : []))
   const allowed = (row: FigureBookEditionRow | FigureBookPurchaseOptionRow) => !excludedBookEditionReason({...row,workTitles,reviewedSeries:!!(series && typeof series==='object' && 'sourceUrl' in series && /^https:\/\//u.test(String(series.sourceUrl))),editionKind:row.edition_kind,textScope:row.text_scope})
+    && !(row.isbn && excludedCardIsbns.has(`${row.content_id}|${row.locale}|${toIsbn13(row.isbn)}`))
   const blockedIds = new Set(rows.filter(row => !allowed(row)).map(row => row.id))
   rows = rows.filter(allowed)
   options = options.filter(row => allowed(row) && !blockedIds.has(row.edition_id))

@@ -9,6 +9,22 @@ import {
   type FigureBookPurchaseOptionRow,
 } from './figureBookLocale'
 
+test('언어 카드에만 남은 ISBN별 선정 근거는 동일 상품을 막고 다른 역자·언어 상품을 보존한다', () => {
+  const proof = { method: 'independent_selection_review', content_id: BASE_ROW.content_id, isbn: BASE_ROW.isbn, locale: 'ko',
+    edition_title: BASE_ROW.title, reason: 'editorial_exclusion', source_url: 'https://publisher.example/exact-edition',
+    explanation: '운영자가 해당 실제 판본을 선정에서 제외했으며, 다른 역자의 정상 번역은 계속 안내한다.' }
+  const card = { content_id: BASE_ROW.content_id, locale: 'ko', title: BASE_ROW.title, isbn: BASE_ROW.isbn,
+    sources: { edition_selection_evidence: [proof] } }
+  const normal: FigureBookEditionRow = { ...BASE_ROW, id: 8, isbn: '9788937460012', sources: { translators: ['다른 역자'] } }
+  const excluded: FigureBookEditionRow = { ...BASE_ROW, id: 7, sources: { translators: ['선정 제외 역자'] } }
+  const before = structuredClone([excluded, normal, card])
+  assert.deepEqual(mergeFigureBookEditions([excluded, normal], [BASE_ROW], 'ko', false, false, undefined, [], [card]).map(row => row.id), [8])
+  assert.deepEqual(mergeFigureBookEditions([{ ...excluded, locale: 'en' }], [], 'en', false, false, undefined, [], [card]).map(row => row.id), [7])
+  assert.deepEqual([excluded, normal, card], before)
+  const stale = { ...card, title: '검수 이후 바뀐 제목' }
+  assert.equal(mergeFigureBookEditions([excluded], [BASE_ROW], 'ko', false, false, undefined, [], [stale])[0].id, 7)
+})
+
 const BASE_ROW: FigureBookPurchaseOptionRow = {
   edition_id: 7,
   content_id: 'work-1',

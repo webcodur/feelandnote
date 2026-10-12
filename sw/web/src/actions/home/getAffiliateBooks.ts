@@ -12,7 +12,7 @@ import { getEnglishBookAmazonUrl } from '@/lib/books/amazonBookSearch'
 import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
 import { isDisplayTitleRow } from '@/lib/utils/content-locale'
 import { resolveBookShelfBook } from '@/lib/books/bookShelf'
-import { excludedBookEditionReason } from '@feelandnote/content-search/book-edition-policy'
+import { excludedBookEditionReason, reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
 import type { ContentLocaleRow } from '@/lib/utils/content-locale'
 import { findAffiliateLink } from './affiliateLinks'
 import {
@@ -44,6 +44,11 @@ export interface AffiliateBook {
   /** 외부 차트 항목이 이미 가진 소개문·서지 — 우리 DB에 없어 카드의 소개 모달이 이 값을 바로 띄운다 */
   description?: string | null
   metadata?: import('@/types/content').ContentMetadata | null
+  sources?: unknown
+  editionKind?: string | null
+  textScope?: string | null
+  publisher?: string | null
+  releaseDate?: string | null
 }
 
 /** 인물 화면에서 이 목록을 무엇으로 골랐는지 — 안내 문구를 갈아끼우는 데 쓴다. */
@@ -61,7 +66,7 @@ interface LocaleRow {
   affiliate_url: unknown
   /** 표시용 제목 행 판정에 쓴다 — 그 언어 판본이 없는 책은 서점으로 잇지 않는다 */
   sources: unknown
-  contents: { user_count: number | null } | null
+  contents: { user_count: number | null; metadata?: Record<string, unknown> | null } | null
 }
 
 interface PoolEntry {
@@ -73,7 +78,7 @@ interface PoolEntry {
 
 interface SourceContentCountRow {
   content_id: string
-  contents: { record_count: number | null; content_locales: ContentLocaleRow[] | null } | null
+  contents: { record_count: number | null; metadata?: Record<string, unknown> | null; content_locales: ContentLocaleRow[] | null } | null
 }
 
 /**
@@ -87,11 +92,11 @@ const MODERN_BORN_FROM = '1950-01-01'
 async function fetchAffiliatePool(locale: AffiliateBookLocale, contentIds: string[]): Promise<PoolEntry[]> {
   if (contentIds.length === 0) return []
   const db = createStaticClient()
-  const bookSelect = 'content_id, title, creator, thumbnail_url, isbn, affiliate_url, sources, contents!inner(user_count:record_count, type)'
+  const bookSelect = 'content_id, title, creator, thumbnail_url, isbn, affiliate_url, sources, contents!inner(user_count:record_count, type, metadata)'
   const ids = [...new Set(contentIds)].filter(id => !RECOMMENDATION_EXCLUDED_IDS.includes(id))
   const [sourceRows, rows] = await Promise.all([
     selectInChunks<SourceContentCountRow>(ids, chunk => db.from('figure_book_contents')
-      .select('content_id,contents!inner(record_count,content_locales(locale,title,creator,thumbnail_url,isbn,affiliate_url,sources))')
+      .select('content_id,contents!inner(record_count,metadata,content_locales(locale,title,creator,thumbnail_url,isbn,affiliate_url,sources))')
       .in('content_id', chunk).order('content_id').overrideTypes<SourceContentCountRow[], { merge: false }>()),
     selectInChunks<LocaleRow>(ids, chunk => db.from('content_locales').select(bookSelect)
       .eq('locale', locale).eq('contents.type', 'BOOK').in('content_id', chunk)
@@ -111,12 +116,13 @@ async function buildAffiliatePool(locale: AffiliateBookLocale, sourceRows: Sourc
     row.contents?.record_count ?? 0,
   ]))
   const sourceLocalesById = new Map(sourceRows.map((row) => [row.content_id, row.contents?.content_locales ?? []]))
+  const sourceMetadataById = new Map(sourceRows.map((row) => [row.content_id, row.contents?.metadata]))
 
   // 원전 작품 — 작품마다 대표 판본 하나만 쓴다. 인물 원전 책장에서는 모든 판본을 보여준다.
   const editionsByContent = await loadFigureBookEditions(db, [...sourceIds], locale)
   for (const [contentId, editions] of editionsByContent) {
     if (seen.has(contentId)) continue
-    const book = resolveBookShelfBook({ id: contentId, type: 'BOOK', content_locales: sourceLocalesById.get(contentId) ?? [] }, editions, locale, undefined, false)
+    const book = resolveBookShelfBook({ id: contentId, type: 'BOOK', metadata: sourceMetadataById.get(contentId), content_locales: sourceLocalesById.get(contentId) ?? [] }, editions, locale, undefined, false)
     if (!book) continue
     // 한국어는 ISBN이나 쿠팡 상품 중 하나는 있어야 서점 상품으로 잇는다
     if (locale === 'ko' ? !normalizePurchaseIsbn(book.isbn) && !book.url : !book.url) continue
@@ -132,6 +138,7 @@ async function buildAffiliatePool(locale: AffiliateBookLocale, sourceRows: Sourc
     // 절판은 제휴 링크 유무와 무관하게 후보에서 뺀다.
     const outOfPrint = (row.sources as { availability?: unknown } | null | undefined)?.availability === 'out_of_print'
     if (seen.has(row.content_id) || sourceIds.has(row.content_id) || !row.title || isDisplayTitleRow(row.sources) || outOfPrint
+      || reviewedBookWorkSelectionReason({ contentId: row.content_id, metadata: row.contents?.metadata })
       || excludedBookEditionReason({...row,locale})) continue
     const url = locale === 'en'
       ? getEnglishBookAmazonUrl({ title: row.title, creator: row.creator, url: findAffiliateLink(row.affiliate_url, 'amazon')?.url })
@@ -144,7 +151,7 @@ async function buildAffiliatePool(locale: AffiliateBookLocale, sourceRows: Sourc
         title: row.title,
         creator: row.creator ?? undefined,
         thumbnail: row.thumbnail_url ?? undefined,
-        url,
+        url, isbn: row.isbn ?? undefined, sources: row.sources, metadata: row.contents?.metadata,
       },
       userCount: row.contents?.user_count ?? 0,
       modernCount: 0,
@@ -214,7 +221,7 @@ async function countModernReaders(contentIds: string[]): Promise<Map<string, num
   return counts
 }
 
-const fetchScopedAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, ['affiliate-pool-scoped-v6-edition-policy'], {
+const fetchScopedAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, ['affiliate-pool-scoped-v7-work-selection'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CELEBS],
 })
@@ -367,7 +374,7 @@ async function getAffiliateBooksForCelebInner(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['affiliate-books-celeb-v13-edition-policy', celebId, locale, String(limit), excluded ? exclusionFingerprint([...excluded]) : ''],
+    ['affiliate-books-celeb-v14-work-selection', celebId, locale, String(limit), excluded ? exclusionFingerprint([...excluded]) : ''],
     () => fetchAffiliateBooksForCeleb({ origins, read, peers }, limit, pool, excluded),
     // 수명은 기본값(1주)을 쓴다. 위 풀과 같은 이유다 — 인물 상세 초기 렌더가 이 결과를
     // 쓰므로 짧게 두면 페이지 한 장의 수명이 함께 내려간다. 상품이 바뀌면 아래 태그로 비워진다.

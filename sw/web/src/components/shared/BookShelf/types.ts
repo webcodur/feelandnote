@@ -26,6 +26,9 @@ export interface BookShelfBook {
   publisher?: string | null
   releaseDate?: string | null
   affiliateLinks?: AffiliateLink[]
+  metadata?: Record<string, unknown> | null
+  sources?: unknown
+  bookPurchaseBlocked?: boolean
   /** 판본과 소개를 이미 조회한 책은 선택할 때 다시 조회하지 않는다. */
   detailsLoaded?: boolean
   /** 직군 추천을 실제로 만든 감상자. 그 밖의 독자를 추천 근거로 섞지 않는다. */
@@ -92,6 +95,7 @@ export function affiliateBookToShelfBook(book: AffiliateBook): BookShelfBook {
     thumbnailUrl: book.thumbnail ?? null, titleBadge: book.titleBadge,
     preferredEditionId: book.editionId, isbn: book.isbn,
     editions: [], description: book.description,
+    metadata: book.metadata as Record<string, unknown> | null | undefined, sources: book.sources,
     readerIds: book.readerIds,
     professionCategory: book.professionCategory,
     selectionReason: book.selectionReason,

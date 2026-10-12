@@ -1,6 +1,7 @@
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { selectBookIntroduction } from '@/lib/utils/book-description'
 import type { createStaticClient } from '@/lib/db/static'
+import { reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
 import {
   getFigureBookPurchasePlatform,
   attachFigureBookLocaleLinks,
@@ -48,9 +49,9 @@ export async function loadFigureBookEditions(
       .from('content_locales')
       .select('content_id,locale,title,isbn,affiliate_url,sources')
       .in('content_id', ids)),
-    selectInChunks<{ id: string; figureBook: { series?: unknown; workTitle?: string; originalTitle?: string } | null }>(contentIds, (ids) => db
+    selectInChunks<{ id: string; metadata: { figureBook?: { series?: unknown; workTitle?: string; originalTitle?: string; [key: string]: unknown } } | null }>(contentIds, (ids) => db
       .from('contents')
-      .select('id,figureBook:metadata->figureBook')
+      .select('id,metadata')
       .in('id', ids)),
   ])
 
@@ -58,12 +59,20 @@ export async function loadFigureBookEditions(
   for (const row of rows) rowsByContent.set(row.content_id, [...(rowsByContent.get(row.content_id) ?? []), row])
   const optionsByContent = new Map<string, FigureBookPurchaseOptionRow[]>()
   for (const option of options) optionsByContent.set(option.content_id, [...(optionsByContent.get(option.content_id) ?? []), option])
+  const worksById = new Map(works.map(work => [work.id, work]))
+  // 판본이 없는 작품도 명시적으로 막아 언어 카드 fallback으로 되살아나지 않게 한다.
+  for (const work of works) {
+    if (reviewedBookWorkSelectionReason({ contentId: work.id, metadata: work.metadata })) byContent.set(work.id, [])
+  }
 
   for (const contentId of new Set([...rowsByContent.keys(), ...optionsByContent.keys()])) {
-    const isOriginalLocaleWork = isFigureBookOriginalLocale(works.find(work => work.id === contentId)?.figureBook, locale)
+    if (byContent.has(contentId)) continue
+    const figureBook = worksById.get(contentId)?.metadata?.figureBook
+    const isOriginalLocaleWork = isFigureBookOriginalLocale(figureBook, locale)
     const editions = mergeFigureBookEditions(rowsByContent.get(contentId) ?? [], optionsByContent.get(contentId) ?? [], locale, includeAll, isOriginalLocaleWork,
-      works.find(work => work.id === contentId)?.figureBook?.series,
-      [works.find(work => work.id === contentId)?.figureBook?.workTitle,works.find(work => work.id === contentId)?.figureBook?.originalTitle].filter((value): value is string => typeof value==='string'))
+      figureBook?.series,
+      [figureBook?.workTitle, figureBook?.originalTitle].filter((value): value is string => typeof value === 'string'),
+      cards)
     // 빈 배열도 남긴다. 시작권 없는 시리즈를 locale의 중간 권 정보로 되살리지 않는다.
     byContent.set(contentId, editions.map((edition) => ({
       ...attachFigureBookLocaleLinks(edition, cards.find(card => card.content_id === contentId && card.locale === locale)),

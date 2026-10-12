@@ -173,6 +173,7 @@ export function purchaseAffiliation(link: AffiliateLink): 'affiliate' | 'ordinar
     const url = new URL(link.url, 'https://feelandnote.local')
     if (link.url.startsWith('/api/books/purchase/')) {
       const seller = url.searchParams.get('seller') ?? 'yes24'
+      if (seller === 'amazon') return 'affiliate'
       if (seller === 'kyobo' || (seller === 'coupang' && LINKPRICE_COUPANG_APPROVED)) return 'affiliate'
       return seller === 'yes24' ? 'unknown' : 'ordinary'
     }

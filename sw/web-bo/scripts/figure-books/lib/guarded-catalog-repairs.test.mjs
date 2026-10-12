@@ -11,6 +11,20 @@ const snapshot=()=>({...Object.fromEntries(SNAPSHOT_TABLES.map(table=>[table,[]]
  member_contents:[{id:'reading',content_id:'work',review:'Human review',rating:5}],faction_lv2:[{id:'theme',theme_book_ids:['other','work']}]})
 const change=data=>({table:'contents',before:data.contents[0],patch:{metadata:{figureBook:{workTitle:'Confirmed Title'}},external_id:'confirmed'}})
 
+test('ISBN 없는 작품 선정 판정은 감상·locale·curated 원행을 바꾸지 않고 현재 원작에 묶인다',()=>{
+ const data=snapshot(),before=data.contents[0]
+ before.metadata.figureBook.workCreator='Actual writer'
+ data.figure_book_editions=[]
+ data.celeb_contents=[{id:'actual-reading',content_id:'work',review:'Original protected prose',source_url:'https://interview.example/reading',visibility:'public'}]
+ const proof={method:'independent_work_selection_review',content_id:'work',work_title:'Title',work_creator:'Actual writer',reason:'children_picture',
+  source_url:'https://publisher.example/actual-book',explanation:'The LLM read the original book and confirmed this is an early primary picture book.'}
+ const metadata={figureBook:{...before.metadata.figureBook,workSelectionEvidence:[proof]}}
+ const plan=planGuardedCatalogRepairs(['work'],data,[{table:'contents',before,patch:{metadata}}])
+ for(const table of SNAPSHOT_TABLES.filter(table=>table!=='contents'))assert.deepEqual(plan.expected[table],data[table],table)
+ for(const bad of [{content_id:'different'},{work_title:'Other original'},{reason:'wrong_locale'},{source_url:'https://openlibrary.org/books/OL1M'}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:'contents',before,patch:{metadata:{figureBook:{...metadata.figureBook,workSelectionEvidence:[{...proof,...bad}]}}}}]),/Work selection evidence/)
+})
+
 const figureSnapshot=()=>{
  const data=snapshot()
  for(const row of [...data.content_locales,...data.figure_book_editions])Object.assign(row,{isbn:'9780140449136',creator:'Actual Writer',sources:{primary:'openlibrary'}})

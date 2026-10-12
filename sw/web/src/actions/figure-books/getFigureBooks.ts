@@ -15,6 +15,7 @@ import { toAffiliateLinks, type AffiliateLink } from '@/constants/affiliatePlatf
 import type { ContentType } from '@/types/database'
 import { selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import { isDeveloperMode } from '@/lib/developer-mode'
+import { excludedBookEditionReason, reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
 import {
   getFigureBookPurchasePlatform,
   attachFigureBookLocaleLinks,
@@ -62,6 +63,9 @@ export interface FigureBookContent {
   creatorNames?: string[]
   /** 작품에 실린 서점 링크 — 구매 모듈이 쿠팡 상품 링크에 이어 붙여 서점 마커를 채운다 */
   affiliateLinks?: AffiliateLink[]
+  metadata?: Record<string, unknown> | null
+  sources?: unknown
+  bookPurchaseBlocked?: boolean
 }
 
 export interface FigureBookCharacter {
@@ -87,6 +91,7 @@ interface ContentRow {
     series?: unknown
     originalLanguage?: string
     identityEvidence?: string
+    workSelectionEvidence?: unknown
   } | null
   content_locales: ContentLocaleRow[] | null
 }
@@ -175,6 +180,7 @@ async function fetchSourcesByCeleb(
   const sources = assignments.flatMap((assignment): FigureBookContent[] => {
     const content = contentById.get(assignment.content_id)
     if (!content) return []
+    if (content.type === 'BOOK' && reviewedBookWorkSelectionReason({ contentId: content.id, metadata: { figureBook: content.figureBook } })) return []
 
     const isOriginalLocaleWork = isFigureBookOriginalLocale(content.figureBook, locale)
     const editions = mergeFigureBookEditions(
@@ -185,6 +191,7 @@ async function fetchSourcesByCeleb(
       isOriginalLocaleWork,
       content.figureBook?.series,
       [content.figureBook?.workTitle,content.figureBook?.originalTitle].filter((value): value is string => typeof value==='string'),
+      (content.content_locales ?? []).map(card => ({ ...card, content_id: content.id })),
     )
     // 인물의 등장·연관 도서는 요청 언어 판본이 없어도 관계 자체를 보여준다.
     // 창작 목록은 기존대로 해당 언어의 작품 메타가 있을 때만 판본 없이 허용한다.
@@ -195,6 +202,7 @@ async function fetchSourcesByCeleb(
     const flat = flattenLocales(content.content_locales, locale, content.type)
     const leadEdition = editions[0]
     const missingStart = !leadEdition && (editionRowsByContent.has(content.id) || optionRowsByContent.has(content.id))
+    const localeExcluded = content.type === 'BOOK' && !!exactLocale && !!excludedBookEditionReason({ ...exactLocale, contentId: content.id })
     const title = (flat.title_badge && flat.title_badge !== 'out-of-print' && leadEdition?.title)
       || flat.title || content.figureBook?.workTitle || leadEdition?.title || ''
     if (!title.trim()) return []
@@ -202,14 +210,14 @@ async function fetchSourcesByCeleb(
       id: content.id,
       title,
       creator: flat.creator || content.figureBook?.workCreator || leadEdition?.creator || null,
-      thumbnailUrl: leadEdition?.thumbnailUrl || (missingStart ? null : flat.thumbnail_url),
+      thumbnailUrl: leadEdition?.thumbnailUrl || (missingStart || localeExcluded ? null : flat.thumbnail_url),
       type: content.type,
       category: TYPE_TO_CATEGORY[content.type],
       relationType: assignment.relation_type,
       // 표시용 번역 제목 행이 남아 있어도 요청 언어의 실제 판본이 있으면 번역본 없음이 아니다.
       // 절판은 판본 존재와 별개인 유통 상태이므로 유지한다.
       titleBadge: leadEdition && flat.title_badge !== 'out-of-print' ? null : flat.title_badge,
-      ...selectBookIntroduction(locale, null, missingStart ? null : exactLocale),
+      ...selectBookIntroduction(locale, null, missingStart || localeExcluded ? null : exactLocale),
       editions: editions.map((edition) => ({
         ...attachFigureBookLocaleLinks(edition, exactLocale),
         ...selectBookIntroduction(locale,
@@ -229,7 +237,9 @@ async function fetchSourcesByCeleb(
         ...(content.content_locales ?? []).map((row) => row.creator),
         content.figureBook?.workCreator,
       ].filter((name): name is string => Boolean(name?.trim())))],
-      affiliateLinks: missingStart ? [] : toAffiliateLinks(flat.affiliate_url),
+      affiliateLinks: missingStart || localeExcluded ? [] : toAffiliateLinks(flat.affiliate_url),
+      metadata: { figureBook: content.figureBook }, sources: exactLocale?.sources,
+      bookPurchaseBlocked: !leadEdition && (missingStart || localeExcluded),
     }]
   })
 
@@ -290,7 +300,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v23-edition-policy', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v24-work-selection', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )

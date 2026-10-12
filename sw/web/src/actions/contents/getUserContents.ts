@@ -55,6 +55,8 @@ export interface UserContentPublic {
     has_en_edition: boolean | null
     title_badge?: TitleBadge | null
     affiliate_url?: unknown
+    /** 책장 선정 검수는 표시용으로 펼친 제목 대신 요청 언어의 실제 서지·출처를 읽는다. */
+    bookLocale?: ContentLocaleRow | null
   }
   // 공개된 기록 요약
   public_record?: {
@@ -111,9 +113,9 @@ async function queryUserContents(
   const archiveTable = ownerKind === 'celeb' ? 'celeb_contents' : 'member_contents'
   const ownerColumn = ownerKind === 'celeb' ? 'celeb_id' : 'member_id'
 
-  // isbn은 isbn_en 플래튼에 필요. description/publisher/affiliate_url은 미사용 — 제외
+  // ISBN은 언어별 서지에, 인물 locale의 출판사는 책장 판본 검수에 쓴다.
   const localeFields = ownerKind === 'celeb' ? CL_SELECT_LIST_WITH_AFFILIATE : CL_SELECT_LIST
-  const contentFields = `id, type, metadata, user_count:record_count, content_locales(${localeFields}, isbn)`
+  const contentFields = `id, type, metadata, user_count:record_count, content_locales(${localeFields}, isbn${ownerKind === 'celeb' ? ', publisher' : ''})`
 
   // 검색 필터 - content_locales에서 2-step 검색 (.or() 보간 인젝션 차단)
   let searchContentIds: string[] | null = null
@@ -278,6 +280,7 @@ async function queryUserContents(
         has_en_edition: flat.has_en_edition,
         title_badge: flat.title_badge,
         affiliate_url: flat.affiliate_url,
+        ...(c.type === 'BOOK' ? { bookLocale: locales?.find(row => row.locale === locale) ?? null } : {}),
       },
       public_record: (rating !== null || raw.review || ((raw.review_presets as string[] | null)?.length)) ? {
         rating,
@@ -330,7 +333,7 @@ const queryPublicUserContents = (...args: PublicContentsArgs) => {
 // 타인 회원 서재 — 공개 테이블(member_contents, contents, content_locales)만 읽으므로 캐시.
 // 일반 사용자 서재를 남이 열람하는 경로. 본인이 책을 추가하면 곧 반영돼야 하므로 1시간.
 const getCachedPublicUserContents = (...args: Parameters<typeof queryPublicUserContents>) =>
-  cachedList(CACHE_TAGS.CONTENTS, ['public-user-contents', ...args.map((a) => String(a ?? ''))], () =>
+  cachedList(CACHE_TAGS.CONTENTS, ['public-user-contents-v2-book-locale', ...args.map((a) => String(a ?? ''))], () =>
     queryPublicUserContents(...args),
   )
 
@@ -343,7 +346,7 @@ const getCachedCelebLibraryContents = (...args: CelebContentsArgs) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     args[0],
-    ['celeb-library-contents-v6-recent', ...args.map((a) => String(a ?? ''))],
+    ['celeb-library-contents-v7-book-locale', ...args.map((a) => String(a ?? ''))],
     () => {
       const [userId, type, page, limit, search, hasReview, sortBy, locale, preferredContentIds] = args
       return queryUserContents(createStaticClient(), {

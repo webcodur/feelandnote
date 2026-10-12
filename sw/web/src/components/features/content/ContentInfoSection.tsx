@@ -43,6 +43,7 @@ export default function ContentInfoSection({ content, actions, editionSelection,
           </div>
           {!unavailable && <ContentPurchaseAction contentId={content.id} type={content.type} placement="content-detail"
             editionId={content.purchaseEditionId} bookLocale={content.editionLocale}
+            metadata={content.metadata} sources={content.sources} bookPurchaseBlocked={content.bookPurchaseBlocked}
             isbn={typeof content.metadata?.isbn === "string" ? content.metadata.isbn : undefined}
             title={content.title} creator={content.creator} thumbnail={content.thumbnail} links={content.affiliateLinks} />}
         </div>
