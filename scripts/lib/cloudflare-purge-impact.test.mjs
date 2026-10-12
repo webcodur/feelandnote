@@ -549,3 +549,11 @@ test('myth story guide viewer changes do not evict unrelated cached details', ()
     assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/components/features/faction/' + file]).scopes, ['none'])
   }
 })
+
+test('reviewed book selection follows actual bookshelf and purchase consumers', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/actions/celebs/getCelebBookShelf.ts']).scopes, ['none'])
+  assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/components/shared/BookShelf/BookShelfEditionDetail.tsx']).scopes, ['celeb'])
+  for (const file of ['sw/web/src/lib/books/bookPurchaseLinks.ts', 'sw/web/src/lib/books/bookPurchaseHref.ts', 'sw/web/src/lib/books/bookPurchaseRedirect.ts', 'sw/web/src/lib/books/contentEdition.ts', 'sw/web/src/components/features/commerce/ContentPurchaseDialog.tsx']) {
+    assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['celeb', 'content'])
+  }
+})

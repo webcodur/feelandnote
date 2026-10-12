@@ -136,6 +136,9 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // 공통 책장 판본 상세와 자료형은 보관 HTML 중 인물 상세에서 소비한다.
+  'sw/web/src/components/shared/BookShelf/BookShelfEditionDetail.tsx',
+  'sw/web/src/components/shared/BookShelf/types.ts',
   // 초기 관련 도서와 추천의 보관 HTML 소비자는 인물 상세다.
   'sw/web/src/actions/books/getProfessionBooks.ts',
   'sw/web/src/actions/celebs/getCelebReferenceBooks.ts',
@@ -234,6 +237,12 @@ const CONTENT_FILES = new Set([
 ])
 
 const CELEB_AND_CONTENT_FILES = new Set([
+  // 인물 카드·책장과 작품 상세가 공유하는 구매 및 판본 링크 판단이다.
+  'sw/web/src/lib/books/bookPurchaseHref.ts',
+  'sw/web/src/lib/books/bookPurchaseLinks.ts',
+  'sw/web/src/lib/books/bookPurchaseRedirect.ts',
+  'sw/web/src/lib/books/contentEdition.ts',
+  'sw/web/src/components/features/commerce/ContentPurchaseDialog.tsx',
   // 판본·소개 자료는 인물 책장과 작품 상세의 공용 본문·모달에서 소비한다.
   'sw/web/src/actions/books/getBookShelfBook.ts',
   'sw/web/src/actions/figure-books/figureBookEditions.ts',
@@ -275,6 +284,8 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // 가상독백 페이지·monologue-bookshelf API만 읽으며 앞단 HTML 보관 대상이 아니다.
+  'sw/web/src/actions/celebs/getCelebBookShelf.ts',
   // 직업별 도서·박물관·구매 화면과 그 전용 부품은 앞단 HTML 보관 대상이 아니다.
   'sw/web/src/actions/books/getProfessionBookCatalog.ts',
   'sw/web/src/actions/home/getFactionMemberShelf.ts',
