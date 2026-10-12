@@ -267,7 +267,9 @@ JSON-LD는 서버 렌더 HTML에 싣는다. 클라이언트에서 주입하면 �
 | Google Analytics (GA4) | ✅ 수집 중 | — | — | Property ID: `526353156`. **MCP는 현재 미연결** — `.mcp.json`에 서버 정의 없음(`settings.local.json`의 허용 목록에 이름만 잔존) |
 | 네이버 서치어드바이저 | 등록됨 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 웹 페이지 수집 | 기존 사이트맵을 유지하고 변경된 주요 주소를 수집 요청한다 |
 | Bing Webmaster Tools | 등록됨 | 기존 확인된 사이트 속성 | 사이트맵·URL 검사 | 기존 사이트에서 사이트맵 `Re-submit`과 URL `Request indexing`을 사용한다 |
-| Daum 검색등록 | ✅ 제출 | 신규등록 폼 | URL + 사이트 설명 | 2026-03-12 |
+| Daum 검색등록 | 제출 기록 있음 | 신규등록 폼 | URL + 사이트 설명 | 2026-03-12 제출. 승인·현재 노출은 미확인 |
+
+Daum 사이트 검색등록의 승인과 웹문서 수집 상태는 따로 확인한다. 웹마스터의 수집 Seed에는 기존 `https://feelandnote.com/sitemap.xml`과 인물 우선 사이트맵 `https://feelandnote.com/sitemaps/celebs.xml`을 사용한다. Seed 접수도 실제 수집·노출을 보장하지 않는다. [Daum 수집 Seed 안내](https://cs.daum.net/faq/service/15/category/4118/detail/38543)
 
 ### 주소 개편 후 검색 등록
 

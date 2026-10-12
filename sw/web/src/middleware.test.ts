@@ -51,6 +51,19 @@ test('canonical figure and records routes keep their existing locale routing', a
   }
 })
 
+test('Daum and search preview crawlers keep the requested Korean and English URL abroad', async () => {
+  for (const userAgent of ['Mozilla/5.0 (compatible; Daum/4.1; +https://cs.daum.net/)', 'ChatGPT-User/1.0', 'kakaotalk-scrap/1.0']) {
+    for (const prefix of ['', '/en']) {
+      const response = await middleware(new NextRequest(`https://feelandnote.com${prefix}/celeb/bill-gates`, {
+        headers: { 'CF-IPCountry': 'US', 'user-agent': userAgent, cookie: 'fn_locale_preference=en' },
+      }))
+      assert.equal(response.status, 200)
+      assert.equal(response.headers.get('location'), null)
+      assert.equal(response.headers.get('x-middleware-rewrite'), prefix ? null : 'https://feelandnote.com/ko/celeb/bill-gates')
+    }
+  }
+})
+
 test('retired myth figure slugs keep Korean and English search links alive with their query', async () => {
   for (const [oldSlug, canonicalSlug] of [
     ['electra', 'electra-of-mycenae'],

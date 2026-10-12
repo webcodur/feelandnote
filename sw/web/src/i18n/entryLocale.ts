@@ -1,3 +1,5 @@
+import { isBotUserAgent } from '../lib/render-user-agent'
+
 /** Only a language-button choice overrides geolocation; old NEXT_LOCALE=ko was automatic. */
 export const LOCALE_PREFERENCE_COOKIE = 'fn_locale_preference'
 export const LOCALE_PREFERENCE_MAX_AGE = 365 * 24 * 60 * 60
@@ -12,7 +14,7 @@ export function entryLocale(country: string | null, preference?: string, previou
 
 /** Search engines must be able to index both canonical language URLs. */
 export function isLocaleCrawler(userAgent: string | null): boolean {
-  return /bot\b|crawler|spider|slurp|yeti|facebookexternalhit|twitterbot|linkedinbot/i.test(userAgent ?? '')
+  return isBotUserAgent(userAgent)
 }
 
 export function saveLocalePreference(locale: string) {
