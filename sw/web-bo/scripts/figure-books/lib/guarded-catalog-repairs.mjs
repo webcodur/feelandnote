@@ -278,6 +278,25 @@ function reviewedCompleteSetReference(before,proof,snapshot){
   throw Error('Complete-set removal requires exact selected whole set, included first volume, verified original or same translator and independent ISBN sources')
  return reference
 }
+function reviewedContinuousTranslationParts(before,reference,proof,figure){
+ const parts=proof?.reviewedContinuousTranslationParts
+ if(parts===undefined)return false
+ const first=bookTranslatorKey(reference?.sources?.translators),later=bookTranslatorKey(before.sources?.translators)
+ return parts?.method==='independent_continuous_translation_parts_review'&&parts.llmReviewed===true
+  &&parts.contentId===before.content_id&&parts.workIdentity===figure.workIdentity&&typeof figure.workIdentity==='string'&&!!figure.workIdentity.trim()
+  &&parts.originalTitle===figure.originalTitle&&typeof figure.originalTitle==='string'&&!!figure.originalTitle.trim()
+  &&parts.originalCreator===figure.originalCreator&&typeof figure.originalCreator==='string'&&!!figure.originalCreator.trim()
+  &&parts.seriesTitle===figure.series?.title&&typeof figure.series?.title==='string'&&!!figure.series.title.trim()
+  &&String(parts.firstEditionId)===String(reference?.id)&&parts.firstIsbn===reference?.isbn&&parts.firstTitle===reference?.title
+  &&String(parts.laterEditionId)===String(before.id)&&parts.laterIsbn===before.isbn&&parts.laterTitle===before.title
+  &&!!first&&!!later&&first!==later&&bookTranslatorKey(parts.firstTranslators)===first&&bookTranslatorKey(parts.laterTranslators)===later
+  &&parts.firstVolumeNumber===1&&proof.referenceVolumeNumber===1&&parts.laterVolumeNumber===proof.volumeNumber
+  &&Number.isSafeInteger(parts.totalVolumes)&&parts.totalVolumes>=parts.laterVolumeNumber&&parts.totalVolumes<=999
+  &&parts.firstSourceUrl===proof.referenceSourceUrl&&parts.laterSourceUrl===proof.sourceUrl
+  &&independentSource(parts.firstSourceUrl)&&independentSource(parts.laterSourceUrl)&&independentSource(parts.seriesSourceUrl)
+  &&parts.seriesSourceUrl!==parts.firstSourceUrl&&parts.seriesSourceUrl!==parts.laterSourceUrl
+  &&typeof parts.bodyEvidence==='string'&&parts.bodyEvidence.trim().length>=BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
+}
 function reviewedNonstartReference(before,proof,snapshot){
  const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(proof?.referenceEditionId))
  const selected=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===before.locale)
@@ -288,6 +307,8 @@ function reviewedNonstartReference(before,proof,snapshot){
   &&(a===reviewedTranslator&&b===reviewedTranslator
    ||proof.reviewedTranslationAttribution===true&&(!a||a===reviewedTranslator)&&(!b||b===reviewedTranslator))
   ||proof?.textIdentity==='original'&&!a&&!b&&proof.originalLanguage===before.locale&&figure.originalLanguage===before.locale&&independentSource(figure.identityEvidence)
+  // 연속 원작의 서로 다른 부분이다. 후속 본문을 시작 본문과 동등하게 매핑하지 않는다.
+  ||proof?.textIdentity==='continuous_translation_parts'&&reviewedContinuousTranslationParts(before,reference,proof,figure)
  const selectedStart=reference?.edition_kind==='volume'&&reference.text_scope==='volume/1'
   ||reference?.edition_kind==='full'&&['full','complete'].includes(reference.text_scope)
   ||proof?.referenceVolumeNumber===1&&reference?.edition_kind==null&&reference?.text_scope==null

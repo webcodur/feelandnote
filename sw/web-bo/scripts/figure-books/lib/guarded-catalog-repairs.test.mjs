@@ -344,6 +344,57 @@ function nonstartSnapshot(original=false){
  return {data,removal:{table:'figure_book_editions',before:later,remove:true,reviewedNonstartEditionRemoval:proof}}
 }
 
+function differentlyTranslatedPartsSnapshot(){
+ const {data,removal}=nonstartSnapshot(),[later,first]=data.figure_book_editions
+ later.sources.translators=['Later translator'];first.sources.translators=['First translator']
+ Object.assign(data.contents[0].metadata.figureBook,{workIdentity:'Original author/Continuous novel',originalTitle:'Continuous novel',
+  originalCreator:'Original author',series:{title:'Continuous novel'}})
+ const proof=removal.reviewedNonstartEditionRemoval
+ Object.assign(proof,{textIdentity:'continuous_translation_parts',referenceVolumeNumber:1})
+ proof.reviewedContinuousTranslationParts={method:'independent_continuous_translation_parts_review',llmReviewed:true,
+  contentId:'work',workIdentity:'Original author/Continuous novel',originalTitle:'Continuous novel',originalCreator:'Original author',seriesTitle:'Continuous novel',
+  firstEditionId:first.id,firstIsbn:first.isbn,firstTitle:first.title,firstTranslators:['First translator'],firstVolumeNumber:1,
+  laterEditionId:later.id,laterIsbn:later.isbn,laterTitle:later.title,laterTranslators:['Later translator'],laterVolumeNumber:2,totalVolumes:3,
+  firstSourceUrl:proof.referenceSourceUrl,laterSourceUrl:proof.sourceUrl,seriesSourceUrl:'https://publisher.example/continuous-original',
+  bodyEvidence:'The LLM read the publisher’s three-part continuous original and exact volume-specific library records, which name different translators for different parts.'}
+ return {data,removal}
+}
+
+test('actual different translators of continuous parts do not create later-part choices or equivalent text mappings',()=>{
+ const {data,removal}=differentlyTranslatedPartsSnapshot(),plan=planGuardedCatalogRepairs(['work'],data,[removal])
+ assert.deepEqual(plan.expected.figure_book_editions,[data.figure_book_editions[1]])
+ assert.deepEqual(plan.expected.figure_book_editions[0].sources.translators,['First translator'])
+ for(const table of SNAPSHOT_TABLES.filter(table=>table!=='figure_book_editions'))assert.deepEqual(plan.expected[table],data[table],table)
+ const sql=buildGuardedCatalogRepairSql(['work'],data,[removal])
+ assert.ok(!sql.includes('UPDATE public.celeb_contents'));assert.ok(!sql.includes('reviewedContinuousTranslationParts'))
+})
+
+test('continuous parts reject changed ISBNs, original identities, translators, part numbers and absent independent body evidence',()=>{
+ for(const difference of [{method:'automatic'},{llmReviewed:false},{contentId:'other'},{workIdentity:'Other original'},
+  {originalTitle:'Other novel'},{originalCreator:'Other writer'},{seriesTitle:'Other series'},
+  {firstEditionId:999},{firstIsbn:'9780140449136'},{firstTitle:'Other first'},
+  {laterEditionId:999},{laterIsbn:'9780140449136'},{laterTitle:'Other later'},
+  {firstTranslators:['Unverified translator']},{laterTranslators:['First translator']},
+  {firstVolumeNumber:2},{laterVolumeNumber:1},{laterVolumeNumber:3},{totalVolumes:1},{totalVolumes:1000},
+  {firstSourceUrl:'https://different.example/first'},{laterSourceUrl:'https://different.example/later'},
+  {seriesSourceUrl:'https://openlibrary.org/works/OL1W'},{seriesSourceUrl:'https://publisher.example/?api_key=secret'},
+  {bodyEvidence:'Title matches'}]){
+  const {data,removal}=differentlyTranslatedPartsSnapshot()
+  Object.assign(removal.reviewedNonstartEditionRemoval.reviewedContinuousTranslationParts,difference)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/Nonstart/)
+ }
+ for(const mutate of [
+  (data,removal)=>delete removal.reviewedNonstartEditionRemoval.reviewedContinuousTranslationParts,
+  (data,removal)=>removal.reviewedNonstartEditionRemoval.referenceVolumeNumber=2,
+  data=>data.figure_book_editions[1].text_scope='volume/2',
+  data=>delete data.contents[0].metadata.figureBook.originalTitle,
+  data=>data.figure_book_editions[0].sources.translators=['First translator'],
+  data=>data.figure_book_products.push({id:5,edition_id:1})]){
+  const {data,removal}=differentlyTranslatedPartsSnapshot();mutate(data,removal)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]))
+ }
+})
+
 test('complete-set selection can normalize the actual whole set after deleting its included first choice atomically',()=>{
  const {data,removal}=originalCompleteSetSnapshot(),whole=data.figure_book_editions[1],locale=data.content_locales[0]
  whole.edition_kind=null;whole.text_scope=null;locale.isbn=data.figure_book_editions[0].isbn
