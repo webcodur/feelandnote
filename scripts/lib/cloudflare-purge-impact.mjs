@@ -328,6 +328,9 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/faction/FactionSceneNavigator.tsx',
   'sw/web/src/components/features/faction/FactionStoryCards.tsx',
   'sw/web/src/components/features/faction/artworkSlides.ts',
+  'sw/web/src/lib/faction-sections.ts',
+  'sw/web/src/lib/faction-theme.ts',
+  'packages/shared/src/lib/faction-team-image.ts',
   'sw/web/src/components/features/faction/FactionStoryGuide.tsx',
   'sw/web/src/components/features/faction/storyBoundaries.ts',
   // 도서 차트·구매 실험·본문 실험 화면은 앞단 보관 대상이 아니다.
