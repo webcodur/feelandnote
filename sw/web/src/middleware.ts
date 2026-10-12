@@ -48,6 +48,11 @@ const LEGACY_CELEB_SLUG_REDIRECTS: Record<string, string> = {
   'philip-henry-stanhope,-4th-earl-stanhope': 'philip-henry-stanhope',
   'daron-acemoglu': 'daron-acemoğlu',
   'park-in-hwan': 'park-jin-hwan',
+  'king-ijinasi': 'ijinasi',
+  'emperor-ojin': 'ojin',
+  'empress-jingu': 'jingu',
+  'emperor-sujin': 'sujin',
+  'prince-vijaya': 'vijaya',
 }
 
 export async function middleware(request: NextRequest) {
