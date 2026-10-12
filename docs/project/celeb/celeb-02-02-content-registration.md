@@ -27,7 +27,7 @@ fiction도 BOOK 메타와 `content_locales` 규칙은 이 문서를 공유하지
 | GAME | `igdb.ts` | `igdb` |
 | MUSIC | `itunes-music.ts` | `itunes` |
 
-Google Books와 네이버 도서는 신규 BOOK 메타·표지에 사용하지 않는다. Google Books의 소개문 수집 예외는 외부 서비스 문서를 따른다. Amazon은 BOOK 메타 원천이나 `external_source`가 아니다. OpenLibrary로 판본을 확인한 뒤 구매 링크를 `content_locales.affiliate_url`에 두는 것은 별개다. 서점·출판사·도서관 자료는 판본 실재와 원제·저자·본문 범위를 대조하는 근거로 쓸 수 있지만 신규 메타 공급처로 기록하지 않는다. 과거 `sources`에 남은 공급처명만으로 오염으로 판정하거나 허용 공급처를 조회한 것처럼 바꾸지 않는다.
+Google Books와 네이버 도서는 신규 BOOK 메타·표지에 사용하지 않는다. Google Books의 소개문 수집 예외는 외부 서비스 문서를 따른다. Amazon은 BOOK 메타 원천이나 `external_source`가 아니다. 구매 링크를 `content_locales.affiliate_url`에 두는 것은 메타 등록과 별개다. 기존 등록 BOOK을 보완할 때 정식 메타 경로에 해당 판본의 데이터가 없으면 공식 출판사·도서관 등의 실물 서지와 본문 근거를 대조해 메타·표지를 채운다. `sources`에는 실제 확인한 자료의 URL을 기록하고, `external_source`를 허용 공급처에서 받은 것처럼 꾸미지 않는다. 과거 `sources`에 남은 공급처명만으로 오염으로 판정하지 않는다.
 
 ## BOOK
 
