@@ -927,6 +927,205 @@ test('wrong-work prose removal requires a bound rejection and retains the indepe
  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[removal]),/product history/)
 })
 
+const abridgedReplacement=()=>{
+ const data=snapshot(),figure=data.contents[0].metadata.figureBook
+ Object.assign(figure,{workTitle:'독립정신',workCreator:'이승만',workIdentity:'book/9788949706634'})
+ const description='이승만이 옥중에서 집필한 정치적 저술로, 나라의 독립과 국민의 역할을 논한다. 외부 세계의 제도와 정세를 소개하면서 국가를 지탱하는 힘이 국민의 의식과 참여에 있다는 생각을 펼친다.\n\n당시의 역사적 상황 속에서 저자가 어떤 정치 질서와 시민상을 구상했는지 읽을 수 있다. 오늘의 평가를 앞세우기보다 저술이 나온 시대와 저자의 주장을 함께 살피며 근대 정치사상의 한 사례로 접근할 수 있는 책이다.'
+ const oldSource='https://www.yes24.com/product/goods/3755176',newSource='https://www.yes24.com/product/goods/60744333'
+ const before=data.figure_book_editions[0]
+ Object.assign(before,{id:19740,locale:'ko',title:'독립정신',creator:'이승만',isbn:'9788949706634',edition_kind:'full',text_scope:'complete',description,sources:{primary:'kakao_book',description:oldSource}})
+ data.content_locales=[{content_id:'work',locale:'ko',title:before.title,creator:before.creator,isbn:before.isbn,description,sources:structuredClone(before.sources)}]
+ const keeper={...structuredClone(before),id:19916,isbn:'9788937604706',description:'DAUM',edition_kind:null,text_scope:null,sources:{primary:'kakao_book'}}
+ data.figure_book_editions.push(keeper)
+ const sources={...keeper.sources,description:newSource,description_method:'research',description_source_locale:'ko'}
+ const replacementIntroduction={method:'independent_same_work_introduction_replacement_review',llmReviewed:true,contentId:'work',
+  workTitle:figure.workTitle,workCreator:figure.workCreator,workIdentity:figure.workIdentity,discardedSourceUrl:oldSource,
+  referenceEditionId:keeper.id,referenceLocale:keeper.locale,referenceTitle:keeper.title,referenceCreator:keeper.creator,referenceIsbn:keeper.isbn,
+  referenceDescription:description,referenceSourceUrl:newSource,bodyEvidence:'정상 비봉 판본은 1장부터 51장까지와 후록을 수록하며 박기봉이 현대어로 교정하고 주석을 달았다.',
+  reason:'옛 소개는 원저를 설명한 정상 산문이다. 10·11·12장을 생략한 축약 판본을 제거하고 정상 판본의 실제 출처로 교체한다.'}
+ const exclusion={method:'independent_selection_review',isbn:before.isbn,locale:before.locale,edition_title:before.title,
+  reason:'abridged',source_url:oldSource,explanation:'동서 판본의 실제 목차에는 10·11·12장 생략이 명시되어 있어 온전한 원저 판본으로 선정할 수 없다.',replacementIntroduction}
+ const changes=[{table:'figure_book_editions',before,remove:true,reviewedSelectionExclusion:exclusion},
+  {table:'figure_book_editions',before:keeper,patch:{description,sources,edition_kind:'full',text_scope:'1–51장 및 후록·부록'}},
+  {table:'content_locales',before:data.content_locales[0],patch:{isbn:keeper.isbn,description,sources},
+   reviewedIntroductionCorrection:{isbn:before.isbn,locale:before.locale,editionTitle:before.title,sourceUrl:newSource,reason:replacementIntroduction.reason}}]
+ return {data,changes}
+}
+
+test('same-work abridged removal explicitly replaces its source with a reviewed normal representative without archiving sound prose',()=>{
+ const {data,changes}=abridgedReplacement(),plan=planGuardedCatalogRepairs(['work'],data,changes)
+ assert.equal(plan.expected.figure_book_editions.length,1)
+ assert.equal(plan.expected.figure_book_editions[0].id,19916)
+ assert.equal(plan.expected.content_locales[0].isbn,'9788937604706')
+ assert.equal(plan.expected.content_locales[0].description,data.content_locales[0].description)
+ assert.equal(plan.expected.content_locales[0].sources.description,'https://www.yes24.com/product/goods/60744333')
+ for(const table of SNAPSHOT_TABLES.filter(table=>!['contents','content_locales','figure_book_contents','figure_book_characters','figure_book_editions'].includes(table)))
+  assert.deepEqual(plan.expected[table],data[table],table)
+ const sql=buildGuardedCatalogRepairSql(['work'],data,changes)
+ assert.ok(sql.includes('DELETE FROM public.figure_book_editions'))
+ assert.ok(!sql.includes('replacementIntroduction'))
+ assert.ok(!sql.includes('independent_same_work_introduction_replacement_review'))
+ assert.ok(!sql.includes('sourceSnapshot'))
+ assert.equal(changes[0].reviewedSelectionExclusion.reason,'abridged')
+})
+
+test('abridged representative replacement requires explicit proof and exact old and new identities, prose, source, and final locale',()=>{
+ const rejected=[{method:'automatic_review'},{llmReviewed:false},{contentId:'other'},{workTitle:'Other work'},{workCreator:'Other author'},
+  {workIdentity:'other-original'},{discardedSourceUrl:'https://www.yes24.com/product/goods/60744333'},{referenceEditionId:99999},
+  {referenceLocale:'en'},{referenceTitle:'Different book'},{referenceCreator:'Another writer'},{referenceIsbn:'9788949706634'},
+  {referenceDescription:'A different unreviewed introduction about another edition.'},{referenceSourceUrl:'https://publisher.example/unread'},
+  {referenceSourceUrl:'https://openlibrary.org/books/OL1M'},{bodyEvidence:'short'},{reason:'short'}]
+ for(const difference of rejected){
+  const {data,changes}=abridgedReplacement()
+  Object.assign(changes[0].reviewedSelectionExclusion.replacementIntroduction,difference)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Abridged introduction replacement/)
+ }
+ for(const difference of [{edition_kind:'volume'},{text_scope:''},{sources:{primary:'none'}},
+  {description:'DAUM'},{isbn:'9780140449136'},{creator:'Other writer'}]){
+  const {data,changes}=abridgedReplacement();Object.assign(changes[1].patch,difference)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Abridged introduction replacement/)
+ }
+ for(const difference of [{isbn:'9788949706634'},{description:'Other representative introduction'},
+  {sources:{primary:'kakao_book',description:'https://publisher.example/other'}}]){
+  const {data,changes}=abridgedReplacement();Object.assign(changes[2].patch,difference)
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Abridged introduction replacement/)
+ }
+ const {data,changes}=abridgedReplacement()
+ delete changes[0].reviewedSelectionExclusion.replacementIntroduction
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Existing introduction/)
+})
+
+test('same-work removal may retain a separately reviewed new introduction rather than copying the excluded edition body',()=>{
+ const {data,changes}=abridgedReplacement()
+ const description=changes[1].patch.description+'\n\n이 판본은 원저의 1장부터 51장까지와 후록을 수록하고 현대어 교정과 주석을 더했다.'
+ changes[0].reviewedSelectionExclusion.replacementIntroduction.referenceDescription=description
+ changes[1].patch.description=description;changes[2].patch.description=description
+ const plan=planGuardedCatalogRepairs(['work'],data,changes)
+ assert.equal(plan.expected.figure_book_editions[0].description,description)
+ assert.equal(plan.expected.content_locales[0].description,description)
+ assert.notEqual(description,data.content_locales[0].description)
+ assert.ok(!JSON.stringify(plan.expected).includes('3755176'))
+})
+
+test('same-work replacement rejects changing the final original identity while reusing the old original review',()=>{
+ for(const key of ['workTitle','workCreator','workIdentity']){
+  const {data,changes}=abridgedReplacement(),metadata=structuredClone(data.contents[0].metadata)
+  metadata.figureBook[key]='Different original'
+  changes.push({table:'contents',before:data.contents[0],patch:{metadata}})
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Abridged introduction replacement/)
+ }
+})
+
+test('same-work replacement refuses mixed reasons, extra removal proof, product history, and missing explicit companion correction',()=>{
+ for(const reason of ['wrong_work','children_only','editorial_exclusion']){
+  const {data,changes}=abridgedReplacement();changes[0].reviewedSelectionExclusion.reason=reason
+  changes[0].reviewedSelectionExclusion.content_id='work'
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Abridged introduction replacement/)
+ }
+ for(const key of ['reviewedPlaceholderRemoval','reviewedIntroductionCorrection','reviewedArchiveProvenanceDiscard']){
+  const {data,changes}=abridgedReplacement();changes[0][key]={}
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/only valid for explicit source-reviewed edition removal/)
+ }
+ const {data,changes}=abridgedReplacement()
+ data.figure_book_products=[{id:4,edition_id:19740,is_active:false}]
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/product history/)
+ data.figure_book_products=[];delete changes[2].reviewedIntroductionCorrection
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Existing introduction/)
+})
+
+test('same-work introduction replacement keeps research length and language checks, and rejects guessed translation provenance',()=>{
+ for(const description of ['짧은 문장을 정상 소개라고 주장하며 실제로는 분량 기준을 충족하지 못한다.','An unreviewed English passage repeated here. '.repeat(10)]){
+  const {data,changes}=abridgedReplacement()
+  changes[0].reviewedSelectionExclusion.replacementIntroduction.referenceDescription=description
+  changes[1].patch.description=description;changes[2].patch.description=description
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Invalid research introduction/)
+ }
+ const {data,changes}=abridgedReplacement()
+ for(const c of changes.slice(1)){c.patch.sources.description_method='translation';c.patch.sources.description_source_locale='en'}
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,changes),/Abridged introduction replacement/)
+})
+
+test('same-work representative replacement readback detects protected data or source drift',async()=>{
+ for(const drift of ['none','review','source']){
+  const {data,changes}=abridgedReplacement(),actual=planGuardedCatalogRepairs(['work'],data,changes).expected
+  if(drift==='review')actual.member_contents[0].review='Unexpected rewrite'
+  if(drift==='source')actual.figure_book_editions[0].sources.description='https://publisher.example/unread'
+  let captures=0
+  const run=()=>guardedCatalogRepairs(null,['work'],changes,{capture:async()=>structuredClone(captures++?actual:data),execute:()=>({status:0,stdout:'MERGE_COMMITTED',stderr:''})})
+  if(drift==='none')await run()
+  else await assert.rejects(run,/readback mismatch/)
+ }
+})
+
+test('local PostgreSQL executes same-work representative replacement atomically and rejects protected-row CAS drift',{
+ skip:!process.env.PG_TEST_BIN&&'PG_TEST_BIN requires a local PostgreSQL bin directory',timeout:120000,
+},async t=>{
+ const {mkdtempSync,rmSync}=await import('node:fs'),{tmpdir}=await import('node:os'),{join,resolve,basename}=await import('node:path')
+ const {spawnSync}=await import('node:child_process'),{createServer}=await import('node:net')
+ const directory=mkdtempSync(join(tmpdir(),'feelandnote-abridged-introduction-test-')),dbDirectory=join(directory,'db')
+ const executable=name=>join(process.env.PG_TEST_BIN,name+(process.platform==='win32'?'.exe':''))
+ const run=(name,args,input,options={})=>{
+  const result=spawnSync(executable(name),args,{input,encoding:'utf8',windowsHide:true,shell:false,timeout:15000,maxBuffer:10*1024*1024,...options})
+  if(result.error||result.status!==0)throw Error(result.error?.message??result.stderr)
+  return result.stdout?.trim()??''
+ }
+ const server=createServer();await new Promise(done=>server.listen(0,'127.0.0.1',done))
+ const port=server.address().port;await new Promise(done=>server.close(done))
+ let started=false
+ t.after(()=>{
+  if(started)run('pg_ctl',['-D',dbDirectory,'-m','immediate','-w','stop'])
+  assert.ok(resolve(directory).startsWith(resolve(tmpdir())+(process.platform==='win32'?'\\':'/'))&&basename(directory).startsWith('feelandnote-abridged-introduction-test-'))
+  if(process.platform==='win32'){
+   const result=spawnSync('powershell',['-NoProfile','-Command',`Remove-Item -LiteralPath '${directory.replaceAll("'","''")}' -Recurse`],{windowsHide:true,shell:false,encoding:'utf8'})
+   assert.equal(result.status,0,result.stderr)
+  }else rmSync(directory,{recursive:true})
+ })
+ run('initdb',['-D',dbDirectory,'-U','postgres','-A','trust','--no-locale','--encoding=UTF8'])
+ run('pg_ctl',['-D',dbDirectory,'-l',join(directory,'postgres.log'),'-o',`-h 127.0.0.1 -p ${port}`,'-w','start'],undefined,{stdio:'ignore'});started=true
+ const args=['-X','-qAt','-v','ON_ERROR_STOP=1','-h','127.0.0.1','-p',String(port),'-U','postgres','-d','postgres']
+ const query=sql=>run('psql',args,sql),literal=text=>"'"+text.replaceAll("'","''")+"'"
+ query(`CREATE TABLE contents(id text PRIMARY KEY,type text,metadata jsonb,external_id text,updated_at text);
+ CREATE TABLE content_locales(content_id text REFERENCES contents,locale text,title text,creator text,isbn text,description text,sources jsonb,PRIMARY KEY(content_id,locale));
+ CREATE TABLE figure_book_contents(content_id text PRIMARY KEY REFERENCES contents);
+ CREATE TABLE figure_book_characters(content_id text REFERENCES contents,celeb_id text,relation_type text,PRIMARY KEY(content_id,celeb_id));
+ CREATE TABLE figure_book_editions(id bigint PRIMARY KEY,content_id text REFERENCES contents,locale text,title text,creator text,isbn text,description text,sources jsonb,edition_kind text,text_scope text,updated_at text);
+ CREATE TABLE figure_book_products(id bigint PRIMARY KEY,edition_id bigint REFERENCES figure_book_editions,is_active bool);
+ CREATE TABLE member_contents(id text PRIMARY KEY,content_id text REFERENCES contents,review text,rating int);
+ CREATE TABLE celeb_contents(id text PRIMARY KEY,content_id text REFERENCES contents,review text,review_en text,source_url text);
+ CREATE TABLE curated_list_items(id text PRIMARY KEY,content_id text REFERENCES contents,note text);
+ CREATE TABLE flow_nodes(id text PRIMARY KEY,content_id text REFERENCES contents,bonus_content_ids jsonb);
+ CREATE TABLE records(id text PRIMARY KEY,content_id text REFERENCES contents,body text);
+ CREATE TABLE notes(id text PRIMARY KEY,content_id text REFERENCES contents,memo text);
+ CREATE TABLE activity_logs(id text PRIMARY KEY,content_id text REFERENCES contents,metadata jsonb);
+ CREATE TABLE commerce_events(id bigint PRIMARY KEY,content_id text REFERENCES contents,kind text);
+ CREATE TABLE profession_book_picks(content_id text REFERENCES contents,profession text);
+ CREATE TABLE faction_lv2(id text PRIMARY KEY,theme_book_ids text[]);
+ CREATE TABLE flows(id text PRIMARY KEY,tiers jsonb);
+ CREATE TABLE tier_lists(id text PRIMARY KEY,tiers jsonb,unranked text[]);`)
+ const fixture=abridgedReplacement()
+ Object.assign(fixture.data,{figure_book_contents:[{content_id:'work'}],figure_book_products:[{id:91,edition_id:19916,is_active:false}],celeb_contents:[{id:'celeb-review',content_id:'work',review:'Protected Korean reading',review_en:'Protected English reading',source_url:'https://interview.example/reading'}],
+  curated_list_items:[{id:'curated',content_id:'work',note:'Protected selection'}],flow_nodes:[{id:'node',content_id:'work',bonus_content_ids:['work']}],
+  records:[{id:'record',content_id:'work',body:'Protected record'}],notes:[{id:'note',content_id:'work',memo:'Protected note'}],activity_logs:[{id:'activity',content_id:'work',metadata:{keep:true}}],
+  commerce_events:[{id:1,content_id:'work',kind:'click'}],profession_book_picks:[{content_id:'work',profession:'writer'}],flows:[{id:'flow',tiers:{S:['work']}}],tier_lists:[{id:'tier',tiers:{S:['work']},unranked:['work']}]})
+ const reset=()=>query(`TRUNCATE ${SNAPSHOT_TABLES.join(',')} CASCADE;`+SNAPSHOT_TABLES.filter(table=>fixture.data[table].length)
+  .map(table=>`INSERT INTO ${table} SELECT * FROM jsonb_populate_recordset(NULL::${table},${literal(JSON.stringify(fixture.data[table]))}::jsonb);`).join('\n'))
+ const capture=()=>JSON.parse(query(buildCatalogRepairSnapshotSql(['work'])))
+ const changesFor=snapshot=>fixture.changes.map(change=>({...structuredClone(change),before:structuredClone(snapshot[change.table].find(row=>change.table==='content_locales'?row.content_id===change.before.content_id&&row.locale===change.before.locale:String(row.id)===String(change.before.id)))}))
+ reset()
+ const before=capture(),changes=changesFor(before),expected=planGuardedCatalogRepairs(['work'],before,changes).expected
+ query(buildGuardedCatalogRepairSql(['work'],before,changes))
+ const actual=capture(),canonical=rows=>rows.map(row=>JSON.stringify(row)).sort()
+ for(const table of SNAPSHOT_TABLES)assert.deepEqual(canonical(actual[table]),canonical(expected[table]),table)
+ assert.equal(actual.figure_book_editions[0].id,19916)
+ reset()
+ const stale=capture(),staleSql=buildGuardedCatalogRepairSql(['work'],stale,changesFor(stale))
+ query("UPDATE member_contents SET review='Concurrent human edit' WHERE id='reading';")
+ assert.throws(()=>query(staleSql),/rowset mismatch in member_contents/)
+ assert.equal(query('SELECT count(*) FROM figure_book_editions'),'2')
+ assert.equal(query('SELECT isbn FROM content_locales'),'9788949706634')
+ assert.equal(query("SELECT review FROM member_contents WHERE id='reading'"),'Concurrent human edit')
+})
+
 test('execute failures still remove owned temporary files',async()=>{
  const data=snapshot();let path
  await assert.rejects(guardedCatalogRepairs(null,['work'],[change(data)],{capture:async()=>data,execute:file=>{path=file;throw Error('Mock SQL rejected')}}),/Mock SQL rejected/)
