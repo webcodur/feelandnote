@@ -26,13 +26,20 @@ export function planReviewedLocaleInsert(workIds,snapshot,reviews){
  if(!r||!workIds.includes(r.contentId)||!work||!['ko','en'].includes(r.locale)||r.textLanguage!==r.locale||!nonempty(r.title)||!nonempty(r.creator)||!nonempty(r.workTitle)||!nonempty(r.workCreator)||!nonempty(r.reason)||!sourceUrl(r.sourceUrl,true))throw Error('LOCALE_INSERT: exact original, language and independent review required')
  if(!figure||figure.workTitle!==r.workTitle||figure.workCreator!==r.workCreator)throw Error('LOCALE_INSERT: reviewed original differs from live work')
  const isbn=toIsbn13(r.isbn??'');if(!isbn||isbn!==r.isbn||!binding(r.locale,isbn,r.metadataSourceUrl))throw Error('LOCALE_INSERT: exact official ISBN binding required')
+ const creatorEvidence=r.existingCreatorEvidence
+ if(creatorEvidence!==undefined&&(r.locale!=='en'||creatorEvidence.method!=='independent_existing_original_creator_review'||creatorEvidence.llmReviewed!==true
+  ||creatorEvidence.contentId!==r.contentId||creatorEvidence.workTitle!==figure.workTitle||creatorEvidence.workCreator!==figure.workCreator
+  ||r.creator!==figure.workCreator||creatorEvidence.creator!==r.creator||creatorEvidence.isbn!==isbn
+  ||creatorEvidence.metadataSourceUrl!==r.metadataSourceUrl||creatorEvidence.providerAuthorsMissing!==true
+  ||!sourceUrl(creatorEvidence.sourceUrl,true)||!nonempty(creatorEvidence.reason)||creatorEvidence.reason.trim().length<20))
+  throw Error('LOCALE_INSERT: missing provider author requires an exact independently confirmed existing original creator')
  const key=JSON.stringify([r.contentId,r.locale]);if(keys.has(key)||isbns.has(isbn)||snapshot.content_locales.some(l=>l.content_id===r.contentId&&l.locale===r.locale))throw Error('LOCALE_INSERT: locale exists or duplicate review')
  keys.add(key);isbns.add(isbn)
  if(snapshot.content_locales.some(l=>l.content_id!==r.contentId&&toIsbn13(l.isbn??'')===isbn)||snapshot.figure_book_editions.some(e=>e.content_id!==r.contentId&&toIsbn13(e.isbn??'')===isbn))throw Error('LOCALE_INSERT: ISBN belongs to another original')
  for(const old of [...snapshot.content_locales,...snapshot.figure_book_editions].filter(x=>x.content_id===r.contentId&&x.locale!==r.locale&&toIsbn13(x.isbn??'')===isbn))if(reviewedBookEditionSelectionReason(old)!=='wrong_locale')throw Error('LOCALE_INSERT: same ISBN other language must be independently rejected first')
  if(r.publisher!==null&&!nonempty(r.publisher)||r.thumbnailUrl!==null&&!sourceUrl(r.thumbnailUrl)||!Array.isArray(r.translators)||r.translators.some(x=>!nonempty(x)))throw Error('LOCALE_INSERT: explicit verified metadata required')
  if(!Object.hasOwn(r,'editionKind')||!Object.hasOwn(r,'textScope')||r.editionKind!==null&&!SERVICE_BOOK_EDITION_KINDS.includes(r.editionKind)||r.textScope!==null&&!nonempty(r.textScope)||excludedBookEditionReason({locale:r.locale,isbn,title:r.title,editionKind:r.editionKind,textScope:r.textScope,workTitles:[r.workTitle]}))throw Error('LOCALE_INSERT: explicit nonexcluded text scope required')
- const sources={primary:r.locale==='en'?'openlibrary':'kakao_book',title:r.metadataSourceUrl,isbn:r.metadataSourceUrl,creator:r.metadataSourceUrl,translators:r.translators,edition_title:r.title,edition_text_scope_evidence:{isbn,source_url:r.sourceUrl,reason:r.reason}}
+ const sources={primary:r.locale==='en'?'openlibrary':'kakao_book',title:r.metadataSourceUrl,isbn:r.metadataSourceUrl,creator:creatorEvidence?.sourceUrl??r.metadataSourceUrl,translators:r.translators,edition_title:r.title,edition_text_scope_evidence:{isbn,source_url:r.sourceUrl,reason:r.reason}}
  return {content_id:r.contentId,locale:r.locale,title:r.title,creator:r.creator,isbn,publisher:r.publisher,thumbnail_url:r.thumbnailUrl,description:null,affiliate_url:null,verified:true,sources}
  })
  return {assigned:[...workIds],newLocales}

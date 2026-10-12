@@ -64,3 +64,16 @@ test('apply compares committed expected full18 with a fresh actual snapshot and 
  assert.equal(captures,1);assert.equal(executions,1)
 })
 
+
+test('missing OL authors may retain only the exact verified existing original creator with honest independent provenance',()=>{
+ const {before,review}=fixture();review.creator=review.workCreator
+ review.existingCreatorEvidence={method:'independent_existing_original_creator_review',llmReviewed:true,contentId:id,workTitle:review.workTitle,workCreator:review.workCreator,creator:review.creator,isbn:review.isbn,metadataSourceUrl:review.metadataSourceUrl,providerAuthorsMissing:true,sourceUrl:'https://library.example/exact-isbn',reason:'Exact ISBN edition and live original author independently read and matched; missing provider authors are not fabricated.'}
+ const original=structuredClone(before),row=planReviewedLocaleInsert([id],before,[review]).newLocales[0]
+ assert.equal(row.sources.primary,'openlibrary');assert.equal(row.sources.isbn,review.metadataSourceUrl)
+ assert.equal(row.sources.creator,review.existingCreatorEvidence.sourceUrl);assert.equal(row.creator,review.workCreator)
+ assert.deepEqual(before,original);assert.equal(verifyReviewedLocaleInsertReadback([id],before,[review],committed(before,review)).checkedTables,18)
+ for(const patch of [{llmReviewed:false},{providerAuthorsMissing:false},{contentId:'different'},{workTitle:'different'},{workCreator:'different'},{creator:'different'},{isbn:'9780140444124'},{metadataSourceUrl:'https://openlibrary.org/books/OL5678M'},{sourceUrl:'https://openlibrary.org/books/OL1234M'},{reason:'missing'}]){
+  assert.throws(()=>planReviewedLocaleInsert([id],before,[{...review,existingCreatorEvidence:{...review.existingCreatorEvidence,...patch}}]),/existing original creator/)
+ }
+ assert.throws(()=>planReviewedLocaleInsert([id],before,[{...review,creator:'Invented new author'}]),/existing original creator/)
+})
