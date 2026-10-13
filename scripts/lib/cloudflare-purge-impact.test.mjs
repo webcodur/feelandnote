@@ -84,6 +84,7 @@ test('profession helpers follow shelf consumers while standalone hubs and local 
     'sw/web/src/actions/books/getProfessionBookCatalog.ts',
     'sw/web/src/app/[locale]/(main)/explore/works/professions/page.tsx',
     'sw/web/src/components/features/commerce/CommerceProductCard.tsx',
+    'sw/web/src/components/features/commerce/useSupportShopping.ts',
     'sw/web/src/lib/commerce-products.ts',
     'sw/web/src/lib/faction-theme.ts',
     'sw/web/src/lib/faction-scene-completion.ts',

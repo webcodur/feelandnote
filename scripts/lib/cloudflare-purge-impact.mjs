@@ -306,6 +306,7 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/commerce/SupportProductGrid.tsx',
   'sw/web/src/components/features/commerce/SupportShopNavigation.tsx',
   'sw/web/src/components/features/commerce/SupportShopPage.tsx',
+  'sw/web/src/components/features/commerce/useSupportShopping.ts',
   'sw/web/src/lib/commerce-products.ts',
   'sw/web/src/components/features/commerce/CommerceProductCard.tsx',
   'sw/web/src/components/features/faction/entry/ThemeBookShelf.tsx',
