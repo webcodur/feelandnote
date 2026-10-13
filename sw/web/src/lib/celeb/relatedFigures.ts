@@ -4,10 +4,11 @@
   조회는 호출처가 하고 여기서는 받은 자료로 순서만 정한다.
 */
 
-import { celebRelationAxis, celebRelationAxisGroup, type CelebRelationAxis } from '@feelandnote/shared/constants/celeb-relations';
+import { celebRelationDisplayType, celebRelationDisplayGroup, type CelebRelationAxis } from '@feelandnote/shared/constants/celeb-relations';
 
 /** 직접 협력·대립한 인물을 넓은 사상적 영향 관계보다 먼저 보여준다. */
-const REL_WEIGHT: Record<CelebRelationAxis, number> = {
+const REL_WEIGHT: Record<CelebRelationAxis | 'family', number> = {
+  family: 0.95,
   colleague: 0.95,
   rival: 0.95,
   influence: 0.6,
@@ -84,7 +85,7 @@ export function figureDistance(
 }
 
 /** 관계 한 건의 점수. 같은 유형이면 더 큰 인물이 위로 온다 */
-function relationScore(relType: CelebRelationAxis, influence: number): number {
+function relationScore(relType: CelebRelationAxis | 'family', influence: number): number {
   const weight = REL_WEIGHT[relType];
   return weight + influence / INFLUENCE_SCALE;
 }
@@ -109,16 +110,17 @@ export function rankRelatedFigures({
   // 1) 근거 있는 사이 — 이동할 페이지가 있는 인물만 세운다
   const best = new Map<string, { relation: RelatedRelationInput; score: number }>();
   for (const relation of relations) {
-    const axis = celebRelationAxis(relation.relType);
+    const axis = celebRelationDisplayType(relation.relType, relation.relGroup);
     if (!axis) continue;
     if (relation.id === self.id || !relation.slug) continue;
     const candidate = byId.get(relation.id);
     if (!candidate || candidate.isFiction !== self.isFiction) continue;
 
-    const score = relationScore(axis, candidate.influence);
+    const group = celebRelationDisplayGroup(relation.relType, relation.relGroup)!;
+    const score = relationScore(group === 'family' ? 'family' : axis as CelebRelationAxis, candidate.influence);
     const previous = best.get(relation.id);
     if (!previous || score > previous.score) {
-      best.set(relation.id, { relation: { ...relation, relType: axis, relGroup: celebRelationAxisGroup(axis) }, score });
+      best.set(relation.id, { relation: { ...relation, relType: axis, relGroup: group }, score });
     }
   }
 

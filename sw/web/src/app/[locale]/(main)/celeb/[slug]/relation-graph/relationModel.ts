@@ -1,5 +1,5 @@
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
-import { celebRelationAxis, celebRelationAxisGroup } from '@feelandnote/shared/constants/celeb-relations';
+import { celebRelationDisplayType, celebRelationDisplayGroup } from '@feelandnote/shared/constants/celeb-relations';
 
 import type { KinRank, PersonNode, RelationFocus, RelationMode, RelationModel, SocialBand } from "./types";
 
@@ -28,9 +28,9 @@ const uniquePeople = (groups: PersonNode[][]) => {
 export function buildRelationModel(relations: CelebRelationItem[], locale: string): RelationModel {
   const merged = new Map<string, PersonNode>();
   for (const row of relations) {
-    const axis = celebRelationAxis(row.relType);
+    const axis = celebRelationDisplayType(row.relType, row.relGroup);
     if (!axis) continue;
-    const group = celebRelationAxisGroup(axis);
+    const group = celebRelationDisplayGroup(row.relType, row.relGroup)!;
     const name = locale === "en" && row.nickname_en ? row.nickname_en : row.nickname;
     const note = locale === "en" && row.note_en ? row.note_en : row.note;
     const current = merged.get(row.id);
@@ -53,6 +53,11 @@ export function buildRelationModel(relations: CelebRelationItem[], locale: strin
   const social: RelationModel["social"] = { up: [], left: [], right: [], down: [] };
   const other: PersonNode[] = [];
   for (const person of people) {
+    const familyRanks = new Set(person.types.map(type => KIN_RANK[type]).filter(Boolean));
+    if (familyRanks.size) {
+      for (const rank of familyRanks) family[rank].push(person);
+      continue;
+    }
     const socialTypes = person.types.filter((type) => SOCIAL_BAND[type]);
     // 네 축은 독립적이다. 대립한다고 협력이나 양방향 영향이 사라지지 않는다.
     const bands = new Set(socialTypes.map(type => SOCIAL_BAND[type]));
@@ -64,6 +69,12 @@ export function buildRelationModel(relations: CelebRelationItem[], locale: strin
     familyPeople: uniquePeople(Object.values(family)),
     socialPeople: uniquePeople(Object.values(social)),
   };
+}
+
+export function resolveRelationMode(model: RelationModel, preferred: RelationMode): RelationMode {
+  if (preferred === 'family' && model.familyPeople.length) return 'family';
+  if (model.socialPeople.length) return 'social';
+  return model.familyPeople.length ? 'family' : preferred;
 }
 
 export function peopleForMode(model: RelationModel, mode: RelationMode) {

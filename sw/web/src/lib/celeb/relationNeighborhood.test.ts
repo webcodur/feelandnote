@@ -41,10 +41,18 @@ test("상대가 중심에게 무엇이었나로 묶음을 가른다", () => {
 
   assert.deepEqual(
     groups.map((group) => group.kind),
-    ["gave", "took", "rival", "together"],
+    ["gave", "took", "rival", "together", "family"],
   );
   assert.deepEqual(ids(groups[0].items), ["스승"]);
   assert.deepEqual(ids(groups[1].items), ["제자"]);
+  assert.deepEqual(ids(groups[4].items), ["형제"]);
+});
+
+test("가족 관계만 있어도 탐색기의 가족 묶음이 나온다", () => {
+  const groups = groupNeighbors({ relations: [{ targetId: 'anna', relType: 'sibling', note: '신원 확인 대면' }], candidates: mapOf(celeb('anna')), limit: 10 });
+  assert.equal(groups.length, 1);
+  assert.equal(groups[0].kind, 'family');
+  assert.equal(groups[0].items[0].note, '신원 확인 대면');
 });
 
 test("influence는 준 쪽, influenced는 받은 쪽이다", () => {

@@ -150,7 +150,7 @@ export async function getRelationNeighborhood(
   return await cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['celeb-relation-neighborhood', celebId],
+    ['celeb-relation-neighborhood-v2-family', celebId],
     () => fetchNeighborhood(celebId),
   )
 }

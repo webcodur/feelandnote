@@ -3,8 +3,12 @@ import test from 'node:test'
 
 import {
   CELEB_RELATION_TYPE_ORDER,
+  CELEB_RELATION_AXES,
+  CELEB_FAMILY_RELATION_TYPES,
   canonicalizeCelebRelationAxis,
   celebRelationAxis,
+  celebRelationDisplayType,
+  celebRelationDisplayGroup,
   canonicalizeCelebRelation,
   celebRelationCounterpartId,
   celebRelationFactKey,
@@ -72,9 +76,21 @@ test('different relationship kinds between the same people stay separate', () =>
   assert.notEqual(celebRelationFactKey(friend), celebRelationFactKey(rival))
 })
 
-test('현행 유형은 네 축뿐이고 사제·공동창업을 같은 사실로 읽는다', () => {
-  assert.deepEqual(CELEB_RELATION_TYPE_ORDER, ['influence', 'influenced', 'colleague', 'rival'])
+test('사회 관계는 네 축이고 화면 정렬에는 가족 유형도 포함한다', () => {
+  assert.deepEqual(CELEB_RELATION_AXES, ['influence', 'influenced', 'colleague', 'rival'])
+  assert.deepEqual(CELEB_RELATION_TYPE_ORDER, [...CELEB_RELATION_AXES, ...CELEB_FAMILY_RELATION_TYPES])
   assert.deepEqual(canonicalizeCelebRelationAxis({ fromId: 'a', toId: 'b', relType: 'student' }), { fromId: 'b', toId: 'a', relType: 'influence' })
   assert.deepEqual(canonicalizeCelebRelationAxis({ fromId: 'z', toId: 'a', relType: 'cofounder' }), { fromId: 'a', toId: 'z', relType: 'colleague' })
   assert.equal(canonicalizeCelebRelationAxis({ fromId: 'a', toId: 'b', relType: 'friend' }), null)
+})
+
+test('가족은 사회 축으로 바꾸지 않고 가족 유형과 묶음으로 표시한다', () => {
+  for (const type of CELEB_FAMILY_RELATION_TYPES) {
+    assert.equal(celebRelationAxis(type), null)
+    assert.equal(celebRelationDisplayType(type), type)
+    assert.equal(celebRelationDisplayGroup(type), 'family')
+  }
+  assert.equal(celebRelationDisplayType('teacher'), 'influence')
+  assert.equal(celebRelationDisplayGroup('teacher'), 'thought')
+  assert.equal(celebRelationDisplayType('friend'), null)
 })

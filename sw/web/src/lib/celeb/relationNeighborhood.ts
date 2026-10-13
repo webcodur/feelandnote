@@ -6,9 +6,9 @@
 */
 
 /** 화면이 읽는 묶음. 순서가 곧 화면에 서는 차례다 */
-import { celebRelationAxis } from '@feelandnote/shared/constants/celeb-relations';
+import { celebRelationDisplayType, isCelebFamilyRelation } from '@feelandnote/shared/constants/celeb-relations';
 
-export type NeighborKind = "gave" | "took" | "rival" | "together";
+export type NeighborKind = "gave" | "took" | "rival" | "together" | "family";
 
 /** 상대가 중심에게 무엇이었나 → 어느 묶음인가 */
 const KIND_OF: Record<string, NeighborKind> = {
@@ -26,6 +26,7 @@ export const NEIGHBOR_ORDER: readonly NeighborKind[] = [
   "took",
   "rival",
   "together",
+  "family",
 ] as const;
 
 export interface NeighborCandidate {
@@ -77,8 +78,8 @@ export function groupNeighbors({ relations, candidates, limit }: GroupInput): Ne
   const buckets = new Map<NeighborKind, Map<string, Neighbor>>();
 
   for (const relation of relations) {
-    const axis = celebRelationAxis(relation.relType);
-    const kind = axis ? KIND_OF[axis] : null;
+    const axis = celebRelationDisplayType(relation.relType);
+    const kind = isCelebFamilyRelation(relation.relType) ? 'family' : axis ? KIND_OF[axis] : null;
     if (!kind) continue;
 
     const celeb = candidates.get(relation.targetId);

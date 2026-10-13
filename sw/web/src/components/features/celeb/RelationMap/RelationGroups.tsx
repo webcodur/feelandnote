@@ -34,6 +34,7 @@ export default function RelationGroups({ groups, isEn, nameOf, onSelect }: Relat
       took: t("groupTook"),
       rival: t("groupRival"),
       together: t("groupTogether"),
+      family: t("groupFamily"),
     })[kind];
 
   if (groups.length === 0) {

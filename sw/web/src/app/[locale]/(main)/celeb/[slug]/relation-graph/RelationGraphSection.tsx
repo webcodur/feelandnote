@@ -10,8 +10,8 @@ import MobileRelationGraph from "./MobileRelationGraph";
 import styles from "./RelationGraphSection.module.css";
 import RelationInspector from "./RelationInspector";
 import RelationToolbar, { type FocusOption } from "./RelationToolbar";
-import { buildRelationModel, peopleForFocuses, relationFocusesForMode, typesForMode } from "./relationModel";
-import type { DiagramLabels, PersonNode, RelationFocus, RelationGraphProps } from "./types";
+import { buildRelationModel, peopleForFocuses, relationFocusesForMode, resolveRelationMode, typesForMode } from "./relationModel";
+import type { DiagramLabels, PersonNode, RelationFocus, RelationGraphProps, RelationMode } from "./types";
 import useRelationDialogue from "@/hooks/useRelationDialogue";
 import { graphStageHeight } from "./graphLayout";
 import { useNearViewport } from "@/components/ui/pending";
@@ -33,7 +33,8 @@ export default function RelationGraphSection({
   const tp = useTranslations("profession");
   useCountries();
   const model = useMemo(() => buildRelationModel(relations, locale), [relations, locale]);
-  const effectiveMode = 'social' as const;
+  const [storedMode, setStoredMode] = useState<RelationMode>('social');
+  const effectiveMode = resolveRelationMode(model, storedMode);
   const [storedFocus, setStoredFocus] = useState<RelationFocus | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [desktopDiagramReady, setDesktopDiagramReady] = useState(false);
@@ -63,12 +64,17 @@ export default function RelationGraphSection({
     right: t("relBandSideR"), down: t("relBandDown", { name: centerName }),
   }), [t, centerName]);
 
-  const focusOptions = useMemo<FocusOption[]>(() => [
+  const focusOptions = useMemo<FocusOption[]>(() => effectiveMode === 'family' ? [
+    { key: "parents", label: labels.parents, people: model.family.parents },
+    { key: "siblings", label: labels.siblings, people: model.family.siblings },
+    { key: "spouses", label: labels.spouses, people: model.family.spouses },
+    { key: "children", label: labels.children, people: model.family.children },
+  ] : [
     { key: "up", label: t("relAxis_received"), people: model.social.up },
     { key: "left", label: labels.left, people: model.social.left },
     { key: "right", label: labels.right, people: model.social.right },
     { key: "down", label: t("relAxis_given"), people: model.social.down },
-  ], [labels, model, t]);
+  ], [effectiveMode, labels, model, t]);
   const availableFocuses = useMemo(
     () => relationFocusesForMode(model, effectiveMode), [model, effectiveMode],
   );
@@ -94,7 +100,7 @@ export default function RelationGraphSection({
     captureViewportAnchor(shellRef.current?.querySelector<HTMLElement>(`.${styles.relationFilters}`) ?? null);
     setStoredFocus(selectedFocus === next ? null : next);
     setSelectedId(null);
-  }, [captureViewportAnchor, effectiveMode, selectedFocus]);
+  }, [captureViewportAnchor, selectedFocus]);
 
   const centerPerson: PersonNode | null = centerProfile ? {
     id: centerProfile.id,
@@ -175,6 +181,16 @@ export default function RelationGraphSection({
   if (!model.people.length) return null;
 
   return <div ref={shellRef} className={styles.shell}>
+    {model.familyPeople.length > 0 && model.socialPeople.length > 0 &&
+      <div className={styles.relationFilters} role="group" aria-label={t("connections")}>
+        {(['social', 'family'] as const).map(mode => <button key={mode} type="button"
+          aria-pressed={effectiveMode === mode} onClick={() => {
+            captureViewportAnchor(shellRef.current?.querySelector<HTMLElement>(`.${styles.relationFilters}`) ?? null);
+            setStoredMode(mode); setStoredFocus(null); setSelectedId(null);
+          }}>
+          {mode === 'family' ? t("relFilter_family") : t("relModeSocial")}
+        </button>)}
+      </div>}
     <RelationToolbar focusLabel={t("relAxesLabel")}
       focusOptions={focusOptions} selectedFocus={selectedFocus}
       onFocusChange={changeFocus} />

@@ -427,6 +427,7 @@
     "relatedFactionOpen": "Explore {name}",
     "relatedFactionsIntro": "The groups and stories this figure is part of.",
     "relatedFactionMorePeople": "and {count} more",
-    "relatedFactionMoreGroups": "and {count} more groups"
+    "relatedFactionMoreGroups": "and {count} more groups",
+    "relModeSocial": "Social relationships"
   }
 }

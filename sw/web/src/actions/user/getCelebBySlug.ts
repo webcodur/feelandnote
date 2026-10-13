@@ -4,8 +4,8 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import {
   CELEB_RELATION_TYPE_ORDER,
-  celebRelationAxis,
-  celebRelationAxisGroup,
+  celebRelationDisplayType,
+  celebRelationDisplayGroup,
   isCelebFamilyRelation,
   type CelebRelationGroup,
 } from '@feelandnote/shared/constants/celeb-relations'
@@ -357,7 +357,8 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
   const internalRelations: CelebRelationItem[] = mergeRelationRowsForViewer(rawRelations, celebId)
     .flatMap((relation) => {
       const target = relationProfiles.get(relation.counterpartId)
-      if (!target || familyIds.has(target.id) || (target.wikidata_qid && familyQids.has(target.wikidata_qid))) return []
+      if (!target) return []
+      if (relation.relGroup !== 'family' && (familyIds.has(target.id) || (target.wikidata_qid && familyQids.has(target.wikidata_qid)))) return []
       return [{
       relType: relation.relType,
       relGroup: relation.relGroup,
@@ -379,11 +380,13 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     })
 
   // 명단 밖 인물(위키데이터 등재) — 이름 노드. 셀럽이 자리를 먼저 차지하도록 뒤에 붙인다
+  const internalFamilyQids = new Set(internalRelations.filter(r => r.relGroup === 'family' && r.qid).map(r => r.qid))
   const externalRelations: CelebRelationItem[] = rawExternalRelations
-    .filter((r) => !familyQids.has(r.qid) && (r.name_ko || r.name_en) && celebRelationAxis(r.rel_type))
+    .filter((r) => (r.name_ko || r.name_en) && celebRelationDisplayType(r.rel_type, r.rel_group)
+      && (isCelebFamilyRelation(r.rel_type, r.rel_group) ? !internalFamilyQids.has(r.qid) : !familyQids.has(r.qid)))
     .map((r) => ({
-      relType: celebRelationAxis(r.rel_type)!,
-      relGroup: celebRelationAxisGroup(celebRelationAxis(r.rel_type)!),
+      relType: celebRelationDisplayType(r.rel_type, r.rel_group)!,
+      relGroup: celebRelationDisplayGroup(r.rel_type, r.rel_group)!,
       id: `ext-${r.qid}`,
       slug: null,
       listed: false,
@@ -433,8 +436,8 @@ const getCelebBySlugCached = (slug: string) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     slug,
-    // 네 관계 축과 가족 중복 제외가 반영된 결과를 새로 채운다.
-    ['celeb-by-slug-v12-relation-axes', slug],
+    // 가족과 네 사회 축을 함께 표시하되 가족 쌍의 사회 중복은 제외한다.
+    ['celeb-by-slug-v13-family-relations', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )

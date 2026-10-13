@@ -42,6 +42,17 @@ export function celebRelationAxisGroup(axis: CelebRelationAxis): CelebRelationGr
   return 'thought'
 }
 
+/** 화면에는 가족 관계와 네 사회 축을 함께 보여준다. */
+export function celebRelationDisplayType(type: string, group?: string | null): string | null {
+  return isCelebFamilyRelation(type, group) ? type : celebRelationAxis(type)
+}
+
+export function celebRelationDisplayGroup(type: string, group?: string | null): CelebRelationGroup | null {
+  if (isCelebFamilyRelation(type, group)) return 'family'
+  const axis = celebRelationAxis(type)
+  return axis ? celebRelationAxisGroup(axis) : null
+}
+
 export function canonicalizeCelebRelationAxis(relation: CelebRelationIdentity): CelebRelationIdentity | null {
   const axis = celebRelationAxis(relation.relType)
   return axis ? canonicalizeCelebRelation({ ...relation, relType: axis }) : null
@@ -85,7 +96,7 @@ const INVERSE_VIEW_TYPE: Record<string, string> = {
 // Stored directional types describe what toId is to fromId.
 // Example: child -> parent with relType "mother".
 
-export const CELEB_RELATION_TYPE_ORDER = CELEB_RELATION_AXES
+export const CELEB_RELATION_TYPE_ORDER = [...CELEB_RELATION_AXES, ...CELEB_FAMILY_RELATION_TYPES] as const
 
 export function canonicalizeCelebRelation(
   relation: CelebRelationIdentity,
