@@ -1,7 +1,22 @@
 import { bookEditionTitleKey } from './book-series'
 
+type OriginalAuthorContext = { workKey: string | null; editionKey: string | null; isbn: string | null }
+
+// 실사한 이 종이판은 Melissa Hill의 단독 저작이다. OL의 세 항목은 중복 이름/도치 표기다.
+// https://www.sourcebooks.com/9781728267517-something-from-tiffanys-movie-tie-in-edition-tp.html
+// https://openlibrary.org/authors/OL1420114A.json
+// https://openlibrary.org/authors/OL7100156A.json
+// https://openlibrary.org/authors/OL11582732A.json
+const TIFFANYS_AUTHOR_KEYS = ['/authors/OL1420114A', '/authors/OL7100156A', '/authors/OL11582732A'] as const
+
 /** 서로 다른 판의 인물이 연결 원전의 저자 목록에 섞이면 자동 선택하지 않는다. */
-export function getBookOriginalAuthorKeys(editionAuthors: readonly string[], workAuthors: readonly string[]): string[] | null {
+export function getBookOriginalAuthorKeys(
+  editionAuthors: readonly string[], workAuthors: readonly string[], context?: OriginalAuthorContext,
+): string[] | null {
+  if (context?.workKey === '/works/OL16565784W' && context.editionKey === '/books/OL38063276M'
+    && context.isbn === '9781728267517' && editionAuthors.length === 1
+    && editionAuthors[0] === TIFFANYS_AUTHOR_KEYS[0] && workAuthors.length === TIFFANYS_AUTHOR_KEYS.length
+    && TIFFANYS_AUTHOR_KEYS.every(key => workAuthors.includes(key))) return [TIFFANYS_AUTHOR_KEYS[0]]
   if (workAuthors.length && editionAuthors.length && workAuthors.some(key => !editionAuthors.includes(key))) return null
   return [...new Set(workAuthors.length ? workAuthors : editionAuthors)]
 }
@@ -10,8 +25,9 @@ export function getBookOriginalAuthorKeys(editionAuthors: readonly string[], wor
 export function canUseBookWorkIntroduction(
   editionTitle: string | null | undefined, editionAuthors: readonly string[],
   workTitle: string | null | undefined, workAuthors: readonly string[],
+  context?: OriginalAuthorContext,
 ): boolean {
   return Boolean(editionTitle && workTitle && editionAuthors.length && workAuthors.length
     && bookEditionTitleKey(editionTitle) === bookEditionTitleKey(workTitle)
-    && getBookOriginalAuthorKeys(editionAuthors, workAuthors)?.length)
+    && getBookOriginalAuthorKeys(editionAuthors, workAuthors, context)?.length)
 }

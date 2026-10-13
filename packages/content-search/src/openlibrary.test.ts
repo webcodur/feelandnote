@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 
 import { getBookDescriptionByIsbn, getOpenLibraryBookMetadata, getOpenLibraryBookUrl, getOpenLibraryBookIntroduction, getOpenLibraryTranslatorNames } from './openlibrary'
+import { getBookOriginalAuthorKeys } from './book-original-authors'
 
 test('공식 번역 기여자를 원저자·편집자와 구분해 보존한다', () => {
  assert.deepEqual(getOpenLibraryTranslatorNames({contributions:['Ben Fowkes (Translator)','Other (Editor)']}),['Ben Fowkes'])
@@ -32,6 +33,55 @@ const metadataEdition = {
   publishers: ['Simon & Schuster'], languages: [{ key: '/languages/eng' }],
   authors: [{ key: '/authors/OL1A' }], works: [{ key: '/works/OL1W' }],
 }
+
+const tiffanysAuthors = ['/authors/OL7100156A', '/authors/OL1420114A', '/authors/OL11582732A']
+const tiffanysContext = { workKey: '/works/OL16565784W', editionKey: '/books/OL38063276M', isbn: '9781728267517' }
+const tiffanysEdition = {
+  key: tiffanysContext.editionKey, title: "Something from Tiffany's", subtitle: 'Movie Tie-In',
+  isbn_13: [tiffanysContext.isbn], publishers: ['Sourcebooks, Incorporated', 'Sourcebooks Landmark'],
+  languages: [{ key: '/languages/eng' }], authors: [{ key: '/authors/OL1420114A' }],
+  works: [{ key: tiffanysContext.workKey }], covers: [13629481],
+}
+
+test('실사한 Tiffany’s 종이판의 정확한 중복 저자 ID만 단독 저자로 정규화한다', async (t) => {
+  const mock = t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => {
+    if (String(url).includes('/isbn/')) return Response.json(tiffanysEdition)
+    if (String(url).includes('/works/')) return Response.json({ title: "Something from Tiffany's",
+      authors: tiffanysAuthors.map(key => ({ author: { key } })),
+    })
+    if (String(url).includes('covers.openlibrary.org')) return new Response('', { headers: { 'content-type': 'image/jpeg' } })
+    assert.equal(String(url), 'https://openlibrary.org/authors/OL1420114A.json')
+    return Response.json({ name: 'Melissa Hill' })
+  })
+  const book = await getOpenLibraryBookMetadata(tiffanysContext.isbn)
+  assert.equal(book?.creator, 'Melissa Hill')
+  assert.equal(book?.title, "Something from Tiffany's: Movie Tie-In")
+  assert.equal(book?.workKey, tiffanysContext.workKey)
+  assert.equal(book?.coverImageUrl, 'https://covers.openlibrary.org/b/id/13629481-L.jpg')
+  assert.equal(mock.mock.calls.filter(call => String(call.arguments[0]).includes('/authors/')).length, 1)
+})
+
+test('검수된 중복 저자 예외를 다른 원작·ISBN·판본과 바뀐 저자 목록에 확장하지 않는다', () => {
+  const author = ['/authors/OL1420114A']
+  assert.equal(getBookOriginalAuthorKeys(author, tiffanysAuthors), null)
+  for (const context of [
+    { ...tiffanysContext, workKey: '/works/OL1W' },
+    { ...tiffanysContext, editionKey: '/books/OL38405595M' },
+    { ...tiffanysContext, isbn: '9781728268910' },
+  ]) assert.equal(getBookOriginalAuthorKeys(author, tiffanysAuthors, context), null)
+  assert.equal(getBookOriginalAuthorKeys(author, [...tiffanysAuthors, '/authors/OL2A'], tiffanysContext), null)
+  assert.equal(getBookOriginalAuthorKeys(author, [author[0], '/authors/OL2A'], tiffanysContext), null)
+  assert.equal(getBookOriginalAuthorKeys(['/authors/OL2A'], tiffanysAuthors, tiffanysContext), null)
+  assert.deepEqual(getBookOriginalAuthorKeys(['/authors/OL1A', '/authors/OL2A'], ['/authors/OL1A', '/authors/OL2A'], tiffanysContext),
+    ['/authors/OL1A', '/authors/OL2A'])
+})
+
+test('Tiffany’s 원전에 실제 추가 공저자가 생기면 정식 ISBN 메타 조회를 계속 거부한다', async (t) => {
+  t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => String(url).includes('/isbn/')
+    ? Response.json(tiffanysEdition)
+    : Response.json({ title: "Something from Tiffany's", authors: [...tiffanysAuthors, '/authors/OL2A'].map(key => ({ author: { key } })) }))
+  await assert.rejects(getOpenLibraryBookMetadata(tiffanysContext.isbn), /저자 목록을 판본에서 확인할 수 없어/)
+})
 
 test('출판사 누락은 기본 경로에서 거부하고 명시한 등록 경로에서만 빈 값으로 보존한다', async (t) => {
   const mock = t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => {

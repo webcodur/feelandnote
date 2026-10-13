@@ -104,7 +104,9 @@ export async function getOpenLibraryBookMetadata(
   const work = workKey ? await fetchJson<OpenLibraryWork>(`${OPENLIBRARY_BASE_URL}${workKey}`) : null
   const workAuthors = (work?.data.authors ?? []).flatMap(item => item.author?.key ? [item.author.key] : [])
   const editionAuthors = (edition.authors ?? []).map(item => item.key)
-  const authorKeys = getBookOriginalAuthorKeys(editionAuthors, workAuthors)
+  const authorKeys = getBookOriginalAuthorKeys(editionAuthors, workAuthors, {
+    workKey, editionKey: edition.key ?? null, isbn,
+  })
   if (!authorKeys) {
     // 다른 판의 낭독자·편집자가 연결 원전의 author 목록에 섞인 실제 응답이 있다.
     // 판본에 없는 인물을 원저자로 추가하거나, 확인되지 않은 공저자를 임의로 빼지 않는다.
@@ -242,7 +244,10 @@ export async function getOpenLibraryBookIntroduction(input: {
     const editionTitle = [edition.data.title, edition.data.subtitle].filter(Boolean).join(': ')
     const editionAuthors = (edition.data.authors ?? []).map(author => author.key)
     const workAuthors = (work?.data.authors ?? []).map(author => author.author?.key).filter((key): key is string => Boolean(key))
-    if (work && canUseBookWorkIntroduction(editionTitle, editionAuthors, work.data.title, workAuthors)) {
+    if (work && canUseBookWorkIntroduction(editionTitle, editionAuthors, work.data.title, workAuthors, {
+      workKey, editionKey: edition.data.key ?? null,
+      isbn: (edition.data.isbn_13 ?? []).map(toIsbn13).find(isbn => isbn === toIsbn13(cleanIsbn)) ?? null,
+    })) {
       description = cleanDescription(readDescription(work.data.description))
       descriptionUrl = work.sourceUrl
     }
