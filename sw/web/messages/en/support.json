@@ -7,7 +7,6 @@
     "titleSecond": "A little support for feelandnote.",
     "intro": "Thank you for using feelandnote.\nShopping through these links is a great help in keeping feelandnote running.",
     "browse": "Browse everyday essentials",
-    "noDonation": "No extra cost",
     "usualShopping": "Shop on Amazon",
     "store": "United States · Amazon.com",
     "productsTitle": "Everyday essentials",
@@ -43,9 +42,8 @@
     "viewProduct": "View on Amazon",
     "productLinkLabel": "{name} · View on Amazon US (opens in a new tab)",
     "purchaseNote": "Please check Amazon.com for current prices, product options, shipping fees, and availability at your address.",
-    "affiliateNotice": "We may earn a commission from qualifying purchases through these links.",
+    "affiliateNotice": "Feelandnote earns a commission on qualifying purchases through these affiliate links.",
     "thanks": "Thank you for using and supporting feelandnote.",
-    "samePrice": "The same price",
     "tabs": {
       "label": "Support and shop",
       "support": "Support us",
@@ -59,7 +57,6 @@
       "intro": "Book stands, pens, and small tools for your desk.\nUseful things for reading and keeping notes.",
       "productsTitle": "Reading & desk essentials",
       "productsIntro": "Browse {count} useful tools for reading, writing, and your desk.",
-      "readerNote": "Before choosing an e-reader, please check that it supports your preferred bookstore and file formats.",
       "thanks": "Thank you for using and supporting feelandnote.",
       "browse": "Browse reading tools",
       "usualShopping": "Shop on Amazon",
@@ -99,6 +96,16 @@
     },
     "freshNote": "Chilled and frozen food uses Rocket Fresh delivery. Please check delivery availability and order requirements.",
     "zoomImageLabel": "Enlarge image of {name}",
-    "productsLoadError": "We could not load the products. Please try again shortly."
+    "productsLoadError": "We could not load the products. Please try again shortly.",
+    "favorites": {
+      "title": "Favorites",
+      "addLabel": "Add {name} to favorites",
+      "removeLabel": "Remove {name} from favorites",
+      "emptyFiltered": "Your Rocket Fresh favorites are hidden. Turn on Rocket Fresh products to show them again.",
+      "showFresh": "Show Rocket Fresh products",
+      "status": "{count} favorites, {visible} products shown"
+    },
+    "purchaseBenefit": "The same price, no extra cost",
+    "guideTitle": "How it works"
   }
 }

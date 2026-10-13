@@ -1,8 +1,13 @@
+'use client'
+
+import type { ReactNode } from 'react'
 import hubStyles from "@/components/shared/HubSection.module.css";
-import { getTranslations } from 'next-intl/server'
+import { useTranslations } from 'next-intl'
 import { ArrowUpRight, BookOpen, Bookmark, Coffee, CookingPot, CupSoda, Droplets, LampDesk, NotebookPen, PenTool, Printer, Radio, ShowerHead, Sparkles, Speaker, Star, Tablet, Timer, ToyBrick, Truck, Utensils, Wheat } from 'lucide-react'
 import CommerceProductCard from './CommerceProductCard'
 import HubSection from '@/components/shared/HubSection'
+import AtlasNavSections from '@/components/shared/atlasNav/AtlasNavSections'
+import useSupportShopping from './useSupportShopping'
 import { getCommerceProductGroups, getSupportProductLink, type SupportProduct, type SupportProductKind } from '@/constants/supportProducts'
 
 function ProductIcon({ kind }: { kind: SupportProductKind }) {
@@ -20,11 +25,27 @@ function ProductIcon({ kind }: { kind: SupportProductKind }) {
   )
 }
 
-export default async function SupportProductGrid({ products, locale, collection }: { products: SupportProduct[]; locale: 'ko' | 'en'; collection: 'shop' | 'support' }) {
-  const t = await getTranslations('support')
+function PurchaseLink({ direct, href, affiliate, label, children }: { direct: boolean; href: string; affiliate: boolean; label: string; children: ReactNode }) {
+  return direct ? <a href={href} target="_blank" rel={`noopener noreferrer${affiliate ? ' sponsored' : ''}`} aria-label={label} className="rounded-control focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">{children}</a> : children
+}
+
+export default function SupportProductGrid({ products, locale, collection, guide, loadError = false }: { products: SupportProduct[]; locale: 'ko' | 'en'; collection: 'shop' | 'support'; guide: ReactNode; loadError?: boolean }) {
+  const t = useTranslations('support')
+  const shopping = useSupportShopping(products)
+  const support = collection === 'support'
+  const hasFresh = support && products.some(product => product.offer?.delivery === 'rocketFresh')
+  const visibleProducts = support && !shopping.showFresh ? products.filter(product => product.offer?.delivery !== 'rocketFresh') : products
+  const favorites = visibleProducts.filter(product => shopping.selectedUrls.has(product.productUrl))
+  const showFavorites = support && shopping.selected.length > 0
   const checkedDates = [...new Set(products.flatMap(product => product.offer ? [product.offer.checkedAt] : []))]
   const dateLabel = checkedDates.map(date => new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`))).join(', ')
-  const groups = getCommerceProductGroups(products, collection)
+  const groups = getCommerceProductGroups(visibleProducts, collection)
+  const sections = [
+    { key: `${collection}-guide`, sectionId: `${collection}-guide`, label: t('guideTitle') },
+    ...(showFavorites ? [{ key: 'support-favorites', sectionId: 'support-favorites', label: t('favorites.title') }] : []),
+    ...groups.map(group => ({ key: `${collection}-${group.id}`, sectionId: `${collection}-${group.id}`, label: t(`${support ? 'groups' : 'shop.groups'}.${group.id}`) })),
+  ]
+  const sectionCount = sections.length
   const renderCard = (product: SupportProduct) => {
     const link = getSupportProductLink(product, locale)
     const offer = product.offer
@@ -32,7 +53,11 @@ export default async function SupportProductGrid({ products, locale, collection 
       ? `${offer.price.toLocaleString('ko-KR')}원`
       : new Intl.NumberFormat(locale, { style: 'currency', currency: offer.currency, maximumFractionDigits: offer.currency === 'KRW' ? 0 : 2 }).format(offer.price))
     return (
-      <CommerceProductCard key={product.productUrl} href={link.href} affiliate={link.affiliate} linkLabel={t('productLinkLabel', { name: product.name })} zoomLabel={t('zoomImageLabel', { name: product.name })} imageUrl={product.imageUrl} name={product.name} collection={collection} fallback={<ProductIcon kind={product.kind} />}>
+      <CommerceProductCard key={product.productUrl} href={link.href} affiliate={link.affiliate} linkLabel={t('productLinkLabel', { name: product.name })} zoomLabel={t('zoomImageLabel', { name: product.name })} imageUrl={product.imageUrl} name={product.name} collection={collection} fallback={<ProductIcon kind={product.kind} />} favoriteAction={support ? (
+        <button type="button" aria-pressed={shopping.selectedUrls.has(product.productUrl)} aria-label={t(shopping.selectedUrls.has(product.productUrl) ? 'favorites.removeLabel' : 'favorites.addLabel', { name: `${product.name} · ${product.size}` })} onClick={() => shopping.toggleProduct(product.productUrl)} className={`flex size-11 items-center justify-center rounded-control border bg-bg-card/95 hover:border-accent hover:bg-bg-raised hover:text-accent active:bg-bg-stone-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${shopping.selectedUrls.has(product.productUrl) ? 'border-accent text-accent' : 'border-line text-text-secondary'}`}>
+          <Star className={`size-5 ${shopping.selectedUrls.has(product.productUrl) ? 'fill-current' : ''}`} aria-hidden="true" />
+        </button>
+      ) : undefined}>
           <p className="mb-2 hidden text-center text-[11px] text-text-tertiary lg:block">{t(`categories.${product.kind}`)}</p>
           <h3 className="break-keep text-center text-[13px] font-semibold leading-snug lg:text-base">{product.name}</h3>
           <p className={`mt-1 break-keep text-center text-xs leading-relaxed text-text-secondary lg:mt-2 lg:text-sm ${offer ? '' : 'flex-1'}`}>{product.size}</p>
@@ -55,12 +80,14 @@ export default async function SupportProductGrid({ products, locale, collection 
               )}
             </div>
           )}
+          <PurchaseLink direct={support} href={link.href} affiliate={link.affiliate} label={t('productLinkLabel', { name: product.name })}>
           <span data-store-cta className={`mt-3 flex min-h-11 items-center rounded-control px-2.5 py-2 text-xs font-medium lg:mt-4 lg:px-3 lg:text-sm ${locale === 'ko' ? 'justify-between gap-2 border border-white/10 bg-linear-to-r from-store-coupang-to to-store-coupang text-white shadow-sm group-hover:border-white/30 group-hover:from-store-coupang group-focus-within:border-white/30 group-focus-within:from-store-coupang group-active:brightness-90' : 'justify-center gap-1.5 bg-bg-stone-light group-hover:bg-text-primary group-hover:text-bg-main'}`}>
             {locale === 'ko' && <span className="shrink-0 text-[13px] font-bold tracking-tight lg:text-sm">{t('storeName')}</span>}
             <span className={`inline-flex items-center gap-1 whitespace-nowrap ${locale === 'ko' ? 'border-l border-white/25 pl-2 lg:pl-3' : ''}`}>
               {t('viewProduct')}<ArrowUpRight className="size-3.5 shrink-0" aria-hidden="true" />
             </span>
           </span>
+          </PurchaseLink>
       </CommerceProductCard>
     )
   }
@@ -86,14 +113,30 @@ export default async function SupportProductGrid({ products, locale, collection 
   }
   return (
     <>
+      <AtlasNavSections items={sections.map((section, index) => ({ ...section, chapter: String(index + 1).padStart(2, '0') }))} />
+      <HubSection id={`${collection}-guide`} title={t('guideTitle')} index={0} total={sectionCount} compact hideDivider>
+        {guide}
+      </HubSection>
+      {support && (
+        <div className={hasFresh ? 'mx-auto mt-8 flex max-w-xl flex-col items-center gap-2 text-center [overflow-anchor:none] sm:mt-10' : 'sr-only'}>
+            {hasFresh && <button type="button" role="switch" aria-checked={shopping.showFresh} onClick={shopping.toggleFresh} className="inline-flex min-h-11 items-center justify-center gap-2.5 rounded-full border border-line bg-bg-card px-4 text-xs font-medium text-text-primary hover:border-line-strong hover:bg-bg-raised hover:text-accent active:bg-bg-stone-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:text-sm">
+              <span aria-hidden="true" className={`flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 ${shopping.showFresh ? 'justify-end bg-accent' : 'justify-start bg-text-tertiary'}`}><span className="size-4 rounded-full bg-bg-main" /></span>
+              {t('favorites.showFresh')}
+            </button>}
+          <span role="status" className="sr-only">{t('favorites.status', { count: favorites.length, visible: visibleProducts.length })}</span>
+        </div>
+      )}
       <div>
+        {showFavorites && <HubSection id="support-favorites" title={t('favorites.title')} index={1} total={sectionCount} compact>
+          {favorites.length > 0 ? renderProducts(favorites) : <p className="py-6 text-center text-sm leading-6 text-text-secondary">{t('favorites.emptyFiltered')}</p>}
+        </HubSection>}
         {groups.map((group, index) => (
-          <HubSection key={group.id} id={`${collection}-${group.id}`} title={t(`${collection === 'shop' ? 'shop.groups' : 'groups'}.${group.id}`)} index={index} total={groups.length} compact hideDivider={index === 0}>
+          <HubSection key={group.id} id={`${collection}-${group.id}`} title={t(`${collection === 'shop' ? 'shop.groups' : 'groups'}.${group.id}`)} index={index + (showFavorites ? 2 : 1)} total={sectionCount} compact>
             {renderProducts(group.products)}
           </HubSection>
         ))}
       </div>
-      <p className={`mx-auto max-w-2xl break-keep text-center text-sm leading-7 text-text-secondary ${hubStyles.closing}`}>{checkedDates.length > 0 ? t('priceNote', { date: dateLabel }) : t('purchaseNote')}</p>
+      {loadError ? <p role="alert" className="py-12 text-center text-sm text-text-secondary">{t('productsLoadError')}</p> : <p className={`mx-auto max-w-2xl break-keep text-center text-sm leading-7 text-text-secondary ${hubStyles.closing}`}>{checkedDates.length > 0 ? t('priceNote', { date: dateLabel }) : t('purchaseNote')}</p>}
     </>
   )
 }

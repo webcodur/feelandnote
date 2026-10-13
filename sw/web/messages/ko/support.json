@@ -7,7 +7,6 @@
     "titleSecond": "필앤노트에 힘이 됩니다.",
     "intro": "필앤노트를 이용해 주셔서 감사합니다.\n이 링크를 이용하시면 필앤노트 운영에 큰 힘이 됩니다.",
     "browse": "생필품 살펴보기",
-    "noDonation": "추가 비용 없이",
     "usualShopping": "쿠팡에서 평소처럼",
     "store": "한국 · 쿠팡",
     "productsTitle": "자주 쓰는 생필품",
@@ -43,9 +42,8 @@
     "viewProduct": "상품 보기",
     "productLinkLabel": "{name} · 쿠팡에서 상품 보기 (새 창)",
     "purchaseNote": "가격·배송비·재고·상품 옵션은 쿠팡에서 확인해 주세요.",
-    "affiliateNotice": "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
+    "affiliateNotice": "쿠팡 파트너스 링크로 구매하면 필앤노트가 일정액의 수수료를 받습니다.",
     "thanks": "필앤노트를 이용하고 응원해 주셔서 감사합니다.",
-    "samePrice": "평소 구매하시던 가격 그대로",
     "tabs": {
       "label": "응원하기와 상품구매",
       "support": "응원하기",
@@ -59,7 +57,6 @@
       "intro": "독서대와 필기구, 책상 위 작은 도구까지.\n읽고 기록할 때 쓸 만한 물건을 모았습니다.",
       "productsTitle": "독서·책상용품",
       "productsIntro": "독서와 기록에 유용한 도구, 책상에 두고 쓸 물건 {count}가지를 모았습니다.",
-      "readerNote": "전자책 리더기는 이용하시는 서점과 지원하는 파일 형식을 확인하신 뒤 선택해 주세요.",
       "thanks": "필앤노트를 이용하고 응원해 주셔서 감사합니다.",
       "browse": "독서용품 살펴보기",
       "usualShopping": "쿠팡에서 평소처럼",
@@ -99,6 +96,16 @@
     },
     "freshNote": "냉장·냉동 식품은 로켓프레시 상품입니다. 배송 가능 지역과 주문 조건을 확인해 주세요.",
     "zoomImageLabel": "{name} 이미지 확대",
-    "productsLoadError": "상품 목록을 불러오지 못했습니다. 잠시 후 다시 방문해 주세요."
+    "productsLoadError": "상품 목록을 불러오지 못했습니다. 잠시 후 다시 방문해 주세요.",
+    "favorites": {
+      "title": "즐겨찾기",
+      "addLabel": "{name} 즐겨찾기 추가",
+      "removeLabel": "{name} 즐겨찾기 해제",
+      "emptyFiltered": "즐겨찾기한 로켓프레시 상품이 숨겨져 있습니다. 로켓프레시 상품 보기를 켜면 다시 표시됩니다.",
+      "showFresh": "로켓프레시 상품 보기",
+      "status": "즐겨찾기 {count}개, 표시 중인 상품 {visible}개"
+    },
+    "purchaseBenefit": "평소 가격 그대로, 추가 비용 없이",
+    "guideTitle": "이용 안내"
   }
 }
