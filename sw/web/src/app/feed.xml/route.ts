@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server'
+import { SITE_NAME, SITE_NAME_KO, SITE_URL } from '@feelandnote/shared/constants/site-brand'
 
 export const revalidate = 3600
-
-const BASE_URL = 'https://feelandnote.com'
 
 interface CelebRow {
   slug: string
@@ -61,22 +60,22 @@ export async function GET() {
 
     return `    <item>
       <title>${escapeXml(title)}</title>
-      <link>${BASE_URL}/celeb/${celeb.slug}</link>
+      <link>${SITE_URL}/celeb/${celeb.slug}</link>
       <description>${description}</description>
       <pubDate>${pubDate}</pubDate>
-      <guid isPermaLink="true">${BASE_URL}/celeb/${celeb.slug}</guid>
+      <guid isPermaLink="true">${SITE_URL}/celeb/${celeb.slug}</guid>
     </item>`
   })
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Feel&amp;Note - 셀럽 감상 아카이브</title>
-    <link>${BASE_URL}</link>
+    <title>${escapeXml(`${SITE_NAME_KO}(${SITE_NAME}) - 셀럽 감상 아카이브`)}</title>
+    <link>${SITE_URL}</link>
     <description>역사 속 위인들의 책, 영화, 음악, 게임 감상 기록을 탐색하는 문화 아카이브</description>
     <language>ko</language>
     <lastBuildDate>${now}</lastBuildDate>
-    <atom:link href="${BASE_URL}/feed.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml" />
 ${items.join('\n')}
   </channel>
 </rss>`
