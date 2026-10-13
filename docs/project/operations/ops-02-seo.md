@@ -269,9 +269,9 @@ JSON-LD는 서버 렌더 HTML에 싣는다. 클라이언트에서 주입하면 �
 | 네이버 서치어드바이저 | 등록됨 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 웹 페이지 수집 | 기존 사이트맵을 유지하고 변경된 주요 주소를 수집 요청한다 |
 | Bing Webmaster Tools | 등록됨 | 기존 확인된 사이트 속성 | 사이트맵·URL 검사 | 기존 사이트에서 사이트맵 `Re-submit`과 URL `Request indexing`을 사용한다 |
 | Daum 검색등록 | 등록 조회·사이트 검색 노출 확인 | 등록변경 폼의 기존 신청자 인증 | 사이트명·URL·설명 | 기존 등록의 `Feel&Note`·HTTP 주소를 현행 표기로 변경해야 한다 |
-| Daum 웹마스터 도구 | 인증됨 | robots.txt 공개 확인 문구 + PIN 로그인 | 사이트맵 Seed·개별 문서 수집 | 검색등록과 별개다. 수집·색인·실제 검색 반영의 현재 도달점은 [색인 신청](../../continuous/google-indexing.md)이 쥔다 |
+| Daum 웹마스터 도구 | 인증됨 | robots.txt 공개 확인 문구 + PIN 로그인 | 사이트맵·RSS/리스트 Seed·개별 문서 수집 | 검색등록과 별개다. 수집·색인·실제 검색 반영의 현재 도달점은 [색인 신청](../../continuous/google-indexing.md)이 쥔다 |
 
-Daum 사이트 검색등록의 승인과 웹문서 수집 상태는 따로 확인한다. 웹마스터의 수집 Seed에는 기존 `https://feelandnote.com/sitemap.xml`과 인물 우선 사이트맵 `https://feelandnote.com/sitemaps/celebs.xml`을 사용한다. Seed 접수도 실제 수집·노출을 보장하지 않는다. [Daum 수집 Seed 안내](https://cs.daum.net/faq/service/15/category/4118/detail/38543)
+Daum 사이트 검색등록의 승인과 웹문서 수집 상태는 따로 확인한다. 사이트맵 Seed에는 기존 `https://feelandnote.com/sitemap.xml`과 인물 우선 사이트맵 `https://feelandnote.com/sitemaps/celebs.xml`을 사용한다. RSS/리스트 Seed에는 `/feed.xml`과 메인·탐색·인물 명부의 실제 링크가 있는 첫 페이지를 사용한다. 리스트는 연결된 URL 1단계까지만 수집하므로 상세 개별 요청과 사이트맵을 함께 쓴다. Seed 접수도 실제 수집·노출을 보장하지 않는다. [Daum 수집 Seed 안내](https://cs.daum.net/faq/service/15/category/4118/detail/38543)
 
 ### 주소 개편 후 검색 등록
 
@@ -362,7 +362,8 @@ verification: {
 - **내용**: 최근 등록 셀럽 100명 (created_at DESC)
 - **캐시**: `revalidate = 3600` (ISR 1시간)
 - **디스커버리**: `[locale]/layout.tsx` metadata → `alternates.types` → `application/rss+xml`
-- **등록처**: 네이버 서치어드바이저 RSS 제출란
+- **브랜드**: 공통 `site-brand`의 한국어 이름·영문 이름·서비스 주소를 사용한다.
+- **등록처**: 네이버 서치어드바이저 RSS 제출란, Daum 웹마스터의 RSS/리스트 Seed 입력란. 실제 접수 여부는 [색인 신청](../../continuous/google-indexing.md)이 쥔다.
 
 ## IndexNow
 
