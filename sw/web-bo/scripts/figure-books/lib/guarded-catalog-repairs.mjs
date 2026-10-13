@@ -12,8 +12,10 @@ import researchIntroductionContract from '../../contents/book-research-introduct
 const {researchIntroductionText}=researchIntroductionContract
 
 const allowed={contents:['metadata','external_id','external_source','release_date'],content_locales:['title','creator','description','publisher','isbn','thumbnail_url','sources','affiliate_url','verified'],
- figure_book_editions:['title','creator','description','publisher','isbn','thumbnail_url','release_date','edition_kind','text_scope','sort_order','sources','verified','locale','content_id']}
-const rowKey=(table,row)=>table==='content_locales'?JSON.stringify([row.content_id,row.locale]):String(row.id)
+ figure_book_editions:['title','creator','description','publisher','isbn','thumbnail_url','release_date','edition_kind','text_scope','sort_order','sources','verified','locale','content_id'],
+ figure_book_characters:['relation_type']}
+const rowKey=(table,row)=>table==='content_locales'?JSON.stringify([row.content_id,row.locale])
+ :table==='figure_book_characters'?JSON.stringify([row.content_id,row.celeb_id]):String(row.id)
 // 현재 출처는 보존하되, 조사 원문·옛 행 복사본을 새 변경안에 다시 넣지 않는다.
 const archiveCopyPaths={
  contents:[...['unverifiedEditions','unverifiedReviews','restoredOriginalRows','historicalMergedWorks','historicalMisattachedISBNs','historicalMisattachedReviews','historicalMixedMetadata','historicalReadingProvenance','rejectedLocaleData','historicalMisidentifiedContent','historicalRepresentativeScope','historicalRepresentativeIsbn'].map(key=>['metadata',key]),
@@ -66,6 +68,40 @@ const where=(table,workIds,alias='')=>workIds.map(id=>referenceWhere(table,sqlLi
 const json=value=>sqlLiteral(JSON.stringify(value))+'::jsonb'
 const value=v=>v===null?'NULL':typeof v==='object'?json(v):typeof v==='boolean'?(v?'TRUE':'FALSE'):typeof v==='number'&&Number.isFinite(v)?String(v):sqlLiteral(v)
 function snapshotCheck(snapshot){for(const table of SNAPSHOT_TABLES)if(!Array.isArray(snapshot?.[table]))throw Error('Missing catalog snapshot: '+table)}
+// 관계를 새로 추정하지 않는다. 실제 책과 서비스 인물의 신원을 읽은 LLM의 정확한 기존 행 교정만 받는다.
+function reviewedFigureRelation(snapshot,change){
+ const {before,patch,remove,reviewedFigureRelation:proof}=change
+ const source=url=>independentSource(url)&&new URL(url).hostname!=='[::1]'
+  &&!/(^|\.)books\.google\.[a-z.]+$|(^|\.)googleapis\.com$/iu.test(new URL(url).hostname)
+ const text=value=>typeof value==='string'&&value.trim().length>=20
+ const named=value=>typeof value==='string'&&!!value.trim()&&!value.includes('\0')
+ if(!proof||typeof proof!=='object'||Array.isArray(proof)||proof.method!=='independent_figure_relation_review'||proof.llmReviewed!==true
+  ||typeof before.celeb_id!=='string'||!before.celeb_id.trim()||before.celeb_id.includes('\0')
+  ||proof.contentId!==before.content_id||proof.celebId!==before.celeb_id||proof.beforeRelationType!==before.relation_type
+  ||!['authored','appearance'].includes(before.relation_type)||!['ko','en'].includes(proof.locale)
+  ||typeof proof.isbn!=='string'||!toIsbn13(proof.isbn)||!named(proof.editionTitle)||!named(proof.editionCreator)
+  ||!named(proof.figureName)||!text(proof.identityStatement)||!text(proof.bodyEvidence)||!text(proof.reason)
+  ||!source(proof.sourceUrl)||!source(proof.identitySourceUrl)||proof.sourceUrl===proof.identitySourceUrl
+  ||Object.keys(change).some(key=>key.startsWith('reviewed')&&key!=='reviewedFigureRelation'))
+  throw Error('Figure relation repair requires exact live identity, normal ISBN, independent book/person sources and explicit LLM review')
+ const figure=snapshot.contents.find(row=>row.id===before.content_id)?.metadata?.figureBook??{}
+ const candidates=[...snapshot.figure_book_editions,...snapshot.content_locales].filter(row=>row.content_id===before.content_id
+  &&row.locale===proof.locale&&toIsbn13(row.isbn??'')===toIsbn13(proof.isbn)
+  &&row.title===proof.editionTitle&&row.creator===proof.editionCreator)
+ if(!candidates.length||!candidates.some(row=>row.sources?.primary!=='none'
+  &&!excludedBookEditionReason({...row,editionKind:row.edition_kind,textScope:row.text_scope,
+   workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)})))
+  throw Error('Figure relation repair requires a retained live normal edition with exact ISBN/title/creator/locale')
+ if(remove){
+  if(proof.decision!=='remove_wrong_person'||proof.afterRelationType!==null
+   ||!named(proof.actualPersonName)||proof.actualPersonName.trim()===proof.figureName.trim())
+   throw Error('Figure relation removal requires an explicitly reviewed different person')
+ }else if(!patch||Array.isArray(patch)||Object.keys(patch).length!==1||!Object.hasOwn(patch,'relation_type')
+  ||!['authored','appearance'].includes(patch.relation_type)||patch.relation_type===before.relation_type
+  ||proof.decision!=='correct_role'||proof.afterRelationType!==patch.relation_type)
+  throw Error('Figure relation patch may only correct the reviewed authored/appearance role')
+ return candidates
+}
 function reviewedIntroductionLanguage(before,patch,proof){
  const method=patch.sources?.description_method,sourceLocale=patch.sources?.description_source_locale
  return method==='research'&&sourceLocale===before.locale
@@ -131,6 +167,26 @@ function reviewedPlaceholderIntroductionDiscard(before,proof,snapshot){
   ||typeof reference.description!=='string'||reference.description.trim().length<30||isBookIntroductionSource(reference.description)
   ||!independentSource(reference.sources?.description))
   throw Error('Placeholder introduction discard requires independently reviewed other-work prose and retained actual representative introduction')
+ return reference
+}
+
+function reviewedSelectionIntroductionDiscard(before,proof,snapshot){
+ const discard=proof?.misattachedIntroduction
+ const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(discard?.referenceEditionId))
+ if(proof?.reason!=='wrong_work'||discard?.method!=='independent_other_work_introduction_review'
+  ||!toIsbn13(before.isbn??'')||toIsbn13(discard.isbn??'')!==toIsbn13(before.isbn)
+  ||discard.sourceUrl!==proof.source_url||!independentSource(discard.sourceUrl)
+  ||![discard.workTitle,discard.creator,discard.reason].every(value=>typeof value==='string'&&value.trim())
+  ||discard.reason.trim().length<BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH
+  ||!String(before.description??'').trim()||isBookIntroductionSource(before.description)
+  ||!reference||String(reference.id)===String(before.id)||reference.content_id!==before.content_id
+  ||reference.locale!==discard.referenceLocale||reference.title!==discard.referenceTitle||reference.creator!==discard.referenceCreator
+  ||!String(reference.creator??'').trim()||discard.creator===reference.creator
+  ||!toIsbn13(reference.isbn??'')||toIsbn13(reference.isbn)!==toIsbn13(discard.referenceIsbn??'')||toIsbn13(reference.isbn)===toIsbn13(before.isbn)
+  ||typeof reference.description!=='string'||reference.description.trim().length<30||isBookIntroductionSource(reference.description)
+  ||!independentSource(reference.sources?.description)
+  ||excludedBookEditionReason({...reference,editionKind:reference.edition_kind,textScope:reference.text_scope}))
+  throw Error('Wrong-work introduction discard requires the exact rejected ISBN and an independently reviewed retained original edition and introduction')
  return reference
 }
 
@@ -268,11 +324,21 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
  const expected=structuredClone(snapshot),changedKeys=new Map(),seen=new Set()
  for(const change of changes){
   const {table,before,patch,remove}=change??{}
-  if(!allowed[table]||!before||Boolean(patch)===Boolean(remove)||remove&&table!=='figure_book_editions')throw Error('Unsupported catalog change')
+  if(!allowed[table]||!before||Boolean(patch)===Boolean(remove)||remove&&!['figure_book_editions','figure_book_characters'].includes(table))throw Error('Unsupported catalog change')
   if(!assigned.includes(table==='contents'?before.id:before.content_id))throw Error('Catalog change outside assigned works')
   const key=rowKey(table,before),identity=table+'|'+key,index=expected[table].findIndex(row=>rowKey(table,row)===key)
   if(seen.has(identity)||index<0||!isDeepStrictEqual(snapshot[table].find(row=>rowKey(table,row)===key),before))throw Error('Catalog before row differs from full snapshot')
   seen.add(identity)
+  if(table==='figure_book_characters'){
+   reviewedFigureRelation(snapshot,change)
+   if(remove)expected[table].splice(index,1)
+   else{
+    expected[table][index]={...expected[table][index],...structuredClone(patch)}
+    const keys=changedKeys.get(table)??new Set();keys.add(key);changedKeys.set(table,keys)
+   }
+   continue
+  }
+  if(change.reviewedFigureRelation!==undefined)throw Error('Figure relation proof may only review an existing figure relation')
   const evidence=patch?.sources?.edition_selection_evidence
   if(evidence!==undefined&&!isDeepStrictEqual(evidence,before.sources?.edition_selection_evidence)
    &&(!Array.isArray(evidence)||evidence.some(proof=>!reviewedBookEditionSelectionReason({...before,
@@ -297,6 +363,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    if(placeholderProof.misattachedIntroduction!==undefined)reviewedPlaceholderIntroductionDiscard(before,placeholderProof,snapshot)}
   if(selectionProof!==undefined&&(!remove||!independentSource(selectionProof?.source_url)
    ||!reviewedBookEditionSelectionReason({...before,sources:{edition_selection_evidence:[selectionProof]}})))throw Error('Source-reviewed edition exclusion requires exact live ISBN, locale, title and independent selection evidence')
+  if(selectionProof?.misattachedIntroduction!==undefined)reviewedSelectionIntroductionDiscard(before,selectionProof,snapshot)
   if(remove){
    const work=snapshot.contents.find(row=>row.id===before.content_id),figure=work.metadata?.figureBook??{}
    if(selectionProof===undefined&&placeholderProof===undefined&&setProof===undefined&&nonstartProof===undefined&&scoreProof===undefined&&unboundProof===undefined&&!excludedBookEditionReason({...before,editionKind:before.edition_kind,textScope:before.text_scope,workTitles:[figure.workTitle,figure.originalTitle].filter(Boolean)}))throw Error('Only a policy-excluded edition may be removed')
@@ -315,9 +382,15 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    const keys=changedKeys.get(table)??new Set();keys.add(key);changedKeys.set(table,keys)
   }
  }
+ for(const change of changes)if(change.table==='figure_book_characters')reviewedFigureRelation(expected,change)
  for(const {before,reviewedPlaceholderRemoval:proof} of changes)if(proof!==undefined){
   const reference=reviewedPlaceholderReference(before,proof,snapshot)
   if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference)))throw Error('Placeholder removal must retain the reviewed physical edition unchanged')
+ }
+ for(const {before,reviewedSelectionExclusion:proof} of changes)if(proof?.misattachedIntroduction!==undefined){
+  const reference=reviewedSelectionIntroductionDiscard(before,proof,snapshot)
+  if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference)))
+   throw Error('Wrong-work introduction discard must retain the reviewed original edition and introduction unchanged')
  }
  for(const {before,reviewedUnboundIsbnRemoval:proof} of changes)if(proof!==undefined){
   const reference=reviewedUnboundIsbnReference(before,proof,snapshot)
@@ -358,7 +431,8 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    throw Error('Nonstart removal must retain the reviewed first or whole edition and its representative ISBN unchanged')
  }
  // 소개 보존 예외도 정확한 ISBN의 독립 원문을 읽은 명시 판단으로만 허용한다.
- for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedPlaceholderRemoval:placeholderProof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedSongScoreSeriesEditionRemoval:scoreProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
+ for(const {table,before,patch,remove,reviewedIntroductionCorrection:proof,reviewedPlaceholderRemoval:placeholderProof,reviewedSelectionExclusion:selectionProof,reviewedCompleteSetVolumeRemoval:setProof,reviewedNonstartEditionRemoval:nonstartProof,reviewedSongScoreSeriesEditionRemoval:scoreProof,reviewedArchiveProvenanceDiscard:archiveProof} of changes){
+  if(table==='figure_book_characters')continue
   if(archiveProof!==undefined){
    const remaining=structuredClone(before.sources??{}),discarded=discardedBackupProvenance(before.sources?.description,before,archiveProof.retainedSourceUrl)
    remaining.description=discarded
@@ -370,6 +444,7 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
    continue
   }
   if(placeholderProof?.misattachedIntroduction!==undefined){reviewedPlaceholderIntroductionDiscard(before,placeholderProof,snapshot);continue}
+  if(selectionProof?.misattachedIntroduction!==undefined){reviewedSelectionIntroductionDiscard(before,selectionProof,snapshot);continue}
   if(setProof!==undefined||nonstartProof!==undefined||scoreProof!==undefined)continue // 분권 소개는 검수된 대표의 정상 소개로 대표된다. 감상 필드는 보존한다.
   if(proof!==undefined){
    if(proof?.method==='independent_locale_reference_introduction_review'){
@@ -435,7 +510,9 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
  return {assigned,expected,changedKeys}
 }
 
-function rowSql(table,row,alias=''){const prefix=alias?alias+'.':'';return table==='content_locales'?`${prefix}content_id=${sqlLiteral(row.content_id)} AND ${prefix}locale=${sqlLiteral(row.locale)}`:`${prefix}id::text=${sqlLiteral(String(row.id))}`}
+function rowSql(table,row,alias=''){const prefix=alias?alias+'.':'';return table==='content_locales'?`${prefix}content_id=${sqlLiteral(row.content_id)} AND ${prefix}locale=${sqlLiteral(row.locale)}`
+ :table==='figure_book_characters'?`${prefix}content_id=${sqlLiteral(row.content_id)} AND ${prefix}celeb_id=${sqlLiteral(row.celeb_id)} AND ${prefix}relation_type IS NOT DISTINCT FROM ${value(row.relation_type)}`
+ :`${prefix}id::text=${sqlLiteral(String(row.id))}`}
 const normalize=(table,row,changedKeys)=>{if(!changedKeys.get(table)?.has(rowKey(table,row)))return row;const result={...row};delete result.updated_at;return result}
 function aggregateCheck(table,workIds,expected,changedKeys=null){
  const keys=[...(changedKeys?.get(table)??[])],expression=keys.length?`CASE WHEN ${keys.map(key=>{
@@ -451,13 +528,17 @@ export function buildGuardedCatalogRepairSql(workIds,snapshot,changes) {
  // 삭제 자체는 위의 전체 변경안 검수와 상품·참조 검사를 통과한 행만 허용된다.
  const ordered=[...changes].sort((a,b)=>Number(!a.remove)-Number(!b.remove)
   ||(a.remove?0:Number(a.table!=='contents')-Number(b.table!=='contents')))
- const statements=ordered.map(({table,before,patch,remove})=>remove?
+ const statements=ordered.map(({table,before,patch,remove})=>table==='figure_book_characters'?
+  `IF EXISTS(SELECT 1 FROM pg_constraint WHERE contype='f' AND confrelid='public.figure_book_characters'::regclass) THEN RAISE EXCEPTION 'CATALOG_REPAIR: unhandled figure relation reference';END IF;
+${remove?`DELETE FROM public.${table} WHERE ${rowSql(table,before)}`:`UPDATE public.${table} SET relation_type=${value(patch.relation_type)} WHERE ${rowSql(table,before)}`};
+GET DIAGNOSTICS affected_rows=ROW_COUNT;IF affected_rows<>1 THEN RAISE EXCEPTION 'CATALOG_REPAIR: exact figure relation row changed';END IF;`:
+ remove?
   `IF EXISTS(SELECT 1 FROM pg_constraint c JOIN pg_class r ON r.oid=c.conrelid JOIN pg_namespace n ON n.oid=r.relnamespace LEFT JOIN pg_attribute a ON a.attrelid=c.conrelid AND a.attnum=c.conkey[1] WHERE c.contype='f' AND c.confrelid='public.figure_book_editions'::regclass AND (n.nspname<>'public' OR r.relname<>'figure_book_products' OR cardinality(c.conkey)<>1 OR a.attname<>'edition_id')) THEN RAISE EXCEPTION 'CATALOG_REPAIR: unhandled edition reference';END IF;
 IF EXISTS(SELECT 1 FROM public.figure_book_products WHERE edition_id::text=${sqlLiteral(String(before.id))}) THEN RAISE EXCEPTION 'CATALOG_REPAIR: edition product history';END IF;DELETE FROM public.${table} WHERE ${rowSql(table,before)};`:
   `UPDATE public.${table} SET ${Object.entries(patch).map(([field,v])=>field+'='+value(v)).join(',')} WHERE ${rowSql(table,before)};`).join('\n')
  let delimiter='$catalog_repair$';const raw=JSON.stringify({snapshot,changes});for(let n=1;raw.includes(delimiter);n++)delimiter=`$catalog_repair_${n}$`
  return `\\set ON_ERROR_STOP on
-BEGIN ISOLATION LEVEL SERIALIZABLE;SET LOCAL lock_timeout='5s';SET LOCAL statement_timeout='60s';DO ${delimiter} BEGIN
+BEGIN ISOLATION LEVEL SERIALIZABLE;SET LOCAL lock_timeout='5s';SET LOCAL statement_timeout='60s';DO ${delimiter} DECLARE affected_rows integer;BEGIN
 ${SNAPSHOT_TABLES.map(table=>`PERFORM 1 FROM public.${table} t WHERE ${where(table,plan.assigned,'t')} ORDER BY to_jsonb(t)::text FOR UPDATE;`).join('\n')}
 ${SNAPSHOT_TABLES.map(table=>aggregateCheck(table,plan.assigned,snapshot[table])).join('\n')}
 ${statements}

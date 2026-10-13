@@ -219,7 +219,7 @@ book-recommend 롱폼(요약·감상배경·후속맥락)을 여러 토막으로
 - 토막 2개 이상: 배열 필드 `*PartSpeakers`/`*PartGainDbs`/`*PartPlaybackRates`/`*PartSfxs`(after/summary/contextMain 12종). 읽기 폴백은 `배열?.[p] ?? 단일값`이다. 토막 인덱스 p는 `bookFieldParts(본문, *Parts)` 순서이며 음성 파일명 part 인자(`vnBookAfter(i,pi,ap)` 등)와 같다.
 - 관련 파일: types.ts, BO 편집기(useLongformState의 `updateBookPartSetting`/`updateAfterPartSetting`, BookSection·QuotePairRow footer가 전 토막 노출), 렌더 legacy/BookRecommendLongLegacy.tsx, playback-rate.ts, longform-sfx.ts, 음성 jobs.ts.
 
-**결함 이력(2026-07-03 전수정 완료)**: 현역 legacy 렌더에는 롱폼 오디오의 물리적 `playbackRate`가 아예 빠져 있었다(`_not-using` 쪽에는 있었다). applyPlaybackRates가 타임라인과 자막 시각만 1/r로 줄이고 오디오는 원속으로 재생해 배속 지정 구간이 뒤에서 잘려나갔다("대사가 끝까지 안 나오고 끊긴다"). 요약·감상배경·후속맥락 세 구간을 먼저 배선했고, 제목과 인용 오디오도 2026-07-03에 배선을 마쳤다(BookRecommendLongLegacy.tsx 제목 Audio에 `clampRate(book.titlePlaybackRate)`, 인용 Audio에 `clampRate(book.quotePairs[pi].quotePlaybackRate)`). elon-musk 롱폼은 10권 전 인용에 quotePlaybackRate 1.01~1.35가 걸려 있어 전권 인용이 잘리던 상태였다. 배속 미설정이면 `clampRate(undefined)=1`이라 동작은 불변이다.
+**결함 이력(2026-07-03 전수정 완료)**: 현역 legacy 렌더에는 롱폼 오디오의 물리적 `playbackRate`가 아예 빠져 있었다. applyPlaybackRates가 타임라인과 자막 시각만 1/r로 줄이고 오디오는 원속으로 재생해 배속 지정 구간이 뒤에서 잘려나갔다("대사가 끝까지 안 나오고 끊긴다"). 요약·감상배경·후속맥락 세 구간을 먼저 배선했고, 제목과 인용 오디오도 2026-07-03에 배선을 마쳤다(BookRecommendLongLegacy.tsx 제목 Audio에 `clampRate(book.titlePlaybackRate)`, 인용 Audio에 `clampRate(book.quotePairs[pi].quotePlaybackRate)`). elon-musk 롱폼은 10권 전 인용에 quotePlaybackRate 1.01~1.35가 걸려 있어 전권 인용이 잘리던 상태였다. 배속 미설정이면 `clampRate(undefined)=1`이라 동작은 불변이다.
 
 ### 영상 제작 편집기는 web-bo에 모여 있다
 
@@ -234,9 +234,8 @@ book-recommend 롱폼(요약·감상배경·후속맥락)을 여러 토막으로
 sw/remotion BookRecommend 롱폼은 이름이 거꾸로 붙어 있다. 디버깅 전에 반드시 확인한다.
 
 - **현역(실제 -L-VID 렌더)**: `legacy/BookRecommendLongLegacy.tsx`(Root.tsx가 `BookRecommendLegacy`로 import) + `legacy/BookCardVisualLegacy.tsx` + `legacy/CinematicPanelLegacy.tsx` + `legacy/PortraitSubtitles.tsx`.
-- **미사용 테스트**: `BookRecommendLong.tsx` + `sections/BookCardVisual/{BookCardVisual,CinematicPanel,index}` + `sections/{GuideVoice,LongSubtitles}` + `caption-format.tsx`. Root.tsx에서 도달 불가하며 2026-06-29에 `compositions/BookRecommend/_not-using/`으로 격리하고 tsconfig에서 exclude 처리했다.
 
-이미지 앵커 매칭이나 자막 점등이 화면에서 이상하면 `sections/BookCardVisual`(신·테스트)을 고쳐도 소용없다. 반드시 `legacy/BookCardVisualLegacy.tsx`의 `resolveImageTransitions`를 본다. 이 헛다리로 한 번 크게 돌았다.
+이미지 앵커 매칭이나 자막 점등이 화면에서 이상하면 `legacy/BookCardVisualLegacy.tsx`의 `resolveImageTransitions`를 본다.
 
 고친 버그 참고: 다토막(summaryParts/contextMainParts) 책에서 legacy가 토막별 음성 타이밍을 `mergePartTimings`로 병합해 놓고도 이미지 매칭(`resolveImageTransitions`)에 넘기지 않아, 첫 토막 음성만 잡히고 둘째 토막부터 이미지가 전부 스킵됐다. 병합 타이밍을 summary/context 키에 덮어써 넘기도록 고쳤다.
 

@@ -873,7 +873,9 @@
       "noPrevious": "No previous section",
       "noNext": "No next section"
     },
-    "recentHistory": "Recently viewed"
+    "recentHistory": "Recently viewed",
+    "removeRecentHistory": "Remove {title} from recently viewed",
+    "recentHistoryEmpty": "No recently viewed items."
   },
   "notifications": {
     "title": "Notifications",

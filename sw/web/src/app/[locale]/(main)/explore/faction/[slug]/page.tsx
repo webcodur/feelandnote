@@ -16,8 +16,6 @@ import { getLocalizedAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/locale";
 import FactionLastSeen from "@/components/features/faction/FactionLastSeen";
 import FactionScreen from "../FactionScreen";
-import Lane from "@/components/ui/pending/Lane";
-import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
 
 type PageParams = Promise<{ locale: Locale; slug: string }>;
 
@@ -79,5 +77,5 @@ export default async function FactionEntryPage(props: { params: PageParams }) {
   const target = await getFactionRouteTarget(slug);
   if (!target) notFound();
   if (target.isGroup) redirect({ href: `/explore/faction?section=${slug}`, locale });
-  return <Lane fallback={<MythScreenSkeleton faction />}><FactionEntryBody {...props} /></Lane>;
+  return <FactionEntryBody {...props} />;
 }

@@ -64,8 +64,8 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name }:
               {person.reality && person.reality !== "REAL" && <span className="absolute bottom-2 start-2"><CelebRealityLabel id={`person-reality-${person.id}`} reality={person.reality} interactive={false} /></span>}
             </span>
             <span className="mt-1.5 block w-full min-w-0 px-0.5">
-              <span className={`block break-keep text-xs font-semibold leading-tight [overflow-wrap:anywhere] md:text-sm ${selected ? "text-accent" : "text-text-primary group-hover:text-accent"}`}>{person.name}</span>
-              {title && <span title={title} className="mt-0.5 line-clamp-2 break-keep text-[11px] leading-tight text-text-secondary [overflow-wrap:anywhere] md:text-xs">{title}</span>}
+              <span title={person.name} className={`${mythLayout.memberName} ${selected ? "text-accent" : "text-text-primary group-hover:text-accent"}`}>{person.name}</span>
+              <span title={title || undefined} aria-hidden={!title || undefined} className={mythLayout.memberTitle}>{title}</span>
             </span>
           </button>
         );

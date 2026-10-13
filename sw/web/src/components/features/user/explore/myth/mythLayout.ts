@@ -11,7 +11,7 @@ export const MYTH_LAYOUT = {
   selectionDetails: "grid grid-cols-1 items-stretch gap-3 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-4",
   selectionWithoutArtwork: "grid-cols-1 md:grid-cols-1",
   selectionArtwork: "relative order-last aspect-[3/2] min-h-0 min-w-0 md:aspect-auto",
-  selectionControls: "flex min-w-0 flex-col justify-center rounded-xl border border-white/20 bg-bg-secondary p-2 md:rounded-2xl md:p-4",
+  selectionControls: "flex min-w-0 flex-col justify-center rounded-card border border-line-strong bg-bg-secondary p-2 md:rounded-panel md:p-4",
   membersOuter: "min-w-0",
   // 연대기의 국가 선택기도 쓰는 공통 칩 값.
   navigation: EXPLORE_NAV_LAYOUT.navigation,
@@ -21,10 +21,12 @@ export const MYTH_LAYOUT = {
   navList: EXPLORE_NAV_LAYOUT.navList,
   regionChipShape: EXPLORE_NAV_LAYOUT.pill,
   memberList: `${CELEB_GRID_LAYOUT} items-start gap-y-6 md:gap-y-7`,
+  memberName: "min-h-[30px] line-clamp-2 break-keep text-xs font-medium leading-tight [overflow-wrap:anywhere] md:min-h-[35px] md:text-sm",
+  memberTitle: "mt-0.5 min-h-[27.5px] line-clamp-2 break-keep text-[11px] leading-tight text-text-secondary [overflow-wrap:anywhere] md:min-h-[30px] md:text-xs",
   notice: "mx-2 mb-1 flex items-start justify-center gap-2 rounded-xl border border-accent/[0.12] bg-accent/[0.035] px-3 py-2.5 text-center text-xs leading-5 text-text-tertiary md:mx-3",
   overviewOuter: "min-w-0",
   factionShelfOuter: "min-w-0",
   factionShelfContainer: "w-full min-w-0",
   overviewImage: "@container absolute inset-0 block h-full w-full overflow-hidden rounded-xl",
-  overviewButton: "inline-flex min-h-10 flex-1 items-center justify-center gap-1 whitespace-nowrap rounded-lg border border-white/20 bg-bg-main px-2 py-2 text-[13px] font-semibold text-text-primary outline-none hover:border-accent hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-accent md:gap-1.5 md:text-sm",
+  overviewButton: "inline-flex min-h-10 flex-1 items-center justify-center gap-1 whitespace-nowrap rounded-control border border-line-strong bg-bg-main px-2 py-2 text-[13px] font-medium text-text-primary outline-none hover:border-line-strong hover:bg-white/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent md:gap-1.5 md:text-sm",
 } as const;

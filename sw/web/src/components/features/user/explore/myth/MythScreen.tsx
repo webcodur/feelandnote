@@ -1,16 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore, useTransition, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
-import { ChevronLeft, ChevronRight, Clock3 } from "lucide-react";
+import { Clock3 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { MythData, MythPerson, MythWork } from "@/actions/home/mythTypes";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import AtlasNavigation from "./AtlasNavigation";
+import AtlasMemberControls from "./AtlasMemberControls";
 import AtlasPicker from "./AtlasPicker";
 import { buildMythNavigation } from "@/lib/atlas-navigation";
 import { ATLAS_GROUP_PARAM, ATLAS_PERSON_PARAM, type AtlasSelection, type AtlasTheme } from "./atlasNavigationData";
-import RecentHistoryRail from "@/components/shared/RecentHistoryRail";
 import { useRecentAtlas } from "@/hooks/useRecentAtlas";
 import { recentAtlasHref } from "@/lib/recent-atlas";
 import { mythGroupName } from "./mythGroupName";
@@ -74,9 +74,8 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
   const hydrated = useSyncExternalStore(subscribeHydration, browserHydrated, serverHydrated);
   const locale = useLocale();
   const router = useRouter();
+  const [navigating, startNavigation] = useTransition();
   const t = useTranslations("explore.hub.myth");
-  const tUi = useTranslations("explore.ui");
-  const tAtlas = useTranslations("explore.ui.atlas");
   const groupLabels = { other: t("otherGroup"), unnamed: t("unnamedGroup") };
   /* 신화 주소(/explore/myth/<slug>)면 그 신화를 고른 채 연다. 옛 바로가기(?myth=)는 미들웨어가 옮기지만
      미들웨어를 거치지 않은 화면 안 이동에 대비해 함께 읽는다 */
@@ -195,7 +194,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
   const completedIndexGroups = indexGroups.map(group => ({
     ...group, items: group.items.map(item => ({ ...item, scenesComplete: completedEntryIds.has(item.id) })),
   }));
-  const recentItems = useRecentAtlas(faction ? "faction" : "myth", activeMyth?.id ?? null, activeGroup?.id ?? null, selectedPerson?.id ?? null, navigationTree);
+  useRecentAtlas(faction ? "faction" : "myth", activeMyth?.id ?? null, activeGroup?.id ?? null, selectedPerson?.id ?? null, navigationTree);
 
   /* 상단 구획 목차 — 공용 아틀라스 내비게이션. 구성·책장은 자료가 있을 때만, 전체는 목록이
      있을 때만 세운다. 구획 머리와 목차는 한 몸이라 같은 이름을 쓰고 「— NN —」 번호도 따라간다 —
@@ -235,14 +234,15 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
       const entry = data.myths.find(myth => myth.id === selection.entryId && myth.isPublished);
       if (entry) {
         saveLastMyth(entry.slug);
-        router.push(recentAtlasHref(mythHref(entry.slug), selection.groupId, personId), { scroll: false });
+        startNavigation(() => router.push(recentAtlasHref(mythHref(entry.slug), selection.groupId, personId), { scroll: false }));
       }
       return;
     }
     if (faction && selection.entryId !== activeMyth?.id) {
       const entry = navigationTree.find((item) => item.id === selection.themeId)?.entries.find((item) => item.id === selection.entryId);
-      if (entry?.href) {
-        router.push(recentAtlasHref(entry.href, selection.groupId, personId), { scroll: false });
+      const href = entry?.href;
+      if (href) {
+        startNavigation(() => router.push(recentAtlasHref(href, selection.groupId, personId), { scroll: false }));
       }
       return;
     }
@@ -272,22 +272,14 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
   const groupOverviewText = activeGroup
     ? activeGroup.description || t("groupDescriptionFallback")
     : activeMyth?.description || t("groupDescriptionFallback");
-  const groupButtonStyle = "flex min-h-10 items-center justify-center px-3 text-text-secondary outline-none enabled:hover:bg-accent/10 enabled:hover:text-accent enabled:active:bg-accent/15 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:opacity-30";
   const navigation = (overview?: ReactNode) => (
     <AtlasNavigation tree={navigationTree} myth={!faction} onSelect={chooseAtlas} onOpenPicker={setPickerLevel} overview={overview}
-      selection={atlasSel} />
+      selection={atlasSel} pending={navigating} />
   );
 
   return (
     <section id={faction ? "faction" : "myth"} aria-label={faction?.title ?? t("title")} className={`${layout.shell} ${locale === "ko" ? "break-all" : ""}`}>
       <AtlasNavSections items={tocItems} />
-      <RecentHistoryRail items={recentItems} onSelect={item => {
-        if (item.kind !== (faction ? "faction" : "myth")) return false;
-        const theme = navigationTree.find(theme => theme.entries.some(entry => entry.id === item.id && !entry.disabled));
-        if (!theme) return false;
-        chooseAtlas({ themeId: theme.id, entryId: item.id, groupId: item.position?.groupId ?? null }, item.position?.personId ?? null);
-        return true;
-      }} />
       {/* 「선택」구획. 머리는 고른 신화·세력의 이름+한 줄 정의를 직접 쥔다 —
           「선택」이라는 역할 이름은 목차에만 두고 겹쳐 쓰지 않는다 */}
       <div className={layout.navigationOuter}>
@@ -309,20 +301,8 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
           <div className={layout.membersOuter}>
             <HubSection id="atlas-members" title={`${memberTitle} (${t("groupMemberCount", { count: railPeople.length })})`}
               headerActions={
-                <div data-member-group-controls className="inline-flex overflow-hidden rounded-lg border border-white/20 bg-bg-main divide-x divide-white/15">
-                  <button type="button" data-member-group-prev aria-label={`${tUi("prev")} ${tAtlas("group")}`}
-                    disabled={groupChoices.length < 2} onClick={() => stepGroup(-1)} className={groupButtonStyle}>
-                    <ChevronLeft size={18} aria-hidden />
-                  </button>
-                  <button type="button" data-member-group-overview aria-haspopup="dialog" aria-expanded={groupOverviewOpen}
-                    onClick={() => setGroupOverviewOpen(true)} className={`${groupButtonStyle} px-5 text-sm font-semibold`}>
-                    {t("groupOverview")}
-                  </button>
-                  <button type="button" data-member-group-next aria-label={`${tUi("next")} ${tAtlas("group")}`}
-                    disabled={groupChoices.length < 2} onClick={() => stepGroup(1)} className={groupButtonStyle}>
-                    <ChevronRight size={18} aria-hidden />
-                  </button>
-                </div>
+                <AtlasMemberControls disabled={groupChoices.length < 2} open={groupOverviewOpen}
+                  onStep={stepGroup} onOpen={() => setGroupOverviewOpen(true)} />
               }
               index={1} total={sectionTotal} groupId={navGroupId}>
               <div className={layout.container}>

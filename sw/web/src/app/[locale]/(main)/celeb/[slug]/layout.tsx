@@ -12,6 +12,7 @@ import { getWorldMaterial, getWorldMaterialStyle } from "@/lib/celeb/worldMateri
 import { resolveCelebWorld } from "@/lib/celeb/world";
 import PageContainer from "@/components/layout/PageContainer";
 import MessageScope from "@/components/shared/MessageScope";
+import { RecentHistorySection } from "@/components/shared/RecentHistoryRail";
 import { CELEB_MESSAGE_PATHS } from "@/i18n/message-scope";
 import styles from "./CelebDetailTypography.module.css";
 
@@ -70,6 +71,7 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
               locale === "ko" ? styles.detailTypographyKorean : ""
             } animate-fade-in`}
           >
+            <RecentHistorySection kind="profile" currentId={profile.id} />
             {children}
           </div>
         </PageContainer>

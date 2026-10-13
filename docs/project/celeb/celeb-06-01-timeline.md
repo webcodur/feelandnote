@@ -1,6 +1,6 @@
 # 인물 타임라인
 
-인물 상세의 타임라인과 활동 반경이 읽는 최종 사건 데이터의 규격이다. 서비스 SSoT는 `public.celeb_timeline_events`이며 조사 이력·작업 큐·클레임·실패 상태는 이 테이블에 넣지 않는다.
+인물 상세의 연표 모달이 읽는 최종 사건 데이터의 규격이다. 서비스 SSoT는 `public.celeb_timeline_events`이며 조사 이력·작업 큐·클레임·실패 상태는 이 테이블에 넣지 않는다.
 
 실존 인물은 달력 시점이 있는 생애 사건으로, fiction은 연결된 원전 안의 서사 순서로 표시한다. 좌표는 검증된 사건에만 선택적으로 붙이며, 좌표가 없는 중요한 사건도 타임라인에는 남긴다.
 
@@ -13,7 +13,7 @@
 | 수동 입력 검증 | `sw/web-bo/src/actions/admin/timeline.ts` |
 | fiction 후보 계약 | `sw/web-bo/scripts/celeb/timeline/fiction-candidate-contract.ts` |
 | 사용자 조회·정렬 | `sw/web/src/actions/celebs/getCelebTimelineEvents.ts` |
-| 카드·활동 반경 상호작용 | `JourneySection.tsx` 아래 타임라인 컴포넌트와 회귀 검사 |
+| 사용자 화면 | [`../service/service-04-celeb-detail.md`](../service/service-04-celeb-detail.md), `JourneyTimelineModal.tsx`, `check-celeb-timeline-scroll.mjs` |
 
 허용값·좌표 범위·후보 개수 경고를 문서에 복제하지 않는다. 문서는 각 필드의 뜻과 작성 판단을 쥔다.
 
@@ -74,12 +74,12 @@
 
 - 현재 locale의 제목·서술·장소·fiction 서사 단계를 사용하고, 영문값이 없을 때만 한국어로 물러난다.
 - life는 연도 또는 연도 범위, fiction은 서사 단계 라벨을 시점으로 표시한다.
-- 모바일 활동 반경은 장소명이 있으면 좌표가 없어도 정거장으로 표시하고, 장소명도 없으면 미상 정거장으로 남긴다.
-- 데스크톱 지구본의 마커와 경로에는 위도·경도가 모두 있는 사건만 포함한다.
+- 본문 타임라인 구획은 두지 않는다. 사건이 있는 인물만 프로필의 타임라인 버튼을 표시하며, 버튼을 누르면 연표 모달을 연다. 화면 배치의 SSoT는 [인물 상세 화면](../service/service-04-celeb-detail.md)이다.
+- 모바일과 데스크톱 모두 모달 내부에서 사건 목록을 세로로 읽는다. 장소가 확인된 사건은 장소명을 함께 표시한다.
 - 사건 조회 실패를 빈 연표로 위장하지 않는다.
 - `/explore/timeline`의 국가별 연대기는 생몰년 기반의 별도 기능이다.
 
-픽셀 크기·제스처·애니메이션은 구현과 `check-celeb-timeline-scroll.mjs`, `check-globe-layout.mjs`가 쥔다. 이 문서에 구현 이력을 복제하지 않는다.
+픽셀 크기·제스처·애니메이션은 구현과 `check-celeb-timeline-scroll.mjs`가 쥔다. 이 문서에 구현 이력을 복제하지 않는다.
 
 ## 편집과 일괄 실행
 

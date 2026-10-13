@@ -9,8 +9,6 @@
 import { notFound } from "next/navigation";
 import { getMythData } from "@/actions/home/getMythData";
 import { getMythClientData } from "@/actions/home/mythPublicData";
-import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
-import Lane from "@/components/ui/pending/Lane";
 import { buildMythDescription, buildMythTitle } from "@/lib/atlasMeta";
 import { getLocalizedAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/locale";
@@ -57,6 +55,7 @@ export async function generateMetadata({ params }: { params: PageParams }) {
 
 export default async function MythEntryPage({ params }: { params: PageParams }) {
   const { locale, slug } = await params;
-  if ((await findMyth(slug, locale)) === null) notFound();
-  return <Lane fallback={<MythScreenSkeleton />}><MythSection slug={slug} /></Lane>;
+  const found = await findMyth(slug, locale);
+  if (found === null) notFound();
+  return <MythSection slug={slug} />;
 }

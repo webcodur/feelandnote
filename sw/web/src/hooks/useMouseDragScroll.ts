@@ -74,7 +74,7 @@ export function useMouseDragScroll<T extends HTMLElement = HTMLDivElement>(axis:
     if (!el || event.pointerType !== "mouse" || event.button !== 0) return;
     /* 조작 요소 위에서 누른 건 끌기로 받지 않는다 — 뱃지·단추 위의 클릭이 문턱만큼
        움직였다는 이유로 끌기 판정에 삼켜지지 않게. 칸 안의 조작부는 data-no-drag를 단다 */
-    if (event.target instanceof HTMLElement && event.target.closest("[data-no-drag]")) return;
+    if (event.target instanceof Element && event.target.closest("[data-no-drag]")) return;
     stopGlide();
     if (maxScroll(el) <= 0) return;
     dragRef.current = {

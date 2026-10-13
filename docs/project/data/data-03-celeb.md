@@ -2,6 +2,8 @@
 
 `celebs`와 인물 전용 자식 데이터의 물리 구조를 설명한다. full·light·fiction의 작업 흐름은 [`../celeb/celeb-00-01-pipeline.md`](../celeb/celeb-00-01-pipeline.md), 각 값의 조사·작성·검수는 [`../celeb/README.md`](../celeb/README.md)가 쥔다.
 
+조사·생성 과정의 부가데이터를 인물별 파일이나 R2 객체로 보관하지 않는다. 반영 뒤 작업 자료 전량 폐기는 [`데이터 원칙`](README.md)을 따른다.
+
 ## 인물 원본
 
 `celebs`는 Auth 계정과 독립된 인물 원본이다. 인물에게 로그인 계정이나 저장형 `profile_type`을 만들지 않는다.
@@ -13,7 +15,7 @@
 | 이름·분류·생몰 | `nickname(_en)`, `aliases`, `profession`, `gender`, `nationality`, `birth_date`, `death_date`, `wikidata_qid` | [`celeb-01-01-profile-facts.md`](../celeb/celeb-01-01-profile-facts.md) |
 | 소개 | `headline(_en)`, `bio(_en)` | [`celeb-01-02-profile-intro.md`](../celeb/celeb-01-02-profile-intro.md) |
 | 수식어 | `title(_en)` | [`celeb-01-03-title.md`](../celeb/celeb-01-03-title.md) |
-| 티어·공개 | `celeb_tier`, `publication_status`, `content_research_confirmed_empty_at` | [`celeb-00-01-pipeline.md`](../celeb/celeb-00-01-pipeline.md) · [`celeb-00-02-publication.md`](../celeb/celeb-00-02-publication.md) |
+| 티어·공개 | `celeb_tier`, `publication_status`, `content_research_confirmed_empty_at` | [`celeb-00-01-pipeline.md`](../celeb/celeb-00-01-pipeline.md) · [`celeb-00-05-publication.md`](../celeb/celeb-00-05-publication.md) |
 | 실존 표시 | `celeb_reality`(`REAL`·`BOTH`·`FICTION`, DB CHECK `celebs_celeb_reality_check`) — `celeb_tier`와 독립된 축. 파이프라인이 아니라 세상이 그 인물을 실존·가상 중 어느 쪽으로 보는지만 나타낸다 | [`celeb-00-01-pipeline.md`](../celeb/celeb-00-01-pipeline.md) |
 | 이미지 | `avatar_url`, `portrait_url`, `portrait_caption(_en)`, `awakened_image_url` | [`celeb-08-00-image-map.md`](../celeb/celeb-08-00-image-map.md) |
 | 발화·음성 | `speech_tone`, `has_voice`, `voice_id_ko`, `voice_id_en`, `voice_v`, `voice_speed` | [`celeb-04-01-speech.md`](../celeb/celeb-04-01-speech.md) · `celeb-dialogue-voice-publish` 스킬 |
@@ -32,7 +34,7 @@
 | `publication_status` | [`packages/shared/src/constants/celeb-publication.ts`](../../../packages/shared/src/constants/celeb-publication.ts). DB CHECK는 같은 집합을 강제하는 사본이다 |
 | `speech_tone` | [`packages/shared/src/constants/celeb-speech.ts`](../../../packages/shared/src/constants/celeb-speech.ts). DB CHECK는 같은 집합을 강제하는 사본이다 |
 
-신규 인물은 `inactive`다. active 전환에는 아바타가 필요하고, full 전환에는 `celeb_contents`가 한 건 이상 필요하다. 첫 감상 관계는 light를 full로 자동 승격한다. 트리거 이름과 공개 작업은 [`../celeb/celeb-00-02-publication.md`](../celeb/celeb-00-02-publication.md)에서 관리한다.
+신규 인물은 `inactive`다. active 전환에는 아바타가 필요하고, full 전환에는 `celeb_contents`가 한 건 이상 필요하다. 첫 감상 관계는 light를 full로 자동 승격한다. 트리거 이름과 공개 작업은 [`../celeb/celeb-00-05-publication.md`](../celeb/celeb-00-05-publication.md)에서 관리한다.
 
 ## 인물별 1:1 데이터
 

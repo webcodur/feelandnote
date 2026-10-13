@@ -4,14 +4,6 @@
 [`celeb-03-01-influence.md`](../../project/celeb/celeb-03-01-influence.md)·
 [`celeb-03-02-spectrum.md`](../../project/celeb/celeb-03-02-spectrum.md)가 쥔다.
 
-## 처리 모델 — Claude·Kimi·SWE-2 안에서 한다
-
-이 문서의 항목은 **Claude, Kimi, SWE-2(Devin) 세 모델 중에서** 처리한다. 셋은 판정 성향이 같아
-한 축을 나눠 맡겨도 결과 형태가 일정하다. 다른 모델(GPT·Gemini 등)이 섞이면 같은 지시서를
-줘도 근거문의 결과 형태가 바뀐다. 26.09.13에 보수↔진보 축 1,072건을 SWE-2에 29배치로 맡기고
-Claude가 검수·반영한 회차가 그 견본이다 — 판정 갈래(keep·reset·replace)와 문장 결이 배치를
-건너 일정했다.
-
 ## 남은 것 — 값어치 순
 
 ### 1. 다른 15축의 근거 적정성 전수 검토

@@ -19,15 +19,15 @@ Oracle DB VM의 Auth가 중간에서 OAuth 흐름을 처리하므로, 소셜 프
 
 ## 1. Oracle DB VM의 Auth 설정
 
-Auth는 Oracle DB VM의 `/opt/feelandnote/supabase/.env`로 설정한다. `supabase`는 실제 서버 배포 경로 이름이다. 클라이언트 ID·secret과 SMTP 비밀값은 문서나 저장소에 적지 않는다.
+Auth는 `packages/auth-server`의 자체 서버이며 Oracle DB VM의 `/opt/feelandnote/database/secrets/auth.json`으로 설정한다. 클라이언트 ID·secret과 SMTP 비밀값은 문서나 저장소에 적지 않는다. 설정 변경은 `feelandnote-auth` 컨테이너를 재생성해 반영한다.
 
 ### 현재 설정값
 
 | 항목 | 값 |
 |------|-----|
 | Site URL | `https://feelandnote.com` |
-| Redirect URLs | `https://feelandnote.com/auth/callback` |
-| | `http://localhost:3000/**` |
+| 허용 Redirect 원본 | `https://feelandnote.com`, `https://www.feelandnote.com` |
+| | `http://localhost:3000`, `http://localhost:3001` |
 
 ### Providers 설정
 
@@ -86,7 +86,7 @@ https://db.feelandnote.com/auth/v1/callback
 
 ### 카카오 로그인 동의항목 (필요시 확인)
 - 메뉴: 카카오 로그인 → 동의항목
-- 필요 항목: `profile_nickname`, `profile_image`
+- 필요 항목: `account_email`, `profile_nickname`, `profile_image`. 신규 계정 연결에는 확인된 이메일이 필요하다.
 
 ---
 
@@ -138,9 +138,9 @@ NEXT_PUBLIC_SITE_URL=https://feelandnote.com
 - **해결**: 로컬 `.env`에는 `http://localhost:3000`을 두고, 운영값은 Oracle `/etc/feelandnote/web.env`에서 관리
 
 ### 로컬 OAuth 테스트 시 필요한 설정
-1. Auth의 Redirect URLs에 `http://localhost:3000/**` 추가
+1. Auth의 `allowedOrigins`에 `http://localhost:3000` 포함 여부 확인
 2. `.env`에서 `NEXT_PUBLIC_SITE_URL=http://localhost:3000` 확인
-3. 서버 재시작
+3. 사용자 개발 서버에서 로그인과 `/auth/callback`의 세션 저장 확인
 
 ---
 
@@ -148,7 +148,7 @@ NEXT_PUBLIC_SITE_URL=https://feelandnote.com
 
 Preview/Staging 환경 추가 시:
 
-- [ ] Auth의 Redirect URLs에 새 URL 패턴 추가
+- [ ] Auth의 `allowedOrigins`에 새 원본 추가
 - [ ] Google Cloud Console 승인된 JavaScript 원본에 새 도메인 추가
 - [ ] (필요시) Kakao Redirect URI 추가 (보통 Auth 공개 주소만 있으면 됨)
 - [ ] 해당 실행 환경에 `NEXT_PUBLIC_SITE_URL` 설정

@@ -16,7 +16,6 @@ import ContentDetailNavigation from "./ContentDetailNavigation";
 import MyReviewSection from "./MyReviewSection";
 import MyNoteSection from "./MyNoteSection";
 import AllReviewsSection from "./AllReviewsSection";
-import RecentHistoryRail from "@/components/shared/RecentHistoryRail";
 import { ContentCharacters, ContentCurated } from "./ContentRelations";
 import { useContentDetailState } from "./useContentDetailState";
 import styles from "./ContentDetail.module.css";
@@ -33,15 +32,14 @@ export default function ContentDetailPage({ initialData, relatedSections, review
   const router = useRouter();
   const t = useTranslations("contentDetail");
   const { content, userRecord, isLoggedIn, isAuthResolved, initialReviews, fictionCharacters, curatedEntries,
-    selection, unavailable, editions, changeEdition, recentItems, handleRecordChange } = useContentDetailState(initialData);
+    selection, unavailable, editions, changeEdition, handleRecordChange } = useContentDetailState(initialData);
 
   return (
     <ContentDetailNavigation workId={content.id}>
       <div className="flex items-center justify-between gap-3">
-        <Button variant="ghost" className="flex items-center gap-2 text-sm font-semibold text-text-secondary"
+        <Button variant="ghost" size="md" className="flex items-center gap-2 text-sm text-text-secondary outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
           onClick={() => router.back()}><ArrowLeft size={16} /><span>{t("back")}</span></Button>
       </div>
-      <RecentHistoryRail items={recentItems} />
       <div className={styles.stack}>
         <ContentDetailSection id="work-information" title={t("contentInfo")} opening>
           <ContentInfoSection key={content.purchaseEditionId ?? "work"} content={content} unavailable={unavailable} bannerTheme={bannerTheme}

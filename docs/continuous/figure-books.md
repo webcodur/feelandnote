@@ -80,25 +80,25 @@
 node --env-file=.env --import tsx scripts/figure-books/shelf-audit-targets.mjs --limit 100 --out ../../data/celeb/figure-books/shelf-audit-targets.json
 ```
 
-관계 0건 인물은 기본으로 제외한다(조사 완료된 난공략분 — `--include-empty`로만 본다). 26.10.03 최신 집계는 결손 보유 1,834명이다.
+관계 0건 인물은 기본으로 제외한다(조사 완료된 난공략분 — `--include-empty`로만 본다). 26.10.03 실측으로 결손 보유 1,835명이 잡혔다.
 
 ### 운영 루프
 
 - **서브 위임** — 사용자 지시에 따라 책장 정밀 정비는 인물별로 서브에 나눠 맡긴다. 발주에는 `figure-book-curation` 스킬과 이 절의 경로, 담당 인물·기존 작품 정보만 전달한다. 서브는 담당 인물의 조사·수리·readback을 수행하고, 메인은 대상 분배·공유 작품의 쓰기 충돌 조정·통합 검수·캐시 갱신을 맡는다.
 - **백그라운드 조사** — 목록의 slug를 묶어 `appearance-muse-candidates.mjs --slugs <slug들> --out <날짜>.jsonl`로 돌린다. 외부 CLI 엔진(opencode·agy·claude·codex·devin)은 사용자가 그 회차에 지정한 `--backend`만 쓰고, 출력은 jsonl에 이어받는다. 모델 없이 돌릴 때는 카카오 인물명 직접 검색 경로(아래)를 쓴다.
 - **정비 실행** — 조사 결과는 후보일 뿐이며 아래 8단계를 인물 단위로 돌린다. 등록·반영 `--apply`는 사용자 지시 때만이다.
-- **기록** — 정비 후보의 최신 집계는 `data/celeb/figure-books/shelf-audit-targets.json`, 인물별 명세·근거·영수증은 `data/celeb/figure-books/<슬러그>/`에 둔다. 실판본을 찾았으나 OL 귀속 검사에서 막힌 후보는 [`../todo/figure-books-en-editions.md`](../todo/figure-books-en-editions.md)가 들고 있다.
+- 작업 자료는 반영·재조회 검증 뒤 전량 폐기하며 [데이터 원칙](../project/data/README.md)을 따른다.
 
 ### 정비 절차
 
 1. **현황 매트릭스** — `figure_book_characters`로 인물의 관계를 뽑고 작품별 언어 카드·판본을 나열한다. 화면은 요청 언어의 등록 판본을 요구하므로 카드만 있고 판본이 없는 작품은 그 언어 목록에 안 뜬다 — 「한 권뿐」 신고의 상당수가 이 원인이다.
 2. **후보 발굴** — 카카오 인물명 직접 검색(한글·영문 표기 각각)으로 저자 일치(→`authored`)와 중심 대상(→`appearance`)을 나누고, 출판사 소개문으로 「주제가 그 인물인가/그 인물의 분야 일반인가」를 가른다. 위키데이터 작품 항목(P50)으로 본인 저작 목록을 대조한다.
 3. **기존 재고 우선** — 제목·원제로 DB를 대조해 이미 있는 작품에는 `figure-books:batch`로 관계만 잇는다. 본인 저작에는 `appearance`가 아니라 `authored`를 단다.
-4. **신규 작품** — `figure-books:book` dry-run → `--apply`. 정체성은 룰북 「작품 정체성」 순서를 따른다. 인물별 명세·영수증은 `data/celeb/figure-books/<슬러그>/`에 둔다.
-5. **중복·후처리** — 같은 저작의 두 작품은 `merge-works.mjs`(dry-run → apply, 자동 백업). 추가 판본은 `source-edition-batch`다 — 카카오가 같은 책의 인쇄판·전자판·타 출판사 재판 ISBN을 같이 내놓으므로 후보 ISBN은 전수 대조한다.
+4. **신규 작품** — `figure-books:book` dry-run → `--apply`. 정체성은 룰북 「작품 정체성」 순서를 따른다. 인물별 임시 명세는 반영 검증 뒤 폐기한다.
+5. **중복·후처리** — 같은 저작의 두 작품은 `merge-works.mjs`(dry-run → apply). 추가 판본은 `source-edition-batch`다 — 카카오가 같은 책의 인쇄판·전자판·타 출판사 재판 ISBN을 같이 내놓으므로 후보 ISBN은 전수 대조한다.
 6. **판본 귀속 실패 대응** — 저자 표기 차이(월리스/월레스)처럼 같은 책인데 앵커와 어긋나면 `edition_work_evidence`를 카드 `sources`에 보존 후 재시도한다. en 판본은 OL 원전 제목이 서버 원전과 다르면 근거로도 못 넘는다 — OL 데이터 정정이 선행이다(게이트 상세는 룰북 「등록」).
 7. **번역본 재검** — `koTranslationStatus='verified_unavailable'`인 작품도 번역서가 다른 제목으로 나와 있을 수 있다(사례: Digital Cash → 『디지털 화폐』, 에코리브르). 저자명·원제 변형으로 카카오를 재검하고, 실판본이 있으면 표시용 행을 공식 값으로 덮고 상태를 `published`로 교정한다.
-8. **마무리** — 관계 목록 readback으로 ko/en 화면 권수를 확인하고 `figure-books:audit`을 돌린다. DB 데이터 수정 뒤 연결 인물의 `celebs:<id>`·`celebs:<slug>`와 작품의 `contents:<id>` 태그를 `/api/revalidate`로 갱신하고, `complete: true`로 Cloudflare 퍼지까지 확인한다. 노출 로직을 바꾸면 `getFigureBooksForCeleb` 캐시 키 버전도 올린다. 상품 연결은 `coupang-book-affiliate`로 넘긴다.
+8. **마무리** — 관계 목록 readback으로 ko/en 화면 권수를 확인하고 `figure-books:audit`을 돌린다. 상품 연결은 `coupang-book-affiliate`로 넘긴다.
 
 ## 작품 후보 조사 경로
 
@@ -163,3 +163,64 @@ node --env-file=.env scripts/figure-books/appearance-muse-candidates.mjs --backe
 - **비라틴 원전 로마자 주석 245건 반영 완료** — 위키데이터 없이 원제·원저자를 로마자로 주석해 같은 파이프라인으로 돌렸다. OL 검증은 en 카드 판정용이라 resolved 54건(수동 대조로 오매칭 6건 걸러 original-only 강등 — 4대비극↔로미오와 줄리엣, 철학적 탐구↔Blue and Brown Books, 드래곤볼↔DBZ 9권, 불새 박스↔Phoenix 11권, 소녀 편↔vol.2, 플라톤의 철학↔Rowe 다른 저작). 적용 정체성 갱신 240건·en 판본 6건, 백업 `_backup/tow-cjk-before-2026-09-18.json`. en 판본 제목이 정체성으로 새어 잘못된 슬러그 8종(사기→records-of-the-grand-historian-han-dynasty-i, 정사삼국지→shou-ch-en/empresses-and-consorts, 플루타르크→parallel-lives-vol-4 등)을 표준 정체로 정정하고, 전수 대조에서 잘못 붙은 주석 11건(피터 틸↔순자 등)은 백업으로 복원·원제 불명 2건과 정정 5건(량치차오 이태리 삼걸전, 카르마 경영, 器識, Chen Yu'an, 로마인이야기5 권명)을 고쳤다. 같은 저작 통합 24쌍 반영(사기 8·정사삼국지 5·삼국지연의 4·순자 복원 등 — 삼국지연의 3쌍은 en locale PK 충돌로 중단돼 drop 측 중복 en 카드 삭제 후 재통합), keep 백업 `_backup/merge-tow-cjk-before-2026-09-18.json`.
 - **잔여 실태(재집계)** — `book/` 잔존은 142가 아니라 **1,519건**이다: domestic 865(국내서, 정상 정체성) + 원장 미포함 627(역자 0건 — 대부분 국내서, 외국 저자 38건 중 처리 가능분은 이번 배치로 흡수) + unresolved 27(원제 불명 — 모옌 산문집·이중톈 강의·Poe 선집 등 사람 판정 필요). QID 백필은 위키데이터 스로틀 해소 후 `tow-wd-cands.jsonl` 이어하기.
 - **unresolved 27건 전량 판정 완료** — 웹 조사로 원제·원저자를 확정했다. 2건(楊貴妃伝·安禄山と楊貴妃)은 선행 처리됐고, 2건(『여성리더 영어연설문』 국내 편역집·『고대 그리스 서정시』 다저자 선집)은 단일 원작이 아니라 `book/` 유지가 맞다. 나머지 23건을 주석해 `--apply`로 정체성 갱신 23건 — 가디언즈 오브 갤럭시 Vol.2 오피셜 가이드는 원서명 확인으로 `marvel-comics/guardians-of-the-galaxy-vol-2-the-official-guide` 정체 부여(영화 부속 간행물이라 독립 정체). 백업 `_backup/tow-u27-before-2026-09-18.json`. OL 검증 resolved 6건 중 en 판본이 없던 5건을 직접 삽입(Metaphysics는 기존 Penguin 판본 보유로 건너뜀 — en 카드가 이미 있으면 적용부가 판본 삽입을 건너뛰는 사양 보완). 같은 저작 통합 2쌍 — 『헨리 포드』→『나의 삶과 일』, 『이정의 신유학』→『정 주 철학의 뿌리를 찾아서』(drop 측 로마자 en 카드 선삭제 후 통합). 처리분 `book/` 잔존 0.
+
+### 26.10.03 회차 — 사토시 나카모토 인물 도서 점검·보강
+
+- 등장 2건만 붙어 있던 것을 조사해 관계 13건(등장 12·창작 1)으로 확장. 신규 작품 7권(사토시의 서·비트코인 현상·비트코인 지혜의 족보·비트코인 탄생의 비밀·The Secret Life·The Bitcoin Standard·Digital Cash)과 기존 재고 3권(Digital Gold·Bitcoin Billionaires·The Blocksize War)에 관계를 잇고, 백서 작품(`34b3cd63`)에는 `authored`를 넣었다.
+- 같은 저작이던 필레우시스 『비트코인 백서』(`book/9791199097407`)를 백서 작품으로 통합해 판본·관계를 이관했다(백업 `_backup/merge-a689c59c…`).
+- 추가 판본 5건 — 미스터 나카모토 인쇄판(9791124038314, 저자 표기 월레스/월리스 차이로 ko 카드 `sources.edition_work_evidence`에 독립 검수 근거 보존 후 등록), 사토시의 서 2021판(9791162243855)·전자판(9791175796898), 비트코인 지혜의 족보 백산출판사판(9791188626069), Digital Cash 한국어판 『디지털 화폐』(9788962632194, 에코리브르 — 등록 때 `verified_unavailable`로 놓쳤던 실번역서라 표시용 제목 행을 공식 값으로 덮고 `koTranslationStatus`를 `published`로 교정).
+- 후속 조사 정리 — 『인문학, 비트코인 백서를 읽다』(윤성호, 한양대학교출판부, 9788972188780)를 백서를 정면으로 읽는 국내 단독 저작으로 추가 등록(등장 관계 포함, 총 14건). 나머지 보류 3건은 조사로 확정: 『Behind the Mask』는 Affirm Press가 2020-01 소송 위협으로 출간 취소해 실재 판본이 없음(영구 제외), Frisby 『Bitcoin: The Future of Money?』는 OL 판본 3종이 언어·표지를 동시에 갖춘 것이 없고 2025 Boundless 재판(9781917943017)은 OL 미등록(등록 불가), 백서 영문판은 OL이 유일 영문 판본(Ignota 9781999675929)을 다른 원전 "White Paper" 아래 두고 공저자 Brekke·Bridle까지 붙어 `verifyEditionWork`의 원전 제목·저자 대조를 통과할 방법이 없음(OL 원전 병합이 필요한 외부 데이터 문제).
+
+### 26.10.03 회차 — `shelf-audit-targets` 상위 인물 1차 정비
+
+`shelf-audit-targets.mjs --limit 100`(`data/celeb/figure-books/shelf-audit-targets.json`) 상위 thin 인물 8명을 카카오 인물명 직접 검색으로 정밀 정비했다. 조사 후보가 없는 인물은 판정만 하고 넘겼다.
+
+- **bill-ackman** 관계 2→3건 — 신규 작품 Christine S. Richard 『Confidence Game: How Hedge Fund Manager Bill Ackman Called Wall Street's Bluff』(en 전용, `0ac61685`) 등록 + 등장 관계. en 판본 2종(Wiley 9780470648278 + Bloomberg 9780470873304 — 다른 부제의 같은 저작, `edition_work_evidence` 보존 후 등록).
+- **en 카드 오부착 수리** — 『뒤통수의 심리학』(마리아 코니코바, `0d0e2f34`)에 리처드 책의 en 카드·판본이 붙어 있던 것을 떼고(백업 `_backup/detach-0d0e2f34-en-conf.json`), 코니코바 정본 en 카드·판본(9780525427414, edition 16842)으로 교정. 작품 검색 매처가 이 오부착 카드 때문에 리처드 신규 작품을 동일 작품으로 오인했으므로 **오부착 수리가 신규 등록보다 먼저다**.
+- **jamie-dimon** 관계 2→3건 — 신규 작품 Duff McDonald 『Last Man Standing: The Ascent of Jamie Dimon and JPMorgan Chase』(en 전용, `e15435a5`) 등록 + 등장 관계.
+- **son-woong-jung** — 『모든 것은 기본에서 시작한다』 큰글자책 판본(9791193238431, edition 16846) 추가. 제목 접미사 차이로 `edition_work_evidence` 보존 후 등록.
+- **조사 완료·변경 없음** — andrew-huberman(Protocols 국문판 미출간, koGap 정상)·larry-fink(카카오 결과가 Larry Fink 사진작가·KDP 자가출판 잡음뿐)·jason-statham·yang-hak-seon·daniel-ek(스포티파이 회사 서적은 인물 직접 대상이 아니라 제외).
+- **운영 노하우 추가** — OL 판본 제목이 부제를 합쳐 돌려주므로 카드·원전 앵커가 짧은 표제면 `editionMatch`가 실패한다. 이 경우 `contents.metadata.workTitle`/`workCreator`를 OL 원전값으로 채우면 `original` 앵커로 통과한다(카드는 공식 전체 제목 유지).
+- 마무리 readback — bill-ackman 관계 3(ko 2·en 1), jamie-dimon 관계 3(ko 2·en 2), `figure-books:audit` 손댼 작품 의심 목록 없음.
+
+### 26.10.03 회차 — 상위 인물 2차 정비(결손 플래그 축, 인계 중간 상태)
+
+큐의 enGap·koGap·dup 축을 정비했다. **예수 배치는 명세·근거 준비까지 끝났고 적용은 다음 작업자가 한다.**
+
+- **적용 완료**
+  - barack-obama — 『담대한 희망』 ko 판본 2종(9788925511054 버락 오바마 표기판·9788925588803 개정판, edition 16853·16854). 카카오 제목 정규화(「(양장본 HardCover)」 제거·「(개정판)」 유지) 후의 실표제를 증거 `edition_title`에 맞춰야 통과했다.
+  - julius-caesar — 갈리아전기 계열 ko 판본 4종(edition 16847·16848·16849·16850).
+  - niccolo-machiavelli — 『피렌체사』(16851)·『전쟁의 기술』(16852) ko 판본. The Art of War 작품의 `workCreator`가 「孙武」로 오염돼 있던 것을 마키아벨리로 교정(Q610942는 마키아벨리의 Dell'arte della guerra가 맞음) 후 통과.
+  - matt-damon — 『물은 왜 가난한 사람들에게 더 비싼 걸까?』와 `Worth of Water`는 같은 저작의 중복 작품 → `merge-works` 적용(판본 9791124471029 이관·중복 관계 정리).
+  - confucius — 『춘추』 작품에 **다이앤 디 프리마의 동명 시집**(City Lights) en 카드·판본이 오부착돼 있던 것을 떼고 ko 카드 유지.
+- **조사 완료·변경 없음** — muhammad·elon-musk·dario-amodei·charlemagne·li-si·jensen-huang의 enGap는 독일어 원전·국내 원저작·OL 미등록 등 실판본 없는 정상 결손. michael-jackson은 『댄싱 더 드림』 국내 번역 없음 확인, 나머지는 ko 원저작이라 정상.
+- **jesus — 적용 대기(다음 작업자 인계)**
+  - 조사 완료: 라칭거 『나자렛 예수』 3부작(바오로딸 1·2·유년기 + 김영사 단권), 크로산·타이쎈/메르츠 『역사적 예수』, 파리니 『예수, 인간의 얼굴을 한 신』, 폴 존슨 『예수평전』 후보 확정. 기존 작품 `c2191622`(나자렛의 예수) 발견.
+  - **이미 DB에 쓴 준비분**: `c2191622` en 카드 저자 → `Joseph Ratzinger`(OL 정준값), `contents.metadata.workTitle/workCreator` = `Jesus of Nazareth`/`Joseph Ratzinger`(원전 앵커), ko 카드 `sources.edition_work_evidence`에 ko 판본 4건의 귀속 증거 보존.
+  - **dry-run 통과·미적용 명세** `data/celeb/figure-books/jesus/`: 신규 작품 4건(`historical-jesus-crossan`·`historischer-jesus-theissen`·`human-face-of-god-parini`·`jesus-paul-johnson`), 관계 1건(`rel-jesus-nazareth`, appearance), 판본 5건(`editions-nazareth` — ko 바오로딸 3권+김영사 1권은 `volume/volume-N-of-3` scope, en은 Part 1인 9780385523417만 — 나머지 en 판본은 OL이 언어 필드 없음).
+  - 다음 작업자 순서: ① 신규 4건 `--apply` → ② `rel-jesus-nazareth` `source-batch --apply` → ③ `editions-nazareth` `source-edition-batch --apply`(dry-run 재확인 후) → ④ 신규 작품 4건의 관계 명세 작성·반영 → ⑤ readback + `figure-books:audit`.
+  - 타이쎈 판본 교훈: Fortress판(9780800631239)은 판본 저자가 타이쎈만이라 실패 — SCM판 9780334026969(저자 2명 기재·표지·eng)로 교체해 통과. OL 원전 제목이 독일어 `Historische Jesus`라 `metadata.workTitle`을 그 값으로 맞춰야 en 하드 게이트를 지난다.
+
+### 26.10.03 회차 — 책장 「같은 책」 판본 접기 + 역자 백필
+
+- 신고: 『사토시의 서』(초판·개정증보판·전자책)가 동일 칩 3개, 『비트코인 지혜의 족보』(케이디북스→백산출판사 판권 이전 재출간)가 칩 2개로 노출 — 출판사·출간일만 다른 판본을 유저 선택지로 나열한 결함.
+- **원칙 확정**: 책장 칩의 같은 책 판정 구분자는 출판사·출간일이 아니라 역자·본문 범위·판본 성격이다. 다른 역자의 번역본(오만과 편견 민음사↔열린책들 등)은 다른 책으로 남고, 같은 역자의 판권 이전 재출간·개정판·전자책은 접는다. 출판사가 다른 판본을 접는 것은 역자 동일 확인 또는 다른 언어 카드가 없는 원어 작품뿐이다 — 출판사만 기계 비교하면 다른 번역본을 삼킨다.
+- **구현**: `figureBookLocale.ts`에 `collapseSameBookEditions` — 키 = 정규화 제목(판차 꼬리표·공백 제거) + 저자(없으면 출판사) + 역자 + 판본 성격 + 범위(`null`≈`full/complete`). 대표는 구매 링크 보유 → 최신 출간 → sortOrder. `includeAll=true` 경로(콘텐츠 상세)는 접지 않는다.
+- **역자 기반 보존**: 카카오 `translators`를 `kakao-books.ts` 메타로 노출하고 등록 3경로(source-edition-batch·source-book-batch·admin)가 판본 `sources.translators`에 자동 기록하게 했다.
+- **기존 판본 백필**: 같은 키 후보 228건 + ko 다판본 작품 확장분 905건을 카카오 ISBN 조회로 `sources.translators` 백필(미등재 9건, 백업·명단은 `data/celeb/figure-books/_work/`).
+- **효과**: 다판본 작품·언어 1,012 → 접은 뒤 다중 칩 923(잔여는 대부분 역자가 다른 실번역본). 검증 사례 — 사토시의 서 1칩, 지혜의족보 1칩, 오만과 편견·일리아스는 역자별 3칩 유지.
+- 검증: `figureBookLocale.test.ts` 8건 통과(역자 동일 재출간 접기·역자 상이 분리 포함), `figure-books:audit` 이슈 없음.
+
+### 26.10.03 회차 — 3차 정비(예수 인계분 적용 + koGap 상위)
+
+- **jesus 배치 적용 완료** — 신규 작품 4건(크로산 The Historical Jesus·타이쎈/메르츠 Der historische Jesus·파리니·폴 존슨)+『나자렛의 예수』관계·ko 판본 4종(바오로딸 1·2·유년기+김영사)+en Part 1 판본(9780385523417).
+  - 인계 시 막힌 원인 2가지: ① `edition_work_evidence`의 `original_title/creator`는 작품 원전값(`metadata.workTitle/workCreator`)과 같아야 한다 — 카드값이 아니라 **원전 앵커값**(Jesus of Nazareth/Joseph Ratzinger). ② 증거의 정준 키는 `method`(type만 있으면 매칭 안 됨). 구본 증거는 표시용 판본 행의 `sources`에도 남아 같이 교정했다.
+- **캐시 주의** — `getFigureBooksForCeleb`는 `cachedDetail`(`figure-books-by-celeb-v*`)로 캐시된다. 노출 로직 변경에는 캐시 키 버전을 올린다(v16→v17). DB 데이터만 수정했다면 `/api/revalidate`로 연결 인물의 `celebs:<id>`·`celebs:<slug>`와 작품의 `contents:<id>` 태그를 갱신하고, 응답의 `complete: true`로 Cloudflare 퍼지까지 확인한다. 같은 작품에 연결된 다른 인물도 포함한다.
+- **koGap 상위 판본 보충** — 명세·증거 `data/celeb/figure-books/_work/ko-ed-10-03/`:
+  - marx: 브뤼메르 18일 중복 작품 통합(`merge-marx-brumaire.json`, keep=QID 7c8fab96)+비르투판, 그룬트리스=『정치경제학 비판 요강』2종, 임금노동과 자본 2종 — edition 16871·16875~16876·16879~16880
+  - hemingway: 제5열·우리 시대에 2종 — 16877·16881~16882
+  - einstein: 나는 세상을 어떻게 보는가 3종(같은 역자, 칩 1개)·아인슈타인 평전 — 16872~16874·16878
+  - balzac: 사촌 베트 상·하(volume scope) — 16869~16870
+  - aristotle: 실판본 없음 판정
+- **등록 불가·미번역 잔여** — 카카오가 구식 내부 코드(2004xxx)를 돌려 ISBN-13 검증 불가: 위험한 여름(영한문화사85)·철학의 빈곤(아침89). 국내 단행본 미존재 확인: 고브세크·베아트릭스·페라구스 등 발자크 11종, 헤밍웨이 5종, 마르크스 자본론 제2권·고타 강령 비판 등.
+- 추가 정비 대상은 현재 DB에서 조회한다.

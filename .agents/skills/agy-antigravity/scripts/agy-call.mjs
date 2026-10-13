@@ -30,11 +30,14 @@ const DEFAULT_TIMEOUT_MS = 900_000
  * @param {string} [opts.repoRoot] docs 상대경로 해석 기준.
  * @param {string} [opts.model] `agy models`에서 확인한 명시적 모델 ID.
  * @param {number} [opts.timeoutMs]
+ * @param {object} [opts.jsonSchema] CLI 구조화 출력 스키마. 최종 structured_output만 반환한다.
+ * @param {boolean} [opts.disableSlashCommands] print 호출에서 불필요한 확장을 끈다.
  * @returns {Promise<string>} stdout의 최종 텍스트.
  */
 export function agyCall(prompt, opts = {}) {
   const {
-    docs = [], model = AGY_TEXT_MODEL, repoRoot = process.cwd(), timeoutMs = DEFAULT_TIMEOUT_MS,
+    docs = [], model = AGY_TEXT_MODEL, repoRoot = process.cwd(), timeoutMs = DEFAULT_TIMEOUT_MS, promptViaFile = false,
+    jsonSchema, disableSlashCommands = false,
   } = opts
   if (!String(model).trim()) throw new Error('agy 모델 ID가 비어 있다.')
   const work = mkdtempSync(resolve(tmpdir(), 'agy-call-'))
@@ -42,7 +45,7 @@ export function agyCall(prompt, opts = {}) {
   // Windows CreateProcess의 명령행 길이 제한을 넘는 배치 입력은 임시 파일로 건넨다.
   // agy가 격리된 작업 폴더 안의 파일을 직접 읽게 해 긴 JSON을 argv에 싣지 않는다.
   let promptArgument = fullPrompt
-  if (Buffer.byteLength(fullPrompt, 'utf8') > 20_000) {
+  if (promptViaFile || Buffer.byteLength(fullPrompt, 'utf8') > 20_000) {
     const promptPath = resolve(work, 'prompt.txt')
     writeFileSync(promptPath, fullPrompt, 'utf8')
     promptArgument = [
@@ -57,6 +60,8 @@ export function agyCall(prompt, opts = {}) {
     '--dangerously-skip-permissions',
     '--model', model,
     '--print-timeout', `${Math.max(1, Math.ceil(timeoutMs / 60_000))}m`,
+    ...(jsonSchema ? ['--output-format','json','--json-schema', JSON.stringify(jsonSchema)] : []),
+    ...(disableSlashCommands ? ['--disable-slash-commands'] : []),
   ]
 
   return new Promise((resolveCall, rejectCall) => {
@@ -89,6 +94,13 @@ export function agyCall(prompt, opts = {}) {
       const text = out.trim()
       if (!text) {
         rejectCall(new Error(`agy 빈 응답: ${err.slice(0, 300)}`))
+        return
+      }
+      if (jsonSchema) {
+        let result
+        try { result = JSON.parse(text) } catch { rejectCall(new Error('agy 구조화 응답 JSON 파싱 실패')); return }
+        if (result.status !== 'SUCCESS' || !result.structured_output) { rejectCall(new Error('agy 구조화 결과 없음')); return }
+        resolveCall(JSON.stringify(result.structured_output))
         return
       }
       resolveCall(text)

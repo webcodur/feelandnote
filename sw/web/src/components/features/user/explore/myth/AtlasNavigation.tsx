@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ATLAS_NAV_LAYOUT, atlasSelection, firstAtlasEntry, type AtlasSelection, type AtlasTheme } from "./atlasNavigationData";
 
@@ -13,9 +13,10 @@ interface Props {
   onOpenPicker: (level: number) => void;
   myth: boolean;
   overview?: ReactNode;
+  pending?: boolean;
 }
 
-export default function AtlasNavigation({ tree, selection, onSelect, onOpenPicker, myth, overview }: Props) {
+export default function AtlasNavigation({ tree, selection, onSelect, onOpenPicker, myth, overview, pending = false }: Props) {
   const t = useTranslations("explore.ui.atlas");
   const tUi = useTranslations("explore.ui");
   const { theme, entry, group } = atlasSelection(tree, selection);
@@ -41,16 +42,18 @@ export default function AtlasNavigation({ tree, selection, onSelect, onOpenPicke
   const arrow = "grid place-items-center text-text-secondary outline-none hover:bg-white/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:text-text-tertiary disabled:opacity-30 disabled:hover:bg-transparent";
 
   return (
-    <div className={ATLAS_NAV_LAYOUT.root} data-atlas-navigation>
+    <div className={`${ATLAS_NAV_LAYOUT.root} relative`} data-atlas-navigation aria-busy={pending}>
       {names.map((name, level) => (
         <div key={keys[level]} className={ATLAS_NAV_LAYOUT.row} data-atlas-level={level}>
           <span data-atlas-label className="hidden items-center justify-center ps-2 text-xs font-medium leading-5 text-text-secondary md:flex">{labels[level]}</span>
-          <button type="button" className={arrow} disabled={choices[level].length < 2} onClick={() => step(level, -1)} aria-label={`${tUi("prev")} ${labels[level]}`}><ChevronLeft size={17} aria-hidden /></button>
-          <button type="button" aria-haspopup="dialog" aria-label={`${labels[level]} · ${name} · ${t("optionCount", { count: counts[level] })}`} title={name} data-atlas-count={counts[level]} onClick={() => onOpenPicker(level)}
-            className={`flex min-w-0 items-center justify-center px-2 py-2.5 text-center text-sm font-semibold outline-none hover:bg-white/5 hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent md:text-base ${level === 1 ? "text-accent" : "text-text-primary"}`}>
+          <button type="button" className={arrow} disabled={pending || choices[level].length < 2} onClick={() => step(level, -1)} aria-label={`${tUi("prev")} ${labels[level]}`}><ChevronLeft size={17} aria-hidden /></button>
+          <button type="button" disabled={pending} aria-haspopup="dialog" aria-label={`${labels[level]} · ${name} · ${t("optionCount", { count: counts[level] })}`} title={name} data-atlas-count={counts[level]} onClick={() => onOpenPicker(level)}
+            className={`flex min-w-0 items-center justify-center px-2 py-2.5 text-center text-sm font-medium outline-none hover:bg-white/5 hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent md:text-base ${level === 1 ? "text-accent" : "text-text-primary"}`}>
             <span data-atlas-value className="min-w-0 break-keep py-0.5 leading-6 [overflow-wrap:anywhere]">{name}</span>
           </button>
-          <button type="button" className={arrow} disabled={choices[level].length < 2} onClick={() => step(level, 1)} aria-label={`${tUi("next")} ${labels[level]}`}><ChevronRight size={17} aria-hidden /></button>
+          <button type="button" className={arrow} disabled={pending || choices[level].length < 2} onClick={() => step(level, 1)} aria-label={`${tUi("next")} ${labels[level]}`}>
+            {pending && level === 1 ? <Loader2 size={17} aria-hidden className="animate-spin text-accent motion-reduce:animate-none" /> : <ChevronRight size={17} aria-hidden />}
+          </button>
         </div>
       ))}
       {overview && <div className={ATLAS_NAV_LAYOUT.footer}>{overview}</div>}

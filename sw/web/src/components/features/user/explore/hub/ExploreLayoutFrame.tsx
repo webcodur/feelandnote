@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { EXPLORE_FEATURED_LINKS } from "@/constants/navigation";
 import PageContainer from "@/components/layout/PageContainer";
 import ExploreBanner from "./ExploreBanner";
+import AtlasRecentHistory from "../myth/AtlasRecentHistory";
 
 const sectionSwitches = [
   [{ key: "influence", labelKey: "navInfluence" }, { key: "spectrum", labelKey: "navSpectrum" }],
@@ -51,6 +52,7 @@ export default function ExploreLayoutFrame({ children }: { children: ReactNode }
               ))}
           </nav>
         )}
+        {(segment === "myth" || segment === "faction") && <AtlasRecentHistory world={segment} />}
         {children}
       </PageContainer>
     </>

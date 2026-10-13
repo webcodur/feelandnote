@@ -1,11 +1,10 @@
 # 이미지 남은 작업
 
-**이미지가 있어야 끝나는 일**만 모았다. 발주서 규격은 [`prod-01-image-generation.md`](../../project/production/prod-01-image-generation.md), 세력 이미지 원칙은 `faction-image` 스킬이 쥔다.
+**이미지가 있어야 끝나는 일**만 모았다. 발주서 규격은 [`prod-01-image-generation.md`](../../project/production/prod-01-image-generation.md), 세력도감 테마 표지 원칙은 `faction-image` 스킬이 쥔다.
 
 | 문서 | 다음 작업 |
 |---|---|
-| [`hero-photo.md`](hero-photo.md) | 사진 없는 인물 468명의 화보. 아바타는 전원 등록됐고 그 얼굴을 REF로 화보를 찍는 단계만 남았다 |
-| [`avatar-normalize.md`](avatar-normalize.md) | 아바타 정규화 미결분 — 얼굴 미검출 2명 수동 크롭, 누끼 검토 후보 156명 감사 |
+| [`avatar-normalize.md`](avatar-normalize.md) | 아바타 정규화 미결분 — 누끼 검토 후보 91명 눈 감사 (수동 크롭 2명 해소, 156명 중 65명 재등록으로 해소) |
 
 ## 다른 문서에 섞인 이미지 일
 

@@ -10,6 +10,7 @@ import { isThemeBook } from '@/lib/figure-books/themeBooks'
 import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 import { RetryBlock } from '@/components/ui/pending'
 import { getProfessionShelfChoices } from '@/lib/books/professionShelf'
+import AtlasBookShelfSkeleton from '@/components/features/user/explore/myth/AtlasBookShelfSkeleton'
 
 interface Props {
   books: FactionFigureBook[]
@@ -69,7 +70,9 @@ export default function ThemeBookShelf({ books, memberIds, name, isMyth }: Props
     <>
       {failed && <RetryBlock onRetry={() => { setFailed(false); setAttempt((value) => value + 1) }} />}
       {/* 카드 안 제목은 두지 않는다 — 바깥 구획 머리(HubSection)가 같은 이름을 쥔다 */}
-      <BookShelf groups={groups} ariaLabel={t('worksTitle')} />
+      {!extras && !failed && memberIds.length > 0 && !groups.some(group => group.books.length > 0)
+        ? <AtlasBookShelfSkeleton />
+        : <BookShelf groups={groups} ariaLabel={t('worksTitle')} />}
     </>
   )
 }

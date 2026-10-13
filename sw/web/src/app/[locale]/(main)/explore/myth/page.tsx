@@ -2,8 +2,6 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { getMythData } from "@/actions/home/getMythData";
 import { getMythClientData } from "@/actions/home/mythPublicData";
 import { getLocalizedAlternates } from "@/lib/seo";
-import Lane from "@/components/ui/pending/Lane";
-import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
 import { MythSection } from "../sections";
 
 export const maxDuration = 30;
@@ -43,5 +41,5 @@ export async function generateMetadata() {
 }
 
 export default function MythPage() {
-  return <Lane fallback={<MythScreenSkeleton />}><MythSection /></Lane>;
+  return <MythSection />;
 }

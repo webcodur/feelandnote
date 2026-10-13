@@ -9,8 +9,6 @@
 import hubStyles from "@/components/shared/HubSection.module.css";
 import { useRef, type ReactNode } from "react";
 import { useLocale } from "next-intl";
-import { useRecentHistory } from "@/hooks/useRecentHistory";
-import RecentHistoryRail from "@/components/shared/RecentHistoryRail";
 
 import type { CelebAnalysisData } from "@/actions/celebs/getCelebSideData";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
@@ -62,7 +60,6 @@ export default function CelebPageContent({
   relatedFactionsSlot,
 }: CelebPageContentProps) {
   const locale = useLocale() as Locale;
-  const recentItems = useRecentHistory(null, "profile");
 
   // 인물 화면이 한 장에서 끝나는 원인을 판별하기 위한 구획 열람 집계다.
   const contentRef = useRef<HTMLDivElement>(null);
@@ -76,7 +73,6 @@ export default function CelebPageContent({
   /* ── 2. 머리말·본문 렌더 ── */
   return (
     <div ref={contentRef} className={`${styles.page} ${hubStyles.page}`}>
-      <RecentHistoryRail items={recentItems} />
       <CelebHeroSection
         profile={profile}
         slug={slug}

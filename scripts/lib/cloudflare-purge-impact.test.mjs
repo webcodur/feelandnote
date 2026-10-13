@@ -13,6 +13,18 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('atlas routes bypass front HTML caches while the shared explore frame reaches directory and timeline', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/app/[locale]/(main)/explore/myth/layout.tsx',
+    'sw/web/src/app/[locale]/(main)/explore/myth/[slug]/page.tsx',
+    'sw/web/src/app/[locale]/(main)/explore/faction/layout.tsx',
+    'sw/web/src/app/[locale]/(main)/explore/faction/FactionScreen.tsx',
+  ]).scopes, ['none'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/user/explore/hub/ExploreLayoutFrame.tsx',
+  ]).scopes, ['cached-html'])
+})
+
 test('home selection, faction dialogs and celeb previews purge only their cached consumers', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/lib/celeb/todayFigureSelection.ts',
@@ -579,3 +591,10 @@ test('R2 genre banners and shared detail UI evict only their consuming detail HT
     'sw/web/public/images/content/banners/unverified-mb.webp',
   ]), /Unclassified public asset/);
 });
+
+
+test('myth story guide viewer changes do not evict unrelated cached details', () => {
+  for (const file of ['FactionArtworkViewer.tsx', 'FactionSceneNavigator.tsx', 'FactionStoryGuide.tsx', 'storyBoundaries.ts']) {
+    assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/components/features/faction/' + file]).scopes, ['none'])
+  }
+})

@@ -21,7 +21,7 @@ interface HubSectionProps {
   tabIndex?: number;
   /** 목차가 가리키는 앵커 — 없으면 index·groupId로 hub-section-<i>를 단다 */
   id?: string;
-  title: string;
+  title: React.ReactNode;
   /** 제목 요소 수준 — 한 편의 주소(신화·세력 상세)에서는 고른 이름이 페이지의 h1이다 */
   titleAs?: "h1" | "h2" | "h3";
   subtitle?: React.ReactNode;

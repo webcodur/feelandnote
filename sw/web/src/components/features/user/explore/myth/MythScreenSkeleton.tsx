@@ -1,88 +1,79 @@
 "use client";
 
-import hubStyles from "@/components/shared/HubSection.module.css";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import HubSection from "@/components/shared/HubSection";
 import { Ghost, SkeletonFrame } from "../hub/ExploreSkeleton";
 import { ATLAS_NAV_LAYOUT } from "./atlasNavigationData";
 import { MYTH_LAYOUT as layout } from "./mythLayout";
+import AtlasMemberControls from "./AtlasMemberControls";
+import AtlasBookShelfSkeleton from "./AtlasBookShelfSkeleton";
+import SceneCompletionBadge from "./SceneCompletionBadge";
 
-export default function MythScreenSkeleton({ title, hasArtwork = true, faction = false }: { title?: string; hasArtwork?: boolean; faction?: boolean } = {}) {
+interface Props {
+  title?: string;
+  hasArtwork?: boolean;
+  faction?: boolean;
+  heading?: string;
+  headline?: string | null;
+  memberCount?: number;
+  scenesComplete?: boolean;
+}
+
+export default function MythScreenSkeleton({ title, hasArtwork = true, faction = false,
+  heading, headline, memberCount, scenesComplete = false }: Props = {}) {
   const t = useTranslations("explore.hub.myth");
   const common = useTranslations("common");
+  const groupId = faction ? "faction" : "myth";
+  const reservedMembers = memberCount ?? 12;
 
   return (
     <SkeletonFrame label={`${title ?? t("title")} · ${common("loading")}`} className={layout.shell}>
-      <div aria-hidden="true">
-        <div className={`${layout.navigationOuter} ${hubStyles.section} ${hubStyles.opening}`}>
-          <div className={layout.selectionPanel}>
-            {/* 실화면의 구획 머리(HubSection) — 번호 대시 + 이름 + 한 줄 정의가 한 덩어리로 선다.
-                로딩 때도 자리를 잡아 제목이 튀지 않게 한다 */}
-            <div className={`flex flex-col items-center px-1 ${hubStyles.header}`}>
-              <Ghost className="h-4 w-20 rounded-full" />
-              <Ghost className="h-7 w-44 md:h-8" />
-              <Ghost className="h-5 w-64 max-w-[75%]" />
-            </div>
-            <div className={cn(layout.selectionDetails, !hasArtwork && layout.selectionWithoutArtwork)}>
-              <div className={layout.selectionControls}>
-                <div className={ATLAS_NAV_LAYOUT.root}>
-                  {[0, 1, 2].map((level) => <div key={level} className={ATLAS_NAV_LAYOUT.row}>
-                    <Ghost className="m-auto hidden h-3 w-6 md:block" /><Ghost className="m-auto h-3 w-2" /><Ghost className="m-auto h-3 w-3/4" /><Ghost className="m-auto h-3 w-2" />
-                  </div>)}
-                  <div className={ATLAS_NAV_LAYOUT.footer}><Ghost className="h-10 flex-1 rounded-lg" /><Ghost className="h-10 flex-1 rounded-lg" /></div>
+      <div aria-hidden data-atlas-skeleton>
+        <div className={layout.navigationOuter}>
+          <HubSection title={heading ?? <Ghost className="h-7 w-44 md:h-8" />} index={0} total={4} hideDivider groupId={groupId}
+            headerActions={scenesComplete ? <SceneCompletionBadge /> : undefined}
+            subtitle={headline === null ? undefined : headline ? <span className="text-accent">{headline}</span> : <span aria-hidden className="block h-[21px] w-64 max-w-full rounded bg-white/[0.06] md:h-[26px]" />}>
+            <div className={layout.selectionPanel}>
+              <div className={cn(layout.selectionDetails, !hasArtwork && layout.selectionWithoutArtwork)}>
+                <div className={layout.selectionControls}>
+                  <div className={ATLAS_NAV_LAYOUT.root}>
+                    {[0, 1, 2].map(level => <div key={level} className={ATLAS_NAV_LAYOUT.row}>
+                      <Ghost className="m-auto hidden h-3 w-6 md:block" /><Ghost className="m-auto h-3 w-2" /><Ghost className="m-auto h-3 w-3/4" /><Ghost className="m-auto h-3 w-2" />
+                    </div>)}
+                    <div className={ATLAS_NAV_LAYOUT.footer}><Ghost className="h-10 flex-1 rounded-lg" /></div>
+                  </div>
+                  {faction && <Ghost className="mx-auto h-9 w-56 max-w-full" />}
                 </div>
+                {hasArtwork && <div className={layout.selectionArtwork}><Ghost className={layout.overviewImage} /></div>}
               </div>
-              {hasArtwork && <div className={layout.selectionArtwork}><Ghost className={layout.overviewImage} /></div>}
             </div>
-          </div>
+          </HubSection>
         </div>
-        <div className={layout.membersOuter}>
-          <div className={`${layout.container} ${hubStyles.section}`}>
-            <div className={`h-px w-full bg-line ${hubStyles.divider}`} />
-            {/* 구획 머리(HubSection)와 같은 쌓기 — 번호 대시 + 명단 이름 + 인원 */}
-            <div className={`flex flex-col items-center ${hubStyles.header}`}>
-              <Ghost className="h-0.5 w-8 rounded-full" />
-              <Ghost className="h-6 w-28 md:h-7" />
-              <Ghost className="h-5 w-36" />
-            </div>
-            <div className={layout.memberList}>
-              {Array.from({ length: 12 }, (_, index) => (
-                <div key={index} className="flex min-w-0 flex-col items-center">
-                  <Ghost className="aspect-square w-full rounded-xl" />
-                  <Ghost className="mt-1.5 h-4 w-3/4" /><Ghost className="mt-0.5 h-3.5 w-5/6" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        {/* 책장 구획 — 같은 구분선 리듬 위에 중앙 제목·모드 탭·카드 행이 선다 */}
-        <div className={faction ? layout.factionShelfOuter : layout.overviewOuter}>
-          <div className={faction ? layout.factionShelfContainer : layout.container}>
-            <div className={hubStyles.section}>
-              <div className={`h-px w-full bg-line ${hubStyles.divider}`} />
-              {/* 실화면과 같은 공통 구획 머리 */}
-              <div className={`flex flex-col items-center ${hubStyles.header}`}>
-                <Ghost className="h-0.5 w-8 rounded-full" />
-                <Ghost className="h-6 w-24 md:h-7" />
-              </div>
-              {/* 모드 탭 + 안내문 덩어리 — headerTabs의 mb-4/md:mb-6 */}
-              <div className="mb-4 flex flex-col items-center gap-2 md:mb-6">
-                <Ghost className="h-9 w-64 max-w-full rounded-full" />
-                <Ghost className="h-5 w-72 max-w-full" />
-              </div>
-              {/* 카드 — 좁은 화면은 가로 넘김 레일, 넓은 화면은 가운데 줄바꿈(AffiliateBookList와 같은 폭) */}
-              <div className="flex justify-start gap-3 overflow-hidden md:flex-wrap md:justify-center md:gap-5">
-                {Array.from({ length: 6 }, (_, index) => (
-                  <div key={index} className="flex w-36 shrink-0 flex-col items-center md:w-[180px]">
-                    <Ghost className="aspect-[3/4] w-full rounded-lg" />
-                    <Ghost className="mt-2 h-3.5 w-3/4" /><Ghost className="mt-1.5 h-3 w-1/2" />
-                    <Ghost className="mt-2 h-6 w-full rounded-md" />
+        {reservedMembers > 0 && <>
+          <div className={layout.membersOuter}>
+            <HubSection title={memberCount === undefined ? <Ghost className="h-7 w-44 md:h-8" /> : `${t("memberList")} (${t("groupMemberCount", { count: memberCount })})`}
+              headerActions={<AtlasMemberControls disabled />} index={1} total={4} groupId={groupId}>
+              <div className={layout.memberList}>
+                {Array.from({ length: Math.min(12, reservedMembers) }, (_, index) => (
+                  <div key={index} className="flex min-w-0 flex-col items-center">
+                    <Ghost className="aspect-square w-full rounded-xl" />
+                    <div className="mt-1.5 w-full px-0.5">
+                      <div className={layout.memberName}><Ghost className="mx-auto h-[15px] w-3/4 md:h-[17.5px]" /></div>
+                      <div className={layout.memberTitle}><Ghost className="mx-auto h-[13.75px] w-5/6 md:h-[15px]" /></div>
+                    </div>
                   </div>
                 ))}
               </div>
-            </div>
+              {reservedMembers > 12 && <Ghost className="mt-6 h-11 w-full rounded-xl md:mt-7" />}
+            </HubSection>
           </div>
-        </div>
+          <div className={faction ? layout.factionShelfOuter : layout.overviewOuter}>
+            <HubSection title={<Ghost className="h-7 w-28 md:h-8" />} index={2} total={4} groupId={groupId}>
+              <AtlasBookShelfSkeleton />
+            </HubSection>
+          </div>
+        </>}
       </div>
     </SkeletonFrame>
   );

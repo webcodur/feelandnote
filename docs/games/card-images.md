@@ -1,9 +1,8 @@
 # 쉼터 게임 카드 상징 이미지 발주서
 
-> **최종 실측 체크: 26.08.28** — 카드 자산 6장과 `/rest` 등록 코드를 대조했다. 기억은 공개,
-> 시대의 초상·유랑은 개발자 모드다.
+> 이 문서는 카드 자산 발주를 맡는다. 게임 공개 설정은 [`rest-games.ts`](../../sw/web/src/constants/rest-games.ts)가 쥔다.
 
-쉼터(`/rest`) 허브용 게임 카드 상징 이미지 6장을 관리한다. 공개 게임 5종이 각 자산을 쓰고,
+쉼터(`/rest`) 허브용 기존 게임 카드 상징 이미지 6장을 관리한다.
 개발자 모드인 시대의 초상은 기억의 `memory-card.webp`를 함께 쓴다.
 
 ## 1. 목적과 표시 방식
@@ -153,9 +152,9 @@ Output size: exactly 2048 x 1024 pixels (2:1 landscape).
 6장 모두 납품·연결 완료. 파일은 `sw/web/public/images/games/`에 `dawn-card.webp`(24KB)·`labyrinth-card.webp`(64KB)·`hegemony-card.webp`(47KB)·`suikoden-card.webp`(77KB)·`memory-card.webp`(147KB)·`wander-card.webp`(18KB)로 있다.
 
 - **유랑 카드 납품(26.07.31)**: §3-6 프롬프트로 3안(평원 길·능선 조망·폐허 아치)을 뽑아 카드에 얹은 상태로 비교하고 폐허 아치안을 채택했다. 1536×768 WebP 18KB. 평균 밝기 17.7로 기억(16.3)·미궁(24.5)과 같은 대역이라 여섯 장이 한 세트로 읽힌다.
-- **노출 상태(26.08.28)**: 기억은 `dev: false`로 공개하며 자료도 항상 조회한다. 유랑·시대의 초상은 `dev: true`라 로컬 개발 서버나 `?dev=1`에서만 카드와 자료를 연다.
+- **노출 상태**: 공개·개발자 모드 구분은 [`rest-games.ts`](../../sw/web/src/constants/rest-games.ts)를 따른다.
 - **시대의 초상 카드**: `memory-card.webp`를 카드와 전체화면 배경에 재사용한다(파일을 복제하지 않는다).
-- **연결 지점**: `HubCard`(`sw/web/src/components/shared/HubCard.tsx`)에 `backgroundImage` prop 추가 → `RestGameGrid`(`sw/web/src/components/features/rest/RestGameGrid.tsx`)의 `GAME_SECTIONS[].image`가 게임별 경로를 넘긴다.
+- **연결 지점**: `RestGameGrid`가 `REST_GAMES[].image`를 `HubCard`의 `backgroundImage`에 넘긴다.
 - **표시 처리(현행값)**: `next/image` `fill` + `object-cover`, `opacity-90`. 그 위에 왼쪽만 짙은 가로 그라디언트 `from-bg-main/95 via-bg-main/60 to-transparent`.
 - **블러는 걸지 않는다(변경됨)**: 초기 적용은 `blur-[3px]` + `opacity-70`이었으나 카드 개편에서 블러를 걷고 그림을 선명하게 두는 쪽으로 바뀌었다. **따라서 §1의 "블러 후 남는 큰 덩어리만 생각하라"는 전제는 지금 화면과 다르다.** 다만 §2의 발주 규칙(강한 명암 대비, 왼쪽 60%에 주 형상, 오른쪽 40% 비우기)은 그라디언트가 왼쪽을 덮는 구조 때문에 그대로 유효하다. 새로 뽑을 때는 선명한 상태로 선별한다.
 - **가독성 원칙**: 본문·제목이 얹히는 **왼쪽은 짙게, 오른쪽은 그림이 살도록** 덮는다. 처음에 `opacity-35` + 좌우 균일하게 짙은 막으로 적용했더니 그림이 사실상 실종됐다 — 상징 이미지를 다는 목적이 사라진다. 지금 값이 "글씨 안 묻히고 광경은 읽히는" 균형점이다.
