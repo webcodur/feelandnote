@@ -3,98 +3,71 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
-import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
+import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
+import { STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { getCelebProfessions } from '@/lib/celeb-professions'
 import { getLocale } from 'next-intl/server'
-import type { Tables } from '@/types/database.generated'
 import type { ContentType } from '@/types/database'
-import type { LibraryContent, LibraryByProfession, TopCeleb } from './types'
-import { aggregateContents, attachBookAffiliateUrls, fetchAllCelebContents, fetchGlobalCelebCounts, fetchUserContentCounts } from './helpers'
+import type { ContentJoinRow, LibraryContent, LibraryResult } from './types'
+import { CL_SELECT_LIST_WITH_AFFILIATE, flattenLocales } from '@/lib/utils/content-locale'
+import { coalesceCacheQuery } from '@/lib/cacheQuery'
 
-const getProfessionMap = async () => (await getCelebProfessions()).map(p => ({ key: p.value, label: p.label }))
+interface ProfessionRank { id: string; type: string; title: string; celeb_count: number }
+interface RankRow { content_id: string; contents: ContentJoinRow | ContentJoinRow[] | null }
 
-// #region 길의 갈래 - 직업별 인기 콘텐츠
-// celebs + celeb_influence(total_score) 임베드 조회 행
-type TopCelebRow = Pick<
-  Tables<'celebs'>,
-  'id' | 'nickname' | 'nickname_en' | 'avatar_url' | 'title' | 'title_en'
-> & {
-  celeb_influence: { total_score: number | null } | { total_score: number | null }[] | null
+// 순위에 필요한 ID·매체·제목만 모은다. 표지·판본·회원 감상 수는 현재 페이지에서 읽는다.
+// URL 길이·병렬 수·행수 제한은 공용 페이지 조회 도우미가 관리한다.
+async function fetchProfessionRanks(db: ReturnType<typeof createStaticClient>, celebIds: string[], locale: string) {
+  const rows = await selectInChunks<RankRow>(celebIds, async ids => ({
+    data: await selectAllPages<RankRow>(async (from, to) => {
+      const { data, error } = await db.from('celeb_contents')
+        .select('content_id, contents!inner(id, type, content_locales(locale, title))')
+        .in('celeb_id', ids).eq('status', 'FINISHED')
+        .order('id', { ascending: true }).range(from, to)
+      return { data: data as RankRow[] | null, error }
+    }),
+    error: null,
+  }))
+  const ranks = new Map<string, ProfessionRank>()
+  for (const row of rows) {
+    const content = Array.isArray(row.contents) ? row.contents[0] : row.contents
+    if (!content) continue
+    const rank = ranks.get(content.id)
+    if (rank) rank.celeb_count++
+    else ranks.set(content.id, {
+      id: content.id, type: content.type,
+      title: flattenLocales(content.content_locales, locale, content.type).title, celeb_count: 1,
+    })
+  }
+  return [...ranks.values()].sort((a, b) => b.celeb_count - a.celeb_count || a.title.localeCompare(b.title, 'ko') || a.id.localeCompare(b.id))
 }
 
-interface ProfessionAggregate {
-  contents: LibraryContent[]
-  total: number
-  topCelebs: TopCeleb[]
-}
-
-// 직업별 전체 집계(전체 콘텐츠 풀스캔 + 정렬 + 상위 인물)를 page/limit 무관하게
-// [profession, locale] 단일 캐시 키로 1회만 계산한다. 페이지 분할은 캐시 밖에서
-// 수행하므로, 같은 직업의 다른 페이지를 봐도 전체 풀스캔을 반복하지 않는다.
+// 직군·언어별 순위 캐시를 매체·페이지 사이에서 재사용한다.
 async function fetchProfessionAggregate(
   profession: string,
   locale: string,
-): Promise<ProfessionAggregate | null> {
+): Promise<ProfessionRank[]> {
   const db = createStaticClient()
 
-  const { data: celebProfiles, error: profileError } = await db
+  const celebProfiles = await selectAllPages<{ id: string }>((from, to) => db
     .from('celebs')
     .select('id')
     .eq('publication_status', 'active')
     // 신화·관계 인물은 목록에서 제외
     .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
     .eq('profession', profession)
-
-  throwOnQueryError('getLibraryByProfession 프로필 조회', profileError)
-  if (!celebProfiles?.length) return null
+    .order('id', { ascending: true }).range(from, to))
+  if (!celebProfiles.length) return []
 
   const celebIds = celebProfiles.map(p => p.id)
 
-  const [typedData, { data: topCelebsData }] = await Promise.all([
-    fetchAllCelebContents(db, celebIds, locale),
-    db
-      .from('celebs')
-      .select('id, nickname, nickname_en, avatar_url, title, title_en, celeb_influence!celeb_influence_celebs_fkey(total_score)')
-      .in('id', celebIds)
-      .not('celeb_influence', 'is', null)
-      .order('celeb_influence(total_score)', { ascending: false })
-      .limit(5),
-  ])
-
-  const topCelebRows: TopCelebRow[] = topCelebsData || []
-  const topCelebs: TopCeleb[] = topCelebRows.map(c => {
-    const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
-    const contentCount = typedData.filter(item => item.celeb_id === c.id).length
-    const nicknameEn = c.nickname_en ?? null
-    const titleEn = c.title_en ?? null
-    return {
-      id: c.id,
-      nickname: (locale === 'en' ? nicknameEn || c.nickname : c.nickname) || '',
-      nickname_en: nicknameEn,
-      avatar_url: c.avatar_url,
-      title: (locale === 'en' ? titleEn || c.title : c.title) ?? null,
-      title_en: titleEn,
-      influence: influence?.total_score ?? null,
-      count: contentCount
-    }
-  })
-
-  // 이 화면이 쓰는 것은 위에서 고른 작품들의 감상 인원뿐이다. 전체를 집계하면
-  // member_contents 를 통째로 훑다 문 시간을 넘겨(57014) 화면이 통째로 죽는다.
-  const contentIds = [...new Set(typedData.map(item => item.content_id))]
-  const userCountMap = await fetchUserContentCounts(db, undefined, contentIds)
-
-  // limit을 크게 줘 전체 정렬 리스트를 확보. 페이지 분할은 호출부에서 수행.
-  const { contents, total } = aggregateContents(typedData, { page: 1, limit: Number.MAX_SAFE_INTEGER, userCountMap })
-
-  return { contents, total, topCelebs }
+  return fetchProfessionRanks(db, celebIds, locale)
 }
 
 const getProfessionAggregateCached = unstable_cache(
   fetchProfessionAggregate,
-  ['library-profession-agg-v2'],
-  // celebs(직업별 셀럽)+celeb_contents(서고 집계)+celeb_influence를 함께 읽는다
+  ['library-profession-ranks-v4'],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
@@ -103,58 +76,71 @@ export async function getLibraryByProfession(params?: {
   category?: ContentType
   page?: number
   limit?: number
-}): Promise<LibraryByProfession | null> {
+}): Promise<LibraryResult> {
   const locale = await getLocale()
   const profession = params?.profession || 'entrepreneur'
   const page = params?.page || 1
   const limit = params?.limit || 12
 
-  const agg = await withQueryFallback('getLibraryByProfession', () => getProfessionAggregateCached(profession, locale), null)
-  if (!agg) return null
+  const ranks = await coalesceCacheQuery(JSON.stringify(['profession-ranks', profession, locale]),
+    () => getProfessionAggregateCached(profession, locale))
 
   // 직군 전체 집계 캐시를 재사용하고, 요청 카테고리를 적용한 뒤 현재 페이지만 분리한다.
   const filteredContents = params?.category
-    ? agg.contents.filter(content => content.type === params.category)
-    : agg.contents
+    ? ranks.filter(content => content.type === params.category)
+    : ranks
   const start = (page - 1) * limit
-  const pageContents = filteredContents.slice(start, start + limit).map(c => ({ ...c }))
+  const pageRanks = filteredContents.slice(start, start + limit)
+  const pageIds = pageRanks.map(c => c.id)
+  let pageContents: LibraryContent[] = []
 
-  // 콘텐츠별 전체 셀럽 수는 현재 페이지에 대해서만 카운트 RPC로 보정.
-  // 같은 페이지의 도서에는 카드 구매 단추가 읽을 제휴 링크를 함께 채운다.
-  const db = createStaticClient()
-  const [globalCounts] = await Promise.all([
-    fetchGlobalCelebCounts(db, pageContents.map(c => c.id)),
-    attachBookAffiliateUrls(db, pageContents, locale),
-  ])
-  for (const content of pageContents) {
-    content.celeb_count = globalCounts.get(content.id) ?? content.celeb_count
+  if (pageIds.length) {
+    const db = createStaticClient()
+    // 현재 페이지의 판본·제휴 링크와 인원 수만 두 조회로 가져온다.
+    const [metadata, counts] = await Promise.all([
+      db.from('contents').select(`id, type, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE})`).in('id', pageIds),
+      db.rpc('get_content_celeb_user_counts', { p_content_ids: pageIds }),
+    ])
+    throwOnQueryError('getLibraryByProfession 작품 조회', metadata.error)
+    throwOnQueryError('getLibraryByProfession 감상 수 조회', counts.error)
+    const byId = new Map((metadata.data ?? []).map(row => [row.id, row as ContentJoinRow]))
+    const countRows = (counts.data ?? []) as Array<{ content_id: string; celeb_count: number; user_count: number }>
+    const countMap = new Map(countRows.map(row => [row.content_id, row]))
+    pageContents = pageRanks.flatMap(rank => {
+      const content = byId.get(rank.id)
+      if (!content) return []
+      const flat = flattenLocales(content.content_locales, locale, content.type)
+      const count = countMap.get(rank.id)
+      return [{ ...flat, id: rank.id, type: content.type,
+        celeb_count: Number(count?.celeb_count ?? rank.celeb_count),
+        user_count: Number(count?.user_count ?? 0), avg_rating: null }]
+    })
   }
 
-  const professionInfo = (await getProfessionMap()).find(p => p.key === profession)
-
   return {
-    profession,
-    label: professionInfo?.label || profession,
     contents: pageContents,
     total: filteredContents.length,
-    topCelebs: agg.topCelebs,
+    totalPages: Math.ceil(filteredContents.length / limit),
+    currentPage: page,
   }
 }
 
-async function fetchProfessionContentCounts(): Promise<Array<{ profession: string; label: string; count: number }>> {
+async function fetchProfessionContentCounts(): Promise<Array<{ profession: string; count: number }>> {
   const db = createStaticClient()
 
   const results = await Promise.all(
-    (await getProfessionMap()).map(async ({ key, label }) => {
-      const { count } = await db
+    (await getCelebProfessions()).map(async ({ value: profession }) => {
+      const { count, error } = await db
         .from('celebs')
         .select('id', { count: 'exact', head: true })
         .eq('publication_status', 'active')
         // 신화·관계 인물은 목록에서 제외
         .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
-        .eq('profession', key)
+        .eq('profession', profession)
 
-      return count && count > 0 ? { profession: key, label, count } : null
+      throwOnQueryError('getProfessionContentCounts', error)
+
+      return count && count > 0 ? { profession, count } : null
     })
   )
 
@@ -163,10 +149,13 @@ async function fetchProfessionContentCounts(): Promise<Array<{ profession: strin
     .sort((a, b) => b.count - a.count)
 }
 
-export const getProfessionContentCounts = unstable_cache(
+const getProfessionContentCountsCached = unstable_cache(
   fetchProfessionContentCounts,
-  ['profession-content-counts'],
+  ['profession-content-counts-v2'],
   // celebs만 센다
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 )
-// #endregion
+
+export async function getProfessionContentCounts() {
+  return coalesceCacheQuery('classics-profession-counts', () => getProfessionContentCountsCached())
+}

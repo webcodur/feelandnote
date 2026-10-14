@@ -9,9 +9,12 @@
 import { permanentRedirect } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import Lane from "@/components/ui/pending/Lane";
-import { PendingBlock } from "@/components/ui/pending";
+import PendingBlock from "@/components/ui/pending/PendingBlock";
+import RetryBlock from "@/components/ui/pending/RetryBlock";
 import PopularSection from "@/components/features/library/sections/PopularSection";
-import { getChosenLibrary, getProfessionContentCounts } from "@/actions/library";
+import { getClassicsLibrary } from "@/actions/library/classics";
+import { getProfessionContentCounts } from "@/actions/library/profession";
+import { CLASSICS_PAGE_SIZE, initialClassicsQuery } from "@/lib/library/classicsQuery";
 import { getPathname } from "@/i18n/navigation";
 import { getLocalizedAlternates } from "@/lib/seo";
 
@@ -40,17 +43,21 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
     permanentRedirect(getPathname({ href, locale: await getLocale() }));
   }
 
-  return <Lane fallback={<PendingBlock variant="grid" count={12} />}><PopularContent /></Lane>;
+  const t = await getTranslations("library.popular");
+  return <Lane fallback={<PendingBlock variant="grid" count={CLASSICS_PAGE_SIZE} message={t("loading", { scope: t("basisAll"), page: 1 })} />}><PopularContent /></Lane>;
 }
 
 async function PopularContent() {
-  const [initialClassicsData, professionCounts] = await Promise.all([
-    getChosenLibrary({ page: 1, limit: 12 }),
-    getProfessionContentCounts(),
-  ]);
-  return (
-    <>
-      <PopularSection initialClassicsData={initialClassicsData} professions={professionCounts.map(p => ({ profession: p.profession, count: p.count }))} />
-    </>
-  );
+  let initialClassicsData: Awaited<ReturnType<typeof getClassicsLibrary>>;
+  let professionCounts: Awaited<ReturnType<typeof getProfessionContentCounts>>;
+  try {
+    [initialClassicsData, professionCounts] = await Promise.all([
+      getClassicsLibrary(initialClassicsQuery()),
+      getProfessionContentCounts(),
+    ]);
+  } catch (error) {
+    console.error("Classics initial query failed:", error);
+    return <RetryBlock />;
+  }
+  return <PopularSection initialClassicsData={initialClassicsData} professions={professionCounts.map(p => p.profession)} />;
 }

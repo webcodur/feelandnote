@@ -569,7 +569,9 @@
       },
       "showMoreRanks": "{from}~{to}위 더 보기",
       "classicsMetaTitle": "불후의 명작 - 가장 많은 인물이 감상한 작품",
-      "classicsMetaDescription": "시대와 분야를 넘어 여러 인물이 거듭 감상한 책·영화·음악·게임을 시대·직군·매체별로 찾아보세요."
+      "classicsMetaDescription": "시대와 분야를 넘어 여러 인물이 거듭 감상한 책·영화·음악·게임을 시대·직군·매체별로 찾아보세요.",
+      "loading": "{scope} 작품 {page}페이지를 불러오는 중입니다.",
+      "loadingSlow": "{scope} 작품 {page}페이지를 계속 불러오고 있습니다. 잠시만 기다려 주세요."
     },
     "professionBooks": {
       "title": "직업별 도서",

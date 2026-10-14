@@ -128,6 +128,7 @@ AI 학당의 데이터와 `/explore/works/academy/ai/{foundations|prompting|crea
 | `era.ts` | 시대별 집계 |
 | `profession.ts` | 직군별 콘텐츠 수 |
 | `chosen.ts` | 선택된 콘텐츠 목록 |
+| `classics.ts` | 불후의 명작 초기 진입·필터 전환의 공통 조회. 조건 검증·페이지 규격·진행 중인 동일 조회 공유 |
 | `celebs.ts` | 시대 전반 상위 인물 |
 | `curated.ts` | 기관 선정 — 기관·목록·작품 조회 |
 | `samples.ts` | 직군별 콘텐츠 표본 |
@@ -139,11 +140,11 @@ AI 학당의 데이터와 `/explore/works/academy/ai/{foundations|prompting|crea
 
 `fetchUserContentCounts(db)` 를 인자 없이 부르면 `get_user_content_counts` 가 `member_contents` 전체를 `contents` 와 조인해 집계한다. 26.09.04에 `/explore/works/popular` 가 그 호출로 **문 시간을 넘겨(57014) 서버 렌더가 통째로 실패**했다. 결과가 비면 감상 인원이 0으로 굳으므로 코드가 일부러 에러를 던지는 자리다.
 
-**쓸 작품의 id 를 모아 넘긴다.** 그러면 `get_content_celeb_user_counts` 로 범위가 좁혀진다. id 가 많으면 그것도 무거우므로 500개씩 나눠 부르고 합친다.
+**화면에 보일 한 페이지의 작품 id만 넘긴다.** 불후의 명작은 직군 순위에 필요한 ID·매체·제목을 캐시하고, 판본·표지·제휴 링크와 감상 인원은 현재 페이지만 조회한다. 표시하지 않는 상위 인물은 조회하지 않는다.
 
 ```ts
-const contentIds = [...new Set(typedData.map(item => item.content_id))]
-const userCountMap = await fetchUserContentCounts(db, undefined, contentIds)
+const pageIds = pageContents.map(item => item.id)
+const userCountMap = await fetchUserContentCounts(db, undefined, pageIds)
 ```
 
 캐시(`unstable_cache`)가 평소에는 이 호출을 가려 주지만, 캐시가 비는 순간 그대로 드러난다. 캐시를 믿고 무거운 쿼리를 두지 않는다.

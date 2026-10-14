@@ -34,25 +34,6 @@ export interface LibraryResult {
   currentPage: number
 }
 
-export interface TopCeleb {
-  id: string
-  nickname: string
-  nickname_en: string | null
-  avatar_url: string | null
-  title: string | null
-  title_en: string | null
-  influence: number | null
-  count: number
-}
-
-export interface LibraryByProfession {
-  profession: string
-  label: string
-  contents: LibraryContent[]
-  total: number
-  topCelebs: TopCeleb[]
-}
-
 // contents(content_locales) 임베드 조회 행 — select 문자열과 1:1 대응
 export interface ContentJoinRow {
   id: string

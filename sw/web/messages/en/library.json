@@ -569,7 +569,9 @@
       },
       "showMoreRanks": "Show #{from}–{to}",
       "classicsMetaTitle": "Timeless Classics - Works Recorded by the Most Figures",
-      "classicsMetaDescription": "Find the books, films, music, and games that notable figures across eras and fields have recorded again and again, by era, profession, and medium."
+      "classicsMetaDescription": "Find the books, films, music, and games that notable figures across eras and fields have recorded again and again, by era, profession, and medium.",
+      "loading": "Loading works · {scope} · Page {page}",
+      "loadingSlow": "Still loading works · {scope} · Page {page}. Please wait a moment."
     },
     "professionBooks": {
       "title": "Books by Profession",
