@@ -6,7 +6,7 @@
  *
  * 사용: node scripts/naver-blog/fix-category.mjs [--dry]   (sw/web-bo 에서)
  */
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@feelandnote/db';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';

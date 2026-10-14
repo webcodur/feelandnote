@@ -1,0 +1,55 @@
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log warn;
+pid /var/run/nginx.pid;
+events { worker_connections 1024; }
+http {
+  # Query strings include OAuth codes and email tokens. Do not record access logs.
+  access_log off;
+  server_tokens off;
+  client_max_body_size 16m;
+  client_body_timeout 20s;
+  map $http_apikey $api_jwt {
+    default "";
+    PUBLIC_KEY ANON_JWT;
+    SERVER_KEY SERVICE_JWT;
+  }
+  map $http_authorization $auth_header {
+    default "Bearer $api_jwt";
+    ~^Bearer\s+eyJ $http_authorization;
+  }
+  map $http_origin $cors_origin {
+    default "";
+    "https://feelandnote.com" $http_origin;
+    "https://www.feelandnote.com" $http_origin;
+    "http://localhost:3000" $http_origin;
+    "http://localhost:3001" $http_origin;
+  }
+  server {
+    listen 8000;
+    WRITE_GUARD
+    add_header Access-Control-Allow-Origin $cors_origin always;
+    add_header Vary Origin always;
+    add_header Access-Control-Allow-Methods "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS" always;
+    add_header Access-Control-Allow-Headers $http_access_control_request_headers always;
+    add_header Access-Control-Expose-Headers "content-range, range-unit, preference-applied" always;
+    if ($request_method = OPTIONS) { return 204; }
+    proxy_hide_header Access-Control-Allow-Origin;
+    proxy_hide_header Access-Control-Allow-Headers;
+    proxy_hide_header Access-Control-Allow-Methods;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $http_cf_connecting_ip;
+    proxy_set_header Authorization $auth_header;
+    proxy_connect_timeout 5s;
+    proxy_read_timeout 30s;
+    location /rest/v1/ {
+      if ($api_jwt = "") { return 401; }
+      # PostgREST echoes long UUID filters in the Content-Location response header.
+      proxy_buffer_size 16k;
+      proxy_buffers 8 16k;
+      proxy_pass http://rest:3000/;
+    }
+    location /auth/v1/ { proxy_pass http://auth:9999; }
+    location / { return 404; }
+  }
+}

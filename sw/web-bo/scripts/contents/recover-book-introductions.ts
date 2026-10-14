@@ -10,7 +10,7 @@ import { homedir, tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
 import { parseArgs } from 'node:util'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { buildIntroductionApplySql, planIntroductionChange,
   type IntroductionChange, type IntroductionRow, type IntroductionSelection } from './book-description-sources-contract'
@@ -201,7 +201,7 @@ async function main() {
             const sql = buildIntroductionApplySql(book.id, changes)
             const result = spawnSync('ssh', ['-i', resolve(homedir(), '.ssh/feelandnote_oracle'),
               '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', 'ubuntu@152.67.198.197',
-              'sudo docker exec -i supabase-db psql -U postgres -d postgres -X -q -A -t -v ON_ERROR_STOP=1'],
+              'sudo docker exec -i feelandnote-db psql -U postgres -d postgres -X -q -A -t -v ON_ERROR_STOP=1'],
             { input: sql, encoding: 'utf8', timeout: 45000, maxBuffer: 1024 * 1024 })
             if (result.error || result.status !== 0) throw new Error(result.error?.message ?? result.stderr)
             changedBooks += 1 // Purge even if subsequent API readback fails.

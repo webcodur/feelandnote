@@ -13,7 +13,7 @@ function sql<T>(query: string): T {
   const result = spawnSync(process.platform === 'win32' ? 'ssh.exe' : 'ssh', [
     '-i', process.env.FEELANDNOTE_DB_SSH_KEY || resolve(homedir(), '.ssh/feelandnote_oracle'),
     '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', 'ubuntu@152.67.198.197',
-    'sudo', 'docker', 'exec', '-i', 'supabase-db', 'psql', '-X', '-qAt',
+    'sudo', 'docker', 'exec', '-i', 'feelandnote-db', 'psql', '-X', '-qAt',
     '--set', 'ON_ERROR_STOP=1', '--username', 'postgres', '--dbname', 'postgres',
   ], { input: query, encoding: 'utf8', timeout: 90_000, maxBuffer: 100 * 1024 * 1024, windowsHide: true })
   if (result.error || result.status !== 0) {

@@ -73,7 +73,7 @@ contents
 ```
 
 - `figure_book_contents.content_id`는 `contents.id`를 재사용하는 PK다.
-- `figure_book_characters`의 PK는 `(content_id, celeb_id)`다. `relation_type`은 `appearance`·`related`·`authored`를 허용하며 모든 인물 티어를 연결할 수 있다. `appearance`가 아닌 관계에서는 `description`·`description_en`이 모두 `NULL`이어야 한다.
+- `figure_book_characters`의 PK는 `(content_id, celeb_id)`다. `relation_type`은 `appearance`·`authored`를 허용하며 모든 인물 티어를 연결할 수 있다. `appearance`가 아닌 관계에서는 `description`·`description_en`이 모두 `NULL`이어야 한다.
 - `figure_book_editions.id`가 판본 PK다. locale은 `ko`·`en`, `edition_kind`는 마이그레이션 CHECK 값만 허용한다. ISBN이 있으면 `(content_id, locale, isbn)`이 유일하다. ISBN 없는 판본은 이 유일성 조건에 들어가지 않는다.
 - `figure_book_products`는 `edition_id`를 참조한다. 플랫폼은 `coupang`·`amazon`이며, 한 판본·플랫폼에는 활성 상품 하나만 허용한다. 공개 조회는 활성 상품만 노출한다.
 

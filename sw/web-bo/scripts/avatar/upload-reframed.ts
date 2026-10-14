@@ -11,7 +11,7 @@
  * 결과는 <재배치폴더>/_apply-log.json (dry-run은 _apply-dryrun.json) 에 남긴다.
  */
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import sharp from 'sharp'
 import { readFileSync, readdirSync, writeFileSync } from 'fs'
 import { resolve, join } from 'path'

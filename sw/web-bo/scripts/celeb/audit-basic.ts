@@ -8,7 +8,7 @@
 
 import path from 'node:path'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 

@@ -4,6 +4,7 @@ import { useState, type ComponentProps } from 'react'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/contexts/ToastContext'
 import CelebPortraitEditor from '@/components/celeb/portrait/CelebPortraitEditor'
+import { CELEB_AWAKENED_IMAGE_SPEC } from '@/lib/celeb-awakened-image'
 import {
   removeCelebAwakenedImage,
   saveCelebAwakenedImage,
@@ -86,11 +87,11 @@ export default function PersistedCelebAwakenedImageEditor({
       {...editorProps}
       value={currentUrl}
       alt={`${label} 각성 이미지`}
-      aspectRatio={1}
-      aspectLabel="1:1"
+      aspectRatio={CELEB_AWAKENED_IMAGE_SPEC.aspectRatio}
+      aspectLabel={CELEB_AWAKENED_IMAGE_SPEC.aspectLabel}
       emptyLabel="각성 이미지 놓기"
       cropTitle="각성 이미지 위치 조정"
-      cropDescription="정사각형 안에서 핵심 연출이 잘 보이도록 위치를 옮기고 스크롤이나 막대로 확대하세요."
+      cropDescription="세로 프레임 안에서 핵심 연출이 잘 보이도록 위치를 옮기고 스크롤이나 막대로 확대하세요."
       processingErrorMessage="각성 이미지 처리에 실패했습니다."
       onCroppedFile={persist}
       onRemove={removable && !removing ? remove : undefined}

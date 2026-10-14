@@ -7,7 +7,7 @@
  * 실행:
  *   node --env-file=.env scripts/founding-myth/tradition-readiness.mjs
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 const url = process.env.NEXT_PUBLIC_DB_API_URL
 const key = process.env.DB_SECRET_KEY

@@ -13,6 +13,8 @@
 
 신규 인물의 기본값은 `inactive`다. 일반 운영은 `active`와 `inactive`만 오가며 `suspended`를 새 작업 상태로 사용하지 않는다. `publication_status`는 공개 여부만 나타내며 콘텐츠 조사 완료, 관계 존재, 팩션 배정, 영문 완성 여부를 대신하지 않는다.
 
+세력·신화 도감의 인물 노출에는 인물 자체의 `active`와 해당 배정의 `hidden=false`가 모두 필요하다. 팩션 배정은 비활성 인물의 공개를 대신하지 않는다. 관리자에게는 비공개 인물과 배정도 보이며, 인물 공개 상태가 바뀌면 DB가 도감 캐시를 함께 갱신한다.
+
 ## 티어별 노출
 
 허용값과 목록·검색·색인 게이트는 `packages/shared/src/constants/celeb-tiers.ts`가 유일한 SSoT다. 기본 목록 노출은 `celeb_reality`가 가른다 — `REAL`·`BOTH`는 포함되고 `FICTION`은 빠진다. 인물 검색과 직접 상세 접근은 실존 축을 거르지 않으므로 `FICTION`도 닿는다. 노출 범위를 바꿀 때는 문서 표를 고치는 대신 그 코드 상수와 소비처를 함께 수정한다.
@@ -28,6 +30,8 @@
 콘텐츠의 표지·ISBN·locale, 영향력·스펙트럼·Speech·인물 안내·연표·관계는 DB가 active 전환에 직접 강제하지 않는다. 이 DB 제약 목록과 운영상 [`active 요건`](celeb-00-02-active-requirements.md)은 구분한다.
 
 ## 공개 전환
+
+`pnpm --dir sw/web-bo celeb:audit:inactive-required`는 현행 active 요건의 DB 필수값이 채워진 inactive 인물을 읽기 전용으로 조회한다. `--json`은 후보를 JSON으로, `--show-gaps`는 미비 항목도 함께 출력하며, `--slugs="a,b"`로 대상을 좁힐 수 있다. 선택 데이터는 완비 판정에 넣지 않는다. 조사 완료 여부와 문구의 진위·품질은 값의 존재로 확정하지 않으며 실제 공개 전환 전에 별도로 확인한다.
 
 개별 공개 상태는 web-bo 인물 관리 화면에서 바꾼다. 아바타 없는 active 전환은 화면과 DB가 모두 거부한다.
 

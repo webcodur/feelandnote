@@ -14,7 +14,7 @@
  *   npx tsx scripts/curated/titles-apply.ts --unlink     # 오연결 해제만
  *   npx tsx scripts/curated/titles-apply.ts              # 전량 반영
  */
-import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { REPO_ROOT, scriptsPath } from '../lib/paths'

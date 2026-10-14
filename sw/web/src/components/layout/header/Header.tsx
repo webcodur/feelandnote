@@ -31,7 +31,7 @@ interface UserProfile {
   selected_title: { name: string; grade: string } | null;
 }
 
-export default function Header() {
+export default function Header({ navigationHref }: { navigationHref?: string } = {}) {
   const pathname = usePathname();
   const t = useTranslations();
   const locale = useLocale();
@@ -64,7 +64,7 @@ export default function Header() {
     loadProfile();
   }, []);
 
-  const activeHref = activeNavigationHref(pathname);
+  const activeHref = navigationHref ?? activeNavigationHref(pathname);
   const navigateToTop = useNavigationToTop();
 
   return (

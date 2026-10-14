@@ -2,7 +2,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { createHash } from 'node:crypto'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 type Locale = 'ko' | 'en'
 interface Row { content_id: string; locale: Locale; title: string | null; creator: string | null; publisher: string | null; isbn: string | null; description: string | null; sources: Record<string, unknown> | null }

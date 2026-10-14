@@ -26,7 +26,7 @@
  */
 
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import sharp from 'sharp'
 import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
 import { uploadAvatarVariants } from '../../src/lib/avatar-small'

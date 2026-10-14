@@ -1,6 +1,6 @@
 ﻿// 사용: node scripts/naver-blog/roster.mjs [--min 5] [--top 120] (sw/web-bo에서)
 // DB는 읽기만 하고 blog-assets(D:)/naver-blog/_roster.md를 갱신한다.
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@feelandnote/db';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';

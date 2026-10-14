@@ -6,7 +6,7 @@ import path from 'path'
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const REPO = path.resolve(HERE, '../../../..')
 const require = createRequire(path.join(REPO, 'sw/web/package.json'))
-const { createClient } = require('@supabase/supabase-js')
+const { createClient } = require('@feelandnote/db')
 
 function usage() {
   console.log(`사용:

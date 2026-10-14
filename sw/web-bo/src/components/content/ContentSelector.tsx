@@ -23,7 +23,6 @@ export type SelectedContent =
   | { source: 'external'; data: ExternalSearchResult }
 
 type SearchMode = 'db' | 'external'
-type SearchApi = 'google' | 'naver'
 // #endregion
 
 // #region Props
@@ -41,7 +40,6 @@ export default function ContentSelector({ onSelect, onCancel, initialType = 'BOO
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchMode, setSearchMode] = useState<SearchMode>('external')
-  const [searchApi, setSearchApi] = useState<SearchApi>('naver')
   const [contentType, setContentType] = useState<ContentType>(initialType)
   const [dbResults, setDbResults] = useState<DbSearchResult[]>([])
   const [externalResults, setExternalResults] = useState<ExternalSearchResult[]>([])
@@ -59,8 +57,7 @@ export default function ContentSelector({ onSelect, onCancel, initialType = 'BOO
         if (!result.success) throw new Error(result.error)
         setDbResults(result.items || [])
       } else {
-        const preferGoogle = contentType === 'BOOK' ? searchApi === 'google' : true
-        const result = await searchExternalContent(contentType, searchQuery, 1, { preferGoogle })
+        const result = await searchExternalContent(contentType, searchQuery, 1)
         if (!result.success) throw new Error(result.error)
         setExternalResults(result.items || [])
       }
@@ -130,25 +127,6 @@ export default function ContentSelector({ onSelect, onCancel, initialType = 'BOO
           </button>
         </div>
 
-        {/* API 선택 (외부 + BOOK만) */}
-        {searchMode === 'external' && contentType === 'BOOK' && (
-          <div className="flex rounded-lg border border-border overflow-hidden">
-            <button
-              type="button"
-              onClick={() => setSearchApi('google')}
-              className={`px-3 py-2 text-sm ${searchApi === 'google' ? 'bg-accent text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
-            >
-              Google
-            </button>
-            <button
-              type="button"
-              onClick={() => setSearchApi('naver')}
-              className={`px-3 py-2 text-sm ${searchApi === 'naver' ? 'bg-green-500 text-white' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
-            >
-              네이버
-            </button>
-          </div>
-        )}
       </div>
 
       {/* 검색 입력 */}

@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { ADMIN_NAME, SITE_NAME } from '@feelandnote/shared/constants/site-brand'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { ADMIN_NAME, SITE_NAME } from '@feelandnote/shared/constants/site-brand'
 import {
   LayoutDashboard,
   Users,
@@ -197,7 +197,7 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
           <Menu className="w-5 h-5 text-text-secondary shrink-0" />
         )}
         {!collapsed && (
-          <Link href="/" className="text-xl font-bold text-text-primary whitespace-nowrap" onClick={onItemClick}>
+          <Link href="/" className="text-2xl font-bold text-text-primary whitespace-nowrap" onClick={onItemClick}>
             {SITE_NAME}
           </Link>
         )}
@@ -227,7 +227,7 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
                     title={collapsed ? group.label : undefined}
                   >
                     <GroupIcon className="w-5 h-5 shrink-0" />
-                    {!collapsed && <span className="text-sm md:text-base">{group.label}</span>}
+                    {!collapsed && <span className="text-base md:text-lg">{group.label}</span>}
                   </Link>
                 </li>
               )
@@ -257,8 +257,8 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
                   <GroupIcon className="w-5 h-5 shrink-0" />
                   {!collapsed && (
                     <>
-                      <span className="text-sm md:text-base flex-1 text-left">{group.label}</span>
-                      <ChevronDown className={`w-4 h-4 shrink-0 transition-transform duration-200 ${isOpen ? '' : '-rotate-90'}`} />
+                      <span className="text-base md:text-lg flex-1 text-left">{group.label}</span>
+                      <ChevronDown className={`w-5 h-5 shrink-0 transition-transform duration-200 ${isOpen ? '' : '-rotate-90'}`} />
                     </>
                   )}
                 </button>
@@ -274,14 +274,14 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
                             href={item.href}
                             onClick={onItemClick}
                             className={`
-                              flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm
+                              flex items-center gap-2.5 px-3 py-2 rounded-lg text-base
                               ${isActive
                                 ? 'bg-accent/10 text-accent'
                                 : 'text-text-secondary hover:bg-bg-card hover:text-text-primary'
                               }
                             `}
                           >
-                            <item.icon className="w-4 h-4 shrink-0" />
+                            <item.icon className="w-5 h-5 shrink-0" />
                             <span>{item.label}</span>
                           </Link>
                         </li>
@@ -298,7 +298,7 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
       {/* Footer */}
       {!collapsed && (
         <div className="p-4 border-t border-border">
-          <p className="text-xs text-text-secondary text-center">
+          <p className="text-sm text-text-secondary text-center">
             {ADMIN_NAME} v0.1
           </p>
         </div>

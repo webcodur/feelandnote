@@ -7,7 +7,7 @@
  * 감상 기록이 붙습니다」. 재고 기준이 바뀌면 이 수가 움직이므로 리뷰를 고치기 전에 여기서
  * 다시 잰다. 상위 작품 몇 편도 함께 보여 준다. 리뷰가 그 이름을 근거로 삼기 때문이다.
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { usableReview } from './lib/quality.mts'
 
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!)

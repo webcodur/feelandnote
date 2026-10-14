@@ -11,6 +11,7 @@ description: 감상 관계·review와 등장·연관 도서 관계를 작품 메
 
 실행 전 아래 문서를 처음부터 끝까지 읽는다.
 
+- `docs/project/agent-rules.md` — 원문 열람을 포함한 공통 도구·보고 규칙
 - `docs/project/celeb/celeb-02-04-content-audit.md` — 감사 대상, 5단계 감사 절차, 보고 형식
 - `docs/project/data/README.md` — 데이터의 기준과 서버 재조회 검수
 

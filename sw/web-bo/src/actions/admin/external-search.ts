@@ -9,6 +9,7 @@ import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { requireAdmin } from '@/lib/admin-auth'
 import { resolveExternalBookInput, sameBookIdentity } from '@/lib/external-book-input'
+import { externalBookWorkKey } from '@feelandnote/content-search/external-book-input'
 
 // 외부 API 검색
 export async function searchExternalContent(
@@ -66,15 +67,39 @@ export async function createContentFromExternal(
     const db = await createClient()
 
     // external_id로 기존 콘텐츠 확인
-    const { data: existing } = await db
+    const { data: existing, error: existingError } = await db
       .from('contents')
       .select('id')
       .eq('type', contentType)
       .eq('external_id', input.externalId)
       .maybeSingle()
 
+    if (existingError) throw existingError
+
     if (existing) {
       return { success: true, contentId: existing.id }
+    }
+
+    if (resolvedBook) {
+      const isbnMatches = await Promise.all([
+        db.from('content_locales').select('content_id').eq('isbn', resolvedBook.externalId),
+        db.from('figure_book_editions').select('content_id').eq('isbn', resolvedBook.externalId),
+      ])
+      for (const match of isbnMatches) if (match.error) throw match.error
+      const owners = [...new Set(isbnMatches.flatMap(match => (match.data ?? []).map(row => row.content_id)))]
+      if (owners.length > 1) throw new Error('같은 ISBN이 여러 작품에 연결돼 있습니다. 작품 귀속을 먼저 확인해주세요.')
+      if (owners.length === 1) return { success: true, contentId: owners[0] }
+      const workKey = externalBookWorkKey(resolvedBook)
+      if (workKey) {
+        const matches = await Promise.all([
+          db.from('contents').select('id').eq('type', 'BOOK').eq('metadata->>workKey', workKey).limit(1),
+          db.from('contents').select('id').eq('type', 'BOOK').eq('metadata->figureBook->>openLibraryWork', workKey).limit(1),
+          db.from('figure_book_editions').select('content_id').eq('sources->>workKey', workKey).limit(1),
+          db.from('content_locales').select('content_id').eq('sources->>workKey', workKey).limit(1),
+        ])
+        for (const match of matches) if (match.error) throw match.error
+        if (matches.some(match => match.data?.length)) throw new Error('같은 원작의 판본이 있습니다. 기존 작품에서 본문 범위를 확인한 뒤 판본을 추가해주세요.')
+      }
     }
 
     // 같은 작품명과 원저자가 확인될 때만 기존 작품을 재사용한다.
@@ -88,6 +113,9 @@ export async function createContentFromExternal(
       const same = (candidates ?? []).find((row) => sameBookIdentity({ title: row.title ?? '', creator: row.creator ?? '' }, input))
       if (same) {
         const sources = same.sources as { primary?: string; title?: string } | null
+        if (!(sources?.primary === 'none' && ['translated', 'romanized', 'original'].includes(sources.title ?? ''))) {
+          throw new Error('같은 제목과 원저자의 판본이 있습니다. 기존 작품에서 본문 범위를 확인한 뒤 판본을 추가해주세요.')
+        }
         if (sources?.primary === 'none' && ['translated', 'romanized', 'original'].includes(sources.title ?? '')) {
           const isbn = input.externalId
           const intro = await fetchBookIntroduction({ isbn, locale: sameLocale }).catch(() => null)
@@ -139,7 +167,10 @@ export async function createContentFromExternal(
       thumbnail_url: input.coverImageUrl || null,
       ...(contentType === 'BOOK' && { description: introduction?.source ?? null, isbn: bookIsbn }),
       ...(contentType === 'BOOK' && { publisher: input.metadata.publisher ?? null }),
-      sources: { primary: input.externalSource || 'unknown', ...(introduction?.source && { description: introduction.sourceUrl }) },
+      sources: { primary: input.externalSource || 'unknown',
+        ...(resolvedBook && { isbn: input.metadata.link, title: input.metadata.link, creator: input.metadata.link, publisher: input.metadata.link,
+          ...(externalBookWorkKey(resolvedBook) && { workKey: externalBookWorkKey(resolvedBook) }) }),
+        ...(introduction?.source && { description: introduction.sourceUrl }) },
       verified: true,
     })
     if (localeError) throw new Error(`콘텐츠 언어 카드 저장 실패: ${localeError.message}`)
@@ -204,9 +235,9 @@ export async function searchDbContent(
     return { success: false, error: error.message }
   }
 
-  const items = (data || []).map((c: any) => {
-    const ko = c.content_locales?.find((l: any) => l.locale === 'ko')
-    const en = c.content_locales?.find((l: any) => l.locale === 'en')
+  const items = (data || []).map((c) => {
+    const ko = c.content_locales?.find((l) => l.locale === 'ko')
+    const en = c.content_locales?.find((l) => l.locale === 'en')
     return {
       id: c.id,
       title: ko?.title || en?.title || '',

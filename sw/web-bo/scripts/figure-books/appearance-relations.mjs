@@ -8,7 +8,7 @@
  */
 
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { dirname, resolve } from 'node:path'
 
 function argumentValue(name, fallback = null) {

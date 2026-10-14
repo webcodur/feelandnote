@@ -12,20 +12,39 @@
  * web-bo·remotion scripts가 공유한다.
  */
 
+import accountEnv from './ele-account-env.json'
+
 export interface EleAccount {
   /** 안정적인 식별자. 음성 목록·생성 요청에서 계정을 지목할 때 쓴다. */
   id: string
-  /** 화면에 보여줄 한국어 라벨. */
+  /** 화면에 보여줄 축약 계정명. */
   label: string
   /** ElevenLabs API 키. 서버에서만 노출된다. */
   apiKey: string
 }
 
-/** 계정 정의표 — 환경변수명 ↔ 식별자 ↔ 라벨. 계정 추가는 여기 한 줄. */
-const ACCOUNT_DEFS: ReadonlyArray<{ id: string; label: string; envVar: string }> = [
-  { id: 'default', label: '기본', envVar: 'ELEVENLABS_API_KEY' },
-  { id: 'feelandnote', label: 'feelandnote', envVar: 'ELEVENLABS_API_KEY_FEELANDNOTE' },
-]
+/** 환경변수로 계정을 발견한다. 요청은 실제 계정명을 쓴다. */
+function accountDefs(): Array<{ id: string; label: string; envVar: string }> {
+  const suffixPattern = new RegExp(accountEnv.suffixPattern)
+  const extra = Object.keys(process.env)
+    .filter(name => name !== accountEnv.baseAccount.envVar
+      && name.startsWith(accountEnv.prefix) && suffixPattern.test(name.slice(accountEnv.prefix.length)))
+    .sort((a, b) => {
+      // 기존 두 계정의 우선순위를 유지한다.
+      if (a === b) return 0
+      if (a === 'ELEVENLABS_API_KEY_FEELANDNOTE') return -1
+      if (b === 'ELEVENLABS_API_KEY_FEELANDNOTE') return 1
+      return a.localeCompare(b, 'en', { numeric: true })
+    })
+    .map(envVar => {
+      const id = envVar.slice(accountEnv.prefix.length).toLowerCase()
+      return { id, label: id, envVar }
+    })
+  // 이전 컴퓨터의 .env도 읽되 새 이름이 있으면 그 키를 우선한다.
+  const envVar = readEnv(accountEnv.baseAccount.envVar)?.trim()
+    ? accountEnv.baseAccount.envVar : accountEnv.legacyAccount.envVar
+  return [{ ...accountEnv.baseAccount, envVar }, ...extra]
+}
 
 /**
  * 환경변수 읽기 — 동적 process.env[key] 는 일부 번들러가 인라인하지 못하므로
@@ -35,6 +54,8 @@ function readEnv(envVar: string): string | undefined {
   switch (envVar) {
     case 'ELEVENLABS_API_KEY':
       return process.env.ELEVENLABS_API_KEY
+    case 'ELEVENLABS_API_KEY_WEBCODUR':
+      return process.env.ELEVENLABS_API_KEY_WEBCODUR
     case 'ELEVENLABS_API_KEY_FEELANDNOTE':
       return process.env.ELEVENLABS_API_KEY_FEELANDNOTE
     default:
@@ -68,7 +89,7 @@ function configIssueOf(value: string): EleAccountConfigIssueReason | null {
 /** 값은 노출하지 않고 잘못 설정된 환경변수와 원인만 돌려준다. */
 export function getEleAccountConfigIssues(): EleAccountConfigIssue[] {
   const issues: EleAccountConfigIssue[] = []
-  for (const def of ACCOUNT_DEFS) {
+  for (const def of accountDefs()) {
     const value = readEnv(def.envVar)?.trim()
     if (!value) continue
     const reason = configIssueOf(value)
@@ -86,20 +107,25 @@ export function getEleAccountSetupError(): string {
       : `${issue.envVar}가 ElevenLabs 비밀 키 형식(sk_...)이 아님`)
     return `ElevenLabs API 키 설정 오류: ${details.join(', ')}. ElevenLabs 콘솔에서 생성·회전할 때 표시되는 실제 sk_... 키로 교체해야 한다.`
   }
-  return 'ElevenLabs API 키가 설정되지 않음 (.env의 ELEVENLABS_API_KEY / ELEVENLABS_API_KEY_FEELANDNOTE)'
+  return 'ElevenLabs API 키가 설정되지 않음 (.env의 ELEVENLABS_API_KEY_<계정명>)'
 }
 
 /**
  * 환경변수가 채워진 계정만 순서대로 반환한다(앞쪽이 기본).
- * 키가 없는 계정은 자동으로 빠지므로, feelandnote 키가 없는 환경에선
- * 기존과 동일하게 기본 계정 하나로만 동작한다.
+ * 키가 없는 계정은 자동으로 빠진다. 계정 추가는 .env만 고치면 된다.
  */
 export function getEleAccounts(): EleAccount[] {
   const out: EleAccount[] = []
-  for (const def of ACCOUNT_DEFS) {
+  for (const def of accountDefs()) {
     const apiKey = readEnv(def.envVar)?.trim()
     // Key ID나 잘린 값은 외부 요청에 절대 쓰지 않는다. 유효한 다른 계정은 계속 사용할 수 있다.
-    if (apiKey && isElevenLabsSecretKey(apiKey)) out.push({ id: def.id, label: def.label, apiKey })
+    if (apiKey && isElevenLabsSecretKey(apiKey)) out.push({ id: def.id, label: displayAccountName(def.label), apiKey })
+  }
+  const preferredId = canonicalAccountId(process.env[accountEnv.preferredAccountEnv]?.trim())
+  if (preferredId) {
+    const index = out.findIndex(account => account.id === preferredId)
+    if (index < 0) throw new Error(`${accountEnv.preferredAccountEnv}에 등록되고 유효한 계정 ID를 지정해야 한다.`)
+    out.unshift(...out.splice(index, 1))
   }
   return out
 }
@@ -107,7 +133,11 @@ export function getEleAccounts(): EleAccount[] {
 /** 식별자로 계정 하나를 찾는다. 없으면 undefined. */
 export function getEleAccountById(id: string | null | undefined): EleAccount | undefined {
   if (!id) return undefined
-  return getEleAccounts().find(a => a.id === id)
+  return getEleAccounts().find(a => a.id === canonicalAccountId(id))
+}
+
+function canonicalAccountId(id: string | null | undefined): string | null | undefined {
+  return id === accountEnv.legacyAccount.id ? accountEnv.baseAccount.id : id
 }
 
 /** 첫 번째(기본) 계정. 하나도 설정되지 않았으면 undefined. */
@@ -115,9 +145,15 @@ export function getDefaultEleAccount(): EleAccount | undefined {
   return getEleAccounts()[0]
 }
 
-/** 라벨만 빠르게 조회. 없으면 식별자 그대로 돌려준다. */
+/** 화면과 툴팁에 같은 축약 계정명을 쓴다. */
 export function eleAccountLabel(id: string | null | undefined): string {
-  return getEleAccountById(id)?.label ?? (id ?? '')
+  return getEleAccountById(id)?.label ?? displayAccountName(canonicalAccountId(id) ?? '')
+}
+
+function displayAccountName(name: string): string {
+  if (!name) return ''
+  if (name.length > 6) return `${name.slice(0, 3)}...${name.slice(-3)}`
+  return name.length > 2 ? `${name[0]}...${name.slice(-1)}` : '...'
 }
 
 /**

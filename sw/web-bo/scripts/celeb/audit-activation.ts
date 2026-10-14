@@ -319,16 +319,6 @@ function addDialogueGaps(dialogue: Row | undefined, gaps: string[]) {
   }
   if (blank(dialogue.lines?.quote)) gaps.push('speech:quote')
   if (blank(dialogue.lines_en?.quote)) gaps.push('i18n:quote_en')
-  for (const key of DIALOGUE_KEYS) {
-    const ko = dialogue.lines?.[key]
-    const en = dialogue.lines_en?.[key]
-    if (!Array.isArray(ko) || ko.length !== CELEB_DIALOGUE_VARIANTS_PER_SITUATION || ko.some(blank)) {
-      gaps.push(`speech:ko.${key}`)
-    }
-    if (!Array.isArray(en) || en.length !== CELEB_DIALOGUE_VARIANTS_PER_SITUATION || en.some(blank)) {
-      gaps.push(`i18n:en.${key}`)
-    }
-  }
 }
 
 function addFictionSpeechGaps(profile: Row, dialogue: Row | undefined, gaps: string[]) {
@@ -392,10 +382,10 @@ function addLocaleWarnings(contentId: string, content: Row | undefined, locales:
   }
 }
 
-// 요구 트랙은 실존 축이 가른다. 허구 인물은 원전만, 그 밖(REAL·BOTH)은 실존 트랙 전부다.
+// 공개 필수 항목은 celeb-00-02-active-requirements.md를 따른다.
 function requiredCoverageDomains(reality: string): CoverageDomain[] {
   if (reality === 'FICTION') return ['basic', 'source']
-  return ['basic', 'influence', 'spectrum', 'speech', 'content']
+  return ['basic', 'speech', 'content']
 }
 
 function hasDomainGap(domain: CoverageDomain, gaps: string[]): boolean {
@@ -726,11 +716,10 @@ async function main() {
 
     addProfileGaps(profile, gaps)
     addReadingGaps(explanationById.get(profile.id), gaps)
-    // 허구 인물에게는 영향력·스펙트럼을 요구하지 않는다. 실존·전승 양쪽인 BOTH는 요구한다.
+    // 선택 평가 행이 이미 있으면 반쯤 작성된 행의 공개는 막는다. 없는 행은 요구하지 않는다.
     if (reality !== 'FICTION') {
-      if (blank(profile.speech_tone)) gaps.push('speech:tone')
-      addInfluenceGaps(profile, influenceById.get(profile.id), gaps)
-      addSpectrumGaps(spectrumById.get(profile.id), gaps)
+      if (influenceById.has(profile.id)) addInfluenceGaps(profile, influenceById.get(profile.id), gaps)
+      if (spectrumById.has(profile.id)) addSpectrumGaps(spectrumById.get(profile.id), gaps)
       addDialogueGaps(dialogueById.get(profile.id), gaps)
     }
 

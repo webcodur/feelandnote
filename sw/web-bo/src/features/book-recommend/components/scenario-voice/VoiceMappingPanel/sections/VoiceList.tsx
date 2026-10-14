@@ -71,7 +71,7 @@ export function VoiceList({
                 {age && <span className="text-[9px] text-text-dim">{facetValueLabel(age)}</span>}
                 {v.account && (
                   <span className={`text-[9px] px-1 rounded ${
-                    v.account.id === 'default' ? 'bg-bg-main text-text-dim' : 'bg-amber-500/15 text-amber-300'
+                    v.account.id === 'webcodur' ? 'bg-bg-main text-text-dim' : 'bg-amber-500/15 text-amber-300'
                   }`} title={`ElevenLabs 계정: ${v.account.label}`}>{v.account.label}</span>
                 )}
                 {lang && <span className="text-[9px] text-text-dim">[{lang}]</span>}

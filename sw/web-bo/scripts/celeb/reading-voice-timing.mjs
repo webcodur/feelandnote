@@ -15,8 +15,10 @@ export function readingSentences(text, locale) {
     const part = { textStart: item.index + leading, textEnd: item.index + item.segment.trimEnd().length }
     if (part.textStart >= part.textEnd) continue
     const previous = result.at(-1)
-    // ICU treats some English honorifics and initials as complete sentences.
-    if (previous && locale === 'en' && /(?:\b(?:Mr|Mrs|Ms|Dr|Prof|St|Jr|Sr)|\b[A-Z])\.$/.test(text.slice(previous.textStart, previous.textEnd))) previous.textEnd = part.textEnd
+    // Latin initials occur in Korean prose too. ICU splits F. and T.S. as
+    // sentences; retain the observed words as one sentence, across either locale.
+    const abbreviation = previous && /(?:\b(?:Mr|Mrs|Ms|Dr|Prof|St|Jr|Sr)|\b[A-Z](?:\.[A-Z])*)\.$/.test(text.slice(previous.textStart, previous.textEnd))
+    if (abbreviation && !/\n\s*\n/.test(text.slice(previous.textEnd, part.textStart))) previous.textEnd = part.textEnd
     else result.push(part)
   }
   return result

@@ -14,7 +14,7 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { findContentIssues, findReasonIssues, loadAllReasonRows, type ReasonIssue } from '../lib/spectrum-reason-check'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })

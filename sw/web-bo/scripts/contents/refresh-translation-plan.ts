@@ -3,7 +3,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
 import { planIntroductionTranslation, planIntroductionTranslationKoEn } from './book-introduction-translation-contract'
 

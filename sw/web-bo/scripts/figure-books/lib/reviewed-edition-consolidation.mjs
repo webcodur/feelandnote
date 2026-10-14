@@ -86,6 +86,43 @@ function reviewedTranslatorCompletion(review,keep,drop){
     throw Error('EDITION_REVIEW: translator completion requires exact prior credits, both independent ISBN sources and no conflicting credited translator')
   return proof
 }
+// 공동 성을 한 번만 적은 영어 책임표시를 실제 두 역자로 정규화한다. 본문 동등성 판단은 하지 않는다.
+function reviewedJointTranslatorCreditAlias(review,work,keep,drop,crossWork,snapshot){
+  const proof=review.reviewedJointTranslatorCreditAlias
+  if(proof===undefined)return null
+  const credit=row=>row.sources?.translators??row.translators??row.translator??null
+  const keys=names=>Array.isArray(names)?names.map(name=>bookTranslatorKey([name])).sort():[]
+  const names=proof?.translators,canonical=keys(names)
+  const keepCredit=credit(keep),dropCredit=credit(drop)
+  const joint=Array.isArray(keepCredit)&&keepCredit.length===1?keepCredit:Array.isArray(dropCredit)&&dropCredit.length===1?dropCredit:null
+  const separate=joint===keepCredit?dropCredit:keepCredit
+  const parts=Array.isArray(names)?names.map(name=>typeof name==='string'?name.trim().split(/\s+/u):[]):[]
+  const surname=parts[0]?.at(-1),shared=parts.length===2&&parts.every(part=>part.length>=2&&part.at(-1)===surname)
+  const joined=shared?[names.join(' and '),[...names].reverse().join(' and '),
+    parts[0].slice(0,-1).join(' ')+' and '+names[1],parts[1].slice(0,-1).join(' ')+' and '+names[0]]:[]
+  const text=value=>typeof value==='string'&&value.trim().length>=20
+  const sourceValid=(source,row)=>source?.llmReviewed===true&&source.isbn===row.isbn&&source.editionTitle===row.title
+    &&source.editionCreator===row.creator&&source.locale===row.locale&&publicSource(source.sourceUrl,true)
+    &&isDeepStrictEqual(keys(source.creditedTranslators),canonical)&&text(source.creditEvidence)&&text(source.bodyEvidence)&&text(source.scopeEvidence)
+  const intro=review.reviewedRepresentativeIntroduction
+  if(!proof||typeof proof!=='object'||Array.isArray(proof)||crossWork||review.textIdentity!=='translation'||keep.locale!=='en'
+    ||proof.method!=='independent_joint_translator_credit_alias_review'||proof.llmReviewed!==true
+    ||review.reviewedTranslatorCompletion!==undefined||review.reviewedScopeEquivalence!==undefined
+    ||proof.identicalBody!==false||proof.editionRelationship!=='revised_same_translation'||!text(proof.editionDifferences)||!text(proof.reason)
+    ||!isDeepStrictEqual(proof.originalWork,work)||!String(work.metadata?.figureBook?.workIdentity??'').trim()
+    ||!isDeepStrictEqual(proof.keepEdition,keep)||!isDeepStrictEqual(proof.dropEdition,drop)||keep.creator!==drop.creator||keep.title!==drop.title
+    ||!Array.isArray(names)||names.length!==2||canonical.some(name=>!name)||new Set(canonical).size!==2||!shared
+    ||!joint||!Array.isArray(separate)||separate.length!==2||!isDeepStrictEqual(keys(separate),canonical)
+    ||!joined.some(value=>bookTranslatorKey([value])===bookTranslatorKey(joint))
+    ||!sourceValid(proof.keepReview,keep)||!sourceValid(proof.dropReview,drop)
+    ||proof.keepReview.sourceUrl===proof.dropReview.sourceUrl||!intro
+    ||intro.keepSourceUrl!==proof.keepReview.sourceUrl||intro.dropSourceUrl!==proof.dropReview.sourceUrl)
+    throw Error('EDITION_REVIEW: joint credit alias requires exact live rows, two independently credited translators and reviewed revision differences, without body equivalence')
+  if(snapshot.figure_book_products.some(product=>String(product.edition_id)===String(drop.id)))
+    throw Error('EDITION_REVIEW: revised joint-credit edition has product history; removal forbidden')
+  // 옛 행과 alias 판단을 저장하지 않고, 현재 정규명과 공개 출처만 기존 근거에 넘긴다.
+  return {translators:structuredClone(names),keepSourceUrl:proof.keepReview.sourceUrl,dropSourceUrl:proof.dropReview.sourceUrl}
+}
 function introRetained(drop, survivors, snapshot, crossWork = false) {
   if (!String(drop.description ?? '').trim() || isBookIntroductionSource(drop.description)) return true
   const origin = snapshot.contents.find(row => row.id === drop.content_id)
@@ -133,7 +170,7 @@ export function planReviewedEditionConsolidation(snapshot, reviews) {
     if (policy(keep) || policy(effectiveDrop) || scopeEquivalence&&policy(drop)) throw Error('EDITION_REVIEW: excluded edition must be corrected separately')
     const translator = row => bookTranslatorKey(row.sources?.translators ?? row.translators ?? row.translator)
     const a = translator(keep), b = translator(drop)
-    const completion=reviewedTranslatorCompletion(review,keep,drop)
+    const completion=reviewedJointTranslatorCreditAlias(review,work,keep,drop,crossWork,snapshot)??reviewedTranslatorCompletion(review,keep,drop)
     if (!completion&&a && b && a !== b || review.textIdentity === 'original' && (a || b)) throw Error('EDITION_REVIEW: known translator conflict')
     const introductionSelection = reviewedRepresentativeIntroduction(review, keep, drop)
     retained.push({ review, work, keep, drop, crossWork,completion,scopeEquivalence,introductionSelection })

@@ -756,9 +756,6 @@ export function buildFigureBookPlan(
   const localesByContent = new Map<string, StoredContentLocaleRow[]>()
   for (const locale of catalog.locales) {
     const rows = localesByContent.get(locale.content_id) ?? []
-    if (rows.some((row) => row.locale === locale.locale)) {
-      throw new Error(`catalog has duplicate locale row: ${locale.content_id}/${locale.locale}`)
-    }
     rows.push(locale)
     localesByContent.set(locale.content_id, rows)
   }
@@ -801,6 +798,20 @@ export function buildFigureBookPlan(
   if (manifest.reuseContentId) addReason(manifest.reuseContentId, 'explicit_reuseContentId')
   const candidateContentIds = [...candidateReasons.keys()].sort()
   const reviewedDistinctContentIds = [...(manifest.reviewedDistinctContentIds ?? [])]
+  // Inspect every locale while matching identity/ISBN, but only a work involved
+  // in this registration can block it. Unrelated legacy catalog faults must
+  // not prevent independent registrations or be modified as a side effect.
+  for (const contentId of new Set([
+    ...candidateContentIds, ...reviewedDistinctContentIds, deterministicTargetId,
+  ])) {
+    const seen = new Set<string>()
+    for (const locale of localesByContent.get(contentId) ?? []) {
+      if (seen.has(locale.locale)) {
+        throw new Error(`catalog has duplicate locale row: ${contentId}/${locale.locale}`)
+      }
+      seen.add(locale.locale)
+    }
+  }
   const reviewedDistinctCandidateFingerprints = reviewedDistinctContentIds
     .map((id) => contentsById.get(id))
     .filter((content): content is StoredContentRow => content !== undefined)
@@ -1471,13 +1482,13 @@ SELECT jsonb_build_object(
       ) AS content
     ),
     'locales', coalesce((
-      SELECT jsonb_agg(to_jsonb(locale) ORDER BY locale.locale)
+      SELECT jsonb_agg(to_jsonb(locale_snapshot) ORDER BY locale_snapshot.locale)
       FROM (
         SELECT content_id, locale, title, creator, description, isbn, publisher,
                thumbnail_url, affiliate_url, sources, verified, created_at, updated_at
         FROM public.content_locales
         WHERE content_id = batch.payload ->> 'contentId'
-      ) AS locale
+      ) AS locale_snapshot
     ), '[]'::jsonb)
   )
 )::text

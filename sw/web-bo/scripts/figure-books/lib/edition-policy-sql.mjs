@@ -26,6 +26,14 @@ function selectionExcludedSql(title,isbn,locale,sources,contentId) {
  AND (CASE WHEN proof->>'source_url' ~ '^https://[A-Za-z0-9.-]+:[0-9]{1,5}([/?#]|$)' THEN substring(proof->>'source_url' from '^https://[^/?#:]+:([0-9]+)')::int ELSE 0 END)<=65535
  AND lower(split_part(split_part(substring(proof->>'source_url' from '^https://([^/?#]+)'),':',1),'@',1)) !~ '(^|[.])openlibrary[.]org[.]?$')`
 }
+// 현재 실물에 결속된 기존 비노출 판정만 대표 판본 수에서 뺀다.
+function retainedExclusionSql(row) {
+ return `coalesce((jsonb_typeof(${row}.sources)='object'
+   AND (CASE WHEN jsonb_typeof(${row}.sources->'edition_selection_evidence')='array' THEN jsonb_array_length(${row}.sources->'edition_selection_evidence') ELSE 0 END)=1
+   AND ${row}.sources->'edition_selection_evidence'->0->'llmReviewed'='true'::jsonb
+   AND ${row}.sources->'edition_selection_evidence'->0->>'content_id'=${row}.content_id
+   AND ${selectionExcludedSql(row+'.title',row+'.isbn',row+'.locale',row+'.sources',row+'.content_id')}),false)`
+}
 export function editionPolicySql() {
  return `BEGIN; SET LOCAL lock_timeout='5s'; SET LOCAL statement_timeout='30s';
 CREATE OR REPLACE FUNCTION public.book_translator_identity(value jsonb) RETURNS text
@@ -51,10 +59,37 @@ END;
 $volume$;
 CREATE OR REPLACE FUNCTION public.guard_figure_book_edition_policy() RETURNS trigger
 LANGUAGE plpgsql SET search_path='pg_catalog' AS $policy$
-DECLARE translators text; figure jsonb; original_locale boolean;
+DECLARE translators text; figure jsonb; original_locale boolean; selected boolean; previously_selected boolean;
 BEGIN
  SELECT metadata->'figureBook' INTO figure FROM public.contents WHERE id=new.content_id FOR NO KEY UPDATE;
- IF ${selectionExcludedSql('new.title','new.isbn','new.locale','new.sources','new.content_id')} OR (new.locale='ko' AND coalesce(new.title,'') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)}) OR public.book_nonstart_work_volume(new.title,figure,new.text_scope) OR new.edition_kind='abridged' OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)}
+ selected=${selectionExcludedSql('new.title','new.isbn','new.locale','new.sources','new.content_id')};
+ IF TG_OP='UPDATE' THEN
+   previously_selected=${selectionExcludedSql('old.title','old.isbn','old.locale','old.sources','old.content_id')};
+ END IF;
+ -- 기존 실물의 비노출 판정만 보존한다. 새 ED나 본문·서지 변경을 허용하지 않는다.
+ IF TG_OP='UPDATE' AND (
+   previously_selected OR selected
+   OR (new.sources->'edition_selection_evidence' IS DISTINCT FROM old.sources->'edition_selection_evidence'
+     AND new.sources->'edition_selection_evidence' IS NOT NULL
+     AND new.sources->'edition_selection_evidence'<>'[]'::jsonb)
+ ) THEN
+   IF selected
+     AND jsonb_typeof(new.sources)='object' AND jsonb_typeof(old.sources)='object'
+     AND jsonb_array_length(new.sources->'edition_selection_evidence')=1
+     AND new.sources->'edition_selection_evidence'->0->'llmReviewed'='true'::jsonb
+     AND new.sources->'edition_selection_evidence'->0->>'content_id'=new.content_id
+     AND (to_jsonb(new)-ARRAY['content_id','sources','updated_at']) IS NOT DISTINCT FROM
+         (to_jsonb(old)-ARRAY['content_id','sources','updated_at'])
+     AND (new.sources-'edition_selection_evidence') IS NOT DISTINCT FROM (old.sources-'edition_selection_evidence')
+     AND (old.sources->'edition_selection_evidence' IS NULL OR old.sources->'edition_selection_evidence'='[]'::jsonb
+       OR (jsonb_typeof(old.sources->'edition_selection_evidence')='array'
+         AND jsonb_array_length(old.sources->'edition_selection_evidence')=1
+         AND ((new.sources->'edition_selection_evidence'->0)-'content_id') IS NOT DISTINCT FROM
+             ((old.sources->'edition_selection_evidence'->0)-'content_id')))
+   THEN RETURN new; END IF;
+   RAISE EXCEPTION 'Retained edition exclusion requires an exact reviewed owner and unchanged physical identity and non-review sources';
+ END IF;
+ IF selected OR (new.locale='ko' AND coalesce(new.title,'') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)}) OR public.book_nonstart_work_volume(new.title,figure,new.text_scope) OR new.edition_kind='abridged' OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)}
   OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_GRADED_READER)}
   OR (new.sources->>'provider_edition_isbn'=new.isbn AND (coalesce(new.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)} OR coalesce(new.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_GRADED_READER)}))
   OR (new.locale='ko' AND new.sources->>'provider_edition_isbn'=new.isbn AND coalesce(new.sources->>'provider_edition_title','') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)})
@@ -74,17 +109,19 @@ BEGIN
  original_locale=coalesce(figure->>'originalLanguage'=new.locale AND coalesce(figure->>'identityEvidence','') ~ '^https://',false);
  IF (TG_OP='INSERT' OR new.content_id IS DISTINCT FROM old.content_id OR new.locale IS DISTINCT FROM old.locale OR new.isbn IS DISTINCT FROM old.isbn)
  AND EXISTS (SELECT 1 FROM public.figure_book_editions e WHERE e.content_id=new.content_id AND e.locale=new.locale AND e.id<>new.id
+   AND NOT ${retainedExclusionSql('e')}
    AND NOT original_locale AND (translators IS NULL OR public.book_translator_identity(e.sources->'translators') IS NULL))
  THEN RAISE EXCEPTION 'An additional edition requires a verified different translation; ISBN and publisher changes are products'; END IF;
  IF (translators IS NOT NULL OR original_locale) AND EXISTS (
   SELECT 1 FROM public.figure_book_editions e WHERE e.content_id=new.content_id AND e.locale=new.locale AND e.id<>new.id
+   AND NOT ${retainedExclusionSql('e')}
    AND public.book_translator_identity(e.sources->'translators') IS NOT DISTINCT FROM translators
  ) THEN RAISE EXCEPTION 'Same original or translation already has a representative edition; attach products to it'; END IF;
  RETURN new;
 END;
 $policy$;
 DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON public.figure_book_editions;
-CREATE TRIGGER guard_figure_book_edition_policy BEFORE INSERT OR UPDATE OF content_id,locale,title,isbn,edition_kind,text_scope,sources ON public.figure_book_editions
+CREATE TRIGGER guard_figure_book_edition_policy BEFORE INSERT OR UPDATE OF id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,verified,sources ON public.figure_book_editions
 FOR EACH ROW EXECUTE FUNCTION public.guard_figure_book_edition_policy();
 ${seedPolicySql()}
 COMMIT;`

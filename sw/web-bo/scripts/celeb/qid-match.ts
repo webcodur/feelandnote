@@ -21,7 +21,7 @@
  *   ... --limit 50   # 앞에서 N명만 (시험용)
  */
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { readFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 

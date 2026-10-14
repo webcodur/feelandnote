@@ -1,11 +1,12 @@
 // Run on the VM after explicitly opening Node's loopback inspector with SIGUSR1.
 // Samples allocations (not object contents); exits and closes the inspector after a bounded session.
-import { writeFileSync } from 'node:fs'
+import { mkdirSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
 const seconds = Number(process.argv[2] ?? 900)
-const output = process.argv[3] ?? '/opt/feelandnote/diagnostics'
+const output = process.argv[3] ?? '/opt/feelandnote/heap'
 if (!Number.isInteger(seconds) || seconds < 10 || seconds > 1800) throw new Error('Duration must be 10–1800 seconds')
+mkdirSync(output, { recursive: true, mode: 0o700 })
 const [target] = await (await fetch('http://127.0.0.1:9229/json', { signal: AbortSignal.timeout(3000) })).json()
 const socket = new WebSocket(target.webSocketDebuggerUrl)
 await new Promise((resolve, reject) => { socket.onopen = resolve; socket.onerror = reject })

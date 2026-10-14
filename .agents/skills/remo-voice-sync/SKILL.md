@@ -150,14 +150,14 @@ pnpm voice:align -- --episode <인물>-ko --shorts <N> --only S07-celeb-zhuge-3,
 - 롱폼 wav-key 예: `D05b-summary`
 - 쇼츠 wav-key 예: `shorts-2/S07-celeb-zhuge-3`
 - voiceTimings 인덱스: 해당 wav 안의 줄(문장) 순서 (0-based). 4단계 align 출력의 `[N]` 번호와 동일.
-- 임시 파일은 `scripts/voice/subs-<인물>-<범위>.json` 등에 저장 후 입력으로 넘기고, 적용 검증이 끝나면 삭제.
+- 임시 입력은 [작업 파일·백업 원칙](../../../docs/project/data/README.md#작업-파일백업)에 따른 작업 폴더의 `subs-<인물>-<범위>.json`으로 저장한다.
 
 ### Step 4: 적용 + 검증 (트랜잭션)
 
 분할 결과를 `subs.json`으로 저장한 뒤:
 
 ```bash
-pnpm voice:chunk -- --episode <인물>-ko --input scripts/voice/subs-<인물>-<범위>.json
+pnpm voice:chunk -- --episode <인물>-ko --input "<작업폴더>/subs-<인물>-<범위>.json"
 ```
 
 - 모든 세그먼트의 `sub.join === text` 일괄 검증 → 하나라도 실패하면 abort, 디스크 미수정

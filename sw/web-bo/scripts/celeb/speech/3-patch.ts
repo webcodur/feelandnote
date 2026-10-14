@@ -35,7 +35,7 @@
 import { readFile, mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import {
   NO_VERIFIED_QUOTE_EN,
   NO_VERIFIED_QUOTE_KO,

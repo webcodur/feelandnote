@@ -7,6 +7,7 @@ import { createCeleb, updateCeleb, deleteCeleb, setCelebMonologueLock } from '@/
 import { uploadCelebImage } from '@/actions/admin/storage'
 import { calculateInfluenceRank, type GeneratedInfluence } from '@feelandnote/ai-services/celeb-profile'
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
+import { CELEB_AWAKENED_IMAGE_SPEC } from '@/lib/celeb-awakened-image'
 import type { Member } from '@/actions/admin/members'
 
 import { CELEB_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
@@ -214,7 +215,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
   const [portraitFile, setPortraitFile] = useState<File | null>(null)
   const [portraitPreview, setPortraitPreview] = useState<string | null>(null)
 
-  // 각성 이미지(celebs.awakened_image_url) — 대표 사진과 독립된 1:1 선택 슬롯이다
+  // 각성 이미지(celebs.awakened_image_url) — 대표 사진과 독립된 선택 슬롯이다
   const [awakenedImageFile, setAwakenedImageFile] = useState<File | null>(null)
   const [awakenedImagePreview, setAwakenedImagePreview] = useState<string | null>(null)
 
@@ -922,18 +923,18 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
               <div className="space-y-2 border-t border-amber-500/20 pt-3 md:col-span-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold text-amber-300">각성 이미지</span>
-                  <span className="text-[10px] text-amber-400/70 font-mono">1:1 · 선택</span>
+                  <span className="text-[10px] text-amber-400/70 font-mono">{CELEB_AWAKENED_IMAGE_SPEC.aspectLabel} · 선택</span>
                 </div>
                 <div className="flex flex-col items-start gap-3 sm:flex-row">
                   <div className="shrink-0">
                     <CelebPortraitEditor
                       value={awakenedImagePreview || formData.awakened_image_url}
                       alt={`${formData.nickname || '인물'} 각성 이미지`}
-                      aspectRatio={1}
-                      aspectLabel="1:1"
+                      aspectRatio={CELEB_AWAKENED_IMAGE_SPEC.aspectRatio}
+                      aspectLabel={CELEB_AWAKENED_IMAGE_SPEC.aspectLabel}
                       emptyLabel="각성 이미지 놓기"
                       cropTitle="각성 이미지 위치 조정"
-                      cropDescription="정사각형 안에서 핵심 연출이 잘 보이도록 위치와 확대를 조정하세요."
+                      cropDescription="세로 프레임 안에서 핵심 연출이 잘 보이도록 위치와 확대를 조정하세요."
                       processingErrorMessage="각성 이미지 처리에 실패했습니다."
                       loadImmediately
                       highPriority

@@ -149,7 +149,7 @@ export default function CuratedListEditor({ detail, curators, publicWebUrl }: { 
             {detail.list.topics.map((topic) => <span key={topic} className="rounded-full border border-border px-2.5 py-1 font-mono text-[10px] text-text-secondary">#{topic}</span>)}
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-text-secondary">
-            <a href={detail.list.sourceUrl} target="_blank" rel="noreferrer" className="inline-flex min-w-0 items-center gap-1.5 font-mono hover:text-accent"><Link2 className="h-3.5 w-3.5 shrink-0" /><span className="max-w-[32rem] truncate">{detail.list.sourceUrl}</span><ExternalLink className="h-3 w-3 shrink-0" /></a>
+            <a href={detail.list.sourceUrl} className="inline-flex min-w-0 items-center gap-1.5 font-mono hover:text-accent" target="_blank" rel="noreferrer"><Link2 className="h-3.5 w-3.5 shrink-0" /><span className="max-w-[32rem] truncate">{detail.list.sourceUrl}</span><ExternalLink className="h-3 w-3 shrink-0" /></a>
             {detail.list.edition && <span>판·회차: {detail.list.edition}</span>}
             {detail.list.publishedYear && <span>발표: {detail.list.publishedYear}</span>}
           </div>

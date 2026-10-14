@@ -19,7 +19,7 @@
 
 import { randomUUID } from 'crypto'
 import { buildDiscourseRows } from '@feelandnote/shared/lib/discourse-assemble'
-import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 import {
   adminClient, readDiscourseData, parseArgs, selectEpisodes, pad,
   type EpisodeFolder,

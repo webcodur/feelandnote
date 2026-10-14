@@ -8,7 +8,7 @@
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 function argOf(name: string): string | undefined {
   const index = process.argv.indexOf(`--${name}`)

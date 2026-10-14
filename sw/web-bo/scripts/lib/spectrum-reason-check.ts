@@ -25,7 +25,7 @@
  *  - WARN  `no-year`       : 연도가 없는 근거문. 행적이 아니라 인상 서술일 때가 많다.
  */
 
-import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 
 export const MAX_REASON_SHARE = 2
 export const MAX_PAIR_OVERLAP = 3

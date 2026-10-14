@@ -8,7 +8,7 @@
  */
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 const LEDGER = resolve(process.cwd(), '../../data/celeb/new-figures')
 const PREV = JSON.parse(readFileSync(resolve(LEDGER, 'wikidata-qid-backfill.json'), 'utf8'))

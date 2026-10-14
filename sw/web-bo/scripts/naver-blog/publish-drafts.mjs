@@ -1,13 +1,14 @@
 // 네이버 블로그 새 글 발행. blog-assets(D:)/naver-blog/drafts.json 의 status=draft 항목을 양식대로 올린다.
 // 사용: node scripts/naver-blog/publish-drafts.mjs [최대건수] [--dry] [--target=경로]
-//       [--start=YYYY-MM-DD --dow=2,5 --time=HH:MM]  예약 발행. 시작일부터 지정 요일에 한 편씩 예약한다(분은 10분 단위).
-//       예) --start=2026-09-09 --dow=2,5 --time=09:00  → 화·금 오전 9시로 차례차례 예약
+//       [--time=HH:MM --start=YYYY-MM-DD --dow=2,5]  예약 발행. 가까운 빈 날짜에 한 편씩 예약한다(분은 10분 단위).
+//       --time=09:00 → 오늘부터 빈 날짜를 찾는다. 시작일·요일은 명시한 경우에만 제한한다.
 // 양식·주기는 docs/continuous/blog-naver-book.md 를 따른다.
 //   --dry : 제목·본문 입력과 발행 패널 설정까지만 하고 발행하지 않는다(스크린샷 저장).
 // 디버그 포트 9222 크롬에 네이버 로그인 상태여야 한다. 크롬은 --disable-features=CalculateNativeWinOcclusion 로 띄운다.
 import { getBrowser, getNaverPage } from './lib/browser.mjs';
 import { assertPublishOptions } from './lib/publish-options.mjs';
 import { createExistingEditor } from './lib/existing-editor.mjs';
+import { buildReservationSlots } from './lib/reservation-slots.mjs';
 import fs from 'node:fs';
 import sharp from 'sharp';
 import os from 'node:os';
@@ -23,23 +24,12 @@ const dry = args.includes('--dry');
 const onlyTarget = args.find((a) => a.startsWith('--target='))?.slice(9);
 const limit = Number(args.find((a) => /^\d+$/.test(a)) ?? 1);
 const opt = (k) => args.find((a) => a.startsWith(`--${k}=`))?.split('=')[1];
-const startDay = opt('start'), dowRaw = opt('dow'), atTime = opt('time');
-const scheduling = Boolean(startDay && atTime);
+const startDay = opt('start') ?? new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10), dowRaw = opt('dow'), atTime = opt('time');
+const scheduling = Boolean(atTime);
+if (!atTime && (opt('start') || dowRaw)) throw new Error('예약 날짜·요일을 지정하려면 --time 도 필요하다');
 if (scheduling && !/^\d{4}-\d{2}-\d{2}$/.test(startDay)) throw new Error('--start 는 YYYY-MM-DD');
 if (scheduling && !/^\d{2}:[0-5]0$/.test(atTime)) throw new Error('--time 은 HH:MM 이고 분은 10분 단위');
-const dows = (dowRaw ?? '2,5').split(',').map(Number); // 1=월 … 7=일
-// 예약 슬롯을 필요한 만큼 만든다
-function slots(n) {
-  const out = []; const d = new Date(`${startDay}T00:00:00`);
-  for (let guard = 0; out.length < n && guard < 400; guard++, d.setDate(d.getDate() + 1)) {
-    const w = d.getDay() === 0 ? 7 : d.getDay();
-    if (!dows.includes(w)) continue;
-    const [hh, mm] = atTime.split(':').map(Number);
-    const slot = new Date(d); slot.setHours(hh, mm, 0, 0);
-    if (slot.getTime() > Date.now() + 60000) out.push(slot);   // 과거 시각은 건너뛴다
-  }
-  return out;
-}
+const dows = (dowRaw ?? '1,2,3,4,5,6,7').split(',').map(Number); // 1=월 … 7=일
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const UA = { headers: { 'user-agent': 'Mozilla/5.0' } };
 
@@ -789,7 +779,22 @@ if (rewriteIds.length) {
 
 let n = 0;
 const pending = drafts.filter((d) => d.status === 'draft' || d.status === 'republish').filter((d) => !onlyTarget || d.target === onlyTarget);
-const slotList = scheduling ? slots(Math.min(limit, pending.length)) : [];
+let occupied = [];
+if (scheduling && pending.length && limit > 0) {
+  const editor = createExistingEditor(page);
+  await editor.blankEditor();
+  if (await page.$('button[class*=reserve_btn]')) {
+    await editor.click('button[class*=reserve_btn]');
+    const count = await page.$eval('button[class*=reserve_btn]', button => Number(button.textContent.match(/(\d+)\s*건/)?.[1] ?? NaN));
+    if (count !== 0) {
+      await page.waitForSelector('button[class*=article_button]', { timeout: 15000 });
+      occupied = await page.$$eval('button[class*=article_button]', buttons => buttons.map(button => button.innerText.trim().split('\n').at(-1)));
+    }
+    await editor.click('button[class*=close_button]');
+  }
+  occupied.push(...posts.filter(post => post.scheduledAt && !['deleted', 'to-delete', 'private', 'replaced', 'skip'].includes(post.link)).map(post => post.scheduledAt));
+}
+const slotList = scheduling ? buildReservationSlots({ count: Math.min(limit, pending.length), start: startDay, time: atTime, occupied, dows }) : [];
 if (scheduling) console.log('예약 슬롯:', slotList.map((x) => `${x.getMonth() + 1}/${x.getDate()}`).join(' '), atTime);
 
 for (const d of drafts) {
@@ -853,7 +858,7 @@ for (const d of drafts) {
     const html = await (await fetch(`https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=${logNo}`, UA)).text();
     const live = html.includes(`feelandnote.com${d.target}`);
     d.status = live ? 'published' : 'check'; d.logNo = logNo; d.publishedAt = new Date().toISOString();
-    // 예약 시각을 남긴다. 한 번 잡힌 예약은 편집으로 못 바꾸므로, 다음 글의 빈 슬롯을 이 기록으로 고른다.
+    // 예약 시각을 남겨 다음 글을 배정할 때 실제 예약 목록과 함께 대조한다.
     posts.push({ logNo, date: new Date().toISOString().slice(0, 10).replace(/-/g, '. ') + '.', title: d.title, kind: d.kind, slug: null, url: 'https://feelandnote.com' + d.target, link: live ? 'ok' : 'check', ...(schedText ? { scheduledAt: schedText } : {}) });
     saveAll();
     console.log(live ? 'OK   ' : 'CHECK', logNo, d.title, schedText ? '| 예약 ' + schedText : '');

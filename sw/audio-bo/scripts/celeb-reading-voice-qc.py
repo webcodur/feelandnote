@@ -18,6 +18,11 @@ import wave
 
 import numpy as np
 from whisper_resources import ResourceAwareWhisperModel, ResourceBusy
+from voice_cleanup import (
+    SENTENCE_GAP_SECONDS, PARAGRAPH_GAP_SECONDS, boundary_pause_edits,
+    apply_pause_edits, retime_timestamp, decode as decode_source, encode,
+    encode_narration, breath_spans, fill_breaths,
+)
 
 
 MODEL_ROOT = Path(r"D:\audios\interview-cleaner\models\whisper")
@@ -26,11 +31,9 @@ QC_VERSION = 5
 MIN_MATCH = 0.90
 MAX_EDGE_MISSING = {"ko": 3, "en": 5}
 MAX_INTERNAL_MISSING = {"ko": 6, "en": 12}
-# 들숨을 지우면 그 자리가 침묵으로 드러나 쉼이 길어 보인다. 사용자 청취로 정한 상한은
-# 쉼표 1.1초 · 문장 사이 1.2초 · 문단 1.8초이며, 여기서는 문장 사이 기준을 쓴다.
-# 0.75/0.45는 들숨이 자리를 메우던 시절의 값이라 무음 처리본을 전부 수리 대상으로 만들었다.
+# Mid-sentence anomaly detection is separate from the common narration spacing policy.
 LONG_PAUSE_SECONDS = 1.2
-TARGET_PAUSE_SECONDS = 1.05
+TARGET_PAUSE_SECONDS = SENTENCE_GAP_SECONDS
 MAX_MID_SENTENCE_PAUSE = 1.2
 WORD_BOUNDARY_MARGIN = 0.10
 MIN_BOUNDARY_PROBABILITY = 0.75
@@ -265,9 +268,92 @@ def punctuation_offsets(text: str, locale: str) -> set[int]:
     return offsets
 
 
+def paragraph_offsets(text: str, locale: str) -> set[int]:
+    return {len(normalize(expand_digits(text[:match.start()], locale)))
+            for match in re.finditer(r"\n\s*\n", text)}
+
+
+def narration_boundaries(words: list[dict], text: str, mapping: dict, locale: str):
+    """Locate each source boundary in observed words; never split a shared ASR word."""
+    normalized_source = normalize(expand_digits(text, locale))
+    total = len(normalized_source)
+    ends = sorted(punctuation_offsets(text, locale) - {total, 0})
+    paragraphs = paragraph_offsets(text, locale)
+    char_words, word_ranges, cursor = {}, [], 0
+    for index, word in enumerate(words):
+        size = len(normalize(expand_digits(word["word"], locale)))
+        for position in range(cursor, cursor + size):
+            char_words[position] = index
+        word_ranges.append((cursor, cursor + size))
+        cursor += size
+    def exact_word(index):
+        start, end = word_ranges[index]
+        positions = [mapping.get(position) for position in range(start, end)]
+        if not positions or any(position is None for position in positions):
+            return False
+        return (positions == list(range(positions[0], positions[0] + len(positions)))
+                and normalized_source[positions[0]:positions[-1] + 1]
+                == normalize(expand_digits(words[index]["word"], locale)))
+    aligned = sorted((source, heard) for heard, source in mapping.items() if heard in char_words)
+    boundaries, unresolved = [], []
+    for boundary in ends:
+        before = [(s, h) for s, h in aligned if s < boundary]
+        after = [(s, h) for s, h in aligned if s >= boundary]
+        if not before or not after:
+            unresolved.append(boundary)
+            continue
+        left_index = char_words[before[-1][1]]
+        right_index = char_words[after[0][1]]
+        if right_index != left_index + 1:
+            unresolved.append(boundary)
+            continue
+        left, right = words[left_index], words[right_index]
+        if min(left.get("probability", 1), right.get("probability", 1)) < MIN_BOUNDARY_PROBABILITY:
+            # Short function words can have low ASR confidence despite an exact
+            # transcript. Require both complete words and the exact source edge;
+            # the audio editor still requires a protected quiet core at this edge.
+            if not (before[-1][0] == boundary - 1 and after[0][0] == boundary
+                    and exact_word(left_index) and exact_word(right_index)):
+                unresolved.append(boundary)
+                continue
+        boundaries.append({"start": left["end"], "end": max(left["end"], right["start"]),
+                           "kind": "paragraph" if boundary in paragraphs else "sentence"})
+    return boundaries, unresolved
+
+
+def normalize_narration_file(audio: Path, output: Path | None, text: str, locale: str, report: dict):
+    """Reuse verified word timestamps, edit safe quiet cores and shift timestamps exactly."""
+    _, content_flags, mapping = source_alignment(text, report["transcript"], locale)
+    if content_flags:
+        raise ValueError("Narration source mismatch: " + ",".join(content_flags))
+    boundaries, missing = narration_boundaries(report["words"], text, mapping, locale)
+    if missing:
+        raise ValueError("Unaligned narration boundaries: " + str(missing))
+    source, rate = decode_source(str(audio))
+    spans = breath_spans(source, rate) if output else []
+    source = fill_breaths(source, rate, spans)
+    edits, pauses, unresolved = boundary_pause_edits(source, rate, boundaries,
+                                                   **({"tolerance": 0.01} if output else {}))
+    if unresolved:
+        raise ValueError("Unsafe narration boundaries: " + json.dumps(unresolved))
+    info = {"sentenceGapSeconds": SENTENCE_GAP_SECONDS, "paragraphGapSeconds": PARAGRAPH_GAP_SECONDS,
+            "edits": edits, "pauses": pauses, "breathSpans": spans}
+    if not output or (not edits and not spans):
+        return None, info
+    if output.exists():
+        raise FileExistsError(f"Refusing to overwrite {output}")
+    final = encode_narration(source, rate, boundaries, output)
+    edits = final["edits"]
+    info.update(edits=edits, pauses=final["pauses"])
+    words = [{**word, "start": round(retime_timestamp(word["start"], rate, edits), 4),
+              "end": round(retime_timestamp(word["end"], rate, edits), 4)} for word in report["words"]]
+    return {"audio": final["output"], "duration": final["duration"], "words": words}, info
+
+
 def pause_repairs(samples: np.ndarray, words: list[dict], text: str,
                   mapping: dict, locale: str) -> tuple[list[dict], list[str], list[str]]:
     boundaries = punctuation_offsets(text, locale)
+    paragraphs = paragraph_offsets(text, locale)
     repairs, flags, warnings = [], [], []
     cursor = 0
     spans = []
@@ -311,7 +397,10 @@ def pause_repairs(samples: np.ndarray, words: list[dict], text: str,
             # and residual speech energy instead of forcing a regeneration.
             warnings.append("non-silent-sentence-pause")
             continue
-        remove = gap - TARGET_PAUSE_SECONDS
+        target = PARAGRAPH_GAP_SECONDS if source_right in paragraphs else TARGET_PAUSE_SECONDS
+        if gap <= target + 0.10:
+            continue
+        remove = gap - target
         cut_start = (start + end - remove) / 2
         cut_end = cut_start + remove
         repairs.append({"start": round(cut_start, 4), "end": round(cut_end, 4),
@@ -390,7 +479,9 @@ class NarrationQC:
         transcript, words = self.transcribe(audio, locale)
         content, content_flags, mapping = source_alignment(text, transcript, locale)
         flags += content_flags
-        repairs, pause_flags, warnings = pause_repairs(samples, words, text, mapping, locale)
+        if request.get("require_exact_source") and content["match"] != 1:
+            flags.append("unbound-source-not-exact")
+        repairs, pause_flags, warnings = ([], [], []) if request.get("content_only") or request.get("normalize_spacing") or request.get("verify_spacing") else pause_repairs(samples, words, text, mapping, locale)
         flags += pause_flags
         # VAD may hide unexpected sounds at the edges: retain them for review.
         if words:
@@ -407,6 +498,30 @@ class NarrationQC:
                             for left, right in zip(words, words[1:])
                             if right["start"] - left["end"] > LONG_PAUSE_SECONDS]
         if flags:
+            return result
+        if request.get("normalize_spacing") or request.get("verify_spacing"):
+            try:
+                output = Path(request["output"]).resolve() if request.get("output") else None
+                normalized, spacing = normalize_narration_file(audio, output, text, locale, result)
+            except (ValueError, FileExistsError) as error:
+                result["flags"] = ["narration-spacing-unresolved"]
+                result["error"] = str(error)
+                return result
+            result["spacing"] = spacing
+            if spacing["edits"] and not normalized:
+                result["flags"] = ["narration-spacing-required"]
+                return result
+            if normalized:
+                verified = self.check({**request, "audio": normalized["audio"], "output": None,
+                                       "normalize_spacing": False, "verify_spacing": True}, allow_repair=False)
+                result["repairVerification"] = {key: verified[key] for key in ("ok", "flags", "metrics")}
+                if not verified["ok"]:
+                    result["flags"] = ["repair-verification-failed", *verified["flags"]]
+                    return result
+                result.update(verified)
+                result.update(ok=True, status="repaired", spacing=spacing)
+                return result
+            result.update(ok=True, status="passed", audio=str(audio))
             return result
         if repairs:
             if not allow_repair or not request.get("output"):
@@ -436,6 +551,8 @@ def main() -> None:
     parser.add_argument("--text-file", type=Path)
     parser.add_argument("--locale", choices=("ko", "en"))
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--normalize-spacing", action="store_true")
+    parser.add_argument("--verify-spacing", action="store_true")
     parser.add_argument("--result", type=Path)
     parser.add_argument("--device", default="auto", choices=("cpu", "cuda", "auto"))
     parser.add_argument("--whisper-models", type=Path, default=MODEL_ROOT)
@@ -461,7 +578,9 @@ def main() -> None:
     try:
         result = qc.check({"audio": str(args.audio), "locale": args.locale,
                            "text": args.text_file.read_text(encoding="utf-8-sig"),
-                           "output": str(args.output) if args.output else None})
+                           "output": str(args.output) if args.output else None,
+                           "normalize_spacing": args.normalize_spacing,
+                           "verify_spacing": args.verify_spacing})
     except ResourceBusy as error:
         result = {"id": None, "ok": False, "status": "deferred", "flags": ["resource-busy"],
                   "warnings": [], "audio": None, "error": str(error)}

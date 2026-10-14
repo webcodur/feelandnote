@@ -1,4 +1,5 @@
 import type { ExtractedContent } from '@feelandnote/ai-services/content-extractor'
+import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 
 export interface ExternalSearchPlan {
   primaryQuery: string
@@ -18,11 +19,7 @@ export function normalizeBookIsbn(value?: string): string | undefined {
     .replace(/[\s-]/g, '')
     .toUpperCase()
 
-  if (/^\d{9}[\dX]$/.test(compact) || /^97[89]\d{10}$/.test(compact)) {
-    return compact
-  }
-
-  return undefined
+  return toIsbn13(compact) ?? undefined
 }
 
 function titleQuery(title: string, creator?: string): string {

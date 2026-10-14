@@ -1,0 +1,20 @@
+{"id":"image_001","type":"image","path":"assets/book.jpg","source":"existing","description":"book","width":458,"height":679,"provenance":{"provider":"local","adopted":true}}
+{"id":"image_002","type":"image","path":"assets/iu.webp","source":"existing","description":"iu","width":452,"height":565,"provenance":{"provider":"local","adopted":true}}
+{"id":"image_003","type":"image","path":"assets/photo-display-480.webp","source":"existing","description":"photo display 480","width":452,"height":565,"provenance":{"provider":"local","adopted":true}}
+{"id":"image_004","type":"image","path":"assets/chains/abraham-lincoln.webp","source":"existing","description":"abraham lincoln","width":800,"height":800,"provenance":{"provider":"local","adopted":true}}
+{"id":"image_005","type":"image","path":"assets/chains/alexander-the-great.webp","source":"existing","description":"alexander the great","width":800,"height":800,"provenance":{"provider":"local","adopted":true}}
+{"id":"image_006","type":"image","path":"assets/chains/dante-alighieri.webp","source":"existing","description":"dante alighieri","width":800,"height":800,"provenance":{"provider":"local","adopted":true}}
+{"id":"image_007","type":"image","path":"assets/chains/giovanni-boccaccio.webp","source":"existing","description":"giovanni boccaccio","width":800,"height":800,"provenance":{"provider":"local","adopted":true}}
+{"id":"image_008","type":"image","path":"assets/chains/homer.webp","source":"existing","description":"homer","width":800,"height":800,"provenance":{"provider":"local","adopted":true}}
+{"id":"image_009","type":"image","path":"assets/chains/julius-caesar.webp","source":"existing","description":"julius caesar","width":800,"height":800,"provenance":{"provider":"local","adopted":true}}
+{"id":"image_010","type":"image","path":"assets/chains/napoleon-bonaparte.webp","source":"existing","description":"napoleon bonaparte","width":800,"height":800,"provenance":{"provider":"local","adopted":true}}
+{"id":"image_011","type":"image","path":"assets/chains/william-shakespeare.webp","source":"existing","description":"william shakespeare","width":800,"height":800,"provenance":{"provider":"local","adopted":true}}
+{"id":"sfx_001","type":"sfx","path":".media/audio/sfx/sfx_001.mp3","source":"bundled","description":"Bass impact with a short swell — brief anticipation then a deep hit. Place so the peak lands on the reveal.","duration":2.6,"provenance":{"provider":"bundled.sfx","prompt":"short heavy punch impact thump","library_key":"impact-bass-2"}}
+{"id":"sfx_002","type":"sfx","path":".media/audio/sfx/sfx_002.mp3","source":"bundled","description":"Quick pop — element appear/spawn, chip/tag/badge in. Small precise accent, sync to the pop-in.","duration":0.7,"provenance":{"provider":"bundled.sfx","prompt":"pop","library_key":"pop"}}
+{"id":"sfx_003","type":"sfx","path":".media/audio/sfx/sfx_003.mp3","source":"bundled","description":"Punchy whoosh/impact — fast reveal or hard transition accent. Sync to the motion.","duration":0.6,"provenance":{"provider":"bundled.sfx","prompt":"whoosh","library_key":"whoosh"}}
+{"id":"bgm_001","type":"bgm","path":"assets/impact/bass-hit.wav","source":"existing","description":"bass hit","duration":0.6,"provenance":{"provider":"local","adopted":true}}
+{"id":"bgm_002","type":"bgm","path":"assets/impact/bass.mp3","source":"existing","description":"bass","duration":2.1,"provenance":{"provider":"local","adopted":true}}
+{"id":"bgm_003","type":"bgm","path":"assets/impact/pop-hit.wav","source":"existing","description":"pop hit","duration":0.5,"provenance":{"provider":"local","adopted":true}}
+{"id":"bgm_004","type":"bgm","path":"assets/impact/pop.mp3","source":"existing","description":"pop","duration":0.7,"provenance":{"provider":"local","adopted":true}}
+{"id":"bgm_005","type":"bgm","path":"assets/impact/whoosh-hit.wav","source":"existing","description":"whoosh hit","duration":0.6,"provenance":{"provider":"local","adopted":true}}
+{"id":"bgm_006","type":"bgm","path":"assets/impact/whoosh.mp3","source":"existing","description":"whoosh","duration":0.6,"provenance":{"provider":"local","adopted":true}}

@@ -1,0 +1,288 @@
+{
+  "summary": {
+    "webAnimations": 5,
+    "cssDeclarations": 45,
+    "scrollTargets": 53,
+    "cdpAnimations": 58,
+    "canvases": 4
+  },
+  "namedAnimations": [
+    "fadeIn",
+    "BookShelf_shelf-arrive__hSJgW",
+    "RelationDiagram_relation-selected-aura__3IUxc",
+    "GraphBoundaryFeedback_boundary-pressure__bJxMS"
+  ],
+  "scrollTriggeredElements": 53,
+  "representativeAnimations": [
+    {
+      "type": "CSSAnimation",
+      "playState": "running",
+      "animationName": "RelationDiagram_relation-selected-aura__3IUxc",
+      "targetSelector": "span.relation-face",
+      "targetRect": {
+        "x": 913.4000244140625,
+        "y": -681.0093994140625,
+        "width": 83.199951171875,
+        "height": 83.20001220703125,
+        "top": -681.0093994140625,
+        "right": 996.5999755859375,
+        "bottom": -597.8093872070312,
+        "left": 913.4000244140625
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease-in-out",
+          "composite": "auto",
+          "boxShadow": "color(srgb 0.47451 0.658824 0.745098 / 0.24) 0px 0px 0px 1px, rgb(4, 7, 10) 0px 6px 16px 0px",
+          "computedOffset": 0
+        },
+        {
+          "offset": 0.5,
+          "easing": "ease-in-out",
+          "composite": "auto",
+          "boxShadow": "color(srgb 0.47451 0.658824 0.745098 / 0.11) 0px 0px 0px 4px, color(srgb 0.47451 0.658824 0.745098 / 0.28) 0px 0px 13px 0px, rgb(4, 7, 10) 0px 6px 16px 0px",
+          "computedOffset": 0.5
+        },
+        {
+          "offset": 1,
+          "easing": "ease-in-out",
+          "composite": "auto",
+          "boxShadow": "color(srgb 0.47451 0.658824 0.745098 / 0.24) 0px 0px 0px 1px, rgb(4, 7, 10) 0px 6px 16px 0px",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 2400,
+        "delay": 0,
+        "iterations": null,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    },
+    {
+      "type": "CSSAnimation",
+      "playState": "running",
+      "animationName": "GraphBoundaryFeedback_boundary-pressure__bJxMS",
+      "targetSelector": "i",
+      "targetRect": {
+        "x": 879.390625,
+        "y": -1035.109375,
+        "width": 151.21875,
+        "height": 18,
+        "top": -1035.109375,
+        "right": 1030.609375,
+        "bottom": -1017.109375,
+        "left": 879.390625
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease-out",
+          "composite": "auto",
+          "transform": "translate(0px, 10px)",
+          "opacity": "0",
+          "computedOffset": 0
+        },
+        {
+          "offset": 0.24,
+          "easing": "ease-out",
+          "composite": "auto",
+          "opacity": "0.72",
+          "computedOffset": 0.24
+        },
+        {
+          "offset": 0.68,
+          "easing": "ease-out",
+          "composite": "auto",
+          "transform": "translate(0px)",
+          "opacity": "0.08",
+          "computedOffset": 0.68
+        },
+        {
+          "offset": 1,
+          "easing": "ease-out",
+          "composite": "auto",
+          "transform": "translate(0px)",
+          "opacity": "0.08",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 460,
+        "delay": 0,
+        "iterations": null,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    },
+    {
+      "type": "CSSAnimation",
+      "playState": "running",
+      "animationName": "GraphBoundaryFeedback_boundary-pressure__bJxMS",
+      "targetSelector": "i",
+      "targetRect": {
+        "x": 1530,
+        "y": -814.140625,
+        "width": 18,
+        "height": 92.0625,
+        "top": -814.140625,
+        "right": 1548,
+        "bottom": -722.078125,
+        "left": 1530
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease-out",
+          "composite": "auto",
+          "transform": "translate(-10px)",
+          "opacity": "0",
+          "computedOffset": 0
+        },
+        {
+          "offset": 0.24,
+          "easing": "ease-out",
+          "composite": "auto",
+          "opacity": "0.72",
+          "computedOffset": 0.24
+        },
+        {
+          "offset": 0.68,
+          "easing": "ease-out",
+          "composite": "auto",
+          "transform": "translate(0px)",
+          "opacity": "0.08",
+          "computedOffset": 0.68
+        },
+        {
+          "offset": 1,
+          "easing": "ease-out",
+          "composite": "auto",
+          "transform": "translate(0px)",
+          "opacity": "0.08",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 460,
+        "delay": 0,
+        "iterations": null,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    },
+    {
+      "type": "CSSAnimation",
+      "playState": "running",
+      "animationName": "GraphBoundaryFeedback_boundary-pressure__bJxMS",
+      "targetSelector": "i",
+      "targetRect": {
+        "x": 879.390625,
+        "y": -519.109375,
+        "width": 151.21875,
+        "height": 18,
+        "top": -519.109375,
+        "right": 1030.609375,
+        "bottom": -501.109375,
+        "left": 879.390625
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease-out",
+          "composite": "auto",
+          "transform": "translate(0px, -10px)",
+          "opacity": "0",
+          "computedOffset": 0
+        },
+        {
+          "offset": 0.24,
+          "easing": "ease-out",
+          "composite": "auto",
+          "opacity": "0.72",
+          "computedOffset": 0.24
+        },
+        {
+          "offset": 0.68,
+          "easing": "ease-out",
+          "composite": "auto",
+          "transform": "translate(0px)",
+          "opacity": "0.08",
+          "computedOffset": 0.68
+        },
+        {
+          "offset": 1,
+          "easing": "ease-out",
+          "composite": "auto",
+          "transform": "translate(0px)",
+          "opacity": "0.08",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 460,
+        "delay": 0,
+        "iterations": null,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    },
+    {
+      "type": "CSSAnimation",
+      "playState": "running",
+      "animationName": "GraphBoundaryFeedback_boundary-pressure__bJxMS",
+      "targetSelector": "i",
+      "targetRect": {
+        "x": 362,
+        "y": -814.140625,
+        "width": 18,
+        "height": 92.0625,
+        "top": -814.140625,
+        "right": 380,
+        "bottom": -722.078125,
+        "left": 362
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease-out",
+          "composite": "auto",
+          "transform": "translate(10px)",
+          "opacity": "0",
+          "computedOffset": 0
+        },
+        {
+          "offset": 0.24,
+          "easing": "ease-out",
+          "composite": "auto",
+          "opacity": "0.72",
+          "computedOffset": 0.24
+        },
+        {
+          "offset": 0.68,
+          "easing": "ease-out",
+          "composite": "auto",
+          "transform": "translate(0px)",
+          "opacity": "0.08",
+          "computedOffset": 0.68
+        },
+        {
+          "offset": 1,
+          "easing": "ease-out",
+          "composite": "auto",
+          "transform": "translate(0px)",
+          "opacity": "0.08",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 460,
+        "delay": 0,
+        "iterations": null,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    }
+  ]
+}

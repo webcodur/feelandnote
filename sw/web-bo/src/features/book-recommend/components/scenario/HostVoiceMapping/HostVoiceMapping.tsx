@@ -130,7 +130,7 @@ export function HostVoiceMapping({
                   <span className="font-extrabold text-text-primary truncate">{v.name}</span>
                   {v.account && (
                     <span className={`text-sm font-bold px-1 rounded-sm ${
-                      v.account.id === 'default' ? 'bg-slate-100 text-slate-500' : 'bg-amber-100 text-amber-800'
+                      v.account.id === 'webcodur' ? 'bg-slate-100 text-slate-500' : 'bg-amber-100 text-amber-800'
                     }`} title={`ElevenLabs 계정: ${v.account.label}`}>{v.account.label}</span>
                   )}
                   {lang && <span className="text-sm font-bold text-text-dim font-semibold">[{lang}]</span>}

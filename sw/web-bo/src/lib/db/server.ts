@@ -1,4 +1,4 @@
-import { createServerClient, type CookieMethodsServer } from '@supabase/ssr'
+import { createServerClient, type CookieMethodsServer } from '@feelandnote/db'
 import { cookies } from 'next/headers'
 
 // 세션 유지 기간: 30일 (초 단위)
@@ -29,7 +29,7 @@ export async function createClient() {
         try {
           cookieStore.set(name, value, {
             ...options,
-            maxAge: SESSION_MAX_AGE,
+            maxAge: options.maxAge === 0 ? 0 : SESSION_MAX_AGE,
             sameSite: 'lax',
             secure: process.env.NODE_ENV === 'production',
           })

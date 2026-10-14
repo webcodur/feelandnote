@@ -12,12 +12,22 @@ export interface CelebRelationIdentity {
   relType: string
 }
 
-/** 인물 관계의 현행 네 축. 같은 인물 쌍에서 각 축은 독립적으로 성립한다. */
+/** 사회 관계의 현행 네 축. 같은 인물 쌍에서 각 축은 독립적으로 성립한다. */
 export const CELEB_RELATION_AXES = ['influence', 'influenced', 'colleague', 'rival'] as const
 export type CelebRelationAxis = typeof CELEB_RELATION_AXES[number]
 
 /** 가족 관계가 있는 쌍에는 부차적인 사회 관계를 중복 등록하지 않는다. */
 export const CELEB_FAMILY_RELATION_TYPES = ['father', 'mother', 'parent', 'child', 'spouse', 'partner', 'sibling', 'relative'] as const
+export const CELEB_RELATION_INPUT_TYPES = [...CELEB_RELATION_AXES, ...CELEB_FAMILY_RELATION_TYPES] as const
+export type CelebRelationInputType = typeof CELEB_RELATION_INPUT_TYPES[number]
+
+export function isCelebRelationInputType(type: string): type is CelebRelationInputType {
+  return (CELEB_RELATION_INPUT_TYPES as readonly string[]).includes(type)
+}
+
+export function celebRelationInputGroup(type: CelebRelationInputType): CelebRelationGroup {
+  return isCelebFamilyRelation(type) ? 'family' : celebRelationAxisGroup(type as CelebRelationAxis)
+}
 
 export function isCelebFamilyRelation(type: string, group?: string | null): boolean {
   return group === 'family' || (CELEB_FAMILY_RELATION_TYPES as readonly string[]).includes(type)

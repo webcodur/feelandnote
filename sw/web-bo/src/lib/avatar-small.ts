@@ -8,10 +8,14 @@
 import sharp from 'sharp'
 import { CELEB_AVATAR_SMALL, CELEB_AVATAR_MEDIUM } from '@feelandnote/shared/constants/celeb-avatar-small'
 
+export const AVATAR_RESIZE_REVISION = 'full-lanczos3-v1'
+// WebP/JPEG의 디코딩 중 빠른 축소를 피하고, 전체 해상도에서 같은 커널로 줄인다.
+export const AVATAR_RESIZE_OPTIONS = { fit: 'inside', withoutEnlargement: true, kernel: 'lanczos3', fastShrinkOnLoad: false } as const
+
 /** 원본 아바타 버퍼 → 작은 판 버퍼 */
 export async function buildSmallAvatar(original: Buffer): Promise<Buffer> {
   return sharp(original)
-    .resize(CELEB_AVATAR_SMALL.sizePx, CELEB_AVATAR_SMALL.sizePx, { fit: 'inside', withoutEnlargement: true })
+    .resize(CELEB_AVATAR_SMALL.sizePx, CELEB_AVATAR_SMALL.sizePx, AVATAR_RESIZE_OPTIONS)
     .webp({ quality: CELEB_AVATAR_SMALL.webpQuality })
     .toBuffer()
 }
@@ -24,7 +28,7 @@ export function smallAvatarKey(celebId: string): string {
 /** 중·소 모두 같은 원본에서 만든다. 작은 원본을 확대하거나 구도를 다시 자르지 않는다. */
 export async function buildMediumAvatar(original: Buffer): Promise<Buffer> {
   return sharp(original)
-    .resize(CELEB_AVATAR_MEDIUM.sizePx, CELEB_AVATAR_MEDIUM.sizePx, { fit: 'inside', withoutEnlargement: true })
+    .resize(CELEB_AVATAR_MEDIUM.sizePx, CELEB_AVATAR_MEDIUM.sizePx, AVATAR_RESIZE_OPTIONS)
     .webp({ quality: CELEB_AVATAR_MEDIUM.webpQuality })
     .toBuffer()
 }

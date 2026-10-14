@@ -3,7 +3,7 @@ import { spawnSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 import { isDeepStrictEqual } from 'node:util'
 import { checkFixedReferences, executeMergeFile, executeTemporaryMergeSql, planSnapshot, remapArrayReferences } from '../merge-works.mjs'
-import { SNAPSHOT_TABLES, REFERENCE_TABLES, ARRAY_REFERENCE_TABLES, hasArrayReference, referenceWhere, sqlLiteral, validatePair, findConflicts, buildMergeSql } from './merge-work-sql.mjs'
+import { SNAPSHOT_TABLES, REFERENCE_TABLES, ARRAY_REFERENCE_TABLES, hasArrayReference, referenceWhere, sqlLiteral, validatePair, findConflicts, buildMergeSql, validateReviewedInvalidCurationRemovals, validateReviewedCurationResolutions } from './merge-work-sql.mjs'
 
 const EXPECTED_PREFIX = 'MERGE_BATCH_EXPECTED:'
 const arrayTables = ['flow_nodes', ...ARRAY_REFERENCE_TABLES]
@@ -76,7 +76,7 @@ export function buildReviewedMergeBatchSql(pairs, snapshot) {
   const bodies = pairs.map((pair, index) => {
     const conflict = findConflicts(slices[index], pair), plan = planSnapshot(slices[index], pair)
     if (conflict || plan.skip) throw Error(`MERGE_BATCH_REVIEW: ${pair.keep}/${pair.drop}: ${conflict ?? plan.skip}`)
-    const sql = buildMergeSql(pair, slices[index], { reviewedEditionMappings: pair.reviewedEditionMappings ?? [], reviewedNonstartEditionRemovals: pair.reviewedNonstartEditionRemovals ?? [] })
+    const sql = buildMergeSql(pair, slices[index], { reviewedEditionMappings: pair.reviewedEditionMappings ?? [], reviewedNonstartEditionRemovals: pair.reviewedNonstartEditionRemovals ?? [], reviewedInvalidCurationRemovals: pair.reviewedInvalidCurationRemovals ?? [], reviewedCurationResolutions: pair.reviewedCurationResolutions ?? [] })
     const match = /^\\set ON_ERROR_STOP on\r?\nBEGIN;\r?\n([\s\S]*)\r?\nCOMMIT;\r?\nSELECT 'MERGE_COMMITTED';\s*$/u.exec(sql)
     if (!match) throw Error('MERGE_BATCH_REVIEW: existing merge SQL envelope changed')
     const body = match[1]
@@ -98,6 +98,14 @@ function assertRows(table, expected, actual, { stripTimestamp = false } = {}) {
 /** Independent protected-row transforms plus the normal single-pair postconditions. */
 export function verifyReviewedMergePair(before, after, pair) {
   validateSnapshot(before); validateSnapshot(after)
+  const removedIds = new Set(validateReviewedInvalidCurationRemovals(pair, before, pair.reviewedInvalidCurationRemovals ?? []).map(row => row.id))
+  const curationResolutions = validateReviewedCurationResolutions(pair, before, pair.reviewedCurationResolutions ?? [])
+  if (curationResolutions.some(review => [review.keep.id,review.drop.id].some(id => removedIds.has(id)))) throw Error('MERGE_BATCH_READBACK: curation resolution/removal overlap')
+  const retainedCurations = before.celeb_contents.filter(row => !removedIds.has(row.id)
+    && !curationResolutions.some(review=>review.removePrivateDuplicate&&review.drop.id===row.id)).map(row => {
+    const review = curationResolutions.find(review => review.keep.id === row.id || review.drop.id === row.id)
+    return review ? { ...row, ...review.patch } : row
+  })
   if (after.contents.length !== 1 || after.contents[0].id !== pair.keep || after.contents[0].type !== 'BOOK') throw Error('MERGE_BATCH_READBACK: surviving BOOK mismatch ' + pair.keep)
   for (const table of REFERENCE_TABLES) if (after[table].some(row => row.content_id === pair.drop)) throw Error('MERGE_BATCH_READBACK: residual ' + table)
   for (const table of arrayTables) {
@@ -114,8 +122,20 @@ export function verifyReviewedMergePair(before, after, pair) {
   if (after.figure_book_products.length !== before.figure_book_products.length
     || !isDeepStrictEqual(before.figure_book_products.map(row => String(row.id)).sort(), after.figure_book_products.map(row => String(row.id)).sort())) throw Error('MERGE_BATCH_READBACK: product history lost')
   for (const [table, key] of [['celeb_contents', 'celeb_id'], ['figure_book_characters', 'celeb_id'], ['content_locales', 'locale']]) {
-    if (!isDeepStrictEqual([...new Set(before[table].map(row => row[key]))].sort(), after[table].map(row => row[key]).sort())) throw Error('MERGE_BATCH_READBACK: ' + table + ' relationships lost or duplicated')
+    const original = table === 'celeb_contents' ? retainedCurations : before[table]
+    if (!isDeepStrictEqual([...new Set(original.map(row => row[key]))].sort(), after[table].map(row => row[key]).sort())) throw Error('MERGE_BATCH_READBACK: ' + table + ' relationships lost or duplicated')
   }
+  // Independently preserve every retained curation field, not merely the set of celebrity IDs.
+  const expectedCurations = retainedCurations.filter(row => row.content_id === pair.keep).map(row => ({ ...row }))
+  const updatedCurationIds = new Set()
+  for (const row of retainedCurations.filter(row => row.content_id === pair.drop)) {
+    const keep = expectedCurations.find(keep => keep.celeb_id === row.celeb_id)
+    updatedCurationIds.add(keep?.id ?? row.id)
+    if (!keep) expectedCurations.push({ ...row, content_id: pair.keep })
+    else for (const key of ['review', 'review_en', 'source_url']) if (keep[key] == null || keep[key] === '') keep[key] = row[key]
+  }
+  const curationRows = rows => rows.map(row => updatedCurationIds.has(row.id) ? stripChangedTimestamp(row) : row)
+  assertRows('celeb_contents', curationRows(expectedCurations), curationRows(after.celeb_contents))
   const work = after.contents[0]
   for (const [field, count] of [['member_count', after.member_contents.length], ['celeb_count', after.celeb_contents.length], ['record_count', after.member_contents.length + after.celeb_contents.length]]) {
     if (Number(work[field]) !== count) throw Error('MERGE_BATCH_READBACK: counter ' + field)

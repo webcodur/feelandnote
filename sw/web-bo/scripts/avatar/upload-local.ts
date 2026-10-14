@@ -15,7 +15,7 @@
  *   --slug 는 확인용이다. DB 의 slug 와 다르면 올리지 않고 멈춘다.
  */
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import sharp from 'sharp'
 import { existsSync, readFileSync } from 'fs'
 import { resolve } from 'path'

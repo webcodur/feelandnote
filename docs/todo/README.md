@@ -9,7 +9,6 @@
 | [`web.md`](web.md) | 사용자 웹 구현·실화면 검수·Oracle 운영, 다국어 잔여, 해외 접속 지연 개선, Show GN·디스콰이엇 소개와 홍보 영상(보류) |
 | [`android-release.md`](android-release.md) | 안드로이드 앱 출시 — 사용자 결정 항목, 키스토어·AAB·Data Safety·비공개 테스트·실기기 QA |
 | [`sns-expansion.md`](sns-expansion.md) | SNS 멀티채널 확장 라이브 보드(시각 자료 `sns-expansion-plan.html`) |
-| [`atlas-seo-handoff.md`](atlas-seo-handoff.md) | 신화·세력도감 검색 제목·설명 개편(KIRO 인계) — 미커밋·미배포, 추천안 확정·접미사·그룹명·조사 버그 결정 대기 |
 
 ## 콘텐츠·제휴
 
@@ -18,16 +17,13 @@
 | [`coupang-links.md`](coupang-links.md) | 쿠팡 제휴 승인 확인·비도서 후보 상품 검증과 연결 |
 | [제휴 판매 운영](../project/operations/ops-03-affiliate-commerce.md) | 아마존 어소시에이트 잔여(수취계좌, 유효 판매 심사, 유튜브 태그 실사용, 백오피스 amazon 등록 UI, 싱가포르 가입 가능 여부 고객지원 답변과 OneLink 연결)는 규격 문서 안에 있다 |
 | [`video-review-audit-remainder.md`](video-review-audit-remainder.md) | 교정 대상 밖의 영상 리뷰 AI SLOP 정리와 기존 교정분 재검 |
-| [`figure-books-en-editions.md`](figure-books-en-editions.md) | 인물 도서 EN 판본 결손 — OL 검증 후 판본·카드 등록 |
-| [`content-data-integrity.md`](content-data-integrity.md) | BOOK 작품·판본의 실제 미처리 색인과 기존 등록 보류 |
 | [`oprah-interviews.md`](oprah-interviews.md) | 외부 인터뷰 감상배경 등록 미처리 |
-| [`celeb-locale-fallback.md`](celeb-locale-fallback.md) | 인물 서가 한영 판본 표시 잔여 — 전수 조사·배포 대기·데이터 보완 |
 
 ## 인물·신화·세력
 
 | 문서 | 작업 |
 |---|---|
-| [`celeb/README.md`](celeb/README.md) | 영향력·스펙트럼 잔여 검토, 문서 없이 남은 판단(판본 통합 쌍·각성모드·절판 잔여) |
+| [`celeb/README.md`](celeb/README.md) | 영향력·스펙트럼 잔여 검토, 문서 없이 남은 판단(판본 교정·통합 미확정·음원 메타·각성모드·절판 잔여) |
 | [`img/README.md`](img/README.md) | **이미지가 있어야 끝나는 일** — 아바타 정규화 미결분 |
 | [`myth.md`](myth.md) | 대응 신격 안내 자리·신 계보 공백 |
 | [`myth-handoff.md`](myth-handoff.md) | 신화의 세계 화면·데이터 구조 확장. 인물 누락·건국 전승 공개 판단은 `founding-myth.md` |
@@ -37,7 +33,6 @@
 | [`film-cast-system.md`](film-cast-system.md) | 영상·영화 인물 관계의 별도 시스템 구상 — 작품 엔티티 중심 감독-배우 라인, 도감은 실재 집단만 |
 | [`ai-faction-roster.md`](ai-faction-roster.md) | AI 테마 미등록·보류 후보 |
 | [`digital-resistance-roster.md`](digital-resistance-roster.md) | 디지털 레지스탕스·웹 개척자 미결 후보와 추가 배정 판단 |
-| [`faction-authoritarianism.md`](faction-authoritarianism.md) | 독재자들 — 신규 29명 공개 준비·이름 후보·컨셉 표지 |
 
 ## 영상·게임
 

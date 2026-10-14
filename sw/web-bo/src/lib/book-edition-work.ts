@@ -1,6 +1,9 @@
+import { excludedBookEditionReason, bookEditionTranslationKey } from '@feelandnote/content-search/book-edition-policy'
 import type { DatabaseClient } from '@feelandnote/db'
 import { normalizeBookIdentity } from '@feelandnote/content-search/external-book-input'
 import { equivalentIsbns, toIsbn13 } from '@feelandnote/content-search/book-isbn'
+import { requiresIndependentBookWorkReview } from '../../../../packages/content-search/src/book-work-risk'
+import { seriesVolumeInfo } from '@feelandnote/content-search/book-series'
 
 export interface OfficialEditionWork {
   contentId: string
@@ -8,6 +11,8 @@ export interface OfficialEditionWork {
   isbn: string
   title: string
   creator: string | null
+  translators?: string[]
+  publisher?: string | null
   sourceUrl: string
   workKey?: string | null
   workTitle?: string | null
@@ -22,10 +27,11 @@ function string(value: unknown): string { return typeof value === 'string' ? val
 function same(left: string, right: string): boolean {
   return !!left && !!right && normalizeBookIdentity(left) === normalizeBookIdentity(right)
 }
-function workKey(value: unknown): string | null {
-  const match = string(value).match(/(?:^|\/)(OL\d+W)(?:$|[/?#])/i)
+export function normalizeOpenLibraryWorkKey(value: unknown): string | null {
+  const match = string(value).replace(/^openlibrary:/i, '').match(/(?:^|\/)(OL\d+W)(?:$|[/?#])/i)
   return match ? '/works/' + match[1].toUpperCase() : null
 }
+const workKey = normalizeOpenLibraryWorkKey
 function independentSource(value: unknown): boolean {
   try {
     const url = new URL(string(value))
@@ -36,7 +42,82 @@ function sameIds(value: unknown, ids: string[]): boolean {
   return Array.isArray(value) && value.length === ids.length && new Set(value).size === value.length
     && value.every(id => typeof id === 'string' && ids.includes(id))
 }
+
+/** The audit and edition registration share the same current-owner checks for reviewed omnibuses. */
+export function omnibusOriginalsMatch(proof: Record<string, unknown>, contentId: string, textScope: string | null | undefined,
+  ownerWorks: Record<string, unknown>[], ownerCards: Record<string, unknown>[], ownerEditions: IsbnOwnerRow[]): boolean {
+  if (!Array.isArray(proof.contained_originals)) return false
+  return proof.contained_originals.map(object).every(item => {
+    const work = ownerWorks.find(row => row.id === item.content_id)
+    if (!work || work.type !== 'BOOK') return false
+    const meta = object(work.metadata), original = object(meta.figureBook)
+    const title = string(original.workTitle ?? meta.workTitle), creator = string(original.workCreator ?? meta.workCreator)
+    const identity = string(original.workIdentity)
+    const matchesOriginal = title && creator ? same(title, string(item.title)) && same(creator, string(item.creator))
+      : ownerCards.some(card => card.content_id === item.content_id && same(string(card.title), string(item.title)) && same(string(card.creator), string(item.creator)))
+    return !!identity && item.work_identity === identity && matchesOriginal && !!string(item.text_scope)
+      && (item.content_id !== contentId || (same(string(item.title), string(proof.original_title))
+        && same(string(item.creator), string(proof.original_creator)) && item.text_scope === textScope))
+      && ownerEditions.every(edition => edition.content_id !== item.content_id || !string(edition.text_scope) || edition.text_scope === item.text_scope)
+  })
+}
+
+export function verifiedOmnibusIsbn(isbn: string, ownerIds: string[], ownerWorks: Record<string, unknown>[],
+  ownerCards: Record<string, unknown>[], ownerEditions: Record<string, unknown>[]): boolean {
+  if (ownerIds.length < 2 || !sameIds(ownerWorks.map(row => row.id), ownerIds)) return false
+  if (new Set(ownerWorks.map(row => string(object(object(row.metadata).figureBook).workIdentity))).size !== ownerIds.length) return false
+  return ownerIds.every(contentId => {
+    const work = ownerWorks.find(row => row.id === contentId), figure = object(object(work?.metadata).figureBook)
+    const editions = ownerEditions.filter(row => row.content_id === contentId && toIsbn13(string(row.isbn)) === isbn)
+    if (!editions.length) return false
+    return editions.every(edition => {
+      const sources = object(edition.sources), proofs = [sources.work_attribution,
+        ...(Array.isArray(sources.edition_work_evidence) ? sources.edition_work_evidence : [])].map(object)
+      return proofs.some(p => p.method === 'independent_omnibus_review' && p.content_id === contentId
+        && p.locale === edition.locale && toIsbn13(string(p.isbn)) === isbn
+        && same(string(p.edition_title), string(edition.title)) && same(string(p.edition_creator), string(edition.creator))
+        && !!string(figure.workIdentity) && p.work_identity === figure.workIdentity
+        && same(string(p.original_title), string(figure.workTitle)) && same(string(p.original_creator), string(figure.workCreator))
+        && !!string(edition.edition_kind) && p.edition_kind === edition.edition_kind
+        && !!string(edition.text_scope) && p.text_scope === edition.text_scope
+        && Number.isFinite(Date.parse(string(p.reviewed_at))) && independentSource(p.source_url) && independentSource(p.toc_source_url)
+        && sameIds(p.owner_content_ids, ownerIds) && Array.isArray(p.contained_originals)
+        && sameIds(p.contained_originals.map(item => object(item).content_id), ownerIds)
+        && omnibusOriginalsMatch(p, contentId, string(edition.text_scope), ownerWorks, ownerCards, ownerEditions))
+    })
+  })
+}
 type IsbnOwnerRow = { id?: unknown; content_id?: unknown; isbn?: unknown; external_id?: unknown; text_scope?: unknown }
+
+/** 원어의 같은 전체 본문은 ISBN·출판사·판매 형식이 달라도 기존 대표 한 종을 쓴다. */
+export function assertDistinctOriginalBookText(input: OfficialEditionWork, figure: Record<string, unknown>, editions: Record<string, unknown>[]): void {
+  const excluded = excludedBookEditionReason({...input,reviewedSeries:!!(figure.series && typeof figure.series==='object' && 'sourceUrl' in figure.series && /^https:\/\//u.test(String(figure.series.sourceUrl))),workTitles:[figure.workTitle,figure.originalTitle].filter((value): value is string => typeof value==='string')})
+  if (excluded === 'nonstart_volume') throw new Error('시리즈는 시작권 하나를 대표로 등록합니다. 후속 권을 판본 선택지로 추가하지 않습니다')
+  if (excluded) throw new Error('축약본·요약본·학습용 리더는 서비스에 등록하지 않습니다')
+  const volume = seriesVolumeInfo(figure.series, { ...input, publisher: input.publisher ?? null,
+    editionKind: input.editionKind === 'full' ? null : input.editionKind ?? null, textScope: input.textScope ?? null,
+    translator: input.translators?.join(', ') ?? null })
+  if (volume && volume.number !== 1) throw new Error('시리즈는 시작권 하나를 대표로 등록합니다. 후속 권을 판본 선택지로 추가하지 않습니다')
+  const translation = bookEditionTranslationKey(input)
+  const sameTranslation = translation && editions.find(row => row.locale === input.locale
+    && bookEditionTranslationKey({ locale: String(row.locale), sources: row.sources }) === translation
+    && toIsbn13(string(row.isbn)) !== toIsbn13(input.isbn))
+  if (sameTranslation) throw new Error(`같은 번역은 대표 한 판본만 등록합니다. 기존 ISBN ${string(sameTranslation.isbn)}을 사용하세요`)
+  // 같은 ISBN의 현재 행을 수정하는 경우는 추가 등록이 아니다.
+  if (editions.some(row => row.locale === input.locale && toIsbn13(string(row.isbn)) === toIsbn13(input.isbn))) return
+  const originalLocale = figure.originalLanguage === input.locale && independentSource(figure.identityEvidence)
+  if (!originalLocale && editions.some(row => row.locale === input.locale
+    && (!translation || !bookEditionTranslationKey({ locale: String(row.locale), sources: row.sources })))) {
+    throw new Error('다른 판본을 추가하려면 기존 판본과 다른 역자를 확인해야 합니다. ISBN·출판사 차이는 상품 차이입니다')
+  }
+  if (!originalLocale || translation) return
+  const existing = editions.find(row => {
+    const translators = object(row.sources).translators
+    return row.locale === input.locale && same(string(row.creator), string(input.creator))
+      && !(Array.isArray(translators) && translators.length)
+  })
+  if (existing) throw new Error(`같은 원어 본문은 대표 한 종만 등록합니다. 기존 ISBN ${string(existing.isbn)}을 사용하세요`)
+}
 
 /** Fetch only digit-order candidates; normalize after lookup to reject unrelated subsequences. */
 async function sameIsbnOwners(db: DatabaseClient, table: 'contents' | 'content_locales' | 'figure_book_editions', isbn: string,
@@ -67,7 +148,7 @@ export async function verifyEditionWork(db: DatabaseClient, input: OfficialEditi
     db.from('contents').select('id,type,metadata').eq('id', input.contentId).maybeSingle(),
     db.from('figure_book_contents').select('content_id').eq('content_id', input.contentId).maybeSingle(),
     db.from('content_locales').select('locale,title,creator,isbn,sources').eq('content_id', input.contentId),
-    db.from('figure_book_editions').select('isbn,title,creator,sources').eq('content_id', input.contentId),
+    db.from('figure_book_editions').select('id,locale,isbn,title,creator,edition_kind,text_scope,sources').eq('content_id', input.contentId),
     sameIsbnOwners(db, 'contents', isbn, { excludeId: input.contentId }),
     sameIsbnOwners(db, 'content_locales', isbn, { excludeId: input.contentId }),
     sameIsbnOwners(db, 'figure_book_editions', isbn, { excludeId: input.contentId }),
@@ -81,6 +162,7 @@ export async function verifyEditionWork(db: DatabaseClient, input: OfficialEditi
   const collisionIds = [...new Set(collisions.flatMap((result, index) => result.data!.map(row => string(index === 0 ? object(row).id : object(row).content_id))))]
   if (collisionIds.includes('')) throw new Error('ISBN 소유 작품 ID를 확인할 수 없습니다')
   const metadata = object(contentResult.data.metadata), figure = object(metadata.figureBook)
+  assertDistinctOriginalBookText(input, figure, editionResult.data)
   const origin = { title: string(figure.workTitle ?? metadata.workTitle), creator: string(figure.workCreator ?? metadata.workCreator) }
   const anchors = localeResult.data.flatMap(row => {
     const title = string(row.title), creator = string(row.creator)
@@ -127,20 +209,7 @@ export async function verifyEditionWork(db: DatabaseClient, input: OfficialEditi
     if (!Array.isArray(works.data) || !Array.isArray(cards.data) || !Array.isArray(editions.data)
       || !sameIds(works.data.map(row => row.id), ownerIds)) throw new Error('합본의 모든 ISBN 소유 원전을 확인할 수 없습니다')
     const ownerWorks = works.data, ownerCards = cards.data, ownerEditions = editions.data
-    const contained = (omnibusProof.contained_originals as unknown[]).map(object)
-    const verified = contained.every(item => {
-      const work = ownerWorks.find(row => row.id === item.content_id)
-      if (!work || work.type !== 'BOOK') return false
-      const meta = object(work.metadata), original = object(meta.figureBook)
-      const title = string(original.workTitle ?? meta.workTitle), creator = string(original.workCreator ?? meta.workCreator)
-      const identity = string(original.workIdentity)
-      const matchesOriginal = title && creator ? same(title, string(item.title)) && same(creator, string(item.creator))
-        : ownerCards.some(card => card.content_id === item.content_id && same(string(card.title), string(item.title)) && same(string(card.creator), string(item.creator)))
-      return !!identity && item.work_identity === identity && matchesOriginal && !!string(item.text_scope)
-        && (item.content_id !== input.contentId || (same(string(item.title), string(omnibusProof.original_title))
-          && same(string(item.creator), string(omnibusProof.original_creator)) && item.text_scope === input.textScope))
-        && ownerEditions.every(edition => edition.content_id !== item.content_id || !string(edition.text_scope) || edition.text_scope === item.text_scope)
-    })
+    const verified = omnibusOriginalsMatch(omnibusProof, input.contentId, input.textScope, ownerWorks, ownerCards, ownerEditions)
     if (!verified) throw new Error('합본 목차의 수록 원전·전체 원저자·범위가 현재 서버 작품과 다릅니다')
     return { ...omnibusProof, official_source_url: input.sourceUrl, work_key: suppliedKey, checked_at: new Date().toISOString() }
   }
@@ -168,6 +237,11 @@ export async function verifyEditionWork(db: DatabaseClient, input: OfficialEditi
     // edition title needs a prior independent review stored on the server, never CLI input.
     const proof = proofs.find(candidate => candidate.method === 'independent_work_review' && matchesReview(candidate))
     if (!proof) throw new Error('ISBN 판본을 이 원전에 귀속할 근거가 없습니다. 제목이 다른 번역·분권은 해당 ISBN·전체 저자·범위의 독립 확인 근거를 서버에 먼저 보존하세요')
+    return { ...proof, official_source_url: input.sourceUrl, work_key: suppliedKey, checked_at: new Date().toISOString() }
+  }
+  if (requiresIndependentBookWorkReview(input.publisher)) {
+    const proof = proofs.find(candidate => candidate.method === 'independent_work_review' && matchesReview(candidate))
+    if (!proof) throw new Error('학습 안내서 출판사의 ISBN은 원전 ID·제목이 같아도 독립 저작 확인 근거가 필요합니다')
     return { ...proof, official_source_url: input.sourceUrl, work_key: suppliedKey, checked_at: new Date().toISOString() }
   }
   const matched = originalMatch ?? editionMatch!

@@ -20,7 +20,7 @@
  *
  * 재실행 안전 — celeb-drafts.json 에 이미 있는 인물은 건너뛴다.
  */
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@feelandnote/db';
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';

@@ -23,8 +23,10 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { isAbsolute, join, resolve } from 'node:path'
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { NARRATION_PAUSES } from '@feelandnote/shared/bo/voice-cleanup'
 import { revalidateWebCeleb } from '../../src/lib/revalidate-web'
 import { buildReadingTiming, publishReadingTiming } from './reading-voice-timing.mjs'
+import { restoreNarrationBundle } from './reading-voice.mjs'
 
 const OBJECT_NAME = 'vmonologue'
 const AUDIO_FILE = `${OBJECT_NAME}.mp3`
@@ -52,7 +54,7 @@ function requireEnv(name: string): string {
   return value
 }
 
-function parseArgs(): { runDir: string; apply: boolean } {
+function parseArgs(): { runDir: string; apply: boolean; missingOnly: boolean } {
   const args = process.argv.slice(2)
   const runIndex = args.indexOf('--run')
   if (runIndex < 0 || !args[runIndex + 1]) {
@@ -60,7 +62,7 @@ function parseArgs(): { runDir: string; apply: boolean } {
   }
   const runDir = resolve(args[runIndex + 1])
   if (!isAbsolute(runDir)) throw new Error('--run must resolve to an absolute path')
-  return { runDir, apply: args.includes('--apply') }
+  return { runDir, apply: args.includes('--apply'), missingOnly:args.includes('--missing-only') }
 }
 
 const sha256 = (value: Buffer | string) => createHash('sha256').update(value).digest('hex')
@@ -83,13 +85,13 @@ function isMissingObject(error: unknown): boolean {
 }
 
 async function main(): Promise<void> {
-  const { runDir, apply } = parseArgs()
+  const { runDir, apply, missingOnly } = parseArgs()
   const manifest = JSON.parse(await readFile(join(runDir, 'manifest.json'), 'utf8')) as MonologueManifest
   if (manifest.schemaVersion !== 1 || manifest.mode !== 'monologue') throw new Error('Not a monologue manifest')
   if (!['ko', 'en'].includes(manifest.locale)) throw new Error('Invalid manifest locale')
   if (!manifest.celeb?.id || !manifest.celeb.slug || !manifest.voiceId) throw new Error('Manifest celeb identity or voiceId is missing')
   if (manifest.status !== 'passed') throw new Error(`Manifest is not QC-passed: status=${manifest.status}`)
-  if (!manifest.qc?.ok && manifest.qc?.verdict !== 'passed-paragraph-gaps') {
+  if (!manifest.qc?.ok || manifest.qc.status !== 'passed') {
     throw new Error(`QC verdict is not publishable: ${manifest.qc?.verdict ?? manifest.qc?.status}`)
   }
   if (!manifest.source?.sha256 || !manifest.source.paragraphs || manifest.source.paragraphs < 1) {
@@ -109,6 +111,11 @@ async function main(): Promise<void> {
   if (paragraphCount !== manifest.source.paragraphs) throw new Error('source.txt paragraph count changed')
 
   const qcResult = JSON.parse(await readFile(join(runDir, manifest.qc.resultFile ?? QC_RESULT_FILE), 'utf8'))
+  if (!qcResult.ok || qcResult.status !== 'passed' || resolve(qcResult.audio ?? '') !== resolve(audioPath)
+    || qcResult.spacing?.sentenceGapSeconds !== NARRATION_PAUSES.sentenceGapSeconds
+    || qcResult.spacing?.paragraphGapSeconds !== NARRATION_PAUSES.paragraphGapSeconds) {
+    throw new Error('Final MP3 needs QC with the current narration spacing policy')
+  }
   const words = qcResult.words
   const duration = qcResult.metrics?.duration
   if (!Array.isArray(words) || !words.length || !Number.isFinite(duration) || duration <= 0) {
@@ -120,7 +127,7 @@ async function main(): Promise<void> {
   })
   const { data: celeb, error: celebError } = await db
     .from('celebs')
-    .select('id, slug, nickname, voice_id_ko, voice_id_en, voice_v, has_voice, virtual_monologue, virtual_monologue_en')
+    .select('id, slug, nickname, voice_id_ko, voice_id_en, voice_v, virtual_monologue, virtual_monologue_en')
     .eq('id', manifest.celeb.id)
     .maybeSingle()
   if (celebError) throw new Error(`Failed to read celeb: ${celebError.message}`)
@@ -155,6 +162,7 @@ async function main(): Promise<void> {
     duration,
     words,
   })
+  if (prepared.rejected.length || prepared.timing.segments.length !== prepared.sentences) throw new Error('Incomplete sentence timings; service audio was preserved')
   const preflight = {
     runDirectory: runDir,
     celebId: celeb.id,
@@ -174,18 +182,19 @@ async function main(): Promise<void> {
     console.log(JSON.stringify({ ...preflight, status: 'ready' }, null, 2))
     return
   }
-  if (!prepared.timing.segments.length) throw new Error('No confidently aligned sentences for timing')
-
   const stamp = new Date().toISOString().replace(/[:.]/g, '-')
   const backupDir = join(runDir, '_backup', `production-before-${stamp}`)
   await mkdir(backupDir, { recursive: true })
-  const previous: { key: string; fileName: string; body: Buffer | null; contentType?: string; cacheControl?: string }[] = []
+  const previous: { key: string; fileName: string; body: Buffer | null; contentType?: string; cacheControl?: string; metadata?:Record<string,string>; etag?:string }[] = []
   for (const fileName of [AUDIO_FILE, TIMING_FILE]) {
     const key = voiceKey(celeb.id, manifest.locale, fileName)
     try {
       const response = await r2.send(new GetObjectCommand({ Bucket: bucket, Key: key }))
       const body = await streamToBuffer(response.Body)
-      previous.push({ key, fileName, body, contentType: response.ContentType, cacheControl: response.CacheControl })
+      if (missingOnly && fileName === AUDIO_FILE && sha256(body) !== audioHash) {
+        console.log(JSON.stringify({...preflight,status:'skipped-existing'})); r2.destroy(); return
+      }
+      previous.push({ key, fileName, body, contentType: response.ContentType, cacheControl: response.CacheControl, metadata:response.Metadata,etag:response.ETag })
       await writeFile(join(backupDir, fileName), body)
     } catch (error) {
       if (!isMissingObject(error)) throw error
@@ -212,12 +221,14 @@ async function main(): Promise<void> {
   }
 
   const audioKey = voiceKey(celeb.id, manifest.locale, AUDIO_FILE)
+  const previousAudio = previous.find(x=>x.fileName===AUDIO_FILE)
   let versionUpdateStarted = false
   try {
     await r2.send(new PutObjectCommand({
       Bucket: bucket, Key: audioKey, Body: audio, ContentType: 'audio/mpeg',
       CacheControl: 'public, max-age=31536000, immutable',
       Metadata: { 'source-sha256': manifest.source.sha256, 'audio-sha256': audioHash },
+      ...(missingOnly ? previousAudio?.body ? {IfMatch:previousAudio.etag} : {IfNoneMatch:'*'} : {}),
     }))
     const head = await r2.send(new HeadObjectCommand({ Bucket: bucket, Key: audioKey }))
     if (head.ContentLength !== audio.length) throw new Error('R2 audio size verification failed')
@@ -236,7 +247,7 @@ async function main(): Promise<void> {
       const { data: current, error: readError } = await db.from('celebs').select('voice_v').eq('id', celeb.id).single()
       if (readError) throw new Error(`voice_v recheck failed: ${readError.message}`)
       version = (current?.voice_v ?? 0) + 1
-      let query = db.from('celebs').update({ voice_v: version, has_voice: true }).eq('id', celeb.id)
+      let query = db.from('celebs').update({ voice_v: version }).eq('id', celeb.id)
       query = current?.voice_v == null ? query.is('voice_v', null) : query.eq('voice_v', current.voice_v)
       versionUpdateStarted = true
       const { data, error } = await query.select('voice_v')
@@ -271,7 +282,21 @@ async function main(): Promise<void> {
     await writeFile(join(runDir, 'publish.json'), `${JSON.stringify(report, null, 2)}\n`, 'utf8')
     console.log(JSON.stringify(report, null, 2))
   } catch (error) {
-    if (!versionUpdateStarted) await restorePrevious()
+    if (missingOnly && (error as {$metadata?:{httpStatusCode?:number}}).$metadata?.httpStatusCode === 412) {
+      console.log(JSON.stringify({...preflight,status:'skipped-existing'})); r2.destroy(); return
+    }
+    if (!versionUpdateStarted) {
+      if (missingOnly) {
+        const send = (command: HeadObjectCommand | GetObjectCommand | PutObjectCommand | DeleteObjectCommand) => r2.send(command)
+        const get = async (key:string) => {
+          try {const object = await r2.send(new GetObjectCommand({Bucket:bucket,Key:key}));return {body:await streamToBuffer(object.Body),etag:object.ETag,metadata:object.Metadata,contentType:object.ContentType,cacheControl:object.CacheControl}}
+          catch (failure) {if(isMissingObject(failure))return null;throw failure}
+        }
+        await restoreNarrationBundle(send,get,bucket,audioKey,
+          previous.find(x=>x.fileName===AUDIO_FILE)?.body ? previous.find(x=>x.fileName===AUDIO_FILE) : null,
+          previous.find(x=>x.fileName===TIMING_FILE)?.body ? previous.find(x=>x.fileName===TIMING_FILE) : null,audioHash)
+      } else await restorePrevious()
+    }
     await writeFile(join(runDir, 'publish-failed.json'), `${JSON.stringify({
       ...preflight, status: 'failed', failedAt: new Date().toISOString(),
       r2Restored: !versionUpdateStarted, backupDirectory: backupDir,

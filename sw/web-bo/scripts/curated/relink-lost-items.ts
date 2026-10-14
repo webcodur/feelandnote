@@ -15,7 +15,7 @@
  *   npx tsx scripts/curated/relink-lost-items.ts --lost <path>          # 점검만
  *   npx tsx scripts/curated/relink-lost-items.ts --lost <path> --yes    # 반영
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { appendFileSync, existsSync, readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
 import { REPO_ROOT } from '../lib/paths'

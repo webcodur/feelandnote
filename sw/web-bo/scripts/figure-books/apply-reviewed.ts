@@ -8,7 +8,7 @@
 
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
 import {
   CACHE_TAGS,
   type CacheItemTarget,
@@ -134,7 +134,7 @@ function parseReviews(document: unknown): Review[] {
       if (contentIds.has(contentId)) throw new Error(`${slug}에 같은 contentId가 중복됩니다: ${contentId}`)
       contentIds.add(contentId)
       const relationType = text(selection.relationType, `${slug}.${contentId}.relationType`)
-      if (relationType !== 'appearance' && relationType !== 'related' && relationType !== 'authored') {
+      if (relationType !== 'appearance' && relationType !== 'authored') {
         throw new Error(`${slug}.${contentId}: 지원하지 않는 관계입니다.`)
       }
       const description = parseFigureBookRelationDescription(selection.description, `${slug}.${contentId}.description`)
@@ -153,7 +153,7 @@ function parseReviews(document: unknown): Review[] {
 }
 
 async function loadRows(
-  client: SupabaseClient,
+  client: DatabaseClient,
   contentId: string,
 ): Promise<FigureBookCharacterRow[]> {
   const { data, error } = await client

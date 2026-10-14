@@ -47,11 +47,11 @@ function NavItem({ href, active, icon, label, onNavigate }: NavItemProps) {
   );
 }
 
-export default function BottomNav() {
+export default function BottomNav({ navigationHref }: { navigationHref?: string } = {}) {
   const pathname = usePathname();
   const t = useTranslations("nav");
   const isNarrow = useMediaQuery(MEDIA_BELOW_SIDE_RAIL);
-  const activeHref = activeNavigationHref(pathname);
+  const activeHref = navigationHref ?? activeNavigationHref(pathname);
   const navigateToTop = useNavigationToTop();
 
   const frameRef = useRef<HTMLDivElement>(null);

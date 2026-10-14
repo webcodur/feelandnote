@@ -16,7 +16,7 @@
  * 파일명은 <정렬번호>-<slug>.webp 다. 뒤 단계(light-unify·reframe·upload-reframed)가 이 이름에서 slug를 읽는다.
  * 팩션은 faction_members.sort_order, 그 외는 100 단위 순번을 쓴다. 같은 폴더의 _manifest.json에 대상·URL을 남긴다.
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { readFileSync, writeFileSync, mkdirSync } from 'fs'
 import { resolve, dirname, extname } from 'path'
 import { fileURLToPath } from 'url'

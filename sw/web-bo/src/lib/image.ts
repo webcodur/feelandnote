@@ -2,6 +2,7 @@
 
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
 import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
+import { CELEB_AWAKENED_IMAGE_SPEC } from './celeb-awakened-image'
 
 // quality — 이 프로그램에서 그림을 압축하는 마지막 지점이다. 앞 단계(크롭)는 무손실로 넘어온다.
 // 아바타 품질은 docs/project/celeb/celeb-08-01-avatar.md의 SSoT 경계에 따라 등록 경로와 맞춘다.
@@ -11,7 +12,11 @@ const IMAGE_SIZES = {
     height: CELEB_AVATAR_ORIGINAL.sizePx,
     quality: CELEB_AVATAR_ORIGINAL.webpQuality / 100,
   },
-  awakened: { width: 1080, height: 1080, quality: 0.88 },  // 1:1 정사각 (대표 사진과 독립된 각성 이미지)
+  awakened: {
+    width: CELEB_AWAKENED_IMAGE_SPEC.storageWidthPx,
+    height: CELEB_AWAKENED_IMAGE_SPEC.storageHeightPx,
+    quality: 0.88,
+  },
   faction: { width: 1080, height: 1080, quality: 0.85 },  // 1:1 정사각 (세력도감 단체샷·전용 화보)
 } as const
 

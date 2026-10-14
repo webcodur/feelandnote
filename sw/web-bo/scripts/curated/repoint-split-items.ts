@@ -16,7 +16,7 @@
  *   npx tsx scripts/curated/repoint-split-items.ts --yes    # 실제 반영
  *   npx tsx scripts/curated/repoint-split-items.ts --revert  # 백업으로 되돌리기
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { REPO_ROOT, scriptsPath } from '../lib/paths'

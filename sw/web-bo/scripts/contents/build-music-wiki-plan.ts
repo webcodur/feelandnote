@@ -3,14 +3,14 @@
  *  ko 행은 ko 위키 직접 명중만 provider로, 나머지는 번역 큐(music-wiki/translate-queue.json)로 뺀다. */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 const DIR = resolve('../../data/celeb/book-introductions/music-wiki')
 const stripHtml = (s: string) => s.replace(/<[^>]*>/g, '').replace(/&quot;/g, '"').replace(/&#39;|&rsquo;|&lsquo;/g, "'")
   .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&ndash;|&mdash;/g, '–').replace(/&[a-z]+;/gi, ' ').replace(/\s+/g, ' ').trim()
 const cutSentence = (s: string) => {
   if (s.length <= 1500) return s
-  const m = s.slice(0, 1500).match(/.*[.!?…](?=\s|$)/s)
+  const m = s.slice(0, 1500).match(/[\s\S]*[.!?…](?=\s|$)/)
   return (m ? m[0] : s.slice(0, 1500)).trim()
 }
 

@@ -106,6 +106,94 @@ test('independent exact-ISBN review completes omitted co-translator credits with
  const conflict=structuredClone(before);conflict.figure_book_editions[1].sources.translators=['Other translator']
  assert.throws(()=>planReviewedEditionConsolidation(conflict,[{...mapping,reviewedTranslatorCompletion:{...completion,dropBeforeTranslators:['Other translator']}}]),/translator completion/)
 })
+function jointCreditFixture(){
+ const before=fixture(),[keep,drop]=before.figure_book_editions
+ before.contents[0].metadata.figureBook={workTitle:'Memories Dreams Reflections',workCreator:'Carl Jung',workIdentity:'carl-jung/memories-dreams-reflections'}
+ for(const row of [keep,drop])Object.assign(row,{title:'Memories, Dreams, Reflections',creator:'Carl Gustav Jung',edition_kind:null,text_scope:null})
+ keep.isbn='9780679723950';drop.isbn='9780006540274'
+ keep.sources.translators=['Richard and Clara Winston'];drop.sources.translators=['Richard Winston','Clara Winston']
+ keep.description='Carl Gustav Jung recounts his memories and dreams, working with Aniela Jaffé to prepare a memoir of his inner life. The selected US edition is corrected and includes the additional VII Sermones ad Mortuos.'
+ drop.description='The UK edition presents the memoir and its listed appendices, with a different publisher introduction.'
+ keep.sources.description='https://publisher.example/us-introduction';drop.sources.description='https://publisher.example/uk-introduction'
+ before.figure_book_products=before.figure_book_products.filter(row=>row.edition_id===keep.id)
+ Object.assign(before.content_locales[0],{isbn:keep.isbn,description:keep.description,sources:structuredClone(keep.sources)})
+ const keepSourceUrl='https://publisher.example/us-isbn',dropSourceUrl='https://publisher.example/uk-isbn',translators=['Richard Winston','Clara Winston']
+ const source=(row,sourceUrl)=>({llmReviewed:true,isbn:row.isbn,editionTitle:row.title,editionCreator:row.creator,locale:row.locale,
+  sourceUrl,creditedTranslators:translators,creditEvidence:'The exact title page separately identifies Richard Winston and Clara Winston as the English translators.',
+  bodyEvidence:'The independently read book discusses Jung’s childhood, Freud, the unconscious, travels and visions through his memoir.',
+  scopeEvidence:row===keep?'The corrected US edition includes an additional VII Sermones ad Mortuos; this is a revised representative.':'The UK preview lists twelve chapters, Retrospect and its appendices; it does not list the additional VII separately.'})
+ const mapping={...review,keepIsbn:keep.isbn,dropIsbn:drop.isbn,textIdentity:'translation',sourceUrl:keepSourceUrl,
+  reason:'The actual two translators are the same; choose the corrected US memoir as representative while respecting differences in its additional material.',
+  reviewedRepresentativeIntroduction:{method:'independent_representative_introduction',locale:'en',keepBeforeDescription:keep.description,
+   dropBeforeDescription:drop.description,keepBeforeSource:keep.sources.description,dropBeforeSource:drop.sources.description,
+   keepSourceUrl,dropSourceUrl,reason:'The LLM independently read both ISBN introductions and chooses the normal US representative without claiming identical appendix scope.'},
+  reviewedJointTranslatorCreditAlias:{method:'independent_joint_translator_credit_alias_review',llmReviewed:true,
+   originalWork:structuredClone(before.contents[0]),keepEdition:structuredClone(keep),dropEdition:structuredClone(drop),translators,
+   keepReview:source(keep,keepSourceUrl),dropReview:source(drop,dropSourceUrl),identicalBody:false,editionRelationship:'revised_same_translation',
+   editionDifferences:'The corrected US edition includes VII Sermones ad Mortuos; the UK contents list differs. Credit normalization establishes no identical body scope.',
+   reason:'Both independently read title pages identify exactly Richard Winston and Clara Winston; the shared surname in the joint credit belongs to both people.'}}
+ return {before,mapping}
+}
+
+test('공동역자 alias 검수는 정확한 두 역자만 정규화하고 개정판 수록범위·소개·13표를 그대로 보존한다',()=>{
+ const {before,mapping}=jointCreditFixture(),original=structuredClone(before)
+ assert.throws(()=>planReviewedEditionConsolidation(before,[{...mapping,reviewedJointTranslatorCreditAlias:undefined}]),/translator conflict/)
+ const plan=planReviewedEditionConsolidation(before,[mapping]),keep=plan.expected.figure_book_editions[0]
+ assert.deepEqual(keep.sources.translators,['Richard Winston','Clara Winston']);assert.equal(keep.text_scope,null);assert.equal(keep.edition_kind,null)
+ assert.equal(keep.description,before.figure_book_editions[0].description);assert.equal(keep.sources.description,before.figure_book_editions[0].sources.description)
+ assert.deepEqual(before,original)
+ for(const table of SNAPSHOT_TABLES.filter(t=>!['figure_book_editions'].includes(t)))assert.deepEqual(plan.expected[table],before[table],table)
+ assert.ok(!JSON.stringify(keep.sources).includes('joint_translator_credit_alias'));assert.ok(!JSON.stringify(keep.sources).includes('keepEdition'))
+ assert.equal(keep.sources.edition_work_evidence.at(-1).scope_source_urls,undefined)
+ const sql=buildReviewedEditionConsolidationSql(before,[mapping])
+ assert.ok(sql.indexOf('DELETE FROM public.figure_book_editions')<sql.indexOf('UPDATE public.figure_book_editions SET sources'))
+ for(const table of SNAPSHOT_TABLES)assert.ok(sql.includes('rowset mismatch in '+table),table)
+ assert.ok(!sql.includes('DISABLE TRIGGER'))
+})
+
+test('공동역자 alias는 오래된 원작·실물 행, 제3역자, 다른 책임표시, 근거 없는 본문동등성 및 상품이력을 거부한다',()=>{
+ for(const mutate of [
+  p=>p.llmReviewed=false,p=>p.originalWork.metadata.figureBook.workIdentity='other',
+  p=>p.keepEdition.publisher='Other publisher',p=>p.dropEdition.isbn='9780140449136',
+  p=>p.translators.push('Aniela Jaffé'),p=>p.translators=['Richard Winston','Other Winston'],
+  p=>p.keepReview.sourceUrl='https://openlibrary.org/books/OL1M',p=>p.dropReview.sourceUrl=p.keepReview.sourceUrl,
+  p=>p.dropReview.isbn='9780007381630',p=>p.keepReview.creditEvidence='Surname matches',
+  p=>p.dropReview.bodyEvidence='',p=>p.dropReview.scopeEvidence='',p=>p.identicalBody=true,
+  p=>p.editionDifferences='',p=>p.editionRelationship='identical_body',
+ ]){
+  const {before,mapping}=jointCreditFixture();mutate(mapping.reviewedJointTranslatorCreditAlias)
+  assert.throws(()=>planReviewedEditionConsolidation(before,[mapping]),/joint credit alias/)
+ }
+ for(const mutate of [
+  (d,r)=>{d.figure_book_editions[0].sources.translators=['Jane and Clara Winston'];r.reviewedJointTranslatorCreditAlias.keepEdition=structuredClone(d.figure_book_editions[0])},
+  (d,r)=>r.reviewedTranslatorCompletion={method:'independent_translator_completion'},
+  (d,r)=>r.reviewedScopeEquivalence={method:'independent_same_body_scope'},
+  (d,r)=>delete r.reviewedRepresentativeIntroduction,
+  (d,r)=>d.figure_book_products.push({id:22,edition_id:2,is_active:false}),
+ ]){
+  const {before,mapping}=jointCreditFixture();mutate(before,mapping)
+  assert.throws(()=>planReviewedEditionConsolidation(before,[mapping]),/EDITION_REVIEW/)
+ }
+ const {before,mapping}=jointCreditFixture();before.figure_book_editions[1].text_scope='UK appendix scope'
+ mapping.reviewedJointTranslatorCreditAlias.dropEdition=structuredClone(before.figure_book_editions[1])
+ before.figure_book_editions[0].text_scope='US corrected edition with VII'
+ mapping.reviewedJointTranslatorCreditAlias.keepEdition=structuredClone(before.figure_book_editions[0])
+ assert.throws(()=>planReviewedEditionConsolidation(before,[mapping]),/known text scope conflict/)
+})
+
+test('공동역자 정규화도 실제 18표 재조회와 보존한 상품·감상·표시카드의 불변을 요구한다',async()=>{
+ for(const drift of ['none','review','product','card','scope']){
+  const {before,mapping}=jointCreditFixture(),after=structuredClone(planReviewedEditionConsolidation(before,[mapping]).expected)
+  if(drift==='review')after.celeb_contents[0].review='Changed reading scope'
+  if(drift==='product')after.figure_book_products[0].affiliate_url='https://shop.example/changed'
+  if(drift==='card')after.content_locales[0].description='Changed original introduction'
+  if(drift==='scope')after.figure_book_editions[0].text_scope='complete'
+  let count=0
+  const run=()=>applyReviewedEditionConsolidation(null,[mapping],{capture:async()=>structuredClone(count++?after:before),execute:()=>({status:0,stdout:'MERGE_COMMITTED',stderr:''})})
+  if(drift==='none')assert.equal((await run()).checkedTables,18);else await assert.rejects(run,/readback mismatch/)
+ }
+})
+
 test('the same source-reviewed translation preserves known duplicate credits without inventing unknown translators', () => {
   const before = fixture(); before.figure_book_editions[1].sources.translators = ['Known Translator']
   const plan = planReviewedEditionConsolidation(before, [{ ...review, textIdentity: 'translation' }])

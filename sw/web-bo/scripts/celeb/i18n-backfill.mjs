@@ -11,7 +11,7 @@
  *   node scripts/backfill-celeb-i18n.mjs --apply --limit 20
  */
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@feelandnote/db";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawn, execSync } from "node:child_process";
 import { resolve } from "node:path";

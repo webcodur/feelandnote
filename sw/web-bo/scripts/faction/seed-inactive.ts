@@ -28,7 +28,7 @@
 
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
 import { findCelebDuplicates } from '@feelandnote/shared/lib/celeb-identity'
 import { assertRouteSafeCelebSlug, previewGeneratedCelebSlug } from '../../src/lib/celeb-slug'
 import {

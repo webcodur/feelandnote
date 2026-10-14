@@ -1,9 +1,8 @@
 /**
  * inactive 셀럽을 active 로 전환한다.
  *
- * 판정은 docs/project/celeb/celeb-00-01-pipeline.md 「최소 필수 조건」 아홉 가지만 본다.
- * 그 문서가 화면 실측으로 세운 조건이며, 없으면 인물 상세의 어느 자리가 비는지
- * 근거가 붙어 있다. 02~07 구획은 자료가 없으면 목차와 함께 숨으므로 조건이 아니다.
+ * 공개 요건의 정본은 docs/project/celeb/celeb-00-02-active-requirements.md다.
+ * 이 스크립트의 기존 판정은 그 요건과 일치하지 않으므로, 실행 결과로 충족 여부를 대신하지 않는다.
  *
  * 기본 dry-run. --apply 로 실제 전환한다.
  */

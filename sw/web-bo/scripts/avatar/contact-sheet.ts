@@ -31,7 +31,7 @@
  * 판정하는 법은 SSoT §5.2·§5.3 을 따른다. 특히 기계가 못 보는 것들을 본다.
  */
 import sharp from 'sharp'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { AVATAR_SPEC } from '../../src/lib/avatar-geometry'

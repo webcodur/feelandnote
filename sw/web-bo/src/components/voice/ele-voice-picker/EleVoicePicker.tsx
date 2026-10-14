@@ -335,7 +335,7 @@ export function EleVoicePicker({
           {age && <span className="shrink-0 text-[9px] text-slate-400">{facetValueLabel(age)}</span>}
           {v.account && (
             <span className={`shrink-0 rounded px-1 text-[9px] font-bold ${
-              v.account.id === 'default'
+              v.account.id === 'webcodur'
                 ? 'bg-slate-100 text-slate-500'
                 : 'bg-amber-100 text-amber-700'
             }`} title={`ElevenLabs 계정: ${v.account.label}`}>{v.account.label}</span>

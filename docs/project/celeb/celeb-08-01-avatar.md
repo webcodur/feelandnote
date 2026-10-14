@@ -9,6 +9,7 @@
 | 1차 크롭 목표·허용 범위 | `sw/web-bo/src/lib/avatar-geometry.ts`의 `AVATAR_SPEC` |
 | 정규화 최종 규격(구도·빛 방향) | 같은 파일의 `AVATAR_SILHOUETTE_SPEC`·`AVATAR_LIGHT_SPEC` |
 | 대·중·소 파일명, 출력 크기·품질, 해상도 선택 기준 | `packages/shared/src/constants/celeb-avatar-small.ts` |
+| 중·소의 축소 방식과 기존 파일 재생성 | `sw/web-bo/src/lib/avatar-small.ts`, `sw/web-bo/scripts/avatar/refresh-variants.ts` |
 | 사용자 웹의 실제 칸 크기·화면 배율 측정과 중·소 실패 시 원본 복귀 | `sw/web/src/hooks/useCelebAvatarSrc.ts`, `sw/web/src/lib/celeb/avatar-size-observer.ts` |
 | 등록·신원 근거·R2·DB 갱신 | `.agents/skills/celeb-avatar-register/SKILL.md` |
 | 정규화 실행·전수 작업 | `.agents/skills/celeb-avatar-reframe/SKILL.md` |
@@ -20,12 +21,15 @@
 
 기존 원본을 보존하고 중간 파일만 추가하는 실행점은 `sw/web-bo`의 `pnpm avatar:md`다. 기본은 대상 조회이며 `--slugs <쉼표 목록>`·`--limit <건수>`로 좁힌다. `--preview <새 폴더>`는 원본·축소본·비교 이미지를 로컬에 만들고, 등록 지시 뒤 `--execute --log <JSONL 경로>`로 반영한다. 기존 중간 파일은 재다운로드 검증만 하며 덮어쓰지 않는다. 화면 선택 회귀 검사는 `node sw/web/scripts/check-celeb-avatar-sizing.mjs`가 담당한다.
 
+기존 중·소까지 새 축소 방식으로 교체할 때는 `sw/web-bo`에서 `node --import tsx scripts/avatar/refresh-variants.ts`를 사용한다. 기본은 공개 인물의 dry-run이며 `--slugs`·`--limit`·`--preview`로 검수 대상을 좁힌다. 등록 지시 뒤 `--execute --log <임시 JSONL 경로>`로 누락 생성과 기존 파일 교체를 함께 처리하고, `--verify`로 재조회한다. 원본을 읽기만 하며 파생 파일의 크기·투명도·재다운로드 체크섬을 검증한 뒤 새 URL 버전을 공개한다. 원본·DB 주소·파생 파일이 다른 작업에서 바뀌면 충돌로 남긴다. 중단 후에는 `--resume-log`로 현재 DB 주소와 완료 기록이 일치하는 인물을 제외하고 이어간다.
+
 ## 신원
 
 구도보다 먼저 해당 인물인지 확인한다.
 
 - 사진이 남은 실존 인물은 본인·소속기관·권위 매체의 사진과 얼굴을 대조한다.
-- 사진이 없는 고대·역사 인물은 해당 인물을 위해 만든 제작본을 사용할 수 있다. 명명 초상이 없다는 이유만으로 결함 처리하지 않는다.
+- 본인 사진을 확보하지 못한 근대 이전 인물은 그 인물의 얼굴을 생성·복원한 제작본을 사용할 수 있다. 명명 초상이 없다는 이유만으로 결함 처리하지 않는다.
+- 본인 사진을 확보하지 못한 근현대 인물은 얼굴을 추정 생성하지 않는다. 실루엣 작업의 승인과 표현 범위는 아래 「얼굴이 공개되지 않은 인물」을 따른다.
 - 제작본은 QID와 프로필 신원, 시대·복식, 다른 인물용 얼굴의 재사용 여부를 확인한다.
 - fiction은 원전·세력도감 명단으로 인물을 특정하고 다른 캐릭터의 얼굴을 돌려쓰지 않는다.
 - 아바타와 대표 사진이 모두 있으면 나란히 보고 같은 인물인지 확인한다.
@@ -58,7 +62,9 @@
 
 ## 얼굴이 공개되지 않은 인물
 
-신원이 공개되지 않아 실제 얼굴 자체가 없는 인물은 눈·턱 기하의 대상이 아니다. 임의의 실존 얼굴을 만들지 않고 후드·복면처럼 익명성 자체를 형상화할 수 있다.
+신원이 공개되지 않아 실제 얼굴 자체가 없는 인물은 눈·턱 기하의 대상이 아니다. 임의의 실존 얼굴을 만들지 않는다. 실루엣·후드·복면처럼 익명성을 형상화하는 생성·수정·서비스 반영은 사용자가 실루엣 작업을 명시적으로 승인했을 때만 한다. 대량 제작이나 전체 완수 지시를 실루엣 승인으로 해석하지 않는다.
+
+승인된 실루엣은 얼굴만 가리지 않고 머리·몸·복식 전체를 실루엣으로 처리한다.
 
 이 경우에도 정면, 한 명, 소품·글자 없음, 작은 원형에서의 식별성은 지킨다. 자동 얼굴 검출을 통과한 척하지 않고 스킬의 명시적 무얼굴 경로 또는 관리자 수동 크롭을 사용한다.
 
@@ -86,9 +92,9 @@
 
 회화·도상을 참조해 새 이미지를 만들 때는 회화 양식을 복제하지 않게 하고, 기록으로 확인되는 나이·체형·수염·복식을 개별 지정한다. 사진이 남은 인물은 실제 사진을 우선한다. 유료 이미지 생성은 사용자가 명시한 뒤에만 실행한다.
 
-## 생성 아바타 배치 — 아바타 없는 근현대 인물
+## 생성 아바타 배치 — 사진 없는 근대 이전 인물
 
-사진이 남지 않거나 쓸 만한 얼굴이 없는 실존 근현대 인물은 씨앗 이미지를 참조로 실사 스튜디오 헤드숏을 생성해 등록한다. 배치 작업 자료는 임시 데이터 폴더에 두고 등록·검수 후 폐기한다. 현재 아바타 주소의 정본은 DB의 `celebs.avatar_url`이다.
+사진이 남지 않거나 쓸 만한 얼굴이 없는 근대 이전 인물은 씨앗 이미지를 참조로 실사 스튜디오 헤드숏을 생성·복원해 등록한다. 배치 작업 자료는 임시 데이터 폴더에 두고 등록·검수 후 폐기한다. 현재 아바타 주소의 정본은 DB의 `celebs.avatar_url`이다.
 
 1. **대상·씨앗** — `targets.json`(id·slug·qid·팩션)에 대상을 모으고, 씨앗 얼굴은 `avatar-collect/faces-final/` 등 수집분을 쓴다. 씨앗 자체의 신원 근거는 「신원」 절이 정한 것과 같다. 씨앗 수집은 aside 브라우저 REPL·insane-search로 한다 — 위키 한 장을 그대로 쓰지 말고, 구글 이미지 검색 1페이지에 뜨는 후보군을 한 번 전부 검토하고 그중 최선을 고른다. 시드는 재료일 뿐 서비스에 그대로 올라가지 않으므로 저작권을 따지지 않는다 — 괜찮은 얼굴이면 된다.
 2. **생성** — 씨앗 얼굴을 참조로 정식 초상화(스튜디오 느낌)를 합성한다. **합성은 nobg·reframe보다 먼저다.** 호출 도구의 현재 우선순위는 [`../agent-tools.md`](../agent-tools.md) 「아바타 합성」이 쥔다 — 이 문서에 도구명을 박지 않는다. Aside 웹 경로라면 `gen-gemini.mjs` 식으로 브라우저를 조작해 씨앗+프롬프트를 넣고 결과를 `out/<slug>-gem.jpg`로 받는다. 일반 케이스 프롬프트 규격: 고해상도 풀칼라 / 정면샷·정면 시선으로 어느 정도 전환 / 허리부터 정수리 위에 머리 하나가 더 나올 정도의 웨이스트샷 / 원본 얼굴 골격 존중하되 너무 푸짐하지 않게, 여자는 매끈하고 아름다운 시절로 / 근엄함이 어울리는 인물은 차분한 표정, 기본은 가벼운 미소 / 손·위로 올라간 오브젝트(마이크 등)는 내리거나 없앤다 / 1:1 / 얼굴 좌측광 자연광 + 기본 음영 / 회갈색 단색 배경. 씨앗 반영도가 떨어지면 보류하고 적절한 아이디어를 반영해 다시 보낸다 — 재합성 결과가 바로 규격대로 안 나오면 프롬프트보다 씨앗을 의심해 후보군에서 다른 장으로 갈아탄다. 새로 들어오는 이미지마다 동일한 작업을 반복한다. 품질 개편 폭은 이미지 상태에 따라 다르다 — 간단한 터치로 끝나는 경우와 복구성 재작업이 나뉜다. 프롬프트는 스튜디오 반신(bust-up) 계열(매끈한 피부·심리스 배경·정면·머리는 상단 1/3)을 쓴다 — 하이퍼리얼 지시는 피부가 거칠게 나온다. **반신 구도가 핵심이다: 우하단 다이아몬드(~0.88)가 얼굴 중심 크롭 밖에 떨어져 워터마크 제거 단계가 필요 없다.** 헤드샷으로 꽉 채우면 마크가 크롭 안에 남아 3번 처리가 필요하고, 얼굴도 커져 업스케일이 줄어드는 대신 그 비용을 치른다. 병렬은 큐 파일을 워커 수로 나눠 독립 실행한다. slug에 작은따옴표가 있으면 생성 JS가 깨지므로 `JSON.stringify`로 박는다.
@@ -144,14 +150,14 @@
 
 ```bash
 cd sw/web-bo
-node scripts/avatar/pull-avatars.mjs --faction <slug> | --reality REAL|FICTION --offset N --limit 200 | --since <ISO>
-npx tsx scripts/avatar/light-unify.ts <폴더> <폴더>-lit [--skip-real] [--exclude a,b]
-npx tsx scripts/avatar/reframe.ts <폴더>-lit <폴더>-reframed --sheet
-npx tsx scripts/avatar/upload-reframed.ts <폴더>-reframed          # 사용자 지시 뒤
-npx tsx scripts/avatar/contact-sheet.ts --out <폴더> --slugs <a,b> --no-guides
+node scripts/avatar/pull-avatars.mjs --faction <slug> --out "<작업폴더>/source"
+npx tsx scripts/avatar/light-unify.ts "<작업폴더>/source" "<작업폴더>/lit" [--skip-real] [--exclude a,b]
+npx tsx scripts/avatar/reframe.ts "<작업폴더>/lit" "<작업폴더>/reframed" --sheet
+npx tsx scripts/avatar/upload-reframed.ts "<작업폴더>/reframed" # 사용자 지시 뒤
+npx tsx scripts/avatar/contact-sheet.ts --out "<작업폴더>/check" --slugs <a,b> --no-guides
 ```
 
-내려받은 원본 폴더는 롤백 자료다. 지우지 않는다. 등록 전 `_sheet-*.png`(왼쪽 전·오른쪽 후)와 `_report.json`을 직접 본다.
+작업 폴더와 원본 복구본의 보관·정리는 [작업 파일·백업 원칙](../data/README.md#작업-파일백업)을 따른다. 등록 전 `_sheet-*.png`(왼쪽 전·오른쪽 후)와 `_report.json`을 직접 본다.
 
 ### 재현성과 상태
 

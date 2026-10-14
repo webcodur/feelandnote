@@ -85,7 +85,7 @@ test('관계 유형, 폐기된 설명, 단일 식별자, 정렬값을 검증한�
       ...base,
       characters: [{ ...base.characters[0], relationType: 'cameo' }],
     }),
-    /appearance, related/,
+    /appearance, authored/,
   )
   assert.throws(
     () => parseFigureBookBatchManifest({
@@ -104,10 +104,10 @@ test('관계 유형, 폐기된 설명, 단일 식별자, 정렬값을 검증한�
 
   assert.deepEqual(parseFigureBookBatchManifest({
     contentId: CONTENT_ID,
-    characters: [{ slug: 'javert', relationType: 'related' }],
+    characters: [{ slug: 'javert', relationType: 'authored' }],
   }).characters[0], {
     slug: 'javert',
-    relationType: 'related',
+    relationType: 'authored',
     description: null,
   })
   assert.throws(
@@ -115,7 +115,7 @@ test('관계 유형, 폐기된 설명, 단일 식별자, 정렬값을 검증한�
       contentId: CONTENT_ID,
       characters: [{
         slug: 'javert',
-        relationType: 'related',
+        relationType: 'authored',
         description: '연관 관계에는 넣을 수 없는 등장 설명',
       }],
     }),
@@ -148,7 +148,7 @@ test('지정한 인물만 증분 갱신하고 작품의 다른 기존 관계는 
     resolved({
       slug: 'jean-valjean',
       celebId: JEAN_VALJEAN_ID,
-      relationType: 'related',
+      relationType: 'authored',
       description: null,
     }),
     resolved({ slug: 'cosette', celebId: COSETTE_ID }),
@@ -215,7 +215,7 @@ test('같은 작품 판본은 별도 복사하지 않고 한 contentId를 쓴다
 })
 
 test('모든 관계 유형의 신규 행과 지정된 기존 행은 한영 설명을 null로 저장한다', () => {
-  for (const relationType of ['appearance', 'related', 'authored'] as const) {
+  for (const relationType of ['appearance', 'authored'] as const) {
     const current = [stored(JEAN_VALJEAN_ID, 0, { relation_type: relationType })]
     const updated = buildFigureBookBatchPlan(CONTENT_ID, [resolved({
       slug: 'jean-valjean', celebId: JEAN_VALJEAN_ID, relationType,
@@ -245,7 +245,7 @@ test('과거 설명 문자열과 잘못된 값은 유형에 관계없이 파서�
   for (const value of ['old description', '', 1, false, {}]) {
     assert.throws(() => parseFigureBookRelationDescription(value, 'description_en'), /폐기된 관계 설명/)
   }
-  for (const relationType of ['appearance', 'related', 'authored'] as const) {
+  for (const relationType of ['appearance', 'authored'] as const) {
     assert.throws(() => parseFigureBookBatchManifest({
       contentId: CONTENT_ID,
       characters: [{ slug: 'jean-valjean', relationType, description: 'old description' }],
@@ -256,9 +256,9 @@ test('과거 설명 문자열과 잘못된 값은 유형에 관계없이 파서�
   }
 })
 
-test('검수 배치는 기존 창작 관계를 등장·연관으로 바꾸지 않고 그대로 보존한다', () => {
+test('검수 배치는 기존 창작 관계를 등장으로 바꾸지 않고 그대로 보존한다', () => {
   const current = [stored(JEAN_VALJEAN_ID, 2, { relation_type: 'authored' })]
-  for (const relationType of ['appearance', 'related'] as const) {
+  for (const relationType of ['appearance'] as const) {
     const selections = [resolved({ slug: 'jean-valjean', celebId: JEAN_VALJEAN_ID, relationType })]
     const safe = preserveReviewedFigureBookRelations(selections, current)
     assert.equal(safe.preservedAuthored, 1)
@@ -271,10 +271,10 @@ test('검수 배치는 기존 창작 관계를 등장·연관으로 바꾸지 �
   }
 })
 
-test('검수의 기존 등장 보호는 유지하고 연관에서 등장·창작 승격은 허용한다', () => {
-  const current = [stored(JEAN_VALJEAN_ID, 0), stored(JAVERT_ID, 1, { relation_type: 'related' })]
+test('검수의 기존 등장 보호는 유지하고 새 인물과 동일 유형의 갱신은 허용한다', () => {
+  const current = [stored(JEAN_VALJEAN_ID, 0), stored(JAVERT_ID, 1, { relation_type: 'authored' })]
   const selections = [
-    resolved({ slug: 'jean-valjean', celebId: JEAN_VALJEAN_ID, relationType: 'related' }),
+    resolved({ slug: 'jean-valjean', celebId: JEAN_VALJEAN_ID, relationType: 'authored' }),
     resolved({ slug: 'javert', celebId: JAVERT_ID, relationType: 'authored' }),
     resolved({ slug: 'cosette', celebId: COSETTE_ID }),
   ]

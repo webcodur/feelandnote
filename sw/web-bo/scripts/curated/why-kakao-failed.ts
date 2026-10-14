@@ -9,7 +9,7 @@
  *   npx tsx scripts/curated/why-kakao-failed.ts            # 못 찾은 것 중 20건 표본
  *   npx tsx scripts/curated/why-kakao-failed.ts --n 40
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { REPO_ROOT, scriptsPath } from '../lib/paths'

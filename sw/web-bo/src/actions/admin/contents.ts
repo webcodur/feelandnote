@@ -13,6 +13,8 @@ import { validateExternalImageUrl } from '@/lib/external-image'
 import { resolveBookIntroductionEdit } from '@/lib/book-introduction-edit'
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
+import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
+import { resolveExternalBookInput } from '@/lib/external-book-input'
 
 export interface AffiliateLink {
   platform: string
@@ -239,11 +241,29 @@ export async function updateContent(
   let enIntroduction: Record<string, unknown> = {}
   if (data.description !== undefined || data.description_en !== undefined || data.isbn_en !== undefined) {
     const { data: content, error } = await db.from('contents')
-      .select('type,external_id,content_locales(locale,isbn,description,sources)').eq('id', contentId).single()
+      .select('type,external_id,content_locales(locale,title,creator,isbn,description,sources)').eq('id', contentId).single()
     if (error) throw error
     if (content.type === 'BOOK') {
       const ko = content.content_locales.find((row) => row.locale === 'ko')
       const en = content.content_locales.find((row) => row.locale === 'en')
+      let enEdition: Record<string, unknown> = {}
+      if (data.isbn_en != null && data.isbn_en.trim()) {
+        const normalizedIsbn = toIsbn13(data.isbn_en)
+        if (!normalizedIsbn) throw new Error('영문 판본 ISBN의 형식 또는 체크 숫자가 잘못됐습니다')
+        data = { ...data, isbn_en: normalizedIsbn }
+        if (normalizedIsbn !== toIsbn13(en?.isbn ?? '')) {
+          const book = await resolveExternalBookInput({
+            externalId: normalizedIsbn, externalSource: 'openlibrary',
+            title: data.title_en ?? en?.title ?? '', creator: data.creator_en ?? en?.creator ?? '',
+            coverImageUrl: null, metadata: { isbn: normalizedIsbn },
+          })
+          enEdition = {
+            title: book.title, creator: book.creator,
+            publisher: book.metadata.publisher, thumbnail_url: book.coverImageUrl,
+            verified: true,
+          }
+        }
+      }
       if (data.description !== undefined) koIntroduction = await resolveBookIntroductionEdit({
         description: data.description, isbn: ko?.isbn ?? content.external_id, locale: 'ko', current: ko,
       })
@@ -260,6 +280,12 @@ export async function updateContent(
         delete sources.description
         delete sources.translation
         enIntroduction = { description: introduction?.source ?? null, sources: { ...sources, ...(introduction?.source && { description: introduction.sourceUrl }) } }
+      }
+      if (Object.keys(enEdition).length) {
+        enIntroduction = {
+          ...enEdition, ...enIntroduction,
+          sources: { ...((enIntroduction.sources ?? en?.sources ?? {}) as Record<string, unknown>), primary: 'openlibrary', title: `https://openlibrary.org/isbn/${data.isbn_en}`, creator: `https://openlibrary.org/isbn/${data.isbn_en}`, publisher: `https://openlibrary.org/isbn/${data.isbn_en}`, thumbnail: 'openlibrary' },
+        }
       }
     } else {
       if (data.description !== undefined) koIntroduction = { description: data.description || null }

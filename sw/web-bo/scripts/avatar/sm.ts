@@ -16,7 +16,7 @@ import {
   PutObjectCommand,
   HeadObjectCommand,
 } from '@aws-sdk/client-s3'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import sharp from 'sharp'
 import { readFileSync } from 'fs'
 import {
@@ -24,6 +24,7 @@ import {
   CELEB_AVATAR_SMALL,
 } from '@feelandnote/shared/constants/celeb-avatar-small'
 import { boPath } from '../lib/paths'
+import { AVATAR_RESIZE_OPTIONS } from '../../src/lib/avatar-small'
 
 
 /** R2를 동시에 두드리는 수. 올려도 이득이 적고 실패율만 오른다. */
@@ -189,7 +190,7 @@ async function main() {
     }
 
     const small = await sharp(original)
-      .resize(args.size, args.size, { fit: 'cover' })
+      .resize(args.size, args.size, { ...AVATAR_RESIZE_OPTIONS, fit: 'cover' })
       .webp({ quality: args.quality })
       .toBuffer()
 

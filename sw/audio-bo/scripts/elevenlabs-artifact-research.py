@@ -1,4 +1,4 @@
-from celeb_dialogue_voice_common import ELEVENLABS_TTS_DEFAULTS, synthesize as synthesize_common
+from celeb_dialogue_voice_common import ELEVENLABS_ACCOUNT_ENV, ELEVENLABS_TTS_DEFAULTS, normalize_ele_account_id, resolve_api_key, synthesize as synthesize_common
 
 import argparse
 import difflib
@@ -56,7 +56,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate and inspect ElevenLabs TTS artifact samples.")
     parser.add_argument("--env", type=Path, default=Path(__file__).parents[1] / ".env")
     parser.add_argument("--voice-id")
-    parser.add_argument("--account", choices=("default", "feelandnote"))
+    parser.add_argument("--account", type=normalize_ele_account_id, help="Account name, e.g. webcodur, feelandnote, tlwns5598")
     parser.add_argument("--ko-runs", type=int, default=3)
     parser.add_argument("--en-runs", type=int, default=2)
     # 이 도구는 후행 이상음 연구용이라 style=0.0(무강조)을 의도적으로 쓴다 — 서비스 기본값과 다름.
@@ -426,20 +426,15 @@ def main() -> None:
         return
 
     env = read_env(args.env)
-    account = args.account or env.get("ELEVENLABS_ARTIFACT_ACCOUNT", "default")
-    if account not in {"default", "feelandnote"}:
-        raise SystemExit(f"Unsupported ELEVENLABS_ARTIFACT_ACCOUNT: {account}")
+    account = normalize_ele_account_id(args.account or env.get("ELEVENLABS_ARTIFACT_ACCOUNT", ELEVENLABS_ACCOUNT_ENV["baseAccount"]["id"]))
     output_root = args.output_root or Path(
         env.get(
             "ELEVENLABS_ARTIFACT_ROOT",
             r"D:\audios\interview-cleaner\elevenlabs-artifact-research",
         )
     )
-    key_name = "ELEVENLABS_API_KEY_FEELANDNOTE" if account == "feelandnote" else "ELEVENLABS_API_KEY"
-    api_key = env.get(key_name, "")
+    api_key = resolve_api_key(env, account)
     voice_id = args.voice_id or env.get("ELEVENLABS_ARTIFACT_VOICE_ID", "")
-    if not api_key.startswith("sk_"):
-        raise SystemExit(f"{key_name} is missing or is not an sk_ secret key")
     if not voice_id:
         raise SystemExit("Pass --voice-id or set ELEVENLABS_ARTIFACT_VOICE_ID in the env file")
 

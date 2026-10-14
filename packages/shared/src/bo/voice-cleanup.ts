@@ -4,6 +4,9 @@ import { mkdtemp, readFile, rm, writeFile } from 'fs/promises'
 import { tmpdir } from 'os'
 import path from 'path'
 import { promisify } from 'util'
+import narrationPolicy from './voice-utils/narration-cleanup-policy.json'
+
+export const NARRATION_PAUSES = narrationPolicy
 
 const execFileAsync = promisify(execFile)
 

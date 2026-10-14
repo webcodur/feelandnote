@@ -1,5 +1,7 @@
 'use server'
 
+import { SERVICE_BOOK_EDITION_KINDS } from '@feelandnote/content-search/book-edition-policy'
+
 import { revalidatePath } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { requireAdmin } from '@/lib/admin-auth'
@@ -55,7 +57,8 @@ export interface FigureBookEditionAdminItem {
   products: FigureBookProductAdminItem[]
 }
 
-export type FigureBookRelationType = 'appearance' | 'related' | 'authored'
+export type { FigureBookRelationType } from '@feelandnote/shared/constants/figure-book-terms'
+import { isFigureBookRelationType, type FigureBookRelationType } from '@feelandnote/shared/constants/figure-book-terms'
 
 export interface FigureBookCharacterAssignment {
   celebId: string
@@ -383,7 +386,7 @@ export async function getFigureBookAdminData(): Promise<FigureBookAdminData> {
   }
 
   for (const assignment of assignmentRows) {
-    if (assignment.relation_type !== 'appearance' && assignment.relation_type !== 'related' && assignment.relation_type !== 'authored') {
+    if (!isFigureBookRelationType(assignment.relation_type)) {
       throw new Error(`지원하지 않는 인물 도서 관계입니다: ${assignment.relation_type}`)
     }
     const contentId = assignment.content_id
@@ -499,7 +502,7 @@ export async function saveFigureBook(input: {
     throw new Error('동일한 인물을 한 도서에 중복 연결할 수 없습니다')
   }
   if (relations.some((relation) => (
-    relation.relationType !== 'appearance' && relation.relationType !== 'related' && relation.relationType !== 'authored'
+    !isFigureBookRelationType(relation.relationType)
   ))) {
     throw new Error('관계는 등장·연관·창작 가운데 하나여야 합니다')
   }
@@ -632,14 +635,7 @@ export async function saveFigureBookCharacterDescription(input: {
   }
 }
 
-const EDITION_KINDS = new Set([
-  'full',
-  'abridged',
-  'retelling',
-  'adaptation',
-  'selection',
-  'volume',
-])
+const EDITION_KINDS = new Set<string>(SERVICE_BOOK_EDITION_KINDS)
 
 function nullableText(value: string): string | null {
   return value.trim() || null
@@ -713,10 +709,12 @@ export async function saveFigureBookEdition(input: {
   if (book.locale !== input.locale) throw new Error('선택한 판본 언어와 공식 응답이 다릅니다')
   const attribution = await verifyEditionWork(admin, {
     contentId, locale: book.locale, isbn, title: book.title, creator: book.creator,
+    publisher: typeof book.metadata.publisher === 'string' ? book.metadata.publisher : null,
     sourceUrl: String(book.metadata.link ?? ''),
     workKey: typeof book.metadata.workKey === 'string' ? book.metadata.workKey : null,
     workTitle: typeof book.metadata.workTitle === 'string' ? book.metadata.workTitle : null,
     editionKind: input.editionKind, textScope: input.textScope,
+    translators: Array.isArray(book.metadata.translators) ? book.metadata.translators as string[] : undefined,
   })
   const provenance = { primary: book.externalSource, isbn: book.metadata.link, title: book.metadata.link,
     creator: book.metadata.link, publisher: book.metadata.link, physical_format: book.metadata.physical_format ?? null,
@@ -743,7 +741,7 @@ export async function saveFigureBookEdition(input: {
     if (currentError) throw new Error(`기존 판본 조회 실패: ${currentError.message}`)
     if (!current) throw new Error('수정할 판본을 찾을 수 없습니다')
     if (current.content_id !== contentId || current.locale !== input.locale || toIsbn13(current.isbn ?? '') !== isbn) {
-      throw new Error('작품·언어·ISBN은 판본의 항구적 식별자입니다. 다른 판본은 새로 추가하세요')
+      throw new Error('현재 판본의 대표 ISBN으로 수정하세요. 같은 번역의 다른 상품은 기존 판본 아래 연결합니다')
     }
     const introduction = await resolveBookIntroductionEdit({ description: input.description, isbn, locale: book.locale, current })
     const { error } = await admin

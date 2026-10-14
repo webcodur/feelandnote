@@ -23,7 +23,8 @@ export interface IntroductionSelection {
 export interface IntroductionChange {
   table: 'content_locales' | 'figure_book_editions'
   before: IntroductionRow
-  description: string
+  /** A source marker, or NULL when marker verification proves no usable introduction exists. */
+  description: string | null
   sources: Record<string, unknown>
   /** The fetched body is retained in the local plan so metadata copies can be removed safely. */
   verifiedDescription: string
@@ -91,9 +92,10 @@ export function planIntroductionChange(
   table: IntroductionChange['table'],
   row: IntroductionRow,
   selection: IntroductionSelection,
-  options: { reselect?: boolean } = {},
+  options: { reselect?: boolean; verifyMarkers?: boolean } = {},
 ): { change: IntroductionChange | null; reason: string } {
   if (isBookIntroductionSource(row.description)) {
+    if (options.verifyMarkers) return planMarkerVerification(table, row, selection)
     return options.reselect ? planReselection(table, row, selection) : { change: null, reason: 'already-selected' }
   }
   if (row.sources !== null && (typeof row.sources !== 'object' || Array.isArray(row.sources))) {
@@ -144,7 +146,28 @@ function planReselection(
   }
 }
 
-function literal(value: string): string { return `'${value.replace(/'/g, "''")}'` }
+/** Bulk marker verification: a marker that resolves to nothing is NULLed (investigation needed),
+ * while its stored source URL is kept in `sources.description` for audit and later recovery. */
+export function planMarkerVerification(
+  table: IntroductionChange['table'],
+  row: IntroductionRow,
+  selection: IntroductionSelection,
+): { change: IntroductionChange | null; reason: string } {
+  const decision = planReselection(table, row, selection)
+  if (decision.reason !== 'reselect-no-introduction') return decision
+  return {
+    reason: 'marker-unverified',
+    change: {
+      table,
+      before: row,
+      description: null,
+      sources: row.sources ?? {},
+      verifiedDescription: '',
+    },
+  }
+}
+
+function literal(value: string | null): string { return value === null ? 'NULL' : `'${value.replace(/'/g, "''")}'` }
 function json(value: unknown): string { return `${literal(JSON.stringify(value))}::jsonb` }
 
 /** Each book is one transaction. A concurrent edit aborts the whole book instead of overwriting it. */

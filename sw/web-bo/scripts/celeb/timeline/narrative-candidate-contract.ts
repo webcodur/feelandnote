@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 
 export const NARRATIVE_CANDIDATE_SCHEMA_VERSION = 1 as const
 export const FICTION_EVENT_COUNT_WARNING_MIN = 2

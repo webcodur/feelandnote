@@ -10,7 +10,7 @@
  *   npx tsx scripts/match-curated-items.ts --list <slug>   # 특정 목록만
  *   npx tsx scripts/match-curated-items.ts --relink        # 이미 연결된 항목도 다시 판정
  */
-import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
 import { mkdirSync, readFileSync, writeFileSync } from 'fs'
 import { boPath, scriptsPath } from '../lib/paths'
 

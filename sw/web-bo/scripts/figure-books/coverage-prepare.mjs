@@ -118,7 +118,7 @@ export function prepareCandidate(person, candidate, kakao, source, stock, prefer
   const isbn = isbnOf(candidate.isbn)
   const held = []
   if (!isbn || !koreanIsbn(isbn)) held.push('invalid_korean_isbn')
-  if (!['appearance', 'related'].includes(candidate.relation_type)) held.push('invalid_relation')
+  if (candidate.relation_type !== 'appearance') held.push('invalid_relation')
   if (!kakao || isbnOf(kakao.metadata?.isbn) !== isbn) held.push('kakao_not_matched')
   const creatorAliases = new Set([candidate.creator, candidate.originalCreator].filter(Boolean).map(flat))
   if (kakao && (!sameBookTitle(normalizeKakaoBookTitle(candidate.title, candidate.creator), normalizeKakaoBookTitle(kakao.title, kakao.creator))
@@ -167,7 +167,7 @@ export function prepareCandidate(person, candidate, kakao, source, stock, prefer
 
 export function toApplyCandidate(row) {
   const { person, research, kakao, manifest, isbn } = row
-  if (!manifest || !kakao || !['appearance', 'related'].includes(research.relation_type)) return null
+  if (!manifest || !kakao || research.relation_type !== 'appearance') return null
   if (row.held.some((reason) => reason !== 'new_work_identity_requires_review')) return null
   const identityEvidence = research.identityEvidenceUrl ? [research.identityEvidenceUrl] : []
   const originalWork = research.domesticOriginal === true && research.domesticOriginalConfirmed === true && identityEvidence.length

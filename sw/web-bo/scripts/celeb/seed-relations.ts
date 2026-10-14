@@ -12,21 +12,14 @@
 import { config } from 'dotenv'
 import { resolve } from 'node:path'
 import { readFileSync, readdirSync } from 'node:fs'
-import { createClient } from '@supabase/supabase-js'
-import { canonicalizeCelebRelation, celebRelationFactKey } from '@feelandnote/shared/constants/celeb-relations'
+import { createClient } from '@feelandnote/db'
+import { canonicalizeCelebRelation, celebRelationFactKey, canonicalizeCelebRelationAxis, isCelebRelationInputType, celebRelationInputGroup, celebRelationPairKey, isCelebFamilyRelation, type CelebRelationInputType } from '@feelandnote/shared/constants/celeb-relations'
+import { externalFamilyRelationFacts } from './relations-supplement'
 
 config({ path: resolve(process.cwd(), '.env'), quiet: true })
 const APPLY = process.argv.includes('--apply')
 const R_DIR = resolve(__dirname, '../../../../data/celeb/new-figures/relations')
 const LEDGER_DIR = resolve(__dirname, '../../../../data/celeb/new-figures')
-
-const REL_GROUP: Record<string, string> = {
-  father: 'family', mother: 'family', parent: 'family', child: 'family',
-  spouse: 'family', partner: 'family', sibling: 'family', relative: 'family',
-  teacher: 'thought', student: 'thought', influence: 'thought', influenced: 'thought',
-  cofounder: 'career', colleague: 'career', counterpart: 'counterpart',
-  friend: 'friendship', rival: 'rivalry',
-}
 
 interface Edge { to_ko?: string; to_en?: string; rel_type: string; note_ko?: string; note_en?: string; prospect?: string }
 
@@ -90,34 +83,56 @@ async function main() {
 
   // 기존 관계 factKey — 기본 페이지 한도(1000)를 넘으므로 전수 페이징
   const existingKeys = new Set<string>()
+  const familyPairs = new Set<string>()
   for (let off = 0; ; off += 1000) {
     const { data: existing, error } = await db.from('celeb_relations')
-      .select('from_id,to_id,rel_type').range(off, off + 999)
+      .select('from_id,to_id,rel_type,rel_group').order('from_id').order('to_id').order('rel_type').range(off, off + 999)
     if (error) throw error
     if (!existing?.length) break
     for (const r of existing) {
-      existingKeys.add(celebRelationFactKey({ fromId: r.from_id, toId: r.to_id, relType: r.rel_type }))
+      if (isCelebFamilyRelation(r.rel_type, r.rel_group)) familyPairs.add(celebRelationPairKey(r.from_id, r.to_id))
+      const axis = canonicalizeCelebRelationAxis({ fromId: r.from_id, toId: r.to_id, relType: r.rel_type })
+      if (axis) existingKeys.add(celebRelationFactKey(axis))
+      else if (isCelebFamilyRelation(r.rel_type, r.rel_group)) existingKeys.add(celebRelationFactKey({ fromId: r.from_id, toId: r.to_id, relType: r.rel_type }))
     }
     if (existing.length < 1000) break
+  }
+  const ids = [...new Set([...ledger.values(), ...idByName.values()])]
+  const people: { id: string; wikidata_qid: string | null }[] = []
+  for (let i = 0; i < ids.length; i += 200) {
+    const { data, error } = await db.from('celebs').select('id,wikidata_qid').in('id', ids.slice(i, i + 200))
+    if (error) throw error
+    people.push(...data ?? [])
+  }
+  for (let i = 0; i < ids.length; i += 200) {
+    for (let off = 0; ; off += 1000) {
+      const { data, error } = await db.from('celeb_relations_external').select('id,from_id,qid,rel_type,rel_group')
+        .in('from_id', ids.slice(i, i + 200)).order('id').range(off, off + 999)
+      if (error) throw error
+      for (const r of externalFamilyRelationFacts(data ?? [], people)) familyPairs.add(celebRelationPairKey(r.from_id, r.to_id))
+      if (!data || data.length < 1000) break
+    }
   }
 
   const rows: object[] = []
   const seen = new Set<string>()
   let unresolved = 0, dupes = 0, missingFrom = 0
   const unresolvedNames = new Set<string>()
-  for (const { fromNick, e } of edges) {
+  for (const { fromNick, e } of [...edges].sort((a, b) => Number(isCelebFamilyRelation(b.e.rel_type)) - Number(isCelebFamilyRelation(a.e.rel_type)))) {
     const fromId = ledger.get(fromNick) ?? idByName.get(fromNick) ?? idByName.get(FROM_ALIAS[fromNick] ?? '')
     if (!fromId) { missingFrom++; unresolvedNames.add(fromNick); continue }
     const toId = (e.to_ko && idByName.get(e.to_ko)) || (e.to_en && idByName.get(e.to_en))
     if (!toId) { unresolved++; if (e.to_ko) unresolvedNames.add(e.to_ko); continue }
-    if (!REL_GROUP[e.rel_type]) { console.log(`⛔ 알 수 없는 rel_type: ${e.rel_type}`); continue }
+    if (!isCelebRelationInputType(e.rel_type)) { console.log(`⛔ 알 수 없는 rel_type: ${e.rel_type}`); continue }
+    if (!isCelebFamilyRelation(e.rel_type) && familyPairs.has(celebRelationPairKey(fromId, toId))) { console.log(`가족 중복 제외: ${fromNick} / ${e.to_ko ?? e.to_en}`); continue }
     const canon = canonicalizeCelebRelation({ fromId, toId, relType: e.rel_type })
     const key = celebRelationFactKey(canon)
     if (existingKeys.has(key) || seen.has(key)) { dupes++; continue }
     seen.add(key)
+    if (isCelebFamilyRelation(canon.relType)) familyPairs.add(celebRelationPairKey(fromId, toId))
     rows.push({
       from_id: canon.fromId, to_id: canon.toId, rel_type: canon.relType,
-      rel_group: REL_GROUP[canon.relType], source: 'manual',
+      rel_group: celebRelationInputGroup(canon.relType as CelebRelationInputType), source: 'manual',
       note: e.note_ko ?? null, note_en: e.note_en ?? null,
     })
   }

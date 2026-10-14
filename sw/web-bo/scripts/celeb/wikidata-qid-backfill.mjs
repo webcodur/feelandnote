@@ -8,7 +8,7 @@
  */
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 const LEDGER = resolve(process.cwd(), '../../data/celeb/new-figures')
 const APPLY = process.argv.includes('--apply')

@@ -183,9 +183,8 @@ Sivers의 [《On Looking》 독서 노트](https://sive.rs/book/OnLooking)는 �
 
 《21세기 자본》의 DB 한국어판 ISBN **9788967351274**를 YES24 API와 대조했다.
 [상품 14156539](https://www.yes24.com/Product/Goods/14156539)는 토마 피케티·글항아리·같은 ISBN이며 판매중과 애드온 링크 반환을 확인했다.
-현재 한국어 locale의 출판사 값은 비어 있다. 판본은 맞지만 메타 보완이 필요하다. 일반 검색어보다 ISBN으로 연결할 근거가 있는 표본이다.
-다른 작품까지 모두 맞는다는 뜻은 아니며, 잔여는 [한영 판본 표시](../../todo/celeb-locale-fallback.md)와
-[절판 판본 처리](../celeb/celeb-02-05-figure-books.md)가 쥔다.
+같은 ISBN으로 판본을 특정할 수 있어 일반 검색어보다 정확히 연결할 근거가 있는 표본이다.
+절판 판본의 검수와 처리는 [인물 도서 규칙](../celeb/celeb-02-05-figure-books.md)을 따른다.
 
 비도서 표본은 [《인터스텔라》 3Disc 4K UHD+BD, 상품 195225019](https://www.yes24.com/Product/Goods/195225019)다.
 `ItemId` 조회에서 작품명·매체 Blu-ray·판매중·애드온 링크 반환을 재확인했다. **조회와 링크 반환은 비도서 수수료 정산의 증명이 아니다.**

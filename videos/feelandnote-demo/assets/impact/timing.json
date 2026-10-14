@@ -1,0 +1,29 @@
+{
+  "pop": {
+    "path": "assets/impact/pop.mp3",
+    "duration": 0.72,
+    "peakAt": 0.12,
+    "rms": 0.3711777427721831,
+    "source": "HyperFrames bundled SFX library",
+    "hitPath": "assets/impact/pop-hit.wav",
+    "hitDuration": 0.52
+  },
+  "whoosh": {
+    "path": "assets/impact/whoosh.mp3",
+    "duration": 0.5747083333333334,
+    "peakAt": 0.16,
+    "rms": 0.5891709702430833,
+    "source": "HyperFrames bundled SFX library",
+    "hitPath": "assets/impact/whoosh-hit.wav",
+    "hitDuration": 0.574
+  },
+  "bass": {
+    "path": "assets/impact/bass.mp3",
+    "duration": 2.1159375,
+    "peakAt": 0.14,
+    "rms": 1.0042371613871124,
+    "source": "HyperFrames bundled SFX library",
+    "hitPath": "assets/impact/bass-hit.wav",
+    "hitDuration": 0.62
+  }
+}

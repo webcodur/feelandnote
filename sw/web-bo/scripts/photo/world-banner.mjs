@@ -12,8 +12,8 @@
 
   --mobile-left는 정규화된 PC 1536px 좌표 기준이며 0~608 범위다.
   기존 파일을 교체하려면 --force를 명시한다.
-  --publish는 로컬 운영본 대신 R2에 원본·파생본·생성 정보를 올리고 재조회 검증한다.
-  --prompt <파일>은 생성 프롬프트를 R2 생성 정보에 함께 보관한다.
+  --publish는 R2에 PC·모바일 서비스 이미지만 올리고 재조회 검증한다.
+  --prompt <파일>은 작업용 프롬프트 경로이며 발행 검증 뒤 폐기한다.
 */
 
 import fs from "node:fs";
@@ -38,7 +38,7 @@ function fail(message) {
 
 const sha256 = (body) => createHash("sha256").update(body).digest("hex");
 
-async function publishBanner(id, source, metadata, pc, mb, mobileLeft, prompt) {
+async function publishBanner(id, pc, mb) {
   process.loadEnvFile(path.join(REPO, "sw/web-bo/.env"));
   for (const key of ["R2_ACCOUNT_ID", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY", "R2_BUCKET_NAME", "R2_PUBLIC_URL"]) {
     if (!process.env[key]) fail(`${key}가 없다.`);
@@ -55,19 +55,7 @@ async function publishBanner(id, source, metadata, pc, mb, mobileLeft, prompt) {
     key: `worlds/${id}/${name}-${sha256(body).slice(0, 16)}.${type === "image/png" ? "png" : "webp"}`,
     body, type, sha256: sha256(body),
   });
-  const assets = [asset("source", fs.readFileSync(source), "image/png"), asset("pc", pc, "image/webp"), asset("mb", mb, "image/webp")];
-  // 입력은 PNG 원본으로 보존한다. 확장자만 PNG로 바꾸는 업로드를 막는다.
-  if (metadata.format !== "png") fail("R2 발행 원본은 PNG여야 한다.");
-  const descriptor = {
-    worldId: id,
-    source: { key: assets[0].key, sha256: assets[0].sha256, width: metadata.width, height: metadata.height },
-    pc: { key: assets[1].key, sha256: assets[1].sha256, ...PC },
-    mb: { key: assets[2].key, sha256: assets[2].sha256, ...MOBILE, left: mobileLeft },
-    webpQuality: 84,
-    ...(prompt ? { prompt } : {}),
-  };
-  const manifest = Buffer.from(`${JSON.stringify(descriptor, null, 2)}\n`);
-  assets.push({ key: `worlds/${id}/manifest-${sha256(manifest).slice(0, 16)}.json`, body: manifest, type: "application/json", sha256: sha256(manifest) });
+  const assets = [asset("pc", pc, "image/webp"), asset("mb", mb, "image/webp")];
   try {
     for (const item of assets) {
       let stored;
@@ -116,7 +104,6 @@ async function main() {
   if (!fs.existsSync(source)) fail(`원본을 찾지 못했다: ${source}`);
   const promptPath = promptArg ? path.resolve(REPO, promptArg) : null;
   if (promptPath && !promptPath.toLowerCase().startsWith(repoPrefix)) fail("프롬프트는 저장소 안에 있어야 한다.");
-  const prompt = promptPath ? fs.readFileSync(promptPath, "utf8").trim() : null;
 
   const mobileLeft = Number(mobileLeftArg);
   const maxMobileLeft = PC.width - MOBILE.width;
@@ -155,7 +142,9 @@ async function main() {
   if (publish) {
     const pc = await sharp(normalized).webp({ quality: 84 }).toBuffer();
     const mb = await sharp(normalized).extract({ left: mobileLeft, top: 0, ...MOBILE }).webp({ quality: 84 }).toBuffer();
-    await publishBanner(id, source, metadata, pc, mb, mobileLeft, prompt);
+    await publishBanner(id, pc, mb);
+    fs.unlinkSync(source);
+    if (promptPath) fs.unlinkSync(promptPath);
     return;
   }
 

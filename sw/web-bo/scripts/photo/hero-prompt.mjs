@@ -158,7 +158,7 @@ This is one specific human being, not a type. Give him an asymmetric, lived-in f
 export const GAZE = `GAZE — IT MATCHES THE SHOT MODE DECLARED ABOVE
 Each sheet runs one of two modes, and the whole picture follows that one.
 
-POSED — the photographer's portrait. He has stopped what he was doing and turned at the sound of his name: a living face, mid-breath, looking straight down the lens. Head and torso sit three-quarter to the camera, a forearm resting on a knee or a table edge, a helmet or a tool of his trade tucked under the arm. The hands rest. The eyes hold the lens with intent — measuring, challenging, weighing the stranger behind it.
+POSED — the default portrait mode. The person knows they are being photographed and looks directly into the camera lens with a comfortable, composed expression. Relax the brow and eye area instead of copying a reference frown, tense expression or sidelong glance. If torso and face point in conflicting directions, correct the torso, neck and head together so they face the same direction toward the camera, with both pupils meeting the lens. Do not retain the reference's opposing body and face orientations or fix only the eyes. For studio portraits, specify waist-shot framing without assigning a body, arm or hand pose beyond that necessary correction. Only lower a hand if it is raised to the face.
 
 ABSORBED — the height of a working motion, his attention entirely on the work. The peak instant: the pour, the strike, the cut. The work's own light sits inside the frame — the forge, the torch, the molten metal — throwing upward onto him while the room behind sinks into darkness. Sweat, soot, sparks or dust hang at the edge of the moment. His eyes lock on the object named as the gaze target, his brow tightens, his head and shoulders turn to it.
 
@@ -170,6 +170,8 @@ export const PHYSICALITY = `PHYSICALITY — GRAVITY AND ANATOMY HOLD
 Every object in the frame is supported by something the viewer can see: gripped by a hand whose fingers actually close around it, resting on a surface, hanging from a fixture, or strapped to the body. Every object rests its weight on something visible.
 The person's weight rests on something — feet planted on the floor, hips on the seat, a forearm on the table — and a contact shadow sits exactly where body meets surface.
 Anatomy holds: five fingers on each hand with natural joints and believable grip, limbs bending only where real joints bend, both arms belonging to the same body at the same scale, neck and spine consistent with where the head turns. Clothing drapes over the body underneath and follows gravity.
+Photograph one physically coherent person in a single exposure. The face reference supplies identity, never a literal cutout or a fixed head size. Head, ears, neck, clavicles, shoulders, torso and hands share the person's own mature proportions, skin tone and texture, perspective, key-light direction, shadow softness, focus and grain. Reject an oversized head on narrow shoulders, a compressed torso, a neck seam, a smooth mask face on a differently aged body, or costume-like styling.
+Adult women retain fully mature proportions, with realistic shoulder and ribcage scale and smooth, restrained contours from chest through waist to upper hips. Respect each person's individual build: do not excessively narrow the torso, pinch the waist, flatten natural contours, or exaggerate the chest or hips.
 Where the person meets furniture, the two touch at the surface — arm, leg and hand rest on the wood, stone or cloth.
 
 A vehicle or machine in the frame must be a whole working object, not a few of its parts. If a chariot, cart, boat, carriage or engine appears at all, the parts that make it work are visible and joined: the floor the person stands on, the body that floor belongs to, the wheels or hull under that body, the pole or shaft that reaches the animals, and the harness that ties the animals to that pole. Draught animals stand AHEAD of the vehicle in line with its pole. Every rail, wheel and yoke joins the part beside it, and the person stands on a visible floor.
@@ -185,20 +187,18 @@ Objects that share the frame are his own — made by him, carried by him — set
 
 // 이 지시가 없으면 인물이 원경으로 작게 박힌다(다리우스 1세 실측, 26.07.31).
 // 표시 비율과 폭은 공용 상수가 쥔다. 얼굴과 핵심 소품은 최종 중앙 세로 영역에 들어와야 한다.
-// 2차 개편 — 무릎 위 고정 크롭을 풀고 허리~허벅지 크롭으로 올린다. 서비스에서
-// 이 사진은 폭 100~240px 카드로 쓰이고, 무릎 위 프레임은 얼굴을 알아볼 수 없게 만든다.
+// 기본은 허리샷이다. 머리 전체와 정수리 위 여백을 확보하고 허리선 바로 아래에서 자른다.
 export const FRAMING = `FRAMING — TIGHT PORTRAIT CROP, NON-NEGOTIABLE
 This is a portrait of a person, not a landscape that happens to contain a person. On the service it is shown as a card ${CARD_PX}px wide at most, and often smaller — at that size the face must still read.
 
-The final service image is a centered vertical ${FINAL_ASPECT_LABEL} crop of this working canvas. Keep the face, torso, both hands and every essential prop inside the CENTRAL ${SAFE_WIDTH_PERCENT} PERCENT of the canvas width. The outer left and right edges are expendable background and will be removed.
+The final service image is a centered vertical ${FINAL_ASPECT_LABEL} crop of this working canvas. Keep the face, torso and every essential prop inside the CENTRAL ${SAFE_WIDTH_PERCENT} PERCENT of the canvas width. Do not widen the waist shot just to include hands below the frame. The outer left and right edges are expendable background and will be removed.
 
 The crop is exactly this and nothing else:
-- BOTTOM EDGE of the frame cuts the person anywhere between the WAIST LINE and MID-THIGH.
-- TOP EDGE of the frame sits just above the top of the head, with only a small margin of headroom.
-- The person fills the frame and the head is large — the face stays recognisable shrunk to card size.
+- BOTTOM EDGE of the frame cuts just below the natural WAIST LINE or belt, at the upper hips. This is a WAIST SHOT: no thighs, knees or lower legs.
+- The COMPLETE head and hairstyle stay inside the frame, with clear breathing room ABOVE the crown: 6-8 PERCENT of the frame height. Never cut the head or let it touch the top edge.
+- The person fills the frame with a naturally sized head in proportion to their own neck, shoulders and torso. Keep the face recognisable at card size through clear lighting and focus, never by enlarging the head or shrinking the body.
 
-If the person is seated, kneeling or leaning over work so the hips are hidden behind a desk, table or railing, keep the SAME apparent size: the bottom edge still falls at lap or desk height, and the head still nearly touches the top of the frame. Do NOT pull the camera back to reveal the legs — filling the height matters more than seeing them.
-Measure the headroom: the crown of the head sits within the TOP 5 PERCENT of the frame height. A seated figure leaning over a desk still reaches that high — bring the camera closer instead of leaving empty wall above them.
+If the person is seated, kneeling or leaning over work so the hips are hidden behind a desk, table or railing, keep the SAME waist-shot apparent size and the SAME clear headroom. The bottom edge falls at waist or desk height. Do NOT pull the camera back to reveal the legs.
 If the setting described below is a wide place, move the camera IN CLOSE to the person and let the setting fall away behind them — out of focus or into darkness. The setting stays context behind the person; the person is the subject.`
 
 /**
@@ -244,7 +244,7 @@ ${RENDERING}
 
 ${opts.vertical
     ? `Output a TALL VERTICAL image, ${FINAL_ASPECT_LABEL} (portrait orientation, clearly taller than it is wide).
-Fill that tall frame with the person the way the FRAMING block above requires and nothing else: the crown of the head near the very top, the BOTTOM EDGE OF THE PICTURE CUTTING HIM BETWEEN THE WAIST AND MID-THIGH. Fill the height by bringing the camera CLOSER, so the frame ends at his hip and the face carries the picture.`
+Use the WAIST SHOT required by the FRAMING block: complete head and hairstyle, 6-8 PERCENT clear headroom above the crown, bottom edge just below the natural waist or belt at the upper hips. No thighs or knees. The face carries the picture.`
     : `Output a ${WORK_SIZE} x ${WORK_SIZE} working image. Compose its central ${FINAL_ASPECT_LABEL} safe area as the finished portrait; the pipeline crops away both sides.`}
 
 ${outPath

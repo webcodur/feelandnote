@@ -6,7 +6,7 @@
  *   pnpm tsx scripts/tistory-cinema/fix-db.mts        # 미리보기
  *   pnpm tsx scripts/tistory-cinema/fix-db.mts --yes  # 반영
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!)
 const DRY = !process.argv.includes('--yes')

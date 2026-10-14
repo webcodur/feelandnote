@@ -36,7 +36,7 @@
  */
 
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import sharp from 'sharp'
 import { readFileSync, appendFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { resolve, dirname } from 'path'

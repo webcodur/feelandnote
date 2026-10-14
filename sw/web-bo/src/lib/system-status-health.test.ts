@@ -3,9 +3,11 @@ import test from 'node:test'
 import {
   getDatabaseHostHealth,
   getWebHostHealth,
+  getDiskHealth,
+  getMaintenanceHealth,
   memoryUsagePercent,
 } from './system-status-health'
-import type { DatabaseHostStatus, HostMemoryStatus, WebHostStatus } from './system-status-types'
+import type { DatabaseHostStatus, HostMemoryStatus, HostStorageStatus, WebHostStatus } from './system-status-types'
 
 function memory(usedPercent: number): HostMemoryStatus {
   return {
@@ -30,6 +32,7 @@ const healthyWebHost: WebHostStatus = {
   releaseId: null,
   commit: null,
   memory: memory(40),
+  storage: null,
   responseMs: 1,
   error: null,
 }
@@ -53,6 +56,7 @@ const healthyDatabaseHost: DatabaseHostStatus = {
   nextBackupAt: null,
   uptimeSeconds: 1,
   memory: memory(40),
+  storage: null,
   responseMs: 1,
   error: null,
 }
@@ -78,4 +82,26 @@ test('DB 연결 점유율이 80% 이상이면 확인 필요로 판정한다', ()
   assert.equal(getDatabaseHostHealth({ ...healthyDatabaseHost, connections: 79 }), 'healthy')
   assert.equal(getDatabaseHostHealth({ ...healthyDatabaseHost, connections: 80 }), 'warning')
   assert.equal(getDatabaseHostHealth({ ...healthyDatabaseHost, connections: 95 }), 'critical')
+})
+
+test('80% 경계는 반올림하기 전에 판단하고 조회 실패는 정상으로 표시하지 않는다', () => {
+  const storage = { disk: { usedPercent: 79.999 }, error: null } as HostStorageStatus
+  assert.equal(getDiskHealth(storage, 80), 'healthy')
+  assert.equal(getDiskHealth({ ...storage, disk: { ...storage.disk, usedPercent: 80 } }, 80), 'warning')
+  assert.equal(getDiskHealth(null, 80), 'unavailable')
+  assert.equal(getDiskHealth(storage, null), 'unavailable')
+})
+
+test('oneshot 종료는 정상이며 꺼진 타이머와 청소 실패를 구분한다', () => {
+  const task = { timerLoaded: true, timerState: 'active', serviceState: 'inactive',
+    result: 'success', exitCode: 0, lastFinishedAt: '2026-10-05T10:00:00Z', nextRunAt: null }
+  assert.equal(getMaintenanceHealth(task), 'healthy')
+  assert.equal(getMaintenanceHealth({ ...task, timerState: 'inactive' }), 'warning')
+  assert.equal(getMaintenanceHealth({ ...task, serviceState: 'failed', result: 'exit-code', exitCode: 1 }), 'critical')
+  assert.equal(getMaintenanceHealth({ ...task, lastFinishedAt: null }), 'warning')
+  assert.equal(getMaintenanceHealth(null), 'unavailable')
+})
+
+test('의도적으로 비활성화된 백업을 PostgreSQL 장애로 표시하지 않는다', () => {
+  assert.equal(getDatabaseHostHealth({ ...healthyDatabaseHost, backupState: 'inactive' }), 'warning')
 })

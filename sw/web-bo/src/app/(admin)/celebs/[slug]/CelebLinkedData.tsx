@@ -9,23 +9,9 @@ import type { CelebLinkedData } from '@/actions/admin/celeb-linked-data'
    수정은 각 담당 화면에서 하며 여기는 보여주기만 한다. */
 
 const REL_TYPE_LABELS: Record<string, string> = {
-  father: '부',
-  mother: '모',
-  parent: '부모',
-  child: '자녀',
-  spouse: '배우자',
-  partner: '동반자',
-  sibling: '형제자매',
-  relative: '친족',
-  counterpart: '대응인물',
-  teacher: '스승',
-  student: '제자',
-  influence: '영향',
-  influenced: '영향받음',
-  cofounder: '공동창업',
-  colleague: '동료',
-  friend: '지기',
-  rival: '맞수',
+  influence: '영향을 준', influenced: '영향을 받은', colleague: '협력', rival: '대립',
+  father: '아버지', mother: '어머니', parent: '부모', child: '자녀',
+  spouse: '배우자', partner: '동반자', sibling: '형제자매', relative: '친척',
 }
 
 const SOURCE_TYPE_LABELS: Record<string, string> = {

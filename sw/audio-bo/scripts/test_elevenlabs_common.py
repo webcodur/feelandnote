@@ -9,7 +9,7 @@ from celeb_dialogue_voice_common import ELEVENLABS_TTS_DEFAULTS, speech_body, sy
 
 class ElevenlabsCommonTests(unittest.TestCase):
     def test_supported_settings_and_older_model_override(self):
-        self.assertEqual(ELEVENLABS_TTS_DEFAULTS['modelId'], 'eleven_v4')
+        self.assertEqual(ELEVENLABS_TTS_DEFAULTS['modelId'], 'eleven_v3')
         body = speech_body('hello', 'eleven_v4', 0, .75, .3, .9)
         self.assertEqual(body['voice_settings'], {'stability': 0, 'similarity_boost': .75, 'speed': .9})
         self.assertNotIn('speed', body)

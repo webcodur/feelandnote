@@ -6,7 +6,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
 

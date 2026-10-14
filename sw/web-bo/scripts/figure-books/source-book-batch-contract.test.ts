@@ -148,6 +148,39 @@ function storedLocale(
   }
 }
 
+test('무관한 작품의 중복 locale은 신규 등록을 막거나 변경하지 않는다', () => {
+  const { manifest, resolved } = resolvedPublished()
+  const unrelated = storedContent({ id: 'unrelated', external_id: null })
+  const locale = storedLocale('en', resolved, {
+    content_id: unrelated.id, title: 'Unrelated work', creator: 'Another author', isbn: null,
+  })
+  const catalog = { contents: [unrelated], locales: [locale, { ...locale }] }
+  const before = JSON.stringify(catalog)
+  const plan = buildFigureBookPlan(manifest, resolved, catalog)
+  assert.equal(plan.action, 'insert')
+  assert.equal(plan.candidateContentIds.length, 0)
+  assert.equal(JSON.stringify(catalog), before)
+})
+
+test('중복 locale의 두 번째 행에서 ISBN이 일치해도 등록 후보의 중복은 차단한다', () => {
+  const { manifest, resolved } = resolvedPublished()
+  const content = storedContent({ external_id: null })
+  const unrelated = storedLocale('en', resolved, {
+    title: 'Unrelated label', creator: 'Another author', isbn: null,
+  })
+  assert.throws(() => buildFigureBookPlan(manifest, resolved, {
+    contents: [content], locales: [unrelated, storedLocale('en', resolved)],
+  }), /catalog has duplicate locale row/)
+})
+
+test('명시적으로 재사용하는 작품의 중복 locale은 계속 차단한다', () => {
+  const { manifest, resolved } = resolvedPublished()
+  const locale = storedLocale('ko', resolved)
+  assert.throws(() => buildFigureBookPlan({ ...manifest, reuseContentId: CONTENT_ID }, resolved, {
+    contents: [storedContent()], locales: [locale, { ...locale }],
+  }), /catalog has duplicate locale row/)
+})
+
 test('기존 시리즈의 다른 권을 신규 작품으로 넣는 계획은 충돌로 막는다', () => {
   const { manifest, resolved } = resolvedPublished()
   const seriesContent = storedContent({

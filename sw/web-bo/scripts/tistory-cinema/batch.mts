@@ -14,7 +14,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { spawnSync } from 'node:child_process'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { loadSelectionData, selectCandidates, type Job } from './lib/selection.mts'
 import { ASSETS } from '../blog-assets.mjs'
 import { backupArticle, buildPersonMaterial, completedPerson, MovieCache, personContext, savedPeople } from './lib/person-material.mts'

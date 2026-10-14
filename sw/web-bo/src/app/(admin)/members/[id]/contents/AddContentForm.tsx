@@ -22,7 +22,7 @@ export default function AddContentForm({ celebId }: Props) {
   const [error, setError] = useState<string | null>(null)
   const [selectedContent, setSelectedContent] = useState<SelectedContent | null>(null)
   const [contentType, setContentType] = useState<ContentType>('BOOK')
-  const [form, setForm] = useState({ status: 'FINISHED', review: '', source_url: '' })
+  const [form, setForm] = useState({ status: 'FINISHED', review: '', review_en: '', source_url: '' })
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -60,6 +60,7 @@ export default function AddContentForm({ celebId }: Props) {
         content_id: contentId,
         status: form.status,
         review: form.review || undefined,
+        review_en: form.review_en || undefined,
         source_url: form.source_url || undefined,
       })
       handleClose()
@@ -83,7 +84,7 @@ export default function AddContentForm({ celebId }: Props) {
     setIsOpen(false)
     setSelectedContent(null)
     setError(null)
-    setForm({ status: 'FINISHED', review: '', source_url: '' })
+    setForm({ status: 'FINISHED', review: '', review_en: '', source_url: '' })
   }
 
   const thumbnailUrl = selectedContent?.source === 'db' ? selectedContent.data.thumbnail_url : selectedContent?.data.coverImageUrl
@@ -152,6 +153,20 @@ export default function AddContentForm({ celebId }: Props) {
                       placeholder="리뷰 내용"
                       rows={3}
                       className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="add-content-review-en" className="block text-sm font-medium text-text-secondary">
+                      영문 감상경위 <span className="text-text-secondary/60">(선택)</span>
+                    </label>
+                    <textarea
+                      id="add-content-review-en"
+                      value={form.review_en}
+                      onChange={(e) => setForm({ ...form, review_en: e.target.value })}
+                      placeholder="English review"
+                      rows={3}
+                      className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary hover:border-accent/60 focus:border-accent focus:outline-none resize-none"
                     />
                   </div>
 

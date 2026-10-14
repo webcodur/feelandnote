@@ -14,6 +14,7 @@ import { buildGuardedCatalogRepairSql,planGuardedCatalogRepairs,expandReviewedEx
 import { buildReviewedCatalogInsertSql,bindReviewedCatalogInsertIdentity,verifyReviewedCatalogInsertReadback } from './lib/reviewed-catalog-insert.mjs'
 import { buildCatalogRepairSnapshotSql } from './lib/guarded-catalog-repairs.mjs'
 import {buildReviewedEditionConsolidationSql,planReviewedEditionConsolidation} from './lib/reviewed-edition-consolidation.mjs'
+import { verifyReviewedMergePair } from './lib/reviewed-merge-batch.mjs'
 
 const bin = process.env.PG_TEST_BIN
 const executable = name => join(bin, name + (process.platform === 'win32' ? '.exe' : ''))
@@ -94,6 +95,101 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
   const reset = extra => query(`TRUNCATE ${SNAPSHOT_TABLES.join(',')} RESTART IDENTITY CASCADE; INSERT INTO contents(id,type) VALUES('keep','BOOK'),('drop','BOOK'),('other','BOOK'); ${extra}`)
   const snapshot = () => JSON.parse(query(`SELECT jsonb_build_object(${SNAPSHOT_TABLES.map(table => `'${table}',(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM ${table} t ${table === 'contents' ? "WHERE id IN ('keep','drop')" : ''})`).join(',')});`))
   const merge = s => query(buildMergeSql(pair, s))
+
+  await t.test('wrong-speaker curation removals are atomic, source-bound and preserve normal readings and protected rows', () => {
+    const resetCurations = () => reset(`
+      INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO content_locales(content_id,locale,title,sources) VALUES('keep','en','Reviewed work','{}'),('drop','en','Reviewed work','{}');
+      INSERT INTO celeb_contents VALUES
+        ('wrong-keep','keep','guest','Incorrect reading claim A','Incorrect English claim A','https://podcast.example/original'),
+        ('wrong-drop','drop','guest','Incorrect reading claim B','Incorrect English claim B','https://podcast.example/republication'),
+        ('normal-a','keep','reader-a','Unchanged valid reading A','Unchanged valid English A','https://source.example/a'),
+        ('normal-b','keep','reader-b','Unchanged valid reading B','Unchanged valid English B','https://source.example/b'),
+        ('normal-c','keep','reader-c','Unchanged valid reading C','Unchanged valid English C','https://source.example/c'),
+        ('normal-d','keep','reader-d','Unchanged valid reading D','Unchanged valid English D','https://source.example/d');
+      INSERT INTO member_contents VALUES('member','drop','real-member','Protected member review',5);
+      INSERT INTO notes VALUES('note','drop','Protected note');`)
+    const reviewedPair = s => ({ ...pair, reviewedInvalidCurationRemovals: s.celeb_contents.filter(row => row.celeb_id === 'guest').map(row => ({
+      id: row.id, contentId: row.content_id, celebId: row.celeb_id, sourceUrl: row.source_url, before: structuredClone(row),
+      method: 'llm_source_body_review', llmReviewed: true, decision: 'remove_wrong_speaker',
+      reason: 'The LLM read the actual passage and confirmed that the host, not the guest, made this reading statement.',
+      bodyFinding: 'The original show notes list books mentioned by either speaker and do not establish guest reading.',
+      speakerEvidence: { sourceUrl: 'https://podcast.example/republication', registeredCelebId: row.celeb_id, registeredSpeaker: 'Guest', actualSpeaker: 'Host',
+        locator: 'The host self-introduction and reading statement at 20:27.', bodyEvidence: 'The same host then asks the guest about another subject; the guest answers in a different voice.' }
+    })) })
+    resetCurations()
+    let before = snapshot(), ownedPair = reviewedPair(before)
+    assert.throws(() => merge(before), /celeb conflict/)
+    query(buildMergeSql(ownedPair, before))
+    let after = snapshot()
+    verifyReviewedMergePair(before, after, ownedPair)
+    assert.equal(after.celeb_contents.length, 4)
+    assert.deepEqual(after.celeb_contents, before.celeb_contents.filter(row => row.celeb_id !== 'guest'))
+    assert.equal(after.member_contents[0].review, 'Protected member review')
+    assert.equal(after.notes[0].memo, 'Protected note')
+
+    resetCurations(); before = snapshot(); ownedPair = reviewedPair(before)
+    query("UPDATE celeb_contents SET review='Changed after independent review' WHERE id='wrong-keep';")
+    const changed = snapshot()
+    assert.throws(() => query(buildMergeSql(ownedPair, before)), /concurrent change in celeb_contents/)
+    assert.deepEqual(snapshot(), changed)
+
+    resetCurations(); before = snapshot(); ownedPair = reviewedPair(before)
+    query("CREATE TABLE curation_children(id text PRIMARY KEY,curation_id text REFERENCES celeb_contents(id) ON DELETE CASCADE); INSERT INTO curation_children VALUES('child','wrong-drop');")
+    try {
+      assert.throws(() => query(buildMergeSql(ownedPair, before)), /invalid curation child references/)
+      assert.deepEqual(snapshot(), before)
+      assert.equal(query('SELECT count(*) FROM curation_children;'), '1')
+    } finally { query('DROP TABLE curation_children;') }
+  })
+
+  await t.test('reviewed same-source curation selection preserves member and other readings and rejects live drift or child loss',()=>{
+    const resetSelection=()=>reset(`
+      INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO content_locales(content_id,locale,title,sources) VALUES('keep','en','Reviewed work','{}'),('drop','en','Reviewed work','{}');
+      INSERT INTO celeb_contents VALUES
+        ('selection-keep','keep','same-reader','Existing canonical Korean translation.','The identical existing English reading passage.','https://interview.example/original'),
+        ('selection-drop','drop','same-reader','Existing alternate Korean translation.','The identical existing English reading passage.','https://interview.example/original'),
+        ('normal','keep','other-reader','Preserved unrelated Korean reading.','Preserved unrelated English reading.','https://reading.example/normal');
+      INSERT INTO member_contents VALUES('reader','keep','member','Preserved member reading',5);
+      INSERT INTO notes VALUES('note','keep','Preserved note');`)
+    const reviewedSelection=(s,decision)=>{
+      const keep=s.celeb_contents.find(row=>row.id==='selection-keep'),drop=s.celeb_contents.find(row=>row.id==='selection-drop')
+      const republication=decision==='same_source_republication'
+      return {...pair,reviewedCurationResolutions:[{keepCurationId:keep.id,dropCurationId:drop.id,keepBefore:structuredClone(keep),dropBefore:structuredClone(drop),celebId:keep.celeb_id,
+        method:'llm_source_body_review',llmReviewed:true,decision,selectedCurationId:republication?drop.id:keep.id,allowedFields:republication?['review','review_en','source_url']:['review'],
+        reason:'The LLM selected an exact existing passage after reading the named book section of each source.',
+        bodyFinding:republication?'The secondary article requotes the fuller primary original and contains no independent new reading.':'The two Korean variants translate the same complete English passage from the exact same original source.',
+        evidence:[...new Set([keep.source_url,drop.source_url])].map(url=>({url,bodyFinding:'The actual live source explicitly includes the named person reading this book and the current reviewed passage.'})),
+        ...(republication?{additionalSourceUrl:keep.source_url}:{})}]}
+    }
+    for(const decision of ['same_source_translation_variants','same_source_republication']){
+      resetSelection()
+      if(decision==='same_source_republication')query(`UPDATE celeb_contents SET review='Existing short secondary requotation.',review_en='Existing secondary English requotation.',source_url='https://article.example/requotation' WHERE id='selection-keep';
+        UPDATE celeb_contents SET review='Existing complete primary Korean reading passage.',review_en='Existing complete primary English reading passage.' WHERE id='selection-drop';`)
+      const before=snapshot(),ownedPair=reviewedSelection(before,decision)
+      query(buildMergeSql(ownedPair,before));const after=snapshot()
+      verifyReviewedMergePair(before,after,ownedPair)
+      assert.deepEqual(after.celeb_contents.find(row=>row.id==='normal'),before.celeb_contents.find(row=>row.id==='normal'))
+      assert.deepEqual(after.member_contents,before.member_contents);assert.deepEqual(after.notes,before.notes)
+      const canonical=after.celeb_contents.find(row=>row.id==='selection-keep'),selected=before.celeb_contents.find(row=>row.id===ownedPair.reviewedCurationResolutions[0].selectedCurationId)
+      assert.equal(canonical.review,selected.review+(decision==='same_source_republication'?'\n\n추가 출처: https://article.example/requotation':''))
+      assert.equal(canonical.source_url,selected.source_url)
+      assert.equal(after.celeb_contents.length,2)
+    }
+    resetSelection();let before=snapshot(),ownedPair=reviewedSelection(before,'same_source_translation_variants')
+    query("UPDATE celeb_contents SET review='Live drift after review' WHERE id='selection-drop';")
+    const drift=snapshot();assert.throws(()=>query(buildMergeSql(ownedPair,before)),/concurrent change in celeb_contents/);assert.deepEqual(snapshot(),drift)
+    resetSelection();before=snapshot();ownedPair=reviewedSelection(before,'same_source_translation_variants')
+    query("CREATE TABLE selection_children(id text PRIMARY KEY,curation_id text REFERENCES celeb_contents ON DELETE CASCADE); INSERT INTO selection_children VALUES('child','selection-drop');")
+    try{assert.throws(()=>query(buildMergeSql(ownedPair,before)),/curation resolution child references/);assert.deepEqual(snapshot(),before);assert.equal(query('SELECT count(*) FROM selection_children;'),'1')}
+    finally{query('DROP TABLE selection_children;')}
+    resetSelection();before=snapshot();ownedPair=reviewedSelection(before,'same_source_translation_variants')
+    query(`CREATE FUNCTION corrupt_unrelated_selection() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF NEW.id='selection-keep' THEN UPDATE celeb_contents SET source_url='https://corrupted.example' WHERE id='normal'; END IF; RETURN NEW; END $$;
+      CREATE TRIGGER corrupt_selection AFTER UPDATE ON celeb_contents FOR EACH ROW EXECUTE FUNCTION corrupt_unrelated_selection();`)
+    try{assert.throws(()=>query(buildMergeSql(ownedPair,before)),/curation resolution protected readback mismatch/);assert.deepEqual(snapshot(),before)}
+    finally{query('DROP TRIGGER corrupt_selection ON celeb_contents; DROP FUNCTION corrupt_unrelated_selection();')}
+  })
 
   const resetFigureRelation=()=>reset(`
     INSERT INTO content_locales(content_id,locale,title,creator,isbn,sources) VALUES
@@ -753,8 +849,12 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     const before=snapshot(),first=structuredClone(before.figure_book_editions[0])
     assert.throws(()=>query("UPDATE figure_book_editions SET text_scope='volume/2' WHERE id=2"),/not service editions/)
     assert.deepEqual(snapshot(),before)
-    query(buildMergeSql(pair,before,{reviewedNonstartEditionRemovals:[{keepEditionId:1,dropEditionId:2,keepIsbn:'9781781945155',dropIsbn:'9781781945162',keepTitle:'My Great Predecessors Part 1',dropTitle:'My Great Predecessors Part 2',locale:'en',volumeNumber:2,
-      sourceUrl:'https://publisher.example/part-2',startSourceUrl:'https://publisher.example/part-1',reason:'LLM confirmed two parts of the same continuous original body using both publisher pages.'}]}))
+    // 원문에 근거한 시작 합본 범위는 가드용 full/volume 문자열로 덮어쓰지 않는다.
+    const combined='원작 단행본 제1·2권 본문; 완전판 시리즈 시작권'
+    query(`UPDATE figure_book_editions SET text_scope=${sqlLiteral(combined)} WHERE id=1`)
+    const reviewed=snapshot();first.text_scope=combined
+    query(buildMergeSql(pair,reviewed,{reviewedNonstartEditionRemovals:[{keepEditionId:1,dropEditionId:2,keepIsbn:'9781781945155',dropIsbn:'9781781945162',keepTitle:'My Great Predecessors Part 1',dropTitle:'My Great Predecessors Part 2',locale:'en',volumeNumber:2,
+      sourceUrl:'https://publisher.example/part-2',startSourceUrl:'https://publisher.example/combined-1-2',reason:'LLM confirmed the actual selected keeper contains first original volumes 1 and 2, and the dropped book is a later part of that body.',startTextScope:combined,startVolumeNumbers:[1,2]}]}))
     assert.deepEqual(snapshot().figure_book_editions,[first])
     assert.equal(query("SELECT isbn FROM content_locales WHERE content_id='keep'"),'9781781945155')
     assert.equal(query("SELECT content_id||':'||review FROM member_contents WHERE id='reader'"),'keep:Original review')
@@ -793,6 +893,8 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
       INSERT INTO figure_book_editions(id,content_id,locale,title,isbn,publisher,sources) VALUES
       (1,'keep','en','Original','one','Canonical Press','{"primary":"openlibrary","title":"https://openlibrary.org/books/OL1M"}'),
       (2,'drop','en','Original, revised edition','two','Other Press','{"primary":"openlibrary","title":"https://openlibrary.org/books/OL2M"}');
+      -- This fixture represents reviewed complete-body reprints; unknown scopes have separate refusal tests.
+      UPDATE figure_book_editions SET edition_kind='full',text_scope='complete';
       INSERT INTO figure_book_products VALUES(1,1,'coupang',true),(2,2,'coupang',true);
       INSERT INTO member_contents VALUES('reader','drop','user','review',5);`)
     query(editionPolicySql())
@@ -813,6 +915,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
       (1,'keep','ko','오디세이아','one','{"translators":["천병희"]}'),
       (2,'drop','ko','오디세이아 개정판','two','{"translators":["천 병희"]}'),
       (3,'drop','ko','오디세이아','three','{"translators":["김헌"]}');
+      UPDATE figure_book_editions SET edition_kind='full',text_scope='complete';
       INSERT INTO figure_book_products VALUES(1,2,'coupang',true);`)
     query(editionPolicySql())
     merge(snapshot())
@@ -909,7 +1012,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
       INSERT INTO figure_book_products VALUES(1,1,'amazon',true),(2,2,'amazon',true);
       INSERT INTO member_contents VALUES('m1','keep','u1','원문',5),('m2','drop','u2','review',4);
       INSERT INTO celeb_contents VALUES('c1','keep','c',NULL,NULL,'source'),('c2','drop','c','감상','Review','source');
-      INSERT INTO figure_book_characters VALUES('keep','person','related',NULL,NULL),('drop','person','appearance','설명','Description');
+      INSERT INTO figure_book_characters VALUES('keep','person','appearance',NULL,NULL),('drop','person','appearance','설명','Description');
       INSERT INTO records VALUES('r','drop','m2','record body'); INSERT INTO notes VALUES('n','drop','memo');
       INSERT INTO curated_lists VALUES('list') ON CONFLICT DO NOTHING;
       INSERT INTO curated_list_items(id,content_id,list_id,rank) VALUES('l','drop','list',4);
@@ -979,7 +1082,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     reset(`INSERT INTO figure_book_contents VALUES('keep'),('drop'); INSERT INTO figure_book_editions(content_id,locale,isbn,title,text_scope) VALUES('keep','en','same','Title','volume-1'),('drop','en','same','Title','complete');`)
     assert.throws(() => merge(snapshot()), /edition scope conflict/)
     assert.equal(query('SELECT count(*) FROM figure_book_editions'), '2')
-    reset(`INSERT INTO figure_book_contents VALUES('keep'),('drop'); INSERT INTO figure_book_characters VALUES('keep','c','related','first',NULL),('drop','c','related','second',NULL);`)
+    reset(`INSERT INTO figure_book_contents VALUES('keep'),('drop'); INSERT INTO figure_book_characters VALUES('keep','c','appearance','first',NULL),('drop','c','appearance','second',NULL);`)
     assert.throws(() => merge(snapshot()), /character description conflict/)
     assert.equal(query('SELECT count(*) FROM figure_book_characters'), '2')
   })
@@ -1004,6 +1107,24 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.match(merge(snapshot()), /MERGE_COMMITTED/)
     assert.equal(query('SELECT count(*) FROM figure_book_editions'), '2')
     assert.equal(query("SELECT string_agg(isbn,',' ORDER BY isbn) FROM figure_book_editions WHERE content_id='keep'"), 'isbn-1,isbn-2')
+  })
+
+  await t.test('같은 ISBN의 두 카드 seed는 운영 BEFORE 가드에 한 번만 전달하고 감상 원문을 보존한다', () => {
+    reset(`INSERT INTO figure_book_contents VALUES('keep');
+      INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','ko','해그스 눅','9780000000002','{"translators":["실제 역자"]}');
+      INSERT INTO content_locales(content_id,locale,title,creator,isbn,publisher) VALUES
+        ('keep','en','Keeper title','John Dickson Carr','9781788852067','Birlinn'),
+        ('drop','en','Other title','John Dickson Carr','9781788852067','Birlinn');
+      INSERT INTO celeb_contents VALUES('reading-a','keep','a','원래 감상 A','Original A','https://example.com/a'),('reading-b','drop','b','원래 감상 B','Original B','https://example.com/b');`)
+    query(editionPolicySql())
+    const before=snapshot()
+    assert.match(merge(before), /MERGE_COMMITTED/)
+    assert.equal(query("SELECT count(*) FROM figure_book_editions WHERE locale='en' AND isbn='9781788852067'"),'1')
+    assert.equal(query("SELECT title FROM figure_book_editions WHERE locale='en' AND isbn='9781788852067'"),'Keeper title')
+    assert.equal(query("SELECT count(*) FROM figure_book_editions WHERE locale='ko'"),'1')
+    assert.deepEqual(snapshot().celeb_contents,before.celeb_contents.map(row=>({...row,content_id:'keep'})))
+    assert.equal(query("SELECT count(*) FROM contents WHERE id='drop'"),'0')
+    assert.throws(()=>query("INSERT INTO figure_book_editions(content_id,locale,title,isbn) VALUES('keep','en','Another product','9781788852074')"),/verified different translation|representative edition/)
   })
 
   await t.test('catalog 없는 실판본 ISBN은 locale 충돌 후에도 남고 미확인 출처·상태를 날조하지 않음', () => {
@@ -1105,6 +1226,107 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.equal(query("SELECT public.book_nonstart_work_volume('Journey to the West, Volume 0','{\"workTitle\":\"Journey to the West\"}','chapters-051-075')"),'f')
     assert.equal(query("SELECT public.book_nonstart_work_volume('Journey to the West, Volume IV','{\"workTitle\":\"Journey to the West\"}','chapters-051-075')"),'t')
     query('DROP TRIGGER guard_figure_book_edition_policy ON figure_book_editions')
+  })
+
+  await t.test('기존 실물의 검수된 선정 제외와 owner 이동만 상품·기간·감상 전체를 보존한다', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    reset(`INSERT INTO figure_book_contents VALUES('keep'),('drop');
+      INSERT INTO figure_book_editions(id,content_id,locale,title,creator,description,isbn,publisher,edition_kind,text_scope,sort_order,verified,sources) VALUES
+      (14,'keep','en','Ancient Egyptian Literature, Volume I','Miriam Lichtheim','Old and Middle Kingdoms','9780520248427','UC Press',NULL,NULL,0,true,'{"editors":["Miriam Lichtheim"]}'),
+      (57,'drop','en','Ancient Egyptian Literature, Volume II','Miriam Lichtheim','New Kingdom texts','9780520248434','UC Press','selection','new-kingdom',1,true,'{"editors":["Miriam Lichtheim"]}'),
+      (59,'drop','en','Ancient Egyptian Literature, Volume III','Miriam Lichtheim','Late Period texts','9780520248441','UC Press','selection','late-period',2,true,'{"editors":["Miriam Lichtheim"]}');
+      INSERT INTO content_locales(content_id,locale,title,creator,description,isbn,publisher,sources) VALUES
+      ('keep','en','Ancient Egyptian Literature, Volume I','Miriam Lichtheim','Old and Middle Kingdoms','9780520248427','UC Press','{"primary":"openlibrary"}');
+      INSERT INTO figure_book_products VALUES(5700,57,'amazon',true),(5900,59,'other-store',false);
+      INSERT INTO member_contents VALUES('reader','drop','member','Original reading of the New Kingdom volume',5);
+      INSERT INTO celeb_contents VALUES('public-reading','drop','person','기존 해당 권 감상','Original volume-specific review','https://interview.example/volume-two');`)
+    query(editionPolicySql())
+    const initial = snapshot()
+    assert.throws(() => merge(initial), /additional edition requires a verified different translation/iu)
+    assert.deepEqual(snapshot(), initial)
+    const proofFor = row => ({method:'independent_selection_review',llmReviewed:true,content_id:'drop',
+      isbn:row.isbn,locale:row.locale,edition_title:row.title,reason:'editorial_exclusion',
+      source_url:'https://publisher.example/three-distinct-period-volumes',
+      explanation:'The LLM reviewed separate period anthologies. Retain this exact physical volume and its purchase history, without mapping its body to Volume I.'})
+    for (const row of initial.figure_book_editions.filter(row => row.content_id === 'drop')) {
+      query(`UPDATE figure_book_editions SET sources=sources||${sqlLiteral(JSON.stringify({edition_selection_evidence:[proofFor(row)]}))}::jsonb WHERE id=${row.id}`)
+    }
+    const reviewed = snapshot(), before57 = reviewed.figure_book_editions.find(row => row.id === 57)
+    // 본문·서지·역자·비proof 출처와 이미 판정한 근거는 바꿀 수 없다.
+    for (const patch of ["id=157", "isbn='9780520248427'", "locale='ko'", "title='Changed title'",
+      "creator='Invented author'", "publisher='Changed publisher'", "description='Changed body'",
+      "edition_kind='full'", "text_scope='complete'", "release_date='2000-01-01'",
+      "thumbnail_url='changed-cover'", "sort_order=99", "verified=false",
+      "sources=sources||'{\"translators\":[\"Invented Translator\"]}'::jsonb",
+      "sources=sources-'edition_selection_evidence'"]) {
+      assert.throws(() => query(`UPDATE figure_book_editions SET ${patch} WHERE id=57`), /Retained edition exclusion/)
+      assert.deepEqual(snapshot().figure_book_editions.find(row => row.id === 57), before57)
+    }
+    for (const difference of [{llmReviewed:false},{method:'machine_review'},{isbn:'9780520248427'},
+      {source_url:'https://openlibrary.org/books/OL3424162M'}, {content_id:'keep'}, {explanation:'short'}]) {
+      const bad = {...proofFor(before57),...difference}
+      assert.throws(() => query(`UPDATE figure_book_editions SET sources=sources||${sqlLiteral(JSON.stringify({edition_selection_evidence:[bad]}))}::jsonb WHERE id=57`), /Retained edition exclusion/)
+    }
+    // 허용되는 owner와 근거의 재결속도 반드시 같은 UPDATE여야 한다.
+    const moved = {...proofFor(before57),content_id:'keep'}
+    assert.throws(() => query(`INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','en',${sqlLiteral(before57.title)},${sqlLiteral(before57.isbn)},${sqlLiteral(JSON.stringify({edition_selection_evidence:[moved]}))}::jsonb)`), /Abridged books/)
+    const products = structuredClone(reviewed.figure_book_products)
+    assert.match(merge(reviewed), /MERGE_COMMITTED/)
+    const after = snapshot()
+    assert.deepEqual(after.figure_book_products, products)
+    assert.deepEqual(after.figure_book_editions.find(row => row.id === 14), initial.figure_book_editions.find(row => row.id === 14))
+    for (const row of reviewed.figure_book_editions.filter(row => row.id !== 14)) {
+      assert.deepEqual(after.figure_book_editions.find(value => value.id === row.id), {...row,content_id:'keep',
+        sources:{...row.sources,edition_selection_evidence:row.sources.edition_selection_evidence.map(value=>({...value,content_id:'keep'}))}})
+    }
+    assert.deepEqual(after.member_contents, reviewed.member_contents.map(row=>({...row,content_id:'keep'})))
+    assert.deepEqual(after.celeb_contents, reviewed.celeb_contents.map(row=>({...row,content_id:'keep'})))
+    assert.throws(() => query("INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','en','Unknown extra','9780140442281','{}')"), /verified different translation/)
+    assert.throws(() => query("INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','en','Named extra','9780140442281','{\"translators\":[\"Other Translator\"]}')"), /verified different translation/)
+  })
+
+  await t.test('검수된 역사 판본만 대표 수에서 제외하고 정상 이동·실물·이력을 보존한다', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    const prepare = (locale, original, difference = {}) => {
+      query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions')
+      const title = locale === 'ko' ? '역사 한국어 판본' : 'Historical English edition'
+      const proof = {method:'independent_selection_review',llmReviewed:true,content_id:'keep',
+        isbn:'9781070985909',locale,edition_title:title,reason:locale==='ko'?'wrong_locale':'editorial_exclusion',
+        source_url:'https://publisher.example/exact-historical-edition',
+        explanation:'The source-reviewed historical product is retained without changing its physical identity, introduction or purchase history.',...difference}
+      const historySources = {primary:'openlibrary',description:'https://publisher.example/old-introduction',
+        edition_selection_evidence:[proof]}
+      reset(`INSERT INTO figure_book_contents VALUES('keep'),('drop');
+        ${original?`UPDATE contents SET metadata='{"figureBook":{"originalLanguage":"en","identityEvidence":"https://publisher.example/original"}}' WHERE id IN ('keep','drop');`:''}
+        INSERT INTO figure_book_editions(id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,edition_kind,text_scope,verified,sources) VALUES
+        (925,'keep',${sqlLiteral(locale)},${sqlLiteral(title)},'Original Author','Preserved historical introduction','9781070985909','Old Publisher','https://images.example/old.jpg',NULL,NULL,true,${sqlLiteral(JSON.stringify(historySources))}::jsonb),
+        (5663,'drop',${sqlLiteral(locale)},'Normal representative','Original Author','Preserved normal introduction','9780140443868','Normal Publisher','https://images.example/normal.jpg','full','complete',true,${sqlLiteral(JSON.stringify(original?{}:{translators:['Verified Translator']}))}::jsonb);
+        INSERT INTO figure_book_products VALUES(9250,925,'amazon',false);
+        INSERT INTO member_contents VALUES('historical-reader','keep','member','Exact historical reading',5);`)
+      query(editionPolicySql())
+      return snapshot()
+    }
+    for (const [locale,original] of [['en',false],['ko',false],['en',true]]) {
+      const before=prepare(locale,original),history=before.figure_book_editions.find(row=>row.id===925),normal=before.figure_book_editions.find(row=>row.id===5663)
+      query("UPDATE figure_book_editions SET content_id='keep' WHERE id=5663")
+      const after=snapshot()
+      assert.deepEqual(after.figure_book_editions.find(row=>row.id===925),history)
+      assert.deepEqual(after.figure_book_editions.find(row=>row.id===5663),{...normal,content_id:'keep'})
+      assert.deepEqual(after.figure_book_products,before.figure_book_products)
+      assert.deepEqual(after.member_contents,before.member_contents)
+      assert.throws(()=>query(`INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep',${sqlLiteral(locale)},'Unverified extra','9780140442281','{}')`),/verified different translation|representative edition/)
+      assert.throws(()=>query(`INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep',${sqlLiteral(locale)},'Duplicate normal','9780140442281',${sqlLiteral(JSON.stringify(original?{}:{translators:['Verified Translator']}))}::jsonb)`),/representative edition/)
+    }
+    for(const difference of [{llmReviewed:false},{llmReviewed:'true'},{method:'machine_review'},{content_id:'drop'},
+      {isbn:'9780140443868'},{locale:'ko'},{edition_title:'Stale title'},{source_url:'https://openlibrary.org/books/OL1M'},
+      {source_url:null},{explanation:'short'}]) {
+      const before=prepare('en',false,difference)
+      assert.throws(()=>query("UPDATE figure_book_editions SET content_id='keep' WHERE id=5663"),/verified different translation/)
+      assert.deepEqual(snapshot(),before)
+    }
+    const before=prepare('en',true,{llmReviewed:false})
+    assert.throws(()=>query("UPDATE figure_book_editions SET content_id='keep' WHERE id=5663"),/representative edition/)
+    assert.deepEqual(snapshot(),before)
   })
 
   await t.test('행이 없던 배열에도 다른 세션은 합병 중 ID를 삽입할 수 없음', async () => {

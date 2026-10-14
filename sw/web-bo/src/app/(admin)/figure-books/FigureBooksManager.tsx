@@ -228,7 +228,7 @@ export default function FigureBooksManager({
         const appearanceCount = orderedIds.filter(
           (celebId) => selectedRelations[celebId] === 'appearance',
         ).length
-        setMessage(`등장 ${appearanceCount}명 · 연관 ${orderedIds.length - appearanceCount}명을 저장했습니다.`)
+        setMessage(`등장 ${appearanceCount}명 · 창작 ${orderedIds.length - appearanceCount}명을 저장했습니다.`)
         router.refresh()
       } catch (error) {
         setMessage(error instanceof Error ? error.message : '등장인물 저장에 실패했습니다.')

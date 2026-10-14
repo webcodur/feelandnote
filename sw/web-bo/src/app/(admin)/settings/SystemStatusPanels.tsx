@@ -6,7 +6,7 @@ import {
 } from '@/lib/system-status-health'
 import type { DatabaseHostStatus, HostMemoryStatus, SystemStatus } from '@/lib/system-status-types'
 
-function formatBytes(value: number | null): string {
+export function formatBytes(value: number | null): string {
   if (value === null) return '확인 불가'
   if (value < 1024) return `${value} B`
   const units = ['KB', 'MB', 'GB', 'TB']
@@ -26,7 +26,7 @@ function formatUptime(seconds: number): string {
   return days > 0 ? `${days}일 ${hours}시간` : `${hours}시간`
 }
 
-function formatDate(value: string | null): string {
+export function formatDate(value: string | null): string {
   if (!value) return '확인 불가'
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return value
@@ -37,7 +37,7 @@ function formatDate(value: string | null): string {
   }).format(date)
 }
 
-function Metric({ label, value }: { label: string; value: string }) {
+export function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start justify-between gap-4 border-b border-border py-2.5 last:border-0">
       <dt className="text-sm text-text-secondary">{label}</dt>
@@ -154,7 +154,8 @@ export function SystemStatusPanels({ status }: { status: SystemStatus }) {
               <strong className="text-sm text-text-primary">DB 암호화 백업</strong>
             </div>
             <p className="mt-2 text-sm text-text-secondary">
-              직전 결과 {backupResultLabel(database.backupResult)}
+              {database.backupState === 'active' ? '자동 백업 실행 중' : '자동 백업 꺼짐'}
+              {' · '}직전 결과 {database.lastBackupCompletedAt ? backupResultLabel(database.backupResult) : '실행 기록 없음'}
             </p>
             <p className="mt-1 text-sm text-text-secondary">
               최근 완료 {formatDate(database.lastBackupCompletedAt ?? database.lastBackupAt)}

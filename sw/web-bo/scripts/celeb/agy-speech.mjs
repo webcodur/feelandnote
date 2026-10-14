@@ -24,7 +24,7 @@ import fs from 'node:fs'
 import { spawnSync } from 'node:child_process'
 import { homedir } from 'node:os'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { agyCall } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })

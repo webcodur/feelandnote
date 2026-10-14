@@ -6,7 +6,7 @@ import { approvedCandidates, buildCoverageApplySql, buildCoverageWrites, resolve
 
 const candidate = (): CoverageCandidate => ({
   candidateId: 'person:9788937463013', celebId: 'eccf1500-9000-4e0e-8f28-66409d387058', slug: 'test-person',
-  relationType: 'related', rationale: 'Specific documented field', evidenceUrls: ['https://example.com/relation'],
+  relationType: 'appearance', rationale: 'Specific documented field', evidenceUrls: ['https://example.com/relation'],
   manifest: { work: { identity: 'homer/odyssey', title: 'Odyssey', creator: 'Homer', titleAliases: ['오디세이아'], creatorAliases: ['호메로스'] },
     edition: { kind: 'full', scope: 'complete' }, ko: { translationStatus: 'published', isbn: '9788937463013' } },
   editions: { ko: { source: 'kakao_book', isbn: '9788937463013', title: '오디세이아', creator: '호메로스',

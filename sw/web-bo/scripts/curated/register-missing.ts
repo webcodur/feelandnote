@@ -11,7 +11,7 @@
  *   npx tsx scripts/curated/register-missing.ts         # 무엇이 등록될지 보기만
  *   npx tsx scripts/curated/register-missing.ts --yes   # 실제 등록·연결
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { REPO_ROOT, scriptsPath } from '../lib/paths'

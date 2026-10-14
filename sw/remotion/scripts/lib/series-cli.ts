@@ -8,7 +8,7 @@
  *   `npx tsc --noEmit` 으로는 검사되지 않으므로 컴파일러 옵션을 직접 줘서 따로 검사한다.
  */
 
-import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
 import { existsSync, readFileSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'

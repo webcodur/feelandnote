@@ -282,7 +282,7 @@ function AwakenedImageCell({
       awakenedImageUrl={awakenedImageUrl}
       name={name}
       compact
-      className="group/portrait relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden border border-amber-500/20 hover:border-amber-300 data-[dragging=true]:border-amber-300 data-[dragging=true]:bg-amber-500/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-amber-400/30"
+      className="group/portrait relative flex w-16 shrink-0 items-center justify-center overflow-hidden border border-amber-500/20 hover:border-amber-300 data-[dragging=true]:border-amber-300 data-[dragging=true]:bg-amber-500/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-amber-400/30"
       empty={<EmptyImageMark />}
     />
   )

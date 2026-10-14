@@ -18,7 +18,7 @@ import {
   exportDiscourseEpisodeToFiles, writeDiscourseRegistry, inspectDiscourseFiles,
   type DiscourseExportResult,
 } from '@feelandnote/shared/bo/discourse-export'
-import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 import {
   adminClient, readDiscourseData, parseArgs, selectEpisodes, pad, DISCOURSES_DIR,
   type EpisodeFolder,

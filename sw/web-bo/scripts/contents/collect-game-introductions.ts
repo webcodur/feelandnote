@@ -2,7 +2,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { createHash } from 'node:crypto'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 type LocaleRow = { content_id: string; locale: string; title: string | null; creator: string | null; publisher: string | null; isbn: string | null; description: string | null; sources: Record<string, unknown> | null }
 type Content = { id: string; type: string; external_id: string | null; external_source: string | null; content_locales: LocaleRow[] }

@@ -8,9 +8,9 @@ import { requireAdmin } from '@/lib/admin-auth'
 import { createClient } from '@/lib/db/server'
 import { parseDatabaseHostOutput, parseWebHostOutput } from './system-status-format'
 import type { DatabaseApiStatus, EndpointStatus, SystemStatus } from './system-status-types'
+import { STORAGE_PROBE } from './system-status-storage-probe'
+import { ORACLE_SERVERS } from './oracle-config'
 
-const WEB_HOST = 'ubuntu@158.179.194.105'
-const DATABASE_HOST = 'ubuntu@152.67.216.40'
 const PUBLIC_WEB_URL = 'https://feelandnote.com'
 const SSH_TIMEOUT_MS = 12_000
 
@@ -20,25 +20,27 @@ grep -E '^(MemTotal|MemAvailable|SwapTotal|SwapFree):' /proc/meminfo
 printf 'UptimeSeconds='; cut -d. -f1 /proc/uptime
 printf 'CurrentPath='; readlink -f /opt/feelandnote/web/current
 printf 'ReleaseJson='; tr -d '\n' < /opt/feelandnote/web/current/.feelandnote-release.json
-printf '\n'`
+printf '\n'
+${STORAGE_PROBE}`
 
 const DATABASE_PROBE = `set -eu
 docker inspect --format 'PostgresRunning={{.State.Running}}
 PostgresHealth={{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}
-PostgresStartedAt={{.State.StartedAt}}' supabase-db
+PostgresStartedAt={{.State.StartedAt}}' feelandnote-db
 systemctl show feelandnote-db-backup.timer -p ActiveState -p SubState -p LastTriggerUSec -p NextElapseUSecRealtime
 systemctl show feelandnote-db-backup.service -p Result -p ExecMainStatus -p ExecMainExitTimestamp
 grep -E '^(MemTotal|MemAvailable|SwapTotal|SwapFree):' /proc/meminfo
 printf 'UptimeSeconds='; cut -d. -f1 /proc/uptime
 printf 'Postgres='
-docker exec -i supabase-db psql -U postgres -d postgres -At -F '|' <<'SQL'
+docker exec -i feelandnote-db psql -U postgres -d postgres -At -F '|' <<'SQL'
 select current_setting('server_version'),
        pg_database_size(current_database()),
        current_setting('max_connections'),
        count(*) filter (where datname = current_database()),
        (select count(*) from pg_tables where schemaname = 'public')
 from pg_stat_activity;
-SQL`
+SQL
+${STORAGE_PROBE}`
 
 interface CommandResult {
   output: string
@@ -59,9 +61,10 @@ function runSsh(host: string, remoteCommand: string): Promise<CommandResult> {
   }
 
   return new Promise((resolve) => {
-    execFile(
+    // Send the fixed probe on stdin, avoiding Windows SSH quote and argument limits.
+    const child = execFile(
       process.platform === 'win32' ? 'ssh.exe' : 'ssh',
-      ['-i', keyPath, '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', host, remoteCommand],
+      ['-i', keyPath, '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', host, 'bash -s'],
       { encoding: 'utf8', timeout: SSH_TIMEOUT_MS, windowsHide: true, maxBuffer: 256 * 1024 },
       (error, stdout, stderr) => {
         const responseMs = Math.round(performance.now() - startedAt)
@@ -69,6 +72,8 @@ function runSsh(host: string, remoteCommand: string): Promise<CommandResult> {
         resolve({ output: stdout, responseMs, error: detail })
       },
     )
+    child.stdin?.on('error', () => { /* SSH exit/timeout is handled by the callback. */ })
+    child.stdin?.end(remoteCommand.replace(/\r\n/gu, '\n'))
   })
 }
 
@@ -129,9 +134,9 @@ export async function getSystemStatus(): Promise<SystemStatus> {
 
   const [endpoint, webCommand, databaseApi, databaseCommand] = await Promise.all([
     probeEndpoint(),
-    runSsh(WEB_HOST, WEB_PROBE),
+    runSsh(`ubuntu@${ORACLE_SERVERS.web.address}`, WEB_PROBE),
     probeDatabaseApi(),
-    runSsh(DATABASE_HOST, DATABASE_PROBE),
+    runSsh(`ubuntu@${ORACLE_SERVERS.database.address}`, DATABASE_PROBE),
   ])
 
   return {

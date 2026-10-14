@@ -1,7 +1,7 @@
 /** Compare plan content identity fields against current contents rows; list mismatches. */
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 async function main() {
   const plans = JSON.parse(readFileSync(resolve(process.argv[2]), 'utf8'))

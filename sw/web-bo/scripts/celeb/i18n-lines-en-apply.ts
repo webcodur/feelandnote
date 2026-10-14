@@ -16,7 +16,7 @@
 
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { SPEECH_LINES_PER_SITUATION, SPEECH_SITUATIONS } from '../lib/celeb-speech-research'
 
 function loadEnv() {

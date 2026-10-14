@@ -1,0 +1,209 @@
+[
+  {
+    "name": "bass",
+    "start": 0.10999999999999999,
+    "duration": 0.62,
+    "volume": 0.24,
+    "src": "assets/impact/bass-hit.wav",
+    "peak": 0.25,
+    "track": 10
+  },
+  {
+    "name": "pop",
+    "start": 0.13,
+    "duration": 0.52,
+    "volume": 0.65,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 0.25,
+    "track": 11
+  },
+  {
+    "name": "bass",
+    "start": 0.39,
+    "duration": 0.62,
+    "volume": 0.24,
+    "src": "assets/impact/bass-hit.wav",
+    "peak": 0.53,
+    "track": 12
+  },
+  {
+    "name": "pop",
+    "start": 0.41000000000000003,
+    "duration": 0.52,
+    "volume": 0.65,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 0.53,
+    "track": 13
+  },
+  {
+    "name": "bass",
+    "start": 0.67,
+    "duration": 0.62,
+    "volume": 0.24,
+    "src": "assets/impact/bass-hit.wav",
+    "peak": 0.81,
+    "track": 11
+  },
+  {
+    "name": "pop",
+    "start": 0.6900000000000001,
+    "duration": 0.52,
+    "volume": 0.65,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 0.81,
+    "track": 14
+  },
+  {
+    "name": "bass",
+    "start": 0.9500000000000001,
+    "duration": 0.62,
+    "volume": 0.24,
+    "src": "assets/impact/bass-hit.wav",
+    "peak": 1.09,
+    "track": 10
+  },
+  {
+    "name": "pop",
+    "start": 0.9700000000000001,
+    "duration": 0.52,
+    "volume": 0.65,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 1.09,
+    "track": 13
+  },
+  {
+    "name": "pop",
+    "start": 1.62,
+    "duration": 0.52,
+    "volume": 0.42,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 1.74,
+    "track": 10
+  },
+  {
+    "name": "pop",
+    "start": 2.1999999999999997,
+    "duration": 0.52,
+    "volume": 0.42,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 2.32,
+    "track": 10
+  },
+  {
+    "name": "pop",
+    "start": 2.78,
+    "duration": 0.52,
+    "volume": 0.42,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 2.9,
+    "track": 10
+  },
+  {
+    "name": "whoosh",
+    "start": 4.26,
+    "duration": 0.574,
+    "volume": 0.5,
+    "src": "assets/impact/whoosh-hit.wav",
+    "peak": 4.42,
+    "track": 10
+  },
+  {
+    "name": "pop",
+    "start": 4.3999999999999995,
+    "duration": 0.52,
+    "volume": 0.55,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 4.52,
+    "track": 11
+  },
+  {
+    "name": "pop",
+    "start": 4.569999999999999,
+    "duration": 0.52,
+    "volume": 0.55,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 4.6899999999999995,
+    "track": 12
+  },
+  {
+    "name": "bass",
+    "start": 4.63,
+    "duration": 0.62,
+    "volume": 0.54,
+    "src": "assets/impact/bass-hit.wav",
+    "peak": 4.77,
+    "track": 13
+  },
+  {
+    "name": "pop",
+    "start": 4.739999999999999,
+    "duration": 0.52,
+    "volume": 0.55,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 4.859999999999999,
+    "track": 14
+  },
+  {
+    "name": "pop",
+    "start": 4.909999999999999,
+    "duration": 0.52,
+    "volume": 0.55,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 5.029999999999999,
+    "track": 10
+  },
+  {
+    "name": "bass",
+    "start": 5.220000000000001,
+    "duration": 0.62,
+    "volume": 0.35,
+    "src": "assets/impact/bass-hit.wav",
+    "peak": 5.36,
+    "track": 11
+  },
+  {
+    "name": "pop",
+    "start": 5.5,
+    "duration": 0.52,
+    "volume": 0.42,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 5.62,
+    "track": 10
+  },
+  {
+    "name": "pop",
+    "start": 6.08,
+    "duration": 0.52,
+    "volume": 0.42,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 6.2,
+    "track": 10
+  },
+  {
+    "name": "pop",
+    "start": 6.66,
+    "duration": 0.52,
+    "volume": 0.42,
+    "src": "assets/impact/pop-hit.wav",
+    "peak": 6.78,
+    "track": 10
+  },
+  {
+    "name": "whoosh",
+    "start": 8.69,
+    "duration": 0.574,
+    "volume": 0.4,
+    "src": "assets/impact/whoosh-hit.wav",
+    "peak": 8.85,
+    "track": 10
+  },
+  {
+    "name": "bass",
+    "start": 8.92,
+    "duration": 0.62,
+    "volume": 0.62,
+    "src": "assets/impact/bass-hit.wav",
+    "peak": 9.06,
+    "track": 11
+  }
+]

@@ -6,7 +6,18 @@ import { spawn } from 'node:child_process'
 import { once } from 'node:events'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { renameCheckpoint, archiveQcReport, compactManifestQc } from './reading-voice.mjs'
+import { renameCheckpoint, archiveQcReport, compactManifestQc, restoreNarrationBundle, targets } from './reading-voice.mjs'
+
+test('An explicit missing or malformed queue never falls back to the full person list', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'reading-queue-test-'))
+  const db = { from() { throw new Error('Full inventory must not be queried') } }
+  try {
+    await assert.rejects(targets(db, { queueFile: join(directory, 'absent.json') }), { code: 'ENOENT' })
+    const path = join(directory, 'malformed.json')
+    await writeFile(path, '{}')
+    await assert.rejects(targets(db, { queueFile: path }), /Queue file must contain items/)
+  } finally { await rm(directory, { recursive: true }) }
+})
 
 test('Checkpoint replacement retries only temporary sharing errors and never removes the destination', async () => {
   const errors = ['EPERM', 'EBUSY', 'EACCES']
@@ -89,7 +100,7 @@ test('Windows shared handle blocks original rename but checkpoint retry succeeds
 import { args, pcmToWav, Gemini, publish, speedPlan, reusableAttempt, adoptAttemptWav, isQualityFailure, RequestPacer, safeApiError, synthesizeEntry, qcFailure, isResourceDeferral, verifiedPublished, parseQuotaResponse, summarizeQuota, nextPacificResetAt } from './reading-voice.mjs'
 
 test('Resource deferral stops QC retries while retaining the reusable synthesis', () => {
-  for (const label of ['QC', 'Final MP3 QC']) {
+  for (const label of ['QC', 'Final MP3 QC', 'Narration spacing', 'Final narration spacing']) {
     const message = qcFailure({ status: 'deferred', flags: ['resource-busy'] }, label)
     assert.equal(isResourceDeferral(message), true)
     assert.equal(isQualityFailure(message), false)
@@ -97,6 +108,27 @@ test('Resource deferral stops QC retries while retaining the reusable synthesis'
       qcScriptHash: 'qc', processingHash: 'processing' }, 'qc', 'processing'), true)
   }
   assert.equal(isResourceDeferral('QC regenerate: sample-jump'), false)
+})
+
+test('failed narration publication restores matching audio and timing, and refuses a concurrent change', async () => {
+  const hash = value => createHash('sha256').update(value).digest('hex')
+  const beforeAudio = {body:Buffer.from('original'),etag:'old-audio'}
+  const beforeTiming = {body:Buffer.from(JSON.stringify({audioHash:hash(beforeAudio.body)})),etag:'old-timing'}
+  const newAudio = {body:Buffer.from('processed'),etag:'new-audio'}
+  const newTiming = {body:Buffer.from(JSON.stringify({audioHash:hash(newAudio.body)})),etag:'new-timing'}
+  const store = new Map([['reading.mp3',newAudio],['reading.json',newTiming]])
+  const send = async command => {
+    const {Key,Body,IfMatch} = command.input
+    assert.equal(IfMatch,store.get(Key).etag)
+    store.set(Key,{body:Body,etag:'restored'})
+  }
+  const get = async key => store.get(key) ?? null
+  await restoreNarrationBundle(send,get,'bucket','reading.mp3',beforeAudio,beforeTiming,hash(newAudio.body))
+  assert.deepEqual(store.get('reading.mp3').body,beforeAudio.body)
+  assert.deepEqual(store.get('reading.json').body,beforeTiming.body)
+  store.set('reading.mp3',{body:Buffer.from('another publisher'),etag:'other'})
+  await assert.rejects(restoreNarrationBundle(send,get,'bucket','reading.mp3',beforeAudio,beforeTiming,hash(newAudio.body)), /ROLLBACK_CONFLICT/)
+  assert.equal(store.get('reading.mp3').body.toString(),'another publisher')
 })
 
 const dailyQuotaBody = JSON.stringify({ error: { details: [
@@ -274,7 +306,7 @@ test('Orphan WAV is adopted before synthesis, while malformed existing WAV is pr
   } finally { await rm(directory, { recursive: true, force: true }) }
 })
 
-test('Gemini rejects incomplete output and never puts a key into the URL', async () => {
+test('Gemini 2.5 rejects incomplete output and never puts a key into the URL', async () => {
   const original = globalThis.fetch
   let call
   globalThis.fetch = async (url, options) => {
@@ -287,8 +319,8 @@ test('Gemini rejects incomplete output and never puts a key into the URL', async
     assert.equal(call.options.headers['x-goog-api-key'], 'test-free-key')
     const payload = JSON.parse(call.options.body)
     assert.equal(payload.generationConfig.speechConfig.voiceConfig.prebuiltVoiceConfig.voiceName, 'Charon')
-    assert.equal(payload.contents[0].parts[0].text, 'Hello.')
-    assert.equal(payload.contents[0].parts[0].speech_metadata.style, 'Read comfortably and naturally.')
+    assert.equal(payload.contents[0].parts[0].text, 'Read comfortably and naturally. Read only the following text:\n\nHello.')
+    assert.equal(payload.contents[0].parts[0].speech_metadata, undefined)
   } finally { globalThis.fetch = original }
 })
 
@@ -387,7 +419,8 @@ test('Publisher retries voice version CAS, verifies public bytes, and resumes ca
   process.env.R2_BUCKET_NAME = 'test-bucket'
   process.env.R2_PUBLIC_URL = 'https://example.invalid'
   const row = { id: 'id', slug: 'slug', locale: 'en', text: 'Hello.', sourceHash: hash('Hello.') }
-  const entry = { mp3, mp3Hash: hash(body), finalQcHash: hash(body), qcScriptHash: 'qc', settingsHash: 'settings', qc: { ok: true, status: 'passed' }, status: 'ready' }
+  const entry = { ...row, mp3, mp3Hash: hash(body), finalQcHash: hash(body), qcScriptHash: 'qc', settingsHash: 'settings', qc: { ok: true, status: 'passed' }, status: 'ready',
+    finalQc: { ok:true,status:'passed',audio:mp3,metrics:{duration:1.2},words:[{word:'Hello',start:0,end:1}] } }
   let version = 2
   const updates = []
   const db = { from: (table) => ({
@@ -401,29 +434,52 @@ test('Publisher retries voice version CAS, verifies public bytes, and resumes ca
       return query
     },
   }) }
-  let remote = null
+  const remote = new Map()
   let puts = 0
+  let createRace = false
   const r2 = { send: async (command) => {
     if (command.constructor.name === 'GetObjectCommand') {
-      if (!remote) throw Object.assign(new Error('missing'), { name: 'NoSuchKey' })
-      return { Body: { transformToByteArray: async () => remote } }
+      const item = remote.get(command.input.Key)
+      if (!item) throw Object.assign(new Error('missing'), { name: 'NoSuchKey' })
+      return { Body: { transformToByteArray: async () => item.body }, ETag:item.etag, Metadata:item.metadata }
     }
-    if (command.constructor.name === 'PutObjectCommand') { remote = command.input.Body; puts++; return {} }
+    if (command.constructor.name === 'PutObjectCommand') {
+      if (command.input.Key === 'reading.mp3') {
+        assert.equal(command.input.IfNoneMatch, '*')
+        if (createRace) {
+          remote.set('reading.mp3',{body:Buffer.alloc(2048,2),etag:'other'})
+          throw Object.assign(new Error('created concurrently'),{$metadata:{httpStatusCode:412}})
+        }
+      }
+      const item = {body:command.input.Body,metadata:command.input.Metadata,etag:`"${createHash('md5').update(command.input.Body).digest('hex')}"`}
+      remote.set(command.input.Key,item); puts++; return {ETag:item.etag}
+    }
     throw new Error('Unexpected object deletion')
   } }
   let cacheCalls = 0
   const helpers = { voiceR2Key: () => 'reading.mp3', voiceFileName: () => 'reading.mp3', revalidateWebCeleb: async () => { if (++cacheCalls === 1) throw new Error('cache unavailable') } }
-  globalThis.fetch = async () => new Response(body)
+  globalThis.fetch = async (url) => new Response(remote.get(new URL(url).pathname.slice(1))?.body)
   try {
-    await assert.rejects(publish(db, r2, row, entry, { run: directory, qcScriptHash: 'qc' }, async () => {}, helpers), /cache unavailable/)
+    await assert.rejects(publish(db, r2, row, entry, { run: directory, qcScriptHash: 'qc', 'missing-only':true }, async () => {}, helpers), /cache unavailable/)
     assert.equal(entry.status, 'published')
     assert.equal(version, 10)
     assert.deepEqual(updates, [{ voice_v: 3 }, { voice_v: 10 }])
-    assert.equal(puts, 1)
+    assert.equal(puts, 2)
     await publish(db, r2, row, entry, { run: directory, qcScriptHash: 'qc' }, async () => {}, helpers)
     assert.equal(updates.length, 2)
-    assert.equal(puts, 1)
+    assert.equal(puts, 2)
     assert.ok(entry.revalidatedAt)
+    const otherAudio = {body:Buffer.alloc(2048,2),etag:'other'}
+    remote.set('reading.mp3',otherAudio)
+    await publish(db,r2,row,entry,{run:directory,qcScriptHash:'qc','missing-only':true},async()=>{},helpers)
+    assert.equal(entry.status,'skipped-existing')
+    assert.equal(remote.get('reading.mp3'),otherAudio)
+    assert.equal(puts,2)
+    remote.delete('reading.mp3'); createRace = true
+    await publish(db,r2,row,entry,{run:directory,qcScriptHash:'qc','missing-only':true},async()=>{},helpers)
+    assert.equal(entry.status,'skipped-existing')
+    assert.equal(remote.get('reading.mp3').etag,'other')
+    assert.equal(puts,2)
     entry.mp3Hash = 'tampered'
     await assert.rejects(publish(db, r2, row, entry, {}, async () => {}, helpers), /intact QC-passed MP3/)
   } finally {

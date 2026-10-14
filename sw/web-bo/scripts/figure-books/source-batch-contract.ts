@@ -1,10 +1,7 @@
-export const FICTION_SOURCE_RELATION_TYPES = [
-  'appearance',
-  'related',
-  'authored',
-] as const
+import { FIGURE_BOOK_RELATION_TYPES, type FigureBookRelationType } from '@feelandnote/shared/constants/figure-book-terms'
 
-export type FigureBookRelationType = typeof FICTION_SOURCE_RELATION_TYPES[number]
+export const FICTION_SOURCE_RELATION_TYPES = FIGURE_BOOK_RELATION_TYPES
+export type { FigureBookRelationType }
 
 export type FigureBookBatchCharacter = {
   slug?: string

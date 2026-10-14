@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 /** 읽기 전용 anon key 클라이언트 (인증 불필요) */
 export const db = createClient(

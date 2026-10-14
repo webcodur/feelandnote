@@ -7,7 +7,7 @@
  * 화면 진입은 (admin)/layout.tsx 가 막지만 서버 액션은 주소만 알면 따로 불릴 수 있다.
  */
 
-import { createClient as createDatabaseClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { createClient as createDatabaseClient, type DatabaseClient } from '@feelandnote/db'
 import { createClient } from '@/lib/db/server'
 import type { DiscourseRowSource } from '@feelandnote/shared/lib/discourse-assemble'
 

@@ -15,7 +15,7 @@
  * 재실행 안전 — 이미 판정받은 인물은 건너뛴다.
  * 출력: blog-assets(D:)/naver-blog/_pick-candidates.json / _pick-verdicts.json
  */
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@feelandnote/db';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';

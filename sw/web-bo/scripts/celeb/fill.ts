@@ -49,7 +49,7 @@
 import { mkdir, readFile, readdir, rename, unlink } from 'node:fs/promises'
 import path from 'node:path'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { INFLUENCE_FIELDS } from '@feelandnote/influence-constants/core'
 import { CELEB_PROFESSIONS } from '@feelandnote/shared/constants/celeb-professions'
 import {

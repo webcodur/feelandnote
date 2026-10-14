@@ -9,7 +9,7 @@
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { isOnSale } from './appearance-sales-status.mjs'
 
 const PAGE_SIZE = 1000

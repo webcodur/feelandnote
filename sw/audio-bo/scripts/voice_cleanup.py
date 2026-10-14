@@ -5,7 +5,7 @@ Remotion CLI synthesis, audio-bo synthesis) cleans its output where the audio fi
 Node callers go through packages/shared/src/bo/voice-cleanup.ts; Python callers import clean_file.
 Rules and listening evidence: docs/project/production/prod-04-voice-cleanup.md.
 
-Speech is excluded first and only the quiet remainder is touched, so dialogue cannot be cut.
+Speech is excluded first; quiet phonation is additionally protected by periodicity checks.
 Breaths are 1/100 the amplitude of speech; a detector that searches "audible events" with a
 0.010 floor misses them and grabs speech instead (26.09.13: match 0.9882 -> 0.9622, 85 -> 83 words).
 
@@ -29,6 +29,12 @@ from pathlib import Path
 
 import numpy as np
 
+NARRATION_POLICY_PATH = Path(__file__).resolve().parents[3] / "packages/shared/src/bo/voice-utils/narration-cleanup-policy.json"
+NARRATION_POLICY = json.loads(NARRATION_POLICY_PATH.read_text(encoding="utf-8"))
+SENTENCE_GAP_SECONDS = NARRATION_POLICY["sentenceGapSeconds"]
+PARAGRAPH_GAP_SECONDS = NARRATION_POLICY["paragraphGapSeconds"]
+PAUSE_TOLERANCE_SECONDS = 0.035
+
 WINDOW, HOP = 0.025, 0.010
 MP3_BITRATE = "128k"  # matches MP3_SETTINGS in sw/web-bo/scripts/celeb/reading-voice.mjs and the dialogue runs
 
@@ -41,6 +47,11 @@ BREATH_MIN, BREATH_MAX = 0.06, 0.80
 # endings: 54% of dialogue fills and 28% of reading fills had speech right before them (26.09.13).
 # Verified inhales measured 0.0015-0.0057; a louder real breath left in place beats a clipped word.
 BREATH_PEAK_MAX = 0.010
+# Short quiet breaths can adjoin a louder word onset, which made the whole
+# connected span fail the peak cap. Split there, retain extra speech margins,
+# and reject periodic low-volume phonation rather than erasing a word's decay.
+BREATH_SPLIT_GUARD = 0.080
+BREATH_PERIODICITY_MAX = 0.60
 FADE = 0.008
 FALLBACK_TONE_RMS = 0.0005  # when a file has too little quiet audio to sample
 
@@ -50,7 +61,7 @@ TRIM_GUARD = 0.040
 HEAD_KEEP, TAIL_KEEP = 0.08, 0.25
 
 # Pause ceiling -> target, set by listening (reading: between sentences, dialogue: at commas)
-PROFILES = {"reading": (1.20, 1.05), "dialogue": (1.10, 0.95)}
+PROFILES = {"reading": (float("inf"), SENTENCE_GAP_SECONDS), "dialogue": (1.10, 0.95)}
 
 
 def sample_rate_of(path):
@@ -61,7 +72,7 @@ def sample_rate_of(path):
 
 def decode(path):
     rate = sample_rate_of(path)
-    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", path, "-f", "s16le", "-ac", "1", "-ar", str(rate), "-"],
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-threads", "1", "-i", path, "-f", "s16le", "-ac", "1", "-ar", str(rate), "-"],
                          capture_output=True, check=True).stdout
     return np.frombuffer(raw, dtype=np.int16).astype(np.float32) / 32768.0, rate
 
@@ -69,7 +80,7 @@ def decode(path):
 def encode(samples, rate, path):
     codec = ["-c:a", "pcm_s16le"] if path.lower().endswith(".wav") else ["-codec:a", "libmp3lame", "-b:a", MP3_BITRATE]
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "s16le", "-ac", "1", "-ar", str(rate),
-                    "-i", "-", *codec, "-ar", str(rate), path],
+                    "-i", "-", *codec, "-threads", "1", "-ar", str(rate), path],
                    input=(np.clip(samples, -1, 1) * 32767).astype(np.int16).tobytes(), check=True)
 
 
@@ -129,7 +140,47 @@ def breath_spans(samples, rate):
         if BREATH_MIN <= end - start <= BREATH_MAX and env[i:j].max() < BREATH_PEAK_MAX:
             spans.append((start, end))
         i = j
-    return spans
+    split_guard = int(BREATH_SPLIT_GUARD / HOP)
+    protected = np.convolve((env >= BREATH_PEAK_MAX).astype(int),
+                            np.ones(2 * split_guard + 1), "same") > 0
+    candidate = (env > BREATH_FLOOR_RMS) & ~protected
+    i = 0
+    while i < candidate.size:
+        if not candidate[i]:
+            i += 1
+            continue
+        j = i
+        while j < candidate.size and candidate[j]:
+            j += 1
+        start, end = i * HOP, j * HOP + WINDOW
+        if (BREATH_MIN <= end - start <= BREATH_MAX
+                and not any(start < b and end > a for a, b in spans)
+                and not periodic_phonation(samples[int(start * rate):int(end * rate)], rate)):
+            spans.append((start, end))
+        i = j
+    return sorted(spans)
+
+
+def periodic_phonation(samples, rate):
+    """Protect quiet voiced endings: periodicity at plausible vocal pitch lags."""
+    stride = max(1, rate // 8000)
+    reduced = samples[::stride]
+    effective_rate = rate / stride
+    width = min(reduced.size, round(.060 * effective_rate))
+    if width < 32:
+        return True
+    for start in (0, (reduced.size - width) // 2, reduced.size - width):
+        frame = reduced[start:start + width].astype(np.float64)
+        frame -= frame.mean()
+        energy = np.dot(frame, frame)
+        if energy <= 1e-12:
+            continue
+        ac = np.correlate(frame, frame, mode="full")[width - 1:]
+        for lag in range(round(effective_rate / 400), min(width // 2, round(effective_rate / 80))):
+            denominator = np.sqrt(np.dot(frame[:-lag], frame[:-lag]) * np.dot(frame[lag:], frame[lag:]))
+            if denominator and ac[lag] / denominator >= BREATH_PERIODICITY_MAX:
+                return True
+    return False
 
 
 def room_tone(samples, rate):
@@ -165,6 +216,147 @@ def fill_breaths(samples, rate, spans):
     return out
 
 
+def boundary_pause_edits(samples, rate, boundaries, *, tolerance=PAUSE_TOLERANCE_SECONDS):
+    """Use trusted text/timestamp boundaries to edit quiet audio, never infer paragraphs.
+
+    Each boundary has start/end hints in seconds and kind sentence/paragraph.
+    Waveform silence edges, not ASR word padding, determine the perceived gap.
+    Both speech edges keep TRIM_GUARD; replacement room tone includes those margins.
+    """
+    env = envelope(samples, rate)
+    if not env.size:
+        return [], [], ["empty-audio"]
+    quiet = env < VOICE_RMS
+    runs, i = [], 0
+    while i < len(quiet):
+        if not quiet[i]:
+            i += 1
+            continue
+        j = i
+        while j < len(quiet) and quiet[j]:
+            j += 1
+        # A voiced frame spans WINDOW, so its tail must remain intact.
+        a = max(0.0, (i - 1) * HOP + WINDOW)
+        b = min(samples.size / rate, j * HOP)
+        if i > 0 and j < len(quiet) and b - a > 2 * TRIM_GUARD:
+            runs.append((a, b))
+        i = j
+    edits, pauses, unresolved = [], [], []
+    used = set()
+    for boundary in boundaries:
+        start, end, kind = boundary["start"], boundary["end"], boundary["kind"]
+        if kind not in ("sentence", "paragraph") or not np.isfinite(start + end) or end < start:
+            raise ValueError("Invalid narration boundary")
+        pivot = (start + end) / 2
+        choices = [(index, a, b) for index, (a, b) in enumerate(runs)
+                   if index not in used and a <= end + 0.70 and b >= start - 0.30
+                   and a <= pivot + 0.70 and b >= pivot - 0.30]
+        if not choices:
+            unresolved.append({**boundary, "reason": "no-safe-silence-at-boundary"})
+            continue
+        index, a, b = min(choices, key=lambda x: max(x[1] - pivot, pivot - x[2], 0))
+        used.add(index)
+        target = PARAGRAPH_GAP_SECONDS if kind == "paragraph" else SENTENCE_GAP_SECONDS
+        pauses.append({"start": a, "end": b, "kind": kind, "target": target})
+        if abs(b - a - target) <= tolerance:
+            continue
+        lo, hi = round((a + TRIM_GUARD) * rate), round((b - TRIM_GUARD) * rate)
+        replace_samples = round(target * rate) - (lo - round(a * rate)) - (round(b * rate) - hi)
+        if replace_samples < 0 or (edits and lo < edits[-1]["endSample"]):
+            raise ValueError("Overlapping or impossible narration pause edits")
+        edits.append({"startSample": lo, "endSample": hi, "replacementSamples": replace_samples,
+                      "start": lo / rate, "end": hi / rate, "kind": kind,
+                      "originalGap": b - a, "targetGap": target})
+    return edits, pauses, unresolved
+
+
+def apply_pause_edits(samples, rate, edits):
+    """Preserve every sample outside the selected quiet cores; replace cores with room tone."""
+    if not edits:
+        return samples.copy()
+    pool = room_tone(samples, rate)
+    chunks, cursor = [], 0
+    for edit in edits:
+        a, b, n = edit["startSample"], edit["endSample"], edit["replacementSamples"]
+        if a < cursor or b < a or b > samples.size:
+            raise ValueError("Invalid pause edit sample range")
+        chunks.append(samples[cursor:a])
+        bed = np.resize(pool, n).copy()
+        fade = min(int(FADE * rate), n // 2, (b - a) // 2)
+        if fade:
+            ramp = np.linspace(0, 1, fade)
+            bed[:fade] = samples[a:a + fade] * (1 - ramp) + bed[:fade] * ramp
+            bed[-fade:] = bed[-fade:] * (1 - ramp) + samples[b - fade:b] * ramp
+        chunks.append(bed)
+        cursor = b
+    chunks.append(samples[cursor:])
+    return np.concatenate(chunks)
+
+
+def retime_timestamp(seconds, rate, edits):
+    position = seconds * rate
+    shift = 0
+    for edit in edits:
+        a, b, n = edit["startSample"], edit["endSample"], edit["replacementSamples"]
+        if position < a:
+            break
+        if position < b:
+            return (a + shift + (position - a) * n / (b - a)) / rate
+        shift += n - (b - a)
+    return (position + shift) / rate
+
+
+def encode_narration(samples, rate, boundaries, target):
+    """Normalize quiet boundary cores and verify the final WAV/MP3, without re-encoding speech from a lossy retry."""
+    target = Path(target)
+    if target.exists():
+        raise FileExistsError(str(target))
+    target.parent.mkdir(parents=True, exist_ok=True)
+    # Keep every boundary available for encoder-edge calibration, including an
+    # already-correct gap. Its core is room tone, so no speech samples change.
+    edits, _, unresolved = boundary_pause_edits(samples, rate, boundaries, tolerance=-1)
+    if unresolved:
+        raise ValueError("UNSAFE_BOUNDARY: " + json.dumps(unresolved))
+    for iteration in range(4):
+        fixed = apply_pause_edits(samples, rate, edits)
+        mapped = [{**b, "start": retime_timestamp(b["start"], rate, edits),
+                   "end": retime_timestamp(b["end"], rate, edits)} for b in boundaries]
+        # Verify each retained interval before encoding, after all calibrations.
+        cursor, output_cursor = 0, 0
+        for edit in edits:
+            size = edit["startSample"] - cursor
+            if not np.array_equal(samples[cursor:cursor + size], fixed[output_cursor:output_cursor + size]):
+                raise ValueError("PRESERVED_PCM_CHANGED")
+            output_cursor += size + edit["replacementSamples"]
+            cursor = edit["endSample"]
+        if not np.array_equal(samples[cursor:], fixed[output_cursor:]):
+            raise ValueError("PRESERVED_PCM_CHANGED")
+        candidate = target if not iteration else target.with_stem(target.stem + f"-encode-{iteration}")
+        encode(fixed, rate, str(candidate))
+        encoded, encoded_rate = decode(str(candidate))
+        # LAME can retain up to a few dozen tail padding samples; they never
+        # shift the measured sentence times and belong in the final duration.
+        if encoded_rate != rate or not 0 <= encoded.size - fixed.size <= round(rate * .005):
+            raise ValueError("ENCODED_DURATION_OR_RATE_CHANGED")
+        remaining, pauses, unresolved = boundary_pause_edits(encoded, rate, mapped)
+        if not remaining and not unresolved:
+            return {"output": str(candidate), "duration": encoded.size / rate,
+                    "edits": edits, "pauses": pauses}
+        if unresolved or iteration == 3:
+            raise ValueError("ENCODED_SPACING_VERIFICATION_FAILED")
+        for correction in remaining:
+            shift, matches = 0, []
+            for edit in edits:
+                start = (edit["startSample"] + shift) / rate
+                end = start + edit["replacementSamples"] / rate
+                if abs(start - correction["start"]) < .15 and abs(end - correction["end"]) < .15:
+                    matches.append(edit)
+                shift += edit["replacementSamples"] - (edit["endSample"] - edit["startSample"])
+            if len(matches) != 1 or abs(correction["originalGap"] - correction["targetGap"]) > .15:
+                raise ValueError("ENCODED_BOUNDARY_MOVED")
+            matches[0]["replacementSamples"] -= round((correction["originalGap"] - correction["targetGap"]) * rate)
+
+
 def trim(samples, rate, pause_max, pause_target):
     env = envelope(samples, rate)
     voiced = np.where(env >= VOICE_RMS)[0]
@@ -193,12 +385,15 @@ def trim(samples, rate, pause_max, pause_target):
     return samples[keep]
 
 
-def clean_file(source, target, profile):
+def clean_file(source, target, profile, *, breaths_only=False):
     """Clean one file into target and return its summary; target may equal source."""
     pause_max, pause_target = PROFILES[profile]
     samples, rate = decode(str(source))
     spans = breath_spans(samples, rate)
-    cleaned = trim(fill_breaths(samples, rate, spans), rate, pause_max, pause_target)
+    filled = fill_breaths(samples, rate, spans)
+    # Reading sentence/paragraph pauses need text-aligned boundaries after tempo adjustment.
+    # Do not flatten paragraphs to a generic pause ceiling before those boundaries exist.
+    cleaned = filled if breaths_only else trim(filled, rate, float("inf") if profile == "reading" else pause_max, pause_target)
     target = Path(target)
     # Encode beside the target and swap, so a failed encode never leaves a half-written original.
     staging = target.with_name(f"{target.stem}.cleaning{target.suffix}")

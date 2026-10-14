@@ -48,7 +48,7 @@ export default function FigureBookCharacterDescriptions({
     () => assignments.filter((assignment) => assignment.relationType === 'appearance'),
     [assignments],
   )
-  const relatedCount = assignments.length - appearanceAssignments.length
+  const authoredCount = assignments.length - appearanceAssignments.length
   const [drafts, setDrafts] = useState(() => buildDrafts(appearanceAssignments))
   const [savingCelebId, setSavingCelebId] = useState<string | null>(null)
   const [feedback, setFeedback] = useState<{
@@ -116,7 +116,7 @@ export default function FigureBookCharacterDescriptions({
         <p className="mt-1 text-xs leading-relaxed text-text-tertiary">
           《{sourceTitle}》 본문에서 확인되는 역할·사건·결말만 씁니다. 다른 원전의 일화나 작품 전체 소개를 섞지 않습니다.
           영어 설명은 같은 작품의 실제 영문판과 Amazon 링크를 등록한 뒤에만 작성합니다.
-          {relatedCount > 0 ? ` 연관 관계 ${relatedCount}명은 등장 설명 입력 대상에서 제외됩니다.` : ''}
+          {authoredCount > 0 ? ` 창작 관계 ${authoredCount}명은 등장 설명 입력 대상에서 제외됩니다.` : ''}
         </p>
       </div>
 

@@ -1,5 +1,5 @@
 // 영문 결손 인물의 한국어 원문을 덤프한다. 영향력 7축·대사 7상황·대표작.
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { writeFileSync, readFileSync } from 'node:fs'
 import 'dotenv/config'
 

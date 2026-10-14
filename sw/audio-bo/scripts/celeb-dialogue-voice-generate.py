@@ -9,9 +9,11 @@ from datetime import datetime
 from pathlib import Path
 
 from celeb_dialogue_voice_common import (
+    ELEVENLABS_ACCOUNT_ENV,
     ELEVENLABS_TTS_DEFAULTS,
     apply_tts_overrides,
     load_celeb_dialogues,
+    normalize_ele_account_id,
     read_env,
     resolve_api_key,
     resolve_voice_id,
@@ -28,7 +30,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--slug", required=True)
     parser.add_argument("--locale", choices=("ko", "en"), required=True)
     parser.add_argument("--voice-id", help="Override the locale voice ID without changing the DB")
-    parser.add_argument("--account", choices=("default", "feelandnote"), default="default")
+    parser.add_argument("--account", type=normalize_ele_account_id, default=ELEVENLABS_ACCOUNT_ENV["baseAccount"]["id"], help="Account name, e.g. webcodur, feelandnote, tlwns5598")
     parser.add_argument("--audio-env", type=Path, default=Path(__file__).parents[1] / ".env")
     parser.add_argument("--web-env", type=Path, default=Path(__file__).parents[2] / "web-bo" / ".env")
     parser.add_argument("--output-root", type=Path)

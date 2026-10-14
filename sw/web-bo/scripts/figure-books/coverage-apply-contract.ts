@@ -10,7 +10,7 @@ export type CoverageCandidate = {
   candidateId: string
   celebId: string
   slug: string
-  relationType: 'appearance' | 'related'
+  relationType: 'appearance'
   evidenceUrls: string[]
   rationale: string
   manifest: FigureBookManifest
@@ -50,7 +50,7 @@ export function approvedCandidates(bytes: Buffer, review: unknown): CoverageCand
   return input.items.filter((item: CoverageCandidate) => approved.has(item.candidateId)).map((item: CoverageCandidate) => {
     for (const key of ['celebId', 'slug', 'rationale'] as const) text(item[key], key)
     if (!/^[0-9a-f-]{36}$/i.test(item.celebId)) throw new Error('Invalid celebId')
-    if (!['appearance', 'related'].includes(item.relationType)) throw new Error('Only appearance/related may be added')
+    if (item.relationType !== 'appearance') throw new Error('Only appearance may be added')
     urls(item.evidenceUrls, 'evidenceUrls')
     const manifest = parseFigureBookManifest(item.manifest)
     if (manifest.ko.translationStatus !== 'published') throw new Error('A verified Korean edition is required')

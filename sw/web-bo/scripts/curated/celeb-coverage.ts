@@ -9,7 +9,7 @@
  *   npx tsx scripts/curated/celeb-coverage.ts              # 전체 목록
  *   npx tsx scripts/curated/celeb-coverage.ts <slug> ...   # 지정한 목록만
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { REPO_ROOT } from '../lib/paths'

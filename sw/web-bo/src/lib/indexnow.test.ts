@@ -17,7 +17,7 @@ test('로컬 백오피스에서도 공개 인물 변경을 IndexNow에 통지한
     assert.equal(requests[0].url, 'https://api.indexnow.org/indexnow')
     assert.deepEqual(requests[0].body.urlList, ['https://feelandnote.com/celeb/harris-fricker'])
   } finally {
-    if (originalEnvironment === undefined) delete process.env.NODE_ENV
+    if (originalEnvironment === undefined) Reflect.deleteProperty(process.env, 'NODE_ENV')
     else Object.assign(process.env, { NODE_ENV: originalEnvironment })
   }
 })

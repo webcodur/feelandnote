@@ -23,7 +23,7 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { codexCall, looksRateLimited } from '../../../../.agents/skills/codex-gpt/scripts/codex-call.mjs'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
@@ -206,7 +206,7 @@ async function main() {
   for (let i = 0; i < todo.length; i += CONC) {
     await Promise.all(todo.slice(i, i + CONC).map(async (r) => {
       try {
-        const text = await codexCall(buildPrompt(r), { model: 'gpt-5.6-sol', effort: 'xhigh', timeoutMs: 600000, search: true })
+        const text = await codexCall(buildPrompt(r), { model: 'gpt-6.1-sol', effort: 'xhigh', timeoutMs: 600000, search: true })
         const { ok, issues } = validate(text, r)
         if (!ok) { failed++; console.log(`FAIL ${r.nickname} — ${issues.join(' | ')}`); return }
         fs.writeFileSync(path.join(OUT_DIR, `${r.slug}.json`), JSON.stringify(ok, null, 2) + '\n', 'utf8')

@@ -110,7 +110,7 @@ function runPsql(sql) {
         'docker',
         'exec',
         '-i',
-        'supabase-db',
+        'feelandnote-db',
         'psql',
         '-U',
         'postgres',

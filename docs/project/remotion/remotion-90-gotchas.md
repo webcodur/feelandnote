@@ -121,7 +121,7 @@ eleven_v3 모델은 문장 맨 앞에 붙은 대괄호 감정·톤 태그(예: `
 대처:
 1. `3-transcribe.py`가 "잔존 WAV N건 — 에피소드에 해당 세그먼트 없음"을 보고하면 흘리지 않는다. 잔재 후보다.
 2. 판별은 각 wav 세그먼트 텍스트가 현재 `book.ko.json`(quote/after/contextMain)에 있는지 대조한다. **0개 매칭이면 잔재**다. 부분 매칭(뒷 문장만 없음)이면 wav 자체가 옛 버전이므로 재생성 대상이다.
-3. 잔재는 삭제하지 말고 `voice/<locale>/_backup-stale-wav/<engine>/`으로 옮긴다(복구 가능). 그 뒤 match-cps를 다시 산출한다.
+3. 잔재를 현재 음원 경로에서 분리한 뒤 match-cps를 다시 산출한다. 복구본의 위치·보관·폐기는 [작업 파일·백업 원칙](../data/README.md#작업-파일백업)을 따른다.
 
 ### 발화속도 통일 스킬 (remo-voice-cps-match)
 

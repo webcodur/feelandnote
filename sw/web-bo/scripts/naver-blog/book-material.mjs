@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@feelandnote/db';
 import { ASSETS } from '../blog-assets.mjs';
 import { MIN_REVIEW_LENGTH } from './lib/roster-data.mjs';
 

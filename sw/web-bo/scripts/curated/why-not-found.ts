@@ -7,7 +7,7 @@
  * 사용법 (sw/web-bo 에서):
  *   npx tsx scripts/curated/why-not-found.ts "과학혁명의 구조" "사회학으로의 초대"
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { REPO_ROOT } from '../lib/paths'

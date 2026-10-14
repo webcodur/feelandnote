@@ -1,6 +1,6 @@
 /** 기존 원본을 보존하며 중간 이미지만 추가한다. 기본은 조회, --execute일 때만 R2에 쓴다. */
 import { S3Client, GetObjectCommand, HeadObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { CELEB_AVATAR_ORIGINAL, CELEB_AVATAR_MEDIUM } from '@feelandnote/shared/constants/celeb-avatar-small'
 import { buildMediumAvatar, mediumAvatarKey } from '../../src/lib/avatar-small'

@@ -17,7 +17,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { HEADLINE_BAN } from './rules.mjs'
 
 const HERE = path.dirname(fileURLToPath(import.meta.url))

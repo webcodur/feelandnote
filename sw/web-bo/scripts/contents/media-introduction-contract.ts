@@ -94,11 +94,11 @@ export function prepareMediaIntroduction(input: ReviewedMediaIntroduction) {
     if (source.protocol !== 'https:' || source.username || source.password || source.port
       || (source.search && !steamLanguage) || source.hash || !PROVIDERS[content.type].has(source.hostname)) throw new Error('Unapproved source URL')
     if (content.type === 'VIDEO' && source.hostname === 'www.themoviedb.org') {
-      const id = /^tmdb-(movie|tv)-(\d+)$/.exec(content.external_id)
+      const id = /^tmdb-(movie|tv)-(\d+)$/.exec(content.external_id ?? '')
       if ((content.external_source !== 'tmdb' && content.external_source !== null) || !id || source.pathname !== `/${id[1]}/${id[2]}`) throw new Error('TMDB identity mismatch')
     }
     if (content.type === 'GAME' && !wikiSource
-      && (content.external_source !== 'igdb' || !/^igdb-\d+$/.test(content.external_id))) throw new Error('IGDB identity mismatch')
+      && (content.external_source !== 'igdb' || !/^igdb-\d+$/.test(content.external_id ?? ''))) throw new Error('IGDB identity mismatch')
     if (!input.identityEvidence?.length || input.identityEvidence.some(e => !e.note?.trim() || !/^https:\/\//.test(e.url))) throw new Error('Missing identity evidence')
   }
   const sources: Record<string, unknown> = { ...target.sources, description_method: input.method, description_source_locale: input.sourceLocale }

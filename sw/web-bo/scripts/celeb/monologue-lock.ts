@@ -12,7 +12,7 @@
  *   node --env-file=.env --import tsx scripts/celeb/monologue-lock.ts --list                 # 잠긴 인물 목록
  */
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { readFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 

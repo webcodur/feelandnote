@@ -1,0 +1,8 @@
+{
+  "name": "@feelandnote/auth-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": { "start": "node src/main.mjs", "test": "node --test src/*.test.mjs" },
+  "dependencies": { "bcryptjs": "^3.0.3", "jose": "^6.2.12", "nodemailer": "^10.0.13", "pg": "^8.23.0" }
+}

@@ -72,3 +72,12 @@ test('SSH 실패를 정상 상태로 바꾸지 않는다', () => {
   assert.equal(result.memory.totalBytes, 0)
   assert.equal(result.error, 'SSH 연결 시간 초과')
 })
+
+test('디스크·정리·알림 수치를 읽고 잘못된 결과를 0%로 바꾸지 않는다', () => {
+  const storage = { disk: { totalBytes: 100, usedBytes: 80, freeBytes: 20,
+    usedPercent: 80, inodeUsedPercent: 20 }, cleanup: null, mail: null, retention: {}, error: null }
+  assert.equal(parseWebHostOutput(`StorageJson=${JSON.stringify(storage)}`, 1, null).storage?.disk.usedPercent, 80)
+  assert.equal(parseDatabaseHostOutput(`StorageJson=${JSON.stringify(storage)}`, 1, null).storage?.disk.freeBytes, 20)
+  assert.equal(parseWebHostOutput('StorageJson={bad json}', 1, null).storage, null)
+  assert.equal(parseWebHostOutput('StorageJson={"disk":{"totalBytes":0}}', 1, null).storage, null)
+})

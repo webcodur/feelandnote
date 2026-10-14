@@ -6,6 +6,7 @@ import {
   FIGURE_BOOK_TERMS,
   figureBookRelationLabel,
   figureBookSectionLabel,
+  isFigureBookRelationType,
 } from "./figure-book-terms";
 
 function flatten(value: unknown, path: string[] = []): Array<[string, { ko: string; en: string }]> {
@@ -34,6 +35,11 @@ test("화면 구획 이름은 관계명 + 작품이다", () => {
 });
 
 test("없앤 말은 값으로 돌아오지 않는다", () => {
+  assert.deepEqual(FIGURE_BOOK_RELATION_TYPES, ['appearance', 'authored']);
+  assert.equal('related' in FIGURE_BOOK_TERMS.relationType, false);
+  assert.equal('related' in FIGURE_BOOK_TERMS.section, false);
+  for (const value of ['appearance', 'authored']) assert.equal(isFigureBookRelationType(value), true);
+  for (const value of ['related', '', null, undefined, 1, {}]) assert.equal(isFigureBookRelationType(value), false);
   const banned = ["등장 도서", "연관 도서", "관련 상품", "관련 도서", "책장", "원전", "저작"];
   for (const [path, term] of flatten(FIGURE_BOOK_TERMS)) {
     for (const word of banned) assert.ok(!term.ko.includes(word), `${path}: ${word}`);

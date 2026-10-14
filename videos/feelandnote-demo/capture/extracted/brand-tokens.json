@@ -1,0 +1,28 @@
+{
+  "title": "Feel&Note",
+  "description": "인물의 감상 아카이브",
+  "colors": [
+    "#121110",
+    "#1a1917",
+    "#d4af37",
+    "#e8e6e1",
+    "#aaa7a0"
+  ],
+  "cssVariables": {
+    "--color-bg-main": "#121110",
+    "--color-accent": "#d4af37",
+    "--color-text-primary": "#e8e6e1"
+  },
+  "fonts": [
+    {
+      "family": "Pretendard Variable",
+      "weights": [
+        400,
+        500,
+        700,
+        800,
+        900
+      ]
+    }
+  ]
+}

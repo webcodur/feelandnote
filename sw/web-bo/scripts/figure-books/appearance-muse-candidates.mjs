@@ -12,7 +12,7 @@ import { appendFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync } from
 import { spawn } from 'node:child_process'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { museCall } from '../../../../.agents/skills/opencode-muse/scripts/muse-call.mjs'
 import { agyCall, AGY_TEXT_MODEL } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs'
 import { devinCallWithRetry } from '../../../../.agents/skills/devin-swe/scripts/devin-call.mjs'

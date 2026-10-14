@@ -6,7 +6,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 const dir = path.resolve('../../data/celeb/book-introductions/video-provider')
 const planFile = path.join(dir, 'tmdb-refill-plan.json')

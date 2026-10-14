@@ -7,7 +7,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { toIsbn13 } from '@feelandnote/content-search/kakao-books'
 import { forLocale } from '@feelandnote/content-search/book-introduction'
 import { createKeyPool, keyPoolStateFile } from './gbooks-keypool'

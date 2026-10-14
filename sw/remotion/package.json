@@ -46,12 +46,12 @@
     "@remotion/media-utils": "4.0.434",
     "@remotion/renderer": "4.0.434",
     "@remotion/player": "4.0.434",
-    "@supabase/supabase-js": "^2.100.1",
     "lucide-react": "^1.6.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "remotion": "4.0.434",
-    "wav": "^1.0.2"
+    "wav": "^1.0.2",
+    "@feelandnote/db": "workspace:*"
   },
   "devDependencies": {
     "@hono/node-server": "^1.19.11",

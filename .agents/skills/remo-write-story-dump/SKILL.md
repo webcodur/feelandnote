@@ -21,7 +21,7 @@ node sw/remotion/scripts/extract-story.mjs <person> --solo=2
 node sw/remotion/scripts/extract-story.mjs <person>-en --solo
 ```
 
-출력은 검토용 Markdown이다. 파일로 보관할 때는 에피소드의 `_writer/` 또는 작업 중인 임시 위치를 사용한다. 책 폴더에 제2의 원본처럼 상시 보관하지 않는다.
+출력은 표준출력으로 나오는 검토용 Markdown이다. 파일이 필요하면 [작업 파일·백업 원칙](../../../docs/project/data/README.md#작업-파일백업)에 따른 작업 폴더로 리다이렉트한다. 확정 본문 반영·검수 뒤 정리한다.
 
 ## SOLO 편집 규칙
 

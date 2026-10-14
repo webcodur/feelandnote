@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!)
 async function main() {
   const { data: cards } = await db.from('faction_lv2').select('id,name,slug,is_myth,is_fiction,is_featured,published')

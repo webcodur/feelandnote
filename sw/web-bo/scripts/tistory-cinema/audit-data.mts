@@ -2,7 +2,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { ASSETS } from '../blog-assets.mjs'
 import { personReview, readRows, selectCandidates } from './lib/selection.mts'
 import { savedPeople } from './lib/person-material.mts'

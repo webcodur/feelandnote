@@ -80,6 +80,22 @@ test('같은 ISBN 상품의 평점·리뷰 수·판매지수를 읽는다',()=>{
 test('다른 ISBN의 평점으로 현재 책을 폐기 후보로 만들지 않는다',()=>{
  const r=parseYes24ShelfQuality(html(),url,'9788934971016');assert.equal(r.verified,false);assert.equal(needsShelfQualityReview(r),false)
 })
+
+test('한줄평만 있는 상품은 합계와 회원리뷰 수를 구분해 LLM 검수 후보로 전달한다',()=>{
+ const page=html('10','1','216')+'<em class="txt_num" id="scroll_bar_count" data-review-count="0" data-onecomment-count="1">(0/1)</em>'
+ const result=parseYes24ShelfQuality(page,url,isbn)
+ assert.equal(result.reviewCount,1);assert.equal(result.writtenReviewCount,0);assert.equal(result.oneLineReviewCount,1)
+ assert.equal(needsShelfQualityReview(result),true)
+ assert.equal(parseYes24ShelfQuality(page,url,'9788934971016').verified,false)
+})
+
+test('회원리뷰 카운터 누락을 0으로 만들거나 추천 상품의 카운터를 섞지 않는다',()=>{
+ const page=html('9.8','10','216')+'<em id="recommended_review_count" data-review-count="0" data-onecomment-count="10">(0/10)</em>'
+ const result=parseYes24ShelfQuality(page,url,isbn)
+ assert.equal(result.writtenReviewCount,null);assert.equal(result.oneLineReviewCount,null);assert.equal(needsShelfQualityReview(result),false)
+ const actual=parseYes24ShelfQuality(page+"<em data-onecomment-count='9' id='scroll_bar_count' data-review-count='1'>(1/9)</em>",url,isbn)
+ assert.equal(actual.writtenReviewCount,1);assert.equal(actual.oneLineReviewCount,9);assert.equal(needsShelfQualityReview(actual),false)
+})
 test('리뷰 0건은 검수 후보이며 누락·조회 실패를 0건으로 해석하지 않는다',()=>{
  const unrated=parseYes24ShelfQuality(html('0','0','0'),url,isbn)
  assert.equal(unrated.rating,null);assert.equal(unrated.reviewCount,0);assert.equal(needsShelfQualityReview(unrated),true)

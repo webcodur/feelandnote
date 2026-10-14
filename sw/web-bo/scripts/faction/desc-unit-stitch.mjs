@@ -6,11 +6,12 @@
  */
 import { spawn } from 'node:child_process'
 import { writeFile } from 'node:fs/promises'
+import { NARRATION_PAUSES } from '@feelandnote/shared/bo/voice-cleanup'
 
 export const UNIT_MIN_SENTENCES = 3
 export const UNIT_MAX_SENTENCES = 6
-export const PARAGRAPH_GAP_SECONDS = 1.0
-export const SENTENCE_GAP_SECONDS = 0.45
+export const PARAGRAPH_GAP_SECONDS = NARRATION_PAUSES.paragraphGapSeconds
+export const SENTENCE_GAP_SECONDS = NARRATION_PAUSES.sentenceGapSeconds
 
 // QC가 긴 쉼을 고장으로 잡을 때, 그 쉼이 삽입된 문단 쉼 안에만 있으면 통과로 읽는다.
 export const PARAGRAPH_GAP_FLAGS = new Set([

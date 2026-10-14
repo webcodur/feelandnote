@@ -59,7 +59,7 @@ function runPsql(sql) {
         '-o', 'BatchMode=yes',
         '-o', 'ConnectTimeout=15',
         'ubuntu@152.67.198.197',
-        'sudo', 'docker', 'exec', '-i', 'supabase-db',
+        'sudo', 'docker', 'exec', '-i', 'feelandnote-db',
         'psql', '-U', 'postgres', '-d', 'postgres',
         '-X', '-q', '-v', 'ON_ERROR_STOP=1', '-At', '-P', 'footer=off',
       ],

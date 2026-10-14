@@ -21,7 +21,7 @@
 | 6 | `.mcp.json` | 저장소 루트 | AI 도구의 검색 콘솔 등 로컬 MCP 연결 불가. 서비스 구동과 무관 |
 | 7 | `.claude/settings.local.json` | 저장소 루트 | Claude Code 개인 설정만. 서비스와 무관 |
 
-루트 `credentials/ga-service-account.json`도 남아 있으나 **참조처가 없는 사본**이다(전부 `sw/web/credentials/` 경로만 읽는다). 옮기지 않아도 된다.
+GA 인증 파일은 `sw/web/credentials/ga-service-account.json` 한 곳에 둔다. 검색 콘솔 점검 스크립트 `sw/remotion/scripts/_scratch-gsc-url-inspect.mjs`도 이 파일을 읽는다.
 
 저장소 **밖** 파일도 6종 있다.
 

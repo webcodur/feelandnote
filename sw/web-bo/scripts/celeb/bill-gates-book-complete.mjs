@@ -19,7 +19,7 @@ const sqlText = v => `convert_from(decode(${lit(Buffer.from(v).toString('base64'
 export async function sql(query) {
   if (!process.env.BILL_GATES_SSH_KEY) throw Error('BILL_GATES_SSH_KEY required')
   return await new Promise((resolve, reject) => {
-    const child = spawn('ssh', ['-i', process.env.BILL_GATES_SSH_KEY, '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', 'ubuntu@152.67.198.197', 'sudo', 'docker', 'exec', '-i', 'supabase-db', 'psql', '-U', 'postgres', '-d', 'postgres', '-X', '-q', '-v', 'ON_ERROR_STOP=1', '-At'])
+    const child = spawn('ssh', ['-i', process.env.BILL_GATES_SSH_KEY, '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', 'ubuntu@152.67.198.197', 'sudo', 'docker', 'exec', '-i', 'feelandnote-db', 'psql', '-U', 'postgres', '-d', 'postgres', '-X', '-q', '-v', 'ON_ERROR_STOP=1', '-At'])
     child.stdout.setEncoding('utf8'); child.stderr.setEncoding('utf8')
     let out = '', err = ''
     child.stdout.on('data', s => out += s); child.stderr.on('data', s => err += s)

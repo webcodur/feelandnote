@@ -21,16 +21,18 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { createClient } from '@feelandnote/db'
 import { S3Client, GetObjectCommand, HeadObjectCommand, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
-import { cleanVoiceFile } from '@feelandnote/shared/bo/voice-cleanup'
+import { cleanVoiceFile, NARRATION_PAUSES } from '@feelandnote/shared/bo/voice-cleanup'
 import {
-  QC_SCRIPT, MODEL, VOICE, PROMPTS, MAX_ATTEMPTS, MAX_CONSECUTIVE_FAILURES,
+  QC_SCRIPT, MODEL, VOICE, STYLE, MAX_ATTEMPTS, MAX_CONSECUTIVE_FAILURES,
   SPEED_POLICY, MP3_SETTINGS, sha, now, delay, exists, log, required,
   measuredSpeed, encodeMp3, run, QcWorker, Gemini, environment,
   adoptAttemptWav, reusableAttempt, reusableSynthesis, synthesizeEntry,
-  isQualityFailure, qcFailure, verifiedPublished,
+  isQualityFailure, isResourceDeferral, qcFailure, verifiedPublished,
   archiveQcReport, compactManifestQc, renameCheckpoint,
+  finalizeNarration, speedVerified, pausePolicyHash,
+  restoreNarrationBundle,
 } from '../celeb/reading-voice.mjs'
-import { publishReadingTiming } from '../celeb/reading-voice-timing.mjs'
+import { publishReadingTiming, prepareReadingTiming } from '../celeb/reading-voice-timing.mjs'
 import { buildUnits, stitchUnits, qcGapVerdict, decode, encodeWav, spawnBuffer } from './desc-unit-stitch.mjs'
 
 const OBJECT_NAME = 'description'
@@ -130,8 +132,8 @@ export async function normalizeUnitSpeed(unitText, cleanPath, normPath, locale) 
 }
 
 function args(argv = process.argv.slice(2)) {
-  const flags = new Set(['--myth', '--all', '--featured', '--generate', '--publish', '--dry-run', '--help', '--synthesize-only', '--existing-only'])
-  const values = new Set(['--slug', '--locale', '--locales', '--run', '--python', '--device', '--limit', '--concurrency', '--requests-per-second'])
+  const flags = new Set(['--myth', '--all', '--featured', '--generate', '--publish', '--dry-run', '--help', '--synthesize-only', '--existing-only', '--missing-only'])
+  const values = new Set(['--slug', '--locale', '--locales', '--run', '--python', '--device', '--limit', '--concurrency', '--requests-per-second', '--queue-file'])
   const result = {}
   for (let i = 0; i < argv.length; i++) {
     const key = argv[i]
@@ -145,6 +147,7 @@ function args(argv = process.argv.slice(2)) {
     if (!result['dry-run']) result.generate = true
   }
   if (result['existing-only'] && (!result.publish || result.generate || result['synthesize-only'])) throw new Error('--existing-only requires --publish without generation')
+  if (result['missing-only'] && !result.publish && !result['dry-run']) throw new Error('--missing-only requires --publish')
   if ([result.myth, result.all, result.featured, Boolean(result.slug)].filter(Boolean).length !== 1) throw new Error('Specify exactly one of --myth, --all, --featured, or --slug <slug>')
   if (result.locale && result.locales) throw new Error('Use --locale or --locales, not both')
   result.locales = [...new Set((result.locales || result.locale || 'ko,en').split(','))]
@@ -152,6 +155,7 @@ function args(argv = process.argv.slice(2)) {
   if (result['dry-run'] && (result.generate || result.publish)) throw new Error('--dry-run cannot be combined with --generate or --publish')
   result['dry-run'] ||= !result.generate && !result.publish
   result.run = resolve(result.run || 'D:/audios/interview-cleaner/faction-desc-voices')
+  if (result['queue-file']) result.queueFile = resolve(result['queue-file'])
   result.limit = result.limit ? Number(result.limit) : Infinity
   if (!(result.limit > 0) || (result.limit !== Infinity && !Number.isInteger(result.limit))) throw new Error('--limit must be a positive integer (number of factions)')
   result.concurrency = Number(result.concurrency || 1)
@@ -184,7 +188,11 @@ async function targets(db, options) {
       rows.push({ id: faction.id, slug: faction.slug, name: faction.name, isMyth: faction.is_myth === true, published: faction.published === true, locale, text, sourceHash: sha(text) })
     }
   }
-  return rows
+  if (!options.queueFile) return rows
+  const queue = JSON.parse(await readFile(options.queueFile,'utf8'))
+  if (!Array.isArray(queue.items)) throw Error('Invalid faction voice queue')
+  const selected = new Set(queue.items.map(row=>`${row.id}/${row.locale}`))
+  return rows.filter(row=>selected.has(`${row.id}/${row.locale}`))
 }
 
 async function currentSource(db, row) {
@@ -197,7 +205,7 @@ async function currentSource(db, row) {
 async function publish(db, r2, row, entry, options, checkpoint, qc) {
   const body = await readFile(entry.mp3)
   if (body.length < 1024 || sha(body) !== entry.mp3Hash || !['passed', 'repaired'].includes(entry.qc?.status) || !entry.qc?.ok) throw new Error('Publish requires an intact QC-passed MP3')
-  if (options.processingHash && (entry.processingHash !== options.processingHash || entry.speed?.rate < SPEED_POLICY[row.locale].target)) throw new Error('Publish requires current speed-verified processing')
+  if (options.processingHash && (entry.processingHash !== options.processingHash || !speedVerified(entry.speed))) throw new Error('Publish requires current speed-verified processing')
   if (!verifiedPublished(entry) && (entry.finalQcHash !== entry.mp3Hash || entry.qcScriptHash !== options.qcScriptHash)) {
     const result = await qc.check({ id: `${row.id}/${row.locale}`, audio: entry.mp3, text: row.text, locale: row.locale })
     entry.finalQc = await archiveQcReport(result, options.run)
@@ -206,20 +214,26 @@ async function publish(db, r2, row, entry, options, checkpoint, qc) {
     entry.qcScriptHash = options.qcScriptHash
     await checkpoint()
   }
+  const preparedTiming = await prepareReadingTiming({ ...entry, ...row })
+  if (preparedTiming.rejected.length || preparedTiming.timing.segments.length !== preparedTiming.sentences) throw new Error('TIMING_INCOMPLETE: preserve the existing service audio')
   await currentSource(db, row)
   const key = factionDescR2Key(row.id, row.locale)
   const bucket = required('R2_BUCKET_NAME')
   const send = (command) => r2.send(command, { abortSignal: AbortSignal.timeout(60_000) })
-  const get = async () => {
-    try { const object = await send(new GetObjectCommand({ Bucket: bucket, Key: key })); return { body: Buffer.from(await object.Body.transformToByteArray()), contentType: object.ContentType, cacheControl: object.CacheControl, metadata: object.Metadata, etag: object.ETag } }
+  const get = async (objectKey = key) => {
+    try { const object = await send(new GetObjectCommand({ Bucket: bucket, Key: objectKey })); return { body: Buffer.from(await object.Body.transformToByteArray()), contentType: object.ContentType, cacheControl: object.CacheControl, metadata: object.Metadata, etag: object.ETag } }
     catch (error) { if (error.name === 'NoSuchKey' || error.$metadata?.httpStatusCode === 404) return null; throw error }
   }
   // On resume, verify the remote object too; never trust a local published marker alone.
   const previous = await get()
+  const previousTiming = await get(key.replace(/\.mp3$/, '.json'))
   const remoteMatches = previous && sha(previous.body) === entry.mp3Hash
+  if (options['missing-only'] && previous && !remoteMatches) {
+    entry.status = 'skipped-existing'; await checkpoint(); return
+  }
   const publishTiming = async (audioEtag) => {
-    try { entry.timing = await publishReadingTiming(r2, entry, options, undefined, { audioEtag, objectName: OBJECT_NAME, audioKey: key }) }
-    catch (error) { entry.timing = { status: 'failed', error: error.message, attemptedAt: now() }; log('timing-publish-failed', { id: row.id, locale: row.locale, error: error.message }) }
+    try { entry.timing = await publishReadingTiming(r2, { ...entry, ...row }, options, preparedTiming, { audioEtag, objectName: OBJECT_NAME, audioKey: key }) }
+    catch (error) { entry.timing = { status: 'failed', error: error.message, attemptedAt: now() }; await checkpoint(); throw error }
     await checkpoint()
   }
   if (entry.status === 'published' && remoteMatches) {
@@ -235,21 +249,23 @@ async function publish(db, r2, row, entry, options, checkpoint, qc) {
     await checkpoint()
   }
   try {
-    if (!remoteMatches) await send(new PutObjectCommand({ Bucket: bucket, Key: key, Body: body, ContentType: 'audio/mpeg', CacheControl: 'public, max-age=31536000, immutable', Metadata: { 'source-sha256': row.sourceHash, 'audio-sha256': entry.mp3Hash, 'settings-sha256': entry.settingsHash } }))
+    if (!remoteMatches) await send(new PutObjectCommand({ Bucket: bucket, Key: key, Body: body, ContentType: 'audio/mpeg', CacheControl: 'public, max-age=31536000, immutable', Metadata: { 'source-sha256': row.sourceHash, 'audio-sha256': entry.mp3Hash, 'settings-sha256': entry.settingsHash }, ...(options['missing-only'] ? {IfNoneMatch:'*'} : {}) }))
     const uploaded = await get()
     if (!uploaded || sha(uploaded.body) !== entry.mp3Hash) throw new Error('R2 uploaded SHA-256 mismatch')
     const base = required('R2_PUBLIC_URL').replace(/\/$/, '')
     const verify = await fetch(`${base}/${key}?verify=${entry.mp3Hash}`, { signal: AbortSignal.timeout(60_000), cache: 'no-store' })
     if (!verify.ok || sha(Buffer.from(await verify.arrayBuffer())) !== entry.mp3Hash) throw new Error('Public MP3 verification failed')
+    await publishTiming(uploaded.etag)
     entry.status = 'published'; entry.publishedAt = now()
     entry.publicUrl = factionDescPublicUrl(base, row.id, row.locale, entry.mp3Hash)
     await checkpoint()
-    await publishTiming(uploaded.etag)
   } catch (error) {
+    if (options['missing-only'] && error.$metadata?.httpStatusCode === 412) {
+      entry.status = 'skipped-existing'; await checkpoint(); return
+    }
     // An upload may have committed before a network failure; do not roll that back blindly.
     if (!remoteMatches) {
-      if (previous) await send(new PutObjectCommand({ Bucket: bucket, Key: key, Body: previous.body, ContentType: previous.contentType, CacheControl: previous.cacheControl, Metadata: previous.metadata }))
-      else await send(new DeleteObjectCommand({ Bucket: bucket, Key: key }))
+      await restoreNarrationBundle(send, get, bucket, key, previous, previousTiming, entry.mp3Hash)
       entry.status = 'ready'
     }
     throw error
@@ -258,7 +274,7 @@ async function publish(db, r2, row, entry, options, checkpoint, qc) {
 
 async function main() {
   const options = args()
-  if (options.help) { console.log('node --import tsx scripts/faction/faction-desc-voice.mjs (--myth | --all | --featured | --slug SLUG) [--locales ko,en] [--dry-run | --generate | --synthesize-only] [--publish] [--concurrency N (max16 synth-only,3 QC)] [--requests-per-second 1] [--run DIR] [--python EXE] [--device auto|cuda|cpu] [--limit FACTIONS]'); return }
+  if (options.help) { console.log('node --import tsx scripts/faction/faction-desc-voice.mjs (--myth | --all | --featured | --slug SLUG) [--locales ko,en] [--dry-run | --generate | --synthesize-only] [--publish [--missing-only]] [--queue-file FILE] [--concurrency N (max16 synth-only,3 QC)] [--requests-per-second 1] [--run DIR] [--python EXE] [--device auto|cuda|cpu] [--limit FACTIONS]'); return }
   const keys = await environment()
   const db = createClient(required('NEXT_PUBLIC_DB_API_URL'), required('DB_SECRET_KEY'), { auth: { autoRefreshToken: false, persistSession: false }, global: { fetch: (url, init) => fetch(url, { ...init, signal: AbortSignal.timeout(60_000) }) } })
   const rows = await targets(db, options)
@@ -268,8 +284,9 @@ async function main() {
   if (options['dry-run']) return
   if (options.generate && !keys.length) throw new Error('No explicitly named GOOGLE_GENAI_API_KEY_FREE keys in allowed env files')
   if (!options['synthesize-only']) await access(QC_SCRIPT)
-  const settings = { model: MODEL, voice: VOICE, prompts: PROMPTS, object: 'faction-description' }
-  const processing = { mp3: MP3_SETTINGS, speed: SPEED_POLICY }
+  const settings = { model: MODEL, voice: VOICE, style: STYLE, object: 'faction-description' }
+  const processing = { mp3: MP3_SETTINGS, speed: SPEED_POLICY, narrationPauses: NARRATION_PAUSES,
+    cleanupHash: sha(await readFile(join(dirname(QC_SCRIPT), 'voice_cleanup.py'))) }
   options.processingHash = sha(JSON.stringify(processing))
   if (!options['synthesize-only']) options.qcScriptHash = sha(await readFile(QC_SCRIPT))
   const settingsHash = sha(JSON.stringify(settings))
@@ -320,6 +337,15 @@ async function main() {
         entry.generationBudgetHash = options.processingHash
       }
       try {
+        if (options['missing-only'] && r2) {
+          try {
+            const remote = await r2.send(new HeadObjectCommand({Bucket:required('R2_BUCKET_NAME'),Key:factionDescR2Key(row.id,row.locale)}), {abortSignal:AbortSignal.timeout(30_000)})
+            if (remote.Metadata?.['audio-sha256'] !== entry.mp3Hash || !entry.mp3Hash) {
+              entry.status = 'skipped-existing'
+              await checkpoint(); log('skipped-existing',{slug:row.slug,locale:row.locale}); return
+            }
+          } catch(error) { if (!['NoSuchKey','NotFound'].includes(error.name) && error.$metadata?.httpStatusCode !== 404) throw error }
+        }
         if (options['synthesize-only']) {
           if (entry.status === 'held' || entry.status === 'published') return
           const reused = await reusableSynthesis(entry, options.processingHash)
@@ -351,8 +377,8 @@ async function main() {
         }
         if (entry.mp3 && entry.mp3Hash && sha(await readFile(entry.mp3)) !== entry.mp3Hash) throw new Error('Local MP3 hash mismatch; original run must be preserved')
         if (entry.mp3) {
-          entry.speed = await measuredSpeed(row.text, row.locale, entry.mp3)
-          if (entry.speed.status === 'preserve') entry.processingHash = options.processingHash
+          entry.speed = { ...entry.speed, ...await measuredSpeed(row.text, row.locale, entry.mp3) }
+          if (speedVerified(entry.speed) && entry.processingHash === options.processingHash) { /* already current */ }
           else {
             entry.previousOutputs ||= []
             entry.previousOutputs.push({ mp3: entry.mp3, mp3Hash: entry.mp3Hash, speed: entry.speed, publicUrl: entry.publicUrl })
@@ -425,7 +451,7 @@ async function main() {
                 await encodeMp3(attempt.wav, attempt.candidateMp3)
                 attempt.candidateMp3Hash = sha(await readFile(attempt.candidateMp3)); await checkpoint()
               }
-              const result = await qc.check({ id, audio: attempt.wav, text: row.text, locale: row.locale, output: join(directory, `attempt-${attempt.number}-${revision}-repaired.wav`) })
+              const result = await qc.check({ id, audio: attempt.wav, text: row.text, locale: row.locale, content_only:true })
               attempt.qc = await archiveQcReport(result, options.run)
               attempt.qcScriptHash = options.qcScriptHash
               attempt.processingHash = options.processingHash
@@ -444,25 +470,23 @@ async function main() {
               const mp3 = join(directory, `attempt-${attempt.number}-${revision}.mp3`)
               await encodeMp3(audioForUse, mp3, attempt.speed.tempo)
               await run('ffmpeg', ['-nostdin', '-v', 'error', '-i', mp3, '-f', 'null', '-'])
-              const finalSpeed = await measuredSpeed(row.text, row.locale, mp3)
-              if (finalSpeed.rate < finalSpeed.target) throw new Error(`speed-rounding: encoded audio ${finalSpeed.rate.toFixed(4)} below ${finalSpeed.target}`)
-              const finalQc = await qc.check({ id, audio: mp3, text: row.text, locale: row.locale })
+              const beforeSpacingSpeed = await measuredSpeed(row.text, row.locale, mp3)
+              if (beforeSpacingSpeed.rate < beforeSpacingSpeed.target) throw new Error(`speed-rounding: encoded audio ${beforeSpacingSpeed.rate.toFixed(4)} below ${beforeSpacingSpeed.target}`)
+              const finalized = await finalizeNarration(qc, row, mp3, directory, `attempt-${attempt.number}-${revision}`)
+              const finalMp3 = finalized.mp3
+              const finalSpeed = { ...await measuredSpeed(row.text, row.locale, finalMp3),
+                beforeSpacingRate: beforeSpacingSpeed.rate, pausePolicyHash: pausePolicyHash() }
+              const finalQc = finalized.qc
               attempt.finalQc = await archiveQcReport(finalQc, options.run)
               await writeFile(join(directory, `attempt-${attempt.number}-${revision}-mp3-qc.json`), JSON.stringify(finalQc, null, 2) + '\n')
-              if (!finalQc.ok || finalQc.status !== 'passed') {
-                // 배속이 적용됐으면 삽입 쉼의 시간도 1/tempo로 줄어든다 — 같은 비율로 맞춰 판정한다.
-                const tempo = attempt.speed?.tempo || 1
-                const scaledGaps = (attempt.stitch?.gaps || []).map((g) => ({ start: g.start / tempo, end: g.end / tempo, kind: g.kind }))
-                const verdict = qcGapVerdict(finalQc, scaledGaps)
-                if (!verdict.passed) throw new Error(qcFailure(finalQc, 'Final MP3 QC'))
-                attempt.finalQcGapVerdict = verdict.verdict
-              }
-              entry.mp3 = mp3; entry.mp3Hash = sha(await readFile(mp3)); entry.qc = attempt.finalQc; entry.finalQc = attempt.finalQc; entry.finalQcHash = entry.mp3Hash; entry.qcScriptHash = options.qcScriptHash; entry.status = 'ready'
+              if (!finalQc.ok || finalQc.status !== 'passed') throw new Error(qcFailure(finalQc, 'Final MP3 QC'))
+              entry.mp3 = finalMp3; entry.mp3Hash = sha(await readFile(finalMp3)); entry.qc = attempt.finalQc; entry.finalQc = attempt.finalQc; entry.finalQcHash = entry.mp3Hash; entry.qcScriptHash = options.qcScriptHash; entry.status = 'ready'
+              entry.spacing = finalized.spacing
               entry.speed = finalSpeed; entry.appliedTempo = attempt.speed.tempo; entry.processingHash = options.processingHash
               attempt.status = 'passed'
             } catch (error) {
               attempt.status = 'failed'; attempt.error = error.message; entry.status = 'failed'; await checkpoint()
-              if (error.message.includes('FREE_KEYS_EXHAUSTED') || qc.failure) throw error
+              if (isResourceDeferral(error.message) || error.message.includes('FREE_KEYS_EXHAUSTED') || qc.failure) throw error
               log('attempt-failed', { slug: row.slug, locale: row.locale, attempt: attempt.number, error: error.message })
               await delay(2000)
             }
@@ -488,6 +512,12 @@ async function main() {
       } catch (error) {
         const qualityHold = isQualityFailure(error.message)
         entry.lastError = error.message; entry.failedAt = now()
+        if (isResourceDeferral(error.message)) {
+          if (!['published', 'ready'].includes(entry.status)) entry.status = 'pending'
+          await checkpoint()
+          log('qc-deferred', { slug: row.slug, locale: row.locale, error: error.message })
+          throw error
+        }
         if (options['synthesize-only']) {
           entry.synthesisError = error.message
           if (!['published', 'held'].includes(entry.status)) entry.status = 'failed'

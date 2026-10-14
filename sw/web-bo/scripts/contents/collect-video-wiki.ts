@@ -6,7 +6,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { mediaIntroductionText, type ReviewedMediaIntroduction } from './media-introduction-contract'
 
 const dir = path.resolve('../../data/celeb/video-wiki')

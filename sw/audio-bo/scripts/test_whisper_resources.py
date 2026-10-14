@@ -44,17 +44,28 @@ class WhisperResourcesTest(unittest.TestCase):
     def test_small_machine_uses_one_thread(self):
         self.assertEqual(resources.choose_plan(self.roomy(cpu_count=2)).cpu_threads, 1)
 
-    def test_lock_serializes_processes_and_releases(self):
+    def test_lock_admits_slot_count_and_rejects_overflow(self):
         with tempfile.TemporaryDirectory() as folder:
             lock_path = Path(folder) / "whisper.lock"
             code = ("import sys; from pathlib import Path; "
                     f"sys.path.insert(0, {str(Path(resources.__file__).parent)!r}); "
                     "from whisper_resources import inference_lock; "
                     f"lock=inference_lock(Path({str(lock_path)!r})); lock.__enter__(); lock.__exit__(None,None,None)")
+            # One held slot still admits another process.
             with resources.inference_lock(lock_path):
                 child = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True)
+                self.assertEqual(child.returncode, 0, child.stderr)
+            # Every slot held -> the next process is deferred.
+            locks = [resources.inference_lock(lock_path) for _ in range(resources.INFERENCE_SLOTS)]
+            try:
+                for lock in locks:
+                    lock.__enter__()
+                child = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True)
                 self.assertNotEqual(child.returncode, 0)
-                self.assertIn("Another Feel&Note Whisper job", child.stderr)
+                self.assertIn("inference slots are busy", child.stderr)
+            finally:
+                for lock in locks:
+                    lock.__exit__(None, None, None)
             child = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True)
             self.assertEqual(child.returncode, 0, child.stderr)
 

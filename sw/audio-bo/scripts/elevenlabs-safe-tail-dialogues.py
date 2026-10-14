@@ -1,4 +1,4 @@
-from celeb_dialogue_voice_common import ELEVENLABS_TTS_DEFAULTS, synthesize as synthesize_common
+from celeb_dialogue_voice_common import ELEVENLABS_ACCOUNT_ENV, ELEVENLABS_TTS_DEFAULTS, normalize_ele_account_id, resolve_api_key, synthesize as synthesize_common
 
 import argparse
 import difflib
@@ -68,7 +68,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--slug", required=True)
     parser.add_argument("--locale", choices=("ko", "en"), required=True)
     parser.add_argument("--voice-id", help="Override the locale voice ID without changing the DB")
-    parser.add_argument("--account", choices=("default", "feelandnote"), default="default")
+    parser.add_argument("--account", type=normalize_ele_account_id, default=ELEVENLABS_ACCOUNT_ENV["baseAccount"]["id"], help="Account name, e.g. webcodur, feelandnote, tlwns5598")
     parser.add_argument("--audio-env", type=Path, default=Path(__file__).parents[1] / ".env")
     parser.add_argument("--web-env", type=Path, default=Path(__file__).parents[2] / "web-bo" / ".env")
     parser.add_argument("--output-root", type=Path)
@@ -401,10 +401,7 @@ def main() -> None:
     args = parse_args()
     audio_env = RESEARCH.read_env(args.audio_env)
     web_env = RESEARCH.read_env(args.web_env)
-    env_key = "ELEVENLABS_API_KEY" if args.account == "default" else "ELEVENLABS_API_KEY_FEELANDNOTE"
-    api_key = audio_env.get(env_key, "")
-    if not api_key.startswith("sk_"):
-        raise SystemExit(f"{env_key} is missing from the audio-bo env")
+    api_key = resolve_api_key(audio_env, args.account)
 
     celeb, jobs = load_celeb(args.slug, args.locale, web_env)
     voice_id = (args.voice_id or str(celeb.get(f"voice_id_{args.locale}") or "")).strip()

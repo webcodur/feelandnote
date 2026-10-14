@@ -11,7 +11,7 @@
 
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
 import {
   assertExactFigureBookReadback,
   buildFigureBookBatchPlan,

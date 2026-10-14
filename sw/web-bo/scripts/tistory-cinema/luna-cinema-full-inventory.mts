@@ -12,7 +12,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
 import { ASSETS } from '../blog-assets.mjs'
 import { usableReview } from './lib/quality.mts'
 
@@ -130,7 +130,7 @@ type Material = {
   picked?: Array<Record<string, unknown>>
 }
 
-async function readRows<T>(db: SupabaseClient, table: string, columns: string): Promise<T[]> {
+async function readRows<T>(db: DatabaseClient, table: string, columns: string): Promise<T[]> {
   const rows: T[] = []
   for (let offset = 0; ; offset += PAGE_SIZE) {
     const { data, error } = await db.from(table).select(columns).range(offset, offset + PAGE_SIZE - 1)

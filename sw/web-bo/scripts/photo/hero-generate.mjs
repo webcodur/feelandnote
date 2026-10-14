@@ -19,7 +19,7 @@
  *   --local 이면 R2·DB에 올리지 않고 .tmp/hero-out/ 에만 떨군다. 눈으로 볼 때 쓴다.
  */
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
 import { uploadPortraitVariants } from '../../src/lib/portrait-variants.ts'
 import { buildHeroPrompt } from './hero-prompt.mjs'

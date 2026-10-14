@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { CELEB_PROFESSIONS } from '@feelandnote/shared/constants/celeb-professions'
 import { revalidateWebItems } from '../../src/lib/revalidate-web'

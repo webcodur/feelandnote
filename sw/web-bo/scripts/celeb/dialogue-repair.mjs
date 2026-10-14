@@ -9,7 +9,7 @@
  * - 적용 전 원본을 .tmp-dialogue-shape-backup.json에 저장
  */
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@feelandnote/db";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 

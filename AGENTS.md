@@ -1,18 +1,10 @@
 # AGENTS.md
 
-모든 AI 도구가 먼저 읽는 Feel&Note 저장소의 실행 계약이다. 세부 규격과 진행 현황을 복제하지 않고, 작업에 필요한 문서와 스킬로 연결한다.
-
-## 이 파일의 역할
-
-- 루트에는 거의 모든 작업에 적용되는 규칙과, 라우팅 전에 놓치면 큰 사고가 나는 불변사항만 둔다.
-- 특정 영역의 규칙은 `docs/project/` 문서나 `.agents/skills/`에 둔다.
-- 날짜·건수·진행률·Phase·완료 이력·사고 서사는 루트에 적지 않는다.
-- 문서 색인·TODO·아카이브 목록을 이 파일에 다시 만들지 않는다. 아래 문서 허브만 가리킨다.
-- 물리 줄 수 140줄·UTF-8 크기 12 KiB를 넘기지 않는다. `pnpm check:agents`가 이를 검사한다.
+모든 AI 도구가 먼저 읽는 Feel&Note 저장소의 실행 계약이다. 거의 모든 작업에 적용되는 규칙과, 작업 전에 놓치면 사고가 나는 불변사항만 둔다. 영역별 규격은 담당 문서·스킬로 연결한다.
 
 ## 프로젝트 개요
 
-Feelandnote는 도서·영상·게임·음악 소비 기록과 인물 기반 큐레이션을 제공한다. 운영자의 공개 활동명은 **아가톤(Agathon)**이며, 공지사항에서 운영자를 소개할 때 `주인장` 대신 이 이름을 쓴다. 운영자 이름을 쓰는 공지에는 독자가 이름의 유래와 의미를 알 수 있도록 가끔 짧은 설명을 본문에 넣는다. 예: “아가톤은 플라톤의 《향연》에 등장하는 비극 시인으로, 사람들을 초대해 서로의 생각을 나눌 자리를 마련한 인물입니다.”
+Feelandnote는 도서·영상·게임·음악 소비 기록과 인물 기반 큐레이션을 제공한다.
 
 | 앱 | 경로 | 포트 | 책임 |
 |---|---|---:|---|
@@ -23,7 +15,7 @@ Feelandnote는 도서·영상·게임·음악 소비 기록과 인물 기반 큐
 | audio-bo | `sw/audio-bo` | 3005 | 로컬 음원·받아쓰기·학습·합성 작업실 |
 | android | `sw/android` | — | `sw/web`을 감싸는 TWA 셸. Node 워크스페이스가 아니며 Android Studio로 빌드 |
 
-공유 패키지는 `packages/`의 `content-search`, `ai-services`, `influence-constants`, `shared`다.
+명령어와 의존성 버전은 루트 및 각 앱의 `package.json`에서 확인한다.
 
 ## 작업·검수·보고
 
@@ -33,35 +25,10 @@ Feelandnote는 도서·영상·게임·음악 소비 기록과 인물 기반 큐
 - 이미지·코드·문서는 **실행 → 자체 검수 → 작업보고**를 한 덩어리로 완료한다.
 - LLM이 작업 주체다. 기계로 수집·대조·후보 추출·형식 검사를 초벌 처리하고, 결과와 원문·출처·맥락을 읽어 최종 판단한다. 코드는 LLM이 확정한 변경을 실행하고 정합성을 검사한다. 기계 결과만으로 확정·반영하지 않는다.
 - 완료 보고에는 산출물과 저장 경로, 변경 내용, 검증 결과, 자체 피드백, 현재 사용 가능 여부를 적는다.
-- 이미지를 만들면 바로 열어볼 수 있게 `[파일명](file:///C:/project/feelandnote/...)` 링크로 적는다. 여러 장은 파일별 링크를 쓰고, 10장을 넘으면 폴더 링크·파일 수·대표 파일을 적는다. 교체·재작업이면 비교용 원본 링크도 함께 건다.
+- 생성 이미지는 바로 열 수 있는 절대경로 링크로 보고한다. 10장을 넘으면 폴더 링크·파일 수·대표 파일을, 교체·재작업이면 비교용 원본 링크를 함께 적는다.
 - 생성 이미지는 사용자가 확인하기 전에 지우지 않는다.
 
-아이디어를 요청받으면 아이디어 자체를 먼저 설명한다. 구현을 요청하지 않았다면 파일 경로·컴포넌트명·코드 구조를 앞세우지 않는다. 기능을 설명할 때도 유저가 무엇을 보고 무엇을 할 수 있는지부터 말한다.
-
-## 주요 명령어
-
-```bash
-pnpm dev:web
-pnpm dev:bo
-pnpm dev:remotion
-pnpm dev:lab
-pnpm dev:audio-bo
-
-pnpm build:web
-pnpm build:bo
-pnpm build:audio-bo
-pnpm check:agents
-```
-
-Remotion의 음성·렌더·R2 명령은 `docs/project/remotion/README.md`가 쥔다. 음성 파이프라인은 `pronounce → tts → transcribe → align → chunk`이며 TTS는 유료 수동 단계다. TTS 뒤에는 `/voice-sync <에피소드명>`으로 3~5단계를 실행한다.
-Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 남긴 앞단 캐시 비우기는 `pnpm purge:web:cloudflare`가 실행점이다. 퍼지까지 끝나야 배포가 끝난다. 절차는 `oracle-web-deploy` 스킬과 `docs/project/platform/platform-05-external-services.md`의 「Oracle 사용자 웹 운영」을 따른다.
-
-## 기술·환경
-
-- Next.js 16.1, React 19.2, TailwindCSS 4.1, TypeScript 5, PostgreSQL, pnpm을 사용한다.
-- 환경변수와 비밀 파일은 커밋하지 않는다. `.env*`, `.mcp.json`, `**/credentials/`는 로컬에서만 관리한다.
-- 새 컴퓨터에서는 비밀 파일을 사람이 직접 옮겨야 하며 빈 서식 파일을 만들지 않는다.
-- 키의 용도·배치·발급처·유출 대응은 `docs/project/platform/platform-04-env-vars.md`만 따른다. 값 자체를 문서에 적지 않는다.
+아이디어는 아이디어 자체를, 기능은 사용자가 무엇을 보고 할 수 있는지를 먼저 설명한다. 구현 요청이 없으면 코드 구조를 앞세우지 않는다.
 
 ## 전역 불변사항
 
@@ -72,39 +39,29 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 
 ### UI 상호작용
 
-- 조작 요소의 hover에는 지연 없는 즉각 반응이 최소 하나 있어야 한다. 즉각 축에 `transition`·`delay`를 걸지 않는다.
-- 확대·페이드 같은 보조 연출은 다른 엘리먼트에 `transition-transform`처럼 속성을 한정해 적용한다. `transition-all`로 즉각 축을 느리게 만들지 않는다.
-- 사이드바·아코디언·모달처럼 공간이 이동·개폐되는 전환은 애니메이션을 사용해도 된다.
-- 상세 규칙은 `docs/project/platform/platform-02-code-rules.md`와 `ui-hover` 스킬을 따른다.
-
-### DB·Remotion 동기화
-
-- 독립 대상을 반복 조사하는 릴레이 작업은 `RESEARCH_RELAY_ALGORITHM.md`를 따른다. 실존 인물 연표 부분 수리는 `docs/project/celeb/celeb-06-02-timeline-real-relay.md`를 따른다.
-- 셀럽의 감상배경과 도서 목록은 DB와 Remotion이 일치해야 한다.
-- DB에 콘텐츠가 확정되면 `sw/remotion/public/episodes/<셀럽>/books/`에 폴더와 `book.ko.json` 초안을 스캐폴딩한다.
-- Remotion 원고의 신규 일화·인용을 DB에 백필할 때는 웹에서 독립적으로 팩트체크한다. 대본이나 3자 큐레이션 해석만으로 DB를 갱신하지 않는다.
+- 조작 요소의 hover에는 지연 없는 즉각 반응이 최소 하나 있어야 한다. 상세 규칙은 `docs/project/platform/platform-02-code-rules.md`와 `ui-hover` 스킬을 따른다.
 
 ### 파일·git 안전
 
 - `git stash` 대신 `git diff`·`git show HEAD:<파일>`로 비교한다.
 - 커밋·push는 사용자 지시 때만 한다. `git commit -m "..." -- <경로>`로 범위를 지정하고, `git diff -- <경로>`로 같은 파일의 타 세션 변경 포함 여부를 확인한다.
-- 자산 삭제·덮어쓰기 전 절대경로와 `git ls-tree HEAD -- <경로>`로 추적 여부를 확인하고 원본을 `_backup`에 복사한다. 사용자가 임시 파일·백업까지 폐기하라고 명시하면 해당 대상은 보존·추가 확인 없이 삭제한다. Windows 삭제는 `Remove-Item -LiteralPath`, 디렉터리만 `-Recurse`, 기본은 `-Force` 없이 한다. 도구 차단은 사유를 확인해 허용되는 안전한 방식으로 처리하고, 미해결이면 그대로 보고한다.
+- 삭제·덮어쓰기 전 절대경로와 저장소 안 파일의 Git 추적 여부를 확인한다. 임시 작업 위치·폐기 판단·원본 복구본은 `docs/project/data/README.md`「작업 파일·백업」을 따른다. Windows 삭제는 `Remove-Item -LiteralPath`, 디렉터리만 `-Recurse`, 기본은 `-Force` 없이 한다. 도구 차단은 사유를 확인해 허용되는 안전한 방식으로 처리하고, 미해결이면 그대로 보고한다.
 - 한글이 든 JSON은 Edit 도구로 고치지 않는다. Node·Python으로 읽기→파싱→쓰기 경로를 쓴다.
 - 사용자가 쓴 원고와 편집 중인 파일은 위임받지 않는 한 고치지 않는다. 제안은 텍스트로 먼저 보여준다.
 - 유료 API를 쓰는 이미지·음성 생성, 서비스 노출·업로드·발행은 사용자의 명시적 지시 뒤에만 실행한다.
 
 ### 개발 서버는 사용자 것이다
 
-사용자가 띄운 개발 서버는 그대로 쓴다. **서버가 필요하면 먼저 `curl -s -o /dev/null -w "%{http_code}" localhost:<포트>`로 확인하고, 떠 있으면 그대로 쓴다.** 코드 변경은 HMR로 반영된다. 확인 없이 `pnpm dev:*`를 실행하면 두 인스턴스가 같은 `.next`를 써 충돌한다.
-
-`Stop-Process`·`taskkill`로 `next dev`를 명령줄 패턴으로 싹 쓸지 않는다(누가 띄웠는지 구분하지 못한다). 자기가 띄운 것만 자기가 받은 PID로 끈다. 포트는 「프로젝트 개요」 표를 따른다. `pnpm build:*`는 `.next`를 개발 서버와 함께 써 충돌하므로 먼저 알리고 동의를 받는다. 캐시는 재시작이 아니라 `/api/revalidate`로 푼다.
+- 서버가 필요하면 「프로젝트 개요」의 포트에서 먼저 HTTP 응답을 확인하고, 떠 있으면 그대로 쓴다. 코드 변경은 HMR로 반영한다.
+- `next dev`를 명령줄 패턴으로 일괄 종료하지 않는다. 자기가 띄운 것만 자기가 받은 PID로 끈다.
+- `pnpm build:*`는 개발 서버와 같은 `.next`를 쓰므로 먼저 알리고 동의를 받는다. 캐시는 `/api/revalidate`로 갱신한다.
 
 ### 데이터·외부 서비스
 
 - 실행 규약·허용값·임계값은 코드 상수 하나를 SSoT로 두고 화면·서버 액션·스크립트가 import해 사용한다. 문서는 값을 복제하지 않는다.
+- 비밀 파일의 배치·발급·이전·유출 대응은 `docs/project/platform/platform-04-env-vars.md`를 따른다. 비밀값을 문서에 적거나 빈 서식 파일을 만들지 않는다.
 - BOOK 신규 메타는 한국어판 카카오, 영문 원서 OpenLibrary만 쓴다. 네이버 책 API는 되살리지 않는다. Google Books는 소개문 수집에만 예외로 허용하며 조건은 `docs/project/platform/platform-05-external-services.md`가 쥔다.
 - 셀럽 아바타는 독립된 신원 근거가 있어야 한다. 등록·교체는 `celeb-avatar-register` 스킬과 `docs/project/celeb/celeb-08-01-avatar.md`를 따른다.
-- 세력도감 테마 표지 발주는 `faction-image` 스킬을 따른다.
 - Google API는 무료 키와 로그인 경로만 쓴다. 결제 계정이 붙은 GCP 프로젝트의 키를 `.env`나 코드에 두지 않고, 유료 Gemini·Vertex·Cloud TTS 호출 코드를 만들지 않는다.
 
 ## 문서·스킬 라우팅
@@ -114,27 +71,18 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 - 현역 프로젝트 문서: `docs/project/README.md`
 - 게임 문서: `docs/games/README.md`
 - 진행 중 작업: `docs/todo/README.md` / 반복 지속 과제: `docs/continuous/README.md`
-- DB 반영 전 인물 원고·기계 산출물: `data/celeb/README.md`
+- 작업 파일·백업·폐기 판단: `docs/project/data/README.md` / 인물 작업: `data/celeb/README.md`
 
 작업 전 `docs/README.md`에서 해당 영역만 찾아 읽는다. 모든 문서를 한꺼번에 읽지 않는다. 사용자의 요청과 일치하는 스킬이 있으면 그 `SKILL.md`를 먼저 읽고 스킬이 가리키는 현행 SSoT만 추가로 연다.
 
-전문 도메인 작업은 직접 할 때도 아래 룰북을 따른다. 위임은 지시가 있을 때만 하며, 발주문에 룰북 경로를 명시한다 — 없으면 지침 없이 도는 서브에이전트가 나온다.
+직접 작업할 때도 담당 룰북을 따른다. 위임은 사용자 지시가 있을 때만 하며, 발주문에 룰북 경로를 명시한다. 한국어 값 생성을 나눠 시킬 때는 「한국인이 한국어로 쓴 글 답게 주의해서 작성」을 매번 싣는다.
 
-| 작업 | 물릴 룰북 |
-|------|-----------|
-| 셀럽 파이프라인 전 단계 | `docs/project/celeb/celeb-00-01-pipeline.md` (단계별 룰북 표를 그 안에서 쥔다) |
-| 셀럽 콘텐츠 감사 | `docs/project/celeb/celeb-02-04-content-audit.md` |
-| 영상 원고 0~7단계(4번 폐기) | `docs/project/remotion/book-recommend/br-01-rules.md` + `writer/<단계>.md` |
-| 천도 게임 개발 | `docs/games/suikoden/dev-guide.md` |
-
-한국어 값 생성을 나눠 시킬 때는 「한국인이 한국어로 쓴 글 답게 주의해서 작성」을 발주문에 매번 싣는다. 이미지 제작은 `docs/project/production/prod-01-image-generation.md`를 따른다. 앱·서비스·DB·셀럽·영상의 세부 진입점은 `docs/project/README.md`가 쥔다.
+독립 대상을 반복 조사하는 릴레이는 `RESEARCH_RELAY_ALGORITHM.md`, 인물 작업은 `docs/project/celeb/celeb-00-01-pipeline.md`, 이미지 제작은 `docs/project/production/prod-01-image-generation.md`를 따른다. 그 밖의 세부 진입점은 위 문서 허브에서 찾는다.
 
 ## 문서 수명주기
 
-- 현행 규격은 `docs/project/` 또는 `docs/games/`에 둔다.
-- 끝이 있는 인수인계·실행 큐는 `docs/todo/`, 대상을 바꾸어 반복하는 작업의 현재 도달점은 `docs/continuous/`에 둔다.
-- 완료 보고서·회차 스냅샷·폐기 문서는 남기지 않는다. 규칙을 담당 SSoT로 옮긴 뒤 문서를 지운다. 경위가 필요하면 커밋 이력에서 꺼낸다.
-- 데이터는 한 번 생성하고 DB 필드·R2 서비스 리소스 반영·검증 뒤 작업 자료를 전량 폐기한다. 부가데이터 생성·보관 금지는 `docs/project/data/README.md`를 따른다.
-- 작업이 끝나면 현행 규칙을 담당 SSoT에 흡수하고, TODO에서 제거하고, 남은 문서를 지운다.
+- 문서 배치는 `docs/README.md`를 따른다. 완료 보고서·회차 스냅샷·폐기 문서는 남기지 않고, 필요한 규칙만 담당 SSoT로 옮긴 뒤 지운다. 끝난 작업은 TODO에서 제거한다.
+- 데이터와 작업 자료의 보관·정리는 `docs/project/data/README.md`를 따른다.
 - 문서를 추가·완료·이동·삭제하면 상위 README, 스킬, 코드 주석의 경로를 함께 갱신하고 옛 경로 참조가 0건인지 확인한다.
 - 같은 규칙을 여러 README나 `AGENTS.md`에 풀어 쓰지 않는다. 상위 문서는 경로와 책임만 설명한다.
+- `AGENTS.md`에 진행률·완료 이력·사고 서사·문서 색인을 쌓지 않는다. 140줄·UTF-8 12 KiB 한도는 `pnpm check:agents`로 검사한다.

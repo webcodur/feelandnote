@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@feelandnote/db';
 
 const argValue = (name: string) => {
   const index = process.argv.indexOf(name);

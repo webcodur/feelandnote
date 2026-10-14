@@ -66,6 +66,12 @@ test('invalid ISBN input falls back to title matching', () => {
   })
 })
 
+test('상품 코드와 틀린 체크 숫자는 ISBN 질의로 보내지 않는다', () => {
+  assert.equal(normalizeBookIsbn('4808952741950'), undefined)
+  assert.equal(normalizeBookIsbn('9788954655973'), undefined)
+  assert.equal(normalizeBookIsbn('8954655971'), '9788954655972')
+})
+
 test('the collection prompt requests a verified Korean-edition ISBN', () => {
   const prompt = generateAIPrompt()
 

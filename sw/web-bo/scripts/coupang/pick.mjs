@@ -18,7 +18,7 @@ import fs from 'fs'
 const requireWeb = createRequire(path.join(REPO, 'sw/web/package.json'))
 const requireRoot = createRequire(path.join(REPO, 'package.json'))
 const puppeteer = requireRoot('puppeteer')
-const { createClient } = requireWeb('@supabase/supabase-js')
+const { createClient } = requireWeb('@feelandnote/db')
 
 const env = fs.readFileSync(path.join(REPO, 'sw/web/.env'), 'utf8')
 const pickEnv = (k) => {

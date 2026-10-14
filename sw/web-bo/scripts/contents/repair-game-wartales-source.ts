@@ -3,7 +3,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { homedir } from 'node:os'
 import { spawnSync } from 'node:child_process'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 async function main() {
   const url = process.env.NEXT_PUBLIC_DB_API_URL
   if (!url || new URL(url).hostname !== 'db.feelandnote.com' || !process.env.DB_SECRET_KEY) throw new Error('Expected production credentials')
@@ -29,7 +29,7 @@ END $wartales_source$; COMMIT;`
   const rollback = `BEGIN; UPDATE public.contents SET external_source=NULL WHERE ${guard} AND external_source='igdb'; COMMIT;\n`
   await fs.writeFile(path.join(backupDir, 'apply.sql'), sql, 'utf8')
   await fs.writeFile(path.join(backupDir, 'rollback.sql'), rollback, 'utf8')
-  const result = spawnSync('ssh', ['-i', path.resolve(homedir(), '.ssh/feelandnote_oracle'), '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', 'ubuntu@152.67.198.197', 'sudo docker exec -i supabase-db psql -U postgres -d postgres -X -q -A -t -v ON_ERROR_STOP=1'], { input: sql, encoding: 'utf8', timeout: 45000, maxBuffer: 1024 * 1024 })
+  const result = spawnSync('ssh', ['-i', path.resolve(homedir(), '.ssh/feelandnote_oracle'), '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', 'ubuntu@152.67.198.197', 'sudo docker exec -i feelandnote-db psql -U postgres -d postgres -X -q -A -t -v ON_ERROR_STOP=1'], { input: sql, encoding: 'utf8', timeout: 45000, maxBuffer: 1024 * 1024 })
   if (result.error || result.status !== 0) throw new Error(result.error?.message ?? result.stderr)
   const { data: after, error: readError } = await db.from('contents').select('id,type,external_id,external_source').eq('id', id).single()
   if (readError) throw readError

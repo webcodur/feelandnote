@@ -4,7 +4,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 const ART = resolve('../../data/celeb/book-introductions')
 const plans = [

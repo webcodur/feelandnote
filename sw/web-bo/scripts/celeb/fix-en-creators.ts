@@ -1,7 +1,7 @@
 // content_locales 의 en 행에 한글 감독·제작사명이 들어간 것을 영문으로 고친다.
 // 원인: 앞선 배치의 등록 스크립트가 TMDB ko-KR 크레딧을 en 로케일에도 그대로 넣었다.
 // 기본 dry-run, --apply 로 실제 반영.
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import 'dotenv/config'
 
 const APPLY = process.argv.includes('--apply')

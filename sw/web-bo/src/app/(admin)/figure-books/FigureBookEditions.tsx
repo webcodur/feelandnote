@@ -323,7 +323,6 @@ export default function FigureBookEditions({
                 <option value="full">완역·완질</option>
                 <option value="volume">분권</option>
                 <option value="selection">선집</option>
-                <option value="abridged">축약</option>
                 <option value="retelling">재화</option>
                 <option value="adaptation">각색</option>
               </select>

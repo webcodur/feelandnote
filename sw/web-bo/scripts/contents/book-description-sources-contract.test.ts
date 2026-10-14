@@ -90,3 +90,18 @@ test('reselect moves an existing marker only to a verified selection and keeps i
   assert.equal(planIntroductionChange('content_locales', selected, { source: null, sourceUrl: null, description: null }, { reselect: true }).reason, 'reselect-no-introduction')
   assert.equal(planIntroductionChange('content_locales', { ...selected, locale: 'en', description: 'OPEN' }, fetched, { reselect: true }).reason, 'source-language-mismatch')
 })
+test('verify-markers reselects a resolvable marker and NULLs one that resolves to nothing', () => {
+  const selected: IntroductionRow = { ...row, description: 'KAKAO',
+    sources: { primary: 'kakao_book', description: 'https://dapi.kakao.com/v3/search/book?target=isbn&query=9788908062290' } }
+  const moved = planIntroductionChange('content_locales', selected, fetched, { verifyMarkers: true })
+  assert.equal(moved.reason, 'reselected')
+  assert.equal(moved.change?.description, 'DAUM')
+  const dead = planIntroductionChange('content_locales', selected, { source: null, sourceUrl: null, description: null }, { verifyMarkers: true })
+  assert.equal(dead.reason, 'marker-unverified')
+  assert.equal(dead.change?.description, null)
+  assert.equal(dead.change?.sources.description, selected.sources!.description)
+  assert.match(buildIntroductionApplySql('book', [dead.change!]), /SET description = NULL/)
+  const kept = planIntroductionChange('content_locales', { ...selected, description: 'DAUM', sources: { description: fetched.sourceUrl } }, fetched, { verifyMarkers: true })
+  assert.equal(kept.reason, 'reselect-unchanged')
+  assert.equal(kept.change, null)
+})

@@ -10,6 +10,7 @@
     "test:auth-egress": "tsx --test src/lib/db/auth-network-usage.test.ts",
     "test:faction-options": "tsx --test \"src/app/(admin)/celebs/components/factionOptions.test.ts\"",
     "celeb:audit:activation": "tsx scripts/celeb/audit-activation.ts",
+    "celeb:audit:inactive-required": "tsx scripts/celeb/audit-inactive-required-values.mts",
     "celeb:audit:basic": "tsx scripts/celeb/audit-basic.ts",
     "celeb:audit:tracks": "tsx scripts/celeb/audit-tracks.ts",
     "celeb:audit:public": "tsx scripts/celeb/audit-public.ts",
@@ -47,7 +48,6 @@
     "photo:world-banner": "node scripts/photo/world-banner.mjs",
     "figure-books:audit": "node --env-file=.env --import tsx scripts/figure-books/audit.ts",
     "figure-books:direct-candidates": "node --env-file=.env --import tsx scripts/figure-books/direct-title-candidates.ts",
-    "figure-books:context-candidates": "node --env-file=.env --import tsx scripts/figure-books/context-candidates.ts",
     "figure-books:review-direct": "node scripts/figure-books/review-direct-candidates.mjs",
     "figure-books:apply-reviewed": "node --env-file=.env --import tsx scripts/figure-books/apply-reviewed.ts",
     "figure-books:batch": "node --env-file=.env --import tsx scripts/figure-books/source-batch.ts",
@@ -91,7 +91,10 @@
     "contents:edition-refresh": "node --env-file=.env --import tsx scripts/contents/book-edition-refresh.mjs",
     "celeb:seed:factions": "tsx scripts/celeb/seed-faction-assignments.ts",
     "avatar:md": "tsx scripts/avatar/md.ts",
-    "photo:display": "tsx scripts/photo/display-variants.ts"
+    "photo:display": "tsx scripts/photo/display-variants.ts",
+    "figure-books:series-audit": "node --import tsx scripts/figure-books/series-split-audit.mjs",
+    "figure-books:series-audit:test": "node --import tsx --test scripts/figure-books/series-split-audit.test.mjs scripts/figure-books/series-work.test.mjs scripts/figure-books/series-split-source-check.test.mjs scripts/figure-books/series-split-repair.test.mjs scripts/figure-books/series-split-batch.test.mjs scripts/figure-books/series-split-verify.test.mjs scripts/figure-books/series-split-toc-check.test.mjs",
+    "figure-books:series-toc-check": "node --import tsx scripts/figure-books/series-split-toc-check.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.997.0",
@@ -102,8 +105,6 @@
     "@feelandnote/shared": "workspace:*",
     "@google/genai": "^1.44.0",
     "@remotion/player": "4.0.434",
-    "@supabase/ssr": "^0.12.3",
-    "@supabase/supabase-js": "^2.110.7",
     "@tensorflow/tfjs": "^4.22.0",
     "@tensorflow/tfjs-backend-wasm": "^4.22.0",
     "@vladmandic/face-api": "^1.7.15",

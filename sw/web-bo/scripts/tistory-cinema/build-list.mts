@@ -6,7 +6,7 @@
  * 이 글이 다른 목록 소개 글과 갈리는 지점은 **전체 목록을 다 싣는 것**과 **누가 꼽았는지**
  * 둘이다. 앞은 「AFI 100대 영화 목록」 검색을 받고, 뒤는 우리만 쓸 수 있다.
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { usableReview } from './lib/quality.mts'
 import fs from 'node:fs'
 import path from 'node:path'

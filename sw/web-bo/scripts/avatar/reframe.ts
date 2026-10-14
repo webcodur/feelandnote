@@ -1,199 +1,54 @@
-/**
- * 배경 지운 아바타 재배치 — 정수리·쇄골 실루엣 기준으로 다시 자른다
- *
- * 눈·턱 규격(AVATAR_SPEC)에 합격해도 정수리 여백과 상반신 유입이 제각각이면 나란히 놓았을 때 흐트러진다.
- * 알파 채널에서 정수리를, 랜드마크에서 눈·턱을 재 AVATAR_SILHOUETTE_SPEC으로 정사각을 다시 구한다.
- * 계산은 src/lib/avatar-geometry.ts 한 곳이 맡는다. 여기서 수치를 만들지 않는다.
- *
- * 사용법 (sw/web-bo 에서):
- *   npx tsx scripts/avatar/reframe.ts <입력폴더> <출력폴더> [--sheet] [--group-size <인원>]
- *   --group-size 는 이미 구성된 그룹 정사각을 보존한다. 검출 인원이 다르면 등록용 출력을 만들지 않는다.
- *
- *   입력폴더의 *.webp|png 를 읽어 출력폴더에 같은 이름의 .webp(공유 원본 규격 크기·품질)로 쓴다.
- *   --sheet 를 주면 출력폴더/_sheet-NNN.png 에 전·후 대조 격자를 만든다.
- *   출력폴더/_report.json 에 인물별 좌표·결정 요인·경고·확대 배율을 남긴다.
- *
- * 얼굴 미검출은 건너뛰고 보고한다. 투명 배경이 아닌 입력은 실루엣을 잴 수 없어 건너뛴다.
- * R2·DB에는 손대지 않는다. 등록은 upload-local.ts 경로를 쓴다.
- */
+// 정수리·쇄골 실루엣 기준으로 재배치한다. --nobg는 기존 nobg 배치로 배경부터 지운다.
+// R2·DB 등록은 upload-reframed.ts에서 별도로 실행한다.
 import sharp from 'sharp'
-import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs'
-import { resolve, join, parse as parsePath } from 'path'
-import * as tf from '@tensorflow/tfjs'
-import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
-import { createRequire } from 'module'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { resolve, join, parse as parsePath } from 'node:path'
+import { parseArgs } from 'node:util'
 import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
-import {
-  AVATAR_SILHOUETTE_SPEC,
-  computeCropFromSilhouette,
-  horizontalAnchor,
-  type SilhouetteAnchors,
-  type SilhouetteInfo,
-} from '../../src/lib/avatar-geometry'
-import { BO_ROOT } from '../lib/paths'
+import { AVATAR_SILHOUETTE_SPEC, computeCropFromSilhouette } from '../../src/lib/avatar-geometry'
+import { loadModels, anchorsOf, silhouetteOf } from './reframe-detection'
+import { removeBackgrounds } from './reframe-nobg'
+import { makeSheet, type Row } from './reframe-sheet'
 
-const _require = createRequire(import.meta.url)
-const faceapi = _require('@vladmandic/face-api/dist/face-api.node-wasm.js') as typeof import('@vladmandic/face-api')
-
-const args = process.argv.slice(2)
-const positional = args.filter((a) => !a.startsWith('--'))
-const inDir = positional[0]
-const outDir = positional[1]
-const wantSheet = args.includes('--sheet')
-const groupSizeIndex = args.indexOf('--group-size')
-const groupSize = groupSizeIndex < 0 ? 0 : Number(args[groupSizeIndex + 1])
-if (groupSizeIndex >= 0 && (!Number.isInteger(groupSize) || groupSize < 2)) {
+const { values, positionals } = parseArgs({
+  allowPositionals: true,
+  options: {
+    nobg: { type: 'boolean' }, sheet: { type: 'boolean' },
+    'group-size': { type: 'string' }, help: { type: 'boolean' },
+  },
+})
+const usage = '사용법: npx tsx scripts/avatar/reframe.ts <입력폴더> <출력폴더> [--nobg] [--sheet] [--group-size <인원>]'
+if (values.help || positionals.length !== 2) {
+  console.log(usage)
+  console.log('--nobg: 배경 제거 → 재배치. PNG·WebP 입력, 중간본 보존. NOBG_SPEED 기본 medium.')
+  process.exit(values.help ? 0 : 1)
+}
+const [inDir, outDir] = positionals.map((dir) => resolve(dir))
+const wantNobg = !!values.nobg
+const wantSheet = !!values.sheet
+const groupSize = values['group-size'] === undefined ? 0 : Number(values['group-size'])
+if (values['group-size'] !== undefined && (!Number.isInteger(groupSize) || groupSize < 2)) {
   throw new Error('--group-size 는 2 이상의 정수여야 한다')
-}
-if (!inDir || !outDir) {
-  console.error('사용법: npx tsx scripts/avatar/reframe.ts <입력폴더> <출력폴더> [--sheet]')
-  process.exit(1)
-}
-
-async function loadModels() {
-  await setWasmPaths(resolve(BO_ROOT, 'node_modules/@tensorflow/tfjs-backend-wasm/dist') + '/')
-  await import('@tensorflow/tfjs-backend-wasm')
-  await tf.setBackend('wasm')
-  await tf.ready()
-  const modelDir = resolve(BO_ROOT, 'node_modules/@vladmandic/face-api/model')
-  await faceapi.nets.ssdMobilenetv1.loadFromDisk(modelDir)
-  await faceapi.nets.faceLandmark68Net.loadFromDisk(modelDir)
-}
-
-/** 투명 영역을 중간 회색으로 깔아 검출기가 검은 배경에 흔들리지 않게 한다 */
-async function anchorsOf(buf: Buffer): Promise<(SilhouetteAnchors & { emphasis: number; faceCount: number }) | null> {
-  const { data, info } = await sharp(buf)
-    .flatten({ background: '#808080' })
-    .removeAlpha()
-    .raw()
-    .toBuffer({ resolveWithObject: true })
-  const tensor = tf.tensor3d(new Uint8Array(data), [info.height, info.width, 3], 'int32') as unknown as Parameters<
-    typeof faceapi.detectAllFaces
-  >[0]
-  try {
-    const dets = await faceapi
-      .detectAllFaces(tensor, new faceapi.SsdMobilenetv1Options({ minConfidence: 0.4, maxResults: Math.max(10, groupSize + 1) }))
-      .withFaceLandmarks()
-    if (groupSize && dets.length !== groupSize) {
-      throw new Error(`그룹 얼굴 수 불일치: 기대 ${groupSize}명, 검출 ${dets.length}명`)
-    }
-    if (!groupSize && dets.length > 1) {
-      throw new Error(`여러 얼굴 검출 (${dets.length}명): 한 명만 자동 선택하지 않는다. 그룹 정사각은 --group-size 로 인원을 지정하라`)
-    }
-    if (!dets.length) return null
-    dets.sort((a, b) => b.detection.box.area - a.detection.box.area)
-    const lm = dets[0].landmarks
-    const center = (pts: { x: number; y: number }[]) => ({
-      x: pts.reduce((s, p) => s + p.x, 0) / pts.length,
-      y: pts.reduce((s, p) => s + p.y, 0) / pts.length,
-    })
-    const L = center(lm.getLeftEye()) // 화면 왼쪽 눈
-    const R = center(lm.getRightEye()) // 화면 오른쪽 눈
-    const nose = lm.getNose()[3] // 코끝
-    const jaw = lm.getJawOutline()
-    // 가로 기준은 턱선 양끝의 중점 — 부각량은 진단 표시용
-    const h = horizontalAnchor({ leftEyeX: L.x, rightEyeX: R.x, noseX: nose.x, jawLeftX: jaw[0].x, jawRightX: jaw[jaw.length - 1].x })
-    return {
-      eyeX: (L.x + R.x) / 2,
-      eyeY: (L.y + R.y) / 2,
-      chinY: jaw[Math.floor(jaw.length / 2)].y,
-      centerX: h.centerX,
-      emphasis: h.emphasis,
-      faceCount: dets.length,
-    }
-  } finally {
-    ;(tensor as unknown as { dispose?: () => void }).dispose?.()
-  }
-}
-
-/** 알파 채널에서 정수리 행을 찾는다. 투명 배경이 아니면 null */
-async function silhouetteOf(buf: Buffer): Promise<(SilhouetteInfo & { W: number; H: number }) | null> {
-  const { data, info } = await sharp(buf).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
-  const W = info.width
-  const H = info.height
-  const minRun = Math.max(1, Math.round(W * AVATAR_SILHOUETTE_SPEC.minOpaqueRun))
-  let transparent = 0
-  let headTop = -1
-  const rowLeft: number[] = new Array(H).fill(-1)
-  const rowRight: number[] = new Array(H).fill(-1)
-  for (let y = 0; y < H; y++) {
-    let run = 0
-    for (let x = 0; x < W; x++) {
-      if (data[(y * W + x) * 4 + 3] > AVATAR_SILHOUETTE_SPEC.alphaThreshold) {
-        run++
-        if (rowLeft[y] < 0) rowLeft[y] = x
-        rowRight[y] = x
-      } else transparent++
-    }
-    if (headTop < 0 && run >= minRun) headTop = y
-  }
-  if (transparent < W * H * 0.05) return null
-  if (headTop < 0) return null
-  return { W, H, headTop, touchesTop: headTop <= 1, rowLeft, rowRight }
-}
-
-interface Row {
-  name: string
-  faceCount?: number
-  error?: string
-  crop?: { left: number; top: number; size: number }
-  spanRatio?: number
-  eyeLine?: number
-  headroom?: number
-  /** 부각량. 양수면 왼쪽 부각 → 왼쪽 눈 기준 */
-  emphasis?: number
-  decidedBy?: string
-  upscale?: number
-  warnings?: string[]
-}
-
-async function makeSheet(rows: Row[], srcDir: string, dstDir: string) {
-  const cell = 200
-  const gap = 6
-  const pairsPerRow = 5
-  const perSheet = 30
-  const label = 22
-  const done = rows.filter((r) => r.crop)
-  for (let s = 0; s * perSheet < done.length; s++) {
-    const chunk = done.slice(s * perSheet, (s + 1) * perSheet)
-    const nRows = Math.ceil(chunk.length / pairsPerRow)
-    const width = pairsPerRow * (cell * 2 + gap * 3)
-    const height = nRows * (cell + label + gap)
-    const composites: sharp.OverlayOptions[] = []
-    const svgLabels: string[] = []
-    for (let i = 0; i < chunk.length; i++) {
-      const r = chunk[i]
-      const col = i % pairsPerRow
-      const rowI = Math.floor(i / pairsPerRow)
-      const x0 = col * (cell * 2 + gap * 3) + gap
-      const y0 = rowI * (cell + label + gap) + label
-      const before = await sharp(join(srcDir, r.name + '.webp'))
-        .resize(cell, cell, { fit: 'contain', background: '#5a6270' })
-        .png().toBuffer()
-      const after = await sharp(join(dstDir, r.name + '.webp')).resize(cell, cell).png().toBuffer()
-      composites.push({ input: before, left: x0, top: y0 }, { input: after, left: x0 + cell + gap, top: y0 })
-      const tag = `${r.name}  ${((r.spanRatio ?? 0) * 100).toFixed(0)}% ${r.decidedBy}${r.warnings?.length ? ' !' : ''}`
-      const escapedTag = tag.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
-      svgLabels.push(`<text x="${x0}" y="${y0 - 6}" font-size="13" fill="#fff" font-family="sans-serif">${escapedTag}</text>`)
-    }
-    const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">${svgLabels.join('')}</svg>`
-    await sharp({ create: { width, height, channels: 4, background: '#5a6270' } })
-      .composite([...composites, { input: Buffer.from(svg), left: 0, top: 0 }])
-      .png()
-      .toFile(join(dstDir, `_sheet-${String(s + 1).padStart(3, '0')}.png`))
-  }
-  console.log(`대조 격자 ${Math.ceil(done.length / perSheet)}장 → ${dstDir}/_sheet-*.png (왼쪽 전 · 오른쪽 후)`)
 }
 
 async function main() {
+  const files = readdirSync(inDir).filter((f) => /\.(webp|png)$/i.test(f) && !f.startsWith('_')).sort()
+  if (!files.length) throw new Error('재배치할 이미지가 없다')
+  if (resolve(inDir) === resolve(outDir)) throw new Error('입력과 출력 폴더는 달라야 한다')
+  const names = files.map((file) => parsePath(file).name.toLowerCase())
+  if (new Set(names).size !== names.length) throw new Error('확장자를 제외한 파일명이 중복된다')
+  if (wantNobg && existsSync(outDir) && readdirSync(outDir).length) {
+    throw new Error('--nobg 출력 폴더는 비어 있어야 한다. 새 폴더를 지정하라')
+  }
+  const sources = new Map(files.map((file) => [parsePath(file).name, join(inDir, file)]))
+  const processed = wantNobg ? await removeBackgrounds(files, inDir, outDir) : null
   await loadModels()
   mkdirSync(outDir, { recursive: true })
-  const files = readdirSync(inDir).filter((f) => /\.(webp|png)$/i.test(f) && !f.startsWith('_')).sort()
   console.log(`재배치 대상 ${files.length}장`)
   const rows: Row[] = []
   for (const file of files) {
     const name = parsePath(file).name
-    const buf = readFileSync(join(inDir, file))
+    const buf = readFileSync(processed?.get(file) ?? join(inDir, file))
     try {
       const sil = await silhouetteOf(buf)
       if (!sil) {
@@ -201,7 +56,7 @@ async function main() {
         console.log(`  ${name} — 실루엣 없음, 건너뜀`)
         continue
       }
-      const anchors = await anchorsOf(buf)
+      const anchors = await anchorsOf(buf, groupSize)
       if (!anchors) {
         rows.push({ name, error: '얼굴 미검출' })
         console.log(`  ${name} — 얼굴 미검출, 건너뜀`)
@@ -282,7 +137,8 @@ async function main() {
   const done = rows.filter((r) => r.crop)
   const warned = done.filter((r) => r.warnings?.length)
   console.log(`\n완료 ${done.length} / ${rows.length}  ·  경고 ${warned.length}  ·  건너뜀 ${rows.length - done.length}`)
-  if (wantSheet) await makeSheet(rows, inDir, outDir)
+  if (wantSheet) await makeSheet(rows, sources, outDir)
+  if (rows.some((row) => row.error)) process.exitCode = 1
 }
 
 main().catch((e) => {

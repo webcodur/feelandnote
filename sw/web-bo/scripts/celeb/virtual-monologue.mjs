@@ -8,7 +8,7 @@ import { appendFile, mkdir, readFile, readdir, writeFile } from 'node:fs/promise
 import { homedir } from 'node:os'
 import { dirname, relative, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import {
   AGY_TEXT_MODEL,
   agyCall,
@@ -117,14 +117,20 @@ const RETRY_HINTS = {
   '인용 상자 혼입': '설명이나 머리말 없이 독백 본문만 쓴다.',
 }
 
-function buildWriterPrompt(row, reasons = []) {
+function buildWriterPrompt(row, reasons = [], brief = null) {
   const name = row.nickname_en
     ? `${row.nickname}(${row.nickname_en})`
     : row.nickname
   const base = `${name}. 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지. 첫 문장은 남들이 나를 두고 하는 평가나 질문으로 시작하지 않는다. 정중한 말투를 기본으로 한다. 다만 인물 고유의 말투는 자유롭게 써도 된다.`
   // 이름만 주면 같은 이름의 더 유명한 대상(작품 속 인물·사물·다른 사람)으로 쓴다(119편 실측). 누구인지는 소개 한 줄로 늘 고정한다.
-  const bio = String(row.bio ?? '').trim()
+  const bio = String(brief ? (brief.identity ?? brief.facts?.[0]?.text ?? '') : (row.bio ?? '')).trim()
   const lines = bio ? [base, `인물 소개: ${bio}`] : [base]
+  if (brief) {
+    lines.push('한국어 분량 목표는 공백 포함 800~1000자다. 회사명·제품명·약어는 공식 표기를 쓴다.')
+    lines.push('한국인이 한국어로 쓴 글답게 주의해서 작성한다. 인물 소개는 신원 식별용이며 사실 근거가 아니다. 아래 작업자가 정한 방향과 사용할 정보 목록에 있는 사실만으로 독백 본문을 쓴다. 소개의 직함·이력이라도 정보 목록에 없으면 본문에 추가하지 않는다. 사실·일화·직접 인용을 새로 만들지 않는다. 출처 목록은 본문에 넣지 않는다.')
+    lines.push(`독백 방향: ${brief.monologueDirection}`)
+    lines.push('사용할 정보:', ...brief.facts.map((fact) => `- ${fact.text} (근거: ${fact.sourceUrl})`))
+  }
   const hints = [...new Set(reasons.map((reason) => RETRY_HINTS[reason]).filter(Boolean))]
   if (hints.length > 0) lines.push(hints.join(' '))
   return lines.join('\n')
@@ -883,6 +889,10 @@ function selfTestCommand() {
   const writerBase = '히파티아(Hypatia). 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지. 첫 문장은 남들이 나를 두고 하는 평가나 질문으로 시작하지 않는다. 정중한 말투를 기본으로 한다. 다만 인물 고유의 말투는 자유롭게 써도 된다.'
   assert.equal(buildWriterPrompt({ ...hypatiaRow, bio: null }), writerBase)
   assert.equal(buildWriterPrompt({ ...hypatiaRow, bio: '알렉산드리아의 철학자.' }), `${writerBase}\n인물 소개: 알렉산드리아의 철학자.`)
+  assert.equal(sanitizeLight('저는 xAI와 SpaceX에서 일합니다. GPS를 씁니다.'), '저는 xAI와 SpaceX에서 일합니다. GPS를 씁니다.')
+  assert.equal(sanitizeLight('저는 인공지능 회사(xAI)에서 일합니다.'), '저는 인공지능 회사(xAI)에서 일합니다.')
+  assert.equal(sanitizeLight('(xAI)에서 일합니다.'), '(xAI)에서 일합니다.')
+  assert.equal(stripForeignParen('저는 인공지능 회사(xAI)에서 일합니다.'), '저는 인공지능 회사(xAI)에서 일합니다.')
   assert.deepEqual(registerTally('나는 걸었다.\n\n그리고 멈췄다.'), { polite: 0, flat: 2, other: 0 })
   assert.deepEqual(registerTally('나는 걸었습니다.\n\n그리고 멈췄어요.'), { polite: 2, flat: 0, other: 0 })
   assert.equal(registerTally('그것은 아니다. 내 길이 아니니까.').flat, 2)
@@ -996,11 +1006,11 @@ function sanitizeLight(text) {
     .replace(/\*+/g, '')
     .replace(/^#{1,6}\s.*$\n*/gm, '')
     .replace(/^\s*[^\n.?!]{0,80}독백[^\n.?!]{0,80}\n+/, '')
-    .replace(/^\s*[（(][^)）\n]{0,200}[)）]\s*$\n*/gm, '')
-    .replace(/^\s*[（(][^)）\n]{0,200}[)）]\s*/, '')
+    .replace(/^\s*[（(][^)）\n]{0,200}[)）]\s*$\n*/gm, (match) => (/[A-Za-z]/.test(match) ? match : ''))
+    .replace(/^\s*[（(][^)）\n]{0,200}[)）]\s*/, (match) => (/[A-Za-z]/.test(match) ? match : ''))
     .replace(/^\s*-{3,}\s*$\n*/gm, '')
-    // 음성화 때 그대로 읽히므로 한자·로마자만 든 괄호는 통째로 걷어낸다.
-    .replace(/\s*[（(][^)）\n]*[一-鿿A-Za-z][^)）\n]*[)）]/g, (match) => (/[가-힣]/.test(match) ? match : ''))
+    // 한자 병기만 걷어내고 영문 회사명·제품명·약어는 보존한다.
+    .replace(/\s*[（(][^)）\n]*[一-鿿][^)）\n]*[)）]/g, (match) => (/[가-힣A-Za-z]/.test(match) ? match : ''))
     .replace(/\s*—\s*/g, ', ')
     .trim())
 }
@@ -1013,10 +1023,10 @@ function buildLightReviewPrompt(row, draft) {
 ${draft}`
 }
 
-async function lightOne(row, reasons = []) {
+async function lightOne(row, reasons = [], brief = null) {
   const call = (prompt) => agyCall(prompt, { model: AGY_TEXT_MODEL, timeoutMs: LIGHT_TIMEOUT_MS })
-  let final = (await call(buildWriterPrompt(row, reasons))).trim()
-  const reviewed = needsLightReview(row)
+  let final = (await call(buildWriterPrompt(row, reasons, brief))).trim()
+  const reviewed = !brief && needsLightReview(row)
   if (reviewed) {
     final = (await call(buildLightReviewPrompt(row, final))).trim()
     if (!final) return { status: 'hold', reason: '검수 응답 없음', reviewed, final }
@@ -1064,10 +1074,22 @@ async function lightCommand() {
   const out = argValue('--out') ?? DEFAULT_LIGHT_OUT
   const apply = hasFlag('--apply')
   const reused = argValue('--reuse') ? await loadReusedFinals(argValue('--reuse')) : null
+  const briefFile = argValue('--brief-file')
+  const briefs = briefFile ? JSON.parse(await readFile(resolve(briefFile), 'utf8')) : {}
+  if (!reused && !briefFile) throw new Error('집필 전에 작업자의 방향·확인 정보를 담은 --brief-file이 필요하다.')
   const holdReasons = await loadHoldReasons(out)
   const db = createDb()
   const all = slugs.length > 0 ? await loadTargets(db, slugs, null) : await loadEmptyTargets(db)
   const targets = limit > 0 ? all.slice(0, limit) : all
+  if (!reused) {
+    for (const row of targets.filter((row) => row.virtual_monologue === null && row.virtual_monologue_locked_at === null)) {
+      const brief = briefs[row.slug]
+      if (!brief?.monologueDirection?.trim() || !Array.isArray(brief.facts) || brief.facts.length < 2
+        || brief.facts.some((fact) => !fact.text?.trim() || !/^https?:\/\//.test(fact.sourceUrl ?? ''))) {
+        throw new Error(`${row.slug}: 작업자의 독백 방향·출처 있는 정보가 부족하다.`)
+      }
+    }
+  }
   const counts = { ready: 0, hold: 0, error: 0, applied: 0 }
   let stopped = null
 
@@ -1078,7 +1100,7 @@ async function lightCommand() {
     try {
       result = reused
         ? lightCheck(reused.get(row.slug).final, reused.get(row.slug).reviewed)
-        : await lightOne(row, [...(holdReasons.get(row.slug) ?? [])])
+        : await lightOne(row, [...(holdReasons.get(row.slug) ?? [])], briefs[row.slug])
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
       const timedOut = /시간 초과/.test(message)
@@ -1494,12 +1516,11 @@ async function registerCommand() {
   if (stopped) process.exitCode = 3
 }
 
-// ── 표기 정리(음성화 준비) ────────────────────────────────────────────
-// 1) 한글이 없는 괄호는 기계로 뗀다. 2) 괄호 밖 로마자는 그대로 둔다.
-// 3) 한글 뜻풀이 괄호와 4) 로마자가 섞인 자리, 5) 본문에 섞인 제목 줄은 모델이 고친다.
+// ── 본문 표기 정리 ────────────────────────────────────────────────────
+// 영문 표기는 보존하고 제목·무대 지시·불필요한 뜻풀이를 정리한다.
 
 function stripForeignParen(text) {
-  return text.replace(/\s*[（(][^)）\n]*[)）]/g, (match) => (/[가-힣]/.test(match.slice(1, -1)) ? match : ''))
+  return text.replace(/\s*[（(][^)）\n]*[)）]/g, (match) => (/[가-힣A-Za-z]/.test(match) ? match : ''))
 }
 
 function stripTitleLine(text) {
@@ -1516,7 +1537,7 @@ function buildNotationBrief(rows) {
   const table = rows.map((row) => `| \`output/${row.slug}.txt\` | ${row.nickname} |`).join('\n')
   return `# 독백 표기 정리 지시서
 
-아래 독백들은 나중에 음성으로 읽힌다. 괄호에 든 뜻풀이를 문장으로 풀어 쓴다. 그 밖의 문장은 손대지 않는다.
+괄호에 든 불필요한 뜻풀이를 문장으로 풀어 쓴다. 영문 회사명·제품명·약어와 그 밖의 문장은 보존한다.
 
 ## 하지 않는 일
 
@@ -1536,7 +1557,7 @@ function buildNotationBrief(rows) {
 3. **뜻만 남긴다.** 원어나 전문 용어를 알아 봐야 득이 없을 때.
    "용기로 travel(이동)했는가" → "용기로 이동했는가"
 
-로마자가 남으면 안 된다. 로마자를 살려야 할 때는 한글 소리로 적는다.
+회사명·제품명·약어는 공식 영문 표기를 보존한다.
 
 본문 첫 줄에 제목이 들어 있으면 그 줄을 지운다.
 
@@ -1697,6 +1718,10 @@ async function appendRecord(path, record) {
 }
 
 async function museCaller() {
+  if (argValue('--backend') === 'codex') {
+    const { codexCall } = await import(pathToFileURL(resolve(REPO_ROOT, '.agents/skills/codex-gpt/scripts/codex-call.mjs')).href)
+    return (prompt) => codexCall(prompt, { model: 'gpt-6.1-sol', effort: 'high', sandbox: 'read-only', timeoutMs: MUSE_TIMEOUT_MS })
+  }
   const muse = await import(pathToFileURL(resolve(REPO_ROOT, '.agents/skills/opencode-muse/scripts/muse-call.mjs')).href)
   const model = argValue('--line') === 'free' ? muse.MUSE_FREE : muse.MUSE_GO
   return async (prompt) => (await muse.museCall(prompt, { model, timeoutMs: MUSE_TIMEOUT_MS })).text
@@ -1706,11 +1731,14 @@ async function loadMonologueRows(db, slugs, untranslatedOnly) {
   const rows = []
   for (let from = 0; ; from += 1000) {
     let query = db.from('celebs')
-      .select('id,slug,nickname,nickname_en,bio,virtual_monologue,virtual_monologue_en')
+      .select('id,slug,nickname,nickname_en,bio,virtual_monologue,virtual_monologue_en,virtual_monologue_locked_at')
       .eq('publication_status', argValue('--status') ?? 'active')
       .not('virtual_monologue', 'is', null)
     if (slugs.length > 0) query = query.in('slug', slugs)
     if (untranslatedOnly) query = query.is('virtual_monologue_en', null)
+    if (argValue('--created-from')) query = query.gte('created_at', argValue('--created-from'))
+    if (argValue('--created-before')) query = query.lt('created_at', argValue('--created-before'))
+    if (untranslatedOnly) query = query.is('virtual_monologue_locked_at', null)
     const { data, error } = await query.order('slug').range(from, from + 999)
     if (error) throw error
     rows.push(...data)
@@ -1734,7 +1762,9 @@ async function runGroups(rows, size, call, handle) {
       try {
         reply = await call(group)
       } catch (error) {
-        console.log(`호출 실패 ${excerpt(error instanceof Error ? error.message : String(error), 200)}`)
+        const message = error instanceof Error ? error.message : String(error)
+        console.log(`호출 실패 ${excerpt(message, 200)}`)
+        if (message.startsWith('AGY_STOP:')) { stopped = message; break }
       }
       if (await handle(group, reply)) {
         emptyInRow = 0
@@ -1833,9 +1863,12 @@ function buildTranslatePrompt(group) {
   return `아래는 인물들의 1인칭 가상독백이다. 한 편씩 영어로 옮긴다.
 - 화자의 목소리와 말투(격식, 투박함, 농담, 시대감)를 살려 자연스러운 영어 산문으로 쓴다.
 - 내용을 더하거나 빼지 않고, 문단 나눔을 지킨다.
+- DB 본문은 plain text다. Markdown 강조·제목 기호를 넣지 않는다.
 - 인명·지명·작품명은 영어권에서 통용되는 표기를 쓴다.
 - 원문의 물음은 영어에서도 물음표로 끝낸다.
 - 조사나 검색, 스크립트 실행 없이 바로 옮긴다.
+- 인물 소개는 신원·이름 표기 확인용이다. 원고와 소개가 명백히 다른 사람이나 사물을 가리키면 해당 편의 번역 대신 [IDENTITY_MISMATCH]와 이유 한 줄을 쓴다. 단서가 적거나 평범한 원고는 번역한다.
+- 완성 후 한영 전문을 대조해 인명·수치·시간·부정·질문·각 문단의 의미와 화자의 목소리가 보존됐는지 자체검수하고 최종 번역만 반환한다.
 - 설명 없이 아래 형식으로만 돌려준다. 각 편은 === 줄 다음에 번역문만 쓴다.
 
 === slug
@@ -1858,6 +1891,7 @@ function translationIssues(korean, english) {
   const lineCount = (text) => text.split('\n').filter((line) => line.trim()).length
   const paragraphCount = (text) => text.trim().split(/\n\s*\n/).filter((part) => part.trim()).length
   const found = []
+  if (/^\[IDENTITY_MISMATCH\]/.test(english)) found.push('화자 신원 불일치')
   if (/[가-힣]/.test(english)) found.push('한글 남음')
   if (/^(here is|here's|translation|sure[,!])/i.test(english)) found.push('앞말 잡담')
   if (!/[.?!…"'”’)\]—*]$/.test(english.trim())) found.push('끝이 잘림')
@@ -1872,19 +1906,106 @@ function translationIssues(korean, english) {
 
 // 번역한 한국어가 그사이 바뀌었으면 쓰지 않는다.
 async function writeMonologueEn(db, row, english) {
-  const updated = await db.from('celebs')
+  const current = await db.from('celebs')
+    .select('virtual_monologue,virtual_monologue_en,virtual_monologue_locked_at,updated_at')
+    .eq('id', row.id).maybeSingle()
+  if (current.error) throw new Error(JSON.stringify(current.error))
+  if (!current.data || current.data.virtual_monologue !== row.virtual_monologue || current.data.virtual_monologue_en !== null || current.data.virtual_monologue_locked_at !== null) return false
+  let update = db.from('celebs')
     .update({ virtual_monologue_en: english })
     .eq('id', row.id)
-    .eq('virtual_monologue', row.virtual_monologue)
+  update = current.data.updated_at === null
+    ? update.is('updated_at', null)
+    : update.eq('updated_at', current.data.updated_at)
+  const updated = await update
     .is('virtual_monologue_en', null)
+    .is('virtual_monologue_locked_at', null)
     .select('id')
     .maybeSingle()
   if (updated.error) throw updated.error
-  return Boolean(updated.data)
+  if (!updated.data) return false
+  const check = await db.from('celebs').select('virtual_monologue,virtual_monologue_en').eq('id', row.id).single()
+  if (check.error) throw check.error
+  if (check.data.virtual_monologue !== row.virtual_monologue || check.data.virtual_monologue_en !== english) throw new Error(`${row.slug}: 번역 readback 불일치`)
+  return true
+}
+
+async function runAgm(args) {
+  const bin = resolve(homedir(), 'go/bin/agm.exe')
+  return new Promise((done, fail) => {
+    const child = spawn(bin, args, { windowsHide: true })
+    let output = ''
+    child.stdout.setEncoding('utf8'); child.stderr.setEncoding('utf8')
+    child.stdout.on('data', (text) => { output += text })
+    child.stderr.on('data', (text) => { output += text })
+    child.on('error', fail)
+    child.on('close', (code) => code === 0 ? done(output) : fail(new Error(`agm 실패 (${code}): ${output.slice(-300)}`)))
+  })
+}
+
+async function agmAccounts() {
+  const output = await runAgm(['list'])
+  return [...output.matchAll(/^(\S+@\S+)\s+(.*?)\s+(\d+)%\s+(\d+)%\s+(\d+)%\s*$/gm)]
+    .map((match) => ({ email: match[1], current: /\bcli\b/.test(match[2]), flash: Number(match[4]) }))
+}
+
+async function agyTranslationCaller() {
+  const model = argValue('--model') ?? AGY_TEXT_MODEL
+  const spent = new Set()
+  let epoch = 0
+  let switching = null
+  async function switchAccount(reason = 'quota') {
+    const accounts = await agmAccounts()
+    const current = accounts.find((account) => account.current)
+    if (current) { spent.add(current.email); console.log(`${reason === 'quota' ? 'AGM_EXHAUSTED' : 'AGM_INELIGIBLE'} ${current.email}`) }
+    let next = null
+    for (const candidate of accounts.filter((account) => !spent.has(account.email) && account.flash > 0)
+      .sort((a, b) => b.flash - a.flash)) {
+      await runAgm(['refresh', candidate.email])
+      const fresh = (await agmAccounts()).find((account) => account.email === candidate.email)
+      if (fresh?.flash > 0) { next = fresh; break }
+      spent.add(candidate.email)
+    }
+    if (!next) throw new Error('AGY_STOP: 현재 실행에서 사용 가능한 agm Flash 계정 없음')
+    await runAgm(['switch', next.email, '--target', 'agy'])
+    if (!(await agmAccounts()).some((account) => account.email === next.email && account.current)) throw new Error('AGY_STOP: agm CLI 계정 전환 확인 실패')
+    epoch += 1
+    console.log(`AGM_SWITCH ${next.email} flash=${next.flash}%`)
+  }
+  const active = (await agmAccounts()).find((account) => account.current)
+  if (!active) throw new Error('AGY_STOP: 적용된 agm CLI 계정 없음')
+  if (active.flash === 0) await switchAccount()
+  console.log(`AGY_MODEL ${model}`)
+  return async (prompt) => {
+    for (;;) {
+      if (switching) await switching
+      const startedEpoch = epoch
+      try {
+        return await agyCall(prompt, { model, timeoutMs: 180_000, disableSlashCommands: true })
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error)
+        const timedOut = /시간 초과|timeout/i.test(message)
+        const quota = /Individual quota reached|RESOURCE_EXHAUSTED|quota.*exhaust|quota.*reached/i.test(message)
+          || (timedOut && agyQuotaExhausted())
+        const ineligible = /Eligibility check failed|account is not eligible/i.test(message)
+        if (quota || ineligible) {
+          if (startedEpoch === epoch && !switching) {
+            switching = switchAccount(ineligible ? 'eligibility' : 'quota').finally(() => { switching = null })
+          }
+          if (switching) await switching
+          continue
+        }
+        if (/Authentication required|login required|로그인 필요/i.test(message)) throw new Error('AGY_STOP: agy 인증 필요')
+        if (timedOut && !(await agyAlive())) throw new Error('AGY_STOP: 쿼터 외 무응답, 연결 프로브 실패')
+        throw error
+      }
+    }
+  }
 }
 
 // Go 라인이 한도로 멈추면 --backend devin으로 잇는다. devin은 파일을 만들 수 있는 에이전트라 답으로만 받게 못 박는다.
 async function translationCaller() {
+  if (argValue('--backend') === 'agy') return agyTranslationCaller()
   if (argValue('--backend') !== 'devin') return museCaller()
   const { devinCallWithRetry } = await import(pathToFileURL(resolve(REPO_ROOT, '.agents/skills/devin-swe/scripts/devin-call.mjs')).href)
   return (prompt) => devinCallWithRetry(
@@ -1906,6 +2027,8 @@ async function translateCommand() {
   const all = await loadMonologueRows(db, slugs, true)
   const rows = limit > 0 ? all.slice(0, limit) : all
   const counts = { ok: 0, hold: 0, applied: 0 }
+  const appliedRows = []
+  const heldSlugs = []
 
   const stopped = await runGroups(rows, size, (group) => call(buildTranslatePrompt(group)), async (group, reply) => {
     const parsed = parseTranslateReply(reply)
@@ -1915,14 +2038,22 @@ async function translateCommand() {
       const issues = translationIssues(row.virtual_monologue, english)
       const applied = apply && issues.length === 0 && await writeMonologueEn(db, row, english)
       counts[issues.length ? 'hold' : 'ok'] += 1
-      if (applied) counts.applied += 1
+      if (applied) { counts.applied += 1; appliedRows.push(row) }
+      if (issues.length) heldSlugs.push(row.slug)
       if (out) await appendRecord(out, { slug: row.slug, status: issues.length ? 'hold' : 'ok', reason: issues.join(', '), text: english, applied })
       if (issues.length) console.log(`${row.slug} hold ${issues.join(', ')}`)
     }
     console.log(`진행 ok ${counts.ok} hold ${counts.hold} applied ${counts.applied}`)
     return true
   })
-  console.log(JSON.stringify({ command: 'translate', targets: rows.length, ...counts, stopped }))
+  if (appliedRows.length) {
+    const { revalidateWebItems } = await import(pathToFileURL(resolve(REPO_ROOT, 'sw/web-bo/src/lib/revalidate-web.ts')).href)
+    for (let index = 0; index < appliedRows.length; index += 25) {
+      await revalidateWebItems(appliedRows.slice(index, index + 25).flatMap((row) => [{ domain: 'celebs', id: row.id }, { domain: 'celebs', id: row.slug }]), [])
+    }
+    console.log(`CACHE_VERIFIED ${appliedRows.length}`)
+  }
+  console.log(JSON.stringify({ command: 'translate', targets: rows.length, ...counts, heldSlugs, stopped }))
   if (stopped) process.exitCode = 3
 }
 
@@ -1947,11 +2078,11 @@ function selfTestMuseParsers() {
 function printHelp() {
   console.log(`가상독백 — 빈칸은 light → notation → identity → translate 순서로 채운다
 
-light --slugs a,b | [--limit N] [--apply] [--status active] [--out PATH] [--reuse JSONL]  agy Gemini 1회(한국 전근대만 검수 1회 추가). --out 기본 data/celeb/virtual-monologue/light.jsonl
+light --brief-file JSON --slugs a,b | [--limit N] [--apply] [--status active] [--out PATH] [--reuse JSONL]  작업자의 방향·확인 정보를 받아 agy가 집필. --out 기본 data/celeb/virtual-monologue/light.jsonl
 register [--slugs a,b] [--limit N] [--apply] [--scan] [--status active] [--out PATH]   한다체 과반 원고의 말투만 agy가 고친다. --scan은 후보만 나열. --out 기본 data/celeb/virtual-monologue/register.jsonl
-notation [--apply] [--model] [--limit N] [--batch 8] [--sessions 2] [--work DIR]   음성화용 표기 정리
-identity [--slugs a,b] [--limit N] [--size 8] [--concurrency 6] [--line go|free] [--status active] [--apply] [--out PATH]   화자 판정. 기본은 영문 전 원고, --apply면 other를 비운다
-translate [--slugs a,b] [--limit N] [--size 3] [--concurrency 6] [--line go|free] [--status active] [--backend muse|devin] [--apply] [--out PATH]   영문이 빈 원고 번역
+notation [--apply] [--model] [--limit N] [--batch 8] [--sessions 2] [--work DIR]   본문 표기 정리(영문 표기 보존)
+identity [--slugs a,b] [--limit N] [--size 8] [--concurrency 6] [--line go|free] [--backend muse|codex] [--status active] [--apply] [--out PATH]   화자 판정. 기본은 영문 전 원고, --apply면 other를 비운다
+translate [--slugs a,b] [--limit N] [--size 3] [--concurrency 6] [--line go|free] [--status active] [--backend muse|devin|codex|agy] [--model ID] [--created-from ISO] [--created-before ISO] [--apply] [--out PATH]   영문이 빈 원고 번역. agy는 쿼터 소진 시 agm CLI 계정 전환
 self-test
 
 집필·수정에 쓰지 않는 경로(celeb-04-03 「쓰지 않는 경로」)
@@ -1983,7 +2114,7 @@ async function main() {
 }
 
 // 재생성도 같은 작가·표기·인물 판정·번역 규약을 재사용한다.
-// 이 함수들은 DB를 쓰지 않으므로 기존 원고를 유지한 채 새 원고를 검수할 수 있다.
+// 집필·검수 함수는 DB를 쓰지 않는다. writeMonologueEn은 현재값·잠금을 확인해 영문만 반영한다.
 export {
   buildWriterPrompt,
   lightOne,
@@ -1994,6 +2125,7 @@ export {
   buildTranslatePrompt,
   parseTranslateReply,
   translationIssues,
+  writeMonologueEn,
   agyQuotaExhausted,
   agyAlive,
 }

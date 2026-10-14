@@ -12,7 +12,7 @@
 import { config } from 'dotenv'
 import { resolve } from 'node:path'
 import { readFileSync, readdirSync } from 'node:fs'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 config({ path: resolve(process.cwd(), '.env'), quiet: true })
 const APPLY = process.argv.includes('--apply')

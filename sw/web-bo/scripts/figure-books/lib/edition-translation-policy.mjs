@@ -15,10 +15,13 @@ function providerEditionKey(row) {
 export function isOriginalEdition(row, work) {
   const figure = work.figureBook ?? {}, language = figure.originalLanguage ?? work.metadata?.originalLanguage
   if (language === row.locale && /^https:\/\//u.test(figure.identityEvidence ?? '')) return true
-  return (row.sources?.edition_work_evidence ?? []).some(proof => proof.content_id === row.content_id
+  const evidence = row.sources?.edition_work_evidence
+  return Array.isArray(evidence) && evidence.some(proof => proof !== null && typeof proof === 'object' && !Array.isArray(proof)
+    && proof.content_id === row.content_id
     && proof.locale === row.locale && proof.original_language === row.locale
     && proof.edition_title === row.title && proof.edition_creator === row.creator
-    && proof.isbn === row.isbn && proof.work_identity === figure.workIdentity && /^https:\/\//u.test(proof.source_url ?? ''))
+    && proof.isbn === row.isbn && proof.work_identity === figure.workIdentity
+    && typeof proof.source_url === 'string' && /^https:\/\//u.test(proof.source_url))
 }
 export function planEditionTranslations(catalog) {
   const works = new Map(catalog.contents.map(row => [row.id, row])), groups = new Map(), excluded = [], unknown = []

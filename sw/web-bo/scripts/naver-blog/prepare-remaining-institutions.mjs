@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@feelandnote/db';
 import sharp from 'sharp';
 import { parseRevisionBody } from './apply-institution-revisions.mjs';
 import { koreanListLabels } from './korean-list-labels.mjs';

@@ -1,10 +1,10 @@
 # 신규 인물 등록 체크리스트
 
-`data/celeb/new-figures/*.json`에서 지목된 인물 한 명을 실제 `celebs` 행으로 만들 때 밟는 절차다. 파이프라인 규칙은 `docs/project/celeb/celeb-00-01-pipeline.md`, 필드 계약은 `celeb-01-00-profile.md`가 원천이다 — 여기서는 순서만 잡는다. 명단 수집부터 등록·배정·콘텐츠·공개까지의 전체 순서는 [`celeb-00-03-real-figure-runbook.md`](celeb-00-03-real-figure-runbook.md)가 쥔다.
+이번 작업의 임시 등록 원고에서 지목된 인물 한 명을 실제 `celebs` 행으로 만들 때 밟는 절차다. 작업 위치는 [데이터 원칙](../data/README.md#작업-파일백업), 파이프라인 규칙은 `docs/project/celeb/celeb-00-01-pipeline.md`, 필드 계약은 `celeb-01-00-profile.md`가 원천이다 — 여기서는 순서만 잡는다. 명단 수집부터 등록·배정·콘텐츠·공개까지의 전체 순서는 [`celeb-00-03-real-figure-runbook.md`](celeb-00-03-real-figure-runbook.md)가 쥔다.
 
 ## 인물 1명당
 
-1. **레코드 꺼내기**: 이번 회차의 임시 원고 `data/celeb/new-figures/<분야>.json`에서 `nickname`으로 레코드를 찾는다. 등록 여부는 DB에서 확인한다. 완료 원고가 없거나 오래된 `status`가 남았다는 이유로 등록을 다시 발주하지 않는다.
+1. **레코드 꺼내기**: 작업 폴더의 임시 원고 `<분야>.json`에서 `nickname`으로 레코드를 찾는다. 등록 여부는 DB에서 확인한다. 완료 원고가 없거나 오래된 `status`가 남았다는 이유로 등록을 다시 발주하지 않는다.
 2. **중복 재확인**: 등록 폼에 이름·영문 이름·생몰일과 본명·결혼 전 성·다른 로마자 표기(「다른 이름」 칸)를 넣으면 폼이 같은 사람 후보를 보여 준다. 「같은 사람 의심」이면 저장이 막히므로 등록하지 않는다. 폼 밖에서는 `pnpm --dir sw/web-bo celeb:dup-check`로 본다. 기준은 `celeb-00-01-pipeline.md` 「중복 확인」이다.
 3. **팩트체크**: `bio`의 날짜·직업·핵심 일화를 독립 사료와 대조한다. 검증이 안 된 일화는 문장을 빼거나 「전해진다」를 유지한다. `is_verified`는 등록 시 항상 `false`.
 4. **필드 매핑**: 레코드를 `createCeleb` 입력 계약(nickname, nickname_en, profession, nationality, gender, birth_date, death_date, bio, bio_en, title, title_en, headline, headline_en, is_verified)에 맞춘다. slug·uuid는 등록 경로가 만들므로 손대지 않는다. `aliases`는 폼의 「다른 이름」 칸에 한 줄씩 넣는다. `wikidata_qid`는 폼에 칸이 없어 등록 뒤 DB에 넣는다(일괄 경로 `celeb:seed:inactive`는 두 값을 함께 싣는다).

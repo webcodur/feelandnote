@@ -27,7 +27,7 @@ fiction도 BOOK 메타와 `content_locales` 규칙은 이 문서를 공유하지
 | GAME | `igdb.ts` | `igdb` |
 | MUSIC | `itunes-music.ts` | `itunes` |
 
-Google Books와 네이버 도서는 신규 BOOK 메타·표지에 사용하지 않는다. Google Books의 소개문 수집 예외는 외부 서비스 문서를 따른다. Amazon은 BOOK 메타 원천이나 `external_source`가 아니다. OpenLibrary로 판본을 확인한 뒤 구매 링크를 `content_locales.affiliate_url`에 두는 것은 별개다. 서점·출판사·도서관 자료는 판본 실재와 원제·저자·본문 범위를 대조하는 근거로 쓸 수 있지만 신규 메타 공급처로 기록하지 않는다. 과거 `sources`에 남은 공급처명만으로 오염으로 판정하거나 허용 공급처를 조회한 것처럼 바꾸지 않는다.
+Google Books와 네이버 도서는 신규 BOOK 메타·표지에 사용하지 않는다. Google Books의 소개문 수집 예외는 외부 서비스 문서를 따른다. Amazon은 BOOK 메타 원천이나 `external_source`가 아니다. 구매 링크를 `content_locales.affiliate_url`에 두는 것은 메타 등록과 별개다. 기존 등록 BOOK을 보완할 때 정식 메타 경로에 해당 판본의 데이터가 없으면 공식 출판사·도서관 등의 실물 서지와 본문 근거를 대조해 메타·표지를 채운다. `sources`에는 실제 확인한 자료의 URL을 기록하고, `external_source`를 허용 공급처에서 받은 것처럼 꾸미지 않는다. 과거 `sources`에 남은 공급처명만으로 오염으로 판정하지 않는다.
 
 ## BOOK
 
@@ -56,7 +56,7 @@ ISBN만 있거나 검색 스니펫·출판사 소개·도서관 소장 정보만
 Amazon 상품 연결·배치 실행·API 이용 조건은 [제휴 상거래의 Amazon 규칙](../operations/ops-03-affiliate-commerce.md#amazon-associates)을 따른다.
 
 - OpenLibrary에서 영문 제목·원저자·ISBN과 본문 언어를 확인한다. ISBN 국가군과 `eng` 태그는 단서일 뿐이며, 판본 제목·출판사·원제·본문 범위를 함께 대조한다. 제목이 영어여도 다른 언어 번역이나 오디오북·해설서이면 원전의 영문 BOOK 판본으로 쓰지 않는다.
-- 표지는 ISBN 기반 OpenLibrary cover를 사용하며 placeholder 응답은 폐기한다.
+- 표지는 ISBN 기반 OpenLibrary cover를 사용한다. 응답 성공이나 cover ID만으로 채택하지 않고 실제 이미지의 제목·저자·판본을 대조한다. `-1` 같은 결손값, placeholder, 속표지·본문 페이지, 식별할 수 없는 장정 이미지는 표지로 쓰지 않는다. 이전의 `confirmed_unavailable`도 새로 확인한 같은 ISBN의 정상 표지가 있으면 보완한다.
 - 한 locale 안의 ISBN·표지·출판사·제목은 같은 판본에서 가져온다. ko와 en이 서로 다른 판본인 것은 정상이다.
 - 메타와 표지 출처가 다르면 `sources`에 각각 기록한다. 표지를 확인하지 못하면 `thumbnail_url=null`, `sources.thumbnail='confirmed_unavailable'`로 둔다.
 - 검증 가능한 영문판이 없으면 판본 값을 채우지 않고 표시용 제목 행만 둔다(「한국어판 확인」의 표시용 제목 행 규칙과 같고 배지는 `[no-en]`). 한국어 도서의 영문 표시 제목은 **제목의 뜻을 옮긴 영어 번역 제목**을 기본으로 한다(`translated`). 실제 영문 번역판이 있으면 그 출판 제목을 쓰고(예: 채식주의자 → `The Vegetarian`), 표지에 출판사가 넣은 영문 부제가 있으면 그것을 우선한다. 영어권 관용이 음차 표기를 유지하는 고유명사 제목(예: `Liezi`, `Hong Gildong jeon`)만 `romanized`로 둔다 — 그 밖의 음차 표기는 영어 독자에게 의미 없는 문자열이라 금지한다(26.09.22 사용자 결정). EN 페이지에 한글 제목이 그대로 나가는 쪽이 더 크리티컬하므로 en 표시용 제목을 먼저 채운다.
@@ -83,7 +83,7 @@ IGDB 결과의 정확한 게임과 커버를 사용한다. 기본 영문 메타�
 
 ## locale
 
-BOOK 소개는 기존 `description`에 외부 출처 표시 또는 필요한 번역문을 둔다. 유형별 소개문 출처 채널의 실측 특성은 [`celeb-02-06-content-introduction-sources.md`](celeb-02-06-content-introduction-sources.md)가 쥔다. 예약값은 [`book-introduction-contract.ts`](../../../packages/content-search/src/book-introduction-contract.ts)가 쥔다. `NULL`은 조사 필요이며 별도 확인 완료 값을 만들지 않는다. 한국어는 같은 ISBN의 카카오·다음 소개 중 긴 유효 본문을 최초 선정하고, 영어는 OpenLibrary의 영문 소개를 확인한다. 실제 소개를 받은 뒤 출처 표시와 조회 주소(`sources.description`)를 저장하며, 화면은 선정된 출처만 조회·캐시한다. `figure_book_editions`의 판본 행도 같은 표시와 주소를 함께 갱신한다. 사용자 웹 등록·백오피스 외부검색 등록·인물 도서 배치는 등록 시점에 이 조회를 실행해 표시와 주소를 바로 저장하고, 소개를 받지 못하면 `NULL`로 둔다. 판본 ISBN을 바꾸면 소개 표시와 주소도 새 ISBN으로 다시 받는다. 백오피스 편집은 이를 강제하며 배치도 같은 순서를 따른다. 반대 언어에만 소개가 있으면 번역문을 해당 언어에 보관하고 그대로 표시한다. 일시적 조회 실패로 출처 표시나 번역문을 지우지 않는다. 기존 소개는 외부 복사본·번역·수기 작성 여부를 확인해 전환하며, 출처가 불명확한 문장을 일괄 삭제하지 않는다. `contents.metadata`에는 소개 복사본을 새로 만들지 않는다. 전환 실행점은 `sw/web-bo/scripts/contents/book-description-sources.ts`이며 기본 실행은 DB를 바꾸지 않는다. 대량 전환은 한 프로세스에서 ISBN마다 순차 호출하고 간격은 스크립트 상수가 쥔다. `--verify-markers`는 출처 표시가 박힌 모든 행을 재검증한다 — 저장된 출처 주소를 먼저 풀어보고, 실패하면 ISBN 기반 신규 조회를 시도하며, 둘 다 소개가 없으면 `NULL`(조사 필요)로 내리고 출처 주소는 `sources.description`에 보존한다. 전환 전 원본 백업은 `D:eelandnote-backupsook-descriptions`에 있으며 지우지 않는다.
+BOOK 소개는 기존 `description`에 외부 출처 표시 또는 필요한 번역문을 둔다. 유형별 소개문 출처 채널의 실측 특성은 [`celeb-02-06-content-introduction-sources.md`](celeb-02-06-content-introduction-sources.md)가 쥔다. 예약값은 [`book-introduction-contract.ts`](../../../packages/content-search/src/book-introduction-contract.ts)가 쥔다. `NULL`은 조사 필요이며 별도 확인 완료 값을 만들지 않는다. 한국어는 같은 ISBN의 카카오·다음 소개 중 긴 유효 본문을 최초 선정하고, 영어는 OpenLibrary의 영문 소개를 확인한다. 실제 소개를 받은 뒤 출처 표시와 조회 주소(`sources.description`)를 저장하며, 화면은 선정된 출처만 조회·캐시한다. `figure_book_editions`의 판본 행도 같은 표시와 주소를 함께 갱신한다. 사용자 웹 등록·백오피스 외부검색 등록·인물 도서 배치는 등록 시점에 이 조회를 실행해 표시와 주소를 바로 저장하고, 소개를 받지 못하면 `NULL`로 둔다. 판본 ISBN을 바꾸면 소개 표시와 주소도 새 ISBN으로 다시 받는다. 백오피스 편집은 이를 강제하며 배치도 같은 순서를 따른다. 반대 언어에만 소개가 있으면 번역문을 해당 언어에 보관하고 그대로 표시한다. 일시적 조회 실패로 출처 표시나 번역문을 지우지 않는다. 기존 소개는 외부 복사본·번역·수기 작성 여부를 확인해 전환하며, 출처가 불명확한 문장을 일괄 삭제하지 않는다. `contents.metadata`에는 소개 복사본을 새로 만들지 않는다. 전환 실행점은 `sw/web-bo/scripts/contents/book-description-sources.ts`이며 기본 실행은 DB를 바꾸지 않는다. 대량 전환은 한 프로세스에서 ISBN마다 순차 호출하고 간격은 스크립트 상수가 쥔다. `--verify-markers`는 출처 표시가 박힌 모든 행을 재검증한다 — 저장된 출처 주소를 먼저 풀어보고, 실패하면 ISBN 기반 신규 조회를 시도하며, 둘 다 소개가 없으면 `NULL`(조사 필요)로 내리고 출처 주소는 `sources.description`에 보존한다. 기존 전환 전 복구본은 `D:\feelandnote-backups\book-descriptions`에 있다. 전환 결과 검증까지 보존하고, 이후 정리는 [작업 파일·백업 원칙](../data/README.md#작업-파일백업)을 따른다.
 
 비어 있는 한국어 소개는 `sw/web-bo/scripts/contents/recover-book-introductions.ts --locale ko --provider yes24 --all-missing`으로 YES24에서도 보완한다. 기본은 미리보기이며 `--apply`가 저장한다. 상품 API의 ISBN·제목·저자를 기존 판본과 대조하고, 상품 페이지의 ISBN13을 다시 확인한 뒤 `#infoset_introduce textarea.txtContentText`에서 한국어 책소개만 추출한다. HTML에서 받은 본문은 기존 `description`에, 상품 주소는 `sources.description`에 저장하므로 방문 때 다시 스크래핑하지 않는다. 기존 소개는 보존하고, 원본 백업·동시 수정 검사·저장 후 재조회·운영 캐시 갱신을 거친다. 수집 결과는 로컬에 남아 재실행 때 재사용하며 `--lookup-cache`로 다른 수집 폴더를 지정할 수 있다. 영문 자동 쓰기는 기존 KO/EN 작품 불일치가 있어 차단되어 있으며, 작품명·원저자·판본을 개별 확인한 뒤에만 보완한다.
 
@@ -126,4 +126,4 @@ ISBN 없는 표시용 한국어 행도 원서의 작품·저자·판본과 실�
 
 `celeb_contents.status`는 이미 읽거나 보거나 들은 작품이면 `FINISHED`, 앞으로 감상하겠다고 밝힌 작품이면 `WANT`다. 기본 `visibility`는 `public`이다. 수정·삭제할 때는 `celeb_id`와 `content_id`를 함께 지정한다.
 
-첫 `celeb_contents` 연결은 DB 트리거가 `light`를 `full`로 자동 승격하고 0건 확정 시각을 비운다. 별도 수동 승격 UPDATE를 하지 않는다. DB에 콘텐츠가 확정되면 `sw/remotion/public/episodes/<셀럽>/books/`의 도서 폴더와 `book.ko.json` 초안을 스캐폴딩한다.
+첫 `celeb_contents` 연결은 DB 트리거가 `light`를 `full`로 자동 승격하고 0건 확정 시각을 비운다. 별도 수동 승격 UPDATE를 하지 않는다.

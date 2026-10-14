@@ -2,6 +2,8 @@ import type {
   DatabaseHostStatus,
   HealthState,
   HostMemoryStatus,
+  HostStorageStatus,
+  MaintenanceTaskStatus,
   SystemStatus,
   WebHostStatus,
 } from './system-status-types'
@@ -57,7 +59,7 @@ export function getWebHostHealth(host: WebHostStatus): HealthState {
 
 export function getDatabaseHostHealth(host: DatabaseHostStatus): HealthState {
   if (!host.reachable) return 'unavailable'
-  if (!host.postgresRunning || host.postgresHealth !== 'healthy' || !isBackupHealthy(host)) {
+  if (!host.postgresRunning || host.postgresHealth !== 'healthy' || host.backupResult && host.backupResult !== 'success') {
     return 'critical'
   }
 
@@ -65,6 +67,7 @@ export function getDatabaseHostHealth(host: DatabaseHostStatus): HealthState {
     ? Math.round((host.connections / host.maxConnections) * 100)
     : null
   return highestState([
+    isBackupHealthy(host) ? 'healthy' : 'warning',
     pressureState(
       memoryUsagePercent(host.memory),
       STATUS_THRESHOLDS.memoryWarningPercent,
@@ -78,12 +81,32 @@ export function getDatabaseHostHealth(host: DatabaseHostStatus): HealthState {
   ])
 }
 
+export function getDiskHealth(storage: HostStorageStatus | null, warningAt: number | null): HealthState {
+  if (!storage || storage.error || warningAt === null) return 'unavailable'
+  if (storage.disk.usedPercent >= 100) return 'critical'
+  return storage.disk.usedPercent >= warningAt ? 'warning' : 'healthy'
+}
+
+export function getMaintenanceHealth(task: MaintenanceTaskStatus | null | undefined): HealthState {
+  if (!task) return 'unavailable'
+  if (task.serviceState === 'failed' || task.result && task.result !== 'success'
+    || task.exitCode !== null && task.exitCode !== 0) return 'critical'
+  if (!task.timerLoaded || task.timerState !== 'active' || !task.lastFinishedAt) return 'warning'
+  return 'healthy'
+}
+
 export function getSystemHealth(status: SystemStatus) {
+  const warningAt = status.web.host.storage?.mail?.alertPercent ?? null
   const items = {
     webEndpoint: status.web.endpoint.ok ? 'healthy' : 'critical',
     webHost: getWebHostHealth(status.web.host),
     databaseApi: status.database.api.ok ? 'healthy' : 'critical',
     databaseHost: getDatabaseHostHealth(status.database.host),
+    webDisk: getDiskHealth(status.web.host.storage, warningAt),
+    databaseDisk: getDiskHealth(status.database.host.storage, warningAt),
+    cleanup: getMaintenanceHealth(status.web.host.storage?.cleanup),
+    mail: status.web.host.storage?.mail?.configPresent
+      ? getMaintenanceHealth(status.web.host.storage.mail) : 'unavailable',
   } satisfies Record<string, HealthState>
   const states = Object.values(items)
 

@@ -12,7 +12,7 @@ import { spawn } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { extname, resolve } from 'node:path'
-import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
 import { getBookByIsbn } from '@feelandnote/content-search/kakao-books'
 import {
   assertExactSourceBookReadback,
@@ -34,7 +34,7 @@ import {
 } from './source-book-batch-contract'
 
 const EXPECTED_DB_SSH_HOST = 'ubuntu@152.67.198.197'
-const EXPECTED_DB_CONTAINER = 'supabase-db'
+const EXPECTED_DB_CONTAINER = 'feelandnote-db'
 const EXPECTED_DB_API_HOSTNAME = 'db.feelandnote.com'
 const PAGE_SIZE = 1000
 const OPENLIBRARY_BASE_URL = 'https://openlibrary.org'

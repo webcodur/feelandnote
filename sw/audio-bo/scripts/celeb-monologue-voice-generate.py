@@ -6,8 +6,8 @@ and a very long paragraph may split mid-way. Units are NOT 1:1 with paragraphs.
 Each unit is its own synthesis request and file (p01.mp3 ...). Units are
 stitched into vmonologue.mp3 with room-tone gaps — paragraph seams get the long
 gap, mid-paragraph seams the short one — then the stitched file runs through
-celeb-reading-voice-qc.py. Repairs that fall inside the inserted gaps are
-expected and accepted; every other failure holds.
+celeb-reading-voice-qc.py, which normalizes all source sentence/paragraph boundaries
+and checks the final encoded file before publication.
 
 Engine follows the celeb's voice_id_<locale>: a plain value is an ElevenLabs voice
 ID, and a `gemini:<voiceName>` value (e.g. gemini:Orus) synthesizes with the free
@@ -32,8 +32,10 @@ from pathlib import Path
 import numpy as np
 
 from celeb_dialogue_voice_common import (
+    ELEVENLABS_ACCOUNT_ENV,
     ELEVENLABS_TTS_DEFAULTS,
     read_env,
+    normalize_ele_account_id,
     request_json,
     resolve_api_key,
     resolve_voice_id,
@@ -41,6 +43,8 @@ from celeb_dialogue_voice_common import (
     write_manifest,
 )
 from voice_cleanup import (
+    PARAGRAPH_GAP_SECONDS,
+    SENTENCE_GAP_SECONDS,
     HOP,
     TRIM_GUARD,
     VOICE_RMS,
@@ -51,6 +55,7 @@ from voice_cleanup import (
     envelope,
     normalize_loudness,
     room_tone,
+    retime_timestamp,
 )
 
 QC_SCRIPT = Path(__file__).parent / "celeb-reading-voice-qc.py"
@@ -58,17 +63,6 @@ QC_PYTHON = Path(r"D:\audios\interview-cleaner\.venv\Scripts\python.exe")
 OUTPUT_FILE = "vmonologue.mp3"
 SOURCE_FILE = "source.txt"
 QC_RESULT_FILE = "qc.json"
-# QC는 문단 경계를 문장 경계와 같은 기준(1.2/1.05초)으로 본다. 우리가 넣은 문단 쉼은
-# 그 기준보다 길어 수리 후보로 잡히므로, 수리·긴 쉼이 전부 삽입한 문단 쉼 안에 있으면
-# 통과로 읽는다. 이 밖의 플래그는 전부 보류다.
-PARAGRAPH_GAP_FLAGS = {
-    "pause-repair-required",
-    "uncertain-sentence-boundary",
-    "uncertain-source-boundary",
-    "long-mid-sentence-pause",
-}
-GAP_MATCH_MARGIN = 0.35
-
 # celebs.voice_id_* 값이 "gemini:<보이스명>"이면 ElevenLabs가 아니라 무료 Gemini TTS로 합성한다.
 # 인물 고유 보이스가 없어 서재탐방 시절 Gemini 내레이터 보이스로 말한 인물(예: 알렉스 카프=Orus)용이다.
 GEMINI_PREFIX = "gemini:"
@@ -83,7 +77,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--slug", required=True)
     parser.add_argument("--locale", choices=("ko", "en"), required=True)
     parser.add_argument("--voice-id", help="Override the locale voice ID without changing the DB")
-    parser.add_argument("--account", choices=("default", "feelandnote"), default="default")
+    parser.add_argument("--account", type=normalize_ele_account_id, default=ELEVENLABS_ACCOUNT_ENV["baseAccount"]["id"], help="Account name, e.g. webcodur, feelandnote, tlwns5598")
     parser.add_argument("--audio-env", type=Path, default=Path(__file__).parents[1] / ".env")
     parser.add_argument("--web-env", type=Path, default=Path(__file__).parents[2] / "web-bo" / ".env")
     parser.add_argument("--output-root", type=Path)
@@ -116,14 +110,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--paragraph-gap",
         type=float,
-        default=1.0,
+        default=PARAGRAPH_GAP_SECONDS,
         help="Total perceived silence at a paragraph-boundary unit seam in seconds — the kept "
-             "edge silence of each unit file counts toward it (target: 1.2)",
+             "edge silence of each unit file counts toward it",
     )
     parser.add_argument(
         "--sentence-gap",
         type=float,
-        default=0.45,
+        default=SENTENCE_GAP_SECONDS,
         help="Total perceived silence at a mid-paragraph unit seam in seconds",
     )
     parser.add_argument("--qc-python", type=Path, default=QC_PYTHON)
@@ -384,7 +378,7 @@ def stitch(run_dir: Path, paragraphs: list[dict], gap_seconds: float,
     return output, gaps
 
 
-def run_qc(args: argparse.Namespace, run_dir: Path) -> dict:
+def run_qc(args: argparse.Namespace, run_dir: Path, *, verify_spacing=False) -> dict:
     qc_python = args.qc_python if args.qc_python.is_file() else Path(sys.executable)
     result_path = run_dir / QC_RESULT_FILE
     cmd = [
@@ -395,34 +389,14 @@ def run_qc(args: argparse.Namespace, run_dir: Path) -> dict:
         "--result", str(result_path),
         "--device", args.device,
     ]
+    if verify_spacing:
+        cmd.append("--verify-spacing")
+    else:
+        cmd += ["--normalize-spacing", "--output", str(run_dir / f"spacing-{time.time_ns()}.mp3")]
     completed = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=1800)
     if completed.returncode not in (0, 2) or not result_path.is_file():
         raise RuntimeError(f"QC invocation failed ({completed.returncode}): {completed.stderr[-600:]}")
     return json.loads(result_path.read_text(encoding="utf-8"))
-
-
-def interval_hits_gap(start: float, end: float, gaps: list[dict]) -> bool:
-    return any(start >= gap["start"] - GAP_MATCH_MARGIN and end <= gap["end"] + GAP_MATCH_MARGIN
-               for gap in gaps)
-
-
-def evaluate_qc(result: dict, gaps: list[dict]) -> tuple[bool, str]:
-    """Pass, or pass only when every failure points at an inserted paragraph gap."""
-    if result.get("ok"):
-        return True, "passed"
-    flags = set(result.get("flags") or [])
-    repairs = result.get("repairs") or []
-    pauses = result.get("pauses") or []
-    if flags and flags <= PARAGRAPH_GAP_FLAGS:
-        repairs_in_gaps = bool(repairs) and all(
-            interval_hits_gap(r["start"], r["end"], gaps) for r in repairs)
-        pauses_in_gaps = all(interval_hits_gap(p["start"], p["end"], gaps) for p in pauses)
-        if repairs_in_gaps and pauses_in_gaps:
-            return True, "passed-paragraph-gaps"
-        # 쉼 수리 없이 긴 쉼 플래그만 난 경우도 전부 문단 쉼이면 통과다.
-        if not repairs and pauses and pauses_in_gaps:
-            return True, "passed-paragraph-gaps"
-    return False, f"qc-failed: {sorted(flags) or ['no-flags']} repairs={len(repairs)} pauses={len(pauses)}"
 
 
 def sha256_text(value: str) -> str:
@@ -677,7 +651,23 @@ def main() -> None:
             return
         print("qc stitched output", flush=True)
         result = run_qc(args, run_dir)
-        passed, verdict = evaluate_qc(result, gaps)
+        if result.get("ok") and result.get("status") == "repaired":
+            spacing = result["spacing"]
+            rate = decode(str(output))[1]
+            backup = run_dir / "_backup" / str(time.time_ns())
+            backup.mkdir(parents=True)
+            shutil.copy2(output, backup / OUTPUT_FILE)
+            shutil.copy2(run_dir / QC_RESULT_FILE, backup / QC_RESULT_FILE)
+            shutil.copy2(result["audio"], output)
+            manifest["gaps"] = [{**gap,
+                "start": round(retime_timestamp(gap["start"], rate, spacing["edits"]), 4),
+                "end": round(retime_timestamp(gap["end"], rate, spacing["edits"]), 4)} for gap in gaps]
+            manifest["output"] = {"file": OUTPUT_FILE, "loudness": loudness,
+                                  **probe_mp3(args.ffprobe, output)}
+            manifest["spacing"] = spacing
+            result = run_qc(args, run_dir, verify_spacing=True)
+        passed = bool(result.get("ok")) and result.get("status") == "passed"
+        verdict = "passed" if passed else f"qc-failed: {result.get('flags')}"
         manifest["qc"] = {
             "ok": bool(result.get("ok")),
             "status": result.get("status"),

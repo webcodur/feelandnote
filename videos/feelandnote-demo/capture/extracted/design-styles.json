@@ -1,0 +1,371 @@
+{
+  "typography": [
+    {
+      "role": "display",
+      "fontFamily": "Pretendard Variable",
+      "fontSize": "52px",
+      "fontWeight": "900",
+      "lineHeight": "58.24px",
+      "letterSpacing": "-2.34px",
+      "color": "#E8EEF0",
+      "sampleText": "아이유"
+    },
+    {
+      "role": "heading",
+      "fontFamily": "Pretendard Variable",
+      "fontSize": "24px",
+      "fontWeight": "600",
+      "lineHeight": "32px",
+      "letterSpacing": "-0.6px",
+      "color": "#E8EEF0",
+      "sampleText": "프로필"
+    },
+    {
+      "role": "body",
+      "fontFamily": "Pretendard Variable",
+      "fontSize": "21px",
+      "fontWeight": "700",
+      "lineHeight": "28.35px",
+      "letterSpacing": "normal",
+      "color": "color(srgb 0.505255 0.655529 0.726431)",
+      "sampleText": "좋은 날 가수"
+    },
+    {
+      "role": "heading-3",
+      "fontFamily": "Pretendard Variable",
+      "fontSize": "19px",
+      "fontWeight": "700",
+      "lineHeight": "27.1429px",
+      "letterSpacing": "normal",
+      "color": "#FFFFFF",
+      "sampleText": "너무 시끄러운 고독"
+    },
+    {
+      "role": "link",
+      "fontFamily": "Pretendard Variable",
+      "fontSize": "15px",
+      "fontWeight": "500",
+      "lineHeight": "21.4286px",
+      "letterSpacing": "normal",
+      "color": "#95A5AD",
+      "sampleText": "탐색"
+    },
+    {
+      "role": "heading-4",
+      "fontFamily": "Pretendard Variable",
+      "fontSize": "14px",
+      "fontWeight": "600",
+      "lineHeight": "20px",
+      "letterSpacing": "normal",
+      "color": "#E8EEF0",
+      "sampleText": "능력"
+    },
+    {
+      "role": "body-small",
+      "fontFamily": "Pretendard Variable",
+      "fontSize": "14px",
+      "fontWeight": "500",
+      "lineHeight": "18.6667px",
+      "letterSpacing": "normal",
+      "color": "#8A867F",
+      "sampleText": "1"
+    },
+    {
+      "role": "label",
+      "fontFamily": "Pretendard Variable",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "lineHeight": "20px",
+      "letterSpacing": "normal",
+      "color": "#E8EEF0",
+      "sampleText": ""
+    }
+  ],
+  "spacing": {
+    "observed": [
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      16,
+      20,
+      24,
+      32,
+      40,
+      64
+    ],
+    "baseUnit": 8
+  },
+  "radius": [
+    "4px",
+    "6px",
+    "8px",
+    "12px"
+  ],
+  "shadows": [
+    {
+      "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.999994 0.0000455678 0.0000200868 / 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "count": 14
+    },
+    {
+      "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(217, 181, 78, 0.1) 0px 0px 0px 1px inset",
+      "count": 3
+    },
+    {
+      "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.125499 -0.00493334 -0.009196 / 0.35) 0px 1px 3px 0px, oklab(0.125499 -0.00493334 -0.009196 / 0.35) 0px 1px 2px -1px",
+      "count": 2
+    },
+    {
+      "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.705905 -0.0393799 -0.0447152 / 0.2) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "count": 1
+    }
+  ],
+  "buttons": [
+    {
+      "label": "인물",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#95A5AD",
+      "padding": "0px 12px",
+      "borderRadius": "0px",
+      "border": "",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "500",
+      "height": "20px"
+    },
+    {
+      "label": "button",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "oklab(0.711922 -0.0140334 -0.0162692 / 0.3)",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px solid oklab(0.711922 -0.0140334 -0.0162692 / 0.3)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "500",
+      "height": "16px"
+    },
+    {
+      "label": "button",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#95A5AD",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(149, 165, 173)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "500",
+      "height": "18px"
+    },
+    {
+      "label": "button",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#95A5AD",
+      "padding": "0px",
+      "borderRadius": "8px",
+      "border": "0px solid rgb(149, 165, 173)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "500",
+      "height": "36px"
+    },
+    {
+      "label": "button",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#E8EEF0",
+      "padding": "4px 6px",
+      "borderRadius": "8px",
+      "border": "0px solid rgb(232, 238, 240)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "500",
+      "height": "36px"
+    },
+    {
+      "label": "button",
+      "background": "#04070A",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#E8EEF0",
+      "padding": "0px",
+      "borderRadius": "4px",
+      "border": "0px solid rgb(232, 238, 240)",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.705905 -0.0393799 -0.0447152 / 0.2) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "fontSize": "14px",
+      "fontWeight": "500",
+      "height": "300px"
+    }
+  ],
+  "cards": [
+    {
+      "label": "card",
+      "background": "#111A20",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#E8EEF0",
+      "padding": "0px 32px 32px",
+      "borderRadius": "0px",
+      "border": "",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "height": "428.578px"
+    },
+    {
+      "label": "card",
+      "background": "#111A20",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#E8EEF0",
+      "padding": "0px",
+      "borderRadius": "12px",
+      "border": "1px solid oklab(0.999994 0.0000455678 0.0000200868 / 0.2)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "height": "944.094px"
+    },
+    {
+      "label": "card",
+      "background": "#111A20",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#E8EEF0",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px solid oklab(0.999994 0.0000455678 0.0000200868 / 0.08)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "height": "833.094px"
+    },
+    {
+      "label": "card",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#E8EEF0",
+      "padding": "24px 20px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(232, 238, 240)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "height": "440px"
+    }
+  ],
+  "nav": {
+    "label": "navigation",
+    "background": "oklab(0.125499 -0.00493334 -0.009196 / 0.9)",
+    "backgroundImage": "",
+    "backdropFilter": "blur(12px)",
+    "color": "#E8EEF0",
+    "padding": "0px 40px",
+    "borderRadius": "0px",
+    "border": "",
+    "boxShadow": "none",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "height": "64px"
+  },
+  "chips": [],
+  "statCells": [],
+  "tabs": [
+    {
+      "label": "13",
+      "background": "transparent",
+      "color": "#95A5AD",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(149, 165, 173)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "500",
+      "height": "18.6562px"
+    },
+    {
+      "label": "4",
+      "background": "transparent",
+      "color": "#79A8BE",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(121, 168, 190)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "600",
+      "height": "18.6562px"
+    },
+    {
+      "label": "21",
+      "background": "transparent",
+      "color": "#E8EEF0",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(232, 238, 240)",
+      "boxShadow": "none",
+      "fontSize": "20px",
+      "fontWeight": "600",
+      "height": "auto"
+    }
+  ],
+  "backgrounds": [
+    {
+      "value": "radial-gradient(80% 420px at 50% 0px, rgba(121, 168, 190, 0.043), rgba(0, 0, 0, 0))",
+      "area": 13398143
+    },
+    {
+      "value": "repeating-linear-gradient(117deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 179px, rgba(121, 169, 191, 0.016) 180px, rgba(121, 169, 191, 0.016) 181px), url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E\")",
+      "area": 9333319
+    },
+    {
+      "value": "radial-gradient(370px 210px at 84% 13%, rgba(0, 0, 0, 0) 68%, rgba(121, 168, 190, 0.075) 68.4%, rgba(0, 0, 0, 0) 69%), radial-gradient(310px 190px at 10% 88%, rgba(0, 0, 0, 0) 68%, rgba(121, 168, 190, 0.047) 68.4%, rgba(0, 0, 0, 0) 69%), linear-gradient(rgba(121, 168, 190, 0.04) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, rgba(121, 168, 190, 0.04) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(121, 168, 190, 0.016) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, rgba(121, 168, 190, 0.016) 1px, rgba(0, 0, 0, 0) 1px), repeating-linear-gradient(117deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 109px, rgba(121, 168, 190, 0.027) 110px, rgba(121, 168, 190, 0.027) 111px)",
+      "area": 662400
+    },
+    {
+      "value": "linear-gradient(90deg, rgba(0, 0, 0, 0) calc(50% - 0.5px), color(srgb 0.203922 0.317647 0.372549 / 0.13) 50%, rgba(0, 0, 0, 0) calc(50% + 0.5px)), linear-gradient(0deg, rgba(0, 0, 0, 0) calc(50% - 0.5px), color(srgb 0.203922 0.317647 0.372549 / 0.1) 50%, rgba(0, 0, 0, 0) calc(50% + 0.5px))",
+      "area": 662400
+    },
+    {
+      "value": "linear-gradient(color(srgb 0.203922 0.317647 0.372549 / 0.8), color(srgb 0.203922 0.317647 0.372549 / 0.8)), linear-gradient(color(srgb 0.203922 0.317647 0.372549 / 0.8), color(srgb 0.203922 0.317647 0.372549 / 0.8)), linear-gradient(color(srgb 0.203922 0.317647 0.372549 / 0.8), color(srgb 0.203922 0.317647 0.372549 / 0.8)), linear-gradient(color(srgb 0.203922 0.317647 0.372549 / 0.8), color(srgb 0.203922 0.317647 0.372549 / 0.8)), linear-gradient(color(srgb 0.203922 0.317647 0.372549 / 0.8), color(srgb 0.203922 0.317647 0.372549 / 0.8)), linear-gradient(color(srgb 0.203922 0.317647 0.372549 / 0.8), color(srgb 0.203922 0.317647 0.372549 / 0.8)), linear-gradient(color(srgb 0.203922 0.317647 0.372549 / 0.8), color(srgb 0.203922 0.317647 0.372549 / 0.8)), linear-gradient(color(srgb 0.203922 0.317647 0.372549 / 0.8), color(srgb 0.203922 0.317647 0.372549 / 0.8))",
+      "area": 662400
+    },
+    {
+      "value": "linear-gradient(150deg, rgb(35, 35, 35), rgb(20, 20, 20) 55%, rgb(29, 29, 29))",
+      "area": 80896
+    }
+  ],
+  "glass": [
+    {
+      "backdropFilter": "blur(12px)",
+      "background": "oklab(0.125499 -0.00493334 -0.009196 / 0.9)",
+      "border": "",
+      "borderRadius": "0px",
+      "boxShadow": "",
+      "area": 122240
+    },
+    {
+      "backdropFilter": "blur(8px)",
+      "background": "oklab(0.999994 0.0000455678 0.0000200868 / 0.05)",
+      "border": "1px solid oklab(0.999994 0.0000455678 0.0000200868 / 0.1)",
+      "borderRadius": "8px",
+      "boxShadow": "",
+      "area": 17920
+    }
+  ]
+}

@@ -19,7 +19,7 @@
 import path from 'node:path'
 import { execFile } from 'node:child_process'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { getMusicIntro, type MusicUnit } from '@feelandnote/content-search/wikipedia'
 import { getAlbumIntro, getTrackIntro, isLastfmEnabled } from '@feelandnote/content-search/lastfm'
 

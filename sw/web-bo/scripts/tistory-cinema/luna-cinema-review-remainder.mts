@@ -12,7 +12,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
 import { ASSETS } from '../blog-assets.mjs'
 
 const PAGE_SIZE = 1000
@@ -82,7 +82,7 @@ type RemainderRow = {
   source_url: string | null
 }
 
-type QueryClient = SupabaseClient
+type QueryClient = DatabaseClient
 
 async function readRows<T>(db: QueryClient, table: string, columns: string): Promise<T[]> {
   const rows: T[] = []

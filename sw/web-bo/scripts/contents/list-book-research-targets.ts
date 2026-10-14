@@ -2,7 +2,7 @@
  * 영어 소개(또는 예약값)가 있는 한국어 공란은 번역 큐 몫이라 개수만 센다.
  * node --env-file=.env --import tsx scripts/contents/list-book-research-targets.ts [skip] [take]
  * 규칙: docs/project/celeb/celeb-02-06-content-introduction-sources.md 「번역 백엔드」 */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!, { auth: { persistSession: false, autoRefreshToken: false } })
 const [skip = '0', take = '30'] = process.argv.slice(2)
 async function all(build: (f: number, t: number) => any) {

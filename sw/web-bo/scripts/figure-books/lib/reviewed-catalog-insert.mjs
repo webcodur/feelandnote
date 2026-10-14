@@ -5,10 +5,12 @@ import { executeTemporaryMergeSql } from '../merge-works.mjs'
 import { captureCatalogRepairSnapshot } from './guarded-catalog-repairs.mjs'
 import { SNAPSHOT_TABLES, REFERENCE_TABLES, referenceWhere, sqlLiteral } from './merge-work-sql.mjs'
 import { CONTENT_ARRAY_REFERENCES } from './content-array-references.mjs'
-import { toIsbn13 } from '../../../../../packages/content-search/src/book-isbn.ts'
+import { equivalentIsbns, toIsbn13 } from '../../../../../packages/content-search/src/book-isbn.ts'
+import * as editionWorkModule from '../../../src/lib/book-edition-work.ts'
 import { SERVICE_BOOK_EDITION_KINDS, bookTranslatorKey, excludedBookEditionReason, reviewedBookEditionSelectionReason } from '../../../../../packages/content-search/src/book-edition-policy.ts'
 
 const prefix = 'CATALOG_INSERT_EXPECTED:'
+const { verifiedOmnibusIsbn } = editionWorkModule.default ?? editionWorkModule
 const json = value => sqlLiteral(JSON.stringify(value)) + '::jsonb'
 const nullable = value => value === null ? 'NULL' : sqlLiteral(value)
 const nonempty = value => typeof value === 'string' && !!value.trim() && !value.includes('\0')
@@ -43,6 +45,246 @@ function officialBinding(locale, isbn) {
       || url.hostname === 'dapi.kakao.com' && url.pathname === '/v3/search/book'
         && url.searchParams.get('target') === 'isbn' && toIsbn13(url.searchParams.get('query') ?? '') === isbn
   })
+}
+// 기존 작품의 정식 제공자 미등재 실물을 실제 출판사·도서관·서점 출처로 보완한다.
+function reviewedExistingSourceBinding(review, locale, figure, work) {
+  const proof = review.registeredBookSourceReview
+  if (proof === undefined) return false
+  const identity = { contentId: review.contentId, locale: review.locale, isbn: review.isbn,
+    title: review.title, creator: review.creator, workTitle: review.workTitle, workCreator: review.workCreator,
+    publisher: locale.publisher?.trim(), sourceUrl: review.sourceUrl, textLanguage: review.textLanguage }
+  const permitted = url => publicSource(url, true)
+    && !/(?:^|\.)(?:amazon\.[a-z.]+|books\.google\.[a-z.]+|googleapis\.com|daum\.net|kakao\.com)$/iu.test(new URL(url).hostname.replace(/\.$/u, ''))
+  const digital=proof?.physicalMedium==='ebook',epub=proof?.digitalEditionReview
+  if (!proof || proof.method !== 'independent_registered_book_source_review' || proof.llmReviewed !== true
+    || proof.userAuthorized !== true || proof.officialProviderUnavailable !== true
+    || !toIsbn13(review.isbn ?? '') || locale.verified !== true || !nonempty(locale.publisher)
+    || Object.entries(identity).some(([key, value]) => !isDeepStrictEqual(proof[key], value))
+    || figure.workTitle !== review.workTitle || figure.workCreator !== review.workCreator
+    || (figure.workIdentity ?? null) !== (proof.workIdentity ?? null)
+    || !['paper','ebook'].includes(proof.physicalMedium) || !['publisher', 'library', 'bookseller'].includes(proof.sourceKind)
+    || !permitted(proof.sourceUrl) || !permitted(proof.corroboratingSourceUrl)
+    || !digital&&new URL(proof.sourceUrl).hostname === new URL(proof.corroboratingSourceUrl).hostname
+    || typeof proof.bodyEvidence !== 'string' || proof.bodyEvidence.trim().length < 20
+    || ['primary', 'isbn', 'title', 'creator', 'publisher'].some(key => locale.sources?.[key] !== proof.sourceUrl))
+    throw Error('CATALOG_INSERT: existing-book fallback requires authorized LLM review, exact live identity, unavailable official provider and corroborated paper/text sources')
+  if(!digital&&epub!==undefined)throw Error('CATALOG_INSERT: digital source review cannot stand in for a paper edition')
+  if(digital){
+    const source=new URL(proof.sourceUrl),text=value=>typeof value==='string'&&value.trim().length>=20
+    const anchor=Object.fromEntries(['workTitle','workCreator','workIdentity','originalTitle','originalCreator'].map(key=>[key,figure[key]??null]))
+    if(epub?.method!=='independent_registered_epub_start_review'||epub.llmReviewed!==true
+      ||review.locale!=='ko'||proof.sourceKind!=='bookseller'||source.hostname!=='ridibooks.com'||!/^\/books\/\d+$/u.test(source.pathname)
+      ||source.search||source.hash||proof.corroboratingSourceUrl!==proof.sourceUrl
+      ||epub.metadataSourceUrl!==proof.sourceUrl||epub.bodySourceUrl!==proof.sourceUrl||epub.bodySourceKind!=='publisher_text'
+      ||!isDeepStrictEqual(epub.currentWork,work)||!isDeepStrictEqual(epub.currentLocaleCard,locale)||!isDeepStrictEqual(epub.workAnchor,anchor)
+      ||!nonempty(figure.workIdentity)||epub.isbn!==review.isbn||epub.title!==review.title||epub.creator!==review.creator
+      ||epub.publisher!==locale.publisher.trim()||epub.releaseDate!==review.editionReleaseDate
+      ||!/^\d{4}-\d{2}-\d{2}$/u.test(epub.releaseDate??'')||epub.format!=='EPUB'||locale.sources?.physical_format!=='EPUB'
+      ||epub.bodyLanguage!==review.locale||!text(epub.languageEvidence)||!text(epub.metadataEvidence)||!text(epub.bodyEvidence)||!text(epub.scopeEvidence)
+      ||review.editionKind!=='volume'||review.textScope!=='volume/1'||epub.firstVolume!==1
+      ||!Number.isInteger(epub.publishedVolumes)||epub.publishedVolumes<2||epub.publishedVolumes>999
+      ||!Number.isInteger(epub.plannedParts)||epub.plannedParts<2||epub.plannedParts>999||epub.publishedPart!==1
+      ||epub.workScope!=='published_part_of_planned_work')
+      throw Error('CATALOG_INSERT: existing-book fallback EPUB requires exact existing BOOK/card, actual Ridi ISBN/EPUB body language and separately reviewed publisher first-volume scope')
+  }
+  return true
+}
+function isbnlessPhysicalBinding(review, locale, figure) {
+  const proof = review.isbnlessPhysicalEditionReview
+  const english = review.locale === 'en'
+  if (!proof || proof.method !== 'independent_isbnless_physical_edition_review' || proof.llmReviewed !== true
+    || !['ko', 'en'].includes(review.locale) || locale.isbn !== null || locale.verified !== true
+    || locale.sources?.primary !== (english ? 'openlibrary' : 'kakao_book') || !nonempty(locale.publisher)
+    || ['translated', 'romanized', 'original', 'display_only', 'kakao_title_search'].includes(locale.sources?.title)
+    || !nonempty(figure.workTitle) || !nonempty(figure.workCreator)
+    || !Array.isArray(review.translators) || !Array.isArray(locale.sources?.translators)
+    || !isDeepStrictEqual(review.translators, locale.sources.translators))
+    throw Error('CATALOG_INSERT: independently reviewed ISBN-less physical official card required; correct the card first')
+  const identity = { contentId: review.contentId, locale: review.locale, isbn: null, title: review.title,
+    creator: review.creator, workTitle: review.workTitle, workCreator: review.workCreator,
+    translators: review.translators, publisher: locale.publisher.trim(),
+    sourceUrl: review.sourceUrl, reason: review.reason, editionKind: review.editionKind, textScope: review.textScope }
+  if (Object.entries(identity).some(([key, value]) => !isDeepStrictEqual(proof[key], value))
+    || !publicSource(proof.sourceUrl, true)
+    || /(?:^|\.)(?:daum\.net|kakao\.com|openlibrary\.org)$/iu.test(new URL(proof.sourceUrl).hostname.replace(/\.$/u, ''))
+    || typeof proof.providerProductId !== 'string' || !(english ? /^OL\d+M$/u : /^\d+$/u).test(proof.providerProductId)
+    || locale.sources.provider_product_id !== proof.providerProductId
+    || locale.sources.provider_edition_url !== proof.providerUrl || !publicSource(proof.providerUrl))
+    throw Error('CATALOG_INSERT: ISBN-less physical proof does not match the exact live identity or independent source')
+  const url = new URL(proof.providerUrl)
+  if (english) {
+    if (proof.providerUrl !== `https://openlibrary.org/books/${proof.providerProductId}`
+      || proof.providerEditionKey !== `/books/${proof.providerProductId}`
+      || locale.sources.provider_edition_key !== proof.providerEditionKey
+      || !Array.isArray(proof.providerLanguageKeys) || !proof.providerLanguageKeys.includes('/languages/eng')
+      || proof.providerLanguageKeys.some(key => typeof key !== 'string' || !/^\/languages\/[a-z]{3}$/u.test(key))
+      || !isDeepStrictEqual(locale.sources.provider_language_keys, proof.providerLanguageKeys)
+      || !Object.hasOwn(proof, 'providerPhysicalFormat') || !Object.hasOwn(locale.sources, 'provider_physical_format')
+      || !(proof.providerPhysicalFormat === null || nonempty(proof.providerPhysicalFormat))
+      || locale.sources.provider_physical_format !== proof.providerPhysicalFormat
+      || /micro(?:form|film|fiche)|audio|e-?book|electronic|digital|(?:^|\W)(?:CD|DVD)(?:\W|$)/iu.test(proof.providerPhysicalFormat ?? '')
+      || proof.physicalMedium !== 'paper')
+      throw Error('CATALOG_INSERT: ISBN-less physical OpenLibrary proof requires the exact English edition key, language and paper original')
+    return { method: proof.method, llmReviewed: true, ...identity,
+      providerProductId: proof.providerProductId, providerUrl: proof.providerUrl,
+      providerEditionKey: proof.providerEditionKey, providerLanguageKeys: [...proof.providerLanguageKeys],
+      providerPhysicalFormat: proof.providerPhysicalFormat, physicalMedium: proof.physicalMedium }
+  }
+  if (!/^(?:m\.)?search\.daum\.net$/u.test(url.hostname) || url.pathname !== '/search'
+    || url.searchParams.get('w') !== 'bookpage' || url.searchParams.get('bookId') !== proof.providerProductId)
+    throw Error('CATALOG_INSERT: ISBN-less physical proof requires the exact HTTPS Daum product URL')
+  return { method: proof.method, llmReviewed: true, ...identity,
+    providerProductId: proof.providerProductId, providerUrl: proof.providerUrl }
+}
+function snapshotIsbnOwners(snapshot, isbn) {
+  return [...new Set([
+    ...snapshot.contents.filter(row => toIsbn13(row.external_id ?? '') === isbn).map(row => row.id),
+    ...snapshot.content_locales.filter(row => toIsbn13(row.isbn ?? '') === isbn).map(row => row.content_id),
+    ...snapshot.figure_book_editions.filter(row => toIsbn13(row.isbn ?? '') === isbn).map(row => row.content_id),
+  ])].sort()
+}
+// 기존 대표 카드를 바꾸지 않고 실제 다른 번역 한 판본만 추가한다.
+function reviewedAdditionalTranslation(review,snapshot,work,existingEditions){
+  const proof=review.additionalTranslationReview
+  if(proof===undefined)return null
+  const figure=work.metadata?.figureBook??{},anchor=Object.fromEntries(['workTitle','workCreator','workIdentity','originalTitle','originalCreator'].map(key=>[key,figure[key]??null]))
+  const row=proof?.edition,provider=proof?.officialProvider,raw=provider?.response,scope=proof?.scopeReview
+  const text=value=>typeof value==='string'&&value.trim().length>=20
+  const fields=['content_id','locale','isbn','title','creator','publisher','description','thumbnail_url','release_date','edition_kind','text_scope','sort_order','verified','sources']
+  const sourceFields=['primary','isbn','title','creator','publisher','thumbnail','description','description_method','description_source_locale','translators','translator_source_url','workKey','provider_edition_url']
+  const sameRows=(a,b)=>Array.isArray(a)&&isDeepStrictEqual(rowsCanonical(a),rowsCanonical(b))
+  const names=bookTranslatorKey(review.translators),existing=existingEditions.filter(edition=>edition.locale===review.locale)
+  const normalCards=snapshot.content_locales.filter(card=>card.content_id===work.id&&card.locale===review.locale)
+  const source=review.sourceUrl,url=`https://openlibrary.org${raw?.key??''}`
+  if(!proof||typeof proof!=='object'||Array.isArray(proof)||proof.method!=='independent_existing_translation_addition_review'
+    ||proof.llmReviewed!==true||proof.officialProviderUnavailable!==false||review.locale!=='en'||review.textLanguage!=='en'||!toIsbn13(review.isbn??'')
+    ||review.registeredBookSourceReview!==undefined||review.isbnlessPhysicalEditionReview!==undefined||review.useReviewedSnapshotIdentity!==undefined
+    ||!isDeepStrictEqual(proof.currentWork,work)||!isDeepStrictEqual(proof.workAnchor,anchor)
+    ||!['workTitle','workCreator','workIdentity'].every(key=>nonempty(figure[key]))
+    ||figure.workTitle!==review.workTitle||figure.workCreator!==review.workCreator
+    ||!sameRows(proof.beforeLocaleCards,snapshot.content_locales)||!sameRows(proof.beforeEditions,snapshot.figure_book_editions)
+    ||snapshot.figure_book_contents.filter(parent=>parent.content_id===work.id).length!==1
+    ||normalCards.length!==1||normalCards[0].verified!==true||!toIsbn13(normalCards[0].isbn??'')
+    ||!existing.some(edition=>edition.isbn===normalCards[0].isbn&&edition.title===normalCards[0].title&&edition.creator===normalCards[0].creator)
+    ||!existing.length||existing.some(edition=>!bookTranslatorKey(edition.sources?.translators)||bookTranslatorKey(edition.sources.translators)===names)
+    ||!Array.isArray(review.translators)||!review.translators.length||review.translators.some(name=>!nonempty(name))||!names
+    ||!Array.isArray(proof.currentGlobalIsbnOwners)||proof.currentGlobalIsbnOwners.length||snapshotIsbnOwners(snapshot,review.isbn).length
+    ||!row||typeof row!=='object'||Array.isArray(row)||Object.keys(row).some(key=>!fields.includes(key))||fields.some(key=>!Object.hasOwn(row,key))
+    ||row.content_id!==work.id||row.locale!==review.locale||row.isbn!==review.isbn||row.title!==review.title||row.creator!==review.creator
+    ||row.edition_kind!==review.editionKind||row.text_scope!==review.textScope||row.release_date!==(review.editionReleaseDate??null)
+    ||row.sort_order!==0||row.verified!==true||!nonempty(row.publisher)
+    ||!(row.description===null||nonempty(row.description))||!(row.thumbnail_url===null||publicSource(row.thumbnail_url))
+    ||!row.sources||typeof row.sources!=='object'||Array.isArray(row.sources)||Object.keys(row.sources).some(key=>!sourceFields.includes(key))
+    ||row.sources.primary!=='openlibrary'||!isDeepStrictEqual(row.sources.translators,review.translators)||row.sources.translator_source_url!==source
+    ||row.sources.work_attribution!==undefined||row.sources.edition_work_evidence!==undefined||row.sources.edition_selection_evidence!==undefined
+    ||provider?.httpStatus!==200||provider.sourceUrl!==url||!/^\/books\/OL\d+M$/u.test(raw?.key??'')||raw.type?.key!=='/type/edition'
+    ||!Array.isArray(raw.isbn_13)||!raw.isbn_13.includes(review.isbn)||raw.title!==row.title
+    ||!Array.isArray(raw.publishers)||!raw.publishers.includes(row.publisher)
+    ||!Array.isArray(raw.languages)||!raw.languages.some(value=>value?.key==='/languages/eng')
+    ||typeof raw.by_statement!=='string'||!raw.by_statement.includes(row.creator)||!review.translators.every(name=>raw.by_statement.includes(name))
+    ||['isbn','title','creator','publisher'].some(key=>row.sources[key]!==url)
+    ||row.sources.provider_edition_url!==undefined&&row.sources.provider_edition_url!==url
+    ||row.sources.workKey!==undefined&&!raw.works?.some(value=>value.key===row.sources.workKey)
+    ||row.sources.description_source_locale!==undefined&&row.sources.description_source_locale!=='en'
+    ||row.sources.description_method!==undefined&&!['provider','research','editorial'].includes(row.sources.description_method)
+    ||proof.bodyLanguage!=='en'||proof.physicalMedium!=='paper'||proof.sourceUrl!==source||!publicSource(source,true)
+    ||!text(proof.bodyEvidence)||!text(proof.creditEvidence)||!text(proof.distinctTranslationEvidence)
+    ||scope?.llmReviewed!==true||scope.editionKind!==review.editionKind||scope.textScope!==review.textScope
+    ||scope.sourceUrl!==source||scope.unabridgedVerified!==false||scope.equivalentEarlierBodyClaimed!==false
+    ||!text(scope.scopeEvidence)||!Array.isArray(scope.includedOriginalParts)||!scope.includedOriginalParts.length
+    ||scope.includedOriginalParts.some((part,index)=>!Number.isSafeInteger(part)||part!==index+1)
+    ||scope.includedOriginalParts.length>999||![null,'volume'].includes(review.editionKind)
+    ||review.textScope!==null&&/\b(?:full|complete|unabridged)\b/iu.test(review.textScope))
+    throw Error('CATALOG_INSERT: additional translation requires exact existing BOOK/cards/editions, distinct verified credits, actual English OpenLibrary response and independently reviewed limited scope')
+  if(row.thumbnail_url!==null&&(!Array.isArray(raw.covers)
+    ||!raw.covers.some(id=>Number.isSafeInteger(id)&&id>0&&row.thumbnail_url===`https://covers.openlibrary.org/b/id/${id}-L.jpg`)))
+    throw Error('CATALOG_INSERT: additional translation cover must bind an actual OpenLibrary cover ID')
+  if(row.description!==null&&(proof.descriptionLanguage!=='en'||proof.descriptionSourceUrl!==source||proof.description!==row.description
+    ||row.sources.description!==source||row.sources.description_source_locale!=='en'
+    ||!['provider','research','editorial'].includes(row.sources.description_method)||!text(proof.descriptionEvidence)))
+    throw Error('CATALOG_INSERT: additional translation introduction requires its actual English source review')
+  return row
+}
+// 현재 단권 카드의 소개를 옮기지 않고, 독립 확인된 원저 시작권만 ISBN 실물로 등록한다.
+function reviewedExistingOriginalVolume(review,snapshot,work,existingEditions){
+  const proof=review.existingOriginalVolumeReview
+  if(proof===undefined)return null
+  const figure=work.metadata?.figureBook??{},anchor=Object.fromEntries(['workTitle','workCreator','workIdentity','originalTitle','originalCreator'].map(key=>[key,figure[key]??null]))
+  const row=proof?.edition,provider=proof?.officialProvider,raw=provider?.response,author=provider?.authorRecords?.[0]
+  const scope=proof?.scopeReview,language=proof?.originalLanguageReview,text=value=>typeof value==='string'&&value.trim().length>=20
+  const fields=['content_id','locale','isbn','title','creator','publisher','description','thumbnail_url','release_date','edition_kind','text_scope','sort_order','verified','sources']
+  const sourceFields=['primary','isbn','title','creator','publisher','thumbnail','workKey','provider_edition_url']
+  const sameRows=(a,b)=>Array.isArray(a)&&isDeepStrictEqual(rowsCanonical(a),rowsCanonical(b))
+  const url=`https://openlibrary.org${raw?.key??''}`,source=review.sourceUrl
+  if(!proof||typeof proof!=='object'||Array.isArray(proof)||proof.method!=='independent_existing_original_first_volume_review'||proof.llmReviewed!==true
+    ||review.locale!=='en'||review.textLanguage!=='en'||!toIsbn13(review.isbn??'')
+    ||review.additionalTranslationReview!==undefined||review.registeredBookSourceReview!==undefined||review.isbnlessPhysicalEditionReview!==undefined
+    ||review.useReviewedSnapshotIdentity!==undefined||!isDeepStrictEqual(proof.currentWork,work)||!isDeepStrictEqual(proof.workAnchor,anchor)
+    ||!['workTitle','workCreator','workIdentity'].every(key=>nonempty(figure[key]))
+    ||figure.workTitle!==review.workTitle||figure.workCreator!==review.workCreator||review.creator!==figure.workCreator
+    ||figure.originalCreator!=null&&figure.originalCreator!==review.creator||figure.originalLanguage!=null&&figure.originalLanguage!=='en'
+    ||!sameRows(proof.beforeLocaleCards,snapshot.content_locales)||!sameRows(proof.beforeEditions,snapshot.figure_book_editions)
+    ||existingEditions.length!==0||snapshot.figure_book_contents.filter(parent=>parent.content_id===work.id).length!==1
+    ||!Array.isArray(proof.currentGlobalIsbnOwners)||proof.currentGlobalIsbnOwners.length||snapshotIsbnOwners(snapshot,review.isbn).length
+    ||!row||typeof row!=='object'||Array.isArray(row)||Object.keys(row).some(key=>!fields.includes(key))||fields.some(key=>!Object.hasOwn(row,key))
+    ||row.content_id!==work.id||row.locale!=='en'||row.isbn!==review.isbn||row.title!==review.title||row.creator!==review.creator
+    ||row.description!==null||row.release_date!==null||(review.editionReleaseDate??null)!==null||row.sort_order!==0||row.verified!==true
+    ||row.edition_kind!=='volume'||review.editionKind!=='volume'||row.text_scope!=='volume/1'||review.textScope!=='volume/1'
+    ||!nonempty(row.publisher)||!(row.thumbnail_url===null||publicSource(row.thumbnail_url))
+    ||!Array.isArray(review.translators)||review.translators.length!==0
+    ||!row.sources||typeof row.sources!=='object'||Array.isArray(row.sources)||Object.keys(row.sources).some(key=>!sourceFields.includes(key))
+    ||row.sources.primary!=='openlibrary'||provider?.httpStatus!==200||provider.sourceUrl!==url
+    ||!/^\/books\/OL\d+M$/u.test(raw?.key??'')||raw.type?.key!=='/type/edition'
+    ||![url+'.json',`https://openlibrary.org/isbn/${review.isbn}.json`].includes(provider.fetchedUrl)
+    ||!Array.isArray(raw.isbn_13)||raw.isbn_13.length!==1||raw.isbn_13[0]!==review.isbn||raw.title!==row.title
+    ||raw.isbn_10!==undefined&&(!Array.isArray(raw.isbn_10)||!raw.isbn_10.length||raw.isbn_10.some(value=>toIsbn13(value)!==review.isbn))
+    ||!Array.isArray(raw.publishers)||!raw.publishers.includes(row.publisher)
+    ||!Array.isArray(raw.languages)||raw.languages.length!==1||raw.languages[0]?.key!=='/languages/eng'
+    ||/audio|micro(?:form|film|fiche)|e-?book|electronic|digital|(?:^|\W)(?:CD|DVD)(?:\W|$)/iu.test(raw.physical_format??'')
+    ||!Array.isArray(raw.authors)||raw.authors.length!==1||!/^\/authors\/OL\d+A$/u.test(raw.authors[0]?.key??'')
+    ||!Array.isArray(provider.authorRecords)||provider.authorRecords.length!==1||author?.httpStatus!==200
+    ||author.sourceUrl!==`https://openlibrary.org${raw.authors[0].key}`||author.fetchedUrl!==author.sourceUrl+'.json'
+    ||author.response?.key!==raw.authors[0].key||author.response.type?.key!=='/type/author'||author.response.name!==row.creator
+    ||!(/\b(?:volume|vol\.?|part)\s*(?:1|one|i)\b/iu.test(row.title))
+    ||['isbn','title','creator','publisher'].some(key=>row.sources[key]!==url)
+    ||row.sources.provider_edition_url!==undefined&&row.sources.provider_edition_url!==url
+    ||row.sources.workKey!==undefined&&!raw.works?.some(value=>value.key===row.sources.workKey)
+    ||proof.sourceUrl!==source||!publicSource(source,true)||proof.sourceKind!=='publisher'||proof.bodyLanguage!=='en'||proof.physicalMedium!=='paper'
+    ||!text(proof.bodyEvidence)||!text(proof.creditEvidence)||!text(proof.physicalIdentityEvidence)
+    ||language?.llmReviewed!==true||language.originalLanguage!=='en'||language.sourceUrl!==source||language.originalPublicationConfirmed!==true
+    ||!text(language.bodyEvidence)||!text(language.creditEvidence)
+    ||scope?.llmReviewed!==true||scope.sourceUrl!==source||scope.isbn!==review.isbn||scope.editionTitle!==row.title
+    ||scope.firstVolume!==1||!isDeepStrictEqual(scope.includedOriginalParts,[1])||scope.editionKind!=='volume'||scope.textScope!=='volume/1'
+    ||scope.wholeWorkClaimed!==false||scope.translationClaimed!==false||scope.equivalentSingleVolumeBodyClaimed!==false||!text(scope.scopeEvidence))
+    throw Error('CATALOG_INSERT: original starting volume requires exact ED0 BOOK/cards, official English edition/author response and independent original-language first-part ISBN review without copied introduction')
+  if(row.thumbnail_url!==null&&(!Array.isArray(raw.covers)||!raw.covers.some(id=>Number.isSafeInteger(id)&&id>0&&row.thumbnail_url===`https://covers.openlibrary.org/b/id/${id}-L.jpg`)))
+    throw Error('CATALOG_INSERT: original starting volume cover must bind an actual OpenLibrary cover ID')
+  return row
+}
+function reviewedOmnibusGroups(assigned, snapshot, editions) {
+  const groups = []
+  for (const isbn of new Set(editions.map(row => row.isbn).filter(Boolean))) {
+    const added = editions.filter(row => row.isbn === isbn)
+    const retained = snapshot.figure_book_editions.filter(row => toIsbn13(row.isbn ?? '') === isbn)
+    const currentOwnerIds = snapshotIsbnOwners(snapshot, isbn)
+    const ownerIds = [...new Set([...currentOwnerIds, ...added.map(row => row.content_id)])].sort()
+    if (ownerIds.length < 2) {
+      if (added.length > 1 || retained.length) throw Error('CATALOG_INSERT: duplicate locale or ISBN; existing edition for ISBN')
+      continue
+    }
+    const candidates = [...retained, ...added]
+    const official = candidates.every(row => row.verified === true
+      && row.sources?.primary === (row.locale === 'ko' ? 'kakao_book' : 'openlibrary')
+      && officialBinding(row, isbn)
+      && [row.sources?.work_attribution, ...(Array.isArray(row.sources?.edition_work_evidence) ? row.sources.edition_work_evidence : [])]
+        .some(proof => proof?.method === 'independent_omnibus_review' && publicSource(proof.source_url, true) && publicSource(proof.toc_source_url, true)))
+    if (!ownerIds.every(id => assigned.includes(id)) || !official
+      || !verifiedOmnibusIsbn(isbn, ownerIds, snapshot.contents.filter(row => ownerIds.includes(row.id)),
+        snapshot.content_locales.filter(row => ownerIds.includes(row.content_id)), candidates))
+      throw Error('CATALOG_INSERT: duplicate locale or ISBN; existing edition or ISBN owner requires exact stored independent omnibus reviews for every assigned original')
+    groups.push({ isbn, ownerIds, currentOwnerIds })
+  }
+  return groups
 }
 const where = (table, workIds, alias = 't') => workIds.map(id => '(' + referenceWhere(table, sqlLiteral(id), sqlLiteral(id), alias) + ')').join(' OR ')
 function aggregateCheck(table, workIds, expression) {
@@ -92,12 +334,26 @@ export function bindReviewedCatalogInsertIdentity(snapshot, reviews) {
  * omit title/creator/workTitle/workCreator/translators to copy those exact fields from the guarded snapshot.
  * bindReviewedCatalogInsertIdentity binds them to the snapshot actually reviewed; stale identities are refused.
  * ISBN, actual language, independent source, reason and kind/scope remain explicit LLM decisions.
+ * isbn:null is permitted only for a verified Kakao ko or OpenLibrary en physical card with isbnlessPhysicalEditionReview:
+ * {method:'independent_isbnless_physical_edition_review',llmReviewed:true,contentId,locale,isbn:null,
+ * title,creator,workTitle,workCreator,translators,publisher,providerProductId,providerUrl,sourceUrl,reason,editionKind,textScope}.
+ * Its identity and scope must exactly match the review and live card; reason records the independently read
+ * copyright and body/contents. sources.provider_product_id and provider_edition_url must already identify
+ * the actual official product. English proof additionally binds providerEditionKey, providerLanguageKeys,
+ * providerPhysicalFormat (explicit null when absent) and physicalMedium:'paper' to the actual OL M record:
+ * sources.provider_edition_key, provider_language_keys and provider_physical_format retain its raw API values.
+ * English must be explicitly among the recorded languages. Microform, audio and digital records cannot
+ * stand in for a paper original. A translated display title or missing ISBN alone is never physical evidence.
+ * An existing omnibus ISBN may be shared only when every current owner is assigned and its retained/new
+ * same-ISBN edition already stores an independent_omnibus_review accepted by verifiedOmnibusIsbn.
+ * That server-stored review binds every distinct original, its own scope, and the exact owner set.
+ * This insertion does not patch the retained editions or infer that every item in the book is registered.
  */
 export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
   const assigned = assignedValid(workIds); snapshotValid(snapshot)
   if (!Array.isArray(reviews) || !reviews.length || reviews.length > 200) throw Error('CATALOG_INSERT: explicit source-reviewed editions required')
   if (assigned.some(id => snapshot.contents.filter(row => row.id === id && row.type === 'BOOK').length !== 1)) throw Error('CATALOG_INSERT: existing assigned BOOK missing')
-  const keys = new Set(), isbns = new Set(), parentIds = [...new Set(reviews.map(review => review?.contentId))]
+  const keys = new Set(), parentIds = [...new Set(reviews.map(review => review?.contentId))]
   const editions = reviews.map(input => {
     const review = reviewedSnapshotIdentity(input, snapshot)
     if (input?.useReviewedSnapshotIdentity === true && input.reviewedIdentityHash !== reviewedIdentityHash(review))
@@ -106,29 +362,32 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
       || review.textLanguage !== review.locale || !nonempty(review.title) || !nonempty(review.creator)
       || !nonempty(review.workTitle) || !nonempty(review.workCreator) || !nonempty(review.reason)
       || !publicSource(review.sourceUrl, true)) throw Error('CATALOG_INSERT: assigned owner, exact text language and independent work review required')
-    const isbn = typeof review.isbn === 'string' && toIsbn13(review.isbn)
-    if (!isbn || isbn !== review.isbn) throw Error('CATALOG_INSERT: exact normalized real ISBN13 required')
+    const isbn = review.isbn === null ? null : typeof review.isbn === 'string' && toIsbn13(review.isbn)
+    if (review.isbn !== null && (!isbn || isbn !== review.isbn)) throw Error('CATALOG_INSERT: exact normalized real ISBN13 required')
+    if (isbn !== null && review.isbnlessPhysicalEditionReview !== undefined)
+      throw Error('CATALOG_INSERT: ISBN-less physical proof requires an explicitly null ISBN')
     const key = JSON.stringify([review.contentId, review.locale])
-    if (keys.has(key) || isbns.has(isbn)) throw Error('CATALOG_INSERT: duplicate locale or ISBN in reviews')
-    keys.add(key); isbns.add(isbn)
+    if (keys.has(key)) throw Error('CATALOG_INSERT: duplicate locale or ISBN in reviews')
+    keys.add(key)
     const work = snapshot.contents.find(row => row.id === review.contentId)
     if (snapshot.figure_book_contents.filter(row => row.content_id === review.contentId).length > 1)
       throw Error('CATALOG_INSERT: duplicate existing catalog parents')
     const existingEditions = snapshot.figure_book_editions.filter(row => row.content_id === review.contentId)
-    if (existingEditions.some(row => !['ko', 'en'].includes(row.locale) || row.locale === review.locale)
-      || snapshot.figure_book_editions.some(row => toIsbn13(row.isbn ?? '') === isbn))
+    const originalVolume=reviewedExistingOriginalVolume(review,snapshot,work,existingEditions)
+    const additional=reviewedAdditionalTranslation(review,snapshot,work,existingEditions)
+    if (!additional&&!originalVolume&&existingEditions.some(row => !['ko', 'en'].includes(row.locale) || row.locale === review.locale))
       throw Error('CATALOG_INSERT: existing edition for locale or ISBN')
     if (existingEditions.length && !snapshot.figure_book_contents.some(row => row.content_id === review.contentId))
       throw Error('CATALOG_INSERT: existing edition without catalog parent')
-    if (snapshot.content_locales.some(row => row.content_id !== review.contentId && toIsbn13(row.isbn ?? '') === isbn)) throw Error('CATALOG_INSERT: ISBN already belongs to another assigned work')
     const locales = snapshot.content_locales.filter(row => row.content_id === review.contentId && row.locale === review.locale)
-    const locale = locales.length === 1 && locales[0]
+    const locale = originalVolume??additional??(locales.length === 1 && locales[0])
     const title = (locale?.sources?.edition_title?.trim() || locale?.title?.trim())
-    if (!locale || locale.isbn?.trim() !== isbn || title !== review.title || locale.creator?.trim() !== review.creator)
+    if (!locale || (isbn === null ? locale.isbn !== null : locale.isbn?.trim() !== isbn) || title !== review.title || locale.creator?.trim() !== review.creator)
       throw Error('CATALOG_INSERT: exact live locale ISBN/title/creator mismatch')
-    if (locale.sources?.primary !== (review.locale === 'ko' ? 'kakao_book' : 'openlibrary') || !officialBinding(locale, isbn))
-      throw Error('CATALOG_INSERT: wrong primary or missing official ISBN binding; correct the card first')
     const figure = work.metadata?.figureBook ?? {}
+    const fallback = additional||originalVolume?false:reviewedExistingSourceBinding(review, locale, figure, work)
+    if (isbn !== null && !fallback && (locale.sources?.primary !== (review.locale === 'ko' ? 'kakao_book' : 'openlibrary') || !officialBinding(locale, isbn)))
+      throw Error('CATALOG_INSERT: wrong primary or missing official ISBN binding; correct the card first')
     if (figure.workTitle && figure.workTitle !== review.workTitle || figure.workCreator && figure.workCreator !== review.workCreator)
       throw Error('CATALOG_INSERT: reviewed original differs from live work anchor')
     if (review.translators !== undefined && (!Array.isArray(review.translators) || review.translators.some(name => !nonempty(name))))
@@ -138,6 +397,7 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
       throw Error('CATALOG_INSERT: exact verified translators must be preserved; correct the card first')
     if (review.editionKind !== null && !SERVICE_BOOK_EDITION_KINDS.includes(review.editionKind)
       || review.textScope !== null && !nonempty(review.textScope)) throw Error('CATALOG_INSERT: explicit reviewed kind/scope required; unknown must be null')
+    const physicalProof = isbn === null ? isbnlessPhysicalBinding(review, locale, figure) : null
     const policy = scope => excludedBookEditionReason({ ...locale, title, editionKind: scope.editionKind, textScope: scope.textScope,
       workTitles: [figure.workTitle, figure.originalTitle].filter(Boolean) })
     if (policy(review) || policy({ editionKind: work.metadata?.fictionSource?.editionKind, textScope: work.metadata?.fictionSource?.textScope })
@@ -152,9 +412,11 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
       publisher: locale.publisher?.trim() || null, description: locale.description ?? null,
       thumbnail_url: locale.thumbnail_url ?? null, release_date: release,
       edition_kind: review.editionKind, text_scope: review.textScope, sort_order: 0, verified: true,
-      sources: { ...locale.sources, edition_text_scope_evidence: { isbn, source_url: review.sourceUrl, reason: review.reason } },
+      sources: { ...locale.sources, ...(physicalProof ? { isbnless_physical_edition_evidence: physicalProof } : {}),
+        edition_text_scope_evidence: { isbn, source_url: review.sourceUrl, reason: review.reason } },
     }
   })
+  const omnibusGroups = reviewedOmnibusGroups(assigned, snapshot, editions)
   const newParentIds = parentIds.filter(id => !snapshot.figure_book_contents.some(row => row.content_id === id))
   const existingParentIds = parentIds.filter(id => !newParentIds.includes(id))
   for (const id of newParentIds) for (const locale of snapshot.content_locales.filter(row => row.content_id === id)) {
@@ -164,7 +426,7 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
     const excluded = reviewedBookEditionSelectionReason({...locale,title:locale.sources?.edition_title?.trim()||locale.title?.trim()})
     if (!display && !excluded) throw Error('CATALOG_INSERT: unreviewed locale would be automatically seeded; review every real card first')
   }
-  return { assigned, parentIds, newParentIds, existingParentIds, editions }
+  return { assigned, parentIds, newParentIds, existingParentIds, editions, omnibusGroups }
 }
 
 export function buildReviewedCatalogInsertSql(workIds, snapshot, reviews) {
@@ -173,13 +435,29 @@ export function buildReviewedCatalogInsertSql(workIds, snapshot, reviews) {
 expected_parents:=expected_parents||jsonb_build_array(jsonb_build_object('content_id',${sqlLiteral(id)},'created_at',ts,'updated_at',ts));`).join('\n')
   const editionStatements = plan.editions.map(row => `${plan.newParentIds.includes(row.content_id)
     ? `SELECT id INTO STRICT seeded_id FROM public.figure_book_editions
-WHERE content_id=${sqlLiteral(row.content_id)} AND locale=${sqlLiteral(row.locale)} AND isbn=${sqlLiteral(row.isbn)};
+WHERE content_id=${sqlLiteral(row.content_id)} AND locale=${sqlLiteral(row.locale)} AND ${row.isbn === null ? 'isbn IS NULL' : 'isbn=' + sqlLiteral(row.isbn)};
 UPDATE public.figure_book_editions SET title=${sqlLiteral(row.title)},creator=${sqlLiteral(row.creator)},publisher=${nullable(row.publisher)},release_date=${nullable(row.release_date)},verified=TRUE,edition_kind=${nullable(row.edition_kind)},text_scope=${nullable(row.text_scope)},sources=${json(row.sources)} WHERE id=seeded_id;`
     : `INSERT INTO public.figure_book_editions(${Object.keys(row).join(',')},created_at,updated_at)
 VALUES(${Object.entries(row).map(([key, value]) => key === 'sources' ? json(value) : value === null ? 'NULL' : typeof value === 'boolean' || typeof value === 'number' ? String(value) : sqlLiteral(value)).join(',')},ts,ts) RETURNING id INTO seeded_id;`}
 expected_editions:=expected_editions||jsonb_build_array(${json(row)}||jsonb_build_object('id',seeded_id,'created_at',ts,'updated_at',ts));`).join('\n')
-  const arrayLocks = [...new Set(['figure_book_editions', 'activity_logs', ...CONTENT_ARRAY_REFERENCES.map(ref => ref.table)])]
+  const arrayLocks = [...new Set(['figure_book_editions', 'activity_logs', ...CONTENT_ARRAY_REFERENCES.map(ref => ref.table),
+    ...(plan.omnibusGroups.length ? ['contents', 'content_locales'] : [])])]
   const contentsChildren = REFERENCE_TABLES.map(sqlLiteral).join(',')
+  const realIsbns = plan.editions.filter(row => row.isbn !== null && !plan.omnibusGroups.some(group => group.isbn === row.isbn)).map(row => sqlLiteral(row.isbn)).join(',')
+  const additionalIsbns=reviews.filter(review=>review.additionalTranslationReview!==undefined)
+    .flatMap(review=>equivalentIsbns(review.isbn)).map(sqlLiteral).join(',')
+  const originalVolumeIsbns=reviews.filter(review=>review.existingOriginalVolumeReview!==undefined)
+    .flatMap(review=>equivalentIsbns(review.isbn)).map(sqlLiteral).join(',')
+  if(additionalIsbns||originalVolumeIsbns)for(const table of ['contents','content_locales'])if(!arrayLocks.includes(table))arrayLocks.push(table)
+  const omnibusOwnerChecks = plan.omnibusGroups.map(group => {
+    const aliases = equivalentIsbns(group.isbn).map(sqlLiteral).join(',')
+    return `IF (SELECT coalesce(jsonb_agg(owner_id ORDER BY owner_id),'[]'::jsonb) FROM (
+SELECT id::text owner_id FROM public.contents WHERE type='BOOK' AND regexp_replace(upper(coalesce(external_id,'')),'[^0-9X]','','g') IN (${aliases})
+UNION SELECT content_id::text FROM public.content_locales WHERE regexp_replace(upper(coalesce(isbn,'')),'[^0-9X]','','g') IN (${aliases})
+UNION SELECT content_id::text FROM public.figure_book_editions WHERE regexp_replace(upper(coalesce(isbn,'')),'[^0-9X]','','g') IN (${aliases})
+) owners) IS DISTINCT FROM ${json(group.currentOwnerIds)}
+THEN RAISE EXCEPTION 'CATALOG_INSERT: omnibus ISBN owner set changed';END IF;`
+  }).join('\n')
   let delimiter = '$reviewed_catalog_insert$'
   for (let n = 1; JSON.stringify({ snapshot, reviews }).includes(delimiter); n++) delimiter = `$reviewed_catalog_insert_${n}$`
   const selection = `SELECT ${sqlLiteral(prefix)}||jsonb_build_object(${SNAPSHOT_TABLES.map(table => `${sqlLiteral(table)},(SELECT coalesce(jsonb_agg(to_jsonb(t)),'[]'::jsonb) FROM public.${table} t WHERE ${where(table, plan.assigned)})`).join(',')})::text;`
@@ -202,9 +480,18 @@ c.confrelid='public.contents'::regclass AND r.relname IN (${contentsChildren}) A
 OR c.confrelid='public.figure_book_contents'::regclass AND r.relname IN ('figure_book_characters','figure_book_editions') AND a.attname='content_id' AND b.attname='content_id'
 OR c.confrelid='public.figure_book_editions'::regclass AND r.relname='figure_book_products' AND a.attname='edition_id' AND b.attname='id'
 ))) THEN RAISE EXCEPTION 'CATALOG_INSERT: unhandled foreign reference';END IF;
-IF EXISTS(SELECT 1 FROM public.figure_book_editions WHERE isbn IN (${plan.editions.map(row => sqlLiteral(row.isbn)).join(',')}))
-OR EXISTS(SELECT 1 FROM public.content_locales WHERE isbn IN (${plan.editions.map(row => sqlLiteral(row.isbn)).join(',')}) AND content_id NOT IN (${plan.parentIds.map(sqlLiteral).join(',')}))
-THEN RAISE EXCEPTION 'CATALOG_INSERT: ISBN already registered';END IF;
+${realIsbns ? `IF EXISTS(SELECT 1 FROM public.figure_book_editions WHERE isbn IN (${realIsbns}))
+OR EXISTS(SELECT 1 FROM public.content_locales WHERE isbn IN (${realIsbns}) AND content_id NOT IN (${plan.parentIds.map(sqlLiteral).join(',')}))
+THEN RAISE EXCEPTION 'CATALOG_INSERT: ISBN already registered';END IF;` : ''}
+${additionalIsbns?`IF EXISTS(SELECT 1 FROM public.contents WHERE type='BOOK' AND regexp_replace(upper(coalesce(external_id,'')),'[^0-9X]','','g') IN (${additionalIsbns}))
+OR EXISTS(SELECT 1 FROM public.content_locales WHERE regexp_replace(upper(coalesce(isbn,'')),'[^0-9X]','','g') IN (${additionalIsbns}))
+OR EXISTS(SELECT 1 FROM public.figure_book_editions WHERE regexp_replace(upper(coalesce(isbn,'')),'[^0-9X]','','g') IN (${additionalIsbns}))
+THEN RAISE EXCEPTION 'CATALOG_INSERT: additional translation ISBN already registered globally';END IF;`:''}
+${originalVolumeIsbns?`IF EXISTS(SELECT 1 FROM public.contents WHERE type='BOOK' AND regexp_replace(upper(coalesce(external_id,'')),'[^0-9X]','','g') IN (${originalVolumeIsbns}))
+OR EXISTS(SELECT 1 FROM public.content_locales WHERE regexp_replace(upper(coalesce(isbn,'')),'[^0-9X]','','g') IN (${originalVolumeIsbns}))
+OR EXISTS(SELECT 1 FROM public.figure_book_editions WHERE regexp_replace(upper(coalesce(isbn,'')),'[^0-9X]','','g') IN (${originalVolumeIsbns}))
+THEN RAISE EXCEPTION 'CATALOG_INSERT: original starting volume ISBN already registered globally';END IF;`:''}
+${omnibusOwnerChecks}
 ${parentStatements}
 ${editionStatements}
 ${SNAPSHOT_TABLES.map(table => aggregateCheck(table, plan.assigned, table === 'figure_book_contents' ? 'expected_parents' : table === 'figure_book_editions' ? 'expected_editions' : json(snapshot[table]))).join('\n')}

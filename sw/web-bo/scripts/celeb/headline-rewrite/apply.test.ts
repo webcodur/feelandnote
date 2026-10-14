@@ -17,7 +17,7 @@ import {
   type HeadlineRow,
   type HeadlineStore,
 } from './apply'
-import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 import { HEADLINE_REVIEW_VERSION, type LedgerEntry } from './lib'
 
 function patch(index: number): HeadlinePatch {

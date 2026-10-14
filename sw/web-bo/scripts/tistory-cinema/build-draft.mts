@@ -11,7 +11,7 @@
  * 원고 전체를 LLM 에게 쓰게 하지 않는다. 네이버에서 176만 토큰을 태운 뒤 얻은 규칙이다
  * (`docs/continuous/blog-naver-book.md` 「원고 생산」). 여기서도 조립이 먼저다.
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { usableReview } from './lib/quality.mts'
 import fs from 'node:fs'
 import path from 'node:path'

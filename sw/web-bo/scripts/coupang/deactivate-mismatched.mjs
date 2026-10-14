@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url'
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const REPO = path.resolve(HERE, '../../../..')
 const requireWeb = createRequire(path.join(REPO, 'sw/web/package.json'))
-const { createClient } = requireWeb('@supabase/supabase-js')
+const { createClient } = requireWeb('@feelandnote/db')
 
 const [inFile] = process.argv.slice(2).filter((argument) => !argument.startsWith('--'))
 const apply = process.argv.includes('--apply')

@@ -16,11 +16,11 @@ full·light·fiction 인물의 관계 선정과 기록 규칙이다. 공개 전�
 
 ## 저장과 방향
 
-양쪽이 등록 인물이면 `celeb_relations`의 실제 ID를 연결한다. 명단 밖 상대는 `celeb_relations_external`에 정확한 QID·이름·사진으로 기록한다. 다른 등록 인물을 대신 끼워 넣지 않는다. 자동 수집은 명단 밖으로 확장하지 않는다.
+양쪽이 등록 인물이면 `celeb_relations`의 실제 ID를 연결한다. 명단 밖 상대는 `celeb_relations_external`에 정확한 QID·이름·사진으로 기록한다. 다른 등록 인물을 대신 끼워 넣지 않는다. 자동 수집은 명시적인 가족 속성의 명단 밖 상대만 확장한다. 사회 관계는 명단 밖으로 자동 확장하지 않는다.
 
 `rel_type`은 **상대가 현재 인물에게 무엇인지**다. 내부의 영향 사실은 수용자 `from_id` → 영향원 `to_id`, `influence`로 한 행만 저장한다. 영향원 화면은 이를 `influenced`로 읽는다. 반대 방향의 실제 영향도 확인되면 별도 한 행이다. `colleague`는 협력, `rival`은 대립이며 두 ID를 정렬해 저장한다. 외부 상대는 방향을 뒤집을 수 없으므로 `influence`·`influenced`를 그대로 쓴다.
 
-새 사회 관계 입력은 `CELEB_RELATION_AXES`만 허용한다. 가족 쌍은 먼저 제외하고, 나머지 기존 행은 `canonicalizeCelebRelationAxis`로 읽고 `celebRelationFactKey`로 같은 축의 사실만 중복 제거한다. DB 트리거도 새 관계의 유형·방향·그룹과 가족 중복을 검사한다.
+새 가족 관계는 `CELEB_FAMILY_RELATION_TYPES`, 새 사회 관계는 `CELEB_RELATION_AXES`를 허용한다. 전체 신규 입력은 `CELEB_RELATION_INPUT_TYPES`를 따른다. 가족 입력을 사회 축 제한으로 거부하지 않는다. 자녀 → 부모는 상대의 성별에 따라 `father`·`mother`, 성별을 특정하지 않으면 `parent`로 저장하고 내부 `child` 입력은 방향을 뒤집어 `parent`로 정규화한다. 대칭 가족 관계는 두 ID를 정렬한다. 가족 쌍은 먼저 제외하고, 나머지 기존 행은 `canonicalizeCelebRelationAxis`로 읽고 `celebRelationFactKey`로 같은 축의 사실만 중복 제거한다. DB 트리거도 새 관계의 유형·방향·그룹과 가족 중복을 검사한다.
 
 ## 설명과 신원
 
@@ -34,11 +34,11 @@ full·light·fiction 인물의 관계 선정과 기록 규칙이다. 공개 전�
 
 ## 수집과 조사
 
-`pnpm --dir sw/web-bo celeb:relations`는 dry-run이고 `-- --apply`를 붙이면 반영한다. 자동 수집은 영향·사제·대립의 명시 속성과 공동 창업만 네 축으로 옮긴다. 수동·과거 세부 유형은 보존하며 현재 네 축의 자동 행만 갱신한다. 전체 조회와 신규 삽입이 성공한 뒤 이전 자동 행의 잔여분을 제거한다.
+`pnpm --dir sw/web-bo celeb:relations`는 dry-run이고 `-- --apply`를 붙이면 반영한다. 자동 수집은 가족의 명시 속성을 가족 유형으로 보존하고, 영향·사제·대립의 명시 속성과 공동 창업은 네 사회 축으로 옮긴다. 가족·외부 가족은 신규 사실만 추가하고 기존 기록을 지우지 않는다. 수동·과거 세부 유형은 보존하며 현재 네 축의 자동 행만 갱신한다. 전체 조회와 신규 삽입이 성공한 뒤 이전 자동 행의 잔여분을 제거한다.
 
 `--apply`는 사용자가 DB 반영을 명시한 경우에만 실행한다. 반영 전후에 정규화한 사실 키와 대칭 관계의 중복, 외부 상대의 QID 신원, 수동 기록의 보존을 확인한다. fiction 관계는 원전 근거를 확인한다.
 
-Wikidata 속성이 비어 있으면 본문을 직접 조사한다. `-- --supplement <조사.json>`은 전체 재수집 없이 확인한 사실을 보강하며 기본 dry-run이다. 파일은 `schemaVersion: 1`, `pairs` 배열을 사용한다. 각 항목은 두 slug(`a`·`b`), 신원 QID(`a_qid`·`b_qid`), 현행 축(`kind`), 한영 설명(`note_ko`·`note_en`), 직접 확인한 출처 URL 배열(`sources`)을 가진다. 수집기는 URL만 보고 사실을 검증하지 않는다.
+Wikidata 속성이 비어 있으면 본문을 직접 조사한다. `-- --supplement <조사.json>`은 전체 재수집 없이 확인한 사실을 보강하며 기본 dry-run이다. 파일은 `schemaVersion: 1`, `pairs` 배열을 사용한다. 각 항목은 두 slug(`a`·`b`), 신원 QID(`a_qid`·`b_qid`), 가족 유형 또는 현행 사회 축(`kind`), 한영 설명(`note_ko`·`note_en`), 직접 확인한 출처 URL 배열(`sources`)을 가진다. 수집기는 URL만 보고 사실을 검증하지 않는다.
 
 보강은 신원·설명·출처와 같은 축의 중복을 검사한다. `--apply`는 신규 관계만 DB에 넣은 뒤 재조회한다. 출처를 별도 R2 객체로 보관하지 않는다. 기존 설명을 덮어쓰지 않으며 같은 입력 재반영은 새 행을 만들지 않는다. 반영·검수한 임시 조사 파일은 폐기한다.
 

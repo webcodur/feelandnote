@@ -15,7 +15,7 @@
 
 import { appendFileSync, readFileSync, mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 const INDEX_PATH = resolve(process.cwd(), '../../data/celeb/figure-books/by-work-index.json')
 const arg = (n, d = null) => { const i = process.argv.indexOf(`--${n}`); return i > -1 ? process.argv[i + 1] : d }

@@ -1,0 +1,14 @@
+{
+  "baseAccount": {
+    "id": "webcodur",
+    "label": "webcodur",
+    "envVar": "ELEVENLABS_API_KEY_WEBCODUR"
+  },
+  "prefix": "ELEVENLABS_API_KEY_",
+  "suffixPattern": "^(?!DEFAULT$)[A-Z0-9]+(?:_[A-Z0-9]+)*$",
+  "preferredAccountEnv": "ELEVENLABS_DEFAULT_ACCOUNT",
+  "legacyAccount": {
+    "id": "default",
+    "envVar": "ELEVENLABS_API_KEY"
+  }
+}

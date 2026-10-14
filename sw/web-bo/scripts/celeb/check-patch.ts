@@ -37,7 +37,7 @@ async function loadMeta(slugs: string[]): Promise<Map<string, Meta>> {
   const key = process.env.DB_SECRET_KEY
   if (!url || !key || !slugs.length) return meta
   try {
-    const { createClient } = await import('@supabase/supabase-js')
+    const { createClient } = await import('@feelandnote/db')
     const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
     for (let i = 0; i < slugs.length; i += 200) {
       const { data, error } = await db.from('celebs').select('slug,profession,death_date').in('slug', slugs.slice(i, i + 200))

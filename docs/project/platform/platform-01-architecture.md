@@ -48,7 +48,7 @@ app/
       page.tsx         # 홈 — 첫 방문에만 환영판(소개 본문) 표시, 닫으면 쿠키(fn_intro_seen) 1년
     (policy)/          # terms, privacy, account-deletion
     (standalone)/      # search
-    lab/               # 사내 실험 화면 11종 (+ 허브·상세 = page.tsx 13개). 목록 SSoT는 constants/lab.tsx의 LAB_ITEMS
+    lab/               # 사내 실험 화면. 목록 SSoT는 constants/lab.tsx의 LAB_ITEMS. serviceLayout 실험은 실제 서비스 뼈대를 사용한다.
     layout.tsx  |  not-found.tsx
   api/                 # avatar, celeb-works, cron/today-figure, revalidate, tts, wiki-summary
   auth/callback/       # OAuth 콜백

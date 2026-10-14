@@ -12,13 +12,13 @@
 
 ## 1. 임시 등록 원고 작성
 
-- `data/celeb/new-figures/<분야>.json`에 레코드를 쓴다. 필드 계약은 [`celeb-01-00-profile.md`](celeb-01-00-profile.md), 직군 허용값·수식어는 각각 `celeb-01-00`·[`celeb-01-03-title.md`](celeb-01-03-title.md)의 상수를 따른다.
+- [작업 파일·백업 원칙](../data/README.md#작업-파일백업)에 따른 작업 폴더의 `<분야>.json`에 레코드를 쓴다. 필드 계약은 [`celeb-01-00-profile.md`](celeb-01-00-profile.md), 직군 허용값·수식어는 각각 `celeb-01-00`·[`celeb-01-03-title.md`](celeb-01-03-title.md)의 상수를 따른다.
 - bio·title·headline은 한영 모두 작성한다. 한국어는 한국인이 쓴 글답게 한다.
 - 등록 후보가 많으면 소속사·주제별로 파일을 나눈다. 등록 여부는 DB에서 확인한다. 완료 원고를 다음 회차의 원본으로 재사용하지 않는다.
 
 ## 2. 등록
 
-- `pnpm --dir sw/web-bo celeb:seed:inactive`는 디렉터리 전체를 훑으므로 dry-run에서 내 파일의 create 건수만 확인한다. 다른 파일의 스키마 불일치 conflict는 무시한다.
+- `pnpm --dir sw/web-bo celeb:seed:inactive --dir "<등록 원고 폴더의 절대경로>"`로 이번 작업의 원고만 dry-run한다. create·conflict·already의 대상과 건수를 확인한다.
 - `conflict`가 동명이인이면 다른 사람임을 확인하고 레코드 `distinct_from`에 기존 slug를 **배열로** 넣는다.
 - `--apply` 뒤 DB 재조회로 등록 수와 값을 확인한다. 후속 작업까지 끝나면 작업 자료를 전량 폐기한다. 부가데이터 생성·보관 금지는 [데이터 원칙](../data/README.md)을 따른다.
 - 신규 인물은 `light`·`inactive`로 들어간다 — 공개는 6단계 판단이다.

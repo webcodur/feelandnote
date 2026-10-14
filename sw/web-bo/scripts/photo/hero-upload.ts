@@ -10,7 +10,7 @@
  * 사용법 (sw/web-bo 디렉토리에서): npx tsx scripts/upload-celeb-hero-photo.ts [배치경로]
  */
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
 import { uploadPortraitVariants } from '../../src/lib/portrait-variants'
 import sharp from 'sharp'

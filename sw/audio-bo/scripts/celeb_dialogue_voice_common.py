@@ -14,6 +14,10 @@ ELEVENLABS_TTS_DEFAULTS = json.loads(
     (Path(__file__).resolve().parents[3] / "packages/shared/src/bo/voice-utils/elevenlabs-defaults.json")
     .read_text(encoding="utf-8")
 )
+ELEVENLABS_ACCOUNT_ENV = json.loads(
+    (Path(__file__).resolve().parents[3] / "packages/shared/src/lib/ele-account-env.json")
+    .read_text(encoding="utf-8")
+)
 
 
 def speech_body(text: str, model: str, stability: float, similarity: float, style: float, speed: float) -> dict[str, object]:
@@ -156,11 +160,24 @@ def resolve_voice_id(celeb: dict[str, object], locale: str, override: str | None
     return voice_id
 
 
+def normalize_ele_account_id(account: str) -> str:
+    if account == ELEVENLABS_ACCOUNT_ENV["legacyAccount"]["id"]:
+        return ELEVENLABS_ACCOUNT_ENV["baseAccount"]["id"]
+    return account
+
+
 def resolve_api_key(env: dict[str, str], account: str) -> str:
-    env_key = "ELEVENLABS_API_KEY" if account == "default" else "ELEVENLABS_API_KEY_FEELANDNOTE"
-    api_key = env.get(env_key, "")
+    account = normalize_ele_account_id(account)
+    base = ELEVENLABS_ACCOUNT_ENV["baseAccount"]
+    if account == base["id"]:
+        env_key = base["envVar"] if env.get(base["envVar"], "").strip() else ELEVENLABS_ACCOUNT_ENV["legacyAccount"]["envVar"]
+    elif account == account.lower() and re.fullmatch(ELEVENLABS_ACCOUNT_ENV["suffixPattern"], account.upper()):
+        env_key = ELEVENLABS_ACCOUNT_ENV["prefix"] + account.upper()
+    else:
+        raise RuntimeError("Invalid ElevenLabs account ID; use the lowercase env suffix")
+    api_key = env.get(env_key, "").strip()
     if not api_key.startswith("sk_"):
-        raise RuntimeError(f"{env_key} is missing from the audio-bo env")
+        raise RuntimeError(f"{env_key} is missing or is not an sk_ secret key")
     return api_key
 
 

@@ -12,7 +12,7 @@
  * 어미만 바꾸므로 사실은 건드리지 않는다. 표에 없는 어미가 남으면 경고하고 넘어간다 —
  * 기계가 문장을 새로 쓰지 않게 하려는 것이다.
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { usableReview } from './lib/quality.mts'
 
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!)

@@ -15,6 +15,54 @@ export interface HostMemoryStatus {
   swapUsedBytes: number
 }
 
+export interface MaintenanceTaskStatus {
+  timerState: string | null
+  timerLoaded: boolean
+  serviceState: string | null
+  result: string | null
+  exitCode: number | null
+  lastFinishedAt: string | null
+  nextRunAt: string | null
+}
+
+export interface HostStorageStatus {
+  disk: {
+    totalBytes: number
+    usedBytes: number
+    freeBytes: number
+    usedPercent: number
+    inodeUsedPercent: number | null
+  }
+  cleanup: (MaintenanceTaskStatus & {
+    cacheBytes: number | null
+    removedBytes: number | null
+    measuredAt: string | null
+    status: string | null
+    pressure: boolean | null
+    targetFreePercent: number | null
+    maxCacheBytes: number | null
+  }) | null
+  mail: (MaintenanceTaskStatus & {
+    status: string | null
+    checkedAt: string | null
+    recipient: string | null
+    alertPercent: number | null
+    resetPercent: number | null
+    alerted: boolean | null
+    lastSentAt: string | null
+    lastTestSentAt: string | null
+    configPresent: boolean
+  }) | null
+  retention: {
+    journal?: { SystemMaxUse?: string; MaxRetentionSec?: string }
+    temporary?: Record<string, string>
+    packages?: { MaxAge?: string; MaxSize?: string; AutocleanInterval?: string }
+    logRotation?: string | null
+    tempCleanup?: string | null
+  }
+  error: string | null
+}
+
 export interface WebHostStatus {
   reachable: boolean
   activeState: string | null
@@ -28,6 +76,7 @@ export interface WebHostStatus {
   releaseId: string | null
   commit: string | null
   memory: HostMemoryStatus
+  storage: HostStorageStatus | null
   responseMs: number
   error: string | null
 }
@@ -59,6 +108,7 @@ export interface DatabaseHostStatus {
   nextBackupAt: string | null
   uptimeSeconds: number
   memory: HostMemoryStatus
+  storage: HostStorageStatus | null
   responseMs: number
   error: string | null
 }

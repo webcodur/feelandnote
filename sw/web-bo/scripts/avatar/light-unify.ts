@@ -16,7 +16,7 @@
  * 출력폴더/_light-report.json 에 인물별 판정·반전 여부를 남긴다. R2·DB에는 손대지 않는다.
  */
 import sharp from 'sharp'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs'
 import { resolve, join, parse as parsePath } from 'path'
 import * as tf from '@tensorflow/tfjs'

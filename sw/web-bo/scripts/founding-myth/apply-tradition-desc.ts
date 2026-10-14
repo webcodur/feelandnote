@@ -11,7 +11,7 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!, {

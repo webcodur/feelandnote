@@ -4,6 +4,7 @@
 // urls-file: one absolute URL per line (https://feelandnote.com/...)
 import { google } from 'googleapis';
 import fs from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 
 const [urlsFile, outFile] = process.argv.slice(2);
 if (!urlsFile) {
@@ -16,7 +17,7 @@ const urls = (await fs.readFile(urlsFile, 'utf8'))
   .filter(Boolean);
 
 const auth = new google.auth.GoogleAuth({
-  keyFile: 'C:/project/feelandnote/credentials/ga-service-account.json',
+  keyFile: fileURLToPath(new URL('../../web/credentials/ga-service-account.json', import.meta.url)),
   scopes: ['https://www.googleapis.com/auth/webmasters.readonly'],
 });
 const sc = google.searchconsole({ version: 'v1', auth });

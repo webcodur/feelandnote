@@ -87,6 +87,14 @@ const CONCURRENCY = numberFlag('--conc', 3)
 const MODEL = flagValue('--model') ?? AGY_TEXT_MODEL
 const REVIEW_DECISIONS_ARG = flagValue('--review-decisions')
 const EDITORIAL_CANDIDATES_ARG = flagValue('--editorial-candidates')
+const WORKER_BRIEF_FILE = flagValue('--brief-file')
+type WorkerBrief = { identity?: string; guideDirection: string; facts: Array<{ text: string; sourceUrl: string }> }
+const WORKER_BRIEFS: Record<string, WorkerBrief> = WORKER_BRIEF_FILE
+  ? JSON.parse(readFileSync(resolve(process.cwd(), WORKER_BRIEF_FILE), 'utf8'))
+  : {}
+if (GENERATE && !WORKER_BRIEF_FILE) {
+  throw new Error('안내 생성에는 작업자가 확인한 방향·정보 목록 --brief-file이 필요하다.')
+}
 const SLUGS = (() => {
   const raw = flagValue('--slugs')
   return raw ? new Set(raw.split(',').map((slug) => slug.trim()).filter(Boolean)) : null
@@ -157,7 +165,7 @@ const READING_RULEBOOK = resolve(dirname(fileURLToPath(import.meta.url)), '../..
 const WRITING_GUIDE = readFileSync(READING_RULEBOOK, 'utf8')
   .match(/^## 집필\s*\r?\n([\s\S]*?)(?=^## |$(?![\s\S]))/m)?.[1].trim()
 if (!WRITING_GUIDE) throw new Error('인물 안내 룰북의 집필 절이 비어 있다.')
-const WRITING_CONTEXT = `[집필 기준]\n${WRITING_GUIDE}\n\n제공된 프로필과 확인된 출처의 사실에 근거한다. rewriteReason과 초안은 사실 근거가 아니다. 기존 글은 이 기준에 맞는 부분을 보존하고 필요한 부분을 고친다.`
+const WRITING_CONTEXT = `[집필 기준]\n${WRITING_GUIDE}\n\n작업자가 정한 guideDirection과 facts 목록의 확인된 사실만 사용한다. 목록 밖의 경력·동기·발언을 추가하지 않는다. rewriteReason과 초안은 사실 근거가 아니다. 기존 글은 이 기준에 맞는 부분을 보존하고 필요한 부분을 고친다. 한국인이 한국어로 쓴 글 답게 주의해서 작성한다.`
 for (const directory of [ROOT, DRAFT_DIR, FINAL_DIR, REVIEW_DIR]) {
   if (!existsSync(directory)) mkdirSync(directory, { recursive: true })
 }
@@ -1026,7 +1034,7 @@ async function callDeepResearch(
       // 심화 조사는 모델 지식이 아니라 출처 발굴이 일이라 codex에 남겨둔다. agy는 작성에만 쓴다.
       requireExternalCliApproval()
       const raw = await codexCall(buildDeepResearchPrompt(profiles, contextsByProfile), {
-        model: 'gpt-5.5',
+        model: 'gpt-6.1-sol',
         effort: 'medium',
         timeoutMs: 600_000,
       })
@@ -1286,16 +1294,18 @@ async function reviewExistingMaterials(materials: Material[]): Promise<Map<strin
 
 function inputForModel(material: Material) {
   const { profile } = material
+  const brief = WORKER_BRIEFS[profile.slug]
   return {
     slug: profile.slug,
     name: profile.nickname,
     nameEn: profile.nickname_en,
     type: profile.celeb_reality === 'FICTION' ? 'fiction' : 'real',
     profession: profile.profession,
-    title: profile.title,
     nationality: profile.nationality,
     life: [profile.birth_date, profile.death_date].filter(Boolean).join(' ~ ') || null,
-    bio: profile.bio,
+    identity: brief?.identity ?? brief?.facts[0]?.text ?? null,
+    guideDirection: brief?.guideDirection ?? null,
+    facts: brief?.facts ?? [],
     existingReadingToImprove: material.existingExplanation ? {
       guide: material.existingExplanation.plain_text,
       guideEn: material.existingExplanation.plain_text_en,
@@ -1321,6 +1331,7 @@ function inputHash(material: Material): string {
 
 function buildDraftPrompt(materials: Material[]): string {
   return `아래 인물별 재료로 한국어 인물 안내 초안을 작성하라. 도구와 웹 검색 없이 제공된 재료만 사용한다.
+작업자가 정한 guideDirection을 따라 facts에 있는 확인된 정보만 문장으로 엮는다. 기존 안내의 사실도 facts가 뒷받침할 때만 사용한다. 한국인이 한국어로 쓴 글답게 주의해서 작성한다.
 
 ${WRITING_CONTEXT}
 
@@ -1802,6 +1813,15 @@ async function main() {
     if (missing.length) throw new Error(`프로필에 없는 slug: ${missing.join(', ')}`)
   }
   if (LIMIT !== Number.POSITIVE_INFINITY) targets = targets.slice(0, LIMIT)
+  if (GENERATE) {
+    for (const profile of targets) {
+      const brief = WORKER_BRIEFS[profile.slug]
+      if (!brief?.guideDirection?.trim() || !Array.isArray(brief.facts) || brief.facts.length < 2
+        || brief.facts.some((fact) => !fact.text?.trim() || !/^https?:\/\//.test(fact.sourceUrl ?? ''))) {
+        throw new Error(`${profile.slug}: 작업자 방향과 출처가 있는 정보 2개 이상이 필요하다.`)
+      }
+    }
+  }
 
   const explanationById = new Map(explanations.map((row) => [row.profile_id, row]))
   const preReviewMaterials: Material[] = targets.map((profile) => ({

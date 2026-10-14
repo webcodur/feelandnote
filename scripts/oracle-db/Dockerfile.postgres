@@ -1,0 +1,16 @@
+FROM postgres:17.11-bookworm AS extension
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl build-essential postgresql-server-dev-17 libcurl4-openssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /build
+RUN curl -fsSL https://github.com/supabase/pg_net/archive/refs/tags/v0.20.3.tar.gz -o pg_net.tar.gz \
+    && tar -xzf pg_net.tar.gz --strip-components=1 && make && make install
+WORKDIR /safeupdate
+RUN curl -fsSL https://github.com/eradman/pg-safeupdate/archive/refs/tags/1.7.tar.gz -o safeupdate.tar.gz \
+    && tar -xzf safeupdate.tar.gz --strip-components=1 && make && make install
+
+FROM postgres:17.11-bookworm
+RUN apt-get update && apt-get install -y --no-install-recommends libcurl4 ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+COPY --from=extension /usr/lib/postgresql/17/lib/pg_net.so /usr/lib/postgresql/17/lib/
+COPY --from=extension /usr/lib/postgresql/17/lib/safeupdate.so /usr/lib/postgresql/17/lib/
+COPY --from=extension /usr/share/postgresql/17/extension/pg_net* /usr/share/postgresql/17/extension/

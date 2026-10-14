@@ -9,7 +9,7 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import {
   NARRATIVE_CANDIDATE_SCHEMA_VERSION,
   assertExplicitInactiveSlugMode,

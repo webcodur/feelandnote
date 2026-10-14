@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { dirname, resolve, toNamespacedPath } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { buildMergeSql, findConflicts, hasArrayReference, SNAPSHOT_TABLES, sqlLiteral } from './lib/merge-work-sql.mjs'
+import { buildMergeSql, findConflicts, hasArrayReference, SNAPSHOT_TABLES, sqlLiteral, validateReviewedNonstartEditionRemovals } from './lib/merge-work-sql.mjs'
 import { planSnapshot, executeMergeFile, executeTemporaryMergeSql, checkFixedReferences, remapArrayReferences, buildSnapshotSql, captureDatabaseSnapshot, applyOne } from './merge-works.mjs'
 const pair = { keep: 'keep', drop: 'drop' }
 test('대량 조회는 자유 등급명과 모든 배열 참조를 동일한 DB 시점에서 읽는다',()=>{
@@ -25,6 +25,16 @@ function fixture() {
   value.contents = [{ id: 'keep', type: 'BOOK' }, { id: 'drop', type: 'BOOK' }]
   return value
 }
+test('LLM이 원문과 정확 현재 범위에 묶어 확인한 제1·2권 시작합본만 후속권 정리에 쓴다',()=>{
+  const s=fixture(),scope='원작 단행본 제1·2권 본문; 완전판 시리즈 시작권'
+  s.figure_book_editions=[{id:1,content_id:'keep',locale:'ko',isbn:'9791125684657',title:'20세기 소년',text_scope:scope},{id:2,content_id:'drop',locale:'ko',isbn:'9791134878030',title:'21세기 소년',text_scope:null}]
+  s.content_locales=[{content_id:'keep',locale:'ko',isbn:'9791125684657'}]
+  const review={keepEditionId:1,dropEditionId:2,keepIsbn:'9791125684657',dropIsbn:'9791134878030',keepTitle:'20세기 소년',dropTitle:'21세기 소년',locale:'ko',volumeNumber:12,
+    sourceUrl:'https://www.viz.com/blog/posts/naoki-urasawa-returns',startSourceUrl:'https://www.viz.com/read/manga/20th-century-boys-the-perfect-edition-volume-1/product/5630',reason:'Publisher identifies the later book as the final continuous volume and the keeper as the first combined volume.',startTextScope:scope,startVolumeNumbers:[1,2]}
+  assert.deepEqual(validateReviewedNonstartEditionRemovals(pair,s,[review]),[s.figure_book_editions[1]])
+  for(const change of [{startVolumeNumbers:[2,3]},{startVolumeNumbers:[1,3]},{startTextScope:'complete'},{startVolumeNumbers:[]}])
+    assert.throws(()=>validateReviewedNonstartEditionRemovals(pair,s,[{...review,...change}]),/existing selected first or complete/)
+})
 function reviewedEditionFixture() {
   const snapshot = fixture()
   snapshot.figure_book_editions = [
@@ -35,6 +45,50 @@ function reviewedEditionFixture() {
 }
 const reviewedMapping = { keepEditionId: 1, dropEditionId: 2, keepIsbn: '9780500295779', dropIsbn: '9780500544785', locale: 'en',
   sourceUrl: 'https://www.thamesandhudson.com/products/wim-wenders-instant-stories', reason: 'Publisher confirms reduced-format reprint with the same 403 Polaroids.' }
+test('원문 또는 같은 역자라도 미확인 범위의 다른 ISBN 판본은 자동 등가 삭제하지 않는다',()=>{
+ for(const original of [false,true])for(const unknown of [null,undefined,'','  ','unknown'])for(const unknownSide of [0,1]){
+  const s=reviewedEditionFixture()
+  if(original)for(const work of s.contents)work.metadata={figureBook:{originalLanguage:'en',identityEvidence:'https://www.thamesandhudson.com/products/wim-wenders-instant-stories'}}
+  else for(const row of s.figure_book_editions)row.sources.translators=['Verified translator']
+  for(const row of s.figure_book_editions){row.edition_kind='volume';row.text_scope='volume/1'}
+  s.figure_book_editions[unknownSide].text_scope=unknown
+  const before=structuredClone(s)
+  assert.throws(()=>buildMergeSql(pair,s),/automatic translation mapping scope (?:unverified|conflict)/)
+  assert.deepEqual(s,before)
+ }
+ const s=reviewedEditionFixture()
+ for(const row of s.figure_book_editions)row.sources.translators=['Verified translator']
+ assert.throws(()=>buildMergeSql(pair,s),/scope unverified/)
+ assert.match(buildMergeSql(pair,s,{reviewedEditionMappings:[reviewedMapping]}),/WHEN 2 THEN 1/)
+ s.figure_book_editions[1].isbn=s.figure_book_editions[0].isbn
+ assert.doesNotThrow(()=>buildMergeSql(pair,s))
+})
+test('Newton 1664–1666 시작권과 NULL 범위의 1667–1670 제2권은 자동 삭제를 거절하고 검수된 후속 제거만 허용한다',async()=>{
+ const newton={keep:'522df841-df1b-5cfa-8074-04a3bf16fb16',drop:'981d9bc9-de7f-5770-b891-25f85e1d6a08'},s=fixture()
+ const figureBook={originalLanguage:'en',identityEvidence:'https://ci.nii.ac.jp/ncid/BA03628812',
+  originalTitle:'The Mathematical Papers of Isaac Newton',originalCreator:'Isaac Newton',workIdentity:'isaac-newton/the-mathematical-papers',
+  series:{title:'The Mathematical Papers of Isaac Newton',totalVolumes:8}}
+ s.contents=[newton.keep,newton.drop].map(id=>({id,type:'BOOK',metadata:{figureBook:structuredClone(figureBook)}}))
+ s.figure_book_editions=[
+  {id:47024,content_id:newton.keep,locale:'en',isbn:'9780521045957',title:'Mathematical Papers of Isaac Newton',creator:'Isaac Newton',
+   edition_kind:'volume',text_scope:'volume/1',sources:{text_scope_evidence:'https://ci.nii.ac.jp/ncid/BD18098044'}},
+  {id:47029,content_id:newton.drop,locale:'en',isbn:'9780521045964',title:'Mathematical Papers of Isaac Newton, 1667-1670 Volume 2',creator:'Isaac Newton',
+   edition_kind:null,text_scope:null,sources:{isbn:'https://ci.nii.ac.jp/ncid/BD18098146'}},
+ ]
+ s.content_locales=s.figure_book_editions.map(({content_id,locale,isbn,title})=>({content_id,locale,isbn,title}))
+ const before=structuredClone(s);let executed=0
+ await assert.rejects(applyOne(null,newton,{checkReferences(){},capture:async()=>s,execute(){executed++;return 'MERGE_COMMITTED'}}),/automatic translation mapping scope unverified/)
+ assert.equal(executed,0);assert.deepEqual(s,before)
+ const review={keepEditionId:47024,dropEditionId:47029,keepIsbn:'9780521045957',dropIsbn:'9780521045964',
+  keepTitle:s.figure_book_editions[0].title,dropTitle:s.figure_book_editions[1].title,locale:'en',volumeNumber:2,
+  startSourceUrl:'https://ci.nii.ac.jp/ncid/BD18098044',sourceUrl:'https://ci.nii.ac.jp/ncid/BD18098146',
+  reason:'The reviewed actual library records identify different continuous text: volume 1 covers 1664–1666 and volume 2 covers 1667–1670; the later part is not an equivalent reprint.'}
+ const sql=buildMergeSql(newton,s,{reviewedNonstartEditionRemovals:[review]})
+ assert.match(sql,/DELETE FROM public.figure_book_editions WHERE content_id=drop_id AND id IN \(47029\)/)
+ assert.match(sql,/canonical_id := NULL;/)
+ assert.doesNotMatch(sql,/WHEN 47029 THEN 47024/)
+ assert.deepEqual(s,before)
+})
 test('automatic same-translator mappings reject known whole/subset scopes before any SQL mutation',()=>{
  for(const field of ['edition_kind','text_scope']){
   const data=reviewedEditionFixture()
@@ -60,6 +114,67 @@ test('explicit source-reviewed edition equivalence maps products without inventi
   assert.doesNotMatch(sql, /DISABLE TRIGGER|session_replication_role|SET originalLanguage|SET translators/iu)
   assert.deepEqual(snapshot, before)
 })
+test('ISBN 없는 실물 판본 증거는 통합된 소유자만 재바인딩하고 판권·공급자·본문 사실을 보존한다',()=>{
+ const s=fixture(),sourceUrl='https://library.example/fixtures/milton-1826-title-page-and-text'
+ // 실제 등록 계약의 영어 OL 서지를 쓰되, 독립 판권·본문 출처는 명시적인 테스트 대역이다.
+ const proof={method:'independent_isbnless_physical_edition_review',llmReviewed:true,contentId:pair.drop,locale:'en',isbn:null,
+  title:'Paradise Lost: A Poem in Twelve Books',creator:'John Milton',workTitle:'Paradise Lost',workCreator:'John Milton',
+  translators:[],publisher:'T. Bedlington',editionKind:null,textScope:null,sourceUrl,
+  reason:'The independently reviewed title page and English paper text are represented by a test fixture; scope remains unverified.',
+  providerProductId:'OL20458778M',providerUrl:'https://openlibrary.org/books/OL20458778M',providerEditionKey:'/books/OL20458778M',
+  providerLanguageKeys:['/languages/eng'],providerPhysicalFormat:null,physicalMedium:'paper'}
+ const sources={primary:'openlibrary',title:proof.providerUrl,description:sourceUrl,isbnless_physical_edition_evidence:proof}
+ s.figure_book_editions=[{id:47030,content_id:pair.drop,locale:'en',isbn:null,title:proof.title,creator:proof.creator,sources:structuredClone(sources)}]
+ s.content_locales=[{content_id:pair.drop,locale:'en',isbn:null,title:proof.title,creator:proof.creator,sources:structuredClone(sources)}]
+ const before=structuredClone(s),expected={...sources,isbnless_physical_edition_evidence:{...proof,contentId:pair.keep}},sql=buildMergeSql(pair,s)
+ const literal=sqlLiteral(JSON.stringify(expected))
+ for(const [table,where] of [['figure_book_editions','id=47030'],['content_locales',"content_id=drop_id AND locale=E'en'"]]){
+  const update=`UPDATE public.${table} SET sources=${literal}::jsonb WHERE ${where};`
+  assert.ok(sql.includes(update));assert.ok(sql.indexOf(update)<sql.indexOf('INSERT INTO public.figure_book_editions'))
+ }
+ assert.equal(sql.match(/UPDATE public\.(?:figure_book_editions|content_locales) SET sources=/g)?.length,2)
+ assert.deepEqual(s,before)
+ for(const changed of [{contentId:pair.keep},{contentId:'unrelated-owner'},{method:'machine_review'}]){
+  const other=structuredClone(s)
+  for(const row of [...other.figure_book_editions,...other.content_locales])Object.assign(row.sources.isbnless_physical_edition_evidence,changed)
+  assert.doesNotMatch(buildMergeSql(pair,other),/UPDATE public\.(?:figure_book_editions|content_locales) SET sources=/)
+ }
+ const keepOwned=structuredClone(s)
+ for(const row of [...keepOwned.figure_book_editions,...keepOwned.content_locales])row.content_id=pair.keep
+ assert.doesNotMatch(buildMergeSql(pair,keepOwned),/UPDATE public\.(?:figure_book_editions|content_locales) SET sources=/)
+})
+test('wrong_locale 선정 증거는 판본 소유자와 원자적으로 옮기며 다른 출처와 실물 필드를 보존한다',()=>{
+ const s=fixture(),isbn='9783822802397',title='Egon Schiele'
+ const proof={method:'independent_selection_review',content_id:pair.drop,reason:'wrong_locale',isbn,locale:'ko',edition_title:title,
+  source_url:'https://library.example/exact-language',explanation:'This explicit test source identifies the physical English book mistakenly stored in the Korean locale.'}
+ const unrelated={...proof,content_id:'unrelated-owner',source_url:'https://library.example/another-review'}
+ const sources={primary:'kakao_book',isbn:'https://search.daum.net/search?w=bookpage&bookId=123',
+  description:'https://publisher.example/retained-introduction',translators:[],provider_product_id:'123',
+  edition_selection_evidence:[proof,unrelated]}
+ const physical={locale:'ko',isbn,title,creator:'Reinhard Steiner',publisher:'Taschen',description:'Exact retained introduction.',
+  thumbnail_url:'https://images.example/exact-cover.jpg',verified:true}
+ s.figure_book_editions=[{id:925,content_id:pair.drop,...physical,edition_kind:null,text_scope:null,
+  release_date:null,sort_order:0,sources:structuredClone(sources)}]
+ s.content_locales=[{content_id:pair.drop,...physical,sources:structuredClone(sources)}]
+ const before=structuredClone(s),expected={...sources,edition_selection_evidence:[{...proof,content_id:pair.keep},unrelated]}
+ const sql=buildMergeSql(pair,s),literal=sqlLiteral(JSON.stringify(expected))
+ const editionUpdate=`UPDATE public.figure_book_editions SET content_id=keep_id, sources=${literal}::jsonb WHERE id=925;`
+ const cardUpdate=`UPDATE public.content_locales SET sources=${literal}::jsonb WHERE content_id=drop_id AND locale=E'ko';`
+ assert.ok(sql.includes(editionUpdate));assert.ok(sql.includes(cardUpdate))
+ assert.ok(sql.indexOf(editionUpdate)<sql.indexOf('INSERT INTO public.figure_book_editions'))
+ assert.ok(sql.indexOf(cardUpdate)<sql.indexOf('INSERT INTO public.figure_book_editions'))
+ assert.doesNotMatch(editionUpdate,/SET (?:title|creator|isbn|publisher|description|thumbnail_url|edition_kind|text_scope|verified)=/)
+ assert.equal(expected.edition_selection_evidence[0].reason,'wrong_locale')
+ assert.deepEqual(Object.fromEntries(Object.entries(expected).filter(([key])=>key!=='edition_selection_evidence')),
+  Object.fromEntries(Object.entries(sources).filter(([key])=>key!=='edition_selection_evidence')))
+ assert.deepEqual(s,before)
+ for(const difference of [{content_id:'unrelated-owner'},{method:'machine_review'}]){
+  const other=structuredClone(s)
+  for(const row of [...other.figure_book_editions,...other.content_locales])row.sources.edition_selection_evidence=[{...proof,...difference}]
+  assert.doesNotMatch(buildMergeSql(pair,other),/UPDATE public\.(?:figure_book_editions|content_locales) SET (?:content_id=keep_id, )?sources=/)
+ }
+})
+
 test('reviewed mappings are bound to exact pair ownership, locale and ISBN and reject conflicting translations/scope or lost introductions', () => {
   for (const change of [{ keepEditionId: 2 }, { dropEditionId: 999 }, { keepIsbn: '9783775735131' }, { locale: 'ko' },
     { sourceUrl: 'http://publisher.example/book' }, { sourceUrl: 'https://openlibrary.org/books/OL1M' }, { sourceUrl: 'https://user:password@publisher.example/book' },
@@ -206,7 +321,8 @@ test('양쪽 catalog 없이 같은 ISBN locale을 옮겨도 keep 메타 우선�
   const s = fixture()
   s.content_locales = [{ content_id: 'keep', locale: 'ko', isbn: '9788932925929', title: 'Keep' }, { content_id: 'drop', locale: 'ko', isbn: '9788932925929', title: 'Drop' }]
   const sql = buildMergeSql(pair, s)
-  assert.match(sql, /ORDER BY CASE WHEN l.content_id=keep_id THEN 0 ELSE 1 END\n    ON CONFLICT \(content_id, locale, isbn\) WHERE isbn IS NOT NULL DO NOTHING/)
+  assert.match(sql, /SELECT DISTINCT ON \(CASE WHEN EXISTS[\s\S]*l.locale,l.isbn,CASE WHEN l.isbn IS NULL THEN l.content_id END\)/)
+  assert.match(sql, /ORDER BY[^\n]*CASE WHEN l.content_id=keep_id THEN 0 ELSE 1 END\n    ON CONFLICT \(content_id, locale, isbn\) WHERE isbn IS NOT NULL DO NOTHING/)
 })
 
 test('카드 seed는 pair의 기존 실판본부터 확인하고 신규 seed만 원판본 앞에서 제거', () => {
@@ -236,6 +352,18 @@ test('번호 없는 기존 판본에 검수 근거를 붙이고 대표 제목을
   assert.match(seed, /l\.sources - 'edition_work_evidence' - 'scope_evidence' - 'edition_title' - 'series_title' - 'series_source_url'/)
   assert.doesNotMatch(seed, /e\.sources IS NOT DISTINCT FROM l\.sources/)
   assert.doesNotMatch(sql, /DELETE FROM public\.figure_book_editions WHERE id=27310/)
+})
+
+test('ISBN 없는 실판본 등록 검수만 ED에 추가된 경우 기존 판본을 다시 seed하지 않는다', () => {
+  const s=fixture(),sources={primary:'kakao_book',provider_product_id:'187269',translators:['강여규']}
+  s.figure_book_editions=[{id:54546,content_id:pair.drop,locale:'ko',isbn:null,title:'카산드라',creator:'크리스타 볼프',publisher:'작가정신',
+    sources:{...sources,isbnless_physical_edition_evidence:{method:'independent_isbnless_physical_edition_review',contentId:pair.drop},
+      edition_text_scope_evidence:{isbn:null,source_url:'https://product.kyobobook.co.kr/detail/S000000177940'}}}]
+  s.content_locales=[{content_id:pair.drop,locale:'ko',isbn:null,title:'카산드라',creator:'크리스타 볼프',publisher:'작가정신',sources}]
+  const sql=buildMergeSql(pair,s),seed=sql.slice(sql.indexOf('INSERT INTO public.figure_book_editions(content_id,locale,title'),sql.indexOf('FOR duplicate_edition IN'))
+  assert.match(seed,/e\.sources[^\n]+- 'isbnless_physical_edition_evidence' - 'edition_text_scope_evidence' IS NOT DISTINCT FROM l\.sources[^\n]+- 'isbnless_physical_edition_evidence' - 'edition_text_scope_evidence'/)
+  assert.doesNotMatch(seed,/- 'translators'|- 'provider_product_id'/)
+  assert.doesNotMatch(sql,/DELETE FROM public\.figure_book_editions WHERE id=54546|WHEN 54546 THEN/)
 })
 
 test('source-reviewed rejected card products are not seeded again during work merge', () => {
@@ -352,3 +480,12 @@ test('표시용 카드의 미검증 ISBN을 버리며 통합하지 않고 실판
  assert.equal(findConflicts(s,pair),null)
  assert.ok(buildMergeSql(pair,s).includes('9780192802552'))
 })
+
+
+test('현행 migration과 실행 SQL의 선정 제외 보존 guard 함수는 동일하다',async()=>{
+ const{editionPolicySql}=await import('./lib/edition-policy-sql.mjs');
+ const migration=readFileSync(new URL('../../../web/database/migrations/20261008180000_figure_book_edition_policy.sql',import.meta.url),'utf8');
+ const pattern=/CREATE OR REPLACE FUNCTION public\.guard_figure_book_edition_policy\(\)[\s\S]*?FOR EACH ROW EXECUTE FUNCTION public\.guard_figure_book_edition_policy\(\);/;
+ const block=value=>value.match(pattern)?.[0].replaceAll('\r\n','\n');
+ assert.ok(block(migration));assert.equal(block(migration),block(editionPolicySql()));
+});

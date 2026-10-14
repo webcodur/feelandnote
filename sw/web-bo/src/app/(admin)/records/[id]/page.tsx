@@ -180,10 +180,8 @@ export default async function RecordDetailPage({ params }: PageProps) {
               {record.source_url && (
                 <a
                   href={record.source_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="flex items-center gap-1 text-sm text-accent hover:underline"
-                >
+                 target="_blank" rel="noopener noreferrer">
                   <LinkIcon className="w-3.5 h-3.5" />
                   <span>출처 링크</span>
                 </a>

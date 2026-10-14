@@ -1,0 +1,111 @@
+{
+  "files": [
+    {
+      "file": "PretendardVariable.subset.0.woff2",
+      "family": "Pretendard Variable",
+      "rawFamily": "Pretendard Variable",
+      "subfamily": "Regular",
+      "postscript": "PretendardVariable-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "PretendardVariable.subset.1.woff2",
+      "family": "Pretendard Variable",
+      "rawFamily": "Pretendard Variable",
+      "subfamily": "Regular",
+      "postscript": "PretendardVariable-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "PretendardVariable.subset.2.woff2",
+      "family": "Pretendard Variable",
+      "rawFamily": "Pretendard Variable",
+      "subfamily": "Regular",
+      "postscript": "PretendardVariable-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "PretendardVariable.subset.3.woff2",
+      "family": "Pretendard Variable",
+      "rawFamily": "Pretendard Variable",
+      "subfamily": "Regular",
+      "postscript": "PretendardVariable-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "PretendardVariable.subset.4.woff2",
+      "family": "Pretendard Variable",
+      "rawFamily": "Pretendard Variable",
+      "subfamily": "Regular",
+      "postscript": "PretendardVariable-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "PretendardVariable.subset.5.woff2",
+      "family": "Pretendard Variable",
+      "rawFamily": "Pretendard Variable",
+      "subfamily": "Regular",
+      "postscript": "PretendardVariable-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    }
+  ],
+  "families": [
+    {
+      "family": "Pretendard Variable",
+      "weights": [
+        400
+      ],
+      "variable": true,
+      "fileCount": 6,
+      "files": [
+        "PretendardVariable.subset.0.woff2",
+        "PretendardVariable.subset.1.woff2",
+        "PretendardVariable.subset.2.woff2",
+        "PretendardVariable.subset.3.woff2",
+        "PretendardVariable.subset.4.woff2",
+        "PretendardVariable.subset.5.woff2"
+      ]
+    }
+  ],
+  "unidentified": [],
+  "meta": {
+    "generatedAt": "2026-10-06T08:20:41.946Z",
+    "tool": "fontkit"
+  }
+}

@@ -1,0 +1,21 @@
+[Unit]
+Description=Email Feel&Note web disk pressure alert
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+LoadCredential=disk-alert.json:/etc/feelandnote/disk-alert.json
+StateDirectory=feelandnote-disk-alert
+StateDirectoryMode=0700
+ExecStart=/usr/bin/python3 /usr/local/sbin/feelandnote-disk-alert.py
+TimeoutStartSec=90
+CPUQuota=5%
+MemoryMax=64M
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6

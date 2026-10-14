@@ -2,7 +2,7 @@
  * 한쪽 언어에만 소개가 있는 행은 번역 큐 몫이라 개수만 센다.
  * node --env-file=.env --import tsx scripts/contents/list-music-research-targets.ts [skip] [take]
  * 규칙: docs/project/celeb/celeb-02-06-content-introduction-sources.md 「곡 조사 작성」 */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!, { auth: { persistSession: false, autoRefreshToken: false } })
 const [skip = '0', take = '30'] = process.argv.slice(2)
 async function all(build: (f: number, t: number) => any) {

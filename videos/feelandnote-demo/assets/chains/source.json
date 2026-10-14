@@ -1,0 +1,98 @@
+{
+  "source": "sw/web/messages/ko/home.json:home.ui.intro.inspirationChains",
+  "chains": [
+    [
+      {
+        "reader": "alexander-the-great",
+        "author": "homer",
+        "text": "[[알렉산더]]는 전장에서도 [[호메로스]]의 《일리아스》를 곁에 두었습니다."
+      },
+      {
+        "reader": "julius-caesar",
+        "author": "alexander-the-great",
+        "text": "[[카이사르]]는 [[알렉산더]]의 전기를 읽으며 눈물을 흘렸습니다."
+      },
+      {
+        "reader": "napoleon-bonaparte",
+        "author": "julius-caesar",
+        "text": "[[나폴레옹]]은 [[카이사르]]의 《갈리아 전기》를 원정에 챙겨갔습니다."
+      }
+    ],
+    [
+      {
+        "reader": "giovanni-boccaccio",
+        "author": "dante-alighieri",
+        "text": "[[보카치오]]는 평생 [[단테]]의 《신곡》을 경외했습니다."
+      },
+      {
+        "reader": "william-shakespeare",
+        "author": "giovanni-boccaccio",
+        "text": "[[셰익스피어]]는 [[보카치오]]의 《데카메론》에서 이야기의 씨앗을 얻었습니다."
+      },
+      {
+        "reader": "abraham-lincoln",
+        "author": "william-shakespeare",
+        "text": "[[링컨]]은 [[셰익스피어]]의 희곡을 통째로 암송했습니다."
+      }
+    ]
+  ],
+  "conclusion": "누군가의 영감은 다른 이의 창작물이 됩니다. 그 창작물은 또 다른 누군가의 인생을 바꿉니다.",
+  "profiles": [
+    {
+      "slug": "giovanni-boccaccio",
+      "nickname": "조반니 보카치오",
+      "nickname_en": "Giovanni Boccaccio",
+      "avatar_url": "https://assets.feelandnote.com/celebs/79cbea4b-b8df-4fdd-8437-cf9717108d25/avatar.webp?v=1789736992824",
+      "local": "assets/chains/giovanni-boccaccio.webp"
+    },
+    {
+      "slug": "william-shakespeare",
+      "nickname": "윌리엄 셰익스피어",
+      "nickname_en": "William Shakespeare",
+      "avatar_url": "https://assets.feelandnote.com/celebs/d2d2d21b-0dd6-414f-9340-9deb18ec6399/avatar.webp?v=1789736324639",
+      "local": "assets/chains/william-shakespeare.webp"
+    },
+    {
+      "slug": "julius-caesar",
+      "nickname": "율리우스 카이사르",
+      "nickname_en": "Julius Caesar",
+      "avatar_url": "https://assets.feelandnote.com/celebs/597d8634-4b7e-40d5-82d5-ca8a5a2aa65a/avatar.webp?v=1789734455180",
+      "local": "assets/chains/julius-caesar.webp"
+    },
+    {
+      "slug": "alexander-the-great",
+      "nickname": "알렉산더 대왕",
+      "nickname_en": "Alexander the Great",
+      "avatar_url": "https://assets.feelandnote.com/celebs/deb5a570-a009-410d-9436-77180a85a058/avatar.webp?v=1789733863897",
+      "local": "assets/chains/alexander-the-great.webp"
+    },
+    {
+      "slug": "dante-alighieri",
+      "nickname": "단테 알리기에리",
+      "nickname_en": "Dante Alighieri",
+      "avatar_url": "https://assets.feelandnote.com/celebs/9c61d7b8-2444-4c6d-906e-7d6423b312e2/avatar.webp?v=1789736526790",
+      "local": "assets/chains/dante-alighieri.webp"
+    },
+    {
+      "slug": "homer",
+      "nickname": "호메로스",
+      "nickname_en": "Homer",
+      "avatar_url": "https://assets.feelandnote.com/celebs/5397f779-2dcb-4712-aca0-c7cb1dde4923/avatar.webp?v=1789733910303",
+      "local": "assets/chains/homer.webp"
+    },
+    {
+      "slug": "abraham-lincoln",
+      "nickname": "에이브러햄 링컨",
+      "nickname_en": "Abraham Lincoln",
+      "avatar_url": "https://assets.feelandnote.com/celebs/c26f8b69-738e-46ea-bb53-929ebfe6166d/avatar.webp?v=1789733835789",
+      "local": "assets/chains/abraham-lincoln.webp"
+    },
+    {
+      "slug": "napoleon-bonaparte",
+      "nickname": "나폴레옹 보나파르트",
+      "nickname_en": "Napoleon Bonaparte",
+      "avatar_url": "https://assets.feelandnote.com/celebs/0ba1daf9-47d5-4778-9175-0267737927cb/avatar.webp?v=1789735339660",
+      "local": "assets/chains/napoleon-bonaparte.webp"
+    }
+  ]
+}

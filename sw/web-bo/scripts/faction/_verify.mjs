@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY)
 const { count: l1 } = await db.from('faction_lv1').select('*', { count: 'exact', head: true })
 const { count: l1m } = await db.from('faction_lv1').select('*', { count: 'exact', head: true }).eq('is_myth', true)

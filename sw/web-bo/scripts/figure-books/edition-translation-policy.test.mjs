@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { planEditionTranslations, sameOfficialKakaoEdition } from './lib/edition-translation-policy.mjs'
+import { isOriginalEdition, planEditionTranslations, sameOfficialKakaoEdition } from './lib/edition-translation-policy.mjs'
 import { excludedBookEditionReason, bookTranslatorKey, BOOK_EDITION_SELECTION_REASONS } from '../../../../packages/content-search/src/book-edition-policy.ts'
 import { wikidataOriginalLanguage, translationRepairSql } from './edition-translation-audit.mjs'
 import { wikipediaBookLanguage } from './lib/edition-original-language-research.mjs'
@@ -62,6 +62,51 @@ test('작품 하나 아래 역자마다 한 판본을 남기며 ISBN·출판사�
 test('역자가 미상인 서로 다른 상품을 같은 번역으로 추정하지 않는다',()=>{
  assert.equal(planEditionTranslations(catalog([row(1,null),row(2,null)])).duplicates.length,0)
  assert.equal(planEditionTranslations(catalog([row(1,null),row(2,null)])).unresolved.length,2)
+})
+
+const originalWork = { id:'odyssey', figureBook:{workIdentity:'homer/odyssey'} }
+const originalProof = edition => ({content_id:edition.content_id,locale:edition.locale,original_language:edition.locale,
+ edition_title:edition.title,edition_creator:edition.creator,isbn:edition.isbn,work_identity:originalWork.figureBook.workIdentity,
+ source_url:'https://publisher.example/odyssey'})
+
+test('원문 근거가 배열이 아니면 진단을 중단하거나 미상 판본을 원문으로 묶지 않는다',()=>{
+ for(const evidence of [undefined,null,false,27,'https://publisher.example/odyssey',{},originalProof(row(1,null))]) {
+  const editions=[row(1,null,{sources:{edition_work_evidence:evidence}}),row(2,null)]
+  const c={...catalog(editions),contents:[originalWork]},before=structuredClone(c)
+  assert.equal(isOriginalEdition(editions[0],originalWork),false)
+  const plan=planEditionTranslations(c)
+  assert.equal(plan.duplicates.length,0)
+  assert.deepEqual(plan.unresolved.map(r=>r.id),[1,2])
+  assert.deepEqual(c,before)
+ }
+})
+
+test('원문 근거 배열의 null·원시값·배열은 건너뛰고 정확히 귀속된 정상 객체만 인정한다',()=>{
+ const edition=row(1,null),proof=originalProof(edition)
+ const invalid=[null,undefined,false,27,'proof',[],Object.assign([],{...proof}),{}]
+ assert.equal(isOriginalEdition({...edition,sources:{edition_work_evidence:invalid}},originalWork),false)
+ const editions=[{...edition,sources:{edition_work_evidence:[...invalid,proof]}},row(2,null)]
+ assert.equal(isOriginalEdition(editions[0],originalWork),true)
+ const plan=planEditionTranslations({...catalog(editions),contents:[originalWork]})
+ assert.deepEqual(plan.duplicates.map(g=>({keep:g.keep.id,drops:g.drops.map(r=>r.id)})),[{keep:1,drops:[2]}])
+ assert.equal(plan.unresolved.length,0)
+})
+
+test('원문 근거의 다른 ISBN·작품·언어와 문자열이 아닌 출처는 원문 확인으로 쓰지 않는다',()=>{
+ const edition=row(1,null),proof=originalProof(edition)
+ for(const change of [{isbn:'2'},{content_id:'other'},{work_identity:'other'},{original_language:'en'},
+  {source_url:[proof.source_url]},{source_url:null}])
+  assert.equal(isOriginalEdition({...edition,sources:{edition_work_evidence:[{...proof,...change}]}},originalWork),false)
+})
+
+test('독립 확인된 작품 원문 언어와 역자별 묶음은 잘못된 근거 shape와 무관하게 유지한다',()=>{
+ const editions=[row(1,null,{sources:{edition_work_evidence:{}}}),row(2,null)]
+ const work={...originalWork,figureBook:{...originalWork.figureBook,originalLanguage:'ko',identityEvidence:'https://publisher.example/odyssey'}}
+ assert.equal(isOriginalEdition(editions[0],work),true)
+ assert.equal(planEditionTranslations({...catalog(editions),contents:[work]}).duplicates.length,1)
+ const translated=[row(1,'천병희',{sources:{translators:['천병희'],edition_work_evidence:{}}}),row(2,'천병희'),row(3,'김헌')]
+ const plan=planEditionTranslations({...catalog(translated),contents:[originalWork]})
+ assert.deepEqual(plan.duplicates.map(g=>({keep:g.keep.id,drops:g.drops.map(r=>r.id)})),[{keep:1,drops:[2]}])
 })
 test('축약·요약·발췌·학습용 리더는 판본 종류 누락과 상세 전체 조회 여부에도 배제된다',()=>{
  for(const title of ['Penguin Readers Level 3: Elon Musk','Oxford Bookworms 1','원서발췌 성 앙투안의 유혹','마리 퀴리(요약본)','인스타리드 리처드 도킨스의 만들어진 신','Outlines and Highlights for The Presentation of Self']) assert.ok(excludedBookEditionReason({title}))

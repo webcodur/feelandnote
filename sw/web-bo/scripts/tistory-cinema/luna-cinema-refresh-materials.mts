@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@feelandnote/db';
 import { ASSETS } from '../blog-assets.mjs';
 import { readRows } from './lib/selection.mts';
 

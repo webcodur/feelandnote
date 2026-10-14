@@ -44,7 +44,7 @@
 | [`../resource/res-02-cli-agent-invocation.md`](../resource/res-02-cli-agent-invocation.md) | CLI 에이전트를 셸로 호출하는 공통 규격·함정 |
 | [`../resource/res-03-diagnose-edit-verify.md`](../resource/res-03-diagnose-edit-verify.md) | 진단-편집 분업 패턴 |
 | [`../resource/res-31-openai-usage.md`](../resource/res-31-openai-usage.md) | OpenAI API 모델·비용·이미지 옵션(작성 시점 기준) |
-| [`production/prod-01-image-generation.md`](production/prod-01-image-generation.md) | 이미지 발주 원칙 — 구도·REF·검수 |
+| [`../production/prod-01-image-generation.md`](../production/prod-01-image-generation.md) | 이미지 발주 원칙 — 구도·REF·검수 |
 
 ## 쓰는 법
 

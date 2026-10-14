@@ -55,6 +55,9 @@ sw/remotion/.render-stage/
 # Remotion BGM 음원 (로컬 관리)
 sw/remotion/public/music/
 
+# 재생성 가능한 로컬 영상 렌더 결과
+/videos/*/renders/
+
 # Remotion book-person·rankings 시리즈 자료 — 로컬 관리
 sw/remotion/public/book-person/
 sw/remotion/public/rankings/
@@ -97,8 +100,7 @@ sw/인물-*.txt
 /scripts/update-*.js
 /anthropic_script_dump.*
 
-# Root-level MCP 툴 스키마 덤프 & 산출물 (로컬 재생성)
-/mcps/
+# Root-level 도구 산출물 (로컬 재생성)
 /output/
 
 # 작업 메모 (로컬 보관용 — docs/resource/ 로 이동, 루트 패턴은 잔존 파일 대비 유지)
@@ -160,9 +162,6 @@ _backup/
 
 # 스케줄러·기타 캐시
 .claude/scheduled_tasks.lock
-
-# agy 계정 장부(로컬 대시보드). 계정 이메일과 쿼터 판정이 담겨 추적하지 않는다
-/data/agm-quota/
 
 # Wrangler cache
 .wrangler/

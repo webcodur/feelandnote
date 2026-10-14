@@ -1,5 +1,5 @@
 import { NOT_A_REVIEW, usableReview } from './quality.mts'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 
 export const MIN_VOICES = 3
 export const MIN_FILMS = 1
@@ -22,8 +22,8 @@ export type SelectionData = {
 }
 export type Job = { kind: 'work' | 'person' | 'list'; name: string; arg: string[]; n: number; id?: string }
 
-type SelectQuery = ReturnType<ReturnType<SupabaseClient['from']>['select']>
-export async function readRows<T>(db: SupabaseClient, table: string, columns: string, filter?: (query: SelectQuery) => SelectQuery): Promise<T[]> {
+type SelectQuery = ReturnType<ReturnType<DatabaseClient['from']>['select']>
+export async function readRows<T>(db: DatabaseClient, table: string, columns: string, filter?: (query: SelectQuery) => SelectQuery): Promise<T[]> {
   const rows: T[] = []
   for (let i = 0; ; i += 1000) {
     // Column strings are chosen at runtime; retain the filter interface without parsing them as literal SQL types.
@@ -36,7 +36,7 @@ export async function readRows<T>(db: SupabaseClient, table: string, columns: st
   }
 }
 
-export async function loadSelectionData(db: SupabaseClient): Promise<SelectionData> {
+export async function loadSelectionData(db: DatabaseClient): Promise<SelectionData> {
   const [contents, locales, celebs, reviews, lists] = await Promise.all([
     readRows<SelectionData['contents'][number]>(db, 'contents', 'id, external_id, metadata, release_date', (q) => q.eq('type', 'VIDEO')),
     readRows<SelectionData['locales'][number]>(db, 'content_locales', 'content_id, title, locale, creator, thumbnail_url', (q) => q.eq('locale', 'ko')),

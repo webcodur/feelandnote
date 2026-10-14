@@ -18,7 +18,7 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { agyCall } from '../../../../.claude/skills/agy-antigravity/scripts/agy-call.mjs'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })

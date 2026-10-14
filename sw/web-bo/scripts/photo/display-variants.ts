@@ -1,6 +1,6 @@
 /** 기존 대표·개인 화보의 표시용 파일만 추가한다. 기본은 조회이며 원본과 DB는 쓰지 않는다. */
 import { S3Client, GetObjectCommand, HeadObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { artworkVariantKey, portraitVariantUrl } from '@feelandnote/shared/constants/responsive-artwork'
 import { buildPortraitVariants } from '../../src/lib/portrait-variants'

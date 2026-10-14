@@ -11,6 +11,5 @@
     "resolveJsonModule": true,
     "paths": { "@/*": ["./src/*"] }
   },
-  "include": ["src", "episodes"],
-  "exclude": ["src/compositions/BookRecommend/_not-using"]
+  "include": ["src", "episodes"]
 }

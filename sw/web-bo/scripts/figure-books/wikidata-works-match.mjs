@@ -493,11 +493,11 @@ async function main() {
   })
 
   // 창작 관계: 강한 일치 작품과 이번에 만들 작품 모두 대상이다. 이미 있는 쌍은 건드리지 않는다.
-  // 없는 쌍은 만들고, related로 남은 쌍은 authored로 올린다. appearance는 건드리지 않는다.
+  // 없는 쌍만 만들고 기존 관계는 보존한다.
   const relationPlan = (work, contentId) => [...work.persons.values()]
     .filter(({ props }) => [...props].some((prop) => AUTHOR_PROPS.has(prop)))
     .map(({ person }) => ({ celeb_id: person.id, content_id: contentId, existing: catalog.relationPairs.get(`${person.id}:${contentId}`) ?? null }))
-    .filter((row) => row.existing === null || row.existing === 'related')
+    .filter((row) => row.existing === null)
   const relationsForMatched = attachable.flatMap((row) => relationPlan(canonical.get(row.qid), row.contentId))
 
   const newWorks = limit > 0 ? fresh.slice(0, limit) : fresh
@@ -516,7 +516,6 @@ async function main() {
       newWorks: fresh.length,
       noBibliography,
       relationsForMatched: relationsForMatched.length,
-      relationsToUpgrade: relationsForMatched.filter((row) => row.existing === 'related').length,
     },
     weak,
     mergeCandidates,
@@ -629,16 +628,10 @@ async function main() {
     const { error } = await db.from('figure_book_characters').upsert(rows.slice(index, index + 200), { onConflict: 'content_id,celeb_id', ignoreDuplicates: true })
     if (error) throw new Error(`figure_book_characters 반영 실패(${index}): ${error.message}`)
   }
-  let upgraded = 0
-  for (const { celeb_id, content_id } of relations.filter((row) => row.existing === 'related')) {
-    const { error } = await db.from('figure_book_characters').update({ relation_type: 'authored' }).eq('celeb_id', celeb_id).eq('content_id', content_id).eq('relation_type', 'related')
-    if (error) throw new Error(`창작 승격 실패 ${content_id}: ${error.message}`)
-    upgraded += 1
-  }
+
   report.totals.relationsAdded = rows.length
-  report.totals.relationsUpgraded = upgraded
   writeFileSync(reportPath, JSON.stringify(report, null, 2), 'utf8')
-  console.log(`\n반영 완료 — QID 부착 ${tagged} / 새 작품 ${contents.length} (en 카드 ${built.filter((row) => row.locales.some((l) => l.locale === 'en')).length}, ko 카드 ${built.filter((row) => row.locales.some((l) => l.locale === 'ko')).length}) / 창작 관계 새로 ${rows.length}·연관에서 승격 ${upgraded}`)
+  console.log(`\n반영 완료 — QID 부착 ${tagged} / 새 작품 ${contents.length} (en 카드 ${built.filter((row) => row.locales.some((l) => l.locale === 'en')).length}, ko 카드 ${built.filter((row) => row.locales.some((l) => l.locale === 'ko')).length}) / 창작 관계 새로 ${rows.length}`)
 }
 
 void main().catch((error) => {

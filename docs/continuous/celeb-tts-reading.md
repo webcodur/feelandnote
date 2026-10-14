@@ -95,7 +95,7 @@ node --import tsx scripts/celeb/reading-voice-reset-discarded.mjs --apply       
 ## 현재 도달점
 
 <!-- reading-voice-status:start -->
-2026-10-11 19:00 KST 확인: 이번 배치 중단, 남은 항목은 다음 지시 때 재개. 전체 7411개 중 현재 원본 음성 6917개, 정상 등록 2881개, 음성이 있는 검수·등록 대기 3425개, 보류 968개, 실패 3개, 음성 미보유 494개다.
+2026-10-14 20:01 KST 확인: 이번 배치 중단, 남은 항목은 다음 지시 때 재개. 전체 7411개 중 현재 원본 음성 6172개, 정상 등록 3408개, 음성이 있는 검수·등록 대기 2764개, 보류 1100개, 실패 2개, 음성 미보유 1239개다.
 <!-- reading-voice-status:end -->
 
 3.8 전환 후속 정비(26.10.01): `reading-voice.mjs`는 모델 계열별 실행을 `ENGINE_25`/`ENGINE_38`으로 완전 분리했다 — `TTS_ENGINES` 표에 모델을 넣어 전환하며 미등록 모델은 즉시 에러다. `celeb-reading-voice-qc.py`는 v5로 올려 차용어 표기 차이를 양성 처리한다 — 원문의 영어 단어를 3.8이 영어로 읽으면 Whisper가 한글로 받아써(physical↔피지컬) 문자 diff가 `source-content-gap`으로 오인되던 문제다. 라틴↔한글 단어 교환(replace, 길이비 0.2~1.5)만 무시하고 지어낸 꼬리·실제 누락·insert/delete는 그대로 불합격이다. 폐기분 재검증: 신 QC로 18건 백업의 원문·전사를 대조해 14건이 정합, 4건(환각 꼬리·괄호 영문 누락·실제 삽입)만 불량으로 남았다. 의심 구간 스펙트로그램 도구는 `sw/audio-bo/scripts/_scratch-spectro-review.py`, 산출물은 `_backup/spectro-review/`다.

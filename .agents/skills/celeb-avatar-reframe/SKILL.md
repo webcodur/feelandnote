@@ -22,27 +22,27 @@ description: 이미 등록된 배경 제거 아바타의 빛 방향을 한쪽으
 
 ## 절차
 
-모두 `sw/web-bo`에서 실행한다. 원본은 1단계 폴더에 그대로 남아 롤백 자료가 된다. 지우지 않는다.
+모두 `sw/web-bo`에서 실행한다. `<작업폴더>`는 [작업 파일·백업 원칙](../../../docs/project/data/README.md#작업-파일백업)에 따라 만든 이번 작업의 절대경로다. 원본은 등록 결과 검수까지 1단계 폴더에 보존한다. 전수 드라이버처럼 고정 출력 경로를 쓰는 도구도 검수 뒤 해당 작업 자료를 정리한다.
 
-1. **내려받기.** 네 가지 조건 중 하나로 고른다. 출력은 `<repo>/_backup/faction-avatars/<조건 이름>/`이고 파일명 `<정렬번호>-<slug>.webp`에서 뒤 단계가 slug를 읽는다.
+1. **내려받기.** 네 가지 조건 중 하나로 고르고 `--out`으로 작업 폴더의 `source/`를 지정한다. 파일명 `<정렬번호>-<slug>.webp`에서 뒤 단계가 slug를 읽는다.
 
    ```bash
-   node scripts/avatar/pull-avatars.mjs --faction <팩션명|slug>                 # 팩션 한 명단. 후보가 여럿이면 목록만 보여주고 멈춘다
-   node scripts/avatar/pull-avatars.mjs --reality FICTION --offset 0 --limit 200 # 유형별 전수를 200명씩. celeb_reality는 REAL·FICTION·BOTH 세 값이다
-   node scripts/avatar/pull-avatars.mjs --since 2026-09-18T00:00:00Z           # 커서 이후 등록·교체분(증분 운영)
-   node scripts/avatar/pull-avatars.mjs --slugs a,b,c                           # 명시 명단
+   node scripts/avatar/pull-avatars.mjs --faction <팩션명|slug> --out "<작업폴더>/source" # 팩션 한 명단. 후보가 여럿이면 목록만 보여주고 멈춘다
+   node scripts/avatar/pull-avatars.mjs --reality FICTION --offset 0 --limit 200 --out "<작업폴더>/source" # 유형별 전수를 200명씩. celeb_reality는 REAL·FICTION·BOTH 세 값이다
+   node scripts/avatar/pull-avatars.mjs --since 2026-09-18T00:00:00Z --out "<작업폴더>/source" # 커서 이후 등록·교체분(증분 운영)
+   node scripts/avatar/pull-avatars.mjs --slugs a,b,c --out "<작업폴더>/source" # 명시 명단
    ```
 
 2. **빛 방향 통일.** 반전·좌측광 재생성의 선택은 아바타 룰북의 「정규화 → 대상과 예외」를 따른다. `light-unify.ts`는 옵션 없이 실행하면 실존 인물도 뒤집으므로, 실존 얼굴의 좌우를 유지할 때는 `--skip-real`을 준다(DB slug로 된 파일명 필요). 개별 제외나 한글 파일명은 `--exclude`에 확장자를 뺀 파일명을 준다. 재배치보다 먼저 돌린다 — 뒤집으면 부각된 쪽이 바뀐다.
 
    ```bash
-   npx tsx scripts/avatar/light-unify.ts ../../_backup/faction-avatars/<slug> ../../_backup/faction-avatars/<slug>-lit
+   npx tsx scripts/avatar/light-unify.ts "<작업폴더>/source" "<작업폴더>/lit"
    ```
 
 3. **재배치.** 대조 시트를 반드시 함께 만든다. 입력은 2단계 출력이다.
 
    ```bash
-   npx tsx scripts/avatar/reframe.ts ../../_backup/faction-avatars/<slug>-lit ../../_backup/faction-avatars/<slug>-reframed --sheet
+   npx tsx scripts/avatar/reframe.ts "<작업폴더>/lit" "<작업폴더>/reframed" --sheet
    ```
 
    배경 제거와 재배치를 한 번에 하려면 `--nobg --sheet`를 준다. PNG·WebP를 받아 기존 nobg 배치를 한 프로세스로 실행한다. 출력 폴더는 새 폴더 또는 빈 폴더여야 하며, 무손실 입력 변환본과 누끼 결과는 그 아래 `_nobg-*/`에 보존한다. `NOBG_SPEED`는 기존 nobg 설정을 따른다. 누끼 결과가 하나라도 빠지면 재배치를 중단하고, 재배치 실패·건너뜀은 `_report.json`과 종료 코드 1로 알린다. 대조 시트의 왼쪽은 입력 원본이다.
@@ -58,8 +58,8 @@ description: 이미 등록된 배경 제거 아바타의 빛 방향을 한쪽으
 5. **등록.** 사용자가 등록을 지시한 뒤에만 실행한다. 재배치 폴더에서 slug를 읽어 DB 인물과 대조하고 한 장씩 올린다. 문제 인물은 `--only`로 빼거나 폴더에서 치운다.
 
    ```bash
-   npx tsx scripts/avatar/upload-reframed.ts ../../_backup/faction-avatars/<slug>-reframed --dry-run
-   npx tsx scripts/avatar/upload-reframed.ts ../../_backup/faction-avatars/<slug>-reframed
+   npx tsx scripts/avatar/upload-reframed.ts "<작업폴더>/reframed" --dry-run
+   npx tsx scripts/avatar/upload-reframed.ts "<작업폴더>/reframed"
    ```
 
    `celebs.avatar_url`이 바뀌면 DB 트리거가 **운영** 웹 캐시를 스스로 만료한다. 로컬 개발 서버는 대상이 아니라 옛 아바타가 남는다 — 로컬 화면으로 확인하려면 `sw/web/.env`의 `CRON_SECRET`으로 `localhost:3000/api/revalidate`에 `celebs` 태그를 한 번 던진다. stale-while-revalidate라 첫 요청은 옛값을 주고 두 번째 요청부터 새 값이 나온다. 로컬 `.env`에 Cloudflare 키가 있으면 운영 앞단 퍼지도 함께 일어나므로 보고에 적는다.

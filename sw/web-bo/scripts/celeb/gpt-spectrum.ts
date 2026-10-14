@@ -17,7 +17,7 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import {
   SPECTRUM_GROUPS,
   SPECTRUM_AXES,

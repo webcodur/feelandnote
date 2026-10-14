@@ -1,6 +1,7 @@
-import { Activity, Database, Globe2, Server } from 'lucide-react'
+import { Activity, Database, Globe2, HardDrive, Mail, Server, Trash2 } from 'lucide-react'
 import { RefreshStatusButton } from './RefreshStatusButton'
-import { SystemStatusPanels } from './SystemStatusPanels'
+import { formatBytes, SystemStatusPanels } from './SystemStatusPanels'
+import { maintenanceLabel, SystemStoragePanels } from './SystemStoragePanels'
 import { getSystemHealth } from '@/lib/system-status-health'
 import type { HealthState, SystemStatus } from '@/lib/system-status-types'
 
@@ -92,7 +93,7 @@ export function SystemStatusDashboard({ status }: { status: SystemStatus }) {
           </p>
         </div>
         <div className="flex items-center justify-between gap-3 md:justify-end">
-          <span className="text-sm text-text-secondary">확인 {checkedAtLabel(status.checkedAt)}</span>
+          <span className="text-sm text-text-secondary">확인 {checkedAtLabel(status.checkedAt)}<br />화면을 보는 동안 1분마다 자동 갱신</span>
           <RefreshStatusButton />
         </div>
       </header>
@@ -130,8 +131,24 @@ export function SystemStatusDashboard({ status }: { status: SystemStatus }) {
           state={health.databaseHost}
           icon={Database}
         />
+        <SummaryCard title="웹 디스크"
+          value={status.web.host.storage ? `${status.web.host.storage.disk.usedPercent.toFixed(1)}% 사용` : '확인 불가'}
+          detail={`여유 ${formatBytes(status.web.host.storage?.disk.freeBytes ?? null)}`}
+          state={health.webDisk} icon={HardDrive} />
+        <SummaryCard title="DB 디스크"
+          value={status.database.host.storage ? `${status.database.host.storage.disk.usedPercent.toFixed(1)}% 사용` : '확인 불가'}
+          detail={`여유 ${formatBytes(status.database.host.storage?.disk.freeBytes ?? null)}`}
+          state={health.databaseDisk} icon={HardDrive} />
+        <SummaryCard title="캐시 자동 정리" value={maintenanceLabel(status.web.host.storage?.cleanup)}
+          detail={`직전 정리 ${formatBytes(status.web.host.storage?.cleanup?.removedBytes ?? null)}`}
+          state={health.cleanup} icon={Trash2} />
+        <SummaryCard title="디스크 메일 알림" value={maintenanceLabel(status.web.host.storage?.mail)}
+          detail={status.web.host.storage?.mail?.alertPercent !== null && status.web.host.storage?.mail?.alertPercent !== undefined
+            ? `${status.web.host.storage.mail.alertPercent}% 이상이면 메일 발송` : '알림 기준 확인 불가'}
+          state={health.mail} icon={Mail} />
       </div>
 
+      <SystemStoragePanels status={status} />
       <SystemStatusPanels status={status} />
     </section>
   )

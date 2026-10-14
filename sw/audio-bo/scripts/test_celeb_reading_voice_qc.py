@@ -144,10 +144,77 @@ class ReadingQCTest(unittest.TestCase):
         self.assertIn("long-mid-sentence-pause", flags)
         self.assertEqual(warnings, [])
 
+    def test_unbound_source_needs_exact_transcription(self):
+        text = "The writer returned to her home. " * 20
+        words = [{"word": word, "start": .1 + index * .01,
+                  "end": .109 + index * .01, "probability": 1.}
+                 for index, word in enumerate(text.split())]
+        samples = np.zeros(3 * qc.SAMPLE_RATE)
+        spoken = np.arange(int(.1 * qc.SAMPLE_RATE), int(1.3 * qc.SAMPLE_RATE))
+        samples[spoken] = .04 * np.sin(2 * np.pi * 200 * spoken / qc.SAMPLE_RATE)
+        checker = qc.NarrationQC()
+        with tempfile.TemporaryDirectory() as folder:
+            audio = Path(folder) / "original.wav"
+            audio.write_bytes(b"unchanged")
+            with patch.object(qc, "decode_audio", return_value=samples), \
+                    patch.object(checker, "transcribe", return_value=(text.replace("writer", "writers", 1), words)):
+                result = checker.check({"audio": str(audio), "locale": "en", "text": text,
+                                        "require_exact_source": True})
+                self.assertGreater(result["metrics"]["match"], qc.MIN_MATCH)
+                self.assertFalse(result["ok"])
+                self.assertIn("unbound-source-not-exact", result["flags"])
+            with patch.object(qc, "decode_audio", return_value=samples), \
+                    patch.object(checker, "transcribe", return_value=(text, words)):
+                self.assertTrue(checker.check({"audio": str(audio), "locale": "en", "text": text,
+                                               "require_exact_source": True})["ok"])
+
     def test_abbreviations_and_initials_are_not_sentence_boundaries(self):
         text = "Dr. Smith met J. R. Tolkien. They left."
         self.assertEqual(qc.punctuation_offsets(text, "en"),
                          {len(qc.normalize("Dr. Smith met J. R. Tolkien")), len(qc.normalize(text))})
+
+    def test_pre_tempo_content_check_defers_pauses_but_still_rejects_omitted_text(self):
+        text = "First sentence. Next sentence."
+        words = [{"word": w, "start": .1+i*.3, "end": .3+i*.3, "probability": 1.}
+                 for i,w in enumerate(text.split())]
+        checker = qc.NarrationQC()
+        with tempfile.TemporaryDirectory() as folder:
+            audio = Path(folder) / "original.wav"
+            audio.write_bytes(b"unchanged")
+            with patch.object(qc,"decode_audio",return_value=np.zeros(2*qc.SAMPLE_RATE)), \
+                    patch.object(qc,"acoustic_metrics",side_effect=lambda *_: ({"duration":2},[])), \
+                    patch.object(checker,"transcribe",return_value=(text,words)), \
+                    patch.object(qc,"pause_repairs",return_value=([],["uncertain-sentence-boundary"],[])) as pauses:
+                request = {"audio":str(audio),"text":text,"locale":"en"}
+                self.assertFalse(checker.check(request)["ok"])
+                pauses.reset_mock()
+                self.assertTrue(checker.check({**request,"content_only":True})["ok"])
+                pauses.assert_not_called()
+            with patch.object(qc,"decode_audio",return_value=np.zeros(2*qc.SAMPLE_RATE)), \
+                    patch.object(qc,"acoustic_metrics",side_effect=lambda *_: ({"duration":2},[])), \
+                    patch.object(checker,"transcribe",return_value=("First sentence.",words[:2])):
+                self.assertFalse(checker.check({**request,"content_only":True})["ok"])
+
+    def test_exact_low_confidence_boundary_word_is_located(self):
+        text = "My life. As a boy."
+        words = [{"word": "My", "start": .1, "end": .3, "probability": .99},
+                 {"word": " life.", "start": .3, "end": .6, "probability": .99},
+                 {"word": " As", "start": 1.4, "end": 1.6, "probability": .37},
+                 {"word": " a", "start": 1.6, "end": 1.7, "probability": .99},
+                 {"word": " boy.", "start": 1.7, "end": 2., "probability": .99}]
+        _, _, mapping = qc.source_alignment(text, text, "en")
+        boundaries, missing = qc.narration_boundaries(words, text, mapping, "en")
+        self.assertEqual(missing, [])
+        self.assertEqual(boundaries, [{"start": .6, "end": 1.4, "kind": "sentence"}])
+        # An approximate or incomplete low-confidence word cannot authorize a cut.
+        del mapping[len(qc.normalize("My life")) + 1]
+        self.assertEqual(qc.narration_boundaries(words, text, mapping, "en")[1], [6])
+
+    def test_shared_asr_word_cannot_be_split_at_source_boundary(self):
+        text = "Home. Away."
+        _, _, mapping = qc.source_alignment(text, text, "en")
+        words = [{"word": "Home Away", "start": .1, "end": 1.2, "probability": 1.}]
+        self.assertEqual(qc.narration_boundaries(words, text, mapping, "en"), ([], [4]))
 
     def test_clipping_and_jump_are_independent(self):
         samples = np.zeros(qc.SAMPLE_RATE, dtype=np.float32)

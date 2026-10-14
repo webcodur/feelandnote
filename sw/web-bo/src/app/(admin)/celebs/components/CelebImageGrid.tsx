@@ -452,7 +452,7 @@ function CelebImageCard({
           />
         </figure>
 
-        <figure className="w-[280px]">
+        <figure className="w-[224px]">
           <ImageCaption label="각성 이미지" imageUrl={awakenedImageUrl} name={name} />
           <PersistedCelebAwakenedImageEditor
             celebId={celeb.id}
@@ -465,7 +465,7 @@ function CelebImageCard({
             incomingFile={incomingSlot === 'awakened' ? incomingFile : null}
             onIncomingDone={onIncomingDone}
             onActivate={() => onSelectSlot('awakened')}
-            className="group/portrait relative h-[280px] w-[280px] shrink-0 overflow-hidden rounded-xl border border-amber-500/30 bg-bg-secondary hover:border-amber-300 data-[dragging=true]:border-amber-300 data-[dragging=true]:bg-amber-500/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-amber-400/30"
+            className="group/portrait relative w-[224px] shrink-0 overflow-hidden rounded-xl border border-amber-500/30 bg-bg-secondary hover:border-amber-300 data-[dragging=true]:border-amber-300 data-[dragging=true]:bg-amber-500/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-amber-400/30"
             empty={<Zap className="h-10 w-10 text-amber-400/55" />}
           />
         </figure>

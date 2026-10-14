@@ -8,28 +8,13 @@ import {
   writeFileSync,
 } from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath, pathToFileURL } from 'node:url'
+import { fileURLToPath } from 'node:url'
 
 const BO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..')
 const REPO_ROOT = path.resolve(BO_ROOT, '../..')
 
 async function loadDbClient() {
-  try {
-    return await import('@supabase/supabase-js')
-  } catch {
-    const store = path.join(REPO_ROOT, 'node_modules/.pnpm')
-    const packageDir = readdirSync(store)
-      .filter((name) => name.startsWith('@supabase+supabase-js@'))
-      .sort()
-      .at(-1)
-    if (!packageDir) throw new Error('로컬 pnpm 저장소에서 @supabase/supabase-js를 찾지 못했다')
-    const moduleFile = path.join(
-      store,
-      packageDir,
-      'node_modules/@supabase/supabase-js/dist/index.mjs',
-    )
-    return import(pathToFileURL(moduleFile).href)
-  }
+  return import('@feelandnote/db')
 }
 
 function loadEnv() {

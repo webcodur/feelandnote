@@ -11,7 +11,7 @@
 
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 function loadEnv() {
   for (const filename of ['.env.local', '.env']) {

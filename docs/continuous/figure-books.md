@@ -6,7 +6,6 @@
 
 `FICTION` 인물은 전원이 등장 작품을 가지지만 실존 인물은 대부분 직군 공통책 한 권만 붙어 있다. 『스크린 연기의 비밀』 한 권이 배우 277명에게, 『스포츠 유전자』가 105명에게 붙은 식이다. 관계 전체의 59%가 스물아홉 권에서 나온다. 이는 [`celeb-02-05-figure-books.md`](../project/celeb/celeb-02-05-figure-books.md)가 금지한 직군 일괄 복사다.
 
-**얕은 연결을 지워서 고치지 않는다.** 화면 정렬이 `relation_type` → `sort_order`이고 `appearance`가 `related`보다 앞서므로(`sw/web/src/actions/figure-books/figureBookAssignments.ts`), 등장 작품을 등록하면 공통책은 저절로 뒤로 밀린다. 상품이 붙은 얕은 연결은 판매 경로로 남긴다.
 
 ## 통과 조건과 작업 순서는 다른 문제다
 
@@ -24,7 +23,6 @@
 
 ## 도달점
 
-2026-09-18 DB 실측(active 3,283명). `related`는 26.09.17에 폐기돼 잔여 0건이다(1,012건 전수 판정 → 등장 917·창작 4 격상, 미등장 91 삭제). 그래서 09-15 표(연관작품 = 등장+연관)와 축이 다르다 — 아래는 등장(`appearance`)만 센 값이다.
 
 | 축 | 값 |
 |---|---|
@@ -54,11 +52,8 @@
 
 - **위키데이터 축 반영 끝** — QID 백필로 416명을 잡고 `wikidata-works-extract`에 신규 인물 스코프를 넣어 625개 작품 항목(85개 판본 접힘 → 540 작품)을 얻었다. `wikidata-works-match --apply`로 기존 작품 QID 부착 6·새 작품 51권·창작 관계 61건을 넣었다. 서지 정보가 없는 258건은 이 경로로는 못 잡는다.
 - **기존 재고 직접 매칭 반영 끝** — 제목·저자 필드에서 신규 인물 이름을 잡아 141건을 뽑고, 저자 문자열로 동명이인(존 로↔존 로크, 제이 굴드↔스티븐 제이 굴드, 이시↔이시구로·미시마 등)을 걸러 창작 16·등장 1 관계를 넣었다. 천주실의 중복 작품(`975788bb-…`)은 통합 후보.
-- **인물 기준 조사 574/574 완료** — `appearance-muse-new-figures.jsonl`. LLM 조사 13명분 외 나머지는 카카오 인물명 직접 검색(560명 → 133명 히트)으로 채웠다. 외부 모델이 필요 없는 결정론적 경로다. 등장 후보 66권을 검수해 전부 반영했다 — 신규 작품 59권 등록 + 등장 관계 66건(쿠스토·이스트먼·크레이·에스코바르·마테오 리치·구겐하임 전기 등). `the-man-in-the-iron-mask`는 신원 불명의 전설적 인물이라 뒤 부아고베 『철가면』을 `related`로만 붙였다(26.09.17 `related` 폐기 판정에서 처리됨).
 - **저작 축 반영 끝** — 카카오 저자 필드 일치로 236행을 뽑고 동명이인(데이비드 리빙스턴↔리빙스턴 스미스, 제이 굴드↔스티븐 제이 굴드, 존 로↔존 로 타운젠드, 제임스 호프만 정보원↔커피 저자, 윌리엄 워커↔앳킨슨 등)과 외국 판본·판본 중복을 걸러 107행(45명)을 승인했다. 신규 작품 98권 + `authored` 관계 99건(8건 기존 관계와 중복). 후보 파일 `authored-candidates-new-figures(-ko).json`, 승인 큐 `authored-review-queue-new-figures.json`.
-- **연관 후보 995건은 폐기** — `context-candidates`가 낸 `context-new-figures.json`은 `related` 후보인데 `related` 자체가 26.09.17에 폐기됐다. 검수하지 않는다. 등장 판정에 쓸 수 있는 후보가 아니다.
 
-신규 인물 도서관계 243건(09-16 기준) — 창작 176 · 등장 66 · 연관 1(이후 `related` 폐기로 정리), 연결된 인물 105/574명. `apply-reviewed`와 `appearance-relations`가 등장 범위를 `description`에 쓰던 결함을 고쳐, 이제 두 도구 모두 description을 null로 저장한다(룰북 「등장 설명 폐기」). 이번 반영분 65건도 NULL로 되돌렸다.
 
 ## 인물 단위 정밀 정비
 
@@ -140,7 +135,6 @@ node --env-file=.env scripts/figure-books/appearance-muse-candidates.mjs --backe
 카카오 ISBN으로 등록된 작품은 국내서 정체성으로 굳은 상태다. 정체성을 바로잡고 영문판을 붙이는 후처리는 룰북 「용어」의 내부 작업 표 순서대로 돈다.
 
 1. **위키데이터 작품 정보 추출** `wikidata-works-extract.mjs` — QID 보유 실존 인물의 작품 항목(P50·P800·P170, P31이 책 유형)을 `data/celeb/figure-books/wikidata-works.jsonl`에 쌓는다. 이어받기가 되고 WDQS 429는 Retry-After만큼 쉰다.
-2. **작품 일치 확인** `wikidata-works-match.mjs` — 꺼낸 항목을 DB 작품과 QID → ISBN → 영문 제목 → 한국어 제목+저자 순으로 맞춘다. 판본 항목(P629)은 그 저작으로 접는다. `--apply`는 같은 작품에 QID를 붙여 정체성을 1순위로 올리고, **새 작품 책 정보 채우기**로 카카오·OpenLibrary에서 책 정보를 받은 새 작품만 만들며, 인물의 창작 관계(`authored`)를 만들고 `related`로 남은 쌍은 `authored`로 올린다. 두 작품에 걸린 항목은 `merge-candidates-wikidata.json`에 통합 후보로만 남긴다. 책 정보는 `wikidata-works-enrich.json`에 캐시되어 재실행 때 다시 묻지 않는다.
 3. **번역서 원작 확인** `translated-original-work.mjs` — QID가 없는 국내서 정체성 작품 가운데 역자가 있는 번역서의 원제·원저자·영문판 ISBN13을 모델에 묻고 OpenLibrary로 확인한다. `--apply`는 정체성을 원작으로 바꾸고 영어 판본이 확인되면 `en` 언어 카드·판본을 만든다. 같은 정체성으로 모인 작품은 `merge-candidates.json`에 남긴다.
 4. **중복 작품 통합** `merge-works.mjs` — 통합 후보 쌍을 한 행에 모은다. 감상 기록이 붙은 작품은 지우지 않는다. 일치 확인이 낸 후보에는 해설서가 원전으로 잡힌 오탐이 섞이므로 dry-run 표의 제목을 보고 승인 목록을 따로 만들어 `--apply`한다.
 5. **미완성 작품 복구·잘못 붙은 영문 카드 제거** `wikidata-works-match.mjs --repair` — 반영이 중간에 끊겨 언어 카드 없이 남은 작품 행을 캐시로 다시 채우거나 지운다. 영어권 ISBN(978-0·978-1·979-8)이 아닌 `en` 카드는 OpenLibrary 언어로 다시 확인하되 **지우지 않고** `en-display-title-plan.json`(표시용 제목 행 전환 계획)을 써서 `locale-display-title.mjs`에 넘긴다. ISBN이 없는 행은 이미 표시용 행이라 대상이 아니다. 26.09.18까지는 이 단계가 `--apply`를 보지 않고 ISBN 없는 행까지 지웠다(아래 회차 기록). `en-locale-audit.mjs`는 한국어 해설서에 원전의 영문 카드가 붙은 행을 모델(기본 opencode 무료)에 "같은 저작인가"만 물어 가르고, 다르면 `en` 카드·판본을 뗀다.

@@ -85,7 +85,7 @@ function sourceUrls(value) {
   return [...new Set(value)]
 }
 function parseBook(book) {
-  if (!book || !validIsbn(book.isbn) || !['appearance', 'related'].includes(book.relation_type) || !publicUrl(book.evidenceUrl)) throw new Error('Invalid candidate ISBN, relation or evidence URL')
+  if (!book || !validIsbn(book.isbn) || book.relation_type !== 'appearance' || !publicUrl(book.evidenceUrl)) throw new Error('Invalid candidate ISBN, relation or evidence URL')
   const parsed = { title: requiredText(book.title, 500, 'title'), creator: requiredText(book.creator, 500, 'creator'), isbn: book.isbn,
     publisher: requiredText(book.publisher, 300, 'publisher'), relation_type: book.relation_type, evidenceUrl: book.evidenceUrl,
     scope: requiredText(book.scope, 1000, 'scope'), evidence: requiredText(book.evidence, 1500, 'evidence'), evidenceQuote: requiredText(book.evidenceQuote, 1000, 'evidenceQuote') }
@@ -136,11 +136,8 @@ Google Books API와 네이버 책 API는 호출하지 않는다. 한국어판 �
 const rules = `[판정]
 - 인물 기준 조사다. 동명이인을 구별하고 실제 프로필의 구체적인 맥락을 확인한다.
 - 본문·목차·색인·미리보기에 이름/검증된 이명이 나오거나 중심 대상으로 다루면 appearance. 근거 없는 등장 단정 금지.
-- 직접등장을 먼저 찾되 핵심 조직·사건·시대·종목·포지션·장르·악기·역할·세부연구분야와 책 주제가 직접 맞으면 related 허용.
-- 예를 들어 샤데이 아두에게 소울/R&B 음악사, 에니드 블라이튼에게 영국 아동문학사는 그 책이 실제 해당 장르·국가의 역사/작가군을 다룬다는 출처가 있으면 related로 가능하다. 책에서 이름을 찾지 못했다고 이런 직접 관련 후보까지 버리지 않는다. 단, 이름이 확인되지 않았으면 appearance로 쓰지 않는다.
-- related에는 본문·목차의 인명 확인이 필수가 아니다. 프로필의 구체 문학사조/세부분야와 책의 실제 주제가 직접 맞고 독자가 카드 제목만 보아도 관련성을 알 수 있으면 바로 related 후보로 검증한다. 전기를 모두 찾은 뒤에만 허용되는 예외가 아니다. 직군 전체에 통하는 일반서만 제외한다.
 - 직군 전체 공통책·막연한 자기계발서·두 단계 이상 연상은 제외한다. 관련성은 한 인물만의 고유함까지 요구하지 않는다.
-- 본인이 쓴 책(authored)은 이번 연관 작품 채우기에 넣지 않는다. authored를 related/appearance로 바꾸지 않는다. 기존Relations도 확인한다.
+- 본인이 쓴 책(authored)은 이번 등장 작품 채우기에 넣지 않는다. authored를 appearance로 바꾸지 않는다. 기존Relations도 확인한다.
 - 실제 한국어판만: ISBN13은 출판사/서점/도서관에서 확인한 정확한 값. 원서 ISBN을 KO로 복사하거나 ISBN/책/번역제목을 만들지 않는다.
 - title에는 확인한 한국어판 주제목을, creator에는 원저자 이름만 쓴다. 제목에 부제 설명을 임의로 괄호로 덧붙이거나 creator에 역자·옮김·지음 표시를 합치지 않는다.
 - 허구/신화 인물은 해당 인물이 등장하는 원전 한국어 번역본 우선. 어린이 축약/일반 해설서를 원전으로 취급하지 않는다.
@@ -153,10 +150,10 @@ const rules = `[판정]
 function promptFor(person) {
   return `${boundaries}\n${rules}
 목적은 누락 인물에게 확실한 한국어판 1권을 찾는 것이다. 1권의 ISBN·판본·직접관련 근거를 확인하면 즉시 정리한다. 둘째 권을 추가하려고 조사를 늘리지 않는다. 이미 함께 확인된 후보는 최대 2권까지 보존해도 된다. 확인된 후보가 없으면 books:[]와 시도한 검색·미발견 이유를 notes에 적는다.
-ISBN 서지와 인물 등장/연관 근거는 서로 다른 페이지에서 확인해도 된다. 한 페이지에 모두 있어야 한다는 조건은 없다. 검색 접근 실패를 작품 부재로 단정하지 않는다.
+ISBN 서지와 인물 등장 근거는 서로 다른 페이지에서 확인해도 된다. 한 페이지에 모두 있어야 한다는 조건은 없다. 검색 접근 실패를 작품 부재로 단정하지 않는다.
 output.json을 저장한 뒤 같은 조사자가 한 번 다시 읽고 대상/ISBN/출처/번역서 정체성/판본 범위/누락/깨진 문자를 자체검증하여 자기 결과만 바로 고친다. 이 과정이 끝나면 selfChecked:true로 저장한다. 별도 검수자나 승인 단계는 없다.
 input.json에 previousAttempt가 있으면 앞선 조사에서 빠진 필드를 확인해 보완하는 단 한 번의 재요청이다. 기존 후보/원문을 재사용하고 누락 필드를 실제 출처에서 채워라.
-JSON: {"celebId":"${person.id}","selfChecked":true,"books":[{"title":"한국어판정식제목","creator":"원저자","publisher":"출판사","isbn":"확인한한국어판ISBN13","relation_type":"appearance|related","evidenceUrl":"직접 연 근거URL","evidence":"짧은 확인 근거","evidenceQuote":"페이지의 짧은 원문","scope":"등장범위 또는 직접관련 분야","originalTitle":"확인되는경우만","originalCreator":"확인되는경우만","originalLanguage":"확인되는경우만","workQid":"확인되는경우만","identityEvidenceUrl":"원작확인URL","identityEvidenceQuote":"원작확인짧은원문","editionKind":"${SERVICE_BOOK_EDITION_KINDS.join("|")}","textScope":"complete 또는 실제부분범위","domesticOriginal":false,"domesticOriginalConfirmed":false}],"searchedUrls":["직접 확인한 URL"],"notes":"조사결론"}`
+JSON: {"celebId":"${person.id}","selfChecked":true,"books":[{"title":"한국어판정식제목","creator":"원저자","publisher":"출판사","isbn":"확인한한국어판ISBN13","relation_type":"appearance","evidenceUrl":"직접 연 근거URL","evidence":"짧은 확인 근거","evidenceQuote":"페이지의 짧은 원문","scope":"등장범위 또는 직접관련 분야","originalTitle":"확인되는경우만","originalCreator":"확인되는경우만","originalLanguage":"확인되는경우만","workQid":"확인되는경우만","identityEvidenceUrl":"원작확인URL","identityEvidenceQuote":"원작확인짧은원문","editionKind":"${SERVICE_BOOK_EDITION_KINDS.join("|")}","textScope":"complete 또는 실제부분범위","domesticOriginal":false,"domesticOriginalConfirmed":false}],"searchedUrls":["직접 확인한 URL"],"notes":"조사결론"}`
 }
 
 function atomicWrite(path, value) {

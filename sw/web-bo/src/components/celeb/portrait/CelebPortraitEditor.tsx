@@ -163,10 +163,10 @@ export default function CelebPortraitEditor({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         className={`${frameClassName} ${pasteActive ? 'border-accent ring-2 ring-accent ring-offset-2 ring-offset-bg-card' : ''} ${onActivate ? 'cursor-pointer' : ''}`}
-        style={usesDefaultFrame ? {
-          width: CELEB_HERO_PHOTO_SPEC.desktopWidthPx,
+        style={{
+          width: usesDefaultFrame ? CELEB_HERO_PHOTO_SPEC.desktopWidthPx : undefined,
           aspectRatio,
-        } : undefined}
+        }}
       >
         {value ? openOnClick ? (
           <a

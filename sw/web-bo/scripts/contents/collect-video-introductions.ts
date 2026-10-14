@@ -7,7 +7,7 @@ import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from '
 import { resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 import { setTimeout as delay } from 'node:timers/promises'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { mediaIntroductionText, prepareMediaIntroduction } from './media-introduction-contract'
 
 type Locale = 'ko' | 'en'

@@ -1,4 +1,4 @@
-import type { DatabaseHostStatus, HostMemoryStatus, WebHostStatus } from './system-status-types'
+import type { DatabaseHostStatus, HostMemoryStatus, HostStorageStatus, WebHostStatus } from './system-status-types'
 
 function numericValue(values: Map<string, string>, key: string): number {
   const value = Number.parseFloat(values.get(key) ?? '0')
@@ -47,6 +47,20 @@ function parseRelease(value: string | undefined) {
   }
 }
 
+function parseStorage(value: string | undefined): HostStorageStatus | null {
+  if (!value) return null
+  try {
+    const storage = JSON.parse(value) as HostStorageStatus
+    const disk = storage.disk
+    if (!disk || ![disk.totalBytes, disk.usedBytes, disk.freeBytes, disk.usedPercent].every(Number.isFinite)
+      || disk.totalBytes <= 0 || disk.usedBytes < 0 || disk.freeBytes < 0
+      || disk.usedPercent < 0 || disk.usedPercent > 100) return null
+    return storage
+  } catch {
+    return null
+  }
+}
+
 export function parseWebHostOutput(
   output: string,
   responseMs: number,
@@ -67,6 +81,7 @@ export function parseWebHostOutput(
     releaseId: release?.releaseId ?? null,
     commit: release?.commit ?? null,
     memory: parseMemory(values),
+    storage: parseStorage(values.get('StorageJson')),
     responseMs,
     error,
   }
@@ -100,6 +115,7 @@ export function parseDatabaseHostOutput(
     nextBackupAt: values.get('NextElapseUSecRealtime') ?? null,
     uptimeSeconds: numericValue(values, 'UptimeSeconds'),
     memory: parseMemory(values),
+    storage: parseStorage(values.get('StorageJson')),
     responseMs,
     error,
   }

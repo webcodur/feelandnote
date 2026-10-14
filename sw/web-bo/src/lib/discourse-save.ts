@@ -14,7 +14,7 @@
  */
 
 import { randomUUID } from 'crypto'
-import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 import { CELEB_MANAGED_PUBLICATION_STATUSES } from '@feelandnote/shared/constants/celeb-publication'
 import {
   buildDiscourseRows, IN_CHUNK,

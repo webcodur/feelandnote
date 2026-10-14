@@ -13,7 +13,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { usableReview } from './lib/quality.mts'
 import { ASSETS } from '../blog-assets.mjs'
 

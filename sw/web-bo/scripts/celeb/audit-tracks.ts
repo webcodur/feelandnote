@@ -19,7 +19,7 @@
 
 import path from 'node:path'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { INFLUENCE_CATEGORY_FIELDS } from '@feelandnote/influence-constants/core'
 import {
   CELEB_DIALOGUE_SITUATIONS,

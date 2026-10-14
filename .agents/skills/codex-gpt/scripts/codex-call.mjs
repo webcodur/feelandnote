@@ -108,8 +108,8 @@ export async function codexCall(prompt, opts = {}) {
       }, timeoutMs)
       ch.stderr.on('data', (d) => { err += d.toString() })
       ch.on('error', (error) => finish(() => rej(error)))
-      // stderr 앞부분에 무해한 스킬 로드 경고가 끼므로 넉넉히 남긴다(진짜 원인이 뒤에 있다).
-      ch.on('close', (code) => finish(() => (code === 0 ? res() : rej(new Error(`codex exit ${code}: ${err.slice(0, 2000)}`)))))
+      // 앞부분에는 프롬프트 에코가 있으므로 실제 종료 원인이 있는 끝부분을 남긴다.
+      ch.on('close', (code) => finish(() => (code === 0 ? res() : rej(new Error(`codex exit ${code}: ${err.slice(-5000)}`)))))
       ch.stdin.write(prompt)
       ch.stdin.end()
     })
@@ -148,4 +148,4 @@ export function cleanupOrphanCodex() {
   }
 }
 
-export const looksRateLimited = (msg = '') => /rate|limit|quota|429|usage/i.test(msg)
+export const looksRateLimited = (msg = '') => /\brate[\s_-]*limit(?:ed|ing)?\b|\busage[\s_-]*limit\b|\bquota(?:\s+(?:reached|exceeded|exhausted))?\b|\b429\b|too many requests|USER_REQUEST_RATE_EXCEEDED|ClientThrottleError/i.test(msg)

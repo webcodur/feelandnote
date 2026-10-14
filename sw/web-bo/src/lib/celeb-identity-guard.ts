@@ -1,5 +1,5 @@
 import 'server-only'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 import {
   celebNameIssues,
   celebTitleIssues,
@@ -22,7 +22,7 @@ export type CelebIdentityRowWithMeta = CelebIdentityRow & {
   title: string | null
 }
 
-export async function loadCelebIdentityRows(db: SupabaseClient): Promise<CelebIdentityRowWithMeta[]> {
+export async function loadCelebIdentityRows(db: DatabaseClient): Promise<CelebIdentityRowWithMeta[]> {
   return selectAllPages<CelebIdentityRowWithMeta>((from, to) => db
     .from('celebs')
     .select('id, slug, nickname, nickname_en, aliases, wikidata_qid, birth_date, death_date, publication_status, title')

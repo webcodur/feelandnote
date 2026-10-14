@@ -7,7 +7,7 @@
  * 마커·손 편집 가드·백업·경로 규칙은 전부 `@feelandnote/shared/bo/discourse-export` 소유다.
  */
 
-import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 import { assembleDiscourseEpisode } from '@feelandnote/shared/lib/discourse-assemble'
 import { exportDiscourseEpisodeToFiles, discourseEpisodePaths } from '@feelandnote/shared/bo/discourse-export'
 import { DISCOURSES_DIR } from '@feelandnote/shared/bo/episode-store'

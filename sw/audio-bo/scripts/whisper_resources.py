@@ -18,11 +18,12 @@ RAM_MODEL_GIB = 3
 RAM_RESERVE_GIB = 3
 RAM_RESERVE_FRACTION = 0.15
 GPU_FREE_MIB = 3072
-GPU_MAX_PERCENT = 70
-CPU_MAX_PERCENT = 70
-CPU_THREADS_MAX = 4
-WAIT_SECONDS = 60
+GPU_MAX_PERCENT = 80
+CPU_MAX_PERCENT = 85
+CPU_THREADS_MAX = 8
+WAIT_SECONDS = 300
 POLL_SECONDS = 2
+INFERENCE_SLOTS = 3
 LOCK_PATH = Path(tempfile.gettempdir()) / "feelandnote-whisper.lock"
 
 
@@ -108,8 +109,10 @@ def snapshot() -> Resources:
 
 
 def choose_plan(resources: Resources, device: str = "auto") -> Plan:
+    # Floor for any plan: OS+buffer reserve. CUDA keeps the model in VRAM
+    # (GPU_FREE_MIB covers it), so the model budget applies to CPU plans only.
     reserve = max(RAM_RESERVE_GIB, resources.ram_total_gib * RAM_RESERVE_FRACTION)
-    if resources.ram_available_gib < reserve + RAM_MODEL_GIB:
+    if resources.ram_available_gib < reserve:
         raise ResourceBusy(f"RAM headroom too low ({resources.ram_available_gib:.1f} GiB available)")
     threads = max(1, min(CPU_THREADS_MAX, int(resources.cpu_count * (1 - resources.cpu_percent / 100) / 4)))
     if device in ("auto", "cuda"):
@@ -120,6 +123,8 @@ def choose_plan(resources: Resources, device: str = "auto") -> Plan:
             return Plan("cuda", gpu[0], threads)
         if device == "cuda":
             raise ResourceBusy("Requested GPU has insufficient headroom; Whisper was deferred")
+    if resources.ram_available_gib < reserve + RAM_MODEL_GIB:
+        raise ResourceBusy(f"RAM headroom too low for CPU Whisper ({resources.ram_available_gib:.1f} GiB available)")
     if resources.cpu_percent > CPU_MAX_PERCENT:
         raise ResourceBusy(f"CPU is busy ({resources.cpu_percent:.0f}%)")
     return Plan("cpu", 0, threads)
@@ -127,29 +132,38 @@ def choose_plan(resources: Resources, device: str = "auto") -> Plan:
 
 @contextmanager
 def inference_lock(path: Path = LOCK_PATH):
-    """OS lock releases automatically even when the owning process crashes."""
+    """OS lock releases automatically even when the owning process crashes.
+    Up to INFERENCE_SLOTS inferences run concurrently; each holds one byte."""
     with path.open("a+b") as handle:
-        if handle.seek(0, 2) == 0:
-            handle.write(b"0")
+        if handle.seek(0, 2) < INFERENCE_SLOTS:
+            handle.write(b"0" * INFERENCE_SLOTS)
             handle.flush()
-        handle.seek(0)
-        try:
-            if os.name == "nt":
-                import msvcrt
-                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
-            else:
-                import fcntl
-                fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except OSError as error:
-            raise ResourceBusy("Another Feel&Note Whisper job is running") from error
+        acquired = None
+        for slot in range(INFERENCE_SLOTS):
+            handle.seek(slot)
+            try:
+                if os.name == "nt":
+                    import msvcrt
+                    msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+                else:
+                    import fcntl
+                    fcntl.lockf(handle, fcntl.LOCK_EX | fcntl.LOCK_NB, 1, slot)
+            except OSError:
+                continue
+            acquired = slot
+            break
+        if acquired is None:
+            raise ResourceBusy("All Feel&Note Whisper inference slots are busy")
         try:
             yield
         finally:
-            handle.seek(0)
+            handle.seek(acquired)
             if os.name == "nt":
+                import msvcrt
                 msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
             else:
-                fcntl.flock(handle, fcntl.LOCK_UN)
+                import fcntl
+                fcntl.lockf(handle, fcntl.LOCK_UN, 1, acquired)
 
 
 _priority_lowered = False

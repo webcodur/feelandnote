@@ -37,6 +37,6 @@
 
 등록 전 원고는 임시 작업본으로만 쓰고, DB 필드·R2 서비스 리소스 반영·재조회 검증이 끝나면 전량 폐기한다. 부가데이터 생성·보관 금지는 [데이터 원칙](../data/README.md)을 따른다.
 
-세력도감 소속·편집은 [`../apps/apps-01-web-bo.md`](../apps/apps-01-web-bo.md) 「세력도감」, BookRecommend 연결은 [`../remotion/book-recommend/README.md`](../remotion/book-recommend/README.md)가 쥔다. 대사 음원은 `celeb-dialogue-voice-publish` 스킬, 아바타 등록은 `celeb-avatar-register`, 등록된 아바타의 구도 통일은 `celeb-avatar-reframe` 스킬을 실행점으로 삼는다.
+세력도감 소속·편집은 [`../apps/apps-01-web-bo.md`](../apps/apps-01-web-bo.md) 「세력도감」이 쥔다. 대사 음원은 `celeb-dialogue-voice-publish` 스킬, 아바타 등록은 `celeb-avatar-register`, 등록된 아바타의 구도 통일은 `celeb-avatar-reframe` 스킬을 실행점으로 삼는다.
 
 조회수·방명록·캐시·팔로우 수는 제작 데이터가 아니라 런타임 값이므로 데이터 문서와 서비스 코드에서 관리한다. 남은 유한 작업은 [`../../todo/celeb/`](../../todo/celeb/README.md)에만 두며 진행 건수와 완료 회차를 이 디렉터리에 기록하지 않는다.

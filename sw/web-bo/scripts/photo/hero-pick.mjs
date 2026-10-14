@@ -4,7 +4,7 @@
  *
  * 사용법 (sw/web-bo 에서): node scripts/photo/hero-pick.mjs <출력.json> [개수] [건너뛸수]
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { readFileSync, writeFileSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -33,7 +33,7 @@ const { data: rows, error } = await db.rpc('exec_sql_readonly', {}).then(() => (
 // RPC가 없으므로 클라이언트 조인으로 처리한다
 const { data: people, error: e1 } = await db
   .from('celebs')
-  .select('id, slug, nickname, nickname_en, profession, nationality, birth_date, death_date, title, bio, avatar_url, view_count, celeb_tier, publication_status, portrait_url')
+  .select('id, slug, nickname, nickname_en, profession, nationality, birth_date, death_date, title, bio, avatar_url, view_count, celeb_tier, publication_status, portrait_url, celeb_reality')
   .eq('publication_status', 'active')
   .not('avatar_url', 'is', null)
   .is('portrait_url', null)

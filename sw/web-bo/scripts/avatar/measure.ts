@@ -22,7 +22,7 @@
  *   - 폴백 상수(AVATAR_SPEC.fallback) 재보정용 분포 산출
  */
 import sharp from 'sharp'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { readFileSync, readdirSync, writeFileSync, statSync, existsSync } from 'fs'
 import { resolve, join } from 'path'
 import * as tf from '@tensorflow/tfjs'

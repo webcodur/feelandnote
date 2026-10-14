@@ -1376,6 +1376,7 @@ interface AddCelebContentInput {
   content_id: string
   status: string
   review?: string
+  review_en?: string
   is_spoiler?: boolean
   source_url?: string
 }
@@ -1411,6 +1412,7 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
       content_id: input.content_id,
       status: input.status,
       review: input.review || null,
+      review_en: input.review_en || null,
       is_spoiler: input.is_spoiler || false,
       visibility: 'public',
       contributor_member_id: userId,

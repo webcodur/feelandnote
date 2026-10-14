@@ -9,7 +9,7 @@ Feel&Note의 현재 앱 구조, 서비스 규격, 데이터 계약, 제작·운�
 | [`platform/`](platform/README.md) | `platform-` | 전체 아키텍처, 코드 규칙, 다국어, 환경변수, 외부 서비스·운영 인프라, OAuth |
 | [`apps/`](apps/README.md) | `apps-` | web-bo, audio-bo, 안드로이드 앱 셸 같은 개별 앱 |
 | [`service/`](service/README.md) | `service-` | 사용자 웹 화면과 라우트 |
-| [`data/`](data/README.md) | `data-` | 회원·콘텐츠·인물 DB의 물리 관계와 불변사항 |
+| [`data/`](data/README.md) | `data-` | DB의 물리 관계·불변사항, AI 작업 파일·백업·폐기 원칙 |
 | [`celeb/`](celeb/README.md) | `celeb-NN-NN-` | 인물 생성 파이프라인, 상세 화면, 이미지, 타임라인, 읽어보기 |
 | [`remotion/`](remotion/README.md) | `remotion-`·`br-`·`voice-`·`discourse-` | 서재 탐방, 책과 사람, 담화, 랭킹, 영상·음성 제작 |
 | [`operations/`](operations/README.md) | `ops-` | 서비스 방향, SEO, 제휴 판매, 광고 |

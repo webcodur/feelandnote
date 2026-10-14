@@ -10,7 +10,7 @@ import {
 } from 'node:fs'
 import { spawn } from 'node:child_process'
 import path from 'node:path'
-import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 import { config } from 'dotenv'
 import {
   argOf,
@@ -224,7 +224,7 @@ export function createSelfHostedSqlExecutor(
   const sshKey = options.sshKey
     ?? process.env.FEELANDNOTE_DB_SSH_KEY
     ?? path.join(process.env.USERPROFILE ?? '', '.ssh', 'feelandnote_oracle')
-  const container = options.container ?? 'supabase-db'
+  const container = options.container ?? 'feelandnote-db'
   if (!existsSync(sshKey)) throw new Error(`Oracle DB SSH key is missing: ${sshKey}`)
   if (!/^[a-zA-Z0-9_.@:-]+$/u.test(host)) throw new Error(`Unsafe Oracle DB SSH host: ${host}`)
   if (!/^[a-zA-Z0-9_.-]+$/u.test(container)) throw new Error(`Unsafe DB container: ${container}`)

@@ -12,7 +12,7 @@
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 function loadEnv() {
   const file = resolve(process.cwd(), '.env')

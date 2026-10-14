@@ -18,7 +18,7 @@
  *
  * 읽기 전용이다. DB와 R2를 수정하지 않는다.
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import sharp from 'sharp'
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { boPath, scriptsPath } from '../lib/paths'

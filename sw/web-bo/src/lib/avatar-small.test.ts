@@ -3,6 +3,27 @@ import assert from 'node:assert/strict'
 import sharp from 'sharp'
 import { buildMediumAvatar, buildSmallAvatar, uploadAvatarVariants } from './avatar-small'
 import { celebAvatarTier, celebAvatarMediumUrl } from '@feelandnote/shared/constants/celeb-avatar-small'
+import { CELEB_AVATAR_SMALL, CELEB_AVATAR_MEDIUM } from '@feelandnote/shared/constants/celeb-avatar-small'
+
+test('WebP derivatives match a full decode before reduction, including fine detail', async () => {
+  const pixels = Buffer.alloc(800 * 800 * 4)
+  let seed = 27
+  for (let offset = 0; offset < pixels.length; offset += 4) {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0
+    pixels[offset] = seed & 255
+    pixels[offset + 1] = (seed >>> 8) & 255
+    pixels[offset + 2] = (seed >>> 16) & 255
+    pixels[offset + 3] = 255
+  }
+  const source = await sharp(pixels, { raw: { width: 800, height: 800, channels: 4 } }).webp({ quality: 95 }).toBuffer()
+  const decoded = await sharp(source).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+  for (const [build, spec] of [[buildSmallAvatar, CELEB_AVATAR_SMALL], [buildMediumAvatar, CELEB_AVATAR_MEDIUM]] as const) {
+    const expected = await sharp(decoded.data, { raw: decoded.info })
+      .resize(spec.sizePx, spec.sizePx, { fit: 'inside', withoutEnlargement: true, kernel: 'lanczos3' })
+      .webp({ quality: spec.webpQuality }).toBuffer()
+    assert.ok((await sharp(await build(source)).raw().toBuffer()).equals(await sharp(expected).raw().toBuffer()), `${spec.sizePx}px reduction must match full decoding`)
+  }
+})
 
 test('derivatives preserve transparency, aspect and do not enlarge small sources', async () => {
   const source = await sharp({ create: { width: 800, height: 800, channels: 4, background: '#00000000' } })

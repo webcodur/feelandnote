@@ -62,7 +62,7 @@
 - [ ] 디스콰이엇: 제품 소개 초안(`D:\docs\feelandnote\community-intro\disquiet.ko.md`)을
   사용자와 최종 검토한 뒤 제품을 등록하고, 해당 제품에 연결한 소개 글을 게시한다.
 
-초안을 검토할 때 운영자 자기소개에 [공개 활동명 규칙](../../AGENTS.md#프로젝트-개요)을 반영한다.
+초안을 검토할 때 운영자 자기소개에 [공개 활동명 규칙](../../.agents/skills/notice-publish/SKILL.md#문체)을 반영한다.
 아이콘·화면 캡처(`D:\docs\feelandnote\community-intro\assets\`)도 준비되어 있으며 캡처 첨부는 선택이다.
 음악·플레이리스트 신규 채널은 제외한다. 출판사·서점 접촉은 후순위이며, 브런치는 네이버 블로그와
 유사해 이번 추가 대상에서 제외한다.

@@ -4,16 +4,16 @@
  * 인물 신원과 실제 집필 근거를 확인한 뒤 관계를 교정한다.
  * 위키데이터 P50·P170·P800 근거의 반영은 wikidata-works-match.mjs가 맡는다.
  *
- * --from <유형> 조회할 관계 유형(기본 related, appearance도 가능). --dump <경로> 후보 목록 JSON, --except <파일> 제외할 content_id 배열.
+ * --from appearance 조회할 등장 관계. --dump <경로> 후보 목록 JSON, --except <파일> 제외할 content_id 배열.
  * node --env-file=.env --import tsx scripts/figure-books/mark-authored-relations.mjs
  */
 
 import { allRows, argumentValue, dbClient, hasFlag, inChunks } from './lib/figure-work.mjs'
 import { readFileSync, writeFileSync } from 'node:fs'
 
-// --from으로 바꿀 관계 유형을 고른다(기본 related). related가 appearance로 통합(26.09.17)된 뒤의 잔여는 --from appearance로 잡는다.
-const from = argumentValue('from', 'related')
-if (!['related', 'appearance'].includes(from)) throw new Error('--from은 related|appearance만 받는다: ' + from)
+// 창작 관계 후보는 현재 등장 관계에서만 찾는다.
+const from = argumentValue('from', 'appearance')
+if (from !== 'appearance') throw new Error('--from은 appearance만 받는다: ' + from)
 const dumpPath = argumentValue('dump')
 const exceptPath = argumentValue('except')
 const exceptIds = new Set(exceptPath ? JSON.parse(readFileSync(exceptPath, 'utf8')) : [])

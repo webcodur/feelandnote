@@ -9,7 +9,7 @@
  * 강한 일치(qid·생몰일, 또는 생년월일+이름)와 이름·수식어 규칙 오류가 있으면 종료 코드 1이다.
  * --names는 이름만 겹치는 쌍(대개 동명이인)도 보여 준다. 판정 기준은 @feelandnote/shared/lib/celeb-identity.
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import {
   celebNameIssues,
   celebTitleIssues,

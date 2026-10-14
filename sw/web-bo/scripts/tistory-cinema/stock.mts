@@ -2,7 +2,7 @@
  * 실제 제작과 같은 후보를 센다.
  *   node --env-file=.env --import tsx scripts/tistory-cinema/stock.mts [--list | --names]
  */
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import path from 'node:path'
 import { ASSETS } from '../blog-assets.mjs'
 import { savedPeople } from './lib/person-material.mts'

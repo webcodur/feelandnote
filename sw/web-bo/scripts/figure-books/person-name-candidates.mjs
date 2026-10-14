@@ -13,7 +13,7 @@
 
 import { appendFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 const PAGE_SIZE = 1000
 const KAKAO_URL = 'https://dapi.kakao.com/v3/search/book'
