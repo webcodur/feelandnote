@@ -7,7 +7,7 @@ function page(t: TestContext) {
   const win = Object.assign(new EventTarget(), {
     scrollY: 0,
     innerHeight: 900,
-    scrollTo({ top, behavior }: ScrollToOptions) {
+    scrollTo(this: { scrollY: number }, { top, behavior }: ScrollToOptions) {
       assert.equal(behavior, "smooth");
       this.scrollY = top!;
     },
@@ -79,7 +79,7 @@ test("modal navigation scrolls its container without moving the page", (t) => {
     scrollHeight: 9000,
     clientHeight: 600,
     getBoundingClientRect: () => ({ top: 100 }),
-    scrollTo({ top, behavior }: ScrollToOptions) {
+    scrollTo(this: { scrollTop: number }, { top, behavior }: ScrollToOptions) {
       assert.equal(behavior, "smooth");
       this.scrollTop = top!;
     },
@@ -96,7 +96,7 @@ test("modal navigation clamps a short final section to the container bottom", (t
     scrollHeight: 1800,
     clientHeight: 600,
     getBoundingClientRect: () => ({ top: 0 }),
-    scrollTo({ top }: ScrollToOptions) { this.scrollTop = top!; },
+    scrollTo(this: { scrollTop: number }, { top }: ScrollToOptions) { this.scrollTop = top!; },
   } as unknown as HTMLElement;
   scrollToSection(p.section, container);
   assert.equal(container.scrollTop, 1200);

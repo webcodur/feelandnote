@@ -14,7 +14,7 @@ export default function HowToModal({ open, onClose }: { open: boolean; onClose: 
     <Modal open={open} onClose={onClose} width={620} label={T.howTo.title}>
       <PanelTitle title={T.howTo.title} sub={T.tagline} />
       <ol className="flex flex-col gap-3 overflow-y-auto p-5">
-        {T.howTo.steps.map(([title, desc], i) => (
+        {T.howTo.steps.map(({ title, body: desc }, i) => (
           <li key={title} className="flex gap-3">
             <span className="grid h-7 w-7 shrink-0 place-items-center border text-[12px] font-black tabular-nums" style={{ borderColor: INK.lineStrong, color: INK.goldBright }}>{i + 1}</span>
             <div>

@@ -1,6 +1,7 @@
 // 천도 v2 — 성도(星圖): 판을 넘어 쌓이는 인물 기록. 만난 인물·함께한 인물·군주로 세운 인물.
 
 import { CODEX_KEY } from './constants'
+import { STAR_COUNT } from './stars'
 import type { GameState } from './types'
 
 export interface CodexEntry {
@@ -27,7 +28,19 @@ export function readCodex(): Codex {
   if (!s) return {}
   try {
     const raw = s.getItem(CODEX_KEY)
-    return raw ? (JSON.parse(raw) as Codex) : {}
+    if (!raw) return {}
+    const parsed: unknown = JSON.parse(raw)
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {}
+    const valid: Codex = {}
+    for (const [id, value] of Object.entries(parsed)) {
+      if (!value || typeof value !== 'object' || Array.isArray(value)) continue
+      const entry = value as Partial<CodexEntry>
+      if (entry.level !== 1 && entry.level !== 2) continue
+      valid[id] = { level: entry.level }
+      if (typeof entry.lord === 'number' && Number.isSafeInteger(entry.lord) && entry.lord > 0) valid[id].lord = entry.lord
+      if (typeof entry.star === 'number' && Number.isInteger(entry.star) && entry.star >= 0 && entry.star < STAR_COUNT) valid[id].star = entry.star
+    }
+    return valid
   } catch {
     return {}
   }
@@ -62,6 +75,7 @@ export function recordCodex(state: GameState): Codex {
   if (player) {
     for (const id of Object.keys(player.discovered)) mark(id, 1)
   }
+  for (const event of state.events) if (event.kind === 'visitor' && event.heroId) mark(event.heroId, 1)
   for (const hs of Object.values(state.heroes)) {
     if (player && hs.faction === player.id && (hs.status === 'officer' || hs.status === 'lord')) mark(hs.id, 2, hs.star)
     if (player && hs.status === 'prisoner' && hs.faction === player.id) mark(hs.id, 1)

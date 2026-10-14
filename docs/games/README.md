@@ -10,8 +10,8 @@
 | 전체 게임의 공개·보존·실험 상태 파악 | 이 문서의 「현재 문서 지도」 | 각 행의 상태 근거 |
 | 쉼터 라우트와 앵커 확인 | [`platform-01-architecture.md`](../project/platform/platform-01-architecture.md#네비게이션) | [`card-images.md`](card-images.md) |
 | 쉼터 게임 카드 이미지 작업 | [`card-images.md`](card-images.md) | 실제 납품 경로와 적용 현황은 해당 문서 §4~6 |
-| 천도 코드 작업 재개 | [`suikoden/dev-guide.md`](suikoden/dev-guide.md) | [`10-implementation-status.md`](suikoden/10-implementation-status.md) |
-| 천도 기획·시스템 확인 | [`suikoden/README.md`](suikoden/README.md) | 주제별 01~08 문서 |
+| 천도 코드 작업 재개 | [`suikoden/dev-guide.md`](suikoden/dev-guide.md) | [`08-tech.md`](suikoden/08-tech.md) |
+| 천도 기획·시스템 확인 | [`suikoden/README.md`](suikoden/README.md) | 연결된 주제별 문서 |
 | 시대의 초상 수정 | [`portrait.md`](portrait.md) | 코드 위치와 검증 한계는 문서 하단 |
 | 유랑 수정 | [`wander.md`](wander.md) | 코드 위치와 검증 상태는 문서 하단 |
 | 실험 게임 2차 물결 확인 | [`experimental/README.md`](experimental/README.md) | 게임별 규격 7종 |
@@ -23,10 +23,10 @@
 | 구역 | 게임 | 문서에 적힌 상태 | 상태 근거 |
 |---|---|---|---|
 | 공개 쉼터 `/rest` | 여명, 미궁, 패권, 기억 | 개별 페이지가 아니라 앵커로 진입 | [`platform-01-architecture.md`](../project/platform/platform-01-architecture.md#네비게이션), [`card-images.md`](card-images.md) |
-| 개발자 모드 | 트로이 전쟁, 천도, 시대의 초상, 유랑 | 로컬 개발 서버 또는 `?dev=1`에서만 카드 노출·게임 실행. 트로이·패권·천도 검수는 [`games.md`](../todo/games.md) | [`rest-games.ts`](../../sw/web/src/constants/rest-games.ts) |
+| 개발자 모드 | 트로이 전쟁, 천도, 시대의 초상, 유랑 | 로컬 개발 서버 또는 `?dev=1`에서만 카드 노출·게임 실행 | [`rest-games.ts`](../../sw/web/src/constants/rest-games.ts) |
 | 실험실 `/lab/games` | 교차 격자, 넷씩 넷, 근접도, 경로 잇기, 어느 쪽, 상위 다섯, 가림 해제 | 실험 구역에서만 열고 공개 쉼터에는 등록하지 않음 | [`experimental/README.md`](experimental/README.md#3-공개-경계) |
 
-공개 카드에 올라와 있다는 사실과 게임의 최종 검증 완료는 같은 뜻이 아니다. 특히 천도의 구현·검증 상태는 카드 문서가 아니라 [`10-implementation-status.md`](suikoden/10-implementation-status.md)의 「현재 검증 상태」를 기준으로 판단한다.
+천도의 현재 동작과 코드 진입점은 [천도 문서](suikoden/README.md)를 따른다. 공개 여부는 카드 이미지나 문서 상태가 아니라 `rest-games.ts`가 정한다.
 
 ## 게임별 문서
 
@@ -38,7 +38,7 @@
 | 여명 | 전용 게임 규격 문서 없음 | 라우트는 [`platform-01-architecture.md`](../project/platform/platform-01-architecture.md), 카드용 장면과 한 줄 설명은 [`card-images.md`](card-images.md#3-1-여명-dawn--역사의-서광) |
 | 미궁 | 전용 게임 규격 문서 없음 | 라우트는 [`platform-01-architecture.md`](../project/platform/platform-01-architecture.md), 카드용 장면과 한 줄 설명은 [`card-images.md`](card-images.md#3-2-미궁-labyrinth--은둔한-현자-찾기) |
 | 패권 | [`hegemony.md`](hegemony.md) | 게임 진행, 실제 DB 매핑, 판정 상수와 구현 진입점 |
-| 천도 | [`suikoden/dev-guide.md`](suikoden/dev-guide.md), [`suikoden/`](suikoden/README.md) | 개발 규칙과 작업 절차는 룰북, 설계는 01~08, 현재 코드 사실은 10 |
+| 천도 | [`suikoden/dev-guide.md`](suikoden/dev-guide.md), [`suikoden/`](suikoden/README.md) | 개발 규칙과 작업 절차는 룰북, 게임 규격과 기술 구조는 전용 문서 |
 | 기억 | 전용 게임 규격 문서 없음 | 공개 상태와 카드 자산은 [`card-images.md`](card-images.md), 실제 규칙은 `sw/web/src/components/features/game/memory/` |
 
 여명·미궁에 전용 문서가 없다는 표기는 새 문서를 만들자는 과제가 아니라, 현재 문서 범위를 숨기지 않기 위한 목록 정보다. 패권 문서는 26.08.12에 코드 폴더에서 이곳으로 옮겨 왔으며, 마지막 코드 대조 시점은 문서 자체를 확인한다.
@@ -69,9 +69,8 @@
 ## 천도 문서 읽는 순서
 
 1. 개발 작업이면 [`dev-guide.md`](suikoden/dev-guide.md)에서 작업 규칙과 지뢰밭을 먼저 읽는다.
-2. [`10-implementation-status.md`](suikoden/10-implementation-status.md)에서 현재 코드 사실과 검증 한계를 확인한다.
-3. 바꾸려는 영역의 01~08 설계 문서를 [`suikoden/README.md`](suikoden/README.md)에서 찾아 연다.
-4. 설계와 코드가 다르면 10은 현재 사실, 01~08는 설계 의도로 취급한다.
+2. [`08-tech.md`](suikoden/08-tech.md)에서 엔진·화면·DB·저장 진입점을 확인한다.
+3. 바꾸려는 영역의 규격을 [`suikoden/README.md`](suikoden/README.md)에서 찾아 연다.
 
 `docs/games/suikoden/`의 파일별 설명은 그 디렉토리 README가 이미 쥐므로 여기서 다시 옮겨 적지 않는다.
 

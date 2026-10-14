@@ -218,7 +218,10 @@ export function createGame(roster: Roster, opts: NewGameOptions): GameState {
       }
     }
     // 강한 순서지만 전부 최상위만 데려가지 않도록 섞는다
-    const sorted = pool.slice(0, Math.max(want * 4, 8)).sort((a, b) => b.score - a.score + (rand(state) - 0.5) * 12)
+    const sorted = pool.slice(0, Math.max(want * 4, 8))
+      .map(hero => ({ hero, priority: hero.score + (rand(state) - 0.5) * 12 }))
+      .sort((a, b) => b.priority - a.priority || a.hero.id.localeCompare(b.hero.id))
+      .map(item => item.hero)
     for (const hero of sorted.slice(0, want)) {
       joinFaction(state, roster, hero, faction.id, { loc: capital, troopRate: START.aiTroopRate, loyalty: 70 + randInt(state, 0, 20) })
       exclude.add(hero.id)

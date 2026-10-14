@@ -66,7 +66,7 @@ test('works and curated URLs use canonical explore paths in both locales', async
   // 신화·세력은 화면이 여는 것만 — 닫힌 신화와 인물 없는 세력은 싣지 않는다
   const urls = entries.map(({ url }) => url)
   for (const path of ['/support', '/shop']) {
-    const entry = entries.find(({ url }) => url === `https://feelandnote.com${path}`)
+    const entry: MetadataRoute.Sitemap[number] | undefined = entries.find(({ url }) => url === `https://feelandnote.com${path}`)
     assert.ok(entry)
     assert.equal(entry.alternates?.languages?.en, undefined)
     assert.ok(!urls.includes(`https://feelandnote.com/en${path}`))

@@ -129,6 +129,7 @@ export function previewGain(state: GameState, roster: Roster, heroId: string, ki
 
 /** 명령 하나를 실행한다 */
 export function runCommand(state: GameState, roster: Roster, factionId: string, cmd: Command): CommandResult {
+  if (state.outcome || state.battle || (factionId === PLAYER_ID && state.phase !== 'strategy')) return fail('invalid_phase')
   const f = state.factions[factionId]
   if (!f || !f.alive) return fail('no_faction')
   const mine = factionId === PLAYER_ID

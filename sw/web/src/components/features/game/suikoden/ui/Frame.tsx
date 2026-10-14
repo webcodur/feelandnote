@@ -5,7 +5,7 @@
 'use client'
 
 import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react'
-import { setGameMusicSlot } from '@/components/layout/musicPlayerSlots'
+import { setGameMusicTabSlot } from '@/components/layout/musicPlayerSlots'
 import { cn } from '@/lib/utils'
 import { INK } from './theme'
 
@@ -156,7 +156,7 @@ export function Chip({ active, onClick, children, className, title }: { active?:
 export function MusicSlot({ className }: { className?: string }) {
   return (
     <span
-      ref={setGameMusicSlot}
+      ref={setGameMusicTabSlot}
       data-music-slot
       className={cn('grid h-9 w-9 shrink-0 place-items-center border border-transparent text-[#a8a293] empty:hidden hover:border-[#d4af37]/40 hover:bg-white/[0.04] hover:text-[#f3d57a]', className)}
     />

@@ -1,149 +1,37 @@
-# 08. 기술 스택 및 아키텍처
+# 08. 기술 구조
 
-> **최종 실측 체크: 26.07.30** — 코드 구조·DB 조회 범위·진입 경로·브라우저 저장 대조
+`RestGameGrid`에서 천도를 열 때 `SuikodenSlot`이 `CheondoApp`을 동적으로 불러온다. 쉼터를 읽는 단계에서는 천도 명부를 조회하지 않는다. 게임은 브라우저 전체 화면 층에 렌더링하며 제목·주군 선택·방랑·전략·합전·결과를 연결한다.
 
-> 파일별 상세 구현 현황은 `10-implementation-status.md`가 단일원천이다. 이 문서는 아키텍처 골격만 다룬다.
+## 코드 진입점
 
-## 기술 스택
+경로의 기준은 `sw/web/src/`다.
 
-| 계층 | 기술 | 비고 |
-|------|------|------|
-| **프레임워크** | Next.js (App Router) | 기존 프로젝트 통합 |
-| **렌더링** | React DOM + Tailwind CSS | 전투·UI는 DOM/SVG |
-| **세계맵** | d3 + topojson | 지구본 렌더 (`WorldMapView`). 배경 캔버스는 로비 전용 |
-| **상태 관리** | useState + useCallback | Zustand 미사용, 순수 React 상태 |
-| **DB** | PostgreSQL + PostgREST | Oracle DB VM에서 캐릭터·대사 동적 로딩 |
-| **Server Action** | Next.js Server Actions | DB 쿼리 서버사이드 실행 |
-| **다국어** | next-intl + 게임 전용 `i18n.ts` | ko/en 2종. 두 체계를 병행한다 |
+| 경로 | 책임 |
+|---|---|
+| `lib/game/suikoden/types.ts` | 명부·판·세력·인재·전투·사건의 계약 |
+| `lib/game/suikoden/constants.ts` | 실행 수치·허용값·비용·보정 |
+| `lib/game/suikoden/map.ts` | 세계 지도와 고향·경로 |
+| `lib/game/suikoden/roster-data.ts` | 공개 DB 명부 조회와 브라우저 전송 자료 |
+| `lib/game/suikoden/roster.ts` | 명부 복원·능력·등급·병력 산출 |
+| `lib/game/suikoden/world.ts` | 새 세계·AI 세력·플레이어 거병 |
+| `lib/game/suikoden/query.ts`, `mutate.ts` | 상태 조회·공통 변경·결말 |
+| `lib/game/suikoden/wander.ts` | 방랑과 조우 |
+| `lib/game/suikoden/commands.ts`, `economy.ts` | 명령·위임·수지 |
+| `lib/game/suikoden/ai.ts`, `turn.ts` | AI·월 진행 |
+| `lib/game/suikoden/battle.ts`, `power.ts`, `war.ts` | 합전·전력·전후 처리 |
+| `lib/game/suikoden/diplomacy.ts`, `events.ts` | 외교와 사건 선택 |
+| `lib/game/suikoden/save.ts`, `codex.ts`, `stars.ts` | 저장·인물 기록·성호 |
+| `actions/game/suikoden/index.ts` | locale에 맞춘 명부 캐시와 필요한 인물의 대사 조회 |
+| `components/features/game/suikoden/` | 게임 화면·패널·지도·공용 UI·번역 |
 
----
+## 상태와 저장
 
-## 디렉터리 구조
+명부는 `Roster`의 목록과 ID·고향별 색인으로 읽는다. 바뀌는 판은 `GameState` 하나에 담고, 화면 명령은 복제한 판을 엔진에 넘긴다. 난수 상태도 판에 포함해 저장과 이어하기가 같은 흐름을 잇는다.
 
-### 게임 로직 (`sw/web/src/lib/game/suikoden/`)
+`save.ts`가 브라우저 단일 자동 저장을 담당한다. 버전과 자료 구조, 현재 명부의 인물을 확인한 뒤 읽고, 손상된 저장은 이어하지 않는다. 저장 실패는 플레이를 중단하지 않고 경고한다. 나가기·제목 복귀·페이지 종료 때도 마지막 상태를 저장한다.
 
-| 파일 | 역할 |
-|------|------|
-| **types.ts** | 전체 타입 정의 |
-| **constants.ts** | 상수 테이블 + 스킬 정의(`SKILL_DEFS`) |
-| **engine.ts** | 셋업(`previewScenario`/`finalizeGame`), 방랑, 거병, 포로 처분 |
-| **battleEngine.ts** | 그리드 턴제 전투 엔진 |
-| **campaign.ts** | 통일·패망·제한 턴 판정, 소멸 AI 세력·방랑 인물 정리 |
-| **save.ts** | 브라우저 단일 자동 저장·불러오기·삭제 |
-| **scenarios.ts** | 시나리오 5종 정의, 고정 인물 ID 목록·누락 검사 |
-| **turnEngine.ts** | 턴 엔진 + 내정/외교 커맨드 + 예비 병사 보충 |
-| **aiTurn.ts** | AI 의사결정 |
-| **diplomacy.ts** | 외교 |
-| **events.ts** | 계절/랜덤 이벤트 |
-| **skills.ts** | 스킬 가용 판정 |
-| **dialog.ts** | 대사 생성 |
-| **utils.ts** | 변환·헬퍼 |
-| **assetManager.ts** | 초상 경로·프리로드 |
+판의 저장과 판을 넘어가는 성도 기록은 서로 다른 키를 사용한다. 키의 정본은 `constants.ts`다. 게임 상태를 DB나 별도 파일에 보관하지 않는다.
 
-### UI 컴포넌트 (`sw/web/src/components/features/game/suikoden/`)
+## 번역
 
-`SuikodenGameWrapper` → `GameShell` → `SuikodenGame`이 페이즈를 라우팅한다.
-`StrategyScreen`, `BuildingCardGrid`, `WorldMapView`는 동명 디렉토리로 분할돼 있다.
-전체 파일 목록과 역할은 `10-implementation-status.md` 참조.
-
-### Server Actions (`sw/web/src/actions/game/suikoden/index.ts`)
-
-| 함수 | 역할 |
-|------|------|
-| `loadSuikodenCharacters()` | `SUIKODEN_CHARACTER_IDS`의 시나리오 고정 인물만 로딩 (`celebs` + `celeb_influence` + `celeb_persona`, 명언 별도 조회) |
-| `loadSuikodenDialogues()` | 같은 고정 인물의 대사만 로딩 (`celeb_dialogues`, `unstable_cache` 캐싱) |
-
-### 라우트
-
-**전용 페이지는 없다.** 게임은 쉼터 화면(`/[locale]/rest`)의 카드로 그 자리에 열린다.
-
-```
-app/[locale]/(main)/rest/page.tsx        — 서버. 고정 인물·대사를 Promise.all로 로딩
-  └ RestGameGrid (클라이언트)             — 게임 카드 4장, 주소 해시 감지
-      └ activeGame === "suikoden" 일 때 SuikodenGameWrapper 를 dynamic import 로 마운트
-```
-
-천도 카드를 누르면 주소가 `#suikoden`으로 바뀌며, `/[locale]/rest#suikoden` 직접 접근이나 해시 변경도 자동으로 게임을 연다. 전용 `/rest/suikoden` 라우트는 없고 메뉴 링크도 `/rest#suikoden`이다.
-
----
-
-## DB 연동
-
-### 캐릭터 로딩
-
-`celebs`에서 필요한 프로필·영향력·스펙트럼을 읽되 `.in('id', SUIKODEN_CHARACTER_IDS)`로 **시나리오 5종이 실제 사용하는 고정 인물만** 조회한다.
-
-필터:
-- `publication_status = 'active'`
-- `death_date` 존재 (null·빈문자 제외)
-- `profession` 존재
-- 사망 연도 ≤ 현재 연도 − 120 (`CUTOFF_YEARS`, JS에서 판정)
-- `id`가 `SUIKODEN_CHARACTER_IDS`에 포함
-
-정렬은 `totalScore` 내림차순이다. 명언도 조회가 끝난 고정 인물 ID만 `celeb_dialogues`에서 읽는다. 선택 시나리오에 필요한 인물이 결과에 없으면 `getMissingScenarioCharacterIds()`가 누락을 반환하고 시작 화면이 해당 시나리오를 비활성화한다.
-
-- `celeb_persona` 있으면 스펙트럼 기반 Grade 산정 (우선)
-- 없으면 `total_score` 기반 Grade 폴백
-
-### 대사 로딩
-
-`celeb_dialogues`도 `.in('celeb_id', SUIKODEN_CHARACTER_IDS)`로 고정 인물의 `celeb_id, lines, lines_en`만 캐싱한다(`unstable_cache`, 태그 `CELEBS`+`DIALOGUES`). 전체 대사 테이블을 가져오지 않는다.
-
-### 아이템 로딩
-
-**없다.** 콘텐츠 기반 아이템 시스템은 폐기됐고 `loadSuikodenItems()`도 제거됐다. 장비는 게임 내부에서 생산·배분한다 (`05-items.md`).
-
-### 게임 저장
-
-브라우저 `localStorage`에 한 판을 자동 저장한다.
-
-- 키: `feelandnote:suikoden:save`, 형식 버전 1
-- 상태가 바뀔 때 저장하고 로비에서 이어하기를 제공한다
-- 전투 애니메이션 임시 값은 저장하지 않으며, 게임 종료 시 저장본을 삭제한다
-- 저장소 접근이 거부되거나 가득 차면 현재 플레이는 계속하고 한/영 경고를 표시한다
-- 수동 저장·여러 슬롯·서버 동기화는 없다
-
----
-
-## 렌더링 방식
-
-| 화면 | 렌더링 |
-|------|--------|
-| 세계맵 | d3 + topojson 지구본, 텍스트맵 대체 뷰 |
-| 전투 | 3×5 그리드 DOM + SVG 애니메이션 오버레이 |
-| 내정 | 카드 그리드 + 드래그앤드롭 |
-| 로비 배경 | 캔버스 (`WindsOfLiangshanBackground`) — idle 전용, 인게임에선 단색 |
-| UI 전체 | Tailwind CSS, 반응형 |
-
----
-
-## 상태 관리
-
-```
-GameShell (로비·전체화면·오디오 관리)
-  └ SuikodenGame
-      ├── internalPhase: 'idle' | 'setup' | 'ingame'   // useState
-      ├── gameState: GameState | null                  // useState
-      ├── worldPreview: WorldPreview | null            // useState (셋업 중)
-      ├── dialogQueue: DialogEntry[]                   // useState
-      └── updateState: (fn) => void                    // useCallback
-
-StrategyScreen/useStrategyCommands.ts
-  └── advanceTurn(state) → newState  // 순수 함수
-```
-
-- 게임 상태는 `GameState` 단일 객체로 관리
-- 턴 엔진(`advanceTurn`)은 순수 함수 — 이전 상태를 받아 새 상태를 반환
-- `onUpdateState(fn)` 패턴으로 부모에서 상태 갱신
-- 인게임 페이즈(`wandering`/`strategy`/`battle`/`disposition`/`result`)는 `GameState.phase`가 정하고, `SuikodenGame`이 화면을 고른다
-
----
-
-## 다국어 처리 주의
-
-게임 텍스트는 두 경로로 나온다.
-
-1. **next-intl** — `useTranslations('rest.arena.suikoden')`. 정적 UI 라벨
-2. **`i18n.ts`** — `getSuikodenText(locale)`. 게임 전용 텍스트 테이블
-
-여기에 더해 `translateSuikodenMessage` / `translateSuikodenBattleLog`가 **엔진이 생성한 한국어 로그 문자열을 정규식으로 매칭해 영어로 재조립**한다. 엔진의 로그 문구를 바꾸면 이 정규식이 조용히 깨진다. 로그 텍스트 수정 시 `i18n.ts`를 함께 확인한다.
+게임 문구는 `i18n.ts`의 한영 사전과 로그 포맷터가 쥔다. 엔진은 문장 대신 코드와 인물·영토 ID·수치를 남기고, 화면이 현재 locale의 이름과 문구로 조립한다. 새 사건·명령·전투 로그를 추가하면 해당 포맷터도 함께 고친다.

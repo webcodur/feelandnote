@@ -8,9 +8,7 @@ import { navigateToSection } from "@/lib/scroll/useSectionNavigation";
 import { REST_GAMES, REST_GROUP_ID, type GameId } from "@/constants/rest-games";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
-import type { GameCharacter } from "@/lib/game/suikoden/types";
 import type { WanderPools } from "@/lib/game/wander/types";
-import type { DialoguesMap } from "@/components/features/game/suikoden/SuikodenGameWrapper";
 import SuikodenSlot from "./SuikodenSlot";
 import TroySlot from "./TroySlot";
 import RestGameCard from "./RestGameCard";
@@ -40,8 +38,6 @@ interface GameLabel {
 interface Props {
   bgImagesDawn: GameBackgroundImages | null;
   bgImagesLabyrinth: GameBackgroundImages | null;
-  suikodenCharactersPromise: Promise<GameCharacter[]>;
-  suikodenDialoguesPromise: Promise<DialoguesMap>;
   /** 미공개 게임 자료는 개발자 모드가 아닐 때 조회하지 않으므로 null이 들어온다 */
   wanderPools: WanderPools | null;
   memoryFigures: MemoryFigure[] | null;
@@ -53,8 +49,6 @@ interface Props {
 export default function RestGameGrid({
   bgImagesDawn,
   bgImagesLabyrinth,
-  suikodenCharactersPromise,
-  suikodenDialoguesPromise,
   wanderPools,
   memoryFigures,
   portraitFigures,
@@ -129,8 +123,6 @@ export default function RestGameGrid({
 
       {devMode && activeGame === "suikoden" && (
         <SuikodenSlot
-          charactersPromise={suikodenCharactersPromise}
-          dialoguesPromise={suikodenDialoguesPromise}
           onExitFullScreenExternal={handleExit}
         />
       )}

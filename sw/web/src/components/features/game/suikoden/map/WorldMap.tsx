@@ -326,7 +326,11 @@ export const WorldMap = memo(function WorldMap({ state, selected, onSelect, targ
             const label = labels.get(t.id)
             return (
               // data-territory — 이름표가 숨는 배율에서도 브라우저 점검 스크립트가 땅을 찾아 누를 수 있게
-              <g key={t.id} data-territory={t.id} transform={`translate(${x},${y})`} onClick={() => onSelect(t.id)} onMouseEnter={() => setHover(t.id)} onMouseLeave={() => setHover((h) => (h === t.id ? null : h))} style={{ cursor: 'pointer' }}>
+              <g key={t.id} data-territory={t.id} role="button" aria-label={labelOf(t.id)} aria-pressed={isSel} tabIndex={0} className="group outline-none"
+                transform={`translate(${x},${y})`} onClick={() => onSelect(t.id)}
+                onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onSelect(t.id) } }}
+                onMouseEnter={() => setHover(t.id)} onMouseLeave={() => setHover((h) => (h === t.id ? null : h))} style={{ cursor: 'pointer' }}>
+                <circle r={Math.max(r * 2.4, 12 / k)} fill="none" stroke={INK.goldBright} strokeWidth={2 / k} className="pointer-events-none opacity-0 group-focus-visible:opacity-100" />
                 <circle r={Math.max(r * 2.4, 12 / k)} fill="transparent" />
                 {isTarget && <circle r={r * 2.2} fill="none" stroke={INK.goldBright} strokeWidth={1.2 / k} strokeDasharray={`${2.5 / k} ${2 / k}`} className="cheondo-spin" />}
                 {isSel && <circle r={r * 2.6} fill="none" stroke={INK.goldBright} strokeWidth={1.4 / k} className="cheondo-pulse" />}

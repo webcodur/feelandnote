@@ -1,166 +1,34 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import type { InfluenceField } from '@feelandnote/influence-constants/core'
+import { getLocale } from 'next-intl/server'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createClient } from '@/lib/db/server'
 import { createStaticClient } from '@/lib/db/static'
-import { getLocale } from "next-intl/server";
-import type { GameCharacter } from '@/lib/game/suikoden/types'
-import type { SpectrumJsonb } from '@/lib/spectrum/types'
-import { parseSpectrumJsonb } from '@/lib/spectrum/types'
-import { dbToCharacter, getDeathYear } from '@/lib/game/suikoden/utils'
-import type { Tables } from '@/types/database.generated'
-import { SUIKODEN_CHARACTER_IDS } from '@/lib/game/suikoden/scenarios'
+import { STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
+import { readRoster } from '@/lib/game/suikoden/roster-data'
 
-const CUTOFF_YEARS = 120
+export interface CheondoLines { greeting: string[]; rollCall: string[]; deploy: string[]; clash: string[]; win: string[]; lose: string[]; quote: string }
+async function fetchRoster(locale: string) { return readRoster(createStaticClient(), locale) }
+const cachedRoster = unstable_cache(fetchRoster, ['cheondo-roster-v2-realities'], { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] })
+export async function loadCheondoRoster() { return cachedRoster(await getLocale()) }
 
-// celeb_influence 임베드 조회 행
-type SuikodenInfluenceJoin = Pick<
-  Tables<'celeb_influence'>,
-  InfluenceField | 'total_score'
->
-
-// celebs 조회 행 (death_date는 not-null 필터 적용됨)
-interface SuikodenProfileRow {
-  id: string
-  nickname: string | null
-  nickname_en: string | null
-  title: string | null
-  title_en: string | null
-  profession: string | null
-  nationality: string | null
-  gender: boolean | null
-  birth_date: string | null
-  death_date: string
-  bio: string | null
-  bio_en: string | null
-  avatar_url: string | null
-  celeb_influence: SuikodenInfluenceJoin | SuikodenInfluenceJoin[] | null
-  celeb_spectrum: { spectrum: SpectrumJsonb | null } | { spectrum: SpectrumJsonb | null }[] | null
-}
-
-// 대사 구조 (상황 키 → 변형 배열)
-type SuikodenLines = Record<string, string[]>
-
-// celeb_dialogues 조회 행
-interface SuikodenDialogueRow {
-  celeb_id: string
-  lines: SuikodenLines
-  lines_en: SuikodenLines | null
-}
-
-async function fetchSuikodenCharacters(): Promise<GameCharacter[]> {
-  const db = await createClient()
-  const currentYear = new Date().getFullYear()
-  const maxDeathYear = currentYear - CUTOFF_YEARS
-
-  const { data, error } = await db
-    .from('celebs')
-    .select(`
-      id, nickname, nickname_en, title, title_en, profession, nationality, gender,
-      birth_date, death_date, bio, bio_en,
-      avatar_url,
-      celeb_influence!celeb_influence_celebs_fkey (
-        political, strategic, tech, social, economic, cultural,
-        transhistoricity, total_score
-      ),
-      celeb_spectrum:celeb_persona!celeb_persona_celebs_fkey ( spectrum:persona )
-    `)
-    .eq('publication_status', 'active')
-    .not('death_date', 'is', null)
-    .not('death_date', 'eq', '')
-    .not('profession', 'is', null)
-    .in('id', SUIKODEN_CHARACTER_IDS)
-
-  throwOnQueryError('[loadSuikodenCharacters] 캐릭터 조회', error)
-
-  if (!data) {
-    return [];
+export async function loadCheondoLines(ids: string[]): Promise<Record<string, CheondoLines>> {
+  const safeIds = [...new Set(ids)].filter(id => /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(id)).slice(0, 100)
+  if (!safeIds.length) return {}
+  const db = createStaticClient(), locale = await getLocale()
+  const active = await db.from('celebs').select('id').in('id', safeIds).eq('publication_status', 'active')
+  throwOnQueryError('[Cheondo] public dialogue owners', active.error)
+  const publicIds = (active.data ?? []).map(row => row.id)
+  if (!publicIds.length) return {}
+  const result = await db.from('celeb_dialogues').select('celeb_id,lines,lines_en').in('celeb_id', publicIds)
+  throwOnQueryError('[Cheondo] lines', result.error)
+  const out: Record<string, CheondoLines> = {}
+  for (const row of result.data ?? []) {
+    const value = locale === 'en' ? row.lines_en || row.lines : row.lines
+    if (!value || typeof value !== 'object' || Array.isArray(value)) continue
+    const list = (key: string) => { const field = value[key as keyof typeof value]; return Array.isArray(field) ? field.filter((line): line is string => typeof line === 'string') : [] }
+    const quote = value.quote
+    out[row.celeb_id] = { greeting: list('greeting'), rollCall: list('roll_call'), deploy: list('deploy'), clash: list('clash_attack'), win: list('battle_win'), lose: list('battle_lose'), quote: typeof quote === 'string' ? quote : '' }
   }
-
-  const rows: SuikodenProfileRow[] = data
-
-  // celeb_dialogues에서 quote 조회
-  const filteredIds = rows
-    .filter((p) => {
-      const influence = Array.isArray(p.celeb_influence) ? p.celeb_influence[0] : p.celeb_influence
-      if (!influence) return false
-      const year = getDeathYear(p.death_date)
-      return year <= maxDeathYear
-    })
-    .map((p) => p.id)
-
-  const locale = await getLocale()
-  const quoteMap = new Map<string, string>()
-  if (filteredIds.length > 0) {
-    const { data: dRows, error: dialogueError } = await db
-      .from('celeb_dialogues')
-      .select('celeb_id, quote:lines->quote, quote_en:lines_en->quote')
-      .in('celeb_id', filteredIds)
-    // 조회 실패를 "대사 없음"으로 넘기지 않는다 — 공개 함수의 폴백이 이번 요청만 빈 값으로 받는다
-    throwOnQueryError('[loadSuikodenCharacters] 대사 조회', dialogueError)
-    for (const d of (dRows ?? []) as Array<{ celeb_id: string; quote: string | null; quote_en: string | null }>) {
-      const quote = (locale === 'en' && d.quote_en) ? d.quote_en : d.quote
-      quoteMap.set(d.celeb_id, quote ?? '')
-    }
-  }
-
-  return rows
-    .filter((p) => filteredIds.includes(p.id))
-    .map((p) => {
-      const influence = Array.isArray(p.celeb_influence) ? p.celeb_influence[0] : p.celeb_influence
-      const spectrumRow = Array.isArray(p.celeb_spectrum) ? p.celeb_spectrum[0] : p.celeb_spectrum
-      const spectrum = spectrumRow?.spectrum ? parseSpectrumJsonb(spectrumRow.spectrum) : undefined
-      const char = dbToCharacter(locale === 'en' ? {
-        ...p,
-        nickname: p.nickname_en || p.nickname,
-        title: p.title_en || p.title,
-        bio: p.bio_en || p.bio,
-      } : p, influence!, spectrum)
-      const dlgQuote = quoteMap.get(p.id)
-      if (dlgQuote) char.quotes = dlgQuote
-      return char
-    })
-    .sort((a: GameCharacter, b: GameCharacter) => b.totalScore - a.totalScore)
-}
-
-export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
-  // 캐시를 거치지 않지만 폴백은 둔다 — 조회가 실패했다고 게임 화면 전체를 죽이지 않는다.
-  return withQueryFallback('loadSuikodenCharacters', fetchSuikodenCharacters, [])
-}
-
-/** celeb_dialogues 로딩 — characterId → lines 매핑 (1시간 캐시) */
-async function fetchSuikodenDialogues(locale: string): Promise<Record<string, SuikodenLines>> {
-  const db = createStaticClient()
-
-  const { data, error } = await db
-    .from('celeb_dialogues')
-    .select('celeb_id, lines, lines_en')
-    .in('celeb_id', SUIKODEN_CHARACTER_IDS);
-
-  throwOnQueryError('[loadSuikodenDialogues] 대사 조회', error)
-
-  if (!data) {
-    return {}
-  }
-
-  const result: Record<string, SuikodenLines> = {};
-  const dialogueRows: SuikodenDialogueRow[] = data;
-  dialogueRows.forEach(row => {
-    result[row.celeb_id] = locale === 'en' && row.lines_en ? row.lines_en : row.lines;
-  });
-  return result;
-}
-
-const loadSuikodenDialoguesCached = unstable_cache(
-  fetchSuikodenDialogues,
-  ['suikoden-dialogues'],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES] }
-)
-
-export async function loadSuikodenDialogues(): Promise<Record<string, SuikodenLines>> {
-  const locale = await getLocale()
-  return withQueryFallback('loadSuikodenDialogues', () => loadSuikodenDialoguesCached(locale), {})
+  return out
 }

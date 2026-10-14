@@ -1,3 +1,6 @@
+import { readRoster } from '../../src/lib/game/suikoden/roster-data';
+import { buildRoster } from '../../src/lib/game/suikoden/roster';
+import { createGame, createPlayerFaction } from '../../src/lib/game/suikoden/world';
 import assert from 'node:assert/strict';
 import { createClient } from '@feelandnote/db';
 import { selectInChunks } from '@feelandnote/shared/lib/paginate';
@@ -8,11 +11,6 @@ import { DIFFICULTIES, RULES } from '../../src/lib/game/hegemony/constants';
 import { buildDraftPool, picksOf } from '../../src/lib/game/hegemony/draft';
 import { rngFor } from '../../src/lib/game/hegemony/rng';
 import { hegemonyReducer, initialHegemonyState } from '../../src/lib/game/hegemony/session/reducer';
-import { SCENARIOS, SUIKODEN_CHARACTER_IDS, getMissingScenarioCharacterIds } from '../../src/lib/game/suikoden/scenarios';
-import { dbToCharacter } from '../../src/lib/game/suikoden/utils';
-import { previewScenario, finalizeGame, raiseArmy } from '../../src/lib/game/suikoden/engine';
-import { parseSpectrumJsonb } from '../../src/lib/spectrum/types';
-import { TERRITORIES } from '../../src/lib/game/suikoden/constants';
 import { validateSpeechTone } from '../../src/lib/game/voice/speechTone';
 import { HEROES } from '../../src/components/features/game/myth/troy/campaign/heroes';
 import { FOE_SLUGS } from '../../src/components/features/game/myth/troy/campaign/foes';
@@ -56,31 +54,22 @@ async function main() {
     games++;
   }
 
-  const scenarioResult = await db.from('celebs').select('id,nickname,title,profession,nationality,gender,birth_date,death_date,bio,avatar_url,celeb_influence(*),celeb_persona(persona)')
-    .eq('publication_status', 'active').in('id', SUIKODEN_CHARACTER_IDS);
-  assert.equal(scenarioResult.error, null);
-  const characters = scenarioResult.data!.map(row => {
-    assert.ok(row.celeb_persona?.persona, `Missing evaluation: ${row.nickname}`);
-    return dbToCharacter(row, row.celeb_influence, parseSpectrumJsonb(row.celeb_persona.persona));
-  });
-  const loaded = new Set(characters.map(c => c.id));
+  const payload = await readRoster(db, 'ko');
+  const roster = buildRoster(payload.rows, payload.avatarBase);
+  assert.ok(roster.heroes.length > 0);
   let starts = 0;
-  for (const scenario of SCENARIOS) {
-    assert.deepEqual(getMissingScenarioCharacterIds(scenario, loaded), []);
-    for (const candidate of scenario.playerCandidates) {
-      const preview = previewScenario(scenario, characters);
-      const game = finalizeGame(preview, candidate.profileId);
-      assert.equal(game.wandering!.leader.id, candidate.profileId);
-      assert.ok(Object.values(game.wandering!.leader.stats).every(Number.isFinite));
-      const free = TERRITORIES.find(t => game.activeTerritoryIds.includes(t.id) && t.regionId === game.wandering!.currentRegionId && !game.factions.some(f => f.territories.some(owned => owned.id === t.id)));
-      assert.ok(free, `No place to raise an army: ${scenario.id}/${candidate.profileId}`);
-      const [a, b] = game.factions;
-      a.relations[b.id] = 37;
-      const raised = raiseArmy(game, free.id);
-      assert.equal(raised.phase, 'strategy');
-      assert.equal(raised.factions.find(f => f.id === a.id)!.relations[b.id], 37, 'Founding must preserve other factions relations');
-      starts++;
-    }
+  for (const home of roster.byHome.values()) {
+    const lord = home[0];
+    if (!lord) continue;
+    const game = createGame(roster, { lordId: lord.id, difficulty: 'normal', seed: 42 });
+    assert.equal(game.wander!.loc, lord.home);
+    assert.ok(Object.values(lord.stats).every(Number.isFinite));
+    const others = Object.values(game.factions);
+    if (others.length >= 2) others[0].relations[others[1].id] = 37;
+    createPlayerFaction(game, roster, lord.home);
+    assert.equal(game.phase, 'strategy');
+    if (others.length >= 2) assert.equal(others[0].relations[others[1].id], 37);
+    starts++;
   }
   const myths = await db.from('faction_lv2').select('id').eq('slug', 'homer-iliad').eq('published', true).single();
   assert.equal(myths.error, null);
@@ -91,6 +80,6 @@ async function main() {
   const required = [...new Set([...HEROES.map(h => h.slug), ...FOE_SLUGS])];
   const missingTroyCast = required.filter(slug => !slugs.has(slug));
   assert.deepEqual(missingTroyCast, [], 'Troy cast must match actual DB slugs');
-  console.log(JSON.stringify({ hegemonyCards: cards.length, quotes: lines.length, hegemonyFinishedGames: games, suikodenFigures: loaded.size, suikodenLordStarts: starts, troyCast: cast.length, troyRequired: required.length }, null, 2));
+  console.log(JSON.stringify({ hegemonyCards: cards.length, quotes: lines.length, hegemonyFinishedGames: games, suikodenFigures: roster.heroes.length, suikodenLordStarts: starts, troyCast: cast.length, troyRequired: required.length }, null, 2));
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

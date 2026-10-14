@@ -1,254 +1,80 @@
-// 천도 — 외교 시스템
+import { checkOutcome, addFame, clamp, gainXp, pushLog, joinFaction, releaseHero, fixGovernor } from './mutate'
+import { factionPower, membersOf, PLAYER_ID, relationOf, territoriesOf, treatyOf } from './query'
+import { chance } from './rng'
+import type { CommandResult } from './commands'
+import type { GameState, Hero, Roster } from './types'
+import { DIPLOMACY } from './constants'
 
-import type { GameState } from './types'
-import { getTotalPower } from './utils'
-import { resolveCampaignOutcome } from './campaign'
-
-/** 외교 행동 결과 */
-export interface DiplomacyResult {
-  success: boolean
-  message: string
+export type DiploAction = 'gift' | 'alliance' | 'ceasefire' | 'surrender' | 'break'
+export function surrenderWait(state: GameState, factionId: string): number {
+  const target = state.factions[factionId]
+  return target ? Math.max(0, DIPLOMACY.surrenderMonths - (state.turn - target.foundedTurn)) : 0
 }
-
-/** 동맹 제안 성공률 계산 */
-function calcDiplomacyRate(state: GameState, targetFactionId: string): number {
-  const player = state.factions.find(f => f.id === state.playerFactionId)!
-  const target = state.factions.find(f => f.id === targetFactionId)
-  if (!target) return 0
-
-  const leader = player.members.find(m => m.id === player.leaderId)
-  if (!leader) return 0
-
-  const baseRate = 0.3
-  const intellectBonus = leader.stats.intellect * 0.003
-  const virtueBonus = leader.stats.charm * 0.002
-
-  // 관계도 보정
-  const relation = player.relations[targetFactionId] ?? 0
-  const relationBonus = relation * 0.005
-
-  // 전력 차이 보정 (우리가 강하면 유리)
-  const ourPower = getTotalPower(player)
-  const theirPower = getTotalPower(target)
-  const powerRatio = ourPower / Math.max(theirPower, 1)
-  const powerBonus = Math.min(0.2, (powerRatio - 1) * 0.1)
-
-  // 명성 보정 (최대 +15%)
-  const fameBonus = Math.min(0.15, player.fame * 0.00015)
-
-  return Math.min(0.95, Math.max(0.05, baseRate + intellectBonus + virtueBonus + relationBonus + powerBonus + fameBonus))
+export function diplomacyChance(state: GameState, roster: Roster, envoy: Hero, targetId: string, action: DiploAction): number {
+  const player = state.factions[PLAYER_ID], target = state.factions[targetId]
+  if (!player || !target?.alive || targetId === PLAYER_ID) return 0
+  if (action === 'gift') return 1
+  if (action === 'break') return treatyOf(state, PLAYER_ID, targetId) ? 1 : 0
+  const rel = relationOf(state, PLAYER_ID, targetId)
+  if (action === 'alliance' && (rel < DIPLOMACY.allianceMin || treatyOf(state, PLAYER_ID, targetId)?.kind === 'alliance')) return 0
+  const ratio = factionPower(state, roster, PLAYER_ID) / Math.max(1, factionPower(state, roster, targetId))
+  if (action === 'surrender' && (surrenderWait(state, targetId) > 0 || ratio < 2)) return 0
+  return clamp(0.2 + envoy.stats.charm * 0.004 + envoy.stats.intellect * 0.001 + rel * 0.003 + (action === 'surrender' ? (ratio - 2) * 0.1 - 0.3 : 0), 0.05, 0.9)
 }
-
-/** 동맹 제안 */
-export function commandAlliance(state: GameState, targetFactionId: string): { state: GameState; result: DiplomacyResult } {
-  const COST = 200
-  const player = state.factions.find(f => f.id === state.playerFactionId)!
-  if (player.resources.gold < COST) {
-    return { state, result: { success: false, message: '금화가 부족하다.' } }
-  }
-
-  const target = state.factions.find(f => f.id === targetFactionId)
-  if (!target) return { state, result: { success: false, message: '대상 세력을 찾을 수 없다.' } }
-
-  const rate = calcDiplomacyRate(state, targetFactionId)
-  const success = Math.random() < rate
-
-  let s = {
-    ...state,
-    factions: state.factions.map(f =>
-      f.id === state.playerFactionId
-        ? { ...f, resources: { ...f.resources, gold: f.resources.gold - COST } }
-        : f
-    ),
-  }
-
-  if (success) {
-    // 양측 관계도 +50, 명성 +3
-    s = updateRelation(s, state.playerFactionId, targetFactionId, 50)
-    s = addFameToFaction(s, state.playerFactionId, 3)
-    s = { ...s, log: [...s.log, `${target.name}과 동맹 체결! (명성 +3)`] }
-  } else {
-    // 관계도 소폭 하락
-    s = updateRelation(s, state.playerFactionId, targetFactionId, -10)
-    s = { ...s, log: [...s.log, `${target.name}이 동맹을 거부했다.`] }
-  }
-
-  return {
-    state: s,
-    result: { success, message: success ? `${target.name}과 동맹을 체결했다!` : `${target.name}이 거부했다. (성공률 ${Math.round(rate * 100)}%)` },
-  }
+export function setTreaty(state: GameState, targetId: string, kind: 'alliance' | 'ceasefire'): void {
+  const player = state.factions[PLAYER_ID], target = state.factions[targetId]
+  if (!player || !target) return
+  const treaty = { kind, until: state.turn + (kind === 'alliance' ? DIPLOMACY.allianceMonths : DIPLOMACY.ceasefireMonths) }
+  player.treaties[targetId] = { ...treaty }
+  target.treaties[PLAYER_ID] = { ...treaty }
+  pushLog(state, kind, { faction: targetId }, true)
 }
-
-/** 정전 협정 */
-export function commandCeasefire(state: GameState, targetFactionId: string): { state: GameState; result: DiplomacyResult } {
-  const COST = 100
-  const player = state.factions.find(f => f.id === state.playerFactionId)!
-  if (player.resources.gold < COST) {
-    return { state, result: { success: false, message: '금화가 부족하다.' } }
+export function runDiplomacy(state: GameState, roster: Roster, envoyId: string, targetId: string, action: DiploAction): CommandResult {
+  const envoy = roster.byId.get(envoyId), hs = state.heroes[envoyId], player = state.factions[PLAYER_ID], target = state.factions[targetId]
+  const fail = (code: string): CommandResult => ({ ok: false, code })
+  if (state.outcome || state.phase !== 'strategy' || state.battle || !player || !target?.alive || !envoy || !hs || hs.faction !== PLAYER_ID || !['officer', 'lord'].includes(hs.status)) return fail('invalid_officer')
+  if (hs.acted) return fail('already_acted')
+  const p = diplomacyChance(state, roster, envoy, targetId, action)
+  if (!p) return fail('diplomacy_unavailable')
+  if (action === 'gift' && player.gold < DIPLOMACY.giftGold) return fail('not_enough_gold')
+  hs.acted = true; hs.task = 'diplomacy'; gainXp(state, hs, 15)
+  if (action === 'gift') {
+    player.gold -= DIPLOMACY.giftGold; target.gold += DIPLOMACY.giftGold
+    player.relations[targetId] = clamp(relationOf(state, PLAYER_ID, targetId) + DIPLOMACY.giftRelation, -100, 100)
+    target.relations[PLAYER_ID] = player.relations[targetId]
+    return { ok: true, code: 'gift_done', params: { gain: DIPLOMACY.giftRelation } }
   }
-
-  const target = state.factions.find(f => f.id === targetFactionId)
-  if (!target) return { state, result: { success: false, message: '대상 세력을 찾을 수 없다.' } }
-
-  const rate = calcDiplomacyRate(state, targetFactionId) + 0.1 // 정전은 동맹보다 쉬움
-  const success = Math.random() < Math.min(0.95, rate)
-
-  let s = {
-    ...state,
-    factions: state.factions.map(f =>
-      f.id === state.playerFactionId
-        ? { ...f, resources: { ...f.resources, gold: f.resources.gold - COST } }
-        : f
-    ),
+  if (action === 'break') {
+    delete player.treaties[targetId]; delete target.treaties[PLAYER_ID]
+    player.relations[targetId] = target.relations[PLAYER_ID] = -50
+    addFame(state, PLAYER_ID, -10)
+    pushLog(state, 'treaty_broken', { faction: targetId }, true)
+    return { ok: true, code: 'break_done' }
   }
-
-  if (success) {
-    s = updateRelation(s, state.playerFactionId, targetFactionId, 20)
-    s = addFameToFaction(s, state.playerFactionId, 2)
-    s = { ...s, log: [...s.log, `${target.name}과 정전 협정! (명성 +2)`] }
-  } else {
-    s = { ...s, log: [...s.log, `${target.name}이 정전을 거부했다.`] }
+  if (!chance(state, p)) return { ok: true, code: `${action}_fail` }
+  if (action === 'alliance' || action === 'ceasefire') {
+    setTreaty(state, targetId, action)
+    addFame(state, PLAYER_ID, action === 'alliance' ? 3 : 2)
+    return { ok: true, code: `${action}_ok` }
   }
-
-  return {
-    state: s,
-    result: { success, message: success ? `${target.name}과 정전 협정을 맺었다!` : `${target.name}이 거부했다.` },
+  for (const territory of territoriesOf(state, targetId)) {
+    territory.owner = PLAYER_ID; territory.governor = null; territory.delegate = false
   }
-}
-
-/** 조공 (금/식량 전달 → 관계도 상승) */
-export function commandTribute(state: GameState, targetFactionId: string, gold: number): { state: GameState; result: DiplomacyResult } {
-  const player = state.factions.find(f => f.id === state.playerFactionId)!
-  if (player.resources.gold < gold) {
-    return { state, result: { success: false, message: '금화가 부족하다.' } }
+  for (const member of membersOf(state, targetId)) {
+    const hero = roster.byId.get(member.id)
+    if (hero) joinFaction(state, roster, hero, PLAYER_ID, { loc: member.loc, loyalty: Math.max(50, member.loyalty) })
   }
-
-  const target = state.factions.find(f => f.id === targetFactionId)
-  if (!target) return { state, result: { success: false, message: '대상 세력을 찾을 수 없다.' } }
-
-  const relationGain = Math.floor(gold / 10)
-
-  let s = {
-    ...state,
-    factions: state.factions.map(f => {
-      if (f.id === state.playerFactionId) return { ...f, resources: { ...f.resources, gold: f.resources.gold - gold } }
-      if (f.id === targetFactionId) return { ...f, resources: { ...f.resources, gold: f.resources.gold + gold } }
-      return f
-    }),
-  }
-
-  s = updateRelation(s, state.playerFactionId, targetFactionId, relationGain)
-  s = { ...s, log: [...s.log, `${target.name}에 금 ${gold} 조공`] }
-
-  return {
-    state: s,
-    result: { success: true, message: `${target.name}에 금 ${gold}을 보냈다. (관계 +${relationGain})` },
-  }
-}
-
-/** 항복 권유 (상대 전력 30% 이하) */
-export function commandSurrender(state: GameState, targetFactionId: string): { state: GameState; result: DiplomacyResult } {
-  const player = state.factions.find(f => f.id === state.playerFactionId)!
-  const target = state.factions.find(f => f.id === targetFactionId)
-  if (!target) return { state, result: { success: false, message: '대상 세력을 찾을 수 없다.' } }
-
-  const ourPower = getTotalPower(player)
-  const theirPower = getTotalPower(target)
-
-  if (theirPower > ourPower * 0.3) {
-    return { state, result: { success: false, message: '상대 전력이 아직 높다. (30% 이하일 때 가능)' } }
-  }
-
-  const rate = 0.4 + (1 - theirPower / Math.max(ourPower, 1)) * 0.4
-  const success = Math.random() < rate
-
-  if (!success) {
-    return {
-      state: { ...state, log: [...state.log, `${target.name}이 항복을 거부했다.`] },
-      result: { success: false, message: `${target.name}이 항복을 거부했다.` },
+  for (const member of Object.values(state.heroes)) {
+    if (member.faction === targetId && member.status === 'prisoner') {
+      const hero = roster.byId.get(member.id)
+      if (hero) releaseHero(state, hero)
     }
   }
-
-  // 항복 수락: 영토/멤버 흡수
-  const s: GameState = {
-    ...state,
-    factions: state.factions.map(f => {
-      if (f.id === state.playerFactionId) {
-        return {
-          ...f,
-          members: [...f.members, ...target.members],
-          prisoners: [...f.prisoners, ...(target.prisoners ?? [])],
-          territories: [...f.territories, ...target.territories],
-          resources: {
-            gold: f.resources.gold + target.resources.gold,
-            food: f.resources.food + target.resources.food,
-            knowledge: f.resources.knowledge + target.resources.knowledge,
-            material: f.resources.material + target.resources.material,
-            troops: f.resources.troops + target.resources.troops,
-            weapons: f.resources.weapons + target.resources.weapons,
-            horses: f.resources.horses + target.resources.horses,
-            ships: f.resources.ships + target.resources.ships,
-            charms: f.resources.charms + target.resources.charms,
-          },
-        }
-      }
-      if (f.id === targetFactionId) {
-        return { ...f, members: [], territories: [] }
-      }
-      return f
-    }),
-    placements: state.placements.map(p =>
-      p.factionId === targetFactionId ? { ...p, factionId: state.playerFactionId } : p
-    ),
-    log: [...state.log, `${target.name}이 항복했다! 영토와 인재를 흡수. (명성 +10)`],
-  }
-
-  const sFame = addFameToFaction(s, state.playerFactionId, 10)
-
-  return {
-    state: resolveCampaignOutcome(sFame),
-    result: { success: true, message: `${target.name}이 항복했다! (명성 +10)` },
-  }
-}
-
-// ── 유틸 ──
-
-function updateRelation(state: GameState, factionA: string, factionB: string, delta: number): GameState {
-  return {
-    ...state,
-    factions: state.factions.map(f => {
-      if (f.id === factionA) {
-        const relations = { ...f.relations }
-        relations[factionB] = Math.max(-100, Math.min(100, (relations[factionB] ?? 0) + delta))
-        return { ...f, relations }
-      }
-      if (f.id === factionB) {
-        const relations = { ...f.relations }
-        relations[factionA] = Math.max(-100, Math.min(100, (relations[factionA] ?? 0) + delta))
-        return { ...f, relations }
-      }
-      return f
-    }),
-  }
-}
-
-/** 특정 세력과의 관계도 조회 */
-export function getRelation(state: GameState, factionId: string): number {
-  const player = state.factions.find(f => f.id === state.playerFactionId)
-  return player?.relations[factionId] ?? 0
-}
-
-/** 동맹 상태인지 확인 (관계도 50 이상) */
-export function isAllied(state: GameState, factionId: string): boolean {
-  return getRelation(state, factionId) >= 50
-}
-
-/** 세력 ID로 명성 증감 */
-function addFameToFaction(state: GameState, factionId: string, amount: number): GameState {
-  return {
-    ...state,
-    factions: state.factions.map(f =>
-      f.id === factionId ? { ...f, fame: Math.max(0, Math.min(1000, f.fame + amount)) } : f
-    ),
-  }
+  player.gold += target.gold; player.food += target.food
+  target.gold = 0; target.food = 0; target.alive = false; target.fallenTurn = state.turn
+  for (const territory of territoriesOf(state, PLAYER_ID)) fixGovernor(state, roster, territory.id)
+  addFame(state, PLAYER_ID, 10)
+  pushLog(state, 'surrender', { faction: targetId }, true)
+  checkOutcome(state)
+  return { ok: true, code: 'surrender_ok' }
 }

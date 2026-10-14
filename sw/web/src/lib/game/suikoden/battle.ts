@@ -698,7 +698,8 @@ export function chooseAction(b: BattleState, rng: Rng, actor: BattleUnit): Battl
     return { kind: 'guard', actor: actor.heroId }
   }
   // 무너지기 직전의 적을 먼저 친다
-  const target = targets.slice().sort((x, y) => x.troops - y.troops + (rand(rng) - 0.5) * 400)[0]
+  const target = targets.map(unit => ({ unit, priority: unit.troops + (rand(rng) - 0.5) * 400 }))
+    .sort((a, b) => a.priority - b.priority || a.unit.heroId.localeCompare(b.unit.heroId))[0].unit
   return { kind: 'attack', actor: actor.heroId, target: target.heroId }
 }
 
@@ -755,7 +756,8 @@ export function autoResolve(b: BattleState, rng: Rng): void {
 }
 
 /** 부대 자리 바꾸기(전투 시작 전) */
-export function swapPositions(b: BattleState, heroId: string, row: 0 | 1, col: 0 | 1 | 2): void {
+export function swapPositions(b: BattleState, heroId: string, row: 0 | 1, col: number): void {
+  if (!Number.isInteger(col) || col < 0 || col > 2) return
   const u = unitById(b, heroId)
   if (!u) return
   const occupant = b.units.find((x) => x.side === u.side && x.row === row && x.col === col && x !== u)

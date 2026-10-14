@@ -375,7 +375,7 @@ function CommandPicker({ game, territory, mode, idle, known, onRun, onBack, name
     ? T.commands.cost(COMMANDS[mode.task].gold, COMMANDS[mode.task].food)
     : mode.kind === 'search' ? T.commands.cost(COMMANDS.search.gold, 0)
       : mode.kind === 'recruit' ? T.commands.cost(COMMANDS.recruit.gold, 0)
-        : mode.kind === 'reward' ? T.commands.cost(100, 0) : ''
+        : mode.kind === 'reward' ? T.commands.cost(LOYALTY.rewardGold, 0) : ''
 
   // 무장 목록이 길어 내려도 뒤로 가기·비용이 보이게 머리줄을 붙여 둔다
   const header = (

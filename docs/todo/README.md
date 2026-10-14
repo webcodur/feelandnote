@@ -39,5 +39,4 @@
 | 문서 | 작업 |
 |---|---|
 | [`remotion.md`](remotion.md) | 서재 탐방 DB 관계·표지 정비, 카드뉴스 출고, 가상 담화 음성 CLI(선택) |
-| [`games.md`](games.md) | 개발자 모드의 트로이 전쟁·패권·천도 v2 검수 |
-| [`suikoden.md`](suikoden.md) | 천도 실제 완주·전체 빌드, 정합성(배경·죽은 코드), 확장 과제 |
+| [`games.md`](games.md) | 트로이 전쟁·패권 실화면 검수 |

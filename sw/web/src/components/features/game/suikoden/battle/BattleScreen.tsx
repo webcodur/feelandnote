@@ -493,7 +493,7 @@ function UnitCard({ unit, battle, onClick, targetable, acting, swapping, nameOf 
             <Meter value={unit.troops} max={unit.maxTroops} color={mine ? INK.jade : INK.sealBright} height={4} className="max-sm:order-5" />
             <span className="mt-1 flex min-h-[14px] flex-wrap gap-0.5 max-sm:order-2 max-sm:mb-0.5 max-sm:mt-auto max-sm:min-h-0">
               {statuses.map((s) => (
-                <span key={s} className="rounded-[2px] px-1 text-[9px] font-bold leading-[14px]" style={{ background: s === 'confused' || s === 'weakened' ? 'rgba(200,69,45,0.55)' : 'rgba(63,185,165,0.5)', color: INK.text }}>{T.battle.statuses[s]}</span>
+              <span key={s} className="rounded-[2px] px-1 text-[9px] font-bold leading-[14px]" style={{ background: s === 'confused' || s === 'weakened' ? 'rgba(200,69,45,0.55)' : 'rgba(63,185,165,0.5)', color: INK.text }}>{T.battle.statuses[s as keyof typeof T.battle.statuses]}</span>
               ))}
               {unit.cooldown === 0 && !unit.routed && <span className="rounded-[2px] px-1 text-[9px] font-bold leading-[14px]" style={{ background: 'rgba(212,175,55,0.35)', color: INK.goldBright }}>{T.battle.skills[unit.skill]}</span>}
             </span>

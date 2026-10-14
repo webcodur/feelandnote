@@ -8,7 +8,7 @@ import { selectAllPages, selectInChunks } from "@feelandnote/shared/lib/paginate
 import { createStaticClient } from "@/lib/db/static";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { getCelebLifeEndYear, getCelebYear } from "@/lib/celeb/lifespan";
-import { getRegionForNationality } from "@/lib/game/suikoden/utils";
+import { getRegionForNationality } from "@/lib/game/wander/nationality";
 import { WANDER_ERAS, WANDER_POOL_SIZE } from "@/lib/game/wander/constants";
 import type { WanderFigure, WanderPools } from "@/lib/game/wander/types";
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from "@/lib/utils/celeb-dialogues";

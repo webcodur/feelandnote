@@ -14,7 +14,6 @@ import { hubAtlasNavItems } from "@/components/shared/hubSectionUtils";
 import RestGameGrid from "@/components/features/rest/RestGameGrid";
 import { REST_GAMES, REST_GROUP_ID, type GameId } from "@/constants/rest-games";
 import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
-import { loadSuikodenCharacters, loadSuikodenDialogues } from "@/actions/game/suikoden";
 import { loadWanderPools } from "@/actions/game/wander";
 import { getMemoryFigures } from "@/actions/game/getMemoryFigures";
 import { getPortraitFigures } from "@/actions/game/getPortraitFigures";
@@ -42,9 +41,6 @@ async function RestPageBody({ searchParams }: RestPageProps) {
     getGameBackgroundImages("labyrinth-1"),
   ]);
 
-  // 개발자 모드에서만 천도 자료를 조회하며 카드 격자는 완료를 기다리지 않는다.
-  const suikodenCharactersPromise = devMode ? loadSuikodenCharacters() : Promise.resolve([]);
-  const suikodenDialoguesPromise = devMode ? loadSuikodenDialogues() : Promise.resolve({});
 
   // 기억은 공개 게임이라 늘 조회한다. 미공개 게임 자료는 개발자 모드에서만 받아 평소 통신량을 늘리지 않는다
   const [memoryFigures, wanderPools, portraitFigures] = await Promise.all([
@@ -76,8 +72,6 @@ async function RestPageBody({ searchParams }: RestPageProps) {
         <RestGameGrid
           bgImagesDawn={bgImagesDawn}
           bgImagesLabyrinth={bgImagesLabyrinth}
-          suikodenCharactersPromise={suikodenCharactersPromise}
-          suikodenDialoguesPromise={suikodenDialoguesPromise}
           wanderPools={wanderPools}
           memoryFigures={memoryFigures}
           portraitFigures={portraitFigures}

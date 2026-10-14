@@ -108,6 +108,7 @@ function afterMonth(state: GameState, roster: Roster): void {
 
 /** 이웃 영토로 떠난다(한 달). 바닷길은 뱃삯이 든다 */
 export function wanderMove(prev: GameState, roster: Roster, to: TerritoryId): GameState {
+  if (prev.outcome || prev.phase !== 'wander') return prev
   const w0 = prev.wander
   if (!w0 || !isAdjacent(w0.loc, to)) return prev
   const sea = isSeaRoute(w0.loc, to)
@@ -126,6 +127,7 @@ export function wanderMove(prev: GameState, roster: Roster, to: TerritoryId): Ga
 
 /** 머문 곳을 수소문한다(한 달) */
 export function wanderSearch(prev: GameState, roster: Roster): GameState {
+  if (prev.outcome || prev.phase !== 'wander') return prev
   if (!prev.wander) return prev
   const state = structuredClone(prev)
   afterMonth(state, roster)
@@ -133,6 +135,7 @@ export function wanderSearch(prev: GameState, roster: Roster): GameState {
 }
 
 export function wanderResolve(prev: GameState, roster: Roster, choice: WanderChoice): GameState {
+  if (prev.outcome || prev.phase !== 'wander') return prev
   const e0 = prev.wander?.encounter
   if (!e0 || e0.resolved) return prev
   const state = structuredClone(prev)
@@ -228,6 +231,7 @@ export function wanderResolve(prev: GameState, roster: Roster, choice: WanderCho
 
 /** 동료와 헤어진다 */
 export function wanderPart(prev: GameState, heroId: string): GameState {
+  if (prev.outcome || prev.phase !== 'wander') return prev
   if (!prev.wander || !prev.wander.party.includes(heroId)) return prev
   const state = structuredClone(prev)
   const w = state.wander!
@@ -250,6 +254,7 @@ export function canRaiseHere(state: GameState): { ok: boolean; code: string } {
 
 /** 거병 — 이 달의 전략 국면이 곧바로 열린다 */
 export function wanderRaise(prev: GameState, roster: Roster): GameState {
+  if (prev.outcome || prev.phase !== 'wander') return prev
   if (!canRaiseHere(prev).ok) return prev
   const state = structuredClone(prev)
   const at = state.wander!.loc

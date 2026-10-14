@@ -6,7 +6,7 @@
 */
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useLocale } from 'next-intl'
 import { Z_INDEX } from '@/constants/zIndex'
@@ -39,12 +39,15 @@ interface CheondoAppProps {
 
 export default function CheondoApp({ onExit }: CheondoAppProps) {
   const locale = resolveLocale(useLocale())
-  const T = getText(locale)
+  const T = useMemo(() => getText(locale), [locale])
   const audio = useSuikodenAudio()
   useRegisterGameAudio(audio.audioControls)
   const { roster, status, retry } = useRoster()
   const [screen, setScreen] = useState<Screen>('title')
   const [game, setGame] = useState<GameState | null>(null)
+  const gameRef = useRef<GameState | null>(null)
+  const rootRef = useRef<HTMLDivElement | null>(null)
+  const setRoot = useCallback((element: HTMLDivElement | null) => { rootRef.current = element; setGameFullScreenLayer(element) }, [])
   // 이 컴포넌트는 브라우저에서만 불러온다(SuikodenSlot의 dynamic ssr:false) — 저장 칸을 바로 읽어도 된다
   const [saveMeta, setSaveMeta] = useState<SaveMeta | null>(() => readSaveMeta())
   const [saveOk, setSaveOk] = useState(true)
@@ -53,14 +56,42 @@ export default function CheondoApp({ onExit }: CheondoAppProps) {
   const [sheetHero, setSheetHero] = useState<string | null>(null)
   const { toasts, push } = useToasts()
   const voice = useVoice(locale, audio.sfxMuted)
+  const flushSave = useCallback(() => {
+    const latest = gameRef.current
+    if (!latest) return
+    if (latest.outcome) clearSave()
+    else saveGame(latest)
+    recordCodex(latest)
+  }, [])
 
   useEffect(() => {
+    const previousOverflow = document.body.style.overflow
+    const previousFocus = document.activeElement
     document.body.style.overflow = 'hidden'
-    return () => { document.body.style.overflow = '' }
-  }, [])
+    rootRef.current?.focus({ preventScroll: true })
+    const trapFocus = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab' || event.defaultPrevented || !rootRef.current) return
+      const controls = [...rootRef.current.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), [tabindex="0"]')].filter(el => el.getClientRects().length > 0)
+      const first = controls[0], last = controls.at(-1)
+      if (!first || !last) return
+      if (!rootRef.current.contains(document.activeElement) || document.activeElement === rootRef.current) { event.preventDefault(); (event.shiftKey ? last : first).focus() }
+      else if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
+    }
+    window.addEventListener('keydown', trapFocus)
+    window.addEventListener('pagehide', flushSave)
+    return () => {
+      flushSave()
+      window.removeEventListener('keydown', trapFocus)
+      window.removeEventListener('pagehide', flushSave)
+      document.body.style.overflow = previousOverflow
+      if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus({ preventScroll: true })
+    }
+  }, [flushSave])
 
   // 자동 저장 + 성도 기록 — 판이 바뀔 때마다(잠깐 모아서)
   useEffect(() => {
+    gameRef.current = game
     if (!game) return
     const id = window.setTimeout(() => {
       if (game.outcome) {
@@ -88,9 +119,10 @@ export default function CheondoApp({ onExit }: CheondoAppProps) {
   useEffect(() => () => stopAll(), [stopAll])
 
   const exit = useCallback(() => {
+    flushSave()
     stopAll()
     onExit()
-  }, [onExit, stopAll])
+  }, [onExit, stopAll, flushSave])
 
   // ESC — 판 밖에서는 한 단계 뒤로
   useEffect(() => {
@@ -126,8 +158,12 @@ export default function CheondoApp({ onExit }: CheondoAppProps) {
 
   const body = (
     <div
-      ref={setGameFullScreenLayer}
-      className="cheondo-root fixed inset-0 overflow-hidden"
+      ref={setRoot}
+      role="dialog"
+      aria-modal="true"
+      aria-label={T.appName}
+      tabIndex={-1}
+      className="cheondo-root fixed inset-0 overflow-hidden outline-none"
       style={{ zIndex: Z_INDEX.top, background: INK.bg, color: INK.text, isolation: 'isolate' }}
     >
       <style>{CHEONDO_CSS}</style>
@@ -152,7 +188,7 @@ export default function CheondoApp({ onExit }: CheondoAppProps) {
               game={game}
               setGame={setGame}
               saveOk={saveOk}
-              onTitle={() => { setGame(null); setScreen('title') }}
+              onTitle={() => { flushSave(); setGame(null); setScreen('title') }}
               onExit={exit}
               audio={audio}
             />
