@@ -25,7 +25,7 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import {
   codexCall,
   looksRateLimited,
@@ -177,7 +177,6 @@ type ExplanationRow = {
   plain_text_en: string | null
   interpretive_title_en: string | null
   interpretive_text_en: string | null
-  published_at: string | null
   updated_at: string
 }
 
@@ -535,7 +534,7 @@ async function generateBatch(materials: Material[]): Promise<Map<string, SavedTr
 async function fetchExplanation(profileId: string): Promise<ExplanationRow> {
   const { data, error } = await db
     .from('celeb_explanations')
-    .select('profile_id,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,published_at,updated_at')
+    .select('profile_id,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,updated_at')
     .eq('profile_id', profileId)
     .single()
   if (error) throw error
@@ -569,7 +568,7 @@ async function applyTranslation(saved: SavedTranslation, material: Material): Pr
     .update(payload)
     .eq('profile_id', material.profile.id)
     .eq('updated_at', current.updated_at)
-    .select('profile_id,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,published_at,updated_at')
+    .select('profile_id,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,updated_at')
     .maybeSingle()
   if (error) throw error
   if (!updated) throw new Error('Conditional update matched no row; the row changed concurrently.')
@@ -579,9 +578,8 @@ async function applyTranslation(saved: SavedTranslation, material: Material): Pr
     verified.plain_text !== current.plain_text
     || verified.interpretive_title !== current.interpretive_title
     || verified.interpretive_text !== current.interpretive_text
-    || verified.published_at !== current.published_at
   ) {
-    throw new Error('Korean source or publication state changed during the English update.')
+    throw new Error('Korean source changed during the English update.')
   }
   for (const field of [
     'plain_text_en',
@@ -601,7 +599,6 @@ function batchesOf<T>(items: T[], size: number): T[][] {
 }
 
 function printStats(profiles: ProfileRow[], explanations: ExplanationRow[]) {
-  const published = explanations.filter((row) => row.published_at)
   const complete = explanations.filter((row) => !needsTranslation(row))
   const partial = explanations.filter((row) => {
     const count = [row.plain_text_en, row.interpretive_title_en, row.interpretive_text_en]
@@ -616,12 +613,10 @@ function printStats(profiles: ProfileRow[], explanations: ExplanationRow[]) {
     checkedAt: new Date().toISOString(),
     profiles: profiles.length,
     explanations: explanations.length,
-    published: published.length,
     complete: complete.length,
     missingAny: explanations.length - complete.length,
     partial: partial.length,
     allMissing: allMissing.length,
-    publishedMissingAny: published.filter(needsTranslation).length,
     fields: {
       plain_text_en: explanations.filter((row) => hasValue(row.plain_text_en)).length,
       interpretive_title_en: explanations.filter((row) => hasValue(row.interpretive_title_en)).length,
@@ -639,7 +634,7 @@ async function main() {
     ),
     fetchAll<ExplanationRow>(
       'celeb_explanations',
-      'profile_id,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,published_at,updated_at',
+      'profile_id,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,updated_at',
       (query) => query.order('profile_id'),
     ),
   ])

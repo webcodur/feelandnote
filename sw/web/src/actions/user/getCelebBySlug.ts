@@ -285,8 +285,6 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .from('celeb_explanations')
       .select('plain_text, plain_text_en')
       .eq('profile_id', celebId)
-      // 게시 시각이 있는 안내만 공개한다.
-      .not('published_at', 'is', null)
       .maybeSingle(),
   ])
 
@@ -437,7 +435,7 @@ const getCelebBySlugCached = (slug: string) =>
     CACHE_TAGS.CELEBS,
     slug,
     // 가족과 네 사회 축을 함께 표시하되 가족 쌍의 사회 중복은 제외한다.
-    ['celeb-by-slug-v13-family-relations', slug],
+    ['celeb-by-slug-v14-no-guide-publication-gate', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )

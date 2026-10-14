@@ -20,7 +20,6 @@ async function fetchGuide(celebId: string): Promise<GuideRow | null> {
     .from('celeb_explanations')
     .select('plain_text, plain_text_en')
     .eq('profile_id', celebId)
-    .not('published_at', 'is', null)
     .maybeSingle<GuideRow>()
 
   // 조용한 폴백 금지 — 조회가 깨지면 「안내 없음」으로 캐시되지 않게 드러낸다
@@ -30,7 +29,7 @@ async function fetchGuide(celebId: string): Promise<GuideRow | null> {
 
 /** 화면 언어의 인물 안내. 영문이 없으면 한국어가 온다 — locale은 본문이 실제로 쓰인 언어라 낭독 음원을 고를 때 쓴다. 없으면 null */
 export async function getCelebReadingGuide(celebId: string, locale: string = 'ko'): Promise<{ text: string; locale: 'ko' | 'en' } | null> {
-  const row = await cachedDetail(CACHE_TAGS.CELEBS, celebId, ['celeb-reading-guide', celebId], () =>
+  const row = await cachedDetail(CACHE_TAGS.CELEBS, celebId, ['celeb-reading-guide-v2-no-publication-gate', celebId], () =>
     fetchGuide(celebId),
   )
   const en = row?.plain_text_en?.trim()

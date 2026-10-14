@@ -22,7 +22,7 @@
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { INFLUENCE_FIELDS } from '@feelandnote/influence-constants/core'
 import { isCelebContentResearchTarget } from '@feelandnote/shared/constants/celeb-content-research'
 import {
@@ -470,22 +470,15 @@ function groupBy<T>(rows: T[], keyOf: (row: T) => string): Map<string, T[]> {
   return grouped
 }
 
-function sameTimestamp(actual: unknown, expected: string | null): boolean {
-  if (actual === null || actual === undefined || actual === '') return expected === null
-  if (expected === null) return false
-  return new Date(String(actual)).getTime() === new Date(expected).getTime()
-}
-
 async function assertActivationReadback(
   profileIds: string[],
   expectedStatus: 'inactive' | 'active',
-  expectedPublishedAt: Map<string, string | null>,
 ) {
   const [profileRows, readingRows] = await Promise.all([
     byIds('celebs', 'id,publication_status', profileIds, 'id'),
     byIds(
       'celeb_explanations',
-      'profile_id,published_at',
+      'profile_id',
       profileIds,
       'profile_id',
     ),
@@ -503,9 +496,6 @@ async function assertActivationReadback(
 
     const reading = readingById.get(profileId)
     if (!reading) failures.push(`${profileId}:reading_missing`)
-    else if (!sameTimestamp(reading.published_at, expectedPublishedAt.get(profileId) ?? null)) {
-      failures.push(`${profileId}:published_at=${reading.published_at ?? 'null'}`)
-    }
   }
 
   if (profileRows.length !== profileIds.length) {
@@ -522,11 +512,10 @@ async function assertActivationReadback(
 async function compensateActivation(
   profileIds: string[],
   activatedProfileIds: string[],
-  originalPublishedAt: Map<string, string | null>,
 ): Promise<string[]> {
   const failures: string[] = []
 
-  // 이번 실행에서 활성화한 프로필만 되돌린다. DB가 안내의 게시 시각도 비운다.
+  // 이번 실행에서 활성화한 프로필만 되돌린다.
   for (const group of chunks(activatedProfileIds)) {
     const { error } = await db
       .from('celebs')
@@ -551,7 +540,7 @@ async function compensateActivation(
   }
 
   try {
-    await assertActivationReadback(profileIds, 'inactive', originalPublishedAt)
+    await assertActivationReadback(profileIds, 'inactive')
   } catch (error) {
     failures.push(error instanceof Error ? error.message : String(error))
   }
@@ -563,18 +552,15 @@ async function activateReadyProfiles(
   explanationById: Map<string, Row>,
 ): Promise<Row[]> {
   const profileIds = ready.map((row) => row.id)
-  const originalPublishedAt = new Map<string, string | null>()
   for (const profileId of profileIds) {
     const explanation = explanationById.get(profileId)
     if (!explanation) throw new Error(`활성화 대상의 읽어보기 행 없음: ${profileId}`)
-    originalPublishedAt.set(profileId, explanation.published_at ?? null)
   }
 
   const activatedProfileIds: string[] = []
 
   try {
-    // 인물 활성화는 안내를 자동 게시하지 않는다. 기존 게시 시각이 유지되는지 확인한다.
-    await assertActivationReadback(profileIds, 'inactive', originalPublishedAt)
+    await assertActivationReadback(profileIds, 'inactive')
 
     for (const group of chunks(profileIds)) {
       const { data, error } = await db
@@ -590,7 +576,7 @@ async function activateReadyProfiles(
       }
     }
 
-    await assertActivationReadback(profileIds, 'active', originalPublishedAt)
+    await assertActivationReadback(profileIds, 'active')
     const readyById = new Map(ready.map((row) => [row.id, row]))
     return profileIds.map((id) => ({
       id,
@@ -602,7 +588,6 @@ async function activateReadyProfiles(
     const rollbackFailures = await compensateActivation(
       profileIds,
       activatedProfileIds,
-      originalPublishedAt,
     )
     const reason = error instanceof Error ? error.message : String(error)
     const rollback = rollbackFailures.length === 0
@@ -653,7 +638,7 @@ async function main() {
     byIds('celeb_dialogues', 'celeb_id,lines,lines_en', ids),
     byIds(
       'celeb_explanations',
-      'profile_id,plain_text,plain_text_en,published_at',
+      'profile_id,plain_text,plain_text_en',
       ids,
       'profile_id',
     ),
@@ -861,7 +846,6 @@ async function main() {
     .filter((profile) => profile.celeb_reality === 'FICTION')
     .map((profile) => {
       const auditRow = auditedById.get(profile.id)
-      const explanation = explanationById.get(profile.id)
       const sources = figureBooksByCeleb.get(profile.id) ?? []
       const events = timelineByCeleb.get(profile.id) ?? []
       const placements = factionPlacementsByCeleb.get(profile.id) ?? []
@@ -871,9 +855,6 @@ async function main() {
 
       addFictionSpeechGaps(profile, dialogueById.get(profile.id), nonAvatarGaps)
       addFictionTimelineGaps(events, nonAvatarGaps)
-      if (profile.publication_status === 'inactive' && explanation?.published_at) {
-        nonAvatarGaps.push('reading:published_while_inactive')
-      }
       if (sources.some((source) => blank(source.description))) {
         nonAvatarGaps.push('source:description_ko')
       }

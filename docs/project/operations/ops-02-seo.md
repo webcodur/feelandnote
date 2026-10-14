@@ -353,7 +353,7 @@ verification: {
 - **리다이렉트 스텁 제외**: `/explore/celebs`·`people`·`figure`·`celeb-feed`·`top-by-type`, `/agora` 미등재
 - **페이지네이션**: PostgREST 기본 제한 1,000행 → 1,000행씩 반복 fetch
 - **hreflang**: ko, en, x-default. 페이지 HTML은 각 `generateMetadata`의 `alternates`가 같은 https 주소로 선언한다. next-intl 미들웨어의 `Link` 응답 헤더는 프록시 뒤 요청 주소로 만들어져 `http://`로 나갔으므로 `i18n/routing.ts`의 `alternateLinks: false`로 끈다(26.09.28).
-- **lastModified**: 인물은 `celebs.updated_at ?? created_at`을 사용한다. `updated_at`은 트리거 `touch_profile_updated_at`이 조회수·접속 시각·slug·감상여정 열을 뺀 실제 열 변경에만 올린다. 그래서 인물 전량의 lastmod가 최근 날짜로 몰려 있는 것은 한 줄 정의·수식어 일괄 개편 같은 실제 열 수정의 결과다. 다만 화면에 보이지 않는 열만 바뀐 경우까지 거르지는 않는다(26.09.28 확인). 정적 경로·기관 선정 화면은 정확한 수정 시각을 산출할 수 없어 기록하지 않는다. `new Date()` 폴백으로 매 재생성마다 "방금 수정됨"을 신고하지 않는다.
+- **lastModified**: 인물은 `celebs.updated_at ?? created_at`을 사용한다. `updated_at`은 트리거 `touch_profile_updated_at`이 조회수·접속 시각·slug를 뺀 실제 열 변경에만 올린다. 정적 경로·기관 선정 화면은 정확한 수정 시각을 산출할 수 없어 기록하지 않는다. `new Date()` 폴백으로 매 재생성마다 "방금 수정됨"을 신고하지 않는다.
 
 ## RSS 피드
 

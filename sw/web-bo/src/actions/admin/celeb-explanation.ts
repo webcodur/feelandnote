@@ -11,7 +11,6 @@ export interface SaveCelebExplanationInput {
   slug: string | null
   plainText: string
   plainTextEn: string | null
-  published: boolean
 }
 
 function normalizeNullable(value: string | null | undefined): string | null {
@@ -24,26 +23,15 @@ export async function saveCelebExplanation(input: SaveCelebExplanationInput): Pr
 
   const plainText = input.plainText.trim()
   if (!plainText) throw new Error('인물 안내를 입력하세요.')
-  if (typeof input.published !== 'boolean') throw new Error('게시 여부를 선택하세요.')
 
   const db = createAdminClient()
-  const [celebResult, explanationResult] = await Promise.all([
-    db.from('celebs').select('publication_status').eq('id', input.profileId).single(),
-    db.from('celeb_explanations').select('published_at, updated_at').eq('profile_id', input.profileId).maybeSingle(),
-  ])
-  if (celebResult.error) throw celebResult.error
+  const explanationResult = await db.from('celeb_explanations')
+    .select('updated_at').eq('profile_id', input.profileId).maybeSingle()
   if (explanationResult.error) throw explanationResult.error
-  if (input.published && celebResult.data.publication_status !== 'active') {
-    throw new Error('공개된 인물의 안내만 게시할 수 있습니다.')
-  }
-  const publishedAt = input.published
-    ? explanationResult.data?.published_at ?? new Date().toISOString()
-    : null
 
   const values = {
     plain_text: plainText,
     plain_text_en: normalizeNullable(input.plainTextEn),
-    published_at: publishedAt,
   }
 
   if (explanationResult.data) {

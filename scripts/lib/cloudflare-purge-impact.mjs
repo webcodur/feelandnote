@@ -470,6 +470,8 @@ const NON_HTML_RUNTIME_FILES = new Set([
   // 인물 상세로 옮겨 가거나 허브가 보관 대상이 되면 celeb으로 올린다.
   'sw/web/src/actions/home/getMythData.ts',
   'sw/web/src/actions/home/mythTypes.ts',
+  // 세력 인물 모달을 연 뒤 서버 액션으로 읽는다. 앞단에 보관된 HTML에는 안내 본문이 없다.
+  'sw/web/src/actions/celebs/getCelebReadingGuide.ts',
 ])
 
 const CACHED_HTML_PREFIXES = [

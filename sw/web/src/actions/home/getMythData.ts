@@ -141,7 +141,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
     getFigureBookAssignmentsByCelebs(personIds),
     selectInChunks<ExplanationRow>(personIds, (ids) => db.from("celeb_explanations")
       .select("profile_id,plain_text,plain_text_en").in("profile_id", ids)
-      .not("published_at", "is", null).overrideTypes<ExplanationRow[], { merge: false }>()),
+      .overrideTypes<ExplanationRow[], { merge: false }>()),
   ]);
   const validIds = new Set(profiles.filter((profile) => profile.slug).map((profile) => profile.id));
   const assignments = allAssignments.filter((row) => validIds.has(row.celeb_id));
@@ -256,7 +256,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
   return { regions, myths, people, works };
 }
 
-const getCachedMythData = compressedJsonCache(fetchMythData, ['myth-data-v40-single-html-boundary'], {
+const getCachedMythData = compressedJsonCache(fetchMythData, ['myth-data-v41-no-guide-publication-gate'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });

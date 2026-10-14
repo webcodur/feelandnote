@@ -9,7 +9,7 @@
  */
 import path from 'node:path'
 import { config } from 'dotenv'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 
@@ -41,10 +41,10 @@ async function main() {
 
   const ids = new Set(celebs.map((c) => c.id))
 
-  // 인물 안내: 게시 표시를 찍었으면 본문이 있어야 한다 (02가 빈 문단으로 노출)
-  const expl = new Map<string, { pub: boolean; text: boolean }>()
-  for (const r of await pageAll<any>('celeb_explanations', 'profile_id, published_at, plain_text')) {
-    if (ids.has(r.profile_id)) expl.set(r.profile_id, { pub: !!r.published_at, text: !blank(r.plain_text) })
+  // 인물 안내 행이 있으면 본문이 비었는지 검사한다.
+  const expl = new Map<string, boolean>()
+  for (const r of await pageAll<any>('celeb_explanations', 'profile_id, plain_text')) {
+    if (ids.has(r.profile_id)) expl.set(r.profile_id, !blank(r.plain_text))
   }
 
   // 대사: lines 가 있는데 9종 키가 하나도 없으면 빈 상자 (07)
@@ -81,8 +81,7 @@ async function main() {
     if (blank(c.nickname_en)) g.push('nickname_en')
     if (blank(c.headline_en)) g.push('headline_en')
     if (blank(c.bio_en)) g.push('bio_en')
-    const e = expl.get(c.id)
-    if (e?.pub && !e.text) g.push('안내: 게시했는데 본문이 없다')
+    if (expl.has(c.id) && !expl.get(c.id)) g.push('안내: 본문이 없다')
     if (dial.has(c.id) && !dial.get(c.id)) g.push('대사: lines 에 9종 키가 없다')
     if (tier === 'full' && !pub.has(c.id)) g.push('full: 공개 콘텐츠 0건')
     if (g.length) blocked.set(c.slug, g)

@@ -7,7 +7,6 @@ export interface CelebExplanation {
   profile_id: string
   plain_text: string
   plain_text_en: string | null
-  published_at: string | null
   created_at: string
   updated_at: string
 }
@@ -22,7 +21,6 @@ export async function getCelebExplanation(profileId: string): Promise<CelebExpla
       profile_id,
       plain_text,
       plain_text_en,
-      published_at,
       created_at,
       updated_at
     `)

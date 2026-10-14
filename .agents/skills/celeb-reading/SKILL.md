@@ -17,16 +17,16 @@ description: 인물 상세의 읽어보기 구획에 노출되는 인물 안내�
 
 ## 흐름
 
-1. live DB에서 대상의 기존 한영 안내와 `published_at`, 누락을 확인한다.
+1. live DB에서 대상의 기존 한영 안내와 누락을 확인한다.
 2. 누락된 안내를 작성한다. 기존 글의 재검토를 요청받았으면 한영을 함께 읽고, 통과한 글은 보존하며 보완이 필요한 글을 조사·수정한다.
-3. 한 인물씩 본문 확인과 조건부 반영을 끝낸다. 기존 게시 여부를 보존하고, 요청받은 게시·비공개는 `published_at`에 반영한다.
-4. DB 재조회와 한국어·영어 실제 화면으로 본문·게시 여부·locale 대응을 확인한다.
+3. 한 인물씩 본문 확인과 조건부 반영을 끝낸다. 안내에 별도 게시 상태를 두지 않는다.
+4. DB 재조회와 한국어·영어 실제 화면으로 본문·locale 대응을 확인한다.
 
 ## 실행 경계
 
 `sw/web-bo/scripts/celeb/readings.ts`는 안내 두 필드만 갱신하고 `interpretive_*`를 전후 대조해
-보존한다. 기존 글 검토는 `--review-existing`, 수정은 `--rewrite-existing`, 게시는 `--publish`로
-명시한다. `--stats`는 읽기 전용이며 아래 명령은 `sw/web-bo`에서 실행한다.
+보존한다. 기존 글 검토는 `--review-existing`, 수정은 `--rewrite-existing`로 명시한다.
+`--stats`는 읽기 전용이며 아래 명령은 `sw/web-bo`에서 실행한다.
 
 ```powershell
 pnpm exec tsx scripts/celeb/readings.ts --stats

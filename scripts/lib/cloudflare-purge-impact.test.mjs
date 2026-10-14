@@ -36,6 +36,7 @@ test('atlas routes bypass front HTML caches while the shared explore frame reach
 test('home selection, faction dialogs and celeb previews purge only their cached consumers', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/lib/celeb/todayFigureSelection.ts',
+    'sw/web/src/actions/celebs/getCelebReadingGuide.ts',
     'sw/web/src/components/features/faction/entry/FactionPersonBooks.tsx',
     'sw/web/src/components/features/faction/entry/FactionPersonHeader.tsx',
     'sw/web/src/components/features/faction/entry/factionPersonLayout.ts',

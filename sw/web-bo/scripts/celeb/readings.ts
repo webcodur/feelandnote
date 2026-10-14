@@ -23,7 +23,7 @@ import {
 } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import {
   AGY_TEXT_MODEL,
   agyCall,
@@ -69,7 +69,6 @@ const numberFlag = (name: string, fallback: number) => {
 const PLAN = process.argv.includes('--plan')
 const GENERATE = process.argv.includes('--generate')
 const APPLY = process.argv.includes('--apply')
-const PUBLISH = process.argv.includes('--publish')
 const STATS = process.argv.includes('--stats')
 if (!STATS) requireExternalCliApproval()
 const RESEARCH = process.argv.includes('--research')
@@ -106,9 +105,6 @@ if (!PLAN && !GENERATE && !APPLY && !STATS) {
 }
 if (!STATS && !ALL && !SLUGS && LIMIT === Number.POSITIVE_INFINITY) {
   throw new Error('안전 중단: --all, --slugs, 유한한 --limit 가운데 하나가 필요하다.')
-}
-if (PUBLISH && !APPLY) {
-  throw new Error('--publish는 --apply와 함께 지정한다.')
 }
 if (APPLY && !GENERATE && !RESUME) {
   throw new Error('저장된 개선본만 반영할 때는 --apply --resume을 함께 지정한다.')
@@ -239,7 +235,6 @@ type ProfileRow = {
 
 type ExplanationRow = {
   profile_id: string
-  published_at: string | null
   plain_text: string
   interpretive_title: string
   interpretive_text: string
@@ -1289,33 +1284,6 @@ async function reviewExistingMaterials(materials: Material[]): Promise<Map<strin
   return results
 }
 
-function publicationFor(material: Material): string | null {
-  if (material.profile.publication_status !== 'active') return null
-  return material.existingExplanation?.published_at ?? (PUBLISH ? new Date().toISOString() : null)
-}
-
-async function publishExistingReading(material: Material): Promise<void> {
-  if (!APPLY || !PUBLISH) throw new Error('게시하려면 --apply --publish를 명시해야 한다.')
-  const current = material.existingExplanation
-  if (!current || current.published_at || material.profile.publication_status !== 'active') return
-  const publishedAt = publicationFor(material)
-  const { data, error } = await db
-    .from('celeb_explanations')
-    .update({ published_at: publishedAt })
-    .eq('profile_id', material.profile.id)
-    .eq('updated_at', current.updated_at)
-    .select('published_at, interpretive_title, interpretive_text, interpretive_title_en, interpretive_text_en')
-    .maybeSingle()
-  if (error) throw error
-  if (!data) throw new Error(`${material.profile.slug}: 안내가 조회 뒤 바뀌어 게시를 중단했다.`)
-  if (new Date(data.published_at).getTime() !== new Date(publishedAt!).getTime()) {
-    throw new Error(`${material.profile.slug}: 게시 시각이 요청한 값과 다르다.`)
-  }
-  if (!interpretiveFieldsMatch(data, current)) {
-    throw new Error(`${material.profile.slug}: 게시 중 보존할 인물 탐구가 바뀌었다.`)
-  }
-}
-
 function inputForModel(material: Material) {
   const { profile } = material
   return {
@@ -1568,20 +1536,19 @@ function readingAlreadyApplied(reading: SavedReading, material: Material): boole
   const current = material.existingExplanation
   return Boolean(current
     && current.plain_text === reading.guide
-    && current.plain_text_en === reading.guideEn
-    && (!PUBLISH || material.profile.publication_status !== 'active' || Boolean(current.published_at)))
+    && current.plain_text_en === reading.guideEn)
 }
 
-async function quarantineInsertedReading(row: ExplanationRow): Promise<void> {
+async function discardFailedInsertedReading(row: ExplanationRow): Promise<void> {
   const { data, error } = await db
     .from('celeb_explanations')
-    .update({ published_at: null })
+    .delete()
     .eq('profile_id', row.profile_id)
     .eq('updated_at', row.updated_at)
     .select('profile_id')
     .maybeSingle()
   if (error) throw error
-  if (!data) throw new Error('신규 설명 행이 검증 실패 격리 전에 바뀌었다.')
+  if (!data) throw new Error('신규 설명 행이 검증 실패 삭제 전에 바뀌었다.')
 }
 
 async function applyReading(reading: SavedReading, material: Material): Promise<'written' | 'held' | 'existing'> {
@@ -1607,7 +1574,6 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
   const payload = {
     plain_text: reading.guide,
     plain_text_en: reading.guideEn,
-    published_at: publicationFor(material),
   }
   const expectedInterpretive: InterpretiveFields = current ?? {
     interpretive_title: NEW_EXPLANATION_PLACEHOLDER,
@@ -1622,7 +1588,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
       .update(payload)
       .eq('profile_id', material.profile.id)
       .eq('updated_at', current.updated_at)
-      .select('profile_id, plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en, published_at, updated_at')
+      .select('profile_id, plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en, updated_at')
       .maybeSingle()
     if (error) throw error
     updated = data
@@ -1634,7 +1600,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
         ...payload,
         ...expectedInterpretive,
       })
-      .select('profile_id, plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en, published_at, updated_at')
+      .select('profile_id, plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en, updated_at')
       .single()
     if (error) throw error
     updated = data
@@ -1642,7 +1608,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
 
   if (!updated) throw new Error('기존 설명이 생성 뒤 바뀌어 조건부 교체를 중단했다.')
   const abortAppliedReading = async (message: string, cause?: unknown): Promise<never> => {
-    if (!current) await quarantineInsertedReading(updated)
+    if (!current) await discardFailedInsertedReading(updated)
     if (cause !== undefined) throw cause
     throw new Error(message)
   }
@@ -1652,7 +1618,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
 
   const { data: verified, error: verifyError } = await db
     .from('celeb_explanations')
-    .select('plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en, published_at')
+    .select('plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en')
     .eq('profile_id', material.profile.id)
     .single()
   if (verifyError) return abortAppliedReading('DB 재조회에 실패했다.', verifyError)
@@ -1664,14 +1630,6 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
   }
   if (!interpretiveFieldsMatch(verified, expectedInterpretive)) {
     return abortAppliedReading('DB 재조회에서 닫힌 인물 탐구가 바뀌었다.')
-  }
-  const actualPublishedAt = verified.published_at ? new Date(verified.published_at).getTime() : null
-  const expectedPublishedAt = payload.published_at ? new Date(payload.published_at).getTime() : null
-  if (actualPublishedAt !== expectedPublishedAt) {
-    return abortAppliedReading('DB 재조회 게시 시각이 요청한 값과 다르다.')
-  }
-  if (material.profile.publication_status !== 'active' && verified.published_at) {
-    return abortAppliedReading('비활성·정지 프로필이 게시됐다.')
   }
   return 'written'
 }
@@ -1782,7 +1740,7 @@ function batchesOf<T>(items: T[], size: number): T[][] {
 
 async function main() {
   const profileSelect = 'id,slug,nickname,nickname_en,bio,profession,title,nationality,birth_date,death_date,publication_status,celeb_tier,celeb_reality,wikidata_qid'
-  const explanationSelect = 'profile_id,published_at,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,updated_at'
+  const explanationSelect = 'profile_id,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,updated_at'
   let profiles: ProfileRow[]
   let explanations: ExplanationRow[]
 
@@ -1879,11 +1837,6 @@ async function main() {
     reviewPassed = passed.length
     reviewRewrite = selectedMaterials.length
 
-    if (APPLY && PUBLISH) {
-      for (const batch of chunksOf(passed, 16)) {
-        await Promise.all(batch.map((material) => publishExistingReading(material)))
-      }
-    }
   }
 
   const researchFailedMaterials: Material[] = []
@@ -1920,7 +1873,6 @@ async function main() {
   }
 
   if (STATS) {
-    const profileById = new Map(profiles.map((profile) => [profile.id, profile]))
     const byStatus = Object.fromEntries(['active', 'inactive'].map((status) => {
       const statusProfiles = profiles.filter((profile) => profile.publication_status === status)
       const statusIds = new Set(statusProfiles.map((profile) => profile.id))
@@ -1928,7 +1880,6 @@ async function main() {
       return [status, {
         profiles: statusProfiles.length,
         readings: statusRows.length,
-        published: statusRows.filter((row) => row.published_at).length,
       }]
     }))
     const missingBreakdown = {
@@ -1938,7 +1889,7 @@ async function main() {
       currentValidation: 0,
       savedValidation: 0,
       missingFinal: 0,
-      publishable: 0,
+      readyToApply: 0,
     }
     const validationReasons = new Map<string, number>()
     const modelHoldSamples: Array<{ slug: string; reason: string }> = []
@@ -1981,41 +1932,28 @@ async function main() {
         missingBreakdown.savedValidation += 1
         savedValidationSamples.push({ slug: final.slug, errors: persistentErrors })
       }
-      else missingBreakdown.publishable += 1
+      else missingBreakdown.readyToApply += 1
     }
-    const publishedMismatch = explanations.filter((row) => {
-      const profile = profileById.get(row.profile_id)
-      return Boolean(row.published_at) && profile?.publication_status !== 'active'
-    }).length
     const missingByStatus = Object.fromEntries(['active', 'inactive'].map((status) => [
       status,
       materials.filter((material) => material.profile.publication_status === status).length,
     ]))
-    let publicRls: { visible: number | null; inactiveVisible: number | null; error: string | null } | null = null
+    let publicRls: { visible: number | null; error: string | null } | null = null
     const anonKey = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
     if (anonKey) {
       const publicClient = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, anonKey, {
         auth: { autoRefreshToken: false, persistSession: false },
       })
-      const inactiveReading = explanations.find((row) => profileById.get(row.profile_id)?.publication_status !== 'active')
-      const [{ count: visible, error: visibleError }, inactiveResult] = await Promise.all([
-        publicClient.from('celeb_explanations').select('*', { count: 'exact', head: true }),
-        inactiveReading
-          ? publicClient.from('celeb_explanations').select('profile_id').eq('profile_id', inactiveReading.profile_id)
-          : Promise.resolve({ data: [], error: null }),
-      ])
+      const { count: visible, error: visibleError } = await publicClient
+        .from('celeb_explanations').select('*', { count: 'exact', head: true })
       publicRls = {
         visible,
-        inactiveVisible: inactiveResult.data?.length ?? null,
-        error: visibleError?.message ?? inactiveResult.error?.message ?? null,
+        error: visibleError?.message ?? null,
       }
     }
     console.log(JSON.stringify({
       profiles: profiles.length,
       readings: explanations.length,
-      published: explanations.filter((row) => row.published_at).length,
-      unpublished: explanations.filter((row) => !row.published_at).length,
-      publishedMismatch,
       publicRls,
       byStatus,
       missingByStatus,

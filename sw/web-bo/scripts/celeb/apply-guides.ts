@@ -1,7 +1,7 @@
 // data/celeb/guides/<slug>.txt 를 celeb_explanations 의 인물 안내로 반영한다.
 // 행이 없으면 만들고, 있으면 plain_text·plain_text_en 만 갱신한다.
 // interpretive_* 는 건드리지 않는다. 기본 dry-run, --apply 로 실제 반영.
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { readFileSync, readdirSync } from 'node:fs'
 import 'dotenv/config'
 
@@ -93,7 +93,6 @@ async function main() {
         plain_text_en: it.en,
         interpretive_title: '미작성',
         interpretive_text: '미작성',
-        published_at: null,
       })
     const { data, error } = await query.select('profile_id').maybeSingle()
     if (error) fail.push(it.slug + ': ' + error.message)

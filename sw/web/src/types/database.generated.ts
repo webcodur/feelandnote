@@ -538,7 +538,6 @@ export type Database = {
           plain_text: string
           plain_text_en: string | null
           profile_id: string
-          published_at: string | null
           updated_at: string
         }
         Insert: {
@@ -550,7 +549,6 @@ export type Database = {
           plain_text: string
           plain_text_en?: string | null
           profile_id: string
-          published_at?: string | null
           updated_at?: string
         }
         Update: {
@@ -562,7 +560,6 @@ export type Database = {
           plain_text?: string
           plain_text_en?: string | null
           profile_id?: string
-          published_at?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -1106,8 +1103,6 @@ export type Database = {
           claimed_by_member_id: string | null
           content_research_confirmed_empty_at: string | null
           created_at: string
-          cultural_journey: string | null
-          cultural_journey_en: string | null
           death_date: string | null
           gender: boolean | null
           has_voice: boolean
@@ -1150,8 +1145,6 @@ export type Database = {
           claimed_by_member_id?: string | null
           content_research_confirmed_empty_at?: string | null
           created_at?: string
-          cultural_journey?: string | null
-          cultural_journey_en?: string | null
           death_date?: string | null
           gender?: boolean | null
           has_voice?: boolean
@@ -1194,8 +1187,6 @@ export type Database = {
           claimed_by_member_id?: string | null
           content_research_confirmed_empty_at?: string | null
           created_at?: string
-          cultural_journey?: string | null
-          cultural_journey_en?: string | null
           death_date?: string | null
           gender?: boolean | null
           has_voice?: boolean
@@ -3744,31 +3735,6 @@ export type Database = {
         }[]
       }
       check_active_account_request: { Args: never; Returns: undefined }
-      claim_next_celeb_philosophy_rewrite: {
-        Args: { p_lease_minutes?: number; p_worker: string }
-        Returns: {
-          attempt_count: number
-          celeb_id: string
-          celeb_tier: string
-          claimed_at: string
-          cultural_journey: string
-          cultural_journey_en: string
-          lease_expires_at: string
-          nickname: string
-          priority: number
-          profession: string
-          slug: string
-        }[]
-      }
-      complete_celeb_philosophy_rewrite: {
-        Args: {
-          p_celeb_id: string
-          p_cultural_journey: string
-          p_cultural_journey_en: string
-          p_worker: string
-        }
-        Returns: boolean
-      }
       count_celebs_filtered: {
         Args: {
           p_celeb_tiers?: string[]
@@ -3808,19 +3774,6 @@ export type Database = {
           p_turns?: Json
         }
         Returns: Json
-      }
-      enqueue_missing_celeb_philosophy_rewrite_jobs: {
-        Args: never
-        Returns: number
-      }
-      fail_celeb_philosophy_rewrite: {
-        Args: {
-          p_celeb_id: string
-          p_error: string
-          p_reset_to_pending?: boolean
-          p_worker: string
-        }
-        Returns: boolean
       }
       get_bucket_stats: {
         Args: never
@@ -3880,8 +3833,6 @@ export type Database = {
           celeb_reality: string
           celeb_tier: string
           claimed_by_member_id: string
-          consumption_philosophy: string
-          consumption_philosophy_en: string
           content_count: number
           created_at: string
           death_date: string
@@ -3910,8 +3861,6 @@ export type Database = {
           birth_date: string
           celeb_tier: string
           claimed_by_member_id: string
-          consumption_philosophy: string
-          consumption_philosophy_en: string
           content_count: number
           created_at: string
           death_date: string
@@ -4110,10 +4059,6 @@ export type Database = {
       }
       is_admin: { Args: never; Returns: boolean }
       is_current_account_active: { Args: never; Returns: boolean }
-      renew_celeb_philosophy_rewrite_lease: {
-        Args: { p_celeb_id: string; p_lease_minutes?: number; p_worker: string }
-        Returns: boolean
-      }
       set_celeb_quote: {
         Args: { p_celeb_id: string; p_quote_en?: string; p_quote_ko: string }
         Returns: boolean

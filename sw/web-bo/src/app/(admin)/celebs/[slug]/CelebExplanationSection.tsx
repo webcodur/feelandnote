@@ -17,14 +17,12 @@ interface CelebExplanationSectionProps {
 interface Draft {
   plainText: string
   plainTextEn: string
-  published: boolean
 }
 
 function toDraft(explanation: CelebExplanation | null): Draft {
   return {
     plainText: explanation?.plain_text ?? '',
     plainTextEn: explanation?.plain_text_en ?? '',
-    published: Boolean(explanation?.published_at),
   }
 }
 
@@ -66,7 +64,6 @@ export default function CelebExplanationSection({ celebId, slug, explanation }: 
         slug,
         plainText: draft.plainText,
         plainTextEn: draft.plainTextEn,
-        published: draft.published,
       })
       initial.current = { ...draft }
       showToast('success', '읽어보기가 저장되었습니다.')
@@ -116,17 +113,6 @@ export default function CelebExplanationSection({ celebId, slug, explanation }: 
           )}
         </div>
         <div className="flex items-center gap-3 shrink-0">
-          {explanation && (
-            <span
-              className={`rounded px-2 py-1 text-xs font-medium ${
-                explanation.published_at
-                  ? 'bg-green-500/10 text-green-400'
-                  : 'bg-yellow-500/10 text-yellow-400'
-              }`}
-            >
-              {explanation.published_at ? '게시됨' : '미게시'}
-            </span>
-          )}
           {open ? <ChevronUp className="w-5 h-5 text-text-secondary" /> : <ChevronDown className="w-5 h-5 text-text-secondary" />}
         </div>
       </button>
@@ -142,16 +128,7 @@ export default function CelebExplanationSection({ celebId, slug, explanation }: 
           {showKo && koBlock}
           {showEn && enBlock}
 
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
-            <label className="flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-xs text-text-secondary hover:bg-white/5 hover:text-text-primary">
-              <input
-                type="checkbox"
-                checked={draft.published}
-                onChange={(event) => setField('published', event.target.checked)}
-                className="accent-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              />
-              인물 안내 게시
-            </label>
+          <div className="flex justify-end border-t border-border pt-4">
             {isDirty() && (
               <button
                 type="button"
