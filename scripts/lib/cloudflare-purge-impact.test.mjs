@@ -479,6 +479,7 @@ test('shared initial celebrity contents evict detail HTML while home bypasses th
   const plan = classifyCloudflarePurgeImpact([
     'sw/web/src/actions/contents/getInitialCelebContents.ts',
     'sw/web/src/components/features/figure/TodayFigureSection.tsx',
+    'sw/web/src/app/[locale]/(main)/explore/today/page.tsx',
   ])
   assert.deepEqual(plan.scopes, ['celeb'])
   assert.equal(plan.emergencyZone, false)

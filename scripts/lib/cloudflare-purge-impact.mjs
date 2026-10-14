@@ -292,6 +292,8 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/lib/scroll/useContainerSectionNavigation.ts',
   // 오늘의 인물은 홈에서만 고르며 홈 HTML은 앞단 캐시를 쓰지 않는다.
   'sw/web/src/lib/celeb/todayFigureSelection.ts',
+  // 오늘의 인물 전용 페이지도 홈과 같은 감상 뷰를 쓰며 앞단 HTML 보관 대상이 아니다.
+  'sw/web/src/app/[locale]/(main)/explore/today/page.tsx',
   // 직업별 도서·박물관·구매 화면과 그 전용 부품은 앞단 HTML 보관 대상이 아니다.
   'sw/web/src/actions/books/getProfessionBookCatalog.ts',
   'sw/web/src/actions/home/getFactionMemberShelf.ts',
