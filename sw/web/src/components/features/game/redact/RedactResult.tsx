@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Trophy, RotateCcw, Home } from 'lucide-react';
 import type { RedactGameState, RedactRoundData } from './types';
 import { getRevealedRatio } from './engine';
+import NationalityText from '@/components/ui/NationalityText';
 
 interface Props {
   state: RedactGameState;
@@ -35,9 +36,9 @@ export default function RedactResult({ state, roundData, onReplay, onLobby }: Pr
         <p className="mt-1 text-lg font-bold text-text-primary">
           {roundData.nickname}
         </p>
-        <p className="mt-1 text-xs text-text-secondary">
+        <p className="mt-1 flex flex-wrap items-center justify-center gap-2 text-xs text-text-secondary">
           {roundData.profession} · {roundData.birthDeath}
-          {roundData.nationality && ` · ${roundData.nationality}`}
+          {roundData.nationality && <NationalityText code={roundData.nationality} />}
         </p>
       </div>
 

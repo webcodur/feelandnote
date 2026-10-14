@@ -9,7 +9,8 @@ import { lastMythFromCookies } from '../components/features/user/explore/myth/my
 test('only actual country headers supply a preference', () => {
   assert.equal(parseVisitorCountry(' tr '), 'TR')
   assert.equal(parseVisitorCountry('KR'), 'KR')
-  for (const invalid of [undefined, null, '', 'XX', 'T1', 'ZZ', 'EU', 'en', 'Türkiye']) assert.equal(parseVisitorCountry(invalid), null)
+  assert.equal(parseVisitorCountry('XK'), 'XK')
+  for (const invalid of [undefined, null, '', 'XX', 'SU', 'CS', 'T1', 'ZZ', 'EU', 'en', 'Türkiye']) assert.equal(parseVisitorCountry(invalid), null)
 })
 
 test('local ordering keeps all entries and their existing relative order', () => {

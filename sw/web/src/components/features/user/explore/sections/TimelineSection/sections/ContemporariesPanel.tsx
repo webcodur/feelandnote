@@ -9,7 +9,7 @@
 import { getCelebProfileUrl } from "@/lib/url";
 import { Link } from "@/i18n/navigation";
 import { CelebImage } from "@/components/ui";
-import { getCountryFlag } from "@/lib/utils/countryFlag";
+import NationalityText from "@/components/ui/NationalityText";
 import type { Locale } from "@/types/locale";
 import type { TimelineCeleb } from "@/actions/home";
 import { formatLifespan } from "../utils";
@@ -42,13 +42,13 @@ export default function ContemporariesPanel({ celeb, contemporaries, locale }: P
         {contemporaries.map((c) => {
           const cName = (locale === "en" && c.nickname_en) ? c.nickname_en : c.nickname;
           return (
+            <div key={c.id} className="flex items-center rounded-full bg-bg-card/80 border border-white/10 hover:border-accent/30 hover:bg-white/5 group/cont">
+              <NationalityText code={c.nationality} display="flag" className="text-sm" />
             <Link
-              key={c.id}
               href={getCelebProfileUrl(c)}
               prefetch={false}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-bg-card/80 border border-white/10 hover:border-accent/30 hover:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-accent group/cont"
+              className="flex min-h-11 items-center gap-2 pe-3 py-1.5 rounded-full hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <span className="text-sm">{getCountryFlag(c.nationality!)}</span>
               <div className="w-6 h-6 rounded-full overflow-hidden shrink-0">
                 <CelebImage
                   src={c.avatar_url}
@@ -65,6 +65,7 @@ export default function ContemporariesPanel({ celeb, contemporaries, locale }: P
                 {formatLifespan(c.birth_date, c.death_date)}
               </span>
             </Link>
+            </div>
           );
         })}
       </div>

@@ -13,6 +13,7 @@ import type { CelebProfile } from "@/types/home";
 import { getCelebProfileUrl } from "@/lib/url";
 import { getAuraByScore, type Aura } from "@/constants/materials";
 import Modal from "@/components/ui/Modal";
+import NationalityText from "@/components/ui/NationalityText";
 import { FormattedText } from "@/components/ui";
 import { Avatar, BlurDissolve } from "@/components/ui";
 import { useTranslations, useLocale } from "next-intl";
@@ -115,7 +116,7 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
           {celeb.nationality && (
             <span className="flex items-center gap-1">
               <MapPin size={12} />
-              {celeb.nationality}
+              <NationalityText code={celeb.nationality} />
             </span>
           )}
           {celeb.birth_date && (

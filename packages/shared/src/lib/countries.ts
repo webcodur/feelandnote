@@ -2,15 +2,15 @@
 // 브라우저·Node 내장 Intl.DisplayNames 기반, 외부 API 의존 없음. 서버/클라이언트 공용
 import type { Country } from '../types'
 
-// ISO 3166-1 alpha-2 국가 코드 전체 목록
+// ISO 3166-1 alpha-2 국가 코드와 서비스가 지원하는 코소보(XK)
 const COUNTRY_CODES = [
   'AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AO', 'AR', 'AS', 'AT', 'AU', 'AW', 'AX', 'AZ',
   'BA', 'BB', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BL', 'BM', 'BN', 'BO', 'BQ', 'BR',
-  'BS', 'BT', 'BW', 'BY', 'BZ', 'CA', 'CC', 'CD', 'CF', 'CG', 'CH', 'CI', 'CK', 'CL', 'CM',
+  'BS', 'BT', 'BV', 'BW', 'BY', 'BZ', 'CA', 'CC', 'CD', 'CF', 'CG', 'CH', 'CI', 'CK', 'CL', 'CM',
   'CN', 'CO', 'CR', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ', 'DE', 'DJ', 'DK', 'DM', 'DO', 'DZ',
   'EC', 'EE', 'EG', 'EH', 'ER', 'ES', 'ET', 'FI', 'FJ', 'FK', 'FM', 'FO', 'FR', 'GA', 'GB',
-  'GD', 'GE', 'GF', 'GG', 'GH', 'GI', 'GL', 'GM', 'GN', 'GP', 'GQ', 'GR', 'GT', 'GU', 'GW',
-  'GY', 'HK', 'HN', 'HR', 'HT', 'HU', 'ID', 'IE', 'IL', 'IM', 'IN', 'IO', 'IQ', 'IR', 'IS',
+  'GD', 'GE', 'GF', 'GG', 'GH', 'GI', 'GL', 'GM', 'GN', 'GP', 'GQ', 'GR', 'GS', 'GT', 'GU', 'GW',
+  'GY', 'HK', 'HM', 'HN', 'HR', 'HT', 'HU', 'ID', 'IE', 'IL', 'IM', 'IN', 'IO', 'IQ', 'IR', 'IS',
   'IT', 'JE', 'JM', 'JO', 'JP', 'KE', 'KG', 'KH', 'KI', 'KM', 'KN', 'KP', 'KR', 'KW', 'KY',
   'KZ', 'LA', 'LB', 'LC', 'LI', 'LK', 'LR', 'LS', 'LT', 'LU', 'LV', 'LY', 'MA', 'MC', 'MD',
   'ME', 'MF', 'MG', 'MH', 'MK', 'ML', 'MM', 'MN', 'MO', 'MP', 'MQ', 'MR', 'MS', 'MT', 'MU',
@@ -19,9 +19,21 @@ const COUNTRY_CODES = [
   'PW', 'PY', 'QA', 'RE', 'RO', 'RS', 'RU', 'RW', 'SA', 'SB', 'SC', 'SD', 'SE', 'SG', 'SH',
   'SI', 'SJ', 'SK', 'SL', 'SM', 'SN', 'SO', 'SR', 'SS', 'ST', 'SV', 'SX', 'SY', 'SZ', 'TC',
   'TD', 'TF', 'TG', 'TH', 'TJ', 'TK', 'TL', 'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ',
-  'UA', 'UG', 'US', 'UY', 'UZ', 'VA', 'VC', 'VE', 'VG', 'VI', 'VN', 'VU', 'WF', 'WS', 'YE',
+  'UA', 'UG', 'UM', 'US', 'UY', 'UZ', 'VA', 'VC', 'VE', 'VG', 'VI', 'VN', 'VU', 'WF', 'WS', 'XK', 'YE',
   'YT', 'ZA', 'ZM', 'ZW',
 ]
+
+const countryCodes = new Set(COUNTRY_CODES)
+
+// 기존 인물 데이터의 역사적 국적이다. 현재 러시아·체코·세르비아 국기로 바꾸지 않는다.
+const HISTORICAL_COUNTRIES: Record<string, { name: string; name_en: string }> = {
+  SU: { name: '소련', name_en: 'Soviet Union' },
+  CS: { name: '체코슬로바키아', name_en: 'Czechoslovakia' },
+}
+
+export function isCountryCode(code: string): boolean {
+  return countryCodes.has(code.trim().toUpperCase())
+}
 
 /**
  * 국적을 특정할 수 없는 인물에 쓰는 코드. ISO 3166-1이 사용자 지정용으로 비워 둔 자리라
@@ -71,18 +83,17 @@ export async function fetchCountries(): Promise<Country[]> {
 
 // 국가 코드 → 한글명 변환 (동기)
 export function getCountryName(code: string): string {
-  if (!code) return ''
-  const country = getCountries().find((c) => c.code === code)
-  return country?.name || code
+  return getCountryNameByLocale(code, 'ko')
 }
 
 // 국가 코드 → 로케일 기반 국가명 (동기)
 export function getCountryNameByLocale(code: string, locale: string): string {
-  if (!code) return ''
-  // 역사적 국적을 현재 국가명으로 바꾸거나 코드 그대로 내보내지 않는다.
-  if (code === 'SU') return locale === 'en' ? 'Soviet Union' : '소련'
-  const country = getCountries().find((c) => c.code === code)
-  if (!country) return code
+  const value = code?.trim()
+  if (!value) return ''
+  const normalized = value.toUpperCase()
+  const country = HISTORICAL_COUNTRIES[normalized] ?? getCountries().find((c) => c.code === normalized)
+  // 이미 이름인 값은 보존하고, 해석할 수 없는 짧은 코드는 미확인으로 표시한다.
+  if (!country) return /^[A-Z0-9_-]{1,3}$/i.test(value) ? (locale === 'en' ? UNKNOWN_COUNTRY.name_en : UNKNOWN_COUNTRY.name) : value
   return locale === 'en' ? country.name_en : country.name
 }
 
@@ -93,12 +104,10 @@ export async function getCountryNameAsync(code: string): Promise<string> {
 
 // 여러 국가 코드 → 한글명 일괄 변환 (비동기, 기존 인터페이스 유지)
 export async function getCountryNamesMap(codes: string[]): Promise<Record<string, string>> {
-  const countries = getCountries()
   const map: Record<string, string> = {}
   for (const code of codes) {
     if (!code) continue
-    const country = countries.find((c) => c.code === code)
-    map[code] = country?.name || code
+    map[code] = getCountryName(code)
   }
   return map
 }

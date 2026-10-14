@@ -174,10 +174,8 @@ export default async function FigureLinkGrid({
             <div key={figure.id} role="listitem">
               {/* 지연 구획이 펼쳐지면 이 밀집 목록이 뷰포트에 여러 번 들어오며 Next가
                   같은 상세 RSC를 반복해서 미리 읽는다. 클릭 이동만 남겨 요청 폭주를 막는다. */}
-              <Link
-                href={getCelebProfileUrl(figure)}
-                prefetch={false}
-                className={`group flex h-full ${CARD_MIN_H} items-stretch overflow-hidden rounded-xl border border-white/10 bg-white/[0.05] hover:border-accent/30 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent [&_button]:text-xs`}
+              <div
+                className={`group relative flex h-full ${CARD_MIN_H} items-stretch overflow-hidden rounded-xl border border-white/10 bg-white/[0.05] hover:border-accent/30 hover:bg-accent/5 [&_button]:text-xs`}
               >
                 {/* 얼굴이 카드 왼쪽 끝에서 위아래를 채운다 — 여백 없이 붙여 인물이 먼저 읽히게 한다 */}
                 <span className="relative w-14 shrink-0 overflow-hidden bg-bg-main">
@@ -196,13 +194,14 @@ export default async function FigureLinkGrid({
                   )}
                 </span>
                 <span className="flex min-w-0 flex-1 flex-col justify-center px-3.5 py-2.5">
-                  <span className="truncate text-[17px] font-semibold text-text-primary group-hover:text-accent">
+                  <Link href={getCelebProfileUrl(figure)} prefetch={false}
+                    className="truncate text-[17px] font-semibold text-text-primary group-hover:text-accent outline-none after:absolute after:inset-0 after:z-[1] after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-accent">
                     {name}
-                  </span>
+                  </Link>
                   {(sub || foreignNationality) && (
                     <span className="flex min-w-0 items-center gap-1 text-[13px] text-text-secondary">
                       {foreignNationality && (
-                        <span className="max-w-[45%] shrink-0 truncate text-accent/80">
+                        <span className="relative z-[2] max-w-[45%] shrink-0 text-accent/80">
                           <NationalityText code={foreignNationality} />
                         </span>
                       )}
@@ -213,13 +212,13 @@ export default async function FigureLinkGrid({
                 </span>
                 {/* 트렌드 인물은 top X 칩이, 그 외에는 감상 항목 수가 오른쪽에 선다 — 둘 다 선정 기준 표기다 */}
                 {figure.trendMatch ? (
-                  <TrendMatchChip match={figure.trendMatch} name={name} variant="gold" className="mr-3.5 shrink-0 self-center" />
+                  <TrendMatchChip match={figure.trendMatch} name={name} variant="gold" className="relative z-[2] mr-3.5 shrink-0 self-center" />
                 ) : figure.content_count !== undefined && figure.content_count > 0 && (
                   <span className="flex shrink-0 items-center pr-3.5 text-[13px] font-medium tabular-nums text-text-secondary group-hover:text-accent">
                     {figure.content_count}
                   </span>
                 )}
-              </Link>
+              </div>
             </div>
           );
         })}

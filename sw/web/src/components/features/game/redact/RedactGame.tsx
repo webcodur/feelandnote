@@ -16,6 +16,7 @@ import RedactTextDisplay from './RedactTextDisplay';
 import RedactGuessInput from './RedactGuessInput';
 import RedactGuessList from './RedactGuessList';
 import RedactResult from './RedactResult';
+import NationalityText from '@/components/ui/NationalityText';
 
 interface Props {
   roundData: RedactRoundData;
@@ -189,7 +190,9 @@ export default function RedactGame({ roundData, isFixtureMode, onNewRound }: Pro
                   className="inline-flex items-center gap-1 rounded-md border border-blue-500/30 bg-blue-500/10 px-2 py-1 text-xs text-blue-200"
                 >
                   <Lightbulb className="h-3 w-3" aria-hidden />
-                  {t(`hint.${h.type}`)}: {h.value}
+                  {t(`hint.${h.type}`)}:
+                  {h.type === REDACT_HINTS.NATIONALITY && <NationalityText code={h.value} display="both" />}
+                  {h.type !== REDACT_HINTS.NATIONALITY && h.value}
                 </span>
               ))}
             </div>

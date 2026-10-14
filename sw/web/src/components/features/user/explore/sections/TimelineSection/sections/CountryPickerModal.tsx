@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Modal from "@/components/ui/Modal";
 import type { CountryGroup } from "@/actions/home";
-import { getCountryFlag } from "@/lib/utils/countryFlag";
+import CountryFlag from "@/components/ui/CountryFlag";
 import { getCountryContinent, groupTimelineCountries, type TimelineContinent } from "../continents";
 import { getTimelinePath } from "../pagination";
 
@@ -55,9 +55,12 @@ export default function CountryPickerModal({ countries, selectedCountry, default
         {level === 'continent' && groups.map(group => <button key={group.id} type="button" aria-pressed={group.id === active?.id} onClick={() => { setContinent(group.id); changeLevel('country'); }} className={chip + colors(group.id === active?.id)}>
           {t('continent.' + group.id)}<span className="text-xs font-normal text-text-tertiary">{group.countries.length}</span>
         </button>)}
-        {level === 'country' && options.map(country => <Link key={country.code} href={getTimelinePath(country.code, defaultCountry)} prefetch={false} onClick={onClose} aria-current={country.code === selectedCountry ? 'page' : undefined} className={chip + colors(country.code === selectedCountry)}>
-          <span aria-hidden>{getCountryFlag(country.code)}</span><span className="min-w-0 break-keep [overflow-wrap:anywhere]">{country.name}</span><span className="text-xs font-normal text-text-tertiary">{country.count}</span>
-        </Link>)}
+        {level === 'country' && options.map(country => <div key={country.code} className={'inline-flex min-h-11 min-w-0 max-w-full items-center gap-1 rounded-full border ps-1 pe-3.5 ' + colors(country.code === selectedCountry)}>
+          <CountryFlag code={country.code} />
+          <Link href={getTimelinePath(country.code, defaultCountry)} prefetch={false} onClick={onClose} aria-current={country.code === selectedCountry ? 'page' : undefined} className={'flex min-h-11 min-w-0 items-center gap-2 rounded-control hover:text-accent ' + focus}>
+            <span className="min-w-0 break-keep [overflow-wrap:anywhere]">{country.name}</span><span className="text-xs font-normal text-text-tertiary">{country.count}</span>
+          </Link>
+        </div>)}
       </div>
       {level === 'country' && !options.length && <p className="py-8 text-center text-sm text-text-secondary">{t('noCountries')}</p>}
     </div>

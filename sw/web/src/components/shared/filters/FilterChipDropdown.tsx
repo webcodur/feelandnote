@@ -16,6 +16,7 @@ export interface FilterOption {
   label: string;
   count?: number;
   icon?: ReactNode;
+  countryCode?: string;
 }
 
 interface FilterChipDropdownProps {

@@ -9,6 +9,7 @@ import AccessDialog from './AccessDialog'
 import { isDeveloperMode } from '@/lib/developer-mode'
 import AccessServiceSlot from './AccessServiceSlot'
 import { useContentAccess } from './useContentAccess'
+import { getCountryNameByLocale } from '@/lib/countries'
 
 export default function ContentAccessModal({ contentId, type, title, creator, thumbnail, placement, initialAccess, onClose }: {
   contentId: string; type: AccessType; title: string; creator?: string | null; thumbnail?: string | null; placement: string; initialAccess?: ContentAccess; onClose: () => void
@@ -18,7 +19,7 @@ export default function ContentAccessModal({ contentId, type, title, creator, th
   const { states, sources, retry } = useContentAccess(contentId, type, initialAccess)
   const hasProviderLookup = sources.includes('watchProviders')
   const watchRegion = states.watchProviders?.data?.region
-  const regionName = watchRegion ? new Intl.DisplayNames([locale], { type: 'region' }).of(watchRegion) : undefined
+  const regionName = watchRegion ? getCountryNameByLocale(watchRegion, locale) : undefined
   const loading = sources.some(source => states[source]?.status === 'loading')
   const failed = sources.some(source => states[source]?.status === 'error')
   const completed = sources.filter(source => states[source]?.status !== 'loading').length

@@ -12,11 +12,11 @@
 
 import Image from "next/image";
 import ContentCover from "@/components/ui/ContentCover";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Library } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { CuratedListSummary } from "@/actions/library/types";
-import { getCountryNameByLocale } from "@/lib/countries";
+import NationalityText from "@/components/ui/NationalityText";
 import { EXPLORE_CARD_FRAME_HOVER } from "@/components/shared/ExploreCard.styles";
 import { getCuratorBrand } from "./curatorBrandPalettes";
 import { getCuratorLogoUrl } from "./curatorLogos";
@@ -34,7 +34,6 @@ export default function CuratedListCard({ list, curatorQuery = "", variant = "hu
   variant?: "hub" | "curator";
 }) {
   const t = useTranslations("library.curated");
-  const locale = useLocale();
   const covers = list.covers.slice(0, FAN_SLOTS.length);
   const aspect = COVER_ASPECT[list.contentType] ?? "aspect-[2/3]";
   const logoUrl = getCuratorLogoUrl(list.curatorSlug, list.curatorLogoUrl);
@@ -78,8 +77,9 @@ export default function CuratedListCard({ list, curatorQuery = "", variant = "hu
           list.description && <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-text-secondary">{list.description}</p>
         ) : (
           // 출처 서명 — 카드 링크 위에 떠서 따로 눌린다
+          <div className="relative z-30 mt-auto flex min-w-0 items-center gap-1.5 self-start text-xs text-text-secondary">
           <Link href={`/explore/works/curated/${list.curatorSlug}${curatorQuery}`} prefetch={false}
-            className="relative z-30 mt-auto flex min-h-9 min-w-0 items-center gap-1.5 self-start rounded-control pe-1 pt-2 text-xs text-text-secondary hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            className="flex min-h-11 min-w-0 items-center gap-1.5 rounded-control pe-1 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
             {logoUrl ? (
               // 로고 파일은 바탕·여백까지 정사각으로 완성돼 있다 — 판을 덧대지 않는다(service-03-curated-lists.md 「기관 로고」)
               <span className="relative size-5 shrink-0 overflow-hidden rounded-[4px]">
@@ -89,10 +89,11 @@ export default function CuratedListCard({ list, curatorQuery = "", variant = "hu
               <span className="flex size-5 shrink-0 items-center justify-center rounded-[4px] bg-bg-raised text-[11px] font-bold" style={{ color: brand.primary }}>{brand.monogram.slice(0, 1)}</span>
             )}
             <span className="truncate">{list.curatorName ?? brand.monogram}</span>
-            {list.curatorCountry && (
-              <span className="shrink-0 text-text-tertiary"><span aria-hidden className="me-1">·</span>{getCountryNameByLocale(list.curatorCountry, locale)}</span>
-            )}
           </Link>
+            {list.curatorCountry && (
+              <NationalityText code={list.curatorCountry} />
+            )}
+          </div>
         )}
       </div>
     </article>

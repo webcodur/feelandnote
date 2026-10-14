@@ -1,11 +1,10 @@
-import { getCountryNameByLocale } from '@/lib/countries'
+import { isCountryCode } from '@/lib/countries'
 
 /** Cloudflare's unknown/Tor markers are not countries. Language never supplies a country. */
 export function parseVisitorCountry(value: unknown): string | null {
   if (typeof value !== 'string') return null
   const country = value.trim().toUpperCase()
-  return /^[A-Z]{2}$/.test(country) && country !== 'XX'
-    && getCountryNameByLocale(country, 'en') !== country ? country : null
+  return isCountryCode(country) ? country : null
 }
 
 /** Stable partition: a local preference must preserve the existing order within both groups. */

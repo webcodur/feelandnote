@@ -116,7 +116,7 @@ export default function HeroIdentity({ profile, locale, preview = false }: HeroI
             </span>
           ) : null}
           {profile.nationality ? (
-            <span className="grayscale">
+            <span>
               <NationalityText code={profile.nationality} />
             </span>
           ) : null}

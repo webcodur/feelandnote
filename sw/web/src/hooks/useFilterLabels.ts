@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations, useLocale } from "next-intl";
-import { useMemo } from "react";
+import { getCountryNameByLocale } from "@/lib/countries";
 
 export function useProfessionLabel() {
   const t = useTranslations("profession");
@@ -19,14 +19,10 @@ export function useContentTypeLabel() {
 export function useNationalityLabel() {
   const locale = useLocale();
   const t = useTranslations("home.ui");
-  const displayNames = useMemo(
-    () => typeof Intl !== "undefined" ? new Intl.DisplayNames([locale], { type: "region" }) : null,
-    [locale]
-  );
   return (value: string) => {
     if (value === "all") return t("all");
     if (value === "none") return t("nationalityNone");
-    try { return displayNames?.of(value) ?? value; } catch { return value; }
+    return getCountryNameByLocale(value, locale);
   };
 }
 

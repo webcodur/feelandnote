@@ -16,7 +16,6 @@ import { CelebBirthYearFilterDesktop } from "./CelebBirthYearFilter";
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
 import { CATEGORIES } from "@/constants/categories";
 import { getProfessionIcon } from "@/constants/professionIcons";
-import { getCountryFlag } from "@/lib/utils/countryFlag";
 import { SORT_VALUES } from "./useCelebFilters";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
 import { useTranslations } from "next-intl";
@@ -117,7 +116,7 @@ export default function CelebFiltersDesktop({
       value,
       label: getNatLabel(value),
       count,
-      icon: value !== "all" ? <span className="text-sm">{getCountryFlag(value)}</span> : undefined,
+      countryCode: value !== "all" ? value : undefined,
     })), [nationalityCounts, getNatLabel]);
 
   const contentTypeOptions: FilterOption[] = useMemo(() => {

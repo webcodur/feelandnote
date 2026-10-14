@@ -6,6 +6,7 @@ import { LoaderCircle } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 
 import VoiceBadge from "@/components/ui/VoiceBadge";
+import NationalityText from "@/components/ui/NationalityText";
 import WikiMark from "@/components/ui/icons/WikiMark";
 import { getCelebProfileUrl } from "@/lib/url";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
@@ -112,7 +113,7 @@ function InspectorCard(props: Props) {
 
       {(props.profession || props.country || years) && <div className={styles.inspectorMeta}>
         {props.profession && <span>{props.profession}</span>}
-        {props.country && <span>{props.country}</span>}
+        {props.country && <NationalityText code={props.country} />}
         {years && <span>{years}</span>}
       </div>}
 

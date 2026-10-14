@@ -875,7 +875,12 @@
     },
     "recentHistory": "Recently viewed",
     "removeRecentHistory": "Remove {title} from recently viewed",
-    "recentHistoryEmpty": "No recently viewed items."
+    "recentHistoryEmpty": "No recently viewed items.",
+    "countryFlag": {
+      "open": "About the flag of {country}",
+      "title": "About this flag",
+      "code": "Country code"
+    }
   },
   "notifications": {
     "title": "Notifications",

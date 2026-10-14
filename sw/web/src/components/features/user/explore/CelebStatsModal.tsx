@@ -6,7 +6,8 @@
 "use client";
 
 import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
-import { useState, useMemo } from "react";
+import { useState, useMemo, type ReactNode } from "react";
+import NationalityText from "@/components/ui/NationalityText";
 import { BarChart3, Users, Globe, BookOpen, User2 } from "lucide-react";
 import { Modal, ModalBody } from "@/components/ui";
 
@@ -63,7 +64,7 @@ function StatBar({
   color = "var(--color-accent)",
   countLabel,
 }: {
-  label: string;
+  label: ReactNode;
   count: number;
   total: number;
   color?: string;
@@ -182,7 +183,7 @@ function NationalityStats({
       {topNationalities.map((n) => (
         <StatBar
           key={n.value}
-          label={n.label}
+          label={<NationalityText code={n.value} display="both" className="max-w-full" />}
           count={n.count}
           total={total}
           color="#3b82f6"

@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, ListFilter } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { CountryGroup } from "@/actions/home";
-import { getCountryFlag } from "@/lib/utils/countryFlag";
+import CountryFlag from "@/components/ui/CountryFlag";
 import { getTimelinePath } from "../pagination";
 import { getCountryContinent, groupTimelineCountries } from "../continents";
 import CountryPickerModal from "./CountryPickerModal";
@@ -21,9 +21,9 @@ export default function CountryPicker({ countries, selectedCountry, defaultCount
   const selected = countries.find(country => country.code === selectedCountry);
   if (!active || !selected) return null;
   const rows = [
-    { kind: 'continent' as const, value: active.id, name: t('continent.' + active.id), flag: '', count: active.countries.length,
+    { kind: 'continent' as const, value: active.id, name: t('continent.' + active.id), count: active.countries.length,
       options: groups.map(group => ({ value: group.id, name: t('continent.' + group.id), code: group.id === active.id ? selectedCountry : group.countries[0].code })) },
-    { kind: 'country' as const, value: selectedCountry, name: selected.name, flag: getCountryFlag(selectedCountry), count: selected.count,
+    { kind: 'country' as const, value: selectedCountry, name: selected.name, count: selected.count,
       options: active.countries.map(country => ({ value: country.code, name: country.name, code: country.code })) },
   ];
   const focus = 'outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent';
@@ -40,10 +40,11 @@ export default function CountryPicker({ countries, selectedCountry, defaultCount
         <span className="hidden items-center justify-center ps-2 text-xs font-medium text-text-secondary md:flex">{label}</span>
         {row.options.length > 1 && <Link href={getTimelinePath(previous.code, defaultCountry)} prefetch={false} className={arrowClass} aria-label={ui('prev') + ' ' + label + ': ' + previous.name}><ChevronLeft size={17} aria-hidden /></Link>}
         {row.options.length < 2 && <span />}
+        <div className="flex min-w-0 items-center justify-center">
+        {row.kind === 'country' && <CountryFlag code={row.value} className="text-xs md:text-sm" />}
         <button type="button" aria-haspopup="dialog" aria-label={t(row.kind + 'Nav') + ': ' + row.name} onClick={() => setSheet(row.kind)}
           className={'flex min-w-0 items-center justify-center px-2 py-2 text-center font-semibold hover:bg-white/5 hover:text-accent ' + focus + (row.kind === 'country' ? ' flex-col gap-1 text-accent' : ' flex-wrap gap-2 text-text-primary')}>
           <span className={'flex min-w-0 items-center justify-center gap-2 ' + (row.kind === 'country' ? 'text-lg md:text-2xl' : 'text-sm md:text-base')}>
-            {row.flag && <span aria-hidden className="shrink-0 text-xs md:text-sm">{row.flag}</span>}
             <span className="min-w-0 break-keep [overflow-wrap:anywhere]">{row.name}</span>
           </span>
           <span className="flex items-center justify-center gap-2 text-xs font-normal text-text-secondary">
@@ -51,6 +52,7 @@ export default function CountryPicker({ countries, selectedCountry, defaultCount
             <ListFilter size={12} aria-hidden className="shrink-0" />
           </span>
         </button>
+        </div>
         {row.options.length > 1 && <Link href={getTimelinePath(next.code, defaultCountry)} prefetch={false} className={arrowClass} aria-label={ui('next') + ' ' + label + ': ' + next.name}><ChevronRight size={17} aria-hidden /></Link>}
         {row.options.length < 2 && <span />}
       </nav>;

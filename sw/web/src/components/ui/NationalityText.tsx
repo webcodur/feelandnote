@@ -1,21 +1,29 @@
 'use client'
 
 import { useLocale } from 'next-intl'
-import { useCountries } from '@/hooks/useCountries'
 import { getCountryNameByLocale } from '@/lib/countries'
+import { getCountryFlagCode } from '@/lib/utils/countryFlag'
+import CountryFlag from './CountryFlag'
 
 interface Props {
   code: string | null | undefined
+  display?: 'text' | 'flag' | 'both'
+  className?: string
 }
 
-// 국가 코드를 현재 페이지 locale의 국가명으로 변환하여 출력하는 컴포넌트
-// useCountries 훅으로 캐시 로딩을 보장한다
-export default function NationalityText({ code }: Props) {
+// 국가명은 현재 언어를 따른다. 국기가 없는 코드는 표시 방식에 관계없이 이름을 남긴다.
+export default function NationalityText({ code, display = 'flag', className = '' }: Props) {
   const locale = useLocale()
-  // 훅 호출로 캐시 초기화 보장
-  useCountries()
+  const normalized = code?.trim()
+  if (!normalized) return null
 
-  if (!code) return null
+  const name = getCountryNameByLocale(normalized, locale)
+  const flagCode = getCountryFlagCode(normalized)
+  if (display === 'text' || !flagCode) return <span className={className}>{name}</span>
+  if (display === 'flag') return <CountryFlag code={flagCode} label={name} className={className} />
 
-  return <span>{getCountryNameByLocale(code, locale)}</span>
+  return <span className={`inline-flex items-center gap-1.5 ${className}`}>
+    <CountryFlag code={flagCode} />
+    <span className="min-w-0 truncate">{name}</span>
+  </span>
 }

@@ -9,6 +9,8 @@ import { useState, useMemo } from "react";
 import { Check, Search } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
+import CountryFlag from "@/components/ui/CountryFlag";
+import { getCountryFlagCode } from "@/lib/utils/countryFlag";
 import { FILTER_MODAL_STYLES } from "@/constants/filterStyles";
 import type { FilterOption } from "./FilterChipDropdown";
 
@@ -54,9 +56,10 @@ export default function FilterModal({
     setSearchQuery("");
   };
 
-  const renderOption = ({ value, label, count, icon }: FilterOption) => {
+  const renderOption = ({ value, label, count, icon, countryCode }: FilterOption) => {
     const isActive = current === value;
-    return (
+    const flagCode = getCountryFlagCode(countryCode);
+    const optionButton = (
       <Button
         key={value}
         type="button"
@@ -72,6 +75,11 @@ export default function FilterModal({
         {isActive && <Check size={14} aria-hidden />}
       </Button>
     );
+    if (!flagCode) return optionButton;
+    return <div key={value} className="flex items-center gap-1">
+      <CountryFlag code={flagCode} className="text-sm" />
+      <div className="min-w-0 flex-1">{optionButton}</div>
+    </div>;
   };
 
   return (

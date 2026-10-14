@@ -5,7 +5,6 @@ import { useLocale, useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";
 import { useCountries } from "@/hooks/useCountries";
-import { getCountryNameByLocale } from "@/lib/countries";
 import MobileRelationGraph from "./MobileRelationGraph";
 import styles from "./RelationGraphSection.module.css";
 import RelationInspector from "./RelationInspector";
@@ -148,7 +147,7 @@ export default function RelationGraphSection({
     position: 0,
     total: model.people.length,
     profession: centerProfile?.profession ? tp(centerProfile.profession) : null,
-    country: centerProfile?.nationality ? getCountryNameByLocale(centerProfile.nationality, locale) : null,
+    country: centerProfile?.nationality ?? null,
     goLabel: t("relGoPersonPage"),
     wikidataLabel: t("relViewWikidata"),
     speakLabel: t(centerSpeaker?.hasVoice ? "playGreetingVoice" : "dialogue_greeting"),
@@ -170,7 +169,7 @@ export default function RelationGraphSection({
     person: selected, relationLabel: relationLabel(selected),
     position: activePeople.indexOf(selected) + 1, total: activePeople.length,
     profession: selected.profession ? tp(selected.profession) : null,
-    country: selected.nationality ? getCountryNameByLocale(selected.nationality, locale) : null,
+    country: selected.nationality ?? null,
     goLabel: t("relGoPersonPage"), wikidataLabel: t("relViewWikidata"),
     speakLabel: t(speaker?.hasVoice ? "playGreetingVoice" : "dialogue_greeting"),
     speakingLoading: speaker?.loading, hasVoice: speaker?.hasVoice, voicePulse: speaker?.pulse,

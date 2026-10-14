@@ -10,6 +10,7 @@ import CelebWorldFrame from "@/components/features/celeb/CelebWorldFrame";
 import { CELEB_WORLDS, getCelebWorld, resolveCelebWorld } from "@/lib/celeb/world";
 import { getWorldBannerImages } from "@/lib/celeb/worldImages";
 import { formatSectionNumber, getWorldStyle, type WorldFrame } from "@/lib/celeb/worldStyle";
+import NationalityText from "@/components/ui/NationalityText";
 
 /* 실제 DB 값을 그대로 옮겼다. 규칙을 고칠 때 이 표부터 확인한다 */
 const SAMPLES = [
@@ -160,7 +161,7 @@ export default function CelebWorldsPreview() {
                   <tr key={sample.name} className="border-b border-white/5">
                     <td className="py-2 pr-4 text-text-primary">{sample.name}</td>
                     <td className="py-2 pr-4 font-mono text-xs text-text-secondary">
-                      {sample.nationality} · {sample.birthDate ?? sample.deathDate ?? "미상"}
+                      <NationalityText code={sample.nationality} display="both" /> · {sample.birthDate ?? sample.deathDate ?? "미상"}
                     </td>
                     <td className={`py-2 pr-4 ${neutral ? "text-amber-300/80" : "text-accent"}`}>
                       {getCelebWorld(worldId).label}

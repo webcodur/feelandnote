@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Search, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Modal from "@/components/ui/Modal";
+import CountryFlag from "@/components/ui/CountryFlag";
+import { getCountryFlagCode } from "@/lib/utils/countryFlag";
 
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
 import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
@@ -83,7 +85,7 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
     const selected = currentValue[active] === option.value;
     const condition = conditions.find(condition => condition.key === active);
     const select = selected && condition ? condition.clear : () => handlers[active](option.value);
-    return (
+    const optionButton = (
       <button key={option.value} type="button" aria-pressed={selected}
         disabled={draftFilters.isLoading || (!selected && option.value !== "all" && hasCounts && option.count === 0)}
         onClick={select}
@@ -95,6 +97,12 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
         {hasCounts && option.count !== undefined && <span className="text-xs tabular-nums text-text-secondary">{option.count}</span>}
       </button>
     );
+    const flagCode = active === "nationality" ? getCountryFlagCode(option.value) : null;
+    if (!flagCode) return optionButton;
+    return <div key={option.value} className="flex items-center gap-1">
+      <CountryFlag code={flagCode} className="text-sm" />
+      <div className="min-w-0 flex-1">{optionButton}</div>
+    </div>;
   };
 
   return (

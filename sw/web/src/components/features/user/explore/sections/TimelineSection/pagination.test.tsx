@@ -14,6 +14,7 @@ import * as timelineUtils from "./utils";
 import * as continents from "./continents";
 import { fetchCountries, UNKNOWN_COUNTRY_CODE } from "@feelandnote/shared/lib/countries";
 import { MYTH_LAYOUT } from "@/components/features/user/explore/myth/mythLayout";
+import CountryFlagImage from "@/components/ui/CountryFlagImage";
 
 const require = createRequire(import.meta.url);
 const figures = Array.from({ length: 107 }, (_, index) => ({
@@ -77,7 +78,7 @@ const mocks: Record<string, unknown> = {
 
 const countryPickerMocks = {
   ...mocks,
-  "@/lib/utils/countryFlag": { getCountryFlag: () => "" },
+  "@/components/ui/CountryFlag": { default: CountryFlagImage },
   "../pagination": { getTimelinePath },
   "../continents": continents,
   "@/components/features/user/explore/myth/mythLayout": { MYTH_LAYOUT },
@@ -152,7 +153,7 @@ test("SSR pagination exposes actual previous and next links and country choices 
   assert.ok(picker('a[href="/explore/timeline?country=US"]').length > 0);
   const Section = loadComponent("./TimelineSection.tsx", {
     ...mocks,
-    "@/lib/utils/countryFlag": { getCountryFlag: () => "" },
+    "@/components/ui/CountryFlag": { default: CountryFlagImage },
     "@/components/features/game/shared/hooks/useDialogue": { useDialogueSubtitle: () => ({ handleSubtitle: () => {} }) },
     "@/hooks/useCelebGreeting": { useCelebGreeting: () => ({ fireGreeting: () => {} }) },
     "@/actions/home/getCelebTimeline": { getTimelineContemporaries: () => { throw new Error("SSR must not load contemporaries"); } },

@@ -876,7 +876,12 @@
     },
     "recentHistory": "최근 조회",
     "removeRecentHistory": "{title} 최근 조회에서 삭제",
-    "recentHistoryEmpty": "최근 조회한 항목이 없습니다."
+    "recentHistoryEmpty": "최근 조회한 항목이 없습니다.",
+    "countryFlag": {
+      "open": "{country} 국기 안내",
+      "title": "국기 안내",
+      "code": "국가 코드"
+    }
   },
   "notifications": {
     "title": "소식 보관함",
