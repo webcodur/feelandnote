@@ -475,6 +475,15 @@ test('initial content briefs evict the celeb HTML that embeds them', () => {
   ]).scopes, ['celeb'])
 })
 
+test('shared initial celebrity contents evict detail HTML while home bypasses the front cache', () => {
+  const plan = classifyCloudflarePurgeImpact([
+    'sw/web/src/actions/contents/getInitialCelebContents.ts',
+    'sw/web/src/components/features/figure/TodayFigureSection.tsx',
+  ])
+  assert.deepEqual(plan.scopes, ['celeb'])
+  assert.equal(plan.emergencyZone, false)
+})
+
 test('emergency zone purge is manual-only and requires an exact typed confirmation', () => {
   assert.throws(
     () => createManualCloudflarePurgePlan('emergency-zone', 'yes'),

@@ -17,11 +17,11 @@ export async function generateMetadata() {
 }
 
 async function FigureContent() {
-  const { figure, contents, date, source } = await getTodayFigure();
+  const { figure, initialContents, initialContentBrief, date, source } = await getTodayFigure();
   if (!figure) return null;
   return (
     <>
-      <TodayFigureSection figure={figure} contents={contents} date={date} source={source} />
+      <TodayFigureSection figure={figure} initialContents={initialContents} initialContentBrief={initialContentBrief} date={date} source={source} />
     </>
   );
 }

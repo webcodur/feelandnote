@@ -33,7 +33,8 @@ export async function FigureSection() {
     <div data-nosnippet>
       <TodayFigureSection
         figure={result.figure}
-        contents={result.contents}
+        initialContents={result.initialContents}
+        initialContentBrief={result.initialContentBrief}
         date={result.date}
         source={result.source}
         embedded

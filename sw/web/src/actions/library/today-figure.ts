@@ -6,21 +6,23 @@ import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
-import { CategoryId } from '@/constants/categories'
 import { getLocale } from 'next-intl/server'
 import { getKSTDateKey } from '@/lib/game/date-seed'
 import { getVisitorCountry } from '@/lib/visitorCountryServer'
 import { coalescePublicRead } from '@/lib/coalescePublicRead'
 import { selectTodayFigure, TODAY_FIGURE_FALLBACK_COUNTRY, TODAY_FIGURE_MIN_INFLUENCE_SCORE, type TodayFigureCandidate } from '@/lib/celeb/todayFigureSelection'
 import { fetchFeatureExcludedCelebIds } from '@/lib/celeb-feature-exclusion'
-import { CL_SELECT_LIST_WITH_AFFILIATE, flattenLocales } from '@/lib/utils/content-locale'
+import { getInitialCelebContents } from '@/actions/contents/getInitialCelebContents'
+import type { GetUserContentsResponse } from '@/actions/contents/getUserContents'
+import { getInitialContentBrief, getContentBrief, type ContentBrief } from '@/actions/contents/getContentBrief'
+import { shouldStreamForRequest } from '@/lib/render-mode'
+import type { ContentTypeCounts } from '@/types/content'
 import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dialogues'
 import type { Tables } from '@/types/database.generated'
-import type { ContentJoinRow, LibraryContent, StaticDatabaseClient } from './types'
+import type { StaticDatabaseClient } from './types'
 
 /** get_seed_eligible_celebs가 돌려주는 행 — 공개 감상 5개 이상인 활성 인물과 그 수 */
 type SeedEligibleRow = { celeb_id: string; content_count: number }
-import { fetchUserContentCounts } from './helpers'
 
 // #region 오늘의 인물 - 매일 랜덤 셀럽 1명의 콘텐츠
 interface TodayFigure {
@@ -47,14 +49,17 @@ interface TodayFigureSource {
 
 interface TodayFigureData {
   figure: TodayFigure | null
-  contents: LibraryContent[]
+  initialContents: GetUserContentsResponse
   source: TodayFigureSource
 }
 
 export interface TodayFigureResult extends TodayFigureData {
   /** 인물 편성에 사용한 KST 날짜. 화면에서도 같은 날짜를 표시한다. */
   date: string
+  initialContentBrief: ContentBrief | null
 }
+
+const EMPTY_CONTENTS: GetUserContentsResponse = { items: [], total: 0, page: 1, totalPages: 0, hasMore: false }
 
 /** All countries and languages share the same small candidate directory. */
 const getTodayFigureCandidates = unstable_cache(
@@ -92,7 +97,7 @@ const getTodayFigurePick = unstable_cache(
 // The same US fallback shares one profile/book payload across all visitor countries and dates.
 const getFigureContentsCached = unstable_cache(
   coalescePublicRead(async (id: string, locale: string) => fetchFigureContents(createStaticClient(), id, locale)),
-  ['today-figure-contents-v4'],
+  ['today-figure-contents-v6-detail-library'],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES] },
 )
 
@@ -103,13 +108,17 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
   const result: TodayFigureData = await withQueryFallback('getTodayFigure', async () => {
     const selected = await getTodayFigurePick(today, country)
     const source: TodayFigureSource = { type: 'seed', newsCount: 0 }
-    if (!selected) return { figure: null, contents: [], source }
+    if (!selected) return { figure: null, initialContents: EMPTY_CONTENTS, source }
     const data = await getFigureContentsCached(selected.id, locale)
-    return data.figure && data.contents.length >= 5
+    return data.figure && data.figure.contentCount >= 5
       ? { ...data, source }
-      : { figure: null, contents: [], source }
-  }, { figure: null, contents: [], source: { type: 'seed', newsCount: 0 } })
-  return { ...result, date: today }
+      : { figure: null, initialContents: EMPTY_CONTENTS, source }
+  }, { figure: null, initialContents: EMPTY_CONTENTS, source: { type: 'seed', newsCount: 0 } })
+  const firstId = result.initialContents.items[0]?.content_id
+  const initialContentBrief = firstId
+    ? await ((await shouldStreamForRequest()) ? getInitialContentBrief : getContentBrief)(firstId, locale)
+    : null
+  return { ...result, date: today, initialContentBrief }
 }
 
 // 오늘의 인물 celebs 조회 행
@@ -117,17 +126,6 @@ type FigureProfileRow = Pick<
   Tables<'celebs'>,
   'id' | 'slug' | 'nickname' | 'nickname_en' | 'avatar_url' | 'profession' | 'title' | 'bio' | 'bio_en' | 'speech_tone' | 'voice_v'
 >
-
-// 오늘의 인물 celeb_contents 조회 행
-interface FigureUserContentRow {
-  id: string
-  content_id: string
-  review: string | null
-  review_en?: string | null
-  is_spoiler: boolean | null
-  source_url: string | null
-  contents: ContentJoinRow | ContentJoinRow[] | null
-}
 
 async function fetchFigureContents(
   db: StaticDatabaseClient,
@@ -138,7 +136,7 @@ async function fetchFigureContents(
 
   const [
     { data: profile, error: profileError },
-    { data: celebContents, error: celebContentsError },
+    { data: typeCounts, error: typeCountsError },
     { data: dialogue, error: dialogueError },
   ] = await Promise.all([
     db
@@ -146,14 +144,7 @@ async function fetchFigureContents(
       .select('id, slug, nickname, nickname_en, avatar_url, profession, title, bio, bio_en, speech_tone, voice_v')
       .eq('id', celebId)
       .single(),
-    db
-      .from('celeb_contents')
-      // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
-      // 홈 카드의 책 구매 단추(YES24·쿠팡·아마존)가 제휴 링크를 쓴다
-      .select(`id, content_id, review, ${locale === 'en' ? 'review_en, ' : ''}is_spoiler, source_url, contents(id, type, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE}))`)
-      .eq('celeb_id', celebId)
-      .eq('status', 'FINISHED')
-      .eq('visibility', 'public'),
+    db.rpc('get_celeb_type_counts', { p_celeb_id: celebId }),
     db
       .from('celeb_dialogues')
       .select(DIALOGUE_BRIEF_SELECT)
@@ -164,47 +155,19 @@ async function fetchFigureContents(
 
   // 「인물 없음」「대사 없음」만 통과시키고 그 밖의 실패는 던져 캐시에 남기지 않는다
   throwOnQueryError('getTodayFigure 인물 조회', profileError, { ignoreCodes: [NO_ROWS_CODE] })
-  throwOnQueryError('getTodayFigure 인물 기록 조회', celebContentsError)
+  throwOnQueryError('getTodayFigure 인물 기록 개수 조회', typeCountsError)
   throwOnQueryError('getTodayFigure 인물 대사 조회', dialogueError, { ignoreCodes: [NO_ROWS_CODE] })
 
   if (!profile) {
-    return { figure: null, contents: [], source: defaultSource }
+    return { figure: null, initialContents: EMPTY_CONTENTS, source: defaultSource }
   }
 
   const profileRow: FigureProfileRow = profile
-  const ucRows = (celebContents || []) as unknown as FigureUserContentRow[]
-  const contentIds = [...new Set(ucRows
-    .map(item => (Array.isArray(item.contents) ? item.contents[0] : item.contents)?.id)
-    .filter((id): id is string => Boolean(id)))]
-  const userCountMap = await fetchUserContentCounts(db, undefined, contentIds)
-
-  const contents: LibraryContent[] = ucRows.map(item => {
-    const content = Array.isArray(item.contents) ? item.contents[0] : item.contents
-    const flat = flattenLocales(content?.content_locales, locale, content?.type)
-    return {
-      id: content?.id || '',
-      title: flat.title,
-      creator: flat.creator,
-      thumbnail_url: flat.thumbnail_url,
-      type: (content?.type as CategoryId) || 'BOOK',
-      celeb_count: 1,
-      user_count: userCountMap.get(content?.id || '') ?? 0,
-      avg_rating: null,
-      review: item.review,
-      review_en: item.review_en ?? null,
-      is_spoiler: item.is_spoiler as boolean,
-      source_url: item.source_url,
-      user_content_id: item.id,
-      title_ko: flat.title_ko,
-      title_en: flat.title_en,
-      creator_en: flat.creator_en,
-      isbn_en: flat.isbn_en,
-      thumbnail_en: flat.thumbnail_en,
-      has_en_edition: flat.has_en_edition,
-      title_badge: flat.title_badge,
-      affiliate_url: flat.affiliate_url,
-    }
-  }).filter(c => c.id)
+  const counts: ContentTypeCounts = { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 }
+  for (const row of typeCounts ?? []) {
+    if (row.content_type in counts) counts[row.content_type as keyof ContentTypeCounts] = Number(row.total)
+  }
+  const initialContents = await getInitialCelebContents(celebId, counts, locale)
 
   const nicknameEn = profileRow.nickname_en ?? null
   const bioEn = profileRow.bio_en ?? null
@@ -225,13 +188,13 @@ async function fetchFigureContents(
       title: profileRow.title ?? null,
       bio: (locale === 'en' ? bioEn || profileRow.bio : profileRow.bio) ?? null,
       bio_en: bioEn,
-      contentCount: contents.length,
+      contentCount: Object.values(counts).reduce((sum, count) => sum + count, 0),
       greetingLines,
       quote,
       speechTone: profileRow.speech_tone ?? 'composed',
       voiceV: profileRow.voice_v ?? 0,
     },
-    contents,
+    initialContents,
     source: defaultSource
   }
 }

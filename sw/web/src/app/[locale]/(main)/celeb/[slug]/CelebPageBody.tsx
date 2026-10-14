@@ -3,12 +3,11 @@ import { getCelebRouteProfile } from '@/lib/profile-route'
 import { getCelebSidePresence } from '@/actions/celebs/getCelebSidePresence'
 import { getCelebExternalLinks } from '@/actions/celebs/getCelebExternalLinks'
 import { getCelebDialogueFull } from '@/actions/celebs/getCelebJsonLdData'
-import { getPublicUserContents } from '@/actions/contents/getUserContents'
+import { getInitialCelebContents } from '@/actions/contents/getInitialCelebContents'
 import { getCelebReferenceBooks } from '@/actions/celebs/getCelebReferenceBooks'
 import { shouldStreamForRequest } from '@/lib/render-mode'
 import { wikidataLink } from '@/lib/celeb/externalLinks'
 import Lane from '@/components/ui/pending/Lane'
-import { CATEGORIES } from '@/constants/categories'
 import { resolveCelebWorld } from '@/lib/celeb/world'
 import { getWorldBannerImages } from '@/lib/celeb/worldImages'
 import { buildCelebTitle } from '@/lib/celeb/meta'
@@ -21,7 +20,6 @@ import CelebSectionPending from './CelebSectionPending'
 import { CelebLibraryServer, CelebBooksServer, CelebJsonLdServer, type SectionData } from './CelebDataSections'
 
 interface PageProps { params: Promise<{ locale: string; slug: string }> }
-const LIBRARY_FIRST_PAGE_SIZE = 4
 const EMPTY_CONTENTS = { items: [], total: 0, page: 1, totalPages: 0, hasMore: false }
 
 // 실패도 구획의 결과로 받는다. 캐시 조회는 오류를 던져 실패값이 저장되지 않게 유지한다.
@@ -43,9 +41,7 @@ export default async function CelebPageBody({ params }: PageProps) {
 
   // 읽는 순서에 맞춰 작은 감상 조회를 우선한다. 참고도서는 그 다음 묶음으로 시작한다.
   const contentsPromise = settle(slug, '감상 기록', profile.celeb_tier === 'full'
-    ? getPublicUserContents({ userId,
-        type: CATEGORIES.find(category => profile.contentTypeCounts[category.dbType] > 0)?.dbType ?? 'BOOK',
-        page: 1, limit: LIBRARY_FIRST_PAGE_SIZE, sortBy: 'recent' }, locale)
+    ? getInitialCelebContents(userId, profile.contentTypeCounts, locale)
     : Promise.resolve(EMPTY_CONTENTS))
   const booksPromise = contentsPromise.then(() => settle(slug, '관련 도서',
     getCelebReferenceBooks(userId, locale, initial, profile.profession)))

@@ -8,14 +8,10 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { Avatar, BlurDissolve } from "@/components/ui";
-import BookShelfSelection from "@/components/shared/BookShelf/BookShelfSelection";
-import { homeReadingBook } from "@/components/features/home/homeReadingBook";
-import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
-import { Calendar, BookOpen, Newspaper } from "lucide-react";
-import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
-import type { ContentType } from "@/types/database";
-import type { TitleBadge } from "@/lib/utils/content-locale";
-import { getLocalizedContent } from "@/lib/utils/editions";
+import ReviewsSection from "@/app/[locale]/(main)/celeb/[slug]/ReviewsSection";
+import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
+import type { ContentBrief } from "@/actions/contents/getContentBrief";
+import { Calendar, Newspaper } from "lucide-react";
 
 interface Figure {
     id: string;
@@ -29,28 +25,6 @@ interface Figure {
     contentCount?: number;
 }
 
-interface Content {
-    id: string;
-    type: string;
-    title: string;
-    creator: string | null;
-    thumbnail_url: string | null;
-    avg_rating?: number | null;
-    review?: string | null;
-    review_en?: string | null;
-    is_spoiler?: boolean;
-    source_url?: string | null;
-    user_content_id?: string;
-    title_ko?: string | null;
-    title_en?: string | null;
-    creator_en?: string | null;
-    isbn_en?: string | null;
-    thumbnail_en?: string | null;
-    has_en_edition?: boolean | null;
-    title_badge?: TitleBadge | null;
-    affiliate_url?: unknown;
-}
-
 interface TodayFigureSource {
     type: 'news' | 'seed';
     newsCount: number;
@@ -58,19 +32,19 @@ interface TodayFigureSource {
 
 interface TodayFigureSectionProps {
     figure: Figure;
-    contents: Content[];
+    initialContents: GetUserContentsResponse;
+    initialContentBrief: ContentBrief | null;
     date: string;
     source?: TodayFigureSource;
     /** 홈 HubSection 안에 들어갈 때 true — 제목·부제는 밖이 쥐므로 날짜 뱃지만 남긴다 */
     embedded?: boolean;
 }
 
-export default function TodayFigureSection({ figure, contents, date, source, embedded = false }: TodayFigureSectionProps) {
+export default function TodayFigureSection({ figure, initialContents, initialContentBrief, date, source, embedded = false }: TodayFigureSectionProps) {
     const t = useTranslations("todayFigure");
+    const tCeleb = useTranslations("celebPage");
     const tProfession = useTranslations("profession");
     const locale = useLocale();
-    const [bookListOpen, setBookListOpen] = useState(false);
-    const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
     // 선정 사유 마크 — 터치는 호버 툴팁이 없으므로 눌러 여는 말풍선을 둔다
     const [reasonOpen, setReasonOpen] = useState(false);
     const reasonMarkRef = useRef<HTMLSpanElement>(null);
@@ -84,23 +58,13 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
         return () => document.removeEventListener("pointerdown", close);
     }, [reasonOpen]);
 
-    // figure 부재의 이른 반환은 모든 훅(useMemo) 뒤에서 한다 — react-hooks/rules-of-hooks
     const displayName = (locale === "en" && figure?.nickname_en ? figure.nickname_en : figure?.nickname) ?? "";
     const displayBio = locale === "en" && figure?.bio_en ? figure.bio_en : figure?.bio;
     const professionLabel = figure?.profession ? tProfession(figure.profession) : "";
 
-    const filteredContents = categoryFilter
-        ? contents.filter(c => c.type === categoryFilter)
-        : contents;
-    // 홈에서 선정한 네 작품을 공통 책장으로 한 건씩 읽는다.
-    const visibleContents = filteredContents.slice(0, 4);
-    /* 수수료 안내 — 카드의 판매 단추 안에 묻지 않고 분류 칩 줄 끝에 둔다(인물 서재 조작대와 같은 규칙) */
-
     // 서버가 인물을 고를 때 사용한 날짜를 그대로 쓴다. 방문자 시간대나 자정 경계에 흔들리지 않는다.
     const [, month, day] = date.split("-").map(Number);
     const dateStr = t("dateLabel", { month, day });
-
-    // 제목은 칩만 둔다. 종류별 개수는 분류 칩이 이미 말하므로 문구로 되풀이하지 않는다
 
     if (!figure) return null;
 
@@ -172,62 +136,16 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
             </div>
 
             <div className="mx-auto min-h-[200px] w-full max-w-4xl">
-                {/* 칩은 상자 없이 바로 둔다 — 종류별 박스가 따로 노는 느낌을 없앤다 */}
-                <div className="mb-4 flex items-center justify-center gap-2 md:mb-5">
-                    <ContentTypeSummary
-                        items={contents}
-                        value={categoryFilter}
-                        onChange={(type) => setCategoryFilter(type)}
-                        size="md"
-                    />
-                </div>
-
-                {filteredContents.length > 0 ? (
-                  <>
-                    <BookShelfSelection
-                        selectionKey={figure.id + ':' + (categoryFilter ?? 'all')}
-                        intro={t("subtitle")}
-                        books={visibleContents.map((content) => {
-                            const localized = getLocalizedContent(content, locale);
-                            return homeReadingBook({
-                                id: content.id, type: content.type as ContentType, title: localized.title,
-                                creator: localized.creator, thumbnailUrl: locale === 'en' && content.thumbnail_en ? content.thumbnail_en : content.thumbnail_url,
-                                affiliateUrl: content.affiliate_url, titleBadge: content.title_badge,
-                            }, {
-                                id: content.user_content_id ?? content.id, review: content.review ?? null,
-                                reviewEn: content.review_en, sourceUrl: content.source_url, isSpoiler: content.is_spoiler,
-                            });
-                        })}
-                        context={{ kind: 'read', personId: figure.id, personName: displayName, expandedReading: true }}
-                        listOpen={bookListOpen} onListOpenChange={setBookListOpen}
-                    />
-                    {visibleContents.map((content) => (
-                      <DeveloperCollectionJourney
-                        key={content.id}
-                        target={{ title: content.title, creator: content.creator, type: content.type, contentId: content.id }}
-                        placement="home-today-figure"
-                        context="방금 소개한 작품을 직접 감상하고 싶다면"
-                      />
-                    ))}
-                  </>
-                ) : (
-                    <div className="flex w-full flex-col items-center justify-center gap-3 rounded-card border border-dashed border-line py-14 text-center">
-                        <BookOpen size={24} className="text-text-tertiary" aria-hidden />
-                        <p className="font-medium text-text-secondary">{t("emptyCategory")}</p>
-                    </div>
-                )}
-
-                {/* 전체 보기 링크 - 콘텐츠가 있을 때만. 누르는 칸 44px */}
-                {filteredContents.length > 0 && (
-                    <div className="mt-2 flex justify-end">
-                        <Link
-                            href={getCelebProfileUrl(figure)}
-                            className="inline-flex min-h-11 shrink-0 items-center rounded-md px-2 text-sm font-medium text-text-secondary hover:bg-accent/5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                        >
-                            {t("viewAll")} →
-                        </Link>
-                    </div>
-                )}
+                <ReviewsSection
+                    key={figure.id}
+                    userId={figure.id}
+                    slug={figure.slug ?? ""}
+                    nickname={displayName}
+                    avatarUrl={figure.avatar_url}
+                    emptyMessage={tCeleb("libraryEmpty")}
+                    initialContents={initialContents}
+                    initialContentBrief={initialContentBrief}
+                />
             </div>
         </div>
     );

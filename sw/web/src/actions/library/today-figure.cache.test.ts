@@ -6,9 +6,13 @@ import { test } from 'node:test'
 import ts from 'typescript'
 import { coalescePublicRead } from '../../lib/coalescePublicRead'
 import { selectTodayFigure, TODAY_FIGURE_FALLBACK_COUNTRY, TODAY_FIGURE_MIN_INFLUENCE_SCORE } from '../../lib/celeb/todayFigureSelection'
+import type { GetUserContentsResponse } from '../contents/getUserContents'
 
 const require = createRequire(import.meta.url)
 const compiled = ts.transpileModule(readFileSync(new URL('./today-figure.ts', import.meta.url), 'utf8'), {
+  compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+}).outputText
+const initialCompiled = ts.transpileModule(readFileSync(new URL('../contents/getInitialCelebContents.ts', import.meta.url), 'utf8'), {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
 }).outputText
 
@@ -23,6 +27,9 @@ function fixture() {
     { id: 'low-influence', nationality: 'KR' }, { id: 'unrated', nationality: 'KR' }]
   let failEligibility = false
   let failInfluence = false
+  let failContents = false
+  let counts = { BOOK: 6, VIDEO: 2, GAME: 0, MUSIC: 0 }
+  const contentRequests: { userId: string; type: string; page: number; limit: number; sortBy: string; locale: string }[] = []
   class Query {
     id: string | null = null
     minScore = 0
@@ -56,6 +63,9 @@ function fixture() {
       }
       if (this.table === 'celebs' && !this.id) { reads.directory++; return directory }
       if (this.table === 'celebs') { reads.profile++; return { id: this.id, nickname: this.id, nickname_en: this.id } }
+      if (this.table === 'get_celeb_type_counts') {
+        return Object.entries(counts).map(([content_type, total]) => ({ content_type, total }))
+      }
       if (this.table === 'celeb_contents') {
         reads.contents++
         return Array.from({ length: 5 }, (_, index) => ({ id: `record-${index}`, content_id: `book-${index}`, contents: { id: `book-${index}`, type: 'BOOK' } }))
@@ -89,15 +99,38 @@ function fixture() {
     '@/lib/coalescePublicRead': { coalescePublicRead },
     '@/lib/celeb/todayFigureSelection': { selectTodayFigure, TODAY_FIGURE_FALLBACK_COUNTRY, TODAY_FIGURE_MIN_INFLUENCE_SCORE },
     '@/lib/celeb-feature-exclusion': { fetchFeatureExcludedCelebIds: async () => { reads.exclusions++; return new Set(['excluded']) } },
-    '@/lib/utils/content-locale': { CL_SELECT_LIST_WITH_AFFILIATE: '', flattenLocales: () => ({ title: 'Book' }) },
     '@/lib/utils/celeb-dialogues': { DIALOGUE_BRIEF_SELECT: '' },
-    './helpers': { fetchUserContentCounts: async () => new Map() },
+    '@/actions/contents/getContentBrief': {
+      getInitialContentBrief: async (contentId: string) => ({ contentId }),
+      getContentBrief: async (contentId: string) => ({ contentId }),
+    },
+    '@/lib/render-mode': { shouldStreamForRequest: async () => true },
   }
-  const loaded = { exports: {} as { getTodayFigure: () => Promise<{ figure: { id: string }; date: string }> } }
+  const initial = { exports: {} as { getInitialCelebContents: (id: string, counts: object, locale: string) => Promise<GetUserContentsResponse> } }
+  const initialMocks: Record<string, unknown> = {
+    '@/constants/categories': { CATEGORIES: ['BOOK', 'VIDEO', 'GAME', 'MUSIC'].map(dbType => ({ dbType })) },
+    './getUserContents': { getPublicUserContents: async (params: typeof contentRequests[number], locale: string) => {
+      reads.contents++
+      contentRequests.push({ ...params, locale })
+      if (failContents) throw new Error('contents unavailable')
+      const total = counts[params.type as keyof typeof counts]
+      return { items: Array.from({ length: Math.min(total, params.limit) }, (_, index) => ({
+        id: `record-${index}`, content_id: `book-${index}`, content: { type: params.type },
+      })), total, page: params.page, totalPages: Math.ceil(total / params.limit), hasMore: total > params.limit }
+    } },
+  }
+  new Function('require', 'module', 'exports', initialCompiled)((id: string) => initialMocks[id] ?? require(id), initial, initial.exports)
+  mocks['@/actions/contents/getInitialCelebContents'] = initial.exports
+  const loaded = { exports: {} as { getTodayFigure: () => Promise<{
+    figure: { id: string; contentCount: number }; date: string; initialContents: GetUserContentsResponse; initialContentBrief: { contentId: string };
+  }> } }
   new Function('require', 'module', 'exports', compiled)((id: string) => mocks[id] ?? require(id), loaded, loaded.exports)
   return {
     reads, fail: (value: boolean) => { failEligibility = value },
     failInfluence: (value: boolean) => { failInfluence = value },
+    failContents: (value: boolean) => { failContents = value },
+    setCounts: (value: typeof counts) => { counts = value },
+    contentRequests,
     read: (country: string | null, locale = 'ko') => request.run({ country, locale }, loaded.exports.getTodayFigure),
   }
 }
@@ -111,6 +144,34 @@ test('cold requests across countries and languages share candidate reads and US 
   assert.deepEqual(f.reads, { directory: 1, eligibility: 1, exclusions: 1, influence: 1, profile: 2, contents: 2 })
   await f.read('FR')
   assert.deepEqual(f.reads, { directory: 1, eligibility: 1, exclusions: 1, influence: 1, profile: 2, contents: 2 })
+})
+
+test('홈은 상세의 첫 분류·최근순 첫 페이지를 조회하고 4건 이후도 탐색할 수 있는 응답을 전달한다', async () => {
+  const f = fixture()
+  const result = await f.read('KR', 'en')
+  assert.deepEqual(f.contentRequests, [{ userId: result.figure.id, type: 'BOOK', page: 1, limit: 4, sortBy: 'recent', locale: 'en' }])
+  assert.equal(result.initialContents.items.length, 4)
+  assert.equal(result.initialContents.total, 6)
+  assert.equal(result.initialContents.hasMore, true)
+  assert.equal(result.figure.contentCount, 8)
+  assert.equal(result.initialContentBrief.contentId, result.initialContents.items[0].content_id)
+})
+
+test('도서가 없는 인물은 상세와 같이 첫 감상 유형을 영상으로 연다', async () => {
+  const f = fixture()
+  f.setCounts({ BOOK: 0, VIDEO: 6, GAME: 0, MUSIC: 1 })
+  const result = await f.read('US')
+  assert.equal(f.contentRequests[0].type, 'VIDEO')
+  assert.equal(result.initialContents.items[0].content.type, 'VIDEO')
+})
+
+test('감상 첫 조회가 실패하면 빈 책장을 캐시하지 않고 다음 요청에서 회복한다', async () => {
+  const f = fixture()
+  f.failContents(true)
+  await assert.rejects(f.read('US'), /contents unavailable/)
+  f.failContents(false)
+  assert.equal((await f.read('US')).initialContents.items.length, 4)
+  assert.equal(f.reads.contents, 2)
 })
 
 test('low and missing influence scores are excluded; the C-rank boundary remains eligible', async () => {
