@@ -9,10 +9,24 @@ type OriginalAuthorContext = { workKey: string | null; editionKey: string | null
 // https://openlibrary.org/authors/OL11582732A.json
 const TIFFANYS_AUTHOR_KEYS = ['/authors/OL1420114A', '/authors/OL7100156A', '/authors/OL11582732A'] as const
 
+// My Story의 검수한 영어판은 Ingrid Bergman과 Alan Burgess의 공저다.
+// https://openlibrary.org/books/OL33459068M.json
+// https://openlibrary.org/works/OL25145419W.json
+// 원전의 Burgess 항목은 생몰(1915–1998)과 Bergman 회고록 공저 이력을 명시한다.
+// https://openlibrary.org/authors/OL12242479A.json
+// https://openlibrary.org/authors/OL596986A.json
+const MY_STORY_EDITION_AUTHORS = ['/authors/OL1235607A', '/authors/OL596986A'] as const
+const MY_STORY_WORK_AUTHORS = ['/authors/OL1235607A', '/authors/OL12242479A'] as const
+
 /** 서로 다른 판의 인물이 연결 원전의 저자 목록에 섞이면 자동 선택하지 않는다. */
 export function getBookOriginalAuthorKeys(
   editionAuthors: readonly string[], workAuthors: readonly string[], context?: OriginalAuthorContext,
 ): string[] | null {
+  if (context?.workKey === '/works/OL25145419W' && context.editionKey === '/books/OL33459068M'
+    && context.isbn === '9780751597134' && editionAuthors.length === MY_STORY_EDITION_AUTHORS.length
+    && MY_STORY_EDITION_AUTHORS.every(key => editionAuthors.includes(key))
+    && workAuthors.length === MY_STORY_WORK_AUTHORS.length
+    && MY_STORY_WORK_AUTHORS.every(key => workAuthors.includes(key))) return [...MY_STORY_EDITION_AUTHORS]
   if (context?.workKey === '/works/OL16565784W' && context.editionKey === '/books/OL38063276M'
     && context.isbn === '9781728267517' && editionAuthors.length === 1
     && editionAuthors[0] === TIFFANYS_AUTHOR_KEYS[0] && workAuthors.length === TIFFANYS_AUTHOR_KEYS.length

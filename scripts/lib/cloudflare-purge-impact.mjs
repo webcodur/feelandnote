@@ -138,6 +138,8 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // 옛 세력 주소는 middleware에서 이동하며, 보관 HTML 중에서는 인물 상세의 소속 링크도 바꾼다.
+  'sw/web/src/lib/retired-factions.ts',
   // 인물 상세의 메타 설명과 본문 제목을 조립하는 공통 함수.
   'sw/web/src/lib/celeb/meta.ts',
   // 인물 상세의 관련 도서 분류와 하단 세력 카드만 이 미리보기를 소비한다.
@@ -289,6 +291,24 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // classics·chosen·era 결과는 작품 탐색에서만 읽는다. 상세 HTML의 도서 메타 조회는 별도 경로다.
+  'sw/web/src/actions/library/chosen.ts',
+  'sw/web/src/actions/library/classics.ts',
+  'sw/web/src/actions/library/era.ts',
+  'sw/web/src/lib/library/classicsQuery.ts',
+  'sw/web/src/lib/library/scriptureResult.ts',
+  'sw/web/src/components/features/library/sections/ClassicsFilters.tsx',
+  'sw/web/src/components/features/library/sections/classicsRequests.ts',
+  'sw/web/src/components/features/library/sections/useClassicsData.ts',
+  // 삭제된 경량 인물 모달은 현재 소비자가 없다. 탐색 통계·필터도 홈·인물 탐색 전용이다.
+  'sw/web/src/components/features/celeb/modals/LightCelebModal.tsx',
+  'sw/web/src/components/features/home/CelebDetailFiltersModal.tsx',
+  'sw/web/src/components/features/home/CelebFiltersDesktop.tsx',
+  'sw/web/src/components/features/home/CelebFiltersMobile.tsx',
+  'sw/web/src/components/features/user/explore/CelebStatsModal.tsx',
+  // 독서 게임은 rest·개발 실험 화면에서 실행하며 앞단 HTML 보관 대상이 아니다.
+  'sw/web/src/components/features/game/redact/RedactGame.tsx',
+  'sw/web/src/components/features/game/redact/RedactResult.tsx',
   // 인물 소개 모달은 신화·세력 탐색에서 열며 앞단 HTML 보관 대상이 아니다.
   'sw/web/src/components/features/faction/entry/FactionPersonBooks.tsx',
   'sw/web/src/components/features/faction/entry/FactionPersonHeader.tsx',
@@ -489,6 +509,18 @@ const CACHED_HTML_PREFIXES = [
 ]
 
 const CACHED_HTML_FILES = new Set([
+  // 국적 표시는 인물 상세·공통 인물 모달·연표에서 함께 소비하며 이미지 API 자체는 바꾸지 않는다.
+  'sw/web/src/components/ui/CountryFlag.tsx',
+  'sw/web/src/components/ui/CountryFlagImage.tsx',
+  'sw/web/src/components/ui/CountryFlagModal.tsx',
+  'sw/web/src/components/ui/NationalityText.tsx',
+  'sw/web/src/lib/countries.ts',
+  'sw/web/src/lib/utils/countryFlag.ts',
+  // 연표의 초기 국가 선택과 함께 읽는 동시대 인물 표시는 보관된 timeline HTML에 영향을 준다.
+  'sw/web/src/lib/visitorCountry.ts',
+  'sw/web/src/components/features/user/explore/sections/TimelineSection/sections/ContemporariesPanel.tsx',
+  'sw/web/src/components/features/user/explore/sections/TimelineSection/sections/CountryPicker.tsx',
+  'sw/web/src/components/features/user/explore/sections/TimelineSection/sections/CountryPickerModal.tsx',
   // explore 공통 레이아웃은 보관 대상인 directory·timeline에도 실린다.
   'sw/web/src/components/features/user/explore/hub/ExploreLayoutFrame.tsx',
   // 공용 모달과 페이지 구획 이동은 보관하는 인물·작품·명부 HTML에서 함께 쓴다.

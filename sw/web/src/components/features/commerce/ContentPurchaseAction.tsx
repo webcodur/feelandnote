@@ -19,7 +19,7 @@ export default function ContentPurchaseAction({ type, placement, enabled = true,
   const target = followsCard ? { ...content, title: display.title, creator: display.creator, thumbnail: display.thumbnail,
     bookLocale: display.bookLocale, isbn: display.bookLocale === (content.bookLocale ?? locale) ? content.isbn : undefined } : content
   return type === 'BOOK'
-    ? <BookPurchaseSummary {...target} links={target.links ?? toAffiliateLinks(target.affiliateUrl)} className={className} full />
+    ? <BookPurchaseSummary {...target} links={target.links ?? toAffiliateLinks(target.affiliateUrl)} className={className} />
     : (isUuid(content.contentId) || content.initialAccess) && <div className={`@container/purchase min-w-0 ${className ?? ''}`}>
       <ContentAccessPanel {...content} type={type} placement={placement} compact />
     </div>

@@ -13,6 +13,50 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('classics browsing and home filters do not invalidate cached detail HTML', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/actions/library/chosen.ts',
+    'sw/web/src/actions/library/classics.ts',
+    'sw/web/src/actions/library/era.ts',
+    'sw/web/src/lib/library/classicsQuery.ts',
+    'sw/web/src/lib/library/scriptureResult.ts',
+    'sw/web/src/components/features/library/sections/ClassicsFilters.tsx',
+    'sw/web/src/components/features/library/sections/classicsRequests.ts',
+    'sw/web/src/components/features/library/sections/useClassicsData.ts',
+    'sw/web/src/components/features/home/CelebDetailFiltersModal.tsx',
+    'sw/web/src/components/features/home/CelebFiltersDesktop.tsx',
+    'sw/web/src/components/features/home/CelebFiltersMobile.tsx',
+    'sw/web/src/components/features/user/explore/CelebStatsModal.tsx',
+    'sw/web/src/components/features/celeb/modals/LightCelebModal.tsx',
+    'sw/web/src/components/features/game/redact/RedactGame.tsx',
+    'sw/web/src/components/features/game/redact/RedactResult.tsx',
+  ]).scopes, ['none'])
+})
+
+test('nationality and timeline country changes invalidate rendered HTML without purging SEO images', () => {
+  for (const file of [
+    'sw/web/src/components/ui/CountryFlag.tsx',
+    'sw/web/src/components/ui/CountryFlagImage.tsx',
+    'sw/web/src/components/ui/CountryFlagModal.tsx',
+    'sw/web/src/components/ui/NationalityText.tsx',
+    'sw/web/src/lib/countries.ts',
+    'sw/web/src/lib/utils/countryFlag.ts',
+    'sw/web/src/lib/visitorCountry.ts',
+    'sw/web/src/components/features/user/explore/sections/TimelineSection/sections/ContemporariesPanel.tsx',
+    'sw/web/src/components/features/user/explore/sections/TimelineSection/sections/CountryPicker.tsx',
+    'sw/web/src/components/features/user/explore/sections/TimelineSection/sections/CountryPickerModal.tsx',
+  ]) {
+    const plan = classifyCloudflarePurgeImpact([file])
+    assert.deepEqual(plan.scopes, ['cached-html'])
+    assert.equal(plan.emergencyZone, false)
+    assert.equal(JSON.stringify(plan).includes('seo-image'), false)
+  }
+})
+
+test('retired faction references invalidate the cached figure affiliation links', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/lib/retired-factions.ts']).scopes, ['celeb'])
+})
+
 test('title translation markers and edition notices refresh both public detail families', () => {
   for (const file of [
     'sw/web/src/lib/utils/content-locale.ts',
@@ -315,7 +359,7 @@ test('known celeb-detail dependencies stay narrowly scoped and never widen on th
 test('generic celeb internals require an explicit consumer-based rule', () => {
   for (const file of [
     'sw/web/src/actions/celebs/getCelebDirectory.ts',
-    'sw/web/src/components/features/celeb/modals/LightCelebModal.tsx',
+    'sw/web/src/components/features/celeb/modals/UnknownCelebModal.tsx',
     'sw/web/src/lib/celeb/world.ts',
   ]) {
     assert.throws(() => classifyCloudflarePurgeImpact([file]), /Unclassified web runtime path/)

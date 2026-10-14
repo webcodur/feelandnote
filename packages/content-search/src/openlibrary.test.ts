@@ -43,6 +43,30 @@ const tiffanysEdition = {
   works: [{ key: tiffanysContext.workKey }], covers: [13629481],
 }
 
+test('My Story의 검수한 공저자 중복 ID만 받아들이고 다른 판본·저자는 거부한다', async (t) => {
+  const editionAuthors = ['/authors/OL1235607A', '/authors/OL596986A']
+  const workAuthors = ['/authors/OL1235607A', '/authors/OL12242479A']
+  const context = { workKey: '/works/OL25145419W', editionKey: '/books/OL33459068M', isbn: '9780751597134' }
+  assert.deepEqual(getBookOriginalAuthorKeys(editionAuthors, workAuthors, context), editionAuthors)
+  for (const changed of [{ ...context, isbn: '9780440032991' }, { ...context, editionKey: '/books/OL33479451M' },
+    { ...context, workKey: '/works/OL1W' }]) {
+    assert.equal(getBookOriginalAuthorKeys(editionAuthors, workAuthors, changed), null)
+  }
+  assert.equal(getBookOriginalAuthorKeys(editionAuthors, [...workAuthors, '/authors/OL2A'], context), null)
+  assert.equal(getBookOriginalAuthorKeys([editionAuthors[0], '/authors/OL2A'], workAuthors, context), null)
+  t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => {
+    if (String(url).includes('/isbn/')) return Response.json({ key: context.editionKey, title: 'My Story',
+      isbn_13: [context.isbn], publishers: ['Little, Brown Book Group Limited'], languages: [{ key: '/languages/eng' }],
+      authors: editionAuthors.map(key => ({ key })), works: [{ key: context.workKey }] })
+    if (String(url).includes('/works/')) return Response.json({ title: 'My Story', authors: workAuthors.map(key => ({ author: { key } })) })
+    if (String(url).includes('covers.openlibrary.org')) return new Response('', { status: 404 })
+    return Response.json({ name: String(url).includes('OL1235607A') ? 'Ingrid Bergman' : 'Alan Burgess' })
+  })
+  const book = await getOpenLibraryBookMetadata(context.isbn)
+  assert.equal(book?.creator, 'Ingrid Bergman, Alan Burgess')
+  assert.equal(book?.workKey, context.workKey)
+})
+
 test('실사한 Tiffany’s 종이판의 정확한 중복 저자 ID만 단독 저자로 정규화한다', async (t) => {
   const mock = t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => {
     if (String(url).includes('/isbn/')) return Response.json(tiffanysEdition)

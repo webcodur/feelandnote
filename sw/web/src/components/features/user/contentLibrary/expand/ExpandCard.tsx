@@ -126,7 +126,7 @@ function ExpandCard({
 
           <ContentPurchaseAction contentId={item.content_id} type={item.content.type} placement="library-expand"
             title={title} creator={creator} thumbnail={coverUrl} links={purchaseLinks} enabled={hasBookPurchase || isActive}
-            className="mt-1 w-full sm:col-span-2 sm:row-start-2 sm:mt-0 md:col-span-1 md:col-start-1 md:self-start" />
+            className="mt-1 w-full sm:col-span-1 sm:col-start-1 sm:row-start-2 sm:mt-0 sm:self-start" />
           </div>}
 
           {/* 상한 안의 소개는 통째로 늘어나고, 상한을 넘는 장문만 제 높이를 내지 않고(contain-size)

@@ -129,7 +129,7 @@
         "some": "We earn a commission on purchases through some links."
       },
       "method": {
-        "BOOK": "Opens the saved Amazon product link, or searches Amazon by the book’s English title and author.",
+        "BOOK": "Opens the saved Amazon product link. Otherwise, searches by ISBN when available, or by the English title and author.",
         "GAME": "Cross-checks IGDB editions with Korean stores. Prices appear only when verified on Steam.",
         "VIDEO": "Looks up availability in your country on TMDB / JustWatch and links to the TMDB guide.",
         "MUSIC": "Matches the saved song or album ID to its Apple Music URL."

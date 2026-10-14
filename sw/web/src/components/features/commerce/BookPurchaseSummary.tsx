@@ -4,7 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
-import { AFFILIATE_PLATFORMS, type AffiliateLink } from "@/constants/affiliatePlatforms";
+import type { AffiliateLink } from "@/constants/affiliatePlatforms";
 import { getBookPurchaseLinks, type BookPurchaseOptions } from "@/lib/books/bookPurchaseLinks";
 import PurchaseOpener from "./PurchaseOpener";
 import { trackEvent } from "@/lib/analytics/track";
@@ -33,8 +33,6 @@ interface BookPurchaseSummaryProps extends Pick<BookPurchaseOptions, 'metadata' 
   yes24Href?: string;
   /** 켜기 조건 — 도서 판매대에서만 true로 넘긴다 */
   enabled?: boolean;
-  /** 기본은 칸 전체 폭. 작은 단추가 필요한 자리만 false로 지정한다 */
-  full?: boolean;
   className?: string;
   /** 단추에 덧붙일 클래스 — 자리마다 정렬·여백을 맞춘다 */
   chipClassName?: string;
@@ -51,7 +49,6 @@ export default function BookPurchaseSummary({
   links: existingLinks = [],
   yes24Href,
   enabled = true,
-  full = true,
   className,
   chipClassName,
   metadata,
@@ -79,8 +76,7 @@ export default function BookPurchaseSummary({
 
   return (
     <div className={cn("@container/purchase min-w-0", className)}>
-      <PurchaseOpener type="BOOK" expanded={isOpen} full={full} className={chipClassName}
-        stores={links.map(link => AFFILIATE_PLATFORMS[link.platform].label)}
+      <PurchaseOpener type="BOOK" expanded={isOpen} className={chipClassName}
         onOpen={() => {
           setIsOpen(true);
           trackEvent("commerce_open", { screen: pathname, locale: displayLocale, book_locale: locale, store_count: links.length,

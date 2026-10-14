@@ -9,7 +9,6 @@ import ContentPurchaseDialog, { type ContentPurchaseDetails } from "@/components
 import PurchaseOpener from "@/components/features/commerce/PurchaseOpener";
 import { trackEvent } from "@/lib/analytics/track";
 import ContentInfoHeader from "./ContentInfoHeader";
-import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
 
 export default function ContentInfoDialog({ isOpen = true, onClose, children, purchase, detailHref, ...header }: ComponentProps<typeof ContentInfoHeader> & {
   isOpen?: boolean;
@@ -31,7 +30,6 @@ export default function ContentInfoDialog({ isOpen = true, onClose, children, pu
         {t("viewDetail")}<ArrowUpRight size={15} aria-hidden />
       </Link>}
       {purchase && <PurchaseOpener type={purchase.type} primary
-        stores={purchase.type === "BOOK" && (purchase.bookLocale ?? locale) === "en" ? [AFFILIATE_PLATFORMS.amazon.label] : []}
         onOpen={() => {
         trackEvent("commerce_open", { screen: purchase.placement, content_id: purchase.contentId, content_type: purchase.type, locale });
         setPurchaseOpen(true);

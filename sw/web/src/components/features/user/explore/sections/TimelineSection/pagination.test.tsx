@@ -13,7 +13,6 @@ import { getTimelinePath, paginateTimeline, TIMELINE_PAGE_SIZE } from "./paginat
 import * as timelineUtils from "./utils";
 import * as continents from "./continents";
 import { fetchCountries, UNKNOWN_COUNTRY_CODE } from "@feelandnote/shared/lib/countries";
-import { MYTH_LAYOUT } from "@/components/features/user/explore/myth/mythLayout";
 import CountryFlagImage from "@/components/ui/CountryFlagImage";
 
 const require = createRequire(import.meta.url);
@@ -81,7 +80,6 @@ const countryPickerMocks = {
   "@/components/ui/CountryFlag": { default: CountryFlagImage },
   "../pagination": { getTimelinePath },
   "../continents": continents,
-  "@/components/features/user/explore/myth/mythLayout": { MYTH_LAYOUT },
   "@/hooks/useMouseDragScroll": { useMouseDragScroll: () => ({ ref: { current: null }, dragProps: {}, cursorClassName: "" }) },
   "@/components/ui/Modal": { default: () => null },
   "./CountryPickerModal": { default: () => null },
