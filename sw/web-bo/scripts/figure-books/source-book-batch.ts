@@ -1,7 +1,7 @@
 /**
  * 신규 픽션 원전 작품과 첫 ko/en 판본을 검증한 뒤 한 트랜잭션으로 등록한다.
  * 외부 서지 조회와 기존 작품 중복 검사는 트랜잭션 전에 끝내며, 기본 모드는 dry-run이다.
- * 판매 상품은 이 입력에 넣지 않고 coupang:pick 또는 source-edition-batch.ts로 별도 등록한다.
+ * --amazon-browser는 로그인된 Aside로 같은 ISBN의 영어 상품을 확인해 함께 등록한다.
  *
  * pnpm figure-books:book -- --file ../../data/celeb/fiction/<work>-book.json
  * pnpm figure-books:book -- --file ../../data/celeb/fiction/<work>-book.json --apply
@@ -16,6 +16,7 @@ import { extname, resolve } from 'node:path'
 import { createClient, type DatabaseClient } from '@feelandnote/db'
 import { getBookByIsbn } from '@feelandnote/content-search/kakao-books'
 import { getOpenLibraryBookMetadata } from '@feelandnote/content-search/openlibrary'
+import { amazonBookCandidate, type AmazonBookIdentity, type AmazonBookLookup } from '@feelandnote/content-search/amazon-book-product'
 import {
   assertExactSourceBookReadback,
   assertDistinctManifestReceiptPaths,
@@ -83,12 +84,13 @@ class OracleExecutorError extends Error {
 }
 
 function usage(): string {
-  return `Usage: pnpm figure-books:book -- --file <manifest.json> [--receipt <receipt.json>] [--apply]
+  return `Usage: pnpm figure-books:book -- --file <manifest.json> [--receipt <receipt.json>] [--amazon-browser] [--apply]
 
 Default mode resolves Kakao/OpenLibrary metadata, reads the live BOOK catalog, writes a local
 receipt, and performs zero DB writes. --apply uses the same preflight and then inserts/upserts
 one source work, its locales, and its initial editions in one short Oracle PostgreSQL transaction.
-Purchase products are registered separately after ISBN, shipping, and sales-signal review.`
+--amazon-browser checks the English edition in the signed-in Aside browser before planning.
+Only a matching product is saved; an unavailable lookup leaves the ISBN search fallback.`
 }
 
 function argumentValue(name: string): string | undefined {
@@ -98,13 +100,13 @@ function argumentValue(name: string): string | undefined {
   return inline?.slice(name.length + 3)
 }
 
-function parseArguments(): { file: string; receipt: string; apply: boolean } {
+function parseArguments(): { file: string; receipt: string; apply: boolean; amazonBrowser: boolean } {
   const args = process.argv.slice(2)
   if (args.includes('--help')) {
     console.log(usage())
     process.exit(0)
   }
-  const allowed = /^(--apply|--help|--file(?:=.+)?|--receipt(?:=.+)?)$/u
+  const allowed = /^(--apply|--amazon-browser|--help|--file(?:=.+)?|--receipt(?:=.+)?)$/u
   const values = new Set<string>()
   const invalid: string[] = []
   for (let index = 0; index < args.length; index += 1) {
@@ -130,7 +132,7 @@ function parseArguments(): { file: string; receipt: string; apply: boolean } {
     ? resolve(process.cwd(), receiptArg)
     : `${file.slice(0, file.length - extname(file).length)}.receipt.json`
   assertDistinctManifestReceiptPaths(file, receipt)
-  return { file, receipt, apply: args.includes('--apply') }
+  return { file, receipt, apply: args.includes('--apply'), amazonBrowser: args.includes('--amazon-browser') }
 }
 
 function readManifest(file: string): { bytes: Buffer; manifest: FigureBookManifest } {
@@ -511,6 +513,20 @@ async function main(): Promise<void> {
   const resolved = buildResolvedSourceBookRegistration(input.manifest, editions)
   const db = databaseClient()
   const catalog = await loadBookCatalog(db)
+  if (args.amazonBrowser) {
+    const modulePath = '../contents/backfill-amazon-products.mjs'
+    const browser: { lookup(books: AmazonBookIdentity[]): Promise<AmazonBookLookup[]>; close(): Promise<void> } =
+      await (await import(modulePath)).createAmazonBrowserLookup()
+    try {
+      for (const locale of resolved.locales) {
+        if (!amazonBookCandidate(locale) || catalog.locales.some(row => row.isbn === locale.isbn && Array.isArray(row.affiliate_url)
+          && row.affiliate_url.some(link => link?.platform === 'amazon'))) continue
+        const [amazon] = await browser.lookup([locale])
+        if (amazon.status === 'verified') locale.affiliate_url = [{ platform: 'amazon', url: amazon.product.productUrl }]
+        else console.warn(`[Amazon] ${locale.isbn}: ${amazon.reason}`)
+      }
+    } finally { await browser.close() }
+  }
   const plan = buildFigureBookPlan(input.manifest, resolved, catalog)
   const sha256 = planSha256(plan)
   const plannedDatabaseWrites = plan.localeChanges.filter((change) => change.kind !== 'unchanged').length

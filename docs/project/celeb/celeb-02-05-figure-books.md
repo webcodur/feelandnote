@@ -183,7 +183,7 @@ pnpm exec node --env-file=sw/web-bo/.env --import tsx sw/web-bo/scripts/figure-b
 
 판본 배치는 공식 ISBN의 제목·전체 저자가 서버 작품의 앵커(각 언어 카드의 제목·전체 저자와 `metadata.figureBook.workTitle`·`workCreator`)와 일치해야 통과한다(`verifyEditionWork`, `sw/web-bo/src/lib/book-edition-work.ts`). 같은 책인데 저자 표기·제목 변형으로 어긋나면 그 ISBN·공식 제목·전체 저자·원전·본문 범위를 담은 독립 검수 근거(`sources.edition_work_evidence` 배열 원소의 `method:'independent_work_review'` 객체)를 해당 작품의 언어 카드 `sources`에 먼저 보존한 뒤 다시 돌린다 — 근거의 `source_url`은 OpenLibrary 밖의 독립 HTTPS 출처여야 하고 필드·허용 조건은 같은 코드가 쥔다. en 판본은 게이트가 하나 더 있다: **OpenLibrary 원전 작품의 제목·저자도 앵커와 같아야 하며 이 불일치는 검수 근거로도 못 넘는다** — 원전을 다른 제목(공저·다른 명칭)으로 잡은 판본은 OL 데이터를 고치기 전까지 붙일 수 없다.
 
-책 정보와 표시용 제목 행은 등록 문서의 「한국어판 확인」·「영문판과 표지」를 따른다. 상품은 판본이 확정된 뒤 `coupang-book-affiliate` 절차로 연결한다.
+책 정보와 표시용 제목 행은 등록 문서의 「한국어판 확인」·「영문판과 표지」를 따른다. 한국어 상품은 판본이 확정된 뒤 `coupang-book-affiliate` 절차로 연결한다. 영어 상품은 원전·판본 등록에 `--amazon-browser`를 붙여 확인할 수 있으며, 소급 배치와 자동 연결의 조건은 [Amazon 규칙](../operations/ops-03-affiliate-commerce.md#amazon-associates)을 따른다.
 
 한국어판을 확인하지 못했어도 검증된 영문 원서는 등록할 수 있다. `figure-books:book` 명세의 `ko.translationStatus='unverified'`에 한국어 저자 표기와 조사 URL을 넣고, `en.isbn`에는 확인된 원서 ISBN을 쓴다. 한국어 카드는 원제만 표시하고 판본 값은 비운다. 검색 결과 0건을 `verified_unavailable`로 승격하지 않는다. OpenLibrary가 같은 영문 판본의 제목·저자·ISBN·표지를 확인했으나 출판사를 제공하지 않으면 출판사는 `NULL`로 두고 해당 필드의 출처도 만들지 않는다.
 

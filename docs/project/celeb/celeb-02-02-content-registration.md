@@ -53,6 +53,8 @@ ISBN만 있거나 검색 스니펫·출판사 소개·도서관 소장 정보만
 
 ### 영문판과 표지
 
+Amazon 상품 연결·배치 실행·API 이용 조건은 [제휴 상거래의 Amazon 규칙](../operations/ops-03-affiliate-commerce.md#amazon-associates)을 따른다.
+
 - OpenLibrary에서 영문 제목·원저자·ISBN과 본문 언어를 확인한다. ISBN 국가군과 `eng` 태그는 단서일 뿐이며, 판본 제목·출판사·원제·본문 범위를 함께 대조한다. 제목이 영어여도 다른 언어 번역이나 오디오북·해설서이면 원전의 영문 BOOK 판본으로 쓰지 않는다.
 - 표지는 ISBN 기반 OpenLibrary cover를 사용하며 placeholder 응답은 폐기한다.
 - 한 locale 안의 ISBN·표지·출판사·제목은 같은 판본에서 가져온다. ko와 en이 서로 다른 판본인 것은 정상이다.

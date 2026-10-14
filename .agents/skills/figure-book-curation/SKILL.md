@@ -13,6 +13,7 @@ description: 픽션·신화·실존 인물의 등장 작품과 연관 작품을 
 - 기존 등록분의 전체 검수는 같은 룰북의 「기존 등록분 검수」를 따른다. [작품·판본 정합성](../../../docs/todo/content-data-integrity.md)의 대상·현재 위치를 착수 전과 반영·검증 후에 갱신한다. 아래 인물 기준은 신규 작품·관계 발굴에 적용한다.
 - 실존 인물의 인물 도서를 채우는 작업의 현재 도달점과 조사 경로는 [`../../../docs/continuous/figure-books.md`](../../../docs/continuous/figure-books.md)에 있다.
 - 후보 작품을 확정한 뒤 한국어 판본과 쿠팡 상품을 고를 때는 [`coupang-book-affiliate`](../coupang-book-affiliate/SKILL.md)를 이어서 사용한다.
+- 영어 판본의 Amazon 상품을 연결할 때는 [Amazon 규칙](../../../docs/project/operations/ops-03-affiliate-commerce.md#amazon-associates)을 읽는다. 등록 옵션·소급 배치·공식 API 이용 조건은 그 문서가 쥔다.
 
 ## 관계와 작품 선정
 

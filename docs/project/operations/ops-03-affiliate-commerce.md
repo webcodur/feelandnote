@@ -21,7 +21,7 @@
 일반 상품 상세 주소와 수수료를 추적하는 제휴 주소는 다르다. 링크가 열리거나 상품을 DB에 등록할 수 있다는 사실만으로
 제휴 연결·계정 승인·수익 발생을 판정하지 않는다. 링크의 도착 상품과 선택한 모델·판본이 일치하는지도 확인한다.
 
-인물 도서의 한국어 판본은 예스24를 기준으로 연결하고 쿠팡 검색을 보조로 붙인다. 한국어 도서를 고르고 앞세우는 기준은 예스24다. 대표 판본은 예스24가 찾을 ISBN 판본이고, 쿠팡은 같은 판본에 붙는 보조 단추라 후보 자격·판본 선택·정렬을 정하지 않는다. 영어는 Amazon 상품이 걸린 판본이 먼저고 없으면 제목·저자 Amazon 검색으로 잇는다. 그 언어 판본이 없는 표시용 제목 행은 추천 도서 후보에서 뺀다. 판본 선택은 `pickPurchaseEdition`([figureBookLocale.ts](../../../sw/web/src/actions/figure-books/figureBookLocale.ts)), 화면의 기준 서점은 `getBookStorePlatform`([affiliatePlatforms.ts](../../../sw/web/src/constants/affiliatePlatforms.ts))이 쥔다. 일반 콘텐츠 상세는 플랫폼 상수의 언어로 표시를 가른다.
+인물 도서의 한국어 판본은 예스24를 기준으로 연결하고 쿠팡 검색을 보조로 붙인다. 한국어 도서를 고르고 앞세우는 기준은 예스24다. 대표 판본은 예스24가 찾을 ISBN 판본이고, 쿠팡은 같은 판본에 붙는 보조 단추라 후보 자격·판본 선택·정렬을 정하지 않는다. 영어는 Amazon 상품이 걸린 판본이 먼저고 없으면 ISBN으로, ISBN도 없으면 제목·저자로 Amazon 검색을 연결한다. 그 언어 판본이 없는 표시용 제목 행은 추천 도서 후보에서 뺀다. 판본 선택은 `pickPurchaseEdition`([figureBookLocale.ts](../../../sw/web/src/actions/figure-books/figureBookLocale.ts)), 화면의 기준 서점은 `getBookStorePlatform`([affiliatePlatforms.ts](../../../sw/web/src/constants/affiliatePlatforms.ts))이 쥔다. 일반 콘텐츠 상세는 플랫폼 상수의 언어로 표시를 가른다.
 한국어판 주소를 영어 화면에 복사하거나 제목만 번역해 영문판으로 취급하지 않는다.
 화면 언어에 따른 분기는 배송 가능 국가를 보장하지 않는다.
 
@@ -160,14 +160,29 @@ SiteStripe은 Enabled 상태다. 추적 ID는 `feelandnote-20`(웹 기본)과 `f
 |---|---|
 | 사용자 웹 | 영어 콘텐츠 상세와 인물의 창작·연관 도서에서 Amazon 링크를 표시할 수 있다 |
 | 메인·큐레이션 | `PopularBooks`는 한국어 전용이다. 기관 선정 구매 UI도 한국어 BOOK만 표시한다. 영문 메인 판매는 추가 설계가 필요하다 |
-| 백오피스 인물 도서 | 영어 판본의 Amazon 상품 등록을 지원한다. [서버 액션](../../../sw/web-bo/src/actions/admin/figure-books.ts)이 판본 언어와 플랫폼을 대조한다 |
+| 도서 등록·보완 | 원전·판본 등록 스크립트의 `--amazon-browser`와 [소급 배치](../../../sw/web-bo/scripts/contents/backfill-amazon-products.mjs)는 아래 「도서 상품 연결」을 따른다. 사용자 웹·백오피스의 일반 등록에는 서버 HTML 조회를 넣지 않는다 |
 | 백오피스 일반 콘텐츠 | 기존 판매처 편집 UI에는 Amazon 선택과 영어 locale 전달이 갖춰져 있지 않다 |
 | 링크 검증 | 상품 등록 검증은 [figure-book-product-validation.ts](../../../sw/web-bo/src/lib/figure-book-product-validation.ts)가 쥔다 — 아마존은 ASIN 10자리, `product_url`의 `amazon.com/dp·/gp/product/<ASIN>` 형식과 ASIN 일치, `affiliate_url`의 amazon.com·amzn.to 호스트와 외부 태그 차단을 강제한다. 등록 가능 여부와 수익 추적 가능 여부는 다르다 |
-| 검색 링크 | `amazonBookSearch.ts`의 제목·저자 검색 폴백이 `tag=feelandnote-20`을 얹어 나간다(2026-09-21 반영) — 생성 시점부터 제휴 검색 링크다 |
-| 저장 링크 | 기존 등록분 26건(인물 도서 상품 10 + `content_locales` 16)은 전부 `amazon.com/dp·/gp/product/<ASIN>` 형태의 무태그 정본 주소다 — DB는 태그 없는 상품 주소를 유지하고, `amazonBookSearch.ts`가 렌더 시점에 `tag=feelandnote-20`을 얹는다. .com 외 마켓플레이스·amzn.to는 그대로 둔다 |
+| 검색 링크 | `amazonBookSearch.ts`는 상품 주소가 없으면 고른 판본의 ISBN, ISBN도 없으면 제목·저자로 검색하며 `tag=feelandnote-20`을 붙인다 |
+| 저장 링크 | DB는 `amazon.com/dp·/gp/product/<ASIN>` 형태의 태그 없는 상품 주소를 유지하고, `amazonBookSearch.ts`가 렌더 시점에 `tag=feelandnote-20`을 붙인다. .com 외 마켓플레이스·amzn.to는 그대로 둔다 |
 | 대가성 표시 | `AFFILIATE_PLATFORMS.amazon.notice`에 필수 원문을 채웠고 구매 창(`BookPurchaseModal`)이 링크 단추와 같은 창에서 보여 준다. 「As an Amazon Associate I earn from qualifying purchases.」는 영어 화면 푸터에도 상시 게시된다 |
 | 중계 | `/api/books/purchase`로 나가는 흐름은 클릭 뒤 이동이라 무클릭 리다이렉트 금지와 충돌하지 않지만, 버튼·링크가 Amazon 행선을 숨기지 않아야 한다 |
 | 모바일 | 안드로이드 TWA에서 아마존 페이지를 WebView에 띄우면 정책 위반이다 — 외부 브라우저로 연다. 앱 자체를 사이트로 등록하면 별도 심사다 |
+
+### 도서 상품 연결
+
+ISBN-10은 Amazon ASIN의 후보일 뿐이다. ISBN-13을 변환해 만든 `/dp/<ISBN-10>` 주소를 상품 확인 없이 저장하지 않는다. [공통 확인 함수](../../../packages/content-search/src/amazon-book-product.ts)가 상품 상세의 ISBN·제목·저자·영어 포함 여부를 대조한다. ISBN-10·13이 충돌하거나 저자를 확인하지 못한 경우, 단권 제목이 묶음 상품으로 이어지는 경우는 자동 연결에서 제외한다. Amazon 상세는 구매 상품 확인에만 쓰며 BOOK 메타·표지 원천을 바꾸지 않는다.
+
+원전·판본 등록 스크립트의 `--amazon-browser`는 로그인된 Aside에서 영어 상품을 확인해 등록 계획에 포함한다. DB 반영은 `--apply`에서만 한다. 기존 목록은 저장된 Amazon 연결이 없는 영문 카드·판본을 ISBN별로 묶어 조회한다. 다른 판매처와 기존 Amazon 상품은 보존하며 새 연결만 채운다. 재실행해도 이미 연결된 항목은 건너뛴다.
+
+```powershell
+# 저장소 루트에서 실행. 기본은 상품 확인·미리보기이며 DB를 쓰지 않는다.
+pnpm --dir sw/web-bo exec node --env-file=.env --import tsx scripts/contents/backfill-amazon-products.mjs --browser
+# 확인된 빈 연결을 운영 Oracle DB에 반영하고 재조회·캐시 갱신까지 수행한다.
+pnpm --dir sw/web-bo exec node --env-file=.env --import tsx scripts/contents/backfill-amazon-products.mjs --browser --apply --oracle
+```
+
+차단·오류·판본 불일치는 상품 부재로 확정하지 않는다. 미확인 항목은 ISBN 검색을 유지하며 전체 조회가 막히면 배치는 미완료 오류로 끝난다. `--apply` 실행에서는 중단 전에 확인된 연결까지 반영할 수 있으므로 결과와 저장 건수를 읽는다. 임시 검수 자료가 필요하면 `--plan <임시.jsonl>`을 사용하고, 반영·재조회 후 자료를 폐기한다. 브라우저 배치를 서버의 상시 자동 연결로 설명하지 않는다. 공식 API 이용 조건과 남은 연동 작업은 아래 「Creators API」를 따른다.
 
 ### 수수료와 실적 인정
 
@@ -224,7 +239,11 @@ SiteStripe은 Enabled 상태다. 추적 ID는 `feelandnote-20`(웹 기본)과 `f
 ### Creators API(구 PA-API)
 
 PA-API 5는 폐기됐고 후속이 Creators API다 — 구형 호출은 403을 돌려준다.
-어소시에이트 계정 뒤 콘솔에서 키 쌍을 발급받아 쓰고, 호출에는 키 쌍과 파트너 태그를 함께 보낸다.
+제휴 태그 링크 사용, Associates 최종 승인, 상품 API 접근은 서로 다른 조건이다. 가입 후 태그 링크로 구매를 연결할 수 있어도 API 접근이 열린 것은 아니다. 일반적인 계정 심사는 가입 후 180일 안의 유효 판매 3건부터 진행되며, Creators API 등록은 최종 승인된 계정이 필요하다. 상품 API 이용에는 최근 30일 유효 판매 10건 조건도 있다. [API 이용 자격](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/introduction) · [API 등록](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/onboarding/register-for-creators-api)
+
+2026-10-14 실제 계정의 Creators API 화면에서 「승인된 Associates 계정 필요」 조건이 미충족으로 표시됐다. 현재 제휴 링크와 확인된 상품 연결은 사용할 수 있으며, 공식 상품 API 연동은 구현되지 않았다. 계정 승인을 API 등록·조회 성공으로 대신 판정하지 않는다.
+
+자격을 충족한 뒤 계정 소유자가 애플리케이션과 인증 정보(Credential ID·Secret·Version)를 발급하고, 서버의 등록·보완 경로에 API 조회를 연동해야 한다. 권한이 열리는 것만으로 현재 코드가 자동 전환되지는 않는다. 자동화는 ISBN·상품 식별자 조회 → 동일 판본 확인 → 상품 링크 저장이며, 해당 판본이 없거나 매칭이 불확실하면 검색을 유지한다. 인증 정보는 [환경변수 규칙](../platform/platform-04-env-vars.md)을 따르고 문서에 적지 않는다. API가 반환한 상품 URL의 파라미터는 API 실적 집계를 위해 보존해야 하므로, 현재 브라우저 확인 링크의 무태그 정본 저장 규칙을 API 응답에 그대로 적용하지 않는다.
 초기 할당은 최대 1 TPS·8,640 TPD(첫 30일)이고 이후 **API가 낳은 출고 매출**로 조정된다 — 하루 $0.05당 +1 TPD, 최근 30일 출고매출 $4,320당 +1 TPS(최대 10).
 최근 30일 유효 판매가 없으면 API 접근이 끊기고 판매가 출고되면 이틀 안에 돌아온다 — API가 없어도 SiteStripe 링크 수익은 계속 쌓인다.
 가격·재고·이미지·리뷰의 정식 표시는 이 API가 필요하므로 운영 순서는 태그 링크 → 판매 실적 → API 접근이 된다.

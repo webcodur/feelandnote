@@ -15,6 +15,8 @@ import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { getOpenLibraryBookMetadata } from '@feelandnote/content-search/openlibrary'
 import { normalizeBookIdentity, resolveExternalBookInput } from '../../src/lib/external-book-input'
 import { verifyEditionWork } from '../../src/lib/book-edition-work'
+import { fillMissingAmazonBookConnection } from '@feelandnote/content-search/amazon-book-registration'
+import { amazonBookCandidate, AMAZON_BOOK_BATCH_SIZE, type AmazonBookIdentity, type AmazonBookLookup, type AmazonBookProduct } from '@feelandnote/content-search/amazon-book-product'
 
 const DB_URL = process.env.NEXT_PUBLIC_DB_API_URL
 const SERVICE_KEY = process.env.DB_SECRET_KEY
@@ -77,6 +79,7 @@ function usage() {
   console.log(`사용:
   pnpm exec node --env-file=sw/web-bo/.env --import tsx sw/web-bo/scripts/figure-books/source-edition-batch.ts --file <판본.json>
   위 명령 끝에 --apply를 붙이면 반영합니다.
+  --amazon-browser는 로그인된 Aside로 영어 상품을 일괄 확인해 빈 연결만 채웁니다.
 
 판본.json은 객체 한 건 또는 객체 배열이다.
 [{"contentId":"...","locale":"ko","isbn":"979...","editionTitle":"완역 특별판","editionKind":"full","textScope":"complete","sortOrder":0}]
@@ -93,7 +96,7 @@ function parseOptions() {
   }
   const fileIndex = args.indexOf('--file')
   const file = fileIndex >= 0 ? args[fileIndex + 1] : null
-  const allowed = new Set(['--file', '--apply'])
+  const allowed = new Set(['--file', '--apply', '--amazon-browser'])
   for (let index = 0; index < args.length; index += 1) {
     const value = args[index]
     if (index === fileIndex + 1) continue
@@ -102,6 +105,7 @@ function parseOptions() {
   if (!file) throw new Error('--file <판본.json>이 필요합니다.')
   return {
     apply: args.includes('--apply'),
+    amazonBrowser: args.includes('--amazon-browser'),
     file: isAbsolute(file) ? file : resolve(process.cwd(), file),
   }
 }
@@ -378,6 +382,24 @@ export async function main() {
   })
   await verifySourceWorks(resolved)
 
+  const amazonProducts = new Map<ResolvedEdition, AmazonBookProduct>()
+  if (options.amazonBrowser) {
+    const modulePath = '../contents/backfill-amazon-products.mjs'
+    const browser: { lookup(books: AmazonBookIdentity[]): Promise<AmazonBookLookup[]>; close(): Promise<void> } =
+      await (await import(modulePath)).createAmazonBrowserLookup()
+    try {
+      const candidates = resolved.filter(edition => !edition.product && amazonBookCandidate(edition))
+      for (let offset = 0; offset < candidates.length; offset += AMAZON_BOOK_BATCH_SIZE) {
+        const batch = candidates.slice(offset, offset + AMAZON_BOOK_BATCH_SIZE)
+        const results = await browser.lookup(batch)
+        results.forEach((result, index) => {
+          if (result.status === 'verified') amazonProducts.set(batch[index], result.product)
+          else console.warn(`[Amazon] ${batch[index].isbn}: ${result.reason}`)
+        })
+      }
+    } finally { await browser.close() }
+  }
+
   const plan = resolved.map((edition, index) => ({
     action: existing[index] ? 'update' : 'insert',
     contentId: edition.contentId,
@@ -386,7 +408,7 @@ export async function main() {
     title: edition.title,
     editionKind: edition.editionKind,
     textScope: edition.textScope,
-    product: edition.product?.platform ?? null,
+    product: edition.product?.platform ?? (amazonProducts.has(edition) ? 'amazon' : null),
   }))
   console.log(JSON.stringify({ mode: options.apply ? 'apply' : 'dry-run', items: plan }, null, 2))
   if (!options.apply) return
@@ -401,6 +423,10 @@ export async function main() {
       : await insertEdition(target)
     const product = target.product
     if (product) await replaceProduct(edition.id, product)
+    else if (amazonProducts.has(target)) await fillMissingAmazonBookConnection(db, {
+      contentId: target.contentId, editionId: edition.id, locale: target.locale,
+      isbn: target.isbn, title: target.title, creator: target.creator,
+    }, amazonProducts.get(target)!)
     const readback = await findStoredEdition(target)
     if (!readback || readback.id !== edition.id || readback.description !== target.description) {
       throw new Error(`${target.isbn}: 판본 readback이 일치하지 않습니다.`)
