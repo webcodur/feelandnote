@@ -10,6 +10,7 @@ import {
 import { updateSession } from '@/lib/db/middleware';
 import { isBlockedCrawler } from '@/lib/blocked-crawlers';
 import { isProfileId } from '@/lib/url';
+import { retiredFactionHref } from '@/lib/retired-factions';
 
 const intlMiddleware = createIntlMiddleware(routing);
 
@@ -64,6 +65,19 @@ export async function middleware(request: NextRequest) {
   // 통과시키면 3 GB VM이 상세 페이지를 한 장씩 ISR 생성하고 SEO 이미지까지 만들게 된다.
   if (isBlockedCrawler(request.headers.get('user-agent'))) {
     return new NextResponse(null, { status: 403 })
+  }
+
+  const retiredFaction = retiredFactionHref(rawPathname, request.nextUrl.searchParams)
+  if (retiredFaction) {
+    const response = NextResponse.redirect(new URL(retiredFaction, request.url), 308)
+    const explicitLocale = /^\/(ko|en)\//.exec(rawPathname)?.[1]
+    if (explicitLocale) {
+      response.cookies.set(LOCALE_PREFERENCE_COOKIE, explicitLocale, {
+        path: '/', maxAge: LOCALE_PREFERENCE_MAX_AGE, sameSite: 'lax', secure: request.nextUrl.protocol === 'https:',
+      })
+      response.headers.set('Cache-Control', 'private, no-store')
+    }
+    return response
   }
 
   // 0) 검색엔진에 남은 옛 인물 주소를 현행 정규 주소로 영구 통합한다.

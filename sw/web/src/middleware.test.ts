@@ -94,6 +94,63 @@ test('old myth shortcuts move permanently to each myth address and keep other qu
   assert.notEqual(hub.status, 308)
 })
 
+test('retired cinema factions redirect old slugs, IDs and share links to the matching group', async () => {
+  for (const [slug, id, group] of [
+    ['hollywood-blacklist', '15b98aa8-6372-48bd-a6ce-a365c2147a07', '할리우드 블랙리스트'],
+    ['dogme-95', '799450d5-6671-43af-9c22-2f886e1de8fd', '도그마 95'],
+    ['french-new-wave', 'd843e24d-77a9-4b1c-8f25-6bc84ef28fc2', '누벨바그'],
+  ]) {
+    for (const prefix of ['', '/ko', '/en']) {
+      for (const oldPath of [
+        `/explore/faction/${slug}`, `/explore/faction/${id}`,
+        `/explore/faction?tag=${id}`, `/explore/faction?faction=${id}`,
+      ]) {
+        const response = await middleware(new NextRequest(
+          `https://feelandnote.com${prefix}${oldPath}${oldPath.includes('?') ? '&' : '?'}group=old-group&person=person-a&utm_source=share`,
+        ))
+        assert.equal(response.status, 308)
+        const destination = new URL(response.headers.get('location')!)
+        assert.equal(destination.pathname, `${prefix === '/en' ? '/en' : ''}/explore/faction/cinema`)
+        assert.equal(destination.searchParams.get('group'), group)
+        assert.equal(destination.searchParams.get('person'), 'person-a')
+        assert.equal(destination.searchParams.get('utm_source'), 'share')
+        assert.equal(destination.searchParams.has('tag'), false)
+        assert.equal(destination.searchParams.has('faction'), false)
+        if (prefix) assert.equal(response.cookies.get('fn_locale_preference')?.value, prefix.slice(1))
+      }
+    }
+  }
+})
+
+test('retired faction redirects do not reopen other private factions or redirect canonical cinema', async () => {
+  for (const path of ['/explore/faction/illuminati', '/explore/faction/freemasons', '/explore/faction/cinema']) {
+    const response = await middleware(new NextRequest(`https://feelandnote.com${path}`))
+    assert.equal(response.headers.get('location'), null)
+  }
+})
+
+test('discarded roster links return to the faction hub without stale positions', async () => {
+  for (const oldPath of ['/explore/faction/economists', '/explore/faction/b3ef4a3e-c17f-4e79-bc2e-e2c98a3a91c4', '/explore/faction?tag=software-legends']) {
+    const response = await middleware(new NextRequest(`https://feelandnote.com/en${oldPath}${oldPath.includes('?') ? '&' : '?'}person=old&group=old&utm_source=saved`))
+    assert.equal(response.status, 308)
+    const location = new URL(response.headers.get('location')!)
+    assert.equal(location.pathname, '/en/explore/faction')
+    assert.equal(location.searchParams.get('utm_source'), 'saved')
+    for (const key of ['person', 'group', 'tag', 'faction']) assert.equal(location.searchParams.has(key), false)
+  }
+  const canonical = await middleware(new NextRequest('https://feelandnote.com/en/explore/faction'))
+  assert.equal(canonical.headers.get('location'), null)
+})
+
+test('Cold War frontline legacy addresses restore the merged chapter', async () => {
+  const response = await middleware(new NextRequest('https://feelandnote.com/explore/faction/cold-war-frontlines?person=arkhipov'))
+  const destination = new URL(response.headers.get('location')!)
+  assert.equal(response.status, 308)
+  assert.equal(destination.pathname, '/explore/faction/cold-war')
+  assert.equal(destination.searchParams.get('group'), '냉전의 현장')
+  assert.equal(destination.searchParams.get('person'), 'arkhipov')
+})
+
 test('foreign first entry redirects home and deep links to English without losing query', async () => {
   for (const path of ['/?utm_source=test', '/celeb/bill-gates?focus=book', '/login', '/celeb/11111111-2222-4333-8444-555555555555']) {
     const response = await middleware(new NextRequest(`https://feelandnote.com${path}`, { headers: { 'CF-IPCountry': 'SG' } }))

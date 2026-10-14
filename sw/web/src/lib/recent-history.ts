@@ -1,4 +1,5 @@
 import { getCelebProfileUrl } from "./url";
+import { isDiscardedFaction, retiredFactionHref, retiredFactionTarget } from "./retired-factions";
 
 export const RECENT_HISTORY_STORAGE_KEY = "fn-recent-history-v1";
 export const RECENT_HISTORY_LIMIT = 10;
@@ -53,7 +54,7 @@ export function parseRecentHistory(raw: string | null): RecentHistoryItem[] {
     const value: unknown = JSON.parse(raw ?? "[]");
     if (!Array.isArray(value)) return [];
     const seen = new Set<string>();
-    return limitRecentHistory(value.filter((item): item is RecentHistoryItem => {
+    const valid = value.filter((item): item is RecentHistoryItem => {
       if (!item || !["myth", "faction", "profile", "content"].includes(item.kind)
         || typeof item.id !== "string" || !item.id || typeof item.title !== "string" || !item.title
         || typeof item.href !== "string" || !/^\/(?:explore\/(?:myth|faction)(?:\/|\?|$)|celeb\/|content\/|[0-9a-f-]{36}(?:[?#]|$))[^\\]*$/i.test(item.href)
@@ -65,8 +66,36 @@ export function parseRecentHistory(raw: string | null): RecentHistoryItem[] {
       if (item.position && (!(item.position.groupId === null || typeof item.position.groupId === "string")
         || !(item.position.personId === null || typeof item.position.personId === "string"))) return false;
       const key = recentHistoryKey(item);
+      if (item.kind === 'faction') {
+        const url = new URL(item.href, 'https://feelandnote.com');
+        const reference = url.pathname.split('/').pop() ?? '';
+        if (isDiscardedFaction(item.id) || isDiscardedFaction(reference)
+          || isDiscardedFaction(url.searchParams.get('faction') ?? url.searchParams.get('tag') ?? '')) return false;
+      }
       if (seen.has(key)) return false;
       seen.add(key);
+      return true;
+    });
+    const migrated = valid.map(item => {
+      if (item.kind !== 'faction') return item;
+      const url = new URL(item.href, 'https://feelandnote.com');
+      const target = retiredFactionTarget(item.id)
+        ?? retiredFactionTarget(url.pathname.split('/').pop() ?? '')
+        ?? retiredFactionTarget(url.searchParams.get('faction') ?? url.searchParams.get('tag') ?? '');
+      const href = retiredFactionHref(url.pathname, url.searchParams);
+      if (!target || !href) return item;
+      return {
+        ...item, id: target.id, href: href + url.hash,
+        title: target.name, titles: { ko: target.name, en: target.nameEn },
+        subtitle: target.group, subtitles: { ko: target.group, en: target.groupEn },
+        position: { groupId: target.group, personId: item.position?.personId ?? url.searchParams.get('person') },
+      };
+    });
+    const canonicalKeys = new Set<string>();
+    return limitRecentHistory(migrated.filter(item => {
+      const key = recentHistoryKey(item);
+      if (canonicalKeys.has(key)) return false;
+      canonicalKeys.add(key);
       return true;
     }));
   } catch { return []; }

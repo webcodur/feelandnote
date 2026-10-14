@@ -1,4 +1,5 @@
 import { ATLAS_GROUP_PARAM, ATLAS_PERSON_PARAM, type AtlasWorld } from "@/components/features/user/explore/myth/atlasNavigationData";
+import { isDiscardedFaction, retiredFactionTarget } from './retired-factions';
 
 export const RECENT_ATLAS_STORAGE_KEYS: Record<AtlasWorld, string> = {
   myth: "fn-recent-myths-v1",
@@ -17,11 +18,19 @@ export function parseRecentAtlas(raw: string | null): RecentAtlasItem[] {
   try {
     const parsed: unknown = JSON.parse(raw ?? "[]");
     if (!Array.isArray(parsed)) return [];
-    const seen = new Set<string>();
-    return parsed.filter((item): item is RecentAtlasItem => {
-      if (!item || typeof item.entryId !== "string" || !item.entryId || seen.has(item.entryId)
+    const valid = parsed.filter((item): item is RecentAtlasItem => {
+      if (!item || typeof item.entryId !== "string" || !item.entryId
         || !(item.groupId === null || typeof item.groupId === "string")
         || !(item.personId === null || typeof item.personId === "string")) return false;
+      if (isDiscardedFaction(item.entryId)) return false;
+      return true;
+    }).map(item => {
+      const target = retiredFactionTarget(item.entryId);
+      return target ? { ...item, entryId: target.id, groupId: target.group } : item;
+    });
+    const seen = new Set<string>();
+    return valid.filter(item => {
+      if (seen.has(item.entryId)) return false;
       seen.add(item.entryId);
       return true;
     }).slice(0, MAX_ITEMS);

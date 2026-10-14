@@ -5,6 +5,56 @@ import { forgetRecentHistory, isCurrentRecentHistory, legacyRecentHistory, parse
 const myth: RecentHistoryVisit = { kind: "myth", id: "odyssey", href: "/explore/myth/homer-odyssey", title: "오디세이아", thumbnail: null };
 const book: RecentHistoryVisit = { kind: "content", id: "odyssey", href: "/content/odyssey?category=book&editionId=72", title: "Odyssey", thumbnail: null };
 
+test("옛 쿼리 주소의 최근 기록도 현재 세력 ID와 그룹으로 복원한다", () => {
+  for (const query of ['tag=french-new-wave', 'faction=d843e24d-77a9-4b1c-8f25-6bc84ef28fc2']) {
+    const result = parseRecentHistory(JSON.stringify([
+      { kind: 'faction', id: 'legacy-query', href: `/explore/faction?${query}&person=varda`, title: '누벨바그', thumbnail: null, visitedAt: 3 },
+      { kind: 'faction', id: 'a186f467-50e4-416d-96b7-9f61b003bb91', href: '/explore/faction/cinema', title: '시네마', thumbnail: null, visitedAt: 1 },
+    ]));
+    assert.equal(result.length, 1);
+    assert.equal(result[0].id, 'a186f467-50e4-416d-96b7-9f61b003bb91');
+    assert.deepEqual(result[0].position, { groupId: '누벨바그', personId: 'varda' });
+    assert.equal(new URL(result[0].href, 'https://feelandnote.com').pathname, '/explore/faction/cinema');
+  }
+});
+
+test("폐기한 명단의 최근 기록을 제거하고 냉전 기록의 위치를 합친다", () => {
+  const base = { kind: 'faction', thumbnail: null, visitedAt: 1 };
+  const result = parseRecentHistory(JSON.stringify([
+    { ...base, id: 'old', title: '경제학자들', href: '/explore/faction?tag=c8f438a3-5a9f-4053-8b10-077746a38987' },
+    { ...base, id: 'b3ef4a3e-c17f-4e79-bc2e-e2c98a3a91c4', title: '옛 명단', href: '/explore/faction/software-legends' },
+    { ...base, id: '59f23ca9-00a3-473a-ab5f-41dfba6c381d', title: '냉전의 최전선', href: '/explore/faction/cold-war-frontlines?person=arkhipov' },
+    { ...base, kind: 'profile', id: 'person', title: '인물', href: '/celeb/person' },
+  ]));
+  assert.equal(result.length, 2);
+  assert.equal(result[0].id, '374b2b54-31f6-4bb3-ab16-6fe4af05ea90');
+  assert.equal(result[0].subtitle, '냉전의 현장');
+  assert.equal(new URL(result[0].href, 'https://feelandnote.com').searchParams.get('person'), 'arkhipov');
+  assert.equal(result[1].kind, 'profile');
+  assert.deepEqual(parseRecentHistory(JSON.stringify(result)), result);
+});
+
+test("폐기한 영화 세력의 최근 기록은 그룹·인물 위치를 살려 시네마 한 항목으로 합친다", () => {
+  const old = [
+    { kind: 'faction', id: '799450d5-6671-43af-9c22-2f886e1de8fd', href: '/explore/faction/dogme-95?person=person-a', title: '도그마 95', thumbnail: 'cover.webp', visitedAt: 3 },
+    { kind: 'faction', id: '15b98aa8-6372-48bd-a6ce-a365c2147a07', href: '/explore/faction/hollywood-blacklist', title: '블랙리스트', thumbnail: null, visitedAt: 2 },
+    { kind: 'faction', id: 'a186f467-50e4-416d-96b7-9f61b003bb91', href: '/explore/faction/cinema', title: '시네마', thumbnail: null, visitedAt: 1 },
+  ];
+  const parsed = parseRecentHistory(JSON.stringify(old));
+  assert.equal(parsed.length, 1);
+  assert.equal(parsed[0].id, 'a186f467-50e4-416d-96b7-9f61b003bb91');
+  assert.equal(parsed[0].title, '시네마');
+  assert.equal(parsed[0].titles?.en, 'Cinema');
+  assert.equal(parsed[0].subtitle, '도그마 95');
+  assert.deepEqual(parsed[0].position, { groupId: '도그마 95', personId: 'person-a' });
+  const destination = new URL(parsed[0].href, 'https://feelandnote.com');
+  assert.equal(destination.pathname, '/explore/faction/cinema');
+  assert.equal(destination.searchParams.get('group'), '도그마 95');
+  assert.equal(destination.searchParams.get('person'), 'person-a');
+  assert.equal(parsed[0].visitedAt, 3);
+  assert.deepEqual(parseRecentHistory(JSON.stringify(parsed)), parsed);
+});
+
 test("삭제는 같은 ID의 다른 종류를 보존하고 나머지 기록·순서를 바꾸지 않는다", () => {
   const items = rememberRecentHistory(rememberRecentHistory([], myth, 1), book, 2);
   const removed = forgetRecentHistory(items, myth);

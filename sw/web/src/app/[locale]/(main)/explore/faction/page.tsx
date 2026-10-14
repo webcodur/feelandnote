@@ -6,6 +6,7 @@
 
 import { getLocale, getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
+import { isDiscardedFaction, retiredFactionHref } from '@/lib/retired-factions';
 import { getFeaturedFactions } from "@/actions/home";
 import { redirect } from "@/i18n/navigation";
 import { buildFactionSections, FACTION_LAST_COOKIE, factionSectionKey, localizedFactionName } from "@/lib/faction-sections";
@@ -65,6 +66,9 @@ async function FactionPageBody({
   /* 고른 섹션이 없을 때만 마지막으로 보던 세력(쿠키)을 찾는다 — 신화의 세계와 같은 차례.
      탐색은 요청마다 그리고 앞단 캐시도 없어 쿠키를 읽어도 렌더 방식이 바뀌지 않는다 */
   const savedSlug = requested ? undefined : (await cookies()).get(FACTION_LAST_COOKIE)?.value;
+  const retiredSavedHref = savedSlug && !isDiscardedFaction(savedSlug)
+    ? retiredFactionHref(`/explore/faction/${savedSlug}`, new URLSearchParams()) : null;
+  if (retiredSavedHref) redirect({ href: retiredSavedHref, locale });
   const savedEntry = savedSlug
     ? sections.flatMap((item) => item.entries).find((entry) => entry.slug === savedSlug)
     : undefined;
