@@ -35,7 +35,7 @@
 | `oracle-db-backup-age.key` | `C:/Users/<사용자>/.feelandnote/` | R2의 Oracle DB 암호화 백업 복구키. 서버에는 공개 recipient만 둔다 |
 
 **`.env`가 필요 없는 앱**: `sw/lab`(환경변수 참조 0건), `sw/android`(Gradle 프로젝트), `packages/*`(자체 파일 없이 각 앱의 값을 물려받음).
-**`sw/audio-bo`는 `.env`가 없다** — 로컬 작업 폴더 경로를 코드 기본값(`D:\audios\...`·`D:\GPT-SoVITS\...`)으로 박아 뒀다. 다른 컴퓨터에서 폴더 위치가 다르면 §5를 본다.
+**`sw/audio-bo/.env`도 음성 API를 쓰면 옮긴다.** ElevenLabs 계정 키와 음성 도구 설정이 들어 있다. 로컬 작업 폴더는 코드 기본값(`D:\audios\...`·`D:\GPT-SoVITS\...`)을 쓰며, 다른 컴퓨터에서 위치가 다르면 §5를 본다.
 
 저장소에는 빈칸 서식지도 두지 않는다. `sw/web/.env.local.example`이 있었으나 프로그램이 읽지 않고 참조하는 곳도 없는 데다 목록이 실물의 5분의 1에서 멈춰 있어 26.07.31에 삭제했다. **세팅의 기준은 실물 `.env` 사본 하나뿐이고, 어떤 값이 필요한지는 이 문서가 답한다.**
 
@@ -77,7 +77,7 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 | `DB_SECRET_KEY` | web, web-bo, remotion | 🔴 서버용 `sb_secret_...` 전권 키. 접근 규칙(RLS)을 전부 무시하며 브라우저로 새면 안 된다 |
 | `DB_API_URL` | remotion | 위 Auth·PostgREST 주소와 같은 값. remotion만 `NEXT_PUBLIC_` 접두어 없이 쓴다 |
 
-공개·서버 키는 Oracle DB VM의 `/opt/feelandnote/supabase/.env`가 원본이다. 이 경로명은 현재 실행 중인 DB 스택의 실제 배포 경로라 코드 명칭과 별개다. 값을 교체하면 세 앱의 로컬 `.env`와 Oracle 웹의 `/etc/feelandnote/web.env`도 함께 바꾼다.
+공개·서버 키는 Oracle DB VM의 `/opt/feelandnote/database/secrets/gateway.json`이 원본이다. 값을 교체하면 `render-gateway.py`로 Nginx 설정을 생성하고 gateway 컨테이너를 재생성하며, 세 앱의 로컬 `.env`와 Oracle 웹의 `/etc/feelandnote/web.env`도 함께 바꾼다. Auth의 서명키·OAuth·SMTP 설정 원본은 같은 폴더의 `auth.json`에 둔다. 웹 VM의 디스크 알림은 SMTP와 발신자만 복사한 `/etc/feelandnote/disk-alert.json`에 수신자를 함께 둔다(root 소유 0600). `LoadCredential`로 알림 유닛에만 전달하며, SMTP 키를 회전하면 이 사본도 교체한다. Auth·DB·OAuth 비밀은 복사하지 않는다.
 
 ### 3-2. 사이트 주소
 
@@ -93,8 +93,11 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 
 | 이름 | 용도 | 발급 |
 |------|------|------|
-| `KAKAO_REST_API_KEY` | 책 검색 (한국어판 현행 주력. 영문 원서는 OpenLibrary — 키 불요) | 카카오 개발자센터 |
+| `KAKAO_REST_API_KEY` | 서비스용 책 검색 키. `sw/web/.env`·`sw/web-bo/.env`와 Oracle `/etc/feelandnote/web.env`에 같은 값을 둔다. 영문 원서는 OpenLibrary — 키 불요 | 카카오 개발자센터 |
+| `KAKAO_RESEARCH_REST_API_KEY` | 기존 책 검색 키를 개인 연구·조사용으로 회수해 로컬 `sw/web-bo/.env`에 보관한다. 사용 구분은 아래 외부 서비스 규칙을 따른다 | 카카오 개발자센터 |
 | `YES24_API_KEY` | web 서버의 한국 전일 도서 순위 조회. DB 신규 메타 수집 키가 아니다 | [예스24 개발자센터](https://developers.yes24.com/) |
+| `YES24_AUDIT_API_KEY` | BOOK 연구의 ISBN별 상품·리뷰·판매 신호 조회 주 키. ykj5598 연구 계정이며 로컬 `sw/web/.env`·`sw/web-bo/.env`에 보관한다 | [예스24 개발자센터](https://developers.yes24.com/) |
+| `YES24_AUDIT_SECONDARY_API_KEY` | 같은 연구의 webcodur 보조 키. 주 키의 일일 할당량 소진을 실제 응답으로 확인한 때 전환한다. 로컬 `sw/web/.env`·`sw/web-bo/.env`에 보관한다 | [예스24 개발자센터](https://developers.yes24.com/) |
 | `YES24_CHARTS_ENABLED` | web 운영의 예스24 순위 활성화. 상업 이용 조건 확인 후 `true`로 설정하며, 개발 환경은 키만 있으면 검증 가능 | 운영자 설정 |
 | `YES24_PURCHASE_ENABLED` | web 운영의 ISBN별 예스24 구매 링크 활성화. 이용 조건 확인 후 `true`로 설정하며, 개발 환경은 키만 있으면 검증 가능 | 운영자 설정 |
 | `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 블로그·이미지·뉴스 검색. **책 검색에는 더 쓰지 않는다.** 운영 웹의 「오늘의 인물」 뉴스도 이 키로 부르므로 Oracle `/etc/feelandnote/web.env`에도 들어간다 — 빠지면 매일 0시 인물 수만큼 「네이버 API 키 미설정」이 저널에 쌓이고 뉴스 칸이 빈다 | 네이버 개발자센터 |
@@ -120,10 +123,18 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 
 | 이름 | 들어가는 곳 | 설명 |
 |------|------------|------|
-| `ELEVENLABS_API_KEY` | web, web-bo, remotion | 🔴 **유료 종량제.** 인물 목소리 합성 |
-| `ELEVENLABS_API_KEY_FEELANDNOTE` | web-bo, remotion | 두 번째 계정 키. 한도 소진 시 갈아탄다 |
+| `ELEVENLABS_API_KEY_<계정명>` | web-bo, remotion, audio-bo | 🔴 **유료 종량제.** `WEBCODUR`·`FEELANDNOTE`·`TLWNS5598`처럼 실제 계정명으로 구분한다. web의 기존 키도 `WEBCODUR` 이름으로 보관한다 |
+| `ELEVENLABS_DEFAULT_ACCOUNT` | web-bo, remotion | 계정을 지정하지 않은 조회·합성에서 우선할 계정 ID. 비워 두면 기존 순서를 쓴다 |
 
-ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 시 표시되는 실제 `sk_...` 비밀 키를 넣는다. Key ID는 인증 헤더에 사용할 수 없다.
+ElevenLabs에는 콘솔의 API Key ID가 아니라 키 생성·회전 시 표시되는 실제 `sk_...` 비밀 키를 넣는다. Key ID는 인증 헤더에 사용할 수 없다.
+
+여러 계정을 등록해 한도와 보이스 접근 권한에 맞춰 돌려 쓴다. 키 이름의 접미사는 대문자 영문·숫자·밑줄을 쓰고, 계정 ID는 그 접미사의 소문자다. 화면과 툴팁은 이름 가운데를 줄여 `web...dur`·`fee...ote`·`tlw...598`로 표시한다. 추가 계정은 실제 키를 환경변수에 넣으면 인식한다. 이름 규약은 `packages/shared/src/lib/ele-account-env.json`, 서버 계정 선택과 표시명은 `ele-accounts.ts`, Python 키 선택은 `celeb_dialogue_voice_common.py`가 같은 규약을 읽는다.
+
+기존 `default` 선택과 접미사 없는 `ELEVENLABS_API_KEY`는 이전 설정을 읽기 위한 `webcodur` 별칭으로만 지원한다. 새 키가 있으면 `ELEVENLABS_API_KEY_WEBCODUR`를 우선하며, 같은 계정을 화면에 중복 표시하지 않는다. 우선 계정을 지정하지 않으면 `webcodur`·`feelandnote` 다음에 추가 계정을 읽는다.
+
+백오피스·Remotion에서 우선 계정을 바꾸려면 해당 앱의 `ELEVENLABS_DEFAULT_ACCOUNT`에 실제 계정명을 지정한다. Python 음성 도구도 `--account tlwns5598`처럼 계정을 명시한다. 지정한 계정의 키가 없거나 잘못됐으면 오류로 멈춘다. 보이스도 계정별로 접근 가능해야 하며, 크레딧 소진 뒤 유료 합성을 다른 계정으로 자동 재시도하지 않는다. 키 등록과 음성 생성은 별도 지시다.
+
+이동하며 다른 컴퓨터에서도 작업하려면 사용하는 앱의 실물 `.env`를 같은 경로로 옮기고 계정 ID를 유지한다. 계정은 컴퓨터 이름에 묶지 않는다. 키를 추가·회전하면 그 계정을 쓰는 web-bo·Remotion·audio-bo의 사본도 함께 갱신한다. 값은 문서·Git·로그에 남기지 않고, 검사 결과에는 변수명과 설정 여부만 표시한다.
 
 ### 3-6. Gemini(Google GenAI) 키 무리
 
@@ -146,8 +157,9 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 |------|------------|------|
 | 웹 Cloudflare Tunnel 토큰 | Oracle 웹 VM `/etc/cloudflared/feelandnote-web.token` | Cloudflare의 웹 전용 터널에서 발급한다. root 소유 0600, 상위 디렉터리 0700으로 보관하고 `feelandnote-web-tunnel.service`의 `LoadCredential`·`--token-file`로 읽는다. 앱 환경변수·저장소·명령 인자에 값을 넣지 않는다. 유출 시 해당 터널의 토큰을 교체하고 이 파일을 갱신한 뒤 터널 서비스만 재시작한다 |
 | `CLOUDFLARE_ZONE_ID` · `CLOUDFLARE_API_TOKEN` | web(Oracle), GitHub Secrets, 로컬 `.env` | Cloudflare 앞단 캐시 존과 퍼지 토큰. Oracle과 GitHub에는 해당 zone의 **Cache Purge만 허용한 전용 토큰**을 두고, Cache Rules·DNS·WAF까지 가진 운영 토큰은 로컬 규칙 관리에만 쓴다. 앞단 퍼지가 필요한 요청에서 자격증명이 없으면 `/api/revalidate`는 `complete: false`·503, Cloudflare API가 실패하면 `complete: false`·502를 돌려준다. 코드 배포 뒤에는 `cloudflare-purge.yml`을 필요한 범위로 수동 실행한다. 전체 존 퍼지는 `workflow_dispatch`의 `emergency-zone`과 정확한 확인문을 함께 입력한 경우에만 허용한다. Zone ID는 같아야 하지만 API token 값은 배치별 최소 권한으로 분리해도 된다 |
-| `tistory_kakao_id` · `tistory_kakao_password` | **PostgreSQL Vault만** (`.env`에 두지 않는다) | 티스토리 「필앤노트 시네마」 발행용 카카오 계정. 전용 Chrome·어사이드의 카카오 세션이 만료돼 비밀번호를 요구할 때 사람이 꺼내 넣는다. 스크립트가 자동 입력하지 않는다. 유출 시 카카오 비밀번호를 바꾸고 Vault를 갱신한다 |
-| `CRON_SECRET` | web(Oracle), web-bo, **PostgreSQL Vault(`web_revalidate_secret`)** | 정해진 시각에 도는 작업(오늘의 인물)과 화면 갱신 창구(`/api/revalidate`)의 암호. **비어 있으면 갱신 창구가 스스로 거부한다.** DB 트리거가 같은 값을 Vault에서 읽어 웹에 무효화를 보내므로, 키를 돌릴 때는 Oracle `/etc/feelandnote/web.env`·로컬 `.env`·Vault를 함께 바꾼다(`platform-05-external-services.md`「웹 캐시 무효화 단일 창구」) |
+| `tistory_kakao_id` · `tistory_kakao_password` | Oracle DB VM의 `secrets/services.json` (`.env`에 두지 않는다) | 티스토리 「필앤노트 시네마」 발행용 카카오 계정. 사용자가 티스토리 작업을 지시하면 에이전트는 전용 Chrome·어사이드의 카카오 로그인 화면에 보관된 계정과 비밀번호를 직접 입력한다. 값은 로그·문서·명령 인자·로컬 파일에 남기지 않는다. 유출 시 카카오 비밀번호를 바꾸고 비밀 파일을 갱신한다 |
+| `naver_blog_id` · `naver_blog_password` | Oracle DB VM의 `secrets/services.json` | 네이버 블로그 발행 계정. 값을 저장소나 문서에 적지 않는다 |
+| `CRON_SECRET` | web(Oracle), web-bo, Oracle DB VM의 `secrets/web-revalidate`·`services.json`의 `web_revalidate_secret` | 정해진 시각에 도는 작업과 `/api/revalidate`의 암호. 비어 있으면 갱신 창구가 거부한다. DB는 읽기 전용 마운트 `/run/secrets/web-revalidate`에서 같은 값을 읽는다. 회전할 때 Oracle `/etc/feelandnote/web.env`·로컬 `.env`·두 비밀 파일을 함께 바꾸고 `web-revalidate`의 UID 999·0600을 유지한다. 파일을 원자 교체했다면 DB 컨테이너를 재생성해 마운트를 갱신한다 |
 
 오늘의 인물은 Oracle의 `feelandnote-today-figure.timer`가 매일 15:05 UTC(한국시각 0시 5분)에 `/api/cron/today-figure`를 호출한다.
 
@@ -191,7 +203,7 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 
 ## 5. 다른 컴퓨터에서 달라지는 것 — 로컬 폴더 경로
 
-값이 아니라 **폴더 위치**라서 컴퓨터마다 다르다. 음성 작업실(`sw/audio-bo`)은 `.env` 없이 코드 기본값을 쓰므로, 폴더 구성이 다르면 `sw/audio-bo/.env`를 새로 만들어 덮어쓴다.
+값이 아니라 **폴더 위치**라서 컴퓨터마다 다르다. 음성 작업실(`sw/audio-bo`)의 폴더 구성이 기본값과 다르면 기존 `sw/audio-bo/.env`에 해당 경로를 지정한다.
 
 | 이름 | 기본값 | 무엇 |
 |------|--------|------|

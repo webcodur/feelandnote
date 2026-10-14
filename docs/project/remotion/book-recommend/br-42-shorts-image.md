@@ -128,4 +128,4 @@ imageChangeAt?: {
 | 폴백 | `(텍스트위치/길이) × segDurSec` | `estimateAnchorFrame` (같은 비율 방식) |
 | 코드 위치 | `BookRecommendShort.tsx` + `sections/ShortBackgroundLayer.tsx` | `legacy/BookCardVisualLegacy.tsx` |
 
-롱폼 앵커 함수(`findAnchorInSection`·`estimateAnchorFrame`·`resolveImageTransitions`)는 **`legacy/BookCardVisualLegacy.tsx`가 현역**이다. `_not-using/sections/BookCardVisual/BookCardVisual.tsx`에도 같은 이름들이 있지만 폐기 코드다.
+롱폼 앵커 함수(`findAnchorInSection`·`estimateAnchorFrame`·`resolveImageTransitions`)는 **`legacy/BookCardVisualLegacy.tsx`가 현역**이다.

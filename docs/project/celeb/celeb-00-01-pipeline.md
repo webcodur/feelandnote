@@ -1,6 +1,8 @@
 # 셀럽 데이터 파이프라인
 
-이 문서는 인물을 두 축으로 나누고 각 데이터 문서로 연결하는 오케스트레이터다. 필드와 테이블 구조는 [`../data/data-03-celeb.md`](../data/data-03-celeb.md), 공개 상태는 [`celeb-00-02-publication.md`](celeb-00-02-publication.md)가 쥔다.
+이 문서는 인물을 두 축으로 나누고 각 데이터 문서로 연결하는 오케스트레이터다. 명단 수집부터 등록·세력 배정·콘텐츠·공개까지의 실행 순서는 [`celeb-00-03-real-figure-runbook.md`](celeb-00-03-real-figure-runbook.md)가 쥔다. 필드와 테이블 구조는 [`../data/data-03-celeb.md`](../data/data-03-celeb.md), 공개 상태는 [`celeb-00-05-publication.md`](celeb-00-05-publication.md), 공개 전환의 필수·선택 기준은 [`active 요건`](celeb-00-02-active-requirements.md)이 쥔다.
+
+데이터 생성의 공통 판단 기준은 [서사·감정·목적성 파악](../agent-rules.md#데이터-생성의-이해)을 따른다.
 
 ## 먼저 두 축을 가른다
 
@@ -35,10 +37,10 @@
 
 - 실존 인물은 web-bo `/celebs/new`의 `createCeleb`로 등록한다. 이 경로는 UUID·slug·`celeb_metrics`를 만들고 `light`로 시작하며 공개 상태 기본값은 `inactive`, 실존 축 기본값은 `REAL`이다. 전승·허구 인물은 등록 화면에서 실존 축을 직접 고른다.
 - 전승 인물 일괄 등록은 이름·영문명·식별 가능한 bio를 준비한 뒤 `pnpm --dir sw/web-bo faction:seed:inactive --file <명세.json>`을 사용한다. 이 경로는 `light` 티어에 비공개로 넣는다. 실존 축은 명세의 `celeb_reality`가 정하며 `FICTION`과 `BOTH`만 받는다(생략하면 `FICTION`). 실존 인물은 이 경로로 넣지 않는다. 기본은 dry-run이며 사용자가 DB 반영을 지시했을 때만 `--apply`한다.
-- 실존 인물 일괄 등록은 원장 `data/celeb/new-figures/*.json`을 `pnpm --dir sw/web-bo celeb:seed:inactive --dir ../../data/celeb/new-figures`로 넣는다. 기본은 dry-run이고 DB 반영 지시 뒤에만 `--apply`한다.
+- 실존 인물 일괄 등록은 이번 회차의 임시 등록 원고 `data/celeb/new-figures/*.json`을 `pnpm --dir sw/web-bo celeb:seed:inactive --dir ../../data/celeb/new-figures`로 넣는다. 기본은 dry-run이고 DB 반영 지시 뒤에만 `--apply`한다. 등록·후속 작업의 DB 재조회 검증이 끝나면 작업 자료를 전량 폐기한다. 별도 조사 자료 보관 금지는 [데이터 원칙](../data/README.md)을 따른다.
 - 어느 경로든 등록 전에 아래 「중복 확인」을 거친다. 다른 이름(`aliases`)은 등록 때 함께 넣는다. 일괄 경로는 원장·명세의 `aliases`를 싣고, 화면 등록·수정은 인물 폼의 「다른 이름」 칸(한 줄에 하나)에 적는다.
 - 공통 결과 계약은 [`celeb-01-00-profile.md`](celeb-01-00-profile.md), 사실 판정은 [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md), 수식어는 [`celeb-01-03-title.md`](celeb-01-03-title.md), 나머지 소개 문구는 [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md)를 따른다.
-- 모든 신규 인물은 공개 전에 [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md)에 맞는 아바타를 등록한다. 등록한 아바타는 같은 문서 「정규화」로 마감하며, 실행은 `celeb-avatar-reframe` 스킬이다.
+- 아바타 등록·정규화는 [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md)를 따른다. 등록한 아바타의 정규화 실행은 `celeb-avatar-reframe` 스킬이다.
 
 ### 중복 확인
 
@@ -92,7 +94,7 @@
   └─ 각 도메인 완료 뒤 영문 누락 보완
 ```
 
-기본 프로필 뒤의 독립 트랙은 병렬로 진행할 수 있다.
+기본 프로필 뒤의 독립 트랙은 병렬로 진행할 수 있다. 아래 흐름과 표는 제작 트랙을 연결하며, 공개 전환에 필요한 트랙은 [`active 요건`](celeb-00-02-active-requirements.md)으로 판단한다.
 
 | 데이터 | 문서 |
 |---|---|
@@ -120,11 +122,11 @@
 ```text
 허구 인물 등록(light, inactive)
   → 프로필 사실·소개 한영
-  → 원전·등장 작품 등록 및 관계 연결
   ├─ 아바타
   ├─ 인물 안내 한영
   ├─ 원전 기반 서사 연표 한영
-  ├─ speech_tone·한마디·한국어 상황 대사
+  ├─ 한마디 한영·speech_tone·상황 대사
+  ├─ 원전·등장 작품 등록 및 관계 연결
   ├─ 확인된 인물 관계·세력 소속
   └─ 가상독백 한영
   → 공개 전환
@@ -135,24 +137,18 @@
 - `celeb_contents`에 작품을 넣지 않는다.
 - `celeb_influence`와 `celeb_persona`를 만들지 않는다.
 - 실존 인물용 일괄 i18n을 실행하지 않는다. 프로필·인물 안내·연표·작품 설명의 영어는 각 생성 단계에서 근거가 있을 때 함께 작성한다.
-- Speech의 한국어 한마디와 상황 대사는 작성한다. 영어 상황 대사는 일괄 번역 필수 대상이 아니다.
-- 팩션 소속은 해당 인물에게만 연결하며 `FICTION` 전체의 필수조건으로 일반화하지 않는다.
+- Speech의 한마디는 한영을 작성하고, 말투·상황 대사는 요청한 작업 범위를 따른다.
+- 팩션 소속은 해당 인물에게 확인된 것만 연결한다.
 
 ### 원전·등장 도서 연결
 
-허구 인물 등록은 원전·등장 작품 관계까지 연결해야 끝난다. 인물은 작품에 연결하고, ISBN 판본은 작품 아래, 교체 가능한 판매 상품은 판본 아래 둔다. 작품 판정·판본 범위·관계 유형·설명·반영 명령은 [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md)가 쥔다. 이 카탈로그는 실존 축과 무관하게 모든 인물을 연결할 수 있다.
+원전·등장 도서를 연결할 때는 인물을 작품에 연결하고, ISBN 판본은 작품 아래, 교체 가능한 판매 상품은 판본 아래 둔다. 작품 판정·판본 범위·관계 유형·설명·반영 명령은 [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md)가 쥔다. 이 카탈로그는 실존 축과 무관하게 모든 인물을 연결할 수 있다.
 
 서사 연표는 원전 연결 뒤 [`celeb-06-03-timeline-fiction-relay.md`](celeb-06-03-timeline-fiction-relay.md)를 실행한다. 관계와 세력 소속은 원전에서 확인되는 것만 등록한다.
 
 ## 공개 전환
 
-공개 여부는 [`celeb-00-02-publication.md`](celeb-00-02-publication.md)를 따른다.
-
-### 최소 필수 조건
-
-DB가 `active` 전환에 직접 강제하는 인물 필드는 `avatar_url`이다. `full` 티어에는 별도로 `celeb_contents` 한 건 이상이 필요하다. 전체 데이터 완성도와 공개 전환의 DB 최소조건을 같은 것으로 다루지 않는다.
-
-DB 제약과 별개로 파이프라인상 공개 전환의 필수 여건은 인물 안내(`celeb_explanations.plain_text` 한영)와 가상독백(`virtual_monologue` 한영)이다. 둘 다 채워지지 않은 인물은 공개하지 않는다. 가상독백 집필은 [`celeb-04-03-virtual-monologue.md`](celeb-04-03-virtual-monologue.md)의 agy CLI(Gemini) 경로로 처리한다 — 외부 CLI 호출이 들어가는 파이프라인 중간 단계다.
+필수 데이터와 조사 완료는 [`active 요건`](celeb-00-02-active-requirements.md)으로 판단한다. 상태 변경·노출·현재 DB 제약은 [`인물 공개 상태`](celeb-00-05-publication.md)를 따른다.
 
 ## 닫힌 데이터
 

@@ -15,13 +15,12 @@
 전체 영상 리뷰 4,050건에서 완료한 2,723건을 뺀 목록이며, 두 대상 사이의 중복은 없다.
 영화만 보면 전체 3,488건 중 완료 2,723건, 다음 대상 765건이다.
 
-실제 관계 ID·인물·작품·한국어와 영문 원문·출처는
-[대상 JSON](../../data/celeb/video-review-audit-remainder.json)에 있다. 짧은 리뷰나 출처 URL이 빈 리뷰도 포함했다.
+실제 관계·인물·작품·한영 원문·출처는 현재 DB에서 확인한다. 짧은 리뷰나 출처 URL이 빈 리뷰도 포함했다.
 빈 리뷰는 현재 조회에서 0건이었다.
 
 `sw/web-bo`에서 `node --env-file=.env --import tsx scripts/tistory-cinema/luna-cinema-review-remainder.mts`를
 실행하면 완료 결과를 제외하고 현재 DB에서 남은 리뷰를 다시 계산한다. 추가 정리 결과는
-DB 반영을 마친 뒤 `--completed <결과 JSON>`으로 전달한다. 한 번 전달한 완료 파일은 다음 실행에도 이어 쓴다.
+DB 반영을 마친 뒤 `--completed <결과 JSON>`으로 전달한다. 반영·검증 뒤 결과 파일은 폐기한다.
 
 교정에는 [영화 감상문의 AI SLOP 정리 기준](../continuous/blog-tistory-cinema.md#감상문의-ai-slop-정리)을 이어 쓴다.
 

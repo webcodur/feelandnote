@@ -18,25 +18,26 @@
 
 ## 현재 문서 지도
 
-아래 표의 공개 상태는 `rest/page.tsx`와 `RestGameGrid.tsx`의 `dev` 값을 기준으로 한다.
+아래 표의 공개 상태는 [`rest-games.ts`](../../sw/web/src/constants/rest-games.ts)의 `dev` 값을 기준으로 한다.
 
 | 구역 | 게임 | 문서에 적힌 상태 | 상태 근거 |
 |---|---|---|---|
-| 공개 쉼터 `/rest` | 여명, 미궁, 패권, 천도, 기억 | 한 페이지에 마운트된 공개 게임 5종. 개별 페이지가 아니라 앵커로 진입 | [`platform-01-architecture.md`](../project/platform/platform-01-architecture.md#네비게이션), [`card-images.md`](card-images.md) |
-| 개발자 모드 | 시대의 초상, 유랑 | 구현은 보존하며 로컬 개발 서버 또는 `?dev=1`에서만 카드 노출 | [`card-images.md`](card-images.md#6-적용-현황) |
+| 공개 쉼터 `/rest` | 여명, 미궁, 패권, 기억 | 개별 페이지가 아니라 앵커로 진입 | [`platform-01-architecture.md`](../project/platform/platform-01-architecture.md#네비게이션), [`card-images.md`](card-images.md) |
+| 개발자 모드 | 트로이 전쟁, 천도, 시대의 초상, 유랑 | 로컬 개발 서버 또는 `?dev=1`에서만 카드 노출·게임 실행. 트로이·패권·천도 검수는 [`games.md`](../todo/games.md) | [`rest-games.ts`](../../sw/web/src/constants/rest-games.ts) |
 | 실험실 `/lab/games` | 교차 격자, 넷씩 넷, 근접도, 경로 잇기, 어느 쪽, 상위 다섯, 가림 해제 | 실험 구역에서만 열고 공개 쉼터에는 등록하지 않음 | [`experimental/README.md`](experimental/README.md#3-공개-경계) |
 
 공개 카드에 올라와 있다는 사실과 게임의 최종 검증 완료는 같은 뜻이 아니다. 특히 천도의 구현·검증 상태는 카드 문서가 아니라 [`10-implementation-status.md`](suikoden/10-implementation-status.md)의 「현재 검증 상태」를 기준으로 판단한다.
 
 ## 게임별 문서
 
-### 공개 쉼터
+### 쉼터 게임
 
 | 게임 | 전용 문서 | 범위 |
 |---|---|---|
+| 트로이 전쟁 | [`myth/README.md`](myth/README.md) | 개발자 모드의 10장 전술 RPG |
 | 여명 | 전용 게임 규격 문서 없음 | 라우트는 [`platform-01-architecture.md`](../project/platform/platform-01-architecture.md), 카드용 장면과 한 줄 설명은 [`card-images.md`](card-images.md#3-1-여명-dawn--역사의-서광) |
 | 미궁 | 전용 게임 규격 문서 없음 | 라우트는 [`platform-01-architecture.md`](../project/platform/platform-01-architecture.md), 카드용 장면과 한 줄 설명은 [`card-images.md`](card-images.md#3-2-미궁-labyrinth--은둔한-현자-찾기) |
-| 패권 | [`hegemony.md`](hegemony.md) | 게임 규칙, 카드·적성·상성 판정, 라운드 결산, AI 판단, 파일 구조, 추후 개발 예정 기능 |
+| 패권 | [`hegemony.md`](hegemony.md) | 게임 진행, 실제 DB 매핑, 판정 상수와 구현 진입점 |
 | 천도 | [`suikoden/dev-guide.md`](suikoden/dev-guide.md), [`suikoden/`](suikoden/README.md) | 개발 규칙과 작업 절차는 룰북, 설계는 01~08, 현재 코드 사실은 10 |
 | 기억 | 전용 게임 규격 문서 없음 | 공개 상태와 카드 자산은 [`card-images.md`](card-images.md), 실제 규칙은 `sw/web/src/components/features/game/memory/` |
 

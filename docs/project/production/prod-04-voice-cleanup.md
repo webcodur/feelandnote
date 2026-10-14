@@ -9,19 +9,26 @@ TTS가 만든 음성은 경로·엔진과 상관없이 **처음 생긴 자리에
 - 정리가 실패하면 합성도 실패로 처리한다. 정리 안 된 음원이 조용히 나가지 않게 한다. 파이썬(numpy)·ffmpeg·ffprobe가 필요하다.
 - 길이를 기록하는 경로는 정리 뒤 길이(요약의 `seconds`)를 쓴다.
 - wav 단계가 있으면 거기서 정리한다. 손실 압축 음원을 풀어 다시 압축하면 2세대 손실이 된다. ElevenLabs 미리듣기처럼 mp3로만 받는 경로는 원본 샘플레이트·128k로 한 번 더 인코딩된다.
-- 프로필은 `reading`(내레이션·안내, 문장 사이 쉼 기준)과 `dialogue`(인물 대사, 쉼표 자리 쉼 기준) 둘이다.
+- 프로필은 `reading`(내레이션·안내)과 `dialogue`(인물 대사, 쉼표 자리 쉼 기준) 둘이다. 기존 서비스 음원의 들숨·간격 일괄 정리 대상은 인물안내(`reading`), 가상독백(`vmonologue`), 세력 개요(`description`, 신화 포함)다. 인물 대사는 이 일괄 작업에 포함하지 않는다.
+- 본문과 대조한 문장·문단 경계를 기준으로 쉼을 맞춘다. 쉼 길이만 보고 문단을 추측하지 않는다. 목표값은 [`narration-cleanup-policy.json`](../../../packages/shared/src/bo/voice-utils/narration-cleanup-policy.json)이 쥐고 Python 정리·검수와 Node 스티치가 같은 값을 읽는다.
+- 문장·문단 간격은 상한을 넘는 쉼만 줄이는 규칙이 아니다. 짧으면 늘리고 길면 줄여 목표 총량에 맞춘다. 쉼표와 문장 내부 리듬은 유지하고, 말끝·다음 발화 시작을 보존할 수 없는 경계는 자동으로 잘라내지 않는다.
+- 발화 배속을 먼저 적용한 뒤 문장·문단 간격을 맞춘다. 간격 조정 뒤 전체 음원을 다시 배속해 목표 간격을 줄이지 않는다. 최종 음원의 문장 타이밍·길이·해시·ETag를 함께 갱신한다.
+- 발행된 서비스 음원의 SSoT는 DB 본문과 R2 음원·타이밍이다. 로컬 합성본·원본·전사·검수 기록·백업은 영구 보관하지 않는다. 재정리는 R2 자료의 본문·음원 일치 여부를 확인해 재사용하며, 자료가 없거나 일치하지 않을 때만 새 전사를 한다. 원본 본문 해시를 복원하지 못하면 현재 본문과 새 전사의 완전 일치를 정리 전후에 확인해야 교체한다.
 
 | 경로 | 거는 자리 | 프로필 |
 |---|---|---|
-| 인물 안내 음성 배치 `sw/web-bo/scripts/celeb/reading-voice.mjs` | attempt wav 채택 직후, 인코딩·검수 전 | reading |
+| 인물 안내 음성 배치 `sw/web-bo/scripts/celeb/reading-voice.mjs` | WAV에서 들숨 정리 → 전사·본문 대조 → 배속 → 문장·문단 쉼 조정 → 최종 검수 | reading |
+| 세력 개요 음성 배치 `sw/web-bo/scripts/faction/faction-desc-voice.mjs` | 유닛 WAV 들숨 정리 → 스티치·배속 → 문장·문단 쉼 조정 → 최종 검수 | reading |
 | 인물 대사 배치 `sw/audio-bo/scripts/celeb-dialogue-voice-generate.py` | 합성 mp3 저장 직후 | dialogue |
-| 가상독백 문단 합성 `sw/audio-bo/scripts/celeb-monologue-voice-generate.py` | 문단 mp3 저장 직후, 스티치 전 | reading |
+| 가상독백 문단 합성 `sw/audio-bo/scripts/celeb-monologue-voice-generate.py` | 문단 mp3 들숨 정리 → 스티치·배속 → 문장·문단 쉼 조정 → 최종 MP3 검수 | reading |
 | 대사 끝부분 복구 `sw/audio-bo/scripts/elevenlabs-safe-tail-dialogues.py` | 안전 문구를 잘라낸 직후 | dialogue |
 | web-bo 대사 작업대·음원 만들기 창구 `generateVoicePreview`(`sw/web-bo/src/actions/admin/voice-gen.ts`) | 미리듣기 응답 전 | dialogue |
 | web-bo 서재 탐방 미리듣기 `sw/web-bo/src/app/api/[series]/voice/*/preview` | 응답 전 | Gemini reading · ElevenLabs dialogue |
 | Remotion 서재 탐방 합성 `sw/remotion/scripts/voice/2-synthesize/engines.ts` | wav 저장 직후, 음량 정규화 전 | Gemini reading · ElevenLabs dialogue |
 | Remotion 책과 사람 합성 `sw/remotion/scripts/book-person/tts.ts` | wav 저장 직후 | reading |
 | audio-bo 화자 합성 `sw/audio-bo/scripts/synthesize.py` | 학습 모델 음성을 고른 직후, 듣기 보정 전 | reading |
+
+기존 서비스 음원의 일괄 정리는 `sw/web-bo/scripts/voice/narration-cleanup-batch.mjs`로 실행한다. R2 음원·타이밍 해시와 본문 및 문장 전체의 대응을 확인하고 원본을 `_backup`에 저장한 뒤 정리한다. 발화 PCM 보존·최종 인코딩 쉼을 검사하고 문장 타이밍·음원 해시·ETag·캐시 버전을 함께 갱신한다. 경계가 불확실하면 원본을 유지한다. 상시 경로는 단일 스레드 CPU 작업 두 개를 낮은 우선순위로 돌리고 GPU·유료 합성을 사용하지 않는다. 기존 자료로 경계를 복원하지 못한 예외만 `--transcribe`로 자원 여유를 확인한 Whisper 검수를 거친다. 최종 전사 결과가 남아 있으면 `--verified-from`으로 원본·본문·결과 음원의 해시를 확인하고 재사용한다.
 
 ## 들숨 제거
 
@@ -36,10 +43,11 @@ TTS 보이스는 문장 사이마다 숨을 들이쉰다(Gemini Charon이 대표
 2. SPEECH_RMS 이상은 발화로 확정하고 좌우 SPEECH_GUARD까지 보호구역으로 묶는다
 3. 보호구역 밖에서 BREATH_FLOOR_RMS보다 큰 연속 구간을 찾는다
 4. 길이가 BREATH_MIN~BREATH_MAX이고 구간 최대 RMS가 BREATH_PEAK_MAX 미만인 것만 채택한다
-5. 그 구간을 파일 자신의 잡음 바닥(룸톤)으로 FADE만큼 교차 페이드해 채운다 — 디지털 0으로 비우지 않고, 구간을 삭제하지 않는다
+5. 다음 말소리와 붙어 상한 검사에서 빠진 짧은 후보는 BREATH_PEAK_MAX 이상 구간과 BREATH_SPLIT_GUARD를 먼저 제외해 다시 찾는다. 이 추가 후보에 주기적인 발성이 있으면 보존한다
+6. 채택한 구간을 파일 자신의 잡음 바닥(룸톤)으로 FADE만큼 교차 페이드해 채운다 — 디지털 0으로 비우지 않고, 구간을 삭제하지 않는다
 ```
 
-발화를 물리적으로 건드릴 수 없는 구조다. 리산드로 마르티네스 ko에서 15곳을 지우고 받아쓰기로 대조하니 **매칭율·단어수·전사 글자수가 원본과 완전히 같았다**(0.9882 / 85 / 255자).
+발화 문턱 이상인 구간을 보호한다. 문턱 아래의 작은 말소리와 들숨은 겹칠 수 있으므로 파형·본문 대조로 검수한다. 리산드로 마르티네스 ko에서 15곳을 지우고 받아쓰기로 대조하니 **매칭율·단어수·전사 글자수가 원본과 완전히 같았다**(0.9882 / 85 / 255자).
 
 들숨 구간은 잘라내지 않고 소리만 룸톤으로 바꾼다. 길이를 줄이는 것은 아래 쉼 정리 단계뿐이다.
 
@@ -47,7 +55,7 @@ TTS 보이스는 문장 사이마다 숨을 들이쉰다(Gemini Charon이 대표
 
 **디지털 0으로 비우면 받아쓰기가 없는 끝인사를 지어낸다.** 원래 음원의 쉼에는 16bit RMS 13~30의 잡음 바닥이 있는데, 들숨 자리를 0으로 비운 정리본은 정확히 0인 샘플이 파일에 따라 4.6~12.6%까지 늘었다. 검수가 그 자리에서 「다음 영상에서 만나요」「We'll be right back」「감사합니다」를 받아써 `unexpected-spoken-content/tail`로 떨어뜨렸다(26.09.13, 등록분 964건 중 26건). 검수의 `vad_filter`로는 막지 못했다. 룸톤으로 채우자 0 비율이 1.6%로 내려갔고 떨어진 26건 중 20건이 통과했다.
 
-주기성·자기상관·문장 경계 판정·Whisper는 쓰지 않는다. RMS 하나로 끝난다.
+들숨 위치는 RMS로 찾는다. 주기성 검사는 추가 후보의 작은 유성 말끝을 보존하는 데만 쓰며, 발화와 들숨이 섞인 구간을 프레임별로 나누는 용도로 쓰지 않는다. Whisper 타이밍으로 들숨 위치를 추측하지 않는다.
 
 ### 폐기한 접근 — 다시 시도하지 않는다
 
@@ -66,13 +74,13 @@ TTS 보이스는 문장 사이마다 숨을 들이쉰다(Gemini Charon이 대표
 
 ## 쉼 정리 — 앞·중간·뒤
 
-들숨을 지우면 그 자리가 침묵으로 남아 쉼이 드러난다. 쉼은 **자리에 따라 자연스러운 길이가 다르므로** 하나의 값으로 재지 않는다. 상한과 목표는 사용자 청취로 정했고 값은 `PROFILES`가 쥔다. 상한을 넘는 쉼만 목표값으로 줄이고, 상한 이하는 건드리지 않는다.
+들숨을 지우면 그 자리가 침묵으로 남아 쉼이 드러난다. 쉼은 **자리에 따라 자연스러운 길이가 다르므로** 하나의 값으로 재지 않는다. 문장·문단 목표는 사용자 청취로 정한 공용 정책을 따른다. 전사·본문 대조로 경계를 확정하고, 경계 주변 파형에서 실제 발화 끝과 다음 시작을 찾아 그 사이의 총 쉼을 맞춘다. 문단은 본문의 빈 줄로 판정한다. 인물 대사의 쉼표 상한 정리는 기존 `PROFILES.dialogue`를 따른다.
 
 | 자리 | 프로필 | 청취 근거 |
 |---|---|---|
 | 쉼표 | dialogue | 제갈량 인사3의 0.58초는 자연스럽고, 인사2의 1.16초는 길다 |
-| 문장 사이 | reading | 읽어보기에서 0.82~0.96초가 자연스럽다. 0.55초로 당기면 빠르다 |
-| 문단 사이 | 가상독백 스티치 | 목표 **총량** 1.0초(26.09.22 청취 조정 — 고정 삽입은 파일별 여백 편차가 그대로 드러나 1.2~1.6초로 들쭉날쭉했다). `celeb-monologue-voice-generate.py`가 단위 양끝 무음을 측정해 가장자리만 남기고 모자란 만큼 룸톤을 끼워 합계를 맞춘다 |
+| 문장 사이 | reading | 공용 정책의 `sentenceGapSeconds`. 인물안내·가상독백·세력 개요 모두 같은 목표 총량으로 맞춘다 |
+| 문단 사이 | reading·스티치 | 공용 정책의 `paragraphGapSeconds`. 양끝 여백을 포함한 총량이며, 스티치에서 모자란 만큼만 룸톤을 끼워 넣는다 |
 
 ### 앞뒤 여백
 

@@ -1,6 +1,6 @@
 # 인물 문서
 
-인물 작업은 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)에서 티어 축과 실존 축을 먼저 가른다. 공개 여부는 [`celeb-00-02-publication.md`](celeb-00-02-publication.md), 물리 테이블과 제약은 [`../data/data-03-celeb.md`](../data/data-03-celeb.md)가 쥔다.
+인물 작업은 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)에서 티어 축과 실존 축을 먼저 가른다. 공개 상태·노출은 [`celeb-00-05-publication.md`](celeb-00-05-publication.md), active 전환의 필수·선택 기준은 [`celeb-00-02-active-requirements.md`](celeb-00-02-active-requirements.md), 물리 테이블과 제약은 [`../data/data-03-celeb.md`](../data/data-03-celeb.md)가 쥔다.
 
 파일명의 두 자리 숫자는 실행 단계가 아니라 탐색기 정렬용 도메인 주소다. 두 번째 숫자는 같은 도메인 안의 읽기 순서이며 문서 제목에는 번호를 붙이지 않는다.
 
@@ -12,7 +12,7 @@
 | 일반 감상 콘텐츠 `celeb_contents` | 적용 | 사용하지 않음 |
 | 등장·연관 도서 `figure_book_*` | 적용 | 적용 |
 | 영향력·스펙트럼 | 적용 | 만들지 않음 |
-| Speech | 한영 | 한국어, 영문은 요청 범위 |
+| Speech | 한마디 한영, 상황 대사는 작업 범위 | 한마디 한영, 상황 대사는 작업 범위 |
 | 인물 안내·연표·관계 | 적용 | 원전 근거로 적용 |
 
 `celeb_tier`는 이 표와 독립이다. 신규 인물은 실존 축과 무관하게 `light`로 시작하고 첫 `celeb_contents` 관계가 생기면 DB가 `full`로 자동 승격한다. 따라서 `full`과 `light`는 별도 제작 등급이 아니라 감상 콘텐츠의 진행 단계이며, `FICTION`은 `celeb_contents`를 쓰지 않으므로 사실상 `light`에 머문다.
@@ -23,7 +23,7 @@
 
 | 주소 | 책임 | 문서 |
 |---|---|---|
-| 00 | 두 축 분기, 공개 경계, 신규 인물 등록 | [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md) · [`celeb-00-02-publication.md`](celeb-00-02-publication.md) · [`celeb-00-03-new-figure-checklist.md`](celeb-00-03-new-figure-checklist.md) |
+| 00 | 두 축 분기, active 요건, 등록·실행 순서, 공개 상태 | [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md) · [`celeb-00-02-active-requirements.md`](celeb-00-02-active-requirements.md) · [`celeb-00-03-real-figure-runbook.md`](celeb-00-03-real-figure-runbook.md) · [`celeb-00-04-new-figure-checklist.md`](celeb-00-04-new-figure-checklist.md) · [`celeb-00-05-publication.md`](celeb-00-05-publication.md) |
 | 01 | 기본 프로필 | [`celeb-01-00-profile.md`](celeb-01-00-profile.md) · [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md) · [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md) · [`celeb-01-03-title.md`](celeb-01-03-title.md) |
 | 02 | 감상 콘텐츠와 인물 도서 | [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md) · [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md) · [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md) · [`celeb-02-04-content-audit.md`](celeb-02-04-content-audit.md) · [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md) · [`celeb-02-06-content-introduction-sources.md`](celeb-02-06-content-introduction-sources.md) |
 | 03 | 영향력·스펙트럼 | [`celeb-03-01-influence.md`](celeb-03-01-influence.md) · [`celeb-03-02-spectrum.md`](celeb-03-02-spectrum.md) |
@@ -33,8 +33,9 @@
 | 07 | 인물 관계 | [`celeb-07-01-relations.md`](celeb-07-01-relations.md) |
 | 08 | 이미지와 상세 세계 표현 | [`celeb-08-00-image-map.md`](celeb-08-00-image-map.md) · [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md) · [`celeb-08-02-hero-photo.md`](celeb-08-02-hero-photo.md) · [`celeb-08-03-detail-themes.md`](celeb-08-03-detail-themes.md) · [`celeb-08-04-world-banners.md`](celeb-08-04-world-banners.md) |
 | 09 | 영문 필드 책임과 누락 백필 | [`celeb-09-01-i18n.md`](celeb-09-01-i18n.md) |
+| 10 | 세력별 인물 소개 | [`celeb-10-01-faction-long-desc.md`](celeb-10-01-faction-long-desc.md) |
 
-인물별 조사 원장(예: 빌 게이츠 감상 조사)은 [`data/celeb/viewing-research/`](../../../data/celeb/viewing-research/), 신규 인물 등록 원장은 [`data/celeb/new-figures/`](../../../data/celeb/new-figures/README.md)에 둔다.
+등록 전 원고는 임시 작업본으로만 쓰고, DB 필드·R2 서비스 리소스 반영·재조회 검증이 끝나면 전량 폐기한다. 부가데이터 생성·보관 금지는 [데이터 원칙](../data/README.md)을 따른다.
 
 세력도감 소속·편집은 [`../apps/apps-01-web-bo.md`](../apps/apps-01-web-bo.md) 「세력도감」, BookRecommend 연결은 [`../remotion/book-recommend/README.md`](../remotion/book-recommend/README.md)가 쥔다. 대사 음원은 `celeb-dialogue-voice-publish` 스킬, 아바타 등록은 `celeb-avatar-register`, 등록된 아바타의 구도 통일은 `celeb-avatar-reframe` 스킬을 실행점으로 삼는다.
 

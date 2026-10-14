@@ -5,6 +5,8 @@ description: 인물 상세의 읽어보기 구획에 노출되는 인물 안내�
 
 # 인물 읽어보기
 
+서비스 반영 작업의 부가데이터 생성·보관 금지와 검증 뒤 전량 폐기는 [데이터 원칙](../../../docs/project/data/README.md)을 따른다.
+
 ## 범위
 
 작업 전에 `docs/project/celeb/celeb-05-01-reading.md`의 집필·DB 운영 기준을 읽는다.
@@ -27,6 +29,8 @@ description: 인물 상세의 읽어보기 구획에 노출되는 인물 안내�
 `sw/web-bo/scripts/celeb/readings.ts`는 안내 두 필드만 갱신하고 `interpretive_*`를 전후 대조해
 보존한다. 기존 글 검토는 `--review-existing`, 수정은 `--rewrite-existing`로 명시한다.
 `--stats`는 읽기 전용이며 아래 명령은 `sw/web-bo`에서 실행한다.
+
+생성에는 `--brief-file <JSON>`이 필수다. slug별 객체에 작업자가 정한 `guideDirection`과 출처를 확인한 `facts: [{text, sourceUrl}]`를 두 개 이상 넣고, 동명이인 구별이 필요하면 `identity`를 붙인다. 이 재료 없이 이름·bio만으로 생성하지 않는다.
 
 ```powershell
 pnpm exec tsx scripts/celeb/readings.ts --stats
