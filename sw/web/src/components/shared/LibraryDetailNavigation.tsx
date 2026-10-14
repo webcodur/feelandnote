@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import CreatorNames from "@/components/shared/content/creatorLink/CreatorNames";
 import type { TitleBadge } from "@/lib/utils/content-locale";
+import { TitleNoticeBadges } from "@/components/ui/ProvisionalTitleBadge";
 import LibraryTitleIndexButton, { type LibraryTitleIndexControl } from "./LibraryTitleIndexButton";
 
 export const LIBRARY_DETAIL_FRAME_CLASS = "relative grid w-full min-w-0 grid-cols-[minmax(0,1fr)] overflow-hidden rounded-xl border border-white/20 bg-bg-card md:grid-cols-[48px_minmax(0,1fr)_48px]";
@@ -110,6 +111,7 @@ export function LibraryTitleHeader({
         <div className="group/title relative flex h-full min-w-0 flex-col justify-center text-center">
           {indexControl && <LibraryTitleIndexButton title={title} control={indexControl} testPrefix={testPrefix} />}
           <div className={`flex min-w-0 items-center justify-center gap-1 ${indexControl ? "pointer-events-none relative px-8" : ""}`}>
+            <TitleNoticeBadges badge={titleBadge} />
             <h3
               data-testid={`${testPrefix}-selected-title`}
               className={`min-w-0 truncate font-sans text-[15px] font-bold sm:text-[17px] md:text-[19px] ${indexControl ? "w-full group-hover/title:text-accent" : ""} ${titleBadge ? "text-text-tertiary line-through decoration-text-tertiary/70" : "text-white"}`}

@@ -63,6 +63,7 @@ const ExpandIndexItem = memo(function ExpandIndexItem({
       contentType={contentType}
       number={item.localIndex}
       unavailable={Boolean(item.titleBadge)}
+      titleBadge={item.titleBadge}
       data-original-index={item.originalIndex}
       ref={(element) => {
         setItemRef(item.originalIndex, element);

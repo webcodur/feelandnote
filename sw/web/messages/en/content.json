@@ -30,11 +30,20 @@
       "en": "English",
       "noKo": "No Korean edition",
       "noEn": "Untranslated",
-      "outOfPrint": "Out of print",
+      "outOfPrint": "OOP",
       "noKoDesc": "No Korean translation available for this book.",
       "noEnDesc": "No English edition available for this book.",
       "noCoverKo": "No Korean Cover",
-      "noCoverEn": "No English Cover"
+      "noCoverEn": "No English Cover",
+      "provisionalTitle": "Unoff.",
+      "provisionalTitleOpen": "About this unofficial title",
+      "provisionalTitleHeading": "About this unofficial title",
+      "provisionalTitleDescription": "This is a provisional translation of the original title, not an official published title.",
+      "provisionalTitleNote": "We do not currently have a published edition in this language on record, so we have provided a translated title to help you identify the work. This does not necessarily mean that no translation has been published.",
+      "outOfPrintOpen": "About this out-of-print edition",
+      "outOfPrintHeading": "Out of print",
+      "outOfPrintDescription": "The edition we have on record in this language has been identified as out of print.",
+      "outOfPrintNote": "Other editions, e-books, or used copies may still be available. Please check the edition and its availability with the seller."
     },
     "reviewModal": {
       "review": "Review",

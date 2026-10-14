@@ -1,6 +1,7 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import { TitleNoticeBadges } from "@/components/ui/ProvisionalTitleBadge";
 
 import CardCover from "./CardCover";
 import CardHeader from "./CardHeader";
@@ -45,6 +46,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
         <div className="bg-black/20 border-t border-white/[0.04] text-center">
           <div className="p-2 md:p-2.5 pb-1.5 flex items-center justify-center min-h-[44px] md:min-h-[52px]">
             <h3 className={`text-xs md:text-sm font-semibold text-text-primary line-clamp-2 leading-tight text-center ${!isBadgeHovered ? "group-hover:text-accent" : ""}`}>
+              <TitleNoticeBadges badge={state.displayTitleBadge} />
               {editionUnavailable ? title : displayTitle}
             </h3>
           </div>

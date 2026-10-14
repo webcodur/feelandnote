@@ -2,7 +2,7 @@ import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import { pickPurchaseEdition, type FigureBookEdition } from '@/actions/figure-books/figureBookLocale'
 import { findAffiliateLink } from '@/actions/home/affiliateLinks'
 import { getEnglishBookAmazonUrl } from './amazonBookSearch'
-import { flattenLocales, type ContentLocaleRow, type TitleBadge } from '@/lib/utils/content-locale'
+import { flattenLocales, getEditionAvailabilityBadge, type ContentLocaleRow, type TitleBadge } from '@/lib/utils/content-locale'
 import { getThemeBookTextScope } from '@/lib/figure-books/themeBooks'
 import { excludedBookEditionReason, reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
@@ -23,7 +23,7 @@ export function resolveBookShelfBook(
   if (content.type !== 'BOOK') return null
   if (reviewedBookWorkSelectionReason({ contentId: content.id, metadata: content.metadata })) return null
   const flat = flattenLocales(content.content_locales, locale, 'BOOK')
-  if (flat.title_badge === 'out-of-print') return null
+  if (flat.title_badge && getEditionAvailabilityBadge(flat.title_badge) === 'out-of-print') return null
   const exactLocale = content.content_locales?.find(row => row.locale === locale)
   const hadCatalogEditions = editions.length > 0
   const localeExcluded = exactLocale && excludedBookEditionReason({ ...exactLocale, contentId: content.id })

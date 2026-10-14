@@ -1,6 +1,7 @@
 "use client";
 
 import { Star } from "lucide-react";
+import { TitleNoticeBadges } from "@/components/ui/ProvisionalTitleBadge";
 import FormattedText from "@/components/ui/FormattedText";
 import { getPresetByKeyword, getSentimentColorClasses } from "@/constants/review-presets";
 
@@ -72,6 +73,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
               className="text-[15px] font-semibold text-text-primary line-clamp-2 leading-snug group-hover:text-accent"
               title={displayTitle}
             >
+              <TitleNoticeBadges badge={state.displayTitleBadge} />
               {displayTitle}
             </h3>
             {displayCreator && (

@@ -13,6 +13,14 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('title translation markers and edition notices refresh both public detail families', () => {
+  for (const file of [
+    'sw/web/src/lib/utils/content-locale.ts',
+    'sw/web/src/components/ui/NoEditionBadge.tsx',
+    'sw/web/src/components/ui/ProvisionalTitleBadge.tsx',
+  ]) assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['celeb', 'content'])
+})
+
 test('atlas routes bypass front HTML caches while the shared explore frame reaches directory and timeline', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/app/[locale]/(main)/explore/myth/layout.tsx',
