@@ -114,7 +114,7 @@ export function LibraryTitleHeader({
             <TitleNoticeBadges badge={titleBadge} />
             <h3
               data-testid={`${testPrefix}-selected-title`}
-              className={`min-w-0 truncate font-sans text-[15px] font-bold sm:text-[17px] md:text-[19px] ${indexControl ? "w-full group-hover/title:text-accent" : ""} ${titleBadge ? "text-text-tertiary line-through decoration-text-tertiary/70" : "text-white"}`}
+              className={`min-w-0 truncate font-sans text-[15px] font-bold sm:text-[17px] md:text-[19px] ${indexControl ? "group-hover/title:text-accent" : ""} ${titleBadge ? "text-text-tertiary line-through decoration-text-tertiary/70" : "text-white"}`}
               title={title}
               aria-live="polite"
             >
