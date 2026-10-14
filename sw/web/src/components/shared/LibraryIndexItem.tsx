@@ -6,7 +6,7 @@ import ContentCover from "@/components/ui/ContentCover";
 import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
 import { TitleNoticeBadges } from "@/components/ui/ProvisionalTitleBadge";
-import type { TitleBadge } from "@/lib/utils/content-locale";
+import { getEditionAvailabilityBadge, isTranslatedTitleBadge, type TitleBadge } from "@/lib/utils/content-locale";
 
 interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
   selected: boolean;
@@ -26,6 +26,8 @@ const LibraryIndexItem = forwardRef<HTMLButtonElement, Props>(function LibraryIn
 }, ref) {
   const detail = [creator, metadata].filter(Boolean).join(" · ");
   const CoverIcon = getCategoryByDbType(contentType)?.lucideIcon ?? BookOpenText;
+  const hasTitleNotice = isTranslatedTitleBadge(titleBadge)
+    || Boolean(titleBadge && getEditionAvailabilityBadge(titleBadge) === "out-of-print");
   return (
     <div className={cn("group/index-item relative border-b border-white/[0.08] last:border-b-0 hover:bg-white/[0.06] hover:text-text-primary",
       selected ? "bg-accent/10 text-accent shadow-[inset_2px_0_var(--color-accent)]" : "text-text-secondary", className)}>
@@ -44,7 +46,8 @@ const LibraryIndexItem = forwardRef<HTMLButtonElement, Props>(function LibraryIn
           <span className="flex min-w-0 items-center">
             <TitleNoticeBadges badge={titleBadge} />
           <span className={cn("min-w-0 truncate text-[15px] font-semibold leading-[22px] text-text-primary group-hover/index-item:text-white", selected && "text-accent",
-            unavailable && "text-text-tertiary line-through decoration-text-tertiary/70")}>{title}</span>
+            unavailable && "text-text-tertiary",
+            unavailable && !hasTitleNotice && "line-through decoration-text-tertiary/70")}>{title}</span>
           </span>
           {detail && <span className="block truncate text-[13px] leading-[19px] text-text-secondary">{detail}</span>}
         </span>

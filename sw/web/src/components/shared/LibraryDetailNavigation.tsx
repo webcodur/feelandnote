@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { Link } from "@/i18n/navigation";
 import CreatorNames from "@/components/shared/content/creatorLink/CreatorNames";
-import type { TitleBadge } from "@/lib/utils/content-locale";
+import { getEditionAvailabilityBadge, isTranslatedTitleBadge, type TitleBadge } from "@/lib/utils/content-locale";
 import { TitleNoticeBadges } from "@/components/ui/ProvisionalTitleBadge";
 import LibraryTitleIndexButton, { type LibraryTitleIndexControl } from "./LibraryTitleIndexButton";
 
@@ -97,6 +97,8 @@ export function LibraryTitleHeader({
   indexControl,
   testPrefix = "expand",
 }: HeaderProps) {
+  const hasTitleNotice = isTranslatedTitleBadge(titleBadge)
+    || Boolean(titleBadge && getEditionAvailabilityBadge(titleBadge) === "out-of-print");
   return (
     <header data-library-detail-header className={`col-start-1 row-start-1 flex h-[64px] min-h-[64px] items-stretch border-b border-white/[0.08] bg-bg-secondary/80 text-center md:col-start-2 md:flex md:flex-col md:justify-center ${indexControl ? "md:py-0" : "md:px-3 md:py-2"}`}>
       {!hideArrows && <LibraryArrowButton
@@ -114,7 +116,7 @@ export function LibraryTitleHeader({
             <TitleNoticeBadges badge={titleBadge} />
             <h3
               data-testid={`${testPrefix}-selected-title`}
-              className={`min-w-0 truncate font-sans text-[15px] font-bold sm:text-[17px] md:text-[19px] ${indexControl ? "group-hover/title:text-accent" : ""} ${titleBadge ? "text-text-tertiary line-through decoration-text-tertiary/70" : "text-white"}`}
+              className={`min-w-0 truncate font-sans text-[15px] font-bold sm:text-[17px] md:text-[19px] ${indexControl ? "group-hover/title:text-accent" : ""} ${titleBadge ? "text-text-tertiary" : "text-white"} ${titleBadge && !hasTitleNotice ? "line-through decoration-text-tertiary/70" : ""}`}
               title={title}
               aria-live="polite"
             >

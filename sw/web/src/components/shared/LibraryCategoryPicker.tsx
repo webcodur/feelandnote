@@ -51,7 +51,7 @@ export default function LibraryCategoryPicker({
             selected={option.key === value && !option.disabled}
             disabled={option.disabled}
             onClick={() => onChange(option.key)}
-            className={cn(layout.chip, columns === 3 && "px-2 text-[13px] sm:px-3 sm:text-sm", chipClassName)}
+            className={cn(layout.chip, columns === 3 && "gap-1.5 px-2 text-[13px] sm:px-3 sm:text-sm", chipClassName)}
           >
             <span className={cn("min-w-0 text-center leading-5", columns === 3 ? "whitespace-nowrap" : "[overflow-wrap:anywhere]")}>{option.label}</span>
             {option.count !== undefined && <span className="shrink-0 tabular-nums">{option.count}</span>}

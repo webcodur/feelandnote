@@ -33,7 +33,7 @@ function TitleNotice({ kind, className }: { kind: "provisionalTitle" | "outOfPri
       aria-label={t(`${kind}Open`)} aria-haspopup="dialog" aria-expanded={isOpen}
       onClick={event => { event.preventDefault(); event.stopPropagation(); setIsOpen(true); }}
       onKeyDown={event => event.stopPropagation()}
-      className={`pointer-events-auto relative z-10 me-1 inline-block shrink-0 rounded px-1 py-1 align-baseline text-[11px] font-normal leading-snug text-accent outline-none hover:bg-accent/15 hover:text-white active:bg-accent/25 focus-visible:ring-2 focus-visible:ring-accent ${className}`}>
+      className={`pointer-events-auto relative z-10 me-0.5 inline-block shrink-0 rounded px-1 py-1 align-baseline text-[12px] font-normal leading-snug text-accent outline-none hover:bg-accent/15 hover:text-white active:bg-accent/25 focus-visible:ring-2 focus-visible:ring-accent ${className}`}>
       [{t(kind)}]
     </button>
     {isOpen && <Modal isOpen onClose={() => setIsOpen(false)} title={t(`${kind}Heading`)}
