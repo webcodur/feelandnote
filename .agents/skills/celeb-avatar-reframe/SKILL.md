@@ -18,7 +18,7 @@ description: 이미 등록된 배경 제거 아바타의 빛 방향을 한쪽으
 - 전수 드라이버: `sw/web-bo/scripts/avatar/normalize-all.sh <REALITY> <from> <to>` — 200명 배치로 내려받기→빛→재배치→등록을 잇는다. `ONLY_FLIPPED=1`을 주면 뒤집힌 인물만 재등록한다(빛 방향만 다시 맞추는 회차용). 시트 없이 바로 올리므로 사용자가 전수 적용을 지시한 경우에만 쓴다
 - 등록 후 확인: `sw/web-bo/scripts/avatar/contact-sheet.ts`
 
-배경이 지워진(알파 있는) 아바타만 대상이다. 배경이 있는 아바타는 `nobg-cutout`을 먼저 거친다. 신원·원본 교체·신규 제작은 `celeb-avatar-register`가 맡는다.
+배경이 있는 입력은 `reframe.ts --nobg`로 기존 `C:\project\nobg` 배치를 호출한 뒤 재배치할 수 있다. 배경 제거만 필요하면 `nobg-cutout`을 독립 실행한다. 신원·원본 교체·신규 제작은 `celeb-avatar-register`가 맡는다.
 
 ## 절차
 
@@ -44,6 +44,8 @@ description: 이미 등록된 배경 제거 아바타의 빛 방향을 한쪽으
    ```bash
    npx tsx scripts/avatar/reframe.ts ../../_backup/faction-avatars/<slug>-lit ../../_backup/faction-avatars/<slug>-reframed --sheet
    ```
+
+   배경 제거와 재배치를 한 번에 하려면 `--nobg --sheet`를 준다. PNG·WebP를 받아 기존 nobg 배치를 한 프로세스로 실행한다. 출력 폴더는 새 폴더 또는 빈 폴더여야 하며, 무손실 입력 변환본과 누끼 결과는 그 아래 `_nobg-*/`에 보존한다. `NOBG_SPEED`는 기존 nobg 설정을 따른다. 누끼 결과가 하나라도 빠지면 재배치를 중단하고, 재배치 실패·건너뜀은 `_report.json`과 종료 코드 1로 알린다. 대조 시트의 왼쪽은 입력 원본이다.
 
 4. **시트 검수.** `_sheet-*.png`(각 쌍 왼쪽 전·오른쪽 후)를 직접 연다. 기계가 못 보는 것을 본다 — 정수리가 잘렸는가, 턱 아래에 가슴이 남았는가, 얼굴이 좌우로 밀렸는가, 확대로 뭉개졌는가. `_report.json`의 `decidedBy`·`warnings`·`upscale`로 의심 인물을 먼저 고른다.
    - `eye-line`·`min-span`: 머리숱·투구·날개 때문에 하단을 고정하고 확대해 정수리를 잘랐다. 장식·머리카락이 잘린 것은 허용, 얼굴(이마·눈썹)이 잘렸으면 불합격.

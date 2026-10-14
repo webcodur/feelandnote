@@ -387,7 +387,6 @@
 
 수리와 재발 방지는 이렇다.
 
-- `sw/web-bo/scripts/curated/relink-lost-items.ts` — 백업(`locale-dead-works-backup.jsonl`·`locale-ko-2026-08-01-backup.jsonl`)에서 작품 행을 되살리고 수입 원서 데이터를 `en` 카드로 옮겨 담은 뒤 목록에 다시 잇는다. 통합 건은 keep 행으로 옮긴다. 기록은 `data/celeb/figure-books/curated-relink-log.jsonl`.
 - `locale-dead-works.mjs`·`merge-works.mjs`는 `contents`를 FK로 가리키는 표 전부(`curated_list_items`·`flow_nodes`·`records`·`notes` 포함)를 본다. 작품을 지우거나 합치는 스크립트를 새로 쓸 때도 이 표 전부를 넣는다.
 - `register.ts`는 영문 제목 항목에 카카오가 수입 원서(한글 없는 제목)를 돌려주면 `ko`가 아니라 `en` 카드로 담는다. 한국어 제목은 표시용 제목 행(`celeb-02-02` 「한국어판 확인」)이 맡는다 — 미연결 항목이 영어 원제로만 보이던 것은 이 조합으로 「번역 제목 + 번역본 없음」이 된다.
 

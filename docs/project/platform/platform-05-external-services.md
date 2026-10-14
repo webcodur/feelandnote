@@ -10,8 +10,7 @@ Oracle VM에서 PostgreSQL·Auth·PostgREST를 직접 운영한다. 앱은 `pack
 - SQL은 SSH를 거쳐 `docker exec -i feelandnote-db psql -X -v ON_ERROR_STOP=1 -U postgres -d postgres`로 실행한다. 한글 SQL은 파일로 전송한다. 인물 도서 등록의 접속 대상과 실행 가드는 `sw/web-bo/scripts/figure-books/source-book-batch.ts`가 쥔다. 실행 전 서버의 실제 컨테이너 이름과 대조한다. 기존 DB 역할·함수·RLS는 유지하며 관리 역할 접두어는 `db_`다.
 - 비밀 파일은 `secrets/`에만 둔다. `auth.json`은 DB 연결·서명키·OAuth·SMTP, `rest.env`는 PostgREST 연결·JWT, `gateway.json`은 공개·서버 API 키, `services.json`은 외부 발행 계정·캐시 비밀을 쥐다. 권한은 디렉터리 0700·파일 0600이며, `auth.json`만 UID 1000, `web-revalidate`만 UID 999가 읽는다. 키 배치·회전은 `platform-04-env-vars.md`를 따른다.
 - API 키와 인증 서명키·기존 세션은 유지한다. 서버 인증은 `getClaims()`의 ECC JWT 검증, 관리자 권한은 `is_admin` RPC·계정 조회로 확인한다. Google·Kakao provider callback은 `https://db.feelandnote.com/auth/v1/callback`이다.
-- `feelandnote-db-backup.timer`가 `/usr/local/sbin/feelandnote-db-backup`을 매일 실행한다. `snapshot.py`가 하나의 트랜잭션 스냅샷에서 pg_dump·테이블별 행수를 만들고 역할·비밀·Auth 소스·compose를 포함한다. age 암호화 후 R2 `feelandnote-backups/postgres/daily/`에 올리고 재다운로드 SHA256을 대조한다. 서버의 최근 암호문은 `/var/lib/feelandnote/db-last-backup.age`, 복구용 비밀키는 로컬 `C:\Users\webco\.feelandnote\oracle-db-backup-age.key`이다. 서버에는 공개 recipient만 둔다.
-- 복구는 비밀키를 SSH 표준 입력으로 보내 `age --decrypt -i /dev/stdin`으로 푸고, `extract-backup.py <tar.gz> <새 비공개 경로>`로 추출한다. `restore-native.py <추출 경로> --data-dir <새 PGDATA> --container feelandnote-db-restore-verify`가 해시·전체 테이블 행수를 검증한다. 기존 PGDATA나 컨테이너가 있으면 거부한다. 운영 복구는 검증된 data·secrets·auth·compose를 배포 루트에 배치하고 격리 컨테이너를 정지한 뒤 운영 compose로 전환한다. 새 VM은 Docker·age·Python 3.12 이상·rclone을 설치하고 `feelandnote-db_default` 네트워크와 두 자체 이미지를 준비한다. 복원 스크립트는 `scripts/oracle-db/`가 쥐다.
+- `feelandnote-db-backup.timer`는 비활성화 상태다. 데이터 작업은 [데이터 문서](../data/README.md)의 기준과 서버 재조회 검수를 따른다.
 - 복원 뒤 함수 권한을 확인한다. `sw/web/database/migrations/20260916120100_restore_function_revokes_after_db_move.sql`의 EXECUTE 회수를 유지하며, RLS가 호출하는 `is_current_account_active`는 회수하지 않는다. 이메일·비밀번호·OAuth·세션은 `packages/auth-server/src/*.test.mjs`, 공개 API는 `native-api-smoke.py`로 검증한다. 인증 통합 검사는 격리 복사 DB에만 실행한다.
 
 - **Oracle CLI**: 웹 VM(`ubuntu@158.179.194.105`)에 `oci`(pipx, `/usr/local/bin/oci`)가 있고 인스턴스 프린시펄로 인증한다. 키 파일·config가 없으며 `/etc/profile.d/oci-cli.sh`가 `OCI_CLI_AUTH=instance_principal`을, `~/.oci/oci_cli_rc`가 기본 구획(테넌시 루트)을 준다. 권한은 Dynamic Group `feelandnote-web-dg` → 정책 `feelandnote-web-db-resize`: `manage instance-family`·`manage volume-family`·`use virtual-network-family`·`read all-resources`(모두 tenancy). IAM(사용자·그룹·정책·도메인)은 콘솔에서만 바꾼다. 로컬 PC에는 CLI를 두지 않는다. 필요하면 SSH로 웹 VM에 들어가 실행한다.
@@ -37,6 +36,7 @@ Oracle VM에서 PostgreSQL·Auth·PostgREST를 직접 운영한다. 앱은 `pack
 - 코드 배포 뒤에는 `pnpm purge:web:cloudflare -- --scope <범위> --execute`로 필요한 범위(`none|celeb|content|content-banners|seo|cached-html`)를 비운다. 인자 없이 `--scope`만 주면 보낼 URL을 먼저 보여준다. 자격증명은 환경변수를 먼저 보고 없으면 `sw/web/.env`에서 읽는다. GitHub에서 돌릴 때는 `cloudflare-purge.yml`을 같은 범위로 수동 실행한다 — 계획·검증·payload가 같다. `emergency-zone`은 `PURGE-ENTIRE-FEELANDNOTE-ZONE` 확인문을 정확히 입력한 워크플로에서만 전체 존을 비운다. 로컬 CLI는 전체 존 퍼지를 거부한다.
 - 학습·대량수집 봇 차단은 Cloudflare 방화벽이 1차(UA 20종, `sw/web/src/lib/blocked-crawlers.ts`와 동일), 미들웨어 403이 2차다. IP·ASN 규칙은 방문자 주소를 직접 보는 Cloudflare에서 건다.
 - 호스팅 ASN 챌린지 규칙(인물·작품 상세, 미검증 봇 대상)에는 Perplexity 예외가 있다(2026-09-11). Perplexity는 2025-08 Cloudflare 검증 봇에서 제명돼 `cf.client.bot`이 거짓이고 공개 IP 대역이 전부 Amazon AS14618이라 예외 없이는 상세에서 챌린지에 막힌다. 예외는 UA(`PerplexityBot`·`Perplexity-User`)와 Perplexity가 공개한 IP 대역(`perplexity.com/perplexitybot.json`·`perplexity-user.json`)을 함께 요구한다. 대역이 바뀌면 규칙의 IP 목록을 갱신한다. 초당 요청 제한은 그대로 받는다.
+- 중국·싱가포르의 인물·작품 상세 페이지 진입에는 `cn-sg-detail-navigation-challenge` 규칙으로 Managed Challenge를 적용한다. 검증된 봇과 위 Perplexity 예외는 통과하며, RSC·prefetch·POST·정적 자산·API 요청은 이 규칙 대상에서 제외한다.
 - Cloudflare AI 봇 정책(Security › Settings › Configure AI bot policies)은 **Search 허용·Agent 허용·Training 허용**으로 명시해 둔다(2026-09-11). Training을 「Block」으로 두면 Cloudflare가 검색·학습 겸용으로 분류하는 Googlebot·BingBot·Applebot까지 **즉시** 차단된다 — 26.09.11 13:15~13:58 실측: AI Crawl Control › Security의 「Block Crawler」 토글이 이 셋에서 켜졌고 Allow로 되돌리자 꺼졌다. 「겸용 크롤러 계속 허용」 라디오는 9월 15일 이후 레거시 규칙에만 걸리는 선택이라 이 즉시 차단을 막지 못한다. 학습 봇 차단은 Cloudflare 정책이 아니라 우리 WAF UA 규칙(1차)과 미들웨어(2차)가 맡고, Google·Apple의 학습 사용은 robots의 Google-Extended·Applebot-Extended가 막는다. 2026-09-15부터의 기본값 「광고 페이지에서 Training·Agent 차단」은 AdSense 스크립트가 전 페이지에 실려 사용자 요청 봇(ChatGPT-User·Claude-User 등)까지 막으므로 Agent 허용을 명시로 유지한다. 이 설정은 API 토큰 권한 밖이라 대시보드에서만 바꾼다.
 - Cloudflare 관리 규칙 「Manage AI bots」는 검증되지 않은 IP가 AI 봇 UA를 달고 오면 정책과 무관하게 403(본문 `Your request was blocked.`)을 준다. 따라서 로컬 curl로 OAI-SearchBot·Claude-SearchBot UA를 흉내 낸 시험은 정책이 켜진 동안 403이 나와도 진짜 봇의 처리와 다르다. 진짜 봇의 허용·차단 집계는 AI Crawl Control › Security(봇별 Allowed·Unsuccessful)로 본다.
 - 확인 명령: `curl -sI https://feelandnote.com/celeb/<slug> | grep cf-cache-status` (HIT/MISS/DYNAMIC).
@@ -49,13 +49,15 @@ Oracle VM에서 PostgreSQL·Auth·PostgREST를 직접 운영한다. 앱은 `pack
 - VM을 새로 만들 때는 `scripts/oracle/provision-web-vm.sh`를 VM 안에서 `PUB_IP=<공인IP>`로 실행한다(패키지·Node tarball·스왑·Caddyfile·iptables·systemd 유닛). 비밀(`/etc/feelandnote/web.env`, `/etc/caddy/certs/*`)은 옛 VM에서 로컬 파이프로 옮기고, 첫 슬롯은 옛 VM에서 `rsync`로 채운 뒤 `current` 링크를 건다(배포 스크립트는 활성 서비스를 전제한다). 웹 터널은 별도로 공식 cloudflared 패키지를 설치하고 기존 `/etc/systemd/system/feelandnote-web-tunnel.service`와 전용 토큰을 옮긴 뒤 enable·start한다. 토큰 배치는 `platform-04-env-vars.md`가 쥔다. 유닛에 `HOSTNAME=127.0.0.1`을 넣으면 Next가 자기 프록시를 `https://localhost:3000`으로 만들어 500이 난다 — 넣지 않는다.
 - Next.js standalone은 `feelandnote-web.service`가 실행하며, 작업 경로는 `/opt/feelandnote/web/current/sw/web`이다.
 - 현재 운영 상태의 SSoT는 서버다. 활성 배포본은 `/opt/feelandnote/web/current`와 그 슬롯의 `.feelandnote-release.json`, 실행 중 프록시는 Caddy admin API의 `/config/`, 영속 설정은 `/etc/caddy/Caddyfile`, 앞단 캐시는 Cloudflare zone의 실제 ruleset으로 확인한다. `pnpm deploy:web:oracle`의 plan이 활성 릴리스·커밋·서비스·upstream을 서버에서 조회한다.
-- `scripts/oracle/provision-web-vm.sh`를 옮길 때 같은 디렉터리의 `web-runtime-metrics.cjs`와 `prune-render-cache.py`도 함께 옮긴다. 전자는 `/opt/feelandnote/observability/`에 설치해 Node의 `--require`로 먼저 실행한다. `journalctl -u feelandnote-web`의 `feelandnote-runtime` 기록은 heap·RSS·외부 메모리와 처리 중 요청 수, 고정된 경로 종류별 지연·실패 수를 남긴다. URL 인자와 인증 정보는 수집하지 않는다. Caddy의 `/var/log/caddy/web-access.jsonl`은 쿼리·헤더·IP를 제거하며 용량과 보존 기간을 제한한다.
-- 렌더 캐시 정리는 `feelandnote-rendercache-clean.timer`가 작은 배치로 실행한다. 보존 기간·디스크 여유·캐시 크기·회당 삭제 상한은 `scripts/oracle/prune-render-cache.py`가 쥔다. 활성 슬롯의 런타임 HTML·RSC·메타를 페이지 단위로 묶고 최근 갱신된 묶음과 실행 코드는 보존한다. canary가 실행 중이면 청소를 건너뛴다. 점검은 VM에서 `python3 /usr/local/sbin/feelandnote-prune-render-cache.py`로 하며 `--execute`가 없으면 삭제하지 않는다. 캐시 디렉터리를 통째로 지우거나 서버의 페이지 캐시를 강제로 비우지 않는다.
+- `scripts/oracle/provision-web-vm.sh`를 옮길 때 머리말에서 검사하는 같은 디렉터리의 런타임 헬퍼·유닛·보관 설정을 함께 옮긴다. `web-runtime-metrics.cjs`는 `/opt/feelandnote/observability/`에 설치해 Node의 `--require`로 먼저 실행한다. `journalctl -u feelandnote-web`의 `feelandnote-runtime` 기록은 heap·RSS·외부 메모리와 처리 중 요청 수, 고정된 경로 종류별 지연·실패 수를 남긴다. URL 인자와 인증 정보는 수집하지 않는다. Caddy의 `/var/log/caddy/web-access.jsonl`은 쿼리·헤더·IP를 제거하며 용량과 보존 기간을 제한한다.
+- 렌더 캐시 정리는 `feelandnote-rendercache-clean.timer`가 작은 배치로 실행한다. 보존 기간·디스크 여유·두 슬롯 합산 캐시 크기·회당 삭제 상한은 `scripts/oracle/prune-render-cache.py`가 쥔다. 활성·비활성 슬롯의 런타임 HTML·RSC·메타를 페이지 단위로 묶고 최근 갱신된 묶음과 실행 코드는 보존한다. 파일별 정보는 삭제 후보에 대해서만 펼쳐 청소 자체의 메모리 사용을 제한한다. 정리가 필요한데 삭제 진척이 없으면 실패로 종료한다. 실행 주기·CPU 상한·실패 재시도는 `scripts/oracle/provision-web-vm.sh`의 청소 유닛이 쥔다. canary가 실행 중이면 청소를 건너뛴다. 점검은 VM에서 `python3 /usr/local/sbin/feelandnote-prune-render-cache.py`로 하며 `--execute`가 없으면 삭제하지 않는다. 캐시 디렉터리를 통째로 지우거나 서버의 페이지 캐시를 강제로 비우지 않는다.
+- 디스크 메일 알림은 `scripts/oracle/disk-alert.py`가 기준과 중복 억제를, `feelandnote-disk-alert.service`·`.timer`가 격리 실행과 재점검을 쥔다. 상태는 `/var/lib/feelandnote-disk-alert/state.json`에 두며 발송 실패를 성공으로 기록하지 않는다. `--test-email`은 같은 발송 경로를 확인하고 경고 상태를 바꾸지 않는다. 비밀 설정은 [환경변수](platform-04-env-vars.md)가 담당한다.
+- 두 VM의 시스템 저널·일반 시스템 로그·임시 파일·APT 캐시 보관 설정 원본은 `scripts/oracle/feelandnote-journald.conf`, `feelandnote-rsyslog.logrotate`, `feelandnote-logrotate-timer.conf`, `feelandnote-tmp.conf`, `feelandnote-apt-cache.conf`다. 웹의 생성된 힙 덤프는 `feelandnote-diagnostics.conf`가 관리한다. 배포 슬롯의 실행 파일과 DB 데이터·복구용 원본은 이 기간 정리 대상이 아니다.
 - 배포 전 변경한 기능의 실제 동작을 검수한다. `scripts/lib/oracle-web-remote.mjs`는 canary를 띄울 RAM 여유를 먼저 확인하고, 주요 한영 경로를 데운 뒤 새 배포 ID와 재요청 응답 시간을 다시 검사한다. 웜업 도중 canary가 재시작되면 전환하지 않는다. 전환 직후 `scripts/lib/oracle-web-verify.mjs`가 웹·터널 상태와 캐시를 우회한 공개 HTML의 배포 ID, JS·CSS 전체 수신을 한 번 검증하며 실패하면 자동 롤백한다. 검증·canary 정리·필요한 캐시 퍼지가 끝나면 배포를 마친다. 고정 시간 동안 반복 관찰하며 완료를 늦추지 않는다.
 - 간헐적 heap 급증은 `scripts/oracle/observe-web-memory.mjs`로 제한된 시간 동안 할당 표본을 수집한다. 백엔드 Node의 inspector는 루프백에서만 열고 수집 후 닫는다. 운영 프로세스의 전체 heap 스냅샷은 추가 메모리와 정지 시간을 요구하므로 RAM 여유를 확인하지 않고 실행하지 않는다.
 - 배포본은 `/opt/feelandnote/web/slots/blue`와 `green` 두 고정 슬롯을 번갈아 쓴다. `/opt/feelandnote/web/current` 심볼릭 링크가 활성 슬롯을 가리키며, 반대 슬롯은 다음 배포 대상이자 직전 정상본 롤백 자리다. 첫 슬롯 배포가 공개 검증까지 끝나면 당시 운영 중이던 옛 `releases/<release>`를 반대 슬롯으로 옮기고 나머지 옛 release를 삭제한다.
 - 같은 커밋이 정상 서비스·기본 Caddy upstream으로 운영 중이면 배포 스크립트가 `deploymentRequired: false`로 끝낸다. 빌드·업로드·재시작·퍼지를 반복하지 않는다. `--package-only`와 `--traffic-policy-only`는 각각 요청한 검증·정책 작업을 수행한다.
-- DB 조회 결과인 Next FETCH 캐시는 `scripts/lib/oracle-web-remote.mjs`의 공유 디렉터리를 두 슬롯에서 연결해 사용한다. `sw/web/scripts/shared-data-cache.cjs`가 원본 키·TTL을 유지하고 태그 무효화 기록을 디스크에 남겨 canary·운영·재시작 뒤에도 적용한다. HTML·RSC는 슬롯별로 생성하며, 조회 함수나 키가 바뀐 데이터는 다시 채운다. 최초 전환 때는 무효화 기록이 없는 기존 슬롯·빌드 캐시를 복사하지 않아 공유 캐시를 한 번 새로 채운다.
+- DB 조회 결과인 Next FETCH 캐시는 `scripts/lib/oracle-web-remote.mjs`의 공유 디렉터리를 두 슬롯에서 연결해 사용한다. `sw/web/scripts/shared-data-cache.cjs`가 원본 키·TTL을 유지하고 태그 무효화 기록을 디스크에 남겨 canary·운영·재시작 뒤에도 적용한다. HTML·RSC는 슬롯별로 생성하며, 캐시 키가 바뀐 조회는 새로 채운다. 최초 전환 때는 무효화 기록이 없는 기존 슬롯·빌드 캐시를 복사하지 않아 공유 캐시를 한 번 새로 채운다.
 - DB 마이그레이션·조회 개편으로 반환 필드·타입·의미가 바뀌면 영향을 받는 `unstable_cache`의 명시적 키 버전을 함께 올린다. 외부 함수·SQL·타입 선언 변경은 자동으로 키를 바꾸지 않으므로 TTL이나 목록의 백그라운드 갱신에 의존하지 않는다. 새 키의 최초 조회가 DB에서 새 결과를 만들고 다른 캐시는 보존한다. 전환·롤백 중 구버전도 같은 DB를 읽으므로 새 필드는 먼저 추가하고, 기존 필드 삭제·이름 변경은 구버전 사용이 끝난 뒤 적용한다.
 - 코드 변경의 앞단 퍼지는 `scripts/lib/cloudflare-purge-impact.mjs`가 실제 소비 화면 기준으로 정한다. 홈 전용 변경은 `none`, 공통 UI·스타일은 영향을 받는 보관 HTML 범위다. 미분류 파일을 자동으로 `cached-html`로 넓히거나 조사 없이 명시 범위로 우회하지 않는다.
 - 운영 환경변수는 `/etc/feelandnote/web.env`가 쥔다. 값을 저장소나 문서에 복사하지 않는다.
@@ -116,8 +118,13 @@ TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 
 
 ### 카카오(다음) 도서 검색
 
+사용자 도서 검색은 `packages/content-search/src/book-search.ts`에서 화면 locale에 따라 한국어판 카카오·영어판 OpenLibrary로 자동 분기한다. 한국어 화면에만 한국어판·영어판 선택을 제공하고 선택을 보관한다. 한국어 검색 URL의 `bookLanguage`가 우선하며 영문 화면은 선택값과 관계없이 영어판을 검색한다. 상세 이동에는 검색에 사용한 언어를 `bookLanguage`로 유지한다. OpenLibrary 목록은 영어판의 제목·ISBN·판본 ID·작품 ID를 사용하고, 등록은 해당 식별자를 ISBN 단건 응답과 대조한 뒤 정식 메타를 사용한다. 검색 색인의 부제 누락으로 등록을 거절하지 않으며, 식별자가 없는 기존 입력의 제목·원저자 검증은 유지한다. 검색 실패는 0건과 구분하며 카카오로 자동 전환하지 않는다.
+
+사용자 웹의 검색·영문 판본 캐시는 `sw/web/src/lib/books/bookSearch.server.ts`가 맡는다. OpenLibrary 키워드·판본·작품·저자 호출은 `openlibrary-request.ts`의 프로세스별 호출 간격을 공유한다. 다중 프로세스의 전체 호출 제한은 이 간격만으로 보장되지 않는다. Amazon은 확인된 영어판의 구매·서점 검색 링크이며 도서 메타 공급처가 아니다.
+
 - 래퍼: `packages/content-search/src/kakao-books.ts`. 반환 타입을 네이버와 같은 모양으로 맞춰 호출부는 import 경로만 바꿨다.
-- 키: `KAKAO_REST_API_KEY`(`sw/web/.env`·`sw/web-bo/.env`). 카카오 앱 `feelandnote`(ID 1366184)의 REST API 키이며, 책 검색은 별도 제품 설정·심사 없이 이 키만으로 호출된다.
+- 서비스 키: `KAKAO_REST_API_KEY`. 로컬과 Oracle 운영의 보관 위치·교체는 [환경변수 문서](platform-04-env-vars.md#3-3-외부-콘텐츠-검색-api)를 따른다. 책 검색은 별도 제품 설정·심사 없이 REST API 키만으로 호출된다. 책 검색 키 교체는 인증 서버의 카카오 로그인 `providers.kakao` 설정과 별개다.
+- **개인 연구·조사에는 `KAKAO_RESEARCH_REST_API_KEY`를 쓴다.** 앱에 붙이지 않는 자료 조사·검색용이며, 로컬 보관 위치는 [환경변수 문서](platform-04-env-vars.md#3-3-외부-콘텐츠-검색-api)를 따른다. 서비스 연동과 앱·DB 등록용 수집은 `KAKAO_REST_API_KEY`를 쓴다. 연구용 호출은 연구 키를 명시적으로 읽고, `kakao-books.ts`를 재사용할 때는 해당 조사 프로세스에서만 모듈을 불러오기 전에 `process.env.KAKAO_REST_API_KEY = process.env.KAKAO_RESEARCH_REST_API_KEY`로 지정한다. 연구 키가 없으면 설정 오류로 멈춘다.
 - BOOK 신규 메타는 한국어판 카카오와 영문 원서 OpenLibrary에서만 수집한다. `contents.external_source`와 locale `sources`의 과거 `aladin`·`naver_book` 표기는 기존 데이터의 출처이며 신규 수집 허용 목록이 아니다. 출판사·도서관·서점의 독립 서지는 작품과 판본의 정체성을 확인하는 근거로 사용한다. 등록 경계는 [콘텐츠 등록](../celeb/celeb-02-02-content-registration.md)을 따른다.
 - 네이버 검색 API의 「쇼핑·책·전문자료」는 2026-07-31에 종료됐고(HTTP 404 `SE05`), API 문서 페이지는 종료 문구 없이 남아 있다. 문서가 아니라 실제 호출을 믿는다. 도서 관련 네이버 코드는 전량 제거했으며 되살리지 않는다. 같은 키의 **뉴스·블로그·이미지 검색**은 정상이라 계속 쓴다(블로그는 기록 참고 자료, 이미지는 인물 사진 찾기, 뉴스는 오늘의 인물).
 
@@ -136,7 +143,7 @@ TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 
 - **`aladin` 출처값은 표기 전용이다.** 이를 조회하는 API 래퍼는 없다(의도된 상태).
 
 ## Cloudflare R2 (이미지 저장소)
-셀럽 아바타 이미지를 Cloudflare R2에 저장한다. S3 호환 API 사용.
+서비스 이미지·음원·재생 타이밍 리소스를 Cloudflare R2에 저장한다. S3 호환 API를 쓰며 조사·생성 부가자료 보관 금지는 [데이터 원칙](../data/README.md)을 따른다.
 - **버킷명**: `feelandnote`
 - **Public URL**: `https://assets.feelandnote.com`. 26.08.25 custom domain 연결과 실제 `MISS → HIT` 캐시를 확인했다. 웹 배포와 참조 전환 뒤 R2 개발용 `r2.dev` 공개 URL은 껐다.
 - **오브젝트 경로**: `celebs/{celebId}/avatar.webp`
@@ -145,7 +152,6 @@ TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 
 - **캐시 정책(26.08.25 전수 확인)**: 9,609개 전 오브젝트가 `Cache-Control: public, max-age=31536000, immutable`이다. URL의 `?v=` 버전 표식이 캐시를 깨므로 안전하다(이미지는 업로드마다 `Date.now()`, 음성은 `voice_v` 증가). 해시·timestamp가 들어간 새 키를 쓰는 로고와 회원 아바타도 같은 원칙이다. **`no-cache, must-revalidate`로 되돌리지 마라** — 아바타가 접속마다 재검증 왕복을 강제당해 대량 노출 화면에서 매번 로딩이 걸리던 원인이었다.
 - **호스트 전환(26.08.25)**: DB 원본 4개 테이블을 custom domain으로 바꿨고 public 텍스트 필드 306개의 옛 호스트 참조가 0건임을 확인했다. 클라이언트 음성 URL과 SEO 이미지 허용 호스트도 custom domain으로 배포했고, SEO 이미지 캐시를 경로 단위로 비운 뒤 실제 이미지의 `MISS → HIT`를 확인했다.
 - **DB 백업 버킷**: `feelandnote-backups`. 외부 공개 경로와 CORS가 없고 `postgres/`은 30일 뒤 만료된다. `postgres/daily/`에는 위 self-hosted 백업 서비스가 만든 age 암호문만 둔다.
-- 같은 비공개 버킷의 `research/celebs/`는 인물 조사 자료의 서버 정본이다. 경로와 처리 규칙은 [`data/celeb/README.md`](../../../data/celeb/README.md#서버-조사-자료)가 쥐며 `postgres/` 백업·만료 범위와 분리한다.
 - **클라이언트**: `sw/web-bo/src/lib/r2.ts` — `uploadToR2()`, `deleteFromR2()`
 - **업로드 로직**: `sw/web-bo/src/actions/admin/storage.ts`
 
@@ -177,7 +183,7 @@ TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 
 
 | 경로 | 스케줄 | 설명 |
 |------|--------|------|
-| `/api/cron/today-figure` | `5 15 * * *` (매일 00:05 KST) | 오늘의 인물 선정 (뉴스 → 생일 → seed). 순위와 임계값은 라우트 머리 주석이 쥔다 |
+| `/api/cron/today-figure` | `5 15 * * *` (매일 00:05 KST) | 백오피스의 세계 공통 참고 편성 (뉴스 → 생일 → seed). 사용자 홈의 국가별 선정은 이 편성을 읽지 않는다. 순위와 임계값은 라우트 머리 주석이 쥔다 |
 
 - `feelandnote-today-figure.timer`가 `feelandnote-today-figure.service`를 실행한다. `Persistent=true`라 예약 시각에 VM이 꺼져 있었으면 복구 뒤 누락 실행을 보완한다.
 - 인증: `/etc/feelandnote/web.env`의 `CRON_SECRET`

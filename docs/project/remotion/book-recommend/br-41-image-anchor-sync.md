@@ -408,7 +408,7 @@ en 앵커 성공: 27장 / 실패: 1장
 | `sw/remotion/src/compositions/BookRecommend/timing.ts` | `shortSegLayout` |
 | `sw/remotion/scripts/voice/4-align.ts` | text 앵커 → voiceTimings 매핑, 쇼츠 `imageChangeAt.t` 자동 해소 |
 
-> **경로 함정**: 롱폼 현역 렌더는 `legacy/` 폴더에 있다. 이름과 정반대다. `_not-using/sections/BookCardVisual/BookCardVisual.tsx`는 같은 이름의 앵커 함수를 갖고 있지만 **아무 데서도 쓰지 않는 폐기 코드**다. 앵커 동작을 고치거나 읽을 때 이쪽을 보면 안 된다. Root.tsx가 롱폼에 물리는 컴포넌트는 `BookRecommendLegacy`다.
+> 롱폼 현역 렌더는 `legacy/` 폴더에 있다. Root.tsx가 롱폼에 연결하는 컴포넌트는 `BookRecommendLegacy`이며, 앵커 함수는 `legacy/BookCardVisualLegacy.tsx`에 있다.
 
 ---
 

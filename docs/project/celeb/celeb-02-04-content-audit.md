@@ -45,6 +45,7 @@ full의 각 `source_url`을 열어 인물과 정확한 작품, 감상·추천·�
 - 대체 출처는 기존 `review` 전체를 뒷받침해야 한다.
 - `FINISHED`와 `WANT`가 출처에서 확인되는 행위와 맞는지 본다.
 - `review`와 요청 범위의 `review_en`이 출처에 없는 동기·영향·감정을 보태지 않았는지 확인한다.
+- 원문·번역으로 등록된 리뷰는 [완성된 리뷰 규칙](celeb-02-03-content-review.md#완성된-리뷰는-원문과-번역을-등록한다)에 따라 검수한다.
 
 등장·연관 도서는 작품 안에서 인물의 실제 등장 여부, `relation_type`, 순서를 확인하며, 폐기된 `description`·`description_en`은 `NULL`이어야 한다. 같은 세계관에 속한다는 이유로 관계를 통과시키지 않는다.
 
@@ -58,7 +59,7 @@ full의 각 `source_url`을 열어 인물과 정확한 작품, 감상·추천·�
 - ISBN은 카드·판본·대표값 후보 모두 공통 [ISBN 검증 함수](../../../packages/content-search/src/book-isbn.ts)의 `toIsbn13`으로 검사한다. ISBN이 아닌 공급자 코드는 `sources.provider_product_id` 등에 보존하고 ISBN 칸에서는 제거한다. 실재 ISBN 없는 카탈로그의 제목·출판사·표지는 유지한다.
 - 외부 메타와 표지 출처의 허용값은 등록 문서와 [`../platform/platform-05-external-services.md`](../platform/platform-05-external-services.md)를 그대로 적용한다.
 
-동일 작품 여부를 확정하지 못하면 행을 합치거나 새 작품으로 교체하지 않고 미해결로 남긴다.
+동일 작품 여부를 확정하지 못하면 작품 행을 임의로 합치거나 교체하지 않는다. 기존 도서 감상 관계의 소급 정비는 해당 룰북에 따라 추가 조사 후 연결 교정이나 감상 관계 폐기까지 처리한다.
 
 ### Phase 4: locale과 표지를 검증한다
 

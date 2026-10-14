@@ -280,7 +280,7 @@ sw/remotion/public/discourses/
 
 **팩션 규격을 어기는 게 아니라 조건이 다른 것**이다. 담화는 같은 인물이 여러 턴에 반복 등장하므로 인물 폴더형을 SSoT로 삼는다. 별도 `discourses/_docs/folder-rules.md` 작성 전까지 이 절이 경로 규격이다.
 
-단체→크롭→개인 이미지 파이프라인과 REF 원칙은 `faction-image` 스킬을 준용한다.
+이미지 발주와 REF 원칙은 [이미지 생성·발주 규칙](../../production/prod-01-image-generation.md)을 따른다.
 
 ---
 

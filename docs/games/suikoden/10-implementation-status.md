@@ -2,8 +2,12 @@
 
 
 > 파일별 구현 내용과 시스템 간 연결 관계. 현재 코드 사실의 기준이다.
-> 시나리오 선택→방랑→거병→경영→전투·외교→통일·패망의 핵심 완주 흐름은 코드상 연결됐다. 브라우저 실제 한 판 완주·실 DB 고정 UUID·전체 web 빌드 검증([`docs/todo/suikoden.md`](../../todo/suikoden.md)) 전이라 아직 최종 승인 전이다.
+> 시나리오 선택→방랑→거병→경영→전투·외교→통일·패망의 핵심 완주 흐름은 코드상 연결됐다. 브라우저 실제 한 판 완주·전체 web 빌드 검증([`docs/todo/suikoden.md`](../../todo/suikoden.md)) 전이라 아직 최종 승인 전이다.
 > 기획 의도는 01~08 참조, 이 문서는 **실제 코드 상태**만 기록한다.
+
+쉼터의 천도는 개발자 모드에서만 연다. `03ed92145`에 추가된 v2는 타입·서버 함수가 빠져 아직 쉼터에 연결하지 않았다. 누락 파일과 v2 코드 대조는 [`트로이·패권·천도 검수`](../../todo/games.md)에 남긴다.
+
+게임 화면의 한자 장식은 아이콘·한글 명칭으로 대체했다. 108성 칭호는 한글로 표시하며, 소개·명언·대사의 괄호 안 한자 병기는 게임 표시에서 생략한다.
 
 ---
 
@@ -103,7 +107,7 @@ WorldMapView/
 
 | 함수 | 내용 |
 |------|------|
-| `loadSuikodenCharacters()` | `.in('id', SUIKODEN_CHARACTER_IDS)`로 시나리오 고정 인물만 조회한다. 활성·사망 120년·직군·영향력 조건을 적용하고, 조회된 ID의 명언만 추가한 뒤 `totalScore` 내림차순 정렬 |
+| `loadSuikodenCharacters()` | `.in('id', SUIKODEN_CHARACTER_IDS)`로 시나리오 고정 인물만 조회한다. 활성·사망 120년·직군·영향력 조건을 적용한다. 현재 언어의 이름·호칭·소개를 읽고, 조회된 ID의 명언만 추가한 뒤 `totalScore` 내림차순 정렬 |
 | `loadSuikodenDialogues()` | 같은 고정 인물의 `lines`/`lines_en`만 `unstable_cache`로 캐싱(키 `suikoden-dialogues`, 태그 `CELEBS`+`DIALOGUES`) |
 
 > **`loadSuikodenItems()`는 존재하지 않는다.** 장비 개편 때 함께 제거됐다.
@@ -251,7 +255,7 @@ HP        = max(10, round(300 + command×2.0 + martial×1.0))     ← calcUnitHp
 | 나폴레옹 전쟁 | `napoleonic` | modern | hard |
 | 대몽골제국 | `mongol_empire` | medieval | hard |
 
-`scenarios.ts`의 프로필 UUID에서 `SUIKODEN_CHARACTER_IDS`를 중복 제거해 만든다. Server Actions는 이 목록만 조회하고, `getMissingScenarioCharacterIds()`가 선택 시나리오의 필수 인물 누락을 검사한다. 인물 명단을 바꾸면 시나리오 정의와 고정 ID 조회가 함께 바뀌는지 확인해야 한다. 26.07.30 작업에서는 실 DB UUID 전원 생존 여부를 조회하지 못했다.
+`scenarios.ts`의 프로필 UUID에서 `SUIKODEN_CHARACTER_IDS`를 중복 제거해 만든다. Server Actions는 이 목록만 조회하고, `getMissingScenarioCharacterIds()`가 선택 시나리오의 필수 인물 누락을 검사한다. 인물 명단을 바꾸면 시나리오 정의와 고정 ID 조회가 함께 바뀌는지 확인해야 한다. 실 DB의 고정 인물 53명은 모두 활성 상태이며 평가 데이터가 있다. `game-engine-data-audit.ts`가 5개 시나리오의 주군 12명에 대해 시작·거병과 세력 관계 보존을 검사한다.
 
 ### 시나리오별 활성 영역 제한
 
@@ -274,7 +278,7 @@ HP        = max(10, round(300 + command×2.0 + martial×1.0))     ← calcUnitHp
 | `territories/` | 19 `.png` | 거점 배경. **22개 중 19개.** `new_york`, `tenochtitlan`, `sydney` 누락 |
 | `regions/` | 8 `.png` | **10개 중 8개.** `americas`, `oceania` 누락 |
 
-> `BuildingCardGrid.tsx:103`과 `StrategyScreen.tsx:70`이 `imageUrl` 필드를 읽지 않고 `/images/game/suikoden/territories/${territory.id}.png` 문자열로 조립한다. 그래서 위 3개 거점은 404를 낸다.
+> 거점 배경은 `TerritoryDef.imageUrl`을 읽는다. 주소가 없는 거점은 단색 배경을 쓰며 없는 이미지에 요청하지 않는다. DB 아바타가 전부 있으면 템플릿 초상 HEAD 검사도 생략한다.
 
 **오디오** (`sw/web/public/assets/suikoden/`, `hooks/useSuikodenAudio.ts`)
 

@@ -1,8 +1,8 @@
 # 쿠팡 제휴 승인·비도서 상품 연결
 
-- 링크프라이스 AC에서 필앤노트 매체의 `coupang` 머천트가 2026-09-26에도 승인대기인 것을 확인했다. 승인 뒤 `sw/web/src/lib/books/bookPurchaseRedirect.ts`의 `LINKPRICE_COUPANG_APPROVED`를 켜서 검색·상품 링크를 제휴 경로로 전환한다.
+- 링크프라이스 AC에서 필앤노트 매체의 `coupang` 머천트가 2026-09-26에도 승인대기인 것을 확인했다. 안내된 최대 2주를 넘겨 2026-10-05에 링크프라이스 고객센터 1:1 문의(공개 폼, `linkprice.com/affiliate/views/about_us/contact_us_detail.html`)로 진행 상황 확인을 발송했다 — 회신은 `webcodur@gmail.com`. 승인 뒤 `sw/web/src/lib/books/bookPurchaseRedirect.ts`의 `LINKPRICE_COUPANG_APPROVED`를 켜서 검색·상품 링크를 제휴 경로로 전환한다.
 - 마리오 카트 8 디럭스의 Switch 한국어 본편은 판매 옵션까지 확인해 개발자 미리보기에 연결했다. 승인 뒤 같은 옵션의 링크프라이스 딥링크를 검증하고 운영 연결을 적용한다.
-- [비도서 후보](../../data/coupang/nonbook-candidates-2026-09-17.json)에서 제외·보류된 음반·영상은 현재 소개하는 작품과 일치하고 배송 기준을 만족하는 상품을 다시 찾는다. 사이버펑크 PS5 상품은 쿠팡 로그인 뒤 옵션·판매 상태를 확인해야 한다.
+- 음반·영상은 현재 DB에서 확인해 현재 소개하는 작품과 일치하고 배송 기준을 만족하는 상품을 다시 찾는다. 사이버펑크 PS5 상품은 쿠팡 로그인 뒤 옵션·판매 상태를 확인해야 한다.
 - 홈·탐색·서재·인물 화면에서 현재 관심을 가진 게임의 할인·디지털 구매 연결을 우선 검토한다. 한국에서 구매·등록 가능한 상품과 제휴 수익 경로를 확인하고, 현재 화면의 작품에 맞춰 동작하는 공통 기능으로 연결한다.
 
 현재 연결 방식과 고지·상품 검증 기준은 [제휴 판매 운영](../project/operations/ops-03-affiliate-commerce.md)의 쿠팡 절을 따른다.

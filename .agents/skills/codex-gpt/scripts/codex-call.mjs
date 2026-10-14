@@ -2,7 +2,7 @@
  * codex(GPT) 1회 호출 헬퍼.
  *
  *   import { codexCall } from '<skill>/scripts/codex-call.mjs'
- *   const text = await codexCall('프롬프트', { model: 'gpt-5.6-sol' })
+ *   const text = await codexCall('프롬프트', { model: 'gpt-6.1-sol' })
  *
  * 설계 근거(실측):
  *   - 프롬프트는 stdin('-')으로 넣는다 → shell 이스케이프로 깨지지 않는다.
@@ -43,7 +43,7 @@ function resolveCodex() {
  */
 export async function codexCall(prompt, opts = {}) {
   const {
-    model = 'gpt-6-astra',
+    model = 'gpt-6.1-sol',
     timeoutMs = 240000,
     effort = 'xhigh',
     search = false,

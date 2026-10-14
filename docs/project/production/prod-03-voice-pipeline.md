@@ -1,5 +1,7 @@
 # 음성 파이프라인 — Feel&Note 배선
 
+서비스 데이터 생성·반영 뒤 작업 자료 전량 폐기와 부가데이터 보관 금지는 [데이터 원칙](../data/README.md)을 따른다.
+
 범용 파이프라인(단계·기법·기준값·구현 명세)은 [`res-11-voice-pipeline.md`](../../resource/res-11-voice-pipeline.md)가 쥔다. 이 문서는 **이 저장소에 그 파이프라인이 어떻게 배선됐는가**만 쥔다: 시리즈별 명령·엔진·보이스 배정, 저장 위치, DB·R2 계약, 이미지 전환 처리, 상수 소유권.
 
 값 자체를 문서가 소유하지 않는다 — 표의 정본 열이 가리키는 코드 상수가 정본이다. 단계별 실행 계약의 세부는 시리즈 문서가 쥔다: 서재탐방 5단계는 [`../remotion/book-recommend/voice/voice-01-timing-pipeline.md`](../remotion/book-recommend/voice/voice-01-timing-pipeline.md), 음성 정리 규칙은 [`prod-04-voice-cleanup.md`](prod-04-voice-cleanup.md), 환경변수 배치는 [`../platform/platform-04-env-vars.md`](../platform/platform-04-env-vars.md), audio-bo 작업실은 [`../apps/apps-02-audio-bo.md`](../apps/apps-02-audio-bo.md).

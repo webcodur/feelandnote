@@ -2,11 +2,16 @@
 
 인물에 붙는 이미지 슬롯과 각 규격의 소유자를 정리한다. 이 문서는 저장·fallback 지도이며 구도와 발주 규칙은 각 자산 문서나 스킬이 쥔다.
 
+R2에 등록한 인물 이미지의 단일 원천은 서버 파일이며, DB의 이미지 URL로 식별한다. 등록·재다운로드 검증이 끝나면 해당 작업의 로컬 이미지·중간본·백업·임시 파일은 폐기한다.
+
+이미지의 생성 원본·참조·출처 JSON·이전본을 별도 R2 자료로 보관하지 않는다. 최종 서비스 리소스 반영·검증 뒤 작업 자료를 전량 폐기하며 [데이터 원칙](../data/README.md)을 따른다.
+
 서비스 용어는 다음처럼 구분한다.
 
 - **아바타**: 얼굴 중심의 정사각 이미지
 - **대표 사진**: 인물 상세 상단의 세로 환경 사진
-- **개인화보·단체화보**: 세력도감의 인물·그룹 이미지
+- **개인화보**: 세력도감 인물에 붙는 독립 화보
+- **테마 이미지**: 세력도감의 표지·주요 장면
 
 대표 사진을 `초상`이라 부르지 않는다. `초상`은 아바타를 가리키는 문맥과 게임 고유명에 이미 쓰인다.
 
@@ -17,9 +22,9 @@
 | 아바타 | `celebs.avatar_url` | R2 `celebs/{id}/avatar.webp`; 원형·작은 카드·식별자 | [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md), `celeb-avatar-register` 스킬 |
 | 아바타 작은 판 | 원본 아바타에서 파생 | 같은 R2 경로의 `avatar-sm.webp`; 작은 고정 크기 카드 | `packages/shared/src/constants/celeb-avatar-small.ts` |
 | 대표 사진 | `celebs.portrait_url`, `portrait_caption(_en)` | R2 `celebs/{id}/photo.webp`; 인물 상세 입장부 | [`celeb-08-02-hero-photo.md`](celeb-08-02-hero-photo.md), `CELEB_HERO_PHOTO_SPEC` |
-| 각성 이미지 | `celebs.awakened_image_url` | R2 `celebs/{id}/awakened.webp`; 화면 소비 방식은 미확정 | [`../../todo/celeb/README.md`](../../todo/celeb/README.md) |
-| 세력도감 개인화보 | `faction_members.image_url` | R2 `faction/{lv2Id}/celeb-{celebId}.webp`; 화면은 `faction_member_rows` 뷰에서 읽고 원본 비율로 표시 | `faction-image` 스킬 |
-| 세력도감 단체화보 | `faction_lv2.team_images` | R2 `faction/{lv2Id}/team/…`; 세력별 묶음(이름·구성원)과 단체 사진. 세력 화면은 사진을 띄우지 않고, 세력이 하나뿐인 분류를 잘게 나누는 묶음 정의로만 쓴다. 세력이 둘 이상이면 세력(뷰의 `group_name`)으로 묶는다 | `faction-image` 스킬 |
+| 각성 이미지 | `celebs.awakened_image_url` | R2 `celebs/{id}/awakened.webp`; 사용자 웹 소비 방식은 미확정 | 편집·표시·저장 규격은 [`CELEB_AWAKENED_IMAGE_SPEC`](../../../sw/web-bo/src/lib/celeb-awakened-image.ts), 사용자 웹 도입은 [`../../todo/celeb/README.md`](../../todo/celeb/README.md) |
+| 세력도감 개인화보 | `faction_members.image_url` | R2 `faction/{lv2Id}/celeb-{celebId}.webp`; 화면은 `faction_member_rows` 뷰에서 읽고 원본 비율로 표시 | [이미지 생성·발주 규칙](../production/prod-01-image-generation.md) |
+| 세력도감 테마 이미지·기존 묶음 | `faction_lv2.team_images` | R2 `faction/{lv2Id}/team/…`; 표지·주요 장면과 기존 사진 묶음. 서비스 표시와 묶음 처리는 [`service-01-explore.md`](../service/service-01-explore.md) 「세력도감」이 쥔다 | 표지는 `faction-image` 스킬, 주요 장면은 [이미지 생성·발주 규칙](../production/prod-01-image-generation.md) |
 | 관계 외부 인물 | `celeb_relations_external.image_url` | 명단 밖 인물 식별 이미지 | [`celeb-07-01-relations.md`](celeb-07-01-relations.md) |
 | 세계 배너 | 저장소 정적 파일 | `sw/web/public/images/worlds/`의 PC·모바일 파생본 | [`celeb-08-04-world-banners.md`](celeb-08-04-world-banners.md) |
 

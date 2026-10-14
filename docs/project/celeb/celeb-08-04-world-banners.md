@@ -1,11 +1,13 @@
 # 인물 세계 배너
 
+서비스 데이터 생성·반영 뒤 작업 자료 전량 폐기와 부가데이터 보관 금지는 [데이터 원칙](../data/README.md)을 따른다.
+
 인물 상세 맨 위에 표시하는 세계별 무인 환경 사진의 제작·파생·검수 규격이다. 인물이 어느 세계에 속하는지는 `sw/web/src/lib/celeb/world.ts`, 화면 재질과 배치는 [`celeb-08-03-detail-themes.md`](celeb-08-03-detail-themes.md)가 쥔다.
 
 ## 자산 계약
 
 - 원본은 처음부터 완결된 네이티브 3:1 파노라마 사진으로 만든다. 더 높은 비율에서 위아래를 잘라 맞추지 않는다.
-- 신규 발행 배너의 정본은 R2 `worlds/<world-id>/`의 원본·PC판·모바일판·생성 정보다. 내용 해시가 든 불변 키를 쓰고 `worldImages.ts`에 검증된 표시 주소를 연결한다.
+- 신규 발행 배너의 정본은 R2 `worlds/<world-id>/`의 PC판·모바일판다. 내용 해시가 든 불변 키를 쓰고 `worldImages.ts`에 검증된 표시 주소를 연결한다.
 - `sw/web-bo/output/worlds-raw/`는 제작 중 임시 경로다. R2 공개 재조회와 화면 검수가 끝나면 원본·프롬프트·로컬 파생본·미리보기를 지운다. 기존 미이관 배너는 `sw/web/public/images/worlds/`를 계속 사용한다.
 - world ID는 `CELEB_WORLDS`를 그대로 사용한다.
 - 제 그림이 아직 없는 세계는 `worldImages.ts`의 `BORROWED_BANNERS`가 옛 시대 그림을 빌려 쓴다. 그림을 만들면 그 항목을 지운다.
@@ -19,7 +21,7 @@ node sw/web-bo/scripts/photo/world-banner.mjs \
   --prompt <생성 프롬프트 파일> --publish
 ```
 
-기존 운영본을 교체할 때는 원본과 출력 파일의 추적 여부를 확인해 백업한 뒤에만 `--force`를 사용한다.
+기존 운영본을 교체할 때는 원본과 출력 파일의 추적 여부와 현재 서비스 값을 확인한 뒤에만 `--force`를 사용한다.
 
 ## 사진 규격
 

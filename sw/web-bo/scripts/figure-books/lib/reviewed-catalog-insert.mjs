@@ -86,7 +86,7 @@ export function bindReviewedCatalogInsertIdentity(snapshot, reviews) {
  * Each real card needs either an explicit edition review or an exact source-reviewed exclusion.
  * Display cards must have no ISBN. The live seed trigger excludes reviewed rejected cards.
  * sourceUrl is independent of OpenLibrary; sources in the live card must already bind the official ISBN.
- * A missing parent uses its automatic seed; an existing parent with zero editions receives only reviewed cards.
+ * A missing parent uses its automatic seed; an existing parent receives only a reviewed missing locale.
  * It never creates another BOOK, changes an existing parent or patches a card.
  * useReviewedSnapshotIdentity:true explicitly confirms the caller reviewed the current card/original identity;
  * omit title/creator/workTitle/workCreator/translators to copy those exact fields from the guarded snapshot.
@@ -114,8 +114,12 @@ export function planReviewedCatalogInsert(workIds, snapshot, reviews) {
     const work = snapshot.contents.find(row => row.id === review.contentId)
     if (snapshot.figure_book_contents.filter(row => row.content_id === review.contentId).length > 1)
       throw Error('CATALOG_INSERT: duplicate existing catalog parents')
-    if (snapshot.figure_book_editions.some(row => row.content_id === review.contentId || toIsbn13(row.isbn ?? '') === isbn))
-      throw Error('CATALOG_INSERT: existing edition/ISBN; zero-edition path only')
+    const existingEditions = snapshot.figure_book_editions.filter(row => row.content_id === review.contentId)
+    if (existingEditions.some(row => !['ko', 'en'].includes(row.locale) || row.locale === review.locale)
+      || snapshot.figure_book_editions.some(row => toIsbn13(row.isbn ?? '') === isbn))
+      throw Error('CATALOG_INSERT: existing edition for locale or ISBN')
+    if (existingEditions.length && !snapshot.figure_book_contents.some(row => row.content_id === review.contentId))
+      throw Error('CATALOG_INSERT: existing edition without catalog parent')
     if (snapshot.content_locales.some(row => row.content_id !== review.contentId && toIsbn13(row.isbn ?? '') === isbn)) throw Error('CATALOG_INSERT: ISBN already belongs to another assigned work')
     const locales = snapshot.content_locales.filter(row => row.content_id === review.contentId && row.locale === review.locale)
     const locale = locales.length === 1 && locales[0]

@@ -15,7 +15,7 @@ Feel&Note의 현재 앱 구조, 서비스 규격, 데이터 계약, 제작·운�
 | [`operations/`](operations/README.md) | `ops-` | 서비스 방향, SEO, 제휴 판매, 광고 |
 | [`production/`](production/README.md) | `prod-` | 이미지 발주, 주요 장면, 합성 음성 배선·정리 |
 
-AI 에이전트가 이 저장소에서 일하는 방식은 [`agent-rules.md`](agent-rules.md)가 쥔다. 루트 [`AGENTS.md`](../../AGENTS.md)는 그중 사고로 직결되는 불변사항만 압축해 둔다. 프로젝트와 무관한 에이전트 기법(CLI 상호 호출, 진단-편집 분업 등)은 [`docs/resource/`](../resource/README.md)에 있다.
+AI 에이전트가 이 저장소에서 일하는 방식은 [`agent-rules.md`](agent-rules.md)가 쥔다. 외부 CLI 도구의 현재 구성·용도 배정은 [`agent-tools.md`](agent-tools.md)가 쥔다. 루트 [`AGENTS.md`](../../AGENTS.md)는 그중 사고로 직결되는 불변사항만 압축해 둔다. 프로젝트와 무관한 에이전트 기법(CLI 상호 호출, 진단-편집 분업 등)은 [`docs/resource/`](../resource/README.md)에 있다.
 
 ## 문서 판정
 

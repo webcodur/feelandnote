@@ -5,6 +5,10 @@
 
 ## 구현
 
+- 신규 공개 인물이 최초 입력의 자동완성에서 빠지는 문제를 확인·수정한다. 사용자는 ‘티보’가 검색 실행 후에는 나오지만 그 전 자동완성에는 없었다고 보고했다.
+  `app/api/revalidate/handler.ts`는 일반 `celebs` 태그를 `max`로 갱신하므로 첫 조회에 이전 이름 목록이 반환될 수 있다. `components/layout/header/useHeaderSearch.ts`는 그 결과가 비어도 이름 목록 갱신 후 같은 입력을 자동으로 다시 조회하지 않는다.
+  첫 입력에 빈 후보가 계속 남는 경우가 수정 대상이며, 잠깐 기다린 뒤 후보가 뜨는 입력 대기만으로는 수정하지 않는다.
+
 - **TMDB·IGDB 상업 이용:** 2026-09-27 `feelandnote@gmail.com`에서 TMDB(`sales@themoviedb.org`)에 상업 라이선스 조건·견적을 문의하고 IGDB(`partner@igdb.com`)에 무료 상업 파트너 등록을 요청했다. 두 메일 모두 발송을 확인했으며 회신 대기 중이다. 이용 승인·계약 체결은 완료되지 않았다.
   메일 제목은 각각 `Commercial API licensing inquiry — Feel&Note (South Korea)`, `Commercial partnership registration request — Feel&Note`다.
   기존 검색·상세의 메타데이터·이미지 사용과 추가로 검토 중인 TMDB 영화·TV 트렌딩, IGDB 게임 인기 지표의 이용 조건을 물었다. 영상은 Apple 영화 스토어의 한국·미국 공개 차트로 연결했다. 게임은 PC·콘솔 우선이며 App Store 무료 게임 연결은 제거했다. 플랫폼별 플레이·다운로드·관심도는 서로 다른 지표이므로 근거 없이 종합 순위로 합치지 않는다. 공식 신청 경로는 [외부 콘텐츠 검색 API](../project/platform/platform-05-external-services.md#외부-콘텐츠-검색-api)를 따른다.

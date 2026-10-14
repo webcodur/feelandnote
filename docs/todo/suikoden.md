@@ -5,12 +5,11 @@
 ## 검증
 
 - [ ] 브라우저 실제 완주 — 한국어·영어·모바일에서 시나리오 선택부터 통일·패망·제한 턴까지.
-- [ ] 실 DB 고정 인물 — 시나리오 5종의 필수 UUID가 전부 활성 조회되는지.
-- [ ] 전체 `tsc`·`pnpm build:web` 통과 확인(26.07.30에는 천도 밖 파일의 없는 JSON import로 중단됐다).
+- [ ] 전체 `tsc`·`pnpm build:web` 통과 확인. 현재 천도 v2 공용 코드 누락으로 타입 검사가 실패한다([3개 게임 검수](games.md)).
 
 ## 정합성
 
-- [ ] 거점 배경 3장(`new_york`·`tenochtitlan`·`sydney`)을 추가한다. 세 거점은 `constants.ts`에 `imageUrl`이 없고 `territories/`에 파일도 없다(26.09.29 확인). 지역 배경 2장(`americas`·`oceania`)·효과음도 없다.
+- [ ] 거점 배경 3장(`new_york`·`tenochtitlan`·`sydney`)을 추가한다. 세 거점은 `constants.ts`에 `imageUrl`이 없고 `territories/`에 파일도 없다. 현재 화면은 주소를 조립하지 않고 단색 배경을 쓴다. 지역 배경 2장(`americas`·`oceania`)·효과음도 없다.
 - [ ] 죽은 코드 처리 방침 — 미사용 전술 상수(`TACTIC_MATCHUP`·`TACTIC_INFO`·`CLASS_TACTIC_BONUS`), 미호출 `previewWorld`·`initGame`.
 
 ## 확장 (우선순위순)

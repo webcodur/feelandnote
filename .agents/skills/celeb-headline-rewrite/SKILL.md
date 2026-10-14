@@ -16,7 +16,7 @@ description: 셀럽 한 줄 정의(headline) 신설·개편 오케스트레이�
 - 생성 팩: `data/celeb/headline-rewrite/packs/lane-NN.json`
 - 대결 팩: `data/celeb/headline-rewrite/reviews/lane-NN.json`
 - 초안: `data/celeb/headline-rewrite/drafts/lane-NN.json`
-- 원장: `data/celeb/headline-rewrite/ledger/lane-NN.json` — 회차 중 작업 PC 간 공유용 중간 상태. 커밋으로 공유하고 반영이 끝나면 지운다
+- 원장: `data/celeb/headline-rewrite/ledger/lane-NN.json` — 현재 작업 중에만 쓰는 임시 상태. Git·R2에 보관하지 않고 반영 검증 뒤 지운다
 - 조회 env: `sw/web-bo/.env`
 - 실제 DB apply 접속: `docs/project/platform/platform-05-external-services.md`의 `Oracle DB 운영`
 
@@ -123,8 +123,7 @@ record의 `reviewVersion`은 대결 팩 값을 그대로 쓴다. `confirm`은 �
 일부만 다시 열 때는 버전을 올리지 않고 `claim --redo --slug <slug>`를 쓴다. 회차가 끝나 원장이 없으면
 개별 재작업은 `claim --lane N --n 1 --slug <slug>`(new)로 연다.
 
-원장은 회차 중에만 존재한다. 작업 PC 간 이어 붙이기 위해 커밋으로 공유하고, apply까지 끝나면
-`git rm`으로 지운다. 서비스 값의 원천은 DB이며 경위는 커밋 이력에서 꺼낸다.
+원장은 현재 작업의 임시 파일로만 존재한다. apply와 DB 재조회 검증이 끝나면 후보·심사·원장 파일을 전량 폐기한다. Git·R2에 보관하지 않으며 [데이터 원칙](../../../docs/project/data/README.md)을 따른다.
 apply는 현재 심사 버전의 `confirm`만 받으며 `--apply` 명시 시에만 DB에 쓴다.
 
 ## 나눠 시킬 때의 발주문

@@ -1,6 +1,6 @@
 # 콘텐츠 조사
 
-이 문서는 실존 인물이 직접 감상했거나 감상할 의사를 밝힌 BOOK·VIDEO·GAME·MUSIC을 어떤 근거로 찾고 채택하는지 쥔다. 작품·판본 메타와 DB 등록은 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), 인물별 감상경위는 [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md)를 따른다.
+이 문서는 실존·혼합 인물(`REAL`·`BOTH`)이 직접 감상했거나 감상할 의사를 밝힌 BOOK·VIDEO·GAME·MUSIC을 어떤 근거로 찾고 채택하는지 쥔다. 공개 전환에 필요한 조사와 0건 처리 기준은 [`active 요건`](celeb-00-02-active-requirements.md)을 따른다. 작품·판본 메타와 DB 등록은 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), 인물별 감상경위는 [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md)를 따른다.
 
 fiction은 이 조사 대상이 아니다. 허구 인물이 작품에 등장한다는 관계는 `celeb_contents`가 아니라 `figure_book_*`에 저장하며, 현재 판정 규칙은 [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md)가 쥔다.
 
@@ -94,6 +94,8 @@ fiction은 이 조사 대상이 아니다. 허구 인물이 작품에 등장한�
 {인물명} favorite music
 {인물명} favorite video games
 ```
+
+BOOK 조사에서는 YES24에서 인물을 찾아 작가 페이지의 **「작가의 추천」**에 있는 책과 추천사를 조사 단서로 참고한다. 일정한 신뢰도가 있는 참고 자료지만, 저자 전반의 칭찬이나 다른 책의 추천사가 재사용될 수 있으므로 책 제목(해외 도서는 원제)과 인물명을 함께 검색해 본인 발언·저자 공식 사이트·원서 출판사 등에서 해당 책에 대한 추천인지 확인한다. 추천평과 실제 독서 경험은 구분하며, 채택은 위의 근거 기준을 따른다.
 
 한국 인물이거나 한국어 자료가 별도로 있을 가능성이 크면 한국어 검색을 보탠다. 최근 검색에서 새 작품이 더 나오지 않고 결과가 같은 작품만 반복하면 종료한다. 고정된 목표 건수를 채우려고 근거가 약한 작품을 넣지 않는다.
 
