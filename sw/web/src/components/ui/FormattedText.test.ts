@@ -58,9 +58,11 @@ test("long quoted book overviews stay plain with their punctuation and content i
 test("short quotations and titles still stand out beside a long quoted overview", () => {
   const html = renderText(`“${LONG_BOOK_OVERVIEW}” 다음은 “짧은 인용”과 《작품명》, 인공지능(AI).`);
   const $ = load(html);
-  assert.equal($('.text-accent-hover').map((_, el) => $(el).text()).get().join(''), '“짧은 인용”인공지능');
-  assert.equal($('.text-white').text(), '《작품명》');
-  assert.equal($('.text-accent').text(), '(AI)');
+  assert.equal($('.text-accent-hover').map((_, el) => $(el).text()).get().join(''), '“짧은 인용”');
+  assert.equal($('.text-text-primary').text(), '《작품명》');
+  assert.ok($('.text-text-primary').hasClass('font-semibold'));
+  assert.equal(emphasisClassName('《작품명》', 'text-3d-gold-bright'), 'font-semibold text-3d-gold-bright');
+  assert.equal($('.text-text-secondary').text(), '(AI)');
 });
 
 test("long dash asides do not paint the surrounding paragraph", () => {
@@ -214,37 +216,46 @@ test("reading previews share English emphasis and paragraph-relative narration m
   assert.match(html, /<mark[^>]*aria-current="true">influence<\/mark>/);
 });
 
-test("Korean terms emphasize the name and parenthetical definition separately", () => {
+test("parenthetical definitions use secondary text while Korean terms stay plain", () => {
   const html = renderText("그는 인공지능(AI)과 엔트로피(무질서도)를 설명했다.");
-  assert.match(html, /<span>그는 <\/span><span class="font-semibold text-accent-hover">인공지능<\/span><span class="font-normal text-accent">\(AI\)<\/span>/);
-  assert.match(html, /<span class="font-semibold text-accent-hover">엔트로피<\/span><span class="font-normal text-accent">\(무질서도\)<\/span><span>를 설명했다./);
+  assert.match(html, /<span>그는 인공지능<\/span><span class="font-normal text-text-secondary ms-\[0\.12em\]">\(AI\)<\/span>/);
+  assert.match(html, /<span>과 엔트로피<\/span><span class="font-normal text-text-secondary ms-\[0\.12em\]">\(무질서도\)<\/span><span>를 설명했다./);
+  const $ = load(renderText("지혜, 용기(勇氣), 절제와 사회 계약(社會契約)"));
+  assert.equal($('.text-text-secondary').map((_, el) => $(el).text()).get().join(''), '(勇氣)(社會契約)');
+  assert.equal($('.text-accent-hover, .text-accent, .font-semibold').length, 0);
+  assert.equal($.text(), "지혜, 용기(勇氣), 절제와 사회 계약(社會契約)");
 });
 
-test("English multiword terms expand only when their initials match the acronym", () => {
+test("English multiword terms stay plain beside their parenthetical acronyms", () => {
   for (const [name, acronym] of [["artificial intelligence", "AI"], ["cognitive behavioral therapy", "CBT"], ["Large Language Model", "LLM"]]) {
     const html = renderText(`He studied ${name} (${acronym}) closely.`);
-    assert.ok(html.includes(`<span>He studied </span><span class="font-semibold text-accent-hover">${name}</span>`));
-    assert.ok(html.includes(`<span class="font-normal text-accent"> (${acronym})</span>`));
+    assert.ok(html.includes(`<span>He studied ${name} </span>`));
+    assert.ok(html.includes(`<span class="font-normal text-text-secondary">(${acronym})</span>`));
   }
   const html = renderText("He studied entropy (disorder) closely.");
-  assert.match(html, /<span>He studied <\/span><span class="font-semibold text-accent-hover">entropy<\/span>/);
+  assert.match(html, /<span>He studied entropy <\/span>/);
 });
 
-test("term emphasis preserves spaces, hyphenated names, and following punctuation", () => {
+test("parenthetical formatting preserves spaces, hyphenated names, and punctuation", () => {
   const html = renderText("인공지능 (AI), long-term (lasting). entropy\t(disorder)");
-  assert.match(html, /font-normal text-accent"> \(AI\)/);
-  assert.match(html, /font-semibold text-accent-hover">long-term<\/span>/);
-  assert.match(html, /font-normal text-accent">\t\(disorder\)/);
+  assert.match(html, /<span>인공지능 <\/span><span class="font-normal text-text-secondary">\(AI\)/);
+  assert.match(html, /<span>, long-term <\/span>/);
+  assert.match(html, /<span>\. entropy\t<\/span><span class="font-normal text-text-secondary">\(disorder\)/);
+  const $ = load(html);
+  assert.equal($('.ms-\\[0\\.12em\\]').length, 0);
+  assert.equal($.text(), "인공지능 (AI), long-term (lasting). entropy\t(disorder)");
 });
 
-test("bare parentheses, numeric references and dates remain plain", () => {
-  assert.doesNotMatch(renderText("Microsoft (1975), 게이츠(1955), chapter (3), (a separate aside)"), /text-accent/);
+test("numeric references, dates and empty parentheses remain plain", () => {
+  assert.doesNotMatch(renderText("Microsoft (1975), 게이츠(1955), chapter (3), B()"), /text-accent|text-text-secondary/);
+  assert.match(renderText("(a separate aside)"), /font-normal text-text-secondary/);
 });
 
-test("acronym expansion does not cross punctuation or paragraph boundaries", () => {
+test("parenthetical formatting leaves surrounding punctuation and paragraphs plain", () => {
   for (const prefix of ["artificial. ", "artificial\n", "artificial\n\n"]) {
     const html = renderText(`${prefix}intelligence (AI)`);
-    assert.match(html, /font-semibold text-accent-hover">intelligence<\/span>/);
+    assert.match(html, /intelligence <\/span><span class="font-normal text-text-secondary">\(AI\)/);
+    assert.doesNotMatch(html, /text-accent|font-semibold/);
   }
 });
 
@@ -257,12 +268,11 @@ test("term formatting preserves source offsets for narration across the definiti
   assert.equal(marked, text.slice(start, end));
 });
 
-test("term emphasis respects modal colors without styling the surrounding text", () => {
+test("parenthetical definitions stay neutral even with modal highlight colors", () => {
   const html = renderHighlightedTextWithStyle("He studies artificial intelligence (AI) today.");
-  assert.equal((html.match(/background-image/g) ?? []).length, 2);
-  assert.match(html, /<span>He studies <\/span>/);
-  assert.match(html, /class="font-semibold text-3d-gold-bright"/);
-  assert.match(html, /class="font-normal text-3d-gold-bright"/);
+  assert.doesNotMatch(html, /background-image|text-3d-gold|font-semibold/);
+  assert.match(html, /<span>He studies artificial intelligence <\/span>/);
+  assert.match(html, /class="font-normal text-text-secondary">\(AI\)/);
 });
 
 test("active narration preserves the colors and weights of quotes, titles and terms", () => {
@@ -272,13 +282,36 @@ test("active narration preserves the colors and weights of quotes, titles and te
   })));
   const parentStyle = (text: string) => $('mark').filter((_, el) => $(el).text() === text).parent().attr('class');
   assert.equal(parentStyle('“직접 인용”'), 'font-medium text-accent-hover');
-  assert.equal(parentStyle('《작품명》'), 'text-white font-bold');
+  assert.equal(parentStyle('《작품명》'), 'text-text-primary font-semibold');
   assert.equal(parentStyle('‘짧은 강조’'), 'font-serif text-accent');
-  assert.equal(parentStyle('인공지능'), 'font-semibold text-accent-hover');
-  assert.equal(parentStyle('(AI)'), 'font-normal text-accent');
+  assert.equal(parentStyle('(AI)'), 'font-normal text-text-secondary ms-[0.12em]');
+  assert.equal($('mark').filter((_, el) => $(el).text().includes('인공지능')).parent().attr('class'), undefined);
   assert.ok($('mark').filter((_, el) => $(el).text() === '본문 ').hasClass('text-inherit'));
   assert.ok($('mark').filter((_, el) => $(el).text() === '“직접 인용”').hasClass('text-inherit'));
   assert.equal($('mark').map((_, el) => $(el).text()).get().join(''), text);
+});
+
+test("parenthetical definitions stay neutral when narration splits inside them", () => {
+  const text = "지혜, 용기(勇氣), 절제";
+  const split = text.indexOf("氣");
+  const $ = load(renderToStaticMarkup(React.createElement(ReadingHighlightText, {
+    text, mark: { start: split, end: split + 1 },
+    highlightClassName: "text-3d-gold-bright",
+    highlightStyle: { backgroundImage: "linear-gradient(to bottom, #f0c948, #c9a33a)" },
+    segments: [
+      { start: 0, end: 1, textStart: 0, textEnd: split },
+      { start: 1, end: 2, textStart: split, textEnd: text.length },
+    ],
+    onPlayFrom: () => {},
+  })));
+  assert.equal($.text(), text);
+  assert.equal($('mark').text(), '氣');
+  assert.ok($('mark').closest('.text-text-secondary').length > 0);
+  const spaced = $('span').filter((_, el) => $(el).hasClass('ms-[0.12em]'));
+  assert.equal(spaced.length, 1);
+  assert.equal(spaced.text(), '(勇');
+  assert.equal($('.text-accent-hover, .text-accent, .text-3d-gold-bright, [style]').length, 0);
+  assert.deepEqual(emphasisSpans(text), [{ start: text.indexOf('('), end: text.indexOf(')') + 1 }]);
 });
 
 test("an active quote keeps emphasis when narration splits it across sentences", () => {

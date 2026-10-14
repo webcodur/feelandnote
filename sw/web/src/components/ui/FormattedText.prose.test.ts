@@ -100,7 +100,7 @@ test("narration marks in later paragraphs retain title and term emphasis", () =>
   const start = text.indexOf("작품명"), end = text.indexOf("AI") + 2;
   const $ = prose(text, { start, end });
   assert.equal($('mark').map((_, e) => $(e).text()).get().join(''), "작품명》과 인공지능(AI");
-  assert.equal($('mark').first().parent().attr('class'), "text-white font-bold");
+  assert.equal($('mark').first().parent().attr('class'), "text-text-primary font-semibold");
 });
 
 test("development prose is scoped to reading bodies rather than every formatted string", () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { emphasisClassName, splitEmphasis } from "./emphasis";
+import { emphasisClassName, parentheticalSpacingClassName, splitEmphasis } from "./emphasis";
 
 export interface FormattedTextProps {
   text: string | null | undefined;
@@ -17,7 +17,7 @@ export interface FormattedTextProps {
  * 쌍따옴표 (" ", “ ”) → “ ”로 통일 출력
  * 여닫는 작은따옴표 (‘ ’)도 인용문으로 인식해 같은 강조를 적용
  * 짝을 이룬 em dash·공백으로 분리된 en dash·이중 하이픈 삽입구는 원문 부호로 강조
- * 용어(원어·약칭·풀이)는 이름과 괄호를 서로 다른 굵기로 강조하며 원문 간격을 보존
+ * 괄호 설명(원어·약칭·풀이)은 보조 글자색으로 구분하고 붙어 있는 앞 단어와 작은 표시 간격을 둔다
  * 인용부호와 본문을 한 텍스트 노드로 출력해 검색 로봇의 엔티티 오독을 막는다.
  */
 export default function InlineFormattedText({
@@ -45,18 +45,13 @@ export default function InlineFormattedText({
   }
   return (
     <span className={className}>
-      {parts.map(({ text: part, emphasis, term }, i) => {
+      {parts.map(({ text: part, emphasis }, i) => {
         const partStart = partStarts[i];
 
         let rendered = part;
-        let partClass = emphasis ? emphasisClassName(part, highlightClassName) : undefined;
-        if (term) {
-          partClass = term === "name"
-            ? `font-semibold ${highlightClassName ?? "text-accent-hover"}`
-            : `font-normal ${highlightClassName ?? "text-accent"}`;
-        }
+        const partClass = emphasis ? emphasisClassName(part, highlightClassName) : undefined;
         // 쌍따옴표
-        else if (
+        if (
           (part.startsWith('"') && part.endsWith('"')) ||
           (part.startsWith("“") && part.endsWith("”"))
         ) {
@@ -80,10 +75,11 @@ export default function InlineFormattedText({
           rendered = `‘${part.slice(1, -1)}’`;
         }
 
-        const emit = (value: string, marked: boolean, key: string) =>
-          value ? (
+        const emit = (value: string, marked: boolean, key: string) => {
+          const spacing = emphasis && value.startsWith("(") ? parentheticalSpacingClassName(text, partStart) : undefined;
+          return value ? (
             // 원래 글자색·굵기는 그대로 두고 현재 읽는 구간에만 초록 배경·밑줄을 더한다.
-            <span key={key} className={partClass} style={partClass && highlightClassName ? highlightStyle : undefined}>
+            <span key={key} className={spacing ? `${partClass} ${spacing}` : partClass} style={partClass && highlightClassName && !part.startsWith("(") ? highlightStyle : undefined}>
               {marked && (
                 <mark className="rounded-sm bg-reading-active/10 text-inherit underline decoration-reading-active/70 decoration-1 underline-offset-4 [box-decoration-break:clone]" aria-current="true">
                   {lines(value, key)}
@@ -92,6 +88,7 @@ export default function InlineFormattedText({
               {!marked && lines(value, key)}
             </span>
           ) : null;
+        };
 
         const localStart = mark ? Math.max(0, mark.start - partStart) : 0;
         const localEnd = mark ? Math.min(rendered.length, mark.end - partStart) : 0;

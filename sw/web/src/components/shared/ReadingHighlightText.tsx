@@ -3,6 +3,7 @@
 import { useMemo, type CSSProperties } from "react";
 import FormattedText, { emphasisClassName, emphasisDelimiters, emphasisSpans, TextSectionBreak, TEXT_HEADING_CLASS } from "../ui/FormattedText";
 import { splitTextBlocks } from "../ui/formatted-text/structure";
+import { parentheticalSpacingClassName } from "../ui/formatted-text/emphasis";
 import { isDeveloperMode } from "@/lib/developer-mode";
 import type { ReadingSegment } from "@/lib/reading-timing";
 
@@ -19,7 +20,7 @@ interface ReadingHighlightTextProps {
   highlightStyle?: CSSProperties;
 }
 
-type Span = { start: number; end: number; className?: string; delimiters?: { open: string; close: string } };
+type Span = { start: number; end: number; className?: string; delimiters?: { open: string; close: string }; parenthetical: boolean };
 type Chunk = { start: number; end: number; segment: ReadingSegment | null; span?: Span };
 
 /** 문단 범위 안에서 세그먼트와 겹치는 조각을 자른다. 세그먼트 사이 빈칸은 다음 문장에 붙인다. */
@@ -50,6 +51,7 @@ function paragraphChunks(paragraph: { text: string; start: number }, segments: R
       end: s.end + paragraphStart,
       className: emphasisClassName(matched, highlightClassName),
       delimiters: emphasisDelimiters(matched),
+      parenthetical: matched.startsWith("("),
     };
   });
   const pieces: Chunk[] = [];
@@ -116,8 +118,10 @@ export default function ReadingHighlightText({ text, mark, segments, onPlayFrom,
                 open: piece.start === piece.span.start ? piece.span.delimiters?.open : undefined,
                 close: piece.end === piece.span.end ? piece.span.delimiters?.close : undefined,
               } : undefined);
+              const spacing = piece.span?.parenthetical && piece.start === piece.span.start
+                ? parentheticalSpacingClassName(paragraph.text, sliceStart) : undefined;
               const content = piece.span?.className ? (
-                <span key={`${i}-e`} className={piece.span.className} style={highlightClassName ? highlightStyle : undefined}>
+                <span key={`${i}-e`} className={spacing ? `${piece.span.className} ${spacing}` : piece.span.className} style={highlightClassName && !piece.span.parenthetical ? highlightStyle : undefined}>
                   {slice}
                 </span>
               ) : slice;
