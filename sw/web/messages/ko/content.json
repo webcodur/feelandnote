@@ -30,11 +30,20 @@
       "en": "영문",
       "noKo": "번역본 없음",
       "noEn": "영문본 없음",
-      "outOfPrint": "절판된 책",
+      "outOfPrint": "절판",
       "noKoDesc": "이 도서의 국문 번역본 정보가 없습니다.",
       "noEnDesc": "이 도서의 영문 원서 정보가 없습니다.",
       "noCoverKo": "국문 표지 없음",
-      "noCoverEn": "영문 표지 없음"
+      "noCoverEn": "영문 표지 없음",
+      "provisionalTitle": "가번역",
+      "provisionalTitleOpen": "가번역 제목 안내 열기",
+      "provisionalTitleHeading": "가번역 제목 안내",
+      "provisionalTitleDescription": "이 제목은 원제를 번역해 임시로 표기한 제목입니다. 정식 출판명이 아닙니다.",
+      "provisionalTitleNote": "현재 서비스에 해당 언어의 출판본 정보가 등록되어 있지 않아, 작품을 알아보실 수 있도록 번역한 제목을 함께 안내해 드리고 있습니다. 번역본이 실제로 존재하지 않는다는 뜻은 아닙니다.",
+      "outOfPrintOpen": "절판 안내 열기",
+      "outOfPrintHeading": "절판 안내",
+      "outOfPrintDescription": "서비스에 등록된 해당 언어의 판본은 현재 절판된 것으로 확인되었습니다.",
+      "outOfPrintNote": "다른 판본이나 전자책, 중고책은 구하실 수 있습니다. 판매처와 판본에 따라 구입 가능 여부가 다를 수 있으니 이용 전에 확인해 주세요."
     },
     "reviewModal": {
       "review": "리뷰",

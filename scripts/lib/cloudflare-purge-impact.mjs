@@ -244,6 +244,10 @@ const CONTENT_FILES = new Set([
 ])
 
 const CELEB_AND_CONTENT_FILES = new Set([
+  // 제목의 가번역·절판 판정과 클릭 안내는 인물 리뷰와 작품 상세 양쪽에서 표시한다.
+  'sw/web/src/lib/utils/content-locale.ts',
+  'sw/web/src/components/ui/NoEditionBadge.tsx',
+  'sw/web/src/components/ui/ProvisionalTitleBadge.tsx',
   // 판본·소개 자료는 인물 책장과 작품 상세의 공용 본문·모달에서 소비한다.
   'sw/web/src/actions/books/getBookShelfBook.ts',
   'sw/web/src/actions/figure-books/figureBookEditions.ts',

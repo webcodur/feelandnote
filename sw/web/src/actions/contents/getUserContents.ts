@@ -333,7 +333,7 @@ const queryPublicUserContents = (...args: PublicContentsArgs) => {
 // 타인 회원 서재 — 공개 테이블(member_contents, contents, content_locales)만 읽으므로 캐시.
 // 일반 사용자 서재를 남이 열람하는 경로. 본인이 책을 추가하면 곧 반영돼야 하므로 1시간.
 const getCachedPublicUserContents = (...args: Parameters<typeof queryPublicUserContents>) =>
-  cachedList(CACHE_TAGS.CONTENTS, ['public-user-contents-v2-book-locale', ...args.map((a) => String(a ?? ''))], () =>
+  cachedList(CACHE_TAGS.CONTENTS, ['public-user-contents-v3-title-translation', ...args.map((a) => String(a ?? ''))], () =>
     queryPublicUserContents(...args),
   )
 
@@ -346,7 +346,7 @@ const getCachedCelebLibraryContents = (...args: CelebContentsArgs) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     args[0],
-    ['celeb-library-contents-v7-book-locale', ...args.map((a) => String(a ?? ''))],
+    ['celeb-library-contents-v8-title-translation', ...args.map((a) => String(a ?? ''))],
     () => {
       const [userId, type, page, limit, search, hasReview, sortBy, locale, preferredContentIds] = args
       return queryUserContents(createStaticClient(), {

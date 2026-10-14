@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 
-import { flattenLocales, getBookTitleBadge, type ContentLocaleRow } from './content-locale'
+import { flattenLocales, getBookTitleBadge, getEditionAvailabilityBadge, isTranslatedTitleBadge, type ContentLocaleRow } from './content-locale'
 
 const koRow: ContentLocaleRow = {
   locale: 'ko',
@@ -85,9 +85,36 @@ test('요청 en, en도 ko도 없으면 no-en', () => {
   assert.equal(flat.title, '')
 })
 
-test('요청 en, en 행이 번역 표시용 제목이면 no-en', () => {
+test('번역한 표시용 제목은 번역본 없음과 가번역을 함께 전달한다', () => {
   const flat = flattenLocales([koRow, displayTitleRow('en', 'The Tale of Hong Gildong', 'translated')], 'en')
-  assert.equal(flat.title_badge, 'no-en')
+  assert.equal(flat.title_badge, 'no-en-translated')
+  assert.equal(isTranslatedTitleBadge(flat.title_badge), true)
+  assert.equal(getEditionAvailabilityBadge(flat.title_badge!), 'no-en')
+  assert.equal(flattenLocales([displayTitleRow('ko', '홍길동전', 'translated'), enRow], 'ko').title_badge, 'no-ko-translated')
+})
+
+test('가번역 여부는 표지·ISBN·출판사 유무와 관계없으며 음차·원제에는 붙이지 않는다', () => {
+  for (const kind of ['translated', 'romanized', 'original']) {
+    for (const metadata of [{}, { thumbnail_url: 'https://example.test/cover.jpg', isbn: '9780140123456', publisher: 'Publisher' }]) {
+      const flat = flattenLocales([{ ...displayTitleRow('ko', '표시 제목', kind), ...metadata }], 'ko', 'BOOK')
+      assert.equal(isTranslatedTitleBadge(flat.title_badge), kind === 'translated')
+      assert.equal(getEditionAvailabilityBadge(flat.title_badge!), 'no-ko')
+    }
+  }
+  assert.equal(isTranslatedTitleBadge(flattenLocales([{ ...koRow, sources: { primary: 'kakao_book', title: 'translated' } }], 'ko').title_badge), false)
+})
+
+test('절판과 가번역이 함께 있으면 두 표식을 보존한다', () => {
+  const row = displayTitleRow('ko', '표시 제목', 'translated')
+  row.sources = { ...(row.sources as object), availability: 'out_of_print' }
+  const badge = flattenLocales([row], 'ko', 'BOOK').title_badge
+  assert.equal(badge, 'out-of-print-translated')
+  assert.equal(getEditionAvailabilityBadge(badge!), 'out-of-print')
+})
+
+test('제목을 다른 언어 행에서 가져오면 실제 표시한 제목의 가번역 여부를 따른다', () => {
+  assert.equal(isTranslatedTitleBadge(flattenLocales([displayTitleRow('en', 'Unofficial title', 'translated')], 'ko').title_badge), true)
+  assert.equal(isTranslatedTitleBadge(flattenLocales([koRow, displayTitleRow('en', 'Unofficial title', 'translated')], 'ko').title_badge), false)
 })
 
 test('locale 미전달은 ko 기준으로 판정한다', () => {

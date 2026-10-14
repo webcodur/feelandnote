@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useMemo } from "react";
+import { TitleNoticeBadges } from "@/components/ui/ProvisionalTitleBadge";
 import { useTranslations } from "next-intl";
 import FormattedText from "@/components/ui/FormattedText";
 import ClippedContentReadingText from "@/components/ui/ClippedContentReadingText";
@@ -28,7 +29,7 @@ export default function StackedReviewLayout({ props, state }: { props: ContentCa
   return <>
     <article data-home-review-card className={"flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-line bg-bg-card " + (props.className ?? "")}>
       <header className="flex min-w-0 flex-wrap items-baseline justify-center gap-x-2 gap-y-0.5 border-b border-line px-3 py-3 text-center sm:px-4">
-        <h3 className="min-w-0 max-w-full break-words text-base font-semibold leading-snug text-text-primary">{displayTitle}</h3>
+        <h3 className="min-w-0 max-w-full break-words text-base font-semibold leading-snug text-text-primary"><TitleNoticeBadges badge={state.displayTitleBadge} />{displayTitle}</h3>
         {displayCreator && <p className="min-w-0 max-w-full break-words text-xs leading-relaxed text-text-secondary"><span className="text-text-tertiary">- </span>{displayCreator.replace(/\^/g, ", ")}</p>}
       </header>
       <div className="grid min-w-0 grid-cols-[6rem_minmax(0,1fr)] grid-rows-[9rem_2.75rem] items-start gap-x-3 gap-y-2 p-3 sm:gap-x-4 sm:p-4">

@@ -1,3 +1,4 @@
+import { getEditionAvailabilityBadge } from '@/lib/utils/content-locale'
 import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
 import { getFigureBookPurchasePlatform } from '@/actions/figure-books/figureBookLocale'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
@@ -45,7 +46,7 @@ export function mapRelatedFigureBooksToAffiliateBooks(
       thumbnail: edition.thumbnailUrl ?? undefined,
       url,
       // 판매 판본을 골랐으니 번역본 없음은 해당하지 않는다 — 절판만 표지 띠로 알린다
-      titleBadge: book.titleBadge === 'out-of-print' ? book.titleBadge : null,
+      titleBadge: book.titleBadge && getEditionAvailabilityBadge(book.titleBadge) === 'out-of-print' ? 'out-of-print' : null,
     })
   }
   return books

@@ -31,7 +31,17 @@ export interface ContentLocaleRow {
 }
 
 /** 요청 locale의 제목이 확인된 판본 제목이 아닐 때 붙는 배지. out-of-print는 절판·유통 판본 없음(sources.availability). */
-export type TitleBadge = 'no-ko' | 'no-en' | 'out-of-print'
+type EditionAvailabilityBadge = 'no-ko' | 'no-en' | 'out-of-print'
+export type TitleBadge = EditionAvailabilityBadge | `${EditionAvailabilityBadge}-translated`
+
+/** 제목의 가번역 여부와 기존 절판·번역본 없음 판정을 함께 전달한다. */
+export function isTranslatedTitleBadge(badge: TitleBadge | null | undefined): boolean {
+  return badge?.endsWith('-translated') ?? false
+}
+
+export function getEditionAvailabilityBadge(badge: TitleBadge): EditionAvailabilityBadge {
+  return badge.replace(/-translated$/, '') as EditionAvailabilityBadge
+}
 
 // 번역 판본·절판 표시는 도서에만 쓴다. 영상·게임·음악의 제목 언어와는 별개다.
 export function getBookTitleBadge(
@@ -68,12 +78,16 @@ export function isDisplayTitleRow(sources: unknown): boolean {
 function resolveTitleBadge(
   row: ContentLocaleRow | undefined,
   requested: 'ko' | 'en',
+  displayedRow = row,
 ): TitleBadge | null {
+  const translated = isDisplayTitleRow(displayedRow?.sources)
+    && (displayedRow?.sources as LocaleSources)?.title === 'translated'
+  const mark = (badge: EditionAvailabilityBadge): TitleBadge => translated ? `${badge}-translated` : badge
   // 절판 표식은 판본 확인 여부보다 먼저 본다 — 원어 작품이라 「번역본 없음」이 아니라 「절판」이 맞다.
-  if (row?.title && (row.sources as LocaleSources | null | undefined)?.availability === 'out_of_print') return 'out-of-print'
+  if (row?.title && (row.sources as LocaleSources | null | undefined)?.availability === 'out_of_print') return mark('out-of-print')
   // 제목 유무 판정은 아래 폴백과 같은 기준을 쓴다 — 값이 있으면 폴백하지 않는다.
   const isConfirmed = !!row?.title && !isDisplayTitleRow(row.sources)
-  return isConfirmed ? null : (requested === 'en' ? 'no-en' : 'no-ko')
+  return isConfirmed ? null : mark(requested === 'en' ? 'no-en' : 'no-ko')
 }
 
 /**
@@ -90,7 +104,7 @@ export function flattenLocales(locales: ContentLocaleRow[] | null | undefined, l
   const primary = locale === 'en' ? en : ko
   const fallback = locale === 'en' ? ko : en
   return {
-    title_badge: resolveTitleBadge(primary, requested),
+    title_badge: resolveTitleBadge(primary, requested, primary?.title ? primary : fallback),
     title: decodeHtmlEntities(primary?.title || fallback?.title || ''),
     creator: primary?.creator || fallback?.creator || null,
     thumbnail_url: primary?.thumbnail_url
