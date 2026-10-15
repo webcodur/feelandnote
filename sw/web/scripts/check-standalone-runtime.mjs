@@ -1,11 +1,17 @@
-import { existsSync, readdirSync, statSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { existsSync, readdirSync, statSync, realpathSync, readFileSync } from 'node:fs'
+import { dirname, join, resolve, relative, isAbsolute } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { createRequire } from 'node:module'
 
 const webRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+const repoRoot = resolve(webRoot, '../..')
 const distDir = process.env.NEXT_DIST_DIR || '.next'
+const standaloneRoot = join(webRoot, distDir, 'standalone')
 const runtimeModules = join(webRoot, distDir, 'standalone', 'sw', 'web', 'node_modules', '@img')
-const sharpBinary = join(runtimeModules, 'sharp-linux-x64', 'lib', 'sharp-linux-x64.node')
+const sharpDir = join(runtimeModules, 'sharp-linux-x64', 'lib')
+const sharpBinary = existsSync(sharpDir) ? readdirSync(sharpDir)
+  .filter(name => /^sharp-linux-x64(?:-[\d.]+)?\.node$/.test(name))
+  .map(name => join(sharpDir, name)).find(file => statSync(file).isFile()) : undefined
 const libvipsDir = join(runtimeModules, 'sharp-libvips-linux-x64', 'lib')
 
 function assertMaterialFile(path, minimumBytes) {
@@ -14,6 +20,7 @@ function assertMaterialFile(path, minimumBytes) {
   }
 }
 
+if (!sharpBinary) throw new Error(`Oracle Linux sharp가 standalone에 없습니다: ${sharpDir}`)
 assertMaterialFile(sharpBinary, 100_000)
 assertMaterialFile(join(webRoot, distDir, 'standalone', 'sw', 'web', 'scripts', 'shared-data-cache.cjs'), 100)
 
@@ -29,4 +36,30 @@ if (!libvipsBinary) {
 }
 assertMaterialFile(libvipsBinary, 1_000_000)
 
-console.log('[standalone-runtime] Oracle Linux sharp + libvips + shared data cache handler 포함 확인')
+// 디스크에 패키지가 있다는 것만으로는 조건부 export 누락을 잡지 못한다.
+const standaloneRequire = createRequire(join(webRoot, distDir, 'standalone', 'sw', 'web', 'package.json'))
+standaloneRequire('@aws-sdk/client-s3')
+// Windows junction이 원본 node_modules로 이어져 있어도, 실제 수신 파일 전부가 배포본 안에 있어야 한다.
+const loaded = [standaloneRequire.cache[standaloneRequire.resolve('@aws-sdk/client-s3')]]
+const seen = new Set()
+while (loaded.length) {
+  const loadedModule = loaded.pop()
+  if (!loadedModule || seen.has(loadedModule.filename)) continue
+  seen.add(loadedModule.filename)
+  const file = realpathSync(loadedModule.filename)
+  const inOutput = relative(standaloneRoot, file)
+  const inRepo = relative(repoRoot, file)
+  const inside = value => value !== '..' && !value.startsWith('..\\') && !value.startsWith('../') && !isAbsolute(value)
+  if (!inside(inRepo)) throw new Error(`S3 의존성이 저장소 밖에서 로딩됐습니다: ${file}`)
+  const material = inside(inOutput) ? file : join(standaloneRoot, inRepo)
+  assertMaterialFile(material, 1)
+  if (!inside(relative(standaloneRoot, realpathSync(material)))) throw new Error(`S3 의존성이 배포본 밖을 가리킵니다: ${material}`)
+  loaded.push(...loadedModule.children)
+}
+const nextRoot = dirname(standaloneRequire.resolve('next/package.json'))
+const actionHandler = readFileSync(join(nextRoot, 'dist/server/app-render/action-handler.js'), 'utf8')
+if (!/actionId\s*&&\s*!actionWasForwarded/.test(actionHandler)) {
+  throw new Error('Standalone Next.js에 Server Action 재전달 방지가 없습니다')
+}
+
+console.log('[standalone-runtime] Linux sharp + libvips + data cache + S3 SDK + Action 재전달 방지 확인')

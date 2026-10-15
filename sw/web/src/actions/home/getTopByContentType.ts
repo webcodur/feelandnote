@@ -38,6 +38,7 @@ export async function getTopByContentType(): Promise<TopByTypeEntry[]> {
       includeTotal: false,
       includeViewerState: false,
     })
+    if (result.error) throw new Error('매체별 인물 목록 조회 실패')
     results.push({ type, result })
   }
 

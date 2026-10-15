@@ -241,6 +241,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
+  // 공유 디스크 캐시 핸들러를 쓰므로 Node 런타임에서 실행한다.
+  runtime: 'nodejs',
   matcher: [
     /*
      * 다음으로 시작하는 경로를 제외한 모든 요청:

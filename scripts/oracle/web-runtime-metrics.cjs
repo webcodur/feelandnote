@@ -4,6 +4,8 @@ const v8 = require('node:v8')
 const key = Symbol.for('feelandnote.runtime-metrics')
 if (!globalThis[key]) {
   const groups = new Map()
+  const pending = new Map()
+  const admissions = new Map()
   let active = 0
   let peak = 0
   function group(url = '') {
@@ -16,10 +18,18 @@ if (!globalThis[key]) {
     try {
       const name = group(request.url)
       const began = performance.now()
+      const forwarded = Number(Boolean(request.headers['x-action-forwarded']))
+      const loopback = Number(['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(request.socket?.remoteAddress))
+      const post = Number(request.method === 'POST')
+      const inflight = pending.get(name) || { active: 0, forwarded: 0, loopback: 0, post: 0 }
+      inflight.active++; inflight.forwarded += forwarded; inflight.loopback += loopback; inflight.post += post
+      pending.set(name, inflight)
+      admissions.set(name, (admissions.get(name) || 0) + 1)
       active++
       peak = Math.max(peak, active)
       response.once('close', () => {
         active--
+        inflight.active--; inflight.forwarded -= forwarded; inflight.loopback -= loopback; inflight.post -= post
         const row = groups.get(name) || { requests: 0, errors: 0, aborted: 0, maxMs: 0 }
         row.requests++
         row.errors += Number(response.statusCode >= 500)
@@ -32,8 +42,10 @@ if (!globalThis[key]) {
   function snapshot() {
     const result = { tag: 'feelandnote-runtime', time: new Date().toISOString(), pid: process.pid,
       memory: process.memoryUsage(), heapLimit: v8.getHeapStatistics().heap_size_limit,
-      active, peak, routes: Object.fromEntries(groups) }
+      active, peak, routes: Object.fromEntries(groups), admissions: Object.fromEntries(admissions),
+      pending: Object.fromEntries([...pending].filter(([, row]) => row.active > 0).map(([name, row]) => [name, { ...row }])) }
     groups.clear()
+    admissions.clear()
     peak = active
     return result
   }

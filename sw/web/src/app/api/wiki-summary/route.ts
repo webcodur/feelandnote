@@ -1,53 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createMetadataCache, fetchMetadataJson, MetadataError, METADATA_LIMITS, metadataErrorStatus } from '@/lib/publicMetadata'
 
-const CACHE = new Map<string, { data: string | null; ts: number }>()
 const CACHE_TTL = 1000 * 60 * 60 // 1시간
+const readCachedSummary = createMetadataCache<string | null>(CACHE_TTL)
 
-async function fetchWikiSummary(title: string, lang: string): Promise<string | null> {
+async function fetchWikiSummary(title: string, lang: string, signal: AbortSignal): Promise<string | null> {
   const url = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`
-  const res = await fetch(url, {
-    headers: { 'User-Agent': 'FeelandnoteBot/1.0' },
-    next: { revalidate: 3600 },
+  const data = await fetchMetadataJson<{ type?: string; extract?: string }>(url, signal).catch(error => {
+    if (error instanceof MetadataError && error.status === 404) return null
+    throw error
   })
-  if (!res.ok) return null
-  const data = await res.json()
+  if (!data) return null
   if (data.type === 'disambiguation') return null
   return data.extract || null
 }
 
 export async function GET(req: NextRequest) {
   const title = req.nextUrl.searchParams.get('title')
-  if (!title) {
+  if (!title || title.length > METADATA_LIMITS.titleLength) {
     return NextResponse.json({ error: 'title required' }, { status: 400 })
   }
 
-  const locale = req.nextUrl.searchParams.get('locale') || 'en'
+  const locale = req.nextUrl.searchParams.get('locale') === 'ko' ? 'ko' : 'en'
   const cacheKey = `${locale}:${title}`
 
-  // 메모리 캐시
-  const cached = CACHE.get(cacheKey)
-  if (cached && Date.now() - cached.ts < CACHE_TTL) {
-    return NextResponse.json({ summary: cached.data })
-  }
-
   try {
-    let summary: string | null = null
-
-    if (locale === 'ko') {
-      // ko 우선 시도 → 없으면 en fallback
-      summary = await fetchWikiSummary(title, 'ko')
-      if (!summary) {
-        summary = await fetchWikiSummary(title, 'en')
-      }
-    } else {
-      summary = await fetchWikiSummary(title, 'en')
-    }
-
-    CACHE.set(cacheKey, { data: summary, ts: Date.now() })
+    const summary = await readCachedSummary(cacheKey, async () => {
+      const signal = AbortSignal.timeout(METADATA_LIMITS.timeoutMs)
+      const localized = locale === 'ko' ? await fetchWikiSummary(title, 'ko', signal) : null
+      return localized ?? await fetchWikiSummary(title, 'en', signal)
+    })
     return NextResponse.json({ summary }, {
       headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600' },
     })
-  } catch {
-    return NextResponse.json({ summary: null })
+  } catch (error) {
+    return NextResponse.json({ summary: null }, { status: metadataErrorStatus(error), headers: { 'Cache-Control': 'no-store' } })
   }
 }

@@ -215,7 +215,8 @@
         "dailyInfoBody": "Today's picks use a daily seeded draw. People whose names match Google Trends searches in {country} that started in the past {days} days and are still actively trending get an additional chance in the draw.",
         "homeEmpty": "There are currently no trending figures to show."
       },
-      "affiliationsTitle": "{name}'s Affiliations"
+      "affiliationsTitle": "{name}'s Affiliations",
+      "listLoadFailed": "The list could not be loaded. Previous results are still shown. Try fewer filters or retry."
     },
     "hub": {
       "todayFigure": "Today's Figure",

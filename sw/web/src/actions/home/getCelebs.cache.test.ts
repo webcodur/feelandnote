@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import test from 'node:test'
 import ts from 'typescript'
+import { CELEB_LISTING_LIMITS } from '@/constants/celebListingPolicy'
 
 // Exercise the installed Next implementation, with only the DB boundary replaced.
 Object.assign(globalThis, { AsyncLocalStorage })
@@ -27,7 +28,7 @@ function fixture() {
   let failRanking = false
   let pause: Promise<void> | undefined
   const incrementalCache = {
-    generateCacheKey: async (key: string) => key,
+    generateSimpleCacheKey: async (key: string) => key,
     get: async (key: string) => entries.get(key) ?? null,
     set: async (key: string, value: Entry['value'], options: { tags: string[] }) => {
       entries.set(key, { value, isStale: false, tags: options.tags })
@@ -80,17 +81,19 @@ function fixture() {
     },
     '@/constants/materials': { getCelebLevelByRanking: (rank: number) => rank },
     '@/lib/utils/celeb-dialogues': { DIALOGUE_BRIEF_SELECT_WITH_ID: '*' },
+    '@/lib/celeb/celebNameSearchIndex': { findCelebsByName: async () => [] },
+    '@/lib/visitorCountryServer': { getVisitorCountry: async () => 'KR' },
   }
   const loaded = { exports: {} as {
-    getCelebs: (params?: Record<string, unknown>) => Promise<{ celebs: { id: string; is_following: boolean }[] }>
+    getCelebs: (params?: Record<string, unknown>) => Promise<{ celebs: { id: string; is_following: boolean }[]; error: string | null }>
     getInfluenceRanking: () => Promise<unknown>
   } }
   new Function('require', 'module', 'exports', compiled)(
     (id: string) => mocks[id] ?? require(id), loaded, loaded.exports,
   )
-  function start<T>(callback: () => Promise<T>, viewer = 'a') {
+  function start<T>(callback: () => Promise<T>, viewer = 'a', cachedConsumer = true) {
     const store: Store = { route: '/fixture', incrementalCache }
-    const unit = { type: 'prerender-legacy', phase: 'render', tags: null as string[] | null, revalidate: Infinity }
+    const unit = { type: cachedConsumer ? 'prerender-legacy' : 'request', phase: 'render', tags: null as string[] | null, revalidate: Infinity, url: { pathname: '/fixture', search: '' } }
     const result = viewerStorage.run(viewer, () => workAsyncStorage.run(store, () => workUnitAsyncStorage.run(unit, callback))) as Promise<T>
     return { result, store, unit }
   }
@@ -108,15 +111,15 @@ function fixture() {
   }
 }
 
-test('12 cold requests share public reads, reuse warm ranking, and retain separate viewer state', async () => {
+test('admitted cold requests share public reads, reuse warm ranking, and retain separate viewer state', async () => {
   const f = fixture()
   await f.run(() => f.getInfluenceRanking())
-  const requests = Array.from({ length: 12 }, (_, i) => f.start(() => f.getCelebs({ sortBy: 'name_asc' }), i % 2 ? 'b' : 'a'))
+  const requests = Array.from({ length: CELEB_LISTING_LIMITS.concurrentQueries }, (_, i) => f.start(() => f.getCelebs({ sortBy: 'name_asc' }), i % 2 ? 'b' : 'a'))
   const results = await Promise.all(requests.map(request => request.result))
   await Promise.all(requests.flatMap(request => Object.values(request.store.pendingRevalidates ?? {})))
   assert.equal(f.counts.lists, 1)
   assert.equal(f.counts.ranking, 1)
-  assert.equal(f.counts.auth, 12)
+  assert.equal(f.counts.auth, CELEB_LISTING_LIMITS.concurrentQueries)
   results.forEach((result, i) => assert.equal(result.celebs[0].is_following, i % 2 === 0))
   for (const request of requests) {
     for (const tag of ['celebs', 'contents', 'dialogues', 'factions']) assert.ok(request.unit.tags?.includes(tag))
@@ -128,7 +131,7 @@ test('12 cold requests share public reads, reuse warm ranking, and retain separa
 
 test('different public arguments remain separate and settled reads are not retained after invalidation', async () => {
   const f = fixture()
-  const values = await Promise.all([1, 2].flatMap(page => Array.from({ length: 6 }, () =>
+  const values = await Promise.all([1, 2].flatMap(page => Array.from({ length: CELEB_LISTING_LIMITS.concurrentQueries / 2 }, () =>
     f.run(() => f.getCelebs({ page, limit: 1, sortBy: 'name_asc', includeViewerState: false })),
   )))
   assert.equal(f.counts.lists, 2)
@@ -146,10 +149,12 @@ test('failed pending list and ranking reads are removed and can retry', async ()
     const f = fixture()
     const setFailure = target === 'list' ? f.failList : f.failRanking
     setFailure(true)
-    const results = await Promise.allSettled(Array.from({ length: 12 }, () => f.run(() =>
+    const results = await Promise.allSettled(Array.from({ length: CELEB_LISTING_LIMITS.concurrentQueries }, () => f.run(() =>
       target === 'list' ? f.getCelebs({ sortBy: 'name_asc', includeViewerState: false }) : f.getInfluenceRanking(),
     )))
-    assert.ok(results.every(result => result.status === 'rejected'))
+    assert.ok(results.every(result => target === 'list'
+      ? result.status === 'fulfilled' && (result.value as { error: string | null }).error === 'listing_unavailable'
+      : result.status === 'rejected'))
     assert.equal(target === 'list' ? f.counts.lists : f.counts.ranking, 1)
     setFailure(false)
     await f.run(() => target === 'list' ? f.getCelebs({ sortBy: 'name_asc', includeViewerState: false }) : f.getInfluenceRanking())
@@ -163,7 +168,7 @@ test('stale reads return immediately while one public refresh runs across reques
   for (const entry of f.entries.values()) entry.isStale = true
   let release!: () => void
   f.pause(new Promise<void>(resolve => { release = resolve }))
-  const requests = Array.from({ length: 12 }, () => f.start(() => f.getCelebs({ sortBy: 'name_asc', includeViewerState: false })))
+  const requests = Array.from({ length: CELEB_LISTING_LIMITS.concurrentQueries }, () => f.start(() => f.getCelebs({ sortBy: 'name_asc', includeViewerState: false }), 'a', false))
   try {
     const values = await Promise.all(requests.map(request => request.result))
     assert.ok(values.every(value => value.celebs[0].id === 'a'))
@@ -174,4 +179,21 @@ test('stale reads return immediately while one public refresh runs across reques
   await Promise.all(requests.flatMap(request => Object.values(request.store.pendingRevalidates ?? {})))
   f.pause()
   assert.ok([...f.entries.values()].every(entry => !entry.isStale))
+})
+
+test('excess callers return a controlled error without starting more public work', async () => {
+  const f = fixture()
+  let release!: () => void
+  f.pause(new Promise<void>(resolve => { release = resolve }))
+  const admitted = Array.from({ length: CELEB_LISTING_LIMITS.concurrentQueries }, () => f.run(() =>
+    f.getCelebs({ sortBy: 'name_asc', includeViewerState: false }),
+  ))
+  try {
+    const denied = await f.run(() => f.getCelebs({ sortBy: 'name_asc' }))
+    assert.equal(denied.error, 'listing_unavailable')
+    assert.deepEqual(denied.celebs, [])
+    assert.equal(f.counts.auth, 0)
+  } finally { release() }
+  assert.ok((await Promise.all(admitted)).every(value => !value.error))
+  assert.equal(f.counts.lists, 1)
 })

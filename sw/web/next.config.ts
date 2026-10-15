@@ -26,6 +26,11 @@ const nextConfig: NextConfig = {
       './node_modules/@img/sharp-linux-x64/**/*',
       './node_modules/@img/sharp-libvips-linux-x64/**/*',
     ],
+    // Smithy의 조건부 subpath export는 Windows trace에서 빠질 수 있다.
+    '/api/avatar': [
+      '../../node_modules/.pnpm/@smithy+core@*/node_modules/@smithy/core/package.json',
+      '../../node_modules/.pnpm/@smithy+core@*/node_modules/@smithy/core/dist-cjs/**/*',
+    ],
   },
   // 개발 서버가 .next를 쓰는 동안에도 빌드 검증을 하려면 NEXT_DIST_DIR로 산출 위치를 분리한다
   distDir: process.env.NEXT_DIST_DIR || '.next',

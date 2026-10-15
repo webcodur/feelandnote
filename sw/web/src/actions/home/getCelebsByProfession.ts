@@ -1,6 +1,7 @@
 'use server'
 
 import { getCelebs } from './getCelebs'
+import { CELEB_LISTING_LIMITS } from '@/constants/celebListingPolicy'
 import { cachedList } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { getCelebProfessions } from '@/lib/celeb-professions'
@@ -14,23 +15,28 @@ export interface ProfessionSection {
 }
 
 async function fetchCelebsByProfession(): Promise<ProfessionSection[]> {
-  const results = await Promise.all(
-    (await getCelebProfessions()).map(async (p) => {
-      const { celebs, total } = await getCelebs({
+  const results: ProfessionSection[] = []
+  const professions = await getCelebProfessions()
+  // 전체 직군을 한꺼번에 시작해 서버의 목록 조회 상한을 소진하지 않는다.
+  const batchSize = CELEB_LISTING_LIMITS.professionBatchSize
+  for (let offset = 0; offset < professions.length; offset += batchSize) {
+    results.push(...await Promise.all(professions.slice(offset, offset + batchSize).map(async (p) => {
+      const { celebs, total, error } = await getCelebs({
         profession: p.value,
         limit: 12,
         sortBy: 'composite',
         minContentCount: 0,
         includeInactive: false,
       })
+      if (error) throw new Error('직군별 인물 목록 조회 실패')
       return {
         profession: p.value,
         label: p.value,
         celebs,
         totalCount: total,
       }
-    })
-  )
+    })))
+  }
 
   return results.filter((s) => s.totalCount > 0)
 }

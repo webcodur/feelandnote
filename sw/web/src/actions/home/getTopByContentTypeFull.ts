@@ -22,6 +22,7 @@ export interface TopByTypeFullEntry {
 
 async function fetchTopByContentType(type: ContentTypeKey): Promise<TopByTypeFullEntry | null> {
   const result = await getCelebs({ contentType: type, sortBy: 'content_count', limit: 10 })
+  if (result.error) throw new Error('인물 순위 조회 실패')
   if (result.celebs.length === 0) return null
 
   const sorted = [...result.celebs].sort((a, b) => (b.content_count ?? 0) - (a.content_count ?? 0))

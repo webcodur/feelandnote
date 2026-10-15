@@ -27,7 +27,8 @@
     "test:content-locale": "tsx --test src/lib/utils/content-locale.test.ts src/lib/utils/content-locale-text.test.ts",
     "test:creator-names": "tsx --test src/lib/utils/creator-names.test.ts",
     "test:relation-map": "tsx --test src/lib/celeb/relationRows.test.ts src/lib/celeb/relationShapes.test.ts src/lib/celeb/relationNeighborhood.test.ts",
-    "check:artwork-images": "node scripts/check-artwork-images.mjs"
+    "check:artwork-images": "node scripts/check-artwork-images.mjs",
+    "check:celeb-listing-safety": "node scripts/check-celeb-listing-safety.mjs"
   },
   "dependencies": {
     "@antv/g6": "5.1.1",
@@ -40,7 +41,7 @@
     "@feelandnote/influence-constants": "workspace:*",
     "@feelandnote/shared": "workspace:*",
     "@google/genai": "^1.44.0",
-    "@next/third-parties": "^16.1.6",
+    "@next/third-parties": "16.4.1",
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@tailwindcss/typography": "^0.5.19",
     "@types/three": "^0.183.1",
@@ -53,13 +54,13 @@
     "es-hangul": "2.4.0",
     "framer-motion": "^12.34.3",
     "lucide-react": "^0.555.0",
-    "next": "16.1.1",
+    "next": "16.4.1",
     "next-intl": "^4.8.3",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-markdown": "^10.1.0",
     "recharts": "^3.5.1",
-    "sharp": "^0.34.5",
+    "sharp": "0.35.5",
     "tailwind-merge": "^3.4.0",
     "three": "^0.183.2",
     "topojson-client": "^3.1.0",
@@ -68,8 +69,8 @@
     "@feelandnote/db": "workspace:*"
   },
   "optionalDependencies": {
-    "@img/sharp-libvips-linux-x64": "1.2.4",
-    "@img/sharp-linux-x64": "0.34.5"
+    "@img/sharp-libvips-linux-x64": "1.3.4",
+    "@img/sharp-linux-x64": "0.35.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.17",
@@ -81,7 +82,7 @@
     "@types/topojson-specification": "^1.0.5",
     "@types/uuid": "^11.0.0",
     "eslint": "^9",
-    "eslint-config-next": "16.1.1",
+    "eslint-config-next": "16.4.1",
     "postcss": "^8.5.6",
     "puppeteer": "^24.2.1",
     "styled-jsx": "^5.1.7",

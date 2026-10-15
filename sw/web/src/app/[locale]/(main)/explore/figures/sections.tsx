@@ -140,6 +140,7 @@ export async function FiguresFilterResult({ params }: { params: FiguresFilterPar
 
   // JSX 생성은 try 밖에서 한다 — try 안 JSX는 렌더 오류를 못 잡으면서 린트만 문다
   const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, genderCounts, fictionResult, allResult] = result;
+  if (celebsResult.error || fictionResult.error || allResult.error) return <RetryBlock />;
   // 사실 쪽은 명부와 같은 기준(활성·REAL·BOTH)을 쓰는 genderCounts의 all — 기본 뷰는 직군 좁힘이 걸려 있어 celebsResult.total을 쓰면 안 된다
   const realityTotals = {
     real: genderCounts.find((entry) => entry.value === "all")?.count ?? celebsResult.total,

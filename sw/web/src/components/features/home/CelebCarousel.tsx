@@ -16,6 +16,7 @@ import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, getCelebs } from "@/actions/home";
 import type { TrendCountry } from "@/constants/trendCountries";
 import { useTranslations } from "next-intl";
+import RetryBlock from "@/components/ui/pending/RetryBlock";
 
 // 인물 카드 눌러 뜨는 요약 모달 — 첫 클릭 때만 늦게 받는다
 const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
@@ -79,6 +80,10 @@ export default function CelebCarousel({
   const t = useTranslations("home.ui");
   const tExplore = useTranslations("explore.ui");
   const tHub = useTranslations("explore.hub");
+  const handlePreviewChange = (id: string | null) => {
+    filters.invalidateListingCache();
+    setPreviewId(id);
+  };
 
   // 캐러셀 모드
   if (mode === "carousel") {
@@ -219,11 +224,12 @@ export default function CelebCarousel({
         <section key="grid" aria-label={t("celebArchive")} aria-busy={filters.isLoading}
           className="relative animate-fade-in">
           {/* 결과 수는 조작 아래 한 줄이 쥔다(CelebCompactControls resultLabel) */}
-          {filters.celebs.length === 0 && !filters.isLoading && <EmptyState />}
+          {filters.listingError && !filters.isLoading && <div role="status"><RetryBlock message={t("listLoadFailed")} onRetry={filters.retryListing} /></div>}
+          {filters.celebs.length === 0 && !filters.isLoading && !filters.listingError && <EmptyState />}
           {filters.isLoading && filters.celebs.length === 0 && <GridSkeleton />}
           {filters.celebs.length > 0 && (
             <>
-              <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} quiet={syncToUrl} showInfluence={filters.sortBy === "influence"} onSelect={setPreviewId} />
+              <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} quiet={syncToUrl} showInfluence={filters.sortBy === "influence"} onSelect={handlePreviewChange} />
               <div className="mt-8">
                 <Pagination
                   presentation={syncToUrl ? "quiet" : "default"}
@@ -248,7 +254,7 @@ export default function CelebCarousel({
           <CelebDetailModal
             celeb={previewCeleb}
             isOpen
-            onClose={() => setPreviewId(null)}
+            onClose={() => handlePreviewChange(null)}
             onNavigate={(direction) => {
               const next = filters.celebs[previewIndex + (direction === "prev" ? -1 : 1)];
               if (next) setPreviewId(next.id);

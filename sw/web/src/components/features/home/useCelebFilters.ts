@@ -4,7 +4,7 @@ import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useState, useCallback, useMemo, useEffect, useEffectEvent, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { usePathname } from "@/i18n/navigation";
-import { getCelebs } from "@/actions/home";
+import type { getCelebs } from "@/actions/home/getCelebs";
 import { DEFAULT_EXPLORE_PROFESSION } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
 import type { CelebProfile } from "@/types/home";
@@ -13,6 +13,8 @@ import { CELEB_REALITIES, LISTING_DEFAULT_REALITIES, parseCelebRealities, type C
 import { DEFAULT_EXPLORE_CONTENT_PRESENCE, parseCelebContentPresence, parseExploreContentPresence, type CelebContentPresence } from "@/constants/celebContentPresence";
 import { CELEB_SORT_OPTIONS, DEFAULT_EXPLORE_SORT } from "@/constants/celebSort";
 import { parseTrendCountry, TREND_COUNTRY_COOKIE, TREND_COUNTRY_COOKIE_MAX_AGE, type TrendCountry } from "@/constants/trendCountries";
+import { CELEB_LISTING_LIMITS, listingPage, listingPageSize } from "@/constants/celebListingPolicy";
+import { useCelebListingRequest } from "./useCelebListingRequest";
 
 // #region 상수
 export const SORT_VALUES = CELEB_SORT_OPTIONS;
@@ -41,8 +43,8 @@ const REALITY_FILTER_VALUES: Record<CelebRealityFilter, readonly CelebReality[]>
   real: LISTING_DEFAULT_REALITIES,
 };
 
-const DEFAULT_PAGE_SIZE = 24;
-export const PAGE_SIZE_OPTIONS = [12, 24, 48, 96];
+const DEFAULT_PAGE_SIZE = CELEB_LISTING_LIMITS.defaultPageSize;
+export const PAGE_SIZE_OPTIONS = [...CELEB_LISTING_LIMITS.pageSizes];
 
 // #endregion
 
@@ -84,11 +86,11 @@ export function useCelebFilters({
     const urlValue = searchParams.get(key);
     if (!urlValue) return defaultValue;
     if (validValues && !validValues.includes(urlValue as T)) return defaultValue;
-    return urlValue as T;
+    return (key === "search" ? urlValue.slice(0, CELEB_LISTING_LIMITS.searchLength) : urlValue) as T;
   };
 
   const [celebs, setCelebs] = useState<CelebProfile[]>(initialCelebs);
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, listingError, loadListing, invalidateListingCache } = useCelebListingRequest();
   const [profession, setProfession] = useState<string>(() => getInitialValue("profession", syncToUrl ? DEFAULT_EXPLORE_PROFESSION : "all"));
   const [nationality, setNationality] = useState<string>(() => getInitialValue("nationality", "all"));
   const [contentType, setContentType] = useState<string>(() => getInitialValue("contentType", "all"));
@@ -107,7 +109,7 @@ export function useCelebFilters({
   const [currentPage, setCurrentPage] = useState(() => {
     if (!syncToUrl) return 1;
     const page = parseInt(searchParams.get("page") || "1", 10);
-    return isNaN(page) || page < 1 ? 1 : page;
+    return listingPage(page, listingPageSize(Number(searchParams.get("pageSize") || DEFAULT_PAGE_SIZE)));
   });
   const [totalPages, setTotalPages] = useState(initialTotalPages);
   const [total, setTotal] = useState(initialTotal);
@@ -144,7 +146,6 @@ export function useCelebFilters({
   };
 
   const previousIncludeInactiveRef = useRef(includeInactive);
-  const latestRequestRef = useRef(0);
 
   // URL 파라미터 업데이트 (서버 재렌더링 없이 URL만 변경)
   const updateUrlParams = useCallback((updates: Record<string, string | null>) => {
@@ -193,37 +194,32 @@ export function useCelebFilters({
     trendCountryOverride?: TrendCountry,
     realitiesOverride?: readonly CelebReality[]
   ) => {
-    const requestId = ++latestRequestRef.current;
-    setIsLoading(true);
     const isInactive = inactive ?? includeInactive;
-    try {
-      const result = await getCelebs({
-        page,
-        limit: limitOverride ?? pageSize,
-        profession: prof,
-        nationality: nation,
-        contentType: cType,
-        contentPresence: contentPresenceOverride ?? contentPresence,
-        gender: gend,
-        sortBy: sort,
-        trendCountry: trendCountryOverride ?? trendCountry,
-        search: searchTerm || undefined,
-        factionId,
-        minContentCount: 0,
-        includeInactive: isInactive,
-        realities: realitiesOverride ?? realities,
-        birthYearMin: birthYearOverride ? birthYearOverride.min : birthYearMin,
-        birthYearMax: birthYearOverride ? birthYearOverride.max : birthYearMax,
-      });
-      if (requestId !== latestRequestRef.current) return;
+    await loadListing({
+      page,
+      limit: limitOverride ?? pageSize,
+      profession: prof,
+      nationality: nation,
+      contentType: cType,
+      contentPresence: contentPresenceOverride ?? contentPresence,
+      gender: gend,
+      sortBy: sort,
+      trendCountry: trendCountryOverride ?? trendCountry,
+      search: searchTerm || undefined,
+      factionId,
+      minContentCount: 0,
+      includeInactive: isInactive,
+      realities: realitiesOverride ?? realities,
+      birthYearMin: birthYearOverride ? birthYearOverride.min : birthYearMin,
+      birthYearMax: birthYearOverride ? birthYearOverride.max : birthYearMax,
+    }, (result) => {
       setCelebs(result.celebs);
       setTotalPages(result.totalPages);
       setTotal(result.total);
       setTrend(result.trend);
-    } finally {
-      if (requestId === latestRequestRef.current) setIsLoading(false);
-    }
-  }, [includeInactive, pageSize, realities, birthYearMin, birthYearMax, contentPresence, trendCountry, factionId]);
+      setCurrentPage(result.page);
+    });
+  }, [includeInactive, pageSize, realities, birthYearMin, birthYearMax, contentPresence, trendCountry, factionId, loadListing]);
 
   // 서버에서 URL 파라미터 기반으로 이미 패칭된 데이터를 사용하므로 초기 렌더에서는 재패칭하지 않는다.
   // 다른 필터 변경으로 callback이 새로 만들어져도 includeInactive가 실제로 바뀐 경우에만 호출한다.
@@ -355,7 +351,7 @@ export function useCelebFilters({
 
   // 검색어 입력 (UI만 업데이트, API 호출 안 함)
   const handleSearchInput = useCallback((term: string) => {
-    setSearch(term);
+    setSearch(term.slice(0, CELEB_LISTING_LIMITS.searchLength));
   }, []);
 
   // 검색 실행 (버튼 클릭 또는 엔터)
@@ -387,6 +383,9 @@ export function useCelebFilters({
   return {
     celebs,
     isLoading,
+    listingError,
+    invalidateListingCache,
+    retryListing: () => { invalidateListingCache(); void loadCelebs(profession, nationality, contentType, gender, sortBy, currentPage, appliedSearch); },
     profession,
     nationality,
     contentType,

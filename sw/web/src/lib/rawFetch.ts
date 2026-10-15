@@ -8,6 +8,8 @@
         현재 세션 없는 REST 클라이언트는 갱신 타이머를 만들지 않는다. 공개 데이터 캐시는 unstable_cache가 맡는다.
 */ // ------------------------------
 
+import { listingQuerySignal } from './listingQueryBudget'
+
 type FetchLike = typeof globalThis.fetch
 type PatchedFetch = FetchLike & { _nextOriginalFetch?: FetchLike }
 
@@ -25,5 +27,7 @@ export const rawFetch: FetchLike = (input, init) => {
     ? input.signal
     : init?.signal ?? new AbortController().signal
 
-  return resolveRawFetch().call(globalThis, input, { ...init, signal })
+  const budget = listingQuerySignal()
+  budget?.throwIfAborted()
+  return resolveRawFetch().call(globalThis, input, { ...init, signal: budget ? AbortSignal.any([signal, budget]) : signal })
 }

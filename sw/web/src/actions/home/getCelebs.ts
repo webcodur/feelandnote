@@ -21,6 +21,8 @@ import { mergePromotedIntoPage, selectDailyPromotions, LOCAL_DAILY_PROMOTE_MAX }
 import { getVisitorCountry } from '@/lib/visitorCountryServer'
 import { getKSTDateKey } from '@/lib/game/date-seed'
 import { findCelebsByName } from '@/lib/celeb/celebNameSearchIndex'
+import { normalizeListingParams, canPromoteDailyListing, listingPage } from '@/constants/celebListingPolicy'
+import { runListingQuery } from '@/lib/listingQueryBudget'
 
 export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count' | 'trending' | 'country_trending'
 
@@ -66,7 +68,7 @@ export const getInfluenceRanking = unstable_cache(
   { revalidate: spreadRevalidate(LIST_REVALIDATE, ['influence-ranking']), tags: [CACHE_TAGS.CELEBS] }
 )
 
-interface GetCelebsParams {
+export interface GetCelebsParams {
   ids?: readonly string[] // DB 명단의 정확한 ID만 조회
   page?: number
   limit?: number
@@ -578,6 +580,16 @@ async function resolveSearchIds(search: string | undefined, includeInactive: boo
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
+  try {
+    const normalized = normalizeListingParams(params)
+    return await runListingQuery(() => getCelebsResult(normalized))
+  } catch (error) {
+    console.warn('[getCelebs] 목록 조회 중단:', error instanceof Error ? error.message : 'Unknown error')
+    return { celebs: [], total: 0, page: 1, totalPages: 0, error: 'listing_unavailable' }
+  }
+}
+
+async function getCelebsResult(params: GetCelebsParams): Promise<GetCelebsResult> {
   const {
     ids,
     page = 1,
@@ -607,13 +619,14 @@ export async function getCelebs(
   const country = parseTrendCountry(trendCountry) ?? 'KR'
   // Fetch outside the listing cache so its country-specific freshness is respected.
   // 오늘의 추천도 트렌드 매칭을 읽는다 — 급상승 인물의 일일 추첨 가산과 화염 표지에 쓴다.
-  const countryTrend = sortBy === 'country_trending' || sortBy === 'daily_recommend' ? await getCountryTrendingPeople(country) : undefined
+  const promoteDaily = sortBy === 'daily_recommend' && canPromoteDailyListing(params)
+  const countryTrend = sortBy === 'country_trending' || promoteDaily ? await getCountryTrendingPeople(country) : undefined
   const loadPublic = sortBy === 'trending' || sortBy === 'country_trending' ? getCelebsTrendingCached : getCelebsCached
   // 인기순은 기간 창 순위라 검색어를 읽지 않는다
   const searchIds = ids
     ? [...new Set(ids)].sort()
     : sortBy === 'trending' ? null : await resolveSearchIds(search, includeInactive)
-  const visitorCountry = sortBy === 'daily_recommend' ? await getVisitorCountry() : null
+  const visitorCountry = promoteDaily ? await getVisitorCountry() : null
   const pub = await loadPublic(
     page, limit, profession ?? null, nationality ?? null,
     contentType ?? null, gender ?? null, sortBy,
@@ -629,7 +642,7 @@ export async function getCelebs(
   } : undefined
 
   if (pub.rows.length === 0) {
-    return { celebs: [], total: pub.total, page, totalPages: pub.totalPages, error: null, trend }
+    return { celebs: [], total: pub.total, page, totalPages: Math.min(pub.totalPages, listingPage(Number.MAX_SAFE_INTEGER, limit)), error: null, trend }
   }
 
   // 중첩 unstable_cache는 내부 캐시를 건너뛴다. 랭킹은 목록 밖에서 읽고,
@@ -725,5 +738,5 @@ export async function getCelebs(
     })
   }
 
-  return { celebs, total: pub.total, page, totalPages: pub.totalPages, error: null, trend }
+  return { celebs, total: pub.total, page, totalPages: Math.min(pub.totalPages, listingPage(Number.MAX_SAFE_INTEGER, limit)), error: null, trend }
 }

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { createMetadataCache, fetchMetadataJson, METADATA_LIMITS, metadataErrorStatus } from "@/lib/publicMetadata"
 
 interface WorkItem {
   id: string
@@ -31,8 +32,10 @@ interface WorkItem {
   location_ko: string | null
 }
 
-const CACHE = new Map<string, { data: WorkItem[]; ts: number }>()
 const CACHE_TTL = 1000 * 60 * 60 * 24 // 24시간
+const readCachedWorks = createMetadataCache<WorkItem[]>(CACHE_TTL)
+
+type Binding = Record<string, { value?: string }>
 
 const P31_BOOK = new Set([
   "Q7725634","Q571","Q8261","Q47461344","Q49084","Q5185279","Q35760",
@@ -70,53 +73,36 @@ const PROP_ROLE: Record<string, string> = {
 }
 
 /** 영문 제목 목록 → Wikipedia 인터위키 링크로 한국어 제목 일괄 조회 (50개 단위) */
-async function fetchKoTitlesFromWikipedia(enTitles: string[]): Promise<Map<string, string>> {
+async function fetchKoTitlesFromWikipedia(enTitles: string[], signal: AbortSignal): Promise<Map<string, string>> {
   const result = new Map<string, string>()
   // 50개씩 분할 (Wikipedia API 제한)
   for (let i = 0; i < enTitles.length; i += 50) {
     const chunk = enTitles.slice(i, i + 50)
     const titles = chunk.map(t => t.replace(/ /g, "_")).join("|")
     const url = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(titles)}&prop=langlinks&lllang=ko&lllimit=500&format=json&formatversion=2`
-    try {
-      const res = await fetch(url, { headers: { "User-Agent": "FeelandnoteBot/1.0" } })
-      if (!res.ok) continue
-      const data = await res.json()
-      for (const page of data.query?.pages || []) {
-        if (page.missing || !page.langlinks?.length) continue
-        const koTitle = page.langlinks[0]?.title
-        if (koTitle) {
-          // Wikipedia 정규화된 제목 → 원본 매칭
-          const enTitle = chunk.find(
-            t => t.toLowerCase() === page.title?.replace(/_/g, " ").toLowerCase()
-          )
-          if (enTitle) result.set(enTitle, koTitle)
-        }
+    const data = await fetchMetadataJson<{ query?: { pages?: Array<{ missing?: boolean; title?: string; langlinks?: Array<{ title?: string }> }> } }>(url, signal)
+    for (const page of data.query?.pages || []) {
+      if (page.missing || !page.langlinks?.length) continue
+      const koTitle = page.langlinks[0]?.title
+      if (koTitle) {
+        // Wikipedia 정규화된 제목 → 원본 매칭
+        const enTitle = chunk.find(
+          t => t.toLowerCase() === page.title?.replace(/_/g, " ").toLowerCase()
+        )
+        if (enTitle) result.set(enTitle, koTitle)
       }
-    } catch { /* 실패 무시 */ }
+    }
   }
   return result
 }
 
-async function sparqlFetch(sparql: string) {
+async function sparqlFetch(sparql: string, signal: AbortSignal) {
   const url = `https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(sparql)}`
-  const res = await fetch(url, { headers: { "User-Agent": "FeelandnoteBot/1.0" } })
-  if (!res.ok) return []
-  const data = await res.json()
+  const data = await fetchMetadataJson<{ results?: { bindings?: Binding[] } }>(url, signal)
   return data.results?.bindings || []
 }
 
-export async function GET(req: NextRequest) {
-  const qid = req.nextUrl.searchParams.get("qid")
-  if (!qid || !/^Q\d+$/.test(qid)) {
-    return NextResponse.json({ error: "valid qid required" }, { status: 400 })
-  }
-
-  const cached = CACHE.get(qid)
-  if (cached && Date.now() - cached.ts < CACHE_TTL) {
-    return NextResponse.json({ works: cached.data })
-  }
-
-  try {
+async function loadWorks(qid: string, signal: AbortSignal): Promise<WorkItem[]> {
     // ── 1단계: 작품 목록 + 기본 속성 ──
     const listSparql = `SELECT ?work ?workLabel ?workLabelKo ?date ?type ?prop WHERE {
       { wd:${qid} wdt:P800 ?work . BIND("P800" AS ?prop) }
@@ -132,7 +118,7 @@ export async function GET(req: NextRequest) {
       SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
     }`
 
-    const bindings = await sparqlFetch(listSparql)
+    const bindings = await sparqlFetch(listSparql, signal)
 
     // 그룹핑
     const workMap = new Map<string, {
@@ -202,7 +188,7 @@ export async function GET(req: NextRequest) {
           }
         }`
 
-        const detailBindings = await sparqlFetch(detailSparql)
+        const detailBindings = await sparqlFetch(detailSparql, signal)
 
         for (const b of detailBindings) {
           const wid = b.work?.value?.split("/").pop() || ""
@@ -227,7 +213,7 @@ export async function GET(req: NextRequest) {
     // ── 2.5단계: ko 라벨 없는 작품 → Wikipedia 인터위키로 한국어 제목 보강 ──
     const needsKo = worksBase.filter(w => !w.ko)
     if (needsKo.length > 0) {
-      const koTitleMap = await fetchKoTitlesFromWikipedia(needsKo.map(w => w.en))
+      const koTitleMap = await fetchKoTitlesFromWikipedia(needsKo.map(w => w.en), signal)
       for (const w of needsKo) {
         const koTitle = koTitleMap.get(w.en)
         if (koTitle) w.ko = koTitle
@@ -267,11 +253,22 @@ export async function GET(req: NextRequest) {
       }
     })
 
-    CACHE.set(qid, { data: works, ts: Date.now() })
+  return works
+}
+
+export async function GET(req: NextRequest) {
+  const qid = req.nextUrl.searchParams.get("qid")
+  if (!qid || !/^Q\d{1,12}$/.test(qid)) {
+    return NextResponse.json({ error: "valid qid required" }, { status: 400 })
+  }
+  try {
+    const works = await readCachedWorks(qid, () => loadWorks(qid, AbortSignal.timeout(METADATA_LIMITS.timeoutMs)))
     return NextResponse.json({ works }, {
       headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' },
     })
-  } catch {
-    return NextResponse.json({ works: [], error: "fetch_error" })
+  } catch (error) {
+    return NextResponse.json({ works: [], error: "fetch_error" }, {
+      status: metadataErrorStatus(error), headers: { 'Cache-Control': 'no-store' },
+    })
   }
 }

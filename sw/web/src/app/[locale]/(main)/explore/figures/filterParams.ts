@@ -4,6 +4,7 @@ import type { FiguresFilterParams } from "./sections";
 import { parseExploreContentPresence } from "@/constants/celebContentPresence";
 import { DEFAULT_EXPLORE_PROFESSION } from "@/constants/celebProfessions";
 import { parseTrendCountry } from "@/constants/trendCountries";
+import { listingPage, listingPageSize, CELEB_LISTING_LIMITS } from "@/constants/celebListingPolicy";
 
 // URL searchParams에서 필터/정렬 값 파싱
 function parseParam(params: Record<string, string | string[] | undefined>, key: string): string | undefined {
@@ -25,9 +26,9 @@ export function parseFilterParams(params: Record<string, string | string[] | und
   const sortByRaw = parseParam(params, "sortBy");
   const sortBy = parseExploreSort(sortByRaw);
   const pageRaw = parseInt(parseParam(params, "page") || "1", 10);
-  const page = isNaN(pageRaw) || pageRaw < 1 ? 1 : pageRaw;
   const pageSizeRaw = parseInt(parseParam(params, "pageSize") || "24", 10);
-  const pageSize = [12, 24, 48, 96].includes(pageSizeRaw) ? pageSizeRaw : 24;
+  const pageSize = listingPageSize(pageSizeRaw);
+  const page = listingPage(pageRaw, pageSize);
   const parseYear = (v?: string) => {
     if (!v) return undefined;
     const year = parseInt(v, 10);
@@ -46,7 +47,7 @@ export function parseFilterParams(params: Record<string, string | string[] | und
     contentType: notAll(parseParam(params, "contentType")),
     contentPresence: parseExploreContentPresence(parseParam(params, "contentPresence"), parseParam(params, "tier")),
     gender: notAll(parseParam(params, "gender")),
-    search: parseParam(params, "search") || undefined,
+    search: parseParam(params, "search")?.slice(0, CELEB_LISTING_LIMITS.searchLength) || undefined,
     factionId: notAll(parseParam(params, "tagId")),
     birthYearMin: parseYear(parseParam(params, "byMin")),
     birthYearMax: parseYear(parseParam(params, "byMax")),
