@@ -1,0 +1,43 @@
+.root {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+  container-type: inline-size;
+}
+
+.fallback {
+  background: var(--color-bg-card);
+}
+
+/* 빈 사진 칸 대신, 누끼 인물을 받치는 조용한 초상 배경을 둔다. */
+.fallback::before {
+  content: "";
+  position: absolute;
+  inset: 10% 9% -12%;
+  border: 1px solid var(--color-line);
+  border-radius: 999px 999px 0 0;
+  background: linear-gradient(180deg, var(--color-bg-stone-light), var(--color-bg-card));
+}
+
+.avatarImage {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.monogram {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--color-text-secondary);
+  font-size: clamp(2.5rem, 22cqw, 6rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.emptyGlyph {
+  width: 32%;
+  height: 32%;
+}

@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import type { MythPerson } from "@/actions/home/mythTypes";
 import type { CelebCardImage } from "@/components/shared/CelebCard";
 import { CELEB_GRID_LAYOUT_PORTRAIT } from "@/components/shared/celebGridLayout";
+import PortraitCardImage from "@/components/shared/PortraitCardImage";
 import { mythLeadImage } from "./mythLeadImage";
 import { MYTH_LAYOUT as mythLayout } from "./mythLayout";
 
@@ -53,10 +54,7 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name, i
         const leadUrl = portraitMode
           ? (mythId ? mythLeadImage(person, mythId) : person.portraitUrl ?? person.imageUrl)
           : null;
-        const thumbUrl = portraitMode
-          ? (leadUrl ?? person.avatarUrl)
-          : (person.avatarUrl ?? person.portraitUrl ?? person.imageUrl);
-        const imgFit = portraitMode ? (leadUrl ? "object-cover object-top" : "object-contain") : "object-cover";
+        const thumbUrl = person.avatarUrl ?? person.portraitUrl ?? person.imageUrl;
         const title = person.title?.trim();
         return (
           <button
@@ -71,9 +69,12 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name, i
             className="group flex min-w-0 scroll-mt-24 flex-col rounded-xl text-center outline-none"
           >
             <span className={`relative ${portraitMode ? "aspect-[4/5]" : "aspect-square"} w-full overflow-hidden rounded-xl border bg-bg-card group-focus-visible:ring-2 group-focus-visible:ring-accent group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-bg-secondary ${selected ? "border-accent" : "border-white/10 group-hover:border-accent"}`}>
-              {thumbUrl ? (
-                <BlurDissolve key={thumbUrl} className="absolute inset-0"><CelebAvatarImage src={thumbUrl} alt="" draggable={false} className={`${imgFit} transition-transform duration-500 group-hover:scale-105`} style={{ filter: "none" }} /></BlurDissolve>
-              ) : (
+              {portraitMode && <PortraitCardImage portraitSrc={leadUrl} alternateSrc={person.portraitUrl ?? person.imageUrl}
+                avatarSrc={person.avatarUrl} name={person.name} decorative imageClassName="transition-transform duration-500 group-hover:scale-105" />}
+              {!portraitMode && thumbUrl && (
+                <BlurDissolve key={thumbUrl} className="absolute inset-0"><CelebAvatarImage src={thumbUrl} alt="" draggable={false} className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ filter: "none" }} /></BlurDissolve>
+              )}
+              {!portraitMode && !thumbUrl && (
                 <span aria-hidden className="flex h-full items-center justify-center text-2xl font-black text-accent">{person.name.slice(0, 1)}</span>
               )}
               {selected && <span className="absolute end-2 top-2 grid size-6 place-items-center rounded-full bg-accent text-bg-main"><Check size={15} aria-hidden /></span>}

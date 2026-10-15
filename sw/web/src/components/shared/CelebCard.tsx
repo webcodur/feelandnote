@@ -23,6 +23,7 @@ import type { Locale } from "@/types/locale";
 import { badgeStyles, quietBadgeStyles } from "./CelebCard.styles";
 import TrendMatchChip from "./TrendMatchChip";
 import CelebRealityLabel from "./CelebRealityLabel";
+import PortraitCardImage from "./PortraitCardImage";
 import { EXPLORE_CARD_CAPTION_HOVER, EXPLORE_CARD_FRAME_HOVER, EXPLORE_CARD_GLOW, EXPLORE_CARD_IMAGE_HOVER } from "./ExploreCard.styles";
 import styles from "./CelebCard.module.css";
 
@@ -117,19 +118,12 @@ export default function CelebCard({
     : isQuiet ? "group-hover:border-white/30" : "group-hover:border-accent/60";
   const frameEdge = `${isQuiet ? "border border-line bg-bg-card" : "border border-white/5 ring-1 ring-inset ring-white/5 shadow-inner"} ${frameHover}`;
   const usePortrait = isCard && imageMode === "portrait";
-  const portraitUrl = celebProfile?.portrait_url || null;
-  const hasPortrait = Boolean(portraitUrl);
-  /* 대표사진 보기는 4:5 원본 비율 그대로의 칸이라 정사각보다 크게 보인다.
-     사진이 없는 인물의 누끼 아바타는 긴 칸에서 옆이 잘리지 않게 contain으로 온전히 띄운다 */
+  // 대표사진·아바타 대체 카드 모두 같은 4:5 틀을 쓴다.
   const config = isCard
     ? { container: `${usePortrait ? "aspect-[4/5]" : "aspect-square"} w-full`, fallbackSize: 32 }
     : isCircle
       ? { container: "w-24 h-24", fallbackSize: 32 }
       : { container: "w-14 h-14 sm:w-16 sm:h-16", fallbackSize: 20 };
-  const imageSrc = usePortrait ? (portraitUrl ?? avatar_url) : avatar_url;
-  const imageFit: "cover" | "contain" = usePortrait && !hasPortrait ? "contain" : "cover";
-  // 화보 원본이 4:5에서 어긋날 때를 대비해 위를 붙여 얼굴을 살린다
-  const imageFitClass = usePortrait && hasPortrait ? "object-top" : "";
 
   return (
     <>
@@ -158,20 +152,23 @@ export default function CelebCard({
             style={isQuiet ? undefined : { background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)" }}
           >
             <div className={`absolute inset-0 overflow-hidden ${roundedClass}`}>
+              {usePortrait && <PortraitCardImage portraitSrc={celebProfile?.portrait_url} avatarSrc={avatar_url}
+                name={displayNickname} imageClassName={EXPLORE_CARD_IMAGE_HOVER} />}
+              {!usePortrait && <>
               <div
                 className="absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay"
                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
               />
               {!isQuiet && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-accent/20 blur-[20px] opacity-40 transition-[opacity,transform,background-color] duration-700 pointer-events-none mix-blend-screen group-hover:opacity-100 group-hover:scale-125 group-hover:bg-accent/40" />}
               <CelebImage
-                src={imageSrc}
+                src={avatar_url}
                 alt={displayNickname}
                 shape={isCard && shape === "square" ? "square" : "circle"}
-                maxPx={isCard && !usePortrait ? 300 : undefined}
-                fit={imageFit}
+                maxPx={isCard ? 300 : undefined}
                 fallbackSize={config.fallbackSize}
-                className={`z-10 relative ${imageFitClass} ${isQuiet ? "drop-shadow-sm" : "[filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))]"} ${EXPLORE_CARD_IMAGE_HOVER}`}
+                className={`z-10 relative ${isQuiet ? "drop-shadow-sm" : "[filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))]"} ${EXPLORE_CARD_IMAGE_HOVER}`}
               />
+              </>}
               {/* 올린 카드가 한눈에 보이게 — 사진 아래에서 금빛이 차오른다. 즉시 반응이라 전환을 걸지 않는다 */}
               {emphasize && <span aria-hidden className={EXPLORE_CARD_GLOW} />}
             </div>
