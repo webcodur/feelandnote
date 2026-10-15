@@ -10,14 +10,30 @@
   background: var(--color-bg-card);
 }
 
-/* 빈 사진 칸 대신, 누끼 인물을 받치는 조용한 초상 배경을 둔다. */
+/* 대체 아바타는 여백 안의 작은 초상으로 두어 실제 사진보다 두드러지지 않게 한다. */
 .fallback::before {
   content: "";
   position: absolute;
-  inset: 10% 9% -12%;
+  inset: 0;
+  width: 72%;
+  max-width: 144px;
+  aspect-ratio: 1;
+  margin: auto;
   border: 1px solid var(--color-line);
-  border-radius: 999px 999px 0 0;
+  border-radius: 50%;
   background: linear-gradient(180deg, var(--color-bg-stone-light), var(--color-bg-card));
+}
+
+.avatarMedia {
+  position: absolute;
+  inset: 0;
+  width: 76%;
+  height: 61%;
+  max-width: 152px;
+  max-height: 152px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 50%;
 }
 
 .avatarImage {
@@ -31,7 +47,7 @@
   display: grid;
   place-items: center;
   color: var(--color-text-secondary);
-  font-size: clamp(2.5rem, 22cqw, 6rem);
+  font-size: clamp(1.5rem, 18cqw, 3rem);
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.04em;

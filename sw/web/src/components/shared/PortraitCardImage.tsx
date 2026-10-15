@@ -39,7 +39,7 @@ export default function PortraitCardImage({ portraitSrc, alternateSrc, avatarSrc
   return (
     <div className={cn(styles.root, kind !== "photo" && styles.fallback)} data-portrait-source={kind}>
       {src && (
-        <BlurDissolve key={src} className="absolute inset-0">
+        <BlurDissolve key={src} className={kind === "photo" ? "absolute inset-0" : styles.avatarMedia}>
           <CelebAvatarImage src={src} alt={decorative ? "" : name} draggable={false} onError={onError}
             className={cn(kind === "photo" ? "object-cover object-top" : styles.avatarImage, imageClassName)} />
         </BlurDissolve>
