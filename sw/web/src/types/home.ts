@@ -53,6 +53,7 @@ export interface CelebProfile {
   nickname: string
   nickname_en: string | null
   avatar_url: string | null
+  portrait_url?: string | null  // 4:5 대표사진 — 탐색 카드의 사진 보기에서 쓴다
   profession: string | null
   title: string | null  // 수식어 (예: 테슬라 설립, 철의 여인)
   title_en: string | null

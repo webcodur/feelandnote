@@ -183,6 +183,7 @@ interface CelebRow {
   nickname: string | null
   nickname_en: string | null
   avatar_url: string | null
+  portrait_url: string | null
   profession: string | null
   title: string | null
   title_en: string | null
@@ -537,11 +538,12 @@ const getCelebsCached = unstable_cache(
   fetchCelebsPublicOnce,
   // 반환 모양이 바뀌면 반드시 버전을 올린다. 배포 간 영속 캐시가 구형 필드를 되돌려줄 수 있다.
   // v11: 접속 국가와 일일 날짜를 추천 캐시 키에 포함한다.
-  ['celebs-public-v12-contemporary-recommend'],
+  // v13: 행에 portrait_url을 실어 카드의 사진 보기가 쓴다.
+  ['celebs-public-v13-card-portrait'],
   // celebs·celeb_influence(정렬/랭킹) + faction_member_rows·faction_lv2 + celeb_dialogues +
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
-    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v12-contemporary-recommend']),
+    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v13-card-portrait']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )
@@ -549,9 +551,9 @@ const getCelebsCached = unstable_cache(
 // 인기(trending)만 따로 감싼다 — 30일 창 순위를 7일 캐시에 묶으면 한 주 내내 같은 순위가 나온다
 const getCelebsTrendingCached = unstable_cache(
   fetchCelebsPublicOnce,
-  ['celebs-public-trending-v7-name-search'],
+  ['celebs-public-trending-v8-card-portrait'],
   {
-    revalidate: spreadRevalidate(LIST_REVALIDATE, ['celebs-public-trending-v7-name-search']),
+    revalidate: spreadRevalidate(LIST_REVALIDATE, ['celebs-public-trending-v8-card-portrait']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )
@@ -685,6 +687,7 @@ async function getCelebsResult(params: GetCelebsParams): Promise<GetCelebsResult
       nickname: row.nickname || '',
       nickname_en: row.nickname_en ?? null,
       avatar_url: row.avatar_url,
+      portrait_url: row.portrait_url ?? null,
       profession: row.profession,
       title: row.title,
       title_en: row.title_en ?? null,

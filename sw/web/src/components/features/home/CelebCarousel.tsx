@@ -5,8 +5,8 @@ import { Search, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import { Pagination } from "@/components/ui";
-import CelebCard from "@/components/shared/CelebCard";
-import { CELEB_GRID_LAYOUT } from "@/components/shared/celebGridLayout";
+import CelebCard, { type CelebCardImage } from "@/components/shared/CelebCard";
+import { CELEB_GRID_LAYOUT, CELEB_GRID_LAYOUT_PORTRAIT } from "@/components/shared/celebGridLayout";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
@@ -73,6 +73,8 @@ export default function CelebCarousel({
   });
 
   const [isControlsExpanded, setIsControlsExpanded] = useState(true);
+  // 카드 사진 보기 방식 — 아바타(누끼) ↔ 대표사진(4:5 화보). 명부 조회가 아닌 표시 상태다.
+  const [cardImage, setCardImage] = useState<CelebCardImage>("avatar");
   // 카드를 누르면 상세로 가지 않고 요약 모달 — 목록 위치를 쥐어 ‹ › 넘김도 둔다
   const [previewId, setPreviewId] = useState<string | null>(null);
   const previewIndex = previewId ? filters.celebs.findIndex((c) => c.id === previewId) : -1;
@@ -108,6 +110,7 @@ export default function CelebCarousel({
       {/* 구획 제목·목차는 탐색 페이지(AtlasNavSections·HubSection)가 쥔다. 명부 규모는 결과 수 옆에서 보인다. */}
       {syncToUrl ? (
         <CelebCompactControls filters={filters} onInteraction={onFilterInteraction}
+          cardImage={cardImage} onCardImageChange={setCardImage}
           // 전체 명부 수와 현재 조건에 맞는 결과 수 — 조작 아래 한 줄(검색 급증 안내 옆)에 선다
           resultLabel={realityTotals ? tHub("archiveResults", { count: filters.total, total: realityTotals[filters.realityValue] }) : tExplore("totalCount", { count: filters.total })} />
       ) : (
@@ -229,7 +232,7 @@ export default function CelebCarousel({
           {filters.isLoading && filters.celebs.length === 0 && <GridSkeleton />}
           {filters.celebs.length > 0 && (
             <>
-              <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} quiet={syncToUrl} showInfluence={filters.sortBy === "influence"} onSelect={handlePreviewChange} />
+              <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} quiet={syncToUrl} showInfluence={filters.sortBy === "influence"} onSelect={handlePreviewChange} imageMode={cardImage} />
               <div className="mt-8">
                 <Pagination
                   presentation={syncToUrl ? "quiet" : "default"}
@@ -293,13 +296,14 @@ function GridSkeleton() {
 // #endregion
 
 /** 탐색 인물 격자. children은 마지막 카드 뒤 칸으로 붙는다(예: 세력도감 테마 칸의 「더 보기」) */
-export function CelebGrid({ celebs, isLoading, quiet = false, showInfluence = false, onSelect, children }: { celebs: CelebProfile[]; isLoading: boolean; quiet?: boolean; showInfluence?: boolean; /** 카드를 누르면 상세 이동 대신 부른다 */ onSelect?: (id: string) => void; children?: React.ReactNode }) {
+export function CelebGrid({ celebs, isLoading, quiet = false, showInfluence = false, onSelect, imageMode, children }: { celebs: CelebProfile[]; isLoading: boolean; quiet?: boolean; showInfluence?: boolean; /** 카드를 누르면 상세 이동 대신 부른다 */ onSelect?: (id: string) => void; imageMode?: CelebCardImage; children?: React.ReactNode }) {
   const { handleSubtitle } = useDialogueSubtitle();
   const loadingClass = isLoading ? "opacity-50 pointer-events-none" : "";
+  const gridLayout = imageMode === "portrait" ? CELEB_GRID_LAYOUT_PORTRAIT : CELEB_GRID_LAYOUT;
 
   return (
     <>
-      <div className={`${CELEB_GRID_LAYOUT} gap-y-2 md:gap-y-6 ${loadingClass}`}>
+      <div className={`${gridLayout} gap-y-2 md:gap-y-6 ${loadingClass}`}>
         {celebs.map((celeb) => (
           <CelebCard
             key={celeb.id}
@@ -314,6 +318,7 @@ export function CelebGrid({ celebs, isLoading, quiet = false, showInfluence = fa
             presentation={quiet ? "quiet" : "default"}
             showInfluence={showInfluence}
             onSelect={onSelect}
+            imageMode={imageMode}
             // 탐색·세력도감 인물 격자 — 늘어선 카드 중 올린 카드가 한눈에 보이게 한다
             emphasizeHover
             onSubtitle={handleSubtitle}

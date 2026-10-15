@@ -13,6 +13,8 @@ import { useCelebDetailConditions } from "./useCelebDetailConditions";
 import { SORT_VALUES, type useCelebFilters } from "./useCelebFilters";
 import type { CelebSortBy } from "@/actions/home";
 import CelebDetailFiltersModal from "./CelebDetailFiltersModal";
+import CardImageToggle from "@/components/shared/CardImageToggle";
+import type { CelebCardImage } from "@/components/shared/CelebCard";
 import ExploreSearchControls, { EXPLORE_CONTROL_CHANGED_CLASS, EXPLORE_CONTROL_CLASS as controlClass, EXPLORE_PANEL_CLASS } from "@/components/shared/ExploreSearchControls";
 
 const Modal = dynamic(() => import("@/components/ui/Modal"));
@@ -22,9 +24,12 @@ interface Props {
   onInteraction?: () => void;
   /** 결과 수 문구 — 주면 조작 아래 한 줄에 검색 급증 안내와 나란히 선다 */
   resultLabel?: string;
+  /** 카드 사진 보기 방식 — 주면 조작 줄에 아바타·대표사진 전환 단추를 단다 */
+  cardImage?: CelebCardImage;
+  onCardImageChange?: (mode: CelebCardImage) => void;
 }
 
-export default function CelebCompactControls({ filters, onInteraction, resultLabel }: Props) {
+export default function CelebCompactControls({ filters, onInteraction, resultLabel, cardImage, onCardImageChange }: Props) {
   const t = useTranslations("home.ui");
   const getNationality = useNationalityLabel();
   const locale = useLocale();
@@ -48,7 +53,8 @@ export default function CelebCompactControls({ filters, onInteraction, resultLab
       <ExploreSearchControls value={filters.search} placeholder={t("searchPlaceholder")} searchLabel={t("searchButton")}
         clearLabel={t("compactFilters.remove", { label: filters.search })} disabled={filters.isLoading}
         onChange={filters.handleSearchInput} onSubmit={() => { onInteraction?.(); filters.handleSearchSubmit(); }}
-        onClear={() => { onInteraction?.(); filters.handleSearchClear(); }}>
+        onClear={() => { onInteraction?.(); filters.handleSearchClear(); }}
+        trailingControl={cardImage && onCardImageChange && <CardImageToggle mode={cardImage} onChange={onCardImageChange} />}>
         <button type="button" onClick={() => setOpen("works")} disabled={filters.isLoading}
           aria-label={`${t("filterContentPresence")}: ${t(`contentPresence.${filters.contentPresence}`)}`} aria-haspopup="dialog"
           title={`${t("filterContentPresence")}: ${t(`contentPresence.${filters.contentPresence}`)}`}

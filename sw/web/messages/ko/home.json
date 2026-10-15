@@ -199,6 +199,13 @@
         "empty": "추가로 선택한 필터가 없습니다.",
         "apply": "적용하기"
       },
+      "cardImage": {
+        "label": "보기",
+        "modes": {
+          "avatar": "아바타",
+          "portrait": "대표사진"
+        }
+      },
       "trends": {
         "country": "트렌드 기준 국가",
         "loading": "트렌드를 불러오고 있습니다.",

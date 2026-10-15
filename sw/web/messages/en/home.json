@@ -199,6 +199,13 @@
         "empty": "No additional filters selected.",
         "apply": "Apply filters"
       },
+      "cardImage": {
+        "label": "View",
+        "modes": {
+          "avatar": "Avatar",
+          "portrait": "Portrait"
+        }
+      },
       "trends": {
         "country": "Trend country",
         "loading": "Loading trends...",

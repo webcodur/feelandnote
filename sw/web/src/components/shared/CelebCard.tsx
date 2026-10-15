@@ -28,6 +28,8 @@ import styles from "./CelebCard.module.css";
 
 type Variant = "card" | "circle" | "medallion";
 type CardShape = "circle" | "square";
+/** 카드 사진으로 쓸 원천 — 아바타(배경 제거) | 대표사진(4:5 화보) */
+export type CelebCardImage = "avatar" | "portrait";
 
 interface CelebCardProps {
   id: string;
@@ -54,6 +56,8 @@ interface CelebCardProps {
   emphasizeHover?: boolean;
   /** 영향력 정렬에서만 사진 윤곽과 작은 랭크·점수를 표시한다. */
   showInfluence?: boolean;
+  /** card variant 전용: portrait이면 대표사진을 쓰고 없는 인물은 아바타로 돌아간다. */
+  imageMode?: CelebCardImage;
 }
 
 export default function CelebCard({
@@ -73,6 +77,7 @@ export default function CelebCard({
   onSelect,
   emphasizeHover = false,
   showInfluence = false,
+  imageMode = "avatar",
 }: CelebCardProps) {
   const t = useTranslations("shared.celeb");
   const tCeleb = useTranslations("celebPage");
@@ -111,11 +116,20 @@ export default function CelebCard({
     ? EXPLORE_CARD_FRAME_HOVER
     : isQuiet ? "group-hover:border-white/30" : "group-hover:border-accent/60";
   const frameEdge = `${isQuiet ? "border border-line bg-bg-card" : "border border-white/5 ring-1 ring-inset ring-white/5 shadow-inner"} ${frameHover}`;
+  const usePortrait = isCard && imageMode === "portrait";
+  const portraitUrl = celebProfile?.portrait_url || null;
+  const hasPortrait = Boolean(portraitUrl);
+  /* 대표사진 보기는 4:5 원본 비율 그대로의 칸이라 정사각보다 크게 보인다.
+     사진이 없는 인물의 누끼 아바타는 긴 칸에서 옆이 잘리지 않게 contain으로 온전히 띄운다 */
   const config = isCard
-    ? { container: "aspect-square w-full", fallbackSize: 32 }
+    ? { container: `${usePortrait ? "aspect-[4/5]" : "aspect-square"} w-full`, fallbackSize: 32 }
     : isCircle
       ? { container: "w-24 h-24", fallbackSize: 32 }
       : { container: "w-14 h-14 sm:w-16 sm:h-16", fallbackSize: 20 };
+  const imageSrc = usePortrait ? (portraitUrl ?? avatar_url) : avatar_url;
+  const imageFit: "cover" | "contain" = usePortrait && !hasPortrait ? "contain" : "cover";
+  // 화보 원본이 4:5에서 어긋날 때를 대비해 위를 붙여 얼굴을 살린다
+  const imageFitClass = usePortrait && hasPortrait ? "object-top" : "";
 
   return (
     <>
@@ -150,12 +164,13 @@ export default function CelebCard({
               />
               {!isQuiet && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-accent/20 blur-[20px] opacity-40 transition-[opacity,transform,background-color] duration-700 pointer-events-none mix-blend-screen group-hover:opacity-100 group-hover:scale-125 group-hover:bg-accent/40" />}
               <CelebImage
-                src={avatar_url}
+                src={imageSrc}
                 alt={displayNickname}
                 shape={isCard && shape === "square" ? "square" : "circle"}
-                maxPx={isCard ? 300 : undefined}
+                maxPx={isCard && !usePortrait ? 300 : undefined}
+                fit={imageFit}
                 fallbackSize={config.fallbackSize}
-                className={`z-10 relative ${isQuiet ? "drop-shadow-sm" : "[filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))]"} ${EXPLORE_CARD_IMAGE_HOVER}`}
+                className={`z-10 relative ${imageFitClass} ${isQuiet ? "drop-shadow-sm" : "[filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))]"} ${EXPLORE_CARD_IMAGE_HOVER}`}
               />
               {/* 올린 카드가 한눈에 보이게 — 사진 아래에서 금빛이 차오른다. 즉시 반응이라 전환을 걸지 않는다 */}
               {emphasize && <span aria-hidden className={EXPLORE_CARD_GLOW} />}

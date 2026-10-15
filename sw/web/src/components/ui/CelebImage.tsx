@@ -22,6 +22,8 @@ interface CelebImageProps {
   className?: string;
   /** 블러 디졸브 등장 효과. 기본 켜짐 — 끌 곳에서만 false */
   dissolve?: boolean;
+  /** 채움 방식. 기본 cover — 배경 없는 누끼를 비율이 다른 큰 칸에 띄울 때 contain으로 온전히 보인다 */
+  fit?: "cover" | "contain";
 }
 
 export default function CelebImage({
@@ -32,6 +34,7 @@ export default function CelebImage({
   fallbackSize = 32,
   className = "",
   dissolve = true,
+  fit = "cover",
 }: CelebImageProps) {
   const shapeClass = shape === "circle" ? "rounded-full" : "rounded-lg";
   const maxStyle = maxPx
@@ -50,7 +53,7 @@ export default function CelebImage({
     <CelebAvatarImage
       src={src}
       alt={alt}
-      className={`object-cover ${shapeClass} ${className}`}
+      className={`${fit === "contain" ? "object-contain" : "object-cover"} ${shapeClass} ${className}`}
     />
   );
 

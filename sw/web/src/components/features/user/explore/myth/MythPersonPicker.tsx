@@ -7,6 +7,9 @@ import { useCallback, useRef, useState } from "react";
 import { ChevronDown, ChevronsUp, Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { MythPerson } from "@/actions/home/mythTypes";
+import type { CelebCardImage } from "@/components/shared/CelebCard";
+import { CELEB_GRID_LAYOUT_PORTRAIT } from "@/components/shared/celebGridLayout";
+import { mythLeadImage } from "./mythLeadImage";
 import { MYTH_LAYOUT as mythLayout } from "./mythLayout";
 
 interface Props {
@@ -14,14 +17,19 @@ interface Props {
   selectedId: string | null;
   onSelect: (id: string) => void;
   name: string;
+  /** portrait이면 신화 전용 개인샷→대표사진 차례로 쓰고 칸을 4:5로 키운다. 사진 없는 인물은 아바타로 돌아간다 */
+  imageMode?: CelebCardImage;
+  /** 대표사진 보기에서 이 편의 전용 개인샷을 먼저 고를 때 쓰는 신화·세력 id */
+  mythId?: string;
 }
 
 /* 접힌 목록이 보여 주는 인원 */
 const COLLAPSED_COUNT = 12;
 
 // 카드 수식어는 인물의 정식 title만 두 줄까지 쓴다. 팩션 등장 설명·bio는 상세에서 읽는다.
-export default function MythPersonPicker({ people, selectedId, onSelect, name }: Props) {
+export default function MythPersonPicker({ people, selectedId, onSelect, name, imageMode = "avatar", mythId }: Props) {
   const t = useTranslations("explore.hub.myth");
+  const portraitMode = imageMode === "portrait";
   /* 긴 명단은 첫 묶음만 보여 주고 아래 책장이 보이게 한다 — 모두 보기로 전원을 펼친다 */
   const [expanded, setExpanded] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -37,10 +45,18 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name }:
 
   return (
     <section ref={sectionRef} aria-label={name} className="scroll-mt-24">
-      <div role="group" aria-label={name} className={mythLayout.memberList}>
+      <div role="group" aria-label={name}
+        className={portraitMode ? `${CELEB_GRID_LAYOUT_PORTRAIT} items-start gap-y-6 md:gap-y-7` : mythLayout.memberList}>
       {visible.map((person) => {
         const selected = selectedId === person.id;
-        const thumbUrl = person.avatarUrl ?? person.portraitUrl ?? person.imageUrl;
+        // 대표사진 보기 — 이 편 전용 개인샷과 인물 화보를 아바타보다 먼저 쓴다(mythLeadImage)
+        const leadUrl = portraitMode
+          ? (mythId ? mythLeadImage(person, mythId) : person.portraitUrl ?? person.imageUrl)
+          : null;
+        const thumbUrl = portraitMode
+          ? (leadUrl ?? person.avatarUrl)
+          : (person.avatarUrl ?? person.portraitUrl ?? person.imageUrl);
+        const imgFit = portraitMode ? (leadUrl ? "object-cover object-top" : "object-contain") : "object-cover";
         const title = person.title?.trim();
         return (
           <button
@@ -54,9 +70,9 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name }:
             onClick={() => onSelect(person.id)}
             className="group flex min-w-0 scroll-mt-24 flex-col rounded-xl text-center outline-none"
           >
-            <span className={`relative aspect-square w-full overflow-hidden rounded-xl border bg-bg-card group-focus-visible:ring-2 group-focus-visible:ring-accent group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-bg-secondary ${selected ? "border-accent" : "border-white/10 group-hover:border-accent"}`}>
+            <span className={`relative ${portraitMode ? "aspect-[4/5]" : "aspect-square"} w-full overflow-hidden rounded-xl border bg-bg-card group-focus-visible:ring-2 group-focus-visible:ring-accent group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-bg-secondary ${selected ? "border-accent" : "border-white/10 group-hover:border-accent"}`}>
               {thumbUrl ? (
-                <BlurDissolve key={thumbUrl} className="absolute inset-0"><CelebAvatarImage src={thumbUrl} alt="" draggable={false} className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ filter: "none" }} /></BlurDissolve>
+                <BlurDissolve key={thumbUrl} className="absolute inset-0"><CelebAvatarImage src={thumbUrl} alt="" draggable={false} className={`${imgFit} transition-transform duration-500 group-hover:scale-105`} style={{ filter: "none" }} /></BlurDissolve>
               ) : (
                 <span aria-hidden className="flex h-full items-center justify-center text-2xl font-black text-accent">{person.name.slice(0, 1)}</span>
               )}

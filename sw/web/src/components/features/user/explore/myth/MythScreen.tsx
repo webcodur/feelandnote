@@ -8,6 +8,8 @@ import type { MythData, MythPerson, MythWork } from "@/actions/home/mythTypes";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import AtlasNavigation from "./AtlasNavigation";
 import AtlasMemberControls from "./AtlasMemberControls";
+import CardImageToggle from "@/components/shared/CardImageToggle";
+import type { CelebCardImage } from "@/components/shared/CelebCard";
 import AtlasPicker from "./AtlasPicker";
 import { buildMythNavigation } from "@/lib/atlas-navigation";
 import { ATLAS_GROUP_PARAM, ATLAS_PERSON_PARAM, type AtlasSelection, type AtlasTheme } from "./atlasNavigationData";
@@ -95,6 +97,8 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(requestedPerson);
   const [appliedPerson, setAppliedPerson] = useState(requestedPerson);
   const [groupOverviewOpen, setGroupOverviewOpen] = useState(false);
+  // 구성원 사진 보기 — 아바타(누끼) ↔ 대표사진(신화 전용샷·4:5 화보). 표시 상태라 주소에 싣지 않는다.
+  const [cardImage, setCardImage] = useState<CelebCardImage>("avatar");
   const closeGroupOverview = useCallback(() => setGroupOverviewOpen(false), []);
   // 선택 창의 임시 값은 확정 전까지 본문에 적용하지 않는다.
   const [pickerLevel, setPickerLevel] = useState<number | null>(null);
@@ -301,14 +305,17 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
           <div className={layout.membersOuter}>
             <HubSection id="atlas-members" title={`${memberTitle} (${t("groupMemberCount", { count: railPeople.length })})`}
               headerActions={
-                <AtlasMemberControls disabled={groupChoices.length < 2} open={groupOverviewOpen}
-                  onStep={stepGroup} onOpen={() => setGroupOverviewOpen(true)} />
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <AtlasMemberControls disabled={groupChoices.length < 2} open={groupOverviewOpen}
+                    onStep={stepGroup} onOpen={() => setGroupOverviewOpen(true)} />
+                  <CardImageToggle mode={cardImage} onChange={setCardImage} />
+                </div>
               }
               index={1} total={sectionTotal} groupId={navGroupId}>
               <div className={layout.container}>
                 <MythPersonPicker key={`${activeMyth.id}-${activeGroup?.id ?? "all"}`}
                   people={railPeople} selectedId={selectedPersonId} onSelect={setSelectedPersonId}
-                  name={memberTitle} />
+                  name={memberTitle} imageMode={cardImage} mythId={activeMyth.id} />
               </div>
             </HubSection>
           </div>
