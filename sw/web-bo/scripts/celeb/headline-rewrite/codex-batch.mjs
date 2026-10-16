@@ -102,7 +102,7 @@ async function fetchTargets() {
   for (let from = 0; ; from += 1000) {
     const { data, error } = await client.from('celebs')
       .select('id, slug, nickname, headline, headline_en, title, bio')
-      .neq('publication_status', 'deleted').order('id').range(from, from + 999)
+      .order('id').range(from, from + 999)
     if (error) throw new Error(error.message)
     rows.push(...(data ?? []))
     if (!data || data.length < 1000) break

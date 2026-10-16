@@ -185,6 +185,41 @@ test('viewer state restores saved reactions alongside the existing review', asyn
   assert.equal(result.userRecord.isSpoiler, true)
 })
 
+test('a saved film introduction does not suppress fresh runtime, release date and stills or block first paint', async () => {
+  const row = { id, type: 'VIDEO', external_id: 'tmdb-movie-3082', external_source: 'tmdb',
+    metadata: { screenshots: ['old-still'], voteAverage: 7 }, description: 'Saved introduction',
+    content_locales: [{ locale: 'en', title: 'Modern Times', description: 'Saved introduction' }] }
+  const query = { select: () => query, eq: () => query, maybeSingle: async () => ({ data: row, error: null }) }
+  let calls = 0
+  const api = load<{ getInitialPublicContentInfo: (id: string, locale: string) => Promise<Record<string, unknown>>;
+    getPublicContentInfo: (id: string, locale: string) => Promise<Record<string, unknown>> }>('./getContentDetail.ts', {
+    '@/lib/db/static': { createStaticClient: () => ({ from: () => query }) },
+    '@/lib/db/server': {}, './getContentById': {}, './getReviewFeed': {}, '@/actions/user': {},
+    '@/actions/figure-books/getFigureBooks': {}, '@/actions/library/curated': {}, 'next-intl/server': {},
+    '@/actions/figure-books/figureBookEditions': {}, '@/actions/figure-books/figureBookLocale': {},
+    '@/lib/developer-mode': { isDeveloperMode: () => false },
+    '@/lib/cache': { cachedDetail: (_tag: string, _id: string, _keys: string[], read: () => unknown) => read(), throwOnQueryError: () => {} },
+    '@/lib/utils/content-locale': { CL_SELECT: '*', flattenLocales: () => ({ title: 'Modern Times', description: 'Saved introduction' }) },
+    '@/lib/utils/content-locale-text': localeText, '@/lib/utils/book-description': {},
+    '@/lib/books/contentEdition': {}, '@/lib/books/amazonBookSearch': {}, './fetchBookMetadata': {},
+    './fetchContentMetadata': { fetchContentMetadata: async (_id: string, _type: string, _source: string, locale: string) => {
+      calls++; assert.equal(locale, 'en');
+      return { source: 'tmdb', metadata: { releaseDate: '1936-02-05', runtime: 87, screenshots: ['fresh-still'], voteAverage: 8.3 } }
+    } },
+  })
+  const initial = await api.getInitialPublicContentInfo(id, 'en')
+  assert.equal(calls, 0)
+  assert.equal(initial.enrichmentPending, true)
+  const complete = await api.getPublicContentInfo(id, 'en')
+  assert.equal(calls, 1)
+  assert.equal(complete.description, 'Saved introduction')
+  assert.equal(complete.releaseDate, '1936-02-05')
+  const metadata = complete.metadata as Record<string, unknown>
+  assert.equal(metadata.runtime, 87)
+  assert.equal(metadata.voteAverage, 8.3)
+  assert.deepEqual(metadata.screenshots, ['fresh-still'])
+})
+
 type Element = { type: (props: Record<string, unknown>) => Promise<Element> | Element; props: Record<string, unknown> }
 const pending = { PendingBlock: () => null, RetryBlock: () => null }
 
@@ -224,7 +259,7 @@ test('a failed review query produces a retry section instead of breaking the pag
   assert.equal(result.type, pending.RetryBlock)
 })
 
-test('content page renders its stable information shell without waiting for section data', async () => {
+test('external content page renders its stable information shell without waiting for section data', async () => {
   let reads = 0
   const Detail = () => null
   const api = load<{ default: (props: object) => Promise<Element> }>('../../app/[locale]/(main)/content/[contentId]/page.tsx', {
@@ -237,7 +272,8 @@ test('content page renders its stable information shell without waiting for sect
     './ContentDetailSections': { ContentRelatedSections: () => null, ContentReviewsSection: () => null },
     '@/components/ui/pending/Lane': () => null,
   })
-  const shell = await api.default({ params: Promise.resolve({ locale: 'ko', contentId: id }) })
+  // UUID는 404 여부를 먼저 확인한다. 외부 검색 ID의 지연 렌더를 검증한다.
+  const shell = await api.default({ params: Promise.resolve({ locale: 'ko', contentId: 'tmdb-movie-3082' }) })
   assert.equal(reads, 0)
   const child = shell.props.children as Element
   const result = await child.type(child.props)

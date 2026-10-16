@@ -1,41 +1,22 @@
 "use client";
 import { useTranslations } from "next-intl";
 import { Disc } from "lucide-react";
-import ContentImage from "@/components/ui/ContentImage";
 import DecorativeLabel from "@/components/ui/DecorativeLabel";
-import CreatorNames from "@/components/shared/content/creatorLink/CreatorNames";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 import type { ContentMetadata } from "@/types/content";
+import { getContentGalleryImages } from "@/lib/contentBanner";
 import MediaEmbed from "./MediaEmbed";
+import ContentImageGallery from "./ContentImageGallery";
+import ContentVideoPeople from "./ContentVideoPeople";
 
 export default function ContentMediaDetails({ content }: { content: ContentDetailData["content"] }) {
   const t = useTranslations("contentDetail");
   const metadata = content.metadata as unknown as ContentMetadata | null;
   const isMovieOrTv = content.type === "VIDEO";
+  const images = getContentGalleryImages(content.type, metadata);
+  const galleryLabel = t(isMovieOrTv ? "stills" : "screenshots");
   return <div className="space-y-6">
-      <MediaEmbed contentId={content.id} type={content.type} />
-
-      {/* 영상 전용: 출연진 (Cast) 캡슐 칩 리스트 */}
-      {isMovieOrTv && metadata?.cast && metadata.cast.length > 0 && (
-        <div className="space-y-2.5 pt-2 border-t border-white/[0.06]">
-          <DecorativeLabel label={t("cast")} />
-          <div className="flex flex-wrap gap-1.5 sm:gap-2">
-            {metadata.cast.map((actor, idx) => {
-              const displayName = actor.character
-                ? `${actor.name} (${actor.character})`
-                : actor.name;
-              return (
-                <div
-                  key={idx}
-                  className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-lg bg-white/[0.035] border border-white/[0.08] hover:bg-white/[0.07] hover:border-white/20 text-xs text-text-primary"
-                >
-                  <CreatorNames text={displayName} />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      {isMovieOrTv && <ContentVideoPeople key={content.id} externalId={content.externalId || content.id} fallback={metadata?.cast} />}
 
       {/* 음악 전용: 트랙 목록 */}
       {content.type === "MUSIC" && metadata?.tracks && metadata.tracks.length > 0 && (
@@ -64,28 +45,7 @@ export default function ContentMediaDetails({ content }: { content: ContentDetai
         </div>
       )}
 
-      {/* 게임 전용: 스크린샷 갤러리 */}
-      {content.type === "GAME" && metadata?.screenshots && metadata.screenshots.length > 0 && (
-        <div className="space-y-2.5 pt-2 border-t border-white/[0.06]">
-          <DecorativeLabel label={t("screenshots")} />
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            {metadata.screenshots.map((url, i) => (
-              <div
-                key={i}
-                className="relative aspect-video rounded-xl overflow-hidden border border-white/10 group shadow-md"
-              >
-                <ContentImage
-                  src={url}
-                  alt={`Screenshot ${i + 1}`}
-                  sizes="(max-width: 640px) 50vw, 33vw"
-                  className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-
+      <ContentImageGallery key={content.id} images={images} title={content.title} label={galleryLabel} />
+      <MediaEmbed contentId={content.id} type={content.type} />
   </div>;
 }

@@ -27,6 +27,8 @@ interface ImageViewerModalProps {
   onClose: () => void;
   /** 그림이 그린 순간을 적은 한 줄. 넘기지 않으면 아무것도 그리지 않는다 */
   caption?: string | null;
+  /** 인물 이름처럼 사진을 가리면 안 되는 짧은 표시는 아래에 분리한다. */
+  captionPlacement?: "overlay" | "below";
   /** 넘길 이전·다음 그림이 있을 때 ‹ › 버튼과 최소 배율 가로 밀기가 켜진다 */
   onPrev?: () => void;
   onNext?: () => void;
@@ -46,6 +48,7 @@ export default function ImageViewerModal({
   isOpen,
   onClose,
   caption,
+  captionPlacement = "overlay",
   onPrev,
   onNext,
   renderCaption,
@@ -54,6 +57,7 @@ export default function ImageViewerModal({
   zIndex = Z_INDEX.top,
 }: ImageViewerModalProps) {
   const t = useTranslations("shared.ui.imageViewer");
+  const captionBelow = Boolean(caption) && captionPlacement === "below";
   // scale은 transform-origin이 중앙인 상태의 배율, x·y는 그 중앙 기준 이동량
   const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
   /* 일반 뷰어는 클릭으로 줌 모드에 든다. 클릭으로 닫는 프로필은 열 때부터 휠 확대를 허용한다. */
@@ -190,8 +194,7 @@ export default function ImageViewerModal({
         onLostPointerCapture={() => { drag.current = null; setDragging(false); }}
         onDragStart={(event) => event.preventDefault()}
       >
-        {/* 상대 상자가 그림 폭·높이에 맞춰지므로 캡션은 그림 위에 깔린다 — 장면 뷰어 자막과 같은 처리.
-            캡션은 배율을 따르지 않게 변형 span 밖에 둔다 */}
+        {/* 캡션은 배율을 따르지 않는다. below는 그림 바깥에 두어 원본 하단을 가리지 않는다. */}
         <BlurDissolve key={src} className="relative flex items-center justify-center">
           <span
             className={`block select-none ${dragging ? "" : "motion-safe:transition-transform motion-safe:duration-150"}`}
@@ -204,11 +207,11 @@ export default function ImageViewerModal({
               height={800}
               unoptimized
               draggable={false}
-              className={`h-[calc(100dvh-4rem)] w-auto max-w-[calc(100vw-2rem)] rounded-lg object-contain ${showImageShadow ? "shadow-2xl" : ""}`}
+              className={`${captionBelow ? "h-auto max-h-[calc(100dvh-7rem)]" : "h-[calc(100dvh-4rem)]"} w-auto max-w-[calc(100vw-2rem)] rounded-lg object-contain ${showImageShadow ? "shadow-2xl" : ""}`}
             />
           </span>
           {/* 설명이 있는 그림에만 붙는다. 없으면 자리도 차지하지 않는다 */}
-          {caption ? (
+          {caption && !captionBelow ? (
             <div data-wheel-pass className="absolute inset-x-0 bottom-0 max-h-[45%] overflow-y-auto overscroll-contain rounded-b-lg bg-gradient-to-t from-black/90 via-black/65 to-transparent px-4 pb-3 pt-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <p className="mx-auto w-full max-w-3xl whitespace-pre-line break-keep text-center text-lg leading-relaxed text-white [overflow-wrap:anywhere] md:text-balance md:text-2xl md:leading-relaxed">
                 {renderCaption ? renderCaption(caption) : caption}
@@ -216,6 +219,13 @@ export default function ImageViewerModal({
             </div>
           ) : null}
         </BlurDissolve>
+        {captionBelow && caption ? (
+          <div data-wheel-pass className="max-h-20 w-full shrink-0 overflow-y-auto overscroll-contain px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <p className="whitespace-pre-line break-keep text-center text-sm leading-6 text-white [overflow-wrap:anywhere] md:text-base">
+              {renderCaption ? renderCaption(caption) : caption}
+            </p>
+          </div>
+        ) : null}
       </div>
     </Modal>
   );

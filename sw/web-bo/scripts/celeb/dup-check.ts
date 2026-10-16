@@ -35,7 +35,6 @@ async function loadRows(): Promise<Row[]> {
     const { data, error } = await db
       .from('celebs')
       .select('id,slug,nickname,nickname_en,aliases,wikidata_qid,birth_date,death_date,publication_status,title,title_en')
-      .neq('publication_status', 'deleted')
       .order('id')
       .range(from, from + 999)
     if (error) throw error

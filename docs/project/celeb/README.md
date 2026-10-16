@@ -31,7 +31,7 @@
 | 05 | 읽어보기 인물 안내 | [`celeb-05-01-reading.md`](celeb-05-01-reading.md) |
 | 06 | 생애·서사 연표 | [`celeb-06-01-timeline.md`](celeb-06-01-timeline.md) · [`celeb-06-02-timeline-real-relay.md`](celeb-06-02-timeline-real-relay.md) · [`celeb-06-03-timeline-fiction-relay.md`](celeb-06-03-timeline-fiction-relay.md) |
 | 07 | 인물 관계 | [`celeb-07-01-relations.md`](celeb-07-01-relations.md) |
-| 08 | 이미지와 상세 세계 표현 | [`celeb-08-00-image-map.md`](celeb-08-00-image-map.md) · [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md) · [`celeb-08-02-hero-photo.md`](celeb-08-02-hero-photo.md) · [`celeb-08-03-detail-themes.md`](celeb-08-03-detail-themes.md) · [`celeb-08-04-world-banners.md`](celeb-08-04-world-banners.md) |
+| 08 | 이미지와 상세 세계 표현 | [`celeb-08-00-image-map.md`](celeb-08-00-image-map.md) · [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md) · [`celeb-08-02-hero-photo.md`](celeb-08-02-hero-photo.md) · [`celeb-08-03-detail-themes.md`](celeb-08-03-detail-themes.md) · [`celeb-08-04-world-banners.md`](celeb-08-04-world-banners.md) · [`celeb-08-05-portrait-poses.md`](celeb-08-05-portrait-poses.md) |
 | 09 | 영문 필드 책임과 누락 백필 | [`celeb-09-01-i18n.md`](celeb-09-01-i18n.md) |
 | 10 | 세력별 인물 소개 | [`celeb-10-01-faction-long-desc.md`](celeb-10-01-faction-long-desc.md) |
 

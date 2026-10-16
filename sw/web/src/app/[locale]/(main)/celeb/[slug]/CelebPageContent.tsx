@@ -17,6 +17,8 @@ import type { WorldBannerImages } from "@/lib/celeb/worldImages";
 import type { Locale } from "@/types/locale";
 
 import styles from "./CelebPageContent.module.css";
+import { useCelebFilmography } from "@/components/features/celeb/filmography/useCelebFilmography";
+import CelebFilmography from "@/components/features/celeb/filmography/CelebFilmography";
 import CelebHeroSection from "./detail/CelebHeroSection";
 import CelebRecordSections from "./detail/CelebRecordSections";
 import {
@@ -60,6 +62,10 @@ export default function CelebPageContent({
   relatedFactionsSlot,
 }: CelebPageContentProps) {
   const locale = useLocale() as Locale;
+  const filmography = useCelebFilmography(profile.wikidata_qid, locale, profile.celeb_reality !== "FICTION");
+  const expectsFilmography = profile.profession === "actor" || profile.profession === "director";
+  const hasFilmography = Boolean(filmography.data?.works.length)
+    || (expectsFilmography && (filmography.loading || filmography.error));
 
   // 인물 화면이 한 장에서 끝나는 원인을 판별하기 위한 구획 열람 집계다.
   const contentRef = useRef<HTMLDivElement>(null);
@@ -67,6 +73,7 @@ export default function CelebPageContent({
   const serviceModel = useCelebServiceModel({
     profile,
     sideAvailability,
+    hasFilmography,
   });
   useSectionViewTracking(contentRef);
 
@@ -92,6 +99,7 @@ export default function CelebPageContent({
         initialAnalysis={initialAnalysis}
         librarySlot={librarySlot}
         booksSlot={booksSlot}
+        filmographySlot={<CelebFilmography key={`${userId}:${locale}`} {...filmography} />}
         serviceModel={serviceModel}
         relatedFiguresSlot={relatedFiguresSlot}
         relatedFactionsSlot={relatedFactionsSlot}

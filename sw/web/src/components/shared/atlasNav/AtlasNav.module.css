@@ -179,6 +179,10 @@
 .atlasBarCurrent:hover { color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 7%, transparent); }
 .atlasBarCurrent:active { background: color-mix(in srgb, var(--color-accent) 16%, transparent); }
 
+@media (max-width: 767px) {
+  .atlasBarStep { width: 20%; }
+}
+
 .atlasBarChapter,
 .atlasSheetItem:has(.atlasBarChapter)::after {
   flex: 0 0 auto;

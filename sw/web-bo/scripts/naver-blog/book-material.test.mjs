@@ -26,6 +26,15 @@ test('감상 원문·관계ID·동명이인을 보존하고 비활성·짧은 �
   assert.throws(() => assembleBookMaterial({ content, locale: { ...locale, thumbnail_url: '' }, relations: [], celebs: [] }), /표지/);
 });
 
+test('인물 사진은 서비스 대표사진을 쓰고 아바타로 대체하지 않는다', () => {
+  const data = assembleBookMaterial({ content, locale,
+    celebs: [celeb('a', { avatar_url: 'old-avatar', portrait_url: 'service-portrait' }), celeb('b', { avatar_url: 'old-avatar' })],
+    relations: [relation('r1', 'a'), relation('r2', 'b')],
+  });
+  assert.equal(data.readers[0].avatar_url, 'service-portrait');
+  assert.equal(data.readers[1].avatar_url, null);
+});
+
 test('기존 재료 파일은 기본 보존하고 명시한 refresh만 갱신한다', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'naver-book-material-'));
   const dest = path.join(dir, 'book.material.json');

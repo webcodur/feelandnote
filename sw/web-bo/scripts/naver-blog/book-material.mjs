@@ -22,7 +22,8 @@ export function assembleBookMaterial({ content, locale, relations, celebs }) {
     return {
       relation_id: r.id, celeb_id: r.celeb_id, content_id: r.content_id,
       nickname: c.nickname, slug: c.slug, headline: c.headline, bio: c.bio,
-      profession: c.profession, avatar_url: c.avatar_url,
+      // 원고 검증기가 쓰는 기존 필드명은 유지하되 사진 원본은 서비스 대표사진이다.
+      profession: c.profession, avatar_url: c.portrait_url ?? null,
       review: r.review, source_url: r.source_url,
       url: `https://feelandnote.com/celeb/${c.slug}`,
     };
@@ -80,7 +81,7 @@ async function main() {
   const ids = [...new Set(relations.map(r => r.celeb_id))];
   const celebs = [];
   for (let from = 0; from < ids.length; from += 300) {
-    const { data, error } = await db.from('celebs').select('id,nickname,slug,headline,bio,profession,avatar_url,celeb_tier,publication_status')
+    const { data, error } = await db.from('celebs').select('id,nickname,slug,headline,bio,profession,portrait_url,celeb_tier,publication_status')
       .in('id', ids.slice(from, from + 300)).eq('celeb_tier', 'full').eq('publication_status', 'active');
     if (error) throw new Error(`인물 조회 실패: ${error.message}`);
     celebs.push(...data);

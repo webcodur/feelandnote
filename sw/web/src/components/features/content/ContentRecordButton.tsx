@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/content/ContentRecordButton.tsx
-  기능: 작품 기록 아이콘
-  책임: 상단 공유 버튼 옆에서 기록 추가·삭제를 한 아이콘으로 토글한다.
+  기능: 작품 기록 버튼
+  책임: 상단 공유 버튼 옆에서 기록 추가·삭제를 토글한다.
         짧은 감상 반응은 「내 리뷰」 섹션이 쥔다. 비로그인은 로그인 화면으로 보낸다.
 */ // ------------------------------
 "use client";
@@ -15,8 +15,8 @@ import { removeContent } from "@/actions/contents/removeContent";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 import { cn } from "@/lib/utils";
 
-const ICON_BUTTON_CLASS =
-  "inline-flex size-8 shrink-0 items-center justify-center rounded-md border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 disabled:cursor-wait";
+const RECORD_BUTTON_CLASS =
+  "inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-md border px-3.5 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 disabled:cursor-wait";
 const IDLE_CLASS =
   "border-white/12 text-text-secondary hover:border-accent/50 hover:bg-white/[0.04] hover:text-accent active:bg-white/[0.07]";
 const RECORDED_CLASS =
@@ -47,8 +47,9 @@ export default function ContentRecordButton({
 
   if (!isLoggedIn) {
     return (
-      <AuthLink href="/login" aria-label={t("loginPrompt")} title={t("loginPrompt")} className={cn(ICON_BUTTON_CLASS, IDLE_CLASS)}>
+      <AuthLink href="/login" aria-label={t("loginPrompt")} title={t("loginPrompt")} className={cn(RECORD_BUTTON_CLASS, IDLE_CLASS)}>
         <Bookmark size={14} aria-hidden />
+        <span>{t("addRecord")}</span>
       </AuthLink>
     );
   }
@@ -118,9 +119,10 @@ export default function ContentRecordButton({
         aria-pressed={Boolean(userRecord)}
         aria-label={label}
         title={label}
-        className={cn(ICON_BUTTON_CLASS, userRecord ? RECORDED_CLASS : IDLE_CLASS)}
+        className={cn(RECORD_BUTTON_CLASS, userRecord ? RECORDED_CLASS : IDLE_CLASS)}
       >
         {isPending ? <Loader2 size={14} className="animate-spin" aria-hidden /> : <RecordIcon size={14} aria-hidden />}
+        <span>{label}</span>
       </button>
     </div>
   );

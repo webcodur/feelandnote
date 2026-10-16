@@ -169,7 +169,7 @@ const PROF_LABEL = {
 export async function material(slug) {
   const { data: c, error } = await db
     .from('celebs')
-    .select('id,slug,nickname,nickname_en,headline,bio,title,profession,avatar_url')
+    .select('id,slug,nickname,nickname_en,headline,bio,title,profession,avatar_url,portrait_url')
     .eq('slug', slug).single();
   if (error || !c) throw new Error(`인물을 찾지 못했다: ${slug}`);
 
@@ -269,7 +269,7 @@ function assemble(m, w) {
   const five = pickFive(books);
   const link = `${SITE}/celeb/${c.slug}`;
   const label = PROF_LABEL[c.profession];
-  if (!c.avatar_url) throw new Error('인물 아바타가 없다 — 사진 없이 조립하지 않는다');
+  if (!c.portrait_url) throw new Error('서비스 인물 대표사진이 없다 — 아바타로 대신하지 않는다');
   if (!label) throw new Error(`직군 '${c.profession}' 이 이름 표시 표에 없다 — PROF_LABEL 에 넣고 다시 돌려라`);
   const blurbs = Array.isArray(w.blurbs) ? w.blurbs.map((b) => String(b ?? '').trim()) : [];
   if (blurbs.length !== five.length || blurbs.some((b) => !b)) throw new Error('책 소개가 다섯 권 모두 있어야 한다');
@@ -278,9 +278,9 @@ function assemble(m, w) {
   const L = [];
   L.push(`📚 ${c.nickname}의 감상 기록 전체 보기 → ${link}`);
   L.push('');
-  // 🔴 seo-image 는 사이트 다크 테마에 맞춰 검은 배경을 깐다. 흰 바탕인 블로그에서는
-  //    시커먼 덩어리로 보인다. 배경을 지운 아바타 원본을 쓰고, 흰색 합성은 발행기가 한다.
-  L.push(`[avatar:${c.avatar_url}|100|${c.nickname}]`);
+  // [avatar:]는 발행기가 인물 사진을 액자 없이 넣는 기존 표시다.
+  // 사진 원본은 서비스 portrait_url이며, 네이버 대표이미지 지정은 별도로 확인한다.
+  L.push(`[avatar:${c.portrait_url}|200|${c.nickname}]`);
   L.push('');
   L.push(`[c]**${c.nickname} · ${label}**[/c]`);
   L.push('');

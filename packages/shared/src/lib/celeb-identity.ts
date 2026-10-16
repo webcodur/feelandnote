@@ -144,8 +144,6 @@ function judge(reasons: Set<CelebDuplicateReason>): { reasons: CelebDuplicateRea
   return { reasons: list, strong }
 }
 
-const isLive = (row: CelebIdentityRow) => row.publication_status !== 'deleted'
-
 /** 등록하려는 인물과 같은 사람일 수 있는 기존 프로필. 강한 일치가 앞에 선다. */
 export function findCelebDuplicates<Row extends CelebIdentityRow>(
   candidate: CelebIdentityRow,
@@ -154,7 +152,7 @@ export function findCelebDuplicates<Row extends CelebIdentityRow>(
   const mine = identityKeys(candidate)
   const matches: CelebDuplicateMatch<Row>[] = []
   for (const row of rows) {
-    if (!isLive(row) || (candidate.id && row.id === candidate.id)) continue
+    if (candidate.id && row.id === candidate.id) continue
     const other = identityKeys(row)
     const reasons = new Set<CelebDuplicateReason>()
     if (mine.qid && mine.qid === other.qid) reasons.add('qid')
@@ -171,10 +169,9 @@ export function findCelebDuplicates<Row extends CelebIdentityRow>(
 export function findCelebDuplicatePairs<Row extends CelebIdentityRow>(
   rows: readonly Row[],
 ): { a: Row; b: Row; reasons: CelebDuplicateReason[]; strong: boolean }[] {
-  const live = rows.filter(isLive)
   const buckets = new Map<string, number[]>()
   const add = (key: string, index: number) => buckets.set(key, [...(buckets.get(key) ?? []), index])
-  live.forEach((row, index) => {
+  rows.forEach((row, index) => {
     const keys = identityKeys(row)
     if (keys.qid) add(`qid:${keys.qid}`, index)
     if (keys.dates) add(`dates:${keys.dates}`, index)
@@ -197,7 +194,7 @@ export function findCelebDuplicatePairs<Row extends CelebIdentityRow>(
   for (const [pairKey, reasons] of pairs) {
     if (reasons.size === 1 && reasons.has('birth')) continue
     const [i, j] = pairKey.split(':').map(Number)
-    result.push({ a: live[i], b: live[j], ...judge(reasons) })
+    result.push({ a: rows[i], b: rows[j], ...judge(reasons) })
   }
   return result.sort((x, y) => Number(y.strong) - Number(x.strong) || String(x.a.slug).localeCompare(String(y.a.slug)))
 }

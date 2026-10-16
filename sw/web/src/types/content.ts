@@ -20,6 +20,8 @@ export interface ContentMetadata {
   description?: string
 
   // 영상
+  originalTitle?: string
+  productionCountries?: string[]
   voteAverage?: number
   genres?: string[]
   tagline?: string
@@ -29,6 +31,8 @@ export interface ContentMetadata {
   cast?: { name: string; character: string }[]
   director?: string
   backdropUrl?: string
+  /** 영상 스틸컷·게임 스크린샷. */
+  screenshots?: string[]
 
   // 게임
   developer?: string
@@ -36,7 +40,6 @@ export interface ContentMetadata {
   rating?: number
   platforms?: string[]
   storyline?: string
-  screenshots?: string[]
 
   // 음악
   albumType?: string

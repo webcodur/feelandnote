@@ -26,7 +26,6 @@ export async function loadCelebIdentityRows(db: DatabaseClient): Promise<CelebId
   return selectAllPages<CelebIdentityRowWithMeta>((from, to) => db
     .from('celebs')
     .select('id, slug, nickname, nickname_en, aliases, wikidata_qid, birth_date, death_date, publication_status, title')
-    .neq('publication_status', 'deleted')
     .order('id', { ascending: true })
     .range(from, to))
 }

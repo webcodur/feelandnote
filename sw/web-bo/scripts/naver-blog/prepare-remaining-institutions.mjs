@@ -43,13 +43,13 @@ else {
   const ids = [...new Set(items.filter(i => !i.hidden && i.content_id).map(i => i.content_id))];
   const locales = await chunks('content_locales', 'content_id,locale,title,creator,thumbnail_url,description', 'content_id', ids);
   const reviews = await chunks('celeb_contents', 'id,celeb_id,content_id,review', 'content_id', ids);
-  const people = await chunks('celebs', 'id,nickname,avatar_url,profession,publication_status,celeb_tier', 'id', [...new Set(reviews.map(r => r.celeb_id))]);
+  const people = await chunks('celebs', 'id,nickname,portrait_url,profession,publication_status,celeb_tier', 'id', [...new Set(reviews.map(r => r.celeb_id))]);
   service = { checked_at: new Date().toISOString(), lists, curators, items, locales, reviews, people };
   write(cache, service);
 }
 const professionSource = fs.readFileSync(path.resolve(import.meta.dirname, '../../../../packages/shared/src/constants/celeb-professions.ts'), 'utf8');
 const professions = Object.fromEntries([...professionSource.matchAll(/value: '([^']+)', label: '([^']+)'/g)].map(m => [m[1], m[2]]));
-const people = new Map(service.people.filter(p => p.publication_status === 'active' && p.avatar_url).map(p => [p.id, p]));
+const people = new Map(service.people.filter(p => p.publication_status === 'active' && p.portrait_url).map(p => [p.id, p]));
 const locales = new Map(service.locales.filter(l => l.locale === 'ko').map(l => [l.content_id, l]));
 const titleKey = s => String(s ?? '').replace(/\s+\d+$/, '').replace(/[\s·:：―—\-.,!?『』「」()[\]]/g, '').toLowerCase();
 const extraIntros = fs.existsSync(`${OUT}/data/book-intros.json`) ? read(`${OUT}/data/book-intros.json`) : {};
@@ -122,7 +122,7 @@ for (const post of posts) {
   const fullList = { heading: `${list.title} 전체 목록`, columns, rows, source_file };
   const dbReviews = selected.map(c => {
     const r = c.reviews[0], p = people.get(r.celeb_id);
-    return { book: c.title, review_id: r.id, content_id: r.content_id, celeb_id: r.celeb_id, person: p.nickname, review: r.review, avatar_url: p.avatar_url, person_label: `${p.nickname} · ${professions[p.profession] ?? p.profession ?? '인물'}` };
+    return { book: c.title, review_id: r.id, content_id: r.content_id, celeb_id: r.celeb_id, person: p.nickname, review: r.review, avatar_url: p.portrait_url, person_label: `${p.nickname} · ${professions[p.profession] ?? p.profession ?? '인물'}` };
   });
   const blocks = [`📚 ${list.title} 전체 보기 → ${post.url}`];
   if (logoAsset) blocks.push(`[img:${logoUrl}|400|${curator.name} 로고]`);

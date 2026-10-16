@@ -226,8 +226,10 @@ async function fetchContentDataPublic(
     const storedDescription = pickIntroForLocale(locale, [dbContent.description,
       storedMetadata?.description, storedMetadata?.overview, storedMetadata?.storyline, storedMetadata?.summary]
       .filter((value): value is string => typeof value === 'string'))
-    const needsMetadata = dbContent.type !== 'BOOK'
-      && !(storedMetadata && (storedDescription || dbContent.type === 'MUSIC'))
+    // 저장된 소개문만으로 영상 상세가 완성되지는 않는다. 상영시간·제작 국가·스틸컷도 보충한다.
+    const isTmdbVideo = dbContent.type === 'VIDEO' && /^tmdb-(movie|tv)-\d+$/.test(externalId)
+    const needsMetadata = isTmdbVideo || (dbContent.type !== 'BOOK'
+      && !(storedMetadata && (storedDescription || dbContent.type === 'MUSIC')))
     const editionSet = dbContent.type === 'BOOK'
       ? await fetchDefaultFigureBookEdition(dbContent.id, locale)
       : null
@@ -258,7 +260,9 @@ async function fetchContentDataPublic(
           .find((value): value is string => typeof value === 'string' && value.trim() !== ''))
       : undefined
     const mergedMetadata = metadataResult?.metadata || storedMetadata
-      ? { ...(metadataResult?.metadata ?? {}), ...stripLocalizedMeta(locale, storedMetadata) }
+      ? isTmdbVideo
+        ? { ...stripLocalizedMeta(locale, storedMetadata), ...Object.fromEntries(Object.entries(fetchedMeta).filter(([, value]) => value !== undefined)) }
+        : { ...(metadataResult?.metadata ?? {}), ...stripLocalizedMeta(locale, storedMetadata) }
       : null
 
     const localizedMetadata = dropForeignDisplayText(
@@ -286,12 +290,12 @@ async function fetchContentDataPublic(
       title: sourceEdition?.title || dbContent.title,
       // 확인된 판본 제목으로 덮어 쓴 자리에는 미확인 표시를 붙이지 않는다.
       titleBadge: sourceEdition?.title ? null : dbContent.title_badge,
-      creator: sourceEdition?.creator || dbContent.creator || undefined,
+      creator: sourceEdition?.creator || dbContent.creator || (isTmdbVideo && typeof fetchedMeta.director === 'string' ? fetchedMeta.director : undefined),
       thumbnail: sourceEdition?.thumbnailUrl || dbContent.thumbnail_url || undefined,
       description: (bookDisplay ? bookDisplay.description : pickIntroForLocale(locale, [storedDescription, dbMetaDesc])) ?? undefined,
       ...(bookDisplay ? { bookIntroduction: bookDisplay.bookIntroduction } : {}),
       ...(bookDisplay?.introductionAttribution ? { introductionAttribution: bookDisplay.introductionAttribution } : {}),
-      releaseDate: sourceEdition?.releaseDate || dbContent.release_date || undefined,
+      releaseDate: sourceEdition?.releaseDate || dbContent.release_date || (isTmdbVideo && typeof fetchedMeta.releaseDate === 'string' ? fetchedMeta.releaseDate : undefined),
       type: dbContent.type as ContentType,
       category: categoryId,
       metadata: dbMetadata,
@@ -353,7 +357,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-progressive-v26-title-translation', initial ? 'initial' : 'complete', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale, bookLanguage ?? ''],
+    ['content-data-public-progressive-v27-video-details', initial ? 'initial' : 'complete', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale, bookLanguage ?? ''],
     () => fetchContentDataPublic(contentId, category, locale, bookLanguage, initial),
   )
 

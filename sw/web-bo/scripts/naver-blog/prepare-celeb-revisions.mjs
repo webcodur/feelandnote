@@ -94,16 +94,16 @@ for (let start = 0; start < drafts.length; start += 4) {
       const m = fetchedRow.value, c = m.celeb;
       const post = posts.filter(p => String(p.logNo) === String(draft.logNo));
       if (post.length !== 1 || post[0].kind !== 'celeb' || post[0].url !== `https://feelandnote.com${draft.target}`) throw new Error('발행 원장 대상이 다르다');
-      if (!c.avatar_url || !PROF[c.profession]) throw new Error(`아바타/직군 없음: ${c.profession}`);
+      if (!c.portrait_url || !PROF[c.profession]) throw new Error(`서비스 대표사진/직군 없음: ${c.profession}`);
       const parsed = bookSections(draft.body);
       const personLabel = `${c.nickname} · ${PROF[c.profession]}`;
-      let prefix = parsed.prefix.replace(/\[img:[^\n]+\|420\|[^\n]+\]/, `[avatar:${c.avatar_url}|100|${c.nickname}]\n\n[c]**${personLabel}**[/c]`);
-      if (!prefix.includes(`[avatar:${c.avatar_url}|100|${c.nickname}]`)) throw new Error('상단 인물 사진 위치가 다르다');
+      let prefix = parsed.prefix.replace(/\[img:[^\n]+\|420\|[^\n]+\]/, `[avatar:${c.portrait_url}|100|${c.nickname}]\n\n[c]**${personLabel}**[/c]`);
+      if (!prefix.includes(`[avatar:${c.portrait_url}|100|${c.nickname}]`)) throw new Error('상단 인물 사진 위치가 다르다');
       prefix = prefix.replace(/\n---\n/g, '\n━━━━━━\n').trimEnd();
       const dbReviews = [], matches = [];
       const sections = parsed.books.map(book => {
         const row = matchBook(book, m.allBooks);
-        dbReviews.push({ review_id: row.id, content_id: row.content_id, celeb_id: c.id, person: c.nickname, person_label: personLabel, avatar_url: c.avatar_url, review: row.review, source_url: row.source_url });
+        dbReviews.push({ review_id: row.id, content_id: row.content_id, celeb_id: c.id, person: c.nickname, person_label: personLabel, avatar_url: c.portrait_url, review: row.review, source_url: row.source_url });
         matches.push({ original_title: book.title, title: row.title, creator: row.creator, content_id: row.content_id, method: row.method, previous_cover: book.image, cover: row.thumbnail_url });
         const blurb = c.slug === 'bertrand-russell' && book.title === '사랑의 철학' ? book.blurb.replace('성찰한 산문이다.', '성찰한 서정시이다.') : book.blurb;
         return `[c]**『${row.title}』 — ${book.creator}**[/c]\n\n[img:${row.thumbnail_url}|240|${row.title} 표지]\n\n${politeBlurb(blurb)}\n\n[q]${row.review}[/q]`;
@@ -112,7 +112,7 @@ for (let start = 0; start < drafts.length; start += 4) {
       // 기존 원고의 개별 음악·영상 예시를 유지하면서 책 권수만 현재 서비스 수치로 맞춘다.
       suffix = suffix.replace(/\[c\]여기까지가[^\n]+?가운데 다섯 권입니다\.\[\/c\]/, `[c]여기까지가 ${m.totalBooks}권 가운데 다섯 권입니다.[/c]`);
       suffix = suffix.replace(/나머지 [가-힣\d]+ 권까지/, `나머지 ${m.totalBooks - 5}권까지`);
-      const revision = { kind: 'celeb', target: draft.target, title: draft.title.replace(/읽은 \d+권의 책/, `읽은 ${m.totalBooks}권의 책`), body: `${prefix}\n\n${sections.join('\n\n━━━━━━\n\n')}\n\n${suffix}`, tags: draft.tags, category: draft.category, logNo: String(draft.logNo), dbReviews, celeb: { id: c.id, name: c.nickname, avatar_url: c.avatar_url, person_label: personLabel }, sourceDraftSha256: hash(draft.body), dbFetchedAt: m.fetchedAt, bookMatches: matches };
+      const revision = { kind: 'celeb', target: draft.target, title: draft.title.replace(/읽은 \d+권의 책/, `읽은 ${m.totalBooks}권의 책`), body: `${prefix}\n\n${sections.join('\n\n━━━━━━\n\n')}\n\n${suffix}`, tags: draft.tags, category: draft.category, logNo: String(draft.logNo), dbReviews, celeb: { id: c.id, name: c.nickname, avatar_url: c.portrait_url, person_label: personLabel }, sourceDraftSha256: hash(draft.body), dbFetchedAt: m.fetchedAt, bookMatches: matches };
       const quoted = [...revision.body.matchAll(/\[q\]([\s\S]*?)\[\/q\]/g)].map(hit => hit[1]);
       if (JSON.stringify(quoted) !== JSON.stringify(dbReviews.map(row => row.review))) throw new Error('감상 원문이 변경됐다');
       if ((revision.body.match(/\[avatar:/g) ?? []).length !== 1 || (revision.body.match(/\[img:/g) ?? []).length !== 5 || revision.body.includes('**감상배경:**') || revision.body.includes('[table]')) throw new Error('인물 본문 구성이 다르다');

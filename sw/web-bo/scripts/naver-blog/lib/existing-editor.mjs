@@ -60,19 +60,20 @@ export function createExistingEditor(page, { onStep = () => {} } = {}) {
       await page.waitForFunction(n => document.querySelectorAll('.se-component.se-image').length === n, { timeout: 20000 }, images);
     }
     let previous = '', stable = 0;
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 40; i++) {
       const current = hash(await content());
       stable = current === previous ? stable + 1 : 0;
       if (stable >= 2) break;
       previous = current;
-      if (i === 19) throw new Error('본문 로딩이 안정되지 않았다');
+      if (i === 39) throw new Error('본문 로딩이 안정되지 않았다');
       await wait(300);
     }
     onStep('open-publish-options');
     await click('button[class*=publish_btn]');
     await page.waitForSelector('#publish-option-search', { timeout: 10000 });
     const state = await settings();
-    if (!state.inputs.find(x => x.id === 'open_public')?.checked) throw new Error('전체공개 상태가 아니다. 공개범위 변경은 하지 않는다');
+    // 비공개가 원래 설정인 글(allowPrivate)은 그대로 두고 통과한다. 공개범위는 바꾸지 않는다.
+    if (!d.allowPrivate && !state.inputs.find(x => x.id === 'open_public')?.checked) throw new Error('전체공개 상태가 아니다. 공개범위 변경은 하지 않는다');
     if (reservation && !state.inputs.find(x => x.id === 'radio_time2')?.checked) throw new Error('예약 글에 예약 시간이 선택되지 않았다');
     if (reservation) {
       const actual = `${state.date?.replace(/\s/g, '')} ${state.hour}:${state.minute}`;

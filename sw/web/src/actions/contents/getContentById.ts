@@ -50,7 +50,7 @@ async function fetchContentFromApi(
     }
 
     case 'video': {
-      const video = await getVideoById(externalId)
+      const video = await getVideoById(externalId, bookLanguage === 'en' ? 'en' : 'ko')
       if (!video) return null
       return {
         id: video.externalId,
@@ -103,7 +103,7 @@ async function fetchContentFromApi(
 // 캐시된 콘텐츠 조회 (1시간 캐싱)
 const getCachedContent = unstable_cache(
   fetchContentFromApi,
-  ['content-detail-book-language-v2'],
+  ['content-detail-video-locale-v3'],
   { revalidate: 3600 }
 )
 

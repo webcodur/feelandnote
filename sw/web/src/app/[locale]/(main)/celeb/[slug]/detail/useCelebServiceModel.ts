@@ -38,6 +38,7 @@ export interface CelebSideAvailability {
 interface UseCelebServiceModelProps {
   profile: CelebBySlugProfile;
   sideAvailability: CelebSideAvailability;
+  hasFilmography?: boolean;
 }
 
 export interface CelebServiceModel {
@@ -52,6 +53,7 @@ export interface CelebServiceModel {
 export function useCelebServiceModel({
   profile,
   sideAvailability,
+  hasFilmography = false,
 }: UseCelebServiceModelProps): CelebServiceModel {
   const celebTier = profile.celeb_tier ?? "full";
   const celebReality = profile.celeb_reality ?? "REAL";
@@ -63,6 +65,7 @@ export function useCelebServiceModel({
     influence: sideAvailability.influence,
     spectrum: sideAvailability.spectrum,
     library: Object.values(profile.contentTypeCounts).some(count => count > 0),
+    filmography: hasFilmography,
   };
   const baseItems = useCelebServiceItems({
     reality: celebReality,

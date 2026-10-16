@@ -430,6 +430,63 @@
     "relatedFactionMoreGroups": "외 {count}개 그룹",
     "relModeSocial": "사회 관계",
     "enlargeAvatar": "인물 크게 보기",
-    "heroPhoto": "대표 사진"
+    "heroPhoto": "대표 사진",
+    "filmography": {
+      "title": "참여 작품",
+      "description": "출연·연출·각본·제작으로 참여한 영화와 TV 작품입니다.",
+      "loading": "참여 작품을 불러오는 중입니다.",
+      "error": "참여 작품을 불러오지 못했습니다.",
+      "mediaFilter": "작품 분야",
+      "roleFilter": "참여 역할",
+      "allRoles": "모든 역할",
+      "count": "참여 작품 {count}편",
+      "tmdb": "참여 작품 원문 보기",
+      "imdb": "IMDb 인물 정보 보기",
+      "character": "배역: {name}",
+      "undated": "공개일 미정",
+      "media": {
+        "all": "전체",
+        "movie": "영화",
+        "tv": "TV"
+      },
+      "roles": {
+        "acting": "출연",
+        "directing": "연출",
+        "writing": "각본·원작",
+        "production": "제작",
+        "music": "음악·음향",
+        "crew": "제작진"
+      },
+      "jobs": {
+        "Director": "감독",
+        "Writer": "각본",
+        "Screenplay": "각본",
+        "Story": "스토리",
+        "Novel": "원작 소설",
+        "Book": "원작 도서",
+        "Characters": "원작 캐릭터",
+        "Producer": "제작",
+        "Executive Producer": "총괄 제작",
+        "Co-Producer": "공동 제작",
+        "Original Music Composer": "음악",
+        "Songs": "노래",
+        "Director of Photography": "촬영",
+        "Editor": "편집"
+      },
+      "attribution": "TMDB의 작품 정보와 이미지를 사용합니다. TMDB가 보증하거나 인증한 서비스는 아닙니다.",
+      "searchLabel": "참여작 제목 검색",
+      "searchPlaceholder": "작품 제목 검색",
+      "clearSearch": "검색어 지우기",
+      "sortLabel": "참여작 정렬",
+      "sort": {
+        "popular": "주요작순",
+        "latest": "최신순"
+      },
+      "empty": "일치하는 작품이 없습니다.",
+      "reset": "검색·필터 초기화",
+      "results": "참여작 검색 결과",
+      "shownCount": "{count}편 중 {shown}편 표시",
+      "loadMore": "더 보기"
+    }
   }
 }

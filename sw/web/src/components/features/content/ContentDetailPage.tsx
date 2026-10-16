@@ -46,7 +46,7 @@ export default function ContentDetailPage({ initialData, relatedSections, review
             actions={<>
               <ContentRecordButton content={content} userRecord={userRecord} isLoggedIn={isLoggedIn}
                 isAuthResolved={isAuthResolved} onRecordChange={handleRecordChange} />
-              <ShareButtons title={content.title} comfortable iconOnly showLabel={false} align="center"
+              <ShareButtons title={content.title} comfortable showLabel align="center"
                 path={content.type === "BOOK" ? getContentDetailHref(content.id, unavailable ? undefined : content.purchaseEditionId) : "/content/" + content.id} />
             </>}
             editionSelection={content.type === "BOOK" && (editions.length > 0 || unavailable)

@@ -21,6 +21,7 @@ test("REAL and BOTH reality keep reviews before the unified books section", () =
     "introduction",
     "personGuide",
     "virtualMonologue",
+    "filmography",
     "library",
     "affiliateBooks",
     "analysis",

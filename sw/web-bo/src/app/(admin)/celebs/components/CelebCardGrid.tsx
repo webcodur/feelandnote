@@ -10,38 +10,40 @@ import { CELEB_REALITY_DISPLAY } from '@/constants/celebReality'
 
 import { useToast } from '@/contexts/ToastContext'
 import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
+import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedCelebPortraitEditor'
+import CelebCardImageToggle from './CelebCardImageToggle'
 
 /*
   사용자 웹 /explore의 인물 카드처럼 얼굴·이름·수식어만 띄우는 격자다. 카드는 상세(/celebs/[slug])로 연다.
-  얼굴 칸은 표·이미지 작업과 같은 아바타 에디터다 — 사진 파일을 끌어다 놓으면 자르기 창이 열리고 저장된다.
+  사진 칸은 선택한 이미지의 에디터다 — 사진 파일을 끌어다 놓으면 자르기 창이 열리고 저장된다.
 */
-export default function CelebCardGrid({ celebs }: { celebs: Member[] }) {
-  const [avatarUrls, setAvatarUrls] = useState<Record<string, string | null>>(() =>
-    Object.fromEntries(celebs.map((celeb) => [celeb.id, celeb.avatar_url ?? null]))
-  )
-
-  if (celebs.length === 0) {
-    return <div className="px-4 py-16 text-center text-sm text-text-secondary">셀럽이 없습니다.</div>
-  }
+export default function CelebCardGrid({ celebs, imageMode }: { celebs: Member[]; imageMode: 'avatar' | 'portrait' }) {
+  const [imageUrls, setImageUrls] = useState<Record<string, string>>({})
 
   return (
-    <div className="grid grid-cols-3 gap-3 p-3 sm:grid-cols-4 md:gap-5 md:p-5 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
-      {celebs.map((celeb) => (
-        <CelebCard
-          key={celeb.id}
-          celeb={celeb}
-          avatarUrl={avatarUrls[celeb.id] ?? null}
-          onAvatarSaved={(url) => setAvatarUrls((current) => ({ ...current, [celeb.id]: url }))}
-        />
-      ))}
-    </div>
+    <>
+      <CelebCardImageToggle imageMode={imageMode} />
+      {celebs.length === 0 && <div className="px-4 py-16 text-center text-sm text-text-secondary">셀럽이 없습니다.</div>}
+      <div className="grid grid-cols-3 gap-3 p-3 sm:grid-cols-4 md:gap-5 md:p-5 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
+        {celebs.map((celeb) => (
+          <CelebCard
+            key={celeb.id}
+            celeb={celeb}
+            imageMode={imageMode}
+            imageUrl={imageUrls[`${celeb.id}:${imageMode}`] ?? (imageMode === 'portrait' ? celeb.portrait_url : celeb.avatar_url) ?? null}
+            onImageSaved={(url) => setImageUrls((current) => ({ ...current, [`${celeb.id}:${imageMode}`]: url }))}
+          />
+        ))}
+      </div>
+    </>
   )
 }
 
-function CelebCard({ celeb, avatarUrl, onAvatarSaved }: {
+function CelebCard({ celeb, imageMode, imageUrl, onImageSaved }: {
   celeb: Member
-  avatarUrl: string | null
-  onAvatarSaved: (url: string) => void
+  imageMode: 'avatar' | 'portrait'
+  imageUrl: string | null
+  onImageSaved: (url: string) => void
 }) {
   const { getLabel: getCelebProfessionLabel } = useProfessions();
   const name = celeb.nickname?.trim() || '이름 없음'
@@ -54,25 +56,35 @@ function CelebCard({ celeb, avatarUrl, onAvatarSaved }: {
   return (
     <div className="group flex w-full flex-col items-center outline-none">
       <div className="relative w-full">
-        <PersistedCelebAvatarEditor
+        {imageMode === 'avatar' && <PersistedCelebAvatarEditor
           celebId={celeb.id}
-          avatarUrl={avatarUrl || celeb.portrait_url || null}
+          avatarUrl={imageUrl || celeb.portrait_url || null}
           name={celeb.nickname}
           refreshAfterSave={false}
-          onSaved={onAvatarSaved}
+          onSaved={onImageSaved}
           openOnClick
           className="w-full rounded-md"
           previewClassName="relative aspect-square w-full overflow-hidden rounded-md border border-white/5 shadow-inner group-hover:border-accent/60"
           empty={<User className="h-8 w-8 text-text-tertiary" />}
-        />
+        />}
+        {imageMode === 'portrait' && <PersistedCelebPortraitEditor
+          celebId={celeb.id}
+          portraitUrl={imageUrl}
+          name={celeb.nickname}
+          refreshAfterSave={false}
+          onSaved={onImageSaved}
+          openOnClick
+          className="relative w-full overflow-hidden rounded-md border border-border bg-bg-secondary hover:border-accent data-[dragging=true]:border-accent"
+          empty={<User className="h-8 w-8 text-text-tertiary" />}
+        />}
         {/* 배지는 포인터를 꺼 둔다 — 얼굴 어디에 놓아도 드랍이 에디터에 닿아야 한다 */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-1.5 top-1.5 flex flex-col items-start gap-1">
             {celeb.status !== 'active' && (
               <span className="rounded-full border border-white/15 bg-black/70 px-1.5 py-0.5 text-[10px] font-bold leading-none text-white/75">비활성</span>
             )}
-            {!avatarUrl && (
-              <span className="rounded-full border border-amber-500/40 bg-black/70 px-1.5 py-0.5 text-[10px] font-bold leading-none text-amber-400">아바타 없음</span>
+            {!imageUrl && (
+              <span className="rounded-full border border-accent/40 bg-black/70 px-1.5 py-0.5 text-[11px] font-bold leading-none text-accent">{imageMode === 'portrait' ? '대표사진 없음' : '아바타 없음'}</span>
             )}
           </div>
 

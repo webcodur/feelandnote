@@ -40,6 +40,7 @@ export interface CelebServiceAvailability {
   spectrum: boolean;
   /** 실제로 등록된 감상 기록이 있는가. 없으면 리뷰 구획을 그리지 않는다. */
   library: boolean;
+  filmography?: boolean;
 }
 
 interface UseCelebServiceItemsProps {
@@ -82,7 +83,15 @@ export function useCelebServiceItems({
         ready: availability.virtualMonologue,
         target: { sectionId: "virtual-monologue" },
       },
-      /* ── 2. 리뷰 ── */
+      /* ── 2. 참여 작품·리뷰 ── */
+      {
+        key: "filmography",
+        chapter: "",
+        label: t("filmography.title"),
+        icon: CELEB_SERVICE_ICONS.filmography,
+        ready: Boolean(availability.filmography),
+        target: { sectionId: "filmography" },
+      },
       {
         key: "library",
         chapter: CELEB_SERVICE_CHAPTERS.library,
@@ -173,6 +182,7 @@ export function useCelebServiceItems({
       availability.personGuide,
       availability.virtualMonologue,
       availability.library,
+      availability.filmography,
       showLibrary,
       t,
       reality,

@@ -262,7 +262,6 @@ function sortCelebs(celebs: Celeb[], sort: string, sortOrder: 'asc' | 'desc') {
   const statusRank: Record<string, number> = {
     active: 0,
     inactive: 1,
-    deleted: 2,
   }
 
   celebs.sort((a, b) => {
@@ -844,9 +843,9 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
     { data: slugRows, error: slugError },
   ] = await Promise.all([
     adminClient.from('celebs').select('id')
-      .eq('nickname', nickname).neq('publication_status', 'deleted').limit(1),
+      .eq('nickname', nickname).limit(1),
     adminClient.from('celebs').select('id')
-      .eq('nickname_en', nicknameEn).neq('publication_status', 'deleted').limit(1),
+      .eq('nickname_en', nicknameEn).limit(1),
     adminClient.from('celebs').select('slug').like('slug', `${baseSlug}%`),
   ])
   if (nameError) throw nameError
@@ -1239,10 +1238,10 @@ export async function deleteCeleb(celebId: string): Promise<void> {
   await requireAdmin()
   const db = createAdminClient()
 
-  // 소프트 삭제 (publication_status를 'deleted'로 변경)
+  // 인물과 FK로 연결된 전용 데이터는 DB에서 함께 영구 삭제한다.
   const { data: deleted, error } = await db
     .from('celebs')
-    .update({ publication_status: 'deleted' })
+    .delete()
     .eq('id', celebId)
     .select('slug')
     .single()

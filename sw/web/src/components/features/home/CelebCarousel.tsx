@@ -17,10 +17,10 @@ import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCoun
 import type { TrendCountry } from "@/constants/trendCountries";
 import { useTranslations } from "next-intl";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
-import useMediaQuery from "@/hooks/useMediaQuery";
 
 // 인물 카드 눌러 뜨는 요약 모달 — 첫 클릭 때만 늦게 받는다
 const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
+const CelebGridImageViewer = lazy(() => import("./CelebGridImageViewer"));
 
 interface CelebCarouselProps {
   initialCelebs: CelebProfile[];
@@ -74,10 +74,7 @@ export default function CelebCarousel({
   });
 
   const [isControlsExpanded, setIsControlsExpanded] = useState(true);
-  // PC 탐색은 대표사진으로 시작하며, 직접 고른 보기는 화면 폭이 바뀌어도 유지한다.
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [cardImageOverride, setCardImage] = useState<CelebCardImage | null>(null);
-  const cardImage = cardImageOverride ?? (syncToUrl && isDesktop ? "portrait" : "avatar");
+  const [cardImage, setCardImage] = useState<CelebCardImage>("avatar");
   // 카드를 누르면 상세로 가지 않고 요약 모달 — 목록 위치를 쥐어 ‹ › 넘김도 둔다
   const [previewId, setPreviewId] = useState<string | null>(null);
   const previewIndex = previewId ? filters.celebs.findIndex((c) => c.id === previewId) : -1;
@@ -302,6 +299,7 @@ function GridSkeleton({ imageMode }: { imageMode: CelebCardImage }) {
 /** 탐색 인물 격자. children은 마지막 카드 뒤 칸으로 붙는다(예: 세력도감 테마 칸의 「더 보기」) */
 export function CelebGrid({ celebs, isLoading, quiet = false, showInfluence = false, onSelect, imageMode, children }: { celebs: CelebProfile[]; isLoading: boolean; quiet?: boolean; showInfluence?: boolean; /** 카드를 누르면 상세 이동 대신 부른다 */ onSelect?: (id: string) => void; imageMode?: CelebCardImage; children?: React.ReactNode }) {
   const { handleSubtitle } = useDialogueSubtitle();
+  const [imagePreviewId, setImagePreviewId] = useState<string | null>(null);
   const loadingClass = isLoading ? "opacity-50 pointer-events-none" : "";
   const gridLayout = imageMode === "portrait" ? CELEB_GRID_LAYOUT_PORTRAIT : CELEB_GRID_LAYOUT;
 
@@ -323,6 +321,7 @@ export function CelebGrid({ celebs, isLoading, quiet = false, showInfluence = fa
             showInfluence={showInfluence}
             onSelect={onSelect}
             imageMode={imageMode}
+            onImageZoom={setImagePreviewId}
             // 탐색·세력도감 인물 격자 — 늘어선 카드 중 올린 카드가 한눈에 보이게 한다
             emphasizeHover
             onSubtitle={handleSubtitle}
@@ -330,6 +329,10 @@ export function CelebGrid({ celebs, isLoading, quiet = false, showInfluence = fa
         ))}
         {children}
       </div>
+      {imagePreviewId && <Suspense fallback={null}>
+        <CelebGridImageViewer celebs={celebs} activeId={imagePreviewId}
+          onSelect={setImagePreviewId} onClose={() => setImagePreviewId(null)} />
+      </Suspense>}
     </>
   );
 }

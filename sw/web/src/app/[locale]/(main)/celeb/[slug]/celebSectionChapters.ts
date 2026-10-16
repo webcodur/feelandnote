@@ -24,6 +24,7 @@ const STANDARD_SECTION_ORDER = [
   "introduction",
   "personGuide",
   "virtualMonologue",
+  "filmography",
   "library",
   "affiliateBooks",
   "analysis",

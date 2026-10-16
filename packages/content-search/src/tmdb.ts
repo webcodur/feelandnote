@@ -6,6 +6,7 @@ export type VideoSubtype = 'movie' | 'tv'
 const TMDB_API_KEY = process.env.TMDB_API_KEY
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500'
+export const MAX_VIDEO_STILLS = 12
 
 interface TMDBMovie {
   id: number
@@ -86,6 +87,8 @@ export interface VideoSearchResult {
     cast?: { name: string; character: string }[]
     director?: string
     backdropUrl?: string
+    screenshots?: string[]
+    productionCountries?: string[]
   }
 }
 
@@ -462,13 +465,20 @@ export async function getVideoById(
   try {
     // 상세 정보 + Credits 병렬 요청
     const [detailRes, creditsRes] = await Promise.all([
-      fetch(`${TMDB_BASE_URL}/${mediaType}/${id}?api_key=${TMDB_API_KEY}&language=${language}`),
+      fetch(`${TMDB_BASE_URL}/${mediaType}/${id}?api_key=${TMDB_API_KEY}&language=${language}&append_to_response=images&include_image_language=ko,en,null`),
       fetch(`${TMDB_BASE_URL}/${mediaType}/${id}/credits?api_key=${TMDB_API_KEY}&language=${language}`)
     ])
 
     if (!detailRes.ok) return null
 
     const data = await detailRes.json()
+    const backdropPaths = (Array.isArray(data.images?.backdrops) ? data.images.backdrops : []) as { file_path?: string; width?: number; height?: number; iso_639_1?: string | null }[]
+    const stills = [...new Set([data.backdrop_path, ...backdropPaths
+      .filter(image => !image.iso_639_1 && (image.width ?? 0) > (image.height ?? 0))
+      .map(image => image.file_path)])]
+      .filter((path): path is string => typeof path === 'string' && /^\/[\w.-]+$/.test(path))
+      .slice(0, MAX_VIDEO_STILLS)
+      .map(path => `${TMDB_IMAGE_BASE}${path}`)
     
     // Credits 파싱 (실패해도 계속 진행)
     let cast: { name: string; character: string }[] = []
@@ -510,7 +520,9 @@ export async function getVideoById(
         revenue: isMovie ? data.revenue : undefined,
         cast: cast.length > 0 ? cast : undefined,
         director: director || undefined,
-        backdropUrl: data.backdrop_path ? `${TMDB_IMAGE_BASE}${data.backdrop_path}` : undefined
+        backdropUrl: data.backdrop_path ? `${TMDB_IMAGE_BASE}${data.backdrop_path}` : undefined,
+        screenshots: stills.length ? stills : undefined,
+        productionCountries: (data.production_countries ?? []).map((country: { iso_3166_1: string }) => country.iso_3166_1),
       }
     }
   } catch {

@@ -10,10 +10,13 @@ import {
 
 test('celeb publication values have one complete shared definition', () => {
   assert.deepEqual(CELEB_PUBLICATION_STATUSES, [
-    'active', 'inactive', 'suspended', 'deleted',
+    'active', 'inactive',
   ])
   assert.deepEqual(CELEB_MANAGED_PUBLICATION_STATUSES, ['active', 'inactive'])
   assert.equal(DEFAULT_CELEB_PUBLICATION_STATUS, 'inactive')
-  assert.equal(isCelebPublicationStatus('suspended'), true)
+  assert.equal(isCelebPublicationStatus('active'), true)
+  assert.equal(isCelebPublicationStatus('inactive'), true)
+  assert.equal(isCelebPublicationStatus('suspended'), false)
+  assert.equal(isCelebPublicationStatus('deleted'), false)
   assert.equal(isCelebPublicationStatus('other'), false)
 })

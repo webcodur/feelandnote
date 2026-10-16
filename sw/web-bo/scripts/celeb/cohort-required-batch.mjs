@@ -305,7 +305,7 @@ async function main(){
   const tested=await db.from('celebs').select('slug,headline,headline_en').in('slug',['song-sang-yong','park-seong-rae']);if(tested.error)throw tested.error;
   if(!tested.data.some(p=>filled(p.headline)&&filled(p.headline_en)))throw Error('pilot produced no verified bilingual headline; full batch not started');
  }
- const q=await db.from('celebs').select('id,slug,nickname,nickname_en,birth_date,gender,bio,title,headline,headline_en,publication_status').gte('created_at',start).lt('created_at',end).neq('publication_status','deleted').order('slug').limit(1000);if(q.error)throw q.error;if(q.data.length!==628)throw Error('cohort count changed: inspect');
+ const q=await db.from('celebs').select('id,slug,nickname,nickname_en,birth_date,gender,bio,title,headline,headline_en,publication_status').gte('created_at',start).lt('created_at',end).order('slug').limit(1000);if(q.error)throw q.error;if(q.data.length!==628)throw Error('cohort count changed: inspect');
  q.data=q.data.map((p,index)=>({...p,cohortIndex:index+1}));
  let ds=[];for(let i=0;i<q.data.length;i+=80){const r=await db.from('celeb_dialogues').select('celeb_id,lines,lines_en').in('celeb_id',q.data.slice(i,i+80).map(x=>x.id));if(r.error)throw r.error;ds.push(...r.data);}
  const dm=new Map(ds.map(x=>[x.celeb_id,x]));
@@ -352,7 +352,7 @@ async function main(){
  const headBatches=[];for(let i=0;i<Math.min(fastTargets.length,limit);i+=12)headBatches.push(fastTargets.slice(i,Math.min(i+12,limit)));
  await pool(headBatches,fastHeadlines,process.argv.includes('--headline-only')?1:2);
  if(process.argv.includes('--headline-only')){console.log('END '+JSON.stringify({stats,halt}));if(halt||stats.failed)process.exitCode=1;return;}
- const latest=await db.from('celebs').select('id,slug,headline,headline_en').gte('created_at',start).lt('created_at',end).neq('publication_status','deleted').limit(1000);if(latest.error)throw latest.error;
+ const latest=await db.from('celebs').select('id,slug,headline,headline_en').gte('created_at',start).lt('created_at',end).limit(1000);if(latest.error)throw latest.error;
  const freshDialogues=[];for(let i=0;i<latest.data.length;i+=80){const r=await db.from('celeb_dialogues').select('celeb_id,lines,lines_en').in('celeb_id',latest.data.slice(i,i+80).map(p=>p.id));if(r.error)throw r.error;freshDialogues.push(...r.data);}
  const freshQuotes=new Map(freshDialogues.map(d=>[d.celeb_id,d]));
  const unresolved=new Set(latest.data.filter(p=>!filled(p.headline)||!filled(p.headline_en)||!filled(freshQuotes.get(p.id)?.lines?.quote)||!filled(freshQuotes.get(p.id)?.lines_en?.quote)).map(p=>p.id));targets=scope.filter(p=>unresolved.has(p.id));

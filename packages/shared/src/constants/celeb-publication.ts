@@ -3,8 +3,6 @@
 export const CELEB_PUBLICATION_STATUSES = [
   'active',
   'inactive',
-  'suspended',
-  'deleted',
 ] as const
 
 export type CelebPublicationStatus = (typeof CELEB_PUBLICATION_STATUSES)[number]

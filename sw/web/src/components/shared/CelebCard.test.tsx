@@ -14,7 +14,7 @@ const compiled = ts.transpileModule(readFileSync(new URL("./CelebCard.tsx", impo
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },
 }).outputText;
 
-function renderCard(options: { variant?: "card" | "circle" | "medallion"; presentation?: "default" | "quiet"; locale?: "ko" | "en"; profile?: boolean; subtitle?: boolean; count?: number; voice?: boolean; showInfluence?: boolean; score?: number } = {}) {
+function renderCard(options: { variant?: "card" | "circle" | "medallion"; presentation?: "default" | "quiet"; locale?: "ko" | "en"; profile?: boolean; subtitle?: boolean; count?: number; voice?: boolean; showInfluence?: boolean; score?: number; imageMode?: "avatar" | "portrait"; zoom?: boolean } = {}) {
   const locale = options.locale ?? "ko";
   const profile = {
     id: "figure-id", slug: "bill-gates", nickname: "빌 게이츠", nickname_en: "Bill Gates",
@@ -24,6 +24,7 @@ function renderCard(options: { variant?: "card" | "circle" | "medallion"; presen
   const mocks: Record<string, unknown> = {
     "./CelebCard.module.css": { default: { influenceFrame: "influenceFrame", influenceLabel: "influenceLabel", rankGlyph: "rankGlyph", separator: "separator", score: "score" } },
     "./CelebRealityLabel": { default: () => null },
+    "./PortraitCardImage": { default: ({ name }: { name: string }) => <svg role="img" aria-label={name} /> },
     "@/i18n/navigation": {
       Link: ({ href, prefetch, ...props }: React.ComponentProps<"a"> & { prefetch?: boolean }) => {
         assert.equal(prefetch, false);
@@ -46,6 +47,7 @@ function renderCard(options: { variant?: "card" | "circle" | "medallion"; presen
     id: string; nickname: string; celebProfile?: CelebProfile; recentViews: number;
     variant?: "card" | "circle" | "medallion"; onSubtitle?: () => void;
     count?: number; presentation?: "default" | "quiet"; showInfluence?: boolean;
+    imageMode?: "avatar" | "portrait"; onImageZoom?: (id: string) => void; avatar_url?: string;
   }> } };
   new Function("require", "module", "exports", compiled)(
     (id: string) => mocks[id] ?? require(id), loaded, loaded.exports,
@@ -53,9 +55,21 @@ function renderCard(options: { variant?: "card" | "circle" | "medallion"; presen
   const Card = loaded.exports.default;
   return load(renderToStaticMarkup(
     <Card id="figure-id" nickname="빌 게이츠" celebProfile={options.profile === false ? undefined : profile}
-      recentViews={30} variant={options.variant} presentation={options.presentation} count={options.count} showInfluence={options.showInfluence} onSubtitle={options.subtitle === false ? undefined : () => {}} />,
+      recentViews={30} variant={options.variant} presentation={options.presentation} count={options.count} showInfluence={options.showInfluence} onSubtitle={options.subtitle === false ? undefined : () => {}}
+      imageMode={options.imageMode} onImageZoom={options.zoom ? () => {} : undefined} avatar_url={options.profile === false ? undefined : 'https://example.test/avatar.png'} />,
   ));
 }
+
+test("portrait fullscreen is a separate visible action and compact cards keep their existing actions", () => {
+  const $ = renderCard({ imageMode: "portrait", zoom: true });
+  const zoom = $('button[aria-label="enlargePhoto: 빌 게이츠"]');
+  assert.equal(zoom.length, 1);
+  assert.equal(zoom.attr("aria-haspopup"), "dialog");
+  assert.equal(zoom.parents("a").length, 0);
+  assert.equal($('a[href="/celeb/bill-gates"]').length, 1);
+  assert.equal(renderCard({ imageMode: "avatar", zoom: true })('button[aria-label^="enlargePhoto:"]').length, 0);
+  assert.equal(renderCard({ imageMode: "portrait", zoom: true, profile: false })('button[aria-label^="enlargePhoto:"]').length, 0);
+});
 
 test("influence is opt-in and its label preserves the separate card actions", () => {
   assert.equal(renderCard({ score: 73 })("[data-celeb-card-influence]").length, 0);

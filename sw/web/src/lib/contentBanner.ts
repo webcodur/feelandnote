@@ -59,8 +59,9 @@ export function getContentBannerImages(type: ContentType, bookTheme: BookBannerT
   return { ...getHostedContentBannerImages(theme), theme };
 }
 
-export function getContentBannerArtwork(type: ContentType, metadata?: ContentMetadata | null): string | null {
-  const candidates = type === "VIDEO" ? [metadata?.backdropUrl]
+/** 장면 이미지는 테마 배너와 분리해 원래 비율로 감상하는 갤러리에 쓴다. */
+export function getContentGalleryImages(type: ContentType, metadata?: ContentMetadata | null): string[] {
+  const candidates = type === "VIDEO" ? [metadata?.backdropUrl, ...(metadata?.screenshots ?? [])]
     : type === "GAME" ? metadata?.screenshots ?? [] : [];
-  return candidates.find(url => typeof url === "string" && url.trim())?.trim() ?? null;
+  return [...new Set(candidates.filter((url): url is string => typeof url === "string" && Boolean(url.trim())).map(url => url.trim()))];
 }

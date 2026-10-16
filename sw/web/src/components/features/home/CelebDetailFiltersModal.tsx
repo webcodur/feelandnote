@@ -131,7 +131,7 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
                   className="h-9 w-full rounded-md border border-white/15 bg-white/5 pl-9 pr-3 text-sm outline-none focus-visible:border-accent" />
               </div>
             )}
-            <div className="max-h-[38vh] space-y-1 overflow-y-auto p-3">{remainingOptions.map(renderOption)}</div>
+            <div className="space-y-1 p-3">{remainingOptions.map(renderOption)}</div>
           </>
         )}
       </div>

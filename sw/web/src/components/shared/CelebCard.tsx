@@ -9,7 +9,7 @@ import { useState, useCallback } from "react";
 import { calculateInfluenceRank } from "@feelandnote/influence-constants";
 import { getInfluenceRankStyle } from "@/components/features/influence/rankMaterials";
 import InfluenceRankGlyph from "@/components/features/influence/InfluenceRankGlyph";
-import { Eye, Library } from "lucide-react";
+import { Eye, Library, Maximize2 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { getCelebProfileUrl } from "@/lib/url";
 import { celebDisplayName } from "@/lib/celeb/displayName";
@@ -59,6 +59,8 @@ interface CelebCardProps {
   showInfluence?: boolean;
   /** card variant 전용: portrait이면 대표사진을 쓰고 없는 인물은 아바타로 돌아간다. */
   imageMode?: CelebCardImage;
+  /** 대표사진의 독립 확대 버튼. 인물 정보 링크와 분리한다. */
+  onImageZoom?: (id: string) => void;
 }
 
 export default function CelebCard({
@@ -79,6 +81,7 @@ export default function CelebCard({
   emphasizeHover = false,
   showInfluence = false,
   imageMode = "avatar",
+  onImageZoom,
 }: CelebCardProps) {
   const t = useTranslations("shared.celeb");
   const tCeleb = useTranslations("celebPage");
@@ -118,6 +121,7 @@ export default function CelebCard({
     : isQuiet ? "group-hover:border-white/30" : "group-hover:border-accent/60";
   const frameEdge = `${isQuiet ? "border border-line bg-bg-card" : "border border-white/5 ring-1 ring-inset ring-white/5 shadow-inner"} ${frameHover}`;
   const usePortrait = isCard && imageMode === "portrait";
+  const canZoom = usePortrait && Boolean(onImageZoom && (celebProfile?.portrait_url || avatar_url));
   // 대표사진·아바타 대체 카드 모두 같은 4:5 틀을 쓴다.
   const config = isCard
     ? { container: `${usePortrait ? "aspect-[4/5]" : "aspect-square"} w-full`, fallbackSize: 32 }
@@ -182,7 +186,7 @@ export default function CelebCard({
             )}
             {isCard && realityLabel && (
               <span
-                className="absolute bottom-[clamp(4px,3cqw,8px)] right-[clamp(4px,3cqw,8px)] z-20 flex h-[clamp(17px,13cqw,24px)] items-center rounded-full border border-white/15 bg-black/70 px-[clamp(4px,2cqw,8px)] text-[clamp(11px,6.5cqw,12px)] font-bold leading-none text-white/75 group-hover:border-white/35 group-hover:text-white"
+                className={`absolute bottom-[clamp(4px,3cqw,8px)] ${canZoom ? "end-14" : "end-[clamp(4px,3cqw,8px)]"} z-20 flex h-[clamp(17px,13cqw,24px)] items-center rounded-full border border-white/15 bg-black/70 px-[clamp(4px,2cqw,8px)] text-[clamp(11px,6.5cqw,12px)] font-bold leading-none text-white/75 group-hover:border-white/35 group-hover:text-white`}
                 title={realityLabel}
               >
                 {realityLabel}
@@ -221,7 +225,15 @@ export default function CelebCard({
         {/* 사진 위에 놓되 링크 밖의 독립 버튼으로 제공한다. 음성이 실제로 있는 인물만 스피커를 둔다. */}
         <div className={`absolute top-0 pointer-events-none ${config.container}`}>
           {isCard && reality === "BOTH" && <CelebRealityLabel reality={reality}
-            className="absolute bottom-[clamp(4px,3cqw,8px)] end-[clamp(4px,3cqw,8px)] z-20 pointer-events-auto flex min-h-7 items-center rounded-md border border-white/15 bg-black/70 px-2 text-xs font-medium leading-none text-white/75" />}
+            className={`absolute bottom-[clamp(4px,3cqw,8px)] ${canZoom ? "end-14" : "end-[clamp(4px,3cqw,8px)]"} z-20 pointer-events-auto flex min-h-7 items-center rounded-md border border-white/15 bg-black/70 px-2 text-xs font-medium leading-none text-white/75`} />}
+          {canZoom && (
+            <button type="button" onClick={() => onImageZoom?.(id)}
+              aria-label={`${tCeleb("enlargePhoto")}: ${displayNickname}`} aria-haspopup="dialog"
+              title={tCeleb("enlargePhoto")}
+              className="absolute bottom-2 end-2 z-30 pointer-events-auto flex size-11 items-center justify-center rounded-control border border-white/25 bg-black/65 text-white/85 hover:border-accent hover:bg-black/85 hover:text-accent active:bg-accent/20 outline-none focus-visible:ring-2 focus-visible:ring-accent">
+              <Maximize2 size={18} aria-hidden />
+            </button>
+          )}
           {onSubtitle && celebProfile && hasVoice && (
             <button
               type="button"

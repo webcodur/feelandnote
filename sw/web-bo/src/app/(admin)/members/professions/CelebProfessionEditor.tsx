@@ -76,7 +76,7 @@ export default function CelebProfessionEditor({ celebs }: Props) {
   }
 
   async function handleDelete(celebId: string, nickname: string | null) {
-    if (!confirm(`"${nickname || '닉네임 없음'}" 셀럽을 삭제하시겠습니까?`)) return
+    if (!confirm(`"${nickname || '닉네임 없음'}" 인물과 연결된 인물 데이터를 영구 삭제하시겠습니까? 삭제 후 복구할 수 없습니다.`)) return
 
     setDeletingId(celebId)
     try {

@@ -139,17 +139,30 @@ export function assertImageChange(before, after, marker, { added = true, replace
   return logos[0];
 }
 
-async function readSnapshot(page, { waitForImages = true } = {}) {
+async function readSnapshot(page, { waitForImages = true, tolerateBroken = false } = {}) {
   const imageSelector = '.se-component.se-image img.se-image-resource, .se-component.se-imageStrip img.se-image-resource';
-  const count = await page.$$eval(imageSelector, images => images.length);
+  // SmartEditor는 본문을 가상화해서 스크롤 전엔 사진 노드가 없을 수 있다. 위에서 아래로 점진 스크롤해 전부 마운트한다.
+  await page.evaluate(async () => {
+    const step = innerHeight * 0.8;
+    for (let y = 0; y < document.body.scrollHeight; y += step) { scrollTo(0, y); await new Promise(r => setTimeout(r, 150)); }
+    scrollTo(0, 0);
+  });
+  let count = -1, same = 0;
+  for (let i = 0; i < 20 && same < 2; i++) {
+    await new Promise(r => setTimeout(r, 400));
+    const n = await page.$$eval(imageSelector, images => images.length);
+    same = n === count ? same + 1 : 0;
+    count = Math.max(count, n);
+  }
   for (let index = 0; waitForImages && index < count; index++) {
-    await page.$$eval(imageSelector, (images, i) => images[i].scrollIntoView({ block: 'center', behavior: 'instant' }), index);
+    await page.$$eval(imageSelector, (images, i) => images[i]?.scrollIntoView({ block: 'center', behavior: 'instant' }), index);
     try {
       await page.waitForFunction(({ selector, index }) => {
         const image = document.querySelectorAll(selector)[index];
         return image?.complete && image.naturalWidth > 0 && image.naturalHeight > 0 && /^https?:\/\//.test(image.src) && !/\.svg(?:[?#]|$)/i.test(image.src);
       }, { timeout: 15000 }, { selector: imageSelector, index });
     } catch (error) {
+      if (tolerateBroken) continue;
       const state = await page.$$eval(imageSelector, (images, i) => {
         const image = images[i];
         if (!image) return { missing: true };

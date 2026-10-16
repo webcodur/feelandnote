@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getContentBannerArtwork, getContentBannerImages, resolveMediaBannerTheme } from "./contentBanner";
+import { getContentGalleryImages, getContentBannerImages, resolveMediaBannerTheme } from "./contentBanner";
 
 test("books retain their historical theme while other media use their own images", () => {
   assert.equal(getContentBannerImages("BOOK", "chinese-classics").theme, "chinese-classics");
@@ -12,18 +12,20 @@ test("books retain their historical theme while other media use their own images
   }
 });
 
-test("only film backdrops and game screenshots become banner artwork", () => {
-  const metadata = { backdropUrl: " https://example.com/backdrop.jpg ", screenshots: ["", " https://example.com/game.jpg "] };
-  assert.equal(getContentBannerArtwork("VIDEO", metadata), "https://example.com/backdrop.jpg");
-  assert.equal(getContentBannerArtwork("GAME", metadata), "https://example.com/game.jpg");
-  assert.equal(getContentBannerArtwork("BOOK", metadata), null);
-  assert.equal(getContentBannerArtwork("MUSIC", metadata), null);
+test("film stills and game screenshots are preserved separately from themed banners without duplicates", () => {
+  const metadata = { backdropUrl: " https://example.com/backdrop.jpg ", screenshots: ["", "https://example.com/backdrop.jpg", " https://example.com/game.jpg "] };
+  assert.deepEqual(getContentGalleryImages("VIDEO", metadata), ["https://example.com/backdrop.jpg", "https://example.com/game.jpg"]);
+  assert.deepEqual(getContentGalleryImages("GAME", metadata), ["https://example.com/backdrop.jpg", "https://example.com/game.jpg"]);
+  assert.deepEqual(getContentGalleryImages("BOOK", metadata), []);
+  assert.deepEqual(getContentGalleryImages("MUSIC", metadata), []);
+  const theme = resolveMediaBannerTheme("VIDEO", { ...metadata, genres: ["Drama"] });
+  assert.equal(getContentBannerImages("VIDEO", "library", theme).theme, "romance");
 });
 
-test("missing or blank media artwork falls back to a type-specific banner", () => {
-  for (const type of ["VIDEO", "GAME", "MUSIC"] as const) assert.equal(getContentBannerArtwork(type), null);
-  assert.equal(getContentBannerArtwork("VIDEO", { backdropUrl: " " }), null);
-  assert.equal(getContentBannerArtwork("GAME", { screenshots: ["", " "] }), null);
+test("missing or blank scene images do not produce empty gallery tiles", () => {
+  for (const type of ["VIDEO", "GAME", "MUSIC"] as const) assert.deepEqual(getContentGalleryImages(type), []);
+  assert.deepEqual(getContentGalleryImages("VIDEO", { backdropUrl: " " }), []);
+  assert.deepEqual(getContentGalleryImages("GAME", { screenshots: ["", " "] }), []);
 });
 
 test("localized genres select the same theme and specific genres outrank drama", () => {

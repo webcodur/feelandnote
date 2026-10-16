@@ -635,7 +635,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
 
   async function handleDelete() {
     if (!celeb) return
-    if (!confirm('이 인물을 삭제 처리하시겠습니까? 인물 목록과 서비스에서 숨겨집니다.')) return
+    if (!confirm('이 인물과 연결된 감상 기록·대사·관계 등 인물 데이터를 영구 삭제하시겠습니까? 삭제 후 복구할 수 없습니다.')) return
 
     setDeleteLoading(true)
     setError(null)

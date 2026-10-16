@@ -430,6 +430,48 @@
     "relatedFactionMoreGroups": "and {count} more groups",
     "relModeSocial": "Social relationships",
     "enlargeAvatar": "View larger avatar",
-    "heroPhoto": "Main photo"
+    "heroPhoto": "Main photo",
+    "filmography": {
+      "title": "Film & TV Credits",
+      "description": "Films and TV shows featuring their work in acting, directing, writing, and production.",
+      "loading": "Loading film and TV credits.",
+      "error": "Could not load film and TV credits.",
+      "mediaFilter": "Media type",
+      "roleFilter": "Credit type",
+      "allRoles": "All roles",
+      "count": "{count} works",
+      "tmdb": "View filmography",
+      "imdb": "View person on IMDb",
+      "character": "As {name}",
+      "undated": "Release date TBA",
+      "media": {
+        "all": "All",
+        "movie": "Film",
+        "tv": "TV"
+      },
+      "roles": {
+        "acting": "Acting",
+        "directing": "Directing",
+        "writing": "Writing & source material",
+        "production": "Production",
+        "music": "Music & sound",
+        "crew": "Crew"
+      },
+      "jobs": {},
+      "attribution": "This product uses the TMDB API but is not endorsed or certified by TMDB.",
+      "searchLabel": "Search film and TV titles",
+      "searchPlaceholder": "Search by title",
+      "clearSearch": "Clear search",
+      "sortLabel": "Sort credits",
+      "sort": {
+        "popular": "Notable works",
+        "latest": "Newest first"
+      },
+      "empty": "No works match your search.",
+      "reset": "Reset search and filters",
+      "results": "Matching film and TV credits",
+      "shownCount": "Showing {shown} of {count} works",
+      "loadMore": "Show more"
+    }
   }
 }

@@ -154,7 +154,6 @@ export async function fetchCelebs(db: DatabaseClient): Promise<CelebRow[]> {
     const { data, error } = await db
       .from('celebs')
       .select(select)
-      .neq('publication_status', 'deleted')
       .order('id', { ascending: true })
       .range(from, from + 999)
     if (error) throw new Error(`celebs 조회 실패: ${error.message}`)

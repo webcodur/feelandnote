@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
-import { Book, Film, Gamepad2, Music, Star } from "lucide-react";
+import { Book, Film, Gamepad2, Music } from "lucide-react";
 import ContentCover from "@/components/ui/ContentCover";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
@@ -27,18 +27,21 @@ interface Props {
 /** 표지·작품 정보·조작을 인물 상세의 대표 정보 판과 같은 위계로 배치한다. */
 export default function ContentInfoSection({ content, actions, editionSelection, unavailable, bannerTheme }: Props) {
   const tCategory = useTranslations("content.category");
+  const t = useTranslations("contentDetail");
   const Icon = TYPE_ICONS[content.type];
   const metadata = content.metadata as unknown as Metadata | null;
-  const rating = metadata?.voteAverage ?? metadata?.rating;
+  const originalTitle = metadata?.originalTitle?.trim();
   const isSquare = content.type === "MUSIC";
+  const videoSubtype = /^tmdb-(movie|tv)-/.exec(content.externalId || content.id)?.[1];
+  const categoryLabel = content.type === 'VIDEO' && videoSubtype ? t(videoSubtype === 'tv' ? 'tvSeries' : 'movie') : tCategory(content.type.toLowerCase());
   return (
     <div className={styles.hero} data-content-edition-info={content.purchaseEditionId ?? "work"}>
-      <ContentBanner type={content.type} theme={bannerTheme} metadata={metadata} mediaTheme={content.mediaBannerTheme} />
+      <ContentBanner type={content.type} theme={bannerTheme} />
       <div className={styles.identity}>
         <div className={styles.coverColumn}>
           <div className={[styles.cover, isSquare && styles.squareCover].filter(Boolean).join(" ")}>
             <ContentCover src={content.thumbnail} alt={content.title} priority
-              sizes="(max-width: 767px) 96px, 160px" className="object-contain"
+              sizes="(max-width: 767px) 112px, 232px" className="object-contain"
               fallbackTitle={content.title} ContentIcon={Icon} />
           </div>
           {!unavailable && <ContentPurchaseAction contentId={content.id} type={content.type} placement="content-detail"
@@ -50,25 +53,21 @@ export default function ContentInfoSection({ content, actions, editionSelection,
         <div className={styles.informationColumn}>
           <div className={styles.identityCopy}>
             <div className={styles.heading}>
-              <span className={styles.category}><Icon size={15} aria-hidden="true" />{tCategory(content.type.toLowerCase())}</span>
+              <span className={styles.category}><Icon size={15} aria-hidden="true" />{categoryLabel}</span>
               <h1 className={styles.title}>
                 <NoEditionBadge contentType={content.type} badge={content.titleBadge} className="me-1.5 align-middle" />
                 {content.title}
               </h1>
+              {originalTitle && originalTitle !== content.title && <p className={styles.originalTitle}>{originalTitle}</p>}
               {content.type === "VIDEO" && metadata?.tagline && <p className={styles.tagline}>{metadata.tagline}</p>}
             </div>
-            <ContentMetadata content={content} />
-            <div className={styles.actions}>
-              {actions}
-              {rating !== undefined && rating > 0 && <span className="inline-flex items-center gap-1 rounded-md border border-accent/20 px-2 py-1 text-xs font-semibold text-accent">
-                <Star size={12} aria-hidden="true" />{rating.toFixed(1)}
-              </span>}
-            </div>
           </div>
+          <ContentMetadata content={content} />
+          {actions && <div className={styles.actions}>{actions}</div>}
           {editionSelection && <div className={styles.editionSlot}>{editionSelection}</div>}
-          {!unavailable && <div className={styles.introductionSlot}><ContentIntroduction content={content} /></div>}
         </div>
       </div>
+      {!unavailable && <div className={styles.introductionSlot}><ContentIntroduction content={content} /></div>}
       {!unavailable && content.type !== "BOOK" && <div className={styles.extras}><ContentMediaDetails content={content} /></div>}
     </div>
   );

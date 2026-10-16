@@ -55,7 +55,7 @@ async function fetchMetadataFromApi(
 // 도서 외 메타는 공통 정적 캐시 수명을 따른다.
 const getCachedMetadata = unstable_cache(
   fetchMetadataFromApi,
-  ['content-metadata-full-description-v1'],
+  ['content-metadata-details-v3'],
   { revalidate: STATIC_REVALIDATE }
 )
 

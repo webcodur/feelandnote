@@ -32,6 +32,7 @@ export interface CelebsSearchParams extends CelebColumnSearchParams {
   tier?: string
   reality?: string
   image?: string
+  cardImage?: string
   faction?: string
   sort?: string
   sortOrder?: 'asc' | 'desc'
@@ -73,6 +74,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
   const sort = params.sort || 'created_at'
   const sortOrder = params.sortOrder || 'desc'
   const baseHref = VIEW_HREFS[view]
+  const cardImage = params.cardImage === 'portrait' ? 'portrait' : 'avatar'
   const resultSetKey = [page, pageSize, search, status, profession, tier, reality, imageFilter, faction, sort, sortOrder, JSON.stringify(columnFilters)].join(':')
 
   const [{ members: celebs, total }, { entries }, managedTotal] = await Promise.all([
@@ -112,6 +114,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
     tier: tier !== 'all' ? tier : undefined,
     reality: reality !== 'all' ? reality : undefined,
     image: imageFilter !== 'all' ? imageFilter : undefined,
+    cardImage: cardImage === 'portrait' ? cardImage : undefined,
     faction: faction !== 'all' ? faction : undefined,
     sort: sort !== 'created_at' ? sort : undefined,
     sortOrder: sortOrder !== 'desc' ? sortOrder : undefined,
@@ -167,7 +170,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
               imageProcessingJobs={imageProcessingJobs}
             />
           ) : view === 'cards' ? (
-            <CelebCardGrid key={resultSetKey} celebs={celebs} />
+            <CelebCardGrid key={resultSetKey} celebs={celebs} imageMode={cardImage} />
           ) : (
             <div className="overflow-x-auto rounded-b-lg"><CelebTable celebs={celebs} /></div>
           )}

@@ -135,7 +135,7 @@ async function main() {
     'id,slug,nickname,nickname_en,aliases,wikidata_qid,birth_date,death_date,publication_status',
   )
   // 이번 실행에서 만들 인물도 뒤따르는 레코드의 중복 대상에 넣는다(원장 안의 같은 사람)
-  const pool: ExistingProfile[] = profiles.filter((row) => row.publication_status !== 'deleted')
+  const pool: ExistingProfile[] = [...profiles]
   const occupiedSlugs = new Set(profiles.flatMap((row) => (row.slug ? [row.slug] : [])))
 
   const plans: PlannedSeed[] = records.map(({ file, record }) => {

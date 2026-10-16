@@ -14,6 +14,7 @@ import hubStyles from "@/components/shared/HubSection.module.css";
 */
 
 import { getTranslations, getLocale } from "next-intl/server";
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft } from "lucide-react";
 import { getLocalizedAlternates } from "@/lib/seo";
@@ -29,6 +30,9 @@ import { ABOUT_SECTIONS, aboutSection } from "./aboutSections";
 
 async function AboutContent({ locale }: { locale: string }) {
   const t = await getTranslations("policy");
+  const tmdb = await getTranslations("celebPage.filmography");
+  const originalTmdbNotice = locale === "en" ? null
+    : (await getTranslations({ locale: "en", namespace: "celebPage.filmography" }))("attribution");
   const showcase = await getAboutShowcase(locale);
 
   // 문의 앵커를 본문과 함께 그려 지연 로딩 뒤에도 문의 위치가 바뀌지 않게 한다.
@@ -46,6 +50,14 @@ async function AboutContent({ locale }: { locale: string }) {
           >
             feelandnote@gmail.com
           </a>
+          <div className="space-y-3 border-t border-line pt-6 text-center">
+            <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center rounded px-3 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+              <Image src="/images/logos/tmdb.svg" width={100} height={13} alt="TMDB" className="h-auto w-[100px]" />
+            </a>
+            <p className="text-xs leading-relaxed text-text-secondary">{tmdb("attribution")}</p>
+            {originalTmdbNotice && <p lang="en" className="text-xs leading-relaxed text-text-secondary">{originalTmdbNotice}</p>}
+          </div>
         </div>
       </AboutContact>
     </AsyncIntlProvider>

@@ -245,7 +245,6 @@ async function loadAllCharacters(): Promise<CharacterRow[]> {
     const { data, error } = await admin
       .from('celebs')
       .select('id,slug,nickname,nickname_en,title,avatar_url,status:publication_status')
-      .neq('publication_status', 'deleted')
       .order('nickname')
       .order('id')
       .range(from, from + ADMIN_PAGE_SIZE - 1)

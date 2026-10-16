@@ -251,9 +251,6 @@ async function main() {
       if (existing.celeb_reality === 'REAL') {
         throw new Error(`${person.nickname}: 기존 인물의 실존 축이 REAL입니다. 이 경로로 전승에 붙이지 않습니다.`)
       }
-      if (existing.publication_status === 'deleted') {
-        throw new Error(`${person.nickname}: 삭제된 기존 프로필입니다.`)
-      }
       const member = memberByCeleb.get(existing.id)
       return {
         kind: member ? 'skip' : 'link',

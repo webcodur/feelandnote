@@ -92,6 +92,7 @@ const WEB_CONFIG_FILES = new Set([
 ])
 
 const NON_RUNTIME_WEB_ROOT_FILES = new Set([
+  'sw/web/AGENTS.md',
   'sw/web/.gitignore',
   'sw/web/README.md',
   'sw/web/build_log.txt',
@@ -130,6 +131,8 @@ const SEO_FILES = new Set([
 
 const CELEB_PREFIXES = [
   'sw/web/src/app/[locale]/(main)/celeb/',
+  // 참여작 구획의 검색·필터·카드는 인물 상세에서만 렌더링한다.
+  'sw/web/src/components/features/celeb/filmography/',
   // 이 묶음은 사용자 서재에도 쓰이지만 Cloudflare가 보관하는 화면 중에서는
   // 인물 상세의 감상배경에만 영향을 준다.
   'sw/web/src/components/features/user/contentLibrary/',
@@ -138,6 +141,7 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  'sw/web/src/lib/celeb/filmography.ts',
   'sw/web/src/components/features/celeb/ProfessionInfoButton.tsx',
   // 옛 세력 주소는 middleware에서 이동하며, 보관 HTML 중에서는 인물 상세의 소속 링크도 바꾼다.
   'sw/web/src/lib/retired-factions.ts',
@@ -234,6 +238,9 @@ const CONTENT_PREFIXES = [
 ]
 
 const CONTENT_FILES = new Set([
+  // 영상 크레딧과 인물 연결의 소비자는 작품 상세다.
+  'sw/web/src/actions/contents/getVideoPeople.ts',
+  'sw/web/src/lib/celeb/videoCredits.ts',
   // R2의 버전별 배너 주소와 장르 선택은 작품 상세에서만 소비한다.
   'sw/web/src/lib/contentBanner.ts',
   'sw/web/src/lib/contentBannerAssets.ts',
@@ -247,6 +254,9 @@ const CONTENT_FILES = new Set([
 ])
 
 const CELEB_AND_CONTENT_FILES = new Set([
+  // 상세·감상배경 양쪽에서 메타를 보충하고 이미지 확대창을 연다.
+  'sw/web/src/actions/contents/fetchContentMetadata.ts',
+  'sw/web/src/components/ui/ImageViewerModal.tsx',
   // 제목의 가번역·절판 판정과 클릭 안내는 인물 리뷰와 작품 상세 양쪽에서 표시한다.
   'sw/web/src/lib/utils/content-locale.ts',
   'sw/web/src/components/ui/NoEditionBadge.tsx',
@@ -292,6 +302,11 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // 인물 참여작 API 전용 조회와 탐색 격자의 지연 확대창이다.
+  'sw/web/src/lib/celeb/tmdbFilmography.ts',
+  'sw/web/src/components/features/home/CelebGridImageViewer.tsx',
+  // 최초 추가한 공식 로고. 원본을 교체할 때는 참조 URL도 버전 변경한다.
+  'sw/web/public/images/logos/tmdb.svg',
   // classics·chosen·era 결과는 작품 탐색에서만 읽는다. 상세 HTML의 도서 메타 조회는 별도 경로다.
   'sw/web/src/actions/library/chosen.ts',
   'sw/web/src/actions/library/classics.ts',

@@ -1762,7 +1762,6 @@ async function main() {
       'celebs',
       profileSelect,
       (query) => query
-        .neq('publication_status', 'deleted')
         .in('slug', [...SLUGS])
         .order('id'),
     )
@@ -1779,7 +1778,7 @@ async function main() {
       fetchAll<ProfileRow>(
         'celebs',
         profileSelect,
-        (query) => query.neq('publication_status', 'deleted').order('id'),
+        (query) => query.order('id'),
       ),
       fetchAll<ExplanationRow>(
         'celeb_explanations',
@@ -1798,7 +1797,7 @@ async function main() {
     ? new Set((await fetchAll<{ slug: string }>(
       'celebs',
       'slug',
-      (query) => query.neq('publication_status', 'deleted').order('slug'),
+      (query) => query.order('slug'),
     )).map((profile) => profile.slug))
     : selectedDatabaseSlugs
 

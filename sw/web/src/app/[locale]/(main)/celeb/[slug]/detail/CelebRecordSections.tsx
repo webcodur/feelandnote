@@ -34,6 +34,7 @@ interface CelebRecordSectionsProps {
   serviceModel: CelebServiceModel;
   librarySlot: ReactNode;
   booksSlot: ReactNode;
+  filmographySlot?: ReactNode;
   relatedFiguresSlot?: ReactNode;
   relatedFactionsSlot?: ReactNode;
 }
@@ -46,6 +47,7 @@ export default function CelebRecordSections({
   serviceModel,
   librarySlot,
   booksSlot,
+  filmographySlot,
   relatedFiguresSlot,
   relatedFactionsSlot,
 }: CelebRecordSectionsProps) {
@@ -119,6 +121,7 @@ export default function CelebRecordSections({
           />
         )))}
         {isFiction && connectionsSection}
+        {renderSection("filmography", filmographySlot)}
         {renderSection("library", librarySlot)}
         {renderSection("affiliateBooks", booksSlot)}
         {renderSection("analysis", initialAnalysis ? (

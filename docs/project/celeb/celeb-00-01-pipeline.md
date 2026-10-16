@@ -60,7 +60,7 @@
 - 옮기기 전에 두 프로필과 딸린 행 전체를 조회해 메모리에서 비교한다. 아바타를 덮어쓰면 [작업 파일·백업 원칙](../data/README.md#작업-파일백업)에 따라 원본 복구본을 보존한다.
 - 여러 행 표(감상 기록·연표·관계·등장 도서·세력 소속)는 남는 쪽에 없는 것만 옮긴다. 같은 사건·같은 관계는 옮기지 않는다.
 - 한 행 표(영향력·스펙트럼·대사·인물 안내)와 프로필 칸(수식어·소개·아바타)은 현행 룰북에 맞고 사실이 정확한 쪽을 고른다. 공개·음성이 붙은 쪽은 그대로 둔다. 소개는 두 쪽 사실을 합쳐 다시 쓸 수 있다.
-- 없어지는 쪽 이름은 다른 이름으로 남긴다. 프로필은 행을 지우지 않고 `publication_status='deleted'`로 둔다. 옛 slug는 `sw/web/src/middleware.ts`의 `LEGACY_CELEB_SLUG_REDIRECTS`로 308을 건다.
+- 없어지는 쪽 이름은 다른 이름으로 남긴다. 데이터를 옮기고 검수한 뒤 중복 프로필 행은 영구 삭제한다. 옛 slug는 `sw/web/src/middleware.ts`의 `LEGACY_CELEB_SLUG_REDIRECTS`로 308을 건다.
 - `celeb_contents.celeb_id`만 바꾸면 개수 트리거가 돌지 않는다. 옮긴 뒤 `celeb_metrics.content_count`를 다시 센다.
 - 끝나면 `celeb:dup-check --all`이 0쌍인지 본다.
 
