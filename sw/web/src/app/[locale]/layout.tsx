@@ -3,7 +3,7 @@ import { getCelebProfessions } from "@/lib/celeb-professions";
 /*
   파일명: /app/[locale]/layout.tsx
   기능: Locale 레이아웃
-  책임: metadata, NextIntlClientProvider, Footer, GA를 제공한다.
+  책임: metadata, NextIntlClientProvider, Footer, GA·Clarity를 제공한다.
 */ // ------------------------------
 
 import type { Metadata, Viewport } from "next";
@@ -14,6 +14,7 @@ import { setRequestLocale, getMessages, getTranslations } from "next-intl/server
 import { BASE_MESSAGE_PATHS, pickMessages } from "@/i18n/message-scope";
 import Footer from "@/components/ui/Layout/Footer";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import MicrosoftClarity from "@/components/shared/MicrosoftClarity";
 import { GlobalDialogueProvider } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
 import { GameAudioProvider } from "@/contexts/GameAudioContext";
 import { FactionMusicProvider } from "@/contexts/FactionMusicContext";
@@ -160,7 +161,7 @@ export default async function LocaleLayout({
         />
         <meta name="google-adsense-account" content="ca-pub-3751045783335791" />
       </head>
-      <body>
+      <body data-clarity-mask="true">
         <ProfessionProvider professions={professions}>
         <NextIntlClientProvider messages={messages}>
           <GameAudioProvider>
@@ -178,6 +179,7 @@ export default async function LocaleLayout({
               {process.env.NODE_ENV === "production" && (
                 <GoogleAnalytics gaId="G-LMVY8KTJ7T" />
               )}
+              <MicrosoftClarity />
               </GlobalDialogueProvider>
             </FactionMusicProvider>
           </GameAudioProvider>

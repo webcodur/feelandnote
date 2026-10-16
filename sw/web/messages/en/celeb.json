@@ -428,6 +428,8 @@
     "relatedFactionsIntro": "The groups and stories this figure is part of.",
     "relatedFactionMorePeople": "and {count} more",
     "relatedFactionMoreGroups": "and {count} more groups",
-    "relModeSocial": "Social relationships"
+    "relModeSocial": "Social relationships",
+    "enlargeAvatar": "View larger avatar",
+    "heroPhoto": "Main photo"
   }
 }

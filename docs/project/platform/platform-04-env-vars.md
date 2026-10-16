@@ -169,6 +169,7 @@ ElevenLabs에는 콘솔의 API Key ID가 아니라 키 생성·회전 시 표시
 |------|------------|------|
 | `GA_PROPERTY_ID` | web, web-bo | GA4 속성 번호 |
 | `GA_CREDENTIALS_PATH` | web, web-bo | 아래 인증 파일의 경로. web-bo는 `../web/credentials/ga-service-account.json`으로 같은 파일을 가리킨다 |
+| `NEXT_PUBLIC_CLARITY_PROJECT_ID` | web | Microsoft Clarity 공개 프로젝트 ID. `sw/web/.env`에 두며 운영 빌드 전에 설정한다. 없으면 Clarity를 로드하지 않는다 |
 | `sw/web/credentials/ga-service-account.json` | `sw/web/credentials/` | 🔴 **구글 서비스 계정 키 파일.** 개인 키가 그대로 들어 있다 (`claude-analytics@feelandnote.iam.gserviceaccount.com`) |
 
 ### 3-9. 영상 제작 로컬 연동

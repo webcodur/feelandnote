@@ -21,7 +21,7 @@ test('listing limits apply before query keys, including forged Server Action arg
 test('budget aborts actual HTTP work and releases its concurrency slot', async (t) => {
   const run = createListingQueryBudget(1, 25)
   let aborted = false
-  t.mock.method(globalThis, 'fetch', async (_url, init) => new Promise<Response>((_resolve, reject) => {
+  t.mock.method(globalThis, 'fetch', async (_url: Parameters<typeof fetch>[0], init: Parameters<typeof fetch>[1]) => new Promise<Response>((_resolve, reject) => {
     init!.signal!.addEventListener('abort', () => { aborted = true; reject(init!.signal!.reason) }, { once: true })
   }))
   const first = run(async () => { await rawFetch('https://db.example.test/rest/v1/celebs') })

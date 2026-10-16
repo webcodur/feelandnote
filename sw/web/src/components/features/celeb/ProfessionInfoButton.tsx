@@ -31,10 +31,10 @@ export default function ProfessionInfoButton({ profession, label }: ProfessionIn
         aria-expanded={isOpen}
         aria-haspopup="dialog"
         title={label}
-        className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/12 bg-transparent px-0 text-accent hover:border-accent/60 hover:bg-white/[0.05] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 md:w-auto md:gap-1.5 md:px-2.5"
+        className="inline-flex h-11 min-w-11 items-center justify-center gap-1.5 rounded-md bg-transparent text-inherit hover:bg-white/[0.05] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
       >
         <CelebProfessionMark profession={profession} size={16} />
-        <span className="hidden text-xs font-medium leading-none md:inline">{label}</span>
+        <span className="hidden font-normal leading-none md:inline">{label}</span>
       </button>
 
       <Modal isOpen={isOpen} onClose={close} title={label} size="sm">

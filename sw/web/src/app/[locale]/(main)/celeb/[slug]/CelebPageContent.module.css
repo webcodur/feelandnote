@@ -35,23 +35,28 @@
 }
 
 .identityPanel {
+  --celeb-hero-photo-layout-width: clamp(var(--celeb-hero-photo-width), 28vw, calc(var(--celeb-hero-photo-width) * 4 / 3));
   position: relative;
   z-index: 2;
   display: grid;
   width: 100%;
   margin: -56px 0 0;
   padding: 0 32px 32px;
-  grid-template-columns: var(--celeb-hero-photo-width) minmax(0, 1fr);
-  gap: 32px;
+  grid-template-columns: var(--celeb-hero-photo-layout-width) minmax(0, 1fr);
+  gap: 24px;
   border-top: 1px solid color-mix(in srgb, var(--color-accent) 48%, transparent);
   background: var(--material-panel, var(--color-bg-card));
+}
+
+.identityPanel:has(.avatarHeroColumn) {
+  --celeb-hero-photo-layout-width: var(--celeb-hero-photo-width);
 }
 
 .heroColumn {
   position: relative;
   z-index: 1;
   display: flex;
-  width: var(--celeb-hero-photo-width);
+  width: var(--celeb-hero-photo-layout-width);
   margin-top: -28px;
   justify-content: center;
   align-self: start;
@@ -117,9 +122,21 @@
   border: 1px solid color-mix(in srgb, var(--color-accent) 56%, transparent);
   border-radius: 999px;
   background: var(--color-bg-secondary);
+  padding: 0;
+  cursor: zoom-in;
+  outline: none;
   box-shadow:
     0 0 0 4px color-mix(in srgb, var(--material-panel, var(--color-bg-card)) 82%, transparent),
     0 10px 24px color-mix(in srgb, black 32%, transparent);
+}
+
+.identityAvatar:hover {
+  border-color: var(--color-accent);
+}
+
+.identityAvatar:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
 }
 
 .identityAvatarImage {
@@ -185,14 +202,16 @@
   align-items: center;
   gap: 8px 12px;
   color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
 }
 
-.profession {
+.metaItem {
   display: inline-flex;
+  min-height: 44px;
   align-items: center;
-  gap: 5px;
-  color: var(--color-accent);
-  font-weight: 700;
 }
 
 .mobileAgeLabel {
@@ -296,7 +315,9 @@
   }
 
   .mobileHeroAvatar {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .identityCopy {

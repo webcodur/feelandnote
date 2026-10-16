@@ -428,6 +428,8 @@
     "relatedFactionsIntro": "이 인물이 등장하는 세력과 이야기",
     "relatedFactionMorePeople": "외 {count}명",
     "relatedFactionMoreGroups": "외 {count}개 그룹",
-    "relModeSocial": "사회 관계"
+    "relModeSocial": "사회 관계",
+    "enlargeAvatar": "인물 크게 보기",
+    "heroPhoto": "대표 사진"
   }
 }

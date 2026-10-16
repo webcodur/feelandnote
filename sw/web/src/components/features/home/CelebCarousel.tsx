@@ -17,6 +17,7 @@ import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCoun
 import type { TrendCountry } from "@/constants/trendCountries";
 import { useTranslations } from "next-intl";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 // 인물 카드 눌러 뜨는 요약 모달 — 첫 클릭 때만 늦게 받는다
 const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
@@ -73,8 +74,10 @@ export default function CelebCarousel({
   });
 
   const [isControlsExpanded, setIsControlsExpanded] = useState(true);
-  // 카드 사진 보기 방식 — 아바타(누끼) ↔ 대표사진(4:5 화보). 명부 조회가 아닌 표시 상태다.
-  const [cardImage, setCardImage] = useState<CelebCardImage>("avatar");
+  // PC 탐색은 대표사진으로 시작하며, 직접 고른 보기는 화면 폭이 바뀌어도 유지한다.
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [cardImageOverride, setCardImage] = useState<CelebCardImage | null>(null);
+  const cardImage = cardImageOverride ?? (syncToUrl && isDesktop ? "portrait" : "avatar");
   // 카드를 누르면 상세로 가지 않고 요약 모달 — 목록 위치를 쥐어 ‹ › 넘김도 둔다
   const [previewId, setPreviewId] = useState<string | null>(null);
   const previewIndex = previewId ? filters.celebs.findIndex((c) => c.id === previewId) : -1;
@@ -229,7 +232,7 @@ export default function CelebCarousel({
           {/* 결과 수는 조작 아래 한 줄이 쥔다(CelebCompactControls resultLabel) */}
           {filters.listingError && !filters.isLoading && <div role="status"><RetryBlock message={t("listLoadFailed")} onRetry={filters.retryListing} /></div>}
           {filters.celebs.length === 0 && !filters.isLoading && !filters.listingError && <EmptyState />}
-          {filters.isLoading && filters.celebs.length === 0 && <GridSkeleton />}
+          {filters.isLoading && filters.celebs.length === 0 && <GridSkeleton imageMode={cardImage} />}
           {filters.celebs.length > 0 && (
             <>
               <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} quiet={syncToUrl} showInfluence={filters.sortBy === "influence"} onSelect={handlePreviewChange} imageMode={cardImage} />
@@ -284,9 +287,10 @@ function EmptyState() {
   );
 }
 
-function GridSkeleton() {
+function GridSkeleton({ imageMode }: { imageMode: CelebCardImage }) {
+  const gridLayout = imageMode === "portrait" ? CELEB_GRID_LAYOUT_PORTRAIT : CELEB_GRID_LAYOUT;
   return (
-    <div className={`${CELEB_GRID_LAYOUT} gap-y-2 md:gap-y-6`}>
+    <div className={`${gridLayout} gap-y-2 md:gap-y-6`}>
       {Array.from({ length: 12 }).map((_, i) => (
         <div key={i} className="aspect-[13/19] bg-bg-card animate-pulse rounded-xl" />
       ))}

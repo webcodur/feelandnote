@@ -573,6 +573,12 @@ const NON_RUNTIME_PREFIXES = [
 ]
 
 const NON_HTML_RUNTIME_PREFIXES = [
+  // 천도·유랑은 쉼터 게임에서만 쓰며, 실험실도 앞단 HTML 보관 대상이 아니다.
+  'sw/web/src/actions/game/suikoden/',
+  'sw/web/src/components/features/game/suikoden/',
+  'sw/web/src/lib/game/suikoden/',
+  'sw/web/src/app/[locale]/lab/',
+  'sw/web/src/components/lab/home-theme/',
   // 신화·세력도감의 페이지와 지속 레이아웃은 앞단 HTML 보관 대상이 아니다.
   'sw/web/src/app/[locale]/(main)/explore/myth/',
   'sw/web/src/app/[locale]/(main)/explore/faction/',
@@ -621,6 +627,29 @@ function isTestOnlyPath(file) {
 }
 
 function classifyFile(file) {
+  // 같은 이미지·fetch 헬퍼의 실제 소비자는 보관 HTML과 SEO 이미지 양쪽에 있다.
+  if (file === 'sw/web/src/lib/rawFetch.ts') return ['cached-html', 'seo']
+  if (file === 'sw/web/src/components/ui/CelebImage.tsx') return ['cached-html']
+  // 명부·순위·게임·실험실 및 공개 메타 API 전용 소비자.
+  if ([
+    'sw/web/src/actions/game/wander.ts',
+    'sw/web/src/lib/game/wander/nationality.ts',
+    'sw/web/src/components/features/rest/SuikodenSlot.tsx',
+    'sw/web/src/components/lab/LabLayoutFrame.tsx',
+    'sw/web/src/actions/home/getCelebsByProfession.ts',
+    'sw/web/src/actions/home/getTopByContentType.ts',
+    'sw/web/src/actions/home/getTopByContentTypeFull.ts',
+    'sw/web/src/app/[locale]/(main)/explore/figures/filterParams.ts',
+    'sw/web/src/app/[locale]/(main)/explore/figures/sections.tsx',
+    'sw/web/src/components/features/home/CelebCarousel.tsx',
+    'sw/web/src/components/features/home/useCelebFilters.ts',
+    'sw/web/src/components/features/home/useCelebListingRequest.ts',
+    'sw/web/src/lib/boundedJsonCache.ts',
+    'sw/web/src/lib/latestRequest.ts',
+    'sw/web/src/lib/listingQueryBudget.ts',
+    'sw/web/src/lib/listingRequest.ts',
+    'sw/web/src/lib/publicMetadata.ts',
+  ].includes(file)) return []
   if (
     !file
     || isTestOnlyPath(file)

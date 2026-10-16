@@ -30,10 +30,7 @@ export interface CelebProfileMediaProps {
   imageSizes?: string;
 }
 
-/**
- * 셀럽 프로필 이미지와 공통 액션을 함께 표시한다.
- * 상세 페이지와 인물 상세 모달이 같은 크게 보기·대사 버튼 동작을 사용한다.
- */
+// 상세 페이지와 인물 모달의 프로필 이미지·크게 보기·대사 버튼을 공유한다.
 export default function CelebProfileMedia({
   photoUrl,
   avatarUrl,
@@ -122,7 +119,7 @@ export default function CelebProfileMedia({
       <div
         className={`relative flex-shrink-0 self-start ${containerClassName}`}
         style={{
-          width: CELEB_HERO_PHOTO_SPEC.desktopWidthPx,
+          width: `var(--celeb-hero-photo-layout-width, ${CELEB_HERO_PHOTO_SPEC.desktopWidthPx}px)`,
           aspectRatio: CELEB_HERO_PHOTO_SPEC.aspectRatio,
         }}
       >

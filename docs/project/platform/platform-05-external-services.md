@@ -155,7 +155,7 @@ TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 
 - **클라이언트**: `sw/web-bo/src/lib/r2.ts` — `uploadToR2()`, `deleteFromR2()`
 - **업로드 로직**: `sw/web-bo/src/actions/admin/storage.ts`
 
-## Google Analytics
+## 웹 분석 (Google Analytics·Microsoft Clarity)
 
 - GA4 Measurement ID: `G-LMVY8KTJ7T` (layout.tsx에 설정)
 - GA4 Property ID: `526353156`
@@ -169,6 +169,10 @@ TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 
 - 인물 조회수는 GA4와 DB(`celebs.view_count`)가 사실상 일치한다. DB가 조금 큰 것은 광고 차단 접속까지 세기 때문이라 DB 값을 보정 없이 쓴다. 중복 제거 창은 30분이다.
 - 인물 상세처럼 한 장에 여러 칸을 담은 화면은 페이지/세션으로 참여도를 재지 않는다. 겹창(`CelebDetailModal`)은 화면 전환을 의도적으로 줄이므로 그 지표가 낮아지는 것이 설계대로다. 체류·칸 도달(`celeb_section_view`)·겹창 열림(`celeb_person_open`)으로 잰다.
 - 네이버는 GA에 검색어를 넘기지 않는다. 네이버 유입의 검색어는 서치어드바이저 화면에서만 본다.
+
+- Clarity 연결: `sw/web/src/components/shared/MicrosoftClarity.tsx`. 공개 프로젝트 ID(`NEXT_PUBLIC_CLARITY_PROJECT_ID`)가 있는 production 환경에서만 hydration 뒤 로드한다. 기존 GA4 계측은 유지한다.
+- locale 레이아웃의 `body`에 `data-clarity-mask`를 적용해 화면 본문과 입력값을 가린다. 히트맵·클릭·스크롤 분석은 유지하되 리플레이에서 본문을 읽을 수는 없다. 회원 식별자·이메일은 별도로 전달하지 않는다.
+- 동의를 임의로 승인하는 API 호출은 넣지 않는다. EEA·영국·스위스의 전체 세션 기능은 [Clarity 동의 신호 규칙](https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-consent-api-v2)에 따라 유효한 동의 신호가 있어야 한다.
 
 ## 음성 R2 경로 규칙
 

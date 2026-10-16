@@ -7,6 +7,8 @@
 "use client";
 
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
+import ImageViewerModal from "@/components/ui/ImageViewerModal";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 
 import ProfessionInfoButton from "@/components/features/celeb/ProfessionInfoButton";
@@ -30,6 +32,7 @@ interface HeroIdentityProps {
 export default function HeroIdentity({ profile, locale, preview = false }: HeroIdentityProps) {
   const t = useTranslations("celebPage");
   const tp = useTranslations("profession");
+  const [avatarOpen, setAvatarOpen] = useState(false);
 
   /* ── 1. 신원 파생값 ── */
   const nickname = profile.nickname;
@@ -75,13 +78,14 @@ export default function HeroIdentity({ profile, locale, preview = false }: HeroI
           }`}
         >
           {profile.photo_url && profile.avatar_url ? (
-            <div className={styles.identityAvatar}>
+            <button type="button" className={styles.identityAvatar}
+              onClick={() => setAvatarOpen(true)} aria-label={t("enlargePhoto")} aria-haspopup="dialog">
               <CelebAvatarImage
                 src={profile.avatar_url}
                 alt=""
                 className={styles.identityAvatarImage}
               />
-            </div>
+            </button>
           ) : null}
 
           <div className={styles.identityHeadingCopy}>
@@ -91,6 +95,11 @@ export default function HeroIdentity({ profile, locale, preview = false }: HeroI
             <NameTag className={styles.name} role={preview ? 'heading' : undefined} aria-level={preview ? 1 : undefined}>{nickname}</NameTag>
           </div>
         </div>
+
+        {profile.photo_url && profile.avatar_url && avatarOpen && (
+          <ImageViewerModal src={profile.avatar_url} alt={nickname} isOpen={avatarOpen}
+            onClose={() => setAvatarOpen(false)} showImageShadow={false} closeOnImageClick />
+        )}
 
         {profile.headline ? (
           <p className={styles.headline}>{profile.headline}</p>
@@ -108,7 +117,7 @@ export default function HeroIdentity({ profile, locale, preview = false }: HeroI
         {/* ── 3. 메타(직업·국적·생몰·나이·티어·번역고지) ── */}
         <div className={styles.meta}>
           {professionLabel ? (
-            <span className={styles.profession}>
+            <span className={styles.metaItem}>
               <ProfessionInfoButton
                 profession={profile.profession!}
                 label={professionLabel}
@@ -116,14 +125,14 @@ export default function HeroIdentity({ profile, locale, preview = false }: HeroI
             </span>
           ) : null}
           {profile.nationality ? (
-            <span>
+            <span className={styles.metaItem}>
               <NationalityText code={profile.nationality} />
             </span>
           ) : null}
-          {period ? <span className="font-mono">{period}</span> : null}
+          {period ? <span className={styles.metaItem}>{period}</span> : null}
           {ageLabel ? (
             <span
-              className="rounded-md border border-accent-dim/25 bg-accent/[0.04] px-3 py-1.5 font-medium leading-tight text-text-secondary"
+              className={styles.metaItem}
               aria-label={ageLabel}
             >
               <span className={styles.desktopAgeLabel}>{ageLabel}</span>

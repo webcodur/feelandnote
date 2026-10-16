@@ -13,6 +13,24 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('game and listing helpers bypass HTML purges while image and fetch helpers refresh their cached consumers', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/actions/game/suikoden/index.ts',
+    'sw/web/src/components/features/game/suikoden/CheondoApp.tsx',
+    'sw/web/src/lib/game/suikoden/roster-data.ts',
+    'sw/web/src/actions/game/wander.ts',
+    'sw/web/src/components/features/home/CelebCarousel.tsx',
+    'sw/web/src/lib/publicMetadata.ts',
+    'sw/web/src/app/[locale]/lab/home-theme/page.tsx',
+  ]).scopes, ['none'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/ui/CelebImage.tsx',
+  ]).scopes, ['cached-html'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/lib/rawFetch.ts',
+  ]).scopes, ['seo', 'cached-html'])
+})
+
 test('classics browsing and home filters do not invalidate cached detail HTML', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/actions/library/chosen.ts',

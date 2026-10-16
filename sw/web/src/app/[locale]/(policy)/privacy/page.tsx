@@ -89,6 +89,14 @@ export default async function PrivacyPage() {
         <ul className="list-disc pl-5 space-y-2 text-text-secondary leading-relaxed">
           <li>{t.rich("privacy6Item1", { b: bold })}</li>
           <li>{t.rich("privacy6Item2", { b: bold })}</li>
+          <li>{t.rich("privacy6Clarity", {
+            b: bold,
+            microsoftPrivacy: (chunks) => (
+              <a href="https://privacy.microsoft.com/privacystatement" className="underline hover:text-accent">
+                {chunks}
+              </a>
+            ),
+          })}</li>
           <li>{t.rich("privacy6Item3", { b: bold })}</li>
         </ul>
       </section>

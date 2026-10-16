@@ -6,7 +6,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 
 import CelebWorldFrame from "@/components/features/celeb/CelebWorldFrame";
@@ -15,6 +15,7 @@ import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import type { Locale } from "@/types/locale";
 
 import CelebPortrait from "@/components/shared/CelebPortrait";
+import ImageViewerModal from "@/components/ui/ImageViewerModal";
 import { BREAKPOINT_MD } from "@/constants/breakpoints";
 import styles from "../../CelebPageContent.module.css";
 
@@ -50,6 +51,7 @@ export default function HeroPhoto({
   onGreet,
 }: HeroPhotoProps) {
   const t = useTranslations("celebPage");
+  const [photoOpen, setPhotoOpen] = useState(false);
 
   /* ── 2. 줌 대상 파생값 ── */
   const zoomImageUrl = profile.photo_url ?? profile.avatar_url ?? null;
@@ -91,9 +93,8 @@ export default function HeroPhoto({
           photoUrl={null}
           avatarUrl={profile.avatar_url}
           nickname={nickname}
-          zoomSrc={zoomImageUrl}
-          zoomCaption={zoomCaption}
-          zoomLabel={t("enlargePhoto")}
+          zoomSrc={profile.avatar_url}
+          zoomLabel={t("enlargeAvatar")}
           hasVoice={hasGreetingAudio}
           isVoicePlaying={isVoiceActive}
           onGreet={onGreet}
@@ -102,6 +103,16 @@ export default function HeroPhoto({
           imageSizes="112px"
           initialSize="text-2xl"
         />
+        {profile.photo_url && (
+          <button type="button" onClick={() => setPhotoOpen(true)} aria-haspopup="dialog"
+            className="mt-5 inline-flex min-h-9 items-center justify-center rounded-control border border-line-strong bg-bg-secondary px-3 text-sm text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            {t("heroPhoto")}
+          </button>
+        )}
+        {profile.photo_url && photoOpen && (
+          <ImageViewerModal src={profile.photo_url} alt={nickname} caption={zoomCaption}
+            isOpen={photoOpen} onClose={() => setPhotoOpen(false)} showImageShadow={false} closeOnImageClick />
+        )}
       </div>
     </>
   );
