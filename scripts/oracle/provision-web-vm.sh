@@ -6,6 +6,7 @@ set -euo pipefail
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 # Copy this script together with the runtime helpers, units and retention configs below.
 test -f "$SCRIPT_DIR/web-runtime-metrics.cjs"
+test -f "$SCRIPT_DIR/server-action-forwarding.cjs"
 test -f "$SCRIPT_DIR/prune-render-cache.py"
 test -f "$SCRIPT_DIR/disk-alert.py"
 test -f "$SCRIPT_DIR/feelandnote-disk-alert.service"
@@ -50,6 +51,7 @@ sudo mkdir -p /opt/feelandnote/web
 sudo install -d -o ubuntu -g ubuntu -m 0750 /opt/feelandnote/web/slots
 sudo install -d -m 0755 /opt/feelandnote/observability
 sudo install -o root -g root -m 0644 "$SCRIPT_DIR/web-runtime-metrics.cjs" /opt/feelandnote/observability/web-runtime-metrics.cjs
+sudo install -o root -g root -m 0644 "$SCRIPT_DIR/server-action-forwarding.cjs" /opt/feelandnote/observability/server-action-forwarding.cjs
 sudo install -o root -g root -m 0755 "$SCRIPT_DIR/prune-render-cache.py" /usr/local/sbin/feelandnote-prune-render-cache.py
 sudo install -o root -g root -m 0755 "$SCRIPT_DIR/disk-alert.py" /usr/local/sbin/feelandnote-disk-alert.py
 sudo install -o root -g root -m 0644 "$SCRIPT_DIR/feelandnote-disk-alert.service" /etc/systemd/system/feelandnote-disk-alert.service
@@ -150,7 +152,7 @@ EnvironmentFile=/etc/feelandnote/web.env
 Environment=NODE_ENV=production
 Environment=PORT=3000
 Environment=NODE_OPTIONS=--max-old-space-size=${HEAP_MB}
-ExecStart=/usr/local/bin/node --require /opt/feelandnote/observability/web-runtime-metrics.cjs server.js
+ExecStart=/usr/local/bin/node --require /opt/feelandnote/observability/web-runtime-metrics.cjs --require /opt/feelandnote/observability/server-action-forwarding.cjs server.js
 Restart=always
 RestartSec=5
 TimeoutStopSec=15

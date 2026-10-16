@@ -1002,6 +1002,8 @@ async function runCanary(releaseId, port, probeSlug) {
       `--setenv=PORT=${port}`,
       '--setenv=NODE_OPTIONS=--max-old-space-size=512',
       '/usr/local/bin/node',
+      '--require',
+      '/opt/feelandnote/observability/server-action-forwarding.cjs',
       'server.js',
     ])
 
