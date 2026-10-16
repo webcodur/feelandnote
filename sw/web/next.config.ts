@@ -25,6 +25,10 @@ const nextConfig: NextConfig = {
     '/*': [
       './node_modules/@img/sharp-linux-x64/**/*',
       './node_modules/@img/sharp-libvips-linux-x64/**/*',
+      // sharp 자체는 루트 pnpm 가상 저장소에서 로딩하므로 앱의 직접 의존성만
+      // 복사하면 Linux optional dependency를 찾지 못한다. 그 연결도 추적한다.
+      '../../node_modules/.pnpm/sharp@*/node_modules/@img/sharp-linux-x64/**/*',
+      '../../node_modules/.pnpm/sharp@*/node_modules/@img/sharp-libvips-linux-x64/**/*',
     ],
     // Smithy의 조건부 subpath export는 Windows trace에서 빠질 수 있다.
     '/api/avatar': [
