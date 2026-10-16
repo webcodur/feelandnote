@@ -138,6 +138,7 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  'sw/web/src/components/features/celeb/ProfessionInfoButton.tsx',
   // 옛 세력 주소는 middleware에서 이동하며, 보관 HTML 중에서는 인물 상세의 소속 링크도 바꾼다.
   'sw/web/src/lib/retired-factions.ts',
   // 인물 상세의 메타 설명과 본문 제목을 조립하는 공통 함수.
@@ -573,6 +574,8 @@ const NON_RUNTIME_PREFIXES = [
 ]
 
 const NON_HTML_RUNTIME_PREFIXES = [
+  // 약관·개인정보처리방침은 앞단 HTML 보관 대상이 아니다.
+  'sw/web/src/app/[locale]/(policy)/',
   // 천도·유랑은 쉼터 게임에서만 쓰며, 실험실도 앞단 HTML 보관 대상이 아니다.
   'sw/web/src/actions/game/suikoden/',
   'sw/web/src/components/features/game/suikoden/',
