@@ -479,14 +479,16 @@
       "clearSearch": "검색어 지우기",
       "sortLabel": "참여작 정렬",
       "sort": {
-        "popular": "주요작순",
+        "popular": "대표작 우선",
         "latest": "최신순"
       },
       "empty": "일치하는 작품이 없습니다.",
       "reset": "검색·필터 초기화",
       "results": "참여작 검색 결과",
       "shownCount": "{count}편 중 {shown}편 표시",
-      "loadMore": "더 보기"
+      "loadMore": "더 보기",
+      "showAll": "전체 보기",
+      "sortHelp": "주 활동 분야와 출연진 순서를 우선하고, TMDB 평가 참여 수와 인기도를 반영합니다."
     }
   }
 }

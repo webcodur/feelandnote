@@ -1,5 +1,15 @@
 /** TMDB 크레딧을 작품 ID별로 합친다. 화면·조회·검증이 같은 역할과 표시 기준을 쓴다. */
-export const FILMOGRAPHY_BATCH_SIZE = 8
+export const FILMOGRAPHY_PAGE_SIZE = {
+  mobile: { initial: 4, more: 2 },
+  desktop: { initial: 8, more: 4 },
+} as const
+
+export function getFilmographyVisibleCounts(total: number, expandedBatches: number) {
+  return {
+    mobile: Math.min(total, FILMOGRAPHY_PAGE_SIZE.mobile.initial + expandedBatches * FILMOGRAPHY_PAGE_SIZE.mobile.more),
+    desktop: Math.min(total, FILMOGRAPHY_PAGE_SIZE.desktop.initial + expandedBatches * FILMOGRAPHY_PAGE_SIZE.desktop.more),
+  }
+}
 export const FILMOGRAPHY_CACHE_TTL_MS = 24 * 60 * 60 * 1000
 const LEADING_CAST_ORDER = 5
 const NON_FICTION_TV_GENRES = new Set([10763, 10764, 10767])

@@ -464,14 +464,16 @@
       "clearSearch": "Clear search",
       "sortLabel": "Sort credits",
       "sort": {
-        "popular": "Notable works",
+        "popular": "Notable works first",
         "latest": "Newest first"
       },
       "empty": "No works match your search.",
       "reset": "Reset search and filters",
       "results": "Matching film and TV credits",
       "shownCount": "Showing {shown} of {count} works",
-      "loadMore": "Show more"
+      "loadMore": "Show more",
+      "showAll": "View all",
+      "sortHelp": "Prioritizes their main creative role and cast billing, then TMDB rating counts and popularity."
     }
   }
 }

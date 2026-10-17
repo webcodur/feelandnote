@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import { NextRequest } from 'next/server'
-import { normalizeFilmography, filterFilmography, type FilmographyWork, type TmdbCredit } from './filmography'
+import { normalizeFilmography, filterFilmography, getFilmographyVisibleCounts, type FilmographyWork, type TmdbCredit } from './filmography'
 import { GET } from '@/app/api/celeb-filmography/route'
 
 const credit = (fields: Partial<TmdbCredit> = {}): TmdbCredit => ({
@@ -12,6 +12,16 @@ const credit = (fields: Partial<TmdbCredit> = {}): TmdbCredit => ({
 const work = (index: number, fields: Partial<FilmographyWork> = {}): FilmographyWork => ({
   id: `tmdb-movie-${index}`, mediaType: 'movie', title: `Film ${index}`, year: '2000',
   poster: null, roles: ['acting'], characters: [], jobs: [], ...fields,
+})
+
+test('mobile starts with four and adds two, desktop starts with eight and adds four', () => {
+  assert.deepEqual(getFilmographyVisibleCounts(30, 0), { mobile: 4, desktop: 8 })
+  assert.deepEqual(getFilmographyVisibleCounts(30, 1), { mobile: 6, desktop: 12 })
+  assert.deepEqual(getFilmographyVisibleCounts(30, 2), { mobile: 8, desktop: 16 })
+  assert.deepEqual(getFilmographyVisibleCounts(9, 1), { mobile: 6, desktop: 9 })
+  assert.deepEqual(getFilmographyVisibleCounts(3, 0), { mobile: 3, desktop: 3 })
+  assert.deepEqual(getFilmographyVisibleCounts(30, Infinity), { mobile: 30, desktop: 30 })
+  assert.deepEqual(getFilmographyVisibleCounts(0, Infinity), { mobile: 0, desktop: 0 })
 })
 
 test('search includes the end of a large filmography before any visible-list limit', () => {

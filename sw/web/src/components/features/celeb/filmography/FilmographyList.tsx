@@ -3,26 +3,26 @@
 import { useId, useMemo, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { Search, X } from 'lucide-react'
-import { FILMOGRAPHY_BATCH_SIZE, FILMOGRAPHY_ROLES, filterFilmography, type FilmographyFilters, type FilmographyWork } from '@/lib/celeb/filmography'
+import { FILMOGRAPHY_ROLES, filterFilmography, getFilmographyVisibleCounts, type FilmographyFilters, type FilmographyWork } from '@/lib/celeb/filmography'
 import FilmographyWorkCard from './FilmographyWorkCard'
 
 const FOCUS = 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent'
 const INPUT = `min-h-11 rounded-md border border-line bg-bg-raised text-sm text-text-primary hover:border-accent/60 ${FOCUS}`
-const DEFAULT_FILTERS: FilmographyFilters = { search: '', media: 'all', role: 'all', sort: 'popular' }
+const DEFAULT_FILTERS: FilmographyFilters = { search: '', media: 'all', role: 'all', sort: 'latest' }
 
 export default function FilmographyList({ works }: { works: FilmographyWork[] }) {
   const t = useTranslations('celebPage.filmography')
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
-  const [visibleCount, setVisibleCount] = useState(FILMOGRAPHY_BATCH_SIZE)
+  const [expandedBatches, setExpandedBatches] = useState(0)
   const listId = useId()
   const filtered = useMemo(() => filterFilmography(works, filters), [works, filters])
-  const shownCount = Math.min(visibleCount, filtered.length)
-  const hasMore = shownCount < filtered.length
+  const shownCount = getFilmographyVisibleCounts(filtered.length, expandedBatches)
+  const hasMore = shownCount.mobile < filtered.length
   const mediaWorks = works.filter(work => filters.media === 'all' || work.mediaType === filters.media)
   const roles = FILMOGRAPHY_ROLES.filter(role => mediaWorks.some(work => work.roles.includes(role)))
   const update = (change: Partial<FilmographyFilters>) => {
     setFilters(value => ({ ...value, ...change }))
-    setVisibleCount(FILMOGRAPHY_BATCH_SIZE)
+    setExpandedBatches(0)
   }
   const chip = (active: boolean) => `min-h-11 rounded-md border px-3 py-2 text-sm font-medium ${FOCUS} ${active
     ? 'border-accent/60 bg-accent/10 text-accent' : 'border-line bg-bg-raised text-text-secondary hover:border-accent/60 hover:text-accent'}`
@@ -40,10 +40,12 @@ export default function FilmographyList({ works }: { works: FilmographyWork[] })
             onClick={() => update({ search: '' })}><X size={16} aria-hidden /></button>}
         </div>
         <select aria-label={t('sortLabel')} value={filters.sort} className={`${INPUT} max-w-32 px-2 sm:px-3`} aria-controls={listId}
+          aria-describedby={filters.sort === 'popular' ? `${listId}-sort-help` : undefined}
           onChange={event => update({ sort: event.target.value as FilmographyFilters['sort'] })}>
-          <option value="popular">{t('sort.popular')}</option><option value="latest">{t('sort.latest')}</option>
+          <option value="latest">{t('sort.latest')}</option><option value="popular">{t('sort.popular')}</option>
         </select>
       </div>
+      {filters.sort === 'popular' && <p id={`${listId}-sort-help`} className="text-sm text-text-secondary">{t('sortHelp')}</p>}
       <div className="flex flex-wrap justify-center gap-3 sm:justify-between">
         <div role="group" aria-label={t('mediaFilter')} className="flex flex-wrap justify-center gap-2">
           {(['all', 'movie', 'tv'] as const).filter(media => media === 'all' || works.some(work => work.mediaType === media)).map(media =>
@@ -63,14 +65,20 @@ export default function FilmographyList({ works }: { works: FilmographyWork[] })
             aria-controls={listId} onClick={() => update({ role })}>{role === 'all' ? t('allRoles') : t(`roles.${role}`)}</button>)}
         </div></>}
       </div>
-      <p className="text-xs tabular-nums text-text-tertiary" aria-live="polite">{t('shownCount', { shown: shownCount, count: filtered.length })}</p>
+      <p className="text-xs tabular-nums text-text-tertiary" aria-live="polite">
+        <span className="md:hidden">{t('shownCount', { shown: shownCount.mobile, count: filtered.length })}</span>
+        <span className="hidden md:inline">{t('shownCount', { shown: shownCount.desktop, count: filtered.length })}</span>
+      </p>
     </div>
-    <ul id={listId} aria-label={t('results')} className="grid grid-cols-2 gap-px bg-line sm:grid-cols-3 lg:grid-cols-4">
-      {filtered.slice(0, shownCount).map(work => <FilmographyWorkCard key={work.id} work={work} />)}
+    <ul id={listId} aria-label={t('results')} className="grid grid-cols-2 gap-px bg-line md:grid-cols-4">
+      {filtered.slice(0, shownCount.desktop).map((work, index) => <FilmographyWorkCard key={work.id} work={work}
+        className={index >= shownCount.mobile ? 'hidden md:block' : undefined} />)}
     </ul>
-    {hasMore && <div className="border-t border-line bg-bg-raised/40 p-4 text-center">
+    {hasMore && <div className={`flex justify-center gap-2 border-t border-line bg-bg-raised/40 p-4 ${shownCount.desktop === filtered.length ? 'md:hidden' : ''}`}>
       <button type="button" className={chip(false)} aria-controls={listId}
-        onClick={() => setVisibleCount(count => count + FILMOGRAPHY_BATCH_SIZE)}>{t('loadMore')}</button>
+        onClick={() => setExpandedBatches(count => count + 1)}>{t('loadMore')}</button>
+      <button type="button" className={chip(false)} aria-controls={listId}
+        onClick={() => setExpandedBatches(Infinity)}>{t('showAll')}</button>
     </div>}
     {filtered.length === 0 && <div className="space-y-4 py-8 text-center">
       <p className="text-sm text-text-secondary" role="status">{t('empty')}</p>
