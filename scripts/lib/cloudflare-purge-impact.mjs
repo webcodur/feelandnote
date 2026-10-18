@@ -154,6 +154,7 @@ const CELEB_FILES = new Set([
   // 초기 관련 도서와 추천의 보관 HTML 소비자는 인물 상세다.
   'sw/web/src/actions/books/getProfessionBooks.ts',
   'sw/web/src/actions/celebs/getCelebReferenceBooks.ts',
+  'sw/web/src/actions/celebs/getCelebFactionBooks.ts',
   'sw/web/src/actions/home/getAffiliateBooks.ts',
   // professionShelf는 인물 상세와 도감 책장을 묶는다. 보관 HTML 소비자는 인물 상세다.
   'sw/web/src/lib/books/professionShelf.ts',
