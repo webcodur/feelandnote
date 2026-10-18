@@ -170,6 +170,10 @@ const CELEB_FILES = new Set([
   'sw/web/src/components/features/celeb/BookShelfAffiliationAddon.tsx',
   // 책장 감상의 보관 HTML 소비자는 인물 상세뿐이다. 홈은 앞단 캐시가 없다.
   'sw/web/src/components/shared/BookShelf/BookShelfReviewDetail.tsx',
+  // 공통 책장의 보관 HTML 소비자는 인물 상세이며 작품 상세는 이 책장 UI를 그리지 않는다.
+  'sw/web/src/components/shared/BookShelf/BookShelf.tsx',
+  'sw/web/src/components/shared/BookShelf/BookShelfBookList.tsx',
+  'sw/web/src/components/shared/BookShelf/types.ts',
   // Public shelf reads and approval badges affect the cached figure detail.
   'sw/web/src/actions/contents/getUserContents.ts',
   // 홈과 인물 상세의 첫 감상 조회. 보관 HTML 소비자는 인물 상세다.
@@ -356,6 +360,7 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/commerce/CommerceProductCard.tsx',
   'sw/web/src/components/features/faction/entry/ThemeBookShelf.tsx',
   'sw/web/src/components/features/faction/entry/FactionBookShelf.tsx',
+  'sw/web/src/components/features/faction/entry/FactionEntryView.tsx',
   // 도감 이동·최근 방문 자료는 도감/클라이언트 localStorage에서만 읽는다.
   'sw/web/src/lib/atlas-navigation.ts',
   'sw/web/src/lib/faction-theme.ts',
