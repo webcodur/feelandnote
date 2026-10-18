@@ -18,6 +18,7 @@ const EDITION_SELECT = 'id,content_id,locale,title,creator,description,sources,i
 const OPTION_SELECT = 'edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url'
 export const FIGURE_BOOK_EDITION_CATALOG_SELECT = EDITION_SELECT.replace(',description', '')
 export const FIGURE_BOOK_OPTION_CATALOG_SELECT = OPTION_SELECT.replace(',description', '')
+export const FIGURE_BOOK_DETAIL_CATALOG_SELECT = `catalog:figure_book_contents(content_id,editions:figure_book_editions(${EDITION_SELECT}),options:figure_book_purchase_options(${OPTION_SELECT}))`
 
 /** 목록이 이미 받은 작품·언어판을 판본 판정에 재사용한다. 출처는 판정에만 쓰고 목록에 싣지 않는다. */
 export interface FigureBookEditionCatalog {
@@ -25,6 +26,7 @@ export interface FigureBookEditionCatalog {
   works: { id: string; metadata: { figureBook?: { series?: unknown; workTitle?: string; originalTitle?: string; [key: string]: unknown } } | null }[]
   editions?: FigureBookEditionRow[]
   options?: FigureBookPurchaseOptionRow[]
+  includeIntroductions?: boolean
 }
 
 /**
@@ -43,13 +45,13 @@ export async function loadFigureBookEditions(
   if (!platform || contentIds.length === 0) return byContent
 
   const [rows, options, cards, works] = await Promise.all([
-    catalog?.editions ? Promise.resolve(catalog.editions) : selectInChunks<FigureBookEditionRow>(contentIds, (ids) => db
+    catalog?.editions ? Promise.resolve(catalog.editions.filter(row => row.locale === locale)) : selectInChunks<FigureBookEditionRow>(contentIds, (ids) => db
       .from('figure_book_editions')
       .select(catalog ? FIGURE_BOOK_EDITION_CATALOG_SELECT : EDITION_SELECT)
       .in('content_id', ids)
       .eq('locale', locale)
       .overrideTypes<FigureBookEditionRow[], { merge: false }>()),
-    catalog?.options ? Promise.resolve(catalog.options) : selectInChunks<FigureBookPurchaseOptionRow>(contentIds, (ids) => db
+    catalog?.options ? Promise.resolve(catalog.options.filter(row => row.locale === locale && row.platform === platform)) : selectInChunks<FigureBookPurchaseOptionRow>(contentIds, (ids) => db
       .from('figure_book_purchase_options')
       .select(catalog ? FIGURE_BOOK_OPTION_CATALOG_SELECT : OPTION_SELECT)
       .in('content_id', ids)
@@ -95,7 +97,7 @@ export async function loadFigureBookEditions(
     // 빈 배열도 남긴다. 시작권 없는 시리즈를 locale의 중간 권 정보로 되살리지 않는다.
     byContent.set(contentId, editions.map((edition) => ({
       ...attachFigureBookLocaleLinks(edition, localeCards.find(card => card.locale === locale)),
-      ...(!catalog ? selectBookIntroduction(locale, rowsByContent.get(contentId)?.find((row) => row.id === edition.id)
+      ...(!catalog || catalog.includeIntroductions ? selectBookIntroduction(locale, rowsByContent.get(contentId)?.find((row) => row.id === edition.id)
         ?? { locale, isbn: edition.isbn, description: edition.description }, null) : {}),
     })))
   }

@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { buildFactionSections } from "@/lib/faction-sections";
 import { buildFactionNavigation, buildMythNavigation } from "@/lib/atlas-navigation";
 import { getMythClientData } from "./mythPublicData";
-import { getMythData } from "./getMythData";
+import { getMythIndex } from "./getMythIndex";
 import { getFeaturedFactions } from "./getFeaturedFactions";
 import { getVisitorCountry } from "@/lib/visitorCountryServer";
 import { orderMythRegions } from "@/lib/visitorCountry";
@@ -14,7 +14,7 @@ export async function getAtlasNavigation(myth: boolean) {
   const locale = (await getLocale()) === "en" ? "en" : "ko";
   const t = await getTranslations("explore.hub.myth");
   if (myth) {
-    const data = getMythClientData(await getMythData(locale));
+    const data = getMythClientData(await getMythIndex(locale));
     data.regions = orderMythRegions(data.regions, await getVisitorCountry());
     return buildMythNavigation(data, { other: t("otherGroup"), unnamed: t("unnamedGroup") });
   }

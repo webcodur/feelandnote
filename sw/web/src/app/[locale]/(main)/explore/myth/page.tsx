@@ -1,5 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
-import { getMythData } from "@/actions/home/getMythData";
+import { getMythIndex } from "@/actions/home/getMythIndex";
 import { getMythClientData } from "@/actions/home/mythPublicData";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { MythSection } from "../sections";
@@ -17,7 +17,7 @@ const NAMED_REGIONS = 4;
  */
 async function describeMyths(locale: string, t: Awaited<ReturnType<typeof getTranslations>>) {
   try {
-    const data = getMythClientData(await getMythData(locale));
+    const data = getMythClientData(await getMythIndex(locale));
     const myths = data.myths.filter((myth) => myth.isPublished);
     const regions = data.regions.filter((region) => region.id !== "other");
     if (myths.length === 0 || regions.length === 0) return t("description");

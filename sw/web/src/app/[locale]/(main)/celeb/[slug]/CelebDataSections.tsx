@@ -33,12 +33,12 @@ export async function CelebLibraryServer({ contents, profile, slug, locale, init
 export async function CelebBooksServer({ books, profile }: { books: BooksPromise; profile: CelebBySlugProfile }) {
   const result = await books
   if (result.error) return <RetryBlock />
-  const { appeared, authored, professionBooks, factionGroups } = result.data
-  const hasBooks = appeared.length || authored.length || professionBooks.length || factionGroups.some(group => group.books.length)
+  const { appeared, authored, professionBooks, factionGroups, supplementaryDeferred } = result.data
+  const hasBooks = appeared.length || authored.length || professionBooks.length || factionGroups.some(group => group.books.length) || supplementaryDeferred
   const t = await getTranslations('celebPage.loading')
   return <div className={styles.arrived} data-celeb-loaded="books">
     {Boolean(hasBooks) && <CelebBookShelf celebId={profile.id} appeared={appeared} authored={authored}
-      professionBooks={professionBooks} profession={profile.profession} factionGroups={factionGroups} id="archive" />}
+      professionBooks={professionBooks} profession={profile.profession} factionGroups={factionGroups} supplementaryDeferred={supplementaryDeferred} id="archive" />}
     {!hasBooks && <p className="py-10 text-center text-sm text-text-tertiary">{t('booksEmpty')}</p>}
   </div>
 }

@@ -84,6 +84,17 @@ test('한 작품의 판본을 고를 때 다른 수천 작품의 locale 출처�
   assert.deepEqual(result.get('classic')?.map(row => row.id), [1])
 })
 
+test('한 번 받은 한영 판본은 언어·판매처를 구분하며 추가 조회 없이 재사용한다', async () => {
+  const base = { content_id: 'classic', title: 'Classic', creator: 'Author', description: null,
+    isbn: null, publisher: null, thumbnail_url: null, release_date: null, edition_kind: 'full', text_scope: 'complete', sort_order: 0 }
+  const catalog: FigureBookEditionCatalog = { works: [{ id: 'classic', metadata: null }], cards: [], options: [],
+    editions: [{ ...base, id: 1, locale: 'ko' }, { ...base, id: 2, locale: 'en' }], includeIntroductions: true }
+  const read = load({})
+  assert.deepEqual((await read(['classic'], 'ko', catalog)).get('classic')?.map(row => row.id), [1])
+  assert.deepEqual((await read(['classic'], 'en', catalog)).get('classic')?.map(row => row.id), [2])
+  assert.deepEqual(read.selects, [])
+})
+
 test('locale ISBN 제외는 같은 상품만 막고 정상 번역판과 그 출처를 보존한다', async () => {
   const rejectedIsbn = '9788937460012', normalIsbn = '9791139721966'
   const base = { content_id: 'classic', locale: 'ko', title: '온전한 고전', creator: '원저자', description: null,

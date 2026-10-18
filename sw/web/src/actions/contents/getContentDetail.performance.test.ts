@@ -37,7 +37,8 @@ test('book detail selects an available edition when the requested language has n
     '@/lib/db/static': { createStaticClient: () => ({ from: () => query }) },
     '@/lib/db/server': {}, './getContentById': {}, './fetchContentMetadata': {}, './getReviewFeed': {}, '@/actions/user': {},
     '@/actions/figure-books/getFigureBooks': {}, '@/actions/library/curated': {}, 'next-intl/server': {},
-    '@/actions/figure-books/figureBookEditions': { loadFigureBookEditions: async (_db: unknown, _ids: string[], locale: string) =>
+    '@/actions/figure-books/figureBookEditions': { FIGURE_BOOK_DETAIL_CATALOG_SELECT: '' },
+    '@/actions/figure-books/figureBookCatalog': { resolveFigureBookCatalog: async (_db: unknown, _ids: unknown, locale: string) =>
       new Map([[id, locale === 'en' ? englishAvailable ? [english] : [] : koreanAvailable ? [korean] : []]]) },
     '@/actions/figure-books/figureBookLocale': { pickPurchaseEdition },
     '@/lib/developer-mode': { isDeveloperMode: () => false },
@@ -85,7 +86,8 @@ test('선정 제외 작품의 상세와 기록은 유지하며 구매 fallback�
     '@/lib/db/static': { createStaticClient: () => ({ from: () => query }) },
     '@/lib/db/server': {}, './getContentById': {}, './fetchContentMetadata': {}, './getReviewFeed': {}, '@/actions/user': {},
     '@/actions/figure-books/getFigureBooks': {}, '@/actions/library/curated': {}, 'next-intl/server': {},
-    '@/actions/figure-books/figureBookEditions': { loadFigureBookEditions: async (_db: unknown, _ids: unknown, locale: string) =>
+    '@/actions/figure-books/figureBookEditions': { FIGURE_BOOK_DETAIL_CATALOG_SELECT: '' },
+    '@/actions/figure-books/figureBookCatalog': { resolveFigureBookCatalog: async (_db: unknown, _ids: unknown, locale: string) =>
       catalog ? new Map([[id, locale === 'en' ? english : []]]) : new Map() },
     '@/actions/figure-books/figureBookLocale': { pickPurchaseEdition },
     '@/lib/developer-mode': { isDeveloperMode: () => false },

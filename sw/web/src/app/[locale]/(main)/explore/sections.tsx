@@ -97,7 +97,7 @@ export async function MythSection({ slug = null }: { slug?: string | null } = {}
   const [locale, t] = await Promise.all([getLocale(), getTranslations("explore.hub.myth")]);
   // 마지막으로 보던 신화. 탐색은 이미 요청마다 그리고 앞단 캐시도 없어 쿠키를 읽어도 렌더 방식이 바뀌지 않는다
   const rememberedSlug = slug ? null : (await cookies()).get(MYTH_LAST_COOKIE)?.value ?? null;
-  const data = await load("신화 탐색", () => getMythData(locale));
+  const data = await load("신화 탐색", () => getMythData(locale, slug ?? rememberedSlug ?? MYTH_OPENING_SLUG));
   if (!data) return <ReservedState skeleton={<MythScreenSkeleton />}><RetryBlock /></ReservedState>;
   const publicData = getMythClientData(data, slug ?? rememberedSlug ?? MYTH_OPENING_SLUG);
   publicData.regions = orderMythRegions(publicData.regions, await getVisitorCountry());

@@ -13,6 +13,7 @@ function fixture() {
   const reads: string[] = []
   const cached = new Map<string, Promise<unknown>>()
   let fail = false
+  let inCache = false
   const db = { from(table: string) {
     reads.push(table)
     const q = { select: () => q, eq: () => q, in: () => q, order: () => q, range: () => q, overrideTypes: () => q,
@@ -24,7 +25,7 @@ function fixture() {
     '@/lib/db/static': { createStaticClient: () => db },
     '@/lib/cache': { cachedList: (_tag: string, key: string[], read: () => Promise<unknown>) => {
       const id = JSON.stringify(key)
-      if (!cached.has(id)) cached.set(id, read().catch(error => { cached.delete(id); throw error }))
+      if (!cached.has(id)) cached.set(id, (async () => { inCache = true; try { return await read() } finally { inCache = false } })().catch(error => { cached.delete(id); throw error }))
       return cached.get(id)
     } },
     './factionBookHydrate': { hydrateFactionBooks: async () => {
@@ -32,7 +33,7 @@ function fixture() {
       if (fail) throw new Error('DB failed')
       return [{ contentId: 'book' }]
     } },
-    '@/actions/books/getProfessionBooks': { getProfessionBooks: async () => { reads.push('professionBooks'); return [] } },
+    '@/actions/books/getProfessionBooks': { getProfessionBooks: async () => { assert.equal(inCache, false, 'shared profession cache must not be nested'); reads.push('professionBooks'); return [] } },
   }
   const loaded = { exports: {} as {
     getFactionReadBooks: (ids: string[], locale: string) => Promise<unknown>

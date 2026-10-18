@@ -14,6 +14,13 @@ export async function getCelebReferenceBooks(celebId: string, locale: string, in
         if (result.error) throw result.error
         return (result.data.profession as string | null) ?? null
       })
+  if (initial) {
+    const [figureBooks, profession] = await Promise.all([
+      getFigureBookPresentationsForCeleb(celebId, locale, true), professionPromise,
+    ])
+    return { ...getDisplayFigureBookGroups(figureBooks), profession,
+      professionBooks: [] as AffiliateBook[], factionGroups: [] as Awaited<ReturnType<typeof getCelebFactionBooks>>, supplementaryDeferred: true }
+  }
   // 네 갈래는 독립이다. 등장·집필 판본을 기다린 뒤 직군·소속 조회를 시작하지 않는다.
   const [figureBooks, profession, professionBooks, factionGroups] = await Promise.all([
     getFigureBookPresentationsForCeleb(celebId, locale, initial),
@@ -23,7 +30,7 @@ export async function getCelebReferenceBooks(celebId: string, locale: string, in
       : Promise.resolve([] as AffiliateBook[])),
     getCelebFactionBooks(celebId, locale),
   ])
-  return { ...getDisplayFigureBookGroups(figureBooks), profession, professionBooks, factionGroups }
+  return { ...getDisplayFigureBookGroups(figureBooks), profession, professionBooks, factionGroups, supplementaryDeferred: false }
 }
 
 export type CelebReferenceBooks = Awaited<ReturnType<typeof getCelebReferenceBooks>>

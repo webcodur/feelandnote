@@ -47,6 +47,7 @@ export function getFigureBookAssignmentsByContent(
 
 export async function getFigureBookAssignmentsByCelebs(
   celebIds: string[],
+  includeDescriptions = true,
 ): Promise<FigureBookAssignmentRow[]> {
   if (celebIds.length === 0) return []
 
@@ -56,7 +57,7 @@ export async function getFigureBookAssignmentsByCelebs(
   const rows = await selectInChunks<FigureBookAssignmentRow>(celebIds, async (ids) => ({
     data: await selectAllPages<FigureBookAssignmentRow>((from, to) => db
       .from('figure_book_characters')
-      .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
+      .select(`content_id,celeb_id,relation_type,sort_order${includeDescriptions ? ',description,description_en' : ''}`)
       .in('celeb_id', ids)
       .order('celeb_id', { ascending: true })
       .order('content_id', { ascending: true })

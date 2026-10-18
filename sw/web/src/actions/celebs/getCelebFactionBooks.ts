@@ -1,9 +1,10 @@
 'use server'
 
-import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
+import { cachedDetail, throwOnQueryError } from '@/lib/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/db/static'
 import { selectCelebAffiliationBooks } from '@/lib/figure-books/themeBooks'
-import { getFactionFigureBooks, getFactionThemeBooks, type FactionFigureBook } from '../home/getFactionFigureBooks'
+import { getFactionAffiliationBooks, getFactionThemeBooks, type FactionFigureBook } from '../home/getFactionFigureBooks'
 
 export interface CelebFactionBookGroup {
   factionId: string
@@ -38,7 +39,7 @@ export async function getCelebFactionBooks(
   celebId: string,
   locale: string,
 ): Promise<CelebFactionBookGroup[]> {
-  return withQueryFallback('getCelebFactionBooks', async () => {
+  const factions = await cachedDetail(CACHE_TAGS.CELEBS, celebId, ['celeb-book-memberships-v1', celebId], async () => {
     const db = createStaticClient()
     const memberResult = await db
       .from('faction_member_rows')
@@ -60,25 +61,23 @@ export async function getCelebFactionBooks(
     throwOnQueryError('getCelebFactionBooks/세력', factionError)
 
     const order = new Map(lv2Ids.map((id, index) => [id, index]))
-    const factions = (factionRows ?? [])
+    return (factionRows ?? [])
       .filter((row) => row.slug && (row.is_myth ? row.published : row.is_featured))
       .sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0))
-
-    const groups: CelebFactionBookGroup[] = []
-    const loaded = await Promise.all(factions.map(async (faction) => {
-      const slug = faction.slug as string
-      const assigned = await (faction.is_myth ? getFactionFigureBooks : getFactionThemeBooks)(faction.id, locale)
-      const factionName = locale === 'en' ? (faction.name_en ?? faction.name) : faction.name
-      const books = selectCelebAffiliationBooks(assigned, { name: factionName, isMyth: faction.is_myth === true })
-      return {
-        factionId: faction.id,
-        factionSlug: slug,
-        factionName,
-        isMyth: faction.is_myth === true,
-        books,
-      }
-    }))
-    groups.push(...loaded.filter((group) => group.books.length > 0))
-    return groups
-  }, [])
+  }, { extraTags: [CACHE_TAGS.FACTIONS] })
+  // Shared faction caches are read outside the membership cache callback.
+  const loaded = await Promise.all(factions.map(async (faction) => {
+    const slug = faction.slug as string
+    const factionName = locale === 'en' ? (faction.name_en ?? faction.name) : faction.name
+    const assigned = await (faction.is_myth ? getFactionAffiliationBooks(faction.id, locale, factionName) : getFactionThemeBooks(faction.id, locale))
+    const books = selectCelebAffiliationBooks(assigned, { name: factionName, isMyth: faction.is_myth === true })
+    return {
+      factionId: faction.id,
+      factionSlug: slug,
+      factionName,
+      isMyth: faction.is_myth === true,
+      books,
+    }
+  }))
+  return loaded.filter(group => group.books.length > 0)
 }

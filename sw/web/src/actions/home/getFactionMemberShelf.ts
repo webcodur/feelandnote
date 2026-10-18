@@ -66,7 +66,7 @@ export async function getFactionProfessionShelf(memberIds: string[], locale: str
   const ids = [...new Set(memberIds)].sort();
   if (!ids.length) return { profession: null, professionBooks: [] };
   const language = locale === "en" ? "en" : "ko";
-  return cachedList(CACHE_TAGS.CELEBS, ['faction-profession-shelf-v1', language, ids.join(',')], async () => {
+  const profession = await cachedList(CACHE_TAGS.CELEBS, ['faction-profession-v2', ids.join(',')], async () => {
     const db = createStaticClient();
     /* 직군 — 구성원 사이 가장 많은 직군의 선정 목록을 읽는다. */
     const memberRows = await selectInChunks<{ id: string; profession: string | null }>(ids, (ids) => db
@@ -79,14 +79,11 @@ export async function getFactionProfessionShelf(memberIds: string[], locale: str
     for (const row of memberRows ?? []) {
       if (row.profession) counts.set(row.profession, (counts.get(row.profession) ?? 0) + 1);
     }
-    const profession = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0] ?? null;
-
-    const professionBooks = profession
-      ? await getProfessionBooks(profession, language)
-      : [];
-
-    return { profession, professionBooks };
-  }, { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] });
+    return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0] ?? null;
+  });
+  // Keep the shared profession cache outside another unstable_cache callback.
+  const professionBooks = profession ? await getProfessionBooks(profession, language) : [];
+  return { profession, professionBooks };
 }
 
 /** 배포 전 클라이언트의 호출도 유지하되 두 독립 목록은 각각 캐시한다. */

@@ -12,7 +12,8 @@ import {
   getFigureBookCharactersForContent,
   type FigureBookCharacter,
 } from '@/actions/figure-books/getFigureBooks'
-import { loadFigureBookEditions } from '@/actions/figure-books/figureBookEditions'
+import { FIGURE_BOOK_DETAIL_CATALOG_SELECT } from '@/actions/figure-books/figureBookEditions'
+import { resolveFigureBookCatalog, type FigureBookCatalogContent } from '@/actions/figure-books/figureBookCatalog'
 import { pickPurchaseEdition } from '@/actions/figure-books/figureBookLocale'
 import { getCuratedEntriesForContent } from '@/actions/library/curated'
 import type { ContentCuratedEntry } from '@/actions/library/types'
@@ -125,13 +126,14 @@ function overrideBookLink(metadata: Record<string, unknown> | null, bookLocale: 
 async function fetchDefaultFigureBookEdition(
   contentId: string,
   locale: string,
+  content: FigureBookCatalogContent,
 ): Promise<{ selected: ContentBookEdition | null; editions: ContentBookEdition[]; hasCatalogEditions: boolean }> {
   const db = createStaticClient()
   let editions: ContentBookEdition[]
   let hasCatalogEditions = false
   try {
     const locales = locale === 'en' ? ['en', 'ko'] as const : ['ko', 'en'] as const
-    const maps = await Promise.all(locales.map(bookLocale => loadFigureBookEditions(db, [contentId], bookLocale, true)))
+    const maps = await Promise.all(locales.map(bookLocale => resolveFigureBookCatalog(db, [content], bookLocale, true, true)))
     hasCatalogEditions = maps.some(map => map.has(contentId))
     editions = maps.flatMap((map, index) => (map.get(contentId) ?? []).map(edition => ({ ...edition, locale: locales[index] })))
   } catch (error) {
@@ -152,12 +154,12 @@ async function fetchContentDataPublic(
   initial = false,
 ): Promise<ContentDetailData['content'] | null> {
   const db = createStaticClient()
-  const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT}), figure_book_contents(content_id)`
+  const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT}), ${FIGURE_BOOK_DETAIL_CATALOG_SELECT}`
 
   function buildDbContent(raw: Record<string, unknown>) {
     const locales = raw.content_locales as ContentLocaleRow[] | null
     const flat = flattenLocales(locales, locale, raw.type as string)
-    const sourceMarker = raw.figure_book_contents
+    const sourceMarker = raw.catalog
     return {
       id: raw.id as string,
       external_id: raw.external_id as string | null,
@@ -166,6 +168,7 @@ async function fetchContentDataPublic(
       metadata: raw.type === 'BOOK'
         ? withoutBookDescription((raw.metadata as Record<string, unknown> | null) ?? {})
         : raw.metadata as Record<string, unknown> | null,
+      catalogContent: raw as unknown as FigureBookCatalogContent,
       title: flat.title,
       title_badge: flat.title_badge,
       creator: flat.creator,
@@ -231,7 +234,7 @@ async function fetchContentDataPublic(
     const needsMetadata = isTmdbVideo || (dbContent.type !== 'BOOK'
       && !(storedMetadata && (storedDescription || dbContent.type === 'MUSIC')))
     const editionSet = dbContent.type === 'BOOK'
-      ? await fetchDefaultFigureBookEdition(dbContent.id, locale)
+      ? await fetchDefaultFigureBookEdition(dbContent.id, locale, dbContent.catalogContent)
       : null
     const sourceEdition = editionSet?.selected ?? null
     const bookPurchaseBlocked = dbContent.type === 'BOOK' && (
@@ -357,7 +360,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-progressive-v27-video-details', initial ? 'initial' : 'complete', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale, bookLanguage ?? ''],
+    ['content-data-public-progressive-v28-embedded-editions', initial ? 'initial' : 'complete', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale, bookLanguage ?? ''],
     () => fetchContentDataPublic(contentId, category, locale, bookLanguage, initial),
   )
 

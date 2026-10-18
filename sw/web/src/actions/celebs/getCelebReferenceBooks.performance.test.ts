@@ -23,7 +23,7 @@ test('profession and faction books start while figure books are still pending', 
     assert.ok(mocks.has(key), `unexpected import ${key}`)
     return mocks.get(key)
   }, loaded, loaded.exports)
-  const pending = loaded.exports.getCelebReferenceBooks('pearl-buck', 'ko', true, 'writer')
+  const pending = loaded.exports.getCelebReferenceBooks('pearl-buck', 'ko', false, 'writer')
   // Attach rejection immediately so the failing version cannot leak an unhandled rejection.
   const completed = pending.catch((error: Error) => error)
   await Promise.resolve()
@@ -34,4 +34,8 @@ test('profession and faction books start while figure books are still pending', 
   assert.deepEqual(started.sort(), ['faction', 'profession'])
   assert.ok(!(result instanceof Error))
   assert.equal(result.profession, 'writer')
+  calls.length = 0
+  const initial = await loaded.exports.getCelebReferenceBooks('pearl-buck', 'ko', true, 'writer')
+  assert.equal(initial.profession, 'writer')
+  assert.deepEqual(calls, [], 'initial shelf must not start unselected profession or affiliation reads')
 })

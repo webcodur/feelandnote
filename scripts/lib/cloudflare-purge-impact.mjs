@@ -269,6 +269,7 @@ const CELEB_AND_CONTENT_FILES = new Set([
   // 판본·소개 자료는 인물 책장과 작품 상세의 공용 본문·모달에서 소비한다.
   'sw/web/src/actions/books/getBookShelfBook.ts',
   'sw/web/src/actions/figure-books/figureBookEditions.ts',
+  'sw/web/src/actions/figure-books/figureBookCatalog.ts',
   'sw/web/src/lib/books/bookShelf.ts',
   'sw/web/src/lib/utils/book-description.ts',
   'sw/web/src/components/features/commerce/ContentAccessModal.tsx',
@@ -512,6 +513,8 @@ const NON_HTML_RUNTIME_FILES = new Set([
   // 신화 구획은 탐색 허브 안에만 서고 운영에서는 아직 꺼져 있다.
   // 인물 상세로 옮겨 가거나 허브가 보관 대상이 되면 celeb으로 올린다.
   'sw/web/src/actions/home/getMythData.ts',
+  'sw/web/src/actions/home/getMythIndex.ts',
+  'sw/web/src/actions/home/getAtlasNavigation.ts',
   'sw/web/src/actions/home/mythTypes.ts',
   // 세력 인물 모달을 연 뒤 서버 액션으로 읽는다. 앞단에 보관된 HTML에는 안내 본문이 없다.
   'sw/web/src/actions/celebs/getCelebReadingGuide.ts',
