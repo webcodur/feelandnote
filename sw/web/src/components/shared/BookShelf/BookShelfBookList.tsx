@@ -12,13 +12,14 @@ import type { BookShelfBook, BookShelfGroup, BookShelfListGroup } from './types'
 import BookShelfListItem from './BookShelfListItem'
 import listStyles from './BookShelfList.module.css'
 
-export default function BookShelfBookList({ selectionKey, title, subtitle, books, selectedId, onSelect, onClose, pagination, categoryPicker, indexId, listGroups, selectedGroupKey }: {
+export default function BookShelfBookList({ selectionKey, title, subtitle, books, selectedId, onSelect, onClose, pagination, categoryPicker, indexId, listGroups, selectedGroupKey, pending }: {
   selectionKey: string
   title: string; subtitle?: string; books: BookShelfBook[]; selectedId: string; onSelect: (id: string, groupKey?: string) => void; onClose: () => void
   listGroups?: BookShelfListGroup[]
   selectedGroupKey?: string
   pagination?: BookShelfGroup['pagination']
   categoryPicker?: ReactNode
+  pending?: ReactNode
   indexId: string
 }) {
   const t = useTranslations('celebPage')
@@ -33,7 +34,7 @@ export default function BookShelfBookList({ selectionKey, title, subtitle, books
     .filter((group) => group.shown.length > 0)
   const searchable = Boolean(categoryPicker) || allBooks.length > BOOK_SHELF_SEARCH_THRESHOLD || !!pagination?.hasMore
   return (
-    <LibraryIndexModal title={title} description={subtitle} count={shown.length} onClose={close} animateHeight controls={<>
+    <LibraryIndexModal title={title} description={subtitle} count={pending ? undefined : shown.length} onClose={close} animateHeight controls={<>
       {categoryPicker}
       {searchable && <ArchiveSearchControls searchQuery={query} onSearchChange={(query) => updateSearch({ query })}
         onSearch={() => updateSearch({ appliedQuery: query.trim() })} onClearSearch={() => updateSearch({ query: '', appliedQuery: '' })}
@@ -41,6 +42,7 @@ export default function BookShelfBookList({ selectionKey, title, subtitle, books
         inputLabel={t(pagination?.hasMore ? 'bookShelfSearchLoaded' : 'bookShelfSearchAll', { count: allBooks.length })} />}
     </>}>
       <LibraryIndexList id={indexId} aria-label={title} selectedKey={selectedId} resetKey={`${selectionKey}:${appliedQuery}`} data-bookshelf-list-dialog>
+      {pending ? pending : <>
       {shownGroups ? <div className="space-y-6 px-2 py-2" data-bookshelf-grouped-list>
         {shownGroups.map((group) => <section key={group.key} aria-label={group.label} className="overflow-hidden rounded-lg bg-white/[0.02]" data-bookshelf-list-group={group.key}>
           <h3 className="bg-white/[0.04] px-3 py-2 text-center text-sm font-semibold text-text-secondary">{group.label} <span className="inline-flex items-center gap-1">({group.books.length}<BookOpen size={14} aria-hidden />)</span></h3>
@@ -61,6 +63,7 @@ export default function BookShelfBookList({ selectionKey, title, subtitle, books
           {pagination.loading && <Loader2 size={16} className="animate-spin" aria-hidden />}{t('bookShelfLoadMore')}
         </button>
       )}
+      </>}
       </LibraryIndexList>
     </LibraryIndexModal>
   )

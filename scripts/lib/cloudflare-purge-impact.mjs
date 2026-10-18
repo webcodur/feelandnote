@@ -355,6 +355,7 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/lib/commerce-products.ts',
   'sw/web/src/components/features/commerce/CommerceProductCard.tsx',
   'sw/web/src/components/features/faction/entry/ThemeBookShelf.tsx',
+  'sw/web/src/components/features/faction/entry/FactionBookShelf.tsx',
   // 도감 이동·최근 방문 자료는 도감/클라이언트 localStorage에서만 읽는다.
   'sw/web/src/lib/atlas-navigation.ts',
   'sw/web/src/lib/faction-theme.ts',

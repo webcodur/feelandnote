@@ -1,13 +1,16 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useId, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { BookOpen } from 'lucide-react'
 import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 import BookShelfSelection from './BookShelfSelection'
+import BookShelfBookList from './BookShelfBookList'
 import LibraryCategoryPicker from '@/components/shared/LibraryCategoryPicker'
 import { LIBRARY_CONTROL_LAYOUT as layout } from '@/components/shared/libraryControlLayout'
 import type { BookShelfGroup } from './types'
 import styles from './BookShelf.module.css'
+import { RetryBlock } from '@/components/ui/pending'
 
 interface Props {
   groups: BookShelfGroup[]
@@ -20,6 +23,8 @@ interface Props {
 
 /** 개인·신화·팩션의 공통 책장. 분류는 칩으로 바꾸고 제목에서 선택 목록을 연다. */
 export default function BookShelf({ groups, ariaLabel, title, id, className = '', controlsLayout = 'default' }: Props) {
+  const t = useTranslations('celebPage')
+  const pendingIndexId = useId()
   const pageControls = controlsLayout === 'profession-page'
   const normalized = groups.map((group) => ({ ...group,
     books: [...new Map(group.books.filter(isBookShelfAvailable).map((book) => [book.id, book])).values()],
@@ -30,12 +35,15 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
       books: [...new Map(choice.books.filter(isBookShelfAvailable).map((book) => [book.id, book])).values()],
     })),
   }))
-  const available = normalized.filter((group) => group.books.length > 0)
+  const available = normalized.filter((group) => group.books.length > 0 || group.deferred)
   const [activeKey, setActiveKey] = useState(available[0]?.key)
   const [listOpen, setListOpen] = useState(false)
   const [titlePulseRequest, setTitlePulseRequest] = useState(0)
   const [choiceKeys, setChoiceKeys] = useState<Record<string, string>>({})
   const active = available.find((group) => group.key === activeKey) ?? available[0]
+  const loadState = active?.deferred?.state
+  const load = active?.deferred?.onLoad
+  useEffect(() => { if (loadState === 'idle') load?.() }, [loadState, load])
   if (!active) return null
   const choice = active.choices?.find((item) => item.key === choiceKeys[active.key] && item.books.length > 0)
     ?? active.choices?.find((item) => item.books.length > 0)
@@ -46,7 +54,9 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
     className={pageControls ? layout.professionPagePicker : undefined}
     chipClassName={pageControls ? layout.professionChip : undefined}
     columns={active.context?.kind === 'profession' && normalized.length === 3 ? 3 : 2}
-    options={normalized.map((group) => ({ key: group.key, label: group.chipLabel ?? group.label, count: group.chipLabel !== undefined ? undefined : group.books.length, disabled: group.books.length === 0 }))}
+    options={normalized.map((group) => ({ key: group.key, label: group.chipLabel ?? group.label,
+      count: group.chipLabel !== undefined || (group.deferred && group.deferred.state !== 'ready') ? undefined : group.books.length,
+      disabled: group.books.length === 0 && !group.deferred }))}
     value={active.key} ariaLabel={ariaLabel}
     onChange={(key) => { setActiveKey(key); if (!listOpen) setTitlePulseRequest((current) => current + 1) }} />
   const choicePicker = choice && <LibraryCategoryPicker className={layout.secondaryPicker}
@@ -55,6 +65,8 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
       value={choice.key} ariaLabel={active.label}
       onChange={(key) => { setChoiceKeys((current) => ({ ...current, [active.key]: key })); if (!listOpen) setTitlePulseRequest((current) => current + 1) }} />
   const categoryPicker = <div className="flex flex-col gap-2">{groupPicker}{choicePicker}</div>
+  const pending = loadState === 'failed' ? <RetryBlock onRetry={load} />
+    : loadState && loadState !== 'ready' ? <div aria-busy="true" data-bookshelf-loading className="mx-auto min-h-[28rem] max-w-3xl animate-pulse bg-white/[0.02]" /> : null
 
   return (
     <div className="min-w-0" aria-label={ariaLabel} data-bookshelf>
@@ -74,9 +86,14 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
           </section>
         : <p className="mx-auto mb-5 max-w-2xl px-4 text-center text-sm leading-relaxed text-text-secondary">{shownIntro}</p>)}
       <section id={id} className={`${styles.shelf} min-w-0 ${className}`} aria-label={active.label}>
-        <BookShelfSelection selectionKey={`${active.key}:${choice?.key ?? ''}:${active.selectionKey ?? ''}`} intro={`${active.label}: ${shownIntro}`} listSubtitle={choice ? `${active.label} · ${choice.label}: ${shownIntro}` : active.listSubtitle} books={shownBooks} context={active.context} pagination={active.pagination}
+        {pending || shownBooks.length === 0 ? <>
+          {pending ?? <p className="py-8 text-center text-sm text-text-secondary">{t('bookShelfSearchEmpty')}</p>}
+          {listOpen && <BookShelfBookList selectionKey={active.key} title={t('bookShelfBookList')} subtitle={active.intro} books={[]}
+            selectedId="" onSelect={() => {}} onClose={() => setListOpen(false)} categoryPicker={categoryPicker} indexId={pendingIndexId} pending={pending} />}
+          </>
+          : <BookShelfSelection selectionKey={`${active.key}:${choice?.key ?? ''}:${active.selectionKey ?? ''}`} intro={`${active.label}: ${shownIntro}`} listSubtitle={choice ? `${active.label} · ${choice.label}: ${shownIntro}` : active.listSubtitle} books={shownBooks} context={active.context} pagination={active.pagination}
           listGroups={active.listGroups?.map((group) => ({ ...group, selectionKey: `${active.key}:${choice?.key ?? ''}:${group.key}` }))} onSelectListGroup={active.onSelectListGroup}
-          listOpen={listOpen} onListOpenChange={setListOpen} categoryPicker={categoryPicker} titlePulseRequest={titlePulseRequest} />
+          listOpen={listOpen} onListOpenChange={setListOpen} categoryPicker={categoryPicker} titlePulseRequest={titlePulseRequest} />}
       </section>
     </div>
   )

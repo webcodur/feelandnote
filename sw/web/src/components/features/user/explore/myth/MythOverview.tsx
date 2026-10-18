@@ -16,7 +16,7 @@ import { useReadingNarration } from "@/hooks/useReadingNarration";
 interface Props {
   myth: Myth;
   memberCount: number;
-  workCount: number;
+  workCount: number | null;
   overviewLabel?: string;
   fallback?: string;
   navigation: (overview: ReactNode) => ReactNode;
@@ -130,7 +130,7 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
       {reading && (
         <MythOverviewReading voice={voice} narration={narration} text={text}
           title={myth.name} onClose={closeReading}
-          notice={<p className="mb-4 text-sm text-text-secondary">{t("mythOverviewStats", { people: memberCount, works: workCount })}</p>} />
+          notice={<p className="mb-4 text-sm text-text-secondary">{workCount === null ? t("groupMemberCount", { count: memberCount }) : t("mythOverviewStats", { people: memberCount, works: workCount })}</p>} />
       )}
     </>
   );

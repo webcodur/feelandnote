@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import type { FeaturedFaction } from "@/actions/home";
-import { getFactionFigureBooks } from "@/actions/home/getFactionFigureBooks";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import type { AtlasTheme } from "@/components/features/user/explore/myth/atlasNavigationData";
 import { buildFactionNavigation } from "@/lib/atlas-navigation";
@@ -60,13 +59,10 @@ async function EntryBody({ entry, locale, withJsonLd, navigationTree, themeId, g
   indexHeading: string;
   indexGroups: AtlasIndexGroup[];
 }) {
-  const [celebs, factionBooks] = await Promise.all([
-    getFactionCelebs(entry.id, entry.celebs.map((celeb) => celeb.id)).catch((error) => {
-      console.error("[Faction] 인물 조회 실패:", error);
-      return null;
-    }),
-    getFactionFigureBooks(entry.id, locale),
-  ]);
+  const celebs = await getFactionCelebs(entry.id, entry.celebs.map((celeb) => celeb.id)).catch((error) => {
+    console.error("[Faction] 인물 조회 실패:", error);
+    return null;
+  });
   if (!celebs) return <RetryBlock />;
   const byId = new Map(celebs.map((celeb) => [celeb.id, celeb]));
   const ordered = entry.celebs.flatMap((member) => byId.get(member.id) ?? []);
@@ -82,8 +78,8 @@ async function EntryBody({ entry, locale, withJsonLd, navigationTree, themeId, g
       {withJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{
         __html: serializeJsonLd(buildEntryJsonLd(entry, name, ordered, locale)),
       }} />}
-      <FactionEntryView key={entry.id} data={toFactionThemeData(entry, ordered, groupRows, factionBooks, locale)}
-        navigationTree={navigationTree} themeId={themeId} celebs={ordered} members={members} factionBooks={factionBooks}
+      <FactionEntryView key={entry.id} data={toFactionThemeData(entry, ordered, groupRows, [], locale)}
+        navigationTree={navigationTree} themeId={themeId} celebs={ordered} members={members}
         indexHeading={indexHeading} indexGroups={indexGroups} />
     </AsyncIntlProvider>
   );

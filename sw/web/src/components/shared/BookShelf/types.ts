@@ -66,6 +66,11 @@ export interface BookShelfGroup {
   overview?: ProfessionBookOverview
   listSubtitle?: string
   books: BookShelfBook[]
+  /** 아직 받지 않은 분류는 0권으로 취급하지 않고 선택할 때 불러온다. */
+  deferred?: {
+    state: 'idle' | 'loading' | 'failed' | 'ready'
+    onLoad: () => void
+  }
   /** 목록 창에서는 모든 소속의 책을 묶음별로 펼친다. */
   listGroups?: BookShelfListGroup[]
   onSelectListGroup?: (key: string) => void

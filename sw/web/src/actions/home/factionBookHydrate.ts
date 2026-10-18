@@ -5,7 +5,8 @@
         서버 액션 파일이 아니므로 'use server'를 달지 않는다 — 액션 쪽에서 불러 쓴다.
 */
 import { selectInChunks } from "@feelandnote/shared/lib/paginate";
-import { loadFigureBookEditions } from "@/actions/figure-books/figureBookEditions";
+import { FIGURE_BOOK_EDITION_CATALOG_SELECT, FIGURE_BOOK_OPTION_CATALOG_SELECT, loadFigureBookEditions, type FigureBookEditionCatalog } from "@/actions/figure-books/figureBookEditions";
+import { getFigureBookPurchasePlatform } from "@/actions/figure-books/figureBookLocale";
 import { resolveBookShelfBook } from "@/lib/books/bookShelf";
 import { createStaticClient } from "@/lib/db/static";
 import { CL_SELECT_LIST_WITH_AFFILIATE, type ContentLocaleRow } from "@/lib/utils/content-locale";
@@ -24,6 +25,7 @@ interface ContentRow {
   type: ContentType;
   figureBook: { workTitle?: string; workCreator?: string } | null;
   content_locales: ContentLocaleRow[] | null;
+  catalog: { editions: FigureBookEditionCatalog['editions']; options: FigureBookEditionCatalog['options'] } | null;
 }
 
 export async function hydrateFactionBooks(
@@ -36,14 +38,24 @@ export async function hydrateFactionBooks(
   if (!contentIds.length) return [];
   const db = createStaticClient();
 
-  const [contents, editionsByContent] = await Promise.all([
-    selectInChunks<ContentRow>(contentIds, (ids) => db
+  const contents = await selectInChunks<ContentRow>(contentIds, (ids) => db
       .from("contents")
-      .select(`id,type,figureBook:metadata->figureBook,content_locales(${CL_SELECT_LIST_WITH_AFFILIATE},isbn)`)
+      .select(`id,type,figureBook:metadata->figureBook,content_locales(${CL_SELECT_LIST_WITH_AFFILIATE},isbn),catalog:figure_book_contents(editions:figure_book_editions(${FIGURE_BOOK_EDITION_CATALOG_SELECT}),options:figure_book_purchase_options(${FIGURE_BOOK_OPTION_CATALOG_SELECT}))`)
       .in("id", ids)
-      .overrideTypes<ContentRow[], { merge: false }>()),
-    loadFigureBookEditions(db, contentIds, locale),
-  ]);
+      .eq("type", "BOOK")
+      .eq("catalog.editions.locale", locale)
+      .eq("catalog.options.locale", locale)
+      .eq("catalog.options.platform", getFigureBookPurchasePlatform(locale))
+      .overrideTypes<ContentRow[], { merge: false }>());
+  const editionsByContent = await loadFigureBookEditions(db, contents.map(content => content.id), locale, false, {
+    editions: contents.flatMap(content => content.catalog?.editions ?? []),
+    options: contents.flatMap(content => content.catalog?.options ?? []),
+    works: contents.map(content => ({ id: content.id, metadata: content.figureBook ? { figureBook: content.figureBook } : null })),
+    cards: contents.flatMap(content => (content.content_locales ?? []).map(card => ({
+      content_id: content.id, locale: card.locale, title: card.title, isbn: card.isbn ?? null,
+      affiliate_url: card.affiliate_url, sources: card.sources,
+    }))),
+  });
 
   /* 카드 맞춤 규칙은 인물 모달 「이 인물 관련 책」과 같다 — 판본 제목·저자·표지를 우선하고
      한국어는 같은 판본의 쿠팡 상품을, 영어는 아마존 상품·검색 주소를 잇는다 */
@@ -51,7 +63,8 @@ export async function hydrateFactionBooks(
     const book = resolveBookShelfBook(content, editionsByContent.get(content.id) ?? [], locale, themeSlug, !editionsByContent.has(content.id));
     if (!book) return [];
     return [{
-      ...book,
+      contentId: book.contentId, editionId: book.editionId, title: book.title,
+      creator: book.creator, thumbnail: book.thumbnail, url: book.url, titleBadge: book.titleBadge,
       isTheme: themeBookIds?.includes(content.id) ?? false,
       memberIds: relations.memberIds.get(content.id) ?? [],
       appearedIds: relations.appearedIds.get(content.id) ?? [],

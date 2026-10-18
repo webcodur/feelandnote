@@ -1,16 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { getFactionMemberShelf, type FactionMemberShelf } from '@/actions/home/getFactionMemberShelf'
+import { getFactionReadBooks, getFactionProfessionShelf, type FactionMemberShelf } from '@/actions/home/getFactionMemberShelf'
 import type { FactionFigureBook } from '@/actions/home/getFactionFigureBooks'
 import BookShelf from '@/components/shared/BookShelf/BookShelf'
 import { affiliateBookToShelfBook, type BookShelfGroup } from '@/components/shared/BookShelf/types'
 import { isThemeBook } from '@/lib/figure-books/themeBooks'
 import { isBookShelfAvailable } from '@/lib/books/bookShelf'
-import { RetryBlock } from '@/components/ui/pending'
 import { getProfessionShelfChoices } from '@/lib/books/professionShelf'
-import AtlasBookShelfSkeleton from '@/components/features/user/explore/myth/AtlasBookShelfSkeleton'
 
 interface Props {
   books: FactionFigureBook[]
@@ -25,23 +23,23 @@ export default function ThemeBookShelf({ books, memberIds, name, isMyth }: Props
   const tCeleb = useTranslations('celebPage')
   const tProfession = useTranslations('profession')
   const locale = useLocale()
-  const [extras, setExtras] = useState<FactionMemberShelf | null>(null)
-  const [failed, setFailed] = useState(false)
-  const [attempt, setAttempt] = useState(0)
+  const [read, setRead] = useState<FactionFigureBook[]>([])
+  const [professionData, setProfessionData] = useState<Pick<FactionMemberShelf, 'profession' | 'professionBooks'> | null>(null)
+  const [readState, setReadState] = useState<'idle' | 'loading' | 'failed' | 'ready'>('idle')
+  const [professionState, setProfessionState] = useState<'idle' | 'loading' | 'failed' | 'ready'>('idle')
   const memberKey = memberIds.join(',')
-  const shownIdsKey = books.map((book) => book.contentId).join(',')
-
-  useEffect(() => {
-    if (!memberKey) return
-    let alive = true
-    getFactionMemberShelf(memberKey.split(','), shownIdsKey ? shownIdsKey.split(',') : [], locale)
-      .then((result) => { if (alive) setExtras(result) })
-      .catch((error) => {
-        console.error('[ThemeBookShelf]', error)
-        if (alive) setFailed(true)
-      })
-    return () => { alive = false }
-  }, [memberKey, shownIdsKey, locale, attempt])
+  const loadRead = useCallback(() => {
+    setReadState('loading')
+    void getFactionReadBooks(memberKey.split(',').filter(Boolean), locale)
+      .then(result => { setRead(result); setReadState('ready') })
+      .catch(error => { console.error('[ThemeBookShelf/read]', error); setReadState('failed') })
+  }, [memberKey, locale])
+  const loadProfession = useCallback(() => {
+    setProfessionState('loading')
+    void getFactionProfessionShelf(memberKey.split(',').filter(Boolean), locale)
+      .then(result => { setProfessionData(result); setProfessionState('ready') })
+      .catch(error => { console.error('[ThemeBookShelf/profession]', error); setProfessionState('failed') })
+  }, [memberKey, locale])
 
   const memberSet = new Set(memberIds)
   const available = books.filter(isBookShelfAvailable)
@@ -49,10 +47,10 @@ export default function ThemeBookShelf({ books, memberIds, name, isMyth }: Props
   const ownIds = new Set(own.map((book) => book.contentId))
   const appeared = available.filter((book) => !ownIds.has(book.contentId) && book.appearedIds.some((id) => memberSet.has(id)))
   const authored = available.filter((book) => book.authoredIds.some((id) => memberSet.has(id)))
-  const profession = extras?.profession
+  const profession = professionData?.profession
   const professionIntro = profession && profession !== 'other' && tProfession.has(profession)
     ? tCeleb('professionShelfIntro', { profession: tProfession(profession) }) : tCeleb('relatedShelfIntro')
-  const professionShelfBooks = (extras?.professionBooks ?? []).map(affiliateBookToShelfBook)
+  const professionShelfBooks = (professionData?.professionBooks ?? []).map(affiliateBookToShelfBook)
   const professionChoices = getProfessionShelfChoices(professionShelfBooks, {
     train: tCeleb('professionTrain'), become: tCeleb('professionBecome'), about: tCeleb('professionAbout'),
     trainIntro: tCeleb('professionTrainIntro'),
@@ -61,18 +59,10 @@ export default function ThemeBookShelf({ books, memberIds, name, isMyth }: Props
   const groups: BookShelfGroup[] = [
     { key: 'theme', context: { memberIds, kind: 'theme' }, label: tCeleb('groupTheme'), intro: t(isMyth ? 'worksLeadOwn' : 'worksThemeLead'), listSubtitle: name, books: own.map(affiliateBookToShelfBook) },
     { key: 'appeared', context: { memberIds, kind: 'appeared' }, label: tCeleb('groupAppeared'), intro: t(isMyth ? 'worksLeadOthers' : 'worksAppearedLead'), books: appeared.map(affiliateBookToShelfBook) },
-    { key: 'read', context: { memberIds, kind: 'read' }, label: tCeleb('groupRead'), intro: t('worksReadLead'), books: (extras?.read ?? []).map(affiliateBookToShelfBook) },
+    { key: 'read', context: { memberIds, kind: 'read' }, label: tCeleb('groupRead'), intro: t('worksReadLead'), books: read.map(affiliateBookToShelfBook), deferred: { state: readState, onLoad: loadRead } },
     { key: 'authored', context: { memberIds, kind: 'authored' }, label: tCeleb('groupAuthored'), intro: t('worksAuthoredLead'), books: authored.map(affiliateBookToShelfBook) },
     { key: 'profession', context: { kind: 'profession' }, label: tCeleb('groupProfession'), intro: professionIntro,
-      books: professionShelfBooks, choices: professionChoices },
+      books: professionShelfBooks, choices: professionChoices, deferred: { state: professionState, onLoad: loadProfession } },
   ]
-  return (
-    <>
-      {failed && <RetryBlock onRetry={() => { setFailed(false); setAttempt((value) => value + 1) }} />}
-      {/* 카드 안 제목은 두지 않는다 — 바깥 구획 머리(HubSection)가 같은 이름을 쥔다 */}
-      {!extras && !failed && memberIds.length > 0 && !groups.some(group => group.books.length > 0)
-        ? <AtlasBookShelfSkeleton />
-        : <BookShelf groups={groups} ariaLabel={t('worksTitle')} />}
-    </>
-  )
+  return <BookShelf groups={groups} ariaLabel={t('worksTitle')} />
 }

@@ -10,8 +10,9 @@
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { getFigureBookAssignmentsByCelebs } from "@/actions/figure-books/figureBookAssignments";
-import { cachedDetail, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
+import { cachedDetail, STATIC_REVALIDATE, throwOnQueryError } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
+import { coalesceCacheQuery } from "@/lib/cacheQuery";
 import type { AffiliateBook } from "./getAffiliateBooks";
 import { hydrateFactionBooks } from "./factionBookHydrate";
 
@@ -66,19 +67,19 @@ async function fetchFactionFigureBooks(factionId: string, locale: string): Promi
 }
 
 const getFactionFigureBooksCached = unstable_cache(
-  fetchFactionFigureBooks,
-  ["faction-figure-books-v13-double-approval"],
+  (factionId: string, locale: string) => coalesceCacheQuery(`faction-books:${factionId}:${locale}`, () => fetchFactionFigureBooks(factionId, locale)),
+  ["faction-figure-books-v16-indexed-catalog"],
   // faction_member_rows(편성) + figure_book_characters(배정) + contents + 판본·구매 상품
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
 );
 
 export async function getFactionFigureBooks(factionId: string, locale: string): Promise<FactionFigureBook[]> {
-  return withQueryFallback("getFactionFigureBooks", () => getFactionFigureBooksCached(factionId, locale === "en" ? "en" : "ko"), []);
+  return getFactionFigureBooksCached(factionId, locale === "en" ? "en" : "ko");
 }
 
 /** 개인 소속 탭은 주제책만 필요하므로 세력 전원의 등장·집필 작품을 조회하지 않는다. */
 export async function getFactionThemeBooks(factionId: string, locale: string): Promise<FactionFigureBook[]> {
-  return cachedDetail(CACHE_TAGS.FACTIONS, factionId, ['faction-theme-books-v6-edition-policy', factionId, locale], async () => {
+  return cachedDetail(CACHE_TAGS.FACTIONS, factionId, ['faction-theme-books-v8-embedded-catalog', factionId, locale], async () => {
     const db = createStaticClient();
     const { data, error } = await db.from('faction_lv2').select('slug,theme_book_ids').eq('id', factionId).single();
     throwOnQueryError('getFactionThemeBooks', error);

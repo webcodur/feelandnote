@@ -41,6 +41,7 @@ export interface ThemeScreenOptions {
   overviewFallback: string;
   /** 책장 구획 머리·목차가 쓰는 이름(세력 책장 등) — 신화는 explore.hub.myth의 worksTitle */
   shelfTitle: string;
+  workCount?: number | null;
   renderPerson: (person: MythPerson, onClose: () => void) => ReactNode;
   renderWorks: (personIds: string[]) => ReactNode;
   participation?: ReactNode;
@@ -293,7 +294,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
           index={0} total={sectionTotal} hideDivider groupId={navGroupId}>
           <div className={layout.selectionPanel} data-faction-selection>
             {activeMyth ? (
-              <MythOverview key={activeMyth.id} myth={activeMyth} memberCount={activePeople.length} workCount={activeWorks.length} overviewLabel={faction?.overviewLabel} fallback={faction?.overviewFallback}
+              <MythOverview key={activeMyth.id} myth={activeMyth} memberCount={activePeople.length} workCount={faction ? faction.workCount ?? null : activeWorks.length} overviewLabel={faction?.overviewLabel} fallback={faction?.overviewFallback}
                 navigation={navigation} participation={faction?.participation} />
             ) : navigation()}
           </div>
