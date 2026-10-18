@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, type CSSProperties, type MouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { X, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -38,6 +38,7 @@ interface ModalProps {
   widthClassName?: string;
   showCloseButton?: boolean;
   closeOnOverlayClick?: boolean;
+  onOverlayClick?: (event: MouseEvent<HTMLDivElement>) => void;
   /** ESC로 닫기를 허용한다. 로딩 중이거나 위에 겹친 모달이 있을 때 false로 잠근다 */
   closeOnEscape?: boolean;
   /** ESC를 캡처 단계에서 잡아 같은 문서의 다른 리스너보다 먼저 처리한다 (전체화면 게임 위 모달) */
@@ -97,6 +98,7 @@ export default function Modal({
   widthClassName,
   showCloseButton = true,
   closeOnOverlayClick = true,
+  onOverlayClick,
   closeOnEscape = true,
   escapeCapture = false,
   animateHeight = true,
@@ -192,8 +194,10 @@ export default function Modal({
 
   if (!isOpen) return null;
 
-  const handleOverlayClick = () => {
-    if (closeOnOverlayClick) onClose();
+  const handleOverlayClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (!closeOnOverlayClick) return;
+    if (onOverlayClick) onOverlayClick(event);
+    else onClose();
   };
 
   // widthClassName이 너비(w-·size-)를 직접 쥐면 w-full과 같은 속성을 두고 싸워 생성 순서로 진다 — 그 경우 w-full을 뺀다

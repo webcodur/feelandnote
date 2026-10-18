@@ -5,7 +5,7 @@
 */
 "use client";
 
-import React, { useState, type CSSProperties } from "react";
+import React, { useRef, useState, type CSSProperties } from "react";
 import dynamic from "next/dynamic";
 import { Link } from "@/i18n/navigation";
 import {
@@ -40,6 +40,7 @@ import PortraitNavGlyph from "./PortraitNavGlyph";
 import styles from "./CelebDetailModal.module.css";
 
 const CelebInfluenceModal = dynamic(() => import("@/components/features/home/CelebInfluenceModal"), { loading: () => null });
+const CelebImageViewer = dynamic(() => import("@/components/shared/CelebImageViewer"), { loading: () => null });
 
 export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, onNavigate, hasPrev = false, hasNext = false, zIndex, escapeCapture = false, contextReview }: CelebDetailModalProps) {
   const t = useTranslations("home.ui");
@@ -72,6 +73,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
   const [isFactionsModalOpen, setIsFactionsModalOpen] = useState(false);
   const [isInfluenceOpen, setIsInfluenceOpen] = useState(false);
+  const [isPortraitOpen, setIsPortraitOpen] = useState(false);
+  const portraitRef = useRef<HTMLDivElement>(null);
+  if (!isOpen && isPortraitOpen) setIsPortraitOpen(false);
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
   // 스포일러 해제는 리뷰 단위로 — 다른 리뷰가 오면 다시 가려진다
@@ -137,7 +141,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         animateHeightDuration={220}
         zIndex={zIndex}
         escapeCapture={escapeCapture}
-        closeOnEscape={!isFactionsModalOpen && !isInfluenceOpen}
+        closeOnEscape={!isFactionsModalOpen && !isInfluenceOpen && !isPortraitOpen}
       >
         <div className={`${styles.surface} relative overflow-hidden animate-fade-in ${contextReview ? "pb-3" : "pb-6"}`}>
           {/* 머리 위로 옅은 금빛 — 장식 상자 없이 인물만 비춘다 */}
@@ -162,14 +166,17 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                   <PortraitNavGlyph direction="prev" />
                 </button>
               )}
-              <div className={`relative shrink-0 ${styles.portraitSlot}`} data-celeb-modal-portrait>
+              <div ref={portraitRef} className={`relative shrink-0 ${styles.portraitSlot}`} data-celeb-modal-portrait>
                 <CelebPortrait
                   key={celeb.id}
                   photoUrl={null}
-                  avatarUrl={celeb.avatar_url}
+                  avatarUrl={celeb.avatar_url || celeb.portrait_url || null}
+                  zoomSrc={celeb.portrait_url || celeb.avatar_url}
+                  onZoom={() => setIsPortraitOpen(true)}
+                  imageAction="zoom"
                   nickname={displayNickname}
                   zIndex={zIndex}
-                  zoomLabel={tCeleb("enlargePhoto")}
+                  zoomLabel={tCeleb(celeb.portrait_url ? "enlargePortrait" : "enlargePhoto")}
                   hasVoice={hasGreetingAudio}
                   isVoicePlaying={isVoiceActive}
                   onGreet={canGreet ? handleGreetingPlay : undefined}
@@ -366,6 +373,14 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           </div>
         )}
       </Modal>
+
+      {isPortraitOpen && <CelebImageViewer person={celeb} onClose={() => {
+        setIsPortraitOpen(false);
+        portraitRef.current?.querySelector("button")?.focus({ preventScroll: true });
+      }}
+        onPrev={onNavigate && hasPrev ? () => onNavigate("prev") : undefined}
+        onNext={onNavigate && hasNext ? () => onNavigate("next") : undefined}
+        zIndex={Math.max(Z_INDEX.top, (zIndex ?? Z_INDEX.modal) + 1)} />}
 
       {/* 태그 상세 모달 */}
       <CelebFactionsModal

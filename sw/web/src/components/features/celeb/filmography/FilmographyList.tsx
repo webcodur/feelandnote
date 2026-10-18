@@ -17,6 +17,7 @@ export default function FilmographyList({ works }: { works: FilmographyWork[] })
   const listId = useId()
   const filtered = useMemo(() => filterFilmography(works, filters), [works, filters])
   const shownCount = getFilmographyVisibleCounts(filtered.length, expandedBatches)
+  const nextShownCount = getFilmographyVisibleCounts(filtered.length, expandedBatches + 1)
   const hasMore = shownCount.mobile < filtered.length
   const mediaWorks = works.filter(work => filters.media === 'all' || work.mediaType === filters.media)
   const roles = FILMOGRAPHY_ROLES.filter(role => mediaWorks.some(work => work.roles.includes(role)))
@@ -76,7 +77,11 @@ export default function FilmographyList({ works }: { works: FilmographyWork[] })
     </ul>
     {hasMore && <div className={`flex justify-center gap-2 border-t border-line bg-bg-raised/40 p-4 ${shownCount.desktop === filtered.length ? 'md:hidden' : ''}`}>
       <button type="button" className={chip(false)} aria-controls={listId}
-        onClick={() => setExpandedBatches(count => count + 1)}>{t('loadMore')}</button>
+        onClick={() => setExpandedBatches(count => count + 1)}>
+        <span className="md:hidden">+{nextShownCount.mobile - shownCount.mobile}</span>
+        <span className="hidden md:inline">+{nextShownCount.desktop - shownCount.desktop}</span>
+        <span className="sr-only"> {t('loadMore')}</span>
+      </button>
       <button type="button" className={chip(false)} aria-controls={listId}
         onClick={() => setExpandedBatches(Infinity)}>{t('showAll')}</button>
     </div>}

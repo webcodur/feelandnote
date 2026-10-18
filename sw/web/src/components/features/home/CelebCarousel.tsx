@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, lazy, Suspense } from "react";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { Search, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
@@ -75,6 +75,20 @@ export default function CelebCarousel({
 
   const [isControlsExpanded, setIsControlsExpanded] = useState(true);
   const [cardImage, setCardImage] = useState<CelebCardImage>("avatar");
+  const gridRef = useRef<HTMLElement>(null);
+  const scrollAfterPageChange = useRef(false);
+  useEffect(() => {
+    if (!scrollAfterPageChange.current || filters.isLoading) return;
+    scrollAfterPageChange.current = false;
+    if (!filters.listingError) {
+      gridRef.current?.scrollIntoView({ behavior: "instant", block: "start" });
+    }
+  }, [filters.isLoading, filters.listingError, filters.celebs]);
+
+  const handlePageChange = (page: number) => {
+    scrollAfterPageChange.current = syncToUrl;
+    filters.handlePageChange(page);
+  };
   // 카드를 누르면 상세로 가지 않고 요약 모달 — 목록 위치를 쥐어 ‹ › 넘김도 둔다
   const [previewId, setPreviewId] = useState<string | null>(null);
   const previewIndex = previewId ? filters.celebs.findIndex((c) => c.id === previewId) : -1;
@@ -224,8 +238,8 @@ export default function CelebCarousel({
           {customContent}
         </div>
       ) : (
-        <section key="grid" aria-label={t("celebArchive")} aria-busy={filters.isLoading}
-          className="relative animate-fade-in">
+        <section key="grid" ref={gridRef} aria-label={t("celebArchive")} aria-busy={filters.isLoading}
+          className="relative scroll-mt-20 animate-fade-in">
           {/* 결과 수는 조작 아래 한 줄이 쥔다(CelebCompactControls resultLabel) */}
           {filters.listingError && !filters.isLoading && <div role="status"><RetryBlock message={t("listLoadFailed")} onRetry={filters.retryListing} /></div>}
           {filters.celebs.length === 0 && !filters.isLoading && !filters.listingError && <EmptyState />}
@@ -240,7 +254,7 @@ export default function CelebCarousel({
                   isLoading={filters.isLoading}
                   currentPage={filters.currentPage}
                   totalPages={filters.totalPages}
-                  onPageChange={filters.handlePageChange}
+                  onPageChange={handlePageChange}
                   pageSize={filters.pageSize}
                   pageSizeOptions={PAGE_SIZE_OPTIONS}
                   onPageSizeChange={filters.handlePageSizeChange}

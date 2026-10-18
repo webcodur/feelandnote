@@ -489,6 +489,7 @@
       "loadMore": "더 보기",
       "showAll": "전체 보기",
       "sortHelp": "주 활동 분야와 출연진 순서를 우선하고, TMDB 평가 참여 수와 인기도를 반영합니다."
-    }
+    },
+    "enlargePortrait": "대표사진 크게 보기"
   }
 }

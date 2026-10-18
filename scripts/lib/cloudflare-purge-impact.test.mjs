@@ -13,6 +13,13 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('image viewer side navigation refreshes the same cached consumers as its viewer', () => {
+  assert.deepEqual(
+    classifyCloudflarePurgeImpact(['sw/web/src/components/ui/modalSideNavigation.ts']).scopes,
+    classifyCloudflarePurgeImpact(['sw/web/src/components/ui/ImageViewerModal.tsx']).scopes,
+  )
+})
+
 test('game and listing helpers bypass HTML purges while image and fetch helpers refresh their cached consumers', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/actions/game/suikoden/index.ts',

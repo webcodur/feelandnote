@@ -11,19 +11,24 @@ interface Props extends Omit<CelebProfileMediaProps, "onZoom"> {
   zoomCaption?: string | null;
   /** 이 초상화를 담고 있는 모달의 레이어. */
   zIndex?: number;
+  onZoom?: () => void;
 }
 
 /** 인물 모달·상세 페이지·세력·신화 도감의 초상화와 확대 동작을 함께 관리한다. */
-export default function CelebPortrait({ zoomSrc, zoomCaption, zIndex, ...media }: Props) {
+export default function CelebPortrait({ zoomSrc, zoomCaption, zIndex, onZoom, ...media }: Props) {
   const src = zoomSrc === undefined ? media.photoUrl ?? media.avatarUrl : zoomSrc;
   const [openedSrc, setOpenedSrc] = useState<string | null>(null);
-  const open = useCallback(() => { if (src) setOpenedSrc(src); }, [src]);
+  const open = useCallback(() => {
+    if (!src) return;
+    if (onZoom) onZoom();
+    else setOpenedSrc(src);
+  }, [src, onZoom]);
   const close = useCallback(() => setOpenedSrc(null), []);
 
   return (
     <>
       <CelebProfileMedia {...media} onZoom={open} />
-      {src && (
+      {src && !onZoom && (
         <ImageViewerModal
           src={src}
           alt={media.nickname}

@@ -507,7 +507,8 @@
       },
       "imageViewer": {
         "previous": "Previous image",
-        "next": "Next image"
+        "next": "Next image",
+        "loadFailed": "Could not load this photo. Try another photo."
       }
     },
     "search": {

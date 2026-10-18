@@ -257,6 +257,7 @@ const CELEB_AND_CONTENT_FILES = new Set([
   // 상세·감상배경 양쪽에서 메타를 보충하고 이미지 확대창을 연다.
   'sw/web/src/actions/contents/fetchContentMetadata.ts',
   'sw/web/src/components/ui/ImageViewerModal.tsx',
+  'sw/web/src/components/ui/modalSideNavigation.ts',
   // 제목의 가번역·절판 판정과 클릭 안내는 인물 리뷰와 작품 상세 양쪽에서 표시한다.
   'sw/web/src/lib/utils/content-locale.ts',
   'sw/web/src/components/ui/NoEditionBadge.tsx',

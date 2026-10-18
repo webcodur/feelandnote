@@ -8,6 +8,7 @@
 
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import Button from "./Button";
 import Modal, { CLOSE_BUTTON_STYLE } from "./Modal";
@@ -15,6 +16,7 @@ import BlurDissolve from "./BlurDissolve";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useWheelPaging } from "@/hooks/useWheelPaging";
 import { useTranslations } from "next-intl";
+import { getModalSideNavigation } from "./modalSideNavigation";
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 10;
@@ -40,6 +42,10 @@ interface ImageViewerModalProps {
   closeOnImageClick?: boolean;
   /** 전체 화면 게임 등 상위 모달 위에 여는 경우의 레이어. */
   zIndex?: number;
+  gallery?: boolean;
+  previousSrc?: string | null;
+  isLoading?: boolean;
+  imageError?: boolean;
 }
 
 export default function ImageViewerModal({
@@ -55,8 +61,13 @@ export default function ImageViewerModal({
   showImageShadow = true,
   closeOnImageClick = false,
   zIndex = Z_INDEX.top,
+  gallery = false,
+  previousSrc,
+  isLoading = false,
+  imageError = false,
 }: ImageViewerModalProps) {
   const t = useTranslations("shared.ui.imageViewer");
+  const reducedMotion = useReducedMotion();
   const captionBelow = Boolean(caption) && captionPlacement === "below";
   // scale은 transform-origin이 중앙인 상태의 배율, x·y는 그 중앙 기준 이동량
   const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
@@ -118,29 +129,70 @@ export default function ImageViewerModal({
 
   if (!isOpen) return null;
 
+  const galleryDirectionAt = (clientX: number, clientY: number): "prev" | "next" | null => {
+    if (!gallery || view.scale !== MIN_SCALE || !(onPrev || onNext)) return null;
+    const image = frameRef.current?.querySelector<HTMLImageElement>("img[data-gallery-current]");
+    if (!image?.naturalWidth || !image.naturalHeight) return null;
+    const rect = image.getBoundingClientRect();
+    const width = Math.min(rect.width, rect.height * image.naturalWidth / image.naturalHeight);
+    const height = width * image.naturalHeight / image.naturalWidth;
+    const left = rect.left + (rect.width - width) / 2;
+    const top = rect.top + (rect.height - height) / 2;
+    return getModalSideNavigation({ clientX, clientY },
+      { left, right: left + width, top, bottom: top + height },
+      { hasPrev: Boolean(onPrev), hasNext: Boolean(onNext) });
+  };
+  const navigateGallery = (direction: "prev" | "next") => {
+    if (direction === "prev") onPrev?.();
+    else onNext?.();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
       ariaLabel={alt}
       frame="plain"
-      widthClassName="w-auto max-w-[97vw]"
+      widthClassName={gallery ? "w-[calc(100vw-2rem)] max-w-5xl" : "w-auto max-w-[97vw]"}
       fullScreen
       boxClassName="bg-transparent"
+      boxStyle={gallery ? { height: "calc(100dvh - 8rem)" } : undefined}
+      scrollAreaClassName={gallery ? "flex-1 overflow-hidden" : undefined}
+      overlayClassName={gallery ? "bg-black/90 backdrop-blur-md md:cursor-pointer" : undefined}
+      onOverlayClick={gallery ? event => {
+        const direction = galleryDirectionAt(event.clientX, event.clientY);
+        if (direction) navigateGallery(direction);
+        else onClose();
+      } : undefined}
       animateHeight={false}
       closeOnEscape={false}
       zIndex={zIndex}
       closeButtonClassName={`fixed top-4 end-4 ${CLOSE_BUTTON_STYLE}`}
+      footer={gallery ? (
+        <div className="absolute start-1/2 top-full mt-2 grid h-12 w-full max-w-sm -translate-x-1/2 grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-center gap-3">
+          <Button unstyled type="button" aria-label={t("previous")} disabled={!onPrev} onClick={onPrev}
+            className="flex size-11 items-center justify-center rounded-full border border-white/15 text-white/80 outline-none hover:border-white/40 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-25">
+            <ChevronLeft size={24} aria-hidden />
+          </Button>
+          <div className="min-w-0 text-center text-sm text-white" aria-busy={isLoading}>
+            <p role="status" aria-live="polite" aria-atomic="true" className="truncate">{caption}</p>
+          </div>
+          <Button unstyled type="button" aria-label={t("next")} disabled={!onNext} onClick={onNext}
+            className="flex size-11 items-center justify-center rounded-full border border-white/15 text-white/80 outline-none hover:border-white/40 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-25">
+            <ChevronRight size={24} aria-hidden />
+          </Button>
+        </div>
+      ) : undefined}
     >
 
       {/* 넘길 그림이 있는 뷰어에서는 양끝 ‹ › 버튼이 붙는다 — 배경 클릭 닫기와 분리한다 */}
-      {onPrev && (
+      {!gallery && onPrev && (
         <Button unstyled aria-label={t("previous")} onClick={(e) => { e.stopPropagation(); onPrev(); }}
           className="absolute z-10 start-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-white/80 outline-none hover:border-white hover:text-white focus-visible:ring-2 focus-visible:ring-accent">
           <ChevronLeft size={28} />
         </Button>
       )}
-      {onNext && (
+      {!gallery && onNext && (
         <Button unstyled aria-label={t("next")} onClick={(e) => { e.stopPropagation(); onNext(); }}
           className="absolute z-10 end-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-white/80 outline-none hover:border-white hover:text-white focus-visible:ring-2 focus-visible:ring-accent">
           <ChevronRight size={28} />
@@ -150,12 +202,14 @@ export default function ImageViewerModal({
       {/* 그림을 누르면 줌 모드가 켜지고 다시 누르면 꺼진다(배율도 1배로). 더블클릭은 모드를 끄며 1배 복귀 */}
       <div
         ref={frameRef}
-        className={`relative flex max-h-[97vh] max-w-[97vw] flex-col items-center justify-center gap-3 overflow-hidden p-1 outline-none ${view.scale > 1 ? (dragging ? "cursor-grabbing" : "cursor-grab") : zoomMode ? "cursor-zoom-out" : "cursor-zoom-in"}`}
+        className={`${gallery ? "relative h-full w-full min-h-0 overflow-hidden outline-none" : "relative flex max-h-[97vh] max-w-[97vw] flex-col items-center justify-center gap-3 overflow-hidden p-1 outline-none"} ${view.scale > 1 ? (dragging ? "cursor-grabbing" : "cursor-grab") : zoomMode ? "cursor-zoom-out" : "cursor-zoom-in"}`}
         style={{ touchAction: "none" }}
         onClick={(event) => {
           event.stopPropagation();
           if (moved.current) { moved.current = false; return; }
           if (event.target instanceof HTMLElement && event.target.closest("[data-wheel-pass], button, a")) return;
+          const direction = galleryDirectionAt(event.clientX, event.clientY);
+          if (direction) { navigateGallery(direction); return; }
           if (closeOnImageClick) { onClose(); return; }
           if (zoomMode) { setZoomMode(false); setView({ scale: 1, x: 0, y: 0 }); }
           else setZoomMode(true);
@@ -163,12 +217,16 @@ export default function ImageViewerModal({
         onDoubleClick={() => { setView({ scale: 1, x: 0, y: 0 }); setZoomMode(false); }}
         onPointerDown={(event) => {
           moved.current = false;
+          if (event.target instanceof HTMLElement && event.target.closest("[data-wheel-pass], button, a")) return;
           if (!event.isPrimary || event.button !== 0) return;
           drag.current = { id: event.pointerId, x: event.clientX, y: event.clientY, vx: view.x, vy: view.y };
           event.currentTarget.setPointerCapture(event.pointerId);
         }}
         onPointerMove={(event) => {
           const start = drag.current;
+          if (!start && gallery && event.pointerType === "mouse") {
+            event.currentTarget.style.cursor = galleryDirectionAt(event.clientX, event.clientY) ? "pointer" : "";
+          }
           if (!start || start.id !== event.pointerId) return;
           const dx = event.clientX - start.x;
           const dy = event.clientY - start.y;
@@ -195,7 +253,20 @@ export default function ImageViewerModal({
         onDragStart={(event) => event.preventDefault()}
       >
         {/* 캡션은 배율을 따르지 않는다. below는 그림 바깥에 두어 원본 하단을 가리지 않는다. */}
-        <BlurDissolve key={src} className="relative flex items-center justify-center">
+        {gallery ? (
+          imageError ? <div role="alert" className="flex h-full items-center justify-center text-sm text-white/75">{t("loadFailed")}</div> : (
+            <div className="relative h-full w-full select-none" style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})` }}>
+              {previousSrc && previousSrc !== src && <motion.div key={`${src}-previous`} initial={{ opacity: 1 }} animate={{ opacity: 0 }}
+                transition={{ duration: reducedMotion ? 0 : 0.18 }} aria-hidden className="pointer-events-none absolute inset-0">
+                <Image src={previousSrc} alt="" fill unoptimized draggable={false} sizes="(max-width: 1024px) 100vw, 1024px" className="object-contain" />
+              </motion.div>}
+              <motion.div key={src} initial={{ opacity: previousSrc ? 0 : 1 }} animate={{ opacity: 1 }}
+                transition={{ duration: reducedMotion ? 0 : 0.18 }} className="absolute inset-0">
+                <Image src={src} alt={alt} data-gallery-current fill unoptimized draggable={false} sizes="(max-width: 1024px) 100vw, 1024px" className="object-contain" />
+              </motion.div>
+            </div>
+          )
+        ) : <BlurDissolve key={src} className="relative flex items-center justify-center">
           <span
             className={`block select-none ${dragging ? "" : "motion-safe:transition-transform motion-safe:duration-150"}`}
             style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})` }}
@@ -218,8 +289,8 @@ export default function ImageViewerModal({
               </p>
             </div>
           ) : null}
-        </BlurDissolve>
-        {captionBelow && caption ? (
+        </BlurDissolve>}
+        {!gallery && captionBelow && caption ? (
           <div data-wheel-pass className="max-h-20 w-full shrink-0 overflow-y-auto overscroll-contain px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <p className="whitespace-pre-line break-keep text-center text-sm leading-6 text-white [overflow-wrap:anywhere] md:text-base">
               {renderCaption ? renderCaption(caption) : caption}

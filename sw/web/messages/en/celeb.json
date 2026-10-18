@@ -474,6 +474,7 @@
       "loadMore": "Show more",
       "showAll": "View all",
       "sortHelp": "Prioritizes their main creative role and cast billing, then TMDB rating counts and popularity."
-    }
+    },
+    "enlargePortrait": "View full portrait"
   }
 }

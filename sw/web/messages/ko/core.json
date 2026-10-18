@@ -508,7 +508,8 @@
       },
       "imageViewer": {
         "previous": "이전 이미지",
-        "next": "다음 이미지"
+        "next": "다음 이미지",
+        "loadFailed": "사진을 불러오지 못했습니다. 다른 사진으로 넘겨주세요."
       }
     },
     "search": {
