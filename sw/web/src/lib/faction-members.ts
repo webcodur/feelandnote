@@ -14,6 +14,9 @@ import { createStaticClient } from '@/lib/db/static'
 
 type FactionDb = ReturnType<typeof createStaticClient>
 
+// 신화는 published, 세력도감은 is_featured로 공개 여부를 판단한다.
+export const PUBLIC_FACTION_FILTER = 'and(is_myth.eq.true,published.eq.true),and(is_myth.eq.false,is_featured.eq.true)'
+
 export async function selectVisibleFactionMembers<T extends { lv2_id: string }>(
   db: FactionDb,
   columns: string,

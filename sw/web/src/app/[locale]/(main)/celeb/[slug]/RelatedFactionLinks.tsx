@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { ArrowUpRight, Users } from 'lucide-react'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import { mythHref } from '@/components/features/user/explore/myth/mythHref'
 import { getFactionPreviewData } from '@/lib/celeb/factionPreviewData'
 import { selectFactionPreview } from '@/lib/celeb/factionPreview'
 import RetryBlock from '@/components/ui/pending/RetryBlock'
@@ -35,7 +36,7 @@ export default async function RelatedFactionLinks({ memberships, personId, waitF
       const data = previewById.get(faction.id)!
       const preview = selectFactionPreview(data.members, personId, locale)
       const cover = data.cover
-      return <Link key={faction.id} href={`/explore/faction/${faction.slug}`} prefetch={false}
+      return <Link key={faction.id} href={faction.isMyth ? mythHref(faction.slug) : `/explore/faction/${faction.slug}`} prefetch={false}
         aria-label={t('relatedFactionOpen', { name })}
         className="group relative isolate block aspect-[3/2] w-full min-w-0 overflow-hidden rounded-card border border-line bg-bg-secondary hover:border-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
         <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden>

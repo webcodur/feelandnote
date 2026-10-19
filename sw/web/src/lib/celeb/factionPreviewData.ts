@@ -3,7 +3,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
 import { createStaticClient } from '@/lib/db/static'
-import { selectVisibleFactionMembers } from '@/lib/faction-members'
+import { PUBLIC_FACTION_FILTER, selectVisibleFactionMembers } from '@/lib/faction-members'
 import { LIST_REVALIDATE } from '@/lib/cache'
 import { coalescePublicRead } from '@/lib/coalescePublicRead'
 import type { FactionPreviewMember } from './factionPreview'
@@ -27,7 +27,7 @@ export const getFactionPreviewData = unstable_cache(
     const [factions, rows] = await Promise.all([
       selectInChunks<{ id: string; team_images: unknown }>(ids, chunk => db
         .from('faction_lv2').select('id, team_images')
-        .in('id', chunk).eq('is_featured', true).eq('is_myth', false).order('id')),
+        .in('id', chunk).or(PUBLIC_FACTION_FILTER).order('id')),
       selectVisibleFactionMembers<MemberRow>(db, 'lv2_id, celeb_id, lv3_id, group_name, group_name_en, group_position, sort_order', ids),
     ])
     const profiles = await selectInChunks<ProfileRow>([...new Set(rows.map(row => row.celeb_id))], chunk => db
@@ -44,6 +44,6 @@ export const getFactionPreviewData = unstable_cache(
       return { id: faction.id, cover: images.find(image => image.kind === 'cover')?.url ?? images[0]?.url ?? null, members }
     })
   }),
-  ['celeb-faction-preview-data-v1'],
+  ['celeb-faction-preview-data-v2'],
   { revalidate: LIST_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS] },
 )

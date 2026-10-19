@@ -23,6 +23,7 @@ import {
 import { toFactionMusic, type FactionMusic } from '@/lib/faction-music'
 import { mergeRelationRowsForViewer } from '@/lib/celeb/relationRows'
 import { getCelebIdentityRow, normalizeCelebSlug } from '@/lib/celeb/identity'
+import { PUBLIC_FACTION_FILTER } from '@/lib/faction-members'
 
 export interface ContentTypeCounts {
   BOOK: number
@@ -38,7 +39,7 @@ export interface FactionItem {
   id: string
   /** 신화 갈래 소속. 세력도감 명단은 신화를 싣지 않아 세력 탭 판단에서 뺀다 */
   isMyth: boolean
-  /** 신화의 세계에서 연 신화인가(faction_lv2.published). 세력은 늘 true — 세력도감 노출은 조회가 is_featured로 이미 걸렀다 */
+  /** 공개 신화(published) 또는 공개 세력(is_featured)인가. 조회에서 공개 소속만 받는다 */
   isPublished: boolean
   name: string
   name_en: string | null
@@ -254,7 +255,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
         .from('faction_lv2')
         .select('id, name, name_en, slug, color, description, description_en, theme_music, is_myth, published, headline, headline_en')
         .in('id', lv2Ids)
-        .eq('is_featured', true)
+        .or(PUBLIC_FACTION_FILTER)
         .overrideTypes<NonNullable<FactionFactionAssignmentRow['tag']>[], { merge: false }>()
       throwOnQueryError('getCelebBySlug/factions', factionRowsError)
       const factionById = new Map((factionRows ?? []).map((t) => [t.id, t]))
@@ -435,7 +436,7 @@ const getCelebBySlugCached = (slug: string) =>
     CACHE_TAGS.CELEBS,
     slug,
     // 가족과 네 사회 축을 함께 표시하되 가족 쌍의 사회 중복은 제외한다.
-    ['celeb-by-slug-v14-no-guide-publication-gate', slug],
+    ['celeb-by-slug-v15-public-myth-memberships', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )

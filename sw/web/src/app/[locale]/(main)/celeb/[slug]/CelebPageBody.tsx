@@ -61,7 +61,7 @@ export default async function CelebPageBody({ params }: PageProps) {
   const greeting = locale === 'en'
     ? greetingFromLines(dialogueData?.lines_en) ?? greetingFromLines(dialogueData?.lines)
     : greetingFromLines(dialogueData?.lines)
-  const factionMemberships = profile.factions.filter(faction => !faction.isMyth && faction.isPublished && faction.slug)
+  const factionMemberships = profile.factions.filter(faction => faction.isPublished && faction.slug)
   const sideAvailability = { relations: profile.relations.length > 0,
     influence: sidePresence.influence, spectrum: sidePresence.spectrum,
     relatedFigures: profile.relations.length > 0, relatedFactions: factionMemberships.length > 0, affiliateBooks: true }
