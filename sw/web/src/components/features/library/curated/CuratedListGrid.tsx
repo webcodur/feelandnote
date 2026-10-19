@@ -4,12 +4,11 @@
   책임: 작품마다 감싸는 상자를 두고 그 안에 서비스 공통 작품 카드와 구매 버튼을 위아래로 쌓는다.
         상자 높이는 줄마다 맞추고 버튼은 바닥에 붙여 줄이 흔들리지 않게 한다. 구매 링크가 없어도 자리를 지킨다.
         아직 등록되지 않은 작품도 같은 상자로 그린다 — 100선은 100편이어야 한다.
-        데스크톱(기본 내보내기)은 처음 120편만 그리고 나머지는 단추로 펼친다 — 카드 전량을 한 번에 그리면 화면이 늦게 뜬다.
-        모바일 격자 보기(CuratedListMobile)는 같은 상자(CuratedTileGrid)를 2열로, 한 구간씩 쓴다.
+        모바일과 PC는 같은 격자를 쓰고 화면에 필요한 구간만 그린다.
 */ // ------------------------------
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { BookOpen, Film } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -23,9 +22,6 @@ import { cn } from "@/lib/utils";
 import type { ContentType } from "@/types/database";
 
 import { PURCHASE_PENDING_TONE_CLASS } from "./CuratedListExpand";
-
-/** 처음 그리는 작품 수. 세인트존스(323)처럼 큰 목록만 잘린다 — 카드 전량을 그리면 화면 하나가 3MB에 이른다 */
-const INITIAL_CARDS = 120;
 
 /** 발표 연도 표시. 표지 오른쪽 위 모서리에 얹는다 */
 function CornerBadge({ children }: { children: React.ReactNode }) {
@@ -102,10 +98,9 @@ function CoverCard({
     />
   );
 }
-
 interface CuratedTileGridProps {
   list: CuratedListDetail;
-  /** 그릴 작품. 데스크톱은 앞 120편, 모바일 격자는 지금 구간이다 */
+  /** 현재 화면에 그릴 작품만 받는다. */
   items: CuratedListItem[];
   columnsClassName: string;
   /** 격자와 파트너스 고지문 사이에 끼우는 것(더 보기 단추 등) */
@@ -145,31 +140,5 @@ export function CuratedTileGrid({ list, items, columnsClassName, children }: Cur
 
       {children}
     </>
-  );
-}
-
-/** 데스크톱 격자 — 전량을 5~6열로 편다. 큰 목록은 120편에서 끊고 단추로 마저 편다 */
-export default function CuratedListGrid({ list }: { list: CuratedListDetail }) {
-  const t = useTranslations("library.curated");
-  const [showAll, setShowAll] = useState(false);
-  const items = showAll ? list.items : list.items.slice(0, INITIAL_CARDS);
-  const remaining = list.items.length - items.length;
-
-  return (
-    <section className="rounded-2xl border border-white/[0.07] bg-white/[0.015] p-5">
-      <CuratedTileGrid list={list} items={items} columnsClassName="grid-cols-5 lg:grid-cols-6">
-        {remaining > 0 && (
-          <div className="pt-4 text-center">
-            <button
-              type="button"
-              onClick={() => setShowAll(true)}
-              className="inline-block rounded-lg border border-white/[0.08] px-4 py-2 text-[13px] text-text-secondary hover:border-accent/40 hover:text-accent"
-            >
-              {t("showRemaining", { count: remaining })}
-            </button>
-          </div>
-        )}
-      </CuratedTileGrid>
-    </section>
   );
 }

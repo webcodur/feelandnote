@@ -34,6 +34,7 @@ export function useCelebVoice({ profile, greeting, nickname, locale }: UseCelebV
 
   const handleVoiceStart = useCallback((label: DialogueLabel) => {
     setVoicePlayback(label);
+    trackEvent("celeb_voice_play", { kind: label === "quotes" ? "quote" : label });
   }, []);
 
   const handleVoiceEnd = useCallback(() => {
@@ -43,7 +44,6 @@ export function useCelebVoice({ profile, greeting, nickname, locale }: UseCelebV
   const handleGreetingPlay = useCallback(() => {
     if (hasGreetingAudio && !voiceMuted) {
       setVoicePlayback("greeting");
-      trackEvent("celeb_voice_play", { kind: "greeting" });
     }
     fireGreeting(
       { ...profile, greeting, nickname },
@@ -63,7 +63,6 @@ export function useCelebVoice({ profile, greeting, nickname, locale }: UseCelebV
   const handleQuotePlay = useCallback(() => {
     if (!voiceMuted) {
       setVoicePlayback("quotes");
-      trackEvent("celeb_voice_play", { kind: "quote" });
     }
     fireQuote(
       { ...profile, greeting, nickname },

@@ -18,6 +18,7 @@ import { BlurDissolve, VoiceBadge } from "@/components/ui";
 import { useLocale, useTranslations } from "next-intl";
 import type { DialogueSubtitleData, DialogueLabel } from "./hooks/useDialogue";
 import { DEFAULT_DIALOGUE_COORDS, type DialogueCoords } from "@/hooks/useDialoguePosition";
+import { beginOperation, audioFailureReason } from "@/lib/analytics/operation";
 
 const BASE_DURATION = 3000;
 const PER_CHAR_MS = 80;
@@ -54,6 +55,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
   const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prevTextRef = useRef<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioOutcomeRef = useRef<ReturnType<typeof beginOperation> | null>(null);
   const [audioPhase, setAudioPhase] = useState<AudioPhase>("idle");
   const [audioProgress, setAudioProgress] = useState(0);
   const rafRef = useRef<number | null>(null);
@@ -111,6 +113,8 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
   }, []);
 
   const stopAudio = useCallback(() => {
+    audioOutcomeRef.current?.("cancelled");
+    audioOutcomeRef.current = null;
     stopProgressLoop();
     clearLoadTimer();
     if (audioRef.current) {
@@ -166,6 +170,8 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
     clearFadeTimer();
 
     if (subtitle.audioUrl && !voiceMuted) {
+      const finish = beginOperation("dialogue_audio", subtitle.label ?? "greeting");
+      audioOutcomeRef.current = finish;
       // 인물별 재생 배속. 게임 대사에서는 한국어에만 걸린다(docs/continuous/celeb-tts-dialogue.md).
       const rate = locale === "ko" && subtitle.voiceSpeed ? subtitle.voiceSpeed : 1;
       const audio = new Audio();
@@ -181,8 +187,10 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
       playbackEndRef.current = subtitle.onAudioEnd ?? null;
 
       // 음원을 못 받으면 소리를 포기하고 글자만 남긴다 — 창이 열린 채 남지 않게 글자 시간을 건다
-      const dropAudio = () => {
+      const dropAudio = (reason: "timeout" | "blocked" | "cancelled" | "media" = "media") => {
         if (audioRef.current !== audio) return;
+        if (reason === "blocked" || reason === "cancelled") finish(reason);
+        else finish("failure", reason === "timeout" ? "timeout" : audioFailureReason(audio.error?.code));
         stopProgressLoop();
         clearLoadTimer();
         audio.oncanplay = null;
@@ -206,13 +214,19 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
         void audio.play().then(() => {
           if (audioRef.current !== audio) { audio.pause(); return; }
           setAudioPhase("playing");
+          finish("started");
           subtitle.onAudioStart?.();
           playbackTimeRef.current?.(audio.currentTime / Math.max(audio.playbackRate, 0.01));
           startProgressLoop();
-        }).catch(dropAudio);
+        }).catch((error: unknown) => {
+          const name = error instanceof DOMException ? error.name : "";
+          dropAudio(name === "NotAllowedError" ? "blocked" : name === "AbortError" ? "cancelled" : "media");
+        });
       };
 
       audio.addEventListener("ended", () => {
+        if (audioRef.current !== audio) return;
+        finish("success");
         stopProgressLoop();
         clearLoadTimer();
         setAudioProgress(1);
@@ -222,9 +236,9 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
         setVisible(false);
         finishExternalPlayback();
       }, { once: true });
-      audio.addEventListener("error", dropAudio, { once: true });
+      audio.addEventListener("error", () => dropAudio(), { once: true });
       audio.addEventListener("pause", () => {
-        if (audioRef.current === audio && !audio.ended) dropAudio();
+        if (audioRef.current === audio && !audio.ended) dropAudio("cancelled");
       });
 
       // 끊김 없이 통으로 낼 만큼 받아진 뒤에 소리와 진행바를 함께 시작한다.
@@ -233,7 +247,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
       // canplaythrough를 못 주는 회선도 있어 재생 가능 시점(canplay)도 받는다 — 먼저 온 쪽에서 시작한다
       audio.oncanplay = begin;
       audio.oncanplaythrough = begin;
-      loadTimerRef.current = setTimeout(dropAudio, AUDIO_LOAD_TIMEOUT);
+      loadTimerRef.current = setTimeout(() => dropAudio("timeout"), AUDIO_LOAD_TIMEOUT);
       audio.load();
     } else {
       const duration = calcDuration(subtitle.text);

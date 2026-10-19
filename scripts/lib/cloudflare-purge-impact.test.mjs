@@ -13,6 +13,28 @@ import {
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('analytics, global dialogue and recent-history artwork refresh cached layout consumers', () => {
+  for (const file of [
+    'sw/web/src/components/features/game/shared/DialogueSubtitle.tsx',
+    'sw/web/src/lib/analytics/track.ts',
+    'sw/web/src/lib/analytics/operation.ts',
+    'sw/web/src/lib/analytics/policy.ts',
+    'sw/web/src/lib/analytics/queue.ts',
+    'sw/web/src/lib/title-artwork.ts',
+    'sw/web/src/components/features/user/explore/myth/MythTitleImage.tsx',
+  ]) assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['cached-html'])
+})
+
+test('curated list presentation has no edge HTML consumers while card controls affect figure detail', () => {
+  for (const name of ['CuratedListExpand', 'CuratedListGrid', 'CuratedListMobile', 'CuratedListContents', 'CuratedRangeIndex']) {
+    assert.deepEqual(classifyCloudflarePurgeImpact([`sw/web/src/components/features/library/curated/${name}.tsx`]).scopes, ['none'])
+  }
+  for (const file of [
+    'sw/web/src/components/ui/cards/ContentCard/sections/CardHeader.tsx',
+    'sw/web/src/components/ui/cards/ContentCard/slots/EditionToggle.tsx',
+  ]) assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['celeb'])
+})
+
 test('image viewer side navigation refreshes the same cached consumers as its viewer', () => {
   assert.deepEqual(
     classifyCloudflarePurgeImpact(['sw/web/src/components/ui/modalSideNavigation.ts']).scopes,

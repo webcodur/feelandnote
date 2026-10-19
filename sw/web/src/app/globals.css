@@ -1,6 +1,5 @@
 @import "./pretendard.css";
 @import "tailwindcss";
-@import "country-flag-icons/3x2/flags.css";
 @source "../../../../packages/influence-constants/src";
 @plugin "@tailwindcss/typography";
 

@@ -2,15 +2,13 @@
 
 import { useRef, useState } from "react";
 import { MYTH_TITLE_DISPLAY } from "@feelandnote/shared/constants/responsive-artwork";
+import { titleArtworkFile } from "@/lib/title-artwork";
 
-/** R2 원본 PNG 하나에서 화면 크기에 맞는 WebP를 요청한다. */
+/** 신화 타이틀과 팩션 표지를 화면 크기에 맞는 WebP로 요청한다. */
 export default function MythTitleImage({ src, alt, priority, sizes = "(min-width: 1040px) 990px, (min-width: 768px) calc(100vw - 80px), calc(100vw - 58px)", fit = "contain", className = "", onUnavailable, onReady }: { src: string; alt: string; priority: boolean; sizes?: string; fit?: "contain" | "cover"; className?: string; onUnavailable?: () => void; onReady?: () => void }) {
   const [failedSource, setFailedSource] = useState<string | null>(null);
   const notifiedSource = useRef<string | null>(null);
-  const sourceUrl = URL.canParse(src) ? new URL(src) : null;
-  const file = sourceUrl?.hostname === "assets.feelandnote.com"
-    ? /^\/myth\/title-art\/([a-z0-9][a-z0-9-]*-[a-f0-9]{12}\.png)$/.exec(sourceUrl.pathname)?.[1]
-    : null;
+  const file = titleArtworkFile(src);
   const available = failedSource !== src && file;
   const variant = (width: number) => `/api/myth-title/${file}?w=${width}`;
   const unavailable = () => { if (available) setFailedSource(src); else onUnavailable?.(); };

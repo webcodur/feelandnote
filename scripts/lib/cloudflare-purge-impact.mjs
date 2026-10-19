@@ -223,6 +223,9 @@ const CELEB_FILES = new Set([
   'sw/web/src/components/ui/cards/ContentCard/sections/CardModals.tsx',
   'sw/web/src/components/ui/cards/ContentCard/sections/CornerAccents.tsx',
   'sw/web/src/components/ui/cards/ContentCard/slots/index.tsx',
+  // 공통 카드 머리·판본 선택도 위 ContentCard와 같은 인물 상세에서 소비한다.
+  'sw/web/src/components/ui/cards/ContentCard/sections/CardHeader.tsx',
+  'sw/web/src/components/ui/cards/ContentCard/slots/EditionToggle.tsx',
   // 판본 표기. contentLibrary 묶음과 같은 이유로 인물 상세의 감상배경에 걸린다.
   'sw/web/src/lib/utils/editions.ts',
   // 원전·등장 작품 구획에 쓰는 작품별 표시 자료. 소비자는 인물 상세뿐이다.
@@ -491,6 +494,12 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/app/[locale]/(main)/explore/works/sections.tsx',
   'sw/web/src/components/features/landing/FactionShowcase.tsx',
   'sw/web/src/components/features/library/curated/CuratedListView.tsx',
+  // 선정 목록의 격자·펼침·구간 조작은 앞단 HTML 캐시가 없는 기관 선정 상세 전용이다.
+  'sw/web/src/components/features/library/curated/CuratedListExpand.tsx',
+  'sw/web/src/components/features/library/curated/CuratedListGrid.tsx',
+  'sw/web/src/components/features/library/curated/CuratedListMobile.tsx',
+  'sw/web/src/components/features/library/curated/CuratedListContents.tsx',
+  'sw/web/src/components/features/library/curated/CuratedRangeIndex.tsx',
   'sw/web/src/components/features/library/hub/PopularPreview.tsx',
   'sw/web/src/components/features/library/sections/PopularSection.tsx',
   'sw/web/src/components/features/user/explore/sections/SpectrumFullSection/sections/AxisLibraryPanel.tsx',
@@ -536,6 +545,14 @@ const CACHED_HTML_PREFIXES = [
 ]
 
 const CACHED_HTML_FILES = new Set([
+  // locale 레이아웃의 분석·음성 제공자가 모든 보관 HTML에 실린다.
+  'sw/web/src/components/features/game/shared/DialogueSubtitle.tsx',
+  'sw/web/src/lib/analytics/track.ts',
+  'sw/web/src/lib/analytics/operation.ts',
+  'sw/web/src/lib/analytics/policy.ts',
+  'sw/web/src/lib/analytics/queue.ts',
+  // 타이틀 이미지는 공통 최근 방문 띠의 썸네일에서도 소비한다.
+  'sw/web/src/lib/title-artwork.ts',
   // 국적 표시는 인물 상세·공통 인물 모달·연표에서 함께 소비하며 이미지 API 자체는 바꾸지 않는다.
   'sw/web/src/components/ui/CountryFlag.tsx',
   'sw/web/src/components/ui/CountryFlagImage.tsx',
@@ -656,6 +673,8 @@ function isTestOnlyPath(file) {
 }
 
 function classifyFile(file) {
+  // myth 폴더의 나머지 부품과 달리 RecentHistoryRail을 통해 공통 레이아웃에도 실린다.
+  if (file === 'sw/web/src/components/features/user/explore/myth/MythTitleImage.tsx') return ['cached-html']
   // 같은 이미지·fetch 헬퍼의 실제 소비자는 보관 HTML과 SEO 이미지 양쪽에 있다.
   if (file === 'sw/web/src/lib/rawFetch.ts') return ['cached-html', 'seo']
   if (file === 'sw/web/src/components/ui/CelebImage.tsx') return ['cached-html']

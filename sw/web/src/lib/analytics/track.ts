@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, type RefObject } from "react";
-import { sendGAEvent } from "@next/third-parties/google";
+import { canTrackAnalytics } from "./policy";
+import { sendAnalyticsEvent } from "./queue";
+import type { OperationEventName } from "./operation";
 
 /* ── 서비스 내 행동 기록 ──
    화면 열림·스크롤은 GA가 자동으로 잡지만 "무엇을 눌렀나"는 잡지 않는다.
@@ -23,7 +25,8 @@ export type TrackEventName =
   | "commerce_open"
   /** 상품·구매 연결을 눌렀다 — 어느 화면·대상·상품에서 클릭이 나는지 판별.
    *  노출 수와 클릭 수를 매출처럼 보지 않는다. 실매출은 제휴 대시보드에서 대조한다 */
-  | "commerce_click";
+  | "commerce_click"
+  | OperationEventName;
 
 type EventParams = Record<string, string | number | boolean>;
 
@@ -44,11 +47,11 @@ function reportCommerceLedger(name: TrackEventName, params: EventParams) {
 }
 
 export function trackEvent(name: TrackEventName, params: EventParams = {}) {
-  if (typeof window === "undefined") return;
+  if (!canTrackAnalytics()) return;
 
   reportCommerceLedger(name, params);
   try {
-    sendGAEvent("event", name, params);
+    sendAnalyticsEvent(name, params);
   } catch (error) {
     // 개발 중에는 원인을 알려주고, 실서비스에서는 조용히 넘긴다.
     if (process.env.NODE_ENV === "development") {

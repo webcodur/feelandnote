@@ -3,7 +3,7 @@
   기능: 선정 목록 상세 — 목록 소개와 작품 진열
   책임: 목록의 개요·선정 방식·출처를 머리에 세우고, 작품은 폭에 따라 두 가지로 보인다.
         데스크톱(md 이상)은 감싸는 상자에 공통 작품 카드와 쿠팡 모듈을 쌓은 격자(CuratedListGrid),
-        모바일은 2열 구간 격자와 한 편씩 보는 펼쳐보기를 고르는 조작 줄(CuratedListMobile)이다.
+        모바일은 2열 구간 격자와 한 편씩 보는 펼쳐보기를 고르는 조작 줄이다.
         원문 순서·순위를 그대로 따르고 아직 등록되지 않은 작품도 빼지 않는다 — 100선은 100편이어야 한다.
 */ // ------------------------------
 
@@ -14,8 +14,7 @@ import NationalityText from "@/components/ui/NationalityText";
 import { getCuratedHub } from "@/actions/library";
 import type { CuratedListDetail } from "@/actions/library/types";
 import CuratedListBrowseLinks from "./CuratedListBrowseLinks";
-import CuratedListGrid from "./CuratedListGrid";
-import CuratedListMobile from "./CuratedListMobile";
+import CuratedListContents from "./CuratedListContents";
 
 export default async function CuratedListView({ list }: { list: CuratedListDetail }) {
   const t = await getTranslations("library.curated");
@@ -127,14 +126,7 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
         </div>
       )}
 
-      {/* 데스크톱 — 감싸는 상자 + 공통 카드 + 쿠팡 모듈 격자. 제목 전량이 HTML에 남아 검색에도 잡힌다 */}
-      <div className="hidden md:block">
-        <CuratedListGrid list={list} />
-      </div>
-      {/* 모바일 — 2열 구간 격자(기본)와 한 편씩 보는 펼쳐보기를 조작 줄에서 고른다 */}
-      <div className="md:hidden">
-        <CuratedListMobile list={list} />
-      </div>
+      <CuratedListContents list={list} />
     </div>
   );
 }

@@ -20,6 +20,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { LinkPending } from "@/components/ui/pending";
 import { setBottomNavDock } from "./bottomNavDock";
 import { setMusicNavPanelSlot, setMusicNavTabSlot } from "./musicPlayerSlots";
+import { observeBottomNavHeight } from "./bottomNavHeight";
 
 interface NavItemProps {
   href: string;
@@ -61,15 +62,7 @@ export default function BottomNav({ navigationHref }: { navigationHref?: string 
   useEffect(() => {
     const frame = frameRef.current;
     if (!frame) return;
-    const publish = () =>
-      document.documentElement.style.setProperty("--layer-bottom-chrome-h", `${frame.offsetHeight}px`);
-    publish();
-    const observer = new ResizeObserver(publish);
-    observer.observe(frame);
-    return () => {
-      observer.disconnect();
-      document.documentElement.style.removeProperty("--layer-bottom-chrome-h");
-    };
+    return observeBottomNavHeight(frame, document.documentElement);
   }, []);
 
   return (

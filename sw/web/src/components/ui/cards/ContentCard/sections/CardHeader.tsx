@@ -88,7 +88,8 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
     actionNode = (
       <DropdownMenu
         items={menuItems}
-        buttonClassName="w-11 h-11 flex items-center justify-center rounded hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent text-text-secondary hover:text-text-primary"
+        className="w-11 min-w-6"
+        buttonClassName="w-full h-11 px-1 flex items-center justify-center rounded hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent text-text-secondary hover:text-text-primary"
         iconSize={14}
       />
     );
@@ -96,7 +97,7 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
 
   return (
     <div
-      className="flex items-center justify-between px-1.5 py-1 bg-[#141414] border-b border-white/[0.04]"
+      className="flex items-center justify-between px-1 py-1 bg-[#141414] border-b border-white/[0.04]"
       onClick={(e) => e.stopPropagation()}
     >
       {/* 좌: 카테고리 */}
@@ -104,7 +105,7 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
         type="button"
         aria-label={t("types.title")}
         onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsTypeInfoOpen(true); }}
-        className="flex items-center justify-center w-11 h-11 rounded hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        className="flex items-center justify-center w-11 min-w-6 h-11 rounded hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       >
         <ContentIcon size={13} className="text-accent/80" strokeWidth={1.8} />
       </button>
@@ -117,9 +118,7 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
       </div>
 
       {/* 우: 액션 버튼 */}
-      <div className="flex items-center">
-        {actionNode}
-      </div>
+      {actionNode}
     </div>
   );
 }

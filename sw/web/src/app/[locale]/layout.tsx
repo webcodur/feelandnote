@@ -13,8 +13,7 @@ import { routing } from "@/i18n/routing";
 import { setRequestLocale, getMessages, getTranslations } from "next-intl/server";
 import { BASE_MESSAGE_PATHS, pickMessages } from "@/i18n/message-scope";
 import Footer from "@/components/ui/Layout/Footer";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import MicrosoftClarity from "@/components/shared/MicrosoftClarity";
+import WebAnalytics from "@/components/shared/WebAnalytics";
 import { GlobalDialogueProvider } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
 import { GameAudioProvider } from "@/contexts/GameAudioContext";
 import { FactionMusicProvider } from "@/contexts/FactionMusicContext";
@@ -176,10 +175,7 @@ export default async function LocaleLayout({
               <UiXray />
               {children}
               <Footer />
-              {process.env.NODE_ENV === "production" && (
-                <GoogleAnalytics gaId="G-LMVY8KTJ7T" />
-              )}
-              <MicrosoftClarity />
+              <WebAnalytics />
               </GlobalDialogueProvider>
             </FactionMusicProvider>
           </GameAudioProvider>

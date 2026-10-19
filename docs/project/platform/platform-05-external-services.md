@@ -158,7 +158,7 @@ TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 
 
 ## 웹 분석 (Google Analytics·Microsoft Clarity)
 
-- GA4 Measurement ID: `G-LMVY8KTJ7T` (layout.tsx에 설정)
+- GA4 Measurement ID: `G-LMVY8KTJ7T` (`WebAnalytics.tsx`에 설정)
 - GA4 Property ID: `526353156`
 - Service Account: `claude-analytics@feelandnote.iam.gserviceaccount.com`
 - 크리덴셜 파일: `sw/web/credentials/ga-service-account.json` (.gitignore 등록)
@@ -167,11 +167,13 @@ TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 
 - 조회: 전용 MCP가 없다. `sw/web/scripts/ga4-celeb-views.mjs`가 서비스계정 JWT로 `runReport`를 직접 부른다(의존성 없음). 예: `node scripts/ga4-celeb-views.mjs <시작일> <종료일>` → 인물별 페이지뷰·순 방문자·접속 수. 같은 방식의 `sw/web-bo/src/lib/ga4.ts`를 백오피스 `/commerce`가 commerce 이벤트 조회에 쓴다.
 - 행동 이벤트 정의의 원천은 `sw/web/src/lib/analytics/track.ts`다. 이벤트 매개변수(`section`·`source`·`to`·`from`·`kind`)는 맞춤 측정기준으로 등록돼 있다. **맞춤 측정기준은 등록 이전 데이터에 소급되지 않으므로** 새 매개변수는 배포보다 등록을 먼저 한다.
 - 데이터 보관은 14개월(무료 등급 최대치)이다.
-- 인물 조회수는 GA4와 DB(`celebs.view_count`)가 사실상 일치한다. DB가 조금 큰 것은 광고 차단 접속까지 세기 때문이라 DB 값을 보정 없이 쓴다. 중복 제거 창은 30분이다.
+- 인물 조회수는 DB(`celebs.view_count`) 값을 보정 없이 쓴다. 광고 차단 접속이나 GA 수집에서 제외한 상주 점검도 DB 집계에는 들어갈 수 있으므로 GA와 직접 일치한다고 보지 않는다. 중복 제거 창은 30분이다.
 - 인물 상세처럼 한 장에 여러 칸을 담은 화면은 페이지/세션으로 참여도를 재지 않는다. 겹창(`CelebDetailModal`)은 화면 전환을 의도적으로 줄이므로 그 지표가 낮아지는 것이 설계대로다. 체류·칸 도달(`celeb_section_view`)·겹창 열림(`celeb_person_open`)으로 잰다.
 - 네이버는 GA에 검색어를 넘기지 않는다. 네이버 유입의 검색어는 서치어드바이저 화면에서만 본다.
 
-- Clarity 연결: `sw/web/src/components/shared/MicrosoftClarity.tsx`. 공개 프로젝트 ID(`NEXT_PUBLIC_CLARITY_PROJECT_ID`)가 있는 production 환경에서만 hydration 뒤 로드한다. 기존 GA4 계측은 유지한다.
+- GA·Clarity 로드 진입점은 `sw/web/src/components/shared/WebAnalytics.tsx`, 수집 허용 판정은 `sw/web/src/lib/analytics/policy.ts`다. production의 실제 HTTPS 운영 호스트에서만 hydration 뒤 로드한다. 로컬 production 빌드·미리보기 호스트는 GA·Clarity·클라이언트 구매 장부 전송에서 제외한다. Clarity는 공개 프로젝트 ID(`NEXT_PUBLIC_CLARITY_PROJECT_ID`)도 필요하다.
+- 상주 점검 브라우저는 `https://feelandnote.com/?analytics=off`를 한 번 열면 이후 방문도 GA·Clarity·구매 장부 전송에서 제외한다. 복귀는 `?analytics=on`이다. 브라우저별 localStorage에 저장하므로 다른 브라우저에도 각각 적용하고, 이미 열린 탭은 새로고침한다. 과거 기록에는 소급되지 않는다. 제어 매개변수는 적용 뒤 주소에서 제거하며, 저장소가 차단되면 현재 페이지도 수집하지 않는다.
+- 기능 결과는 `sw/web/src/lib/analytics/operation.ts`가 정의한다. `content_brief_*`는 실제 소개 요청 단위(재시도 묶음·선택/미리 받기 구분)로 시도·성공·자료 없음·최종 실패를 기록한다. `dialogue_audio_*`는 음원 요청·실제 시작·끝까지 재생·실패·정책 차단·중단을 구별한다. `celeb_voice_play`도 요청이 아닌 실제 시작 시점이다. 초기 결과는 GA 준비까지 보류하며 Clarity에는 같은 이름의 사용자 이벤트와 고정된 `failure_reason` 세션 태그를 전달한다. 원문·음원 URL·예외 메시지는 전달하지 않는다. GA의 사유별 분석은 `failure_reason` 맞춤 측정기준, 소요 시간 분석은 `duration_ms` 맞춤 측정항목을 관리 화면에서 등록해야 한다. 등록 전에도 결과별 이벤트 수와 Clarity의 실패 사유 필터는 사용할 수 있다.
 - locale 레이아웃의 `body`에 `data-clarity-mask`를 적용해 화면 본문과 입력값을 가린다. 히트맵·클릭·스크롤 분석은 유지하되 리플레이에서 본문을 읽을 수는 없다. 회원 식별자·이메일은 별도로 전달하지 않는다.
 - 동의를 임의로 승인하는 API 호출은 넣지 않는다. EEA·영국·스위스의 전체 세션 기능은 [Clarity 동의 신호 규칙](https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-consent-api-v2)에 따라 유효한 동의 신호가 있어야 한다.
 

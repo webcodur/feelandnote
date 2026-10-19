@@ -8,6 +8,7 @@ import { startTransition, useCallback, useEffect, useRef, useState } from "react
 import { useLocale } from "next-intl";
 
 import { getContentBriefStrict, type ContentBrief } from "@/actions/contents/getContentBrief";
+import { beginOperation } from "@/lib/analytics/operation";
 
 const MAX_REQUEST_ATTEMPTS = 3;
 const RETRY_DELAY_MS = 250;
@@ -92,11 +93,13 @@ export function useContentBrief(
 
       entriesRef.current.set(cacheKey, { status: "loading" });
       const request = (async (): Promise<SettledBriefEntry> => {
+        const finish = beginOperation("content_brief", retryFailed ? "selected" : "prefetch");
         for (let attempt = 1; attempt <= MAX_REQUEST_ATTEMPTS; attempt += 1) {
           try {
             const brief = await getContentBriefStrict(contentId, locale);
             const entry: SettledBriefEntry = { status: "ready", brief };
             entriesRef.current.set(cacheKey, entry);
+            finish(brief ? "success" : "empty");
             return entry;
           } catch (error) {
             if (attempt < MAX_REQUEST_ATTEMPTS) {
@@ -108,6 +111,7 @@ export function useContentBrief(
             // 이 항목을 떠났다가 다시 선택하면 retryFailed 경로에서 다시 요청한다.
             const entry: SettledBriefEntry = { status: "failed", brief: null };
             entriesRef.current.set(cacheKey, entry);
+            finish("failure", "request");
             console.error("[useContentBrief]", contentId, error);
             return entry;
           }

@@ -5,7 +5,7 @@
         머리와 아래 띠의 이전·다음으로 넘기며, 「작품 목록」 모달에서 열 단위 묶음(1–10, 11–20…)으로 고른다.
         카드는 표지·작품 소개·선정 사유·서지 정보·구매 단추를 쌓는다. 구매 단추는 링크가 없어도 자리를 지킨다.
         아직 등록되지 않은 작품도 번호와 카드를 가진다 — 100선은 100편이어야 한다.
-        고른 작품 번호와 「작품 목록」 열림은 바깥(CuratedListMobile)이 쥔다 — 격자 보기와 같은 번호를 나눠 쓰기 위해서다.
+        고른 작품 번호와 「작품 목록」 열림은 바깥(CuratedListContents)이 쥔다 — 격자 보기와 같은 번호를 나눠 쓰기 위해서다.
         데스크톱은 격자(CuratedListGrid)가 대신하므로 이 화면이 가려진 폭에서는 소개를 불러오지 않는다.
 */ // ------------------------------
 "use client";
@@ -51,7 +51,7 @@ import { cn } from "@/lib/utils";
 const GROUP_SIZE = 10;
 /** 고정 띠를 재지 못했을 때 쓰는 여유 — 화면 맨 위 고정 머리글(64px)에 제목이 가리지 않을 최소 높이 */
 const HEADER_OFFSET = 80;
-/** 모바일 조작 줄이 고정 머리글 아래에 붙어 따라오는 띠. 격자 보기(CuratedListMobile)도 같은 띠를 쓴다 */
+/** 모바일 조작 줄이 고정 머리글 아래에 붙어 따라오는 띠. 격자 보기(CuratedListContents)도 같은 띠를 쓴다 */
 export const MOBILE_STICKY_BAR_CLASS = "sticky top-[var(--layer-header-h)] z-20 -mt-2 bg-bg-main pt-2";
 /** 화살표를 누른 직후로 볼 시간. 이보다 늦게 온 선택 변화는 화살표가 부른 것이 아니다 */
 const REVEAL_WINDOW_MS = 400;

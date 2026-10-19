@@ -11,7 +11,8 @@ export default function CountryFlagImage({ code, label, className = "" }: Props)
   if (!flagCode) return null;
 
   return <span
-    className={`flag:${flagCode} shrink-0 align-middle ${className}`}
+    className={`flag:${flagCode} inline-block h-[1em] w-[1.5em] shrink-0 bg-cover bg-center bg-no-repeat align-middle ${className}`}
+    style={{ backgroundImage: `url(/api/flag/${flagCode})` }}
     role={label ? "img" : undefined}
     aria-label={label}
     aria-hidden={!label || undefined}

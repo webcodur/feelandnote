@@ -25,7 +25,7 @@ export function EditionToggle({ editions, activeEdition, onToggle }: EditionTogg
 
   return (
     <div
-      className="inline-flex items-center rounded-md overflow-hidden border border-white/[0.06]"
+      className="inline-flex shrink-0 items-center rounded-md overflow-hidden border border-white/[0.06]"
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
     >
       {EDITION_LABELS.map(({ key, label }, idx) => {
@@ -39,15 +39,16 @@ export function EditionToggle({ editions, activeEdition, onToggle }: EditionTogg
             key={key}
             type="button"
             disabled={isDisabled}
+            aria-pressed={isActive}
             title={isDisabled ? (key === "ko" ? t("noKo") : t("noEn")) : undefined}
             onClick={() => !isDisabled && onToggle(key)}
-            className={`min-h-11 min-w-11 px-3 py-1 text-xs font-semibold tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
+            className={`min-h-7 min-w-6 px-1 py-0.5 text-xs font-semibold leading-none tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
               idx > 0 ? "border-l border-white/[0.06]" : ""
             } ${
               isActive
                 ? isConfirmedNo
-                  ? "bg-red-900/40 text-red-400"
-                  : "bg-accent-dim/30 text-accent"
+                  ? "bg-red-900/40 text-red-400 hover:bg-red-900/55"
+                  : "bg-accent-dim/30 text-accent hover:bg-accent-dim/45"
                 : isAvailable
                   ? "text-text-secondary hover:text-text-primary hover:bg-white/[0.04]"
                   : isConfirmedNo

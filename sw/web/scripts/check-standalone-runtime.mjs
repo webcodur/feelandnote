@@ -38,6 +38,12 @@ assertMaterialFile(libvipsBinary, 1_000_000)
 
 // 디스크에 패키지가 있다는 것만으로는 조건부 export 누락을 잡지 못한다.
 const standaloneRequire = createRequire(join(webRoot, distDir, 'standalone', 'sw', 'web', 'package.json'))
+const flagsRoot = dirname(realpathSync(standaloneRequire.resolve('country-flag-icons/package.json')))
+const flagsOutput = relative(standaloneRoot, flagsRoot).startsWith('..')
+  ? join(standaloneRoot, relative(repoRoot, flagsRoot)) : flagsRoot
+const flagFiles = readdirSync(join(flagsOutput, '3x2')).filter(name => name.endsWith('.svg'))
+if (flagFiles.length < 200) throw new Error('Standalone 국기 SVG 파일이 빠졌습니다')
+for (const file of flagFiles) assertMaterialFile(join(flagsOutput, '3x2', file), 20)
 // sharp 0.35는 네이티브 .node 앞에 index.cjs를 사용한다. 바이너리 존재만
 // 확인하지 않고 sharp가 실제로 쓰는 의존성 경로와 export 진입점도 검사한다.
 const sharpRequire = createRequire(standaloneRequire.resolve('sharp'))

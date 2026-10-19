@@ -22,6 +22,12 @@ const nextConfig: NextConfig = {
   // Windows 빌드에서도 Oracle Linux용 sharp 네이티브 파일을 standalone에 넣는다.
   // pnpm-workspace.yaml의 supportedArchitectures가 설치를, 이 trace가 복사를 맡는다.
   outputFileTracingIncludes: {
+    '/api/flag/*': [
+      './node_modules/country-flag-icons/package.json',
+      './node_modules/country-flag-icons/3x2/*.svg',
+      '../../node_modules/.pnpm/country-flag-icons@*/node_modules/country-flag-icons/package.json',
+      '../../node_modules/.pnpm/country-flag-icons@*/node_modules/country-flag-icons/3x2/*.svg',
+    ],
     '/*': [
       './node_modules/@img/sharp-linux-x64/**/*',
       './node_modules/@img/sharp-libvips-linux-x64/**/*',
