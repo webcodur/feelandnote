@@ -316,6 +316,10 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // 참여 줄은 신화·세력 탐색 전용이며 두 도감은 앞단 HTML 보관 대상이 아니다.
+  'sw/web/src/components/features/engagement/FactionParticipation.tsx',
+  // 사진 이동 버튼은 탐색·신화·세력의 클라이언트 사진 모드에서만 body 포털로 나타난다.
+  'sw/web/src/components/shared/PortraitPersonStepper.tsx',
   // 인물 참여작 API 전용 조회와 탐색 격자의 지연 확대창이다.
   'sw/web/src/lib/celeb/tmdbFilmography.ts',
   'sw/web/src/components/features/home/CelebGridImageViewer.tsx',

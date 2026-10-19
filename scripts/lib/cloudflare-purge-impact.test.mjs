@@ -11,6 +11,14 @@ import {
   createManualCloudflarePurgePlan,
 } from './cloudflare-purge-impact.mjs'
 
+test('atlas participation and portrait stepping do not invalidate cached detail HTML', () => {
+  const impact = classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/engagement/FactionParticipation.tsx',
+    'sw/web/src/components/shared/PortraitPersonStepper.tsx',
+  ])
+  assert.deepEqual(impact.scopes, ['none'])
+})
+
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
 test('analytics, global dialogue and recent-history artwork refresh cached layout consumers', () => {
