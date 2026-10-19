@@ -98,8 +98,8 @@ export function batchStages(options) {
   const queue = options.slug || options.limit ? [] : ['--queue-file', join(options.run, 'reading-voice-synthesis-queue.json')]
   return [
     { id: 'synthesize', args: [...common, '--synthesize-only', '--single-pass', '--concurrency', '8', ...queue] },
-    { id: 'qc-publish', args: [...common, '--publish', '--existing-only', '--concurrency', '3', '--device', options.device] },
-    { id: 'retry', args: [...common, '--generate', '--publish', '--concurrency', '3', '--device', options.device] },
+    { id: 'qc-publish', args: [...common, '--publish', '--existing-only', '--concurrency', '6', '--device', options.device] },
+    { id: 'retry', args: [...common, '--generate', '--publish', '--concurrency', '6', '--device', options.device] },
   ]
 }
 

@@ -14,7 +14,7 @@
 | [`blog-naver-book.md`](blog-naver-book.md) | 신규 인물 확장·책 중심 글 시험·기존 인물 갱신 순서와 운영·편집 도달점 |
 | [`blog-tistory-cinema.md`](blog-tistory-cinema.md) | 티스토리 「필앤노트 시네마」 — 준비된 영화 원고 예약·후속 정비와 운영·편집 도달점 |
 | [`book-person.md`](book-person.md) | 「책과 사람」 한 권 형식 쇼츠의 제작 순서와 편별 도달점 |
-| [`figure-books.md`](figure-books.md) | 실존 인물 책장을 등장 도서로 채우는 발굴·검증·상품 연결과 인물 단위 정밀 정비 도달점 |
+| [`figure-books.md`](figure-books.md) | 인물 도서 발굴·검증·상품 연결과 기존 등장 관계·판본 정리 도달점 |
 | [`content-introductions.md`](content-introductions.md) | 신규 등록으로 계속 생기는 작품 소개 공란의 유형별 재수집·번역·반영 도달점 |
 | [`celeb-review-deep-dive.md`](celeb-review-deep-dive.md) | 인물 감상배경 딥다이브 — 얕게 등록된 review를 원문 수준으로 깊게 만드는 도달점 |
 | [`free-posts.md`](free-posts.md) | 운영자 아가톤의 자유글 — 유튜브 커뮤니티·자유게시판에 내는 홍보·업데이트·잡소리 초안과 도달점 |

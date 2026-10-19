@@ -585,6 +585,8 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
   const { page = 1, limit = 20, search, status, profession, tier, reality, imageFilter, factionId, sort = 'created_at', sortOrder = 'desc' } = params
   const rpcUnsupportedSorts = ['avatar_url', 'portrait_url', 'awakened_image_url', 'title', 'gender', 'celeb_tier', 'celeb_reality']
   const needsExactFiltering =
+    // RPC는 이름만 검색한다. 수식어까지 같은 조건으로 목록·총인원을 조회한다.
+    Boolean(search) ||
     rpcUnsupportedSorts.includes(sort) ||
     hasCelebColumnFilters(params) ||
     (sort === 'nickname' && sortOrder === 'desc') ||

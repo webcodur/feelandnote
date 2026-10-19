@@ -1,6 +1,6 @@
 # 영향력 평가
 
-이 문서는 실존 인물이 각 분야의 변화를 얼마나 인과적으로 만들었는지 평가해 `celeb_influence`에 저장하는 규칙을 쥔다. `celeb_reality`가 `REAL`·`BOTH`인 인물에 적용하고 `FICTION`에는 `celeb_influence` 행을 만들지 않는다. 축 경계는 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)를 따른다.
+이 문서는 실존 인물이 각 분야의 변화를 얼마나 인과적으로 만들었는지 평가해 `celeb_influence`에 저장하는 규칙을 쥔다. [`active 요건`](celeb-00-02-active-requirements.md)의 선택 평가이며, 별도 요청이 있을 때 이 룰북을 실행한다. `celeb_reality`가 `REAL`·`BOTH`인 인물에 적용하고 `FICTION`에는 `celeb_influence` 행을 만들지 않는다. 축 경계는 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)를 따른다.
 
 ## BOTH 인물의 근거 층
 

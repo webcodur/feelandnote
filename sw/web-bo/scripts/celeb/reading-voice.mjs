@@ -106,7 +106,7 @@ export function args(argv = process.argv.slice(2)) {
   result.limit = result.limit ? Number(result.limit) : Infinity
   if (!(result.limit > 0) || (result.limit !== Infinity && !Number.isInteger(result.limit))) throw new Error('--limit must be a positive integer (number of people)')
   result.concurrency = Number(result.concurrency || 1)
-  const maxConcurrency = result['synthesize-only'] ? 16 : 3
+  const maxConcurrency = result['synthesize-only'] ? 16 : 6
   if (!Number.isInteger(result.concurrency) || result.concurrency < 1 || result.concurrency > maxConcurrency) throw new Error(`--concurrency must be between 1 and ${maxConcurrency}`)
   result.requestsPerSecond = Number(result['requests-per-second'] || 1)
   if (!Number.isFinite(result.requestsPerSecond) || result.requestsPerSecond < 0.25 || result.requestsPerSecond > 20) throw new Error('--requests-per-second must be between 0.25 and 20')

@@ -1,5 +1,6 @@
 import { getCelebProfileUrl } from "./url";
 import { isDiscardedFaction, retiredFactionHref, retiredFactionTarget } from "./retired-factions";
+import { ATLAS_PERSON_PARAM } from "@/components/features/user/explore/myth/atlasNavigationData";
 
 export const RECENT_HISTORY_STORAGE_KEY = "fn-recent-history-v1";
 export const RECENT_HISTORY_LIMIT = 10;
@@ -20,6 +21,15 @@ export interface RecentHistoryItem {
 export type RecentHistoryVisit = Omit<RecentHistoryItem, "visitedAt">;
 
 export const recentHistoryKey = (item: Pick<RecentHistoryItem, "kind" | "id">) => `${item.kind}:${item.id}`;
+
+/** 도감 카드는 해당 신화·세력으로 돌아가며 저장된 인물 모달을 자동으로 열지 않는다. */
+export function recentHistoryHref(item: Pick<RecentHistoryItem, "kind" | "href">): string {
+  if (item.kind !== "myth" && item.kind !== "faction") return item.href;
+  const url = new URL(item.href, "https://feelandnote.com");
+  if (!url.searchParams.has(ATLAS_PERSON_PARAM)) return item.href;
+  url.searchParams.delete(ATLAS_PERSON_PARAM);
+  return `${url.pathname}${url.search}${url.hash}`;
+}
 
 export function forgetRecentHistory(items: RecentHistoryItem[], target: Pick<RecentHistoryItem, "kind" | "id">): RecentHistoryItem[] {
   const key = recentHistoryKey(target);

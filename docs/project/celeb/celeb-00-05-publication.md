@@ -35,7 +35,7 @@
 
 개별 공개 상태는 web-bo 인물 관리 화면에서 바꾼다. 아바타 없는 active 전환은 화면과 DB가 모두 거부한다.
 
-`pnpm --dir sw/web-bo celeb:audit:activation`은 기본적으로 읽기 전용이지만, 현재 구현은 프로필·콘텐츠 조사·영향력·스펙트럼·Speech·읽어보기·출처 응답까지 DB 최소조건보다 넓은 준비도를 계산한다. `--apply`는 그 넓은 기준을 통과한 inactive 행을 실제로 공개한다. 따라서 단순히 공개 상태만 바꾸려는 작업에서 이 명령을 쓰거나, 그 출력의 gap을 `publication_status`의 뜻으로 일반화하지 않는다.
+`pnpm --dir sw/web-bo celeb:audit:activation`은 기본적으로 읽기 전용이지만, 현재 구현은 프로필·콘텐츠 조사·Speech·읽어보기·출처 응답까지 DB 최소조건보다 넓은 준비도를 계산한다. 영향력·스펙트럼은 행이 없으면 요구하지 않고, 기존 행이 있으면 그 행의 완결성을 확인한다. `--apply`는 그 넓은 기준을 통과한 inactive 행을 실제로 공개한다. 따라서 단순히 공개 상태만 바꾸려는 작업에서 이 명령을 쓰거나, 그 출력의 gap을 `publication_status`의 뜻으로 일반화하지 않는다.
 
 `scripts/celeb/activate.ts`도 별도의 기존 조건으로 판정한다. 두 스크립트의 판정은 현행 [`active 요건`](celeb-00-02-active-requirements.md)과 일치하지 않으므로, 통과·탈락 결과를 이 룰북의 충족 여부로 대신하지 않는다.
 

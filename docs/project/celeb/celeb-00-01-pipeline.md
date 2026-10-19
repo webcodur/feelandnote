@@ -23,7 +23,7 @@
 | `BOTH` | 실존과 전승이 함께 다뤄지는 인물 | 노출 |
 | `FICTION` | 신화·전설·허구 속 존재 | 제외 |
 
-신규 인물은 실존 축과 무관하게 항상 `light`로 시작한다. 첫 `celeb_contents` 행이 생기면 DB가 `full`로 자동 승격한다. 따라서 full과 light는 별도 생성 파이프라인이 아니며, 프로필·영향력·스펙트럼·Speech 등 같은 트랙을 탄다. 차이는 감상 콘텐츠의 조사 결과뿐이다.
+신규 인물은 실존 축과 무관하게 항상 `light`로 시작한다. 첫 `celeb_contents` 행이 생기면 DB가 `full`로 자동 승격한다. 따라서 full과 light는 별도 생성 파이프라인이 아니며, 프로필·Speech 등 같은 트랙을 탄다. 영향력·스펙트럼의 선택 여부도 티어와 무관하며 [`active 요건`](celeb-00-02-active-requirements.md)을 따른다. 차이는 감상 콘텐츠의 조사 결과뿐이다.
 
 두 축은 서로를 결정하지 않는다. `REAL`·`BOTH`는 실존 인물 트랙을 그대로 탄다. `FICTION`은 `celeb_contents`를 쓰지 않고 원전·등장 작품 관계를 쓰며 영향력·스펙트럼을 만들지 않으므로 사실상 `light`에 머문다.
 
@@ -85,7 +85,8 @@
 ```text
 인물 등록(light)
   ├─ 기본 프로필·아바타
-  ├─ 영향력·스펙트럼·Speech·읽어보기·연표·관계
+  ├─ Speech·읽어보기·연표·관계
+  ├─ 영향력·스펙트럼(선택, 별도 요청 시)
   ├─ 가상독백 한영
   ├─ 콘텐츠 조사
   │    ├─ 한 건 이상 연결 → DB가 full로 자동 승격
@@ -102,8 +103,8 @@
 | 작품·판본·locale 등록 | [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md) |
 | 인물별 감상경위 | [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md) |
 | 콘텐츠 품질 감사 | [`celeb-02-04-content-audit.md`](celeb-02-04-content-audit.md) |
-| 영향력 | [`celeb-03-01-influence.md`](celeb-03-01-influence.md) |
-| 스펙트럼 | [`celeb-03-02-spectrum.md`](celeb-03-02-spectrum.md) |
+| 영향력(선택) | [`celeb-03-01-influence.md`](celeb-03-01-influence.md) |
+| 스펙트럼(선택) | [`celeb-03-02-spectrum.md`](celeb-03-02-spectrum.md) |
 | 말투·한마디·상황 대사 | [`celeb-04-01-speech.md`](celeb-04-01-speech.md), [`celeb-04-02-speech-pipeline.md`](celeb-04-02-speech-pipeline.md) |
 | 인물 안내 | [`celeb-05-01-reading.md`](celeb-05-01-reading.md) |
 | 가상독백 | [`celeb-04-03-virtual-monologue.md`](celeb-04-03-virtual-monologue.md) |

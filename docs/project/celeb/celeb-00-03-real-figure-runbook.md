@@ -50,7 +50,7 @@
 | 인물 안내(한영) | [`celeb-05-01-reading.md`](celeb-05-01-reading.md) | |
 | 가상독백(한영) | [`celeb-04-03-virtual-monologue.md`](celeb-04-03-virtual-monologue.md) | 외부 CLI 중간 단계 |
 | 말투·한마디·상황 대사 | [`celeb-04-01-speech.md`](celeb-04-01-speech.md) · [`celeb-04-02-speech-pipeline.md`](celeb-04-02-speech-pipeline.md) | 실제 발언 기반 |
-| 영향력·스펙트럼 | [`celeb-03-01-influence.md`](celeb-03-01-influence.md) · [`celeb-03-02-spectrum.md`](celeb-03-02-spectrum.md) | 채점·추론 성격 |
+| 영향력·스펙트럼(선택) | [`celeb-03-01-influence.md`](celeb-03-01-influence.md) · [`celeb-03-02-spectrum.md`](celeb-03-02-spectrum.md) | 별도 요청 시 작성. 선택 기준은 active 요건을 따른다 |
 | 생애 연표 | [`celeb-06-01-timeline.md`](celeb-06-01-timeline.md) · [`celeb-06-02-timeline-real-relay.md`](celeb-06-02-timeline-real-relay.md) | |
 | 관계 | [`celeb-07-01-relations.md`](celeb-07-01-relations.md) | |
 | 콘텐츠 조사 | [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md) | 첫 행이 생기면 DB가 `full`로 자동 승격 |

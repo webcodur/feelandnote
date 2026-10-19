@@ -47,7 +47,8 @@ async function main() {
   const rows: ReviewedPortrait[] = JSON.parse(await fs.readFile(manifest, 'utf8'))
   const done: unknown[] = []
   for (const row of rows) {
-    if (row.reviewed !== true || !/^https:\/\/(?:chatgpt\.com\/c\/|grok\.com\/(?:c\/|imagine\/))/.test(row.conversation_url) || !/^https:\/\//.test(row.identity_evidence)) throw new Error(`${row.slug}: missing visual review or source evidence`)
+    // 웹 생성은 대화 주소, codex 생성은 로컬 세션 ID로 생성 근거를 남긴다.
+    if (row.reviewed !== true || !/^(?:https:\/\/(?:chatgpt\.com\/c\/|grok\.com\/(?:c\/|imagine\/))|codex-session:[0-9a-f-]{36}$)/.test(row.conversation_url) || !/^https:\/\//.test(row.identity_evidence)) throw new Error(`${row.slug}: missing visual review or source evidence`)
     const { data: person, error: findError } = await db.from('celebs').select('id,slug,nickname,celeb_reality,publication_status,avatar_url,portrait_url').eq('id', row.celeb_id).single()
     if (findError) throw new Error(findError.message)
     const allowedPublication = person?.publication_status === 'active' || (row.replace_portrait_url && person?.publication_status === 'inactive')

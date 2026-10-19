@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { BookOpen, History, Users, UserRound, X } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
-import { isCurrentRecentHistory, recentHistoryKey, type RecentHistoryItem, type RecentHistoryKind } from "@/lib/recent-history";
+import { isCurrentRecentHistory, recentHistoryHref, recentHistoryKey, type RecentHistoryItem, type RecentHistoryKind } from "@/lib/recent-history";
 import { removeRecentHistory, useRecentHistory } from "@/hooks/useRecentHistory";
 import MythTitleImage from "@/components/features/user/explore/myth/MythTitleImage";
 import styles from "./HubSection.module.css";
@@ -64,7 +64,7 @@ export default function RecentHistoryRail({ items, onSelect, reserveSpace = true
               || (!currentId && index === 0 && pathname === `/explore/${item.kind}`);
             return (
               <div key={recentHistoryKey(item)} className={`${railStyles.item} snap-start`}>
-                <Link href={item.href} scroll={preserveScroll ? false : undefined} draggable={false} title={[title, subtitle].filter(Boolean).join(" · ")}
+                <Link href={recentHistoryHref(item)} scroll={preserveScroll ? false : undefined} draggable={false} title={[title, subtitle].filter(Boolean).join(" · ")}
                   aria-current={current ? "page" : undefined}
                   onClick={event => {
                     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;

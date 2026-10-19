@@ -33,7 +33,9 @@ node --import tsx scripts/celeb/reading-voice-batch.mjs
 
 배치는 하네스의 백그라운드 작업으로 띄우지 않는다. 하네스는 메모리가 부족하면 백그라운드 작업을 강제 종료한다(2026-09-11 실측, `sw/web` 개발 서버가 10 GB를 쓰는 상태). `sw/web-bo`에서 PowerShell `Start-Process`로 독립 실행하고 PID를 기록해 그 PID만 끈다. 종료 감시는 로그 tail 파이프가 아니라 30초 폴링으로 배치 상태 파일과 PID를 본다.
 
-중단 사유별 대응: `FREE_KEYS_EXHAUSTED: daily`는 정상 종료다. `Could not recheck current DB source`는 DB 일시 장애로 연속 실패 상한에 걸린 것이라 바로 재시작하면 이어진다. 파이프라인은 항목마다 임시 파일 후 교체로 체크포인트를 남기므로 강제 종료돼도 확보분은 재사용된다.
+중단 사유별 대응: `FREE_KEYS_EXHAUSTED: daily`는 정상 종료다. `Could not recheck current DB source`는 DB 일시 장애로 연속 실패 상한에 걸린 것이라 바로 재시작하면 이어진다. 파이프라인은 항목마다 임시 파일 후 교체로 체크포인트를 남기므로 강제 종료돼도 확보분은 재사용된다. 항목 단위 QC 오류(`QC regenerate: …`, `Narration spacing regenerate: …`, `QC worker exited …`)가 stopReason으로 기록되며 run이 멈추는 경우도 재시작으로 이어진다 — 26.10.17~18에 10회 발생해 전부 재기동으로 회복했다.
+
+**야간 무인 운전(26.10.17~18, 사용자 지시 예외):** 「상주 프로세스 금지」 규칙의 예외로 `<run>/batch-watchdog.ps1`을 뒀다 — 5분 폴링으로 배치 정지를 감지해 `--wait-for-quota`로 자동 재기동한다(15분 내 3회·총 40회 상한, `finished`/`finished-with-unresolved`면 스스로 종료, 로그는 `<run>/batch-watchdog.log`). 당회 지시에 한한 임시 운용이며 작업 종료와 함께 끈다. 같은 지시로 개발 서버를 전부 내린 전용 머신(i7-13700K·32GB·RTX 4070 12GB)에서 `qc-publish`·`retry` 단계를 `--concurrency 6`으로 상향했다 — `reading-voice.mjs`의 상한도 3→6으로 바뀌어 있으므로 낮에 다른 작업과 병행할 때는 3으로 되돌리는 것이 안전하다.
 
 한도 소진 순간에는 진행 중이던 항목에 「wav 없는 attempt + FREE_KEYS 오류」 레코드가 남는다. 과거 wav는 있지만 전부 재사용 불가인 엔트리가 이 레코드를 가지면, 다음 검수 스캔이 그 행에서 오래된 FREE_KEYS 오류를 새 오류로 던져 전체를 중단시켰다 — 26.09.21에 `eugene-fama/en`·`ruben-ostlund/en` 2건으로 실발. 코드를 고쳐(attempt 오류 중 쿼터 오류는 마지막 오류로 던지지 않음) 재발을 막았고, 기존 2건은 manifest에서 wav 없는 attempt를 지워 정주행시켰다. 중단 뒤 프로세스가 안 끝나면 QC 워커의 10분 타임아웃(QC_TIMEOUT_MS) 대기 중인 것이니 기다리거나 python 자식을 정리하면 된다 — 교착이 아니다.
 
@@ -68,6 +70,7 @@ node --import tsx scripts/celeb/reading-voice.mjs --all-active --include-inactiv
 - **mp3가 아니라 원본 attempt wav에 적용한다.** 등록 mp3를 풀어 다시 압축하면 2세대 손실 압축이 되고, 파이프라인 표준(`reading-voice.mjs`의 `MP3_SETTINGS`)과 비트레이트도 어긋난다. 26.09.13에 mp3에 적용했다가 96kbps 처리본 343건이 R2에 올라가 wav 경로로 다시 처리했다. wav를 정리해 `attempt.wav`·`wavHash`를 바꾸고 `entry.mp3`·`mp3Hash`·`finalQcHash`와 `candidateMp3`, attempt의 판정 기록(`status`·`qc`·`finalQc`·`qcScriptHash`·`processingHash`·`speed`)을 비우면 파이프라인이 wav부터 다시 검수·인코딩·등록한다. **판정 기록을 남기면 wav를 바꿔도 이전 판정을 그대로 재사용해 정리·검수를 건너뛴다**(26.09.14 파이프라인 실전 시험에서 확인).
 - 등록분을 다시 정리해 올릴 때 R2 교체는 replace-first다 — 새 음원이 올라가기 전에 구 음원을 내리지 않는다.
 - 정리 뒤에도 검수에서 떨어지는 경우는 둘이다. 끝에 발화 수준의 웅얼거림이 남은 `untranscribed-audio-tail`은 정리가 발화를 자르지 않으므로 풀리지 않아 재생성으로 보낸다. 원래 등록돼 있던 음원이 정리 뒤에만 떨어지면 R2에서 서비스 중인 이전 음원으로 manifest를 되돌린다. R2 공개 주소는 파이썬 기본 User-Agent 요청을 403으로 막으므로 브라우저 User-Agent를 붙여 받는다.
+- 다른 머신의 구 파이프라인이 올린 R2 음원은 정리 패스 미경유분이 있을 수 있다 — 26.10.17에 `mustafa-kemal-ataturk` 서비스 음원에서 들숨 잔여(ko 1곳, en 3곳·문장 내부 포함)를 탐지로 확인했다. 로컬 산출물이 없어 `skipped-missing-audio`로 스캔되고 재생성될 때 정리본으로 자동 교체된다.
 
 ## 검수 실패분 폐기
 
@@ -95,7 +98,7 @@ node --import tsx scripts/celeb/reading-voice-reset-discarded.mjs --apply       
 ## 현재 도달점
 
 <!-- reading-voice-status:start -->
-2026-10-15 18:36 KST 확인: 이번 배치 중단, 남은 항목은 다음 지시 때 재개. 전체 7411개 중 현재 원본 음성 6172개, 정상 등록 4878개, 음성이 있는 검수·등록 대기 923개, 보류 1471개, 실패 4개, 음성 미보유 1239개다.
+2026-10-18 06:12 KST 확인: 이번 배치 중단, 남은 항목은 다음 지시 때 재개. 전체 7411개 중 현재 원본 음성 6172개, 정상 등록 5286개, 음성이 있는 검수·등록 대기 398개, 보류 1588개, 실패 5개, 음성 미보유 1239개다.
 <!-- reading-voice-status:end -->
 
 3.8 전환 후속 정비(26.10.01): `reading-voice.mjs`는 모델 계열별 실행을 `ENGINE_25`/`ENGINE_38`으로 완전 분리했다 — `TTS_ENGINES` 표에 모델을 넣어 전환하며 미등록 모델은 즉시 에러다. `celeb-reading-voice-qc.py`는 v5로 올려 차용어 표기 차이를 양성 처리한다 — 원문의 영어 단어를 3.8이 영어로 읽으면 Whisper가 한글로 받아써(physical↔피지컬) 문자 diff가 `source-content-gap`으로 오인되던 문제다. 라틴↔한글 단어 교환(replace, 길이비 0.2~1.5)만 무시하고 지어낸 꼬리·실제 누락·insert/delete는 그대로 불합격이다. 폐기분 재검증: 신 QC로 18건 백업의 원문·전사를 대조해 14건이 정합, 4건(환각 꼬리·괄호 영문 누락·실제 삽입)만 불량으로 남았다. 의심 구간 스펙트로그램 도구는 `sw/audio-bo/scripts/_scratch-spectro-review.py`, 산출물은 `_backup/spectro-review/`다.
