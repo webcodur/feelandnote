@@ -5,6 +5,15 @@ import test from 'node:test'
 import ts from 'typescript'
 
 const require = createRequire(import.meta.url)
+type Slot<T> = { props: { children: { props: T } } }
+interface PageTree {
+  props: { children: [unknown, { props: {
+    greeting: string[]
+    booksSlot: Slot<{ books: Promise<{ error?: true }> }>
+    relatedFiguresSlot: Slot<{ waitFor?: unknown }>
+    relatedFactionsSlot: Slot<{ waitFor?: unknown }>
+  } }] }
+}
 const compiled = ts.transpileModule(readFileSync(new URL('./CelebPageBody.tsx', import.meta.url), 'utf8'), {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
 }).outputText
@@ -12,6 +21,8 @@ const compiled = ts.transpileModule(readFileSync(new URL('./CelebPageBody.tsx', 
 for (const booksFail of [false, true]) test(`profile and reading render independently of ${booksFail ? 'failed' : 'pending'} reference books`, async (t) => {
   if (booksFail) t.mock.method(console, 'error', () => {})
   const calls: string[] = []
+  let releaseProfile!: () => void
+  const profileReady = new Promise<void>(resolve => { releaseProfile = resolve })
   let releaseRecords!: (value: { items: never[]; total: number }) => void
   let releaseBooks!: (value: { appeared: never[]; authored: never[]; professionBooks: never[]; factionGroups: never[] }) => void
   let rejectBooks!: (error: Error) => void
@@ -21,17 +32,17 @@ for (const booksFail of [false, true]) test(`profile and reading render independ
     rejectBooks = reject
   })
   const profile = { id: 'pearl', nickname: '펄 벅', profession: 'writer', celeb_tier: 'full',
-    celeb_reality: 'REAL', contentTypeCounts: { BOOK: 7 }, relations: [], factions: [], reading: { guide: '인물 안내' } }
+    celeb_reality: 'REAL', contentTypeCounts: { BOOK: 7 }, greeting: ['Hello'], relations: [{ id: 'friend' }],
+    factions: [{ id: 'faction', slug: 'faction', isPublished: true }], reading: { guide: '인물 안내' } }
   const stub = () => null
   const mocks = new Map<string, object>([
     ['@/lib/celeb-professions', { getCelebProfessions: async () => [] }],
     ['next-intl/server', { setRequestLocale: stub, getTranslations: async () => (key: string) => key }],
-    ['@/lib/profile-route', { getCelebRouteProfile: async () => profile }],
-    ['@/actions/celebs/getCelebSidePresence', { getCelebSidePresence: async () => ({ influence: false, spectrum: false }) }],
+    ['@/lib/profile-route', { getCelebRouteProfile: async () => { await profileReady; return profile }, getCelebRouteIdentity: async () => profile }],
+    ['@/actions/celebs/getCelebSidePresence', { getCelebSidePresence: async () => { calls.push('presence'); return { influence: false, spectrum: false } } }],
     ['@/actions/celebs/getCelebTimelineEvents', { getCelebTimelineEvents: async () => { calls.push('timeline'); return [] } }],
     ['@/actions/celebs/getCelebExternalLinks', { getCelebExternalLinks: async () => [] }],
-    ['@/actions/celebs/getCelebJsonLdData', { getCelebDialogueFull: async () => null }],
-    ['@/actions/contents/getUserContents', { getPublicUserContents: () => { calls.push('records'); return records } }],
+    ['@/actions/contents/getInitialCelebContents', { getInitialCelebContents: () => { calls.push('records'); return records } }],
     ['@/actions/celebs/getCelebReferenceBooks', { getCelebReferenceBooks: () => { calls.push('books'); return books } }],
     ['@/actions/contents/getContentBrief', { getInitialContentBrief: async () => null, getContentBrief: async () => null }],
     ['@/lib/render-mode', { shouldStreamForRequest: async () => true }],
@@ -58,17 +69,23 @@ for (const booksFail of [false, true]) test(`profile and reading render independ
     return mocks.get(key)
   }, loaded, loaded.exports)
   const pending = loaded.exports.default({ params: Promise.resolve({ locale: 'ko', slug: 'pearl-s.-buck' }) })
+  await new Promise<void>(resolve => setImmediate(resolve))
+  const beforeProfile = [...calls]
+  releaseProfile()
   const first = await Promise.race([pending.then(() => 'rendered'), new Promise<string>((resolve) => setTimeout(() => resolve('blocked'), 100))])
   const beforeRelease = [...calls]
   releaseRecords({ items: [], total: 0 })
   await Promise.resolve()
   if (booksFail) rejectBooks(new Error('reference query unavailable'))
   else releaseBooks({ appeared: [], authored: [], professionBooks: [], factionGroups: [] })
-  const tree = await pending as {
-    props: { children: [unknown, { props: { booksSlot: { props: { children: { props: { books: Promise<{ error?: true }> } } } } } }] }
-  }
+  const tree = await pending as PageTree
   assert.equal((await tree.props.children[1].props.booksSlot.props.children.props.books).error, booksFail ? true : undefined,
     'query errors stay inside the reference section and become its retry state')
   assert.equal(first, 'rendered', 'a slow lower section must not hide the available profile and reading')
-  assert.deepEqual(beforeRelease, ['records'], 'reference books follow the small first-page query; timeline is on demand')
+  assert.deepEqual(beforeProfile, ['presence'], 'analysis availability starts from the shared identity, before the full profile finishes')
+  assert.deepEqual(beforeRelease, ['presence', 'records', 'books'], 'independent books start without waiting for records and greeting reuses the profile')
+  const content = tree.props.children[1].props
+  assert.deepEqual(content.greeting, ['Hello'])
+  assert.equal(content.relatedFiguresSlot.props.children.props.waitFor, undefined, 'related figures must not wait for books')
+  assert.equal(content.relatedFactionsSlot.props.children.props.waitFor, undefined, 'factions must not wait for books')
 })

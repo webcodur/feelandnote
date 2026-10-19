@@ -12,7 +12,7 @@ interface RenderNode {
     href: string
     'aria-label': string
     sideAvailability: { relatedFactions: boolean }
-    relatedFactionsSlot: { props: { children: { props: { memberships: unknown[] } } } }
+    relatedFactionsSlot: { props: { children: { props: { memberships: unknown[] } }; fallback: { props: { count: number } } } }
   }
 }
 function load(file: string, mocks: Record<string, unknown>) {
@@ -36,10 +36,9 @@ for (const memberships of [[myth], [myth, faction], []]) test(`the celebrity pag
     factions: [...memberships, { ...myth, id: 'locked', isPublished: false }, { ...faction, id: 'missing', slug: '' }] }
   const page = load('./CelebPageBody.tsx', {
     'next-intl/server': { setRequestLocale: stub },
-    '@/lib/profile-route': { getCelebRouteProfile: async () => profile },
+    '@/lib/profile-route': { getCelebRouteProfile: async () => profile, getCelebRouteIdentity: async () => profile },
     '@/actions/celebs/getCelebSidePresence': { getCelebSidePresence: async () => ({}) },
     '@/actions/celebs/getCelebExternalLinks': { getCelebExternalLinks: async () => [] },
-    '@/actions/celebs/getCelebJsonLdData': { getCelebDialogueFull: async () => null },
     '@/actions/contents/getInitialCelebContents': { getInitialCelebContents: stub },
     '@/actions/celebs/getCelebReferenceBooks': { getCelebReferenceBooks: async () => ({}) },
     '@/lib/render-mode': { shouldStreamForRequest: async () => true },
@@ -57,7 +56,10 @@ for (const memberships of [[myth], [myth, faction], []]) test(`the celebrity pag
   const tree = await page({ params: Promise.resolve({ locale: 'ko', slug: 'sha-wujing' }) })
   const content = tree.props.children[1].props
   assert.equal(content.sideAvailability.relatedFactions, memberships.length > 0)
-  if (memberships.length) assert.deepEqual(content.relatedFactionsSlot.props.children.props.memberships, memberships)
+  if (memberships.length) {
+    assert.deepEqual(content.relatedFactionsSlot.props.children.props.memberships, memberships)
+    assert.equal(content.relatedFactionsSlot.props.fallback.props.count, memberships.length, 'loading reserves one slot for every card')
+  }
   else assert.equal(content.relatedFactionsSlot, false)
 })
 
@@ -67,9 +69,9 @@ for (const locale of ['ko', 'en']) test(`lower cards link to each membership's o
     'next-intl/server': { getLocale: async () => locale, getTranslations: async () => (_key: string, values?: { name: string }) => values?.name ?? '' },
     '@/i18n/navigation': { Link: stub },
     '@/components/features/user/explore/myth/mythHref': require('../../../../../components/features/user/explore/myth/mythHref'),
-    '@/lib/celeb/factionPreviewData': { getFactionPreviewData: async () => [myth, faction].map(row => ({ id: row.id, cover: null, members: [] })) },
-    '@/lib/celeb/factionPreview': { selectFactionPreview: stub },
+    '@/lib/celeb/factionPreviewData': { getFactionPreviewData: async () => [myth, faction].map(row => ({ id: row.id, cover: null, preview: null })) },
     '@/components/ui/pending/RetryBlock': { default: stub },
+    './CelebSectionLoading.module.css': { default: {} },
   }).default
   const tree = await component({ memberships: [myth, faction], personId: 'sha-wujing' })
   const cards = tree.props.children[1].props.children

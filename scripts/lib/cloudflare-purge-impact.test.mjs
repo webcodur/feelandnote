@@ -241,6 +241,13 @@ test('works and rest landing pages need no purge while shared layout still evict
   assert.equal(JSON.stringify(plan).includes('_next/static'), false)
 })
 
+test('profile dialogue projections and the retired full-dialogue read evict figure detail HTML', () => {
+  for (const file of [
+    'sw/web/src/lib/utils/celeb-dialogues.ts',
+    'sw/web/src/actions/celebs/getCelebJsonLdData.ts',
+  ]) assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['celeb'])
+})
+
 test('current celeb-detail UI release evicts only the celeb detail family', () => {
   const plan = classifyCloudflarePurgeImpact([
     'sw/web/src/app/[locale]/(main)/celeb/[slug]/page.tsx',

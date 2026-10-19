@@ -4,21 +4,19 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { mythHref } from '@/components/features/user/explore/myth/mythHref'
 import { getFactionPreviewData } from '@/lib/celeb/factionPreviewData'
-import { selectFactionPreview } from '@/lib/celeb/factionPreview'
 import RetryBlock from '@/components/ui/pending/RetryBlock'
 import type { FactionItem } from '@/actions/user/getCelebBySlug'
+import styles from './CelebSectionLoading.module.css'
 
 interface Props {
   memberships: FactionItem[]
   personId: string
-  waitFor?: Promise<unknown>
 }
 
-export default async function RelatedFactionLinks({ memberships, personId, waitFor }: Props) {
-  await waitFor
+export default async function RelatedFactionLinks({ memberships, personId }: Props) {
   const [locale, t, covers] = await Promise.all([
     getLocale(), getTranslations('celebPage'),
-    getFactionPreviewData([...new Set(memberships.map(row => row.id))].sort()).catch((error: unknown) => {
+    getFactionPreviewData(memberships.map(row => row.id), personId).catch((error: unknown) => {
       console.error('[RelatedFactionLinks] 세력 미리보기 조회 실패:', error)
       return null
     }),
@@ -30,11 +28,12 @@ export default async function RelatedFactionLinks({ memberships, personId, waitF
 
   return <div className="mx-auto w-full max-w-5xl" data-related-factions>
     <p className="mb-5 text-center text-sm leading-relaxed text-text-secondary md:mb-6">{t('relatedFactionsIntro')}</p>
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 md:gap-4">
+    <div className={`${styles.factionGrid} gap-3 md:gap-4`}>
     {factions.map((faction, index) => {
       const name = locale === 'en' ? faction.name_en?.trim() || faction.name : faction.name
       const data = previewById.get(faction.id)!
-      const preview = selectFactionPreview(data.members, personId, locale)
+      const preview = data.preview
+      const names = preview?.items.map(row => locale === 'en' ? row.nameEn?.trim() || row.name : row.name) ?? []
       const cover = data.cover
       return <Link key={faction.id} href={faction.isMyth ? mythHref(faction.slug) : `/explore/faction/${faction.slug}`} prefetch={false}
         aria-label={t('relatedFactionOpen', { name })}
@@ -53,7 +52,7 @@ export default async function RelatedFactionLinks({ memberships, personId, waitF
           <span className="ms-auto mb-2 block h-px w-7 bg-accent/70" aria-hidden />
           <h3 className="line-clamp-2 text-balance font-serif text-[22px] font-semibold leading-tight text-text-primary group-hover:text-accent">{name}</h3>
           {preview && <div className="mt-2" data-faction-preview={preview.kind}>
-            <p className="line-clamp-2 text-[13px] leading-[18px] text-text-secondary" title={preview.names.join(' · ')}>{preview.names.join(' · ')}</p>
+            <p className="line-clamp-2 text-[13px] leading-[18px] text-text-secondary" title={names.join(' · ')}>{names.join(' · ')}</p>
             {preview.remaining > 0 && <p className="mt-0.5 text-[11px] leading-4 text-text-secondary">{t(preview.kind === 'people' ? 'relatedFactionMorePeople' : 'relatedFactionMoreGroups', { count: preview.remaining })}</p>}
           </div>}
         </div>

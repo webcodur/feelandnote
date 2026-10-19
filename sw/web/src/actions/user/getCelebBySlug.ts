@@ -436,7 +436,7 @@ const getCelebBySlugCached = (slug: string) =>
     CACHE_TAGS.CELEBS,
     slug,
     // 가족과 네 사회 축을 함께 표시하되 가족 쌍의 사회 중복은 제외한다.
-    ['celeb-by-slug-v15-public-myth-memberships', slug],
+    ['celeb-by-slug-v16-profile-greeting', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )
@@ -453,6 +453,7 @@ const getCelebBySlugCached = (slug: string) =>
 export const getCelebBySlug = cache(getCelebBySlugInner);
 
 export type CelebBySlugProfile = PublicUserProfile & {
+  greeting?: string[] | null
   contentTypeCounts: ContentTypeCounts
   factions: FactionItem[]
   relations: CelebRelationItem[]
@@ -501,6 +502,8 @@ async function getCelebBySlugInner(
   const d = pub.dialogue
   const quoteKo = getDisplayDialogueQuote(d?.quote)
   const quoteEn = getDisplayDialogueQuote(d?.quote_en)
+  const greetingKo = Array.isArray(d?.greeting) ? d.greeting : null
+  const greetingEn = Array.isArray(d?.greeting_en) ? d.greeting_en : null
 
   return {
     success: true,
@@ -514,6 +517,7 @@ async function getCelebBySlugInner(
       avatar_url: profile.avatar_url,
       bio: resolve('bio', profile.bio_en, profile.bio),
       quotes: resolve('quotes', quoteEn, quoteKo),
+      greeting: isEn ? greetingEn ?? greetingKo : greetingKo,
       monologue: resolve('monologue', d?.monologue_en ?? null, d?.monologue ?? null),
       profession: profile.profession,
       title: resolve('title', profile.title_en, profile.title),

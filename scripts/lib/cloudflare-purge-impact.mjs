@@ -151,6 +151,10 @@ const CELEB_FILES = new Set([
   'sw/web/src/lib/celeb/authoredBooks.ts',
   'sw/web/src/lib/celeb/factionPreview.ts',
   'sw/web/src/lib/celeb/factionPreviewData.ts',
+  // 인물 상세의 인사말 조회를 프로필에 합치면서 삭제한 파일도 배포 diff에 포함된다.
+  'sw/web/src/actions/celebs/getCelebJsonLdData.ts',
+  // 대사 프로필 투영·한마디의 보관 HTML 소비자는 인물 상세다. 다른 brief 소비자는 탐색·게임·클라이언트 모달이다.
+  'sw/web/src/lib/utils/celeb-dialogues.ts',
   // 초기 관련 도서와 추천의 보관 HTML 소비자는 인물 상세다.
   'sw/web/src/actions/books/getProfessionBooks.ts',
   'sw/web/src/actions/celebs/getCelebReferenceBooks.ts',

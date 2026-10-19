@@ -40,11 +40,9 @@ test('인물 페이지는 server-only presence만 초기 렌더에서 부른다'
     'utf8',
   )
 
-  assert.match(page, /@\/actions\/celebs\/getCelebSidePresence/)
-  assert.doesNotMatch(page, /@\/actions\/celebs\/getCelebSideData/)
-  assert.doesNotMatch(page, /getCelebInfluence/)
-  assert.doesNotMatch(page, /getSimilarByCelebId/)
-  assert.doesNotMatch(page, /getContemporaries/)
-  assert.match(page, /export const revalidate = false/)
-  assert.match(page, /generateStaticParams\(\)[\s\S]*?return \[\]/)
+  const body = readFileSync(new URL('../../app/[locale]/(main)/celeb/[slug]/CelebPageBody.tsx', import.meta.url), 'utf8')
+  assert.match(body, /@\/actions\/celebs\/getCelebSidePresence/)
+  assert.doesNotMatch(body, /@\/actions\/celebs\/getCelebSideData|getCelebInfluence|getSimilarByCelebId|getContemporaries/)
+  assert.match(page, /await connection\(\)/)
+  assert.match(page, /getCelebRouteIdentity/)
 })

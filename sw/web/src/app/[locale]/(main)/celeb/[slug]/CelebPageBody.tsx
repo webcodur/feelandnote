@@ -1,8 +1,7 @@
 import { setRequestLocale } from 'next-intl/server'
-import { getCelebRouteProfile } from '@/lib/profile-route'
+import { getCelebRouteIdentity, getCelebRouteProfile } from '@/lib/profile-route'
 import { getCelebSidePresence } from '@/actions/celebs/getCelebSidePresence'
 import { getCelebExternalLinks } from '@/actions/celebs/getCelebExternalLinks'
-import { getCelebDialogueFull } from '@/actions/celebs/getCelebJsonLdData'
 import { getInitialCelebContents } from '@/actions/contents/getInitialCelebContents'
 import { getCelebReferenceBooks } from '@/actions/celebs/getCelebReferenceBooks'
 import { shouldStreamForRequest } from '@/lib/render-mode'
@@ -34,39 +33,29 @@ export default async function CelebPageBody({ params }: PageProps) {
   const { locale, slug } = await params
   setRequestLocale(locale)
   const initial = await shouldStreamForRequest()
-  const profile = await getCelebRouteProfile(slug, locale)
+  // 레이아웃과 공유하는 가벼운 신원 조회로 분석 가용도도 미리 시작한다.
+  const [profile, sidePresence] = await Promise.all([
+    getCelebRouteProfile(slug, locale),
+    getCelebRouteIdentity(slug, locale).then(identity => getCelebSidePresence({ celebId: identity.id, reality: identity.celeb_reality })),
+  ])
   const userId = profile.id
   const worldId = resolveCelebWorld({ nationality: profile.nationality, birthDate: profile.birth_date,
     deathDate: profile.death_date, reality: profile.celeb_reality })
 
-  // 읽는 순서에 맞춰 작은 감상 조회를 우선한다. 참고도서는 그 다음 묶음으로 시작한다.
+  // 작은 감상 조회를 먼저 시작하되 독립 구획은 그 응답을 기다리지 않는다.
   const contentsPromise = settle(slug, '감상 기록', profile.celeb_tier === 'full'
     ? getInitialCelebContents(userId, profile.contentTypeCounts, locale)
     : Promise.resolve(EMPTY_CONTENTS))
-  const booksPromise = contentsPromise.then(() => settle(slug, '관련 도서',
-    getCelebReferenceBooks(userId, locale, initial, profile.profession)))
-  const externalLinksPromise = contentsPromise.then(() => getCelebExternalLinks(profile.wikidata_qid, locale))
+  const booksPromise = settle(slug, '관련 도서',
+    getCelebReferenceBooks(userId, locale, initial, profile.profession))
+  const externalLinksPromise = getCelebExternalLinks(profile.wikidata_qid, locale)
   // 본문·책장의 준비 여부와 무관하게 프로필과 인물 안내를 먼저 내보낸다.
-  const [sidePresence, dialogueData] = await Promise.all([
-    getCelebSidePresence({ celebId: userId, reality: profile.celeb_reality }),
-    getCelebDialogueFull(userId).catch((error: unknown) => {
-      console.error(`[celeb/${slug}] 인사 대사 조회 실패:`, error)
-      return null
-    }),
-  ])
-  const greetingFromLines = (lines: Record<string, string | string[]> | null | undefined) => {
-    const greeting = lines?.greeting
-    return Array.isArray(greeting) ? greeting : null
-  }
-  const greeting = locale === 'en'
-    ? greetingFromLines(dialogueData?.lines_en) ?? greetingFromLines(dialogueData?.lines)
-    : greetingFromLines(dialogueData?.lines)
   const factionMemberships = profile.factions.filter(faction => faction.isPublished && faction.slug)
   const sideAvailability = { relations: profile.relations.length > 0,
     influence: sidePresence.influence, spectrum: sidePresence.spectrum,
     relatedFigures: profile.relations.length > 0, relatedFactions: factionMemberships.length > 0, affiliateBooks: true }
   const pageTitle = buildCelebTitle(createCelebMetaInput(profile), locale)
-  const clientProfile = { ...profile, explanation: null, dialogue: null }
+  const clientProfile = { ...profile, greeting: null, explanation: null, dialogue: null }
   const jsonLdLinks = initial
     ? Promise.resolve(profile.wikidata_qid ? [wikidataLink(profile.wikidata_qid)].filter(link => link !== null) : [])
     : externalLinksPromise
@@ -77,7 +66,7 @@ export default async function CelebPageBody({ params }: PageProps) {
         slug={slug} locale={locale} pageTitle={pageTitle} links={jsonLdLinks} />
     </Lane>
     <CelebPageContent profile={clientProfile} slug={slug} shareTitle={pageTitle} userId={userId}
-      greeting={greeting} sideAvailability={sideAvailability} initialAnalysis={null}
+      greeting={profile.greeting} sideAvailability={sideAvailability} initialAnalysis={null}
       worldId={worldId} worldBannerImages={getWorldBannerImages(worldId)}
       librarySlot={<Lane fallback={<CelebSectionPending kind="library" />}>
         <CelebLibraryServer contents={contentsPromise} profile={profile} slug={slug} locale={locale} initial={initial} />
@@ -90,10 +79,10 @@ export default async function CelebPageBody({ params }: PageProps) {
       </Lane>}
       relatedFiguresSlot={sideAvailability.relatedFigures && <Lane fallback={<CelebSectionPending kind="related" compact />}>
         <RelatedFigureLinks celebId={userId} profession={profile.profession} nationality={profile.nationality}
-          birthDate={profile.birth_date} celebReality={profile.celeb_reality} relations={profile.relations} waitFor={booksPromise} />
+          birthDate={profile.birth_date} celebReality={profile.celeb_reality} relations={profile.relations} />
       </Lane>}
-      relatedFactionsSlot={sideAvailability.relatedFactions && <Lane fallback={<CelebSectionPending kind="factions" compact />}>
-        <RelatedFactionLinks memberships={factionMemberships} personId={userId} waitFor={booksPromise} />
+      relatedFactionsSlot={sideAvailability.relatedFactions && <Lane fallback={<CelebSectionPending kind="factions" count={factionMemberships.length} />}>
+        <RelatedFactionLinks memberships={factionMemberships} personId={userId} />
       </Lane>}
     />
   </>

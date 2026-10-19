@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
+import { DIALOGUE_PROFILE_SELECT } from '@/lib/utils/celeb-dialogues'
 
 const read = (relativePath: string) => readFileSync(
   new URL(relativePath, import.meta.url),
@@ -9,7 +10,6 @@ const read = (relativePath: string) => readFileSync(
 
 const profileSource = read('../user/getCelebBySlug.ts')
 const identitySource = read('../../lib/celeb/identity.ts')
-const dialogueSource = read('./getCelebJsonLdData.ts')
 const spectrumSource = read('../spectrum/getSimilarByCelebId.ts')
 const influenceSource = read('../home/getCelebInfluence.ts')
 const countsSource = read('../contents/getContentCounts.ts')
@@ -44,9 +44,14 @@ test('cached celeb profile queries throw before missing and empty values are nor
   assert.doesNotMatch(profileSource, /if \(explanationResult\.error\)[\s\S]*?console\.error/)
 })
 
-test('cached dialogue, spectrum, and influence ranking queries reject failures', () => {
-  assert.match(dialogueSource, /throwOnQueryError\('getCelebDialogueFull'/)
-  assert.match(dialogueSource, /celeb-dialogue-full-v2-query-guards/)
+test('profile dialogue projects greeting without loading full dialogue JSON', () => {
+  const fields = DIALOGUE_PROFILE_SELECT.split(',').map(field => field.trim())
+  assert.ok(fields.includes('greeting:lines->greeting'))
+  assert.ok(fields.includes('greeting_en:lines_en->greeting'))
+  assert.ok(fields.every(field => field.includes('->')), 'all dialogue reads must project individual situations')
+})
+
+test('cached spectrum and influence ranking queries reject failures', () => {
   assert.match(spectrumSource, /throwOnQueryError\('getSimilarByCelebId\/target'/)
   assert.match(spectrumSource, /spectrum-by-id-v2-query-guards/)
   assert.match(influenceSource, /throwOnQueryError\('getCelebInfluence\/higher-count'/)
@@ -63,8 +68,6 @@ test('content type counts propagate query failures instead of returning false ze
 
 test('affiliate recommendations reject source failures before any empty result is cached', () => {
   for (const label of [
-    'pool-linked',
-    'pool-popular',
     'celeb-read',
     'profession',
     'profession-peers',
@@ -76,6 +79,9 @@ test('affiliate recommendations reject source failures before any empty result i
       `missing getAffiliateBooks/${label} query guard`,
     )
   }
+  // 판본 풀은 작품 ID 묶음 조회로 옮겨졌고, 공유 조회기가 오류를 전파한다.
+  assert.match(affiliateSource, /selectInChunks<SourceContentCountRow>/)
+  assert.match(affiliateSource, /selectInChunks<LocaleRow>/)
   assert.match(affiliateSource, /compressedJsonCache\(fetchAffiliatePool/)
   assert.match(affiliateSource, /cachedDetail\([\s\S]*?CACHE_TAGS\.CELEBS/)
 })

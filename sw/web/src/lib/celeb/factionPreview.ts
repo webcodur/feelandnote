@@ -1,14 +1,17 @@
 export const FACTION_PREVIEW_ITEMS = 2
 
-export interface FactionPreviewMember {
+export interface FactionPreviewMembership {
   id: string
-  name: string
-  nameEn: string | null
   groupId: string | null
   groupName: string | null
   groupNameEn: string | null
   groupPosition: number | null
   position: number | null
+}
+
+export interface FactionPreviewMember extends FactionPreviewMembership {
+  name: string
+  nameEn: string | null
 }
 
 export interface FactionPreview {
@@ -18,10 +21,10 @@ export interface FactionPreview {
 }
 
 // 본인을 빼고 같은 그룹의 인물부터 소개한다. 함께 보여 줄 동료가 없는 그룹은 도감의 그룹 구성을 보여 준다.
-export function selectFactionPreview(members: readonly FactionPreviewMember[], personId: string, locale: string): FactionPreview | null {
+export function selectFactionPreviewEntries<T extends FactionPreviewMembership>(members: readonly T[], personId: string): { kind: 'people' | 'groups'; entries: T[]; remaining: number } | null {
   const ordered = [...members].sort((a, b) => (a.position ?? Infinity) - (b.position ?? Infinity) || a.id.localeCompare(b.id))
-  const byId = new Map<string, FactionPreviewMember>()
-  const byGroup = new Map<string, FactionPreviewMember>()
+  const byId = new Map<string, T>()
+  const byGroup = new Map<string, T>()
   for (const row of ordered) {
     if (!byId.has(row.id)) byId.set(row.id, row)
     if (row.groupId && row.groupName && !byGroup.has(row.groupId)) byGroup.set(row.groupId, row)
@@ -35,7 +38,7 @@ export function selectFactionPreview(members: readonly FactionPreviewMember[], p
 
   if (!peers.length && groups.length > 1) return {
     kind: 'groups',
-    names: groups.slice(0, FACTION_PREVIEW_ITEMS).map(row => locale === 'en' ? row.groupNameEn?.trim() || row.groupName! : row.groupName!),
+    entries: groups.slice(0, FACTION_PREVIEW_ITEMS),
     remaining: Math.max(0, groups.length - FACTION_PREVIEW_ITEMS),
   }
   if (!others.length) return null
@@ -43,7 +46,17 @@ export function selectFactionPreview(members: readonly FactionPreviewMember[], p
   const people = [...peers, ...others.filter(row => !peersIds.has(row.id))].slice(0, FACTION_PREVIEW_ITEMS)
   return {
     kind: 'people',
-    names: people.map(row => locale === 'en' ? row.nameEn?.trim() || row.name : row.name),
+    entries: people,
     remaining: others.length - people.length,
   }
+}
+
+export function selectFactionPreview(members: readonly FactionPreviewMember[], personId: string, locale: string): FactionPreview | null {
+  const selected = selectFactionPreviewEntries(members, personId)
+  if (!selected) return null
+  return { kind: selected.kind, remaining: selected.remaining, names: selected.entries.map(row => {
+    const name = selected.kind === 'groups' ? row.groupName! : row.name
+    const nameEn = selected.kind === 'groups' ? row.groupNameEn : row.nameEn
+    return locale === 'en' ? nameEn?.trim() || name : name
+  }) }
 }

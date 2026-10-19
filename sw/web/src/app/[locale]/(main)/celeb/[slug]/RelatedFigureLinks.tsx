@@ -31,7 +31,6 @@ interface RelatedFigureLinksProps {
   birthDate: string | null;
   celebReality?: string | null;
   relations: CelebRelationItem[];
-  waitFor?: Promise<unknown>;
 }
 
 export default async function RelatedFigureLinks({
@@ -41,9 +40,7 @@ export default async function RelatedFigureLinks({
   birthDate,
   celebReality,
   relations,
-  waitFor,
 }: RelatedFigureLinksProps) {
-  await waitFor;
   const figures = await getRelatedFigures({
     celebId,
     profession,

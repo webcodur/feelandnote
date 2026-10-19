@@ -27,6 +27,19 @@
   animation: reveal 360ms ease-out both;
 }
 
+.factionGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 640px) {
+  .factionGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .factionGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 @keyframes reveal {
   from { opacity: 0; }
   to { opacity: 1; }
