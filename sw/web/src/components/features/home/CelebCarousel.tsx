@@ -17,6 +17,7 @@ import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCoun
 import type { TrendCountry } from "@/constants/trendCountries";
 import { useTranslations } from "next-intl";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
+import PortraitPersonStepper from "@/components/shared/PortraitPersonStepper";
 
 // 인물 카드 눌러 뜨는 요약 모달 — 첫 클릭 때만 늦게 받는다
 const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
@@ -312,6 +313,7 @@ function GridSkeleton({ imageMode }: { imageMode: CelebCardImage }) {
 
 /** 탐색 인물 격자. children은 마지막 카드 뒤 칸으로 붙는다(예: 세력도감 테마 칸의 「더 보기」) */
 export function CelebGrid({ celebs, isLoading, quiet = false, showInfluence = false, onSelect, imageMode, children }: { celebs: CelebProfile[]; isLoading: boolean; quiet?: boolean; showInfluence?: boolean; /** 카드를 누르면 상세 이동 대신 부른다 */ onSelect?: (id: string) => void; imageMode?: CelebCardImage; children?: React.ReactNode }) {
+  const portraitGridRef = useRef<HTMLDivElement>(null);
   const { handleSubtitle } = useDialogueSubtitle();
   const [imagePreviewId, setImagePreviewId] = useState<string | null>(null);
   const loadingClass = isLoading ? "opacity-50 pointer-events-none" : "";
@@ -319,10 +321,10 @@ export function CelebGrid({ celebs, isLoading, quiet = false, showInfluence = fa
 
   return (
     <>
-      <div className={`${gridLayout} gap-y-2 md:gap-y-6 ${loadingClass}`}>
+      <div ref={portraitGridRef} className={`${gridLayout} gap-y-2 md:gap-y-6 ${loadingClass}`}>
         {celebs.map((celeb) => (
+          <div key={celeb.id} data-portrait-person={celeb.id}>
           <CelebCard
-            key={celeb.id}
             id={celeb.id}
             nickname={celeb.nickname}
             avatar_url={celeb.avatar_url}
@@ -340,9 +342,11 @@ export function CelebGrid({ celebs, isLoading, quiet = false, showInfluence = fa
             emphasizeHover
             onSubtitle={handleSubtitle}
           />
+          </div>
         ))}
         {children}
       </div>
+      {imageMode === "portrait" && !isLoading && <PortraitPersonStepper containerRef={portraitGridRef} listKey={celebs.map(celeb => celeb.id).join(",")} />}
       {imagePreviewId && <Suspense fallback={null}>
         <CelebGridImageViewer celebs={celebs} activeId={imagePreviewId}
           onSelect={setImagePreviewId} onClose={() => setImagePreviewId(null)} />

@@ -28,6 +28,7 @@ import SceneCompletionBadge from "./SceneCompletionBadge";
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import ContentTextModal from "@/components/ui/ContentTextModal";
 import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
+import FactionParticipation from "@/components/features/engagement/FactionParticipation";
 
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 import { MYTH_LAST_COOKIE, MYTH_LAST_COOKIE_MAX_AGE, MYTH_OPENING_SLUG, MYTH_PARAM, atlasPageOwnsTitle, mythHref, mythSlugFromPath } from "./mythHref";
@@ -291,11 +292,14 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
         <HubSection id="atlas-selection" title={selectionTitle} titleAs={ownsTitle && activeMyth ? "h1" : "h2"}
           headerActions={activeMyth && completedEntryIds.has(activeMyth.id) ? <SceneCompletionBadge /> : undefined}
           subtitle={activeMyth?.headline ? <span className="text-accent">{activeMyth.headline}</span> : undefined}
+          headerFooter={activeMyth ? (faction ? faction.participation : (
+            <FactionParticipation key={activeMyth.id} factionId={activeMyth.id} slug={activeMyth.slug} name={activeMyth.name} kind="myth" />
+          )) : undefined}
           index={0} total={sectionTotal} hideDivider groupId={navGroupId}>
           <div className={layout.selectionPanel} data-faction-selection>
             {activeMyth ? (
               <MythOverview key={activeMyth.id} myth={activeMyth} memberCount={activePeople.length} workCount={faction ? faction.workCount ?? null : activeWorks.length} overviewLabel={faction?.overviewLabel} fallback={faction?.overviewFallback}
-                navigation={navigation} participation={faction?.participation} />
+                navigation={navigation} />
             ) : navigation()}
           </div>
         </HubSection>

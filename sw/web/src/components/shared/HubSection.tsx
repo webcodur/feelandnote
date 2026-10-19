@@ -26,6 +26,8 @@ interface HubSectionProps {
   titleAs?: "h1" | "h2" | "h3";
   subtitle?: React.ReactNode;
   headerActions?: React.ReactNode;
+  /** 제목·부제를 읽은 뒤에 오는 보조 정보와 조작 */
+  headerFooter?: React.ReactNode;
   moreHref?: string;
   moreLabel?: string;
   children: React.ReactNode;
@@ -47,6 +49,7 @@ export default function HubSection({
   titleAs,
   subtitle,
   headerActions,
+  headerFooter,
   moreHref,
   moreLabel,
   children,
@@ -96,6 +99,7 @@ export default function HubSection({
             {subtitle}
           </p>
         )}
+        {headerFooter}
       </div>
 
       {/* 콘텐츠 */}

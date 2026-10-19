@@ -6,9 +6,11 @@
         보이기·숨기기는 CSS로 한다. 이 값은 포털 자리처럼 CSS로 못 가르는 일에만 쓴다.
 */ // ------------------------------
 
+export const BREAKPOINT_SM = 640;
 export const BREAKPOINT_MD = 768;
 export const BREAKPOINT_XL = 1280;
 export const BREAKPOINT_SIDE_RAIL = 1340;
 
+export const MEDIA_BELOW_SM = `(max-width: ${BREAKPOINT_SM - 1}px)`;
 export const MEDIA_BELOW_MD = `(max-width: ${BREAKPOINT_MD - 1}px)`;
 export const MEDIA_BELOW_SIDE_RAIL = `(max-width: ${BREAKPOINT_SIDE_RAIL - 1}px)`;

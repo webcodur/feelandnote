@@ -12,6 +12,7 @@ import { CELEB_GRID_LAYOUT_PORTRAIT } from "@/components/shared/celebGridLayout"
 import PortraitCardImage from "@/components/shared/PortraitCardImage";
 import { mythLeadImage } from "./mythLeadImage";
 import { MYTH_LAYOUT as mythLayout } from "./mythLayout";
+import PortraitPersonStepper from "@/components/shared/PortraitPersonStepper";
 
 interface Props {
   people: MythPerson[];
@@ -61,6 +62,7 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name, i
             key={person.id}
             type="button"
             data-person-id={person.id}
+            data-portrait-person={person.id}
             aria-label={person.name}
             aria-describedby={person.reality && person.reality !== "REAL" ? `person-reality-${person.id}` : undefined}
             aria-haspopup="dialog"
@@ -88,6 +90,7 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name, i
         );
       })}
       </div>
+      {portraitMode && <PortraitPersonStepper containerRef={sectionRef} listKey={visible.map(person => person.id).join(",")} />}
       {collapsible && (
         <button type="button" onClick={toggleExpanded} aria-expanded={expanded}
           className="mt-6 flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-bg-card text-sm font-semibold text-text-secondary outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-accent md:mt-7">
