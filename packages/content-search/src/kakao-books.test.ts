@@ -105,6 +105,17 @@ test('책 소개 영역이 없으면 null을 반환한다', () => {
   assert.equal(kakao.parseDaumBookDescription('<main>소개 없음</main>'), null)
 })
 
+test('HTTP 200 CAPTCHA 안내를 소개 누락으로 반환하지 않는다', async (t) => {
+  t.mock.method(globalThis, 'fetch', async () => new Response(
+    '<script type="text/javascript"> location.replace("https://captcha.search.daum.net/show?redirect=book"); </script>',
+    { status: 200 },
+  ))
+  await assert.rejects(
+    kakao.fetchDaumBookDescription('https://m.search.daum.net/search?w=bookpage&bookId=123'),
+    /blocked by CAPTCHA/,
+  )
+})
+
 function bookResponse(isbn: string) {
   return Response.json({
     documents: [{

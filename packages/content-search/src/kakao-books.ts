@@ -234,7 +234,12 @@ export async function fetchDaumBookDescription(bookUrl: string): Promise<string 
   })
   if (response.status === 404) return null
   if (!response.ok) throw new Error(`Daum book HTTP error: ${response.status}`)
-  return parseDaumBookDescription(await response.text())
+  const html = await response.text()
+  // 다음은 차단 안내도 HTTP 200으로 보내므로 정상적인 소개 누락과 구별한다.
+  if (/location\.replace\(\s*["']https:\/\/captcha\.search\.daum\.net\/show\?/i.test(html)) {
+    throw new Error('Daum book lookup blocked by CAPTCHA')
+  }
+  return parseDaumBookDescription(html)
 }
 
 async function fetchFullBookDescription(bookUrl: string): Promise<string | null> {
