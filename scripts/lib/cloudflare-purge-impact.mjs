@@ -141,6 +141,8 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // 인물 관계 목록과 감상배경의 게임 스크린샷이 이 갤러리를 연다.
+  'sw/web/src/components/ui/ImageGalleryModal.tsx',
   'sw/web/src/lib/celeb/filmography.ts',
   'sw/web/src/components/features/celeb/ProfessionInfoButton.tsx',
   // 옛 세력 주소는 middleware에서 이동하며, 보관 HTML 중에서는 인물 상세의 소속 링크도 바꾼다.
@@ -316,6 +318,10 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // 신화 게임의 전체 화면 틀은 쉼터에서만 열며 앞단 HTML 보관 대상이 아니다.
+  'sw/web/src/components/features/game/myth/shared/MythGameFrame.tsx',
+  'sw/web/src/components/features/game/myth/shared/hub/MythHubLayer.tsx',
+  'sw/web/src/components/features/game/myth/troy/ui/TroyFrame.tsx',
   // 참여 줄은 신화·세력 탐색 전용이며 두 도감은 앞단 HTML 보관 대상이 아니다.
   'sw/web/src/components/features/engagement/FactionParticipation.tsx',
   // 사진 이동 버튼은 탐색·신화·세력의 클라이언트 사진 모드에서만 body 포털로 나타난다.
@@ -578,6 +584,9 @@ const CACHED_HTML_FILES = new Set([
   // 공용 모달과 페이지 구획 이동은 보관하는 인물·작품·명부 HTML에서 함께 쓴다.
   'sw/web/src/components/ui/Modal.tsx',
   'sw/web/src/lib/scroll/sectionNavigation.ts',
+  'sw/web/src/lib/scroll/useSectionNavigation.ts',
+  // 공통 검색창·모달과 인물·작품 상세가 같은 스크롤 잠금 카운터를 쓴다.
+  'sw/web/src/lib/scrollLock.ts',
   // 인물 사진·아바타는 상세와 공통 HeaderSearch의 인물 모달에서도 소비한다.
   'sw/web/src/components/ui/CelebAvatarImage.tsx',
   'sw/web/src/components/ui/ResponsivePortraitImage.tsx',

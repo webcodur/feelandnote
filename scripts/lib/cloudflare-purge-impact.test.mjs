@@ -21,6 +21,21 @@ test('atlas participation and portrait stepping do not invalidate cached detail 
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
+test('scroll fixes refresh cached consumers while myth game frames need no HTML purge', () => {
+  for (const file of [
+    'sw/web/src/lib/scroll/useSectionNavigation.ts',
+    'sw/web/src/lib/scrollLock.ts',
+  ]) assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['cached-html'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/ui/ImageGalleryModal.tsx',
+  ]).scopes, ['celeb'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/game/myth/shared/MythGameFrame.tsx',
+    'sw/web/src/components/features/game/myth/shared/hub/MythHubLayer.tsx',
+    'sw/web/src/components/features/game/myth/troy/ui/TroyFrame.tsx',
+  ]).scopes, ['none'])
+})
+
 test('analytics, global dialogue and recent-history artwork refresh cached layout consumers', () => {
   for (const file of [
     'sw/web/src/components/features/game/shared/DialogueSubtitle.tsx',
