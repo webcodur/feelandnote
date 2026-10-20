@@ -304,8 +304,16 @@ function profileDescriptionKo(input: CelebMetaInput): string {
   return composeDescription(head, tail);
 }
 
+/** 라이트 실존 인물의 짧은 소개는 전문을 제공한다. 검색 화면의 표시 길이는 엔진이 정한다. */
+function realLightBiography(input: CelebMetaInput): string | null {
+  if (input.tier !== "light" || (input.reality ?? "REAL") !== "REAL") return null;
+  const bio = input.bio?.replace(/\s+/g, " ").trim();
+  return bio ? endSentence(bio) : null;
+}
+
 export function buildCelebDescriptionKo(input: CelebMetaInput): string {
-  return leadsWithRecords(input) ? recordDescriptionKo(input) : profileDescriptionKo(input);
+  return realLightBiography(input)
+    ?? (leadsWithRecords(input) ? recordDescriptionKo(input) : profileDescriptionKo(input));
 }
 
 /* ── 영어 ── */
@@ -385,7 +393,8 @@ function profileDescriptionEn(input: CelebMetaInput): string {
 }
 
 export function buildCelebDescriptionEn(input: CelebMetaInput): string {
-  return leadsWithRecords(input) ? recordDescriptionEn(input) : profileDescriptionEn(input);
+  return realLightBiography(input)
+    ?? (leadsWithRecords(input) ? recordDescriptionEn(input) : profileDescriptionEn(input));
 }
 
 export const buildCelebTitle = (input: CelebMetaInput, locale: string) => locale === "en" ? buildCelebTitleEn(input) : buildCelebTitleKo(input);

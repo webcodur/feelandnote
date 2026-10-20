@@ -271,7 +271,7 @@ test("real light description contains biography instead of analysis feature pitc
   };
   assert.equal(
     buildCelebDescriptionKo({ ...input, hasInfluence: true, hasSpectrum: true, hasConnections: true }),
-    "곽가, 손책의 피살을 예견한 조조의 책사. 후한 말 조조의 책사.",
+    "후한 말 조조의 책사. 여러 원정의 방향을 정했다.",
   );
   assert.equal(buildCelebDescriptionKo({ ...input, hasInfluence: true, hasSpectrum: true }), buildCelebDescriptionKo(input));
   const bare = buildCelebDescriptionKo(input);
@@ -280,6 +280,80 @@ test("real light description contains biography instead of analysis feature pitc
     buildCelebDescriptionEn({ ...input, nickname: "Guo Jia", headline_en: "Cao Cao's strategist", bio: null, hasSpectrum: true }),
     /^Guo Jia: Cao Cao's strategist\.$/,
   );
+});
+
+test("real light descriptions use the complete bio instead of the guide's first sentence", () => {
+  const input: CelebMetaInput = {
+    nickname: "티파니 트럼프",
+    title: "조지타운 법학박사",
+    headline: "십대에 팝 싱글을 발표한 트럼프가의 막내딸",
+    tier: "light",
+    reality: "REAL",
+    counts: emptyCounts,
+    bio: "미국의 공인. 펜실베이니아대에서 사회학을, 조지타운대 법학전문대학원에서 법학을 공부한 도널드 트럼프와 말라 메이플스의 딸이다.",
+    guide: "티파니 트럼프는 도널드 트럼프와 말라 메이플스의 외동딸인 미국의 공인이다. 캘리포니아에서 주로 자랐다.",
+  };
+  assert.equal(buildCelebDescriptionKo(input), input.bio);
+  // 풀 전환을 기다리는 데이터에 감상 건수가 있어도 라이트 소개는 동일하다.
+  assert.equal(buildCelebDescriptionKo({ ...input, counts: { ...emptyCounts, BOOK: 1 } }), input.bio);
+});
+
+test("real light English bios retain long complete sentences without a snippet-width cutoff", () => {
+  const bio = "British naturalist who, based on observations from the HMS Beagle voyage, established the theory of evolution by natural selection, fundamentally transforming biology and our worldview. His writings shaped the study of living things.";
+  const description = buildCelebDescriptionEn({
+    nickname: "Charles Darwin",
+    title: "Naturalist",
+    headline_en: "The naturalist who explained evolution by natural selection",
+    tier: "light",
+    reality: "REAL",
+    counts: emptyCounts,
+    bio,
+    guide: "Charles Darwin was a British naturalist. This guide describes his voyage.",
+  });
+  assert.ok(bio.length > 175);
+  assert.ok(estimateTextWidth(bio.split(". ")[0]) > SNIPPET_WIDTH);
+  assert.equal(description, bio);
+});
+
+test("missing real light bios retain the guide fallback in either language", () => {
+  const input: CelebMetaInput = {
+    nickname: "인물",
+    title: null,
+    tier: "light",
+    reality: "REAL",
+    counts: emptyCounts,
+    guide: "인물은 한국의 배우이다. 다음 문장은 상세한 일화이다.",
+  };
+  for (const bio of [null, undefined, "", " \n "]) {
+    assert.equal(buildCelebDescriptionKo({ ...input, bio }), "인물은 한국의 배우이다.");
+    assert.equal(
+      buildCelebDescriptionEn({ ...input, bio, guide: "A Korean actor. A detailed story follows." }),
+      "A Korean actor.",
+    );
+  }
+});
+
+test("full and non-real descriptions keep their existing source selection", () => {
+  assert.equal(
+    buildCelebDescriptionKo({ ...billGates, bio: "다른 소개. 둘째 문장이다." }),
+    buildCelebDescriptionKo(billGates),
+  );
+  const input: CelebMetaInput = {
+    nickname: "인물",
+    title: null,
+    tier: "light",
+    counts: emptyCounts,
+    bio: "바이오 전문. 둘째 문장이다.",
+    guide: "인물 안내 첫 문장이다. 다음 문장이다.",
+  };
+  for (const reality of ["BOTH", "FICTION"] as const) {
+    assert.equal(buildCelebDescriptionKo({ ...input, reality }), "인물 안내 첫 문장이다.");
+    assert.equal(
+      buildCelebDescriptionEn({ ...input, reality, guide: "The guide's first sentence. Another sentence." }),
+      "The guide's first sentence.",
+    );
+  }
+  assert.equal(buildCelebDescriptionKo({ ...input, tier: "full", reality: "REAL" }), "인물 안내 첫 문장이다.");
 });
 
 test("descriptions stay within the meta description budget", () => {
@@ -298,7 +372,7 @@ test("descriptions stay within the meta description budget", () => {
   assert.match(ko, /^가{60}다\.$/);
 });
 
-test("a bio line without end punctuation gets a period before the tail", () => {
+test("real light bios get end punctuation without repeating the headline", () => {
   const input: CelebMetaInput = {
     nickname: "Paul Biya",
     title: null,
@@ -310,7 +384,7 @@ test("a bio line without end punctuation gets a period before the tail", () => {
   };
   assert.equal(
     buildCelebDescriptionEn(input),
-    "Paul Biya: World's oldest head of state, now serving an eighth term. President of Cameroon since 1982.",
+    "President of Cameroon since 1982.",
   );
   assert.match(
     buildCelebDescriptionKo({ ...input, nickname: "닉 캐슬", headline: "《할로윈》에서 마이클 마이어스를 처음 입은 배우", bio: "미국의 영화 제작자 (1947년생)" }),
