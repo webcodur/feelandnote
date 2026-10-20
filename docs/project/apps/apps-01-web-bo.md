@@ -225,6 +225,7 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
+| `/analytics` | 서비스 이용 현황 | 기간·유입 조건별 GA 유입·행동·기능 결과와 Clarity 문제 유형별 레코딩·히트맵 연결. 의심 패턴은 보고서에서만 분리하며 만족도·미연결 행동을 측정값으로 만들지 않는다 | GA4 Data API (`lib/analytics/load.ts`·`model.ts`), Clarity 원본 화면 (`clarity-links.ts`) |
 | `/today-figure` | 오늘의 인물 | 오늘 기준 앞뒤 7일(15건) 날짜별 선정 셀럽 확인. 출처 배지(뉴스·시드·예측). 조회 전용 | `daily_figures`, `celebs`, `celeb_contents` |
 | `/guestbooks` | 방명록 관리 | 회원·셀럽 방명록 목록, 비공개·미확인 필터와 미확인 배지 | `member_guestbook_entries`, `celeb_guestbook_entries`, `member_profiles`, `celebs` |
 | `/free-board` | 자유게시판 관리 | 글·댓글 탭, 노출·숨김 필터. 부적절한 글과 댓글을 숨김 처리 | `free_posts`, `free_post_comments`, `member_profiles` |

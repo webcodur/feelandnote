@@ -65,6 +65,7 @@ type MenuGroup = {
 
 const menuGroups: MenuGroup[] = [
   { key: 'dashboard', label: '대시보드', icon: LayoutDashboard, href: '/' },
+  { key: 'analytics', label: '서비스 이용 현황', icon: BarChart3, href: '/analytics' },
   {
     key: 'celebs', label: '셀럽', icon: Star,
     children: [

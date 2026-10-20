@@ -109,6 +109,9 @@ export default async function DashboardPage() {
       <div>
         <h1 className="text-xl md:text-2xl font-bold text-text-primary">대시보드</h1>
         <p className="text-sm text-text-secondary mt-1">서비스 현황을 한눈에 확인하세요</p>
+        <Link href="/analytics" className="mt-3 inline-flex rounded-lg border border-border px-3 py-2 text-sm text-accent hover:border-accent/60 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+          서비스 이용 현황 · 유입과 행동 확인 →
+        </Link>
       </div>
 
       {/* Stats Grid */}
