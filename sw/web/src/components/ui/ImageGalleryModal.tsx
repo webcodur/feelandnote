@@ -39,11 +39,14 @@ export default function ImageGalleryModal({
   const [activeIndex, setActiveIndex] = useState(() =>
     Math.max(0, Math.min(images.length - 1, initialIndex)),
   );
+  const visibleIndex = Math.min(activeIndex, Math.max(0, images.length - 1));
   const move = useCallback((delta: number) => {
-    setActiveIndex((current) => (current + delta + images.length) % images.length);
+    if (images.length === 0) return;
+    setActiveIndex((current) => (Math.min(current, images.length - 1) + delta + images.length) % images.length);
   }, [images.length]);
 
   useEffect(() => {
+    if (images.length === 0) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
       if (event.key === "ArrowLeft") move(-1);
@@ -76,7 +79,7 @@ export default function ImageGalleryModal({
     };
   }, [images.length, move, onClose]);
 
-  const activeImage = images[activeIndex];
+  const activeImage = images[visibleIndex];
   if (!activeImage || typeof document === "undefined") return null;
 
   return createPortal(
@@ -94,7 +97,7 @@ export default function ImageGalleryModal({
             {title}
           </h2>
           <p aria-live="polite" className="mt-0.5 text-xs tabular-nums text-white/55">
-            {activeIndex + 1} / {images.length}
+            {visibleIndex + 1} / {images.length}
           </p>
         </div>
         <button
@@ -144,10 +147,10 @@ export default function ImageGalleryModal({
               type="button"
               onClick={() => setActiveIndex(index)}
               aria-label={image.alt}
-              aria-current={index === activeIndex ? "true" : undefined}
+              aria-current={index === visibleIndex ? "true" : undefined}
               className={cn(
                 "relative aspect-video h-12 shrink-0 overflow-hidden rounded-md border bg-white/[0.04] hover:border-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:h-16",
-                index === activeIndex ? "border-accent" : "border-white/15",
+                index === visibleIndex ? "border-accent" : "border-white/15",
               )}
             >
               <Image

@@ -19,7 +19,7 @@ interface Props {
   selectedId: string | null;
   onSelect: (id: string) => void;
   name: string;
-  /** portrait이면 신화 전용 개인샷→대표사진 차례로 쓰고 칸을 4:5로 키운다. 사진 없는 인물은 아바타로 돌아간다 */
+  /** portrait이면 개인샷·대표사진은 큰 칸에, 사진 없는 인물은 아래 작은 아바타 격자에 모은다. */
   imageMode?: CelebCardImage;
   /** 대표사진 보기에서 이 편의 전용 개인샷을 먼저 고를 때 쓰는 신화·세력 id */
   mythId?: string;
@@ -34,9 +34,27 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name, i
   const portraitMode = imageMode === "portrait";
   /* 긴 명단은 첫 묶음만 보여 주고 아래 책장이 보이게 한다 — 모두 보기로 전원을 펼친다 */
   const [expanded, setExpanded] = useState(false);
+  const [failedPhotoUrls, setFailedPhotoUrls] = useState<Set<string>>(() => new Set());
   const sectionRef = useRef<HTMLElement | null>(null);
   const collapsible = people.length > COLLAPSED_COUNT;
-  const visible = collapsible && !expanded ? people.slice(0, COLLAPSED_COUNT) : people;
+  const entries = people.map(person => {
+    const leadUrl = portraitMode ? (mythId ? mythLeadImage(person, mythId) : person.portraitUrl ?? person.imageUrl) : null;
+    const photoUrl = portraitMode ? [leadUrl, person.portraitUrl, person.imageUrl]
+      .map(url => url?.trim())
+      .find(url => url && url !== person.avatarUrl?.trim() && !failedPhotoUrls.has(url)) : undefined;
+    return { person, photoUrl };
+  });
+  const ordered = portraitMode
+    ? [...entries.filter(entry => entry.photoUrl), ...entries.filter(entry => !entry.photoUrl)]
+    : entries;
+  const visible = collapsible && !expanded ? ordered.slice(0, COLLAPSED_COUNT) : ordered;
+  const portraitIds = visible.filter(entry => entry.photoUrl).map(entry => entry.person.id);
+  const groups = portraitMode
+    ? [{ large: true, entries: visible.filter(entry => entry.photoUrl) }, { large: false, entries: visible.filter(entry => !entry.photoUrl) }]
+    : [{ large: false, entries: visible }];
+  const handlePhotoError = useCallback((url: string) => {
+    setFailedPhotoUrls(current => current.has(url) ? current : new Set([...current, url]));
+  }, []);
   const toggleExpanded = useCallback(() => {
     setExpanded((current) => {
       /* 접으면 목록이 수십 행 위로 줄어 버튼이 화면 밖으로 나간다 — 머리로 되돌린다 */
@@ -47,22 +65,20 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name, i
 
   return (
     <section ref={sectionRef} aria-label={name} className="scroll-mt-24">
-      <div role="group" aria-label={name}
-        className={portraitMode ? `${CELEB_GRID_LAYOUT_PORTRAIT} items-start gap-y-6 md:gap-y-7` : mythLayout.memberList}>
-      {visible.map((person) => {
+      <div className="space-y-6 md:space-y-7">
+      {groups.filter(group => group.entries.length > 0).map(({ large, entries: cards }) => (
+      <div key={large ? "portrait" : "compact"} role="group" aria-label={name} data-person-layout={large ? "portrait" : "compact"}
+        className={large ? `${CELEB_GRID_LAYOUT_PORTRAIT} items-start gap-y-6 md:gap-y-7` : mythLayout.memberList}>
+      {cards.map(({ person, photoUrl }) => {
         const selected = selectedId === person.id;
-        // 대표사진 보기 — 이 편 전용 개인샷과 인물 화보를 아바타보다 먼저 쓴다(mythLeadImage)
-        const leadUrl = portraitMode
-          ? (mythId ? mythLeadImage(person, mythId) : person.portraitUrl ?? person.imageUrl)
-          : null;
-        const thumbUrl = person.avatarUrl ?? person.portraitUrl ?? person.imageUrl;
+        const thumbUrl = [person.avatarUrl, person.portraitUrl, person.imageUrl].find(url => url?.trim() && !failedPhotoUrls.has(url.trim()));
         const title = person.title?.trim();
         return (
           <button
             key={person.id}
             type="button"
             data-person-id={person.id}
-            data-portrait-person={person.id}
+            data-portrait-person={large ? person.id : undefined}
             aria-label={person.name}
             aria-describedby={person.reality && person.reality !== "REAL" ? `person-reality-${person.id}` : undefined}
             aria-haspopup="dialog"
@@ -70,13 +86,13 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name, i
             onClick={() => onSelect(person.id)}
             className="group flex min-w-0 scroll-mt-24 flex-col rounded-xl text-center outline-none"
           >
-            <span className={`relative ${portraitMode ? "aspect-[4/5]" : "aspect-square"} w-full overflow-hidden rounded-xl border bg-bg-card group-focus-visible:ring-2 group-focus-visible:ring-accent group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-bg-secondary ${selected ? "border-accent" : "border-white/10 group-hover:border-accent"}`}>
-              {portraitMode && <PortraitCardImage portraitSrc={leadUrl} alternateSrc={person.portraitUrl ?? person.imageUrl}
+            <span className={`relative ${large ? "aspect-[4/5]" : "aspect-square"} w-full overflow-hidden rounded-xl border bg-bg-card group-focus-visible:ring-2 group-focus-visible:ring-accent group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-bg-secondary ${selected ? "border-accent" : "border-white/10 group-hover:border-accent"}`}>
+              {large && <PortraitCardImage portraitSrc={photoUrl} onPhotoError={handlePhotoError}
                 avatarSrc={person.avatarUrl} name={person.name} decorative imageClassName="transition-transform duration-500 group-hover:scale-105" />}
-              {!portraitMode && thumbUrl && (
+              {!large && thumbUrl && (
                 <BlurDissolve key={thumbUrl} className="absolute inset-0"><CelebAvatarImage src={thumbUrl} alt="" draggable={false} className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ filter: "none" }} /></BlurDissolve>
               )}
-              {!portraitMode && !thumbUrl && (
+              {!large && !thumbUrl && (
                 <span aria-hidden className="flex h-full items-center justify-center text-2xl font-black text-accent">{person.name.slice(0, 1)}</span>
               )}
               {selected && <span className="absolute end-2 top-2 grid size-6 place-items-center rounded-full bg-accent text-bg-main"><Check size={15} aria-hidden /></span>}
@@ -90,7 +106,9 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name, i
         );
       })}
       </div>
-      {portraitMode && <PortraitPersonStepper containerRef={sectionRef} listKey={visible.map(person => person.id).join(",")} />}
+      ))}
+      </div>
+      {portraitMode && portraitIds.length > 0 && <PortraitPersonStepper containerRef={sectionRef} listKey={portraitIds.join(",")} />}
       {collapsible && (
         <button type="button" onClick={toggleExpanded} aria-expanded={expanded}
           className="mt-6 flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-bg-card text-sm font-semibold text-text-secondary outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-accent md:mt-7">

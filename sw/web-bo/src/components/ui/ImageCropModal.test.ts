@@ -35,7 +35,7 @@ test('배경 제거는 기본으로 꺼져 있고, 적용할 때 고른 값을 �
   )
   assert.match(
     source,
-    /onComplete\(\s*getCroppedImage\(image, croppedAreaPixels\),\s*offerBackgroundRemoval && nobgOnApply\s*\)/,
+    /onComplete\(\s*getCroppedImage\(image, croppedAreaPixels\),\s*offerBackgroundRemoval && nobgOnApply,\s*reframeOnApply\s*\)/,
     '적용 시 배경 제거 여부를 호출부에 함께 넘겨야 합니다.'
   )
 })

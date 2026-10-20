@@ -18,7 +18,7 @@ import Button from '@/components/ui/Button'
 import { useToast } from '@/contexts/ToastContext'
 import { resizeSingleImage, resizePortraitImage } from '@/lib/image'
 import CelebAvatarEditor, { AvatarUploadEmpty } from '@/components/celeb/avatar/CelebAvatarEditor'
-import CelebAvatarNobgButton from '@/components/celeb/avatar/CelebAvatarNobgButton'
+import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
 import { saveCelebAvatar } from '@/components/celeb/avatar/saveCelebAvatar'
 import CelebPortraitEditor from '@/components/celeb/portrait/CelebPortraitEditor'
 import { saveCelebPortrait } from '@/components/celeb/portrait/saveCelebPortrait'
@@ -210,6 +210,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
   // 이미지 업로드 상태
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
+  const [avatarPasteActive, setAvatarPasteActive] = useState(false)
 
   // 대표 화보(celebs.portrait_url) — 업로드 직후 공용 상수 비율로 위치·확대 편집을 거친다
   const [portraitFile, setPortraitFile] = useState<File | null>(null)
@@ -365,29 +366,13 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
     setAvatarPreview(null)
   }
 
-  async function handleAvatarCrop(file: File, croppedDataUrl: string) {
-    const url = await persistCroppedCelebImage({
-      mode,
-      celebId: celeb?.id,
-      file,
-      persist: saveCelebAvatar,
-    })
-
-    if (url) {
-      setError(null)
-      setAvatarFile(null)
-      setAvatarPreview(null)
-      initialFormData.current = { ...initialFormData.current, avatar_url: url }
-      setFormData((prev) => ({ ...prev, avatar_url: url }))
-      showToast('success', '아바타를 저장했습니다.')
-      return
-    }
-
+  function handleNewAvatarCrop(file: File, croppedDataUrl: string) {
     setAvatarFile(file)
     setAvatarPreview(croppedDataUrl)
   }
 
-  function handleAvatarNobgCompleted(url: string) {
+  function handleAvatarSaved(url: string) {
+    setError(null)
     setAvatarFile(null)
     setAvatarPreview(null)
     initialFormData.current = { ...initialFormData.current, avatar_url: url }
@@ -531,12 +516,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
         })
 
         // 생성 후 이미지 업로드 (celebId가 필요하므로)
-        if (avatarFile) {
-          const resized = await resizeSingleImage(avatarFile, 'avatar')
-          const uploadResult = await uploadCelebImage({ celebId: result.id, image: resized, type: 'avatar' })
-          if (uploadResult.success) avatarUrl = uploadResult.url
-          await updateCeleb({ id: result.id, avatar_url: avatarUrl })
-        }
+        if (avatarFile) avatarUrl = await saveCelebAvatar(result.id, avatarFile)
 
         if (portraitFile) {
           const resized = await resizePortraitImage(portraitFile)
@@ -560,12 +540,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
         router.push(`/members/${result.id}`)
       } else if (celeb) {
         // 개별 이미지 업로드
-        if (avatarFile) {
-          const resized = await resizeSingleImage(avatarFile, 'avatar')
-          const uploadResult = await uploadCelebImage({ celebId: celeb.id, image: resized, type: 'avatar' })
-          if (uploadResult.success) avatarUrl = uploadResult.url
-          else throw new Error(uploadResult.error || '아바타 업로드 실패')
-        }
+        if (avatarFile) avatarUrl = await saveCelebAvatar(celeb.id, avatarFile, false)
 
         if (portraitFile) {
           const resized = await resizePortraitImage(portraitFile)
@@ -844,29 +819,45 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-[130px] shrink-0">
-                    <CelebAvatarEditor
-                      value={avatarPreview || formData.avatar_url}
-                      alt={formData.nickname || '인물'}
-                      className="h-[130px] w-[130px] rounded-xl"
-                      previewClassName="h-full w-full rounded-xl border-2 border-dashed border-border hover:border-accent hover:bg-accent/5"
-                      empty={<AvatarUploadEmpty />}
-                      removable
-                      loadImmediately
-                      highPriority
-                      showSavedState={mode === 'edit'}
-                      onFileAccepted={applyFileNameAsNickname}
-                      onCroppedFile={handleAvatarCrop}
-                      onRemove={handleImageRemove}
-                      onError={(avatarError) => setError(avatarError.message)}
-                    />
-                    {mode === 'edit' && celeb && (
-                      <CelebAvatarNobgButton
+                    {mode === 'edit' && celeb ? (
+                      <PersistedCelebAvatarEditor
                         celebId={celeb.id}
-                        name={formData.nickname}
                         avatarUrl={formData.avatar_url}
-                        disabled={avatarFile !== null || formData.avatar_url !== initialFormData.current.avatar_url}
-                        onCompleted={handleAvatarNobgCompleted}
-                        className="mt-2 w-full text-xs"
+                        name={formData.nickname}
+                        onSaved={handleAvatarSaved}
+                        pasteActive={avatarPasteActive}
+                        onActivate={() => setAvatarPasteActive(true)}
+                        refreshAfterSave={false}
+                        backgroundRemovalControls={{
+                          disabled: avatarFile !== null || formData.avatar_url !== initialFormData.current.avatar_url,
+                        }}
+                        className="h-[130px] w-[130px] rounded-xl"
+                        previewClassName="h-full w-full rounded-xl border-2 border-dashed border-border hover:border-accent hover:bg-accent/5"
+                        empty={<AvatarUploadEmpty />}
+                        removable
+                        disabled={loading}
+                        loadImmediately
+                        highPriority
+                        onFileAccepted={applyFileNameAsNickname}
+                        onRemove={handleImageRemove}
+                      />
+                    ) : (
+                      <CelebAvatarEditor
+                        value={avatarPreview || formData.avatar_url}
+                        alt={formData.nickname || '인물'}
+                        className="h-[130px] w-[130px] rounded-xl"
+                        previewClassName="h-full w-full rounded-xl border-2 border-dashed border-border hover:border-accent hover:bg-accent/5"
+                        empty={<AvatarUploadEmpty />}
+                        removable
+                        loadImmediately
+                        highPriority
+                        showSavedState={false}
+                        pasteActive={avatarPasteActive}
+                        onActivate={() => setAvatarPasteActive(true)}
+                        onFileAccepted={applyFileNameAsNickname}
+                        onCroppedFile={handleNewAvatarCrop}
+                        onRemove={handleImageRemove}
+                        onError={(avatarError) => setError(avatarError.message)}
                       />
                     )}
                   </div>

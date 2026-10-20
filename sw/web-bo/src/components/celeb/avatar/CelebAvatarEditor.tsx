@@ -6,7 +6,6 @@ import {
   useEffect,
   useRef,
   useState,
-  type DragEvent,
   type ReactNode,
 } from 'react'
 import { Check, Loader2, Move, Upload, X } from 'lucide-react'
@@ -42,8 +41,8 @@ interface Props {
   onFileAccepted?: (file: File) => void
   /** 적용과 동시에 배경 제거까지 고를 수 있는 창인지. 후속 처리를 붙인 호출부만 켠다. */
   offerBackgroundRemoval?: boolean
-  /** 세 번째 값은 자르기 창에서 「적용과 동시에 배경 제거」를 골랐는지다. */
-  onCroppedFile: (file: File, previewUrl: string, removeBackground: boolean) => void | Promise<void>
+  /** 세 번째 값은 배경 제거 여부, 네 번째 값은 배경 제거 후 reframe 여부다. */
+  onCroppedFile: (file: File, previewUrl: string, removeBackground: boolean, reframe: boolean) => void | Promise<void>
   onRemove?: () => void
   onError?: (error: Error) => void
 }
@@ -74,7 +73,6 @@ export default function CelebAvatarEditor({
   onError,
 }: Props) {
   const savedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const [dragging, setDragging] = useState(false)
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
   const [settledImageUrl, setSettledImageUrl] = useState<string | null>(null)
@@ -83,9 +81,12 @@ export default function CelebAvatarEditor({
     if (savedTimerRef.current) clearTimeout(savedTimerRef.current)
   }, [])
 
-  const { acceptFile } = useImageIntake({
+  const { dragging, dragSourceProps, dropTargetProps } = useImageIntake({
+    imageSrc: value,
+    externalDropType,
+    onExternalDrop,
     onPreviewReady: setCropImageSrc,
-    disabled,
+    disabled: disabled || status === 'saving',
     pasteActive,
     incomingFile,
     onIncomingDone,
@@ -93,39 +94,7 @@ export default function CelebAvatarEditor({
     onError,
   })
 
-  function acceptsDrag(event: DragEvent<HTMLDivElement>): boolean {
-    return event.dataTransfer.types.includes('Files')
-      || (!!externalDropType && event.dataTransfer.types.includes(externalDropType))
-  }
-
-  function handleDragLeave(event: DragEvent<HTMLDivElement>) {
-    event.preventDefault()
-    event.stopPropagation()
-    const nextTarget = event.relatedTarget as Node | null
-    if (nextTarget && event.currentTarget.contains(nextTarget)) return
-    setDragging(false)
-  }
-
-  async function handleDrop(event: DragEvent<HTMLDivElement>) {
-    if (!acceptsDrag(event)) return
-    event.preventDefault()
-    event.stopPropagation()
-    setDragging(false)
-    const externalValue = externalDropType
-      ? event.dataTransfer.getData(externalDropType)
-      : ''
-    if (externalValue && onExternalDrop) {
-      try {
-        await onExternalDrop(externalValue)
-      } catch (error) {
-        onError?.(error instanceof Error ? error : new Error('사진을 불러오지 못했습니다.'))
-      }
-      return
-    }
-    await acceptFile(event.dataTransfer.files?.[0])
-  }
-
-  async function handleCropComplete(croppedDataUrl: string, removeBackground: boolean) {
+  async function handleCropComplete(croppedDataUrl: string, removeBackground: boolean, reframe: boolean) {
     setCropImageSrc(null)
     setStatus('saving')
 
@@ -133,7 +102,7 @@ export default function CelebAvatarEditor({
       const response = await fetch(croppedDataUrl)
       const blob = await response.blob()
       const file = new File([blob], 'avatar.png', { type: 'image/png' })
-      await onCroppedFile(file, croppedDataUrl, removeBackground)
+      await onCroppedFile(file, croppedDataUrl, removeBackground, reframe)
       if (!showSavedState) {
         setStatus('idle')
         return
@@ -155,20 +124,7 @@ export default function CelebAvatarEditor({
     <>
       <div
         data-dragging={dragging || undefined}
-        onDragEnter={(event) => {
-          if (!acceptsDrag(event)) return
-          event.preventDefault()
-          event.stopPropagation()
-          if (!disabled) setDragging(true)
-        }}
-        onDragOver={(event) => {
-          if (!acceptsDrag(event)) return
-          event.preventDefault()
-          event.stopPropagation()
-          event.dataTransfer.dropEffect = 'copy'
-        }}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
+        {...dropTargetProps}
         className={`data-[dragging=true]:bg-accent/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent ${className}`}
       >
         <div
@@ -194,6 +150,7 @@ export default function CelebAvatarEditor({
               className="absolute inset-0 z-10 cursor-pointer"
             >
               <Image
+                {...dragSourceProps}
                 src={value}
                 alt={alt}
                 fill
@@ -202,11 +159,12 @@ export default function CelebAvatarEditor({
                 fetchPriority={highPriority ? 'high' : 'auto'}
                 onLoad={() => setSettledImageUrl(value)}
                 onError={() => setSettledImageUrl(value)}
-                className="object-cover"
+                className="object-cover cursor-grab"
               />
             </a>
           ) : (
             <Image
+              {...dragSourceProps}
               src={value}
               alt={alt}
               fill
@@ -215,7 +173,7 @@ export default function CelebAvatarEditor({
               fetchPriority={highPriority ? 'high' : 'auto'}
               onLoad={() => setSettledImageUrl(value)}
               onError={() => setSettledImageUrl(value)}
-              className="object-cover"
+              className="object-cover cursor-grab"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center">{empty}</div>

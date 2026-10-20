@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { useState, type DragEvent, type ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Loader2, Move, Upload, X } from 'lucide-react'
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
 import { useImageIntake } from '@/components/celeb/useImageIntake'
@@ -70,13 +70,16 @@ export default function CelebPortraitEditor({
 }: Props) {
   const usesDefaultFrame = className === undefined
   const frameClassName = className ?? 'group/portrait relative shrink-0 overflow-hidden rounded-xl border-2 border-dashed border-border bg-bg-secondary hover:border-accent hover:bg-accent/5 data-[dragging=true]:border-accent data-[dragging=true]:bg-accent/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent/30'
-  const [dragging, setDragging] = useState(false)
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
   const [processing, setProcessing] = useState(false)
   const [settledImageUrl, setSettledImageUrl] = useState<string | null>(null)
 
-  const { acceptFile } = useImageIntake({
+  const { dragging, dragSourceProps, dropTargetProps } = useImageIntake({
+    imageSrc: value,
+    externalDropType,
+    onExternalDrop,
     onPreviewReady: setCropImageSrc,
+    disabled: processing,
     pasteActive,
     incomingFile,
     onIncomingDone,
@@ -84,39 +87,7 @@ export default function CelebPortraitEditor({
     onError,
   })
 
-  function acceptsDrag(event: DragEvent<HTMLDivElement>): boolean {
-    return event.dataTransfer.types.includes('Files')
-      || (!!externalDropType && event.dataTransfer.types.includes(externalDropType))
-  }
-
-  function handleDragLeave(event: DragEvent<HTMLDivElement>) {
-    event.preventDefault()
-    event.stopPropagation()
-    const nextTarget = event.relatedTarget as Node | null
-    if (nextTarget && event.currentTarget.contains(nextTarget)) return
-    setDragging(false)
-  }
-
   const imageLoading = Boolean(value && settledImageUrl !== value)
-
-  async function handleDrop(event: DragEvent<HTMLDivElement>) {
-    if (!acceptsDrag(event)) return
-    event.preventDefault()
-    event.stopPropagation()
-    setDragging(false)
-    const externalValue = externalDropType
-      ? event.dataTransfer.getData(externalDropType)
-      : ''
-    if (externalValue && onExternalDrop) {
-      try {
-        await onExternalDrop(externalValue)
-      } catch (error) {
-        onError?.(error instanceof Error ? error : new Error('사진을 불러오지 못했습니다.'))
-      }
-      return
-    }
-    await acceptFile(event.dataTransfer.files?.[0])
-  }
 
   async function handleCropComplete(croppedDataUrl: string) {
     setProcessing(true)
@@ -148,20 +119,7 @@ export default function CelebPortraitEditor({
           event.preventDefault()
           onActivate()
         } : undefined}
-        onDragEnter={(event) => {
-          if (!acceptsDrag(event)) return
-          event.preventDefault()
-          event.stopPropagation()
-          setDragging(true)
-        }}
-        onDragOver={(event) => {
-          if (!acceptsDrag(event)) return
-          event.preventDefault()
-          event.stopPropagation()
-          event.dataTransfer.dropEffect = 'copy'
-        }}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
+        {...dropTargetProps}
         className={`${frameClassName} ${pasteActive ? 'border-accent ring-2 ring-accent ring-offset-2 ring-offset-bg-card' : ''} ${onActivate ? 'cursor-pointer' : ''}`}
         style={{
           width: usesDefaultFrame ? CELEB_HERO_PHOTO_SPEC.desktopWidthPx : undefined,
@@ -178,6 +136,7 @@ export default function CelebPortraitEditor({
             className="absolute inset-0 z-10 cursor-pointer"
           >
             <Image
+              {...dragSourceProps}
               src={value}
               alt={alt}
               fill
@@ -186,11 +145,12 @@ export default function CelebPortraitEditor({
               fetchPriority={highPriority ? 'high' : 'auto'}
               onLoad={() => setSettledImageUrl(value)}
               onError={() => setSettledImageUrl(value)}
-              className="object-cover"
+              className="object-cover cursor-grab"
             />
           </a>
         ) : (
           <Image
+            {...dragSourceProps}
             src={value}
             alt={alt}
             fill
@@ -199,7 +159,7 @@ export default function CelebPortraitEditor({
             fetchPriority={highPriority ? 'high' : 'auto'}
             onLoad={() => setSettledImageUrl(value)}
             onError={() => setSettledImageUrl(value)}
-            className="object-cover"
+            className="object-cover cursor-grab"
           />
         ) : empty ? (
           <div className="flex h-full w-full items-center justify-center">{empty}</div>

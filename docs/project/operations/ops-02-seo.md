@@ -1,6 +1,6 @@
 # SEO
 
-사이트맵·robots·메타데이터·구조화 데이터·검색엔진 등록과 색인 운영 규칙이다. Google·네이버 일일 색인·수집 신청과 현재 도달점은 [일일 색인·수집 신청](../../continuous/google-indexing.md)이 쥔다. URL별 작업 결과를 별도로 보관하지 않는다. 검색 노출·색인의 날짜별 실측을 이 문서에 쌓지 않는다.
+사이트맵·robots·메타데이터·구조화 데이터·검색엔진 등록과 색인 운영 규칙이다. Google·네이버·Bing·Daum 일일 색인·수집 신청의 현재 도달점은 [일일 색인·수집 신청](../../continuous/google-indexing.md)이 쥔다. URL별 작업 결과를 별도로 보관하지 않는다. 검색 노출·색인의 날짜별 실측을 이 문서에 쌓지 않는다.
 
 인물 상세의 감상 목록은 초기 본문과 같은 데이터·순서로 JSON-LD를 만든다. 후속 기록은 「감상 기록 전체 보기」에서 `/celeb/<slug>/records/<page>`로 연결한다. 각 쪽은 감상·출처와 이전·다음 링크를 HTML에 싣고, 한국어·영어마다 자기 canonical과 hreflang을 제공한다. 페이지 크기는 `recordsPageData.ts`의 `RECORDS_PAGE_SIZE`가 쥔다. [Google 크롤 가능한 링크](https://developers.google.com/search/docs/crawling-indexing/links-crawlable) · [구조화 데이터 정책](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)
 
@@ -14,7 +14,7 @@
 
 | 무엇 | 단일원천 |
 |------|----------|
-| 서비스 이름·주소·검색용 별칭 | `packages/shared/src/constants/site-brand.ts` |
+| 서비스 이름·주소·검색용 별칭·공식 블로그 주소 | `packages/shared/src/constants/site-brand.ts` |
 | 정본 URL·기본 사이트명·검색 별칭·Organization/WebSite JSON-LD 생성 | `sw/web/src/lib/seo.ts` |
 | locale별 홈페이지 제목·내부 페이지 제목 템플릿·설명·H1·가시 별칭 | `sw/web/messages/{ko,en}/core.json`의 `site` |
 | 홈페이지 자기참조 canonical·hreflang | `sw/web/src/app/[locale]/(main)/page.tsx` → `getLocalizedAlternates('/')` |
@@ -268,10 +268,14 @@ JSON-LD는 서버 렌더 HTML에 싣는다. 클라이언트에서 주입하면 �
 | Google Analytics (GA4) | ✅ 수집 중 | — | — | Property ID: `526353156`. **MCP는 현재 미연결** — `.mcp.json`에 서버 정의 없음(`settings.local.json`의 허용 목록에 이름만 잔존) |
 | 네이버 서치어드바이저 | 등록됨 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 웹 페이지 수집 | 기존 사이트맵을 유지하고 변경된 주요 주소를 수집 요청한다 |
 | Bing Webmaster Tools | 등록됨 | 기존 확인된 사이트 속성 | 사이트맵·URL 검사 | 기존 사이트에서 사이트맵 `Re-submit`과 URL `Request indexing`을 사용한다 |
-| Daum 검색등록 | 등록 조회·사이트 검색 노출 확인 | 등록변경 폼의 기존 신청자 인증 | 사이트명·URL·설명 | 기존 등록의 `Feel&Note`·HTTP 주소를 현행 표기로 변경해야 한다 |
+| Daum 검색등록 | 등록변경 신청 완료·심사 대기 | 기존 신청자 인증 완료 | 사이트명·URL·설명 | 한글·영문 서비스명과 HTTPS 정식 주소로 변경을 신청했다. 승인·실제 검색 반영 확인은 [색인 신청](../../continuous/google-indexing.md)이 쥔다 |
 | Daum 웹마스터 도구 | 인증됨 | robots.txt 공개 확인 문구 + PIN 로그인 | 사이트맵·RSS/리스트 Seed·개별 문서 수집 | 검색등록과 별개다. 수집·색인·실제 검색 반영의 현재 도달점은 [색인 신청](../../continuous/google-indexing.md)이 쥔다 |
 
 Daum 사이트 검색등록의 승인과 웹문서 수집 상태는 따로 확인한다. 사이트맵 Seed에는 기존 `https://feelandnote.com/sitemap.xml`과 인물 우선 사이트맵 `https://feelandnote.com/sitemaps/celebs.xml`을 사용한다. RSS/리스트 Seed에는 `/feed.xml`과 메인·탐색·인물 명부의 실제 링크가 있는 첫 페이지를 사용한다. 리스트는 연결된 URL 1단계까지만 수집하므로 상세 개별 요청과 사이트맵을 함께 쓴다. Seed 접수도 실제 수집·노출을 보장하지 않는다. [Daum 수집 Seed 안내](https://cs.daum.net/faq/service/15/category/4118/detail/38543)
+
+일일 SEO는 한글·영문 서비스명으로 홈페이지를 찾을 수 있는지부터 확인한다. 한쪽만 노출되면 홈페이지의 현재 응답·검색엔진 저장본·사이트 등록 정보·공식 채널의 서비스명과 홈페이지 링크를 대조한다. `site:` 결과와 일반 검색을 구분하고, 원인을 확인하지 않은 메타 수정이나 상세주소 대량 접수를 브랜드 검색 문제의 해결로 보고하지 않는다.
+
+일일 SEO 신청은 각 엔진의 실제 잔여 한도를 사용한다. 신규 공개·변경 주소를 처리한 뒤에는 기존 미접수 인물 상세, 세력·신화 상세로 이어간다. 신규 목록을 비운 것은 당일 신청 완료가 아니다. 엔진별로 할당량 소진·제한 응답을 확인하거나, 공개 사이트맵과 접수 내역을 대조해 유효한 미접수 주소가 없을 때까지 진행한다. 한도가 확인되지 않은 Daum도 정해 둔 몇 건에서 멈추지 않고 정상 속도로 순차 신청하며 실제 제한 문구로 판단한다. Daum의 「중복 URL, 과도한 호출」은 일시적인 호출 속도 제한일 수 있다. 접수 중복을 먼저 대조하고, 미접수 주소이면 대기 후 요청 간격을 늘려 같은 주소를 재시도한다. 재개되면 이어가며 이 응답 한 번으로 당일 작업을 끝내거나 고정 일일 한도·초기화 시각을 단정하지 않는다. 한 엔진이 막혀도 나머지는 계속하고, 사이트맵·IndexNow 통지로 개별 신청을 대신하지 않는다. 이미 접수한 주소와 최신 변경까지 색인된 주소를 건수 채우려고 반복하지 않는다. 보고에는 엔진별 접수 수, 실제 한도·제한 응답, 마지막 성공·다음 미접수 주소를 남긴다.
 
 ### 주소 개편 후 검색 등록
 

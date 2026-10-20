@@ -10,6 +10,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useLocale } from 'next-intl'
 import { Z_INDEX } from '@/constants/zIndex'
+import { lockBodyScroll, unlockBodyScroll } from '@/lib/scrollLock'
 import { setGameFullScreenLayer } from '@/components/layout/musicPlayerSlots'
 import { useRegisterGameAudio } from '@/contexts/GameAudioContext'
 import { recordCodex, recordLord } from '@/lib/game/suikoden/codex'
@@ -65,9 +66,8 @@ export default function CheondoApp({ onExit }: CheondoAppProps) {
   }, [])
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow
     const previousFocus = document.activeElement
-    document.body.style.overflow = 'hidden'
+    lockBodyScroll()
     rootRef.current?.focus({ preventScroll: true })
     const trapFocus = (event: KeyboardEvent) => {
       if (event.key !== 'Tab' || event.defaultPrevented || !rootRef.current) return
@@ -84,7 +84,7 @@ export default function CheondoApp({ onExit }: CheondoAppProps) {
       flushSave()
       window.removeEventListener('keydown', trapFocus)
       window.removeEventListener('pagehide', flushSave)
-      document.body.style.overflow = previousOverflow
+      unlockBodyScroll()
       if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus({ preventScroll: true })
     }
   }, [flushSave])

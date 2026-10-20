@@ -32,42 +32,59 @@ export function useSectionNavigation(sectionIds: string[]) {
   const navTargetRef = useRef<string | null>(null);
   const navReleaseRef = useRef<number | undefined>(undefined);
 
+  // 짧은 마지막 구획은 감지 기준선에 닿지 못한다. 페이지 끝에서는
+  // 스크롤 이벤트와 관측 콜백 모두 마지막 구획을 우선해 선택한다.
+  const syncPageBottom = useCallback(() => {
+    const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 24;
+    if (!atBottom) return false;
+    const lastId = sectionIdList(sectionKey).reverse().find(id => document.getElementById(id));
+    if (!lastId) return false;
+    navTargetRef.current = null;
+    window.clearTimeout(navReleaseRef.current);
+    setActiveSectionId(lastId);
+    return true;
+  }, [sectionKey]);
+
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return;
 
     // IntersectionObserver는 이번에 상태가 바뀐 요소만 주므로 현재 화면에
     // 걸쳐 있는 구획을 따로 모아 기준선에 가장 가까운 구획을 고른다.
     const onScreen = new Set<string>();
+    const updateActiveSection = () => {
+      if (syncPageBottom()) return;
+
+      const anchor = window.innerHeight * 0.24;
+      let nearestId: string | null = null;
+      let nearestGap = Infinity;
+
+      for (const sectionId of onScreen) {
+        const section = document.getElementById(sectionId);
+        if (!section) continue;
+
+        const gap = Math.abs(section.getBoundingClientRect().top - anchor);
+        if (gap < nearestGap) {
+          nearestGap = gap;
+          nearestId = sectionId;
+        }
+      }
+
+      // 목차 이동 중 지나치는 구획이 차례로 활성화되는 현상을 막는다.
+      if (navTargetRef.current) {
+        if (nearestId === navTargetRef.current) navTargetRef.current = null;
+        return;
+      }
+
+      if (!nearestId) return;
+      setActiveSectionId(nearestId);
+    };
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) onScreen.add(entry.target.id);
           else onScreen.delete(entry.target.id);
         }
-
-        const anchor = window.innerHeight * 0.24;
-        let nearestId: string | null = null;
-        let nearestGap = Infinity;
-
-        for (const sectionId of onScreen) {
-          const section = document.getElementById(sectionId);
-          if (!section) continue;
-
-          const gap = Math.abs(section.getBoundingClientRect().top - anchor);
-          if (gap < nearestGap) {
-            nearestGap = gap;
-            nearestId = sectionId;
-          }
-        }
-
-        // 목차 이동 중 지나치는 구획이 차례로 활성화되는 현상을 막는다.
-        if (navTargetRef.current) {
-          if (nearestId === navTargetRef.current) navTargetRef.current = null;
-          return;
-        }
-
-        if (!nearestId) return;
-        setActiveSectionId(nearestId);
+        updateActiveSection();
       },
       {
         rootMargin: "-18% 0px -68% 0px",
@@ -94,31 +111,28 @@ export function useSectionNavigation(sectionIds: string[]) {
     attach();
     const mutations = new MutationObserver(attach);
     mutations.observe(document.body, { childList: true, subtree: true });
+
+    // 하단에서 위로 돌아와도 같은 구획이 감지 띠에 남으면 관측 콜백은 오지 않는다.
+    // 스크롤에서도 다시 계산하되 한 프레임에 한 번만 읽는다.
+    let scrollFrame: number | undefined;
+    const onScroll = () => {
+      if (scrollFrame !== undefined) return;
+      scrollFrame = window.requestAnimationFrame(() => {
+        scrollFrame = undefined;
+        updateActiveSection();
+      });
+    };
+    updateActiveSection();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     return () => {
+      window.cancelAnimationFrame(scrollFrame ?? 0);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
       observer.disconnect();
       mutations.disconnect();
     };
-  }, [sectionKey]);
-
-  // 페이지 끝에 닿으면 마지막 구획을 켠다. 짧은末 구획은 기준선을 스치지 않아
-  // 관측 콜백이 안 불리므로 스크롤에서 직접 본다. 底 도착은 이동 완료로 쳐서
-  // 가드를 풀어준다 — 안 그러면 가드가 풀린 뒤 관측이 위로 튕겨올린다.
-  useEffect(() => {
-    const onScroll = () => {
-      const ids = sectionIdList(sectionKey);
-      if (ids.length === 0) return;
-      const atBottom =
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 24;
-      if (!atBottom) return;
-      navTargetRef.current = null;
-      window.clearTimeout(navReleaseRef.current);
-      setActiveSectionId(ids[ids.length - 1]);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [sectionKey]);
+  }, [sectionKey, syncPageBottom]);
 
   useEffect(
     () => () => {

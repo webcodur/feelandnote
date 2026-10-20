@@ -1,4 +1,4 @@
-export type ImageProcessingJobType = 'nobg-avatar'
+export type ImageProcessingJobType = 'nobg-avatar' | 'nobg-avatar-only'
 export type ImageProcessingJobStatus = 'queued' | 'running' | 'done' | 'error'
 
 export interface ImageProcessingJob {

@@ -9,6 +9,7 @@ import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { uploadAvatarVariants } from '@/lib/avatar-small'
 import { revalidateWebCeleb } from '@/lib/revalidate-web'
 import { createAdminClient } from '@/lib/db/admin'
+import { prepareNobgAvatars, encodeNobgAvatar } from './reframe-avatar'
 
 const NOBG_BATCH_DIR = 'C:\\project\\nobg\\batch'
 const NOBG_SCRIPT = path.join(NOBG_BATCH_DIR, 'batch_nobg.py')
@@ -31,6 +32,8 @@ export interface NobgAvatarResult {
 export interface ProcessNobgAvatarsOptions {
   /** 대량 처리기는 마지막에 캐시를 한 번에 비우므로 인물별 호출을 끌 수 있다. */
   revalidate?: boolean
+  /** false면 얼굴 검출·재배치 없이 배경만 제거한다. */
+  reframe?: boolean
 }
 
 function terminateProcessTree(child: ChildProcess): Promise<void> {
@@ -138,18 +141,16 @@ async function downloadAvatar(url: string): Promise<Buffer> {
 async function publishNobgAvatar(
   celeb: { id: string; slug: string | null },
   result: Buffer,
-  revalidate: boolean
+  revalidate: boolean,
+  reframe: boolean,
 ): Promise<string> {
-  // 파이썬 결과는 무손실 중간본이다. 서비스 등록 단계에서 공유 규격으로 한 번 인코딩한다.
-  const finalAvatar = await sharp(result)
-    .resize(CELEB_AVATAR_ORIGINAL.sizePx, CELEB_AVATAR_ORIGINAL.sizePx, { fit: 'fill' })
-    .webp({ quality: CELEB_AVATAR_ORIGINAL.webpQuality })
-    .toBuffer()
-  const stats = await sharp(finalAvatar).stats()
+  // contain 리사이즈의 투명 여백으로 누끼 실패를 가리지 않도록 원래 결과부터 확인한다.
+  const stats = await sharp(result).stats()
   const alpha = stats.channels[3]
   if (!alpha || alpha.min >= 255) {
     throw new Error('배경 제거 결과에 투명 영역이 없습니다. 다른 원본으로 다시 시도하세요.')
   }
+  const finalAvatar = await encodeNobgAvatar(result, reframe)
 
   const key = `celebs/${celeb.id}/${CELEB_AVATAR_ORIGINAL.file}`
   await uploadToR2(key, finalAvatar, 'image/webp')
@@ -242,14 +243,25 @@ export async function processNobgAvatars(
       return results
     }
 
+    // nobg만 고른 작업은 얼굴 검출·재배치를 건너뛰고 현재 구도를 보존한다.
+    const reframe = options.reframe !== false
+    let outputs: Awaited<ReturnType<typeof prepareNobgAvatars>>
+    try {
+      outputs = await prepareNobgAvatars(workDir, { reframe })
+    } catch (reframeError) {
+      for (const celeb of prepared) record(celeb.id, { error: fail(reframeError) })
+      return results
+    }
+
     for (const celeb of prepared) {
       try {
-        const output = await readFile(path.join(outputDir, `${celeb.id}_nobg.webp`)).catch(() => null)
+        const processed = outputs.get(`${celeb.id}_nobg`)
+        const output = processed?.file ? await readFile(processed.file).catch(() => null) : null
         if (!output) {
-          throw new Error(failures.get(celeb.id) || '배경 제거 결과가 나오지 않았습니다. 다른 원본으로 다시 시도하세요.')
+          throw new Error(failures.get(celeb.id) || processed?.error || '배경 제거 결과가 나오지 않았습니다. 다른 원본으로 다시 시도하세요.')
         }
         record(celeb.id, {
-          url: await publishNobgAvatar(celeb, output, options.revalidate !== false),
+          url: await publishNobgAvatar(celeb, output, options.revalidate !== false, reframe),
         })
       } catch (publishError) {
         record(celeb.id, { error: fail(publishError) })

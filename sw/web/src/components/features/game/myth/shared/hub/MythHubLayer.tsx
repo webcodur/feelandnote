@@ -8,14 +8,12 @@
 
 import { useEffect, type ReactNode } from "react";
 import { Z_INDEX } from "@/constants/zIndex";
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
 
 export default function MythHubLayer({ children }: { children: ReactNode }) {
   useEffect(() => {
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previous;
-    };
+    lockBodyScroll();
+    return unlockBodyScroll;
   }, []);
 
   return (

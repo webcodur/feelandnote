@@ -124,6 +124,8 @@ async function runJobs(
   switch (batch[0].type) {
     case 'nobg-avatar':
       return processNobgAvatars(batch.map((job) => job.celebId), onResult)
+    case 'nobg-avatar-only':
+      return processNobgAvatars(batch.map((job) => job.celebId), onResult, { reframe: false })
   }
 }
 
@@ -200,11 +202,13 @@ export async function enqueueImageProcessingJob(
   await loadQueue()
   const task = await mutate(async () => {
     const existing = [...jobs.values()].find((job) =>
-      job.type === type
-      && job.celebId === celebId
+      job.celebId === celebId
       && (job.status === 'queued' || job.status === 'running')
     )
-    if (existing) return cloneWithPosition(existing)
+    if (existing) {
+      if (existing.type !== type) throw new Error('이 인물의 배경 제거 작업이 이미 대기·실행 중입니다. 완료 후 방식을 바꿔 다시 실행하세요.')
+      return cloneWithPosition(existing)
+    }
 
     const job: ImageProcessingJob = {
       id: crypto.randomUUID(),

@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase } from "lucide-react";
 import { toggleFollow } from "@/actions/user";
@@ -57,13 +57,6 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
     followingOverride?.celebId === celeb.id
       ? followingOverride.value
       : celeb.is_following;
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
-  }, [isOpen]);
 
   const aura: Aura = celeb.influence?.total_score != null
     ? getAuraByScore(celeb.influence.total_score)

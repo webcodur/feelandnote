@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Search, X, ArrowLeft } from "lucide-react";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import type { CelebProfile } from "@/types/home";
@@ -17,8 +17,12 @@ import Button from "@/components/ui/Button";
 import { useHeaderSearch } from "./useHeaderSearch";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useTranslations } from "next-intl";
+import { usePathname } from "@/i18n/navigation";
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
 
 export default function HeaderSearch() {
+  const pathname = usePathname();
+  const [searchPathname, setSearchPathname] = useState(pathname);
   const t = useTranslations("shared.search.mode");
   const labels = useTranslations();
   const tp = useTranslations("content.placeholder");
@@ -37,6 +41,12 @@ export default function HeaderSearch() {
     handleInputKeyDown, handleModeChange, handleCategoryChange, clearRecentSearches,
   } = useHeaderSearch();
 
+  // 공통 헤더는 페이지 이동에도 유지된다. 이전 페이지의 전체화면 검색은 닫는다.
+  if (searchPathname !== pathname) {
+    setSearchPathname(pathname);
+    setIsMobileExpanded(false);
+  }
+
   const displayPlaceholder = mode === "content" ? tp(contentCategory) : t(`${mode}Placeholder`);
 
   // 모바일 확장 시 input에 포커스
@@ -46,14 +56,23 @@ export default function HeaderSearch() {
     }
   }, [isMobileExpanded]);
 
-  // 모바일 확장 시 스크롤 방지
+  // 인물 상세창과 겹쳐도 닫히는 순서에 관계없이 마지막 잠금만 원래 값을 복원한다.
+  useLayoutEffect(() => {
+    if (!isMobileExpanded) return;
+    lockBodyScroll();
+    return unlockBodyScroll;
+  }, [isMobileExpanded]);
+
+  // xl:hidden으로 검색창만 사라지고 스크롤 잠금은 남는 상황을 막는다.
   useEffect(() => {
-    if (isMobileExpanded) {
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = "";
-      };
-    }
+    if (!isMobileExpanded) return;
+    const desktop = window.matchMedia("(min-width: 80rem)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setIsMobileExpanded(false);
+    };
+    closeOnDesktop();
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
   }, [isMobileExpanded]);
 
   const closeMobileSearch = () => {

@@ -40,6 +40,7 @@ export default function CelebAvatarNobgButton({
   const { showToast } = useToast()
   const controlled = job !== undefined
   const [localJob, setLocalJob] = useState<ImageProcessingJob | null>(job ?? null)
+  const [reframe, setReframe] = useState(true)
   const currentJob = controlled ? job ?? null : localJob
   const notifiedJobId = useRef<string | null>(null)
   const label = name?.trim() || '인물'
@@ -95,7 +96,9 @@ export default function CelebAvatarNobgButton({
     if (currentJob.status === 'done' && currentJob.resultUrl) {
       notifiedJobId.current = currentJob.id
       onCompleted?.(currentJob.resultUrl)
-      if (!quiet) showToast('success', `${label} 아바타의 배경을 제거했습니다.`)
+      if (!quiet) showToast('success', currentJob.type === 'nobg-avatar-only'
+        ? `${label} 아바타의 구도를 유지하고 배경만 제거했습니다.`
+        : `${label} 아바타의 배경 제거와 reframe을 마쳤습니다.`)
     } else if (currentJob.status === 'error') {
       notifiedJobId.current = currentJob.id
       if (!quiet) showToast('error', currentJob.error || 'nobg 처리에 실패했습니다.')
@@ -105,7 +108,7 @@ export default function CelebAvatarNobgButton({
   async function handleNobg() {
     if (!avatarUrl || disabled || active) return
     try {
-      const next = await enqueueCelebAvatarBackgroundRemoval(celebId)
+      const next = await enqueueCelebAvatarBackgroundRemoval(celebId, reframe)
       updateJob(next)
       showToast('success', nobgQueuedMessage(label, next))
     } catch (error) {
@@ -115,25 +118,31 @@ export default function CelebAvatarNobgButton({
   }
 
   return (
-    <button
-      type="button"
-      disabled={!avatarUrl || disabled || active}
-      onClick={handleNobg}
-      className={`flex items-center justify-center gap-2 rounded-lg border border-border bg-bg-secondary px-3 py-2 text-xs font-semibold text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 ${className}`}
-      title={disabled ? '아바타 변경사항을 먼저 저장하세요.' : '로컬 PC의 birefnet-general 모델로 아바타 배경 제거'}
-    >
-      {currentJob?.status === 'running' ? (
-        <Loader2 className="h-4 w-4 animate-spin" />
-      ) : currentJob?.status === 'queued' ? (
-        <Clock3 className="h-4 w-4" />
-      ) : (
-        <ScanLine className="h-4 w-4" />
-      )}
-      {currentJob?.status === 'running'
-        ? 'CPU 처리 중…'
-        : currentJob?.status === 'queued'
-          ? `대기 ${currentJob.queuePosition}번째`
-          : 'nobg 배경 제거'}
-    </button>
+    <div className={`space-y-1.5 ${className}`}>
+      <label className="flex cursor-pointer items-center gap-1.5 text-[11px] text-text-secondary hover:text-text-primary">
+        <input type="checkbox" checked={reframe} disabled={active || disabled} onChange={(event) => setReframe(event.target.checked)} className="cursor-pointer accent-accent" />
+        reframe도 실행 (끄면 nobg만)
+      </label>
+      <button
+        type="button"
+        disabled={!avatarUrl || disabled || active}
+        onClick={handleNobg}
+        className="flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-bg-secondary px-3 py-2 text-xs font-semibold text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
+        title={disabled ? '아바타 변경사항을 먼저 저장하세요.' : reframe ? 'nobg 배경 제거 후 reframe으로 최종 구도 맞춤' : '현재 구도를 유지하고 nobg로 배경만 제거'}
+      >
+        {currentJob?.status === 'running' ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : currentJob?.status === 'queued' ? (
+          <Clock3 className="h-4 w-4" />
+        ) : (
+          <ScanLine className="h-4 w-4" />
+        )}
+        {currentJob?.status === 'running'
+          ? 'CPU 처리 중…'
+          : currentJob?.status === 'queued'
+            ? `대기 ${currentJob.queuePosition}번째`
+            : reframe ? 'nobg + reframe' : 'nobg만'}
+      </button>
+    </div>
   )
 }

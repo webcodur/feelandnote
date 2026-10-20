@@ -13,15 +13,17 @@ function assertUuid(celebId: string): void {
 }
 
 export async function enqueueCelebAvatarBackgroundRemoval(
-  celebId: string
+  celebId: string,
+  reframe = true,
 ): Promise<ImageProcessingJob> {
   await requireAdmin()
   assertUuid(celebId)
-  return enqueueImageProcessingJob('nobg-avatar', celebId)
+  return enqueueImageProcessingJob(reframe ? 'nobg-avatar' : 'nobg-avatar-only', celebId)
 }
 
 export async function enqueueCelebAvatarBackgroundRemovals(
-  celebIds: string[]
+  celebIds: string[],
+  reframe = true,
 ): Promise<ImageProcessingJob[]> {
   await requireAdmin()
   const targets = [...new Set(celebIds)].slice(0, 100)
@@ -29,7 +31,7 @@ export async function enqueueCelebAvatarBackgroundRemovals(
   const jobs: ImageProcessingJob[] = []
   // 큐 순서를 목록 순서와 맞추려면 순차로 접수해야 한다.
   for (const celebId of targets) {
-    jobs.push(await enqueueImageProcessingJob('nobg-avatar', celebId))
+    jobs.push(await enqueueImageProcessingJob(reframe ? 'nobg-avatar' : 'nobg-avatar-only', celebId))
   }
   return jobs
 }

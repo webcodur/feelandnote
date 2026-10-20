@@ -17,6 +17,9 @@ export const AVATAR_SPEC = {
   /** 눈에서 턱까지의 거리 = chinLine - eyeLine. 얼굴 크기를 정하는 값이다 */
   eyeChinSpan: 0.35,
 
+  /** 관리자에서 nobg 전에 자를 때의 여유 배율. 정수리·목을 남겨 최종 reframe이 다시 맞춘다. */
+  preparationScale: 1.38,
+
   /**
    * 좌우 치우침을 판정하고 세로 극단만 막는 범위다.
    * 얼굴 크기·얼굴 잘림·상반신 유입은 랜드마크 수치로 구분할 수 없어 사람이 검수한다.
@@ -79,11 +82,12 @@ function clampCrop(
   wantedSize: number,
   imgW: number,
   imgH: number,
-  basis: CropResult['basis']
+  basis: CropResult['basis'],
+  allowTopPadding = false,
 ): CropResult {
   const warnings: string[] = []
 
-  const size = Math.min(wantedSize, imgW, imgH)
+  const size = Math.min(wantedSize, imgW, allowTopPadding ? Infinity : imgH)
   if (size < wantedSize - 0.5) {
     const pct = Math.round((1 - size / wantedSize) * 100)
     warnings.push(
@@ -91,11 +95,16 @@ function clampCrop(
     )
   }
 
-  // 얼굴 기준점이 프레임 안에서 규격 위치를 지키도록 하되, 이미지 밖으로는 못 나간다.
+  // nobg 전 얼굴 크롭은 위쪽 원본이 없어도 얼굴 기준 위치를 유지한다.
+  // 다른 크롭은 기존처럼 원본 안으로 제한한다.
   const rawLeft = wantedLeft + (wantedSize - size) * AVATAR_SPEC.centerX
   const rawTop = wantedTop + (wantedSize - size) * AVATAR_SPEC.eyeLine
   const left = Math.max(0, Math.min(imgW - size, rawLeft))
-  const top = Math.max(0, Math.min(imgH - size, rawTop))
+  const limitedTop = Math.min(imgH - size, rawTop)
+  const top = allowTopPadding ? limitedTop : Math.max(0, limitedTop)
+  if (allowTopPadding && top < 0) {
+    warnings.push('원본 위쪽이 부족해 얼굴 위치를 유지하고 빈 부분을 투명 여백으로 채웁니다.')
+  }
 
   // 밀린 양이 프레임의 2%를 넘으면 얼굴이 규격 위치를 벗어난다.
   const driftX = Math.abs(left - rawLeft) / size
@@ -152,6 +161,18 @@ export function computeCropFromBox(
   const r = clampCrop(wantedLeft, wantedTop, wantedSize, imgW, imgH, 'box')
   r.warnings.unshift('랜드마크를 못 얻어 상자 기준으로 잘랐다 — 얼굴 크기가 규격에서 ±14% 흔들릴 수 있다')
   return r
+}
+
+/** 배경 제거 입력을 줄이고 정수리·목 여백을 남긴다. 위쪽 원본이 부족해도 위치를 밀지 않는다. */
+export function computePreparationCrop(a: FaceAnchors, imgW: number, imgH: number): CropResult {
+  const baseSize = (a.chinY - a.eyeY) / AVATAR_SPEC.eyeChinSpan
+  if (!(baseSize > 0)) throw new Error('턱이 눈보다 위에 있다 — 랜드마크가 잘못됐다')
+  const size = baseSize * AVATAR_SPEC.preparationScale
+  return clampCrop(
+    a.eyeX - size * AVATAR_SPEC.centerX,
+    a.eyeY - baseSize * AVATAR_SPEC.eyeLine - (size - baseSize) / 2,
+    size, imgW, imgH, 'landmarks', true,
+  )
 }
 
 /** 잘린 결과가 규격 안에 드는지 판정한다. 값은 프레임을 1.0으로 본 비율이다. */

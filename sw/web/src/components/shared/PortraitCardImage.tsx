@@ -14,10 +14,11 @@ interface Props {
   name: string;
   decorative?: boolean;
   imageClassName?: string;
+  onPhotoError?: (src: string) => void;
 }
 
 /** 사진·아바타·이니셜이 같은 4:5 틀을 유지한다. 실패한 주소는 현재 후보 안에서만 기억한다. */
-export default function PortraitCardImage({ portraitSrc, alternateSrc, avatarSrc, name, decorative = false, imageClassName }: Props) {
+export default function PortraitCardImage({ portraitSrc, alternateSrc, avatarSrc, name, decorative = false, imageClassName, onPhotoError }: Props) {
   const candidates = [portraitSrc?.trim(), alternateSrc?.trim(), avatarSrc?.trim()];
   const key = JSON.stringify(candidates);
   const [failed, setFailed] = useState<{ key: string; urls: string[] }>({ key, urls: [] });
@@ -30,6 +31,7 @@ export default function PortraitCardImage({ portraitSrc, alternateSrc, avatarSrc
 
   const onError = () => {
     if (!src) return;
+    if (photo) onPhotoError?.(src);
     setFailed(previous => {
       const urls = previous.key === key ? previous.urls : [];
       return urls.includes(src) ? previous : { key, urls: [...urls, src] };

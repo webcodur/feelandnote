@@ -6,7 +6,7 @@ import Cropper, { Area } from 'react-easy-crop'
 import { X, ZoomIn, ZoomOut, RotateCcw, Grid3X3, Sparkles, Loader2, AlertTriangle } from 'lucide-react'
 
 import Button from './Button'
-import { detectFaceLandmarks, calculateFaceCropArea } from '@/utils/faceDetection'
+import { detectFaceLandmarks, calculateFaceCropArea, readAvatarSilhouette } from '@/utils/faceDetection'
 
 // 휠은 한 눈금(픽셀 모드 약 100px·줄 모드 3줄)마다 0.1배씩만 움직인다.
 // 트랙패드의 미세 스크롤이 한 번에 튀지 않게 임계까지 누적한다.
@@ -18,6 +18,7 @@ const WHEEL_LINE_PIXELS = 40
 // 창에서 고른 선택은 브라우저에 남겨 다음 창에서도 그대로 쓴다.
 const AUTO_FIT_STORAGE_KEY = 'web-bo:image-crop:auto-fit'
 const NOBG_ON_APPLY_STORAGE_KEY = 'web-bo:image-crop:nobg-on-apply'
+const REFRAME_ON_APPLY_STORAGE_KEY = 'web-bo:image-crop:reframe-on-apply'
 
 function readFlag(key: string, fallback: boolean): boolean {
   if (typeof window === 'undefined') return fallback
@@ -54,9 +55,9 @@ interface Props {
   offerBackgroundRemoval?: boolean
   /**
    * 자른 그림을 무손실 PNG 데이터 URL로 넘긴다. 최종 압축은 받는 쪽(lib/image.ts)에서 한 번만 한다.
-   * 두 번째 값은 「적용과 동시에 배경 제거」를 골랐는지다. 그 처리는 호출부가 한다.
+   * 두 번째 값은 배경 제거 여부, 세 번째 값은 후속 reframe 여부다. 처리는 호출부가 한다.
    */
-  onComplete: (croppedImage: string, removeBackground: boolean) => void
+  onComplete: (croppedImage: string, removeBackground: boolean, reframe: boolean) => void
   onCancel: () => void
 }
 
@@ -129,6 +130,7 @@ export default function ImageCropModal({
   const [autoFitOnOpen, setAutoFitOnOpen] = useState(() => readFlag(AUTO_FIT_STORAGE_KEY, true))
   // 배경 제거는 로컬 CPU를 한동안 쓴다. 켜 달라고 한 사람에게만 건다.
   const [nobgOnApply, setNobgOnApply] = useState(() => readFlag(NOBG_ON_APPLY_STORAGE_KEY, false))
+  const [reframeOnApply, setReframeOnApply] = useState(() => readFlag(REFRAME_ON_APPLY_STORAGE_KEY, true))
   const [notice, setNotice] = useState<{ tone: 'warn' | 'error'; lines: string[] } | null>(null)
   /**
    * 원본을 한 번만 받아 두고 자동 맞춤·잘라내기가 함께 쓴다.
@@ -139,6 +141,8 @@ export default function ImageCropModal({
 
   // initialCroppedAreaPixels + key remount 방식
   const [initialArea, setInitialArea] = useState<Area | undefined>(undefined)
+  // 넓은 원본에서 작은 얼굴을 찾았어도 reframe 좌표가 3배 제한에 잘리지 않게 한다.
+  const [maximumZoom, setMaximumZoom] = useState(ZOOM_MAX)
   const [cropperKey, setCropperKey] = useState(0)
   const wheelRemainder = useRef(0)
 
@@ -151,11 +155,11 @@ export default function ImageCropModal({
       if (steps === 0) return false
       wheelRemainder.current -= steps * ZOOM_WHEEL_THRESHOLD
       setZoom((current) =>
-        Math.min(ZOOM_MAX, Math.max(minimumZoom, Math.round((current - steps * ZOOM_WHEEL_STEP) * 100) / 100))
+        Math.min(maximumZoom, Math.max(minimumZoom, Math.round((current - steps * ZOOM_WHEEL_STEP) * 100) / 100))
       )
       return false
     },
-    [minimumZoom]
+    [minimumZoom, maximumZoom]
   )
 
   const runAutoCrop = useCallback(async (img: HTMLImageElement) => {
@@ -169,14 +173,19 @@ export default function ImageCropModal({
         return
       }
 
-      const { area, warnings } = calculateFaceCropArea(result, img.naturalWidth, img.naturalHeight)
+      const silhouette = readAvatarSilhouette(img)
+      const { area, warnings, mode } = calculateFaceCropArea(result, img.naturalWidth, img.naturalHeight, silhouette)
 
       // react-easy-crop에게 "이 영역을 보여줘"라고 지시 → 내부에서 crop+zoom 자동 계산
       setInitialArea(area)
+      setMaximumZoom(Math.max(ZOOM_MAX, img.naturalWidth / area.width, img.naturalHeight / area.height))
       setCropperKey(k => k + 1)
 
       // 규격을 벗어난 채로 잘렸으면 조용히 넘기지 않는다
-      if (warnings.length > 0) setNotice({ tone: 'warn', lines: warnings })
+      const lines = mode === 'preparation'
+        ? ['배경 제거 전에 얼굴 주변을 넉넉히 맞췄습니다. nobg만 하거나 reframe까지 처리할 수 있습니다.', ...warnings]
+        : warnings
+      if (lines.length > 0) setNotice({ tone: 'warn', lines })
     } catch (e) {
       console.error(e)
       setNotice({
@@ -246,8 +255,8 @@ export default function ImageCropModal({
 
     // 위에서 받아 둔 원본을 그대로 쓴다. 못 받았을 때만 다시 읽는다.
     const image = sourceImage.current ?? (await createImage(imageSrc))
-    onComplete(getCroppedImage(image, croppedAreaPixels), offerBackgroundRemoval && nobgOnApply)
-  }, [croppedAreaPixels, analyzing, imageSrc, onComplete, offerBackgroundRemoval, nobgOnApply])
+    onComplete(getCroppedImage(image, croppedAreaPixels), offerBackgroundRemoval && nobgOnApply, reframeOnApply)
+  }, [croppedAreaPixels, analyzing, imageSrc, onComplete, offerBackgroundRemoval, nobgOnApply, reframeOnApply])
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -268,6 +277,7 @@ export default function ImageCropModal({
     setCrop({ x: 0, y: 0 })
     setZoom(1)
     setInitialArea(undefined)
+    setMaximumZoom(ZOOM_MAX)
     setCropperKey(k => k + 1)
     setNotice(null)
   }
@@ -303,6 +313,7 @@ export default function ImageCropModal({
             crop={crop}
             zoom={zoom}
             minZoom={minimumZoom}
+            maxZoom={maximumZoom}
             aspect={aspectRatio}
             onCropChange={setCrop}
             onZoomChange={setZoom}
@@ -363,7 +374,7 @@ export default function ImageCropModal({
             <input
               type="range"
               min={minimumZoom}
-              max={3}
+              max={maximumZoom}
               step={allowTransparentPadding ? 0.05 : 0.1}
               value={zoom}
               onChange={(e) => setZoom(Number(e.target.value))}
@@ -422,9 +433,20 @@ export default function ImageCropModal({
                 </StickyCheckbox>
               )}
               {offerBackgroundRemoval && (
-                <StickyCheckbox checked={nobgOnApply} onChange={toggleNobgOnApply}>
-                  적용과 동시에 nobg 배경 제거
-                </StickyCheckbox>
+                <>
+                  <StickyCheckbox checked={nobgOnApply} onChange={toggleNobgOnApply}>
+                    적용 후 nobg 배경 제거
+                  </StickyCheckbox>
+                  {nobgOnApply && (
+                    <StickyCheckbox checked={reframeOnApply} onChange={() => {
+                      const next = !reframeOnApply
+                      writeFlag(REFRAME_ON_APPLY_STORAGE_KEY, next)
+                      setReframeOnApply(next)
+                    }}>
+                      배경 제거 후 reframe도 실행 (끄면 nobg만)
+                    </StickyCheckbox>
+                  )}
+                </>
               )}
             </div>
           )}

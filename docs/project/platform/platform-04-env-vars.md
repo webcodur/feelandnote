@@ -23,6 +23,8 @@
 
 GA 인증 파일은 `sw/web/credentials/ga-service-account.json` 한 곳에 둔다. 검색 콘솔 점검 스크립트 `sw/remotion/scripts/_scratch-gsc-url-inspect.mjs`도 이 파일을 읽는다.
 
+Daum 웹마스터 PIN은 로컬 운영용 `credentials/daum-webmaster-pin.txt`에 둔다. `.gitignore`의 `**/credentials/`로 제외되며, 새 컴퓨터에서 Daum 수집 작업을 하려면 이 파일도 별도로 옮긴다.
+
 저장소 **밖** 파일도 6종 있다.
 
 | 파일 | 위치 | 용도 |

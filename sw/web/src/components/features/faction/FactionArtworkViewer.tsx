@@ -85,6 +85,7 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
   const slideCount = images.length;
   const zIndex = Z_INDEX.modal + (nested ? 1 : 0);
   const image = images[index] ?? images[0];
+  const hasImage = Boolean(image);
   const isEnding = Boolean(image?.card);
   const storyCount = sourceImages.filter(item => item.opening).length;
   useEffect(() => { onIndexChange?.(image?.sourceIndex ?? index) }, [index, image?.sourceIndex, onIndexChange]);
@@ -165,7 +166,7 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
   useWheelPaging(viewerBodyRef, {
     onPrev: () => navigate(-1),
     onNext: () => navigate(1),
-    enabled: !navigatorOpen,
+    enabled: hasImage && !navigatorOpen,
     consumeWheel: (event) => {
       const element = viewerBodyRef.current;
       if (!element) return false;
@@ -196,6 +197,7 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
   /* Esc는 줌 모드부터 빠지고 그다음 창을 닫는다 — nested면 캡처로 아래 깔린 모달보다 먼저 잡는다.
      전체화면 창이라 바깥 스크롤은 공용 카운트 잠금으로 직접 잠근다 */
   useEffect(() => {
+    if (!hasImage) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
       /* 바로가기가 떠 있으면 그 모달이 Esc를 처리한다 — 여기서 전파를 끊으면 바로가기가 못 닫는다 */
@@ -209,13 +211,14 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
     document.addEventListener("keydown", onKeyDown, nested);
     lockBodyScroll();
     return () => { document.removeEventListener("keydown", onKeyDown, nested); unlockBodyScroll(); };
-  }, [onClose, nested, navigatorOpen, captionSelect, zoomView.scale, infoOpen]);
+  }, [hasImage, onClose, nested, navigatorOpen, captionSelect, zoomView.scale, infoOpen]);
   /* 모달이 하던 일 — 열릴 때 닫기 버튼으로 포커스를 옮기고, 닫히면 열었던 요소로 돌려준다 */
   useEffect(() => {
+    if (!hasImage) return;
     const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     closeButtonRef.current?.focus();
     return () => previous?.focus();
-  }, []);
+  }, [hasImage]);
   // 장면이 바뀌면 읽을 자막과 확대 상태를 초기화한다.
   const [prevIndex, setPrevIndex] = useState(index);
   if (prevIndex !== index) {

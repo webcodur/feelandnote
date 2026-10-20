@@ -5,7 +5,8 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import { resolve, join, parse as parsePath } from 'node:path'
 import { parseArgs } from 'node:util'
 import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
-import { AVATAR_SILHOUETTE_SPEC, computeCropFromSilhouette } from '../../src/lib/avatar-geometry'
+import { AVATAR_SILHOUETTE_SPEC } from '../../src/lib/avatar-geometry'
+import { computeReframeCrop } from '../../src/lib/avatar-reframe'
 import { loadModels, anchorsOf, silhouetteOf } from './reframe-detection'
 import { removeBackgrounds } from './reframe-nobg'
 import { makeSheet, type Row } from './reframe-sheet'
@@ -83,19 +84,11 @@ async function main() {
         console.log(`  ${name} — 그룹 ${anchors.faceCount}명 확인, 전체 정사각 보존 (개인 기하 기준 미적용)`)
         continue
       }
-      const crop = computeCropFromSilhouette(anchors, sil, sil.W, sil.H)
+      const crop = computeReframeCrop(anchors, sil, sil.W, sil.H)
       // 좌우로 원본 밖으로 나간 만큼 투명으로 넓힌 뒤 자른다.
       // sharp는 한 파이프라인 안에서 extend를 extract 뒤에 적용하므로 넓히기를 별도 단계로 끝내고 자른다.
       const padL = Math.max(0, -crop.left)
       const padR = Math.max(0, crop.left + crop.size - sil.W)
-      // 폭이 모자란 원본의 잘린 어깨 옆에 투명 띠를 붙이면 정사각 화면에 절단선이 드러난다.
-      // 빈 배경만 넓힐 수 있다. 양쪽 변에 실루엣이 닿는 좁은 원본은 재구성이 필요하다.
-      const visibleLeft = sil.rowLeft?.slice(crop.top, crop.top + crop.size) ?? []
-      const visibleRight = sil.rowRight?.slice(crop.top, crop.top + crop.size) ?? []
-      if ((padL && visibleLeft.some((x) => x === 0)) ||
-          (padR && visibleRight.some((x) => x >= sil.W - 1))) {
-        throw new Error('원본 가로폭 부족: 잘린 실루엣 옆 투명 패딩 금지. 더 넓은 원본으로 재구성 필요')
-      }
       const canvas =
         padL || padR
           ? await sharp(buf)

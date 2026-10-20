@@ -12,8 +12,8 @@ import type { ImageProcessingJob } from '@/lib/image-processing/types'
 import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
 import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedCelebPortraitEditor'
 import PersistedCelebAwakenedImageEditor from '@/components/celeb/awakened/PersistedCelebAwakenedImageEditor'
-import CelebAvatarNobgButton from '@/components/celeb/avatar/CelebAvatarNobgButton'
 import { useToast } from '@/contexts/ToastContext'
+import { fetchCelebImage as fetchClipboardImage } from '@/components/celeb/image-drag'
 import NobgBatchBar from './NobgBatchBar'
 import QuickImageBar from './QuickImageBar'
 import { useQuickImageInbox, type ImageSlot, type ImageTarget } from './useQuickImageInbox'
@@ -78,6 +78,7 @@ export default function CelebImageGrid({
   const [quickImageOn, setQuickImageOn] = useState(true)
   const [batchCelebIds, setBatchCelebIds] = useState<string[]>([])
   const [batchSubmitting, setBatchSubmitting] = useState(false)
+  const [batchReframe, setBatchReframe] = useState(true)
 
   const targetCelebId = pinnedCelebId ?? visibleCelebId
   const target: ImageTarget | null = targetCelebId
@@ -202,8 +203,8 @@ export default function CelebImageGrid({
     showToast(
       batchStats.error > 0 ? 'error' : 'success',
       batchStats.error > 0
-        ? `배경 제거 ${batchStats.done}명 완료, ${batchStats.error}명 실패했습니다.`
-        : `${batchStats.done}명의 배경 제거를 마쳤습니다.`
+        ? `배경 처리 ${batchStats.done}명 완료, ${batchStats.error}명 실패했습니다.`
+        : `${batchStats.done}명의 배경 처리를 마쳤습니다.`
     )
     setBatchCelebIds([])
   }, [batchCelebIds.length, batchStats.running, batchStats.done, batchStats.error, showToast])
@@ -211,14 +212,14 @@ export default function CelebImageGrid({
   async function handleRunAllNobg() {
     if (batchSubmitting || nobgTargets.length === 0) return
     const confirmed = window.confirm(
-      `목록에 보이는 ${nobgTargets.length}명의 얼굴 사진 배경을 제거합니다.
+      `목록에 보이는 ${nobgTargets.length}명의 얼굴 사진을 ${batchReframe ? '배경 제거 후 reframe으로 맞춥니다' : '현재 구도를 유지하고 배경만 제거합니다'}.
 결과가 기존 얼굴 사진을 덮어씁니다. 진행할까요?`
     )
     if (!confirmed) return
 
     setBatchSubmitting(true)
     try {
-      const jobs = await enqueueCelebAvatarBackgroundRemovals(nobgTargets.map((celeb) => celeb.id))
+      const jobs = await enqueueCelebAvatarBackgroundRemovals(nobgTargets.map((celeb) => celeb.id), batchReframe)
       setJobsByCeleb((current) => {
         const next = { ...current }
         for (const job of jobs) next[job.celebId] = job
@@ -253,6 +254,8 @@ export default function CelebImageGrid({
         doneCount={batchStats.done}
         errorCount={batchStats.error}
         submitting={batchSubmitting}
+        reframe={batchReframe}
+        onReframeChange={setBatchReframe}
         onRun={handleRunAllNobg}
       />
       <div className="grid grid-cols-1 gap-px bg-border">
@@ -410,7 +413,12 @@ function CelebImageCard({
             avatarUrl={avatarUrl}
             name={celeb.nickname}
             onSaved={onAvatarUrlChange}
-            onBackgroundRemovalQueued={onImageJobChange}
+            backgroundRemovalControls={{
+              job: imageJob,
+              poll: false,
+              quiet: quietJobNotice,
+              onJobChange: onImageJobChange,
+            }}
             refreshAfterSave={false}
             openOnClick
             pasteActive={targetSlot === 'avatar'}
@@ -420,17 +428,6 @@ function CelebImageCard({
             className="h-[280px] w-[280px] shrink-0 rounded-xl"
             previewClassName="h-[280px] w-[280px] rounded-xl border border-border hover:border-accent"
             empty={<Star className="h-10 w-10 text-text-tertiary" />}
-          />
-          <CelebAvatarNobgButton
-            celebId={celeb.id}
-            name={celeb.nickname}
-            avatarUrl={avatarUrl}
-            job={imageJob}
-            poll={false}
-            quiet={quietJobNotice}
-            onJobChange={onImageJobChange}
-            onCompleted={onAvatarUrlChange}
-            className="mt-2 w-full"
           />
         </figure>
 
@@ -532,17 +529,6 @@ function ImageCaption({
       </button>
     </figcaption>
   )
-}
-
-async function fetchClipboardImage(url: string): Promise<Blob> {
-  const response = await fetch(`/api/admin/image-clipboard?url=${encodeURIComponent(url)}`, {
-    cache: 'no-store',
-  })
-  if (!response.ok) {
-    const payload = await response.json().catch(() => null) as { error?: string } | null
-    throw new Error(payload?.error || `이미지 조회 실패: HTTP ${response.status}`)
-  }
-  return response.blob()
 }
 
 async function convertRenderedImageToPng(image: HTMLImageElement): Promise<Blob> {

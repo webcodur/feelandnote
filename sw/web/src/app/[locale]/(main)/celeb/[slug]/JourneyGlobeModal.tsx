@@ -12,6 +12,7 @@ import { ArrowLeft, ArrowRight, MapPin, X } from "lucide-react";
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import { Z_INDEX } from "@/constants/zIndex";
+import { lockDocumentScroll, unlockDocumentScroll } from "@/lib/scrollLock";
 
 interface Props {
   open: boolean;
@@ -58,10 +59,7 @@ export default function JourneyGlobeModal({
       document.activeElement instanceof HTMLElement
         ? document.activeElement
         : null;
-    const previousOverflow = document.body.style.overflow;
-    const previousRootOverflow = document.documentElement.style.overflow;
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
+    lockDocumentScroll();
 
     const handleKeyDown = (keyboardEvent: KeyboardEvent) => {
       if (keyboardEvent.key === "Escape") {
@@ -90,8 +88,7 @@ export default function JourneyGlobeModal({
     return () => {
       cancelAnimationFrame(focusFrame);
       window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = previousOverflow;
-      document.documentElement.style.overflow = previousRootOverflow;
+      unlockDocumentScroll();
       previouslyFocused?.focus();
     };
   }, [onClose, open]);

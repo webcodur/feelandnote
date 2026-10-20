@@ -11,6 +11,7 @@ import { useCallback, useEffect, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Z_INDEX } from "@/constants/zIndex";
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
 import { setGameFullScreenLayer } from "@/components/layout/musicPlayerSlots";
 import MythBackdrop from "./MythBackdrop";
 import MythTopBar from "./MythTopBar";
@@ -35,14 +36,13 @@ export default function MythGameFrame({ title, phaseLabel, onTitleClick, isFixtu
 
   // 틀이 떠 있는 동안 뒤 화면이 따라 굴러가지 않게 막고, ESC로 목록에 돌아간다
   useEffect(() => {
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") goHub();
     };
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = previous;
+      unlockBodyScroll();
       window.removeEventListener("keydown", onKey);
     };
   }, [goHub]);
