@@ -26,6 +26,7 @@ import {
   createCaddyTrafficPolicySource,
   CADDY_MAX_CONCURRENT_REQUESTS,
   CADDY_KEEPALIVE_MS,
+  CADDY_ADMISSION_RETRY_EXPRESSION,
   deploymentTargetForPath,
   legacyReleasesRootRemoveArgs,
   inspectVersionedDeploymentHtml,
@@ -310,10 +311,14 @@ test('origin admission bounds every public listener while retaining headers and 
     assert.equal(handler.health_checks.passive.fail_duration, proxy.health_checks.passive.fail_duration)
     assert.ok(handler.health_checks.passive.max_fails > 0, 'Idle origins must stay available on Caddy 2.6')
     assert.equal(handler.health_checks.passive.unhealthy_request_count, CADDY_MAX_CONCURRENT_REQUESTS)
+    assert.equal(handler.load_balancing.try_duration, 2_000_000_000)
+    assert.equal(handler.load_balancing.try_interval, 50_000_000)
+    assert.deepEqual(handler.load_balancing.retry_match, [{ expression: CADDY_ADMISSION_RETRY_EXPRESSION }])
   }
   assert.deepEqual(createCaddyTrafficPolicy(bounded), bounded)
   const bridged = createBridgeCaddyConfig(bounded, 3100)
   assert.equal(bridged.routes[0].transport.max_conns_per_host, CADDY_MAX_CONCURRENT_REQUESTS)
+  assert.deepEqual(bridged.routes[0].load_balancing, bounded.routes[0].load_balancing)
   assert.throws(() => createCaddyTrafficPolicy(bridged), /primary upstream/)
 })
 
@@ -323,6 +328,8 @@ test('persistent Caddy admission is idempotent and preserves security and redire
   const bounded = createCaddyTrafficPolicySource(source)
   assert.equal(createCaddyTrafficPolicySource(bounded), bounded)
   assert.equal(bounded.split('unhealthy_request_count').length, 2)
+  assert.ok(bounded.includes('lb_try_duration 2000ms'))
+  assert.ok(bounded.includes('lb_try_interval 50ms'))
   assert.ok(bounded.includes('header_up X-Real-IP {http.request.header.Cf-Connecting-Ip}'))
   assert.ok(bounded.includes('mode require_and_verify'))
   assert.throws(() => createCaddyTrafficPolicySource(source.replace(':3000 {', ':3100 {')), /one primary/)

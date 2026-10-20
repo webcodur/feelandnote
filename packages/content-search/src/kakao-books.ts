@@ -80,7 +80,7 @@ function isIsbnQuery(query: string): boolean {
 }
 
 // 카카오 썸네일은 R120x174로 작다. fname에 담긴 원본 주소를 꺼내 고화질을 쓴다.
-function toCoverUrl(thumbnail: string): string | null {
+export function normalizeKakaoBookCoverUrl(thumbnail: string): string | null {
   if (!thumbnail) return null
 
   const fname = new URL(thumbnail).searchParams.get('fname')
@@ -162,7 +162,7 @@ function toResult(book: KakaoBook): KakaoBookSearchResult {
     category: 'book',
     title: normalizeKakaoBookTitle(book.title, creator),
     creator,
-    coverImageUrl: toCoverUrl(book.thumbnail),
+    coverImageUrl: normalizeKakaoBookCoverUrl(book.thumbnail),
     metadata: {
       publisher: book.publisher,
       publishDate: formatPubDate(book.datetime),

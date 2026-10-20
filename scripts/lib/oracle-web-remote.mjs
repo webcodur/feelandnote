@@ -36,6 +36,13 @@ export const PRIMARY_PORT = 3000
 // A 3 GiB origin normally peaks below 30 concurrent requests. Keep bursts outside Node.
 export const CADDY_MAX_CONCURRENT_REQUESTS = 64
 export const CADDY_KEEPALIVE_MS = 4_000
+export const CADDY_ADMISSION_WAIT_MS = 2_000
+export const CADDY_ADMISSION_RETRY_MS = 50
+// Caddy 2.6 also consults retry_match when admission rejects an unsent POST.
+// A selected upstream sets this placeholder: never replay a POST after that point.
+export const CADDY_ADMISSION_RETRY_EXPRESSION = '{http.request.method} == "GET" || '
+  + '({http.request.method} == "POST" && {http.request.uri.path} in ["/api/revalidate", "/api/revalidate/v2"] '
+  + '&& {http.reverse_proxy.upstream.address} == null)'
 const CADDY_PASSIVE_MAX_FAILS = 1
 export const TRAFFIC_DRAIN_MS = 5_000
 export const STATIC_ASSET_RETENTION_MS = 35 * 24 * 60 * 60 * 1_000
@@ -128,6 +135,10 @@ export function createCaddyTrafficPolicy(config) {
     if (handler.transport?.protocol && handler.transport.protocol !== 'http') throw new Error('Unsupported upstream transport')
     handler.transport = { ...handler.transport, protocol: 'http', max_conns_per_host: CADDY_MAX_CONCURRENT_REQUESTS,
       keep_alive: { ...handler.transport?.keep_alive, idle_timeout: CADDY_KEEPALIVE_MS * 1_000_000 } }
+    handler.load_balancing = { ...handler.load_balancing,
+      try_duration: CADDY_ADMISSION_WAIT_MS * 1_000_000,
+      try_interval: CADDY_ADMISSION_RETRY_MS * 1_000_000,
+      retry_match: [{ expression: CADDY_ADMISSION_RETRY_EXPRESSION }] }
     handler.health_checks = { ...handler.health_checks,
       // Caddy 2.6 defaults this to zero when fail_duration is absent, marking even idle hosts down.
       passive: { max_fails: CADDY_PASSIVE_MAX_FAILS, ...handler.health_checks?.passive,
@@ -144,6 +155,9 @@ export function createCaddyTrafficPolicySource(source) {
   return clean.replace(start, `$1\t\t# Feel&Note upstream admission\n`
     + `\t\tunhealthy_request_count ${CADDY_MAX_CONCURRENT_REQUESTS}\n`
     + `\t\tmax_fails ${CADDY_PASSIVE_MAX_FAILS}\n`
+    + `\t\tlb_try_duration ${CADDY_ADMISSION_WAIT_MS}ms\n`
+    + `\t\tlb_try_interval ${CADDY_ADMISSION_RETRY_MS}ms\n`
+    + `\t\tlb_retry_match {\n\t\t\texpression \`${CADDY_ADMISSION_RETRY_EXPRESSION}\`\n\t\t}\n`
     + `\t\ttransport http {\n\t\t\tmax_conns_per_host ${CADDY_MAX_CONCURRENT_REQUESTS}\n`
     + `\t\t\tkeepalive ${CADDY_KEEPALIVE_MS}ms\n\t\t}\n`
     + `\t\t# End Feel&Note upstream admission\n`)

@@ -4,13 +4,14 @@ import { createRequire } from 'node:module'
 import test from 'node:test'
 import sharp from 'sharp'
 import ts from 'typescript'
+import * as imageOrigin from './seoImageOrigin'
 
 const require = createRequire(import.meta.url)
 const compiled = ts.transpileModule(readFileSync(new URL('./seoImage.ts', import.meta.url), 'utf8'), {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
 }).outputText
 
-function loadImageModule(fetcher: () => Promise<Response>) {
+function loadImageModule(fetcher: (url: URL) => Promise<Response>) {
   const loaded = { exports: {} as {
     createSquareSeoImage: (url: string | null, variant: string) => Promise<Buffer>
     createSeoImageResponse: (image: Buffer) => Response
@@ -18,12 +19,41 @@ function loadImageModule(fetcher: () => Promise<Response>) {
   } }
   new Function('require', 'module', 'exports', compiled)((id: string) => {
     if (id === 'server-only') return {}
-    if (id === '@/lib/seoImageOrigin') return { isAllowedSeoImageUrl: () => true }
+    if (id === '@/lib/seoImageOrigin') return imageOrigin
     if (id === '@/lib/rawFetch') return { rawFetch: fetcher }
     return require(id)
   }, loaded, loaded.exports)
   return loaded.exports
 }
+
+test('stored Kakao cover wrappers download their allowed HTTPS original before rendering', async () => {
+  const source = await sharp({ create: { width: 120, height: 174, channels: 3, background: '#e05020' } }).png().toBuffer()
+  const fetched: string[] = []
+  const images = loadImageModule(async url => {
+    fetched.push(url.href)
+    return new Response(new Uint8Array(source), { headers: { 'content-type': 'image/png' } })
+  })
+  const wrapper = 'https://search1.kakaocdn.net/thumb/R120x174/?fname=' + encodeURIComponent('http://t1.daumcdn.net/book/cover.jpg')
+  const response = images.createSeoImageResponse(await images.createSquareSeoImage(wrapper, 'content'))
+  assert.equal(response.status, 200)
+  assert.deepEqual(fetched, ['https://t1.daumcdn.net/book/cover.jpg'])
+  assert.equal((await sharp(Buffer.from(await response.arrayBuffer())).metadata()).width, 800)
+})
+
+test('Kakao wrappers and redirects cannot bypass the image origin policy', async () => {
+  let fetched = 0
+  const images = loadImageModule(async () => {
+    fetched++
+    return new Response(null, { status: 302, headers: { location: 'http://127.0.0.1/private' } })
+  })
+  for (const target of ['http://127.0.0.1/private', 'https://t1.daumcdn.net.attacker.example/cover.jpg']) {
+    const wrapper = 'https://search1.kakaocdn.net/thumb/?fname=' + encodeURIComponent(target)
+    await assert.rejects(images.createSquareSeoImage(wrapper, 'content'), /허용되지 않은 이미지 호스트/)
+  }
+  assert.equal(fetched, 0)
+  await assert.rejects(images.createSquareSeoImage('https://t1.daumcdn.net/cover.jpg', 'content'), /허용되지 않은 이미지 호스트/)
+  assert.equal(fetched, 1)
+})
 
 async function render(source: Buffer, variant = 'person') {
   return loadImageModule(async () => new Response(new Uint8Array(source), { headers: { 'content-type': 'image/png' } }))

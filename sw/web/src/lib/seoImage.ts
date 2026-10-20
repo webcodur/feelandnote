@@ -2,7 +2,7 @@ import 'server-only'
 
 import sharp from 'sharp'
 import { rawFetch } from '@/lib/rawFetch'
-import { isAllowedSeoImageUrl } from '@/lib/seoImageOrigin'
+import { isAllowedSeoImageUrl, normalizeSeoImageUrl } from '@/lib/seoImageOrigin'
 
 export const SEO_IMAGE_SIZE = 800
 
@@ -15,6 +15,7 @@ async function fetchImageBuffer(sourceUrl: string): Promise<Buffer> {
   let currentUrl = new URL(sourceUrl)
 
   for (let redirectCount = 0; redirectCount <= MAX_REDIRECTS; redirectCount += 1) {
+    currentUrl = normalizeSeoImageUrl(currentUrl)
     if (!isAllowedSeoImageUrl(currentUrl)) {
       throw new Error(`허용되지 않은 이미지 호스트: ${currentUrl.hostname}`)
     }
