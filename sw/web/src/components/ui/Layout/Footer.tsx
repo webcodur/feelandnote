@@ -12,6 +12,7 @@ import { Youtube } from "lucide-react";
 import { FOOTER_SECTIONS, getSupportShopLinks } from "@/constants/navigation";
 import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
 import { getYoutubeChannel } from "@/constants/youtube";
+import { SITE_BLOG_URLS } from "@feelandnote/shared/constants/site-brand";
 import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 
@@ -29,6 +30,10 @@ export default async function Footer() {
   const isDev = process.env.NODE_ENV !== "production";
   const isEn = locale === "en";
   const copyright = `© ${currentYear} ${t("layout.footer.copyright")}`;
+  const blogs = [
+    { url: SITE_BLOG_URLS.books, label: t("layout.footer.bookBlog") },
+    { url: SITE_BLOG_URLS.cinema, label: t("layout.footer.cinemaBlog") },
+  ];
 
   return (
     <footer className="w-full border-t border-line bg-bg-secondary text-text-primary">
@@ -37,6 +42,19 @@ export default async function Footer() {
         <div className="mb-8 flex flex-col items-center gap-2 text-center md:mb-10">
           <Logo size="sm" variant="default" />
           <p className="text-sm text-text-secondary">{t("layout.footer.tagline")}</p>
+          <nav aria-label={t("layout.footer.officialChannels")} className="flex flex-wrap items-center justify-center gap-x-4">
+            {blogs.map((blog) => (
+              <a
+                key={blog.url}
+                href={blog.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center rounded-control px-2 text-sm text-text-secondary hover:text-accent active:text-accent-dim focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                {blog.label}
+              </a>
+            ))}
+          </nav>
         </div>
 
         {/* 섹션 링크 — 휴대폰 2열 가운데, 넓은 화면 4열 */}

@@ -3,7 +3,7 @@
     "title": "필앤노트(feelandnote) — 인물의 책·영화·음악 감상 아카이브",
     "titleTemplate": "%s | 필앤노트",
     "brandHeading": "필앤노트(feelandnote)",
-    "brandAlias": "인물의 감상 아카이브",
+    "brandAlias": "필앤노트 · 인물의 감상 아카이브",
     "description": "필앤노트(feelandnote)는 역사적 인물과 현대 인사가 읽고, 보고, 듣고, 즐긴 작품과 감상 기록을 모은 문화 아카이브입니다.",
     "keywords": [
       "감상 기록",
@@ -69,7 +69,10 @@
       "tagline": "한 줄의 기록, 천 년의 울림",
       "neoPantheon": "신들의 기록관",
       "copyright": "feelandnote. All rights reserved.",
-      "archiveOfTaste": "감상의 기록관"
+      "archiveOfTaste": "감상의 기록관",
+      "officialChannels": "필앤노트 공식 채널",
+      "bookBlog": "필앤노트 북클럽",
+      "cinemaBlog": "필앤노트 시네마"
     },
     "update": {
       "title": "새 버전이 나왔습니다",

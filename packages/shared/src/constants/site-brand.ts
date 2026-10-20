@@ -4,3 +4,8 @@ export const SITE_NAME_KO = '필앤노트';
 export const ADMIN_NAME = `${SITE_NAME} Admin`;
 export const SITE_URL = 'https://feelandnote.com';
 export const SITE_ALTERNATE_NAMES = [SITE_NAME_KO, new URL(SITE_URL).hostname] as const;
+
+export const SITE_BLOG_URLS = {
+  books: 'https://blog.naver.com/dmx777',
+  cinema: 'https://feelandnote-cinema.tistory.com/',
+} as const;

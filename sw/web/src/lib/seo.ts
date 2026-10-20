@@ -2,7 +2,7 @@ import { getLocale } from 'next-intl/server';
 import { YOUTUBE_CHANNELS } from '@/constants/youtube';
 import { summarizeSentences } from './seoSentences';
 import { isSupportShopPath, isSupportShopAvailable } from '@/constants/navigation';
-import { SITE_NAME, SITE_URL, SITE_ALTERNATE_NAMES } from '@feelandnote/shared/constants/site-brand';
+import { SITE_NAME, SITE_URL, SITE_ALTERNATE_NAMES, SITE_BLOG_URLS } from '@feelandnote/shared/constants/site-brand';
 
 export { SITE_NAME, SITE_NAME_KO, SITE_URL, SITE_ALTERNATE_NAMES } from '@feelandnote/shared/constants/site-brand';
 export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
@@ -22,7 +22,7 @@ export function getOrganizationJsonLd(description: string) {
     logo: `${SITE_URL}/icon.png`,
     description,
     email: 'mailto:feelandnote@gmail.com',
-    sameAs: [YOUTUBE_CHANNELS.ko.url, YOUTUBE_CHANNELS.en.url],
+    sameAs: [YOUTUBE_CHANNELS.ko.url, YOUTUBE_CHANNELS.en.url, ...Object.values(SITE_BLOG_URLS)],
   };
 }
 
