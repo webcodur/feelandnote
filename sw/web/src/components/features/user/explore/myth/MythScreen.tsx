@@ -8,6 +8,7 @@ import type { MythData, MythPerson, MythWork } from "@/actions/home/mythTypes";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import AtlasNavigation from "./AtlasNavigation";
 import AtlasMemberControls from "./AtlasMemberControls";
+import AtlasMemberFooter from "./AtlasMemberFooter";
 import CardImageToggle from "@/components/shared/CardImageToggle";
 import type { CelebCardImage } from "@/components/shared/CelebCard";
 import AtlasPicker from "./AtlasPicker";
@@ -308,7 +309,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
       {hasContent && activeMyth ? (
         <>
           <div className={layout.membersOuter}>
-            <HubSection id="atlas-members" title={`${memberTitle} (${t("groupMemberCount", { count: railPeople.length })})`}
+            <HubSection id="atlas-members" tabIndex={-1} className="outline-none" title={`${memberTitle} (${t("groupMemberCount", { count: railPeople.length })})`}
               headerActions={
                 <div className="flex flex-wrap items-center justify-center gap-2">
                   <AtlasMemberControls disabled={groupChoices.length < 2} open={groupOverviewOpen}
@@ -321,6 +322,8 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
                 <MythPersonPicker key={`${activeMyth.id}-${activeGroup?.id ?? "all"}`}
                   people={railPeople} selectedId={selectedPersonId} onSelect={setSelectedPersonId}
                   name={memberTitle} imageMode={cardImage} mythId={activeMyth.id} />
+                {groupChoices.length > 1 && <AtlasMemberFooter groupKey={`${activeMyth.id}-${activeGroup?.id ?? "all"}`}
+                  open={groupOverviewOpen} onStep={stepGroup} onOpen={() => setGroupOverviewOpen(true)} />}
               </div>
             </HubSection>
           </div>
