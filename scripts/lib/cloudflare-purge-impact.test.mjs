@@ -19,6 +19,15 @@ test('atlas participation and portrait stepping do not invalidate cached detail 
   assert.deepEqual(impact.scopes, ['none'])
 })
 
+test('explore preferences and atlas group footers only affect uncached listing screens', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/home/useExplorePreferences.ts',
+    'sw/web/src/constants/exploreFilters.ts',
+    'sw/web/src/lib/explorePreferences.ts',
+    'sw/web/src/components/features/user/explore/myth/AtlasMemberFooter.tsx',
+  ]).scopes, ['none'])
+})
+
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
 test('scroll fixes refresh cached consumers while myth game frames need no HTML purge', () => {

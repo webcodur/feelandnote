@@ -708,6 +708,10 @@ function classifyFile(file) {
     'sw/web/src/app/[locale]/(main)/explore/figures/sections.tsx',
     'sw/web/src/components/features/home/CelebCarousel.tsx',
     'sw/web/src/components/features/home/useCelebFilters.ts',
+    // 탐색 목록의 기본값·브라우저 저장은 위 명부에서만 소비한다.
+    'sw/web/src/components/features/home/useExplorePreferences.ts',
+    'sw/web/src/constants/exploreFilters.ts',
+    'sw/web/src/lib/explorePreferences.ts',
     'sw/web/src/components/features/home/useCelebListingRequest.ts',
     'sw/web/src/lib/boundedJsonCache.ts',
     'sw/web/src/lib/latestRequest.ts',
