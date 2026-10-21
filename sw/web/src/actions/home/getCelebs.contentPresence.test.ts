@@ -112,7 +112,7 @@ test('without works filters the complete RPC result before range and uses the ma
 test('country trends promote filtered matches across pages without omissions or duplicates', async () => {
   const f = fixture(['120', '121', '119', '118', '117'])
   const params = { sortBy: 'country_trending', trendCountry: 'US', contentPresence: 'with', limit: 2, includeViewerState: false,
-    profession: 'entrepreneur', nationality: 'US', contentType: 'BOOK', gender: 'male', search: 'name', factionId: 'tag',
+    profession: 'entrepreneur', nationality: 'US', contentType: 'BOOK', gender: 'male', search: 'name', factionId: '00000000-0000-4000-8000-000000000001',
     tiers: ['full'], realities: ['REAL'], birthYearMin: 1900, birthYearMax: 2000 }
   const pages = []
   for (let page = 1; page <= 41; page++) pages.push(await f.getCelebs({ ...params, page }))
@@ -136,7 +136,7 @@ test('country trends promote filtered matches across pages without omissions or 
     assert.equal(call.args.p_content_type, 'BOOK')
     assert.equal(call.args.p_gender, 'male')
     assert.equal(call.args.p_search, 'name')
-    assert.equal(call.args.p_faction_id, 'tag')
+    assert.equal(call.args.p_faction_id, '00000000-0000-4000-8000-000000000001')
     assert.deepEqual(call.args.p_celeb_tiers, ['full'])
     assert.deepEqual(call.args.p_celeb_realities, ['REAL'])
     assert.equal(call.args.p_birth_year_min, 1900)

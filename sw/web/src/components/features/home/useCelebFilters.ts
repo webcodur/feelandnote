@@ -15,6 +15,11 @@ import { CELEB_SORT_OPTIONS, DEFAULT_EXPLORE_SORT } from "@/constants/celebSort"
 import { parseTrendCountry, TREND_COUNTRY_COOKIE, TREND_COUNTRY_COOKIE_MAX_AGE, type TrendCountry } from "@/constants/trendCountries";
 import { CELEB_LISTING_LIMITS, listingPage, listingPageSize } from "@/constants/celebListingPolicy";
 import { useCelebListingRequest } from "./useCelebListingRequest";
+import { DEFAULT_EXPLORE_CONTENT_TYPE, parseExploreContentType } from "@/constants/exploreFilters";
+import { createExplorePreferences, restoreExplorePreferenceUrl } from "@/lib/explorePreferences";
+import { parseFilterParams } from "@/app/[locale]/(main)/explore/figures/filterParams";
+import type { CelebCardImage } from "@/components/shared/CelebCard";
+import { useExplorePreferences } from "./useExplorePreferences";
 
 // #region 상수
 export const SORT_VALUES = CELEB_SORT_OPTIONS;
@@ -93,7 +98,8 @@ export function useCelebFilters({
   const { isLoading, listingError, loadListing, invalidateListingCache } = useCelebListingRequest();
   const [profession, setProfession] = useState<string>(() => getInitialValue("profession", syncToUrl ? DEFAULT_EXPLORE_PROFESSION : "all"));
   const [nationality, setNationality] = useState<string>(() => getInitialValue("nationality", "all"));
-  const [contentType, setContentType] = useState<string>(() => getInitialValue("contentType", "all"));
+  const [contentType, setContentType] = useState<string>(() => syncToUrl ? parseExploreContentType(searchParams.get("contentType")) : "all");
+  const [cardImage, setCardImage] = useState<CelebCardImage>("avatar");
   const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", syncToUrl ? DEFAULT_EXPLORE_SORT : "daily_recommend", SORT_VALUES));
   const [contentPresence, setContentPresence] = useState<CelebContentPresence>(() => syncToUrl ? parseExploreContentPresence(searchParams.get("contentPresence"), searchParams.get("tier")) : "all");
   const [gender, setGender] = useState<string>(() => getInitialValue("gender", "all"));
@@ -133,6 +139,26 @@ export function useCelebFilters({
   };
   const [birthYearMin, setBirthYearMin] = useState<number | undefined>(() => getInitialYear("byMin"));
   const [birthYearMax, setBirthYearMax] = useState<number | undefined>(() => getInitialYear("byMax"));
+  useExplorePreferences(syncToUrl, createExplorePreferences({
+    profession, nationality, contentType, contentPresence, gender, sortBy, trendCountry,
+    pageSize, realities, birthYearMin, birthYearMax,
+  }, cardImage), (saved, restoreFilters) => {
+    setCardImage(saved.cardImage);
+    if (!restoreFilters) return;
+    const next = parseFilterParams(Object.fromEntries(new URLSearchParams(saved.filters)));
+    setProfession(next.profession ?? "all"); setNationality(next.nationality ?? "all");
+    setContentType(next.contentType ?? "all"); setContentPresence(next.contentPresence ?? DEFAULT_EXPLORE_CONTENT_PRESENCE);
+    setGender(next.gender ?? "all"); setSortBy(next.sortBy);
+    setTrendCountry(next.trendCountry ?? initialTrendCountry); setRealities(next.realities ? [...next.realities] : undefined);
+    setBirthYearMin(next.birthYearMin); setBirthYearMax(next.birthYearMax);
+    setPageSize(next.pageSize); setCurrentPage(1);
+    const query = restoreExplorePreferenceUrl(window.location.search, saved.filters);
+    window.history.replaceState(null, "", `${window.location.pathname}?${query}${window.location.hash}`);
+    void loadListing({ ...next, limit: next.pageSize, minContentCount: 0, trendCountry: next.trendCountry ?? initialTrendCountry }, result => {
+      setCelebs(result.celebs); setTotal(result.total); setTotalPages(result.totalPages);
+      setTrend(result.trend); setCurrentPage(result.page);
+    });
+  });
   const getPageHref = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete("tier");
@@ -155,7 +181,8 @@ export function useCelebFilters({
     if (sortBy === "country_trending") params.set("trendCountry", trendCountry);
     Object.entries(updates).forEach(([key, value]) => {
       const isDefault = key === "profession" ? value === DEFAULT_EXPLORE_PROFESSION
-        : key === "contentPresence" ? value === DEFAULT_EXPLORE_CONTENT_PRESENCE : value === "all";
+        : key === "contentPresence" ? value === DEFAULT_EXPLORE_CONTENT_PRESENCE
+        : key === "contentType" ? value === DEFAULT_EXPLORE_CONTENT_TYPE : value === "all";
       if (value === null || isDefault || value === "" || (key === "page" && value === "1")) {
         params.delete(key);
       } else {
@@ -390,6 +417,8 @@ export function useCelebFilters({
     nationality,
     contentType,
     contentPresence,
+    cardImage,
+    handleCardImageChange: setCardImage,
     gender,
     sortBy,
     trendCountry,

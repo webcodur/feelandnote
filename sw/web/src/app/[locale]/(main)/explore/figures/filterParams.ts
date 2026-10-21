@@ -5,6 +5,7 @@ import { parseExploreContentPresence } from "@/constants/celebContentPresence";
 import { DEFAULT_EXPLORE_PROFESSION } from "@/constants/celebProfessions";
 import { parseTrendCountry } from "@/constants/trendCountries";
 import { listingPage, listingPageSize, CELEB_LISTING_LIMITS } from "@/constants/celebListingPolicy";
+import { EXPLORE_FILTER_KEYS, parseExploreContentType } from "@/constants/exploreFilters";
 
 // URL searchParams에서 필터/정렬 값 파싱
 function parseParam(params: Record<string, string | string[] | undefined>, key: string): string | undefined {
@@ -13,9 +14,8 @@ function parseParam(params: Record<string, string | string[] | undefined>, key: 
 }
 
 // 그리드 뷰인지 판단: 필터 파라미터가 있으면 그리드
-const FILTER_KEYS = ["profession", "nationality", "contentType", "contentPresence", "gender", "search", "sortBy", "trendCountry", "page", "pageSize", "tagId", "tier", "reality", "byMin", "byMax"];
 export function isGridView(params: Record<string, string | string[] | undefined>): boolean {
-  return FILTER_KEYS.some((key) => {
+  return EXPLORE_FILTER_KEYS.some((key) => {
     const v = params[key];
     return typeof v === "string" && v.length > 0;
   });
@@ -44,7 +44,7 @@ export function parseFilterParams(params: Record<string, string | string[] | und
     realities: parseCelebRealities(parseParam(params, "reality")),
     profession: notAll(parseParam(params, "profession") || DEFAULT_EXPLORE_PROFESSION),
     nationality: notAll(parseParam(params, "nationality")),
-    contentType: notAll(parseParam(params, "contentType")),
+    contentType: notAll(parseExploreContentType(parseParam(params, "contentType"))),
     contentPresence: parseExploreContentPresence(parseParam(params, "contentPresence"), parseParam(params, "tier")),
     gender: notAll(parseParam(params, "gender")),
     search: parseParam(params, "search")?.slice(0, CELEB_LISTING_LIMITS.searchLength) || undefined,
