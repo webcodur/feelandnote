@@ -19,6 +19,13 @@ test('atlas participation and portrait stepping do not invalidate cached detail 
   assert.deepEqual(impact.scopes, ['none'])
 })
 
+test('view counting refreshes cached celebrity consumers', () => {
+  for (const file of [
+    'sw/web/src/actions/celebs/incrementCelebView.ts',
+    'sw/web/src/lib/celeb/viewDedup.ts',
+  ]) assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['celeb'])
+})
+
 test('explore preferences and shared atlas screens only affect uncached listing screens', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/components/features/home/useExplorePreferences.ts',

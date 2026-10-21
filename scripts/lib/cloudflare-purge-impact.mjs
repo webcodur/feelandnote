@@ -141,6 +141,9 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // 조회 반영은 도감에서도 쓰지만 보관 HTML의 소비자는 인물 상세의 조회수 UI다.
+  'sw/web/src/actions/celebs/incrementCelebView.ts',
+  'sw/web/src/lib/celeb/viewDedup.ts',
   // 인물 관계 목록과 감상배경의 게임 스크린샷이 이 갤러리를 연다.
   'sw/web/src/components/ui/ImageGalleryModal.tsx',
   'sw/web/src/lib/celeb/filmography.ts',
