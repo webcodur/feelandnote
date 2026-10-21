@@ -26,7 +26,7 @@ interface Props {
 }
 
 /* 접힌 목록이 보여 주는 인원 */
-const COLLAPSED_COUNT = 12;
+export const ATLAS_MEMBER_COLLAPSED_COUNT = 12;
 
 // 카드 수식어는 인물의 정식 title만 두 줄까지 쓴다. 팩션 등장 설명·bio는 상세에서 읽는다.
 export default function MythPersonPicker({ people, selectedId, onSelect, name, imageMode = "avatar", mythId }: Props) {
@@ -36,7 +36,7 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name, i
   const [expanded, setExpanded] = useState(false);
   const [failedPhotoUrls, setFailedPhotoUrls] = useState<Set<string>>(() => new Set());
   const sectionRef = useRef<HTMLElement | null>(null);
-  const collapsible = people.length > COLLAPSED_COUNT;
+  const collapsible = people.length > ATLAS_MEMBER_COLLAPSED_COUNT;
   const entries = people.map(person => {
     const leadUrl = portraitMode ? (mythId ? mythLeadImage(person, mythId) : person.portraitUrl ?? person.imageUrl) : null;
     const photoUrl = portraitMode ? [leadUrl, person.portraitUrl, person.imageUrl]
@@ -47,7 +47,7 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name, i
   const ordered = portraitMode
     ? [...entries.filter(entry => entry.photoUrl), ...entries.filter(entry => !entry.photoUrl)]
     : entries;
-  const visible = collapsible && !expanded ? ordered.slice(0, COLLAPSED_COUNT) : ordered;
+  const visible = collapsible && !expanded ? ordered.slice(0, ATLAS_MEMBER_COLLAPSED_COUNT) : ordered;
   const portraitIds = visible.filter(entry => entry.photoUrl).map(entry => entry.person.id);
   const groups = portraitMode
     ? [{ large: true, entries: visible.filter(entry => entry.photoUrl) }, { large: false, entries: visible.filter(entry => !entry.photoUrl) }]

@@ -19,7 +19,7 @@ test('세력 소개·명단은 작품 캐시가 비어 있어도 책장 조회�
     '@/lib/atlas-navigation': { buildFactionNavigation: () => [] },
     '@/lib/faction-sections': { buildFactionClusters: () => [], factionSectionKey: () => 'section', localizedFactionName: () => '세력' },
     '@/lib/faction-theme': { toFactionThemeData: (_entry: unknown, people: unknown[], _groups: unknown[], books: unknown[]) => ({ people, works: books }) },
-    '@/components/features/faction/entry/FactionEntryView': { __esModule: true, default: 'entry' },
+    '@/components/features/user/explore/atlas/AtlasScreen': { __esModule: true, default: 'entry' },
     '@/components/shared/AsyncIntlProvider': { __esModule: true, default: 'provider' },
     '@/components/ui/pending': { RetryBlock: 'retry' },
     '@/lib/seo': {}, '@/lib/jsonLd': {}, '@/lib/url': {},

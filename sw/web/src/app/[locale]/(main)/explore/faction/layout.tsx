@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Lane from "@/components/ui/pending/Lane";
-import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
+import AtlasRoutePending from "@/components/features/user/explore/atlas/AtlasRoutePending";
 
 export default function FactionLayout({ children }: { children: ReactNode }) {
-  return <Lane fallback={<MythScreenSkeleton faction />}>{children}</Lane>;
+  return <Lane fallback={<AtlasRoutePending mode="faction" />}>{children}</Lane>;
 }

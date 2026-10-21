@@ -149,7 +149,8 @@
 
 .atlasBarStep {
   display: grid;
-  width: 46px;
+  width: 44px;
+  min-width: 44px;
   flex: 0 0 auto;
   place-items: center;
   border: 0;
@@ -180,7 +181,7 @@
 .atlasBarCurrent:active { background: color-mix(in srgb, var(--color-accent) 16%, transparent); }
 
 @media (max-width: 767px) {
-  .atlasBarStep { width: 20%; }
+  .atlasBarStep { width: 16%; }
 }
 
 .atlasBarChapter,
@@ -230,14 +231,29 @@
   text-align: center;
   cursor: pointer;
 }
-.atlasSheetItem:hover { color: var(--color-accent); border-color: color-mix(in srgb, var(--color-accent) 52%, transparent); background: color-mix(in srgb, var(--color-accent) 7%, transparent); }
-.atlasSheetItem:active { color: var(--color-bg-main); background: var(--color-accent); }
+.atlasSheetItem:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-line-strong);
+  background: var(--color-bg-raised);
+}
 .atlasSheetItem[aria-current="location"] {
   color: var(--color-accent);
   border-color: color-mix(in srgb, var(--color-accent) 62%, transparent);
   background: color-mix(in srgb, var(--color-accent) 11%, transparent);
   font-weight: 800;
 }
+.atlasSheetItem[aria-current="location"]:hover {
+  color: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  background: color-mix(in srgb, var(--color-accent) 24%, transparent);
+}
+.atlasSheetItem:active,
+.atlasSheetItem[aria-current="location"]:active {
+  color: var(--color-bg-main);
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+.atlasSheetItem:active > .atlasBarChapter { color: inherit; }
 
 .atlasSheetItemLabel {
   min-width: 0;

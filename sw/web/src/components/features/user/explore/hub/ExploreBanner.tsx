@@ -54,7 +54,7 @@ export default function ExploreBanner() {
   const pageTitle = isSubpage ? hubT(subKey!) : hubTitle;
 
   // 세력도감 테마(slug) 진입 시 3단계 breadcrumb: 탐색 > 세력도감 > 테마명
-  const themeSlug = subSegment === "faction" && segments[2] ? segments[2] : undefined;
+  const themeSlug = (subSegment === "faction" || subSegment === "myth") && segments[2] ? segments[2] : undefined;
   /* 어느 테마의 이름인지 함께 쥔다 — 테마를 벗어나면 비우는 대신 slug가 어긋나 저절로 사라진다 */
   const [loadedTheme, setLoadedTheme] = useState<{ slug: string; name: string | null } | null>(null);
 
@@ -63,12 +63,12 @@ export default function ExploreBanner() {
     let active = true;
     getFactionName(themeSlug).then((r) => {
       if (active) setLoadedTheme({ slug: themeSlug, name: r ? (locale === "en" ? (r.name_en ?? r.name) : r.name) : null });
-    });
+    }).catch(() => {});
     return () => { active = false; };
   }, [themeSlug, locale]);
 
   const themeName = themeSlug && loadedTheme?.slug === themeSlug ? loadedTheme.name : null;
-  /* 신화·세력 한 편의 주소는 본문 머리(MythOverview)가 그 이름을 h1로 세운다 — 배너는 제목 요소를 내려놓는다.
+  /* 신화·세력 한 편의 주소는 본문 머리(AtlasSelection)가 그 이름을 h1로 세운다 — 배너는 제목 요소를 내려놓는다.
      배너 이름은 클라이언트에서 채워져 서버 HTML에서 「세력도감」으로 굳는다(기관 선정 상세와 같은 사정) */
   const pageOwnsTitle = atlasPageOwnsTitle(pathname);
 
@@ -80,7 +80,7 @@ export default function ExploreBanner() {
 
   // 경로는 한 번만 짓고 휴대폰·넓은 화면 배너가 같은 것을 쓴다 — 탐색 › 세력도감 › (현재) 테마명
   const ancestors: BannerCrumb[] = isSubpage
-    ? [{ label: hubTitle, href: "/explore" }, ...(hasTheme ? [{ label: pageTitle, href: "/explore/faction" }] : [])]
+    ? [{ label: hubTitle, href: "/explore" }, ...(pageOwnsTitle ? [{ label: pageTitle, href: `/explore/${subSegment}` }] : [])]
     : [];
   const current = hasTheme && themeName ? themeName : pageTitle;
   const heading = (variant: "desktop" | "mobile") => (

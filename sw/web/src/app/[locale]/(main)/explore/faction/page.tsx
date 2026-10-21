@@ -1,18 +1,18 @@
 /*
   파일명: /app/(main)/explore/faction/page.tsx
   기능: 세력도감 대문
-  책임: 고른 섹션(`?section=`, 없으면 첫 섹션)의 첫 테마를 연다. 옛 주소(`?tag=`, `?faction=`)는 테마 주소로 보낸다.
+  책임: 테마별 세력 목록을 표시한다. 옛 주소(`?tag=`, `?faction=`)는 정식 주소로 보낸다.
 */ // ------------------------------
 
 import { getLocale, getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
-import { isDiscardedFaction, retiredFactionHref } from '@/lib/retired-factions';
 import { getFeaturedFactions } from "@/actions/home";
 import { redirect } from "@/i18n/navigation";
-import { buildFactionSections, FACTION_LAST_COOKIE, factionSectionKey, localizedFactionName } from "@/lib/faction-sections";
+import { buildFactionSections, FACTION_LAST_COOKIE, localizedFactionName } from "@/lib/faction-sections";
 import { getLocalizedAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/locale";
-import FactionScreen from "./FactionScreen";
+import AtlasCatalog from "@/components/features/user/explore/atlas/AtlasCatalog";
+import { factionCatalogGroups } from "@/lib/atlas-catalog";
 
 /** 설명문에 이름을 싣는 섹션 수 — 넘치면 「등 N개」로 줄인다 */
 const META_SECTION_NAMES = 4;
@@ -63,24 +63,14 @@ async function FactionPageBody({
 
   const sections = buildFactionSections(factions);
   const requested = typeof params.section === "string" ? params.section : undefined;
-  /* 고른 섹션이 없을 때만 마지막으로 보던 세력(쿠키)을 찾는다 — 신화의 세계와 같은 차례.
-     탐색은 요청마다 그리고 앞단 캐시도 없어 쿠키를 읽어도 렌더 방식이 바뀌지 않는다 */
-  const savedSlug = requested ? undefined : (await cookies()).get(FACTION_LAST_COOKIE)?.value;
-  const retiredSavedHref = savedSlug && !isDiscardedFaction(savedSlug)
-    ? retiredFactionHref(`/explore/faction/${savedSlug}`, new URLSearchParams()) : null;
-  if (retiredSavedHref) redirect({ href: retiredSavedHref, locale });
-  const savedEntry = savedSlug
-    ? sections.flatMap((item) => item.entries).find((entry) => entry.slug === savedSlug)
-    : undefined;
-  const section = savedEntry
-    ? sections.find((item) => item.entries.some((entry) => entry.id === savedEntry.id))
-    : sections.find((item) => factionSectionKey(item) === requested) ?? sections[0];
-
-  if (!section) {
+  if (!sections.length) {
     return <p className="py-12 text-center text-sm text-text-secondary">{pending("empty")}</p>;
   }
 
-  return <FactionScreen sections={sections} section={section} entry={savedEntry ?? section.entries[0]} locale={locale} />;
+  const groups = factionCatalogGroups(sections, locale);
+  const savedSlug = (await cookies()).get(FACTION_LAST_COOKIE)?.value;
+  const recent = groups.flatMap(group => group.entries).find(entry => entry.href.endsWith(`/${savedSlug}`));
+  return <AtlasCatalog key={requested ?? "all"} mode="faction" groups={groups} initialTheme={requested} recent={recent} />;
 }
 
 export default function FactionPage(props: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {

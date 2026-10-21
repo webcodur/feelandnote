@@ -15,7 +15,7 @@ async function fixture() {
     stdin: { resolveDir: appDir, loader: "tsx", contents: `
       import { StrictMode } from 'react';
       import { createRoot } from 'react-dom/client';
-      import Screen from './src/components/features/user/explore/myth/MythScreen';
+      import Screen from './src/components/features/user/explore/atlas/AtlasScreen';
       const image = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500"><rect width="400" height="500" fill="#6c655b"/></svg>');
       const people = Array.from({ length: 16 }, (_, i) => ({ id: 'p' + i, name: 'Person ' + i, title: 'Title', slug: 'p' + i,
         appearances: [], avatarUrl: image + '#avatar', portraitUrl: i < 14 ? image : null, imageUrl: null, mythIds: ['entry'], sourceIds: [], images: [] }));
@@ -25,10 +25,11 @@ async function fixture() {
       const entry = { id: 'entry', slug: 'entry', name: 'Entry', isPublished: true, regionId: 'region', images: [],
         personIds: people.map(p => p.id), leadPersonIds: [], groups: grouped ? groups : [] };
       const data = { regions: [{ id: 'region', slug: 'region', name: 'Region', mythIds: ['entry'] }], myths: [entry], people, works: [] };
-      const faction = location.pathname.includes('faction') ? { themeId: 'region', title: 'Faction', shelfTitle: 'Books',
+      const mode = location.pathname.includes('faction') ? 'faction' : 'myth';
+      const navigation = { themeId: 'region',
         navigationTree: [{ id: 'region', name: 'Region', entries: [{ ...entry, count: people.length, groups: entry.groups.map(g => ({ ...g, count: g.personIds.length })) }] }],
-        renderPerson: () => null, renderWorks: () => null } : undefined;
-      createRoot(document.getElementById('root')).render(<StrictMode><Screen data={data} faction={faction} indexHeading="All" indexGroups={[]} /></StrictMode>);`,
+      };
+      createRoot(document.getElementById('root')).render(<StrictMode><Screen data={data} mode={mode} {...navigation} /></StrictMode>);`,
     },
     plugins: [{ name: "navigation-fixture", setup(builder: {
       onResolve: (options: { filter: RegExp }, callback: (args: { path: string }) => unknown) => void;
@@ -48,8 +49,8 @@ async function fixture() {
         "@/components/features/commerce/DeveloperCommerceFallback": empty,
         "@/components/features/engagement/FactionParticipation": empty,
         "@/components/ui/ContentTextModal": "import React from 'react'; export default function Modal(p) { return <div role='dialog'>{p.text}<button onClick={p.onClose}>close</button></div>; }",
-        "./AtlasNavigation": empty, "./AtlasPicker": empty, "./AtlasIndex": empty,
-        "./MythPersonDetail": empty, "./MythOverview": empty, "./MythWorkShelf": empty, "./SceneCompletionBadge": empty,
+        "../myth/AtlasPicker": empty,
+        "./AtlasPersonDetail": empty, "./AtlasOverview": empty, "./AtlasOverviewReading": empty, "./AtlasWorkShelf": empty, "../myth/SceneCompletionBadge": empty,
       };
       builder.onResolve({ filter: /.*/ }, args => args.path in mocks ? { path: args.path, namespace: "fixture" } : undefined);
       builder.onLoad({ filter: /.*/, namespace: "fixture" }, args => ({ contents: mocks[args.path], loader: "tsx", resolveDir: appDir }));
@@ -58,7 +59,7 @@ async function fixture() {
   return output.outputFiles.find((file: { path: string }) => file.path.endsWith(".js")).text;
 }
 
-test("myth and faction list footers change groups, reset expansion, and return to the group heading", async () => {
+test("both modes share group navigation, reset expansion, and preserve description view", async () => {
   const bundle = await fixture();
   const browser = await puppeteer.launch({ headless: true });
   try {
@@ -79,31 +80,49 @@ test("myth and faction list footers change groups, reset expansion, and return t
     ]) {
       await page.setViewport({ width, height: 844 });
       await visit(path);
-      await page.click('[aria-label="cardImage.label: cardImage.modes.portrait"]');
+      await page.click('[data-member-description-toggle]');
+      await page.click('[data-member-view="portrait"]');
       assert.equal(await page.$$('[data-person-id]').then(items => items.length), 12);
       await page.click('[aria-expanded="false"]:not([data-member-group-overview])');
       assert.equal(await page.$$('[data-person-id]').then(items => items.length), 14);
-      assert.equal(await page.$eval(footer, element => element.previousElementSibling?.querySelector('button[aria-expanded="true"]') !== null), true);
-      await page.$eval(`${footer} [data-member-group-next]`, element => element.scrollIntoView({ block: "center" }));
-      const before = await page.evaluate(() => scrollY);
-      await page.click(`${footer} [data-member-group-next]`);
+
+      assert.equal(await page.$$(footer).then(items => items.length), 1);
+      const groupRow = width < 768 ? `${footer} [data-atlas-level="2"]` : '[data-atlas-level="2"]';
+      await page.$eval(`${groupRow} > button:last-child`, element => (element as HTMLButtonElement).click());
       await page.waitForFunction(() => location.search.includes("group=b"));
+      if (width < 768) assert.equal(await page.evaluate(() => document.activeElement?.id), "atlas-members");
       assert.equal(await page.$$('[data-person-id]').then(items => items.length), 2);
-      const after = await page.evaluate(() => ({ y: scrollY, top: document.getElementById("atlas-members")!.getBoundingClientRect().top, focused: document.activeElement?.id }));
-      assert.ok(after.y < before - 1000);
-      assert.ok(Math.abs(after.top - 80) < 2);
-      assert.equal(after.focused, "atlas-members");
-      await page.click(`${footer} [data-member-group-overview]`);
+      assert.match(await page.$eval('#atlas-members [data-atlas-value]', element => element.textContent!), /Group B/);
+      assert.equal(await page.$eval('[data-atlas-member-count]', element => element.textContent), "2");
+      assert.equal(await page.$eval('[data-member-group-overview]', element => (element as HTMLButtonElement).disabled), false);
+      await page.click('[data-member-group-overview]');
       assert.match(await page.$eval('[role="dialog"]', element => element.textContent!), /Overview B/);
       await page.$eval('[role="dialog"] button', element => (element as HTMLElement).click());
-      await page.click(`${footer} [data-member-group-prev]`);
+      await page.waitForSelector('[role="dialog"]', { hidden: true });
+      await page.$eval(`${groupRow} > button:first-child`, element => (element as HTMLButtonElement).click());
       await page.waitForFunction(() => location.search.includes("group=a"));
-      assert.equal(await page.$$('[data-person-id]').then(items => items.length), 12, "new group returns to collapsed state");
-      await page.click(`${footer} [data-member-group-prev]`);
+      assert.equal(await page.$$('[data-person-id]').then(items => items.length), 12);
+      await page.$eval(`${groupRow} > button:first-child`, element => (element as HTMLButtonElement).click());
       await page.waitForFunction(() => !new URLSearchParams(location.search).has("group"));
-      assert.match(await page.$eval("#atlas-members h2", element => element.textContent!), /memberList/);
+      assert.match(await page.$eval('#atlas-members [data-atlas-value]', element => element.textContent!), /allMembers/);
+      assert.equal(await page.$eval('[data-atlas-member-count]', element => element.textContent), "16");
+      assert.equal(await page.$eval('[data-member-group-overview]', element => (element as HTMLButtonElement).disabled), true);
       await visit(path, "?ungrouped=1");
       assert.equal(await page.$$(footer).then(items => items.length), 0);
+      assert.equal(await page.$eval('[data-atlas-level="2"] > button:first-child', element => (element as HTMLButtonElement).disabled), true);
+      assert.equal(await page.$$('[data-member-description-view]').then(items => items.length), 1);
+      await page.click('[data-member-view="avatar"]');
+      assert.equal(await page.$$('[data-member-description-view]').then(items => items.length), 1);
+      assert.equal(await page.$eval('[data-member-description-toggle]', e => e.getAttribute("aria-checked")), "true");
+      assert.equal(await page.$eval('[data-person-description]', e => e.getAttribute("data-member-image")), "avatar");
+      await page.click('[data-member-description-toggle]');
+      assert.equal(await page.$$('[data-person-layout="compact"]').then(items => items.length), 1);
+      assert.equal(await page.$eval('[data-member-view="avatar"]', e => e.getAttribute("aria-pressed")), "true");
+      await page.click('[data-member-view="portrait"]');
+      assert.equal(await page.$$('[data-member-description-view]').then(items => items.length), 0);
+      await page.click('[data-member-description-toggle]');
+      assert.equal(await page.$eval('[data-person-description]', e => e.getAttribute("data-member-image")), "portrait");
+
     }
     assert.deepEqual(errors, []);
   } finally {

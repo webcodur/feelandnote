@@ -252,6 +252,10 @@ const CONTENT_PREFIXES = [
 ]
 
 const CONTENT_FILES = new Set([
+  // ContentImageGallery의 지연 로드 확대창도 사용한다. 도감 본문 자체는 앞단 캐시가 없다.
+  'sw/web/src/components/features/faction/FactionArtworkViewer.tsx',
+  'sw/web/src/components/features/faction/FactionArtworkTitle.tsx',
+  'sw/web/src/components/features/faction/artworkTextStyle.ts',
   // 영상 크레딧과 인물 연결의 소비자는 작품 상세다.
   'sw/web/src/actions/contents/getVideoPeople.ts',
   'sw/web/src/lib/celeb/videoCredits.ts',
@@ -378,6 +382,7 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/lib/commerce-products.ts',
   'sw/web/src/components/features/commerce/CommerceProductCard.tsx',
   'sw/web/src/components/features/faction/entry/ThemeBookShelf.tsx',
+  // 공용 atlas 화면으로 옮긴 파일도 이전 배포본의 삭제 diff를 분류해야 한다.
   'sw/web/src/components/features/faction/entry/FactionBookShelf.tsx',
   'sw/web/src/components/features/faction/entry/FactionEntryView.tsx',
   // 도감 이동·최근 방문 자료는 도감/클라이언트 localStorage에서만 읽는다.
@@ -401,7 +406,7 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/actions/policy/getAboutShowcase.ts',
   // 현재 런타임 소비자가 없는 공개 액션. 판본 자료 자체의 소비자는 위에서 판정한다.
   'sw/web/src/actions/home/getFactionSharedLibrary.ts',
-  // 소개문은 도감 모달의 클라이언트 요청에서만 읽으며, 연대기 서고는 현재 소비 화면이 없다.
+  // 삭제된 소개문 액션의 배포 diff와 미사용 연대기 서고는 보관 HTML에 영향이 없다.
   'sw/web/src/actions/home/getFactionLongDescs.ts',
   'sw/web/src/actions/home/getFactionChronologicalLibrary.ts',
   // 팩션 검색은 HeaderSearch가 입력 뒤 호출하는 서버 액션이다.
@@ -409,13 +414,13 @@ const NON_HTML_RUNTIME_FILES = new Set([
   // 이 모달과 감상 구획은 세력 화면에서만 연다.
   'sw/web/src/components/features/faction/entry/FactionMemberModal.tsx',
   'sw/web/src/components/features/faction/entry/FactionPersonReviews.tsx',
-  // 신화·세력도감의 장면/인물 뷰어만 소비한다. 이 화면들은 앞단 HTML 캐시 대상이 아니다.
-  // 삭제된 이야기 안내 파일도 이전 배포본과의 diff에서 분류할 수 있게 남긴다.
-  'sw/web/src/components/features/faction/FactionArtworkViewer.tsx',
+  // 도감 전용 장면 조작과 삭제된 이야기 안내 파일의 diff를 분류한다.
   'sw/web/src/components/features/faction/FactionSceneNavigator.tsx',
   'sw/web/src/components/features/faction/FactionStoryCards.tsx',
   'sw/web/src/components/features/faction/artworkSlides.ts',
   'sw/web/src/lib/faction-sections.ts',
+  // 도감 목록의 정규화·검색은 /explore/myth·faction 전용이다.
+  'sw/web/src/lib/atlas-catalog.ts',
   'sw/web/src/lib/faction-theme.ts',
   'packages/shared/src/lib/faction-team-image.ts',
   'sw/web/src/components/features/faction/FactionStoryGuide.tsx',
@@ -581,8 +586,10 @@ const CACHED_HTML_FILES = new Set([
   'sw/web/src/components/features/user/explore/sections/TimelineSection/sections/CountryPickerModal.tsx',
   // explore 공통 레이아웃은 보관 대상인 directory·timeline에도 실린다.
   'sw/web/src/components/features/user/explore/hub/ExploreLayoutFrame.tsx',
+  'sw/web/src/components/features/user/explore/hub/ExploreBanner.tsx',
   // 공용 모달과 페이지 구획 이동은 보관하는 인물·작품·명부 HTML에서 함께 쓴다.
   'sw/web/src/components/ui/Modal.tsx',
+  'sw/web/src/lib/modalHistory.ts',
   'sw/web/src/lib/scroll/sectionNavigation.ts',
   'sw/web/src/lib/scroll/useSectionNavigation.ts',
   // 공통 검색창·모달과 인물·작품 상세가 같은 스크롤 잠금 카운터를 쓴다.
@@ -655,6 +662,7 @@ const NON_HTML_RUNTIME_PREFIXES = [
   'sw/web/src/app/[locale]/(reader)/celeb/',
   // 위 신화 구획 주석과 같은 이유. 타이틀 아트도 그 구획에서만 쓴다.
   'sw/web/src/components/features/user/explore/myth/',
+  'sw/web/src/components/features/user/explore/atlas/',
   'sw/web/public/images/myth-atlas/',
 ]
 

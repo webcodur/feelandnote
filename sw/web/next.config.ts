@@ -63,6 +63,8 @@ const nextConfig: NextConfig = {
     return config;
   },
   devIndicators: false,
+  // Loopback IPs need explicit permission for HMR; its React debug channel gates dev hydration.
+  allowedDevOrigins: ['127.0.0.1', '[::1]'],
   transpilePackages: ['@feelandnote/api-clients', '@feelandnote/shared'],
   images: {
     unoptimized: true,

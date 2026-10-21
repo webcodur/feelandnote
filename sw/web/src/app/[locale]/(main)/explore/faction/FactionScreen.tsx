@@ -3,15 +3,14 @@ import type { FeaturedFaction } from "@/actions/home";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import type { AtlasTheme } from "@/components/features/user/explore/myth/atlasNavigationData";
 import { buildFactionNavigation } from "@/lib/atlas-navigation";
-import FactionEntryView from "@/components/features/faction/entry/FactionEntryView";
+import AtlasScreen from "@/components/features/user/explore/atlas/AtlasScreen";
 import { RetryBlock } from "@/components/ui/pending";
-import { buildFactionClusters, factionSectionKey, localizedFactionDescription, localizedFactionName, type FactionSection } from "@/lib/faction-sections";
+import { factionSectionKey, localizedFactionDescription, localizedFactionName, type FactionSection } from "@/lib/faction-sections";
 import { getFactionCelebs } from "@/lib/faction-celebs";
 import { getFactionGroupDescriptions } from "@/lib/faction-groups";
 import { toFactionThemeData, type FactionThemeGroup } from "@/lib/faction-theme";
 import { getAlternates, toSeoSummary } from "@/lib/seo";
 import { serializeJsonLd } from "@/lib/jsonLd";
-import type { AtlasIndexGroup } from "@/components/features/user/explore/myth/AtlasIndex";
 import { getCelebProfileUrl } from "@/lib/url";
 import type { CelebProfile } from "@/types/home";
 import type { Locale } from "@/types/locale";
@@ -49,15 +48,13 @@ function buildEntryJsonLd(entry: FeaturedFaction, name: string, celebs: CelebPro
   };
 }
 
-async function EntryBody({ entry, locale, withJsonLd, navigationTree, themeId, groupRows, indexHeading, indexGroups }: {
+async function EntryBody({ entry, locale, withJsonLd, navigationTree, themeId, groupRows }: {
   entry: FeaturedFaction;
   locale: Locale;
   withJsonLd: boolean;
   navigationTree: AtlasTheme[];
   themeId: string;
   groupRows: FactionThemeGroup[];
-  indexHeading: string;
-  indexGroups: AtlasIndexGroup[];
 }) {
   const celebs = await getFactionCelebs(entry.id, entry.celebs.map((celeb) => celeb.id)).catch((error) => {
     console.error("[Faction] 인물 조회 실패:", error);
@@ -67,28 +64,20 @@ async function EntryBody({ entry, locale, withJsonLd, navigationTree, themeId, g
   const byId = new Map(celebs.map((celeb) => [celeb.id, celeb]));
   const ordered = entry.celebs.flatMap((member) => byId.get(member.id) ?? []);
   const name = localizedFactionName(entry, locale);
-  const hasGroups = buildFactionClusters(entry.celebs, locale).length > 1;
-  /* 인물 모달에는 진영만 넘긴다 — 테마별 긴 소개는 별도로 조회해
-     모달에 싣지 않고, 테마 소개(long_desc)는 모달이 테마 단위 캐시로 따로 받는다 */
-  const members = Object.fromEntries(entry.celebs.map((member) => [member.id, {
-    group: hasGroups ? (locale === "en" ? member.group_label_en?.trim() || member.group_label : member.group_label) ?? null : null,
-  }]));
   return (
     <AsyncIntlProvider>
       {withJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{
         __html: serializeJsonLd(buildEntryJsonLd(entry, name, ordered, locale)),
       }} />}
-      <FactionEntryView key={entry.id} data={toFactionThemeData(entry, ordered, groupRows, [], locale)}
-        navigationTree={navigationTree} themeId={themeId} celebs={ordered} members={members}
-        indexHeading={indexHeading} indexGroups={indexGroups} />
+      <AtlasScreen key={entry.id} mode="faction" data={toFactionThemeData(entry, ordered, groupRows, [], locale)}
+        navigationTree={navigationTree} themeId={themeId} profiles={ordered} />
     </AsyncIntlProvider>
   );
 }
 
 /** 신화와 같은 탐색판을 쓰되 섹션·테마의 정식 주소와 검색용 자료는 유지한다. */
 export default async function FactionScreen({ sections, section, entry, locale, withJsonLd = false }: FactionScreenProps) {
-  const [t, tMyth, groupRows] = await Promise.all([
-    getTranslations("explore.faction"),
+  const [tMyth, groupRows] = await Promise.all([
     getTranslations("explore.hub.myth"),
     getFactionGroupDescriptions(entry.id).catch((error) => {
       console.error("[Faction] 진영 설명 조회 실패:", error);
@@ -97,18 +86,9 @@ export default async function FactionScreen({ sections, section, entry, locale, 
   ]);
   // 선택 창은 이름·인원만 받는다. 다른 팩션의 인물 자료는 적용 후 해당 주소에서 받는다.
   const navigationTree = buildFactionNavigation(sections, locale, tMyth("otherGroup"));
-  // 모든 세력으로 가는 목록을 화면 아래에 늘 펼쳐 둔다 — 선택기는 단추라 검색엔진이 다른 세력으로 가는 길이 없었다
-  const index = sections.map((item) => ({
-    id: factionSectionKey(item),
-    name: localizedFactionName(item.faction, locale),
-    items: item.entries.flatMap((child) => child.slug
-      ? [{ id: child.id, name: localizedFactionName(child, locale), href: `/explore/faction/${child.slug}`, current: child.id === entry.id }]
-      : []),
-  }));
   return (
     <>
-      <EntryBody entry={entry} locale={locale} withJsonLd={withJsonLd} navigationTree={navigationTree} themeId={factionSectionKey(section)} groupRows={groupRows}
-        indexHeading={t("allThemes")} indexGroups={index} />
+      <EntryBody entry={entry} locale={locale} withJsonLd={withJsonLd} navigationTree={navigationTree} themeId={factionSectionKey(section)} groupRows={groupRows} />
     </>
   );
 }

@@ -13,6 +13,7 @@ import { useTranslations } from "next-intl";
 import AnimatedHeight from "./AnimatedHeight";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useClippedText } from "@/hooks/useClippedText";
+import { useModalHistory } from "@/hooks/useModalHistory";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
 
 import ClassicalBox from "@/components/ui/ClassicalBox";
@@ -118,6 +119,7 @@ export default function Modal({
   const { ref: scrollRef, isClipped } = useClippedText<HTMLDivElement>(undefined, isOpen && fadeClippedEnd);
   const boxRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  useModalHistory(isOpen, boxRef, onClose, closeOnEscape && !closeButtonDisabled);
 
   // 긴 제목이 줄바꿈되거나 창 너비가 바뀌어도 본문은 남은 높이만 쓴다.
   useEffect(() => {
@@ -255,6 +257,7 @@ export default function Modal({
 
   const modalContent = (
     <div
+      data-modal-history-layer
       className={`fixed inset-0 flex items-center justify-center ${fullScreen ? "p-0" : "px-4 py-8"} animate-modal-overlay ${overlayClassName ?? "bg-black/70 backdrop-blur-sm"}`}
       style={{ zIndex: zIndex ?? Z_INDEX.modal }}
       onClick={handleOverlayClick}

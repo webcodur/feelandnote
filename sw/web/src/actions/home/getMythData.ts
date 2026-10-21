@@ -189,7 +189,7 @@ async function fetchMythData(locale: string, factionId: string): Promise<MythDat
     const guideLocale = isEn && guideEn ? "en" as const : "ko" as const;
     const appearances = placements.map((placement) => ({
       mythId: placement.lv2_id,
-      summary: (isEn ? placement.long_desc_en || placement.long_desc : placement.long_desc)?.trim() || null,
+      summary: (isEn ? placement.long_desc_en : placement.long_desc)?.trim() || null,
       /* 편마다 모습이 다른 인물의 신화 전용 사진 — 고르는 규칙은 화면의 mythLeadImage가 쥔다 */
       imageUrl: placement.image_url ?? null,
     }));
@@ -199,7 +199,7 @@ async function fetchMythData(locale: string, factionId: string): Promise<MythDat
       headline: isEn ? profile.headline_en || profile.headline : profile.headline,
       bio: isEn ? profile.bio_en || profile.bio : profile.bio,
       reading: guide ? { guide, locale: guideLocale } : null, voiceV: profile.voice_v ?? 0,
-      summary: (isEn ? lead?.long_desc_en || lead?.long_desc : lead?.long_desc) ?? null,
+      summary: (isEn ? lead?.long_desc_en : lead?.long_desc)?.trim() || null,
       appearances,
       avatarUrl: profile.avatar_url, imageUrl, portraitUrl, images,
       mythIds: unique(placements.map((row) => row.lv2_id)), sourceIds }];
@@ -248,7 +248,7 @@ async function fetchMythData(locale: string, factionId: string): Promise<MythDat
   return { regions, myths, people, works };
 }
 
-const getCachedMythData = compressedJsonCache(fetchMythData, ['myth-detail-v42-scoped-catalog'], {
+const getCachedMythData = compressedJsonCache(fetchMythData, ['myth-detail-v43-atlas-descriptions'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });

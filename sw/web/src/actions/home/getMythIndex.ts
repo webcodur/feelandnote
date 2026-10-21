@@ -4,7 +4,7 @@ import { STATIC_REVALIDATE, cachedList, throwOnQueryError } from '@/lib/cache'
 import { compressedJsonCache } from '@/lib/compressedJsonCache'
 import { createStaticClient } from '@/lib/db/static'
 import { selectVisibleFactionMembers } from '@/lib/faction-members'
-import { toTeamImages, toSceneImages } from '@feelandnote/shared/lib/faction-team-image'
+import { toCoverImage, toSceneImages } from '@feelandnote/shared/lib/faction-team-image'
 import type { MythData } from './mythTypes'
 import { MYTH_OTHER_GROUP_ID } from './mythTypes'
 
@@ -16,7 +16,7 @@ const readIndex = compressedJsonCache(async (locale: string): Promise<MythData> 
   const db = createStaticClient()
   const [regions, myths] = await Promise.all([
     db.from('faction_lv1').select('id,slug,name,name_en').eq('is_myth', true).order('sort_order'),
-    db.from('faction_lv2').select('id,lv1_id,slug,name,name_en,published,team_images,scenes_complete').eq('is_myth', true).order('sort_order'),
+    db.from('faction_lv2').select('id,lv1_id,slug,name,name_en,headline,headline_en,published,team_images,scenes_complete').eq('is_myth', true).order('sort_order'),
   ])
   throwOnQueryError('myth-index/regions', regions.error)
   throwOnQueryError('myth-index/myths', myths.error)
@@ -39,9 +39,9 @@ const readIndex = compressedJsonCache(async (locale: string): Promise<MythData> 
     const groups = groupMap.size < 2 ? [] : [...groupMap].sort((a, b) => a[1].position - b[1].position)
       .map(([id, group]) => ({ id, name: group.name, personIds: group.personIds, description: null }))
     if (groups.length && others.length) groups.push({ id: MYTH_OTHER_GROUP_ID, name: null, personIds: others, description: null })
-    const titleArt = toTeamImages(row.team_images).find(image => image.url.includes('/myth/title-art/'))
+    const titleArt = toCoverImage(row.team_images, true)
     return [{ id: row.id, slug: row.slug, name: locale === 'en' ? row.name_en || row.name : row.name,
-      headline: null, description: null, isPublished: row.published === true, scenesComplete: row.scenes_complete,
+      headline: locale === 'en' ? row.headline_en?.trim() || null : row.headline?.trim() || null, description: null, isPublished: row.published === true, scenesComplete: row.scenes_complete,
       regionId: regionIds.has(row.lv1_id) ? row.lv1_id : 'other',
       images: [...(titleArt ? [{ url: titleArt.url, label: null }] : []), ...toSceneImages(row.team_images, locale).map(image => ({ url: image.url, label: null, kind: 'scene' as const }))],
       music: null, personIds: [...new Set(rows.map(member => member.celeb_id))], leadPersonIds: [], groups }]
@@ -50,7 +50,7 @@ const readIndex = compressedJsonCache(async (locale: string): Promise<MythData> 
   const otherIds = entries.filter(myth => myth.regionId === 'other').map(myth => myth.id)
   if (otherIds.length) resultRegions.push({ id: 'other', slug: 'other', name: locale === 'en' ? 'Other myths' : '기타 신화', mythIds: otherIds })
   return { regions: resultRegions, myths: entries, people: [], works: [] }
-}, ['myth-index-v1'], { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS] })
+}, ['myth-index-v2'], { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS] })
 
 export const getMythIndex = cache(readIndex)
 

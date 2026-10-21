@@ -3,11 +3,12 @@
 import type { ReactNode } from "react";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { EXPLORE_FEATURED_LINKS } from "@/constants/navigation";
 import PageContainer from "@/components/layout/PageContainer";
 import ExploreBanner from "./ExploreBanner";
 import AtlasRecentHistory from "../myth/AtlasRecentHistory";
+import { atlasPageOwnsTitle } from "../myth/mythHref";
 
 const sectionSwitches = [
   [{ key: "influence", labelKey: "navInfluence" }, { key: "spectrum", labelKey: "navSpectrum" }],
@@ -20,6 +21,7 @@ const sectionSwitches = [
 */
 export default function ExploreLayoutFrame({ children }: { children: ReactNode }) {
   const segment = useSelectedLayoutSegment();
+  const pathname = usePathname();
   const t = useTranslations("explore.hub");
   const switchGroup = sectionSwitches.find((items) => items.some((item) => item.key === segment));
   const switchLinks = switchGroup?.map((item) => ({
@@ -52,7 +54,7 @@ export default function ExploreLayoutFrame({ children }: { children: ReactNode }
               ))}
           </nav>
         )}
-        {(segment === "myth" || segment === "faction") && <AtlasRecentHistory world={segment} />}
+        {(segment === "myth" || segment === "faction") && atlasPageOwnsTitle(pathname) && <AtlasRecentHistory world={segment} />}
         {children}
       </PageContainer>
     </>

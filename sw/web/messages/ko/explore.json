@@ -234,11 +234,6 @@
         "searchResults": "검색 결과 {count}개",
         "backToList": "목록 보기",
         "factionMode": "세력",
-        "selectThenOpen": "칩을 고르고, 한 번 더 눌러 {next} 선택",
-        "openNext": "선택한 칩을 다시 눌러 {next} 선택",
-        "groupPickHint": "고른 그룹을 다시 누르거나 아래에서 선택 완료",
-        "searchPickHint": "검색 결과를 눌러 선택하세요",
-        "clickAgainConfirm": "다시 눌러 선택 완료",
         "peopleCount": "등장인물 {count}명"
       }
     },
@@ -376,7 +371,7 @@
         "worksReadLead": "인물이 감상한 책",
         "worksAuthoredLead": "인물이 직접 지은 책",
         "worksProfessionLead": "{profession}들이 찾는 책",
-        "tocSelection": "선택",
+        "tocSelection": "탐색",
         "captionFontSize": "글자 크기",
         "captionSize": {
           "small": "작게",
@@ -403,7 +398,17 @@
         "storyEnding": "이야기 마무리",
         "startStory": "장면 보기",
         "nextStory": "다음 이야기",
-        "closeStory": "주요 장면 닫기"
+        "closeStory": "주요 장면 닫기",
+        "memberView": {
+          "label": "구성원 보기",
+          "description": "설명",
+          "avatar": "아바타",
+          "portrait": "대표사진",
+          "empty": "이 도감에서의 설명을 준비하고 있습니다.",
+          "imageLabel": "사진 종류"
+        },
+        "overviewExpand": "더 읽기",
+        "overviewCollapse": "접기"
       },
       "relationMap": {
         "title": "관계망",
@@ -525,7 +530,7 @@
       "works": "등장 작품",
       "worksTitle": "관련 도서",
       "title": "세력도감",
-      "overview": "팩션 개요",
+      "overview": "세력 개요",
       "overviewFallback": "위의 인물을 골라 이 테마에서의 역할과 이야기를 살펴보세요.",
       "backToOverview": "테마 개요로",
       "personInTheme": "<accent>{theme}</accent>에서의 {name}",
@@ -606,6 +611,24 @@
       "tiePlacementByTotal": "분야 점수가 같으면 종합 영향력이 높은 순으로, 종합 점수도 같으면 고정된 순서로 배치합니다.",
       "tiePlacementEqual": "동점자의 단상 높이는 순위 차이를 뜻하지 않습니다.",
       "shelfEmpty": "위 인물들의 공개 감상 작품이 아직 없습니다."
+    },
+    "atlasCatalog": {
+      "all": "전체",
+      "regions": "지역 선택",
+      "themes": "테마 선택",
+      "mythCount": "신화 {count}편",
+      "factionCount": "세력 {count}개",
+      "results": "{count}개 항목",
+      "continue": "이어보기",
+      "searchMyths": "신화·이야기·지역 검색",
+      "searchFactions": "세력·테마 검색",
+      "clearSearch": "검색어 지우기",
+      "members": "구성원 {count}명",
+      "scenesComplete": "장면 완성",
+      "empty": "조건에 맞는 항목이 없습니다.",
+      "reset": "전체 목록 보기",
+      "browseMyths": "전체 신화 보기",
+      "browseFactions": "세력도감 전체 보기"
     }
   },
   "searchResult": {

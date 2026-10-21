@@ -2,11 +2,10 @@
 // 신화 78편이 한 주소(/explore/myth)를 정본으로 공유하던 때는 검색에서 신화마다의 페이지가 없었다.
 export const MYTH_PARAM = "myth";
 
-/* 처음 여는 신화의 차례 — 주소의 신화 → 마지막으로 보던 신화(쿠키) → 기본 신화 → 첫 공개 신화(faction_lv2.sort_order).
-   닫혔거나 없는 slug는 건너뛰고 다음 차례로 넘어간다. 신화 주소(/explore/myth/<slug>)는 늘 그 신화를 연다 */
+/* 상세 자료를 요청할 때의 기본값. /explore/myth는 전체 목록을 열며 자동으로 상세를 선택하지 않는다. */
 export const MYTH_OPENING_SLUG = "homer-odyssey";
 
-/** 첫 오디세이아 감상과 이후 선택을 기억한다. 서버가 첫 화면을 마지막 신화로 그린다 */
+/** 마지막 상세 방문을 기억해 전체 목록의 이어보기 링크에 쓴다. */
 export const MYTH_LAST_COOKIE = "fn-last-myth";
 export const MYTH_LAST_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 

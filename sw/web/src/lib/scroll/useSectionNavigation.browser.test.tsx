@@ -68,7 +68,7 @@ test("atlas navigation keeps the final section selected at the page bottom", asy
           const errors: string[] = [];
           page.on("pageerror", error => errors.push(String(error)));
           await page.setViewport({ width: scenario.width, height: scenario.height });
-          await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);
+          await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "no-preference" }]);
           await page.setContent(`<html><body style="margin:0"><div id="root"></div><main>
             <section id="atlas-selection" style="height:900px">selection</section>
             <section id="atlas-members" style="height:1100px">members</section>
@@ -80,6 +80,10 @@ test("atlas navigation keeps the final section selected at the page bottom", asy
           await page.waitForSelector('.atlasBarLabel');
           await settle(page);
           assert.equal(await page.$eval('.atlasBarLabel', element => element.textContent), 'selection');
+          const membersTop = await page.$eval('#atlas-members', element => element.getBoundingClientRect().top + window.scrollY);
+          await page.click('.atlasBarStep[aria-label="next members"]');
+          await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+          assert.equal(await page.evaluate(() => window.scrollY), membersTop, 'chapter arrows must arrive without a scrolling animation');
           await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
           await settle(page);
           const bottom = await page.evaluate(() => ({ y: window.scrollY, height: innerHeight, total: document.documentElement.scrollHeight }));

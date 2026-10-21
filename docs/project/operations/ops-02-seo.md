@@ -159,8 +159,8 @@ Google은 `<title>`이 길거나 틀에 박혀 있으면 화면에서 크게 보
   부를 사람도 없으면 「{이름}의 인물들을 만나 보세요!」로 끝낸다. 영어는 같은 구조를 「Meet …!」로 옮긴다.
   한 줄 정의가 없으면 이름과 소개글의 끝난 문장으로 시작한다. 첫 화면 설명은 지역·분야 이름만 싣는다.
   조립은 `lib/atlasMeta.ts`가 쥔다.
-- **통로** — 두 화면 아래 늘 펼친 전체 목록(`AtlasIndex`)과 인물 상세의 「소속 신화·세력」 링크(`RelatedFigureLinks`)가
-  한 편 주소로 가는 서버 HTML 링크다. 선택기 창은 누른 뒤에만 그려져 통로가 아니다.
+- **통로** — `/explore/myth`·`/explore/faction`의 공용 전체 목록(`AtlasCatalog`)과 인물 상세의 「소속 신화·세력」 링크(`RelatedFigureLinks`)가
+  한 편 주소로 가는 서버 HTML 링크다. 각 상세는 전체 목록으로 돌아가는 링크를 제공한다. 선택기 창은 누른 뒤에만 그려져 통로가 아니다.
 - **사이트맵** — 화면이 여는 것과 같은 조건(신화는 `published`, 세력은 `is_featured`, 숨기지 않은 인물 한 명 이상)만
   `core.xml`에 싣는다(`lib/sitemap.ts`의 `fetchAtlasPaths`).
 

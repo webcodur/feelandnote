@@ -38,7 +38,7 @@ export function factionSectionKey(section: FactionSection) {
   return section.faction.slug ?? section.faction.id
 }
 
-/** 마지막으로 보던 세력 slug를 적어 두는 쿠키 — 세력도감 첫 화면이 그 세력으로 열린다(신화의 fn-last-myth와 같은 장치) */
+/** 마지막 상세 방문을 기억해 세력도감 목록의 이어보기 링크에 쓴다. */
 export const FACTION_LAST_COOKIE = 'fn-last-faction'
 export const FACTION_LAST_COOKIE_MAX_AGE = 60 * 60 * 24 * 365
 

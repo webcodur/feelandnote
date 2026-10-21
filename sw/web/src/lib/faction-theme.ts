@@ -48,7 +48,8 @@ export function toFactionThemeData(entry: FeaturedFaction, celebs: CelebProfile[
     myths: [theme],
     people: members.map((member) => {
       const person = byId.get(member.id)!;
-      const summary = null;
+      const membership = person.factions.find(faction => faction.id === entry.id);
+      const summary = (isEn ? membership?.long_desc_en : membership?.long_desc)?.trim() || null;
       return {
         id: person.id, slug: person.slug ?? person.id,
         name: isEn ? person.nickname_en || person.nickname : person.nickname,

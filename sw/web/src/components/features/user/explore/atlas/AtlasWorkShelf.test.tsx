@@ -14,18 +14,18 @@ type FixtureBuilder = {
 
 test('책장이 가까워질 때 목록을 받고 감상·직군은 선택한 분류만 조회·재시도한다', async () => {
   const output = await build({
-    absWorkingDir: fileURLToPath(new URL('../../../../../', import.meta.url)),
-    tsconfig: fileURLToPath(new URL('../../../../../tsconfig.json', import.meta.url)),
+    absWorkingDir: fileURLToPath(new URL('../../../../../../', import.meta.url)),
+    tsconfig: fileURLToPath(new URL('../../../../../../tsconfig.json', import.meta.url)),
     stdin: { resolveDir: fileURLToPath(new URL('./', import.meta.url)), loader: 'tsx', contents: `
       import { createRoot } from 'react-dom/client';
-      import Shelf from './FactionBookShelf';
+      import Shelf from './AtlasWorkShelf';
       window.calls = { catalog: 0, read: 0, profession: 0 };
-      createRoot(document.getElementById('root')).render(<><h1>세력 소개</h1><div style={{height:2200}}/><Shelf factionId="f" memberIds={['a']} name="세력" onCount={count => { window.count = count; }}/></>);
+      createRoot(document.getElementById('root')).render(<><h1>세력 소개</h1><div style={{height:2200}}/><Shelf mode="faction" theme={{id:"f", name:"세력", slug:"f"}} works={[]} memberIds={['a']} onCount={count => { window.count = count; }}/></>);
     ` },
     bundle: true, write: false, platform: 'browser', format: 'iife', jsx: 'automatic', define: { 'process.env': '{}' },
     plugins: [{ name: 'shelf-fixture', setup(builder: FixtureBuilder) {
       builder.onLoad({ filter: /\.css$/ }, () => ({ contents: 'export default {}', loader: 'js' }))
-      builder.onResolve({ filter: /^(next-intl|.*getFactionFigureBooks|.*getFactionMemberShelf|.*BookShelfSelection|.*BookShelfBookList|.*AtlasBookShelfSkeleton|.*pending)$/ }, (args: { path: string }) => ({ path: args.path, namespace: 'fixture' }))
+      builder.onResolve({ filter: /^(next-intl|.*getFactionFigureBooks|.*getFactionMemberShelf|.*BookShelfSelection|.*BookShelfBookList|.*AtlasBookShelfSkeleton|.*pending|.*DeveloperCommerceFallback)$/ }, (args: { path: string }) => ({ path: args.path, namespace: 'fixture' }))
       builder.onLoad({ filter: /.*/, namespace: 'fixture' }, (args: { path: string }) => {
         let contents = ''
         if (args.path === 'next-intl') contents = `export const useLocale = () => 'ko'; export const useTranslations = () => Object.assign(key => key, { has: () => false });`
@@ -38,6 +38,7 @@ test('책장이 가까워질 때 목록을 받고 감상·직군은 선택한 �
         else if (args.path.endsWith('BookShelfSelection')) contents = `export default function Selection({books}) { return <div data-selection>{books[0]?.title}</div>; }`
         else if (args.path.endsWith('BookShelfBookList')) contents = `export default function List({pending,categoryPicker}) { return <div>{categoryPicker}{pending}</div>; }`
         else if (args.path.endsWith('AtlasBookShelfSkeleton')) contents = `export default function Skeleton() { return <div data-skeleton style={{height:400}}/>; }`
+        else if (args.path.endsWith('DeveloperCommerceFallback')) contents = `export default function Empty() { return null; }`
         else contents = `export function RetryBlock({onRetry}) { return <button data-retry onClick={onRetry}>Retry</button>; }`
         return { contents, loader: 'jsx', resolveDir: fileURLToPath(new URL('./', import.meta.url)) }
       })

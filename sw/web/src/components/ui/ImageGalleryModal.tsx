@@ -8,6 +8,7 @@ import { createPortal } from "react-dom";
 import { Z_INDEX } from "@/constants/zIndex";
 import { cn } from "@/lib/utils";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
+import { useModalHistory } from "@/hooks/useModalHistory";
 
 export interface GalleryImage {
   src: string;
@@ -36,6 +37,7 @@ export default function ImageGalleryModal({
   const titleId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  useModalHistory(images.length > 0, dialogRef, onClose, true);
   const [activeIndex, setActiveIndex] = useState(() =>
     Math.max(0, Math.min(images.length - 1, initialIndex)),
   );

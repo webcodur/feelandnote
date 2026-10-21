@@ -9,16 +9,18 @@ import { affiliateBookToShelfBook, type BookShelfGroup } from '@/components/shar
 import { isThemeBook } from '@/lib/figure-books/themeBooks'
 import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 import { getProfessionShelfChoices } from '@/lib/books/professionShelf'
+import type { AtlasWorld } from '@/components/features/user/explore/myth/atlasNavigationData'
 
 interface Props {
   books: FactionFigureBook[]
   memberIds: string[]
   name: string
-  isMyth: boolean
+  mode: AtlasWorld
 }
 
 /** 신화와 팩션은 모으는 관계만 정하고, 공통 책장이 책을 그린다. */
-export default function ThemeBookShelf({ books, memberIds, name, isMyth }: Props) {
+export default function ThemeBookShelf({ books, memberIds, name, mode }: Props) {
+  const isMyth = mode === 'myth'
   const t = useTranslations(isMyth ? 'explore.hub.myth' : 'explore.faction')
   const tCeleb = useTranslations('celebPage')
   const tProfession = useTranslations('profession')

@@ -8,6 +8,7 @@ export function atlasStepKeys(world: AtlasWorld) {
 export const ATLAS_NAV_LAYOUT = {
   root: "mx-auto flex w-full max-w-[420px] flex-col gap-2 md:gap-3",
   row: "grid min-h-12 grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-stretch overflow-hidden rounded-control border border-line-strong bg-bg-main md:min-h-14 md:grid-cols-[3.5rem_2.75rem_minmax(0,1fr)_2.75rem]",
+  selectorRow: "grid min-h-[4.5rem] grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-stretch divide-x divide-line-strong overflow-hidden rounded-control border border-line-strong bg-bg-main",
   footer: "mt-1 flex flex-wrap items-center gap-2",
 } as const;
 

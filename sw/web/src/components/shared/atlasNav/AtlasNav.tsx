@@ -190,7 +190,7 @@ function AtlasBottomBar({ items, activeId, onNavigate, withinModal }: AtlasNavPr
   const barNode = (
     <div className={cn(styles.atlasBar, !dock && styles.atlasBarFloating, withinModal && styles.atlasModalBar)}>
       <div className={styles.atlasBarInner}>
-        {step(previous, <ChevronLeft size={20} strokeWidth={1.8} aria-hidden />,
+        {step(previous, <ChevronLeft size={18} strokeWidth={1.8} aria-hidden />,
           previous ? t("previous", { name: previous.label }) : t("noPrevious"))}
 
         <button
@@ -204,7 +204,7 @@ function AtlasBottomBar({ items, activeId, onNavigate, withinModal }: AtlasNavPr
           <span className={styles.atlasBarLabel}>{current.label}</span>
         </button>
 
-        {step(next, <ChevronRight size={20} strokeWidth={1.8} aria-hidden />,
+        {step(next, <ChevronRight size={18} strokeWidth={1.8} aria-hidden />,
           next ? t("next", { name: next.label }) : t("noNext"))}
       </div>
     </div>

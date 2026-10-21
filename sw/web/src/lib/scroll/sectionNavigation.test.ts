@@ -8,7 +8,7 @@ function page(t: TestContext) {
     scrollY: 0,
     innerHeight: 900,
     scrollTo(this: { scrollY: number }, { top, behavior }: ScrollToOptions) {
-      assert.equal(behavior, "smooth");
+      assert.equal(behavior, "instant");
       this.scrollY = top!;
     },
   });
@@ -80,7 +80,7 @@ test("modal navigation scrolls its container without moving the page", (t) => {
     clientHeight: 600,
     getBoundingClientRect: () => ({ top: 100 }),
     scrollTo(this: { scrollTop: number }, { top, behavior }: ScrollToOptions) {
-      assert.equal(behavior, "smooth");
+      assert.equal(behavior, "instant");
       this.scrollTop = top!;
     },
   } as unknown as HTMLElement;

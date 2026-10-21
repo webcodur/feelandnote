@@ -11,7 +11,6 @@ import FactionArtworkHelp from "./FactionArtworkHelp";
 import { Z_INDEX } from "@/constants/zIndex";
 import { artworkEntryIndex, buildArtworkSlides, type ArtworkImage } from './artworkSlides';
 import FactionSceneNavigator from "./FactionSceneNavigator";
-import FactionSceneText from "./FactionSceneText";
 import FactionStoryCaption from "./FactionStoryCaption";
 import FactionStoryCards from './FactionStoryCards';
 import { splitSceneCaptionPages } from "./sceneCaptionPages";
@@ -20,18 +19,13 @@ import FactionCaptionHeight, { CAPTION_HEIGHT_OFFSETS, type CaptionHeight } from
 import { usePreloadImages } from "@/hooks/usePreloadImages";
 import { useWheelPaging } from "@/hooks/useWheelPaging";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
+import { useModalHistory } from "@/hooks/useModalHistory";
+import { ARTWORK_TEXT_STYLE as CAPTION_TEXT_STYLE } from "./artworkTextStyle";
 
 const PRELOAD_AHEAD = 2;
 /* 줌 모드의 휠 배율 — 커서 지점을 고정해 키우고 줄인다 */
 const MAX_ZOOM = 10;
 const WHEEL_ZOOM_STEP = 1.35;
-
-// 윤곽은 글자 크기에 맞추고, 짧은 음영은 글자 주변에만 남긴다.
-const CAPTION_TEXT_STYLE = {
-  WebkitTextStroke: "0.1em var(--color-black)",
-  paintOrder: "stroke fill",
-  textShadow: "0 1px 2px color-mix(in srgb, var(--color-black) 70%, transparent)",
-} as const;
 
 interface Props {
   images: ArtworkImage[];
@@ -74,6 +68,7 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
   /* 타이틀아트 제목을 칠해진 그림 영역에 맞추려고 그림별 가로세로비를 잰다 */
   const [ratios, setRatios] = useState<Record<string, number>>({});
   const viewerBodyRef = useRef<HTMLDivElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const closeNavigator = useCallback(() => setNavigatorOpen(false), []);
   const selectImage = useCallback((nextIndex: number) => {
@@ -86,6 +81,7 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
   const zIndex = Z_INDEX.modal + (nested ? 1 : 0);
   const image = images[index] ?? images[0];
   const hasImage = Boolean(image);
+  useModalHistory(hasImage, dialogRef, onClose, !navigatorOpen);
   const isEnding = Boolean(image?.card);
   const storyCount = sourceImages.filter(item => item.opening).length;
   useEffect(() => { onIndexChange?.(image?.sourceIndex ?? index) }, [index, image?.sourceIndex, onIndexChange]);
@@ -325,7 +321,7 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
     <>
     {/* 장면 뷰어는 전체화면 한 겹 — 창 안의 창(중간 모듈)은 없다. 스크롤 잠금·Esc는 이 컴포넌트가 직접 쥔다 */}
     {createPortal(
-      <div role="dialog" aria-modal="true" aria-label={title}
+      <div ref={dialogRef} role="dialog" aria-modal="true" aria-label={title}
         className="fixed inset-0 flex flex-col bg-bg-main" style={{ zIndex }}>
         {/* 제목은 좌우 폭이 같은 칸 사이에 둔다. 모바일은 제목을 별도 행에 놓아 조작 버튼과 겹치지 않는다. */}
         <div className="grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 border-b border-white/10 px-2 py-1 md:h-12 md:grid-cols-[minmax(9rem,1fr)_minmax(0,3fr)_minmax(9rem,1fr)] md:py-0">

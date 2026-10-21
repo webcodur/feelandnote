@@ -1,41 +1,26 @@
 "use client";
 
 import { useCallback, useState, useSyncExternalStore, type ReactNode } from "react";
-import { Images, Loader2, PanelTop, Play, Square } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+import { Images } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { Myth } from "@/actions/home/mythTypes";
 import { BlurDissolve } from "@/components/ui";
 import FactionArtworkViewer from "@/components/features/faction/FactionArtworkViewer";
 import FactionArtworkTitle from "@/components/features/faction/FactionArtworkTitle";
-import MythTitleImage from "./MythTitleImage";
-import MythOverviewReading from "./MythOverviewReading";
-import { MYTH_LAYOUT as layout } from "./mythLayout";
-import { useFactionDescVoice } from "@/hooks/useFactionDescVoice";
-import { useReadingNarration } from "@/hooks/useReadingNarration";
+import MythTitleImage from "../myth/MythTitleImage";
+import { MYTH_LAYOUT as layout } from "../myth/mythLayout";
 
 interface Props {
   myth: Myth;
-  memberCount: number;
-  workCount: number | null;
-  overviewLabel?: string;
-  fallback?: string;
-  navigation: (overview: ReactNode) => ReactNode;
+  navigation: ReactNode;
 }
 
 // 저장값은 읽기만 하고 갱신 구독은 없다 — 이 컴포넌트가 스스로 쓴다
 const subscribeNone = () => () => {};
 
-// 낮은 표지의 이미지 확대와 개요 읽기는 별도 조작으로 연다.
-export default function MythOverview({ myth, memberCount, workCount, overviewLabel, fallback, navigation }: Props) {
+// 탐색 구획의 제목·대표 이미지·주요 장면을 배치한다. 개요 전문은 별도 섹션이 맡는다.
+export default function AtlasOverview({ myth, navigation }: Props) {
   const t = useTranslations("explore.hub.myth");
-  const tVoice = useTranslations("celebPage");
-  const locale = useLocale() === "en" ? "en" : "ko";
-  const text = myth.description ?? fallback ?? t("mythOverviewFallback");
-  const voice = useFactionDescVoice(myth.id, locale, text);
-  const narration = useReadingNarration(voice?.audioUrl ?? "");
-  const playing = narration.status === "playing" || narration.status === "loading";
-  const playbackLabel = tVoice(playing ? "readingStop" : narration.status === "paused" ? "readingResume" : "readingPlay");
-  const [reading, setReading] = useState(false);
   const [zoom, setZoom] = useState(false);
   const [scenesOpen, setScenesOpen] = useState(false);
   // 뷰어를 닫아도 읽던 장면 번호를 잃지 않는다 — 다시 열면 그 자리에서 이어간다.
@@ -45,7 +30,6 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
   const sceneStorageKey = `myth-scene:${myth.id}`;
   const readSavedScene = useCallback(() => localStorage.getItem(sceneStorageKey), [sceneStorageKey]);
   const savedScene = useSyncExternalStore(subscribeNone, readSavedScene, () => null);
-  const closeReading = useCallback(() => setReading(false), []);
   const closeZoom = useCallback(() => setZoom(false), []);
   const closeScenes = useCallback(() => setScenesOpen(false), []);
   const [unavailable, setUnavailable] = useState<string[]>([]);
@@ -73,32 +57,17 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
   const openIndex = Number.isFinite(storedIndex)
     ? Math.min(Math.max(Math.trunc(storedIndex) + viewerShift, 0), Math.max(viewerImages.length - 1, 0))
     : 0;
-  const label = overviewLabel ?? t("mythOverview");
 
   return (
     <>
-      {/* 이름과 한 줄 정의는 구획 머리(HubSection)가 쥔다 — 여기서 또 그리면 번호 머리와 이름이 겹쳐 선다 */}
+      {/* 이름과 한 줄 정의는 공통 선택 영역(AtlasSelection)이 쥔다 — 여기서 또 그리면 번호 머리와 이름이 겹쳐 선다 */}
       <div data-artwork={displayImage ? "available" : "absent"}
-        className={`${layout.selectionDetails} ${displayImage ? "" : layout.selectionWithoutArtwork}`}>
-        <div className={layout.selectionControls}>
-          {navigation(
-            <div className="flex min-w-fit flex-1 flex-wrap items-stretch gap-1.5">
-              <button type="button" data-overview-trigger aria-label={`${myth.name} · ${label}`}
-                aria-haspopup="dialog" aria-expanded={reading} onClick={() => setReading(true)}
-                className={layout.overviewButton}>
-                <PanelTop size={16} className="shrink-0" aria-hidden />{label}
-              </button>
-              {narration.available && <button type="button" data-overview-playback aria-pressed={playing}
-                aria-label={`${label} · ${playbackLabel}`} title={playbackLabel} aria-busy={narration.status === "loading" || undefined}
-                onClick={playing ? narration.stop : narration.play}
-                className={`grid size-10 shrink-0 place-items-center rounded-lg border outline-none hover:border-accent hover:bg-accent/15 focus-visible:ring-2 focus-visible:ring-accent ${playing ? "border-accent/60 bg-accent/10 text-accent" : "border-white/20 bg-bg-main text-text-primary"}`}>
-                {narration.status === "loading" ? <Loader2 size={16} className="animate-spin" aria-hidden /> : playing ? <Square size={15} aria-hidden /> : <Play size={16} aria-hidden />}
-              </button>}
-            </div>
-          )}
+        className={layout.selectionStack}>
+        <div className="min-w-0">
+          {navigation}
         </div>
         {displayImage && (
-          <div className={layout.selectionArtwork}>
+          <div className="relative aspect-[3/2] min-w-0 md:aspect-[2/1]">
             {/* 그림 클릭 하나로 장면 뷰어를 연다(장면 없는 신화는 확대 뷰어) — 같은 영역에 버튼을 두 개 두지 않는다.
                 「주요 장면 N」은 읽기 전용 라벨. 제목은 오른쪽 아래라 왼쪽 아래에 둔다 */}
             <button type="button" data-artwork-zoom
@@ -108,7 +77,7 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
               className={`group ${layout.overviewImage} cursor-zoom-in border border-white/10 outline-none hover:border-accent focus-visible:ring-2 focus-visible:ring-accent`}>
               <BlurDissolve key={displayImage.url} className="absolute inset-0 transition-transform duration-300 motion-safe:group-hover:scale-105">
                 <MythTitleImage src={displayImage.url} alt="" priority
-                  sizes="(min-width: 1280px) 565px, (min-width: 768px) 50vw, calc(100vw - 24px)"
+                  sizes="(min-width: 960px) 896px, (min-width: 768px) calc(100vw - 80px), calc(100vw - 32px)"
                   onUnavailable={() => setUnavailable((urls) => [...urls, displayImage.url])} />
               </BlurDissolve>
               <FactionArtworkTitle title={myth.name} />
@@ -125,11 +94,6 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
       {zoom && <FactionArtworkViewer images={images} title={myth.name} titleInArtwork initialIndex={artworkIndex} onIndexChange={setArtworkIndex} onClose={closeZoom} />}
       {scenesOpen && <FactionArtworkViewer images={viewerImages} title={`${myth.name} · ${t('keyScenes')}`} initialIndex={openIndex}
         onIndexChange={(index) => handleSceneIndex(Math.min(Math.max(index - viewerShift, -1), scenes.length - 1))} onClose={closeScenes} />}
-      {reading && (
-        <MythOverviewReading voice={voice} narration={narration} text={text}
-          title={myth.name} onClose={closeReading}
-          notice={<p className="mb-4 text-sm text-text-secondary">{workCount === null ? t("groupMemberCount", { count: memberCount }) : t("mythOverviewStats", { people: memberCount, works: workCount })}</p>} />
-      )}
     </>
   );
 }

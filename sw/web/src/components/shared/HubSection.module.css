@@ -5,7 +5,12 @@
 }
 
 .section {
-  margin-top: 16px;
+  margin-top: var(--hub-section-before, 16px);
+}
+
+.spacious {
+  --hub-section-before: 24px;
+  --hub-divider-after: 64px;
 }
 
 .opening {
@@ -14,7 +19,7 @@
 }
 
 .divider {
-  margin-bottom: 48px;
+  margin-bottom: var(--hub-divider-after, 48px);
 }
 
 .afterDivider {
@@ -48,9 +53,10 @@
 }
 
 @media (min-width: 768px) {
-  .section { margin-top: 24px; }
+  .section { margin-top: var(--hub-section-before, 24px); }
+  .spacious { --hub-section-before: 32px; --hub-divider-after: 80px; }
   .opening { margin-top: 0; padding-top: 32px; }
-  .divider { margin-bottom: 64px; }
+  .divider { margin-bottom: var(--hub-divider-after, 64px); }
   .afterDivider { padding-top: 64px; }
   .header { gap: 12px; margin-bottom: 40px; }
   .more { margin-top: 28px; }

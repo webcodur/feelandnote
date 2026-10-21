@@ -234,11 +234,6 @@
         "searchResults": "{count, plural, one {# result} other {# results}}",
         "backToList": "Back to list",
         "factionMode": "Faction",
-        "selectThenOpen": "Choose a chip, then press it again to open {next}",
-        "openNext": "Press the selected chip again to open {next}",
-        "groupPickHint": "Click the selected group again or press Done below",
-        "searchPickHint": "Choose a search result",
-        "clickAgainConfirm": "Click again to confirm",
         "peopleCount": "{count, plural, one {# character} other {# characters}}"
       }
     },
@@ -376,7 +371,7 @@
         "worksReadLead": "Books these figures read",
         "worksAuthoredLead": "Books written by the figures",
         "worksProfessionLead": "Books sought by fellow {profession} figures",
-        "tocSelection": "Selection",
+        "tocSelection": "Explore",
         "captionFontSize": "Text size",
         "captionSize": {
           "small": "Small",
@@ -403,7 +398,17 @@
         "storyEnding": "Story ending",
         "startStory": "View scenes",
         "nextStory": "Next story",
-        "closeStory": "Close key scenes"
+        "closeStory": "Close key scenes",
+        "memberView": {
+          "label": "Member view",
+          "description": "Descriptions",
+          "avatar": "Avatars",
+          "portrait": "Portraits",
+          "empty": "A description of this figure’s role in this atlas is being prepared.",
+          "imageLabel": "Image type"
+        },
+        "overviewExpand": "Read more",
+        "overviewCollapse": "Collapse"
       },
       "relationMap": {
         "title": "Relation Map",
@@ -606,6 +611,24 @@
       "tiePlacementByTotal": "Equal field scores are ordered by overall influence, then by a fixed order if overall scores are also equal.",
       "tiePlacementEqual": "Podium height does not indicate a rank difference between tied figures.",
       "shelfEmpty": "No public works enjoyed by the figures above are available yet."
+    },
+    "atlasCatalog": {
+      "all": "All",
+      "regions": "Select a region",
+      "themes": "Select a theme",
+      "mythCount": "{count, plural, one {# myth} other {# myths}}",
+      "factionCount": "{count, plural, one {# faction} other {# factions}}",
+      "results": "{count, plural, one {# entry} other {# entries}}",
+      "continue": "Continue",
+      "searchMyths": "Search myths, stories, or regions",
+      "searchFactions": "Search factions or themes",
+      "clearSearch": "Clear search",
+      "members": "{count, plural, one {# member} other {# members}}",
+      "scenesComplete": "Scenes complete",
+      "empty": "No entries match your search.",
+      "reset": "View all entries",
+      "browseMyths": "Browse all myths",
+      "browseFactions": "Browse all factions"
     }
   },
   "searchResult": {

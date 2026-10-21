@@ -19,13 +19,32 @@ test('atlas participation and portrait stepping do not invalidate cached detail 
   assert.deepEqual(impact.scopes, ['none'])
 })
 
-test('explore preferences and atlas group footers only affect uncached listing screens', () => {
+test('explore preferences and shared atlas screens only affect uncached listing screens', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/components/features/home/useExplorePreferences.ts',
     'sw/web/src/constants/exploreFilters.ts',
     'sw/web/src/lib/explorePreferences.ts',
-    'sw/web/src/components/features/user/explore/myth/AtlasMemberFooter.tsx',
+    'sw/web/src/components/features/user/explore/atlas/AtlasScreen.tsx',
+    'sw/web/src/components/features/user/explore/atlas/AtlasPersonDetail.tsx',
+    'sw/web/src/components/features/user/explore/atlas/AtlasWorkShelf.tsx',
+    'sw/web/src/lib/atlas-catalog.ts',
   ]).scopes, ['none'])
+})
+
+test('modal history and the shared explore banner refresh their cached HTML consumers', () => {
+  for (const file of [
+    'sw/web/src/lib/modalHistory.ts',
+    'sw/web/src/hooks/useModalHistory.ts',
+    'sw/web/src/components/features/user/explore/hub/ExploreBanner.tsx',
+  ]) assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['cached-html'])
+})
+
+test('atlas artwork also reaches the cached content gallery through its dynamic viewer', () => {
+  for (const file of [
+    'sw/web/src/components/features/faction/FactionArtworkViewer.tsx',
+    'sw/web/src/components/features/faction/FactionArtworkTitle.tsx',
+    'sw/web/src/components/features/faction/artworkTextStyle.ts',
+  ]) assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['content'])
 })
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
@@ -708,9 +727,8 @@ test('world banner URLs and material changes evict celeb HTML on deployment', ()
   }
 });
 
-test('atlas artwork viewers and deleted story guides do not affect cached HTML', () => {
+test('atlas scene controls and deleted story guides do not affect cached HTML', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact([
-    'sw/web/src/components/features/faction/FactionArtworkViewer.tsx',
     'sw/web/src/components/features/faction/FactionSceneNavigator.tsx',
     'sw/web/src/components/features/faction/FactionStoryGuide.tsx',
     'sw/web/src/components/features/faction/storyBoundaries.ts',
@@ -744,7 +762,7 @@ test('R2 genre banners and shared detail UI evict only their consuming detail HT
 
 
 test('myth story guide viewer changes do not evict unrelated cached details', () => {
-  for (const file of ['FactionArtworkViewer.tsx', 'FactionSceneNavigator.tsx', 'FactionStoryGuide.tsx', 'storyBoundaries.ts']) {
+  for (const file of ['FactionSceneNavigator.tsx', 'FactionStoryGuide.tsx', 'storyBoundaries.ts']) {
     assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/components/features/faction/' + file]).scopes, ['none'])
   }
 })

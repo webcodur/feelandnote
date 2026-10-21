@@ -22,7 +22,7 @@ export interface FeaturedCeleb {
   title_en: string | null
   profession: string | null
   speech_tone: string | null
-  /* 긴 소개(long_desc)는 싣지 않는다 — 명단이 캐시 상한 2MB를 넘어 getFactionLongDescs가 테마별로 준다 */
+  /* 전체 목차에는 긴 소개를 싣지 않는다. 현재 도감의 인물 자료에만 포함한다. */
   faction_image_url: string | null  // faction_members.image_url — 세력 전용 화보
   /**
    * 이 인물이 속한 그룹 이름 — 배정의 그룹(`faction_lv3`)에서 온다. 그룹 없는 배정은 null이다.

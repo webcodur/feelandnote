@@ -1,8 +1,13 @@
 import { getLocale, getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
 import { getMythIndex } from "@/actions/home/getMythIndex";
 import { getMythClientData } from "@/actions/home/mythPublicData";
 import { getLocalizedAlternates } from "@/lib/seo";
-import { MythSection } from "../sections";
+import AtlasCatalog from "@/components/features/user/explore/atlas/AtlasCatalog";
+import { MYTH_LAST_COOKIE } from "@/components/features/user/explore/myth/mythHref";
+import { mythCatalogGroups } from "@/lib/atlas-catalog";
+import { getVisitorCountry } from "@/lib/visitorCountryServer";
+import { orderMythRegions } from "@/lib/visitorCountry";
 
 export const maxDuration = 30;
 
@@ -40,6 +45,12 @@ export async function generateMetadata() {
   };
 }
 
-export default function MythPage() {
-  return <MythSection />;
+export default async function MythPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const locale = await getLocale();
+  const [data, country, cookieStore, params] = await Promise.all([getMythIndex(locale), getVisitorCountry(), cookies(), searchParams]);
+  const groups = mythCatalogGroups({ ...data, regions: orderMythRegions(data.regions, country) });
+  const savedSlug = cookieStore.get(MYTH_LAST_COOKIE)?.value;
+  const recent = groups.flatMap(group => group.entries).find(entry => entry.href.endsWith(`/${savedSlug}`));
+  const initialTheme = typeof params.section === "string" ? params.section : undefined;
+  return <AtlasCatalog key={initialTheme ?? "all"} mode="myth" groups={groups} initialTheme={initialTheme} recent={recent} />;
 }

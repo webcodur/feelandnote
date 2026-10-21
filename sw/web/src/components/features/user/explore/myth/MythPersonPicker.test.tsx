@@ -19,24 +19,31 @@ async function fixture() {
         import { useState } from 'react';
         import { createRoot } from 'react-dom/client';
         import { flushSync } from 'react-dom';
-        import Picker from './src/components/features/user/explore/myth/MythPersonPicker';
+        import Picker from './src/components/features/user/explore/myth/members/AtlasMemberList';
+        import ViewToggle from './src/components/features/user/explore/myth/members/AtlasMemberViewToggle';
         const image = (color, tag) => 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500"><rect width="400" height="500" fill="' + color + '"/><circle cx="200" cy="180" r="65" fill="#dbc5a0"/><path d="M70 500V390a130 130 0 0 1 260 0v110" fill="#565b50"/></svg>') + '#' + tag;
         const avatar = image('#343a30', 'avatar');
-        const person = (id, name, fields = {}) => ({ id, name, title: '인물 소개', avatarUrl: avatar, portraitUrl: null, imageUrl: null, appearances: [], ...fields });
+        const person = (id, name, fields = {}) => ({ id, name, title: '인물 소개', bio: '일반 약력으로 대체하지 않음', summary: '다른 도감의 대표 설명', avatarUrl: avatar, portraitUrl: null, imageUrl: null, appearances: [], ...fields });
         const people = [
           person('avatar', '작은 얼굴'),
-          person('portrait', '대표사진', { portraitUrl: image('#6f6550', 'portrait') }),
+          person('portrait', '대표사진', { portraitUrl: image('#6f6550', 'portrait'), appearances: [{ mythId: 'other', summary: '다른 도감 설명' }] }),
           person('empty', '사진 없음', { avatarUrl: null }),
-          person('theme', '전용 사진', { portraitUrl: image('#604d49', 'alternate'), appearances: [{ mythId: 'theme', imageUrl: image('#4a565d', 'scene') }] }),
+          person('theme', '전용 사진', { portraitUrl: image('#604d49', 'alternate'), appearances: [{ mythId: 'other', summary: '다른 도감 설명' }, { mythId: 'theme', summary: '이 도감에서 맡은 역할.\\n\\n해당 인물의 두 번째 문단.', imageUrl: image('#4a565d', 'scene') }] }),
           person('same-avatar', '아바타만 등록', { imageUrl: avatar }),
         ];
         function Harness() {
-          const [mode, setMode] = useState('portrait');
+          const [imageMode, setImageMode] = useState('portrait');
+          const [showDescription, setShowDescription] = useState(false);
           const [members, setMembers] = useState(people);
           const [selectedId, onSelect] = useState(null);
-          window.setMode = value => flushSync(() => setMode(value));
+          window.setMode = value => flushSync(() => {
+            setShowDescription(value === 'description');
+            if(value !== 'description') setImageMode(value);
+          });
+          window.resetList = () => flushSync(() => setMembers(people));
           window.longList = () => flushSync(() => setMembers(Array.from({ length: 15 }, (_, index) => person('person-' + index, '인물 ' + index, index >= 10 ? { portraitUrl: image('#6f6550', 'photo-' + index) } : {}))));
-          return <Picker people={members} name="구성원" mythId="theme" imageMode={mode} selectedId={selectedId} onSelect={onSelect}/>;
+          return <><ViewToggle showDescription={showDescription} imageMode={imageMode} onDescriptionChange={setShowDescription} onImageModeChange={setImageMode}/>
+            <Picker people={members} name="구성원" mythId="theme" listKey="theme-all" showDescription={showDescription} imageMode={imageMode} selectedId={selectedId} onSelect={onSelect}/></>;
         }
         createRoot(document.getElementById('root')).render(<Harness/>);`,
     },
@@ -55,7 +62,7 @@ async function fixture() {
   });
   const cssRequire = createRequire(require.resolve("@tailwindcss/postcss"));
   const css = await cssRequire("postcss")([require("@tailwindcss/postcss")()]).process(
-    '@import "tailwindcss" source(none); @source "./src/components/features/user/explore/myth/MythPersonPicker.tsx"; @source "./src/components/features/user/explore/myth/mythLayout.ts"; @source "./src/components/shared/celebGridLayout.ts"; @source "./src/components/shared/PortraitPersonStepper.tsx"; @theme { --color-bg-main:#10100f; --color-bg-card:#1b1a18; --color-bg-secondary:#22211e; --color-text-primary:#f3eee5; --color-text-secondary:#aaa79d; --color-accent:#d7bd78; }',
+    '@import "tailwindcss" source(none); @source "./src/components/features/user/explore/myth/MythPersonPicker.tsx"; @source "./src/components/features/user/explore/myth/members/*.tsx"; @source "./src/components/features/user/explore/myth/mythLayout.ts"; @source "./src/components/shared/celebGridLayout.ts"; @source "./src/components/shared/PortraitPersonStepper.tsx"; @theme { --color-bg-main:#10100f; --color-bg-card:#1b1a18; --color-bg-secondary:#22211e; --color-text-primary:#f3eee5; --color-text-secondary:#aaa79d; --color-accent:#d7bd78; }',
     { from: path.join(appDir, "picker-fixture.css") },
   );
   return {
@@ -64,7 +71,7 @@ async function fixture() {
   };
 }
 
-test("portrait mode groups compact cards below photos without losing selection or member order", async t => {
+test("member views preserve photo fallback and pair each figure with the current atlas description", async t => {
   const bundle = await fixture();
   const browser = await puppeteer.launch({ headless: true });
   try {
@@ -114,6 +121,42 @@ test("portrait mode groups compact cards below photos without losing selection o
           assert.equal((await ids("compact")).length, 10);
           await page.click('button[aria-expanded="true"]');
           assert.equal((await ids("compact")).length, 7);
+          await page.evaluate(() => {
+            const fixture = window as unknown as { resetList: () => void; setMode: (mode: string) => void };
+            fixture.resetList(); fixture.setMode("description");
+          });
+          assert.equal(await page.$$('[data-person-description]').then(cards => cards.length), 5);
+          const description = await page.$eval('[data-person-id="theme"]', card => card.textContent!);
+          assert.match(description, /이 도감에서 맡은 역할/);
+          assert.match(description, /해당 인물의 두 번째 문단/);
+          assert.doesNotMatch(description, /다른 도감 설명|일반 약력|대표 설명/);
+          assert.equal(await page.$$('[data-person-id="theme"] [data-text-paragraph]').then(paragraphs => paragraphs.length), 2);
+          const missing = await page.$eval('[data-person-id="portrait"]', card => card.textContent!);
+          assert.match(missing, /empty/);
+          assert.doesNotMatch(missing, /다른 도감 설명|일반 약력|대표 설명/);
+          const descriptionLayout = await page.$eval('[data-person-id="theme"]', card => ({
+            image: card.querySelector('button')!.getBoundingClientRect().toJSON(),
+            text: card.lastElementChild!.getBoundingClientRect().toJSON(),
+          }));
+          if (width === 390) assert.ok(descriptionLayout.text.top >= descriptionLayout.image.bottom);
+          else assert.ok(descriptionLayout.text.left > descriptionLayout.image.right);
+          await page.click('[data-member-view="avatar"]');
+          assert.equal(await page.$$('[data-person-description]').then(cards => cards.length), 5);
+          assert.equal(await page.$eval('[data-member-description-toggle]', e => e.getAttribute("aria-checked")), "true");
+          assert.match(await page.$eval('[data-person-id="theme"] img', e => (e as HTMLImageElement).src), /#avatar$/);
+          assert.equal(await page.$eval('[data-person-id="empty"] [data-portrait-source]', e => e.getAttribute("data-portrait-source")), "initials");
+          await page.click('[data-member-description-toggle]');
+          assert.equal(await page.$$('[data-person-description]').then(cards => cards.length), 0);
+          assert.deepEqual(await ids("compact"), ["avatar", "portrait", "empty", "theme", "same-avatar"]);
+          await page.click('[data-member-description-toggle]');
+          assert.equal(await page.$eval('[data-person-id="theme"]', e => e.getAttribute("data-member-image")), "avatar");
+          await page.click('[data-member-view="portrait"]');
+          assert.equal(await page.$eval('[data-member-description-toggle]', e => e.getAttribute("aria-checked")), "true");
+          assert.match(await page.$eval('[data-person-id="theme"] img', e => (e as HTMLImageElement).src), /#scene$/);
+          if (process.env.FN_PICKER_SCREENSHOT_DIR) {
+            const controls = await page.$('[role="group"]:has(> [data-member-description-toggle])');
+            await controls!.screenshot({ path: path.join(process.env.FN_PICKER_SCREENSHOT_DIR, `member-controls-${width}.png`) });
+          }
           assert.deepEqual(errors, []);
         } finally {
           await page.close();
