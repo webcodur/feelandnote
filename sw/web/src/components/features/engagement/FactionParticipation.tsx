@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Eye } from "lucide-react";
 import { incrementFactionView } from "@/actions/engagement/incrementFactionView";
-import { shouldCountPageView } from "@/lib/celeb/viewDedup";
+import { recordPageView } from "@/lib/celeb/viewDedup";
 import ShareButtons from "@/components/ui/ShareButtons";
 import PageLikeButton from "./PageLikeButton";
 
@@ -15,7 +15,7 @@ export default function FactionParticipation({ factionId, slug, name, kind = "fa
   const [views, setViews] = useState<number | null>(null);
   useEffect(() => {
     let alive = true;
-    void incrementFactionView(factionId, shouldCountPageView("faction", factionId))
+    void recordPageView("faction", factionId, incrementFactionView)
       .then((count) => { if (alive) setViews(count); })
       .catch(() => { if (alive) setViews(null); });
     return () => { alive = false; };

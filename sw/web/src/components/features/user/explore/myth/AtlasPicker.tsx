@@ -5,11 +5,10 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import Modal from "@/components/ui/Modal";
 import { FACTION_PERSON_LAYOUT } from "@/components/features/faction/entry/factionPersonLayout";
-import { ATLAS_GROUP_PARAM, atlasSelection, firstAtlasEntry, type AtlasSelection, type AtlasTheme } from "./atlasNavigationData";
+import { ATLAS_GROUP_PARAM, atlasSelection, atlasStepKeys, firstAtlasEntry, type AtlasSelection, type AtlasTheme } from "./atlasNavigationData";
 import AtlasPickerControls from "./AtlasPickerControls";
 import AtlasPickerOptions, { type AtlasPickerOption } from "./AtlasPickerOptions";
 import { useAtlasPicker } from "./useAtlasPicker";
-import styles from "./AtlasPicker.module.css";
 
 interface Props {
   tree: AtlasTheme[];
@@ -26,6 +25,7 @@ export default function AtlasPicker({ tree, selection, initialLevel, myth, onClo
   const [active, setActive] = useState(initialLevel);
   const [query, setQuery] = useState("");
   const [pulseKey, setPulseKey] = useState(0);
+  const [armed, setArmed] = useState<string | null>(null);
   const picker = useAtlasPicker(tree, selection, myth);
   const { theme, entry, group } = atlasSelection(picker.tree, picker.draft);
   const all = { id: null, name: t("allMembers"), count: entry?.count };
@@ -39,7 +39,9 @@ export default function AtlasPicker({ tree, selection, initialLevel, myth, onClo
   const items = search ? picker.tree.flatMap((parent) => parent.entries
     .filter((item) => `${parent.name}${item.name}`.normalize("NFKC").toLocaleLowerCase().replace(/\s+/g, "").includes(search))
     .map((item) => ({ ...item, themeId: parent.id, context: parent.name }))) : lists[active];
-  const changeLevel = (level: number) => { setActive(level); setQuery(""); setPulseKey(0); };
+  const ready = !search && armed === `${picker.world}:${active}:${currentIds[active]}`;
+  const playLabel = active < 2 ? t("openNext", { next: t(atlasStepKeys(picker.world)[active + 1]) }) : t("done");
+  const changeLevel = (level: number) => { setActive(level); setQuery(""); setArmed(null); setPulseKey(0); };
 
   const choose = (item: AtlasPickerOption) => {
     if (item.disabled || picker.loading || picker.error) return;
@@ -49,8 +51,18 @@ export default function AtlasPicker({ tree, selection, initialLevel, myth, onClo
       picker.setDraft({ themeId: item.themeId!, entryId: item.id, groupId: item.id === draft.entryId ? draft.groupId : null });
       setQuery("");
       setActive(1);
+      setArmed(`${picker.world}:1:${item.id}`);
       return;
     }
+    if (ready && item.id === currentIds[active]) {
+      if (active === 2) commit();
+      else {
+        changeLevel(active + 1);
+        document.getElementById(`atlas-tab-${active + 1}`)?.focus({ preventScroll: true });
+      }
+      return;
+    }
+    setArmed(`${picker.world}:${active}:${item.id}`);
     if (active === 0) {
       const next = picker.tree.find((parent) => parent.id === item.id)!;
       picker.setDraft(next.id === draft.themeId ? draft : { themeId: next.id, entryId: firstAtlasEntry(next)?.id ?? null, groupId: null });
@@ -58,12 +70,14 @@ export default function AtlasPicker({ tree, selection, initialLevel, myth, onClo
       picker.setDraft(item.id === draft.entryId ? draft : { ...draft, entryId: item.id, groupId: null });
     } else picker.setDraft({ ...draft, groupId: item.id });
   };
-  // 칩은 한 번 눌러 임시 선택하고, 적용은 하단 선택 완료 버튼 한 곳에서만 한다.
+  // 첫 클릭은 선택과 ▶ 안내, 재클릭은 다음 단계로 이동하거나 그룹 선택을 적용한다.
   const commit = (next = picker.draft) => {
     const target = atlasSelection(picker.tree, next).entry;
     if (!target || target.disabled || picker.loading || picker.error) return;
     if ((picker.world === "myth") === myth) {
-      if (next.themeId !== selection.themeId || next.entryId !== selection.entryId || next.groupId !== selection.groupId) onSelect(next);
+      if (next.themeId !== selection.themeId || next.entryId !== selection.entryId || next.groupId !== selection.groupId) {
+        onSelect(next);
+      }
     } else if (target.href) {
       const suffix = next.groupId ? `?${ATLAS_GROUP_PARAM}=${encodeURIComponent(next.groupId)}` : "";
       router.push(`${target.href}${suffix}`, { scroll: false });
@@ -76,8 +90,7 @@ export default function AtlasPicker({ tree, selection, initialLevel, myth, onClo
   const confirm = (
     <button type="button" data-atlas-confirm onClick={() => commit()} disabled={!canCommit}
       aria-label={t("done")} title={`${t("done")}${path ? ` · ${path}` : ""}`}
-      className="relative flex min-h-12 w-full items-center justify-center rounded-lg border border-accent bg-accent px-4 py-3 text-sm font-semibold text-bg-main outline-none enabled:hover:border-accent-hover enabled:hover:bg-accent-hover enabled:active:bg-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-main disabled:cursor-default disabled:border-white/10 disabled:bg-transparent disabled:text-text-tertiary">
-      {pulseKey > 0 && canCommit && <span key={pulseKey} aria-hidden data-atlas-confirm-pulse className={`pointer-events-none absolute -inset-1 rounded-xl border-2 border-accent ${styles.confirmPulse}`} />}
+      className="relative flex min-h-12 w-full items-center justify-center gap-2 rounded-lg border border-accent bg-accent px-4 py-3 text-sm font-semibold text-bg-main outline-none enabled:hover:border-accent-hover enabled:hover:bg-accent-hover enabled:active:bg-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-main disabled:cursor-default disabled:border-white/10 disabled:bg-transparent disabled:text-text-tertiary">
       {t("done")}
     </button>
   );
@@ -88,13 +101,14 @@ export default function AtlasPicker({ tree, selection, initialLevel, myth, onClo
       <div className="flex flex-col" data-atlas-picker data-atlas-picker-level={initialLevel} data-atlas-world={picker.world}>
         <AtlasPickerControls world={picker.world} active={active} query={query} resultCount={items.length}
           selectionNames={[theme?.name ?? "—", entry?.name ?? "—", group?.name ?? t("allMembers")]} onClose={onClose}
-          onQueryChange={(value) => { setQuery(value); setPulseKey(0); if (value.trim()) setActive(1); }}
-          onWorldChange={(world) => { if (world !== picker.world) { picker.switchWorld(world); setActive(1); setPulseKey(0); } }}
+          onQueryChange={(value) => { setQuery(value); setArmed(null); setPulseKey(0); if (value.trim()) setActive(1); }}
+          onWorldChange={(world) => { if (world !== picker.world) { picker.switchWorld(world); setActive(1); setArmed(null); setPulseKey(0); } }}
           onTabChange={changeLevel}
           onSearchSelect={() => { if (searchChoices.length === 1) choose(searchChoices[0]); }} />
         <div className="flex flex-col px-4 pt-3 pb-4 sm:px-5 sm:pb-5 [@media(max-height:560px)]:pt-1 [@media(max-height:560px)]:pb-2">
           <AtlasPickerOptions transitionKey={`${picker.world}:${active}`} level={active} items={items} currentId={currentIds[active]}
-            searching={Boolean(search)} onSelect={choose} loading={picker.loading} error={picker.error} onRetry={picker.retry} />
+            searching={Boolean(search)} onSelect={choose} loading={picker.loading} error={picker.error} onRetry={picker.retry}
+            ready={ready} pulseKey={pulseKey} playLabel={playLabel} />
         </div>
       </div>
     </Modal>

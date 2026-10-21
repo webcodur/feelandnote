@@ -234,7 +234,8 @@
         "searchResults": "{count, plural, one {# result} other {# results}}",
         "backToList": "Back to list",
         "factionMode": "Faction",
-        "peopleCount": "{count, plural, one {# character} other {# characters}}"
+        "peopleCount": "{count, plural, one {# character} other {# characters}}",
+        "openNext": "Choose {next}"
       }
     },
     "hub": {

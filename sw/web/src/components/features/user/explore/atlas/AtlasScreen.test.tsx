@@ -28,7 +28,7 @@ function loadComponent(file: URL, modules: Record<string, unknown>) {
 function renderScreen(mode: AtlasWorld, locale = "ko") {
   const modules = {
     "next-intl": { useLocale: () => locale, useTranslations: () => (key: string) => key },
-    "lucide-react": { ArrowRight: Empty, Clock3: Empty, Eye: Empty, ChevronDown: Empty, ChevronLeft: Empty, ChevronRight: Empty },
+    "lucide-react": { LayoutGrid: Empty, ArrowRight: Empty, Clock3: Empty, Eye: Empty, ChevronDown: Empty, ChevronLeft: Empty, ChevronRight: Empty },
     "next/navigation": { useSearchParams: () => new URLSearchParams() },
     "@/i18n/navigation": { Link: "a", usePathname: () => `/explore/${mode}/entry`, useRouter: () => ({}) },
     "@/hooks/useRecentAtlas": { useRecentAtlas: () => {} },
@@ -85,9 +85,33 @@ test("신화·세력은 같은 제목·참여·장면·그룹 배치를 사용�
       assert.equal($("#atlas-members [data-atlas-level='2']").length, 1);
       assert.equal($("#atlas-members h2").length, 1);
       assert.equal($("#atlas-index").length, 0);
-      assert.equal($("[data-atlas-catalog-link]").attr("href"), `/explore/${mode}`);
+      assert.equal($("[data-atlas-catalog-link]").length, 0, "Detail content does not duplicate the world navigation");
       assert.ok(markup.indexOf("data-faction-participation") < markup.indexOf("data-scenes"));
       assert.ok(markup.indexOf("data-scenes") < markup.indexOf('id="atlas-members"'));
+    }
+  }
+});
+
+test("상단의 현재 신화·세력 버튼은 상세에서 전체 목록으로 돌아가고 목록에서는 현재 위치를 표시한다", () => {
+  for (const mode of ["myth", "faction"] as const) for (const detail of [false, true]) {
+    const Frame = loadComponent(new URL("../hub/ExploreLayoutFrame.tsx", import.meta.url), {
+      "react": React,
+      "next/navigation": { useSelectedLayoutSegment: () => mode },
+      "next-intl": { useTranslations: () => (key: string) => key },
+      "lucide-react": { CornerUpLeft: Empty },
+      "@/i18n/navigation": { Link: "a", usePathname: () => `/explore/${mode}${detail ? "/entry" : ""}` },
+      "@/constants/navigation": { EXPLORE_FEATURED_LINKS: [{ key: "myth", href: "/explore/myth" }, { key: "faction", href: "/explore/faction" }] },
+      "@/components/layout/PageContainer": { default: ({ children }: { children: React.ReactNode }) => <main>{children}</main> },
+      "../myth/mythHref": require("../myth/mythHref"),
+    });
+    const $ = load(renderToStaticMarkup(<Frame><div>Body</div></Frame>));
+    const current = $("nav [aria-current='page']");
+    assert.equal(current.length, 1);
+    assert.equal(current.is(detail ? "a" : "span"), true);
+    if (detail) {
+      assert.equal(current.attr("href"), `/explore/${mode}`);
+      assert.equal(current.attr("data-atlas-catalog-link"), "true");
+      assert.ok(current.attr("title"));
     }
   }
 });

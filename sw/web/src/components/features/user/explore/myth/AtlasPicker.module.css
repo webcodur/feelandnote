@@ -2,18 +2,18 @@
   animation: panelEnter 200ms ease-out both;
 }
 
-.confirmPulse {
-  animation: confirmPulse 650ms ease-out 2 both;
+.playPulse {
+  animation: playPulse 650ms ease-out 2 both;
 }
 
-@keyframes confirmPulse {
+@keyframes playPulse {
   from {
     opacity: 0.65;
     transform: scale(1);
   }
   to {
     opacity: 0;
-    transform: scale(1.02, 1.12);
+    transform: scale(1.6);
   }
 }
 
@@ -32,7 +32,7 @@
   .panelEnter {
     animation: none;
   }
-  .confirmPulse {
+  .playPulse {
     animation: none;
     opacity: 0;
   }

@@ -45,6 +45,8 @@ export default function HeaderSearch() {
   if (searchPathname !== pathname) {
     setSearchPathname(pathname);
     setIsMobileExpanded(false);
+    setIsCelebInfoOpen(false);
+    setSelectedCeleb(null);
   }
 
   const displayPlaceholder = mode === "content" ? tp(contentCategory) : t(`${mode}Placeholder`);

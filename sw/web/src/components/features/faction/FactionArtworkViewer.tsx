@@ -19,7 +19,6 @@ import FactionCaptionHeight, { CAPTION_HEIGHT_OFFSETS, type CaptionHeight } from
 import { usePreloadImages } from "@/hooks/usePreloadImages";
 import { useWheelPaging } from "@/hooks/useWheelPaging";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
-import { useModalHistory } from "@/hooks/useModalHistory";
 import { ARTWORK_TEXT_STYLE as CAPTION_TEXT_STYLE } from "./artworkTextStyle";
 
 const PRELOAD_AHEAD = 2;
@@ -68,7 +67,6 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
   /* 타이틀아트 제목을 칠해진 그림 영역에 맞추려고 그림별 가로세로비를 잰다 */
   const [ratios, setRatios] = useState<Record<string, number>>({});
   const viewerBodyRef = useRef<HTMLDivElement | null>(null);
-  const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const closeNavigator = useCallback(() => setNavigatorOpen(false), []);
   const selectImage = useCallback((nextIndex: number) => {
@@ -81,7 +79,6 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
   const zIndex = Z_INDEX.modal + (nested ? 1 : 0);
   const image = images[index] ?? images[0];
   const hasImage = Boolean(image);
-  useModalHistory(hasImage, dialogRef, onClose, !navigatorOpen);
   const isEnding = Boolean(image?.card);
   const storyCount = sourceImages.filter(item => item.opening).length;
   useEffect(() => { onIndexChange?.(image?.sourceIndex ?? index) }, [index, image?.sourceIndex, onIndexChange]);
@@ -321,7 +318,7 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
     <>
     {/* 장면 뷰어는 전체화면 한 겹 — 창 안의 창(중간 모듈)은 없다. 스크롤 잠금·Esc는 이 컴포넌트가 직접 쥔다 */}
     {createPortal(
-      <div ref={dialogRef} role="dialog" aria-modal="true" aria-label={title}
+      <div role="dialog" aria-modal="true" aria-label={title}
         className="fixed inset-0 flex flex-col bg-bg-main" style={{ zIndex }}>
         {/* 제목은 좌우 폭이 같은 칸 사이에 둔다. 모바일은 제목을 별도 행에 놓아 조작 버튼과 겹치지 않는다. */}
         <div className="grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 border-b border-white/10 px-2 py-1 md:h-12 md:grid-cols-[minmax(9rem,1fr)_minmax(0,3fr)_minmax(9rem,1fr)] md:py-0">

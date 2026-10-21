@@ -90,7 +90,7 @@ test("header search releases page scroll after closing, nested dialogs, resize, 
   const output = await buildFixture();
   const browser = await puppeteer.launch({ headless: true });
   try {
-    for (const scenario of ["close", "detail-then-search", "search-then-detail", "desktop-resize", "navigation", "unmount"] as const) {
+    for (const scenario of ["close", "detail-then-search", "search-then-detail", "desktop-resize", "navigation", "detail-navigation", "unmount"] as const) {
       await t.test(scenario, async () => {
         const page = await browser.newPage();
         try {
@@ -120,9 +120,14 @@ test("header search releases page scroll after closing, nested dialogs, resize, 
           } else if (scenario === "desktop-resize") {
             await page.setViewport({ width: 1440, height: 900 });
             await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-          } else if (scenario === "navigation") {
+          } else if (scenario === "navigation" || scenario === "detail-navigation") {
+            if (scenario === "detail-navigation") {
+              await page.click('[data-info]');
+              await page.waitForSelector('[data-close-detail]');
+            }
             await page.evaluate(() => { location.hash = '/explore'; window.dispatchEvent(new Event('fixture-route')); });
             await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+            assert.equal(await page.$('[role="dialog"]'), null, "A persistent header must close its previous-page detail modal");
           } else if (scenario === "unmount") {
             await page.evaluate(() => (window as unknown as { unmountSearch: () => void }).unmountSearch());
           } else {

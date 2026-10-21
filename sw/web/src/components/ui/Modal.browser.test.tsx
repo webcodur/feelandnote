@@ -23,11 +23,16 @@ async function buildFixture() {
         const [blocked, setBlocked] = useState(false);
         window.showLayers = next => flushSync(() => setLayers(next));
         window.blockClose = value => flushSync(() => setBlocked(value));
-        window.navigate = (closeFirst = false, keepOpen = false) => {
-          window.renderedRoute = 'detail';
-          if (closeFirst) flushSync(() => setLayers([]));
-          history.pushState({ __NA: true, tree: 'detail' }, '', '/detail');
-          if (!keepOpen) flushSync(() => setLayers([]));
+        window.navigateAsync = () => {
+          window.navigationCancelled = false; window.navigationDone = false;
+          const cancel = () => { window.navigationCancelled = true; };
+          addEventListener('popstate', cancel);
+          flushSync(() => setLayers([]));
+          setTimeout(() => {
+            if (!window.navigationCancelled) history.pushState({tree:'detail'}, '', '/detail');
+            removeEventListener('popstate', cancel);
+            window.navigationDone = true;
+          }, 100);
         };
         return <>
           <button id="open" onClick={() => setLayers(['parent'])}>Open</button>
@@ -68,35 +73,23 @@ async function show(page: Page, names: string[]) {
   await settle(page);
 }
 
-test("modal back navigation preserves the page and closes only the top layer", async t => {
+test("modals leave browser history alone during closing, filters and delayed navigation", async t => {
   const output = await buildFixture();
   const browser = await puppeteer.launch({ headless: true });
   try {
-    for (const scenario of ["mobile back", "desktop back", "nested", "gallery", "close button", "escape", "overlay", "programmatic", "swap", "navigation", "persistent modal navigation", "close then navigation", "pending close navigation", "replace state", "blocked", "rapid reopen", "draft"]) {
+    for (const scenario of ["close button", "escape", "overlay", "programmatic", "nested", "gallery", "replace state", "blocked", "async navigation", "browser back"]) {
       await t.test(scenario, async () => {
         const page = await browser.newPage();
         try {
-          page.setDefaultTimeout(1500);
           const errors: string[] = [];
           page.on("pageerror", error => errors.push(String(error)));
-          await page.setViewport({ width: scenario === "desktop back" ? 1440 : 390, height: 844 });
+          await page.setViewport({ width: scenario === "overlay" ? 1440 : 390, height: 844 });
           await page.setRequestInterception(true);
           page.on("request", request => void request.respond({ status: 200, contentType: "text/html", body: '<html><body style="margin:0"><div id="root"></div><div style="height:3000px"></div></body></html>' }));
           await page.goto("http://localhost:45679/source");
-          await page.evaluate(() => history.pushState({ __NA: true, tree: "list" }, "", "/list"));
-          // Next.js의 native history 연동처럼 내부 state를 보존하고 외부 URL 변경을 기록한다.
           await page.evaluate(() => {
-            const api = window as unknown as { nativeUpdates: number; renderedRoute: string };
-            api.nativeUpdates = 0;
-            api.renderedRoute = "list";
-            for (const name of ["pushState", "replaceState"] as const) {
-              const original = history[name].bind(history);
-              history[name] = (data, unused, url) => {
-                if (!data?.__NA && url) { api.nativeUpdates++; api.renderedRoute = history.state.tree; }
-                original(data?.__NA ? data : { ...data, __NA: true, tree: history.state.tree }, unused, url);
-              };
-            }
-            window.addEventListener("popstate", event => { api.renderedRoute = event.state?.tree; });
+            history.pushState({ tree: "list" }, "", "/list");
+            (window as unknown as { originalHistory: unknown }).originalHistory = { push: history.pushState, replace: history.replaceState };
           });
           await page.addStyleTag({ content: '#open{position:fixed;top:0;left:0}.fixed{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}.relative{position:relative}[role=dialog]{background:white;width:250px;min-height:150px}' });
           await page.addScriptTag({ content: output.outputFiles[0].text });
@@ -104,82 +97,57 @@ test("modal back navigation preserves the page and closes only the top layer", a
           await page.evaluate(() => window.scrollTo(0, 600));
           await page.click("#open");
           await settle(page);
-          // StrictMode must leave exactly one additional history entry.
-          assert.equal(await page.evaluate(() => history.length), 4);
-          assert.equal(await page.evaluate(() => history.state.tree), "list");
-          if (scenario === "nested" || scenario === "gallery") {
-            await show(page, ["parent", scenario === "gallery" ? "gallery" : "child"]);
-            await page.goBack();
-            await settle(page);
-            assert.deepEqual(await page.$$eval('[role="dialog"] h2', nodes => nodes.map(node => node.textContent)), ["parent"]);
-          } else if (scenario === "swap") {
-            await show(page, ["replacement"]);
-            assert.equal(await page.evaluate(() => history.length), 4);
-          } else if (scenario === "replace state") {
-            await page.evaluate(() => history.replaceState({ filter: "name" }, "", "?sort=name#section"));
-          } else if (scenario === "draft") {
-            await page.type("textarea", " saved");
-          } else if (scenario === "blocked") {
-            await page.evaluate(() => (window as unknown as { blockClose: (value: boolean) => void }).blockClose(true));
-            await page.goBack();
-            await settle(page);
-            assert.equal(await page.$$eval('[role="dialog"]', nodes => nodes.length), 1);
-            await page.evaluate(() => (window as unknown as { blockClose: (value: boolean) => void }).blockClose(false));
-          }
-          if (scenario.includes("navigation")) {
-            if (scenario === "pending close navigation") {
-              await page.evaluate(() => {
-                const back = history.back.bind(history);
-                history.back = () => { setTimeout(back, 50); };
-                const api = window as unknown as { showLayers: (layers: string[]) => void; navigate: () => void };
-                api.showLayers([]);
-                setTimeout(() => api.navigate(), 10);
-              });
-            } else await page.evaluate(scenario => (window as unknown as { navigate: (closeFirst: boolean, keepOpen: boolean) => void }).navigate(scenario === "close then navigation", scenario === "persistent modal navigation"), scenario);
-            await page.waitForFunction(() => location.pathname === "/detail" && !document.querySelector('[role="dialog"]'));
-            await settle(page);
+          assert.equal(await page.evaluate(() => history.length), 3, "Opening a modal must not add an artificial history entry");
+          assert.ok(await page.evaluate(() => {
+            const original = (window as unknown as { originalHistory: { push: unknown; replace: unknown } }).originalHistory;
+            return history.pushState === original.push && history.replaceState === original.replace;
+          }), "A modal must not replace browser history methods");
+          if (scenario === "browser back") {
+            await page.goBack({ waitUntil: "domcontentloaded" });
+            assert.equal(new URL(page.url()).pathname, "/source", "Browser Back follows the real navigation history");
+          } else if (scenario === "async navigation") {
+            await page.evaluate(() => (window as unknown as { navigateAsync: () => void }).navigateAsync());
+            await page.waitForFunction(() => (window as unknown as { navigationDone: boolean }).navigationDone);
+            assert.equal(await page.evaluate(() => (window as unknown as { navigationCancelled: boolean }).navigationCancelled), false);
             assert.equal(new URL(page.url()).pathname, "/detail");
-            assert.equal(await page.$$eval('[role="dialog"]', nodes => nodes.length), 0);
-            assert.equal(await page.evaluate(() => (window as unknown as { renderedRoute: string }).renderedRoute), "detail", "a delayed modal close must not undo the destination route");
+            assert.equal(await page.$('[role="dialog"]'), null);
             await page.goBack();
             await settle(page);
             assert.equal(new URL(page.url()).pathname, "/list");
           } else {
-            if (scenario === "close button") await page.click('[aria-label="close"]');
-            else if (scenario === "escape") await page.keyboard.press("Escape");
+            if (scenario === "nested") {
+              await show(page, ["parent", "child"]);
+              const closeButtons = await page.$$('[role="dialog"] [aria-label="close"]');
+              await closeButtons.at(-1)!.click();
+              await page.waitForFunction(() => document.querySelectorAll('[role="dialog"]').length === 1);
+              assert.deepEqual(await page.$$eval('[role="dialog"] h2', nodes => nodes.map(node => node.textContent)), ["parent"]);
+            } else if (scenario === "gallery") {
+              await show(page, ["gallery"]);
+              await page.click('[aria-label="Close"]');
+            } else if (scenario === "replace state") {
+              await page.evaluate(() => history.replaceState({ filter: "name" }, "", "?sort=name#section"));
+            } else if (scenario === "blocked") {
+              await page.evaluate(() => (window as unknown as { blockClose: (value: boolean) => void }).blockClose(true));
+              await page.keyboard.press("Escape");
+              assert.ok(await page.$('[role="dialog"]'));
+              assert.equal(await page.$eval('[aria-label="close"]', button => (button as HTMLButtonElement).disabled), true);
+              await page.evaluate(() => (window as unknown as { blockClose: (value: boolean) => void }).blockClose(false));
+            }
+            if (scenario === "escape") await page.keyboard.press("Escape");
             else if (scenario === "overlay") await page.mouse.click(5, 5);
             else if (scenario === "programmatic") await show(page, []);
-            else if (scenario === "rapid reopen") {
-              await page.evaluate(() => {
-                const api = window as unknown as { showLayers: (layers: string[]) => void };
-                api.showLayers([]);
-                queueMicrotask(() => api.showLayers(["reopened"]));
-              });
-              await settle(page);
-              await page.goBack();
-            } else await page.goBack();
+            else if (scenario !== "gallery") await page.click('[aria-label="close"]');
             await settle(page);
-            assert.equal(await page.$$eval('[role="dialog"]', nodes => nodes.length), 0);
+            assert.equal(await page.$('[role="dialog"]'), null);
             assert.equal(new URL(page.url()).pathname, "/list");
             assert.equal(await page.evaluate(() => document.body.style.overflow), "");
-            assert.equal(await page.evaluate(() => history.state.tree), "list", "modal dismissal must preserve the Next.js page tree");
-            assert.equal(await page.evaluate(() => (window as unknown as { renderedRoute: string }).renderedRoute), "list");
-            assert.equal(await page.evaluate(() => window.scrollY), 600, "closing must preserve the list scroll position");
+            assert.equal(await page.evaluate(() => window.scrollY), 600);
+            assert.equal(await page.evaluate(() => history.length), 3, "Closing must not add or traverse history");
             if (scenario === "replace state") {
               assert.equal(new URL(page.url()).search + new URL(page.url()).hash, "?sort=name#section");
               assert.equal(await page.evaluate(() => history.state.filter), "name");
-              assert.ok(await page.evaluate(() => (window as unknown as { nativeUpdates: number }).nativeUpdates) > 0, "external history changes must still reach the Next.js router");
-            }
-            if (scenario === "draft") {
-              await show(page, ["parent"]);
-              assert.match(await page.$eval("textarea", node => node.value), /saved/);
-              await page.goBack();
-              await settle(page);
             }
           }
-          await page.goBack();
-          await settle(page);
-          assert.equal(new URL(page.url()).pathname, "/source", "closing must not leave an empty back step");
           assert.deepEqual(errors, []);
         } finally { await page.close(); }
       });

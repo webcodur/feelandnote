@@ -13,7 +13,6 @@ import { ArrowLeft, ArrowRight, MapPin, X } from "lucide-react";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import { Z_INDEX } from "@/constants/zIndex";
 import { lockDocumentScroll, unlockDocumentScroll } from "@/lib/scrollLock";
-import { useModalHistory } from "@/hooks/useModalHistory";
 
 interface Props {
   open: boolean;
@@ -51,7 +50,6 @@ export default function JourneyGlobeModal({
 }: Props) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  useModalHistory(open, dialogRef, onClose, true);
 
   /* ── 1. 포커스·스크롤 잠금 ── */
   useEffect(() => {

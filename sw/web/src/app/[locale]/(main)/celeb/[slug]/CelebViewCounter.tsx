@@ -12,7 +12,7 @@ import { Eye } from "lucide-react";
 
 import { incrementCelebView } from "@/actions/celebs/incrementCelebView";
 import { getCelebViewStats, type CelebViewStats } from "@/actions/celebs/getCelebViewStats";
-import { shouldCountCelebView } from "@/lib/celeb/viewDedup";
+import { recordPageView } from "@/lib/celeb/viewDedup";
 import CelebViewsModal from "@/components/features/celeb/modals/CelebViewsModal";
 
 /* ── 누적 조회수 ──
@@ -48,11 +48,9 @@ export default function CelebViewCounter({
     let alive = true;
 
     // 같은 브라우저의 30분 내 재방문은 세지 않되, 현재 값은 받아 온다.
-    const shouldCount = shouldCountCelebView(celebId);
-
-    void incrementCelebView(celebId, shouldCount).then((next) => {
+    void recordPageView("celeb", celebId, incrementCelebView).then((next) => {
       if (alive && typeof next === "number") setCount(next);
-    });
+    }).catch(() => { /* 조회 요청 실패 시 첫 화면의 숫자를 유지한다. */ });
 
     return () => {
       alive = false;

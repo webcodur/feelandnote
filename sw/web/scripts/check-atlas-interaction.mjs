@@ -74,6 +74,14 @@ try {
         await page.waitForSelector('[data-person-description][data-member-image="portrait"]');
         await click(page, '[data-atlas-level="1"] [aria-haspopup="dialog"]');
         await page.waitForSelector('[role="dialog"] [data-atlas-picker]');
+        assert.equal(await page.$('[data-atlas-play]'), null, 'Opening the picker does not arm the current selection');
+        await click(page, '[data-atlas-option][aria-pressed="true"]');
+        await page.waitForSelector('[data-atlas-play-pulse]');
+        assert.notEqual(await page.$eval('[data-atlas-play-pulse]', element => getComputedStyle(element).animationName), 'none', 'Selected chip pulses its play action');
+        assert.equal(await page.$('[data-atlas-confirm-pulse]'), null, 'The pulse belongs to the play action, not the footer');
+        await click(page, '[data-atlas-play]');
+        await page.waitForFunction(() => document.querySelector('[data-atlas-panel]')?.dataset.atlasColumn === '2');
+        assert.equal(await page.$('[data-atlas-play]'), null, 'Advancing clears the armed selection');
         await click(page, '[data-atlas-confirm]');
         await page.waitForFunction(() => !document.querySelector('[data-atlas-picker]'));
         const footer = '[data-member-group-footer]';

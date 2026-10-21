@@ -234,7 +234,8 @@
         "searchResults": "검색 결과 {count}개",
         "backToList": "목록 보기",
         "factionMode": "세력",
-        "peopleCount": "등장인물 {count}명"
+        "peopleCount": "등장인물 {count}명",
+        "openNext": "{next} 선택으로 이동"
       }
     },
     "hub": {

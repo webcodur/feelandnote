@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
-import { ArrowRight, Clock3 } from "lucide-react";
+import { Clock3 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { MythPerson, MythWork } from "@/actions/home/mythTypes";
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import AtlasNavigation from "../myth/AtlasNavigation";
 import AtlasMemberControls from "../myth/AtlasMemberControls";
 import AtlasMemberFooter from "../myth/AtlasMemberFooter";
@@ -51,7 +51,6 @@ export default function AtlasScreen({ mode, data, navigationTree: suppliedNaviga
   const router = useRouter();
   const [navigating, startNavigation] = useTransition();
   const t = useTranslations("explore.hub.myth");
-  const tCatalog = useTranslations("explore.atlasCatalog");
   const labels = useTranslations(isMyth ? "explore.hub.myth" : "explore.faction");
   const [loadedWorkCount, setLoadedWorkCount] = useState<number | null>(null);
   const groupLabels = { other: t("otherGroup"), unnamed: t("unnamedGroup") };
@@ -305,12 +304,6 @@ export default function AtlasScreen({ mode, data, navigationTree: suppliedNaviga
         </div>
       </div>}
 
-      <div className="mt-8 flex justify-center border-t border-line pt-8 md:mt-10 md:pt-10">
-        <Link href={`/explore/${mode}`} prefetch={false} data-atlas-catalog-link
-          className="inline-flex min-h-12 items-center justify-center gap-3 rounded-control border border-line-strong px-5 text-sm font-medium text-text-primary outline-none hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">
-          {tCatalog(isMyth ? "browseMyths" : "browseFactions")}<ArrowRight size={16} aria-hidden />
-        </Link>
-      </div>
       {pickerLevel !== null && <AtlasPicker tree={navigationTree} selection={atlasSel} initialLevel={pickerLevel} myth={isMyth}
         onClose={() => setPickerLevel(null)} onSelect={chooseAtlas} />}
     </section>

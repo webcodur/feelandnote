@@ -17,6 +17,7 @@
 - **조작용 요소(버튼·카드·칩)의 hover는 즉각 반응** — transition/delay 금지, 위로 뜸·확대 등 이동 지양. 상세는 아래 "상호작용" 참조
 - 반복 UI는 상수 배열 + map 렌더링
 - 일반 모달의 최대 높이는 `sw/web/src/components/ui/modalLayout.ts`를 따른다. 개별 화면에 뷰포트 높이 상한을 다시 쓰지 않으며, 내부 목록은 모달의 남은 높이에서 스크롤한다. 전체 화면 뷰어만 `Modal.fullScreen` 또는 전용 전체 화면 구현을 사용한다.
+- 모달은 브라우저 방문 기록을 추가하거나 history 메서드를 덮어쓰지 않는다. 닫을 때 `history.back()`을 호출하지 않으며, 브라우저 뒤로가기는 실제 페이지 이동을 따른다.
 - 색 클래스는 `sw/web/src/app/globals.css`의 `@theme` 토큰 이름만 쓴다(`bg-bg-card`·`bg-bg-main`·`bg-bg-stone-light`·`text-text-tertiary`·`border-border`·`text-status-paused`·`accent`). 다른 디자인 체계의 이름(`bg-surface`·`bg-primary`·`bg-background`·`text-muted`)은 CSS가 만들어지지 않아 바탕이 투명해지거나 부모 글자색을 물려받는다. 새 색이 필요하면 `@theme`에 먼저 정의한다
 - Tailwind 클래스는 문자열 리터럴이나 상수에 통째로 둔다. 템플릿 문자열에서 `${` 바로 앞에 붙은 토큰(`` `… lg:contain-size${x}` ``)은 스캐너가 뽑지 못해 CSS가 나오지 않는다. 조건부 클래스는 상수를 공백으로 잇는다
 - 접힌 본문(「더 보기」·끝 흐림·화면이 허락하는 만큼 채우기)은 `@/hooks/useClippedText`의 조합을 따른다. 줄 수를 미리 박지 않는다

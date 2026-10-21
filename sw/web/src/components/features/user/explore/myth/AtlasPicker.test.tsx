@@ -23,12 +23,17 @@ async function fixture() {
         myth: [{id:'region',name:'그리스·로마',entries:[entry('first','오디세이아','/explore/myth/first'),entry('second','헤라클레스','/explore/myth/second'),{id:'disabled',name:'미공개 신화',disabled:true,groups:[]}]}],
         faction: [{id:'region',name:'Technology',entries:[entry('first','OpenAI','/explore/faction/first'),entry('second','Anthropic','/explore/faction/second')]}],
       };
-      window.applied = []; window.routes = [];
+      window.applied = []; window.routes = []; window.routeOnApply = false;
       function Harness() {
         const [open,setOpen] = useState(true);
         const myth = !location.search.includes('faction');
         return open && <Picker tree={window.mockTrees[myth?'myth':'faction']} selection={{themeId:'region',entryId:'first',groupId:null}} initialLevel={1} myth={myth}
-          onSelect={selection=>window.applied.push(selection)} onClose={()=>setOpen(false)} />;
+          onSelect={selection=>{
+            window.applied.push(selection);
+            if (window.routeOnApply) {
+              setTimeout(()=>history.pushState({__NA:true},'', '/selected'),100);
+            }
+          }} onClose={()=>setOpen(false)} />;
       }
       createRoot(document.getElementById('root')).render(<Harness/>);`,
     },
@@ -44,7 +49,7 @@ async function fixture() {
             const dict=namespace.split('.').reduce((value,part)=>value?.[part],messages);
             return String(dict?.[key]??key).replace(/\\{(\\w+)\\}/g,(_,name)=>values[name]??'');
           };`,
-        "@/i18n/navigation": "export const useRouter=()=>({push:href=>window.routes.push(href)});",
+        "@/i18n/navigation": "export const useRouter=()=>({push:href=>{window.routes.push(href);setTimeout(()=>history.pushState({__NA:true},'',href),100);}});",
         "@/actions/home/getAtlasNavigation": "export const getAtlasNavigation=async myth=>window.mockTrees[myth?'myth':'faction'];",
       };
       builder.onResolve({ filter: /.*/ }, args => args.path in mocks ? { path: args.path, namespace: "fixture" } : undefined);
@@ -62,7 +67,7 @@ async function fixture() {
   };
 }
 
-test("atlas chips select once, pulse confirmation, and apply only through the fixed footer", async t => {
+test("atlas chips show a pulsing play action after selection and advance on a second click", async t => {
   const bundle = await fixture();
   const reviewDir = process.env.ATLAS_PICKER_REVIEW_DIR;
   if (reviewDir) await mkdir(reviewDir, { recursive: true });
@@ -74,8 +79,6 @@ test("atlas chips select once, pulse confirmation, and apply only through the fi
     await page.setRequestInterception(true);
     page.on("request", request => { void request.respond({ contentType: "text/html", body: '<html lang="ko"><body style="margin:0;background:#10100f;color:#f3eee5"><div id="root"></div></body></html>' }); });
     const visit = async (world: string, width = 390, height = 844) => {
-      // Modal close removes its history entry asynchronously; finish that before replacing the fixture document.
-      await page.waitForFunction(() => !history.state?.__feelandnoteModal, { timeout: 5000 });
       await page.setViewport({ width, height });
       await page.goto(`http://atlas.test/?${world}`);
       await page.addStyleTag({ content: bundle.css });
@@ -93,26 +96,33 @@ test("atlas chips select once, pulse confirmation, and apply only through the fi
           assert.equal((await page.$$('[data-atlas-picker-footer] [data-atlas-confirm]')).length, 1);
           assert.equal(await page.$eval('[data-atlas-confirm]', element => element.textContent?.trim()), "선택 완료");
           assert.equal((await page.$$('[data-atlas-picker] h2, #atlas-picker-hint')).length, 0);
+          const chipWidth = await page.$eval('[data-atlas-option="second"]', e => e.getBoundingClientRect().width);
           await page.click('[data-atlas-option="second"]');
           assert.equal(await page.$eval('[data-atlas-option="second"]', e => e.getAttribute("aria-pressed")), "true");
-          assert.ok(await page.$('[data-atlas-confirm-pulse]'));
-          assert.deepEqual(await page.$eval('[data-atlas-confirm-pulse]', e => ({
+          assert.ok(await page.$('[data-atlas-option="second"] [data-atlas-play]'));
+          assert.equal(await page.$eval('[data-atlas-option="second"]', e => e.getBoundingClientRect().width), chipWidth, "The corner action must not widen the chip");
+          assert.ok(await page.$eval('[data-atlas-option="second"] [data-atlas-play]', e => {
+            const icon = e.getBoundingClientRect();
+            const chip = e.closest('button')!.getBoundingClientRect();
+            return getComputedStyle(e).position === 'absolute' && icon.width === 16 && icon.left < chip.right && icon.right > chip.right;
+          }), "The small play action overlaps the right edge of the selected chip");
+          assert.equal(await page.$('[data-atlas-confirm-pulse]'), null);
+          assert.deepEqual(await page.$eval('[data-atlas-play-pulse]', e => ({
             duration: getComputedStyle(e).animationDuration,
             iterations: getComputedStyle(e).animationIterationCount,
-            buttonTransform: getComputedStyle(e.parentElement!).transform,
+            buttonTransform: getComputedStyle(e.closest('button')!).transform,
           })), { duration: "0.65s", iterations: "2", buttonTransform: "none" });
           if (reviewDir && world === "myth") {
             const dialog = await page.$('[role="dialog"]');
             await writeFile(path.join(reviewDir, `atlas-picker-utility-panel-${width}.png`), await dialog!.screenshot(), { flag: "wx" });
           }
           await page.click('[data-atlas-option="second"]');
-          assert.equal(await page.$eval('[data-atlas-panel]', e => e.getAttribute("data-atlas-column")), "1");
+          assert.equal(await page.$eval('[data-atlas-panel]', e => e.getAttribute("data-atlas-column")), "2");
           assert.equal(await page.evaluate(() => (window as unknown as { applied: unknown[] }).applied.length), 0);
-          await page.click('[data-atlas-tab="2"]');
           await page.waitForSelector('[data-atlas-option="g2"]');
           await page.waitForFunction(() => !document.querySelector('[role="dialog"]')!.getAnimations({ subtree: true }).some(animation => animation.playState === "running"));
           await page.click('[data-atlas-option="g2"]');
-          await page.click('[data-atlas-option="g2"]');
+          assert.ok(await page.$('[data-atlas-option="g2"] [data-atlas-play]'));
           assert.ok(await page.$('[role="dialog"]'));
           assert.equal(await page.evaluate(() => (window as unknown as { applied: unknown[] }).applied.length), 0);
           const bounds = await page.$eval('[data-atlas-picker-footer]', e => {
@@ -122,13 +132,26 @@ test("atlas chips select once, pulse confirmation, and apply only through the fi
             return footer.left >= dialog.left - 1 && footer.right <= dialog.right + 1 && confirm.left >= footer.left && confirm.right <= footer.right && confirm.bottom <= dialog.bottom;
           });
           assert.ok(bounds, "footer confirmation stays visible within the modal");
-          await page.click('[data-atlas-confirm]');
+          await page.click('[data-atlas-option="g2"] [data-atlas-play]');
           await page.waitForSelector('[role="dialog"]', { hidden: true });
           assert.deepEqual(await page.evaluate(() => (window as unknown as { applied: unknown[] }).applied), [{ themeId: "region", entryId: "second", groupId: "g2" }]);
         });
       }
     }
-    await t.test("search selection pulses confirmation; switching world keeps search and routes only on confirmation", async () => {
+    await t.test("region selection arms even the current chip, then play advances without applying", async () => {
+      await visit("myth");
+      await page.click('[data-atlas-tab="0"]');
+      assert.equal(await page.$('[data-atlas-play]'), null);
+      await page.click('[data-atlas-option="region"]');
+      assert.ok(await page.$('[data-atlas-option="region"] [data-atlas-play-pulse]'));
+      assert.equal(await page.$eval('[data-atlas-panel]', e => e.getAttribute("data-atlas-column")), "0");
+      await page.click('[data-atlas-option="region"] [data-atlas-play]');
+      assert.equal(await page.$eval('[data-atlas-panel]', e => e.getAttribute("data-atlas-column")), "1");
+      assert.equal(await page.$('[data-atlas-play]'), null);
+      assert.equal(await page.evaluate(() => (window as unknown as { applied: unknown[] }).applied.length), 0);
+      await page.click('[aria-label="닫기"]');
+    });
+    await t.test("search selection pulses play; switching world keeps search and the footer still applies", async () => {
       await visit("myth", 390, 480);
       await page.type('input[type="search"]', "Anthropic");
       await page.keyboard.press("Tab");
@@ -139,11 +162,21 @@ test("atlas chips select once, pulse confirmation, and apply only through the fi
       assert.equal(await page.$eval('input[type="search"]', e => (e as HTMLInputElement).value), "Anthropic");
       await page.focus('input[type="search"]');
       await page.keyboard.press("Enter");
-      await page.waitForSelector('[data-atlas-confirm-pulse]');
+      await page.waitForSelector('[data-atlas-option="second"] [data-atlas-play-pulse]');
       assert.equal(await page.$eval('[data-atlas-option="second"]', e => e.getAttribute("aria-pressed")), "true");
       assert.equal(await page.evaluate(() => (window as unknown as { routes: string[] }).routes.length), 0);
       await page.click('[data-atlas-confirm]');
       assert.deepEqual(await page.evaluate(() => (window as unknown as { routes: string[] }).routes), ["/explore/faction/second"]);
+      await page.waitForSelector('[role="dialog"]', { hidden: true });
+    });
+    await t.test("closing the picker does not cancel a delayed page transition", async () => {
+      await visit("myth");
+      await page.evaluate(() => { (window as unknown as { routeOnApply: boolean }).routeOnApply = true; });
+      await page.click('[data-atlas-option="second"]');
+      await page.click('[data-atlas-confirm]');
+      await page.waitForSelector('[role="dialog"]', { hidden: true });
+      await page.waitForFunction(() => location.pathname === '/selected');
+      await page.waitForSelector('[role="dialog"]', { hidden: true });
     });
     await t.test("close discards the draft", async () => {
       await visit("myth");
@@ -156,7 +189,7 @@ test("atlas chips select once, pulse confirmation, and apply only through the fi
       await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);
       await visit("myth");
       await page.click('[data-atlas-option="second"]');
-      assert.equal(await page.$eval('[data-atlas-confirm-pulse]', e => getComputedStyle(e).animationName), "none");
+      assert.equal(await page.$eval('[data-atlas-play-pulse]', e => getComputedStyle(e).animationName), "none");
     });
     assert.deepEqual(errors, []);
   } finally { await browser.close(); }
