@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import type { MythPerson } from "@/actions/home/mythTypes";
 import type { CelebCardImage } from "@/components/shared/CelebCard";
 import PortraitCardImage from "@/components/shared/PortraitCardImage";
+import CelebImage from "@/components/ui/CelebImage";
 import CelebRealityLabel from "@/components/shared/CelebRealityLabel";
 import FormattedText from "@/components/ui/FormattedText";
 import { mythLeadImage } from "../mythLeadImage";
@@ -25,10 +26,14 @@ export default function AtlasMemberDescriptionCard({ person, mythId, description
     <article data-person-id={person.id} data-person-description data-member-image={imageMode} className={layout.descriptionRow}>
       <button type="button" aria-label={person.name} aria-haspopup="dialog" aria-pressed={selected} onClick={() => onSelect(person.id)}
         className={`group relative w-full overflow-hidden rounded-xl border bg-bg-card outline-none hover:border-accent focus-visible:ring-2 focus-visible:ring-accent md:row-span-2 ${imageMode === "avatar" ? "aspect-square" : "aspect-[4/5]"} ${selected ? "border-accent" : "border-white/10"}`}>
-        <PortraitCardImage portraitSrc={imageMode === "portrait" ? mythLeadImage(person, mythId) : undefined}
-          alternateSrc={imageMode === "portrait" ? person.portraitUrl ?? person.imageUrl : undefined}
-          avatarSrc={imageMode === "avatar" ? person.avatarUrl ?? person.portraitUrl ?? person.imageUrl : person.avatarUrl}
-          name={person.name} decorative imageClassName="transition-transform duration-500 group-hover:scale-105" />
+        {imageMode === "avatar" ? (
+          <CelebImage src={person.avatarUrl ?? person.portraitUrl ?? person.imageUrl} alt=""
+            className="transition-transform duration-500 group-hover:scale-105" />
+        ) : (
+          <PortraitCardImage portraitSrc={mythLeadImage(person, mythId)}
+            alternateSrc={person.portraitUrl ?? person.imageUrl} avatarSrc={person.avatarUrl}
+            name={person.name} decorative imageClassName="transition-transform duration-500 group-hover:scale-105" />
+        )}
       </button>
       <div className="flex min-w-0 flex-col items-start gap-1.5 self-center text-start md:self-start">
         <h3 className="min-w-0 text-lg font-semibold text-text-primary md:text-xl">
