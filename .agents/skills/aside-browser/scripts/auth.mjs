@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { freshSnapshot, quote, replJSON } from './browser-helpers.mjs';
 
-const credentialsPath = 'C:/Users/webco/바탕 화면/id_key/구글.txt';
+const credentialsPath = 'D:/문서/id_key/google.txt';
 async function readCredentials(filename){
   try{return await fs.readFile(filename,'utf8');}
   catch(error){
@@ -172,7 +172,7 @@ export async function rotateAccount(client,{usedEmails=[],credentialsFile=creden
 }
 
 /** Credentials stay in local memory. Never return passwords or file contents. */
-export async function credentialFor(email, filename = 'C:/Users/webco/바탕 화면/id_key/구글.txt') {
+export async function credentialFor(email, filename = credentialsPath) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('Valid account email required');
   const raw = await readCredentials(filename);
   // Accept only an unambiguous adjacent token/line for the exact requested email.
