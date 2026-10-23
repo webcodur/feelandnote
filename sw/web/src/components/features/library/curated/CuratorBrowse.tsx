@@ -34,10 +34,10 @@ export default function CuratorBrowse({ curator, initialBrowse }: { curator: Cur
         onView={browse.setViewTopic}
       />
 
-      {/* 그 기관이 낸 목록 진열 — 작품 첫 화면과 같은 카드·같은 열. 모두 같은 기관이라 서명 대신 목록 설명을 싣는다 */}
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
+      {/* 기관의 각 목록은 설명과 작품 미리보기를 함께 싣는다. */}
+      <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
         {browse.shown.flatMap((c) =>
-          c.lists.map((list) => <CuratedListCard key={list.slug} list={list} variant="curator" />)
+          c.lists.map((list) => <CuratedListCard key={list.slug} list={list} />)
         )}
       </div>
     </div>

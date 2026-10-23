@@ -16,6 +16,8 @@ import ConstellationBanner from "@/components/lab/ConstellationBanner";
 import BannerHeading from "@/components/shared/BannerHeading";
 import { BANNER_DESKTOP_SHELL_CLASS, BANNER_MOBILE_SHELL_CLASS } from "@/components/shared/bannerStyles";
 import { useExtraCrumbs } from "./LibraryCrumbs";
+import { Link } from "@/i18n/navigation";
+import { ChevronRight } from "lucide-react";
 
 /** 1단 서브페이지: 경로 세그먼트 → nav.sub 번역 키 */
 const SUBPAGE_KEY: Record<string, string> = {
@@ -40,6 +42,7 @@ export default function LibraryBanner() {
   const tNav = useTranslations("nav");
   const tHub = useTranslations("library.hub");
   const tAcademy = useTranslations("library.academy");
+  const tA11y = useTranslations("shared.accessibility");
   const extraCrumbs = useExtraCrumbs();
 
   const hubTitle = tNav("library");
@@ -89,6 +92,19 @@ export default function LibraryBanner() {
   // 기관·목록 화면은 본문이 기관명·목록명을 h1로 세운다 — 배너 이름은 클라이언트에서 늦게 채워져 서버 HTML에서
   // 「기관 선정」으로 굳는다(BannerHeading asHeading). 주소로 가른다 — 알림표(SetLibraryCrumbs)는 서버 렌더에 없다
   const pageOwnsTitle = CURATED_DETAIL_PATH.test(pathname);
+  // 기관 선정은 로고 갤러리와 이어지는 편집형 머리말을 쓴다.
+  if (subSegment === "curated") {
+    return <header className={`border-b border-line ${pageOwnsTitle ? "mb-6 pb-5" : "mb-7 pb-7 md:mb-10 md:pb-9"}`}>
+      <nav aria-label={tA11y("breadcrumb")} className="mb-4 flex flex-wrap items-center gap-2 text-xs text-text-tertiary">
+        {ancestors.map(crumb => <span key={crumb.href} className="inline-flex items-center gap-2">
+          <Link href={crumb.href} className="rounded-sm outline-none hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">{crumb.label}</Link>
+          <ChevronRight size={12} aria-hidden />
+        </span>)}
+        {pageOwnsTitle && <span className="text-text-secondary">{current}</span>}
+      </nav>
+      {!pageOwnsTitle && <h1 className="text-[42px] font-semibold leading-none tracking-[-0.06em] text-text-primary md:text-[68px]">{current}</h1>}
+    </header>;
+  }
   const heading = (variant: "desktop" | "mobile") => (
     <BannerHeading ancestors={ancestors} current={current} onCurrentClick={isSubpage ? handleRefresh : undefined} variant={variant} asHeading={!pageOwnsTitle} />
   );

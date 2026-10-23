@@ -15,11 +15,14 @@ import { getCuratedHub } from "@/actions/library";
 import type { CuratedListDetail } from "@/actions/library/types";
 import CuratedListBrowseLinks from "./CuratedListBrowseLinks";
 import CuratedListContents from "./CuratedListContents";
+import CuratorLogo from "./CuratorLogo";
+import { getCuratorBrand } from "./curatorBrandPalettes";
 
 export default async function CuratedListView({ list }: { list: CuratedListDetail }) {
   const t = await getTranslations("library.curated");
   // 탭은 화면 안 구성을 바꾸지 않고 허브 조합으로 이동만 한다 — 링크 전용
   const hub = await getCuratedHub();
+  const brand = getCuratorBrand(list.curator.slug, list.curator.kind);
 
   return (
     <div className="space-y-7">
@@ -31,74 +34,81 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
         {list.curator.name}
       </Link>
 
-      <header className="mx-auto max-w-3xl space-y-4">
-        <div className="space-y-3 text-center">
-          {/* 상위(기관 상세) 제목 text-2xl보다 한 단 크게 — 깊이 들어갈수록 제목이 작아지는 역전을 막는다.
-              이 화면의 h1이다 — 배너는 이 주소에서 제목 요소를 내려놓는다(LibraryBanner CURATED_DETAIL_PATH) */}
-          <h1 className="font-serif text-2xl font-bold leading-tight text-text-primary md:text-3xl">
-            {list.title}
-          </h1>
+      <header className="border-y border-line py-8 md:py-12">
+        <div className="mx-auto max-w-3xl space-y-5">
+          <Link href={`/explore/works/curated/${list.curator.slug}`} prefetch={false}
+            className="mx-auto flex w-fit max-w-full items-center gap-3 rounded-control text-sm font-medium text-text-secondary outline-none hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">
+            <CuratorLogo slug={list.curator.slug} name={list.curator.name} logoUrl={list.curator.logoUrl} kind={list.curator.kind} size="inline" />
+            <span className="min-w-0 break-keep">{list.curator.name}</span>
+          </Link>
+          <div className="space-y-3 text-center">
+            {/* 상위(기관 상세) 제목 text-2xl보다 한 단 크게 — 깊이 들어갈수록 제목이 작아지는 역전을 막는다.
+                이 화면의 h1이다 — 배너는 이 주소에서 제목 요소를 내려놓는다(LibraryBanner CURATED_DETAIL_PATH) */}
+            <h1 className="text-3xl font-semibold leading-tight tracking-[-0.045em] text-text-primary md:text-5xl">
+              {list.title}
+            </h1>
 
-          {/* 기관 구분만 강조색, 나머지는 같은 회색 칩으로 통일한다 */}
-          <div className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-[12px]">
-            <span className="rounded border border-accent/20 bg-accent/[0.06] px-1.5 py-0.5 text-accent">
-              {t(`kind.${list.curator.kind}`)}
-            </span>
-            {list.curator.country && (
+            {/* 기관 구분만 강조색, 나머지는 같은 회색 칩으로 통일한다 */}
+            <div className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-[12px]">
+              <span className="rounded border px-1.5 py-0.5" style={{ color: brand.accent, borderColor: `${brand.accent}40` }}>
+                {t(`kind.${list.curator.kind}`)}
+              </span>
+              {list.curator.country && (
+                <span className="rounded bg-white/[0.06] px-1.5 py-0.5 text-text-secondary">
+                  <NationalityText code={list.curator.country} />
+                </span>
+              )}
+              {list.publishedYear && (
+                <span className="rounded bg-white/[0.06] px-1.5 py-0.5 text-text-secondary">
+                  {t("published", { year: list.publishedYear })}
+                </span>
+              )}
+              {list.edition && (
+                <span className="rounded bg-white/[0.06] px-1.5 py-0.5 text-text-secondary">
+                  {list.edition}
+                </span>
+              )}
               <span className="rounded bg-white/[0.06] px-1.5 py-0.5 text-text-secondary">
-                <NationalityText code={list.curator.country} />
+                {t("itemCount", { count: list.itemCount })}
               </span>
-            )}
-            {list.publishedYear && (
-              <span className="rounded bg-white/[0.06] px-1.5 py-0.5 text-text-secondary">
-                {t("published", { year: list.publishedYear })}
-              </span>
-            )}
-            {list.edition && (
-              <span className="rounded bg-white/[0.06] px-1.5 py-0.5 text-text-secondary">
-                {list.edition}
-              </span>
-            )}
-            <span className="rounded bg-white/[0.06] px-1.5 py-0.5 text-text-secondary">
-              {t("itemCount", { count: list.itemCount })}
-            </span>
-            {list.topics.map((topic) => (
-              <span key={topic} className="rounded bg-white/[0.06] px-1.5 py-0.5 text-text-secondary">
-                {t.has(`topicLabel.${topic}`) ? t(`topicLabel.${topic}`) : topic}
-              </span>
-            ))}
+              {list.topics.map((topic) => (
+                <span key={topic} className="rounded bg-white/[0.06] px-1.5 py-0.5 text-text-secondary">
+                  {t.has(`topicLabel.${topic}`) ? t(`topicLabel.${topic}`) : topic}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {(list.description || list.method) && (
-          <div className="mx-auto w-full max-w-2xl space-y-3 text-left">
-            {list.description && (
-              <p className="break-keep text-[15px] font-medium leading-[1.9] text-text-primary">
-                <strong className="mr-2 font-bold text-accent">{t("overview")}</strong>
-                {list.description}
-              </p>
-            )}
+          {(list.description || list.method) && (
+            <div className="mx-auto w-full max-w-2xl space-y-3 text-left">
+              {list.description && (
+                <p className="break-keep text-[15px] font-medium leading-[1.9] text-text-primary">
+                  <strong className="mr-2 font-bold text-accent">{t("overview")}</strong>
+                  {list.description}
+                </p>
+              )}
 
-            {list.method && (
-              <p className="break-keep border-t border-white/[0.06] pt-3 text-[13.5px] leading-[1.8] text-text-secondary md:text-[14px]">
-                <strong className="mr-2 font-bold text-accent">{t("method")}</strong>
-                {list.method}
-              </p>
-            )}
+              {list.method && (
+                <p className="break-keep border-t border-white/[0.06] pt-3 text-[13.5px] leading-[1.8] text-text-secondary md:text-[14px]">
+                  <strong className="mr-2 font-bold text-accent">{t("method")}</strong>
+                  {list.method}
+                </p>
+              )}
+            </div>
+          )}
+
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <a
+              href={list.sourceUrl}
+              className="inline-flex items-center gap-1.5 text-[12px] text-text-tertiary hover:text-accent"
+             target="_blank" rel="noopener noreferrer">
+              <ExternalLink size={12} />
+              {t("source")}
+            </a>
+            <span className="text-[12px] text-text-tertiary">
+              {t("linkedSummary", { linked: list.linkedCount, total: list.itemCount })}
+            </span>
           </div>
-        )}
-
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <a
-            href={list.sourceUrl}
-            className="inline-flex items-center gap-1.5 text-[12px] text-text-tertiary hover:text-accent"
-           target="_blank" rel="noopener noreferrer">
-            <ExternalLink size={12} />
-            {t("source")}
-          </a>
-          <span className="text-[12px] text-text-tertiary">
-            {t("linkedSummary", { linked: list.linkedCount, total: list.itemCount })}
-          </span>
         </div>
       </header>
 

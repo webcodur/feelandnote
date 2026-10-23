@@ -1,3 +1,5 @@
+import { CURATOR_LOGO_PALETTES } from "./curatorLogoPalettes";
+
 /*
   파일명: /components/features/library/curated/curatorBrandPalettes.ts
   기능: 각 기관별 공식 시그니처 컬러, 앰비언트 그라데이션, 모노그램 맵
@@ -343,15 +345,19 @@ export function getCuratorBrand(
     (kind && KIND_DEFAULTS[kind]) ||
     KIND_DEFAULTS.university;
 
+  const measured = slug ? CURATOR_LOGO_PALETTES[slug] : undefined;
+  const primary = measured?.colors[0]?.hex ?? base.primary;
+  const accent = measured?.accent ?? base.accent;
+
   // 좌상단에서 은은하게 번지는 깊은 다크 앰비언트 그라데이션
-  const gradient = `radial-gradient(130% 90% at 0% 0%, ${base.primary}40 0%, ${base.primary}18 45%, rgba(18, 18, 18, 0.95) 85%)`;
-  const borderGlow = `border-${base.accent}/30`;
-  const badgeBg = `${base.primary}33`;
-  const badgeText = base.accent;
+  const gradient = `radial-gradient(130% 90% at 0% 0%, ${primary}40 0%, ${primary}18 45%, rgba(18, 18, 18, 0.95) 85%)`;
+  const borderGlow = `border-${accent}/30`;
+  const badgeBg = `${primary}33`;
+  const badgeText = accent;
 
   return {
-    primary: base.primary,
-    accent: base.accent,
+    primary,
+    accent,
     monogram: base.monogram,
     nameEn: base.nameEn,
     gradient,

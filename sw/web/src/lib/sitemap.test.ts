@@ -14,7 +14,7 @@ const { workUnitAsyncStorage } = require('next/dist/server/app-render/work-unit-
 const sitemap = require('./sitemap') as typeof import('./sitemap')
 const { serializeSitemap } = sitemap
 function getSitemapEntries(name: string) {
-  const incrementalCache = { generateCacheKey: async (key: string) => key, get: async () => null, set: async () => {} }
+  const incrementalCache = { generateSimpleCacheKey: async (key: string) => key, get: async () => null, set: async () => {} }
   return workAsyncStorage.run({ route: '/sitemaps/core', incrementalCache }, () =>
     workUnitAsyncStorage.run({ type: 'prerender-legacy', phase: 'render', tags: null, revalidate: Infinity }, () => sitemap.getSitemapEntries(name))) as ReturnType<typeof sitemap.getSitemapEntries>
 }
@@ -39,11 +39,19 @@ test('works and curated URLs use canonical explore paths in both locales', async
       ])
     }
     if (path === '/rest/v1/faction_member_rows') return Response.json([{ lv2_id: 'm1' }, { lv2_id: 'm2' }, { lv2_id: 'f1' }])
-    return Response.json([{ slug: 'example', curated_lists: [
-      ...Array.from({ length: 25 }, (_, index) => ({ slug: index === 0 ? 'list' : `book-${index}`, content_type: 'BOOK', is_featured: true })),
-      ...Array.from({ length: 13 }, (_, index) => ({ slug: `video-${index}`, content_type: 'VIDEO', is_featured: true })),
-      { slug: 'hidden-music', content_type: 'MUSIC', is_featured: false },
-    ] }])
+    return Response.json([
+      { slug: 'example', curated_lists: [
+        ...Array.from({ length: 25 }, (_, index) => ({ slug: index === 0 ? 'list' : `book-${index}`, content_type: 'BOOK', is_featured: true })),
+        ...Array.from({ length: 13 }, (_, index) => ({ slug: `video-${index}`, content_type: 'VIDEO', is_featured: true })),
+        { slug: 'hidden-music', content_type: 'MUSIC', is_featured: false },
+      ] },
+      ...Array.from({ length: 24 }, (_, index) => ({ slug: `book-curator-${index}`, curated_lists: [
+        { slug: `book-list-${index}`, content_type: 'BOOK', is_featured: true },
+      ] })),
+      ...Array.from({ length: 12 }, (_, index) => ({ slug: `video-curator-${index}`, curated_lists: [
+        { slug: `video-list-${index}`, content_type: 'VIDEO', is_featured: true },
+      ] })),
+    ])
   }
   t.after(() => {
     if (previousUrl === undefined) delete process.env.NEXT_PUBLIC_DB_API_URL
@@ -54,6 +62,7 @@ test('works and curated URLs use canonical explore paths in both locales', async
   })
   const entries = await getSitemapEntries('core')
   assert.ok(entries)
+  // 25개의 도서 기관·13개의 영상 기관이다. 한 기관의 여러 목록이 페이지 수를 늘리지 않는다.
   for (const prefix of ['', '/en']) {
     for (const suffix of ['', '/popular?mode=classics', '/museum', '/academy', '/curated', '/curated/example', '/curated/example/list']) {
       const entry: MetadataRoute.Sitemap[number] | undefined = entries.find(({ url }) => url === `https://feelandnote.com${prefix}/explore/works${suffix}`)

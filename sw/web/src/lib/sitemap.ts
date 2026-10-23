@@ -3,7 +3,7 @@ import { INDEXABLE_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { getCelebProfessions } from '@/lib/celeb-professions'
 import { getAlternates, SITE_URL } from './seo'
 import { INFLUENCE_RANKING_FIELDS, getInfluenceRankingHref } from '@/constants/influenceRanking'
-import { LIST_PAGE_SIZE } from '@/components/features/library/hub/curatorExplore'
+import { CURATOR_PAGE_SIZE } from '@/components/features/library/hub/curatorExplore'
 import { CURATED_HUB_PATH, resolveCuratedHubMeta } from './library/curatedMeta'
 
 export const SITEMAP_REVALIDATE_SECONDS = 86400
@@ -93,16 +93,15 @@ async function fetchCuratedPaths(): Promise<string[]> {
     if (rows.length < pageSize) break
   }
 
-  // 화면과 같은 공개 목록 수·페이지 크기·정본 규칙으로 매체별 모든 쪽을 등재한다.
+  // 화면과 같은 매체별 기관 수·페이지 크기·정본 규칙으로 모든 쪽을 등재한다.
   const counts = new Map<string, number>()
   for (const curator of data) {
-    for (const list of curator.curated_lists ?? []) {
-      if (list.is_featured) counts.set(list.content_type, (counts.get(list.content_type) ?? 0) + 1)
-    }
+    const medias = new Set((curator.curated_lists ?? []).filter(list => list.is_featured).map(list => list.content_type))
+    for (const media of medias) counts.set(media, (counts.get(media) ?? 0) + 1)
   }
   const hubPaths = [...counts].flatMap(([media, count]) =>
-    Array.from({ length: Math.ceil(count / LIST_PAGE_SIZE) }, (_, index) =>
-      resolveCuratedHubMeta({ media, page: String(index + 1) }, counts, LIST_PAGE_SIZE).path,
+    Array.from({ length: Math.ceil(count / CURATOR_PAGE_SIZE) }, (_, index) =>
+      resolveCuratedHubMeta({ media, page: String(index + 1) }, counts, CURATOR_PAGE_SIZE).path,
     ),
   ).filter((path) => path !== CURATED_HUB_PATH)
 

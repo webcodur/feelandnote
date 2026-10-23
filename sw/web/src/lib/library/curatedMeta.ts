@@ -170,11 +170,11 @@ export interface CuratedHubMetaState {
  * 모으면 2쪽부터의 목록·기관 링크가 정본이 아닌 화면에만 남는다(Google은 쪽마다 자기 정본을 두라고 안내한다).
  * 검색·국가·주제·기관 조건은 같은 목록을 거른 화면이라 그 매체의 첫 쪽으로 모은다.
  * 쿼리 순서는 화면의 쪽 링크(CuratedHubView의 queryFor)와 같게 media → page다.
- * @param listCountByMedia 매체별 선정 목록 수 — 없는 매체는 기본 매체로, 넘친 쪽은 마지막 쪽으로 돌린다
+ * @param curatorCountByMedia 매체별 기관 카드 수 — 없는 매체는 기본 매체로, 넘친 쪽은 마지막 쪽으로 돌린다
  */
 export function resolveCuratedHubMeta(
   params: Record<string, string | string[] | undefined>,
-  listCountByMedia: ReadonlyMap<string, number>,
+  curatorCountByMedia: ReadonlyMap<string, number>,
   pageSize: number,
 ): CuratedHubMetaState {
   const one = (key: string) => {
@@ -182,9 +182,9 @@ export function resolveCuratedHubMeta(
     return typeof value === 'string' ? value : undefined
   }
   const rawMedia = one('media')
-  const media = rawMedia && rawMedia !== CURATED_DEFAULT_MEDIA && listCountByMedia.has(rawMedia) ? rawMedia : null
+  const media = rawMedia && rawMedia !== CURATED_DEFAULT_MEDIA && curatorCountByMedia.has(rawMedia) ? rawMedia : null
   const filtered = CURATED_FILTER_KEYS.some((key) => Boolean(one(key)?.trim()))
-  const totalPages = Math.max(1, Math.ceil((listCountByMedia.get(media ?? CURATED_DEFAULT_MEDIA) ?? 0) / pageSize))
+  const totalPages = Math.max(1, Math.ceil((curatorCountByMedia.get(media ?? CURATED_DEFAULT_MEDIA) ?? 0) / pageSize))
   const requested = Number(one('page'))
   const page = filtered || !Number.isSafeInteger(requested) || requested < 1 ? 1 : Math.min(requested, totalPages)
 

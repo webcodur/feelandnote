@@ -344,7 +344,7 @@ verification: {
 ## 사이트맵
 
 - **데이터·XML 단일원천**: `sw/web/src/lib/sitemap.ts`
-- **정본 주소 동기화**: 사이트맵의 한영 주소는 페이지 메타와 같은 `getAlternates`를 쓴다. 기관 선정의 매체별·쪽별 주소는 공개 목록 수와 `LIST_PAGE_SIZE`, `resolveCuratedHubMeta`로 산출하고, 영향력 분야별 주소는 `INFLUENCE_RANKING_FIELDS`·`getInfluenceRankingHref`를 쓴다.
+- **정본 주소 동기화**: 사이트맵의 한영 주소는 페이지 메타와 같은 `getAlternates`를 쓴다. 기관 선정의 매체별·쪽별 주소는 매체별 공개 기관 수와 `CURATOR_PAGE_SIZE`, `resolveCuratedHubMeta`로 산출하고, 영향력 분야별 주소는 `INFLUENCE_RANKING_FIELDS`·`getInfluenceRankingHref`를 쓴다.
 - **조회 실패**: DB 설정 누락·조회 실패·중간 페이지 실패는 빈 XML이나 부분 XML로 바꾸지 않는다. 하위 사이트맵 라우트는 `503`·`Cache-Control: no-store`·`Retry-After`를 반환한다.
 - **인덱스 라우트**: `sw/web/src/app/sitemap.xml/route.ts` → `https://feelandnote.com/sitemap.xml`
 - **하위 라우트**: `sw/web/src/app/sitemaps/[name]/route.ts` → `/sitemaps/*.xml`

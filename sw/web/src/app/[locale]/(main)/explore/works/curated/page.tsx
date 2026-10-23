@@ -8,7 +8,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 // getTranslations는 generateMetadata와 로딩 문구에만 쓴다
 import { getCuratedHub } from "@/actions/library";
 import type { CuratedHub } from "@/actions/library/types";
-import { LIST_PAGE_SIZE } from "@/components/features/library/hub/curatorExplore";
+import { CURATOR_PAGE_SIZE } from "@/components/features/library/hub/curatorExplore";
 import { CURATED_DEFAULT_MEDIA, resolveCuratedHubMeta } from "@/lib/library/curatedMeta";
 import { getLocalizedAlternates } from "@/lib/seo";
 import Lane from "@/components/ui/pending/Lane";
@@ -27,11 +27,13 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   // 허브 조회가 실패하면 화면은 다시 시도 칸을 띄운다(CuratedSection). 메타는 기본 화면 값으로 물러난다
   const hub: CuratedHub = await getCuratedHub().catch(() => ({ curators: [] }));
 
-  const listCountByMedia = new Map<string, number>();
+  const curatorCountByMedia = new Map<string, number>();
   for (const curator of hub.curators) {
-    for (const list of curator.lists) listCountByMedia.set(list.contentType, (listCountByMedia.get(list.contentType) ?? 0) + 1);
+    for (const media of new Set(curator.lists.map(list => list.contentType))) {
+      curatorCountByMedia.set(media, (curatorCountByMedia.get(media) ?? 0) + 1);
+    }
   }
-  const state = resolveCuratedHubMeta(params, listCountByMedia, LIST_PAGE_SIZE);
+  const state = resolveCuratedHubMeta(params, curatorCountByMedia, CURATOR_PAGE_SIZE);
 
   // 화면에 서는 것은 고른 매체의 목록뿐이다(기본은 도서) — 제목·설명도 그 매체로 쓴다.
   // 영화·게임·음악은 자기 주소가 정본이라 도서 화면과 같은 문구를 나눠 쓰면 서로 중복 페이지로 읽힌다
@@ -47,7 +49,7 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
       // 한국어는 뒤에 「등」이 붙으므로 쉼표로만 잇고, 영어는 「A, B, and C」로 잇는다
       curators: locale === "en" ? new Intl.ListFormat("en", { type: "conjunction" }).format(names) : names.join(", "),
       count: curators.length,
-      lists: listCountByMedia.get(media) ?? 0,
+      lists: curators.reduce((count, curator) => count + curator.lists.filter(list => list.contentType === media).length, 0),
       media: t(`meta.mediaNoun.${media}`),
     })
     // 허브 조회가 실패했을 때만 쓰는 매체 공통 문구

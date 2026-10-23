@@ -7,17 +7,18 @@
 
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import Image from "next/image";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import NationalityText from "@/components/ui/NationalityText";
-import BlurDissolve from "@/components/ui/BlurDissolve";
 import type { CuratorDetail } from "@/actions/library/types";
 import CuratorBrowse from "./CuratorBrowse";
-import { getCuratorLogoUrl } from "./curatorLogos";
+import CuratorLogo from "./CuratorLogo";
+import { getCuratorBrand } from "./curatorBrandPalettes";
+import { getCuratorLogoSurface } from "./curatorLogos";
 
 export default async function CuratorView({ curator, initialBrowse }: { curator: CuratorDetail; initialBrowse?: { media?: string; topic?: string } }) {
   const t = await getTranslations("library.curated");
-  const logoUrl = getCuratorLogoUrl(curator.slug, curator.logoUrl);
+  const brand = getCuratorBrand(curator.slug, curator.kind);
+  const surface = getCuratorLogoSurface(curator.slug);
 
   return (
     <div className="space-y-8">
@@ -29,43 +30,40 @@ export default async function CuratorView({ curator, initialBrowse }: { curator:
         {t("backToHub")}
       </Link>
 
-      <header className="mx-auto flex max-w-3xl flex-col items-center text-center">
-        {logoUrl && (
-          // 로고는 흰 종이를 전제로 만들어진 것이 많아 어두운 화면에 그대로 얹으면 묻힌다
-          // 여백은 로고 파일에 이미 들어 있다. 여기서 또 주면 그림이 작아진다
-          <div className="relative mb-4 size-24 overflow-hidden rounded-xl bg-white shadow-lg">
-            <BlurDissolve className="absolute inset-0">
-              <Image src={logoUrl} alt={curator.name} fill className="object-contain" sizes="96px" />
-            </BlurDissolve>
+      <header className="border-b border-line pb-8 md:pb-12">
+        <div className="flex flex-col gap-7 md:flex-row md:items-start md:gap-12">
+          <div className="flex aspect-[8/5] w-full shrink-0 items-center justify-center md:aspect-square md:w-60" style={{ background: surface.background }}>
+            <CuratorLogo slug={curator.slug} name={curator.name} logoUrl={curator.logoUrl} kind={curator.kind} size="hero" />
           </div>
-        )}
+          <div className="min-w-0 flex-1">
+            {/* 이 화면의 h1 — 배너는 이 주소에서 제목 요소를 내려놓는다(LibraryBanner CURATED_DETAIL_PATH) */}
+            <h1 className="break-keep text-3xl font-semibold leading-tight tracking-[-0.045em] text-text-primary md:text-5xl">{curator.name}</h1>
+            <div className="mt-4 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-text-secondary">
+              <span className="rounded border px-1.5 py-0.5" style={{ color: brand.accent, borderColor: `${brand.accent}40` }}>
+                {t(`kind.${curator.kind}`)}
+              </span>
+              {curator.country && <NationalityText code={curator.country} />}
+              {curator.foundedYear && <span>{t("since", { year: curator.foundedYear })}</span>}
+              <span>{t("listCount", { count: curator.listCount })}</span>
+            </div>
 
-        {/* 이 화면의 h1 — 배너는 이 주소에서 제목 요소를 내려놓는다(LibraryBanner CURATED_DETAIL_PATH) */}
-        <h1 className="text-2xl font-bold leading-tight text-text-primary">{curator.name}</h1>
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-[12px] text-text-tertiary">
-          <span className="rounded border border-accent/20 bg-accent/[0.06] px-1.5 py-0.5 text-accent">
-            {t(`kind.${curator.kind}`)}
-          </span>
-          {curator.country && <NationalityText code={curator.country} />}
-          {curator.foundedYear && <span>{t("since", { year: curator.foundedYear })}</span>}
-          <span>{t("listCount", { count: curator.listCount })}</span>
+            {curator.description && (
+              <p className="mt-5 max-w-2xl break-keep text-sm leading-[1.9] text-text-secondary md:text-[15px]">{curator.description}</p>
+            )}
+
+            {curator.homepageUrl && (
+              <a
+                href={curator.homepageUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex max-w-full items-center gap-1.5 break-all text-[13px] text-text-tertiary hover:text-accent"
+              >
+                <ExternalLink size={13} className="shrink-0" />
+                {curator.homepageUrl.replace(/^https?:\/\//, "")}
+              </a>
+            )}
+          </div>
         </div>
-
-        {curator.description && (
-          <p className="mt-4 text-[14px] leading-relaxed text-text-secondary">{curator.description}</p>
-        )}
-
-        {curator.homepageUrl && (
-          <a
-            href={curator.homepageUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex max-w-full items-center gap-1.5 break-all text-[13px] text-text-tertiary hover:text-accent"
-          >
-            <ExternalLink size={13} className="shrink-0" />
-            {curator.homepageUrl.replace(/^https?:\/\//, "")}
-          </a>
-        )}
       </header>
 
       {/* 목록 진열 — 허브와 같은 조작대로 훑는다. 데이터는 서버가 실어 보낸 것 안에서만 섞는다 */}

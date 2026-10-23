@@ -2,8 +2,7 @@
 
 /*
   작품 첫 화면의 선정 목록 — 매체 칩 → 검색 → [국가 | 주제 | 기관] → 결과 수 → 목록 카드 격자 → 페이지.
-  카드 하나가 선정 목록 하나다(표지 부채꼴 + 목록 이름 + 낸 기관). 누르면 목록 화면으로 바로 간다 — 예전에는 기관 로고 →
-  미리보기 창 → 목록으로 두 번 눌러야 작품이 보였다(26.09.28 개편).
+  기관마다 로고·이름을 한 번 세우고, 고른 매체의 선정 목록을 그 아래에서 바로 연다.
   조건 셋은 한 단추(필터) 안에 접지 않고 검색창 아래 줄에 펼쳐 둔다. 단추가 지금 고른 값을 직접 보이므로 따로 조건 칩을 달지 않는다.
   정렬은 두지 않는다(curatorExplore.ts). 조건은 URL에 남긴다.
 */
@@ -19,8 +18,8 @@ import { Pagination } from "@/components/ui/Pagination";
 import ExploreSearchControls, { EXPLORE_CONTROL_CHANGED_CLASS, EXPLORE_CONTROL_CLASS, EXPLORE_PANEL_CLASS } from "@/components/shared/ExploreSearchControls";
 import { FilterModal } from "@/components/shared/filters";
 import { summarizeBrowse } from "./useCuratedBrowse";
-import CuratedListCard from "./CuratedListCard";
-import { CURATOR_FACETS, LIST_PAGE_SIZE, filterCurators, getCuratorCountries, hasFacetChoice, parseCuratorFilters, shownLists, type CuratorExploreFilters, type CuratorFacet } from "../hub/curatorExplore";
+import { CuratedInstitutionCard } from "./CuratedListCard";
+import { CURATOR_FACETS, CURATOR_PAGE_SIZE, filterCurators, getCuratorCountries, hasFacetChoice, parseCuratorFilters, shownLists, type CuratorExploreFilters, type CuratorFacet } from "../hub/curatorExplore";
 import { getCountryNameByLocale } from "@/lib/countries";
 import { countryFirst } from "@/lib/visitorCountry";
 
@@ -44,7 +43,7 @@ export default function CuratedHubView({ hub, visitorCountry = null }: { hub: Cu
   const [openFacet, setOpenFacet] = useState<CuratorFacet | null>(null);
   const shown = countryFirst(filterCurators(hub.curators, filters, locale), visitorCountry, curator => curator.country);
   const lists = shownLists(shown);
-  const totalPages = Math.max(1, Math.ceil(lists.length / LIST_PAGE_SIZE));
+  const totalPages = Math.max(1, Math.ceil(shown.length / CURATOR_PAGE_SIZE));
   const page = Math.min(filters.page, totalPages);
   const search = draft ?? filters.search;
 
@@ -112,8 +111,8 @@ export default function CuratedHubView({ hub, visitorCountry = null }: { hub: Cu
                 disabled={!changed && !hasFacetChoice(facetCounts[facet], mediaCurators.length)}
                 aria-label={`${title}: ${valueLabel(facet, filters[facet])}`}
                 className={`${EXPLORE_CONTROL_CLASS} ${changed ? EXPLORE_CONTROL_CHANGED_CLASS : ""}`}>
-                {/* 휴대폰 세 칸은 좁아 값을 고르면 아이콘을 접고 값(언론·매체)에 자리를 준다 */}
-                <Icon size={15} className={`shrink-0 ${changed ? "hidden sm:block" : ""}`} aria-hidden /><span className="truncate leading-5">{label}</span>
+                {/* 좁은 세 칸에서는 이름·선택값을 읽을 공간을 확보한다. */}
+                <Icon size={15} className="hidden shrink-0 sm:block" aria-hidden /><span className="truncate leading-5">{label}</span>
                 <ChevronDown size={14} className="shrink-0 text-text-tertiary" aria-hidden />
               </button>
             );
@@ -124,9 +123,9 @@ export default function CuratedHubView({ hub, visitorCountry = null }: { hub: Cu
           {t("listResults", { lists: lists.length, count: shown.length })}
         </p>
       </div>
-      {lists.length ? <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
-        {lists.slice((page - 1) * LIST_PAGE_SIZE, page * LIST_PAGE_SIZE).map(list => (
-          <CuratedListCard key={`${list.curatorSlug}/${list.slug}`} list={list} curatorQuery={cardQuery.size ? `?${cardQuery}` : ""} />
+      {lists.length ? <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-14">
+        {shown.slice((page - 1) * CURATOR_PAGE_SIZE, page * CURATOR_PAGE_SIZE).map(curator => (
+          <CuratedInstitutionCard key={curator.slug} curator={curator} curatorQuery={cardQuery.size ? `?${cardQuery}` : ""} />
         ))}
       </div> : <div className="space-y-3 py-12 text-center">
         <p className="text-sm text-text-secondary">{t("noResults")}</p>

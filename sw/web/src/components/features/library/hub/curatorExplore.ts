@@ -1,13 +1,12 @@
 import type { CuratedHub } from "@/actions/library/types";
 
 /*
-  작품 첫 화면 선정 목록의 조건. 화면에 서는 단위는 선정 목록이다(기관 44곳 중 39곳이 목록을 하나만 내서
-  기관 층은 한 번 더 누르는 단계일 뿐이었다). 거르기는 기관 단위로 하고(국가·기관 종류는 기관의 성질),
-  남은 기관의 목록을 기관 이름순 → 기관 안 목록 순서로 늘어놓는다 — 같은 기관의 목록이 나란히 선다.
+  기관 선정의 조건. 기관 카드를 이름순으로 진열하고 각 카드 안의 선정 목록을 바로 연다.
+  거르기는 기관과 목록에 적용하며, 쪽 나눔은 기관 단위라 같은 기관의 목록이 쪽 사이에서 갈라지지 않는다.
   정렬은 두지 않는다. 조건은 국가·주제·기관 종류 셋이며 조작 줄에 셋 다 펼쳐 둔다(한 단추 안에 접지 않는다).
 */
-/** 한 쪽에 싣는 선정 목록 수 — 카드 열 수(2·3·4)로 나눠 떨어지게 12 */
-export const LIST_PAGE_SIZE = 12;
+/** 한 쪽에 싣는 기관 카드 수 */
+export const CURATOR_PAGE_SIZE = 12;
 /** 조작 줄의 조건 순서 — 국가 | 주제 | 기관 */
 export const CURATOR_FACETS = ["country", "topic", "kind"] as const;
 export type CuratorFacet = typeof CURATOR_FACETS[number];

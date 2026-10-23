@@ -127,6 +127,9 @@ const SEO_FILES = new Set([
   'sw/web/src/lib/robots.ts',
   'sw/web/src/lib/seoImageOrigin.ts',
   'sw/web/src/lib/sitemap.ts',
+  // 기관별 쪽 수를 sitemap과 허브 메타가 함께 산출한다.
+  'sw/web/src/components/features/library/hub/curatorExplore.ts',
+  'sw/web/src/lib/library/curatedMeta.ts',
 ])
 
 const CELEB_PREFIXES = [
@@ -506,6 +509,13 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/library/curated/CuratedListModal.tsx',
   'sw/web/src/components/features/library/curated/CuratorAccordion.tsx',
   'sw/web/src/components/features/library/curated/CuratorView.tsx',
+  'sw/web/src/components/features/library/curated/CuratorBrowse.tsx',
+  'sw/web/src/components/features/library/curated/CuratorLogo.tsx',
+  'sw/web/src/components/features/library/curated/CuratedGallery.module.css',
+  'sw/web/src/components/features/library/curated/curatorLogos.ts',
+  'sw/web/src/components/features/library/curated/curatorLogoPalettes.ts',
+  // 새 주소의 공식 TGA 로고. 기존 이미지 URL을 덮어쓰지 않는다.
+  'sw/web/public/images/curated/the-game-awards-official.png',
   'sw/web/src/components/features/library/curated/curatorBrandPalettes.ts',
   'sw/web/src/components/features/library/curated/useCuratedBrowse.ts',
   'sw/web/src/components/features/library/hub/CuratedHubBrowse.tsx',
