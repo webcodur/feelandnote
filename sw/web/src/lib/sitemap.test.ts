@@ -3,6 +3,7 @@ import { AsyncLocalStorage } from 'node:async_hooks'
 import { createRequire } from 'node:module'
 import test from 'node:test'
 import type { MetadataRoute } from 'next'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 
 import { INFLUENCE_RANKING_FIELDS, getInfluenceRankingHref } from '@/constants/influenceRanking'
 
@@ -20,6 +21,35 @@ function getSitemapEntries(name: string) {
 }
 
 const CREATED_AT = '2026-08-01T00:00:00.000Z'
+
+test('공개 데이터의 갱신 태그가 해당 사이트맵의 모든 조회에 연결된다', async (t) => {
+  const previousUrl = process.env.NEXT_PUBLIC_DB_API_URL
+  const previousKey = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+  const previousFetch = globalThis.fetch
+  process.env.NEXT_PUBLIC_DB_API_URL = 'https://db.example'
+  process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = 'test-key'
+  const tagsByTable = new Map<string, string[] | undefined>()
+  globalThis.fetch = async (input, init) => {
+    const table = new URL(String(input)).pathname.split('/').pop()!
+    const options = init as RequestInit & { next?: { tags?: string[] } }
+    tagsByTable.set(table, options.next?.tags)
+    return Response.json([])
+  }
+  t.after(() => {
+    if (previousUrl === undefined) delete process.env.NEXT_PUBLIC_DB_API_URL
+    else process.env.NEXT_PUBLIC_DB_API_URL = previousUrl
+    if (previousKey === undefined) delete process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+    else process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = previousKey
+    globalThis.fetch = previousFetch
+  })
+
+  await getSitemapEntries('celebs')
+  await getSitemapEntries('core')
+  assert.deepEqual(tagsByTable.get('celebs'), [CACHE_TAGS.CELEBS])
+  assert.deepEqual(tagsByTable.get('curators'), [CACHE_TAGS.CURATED])
+  assert.deepEqual(tagsByTable.get('faction_lv2'), [CACHE_TAGS.FACTIONS])
+  assert.deepEqual(tagsByTable.get('faction_member_rows'), [CACHE_TAGS.FACTIONS])
+})
 
 test('works and curated URLs use canonical explore paths in both locales', async (t) => {
   const previousUrl = process.env.NEXT_PUBLIC_DB_API_URL

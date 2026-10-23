@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { INDEXABLE_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { CACHE_TAGS, type CacheTag } from '@feelandnote/shared/constants/cache-tags'
 import { getCelebProfessions } from '@/lib/celeb-professions'
 import { getAlternates, SITE_URL } from './seo'
 import { INFLUENCE_RANKING_FIELDS, getInfluenceRankingHref } from '@/constants/influenceRanking'
@@ -23,14 +24,14 @@ const BASE_URL = SITE_URL
 type SitemapEntry = MetadataRoute.Sitemap[number]
 
 /** 조회 실패를 빈 목록으로 바꾸면 불완전한 XML이 하루 동안 정상 응답으로 캐시된다. */
-async function fetchSitemapRows<T>(query: string): Promise<T[]> {
+async function fetchSitemapRows<T>(query: string, tag: CacheTag): Promise<T[]> {
   const url = process.env.NEXT_PUBLIC_DB_API_URL
   const key = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
   if (!url || !key) throw new Error('[sitemap] DB configuration is missing')
 
   const request = () => fetch(`${url}/rest/v1/${query}`, {
     headers: { apikey: key, Authorization: `Bearer ${key}` },
-    next: { revalidate: SITEMAP_REVALIDATE_SECONDS },
+    next: { revalidate: SITEMAP_REVALIDATE_SECONDS, tags: [tag] },
     signal: AbortSignal.timeout(15000),
   })
   let response = await request()
@@ -72,7 +73,7 @@ async function fetchCelebs(): Promise<{
       limit: String(pageSize),
     })
 
-    const data = await fetchSitemapRows<(typeof allCelebs)[number]>(`celebs?${params}`)
+    const data = await fetchSitemapRows<(typeof allCelebs)[number]>(`celebs?${params}`, CACHE_TAGS.CELEBS)
     allCelebs.push(...data)
     if (data.length < pageSize) break
     offset += pageSize
@@ -88,6 +89,7 @@ async function fetchCuratedPaths(): Promise<string[]> {
   for (let offset = 0; ; offset += pageSize) {
     const rows = await fetchSitemapRows<Curator>(
       `curators?select=slug,curated_lists(slug,content_type,is_featured)&is_featured=eq.true&order=id.asc&offset=${offset}&limit=${pageSize}`,
+      CACHE_TAGS.CURATED,
     )
     data.push(...rows)
     if (rows.length < pageSize) break
@@ -125,6 +127,7 @@ async function fetchAtlasPaths(): Promise<string[]> {
   for (let offset = 0; ; offset += pageSize) {
     const page = await fetchSitemapRows<AtlasRow>(
       `faction_lv2?select=id,slug,is_myth,published,is_featured&slug=not.is.null&order=sort_order.asc,id.asc&offset=${offset}&limit=${pageSize}`,
+      CACHE_TAGS.FACTIONS,
     )
     rows.push(...page)
     if (page.length < pageSize) break
@@ -135,6 +138,7 @@ async function fetchAtlasPaths(): Promise<string[]> {
   for (let offset = 0; ; offset += pageSize) {
     const members = await fetchSitemapRows<{ lv2_id: string }>(
       `faction_member_rows?select=lv2_id&hidden=eq.false&order=lv2_id.asc,celeb_id.asc&offset=${offset}&limit=${pageSize}`,
+      CACHE_TAGS.FACTIONS,
     )
     members.forEach((member) => withMembers.add(member.lv2_id))
     if (members.length < pageSize) break

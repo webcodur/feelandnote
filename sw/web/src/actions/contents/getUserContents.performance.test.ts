@@ -41,7 +41,7 @@ test('initial celeb records do not wait for sales recommendations or peer reader
   }, loaded, loaded.exports)
   const result = await loaded.exports.getPublicUserContents({ userId: 'pearl-buck', type: 'BOOK', page: 1, limit: 4, sortBy: 'recent' }, 'ko')
   assert.equal(result.total, 0)
-  assert.deepEqual(calls, ['order:created_at', 'range:0:3'])
+  assert.deepEqual(calls, ['order:created_at', 'order:id', 'range:0:3'])
 })
 
 test('책장 선정 원행을 전달해도 일반 공개 감상 목록의 행·건수·감상문은 유지한다', async () => {
@@ -83,4 +83,42 @@ test('책장 선정 원행을 전달해도 일반 공개 감상 목록의 행·�
     assert.equal(result.items[0]?.public_record.content_preview, '원행 감상문')
   }
   assert.deepEqual(rows, before)
+})
+
+test('동시에 등록한 인물 감상은 100건 위치 조회와 20건 페이지 조회의 순서가 일치한다', async () => {
+  const rows = Array.from({ length: 125 }, (_, index) => {
+    const id = String(index).padStart(3, '0')
+    return { id, content_id: `work-${id}`, visibility: 'public', created_at: '2026-10-01T00:00:00Z',
+      review: `review-${id}`, content: { id: `work-${id}`, type: 'BOOK', metadata: {}, content_locales: [] } }
+  })
+  const from = () => {
+    const orders: string[] = []
+    const query = { select: () => query, eq: () => query,
+      order: (field: string) => { orders.push(field); return query },
+      range: async (start: number, end: number) => {
+        // PostgreSQL은 동률인 행을 LIMIT마다 같은 순서로 돌려줄 의무가 없다.
+        const ordered = orders.includes('id') ? [...rows].reverse()
+          : end - start + 1 > 20 ? rows : [...rows.slice(10), ...rows.slice(0, 10)]
+        return { data: ordered.slice(start, end + 1), count: rows.length, error: null }
+      } }
+    return query
+  }
+  const mocks: Record<string, object> = {
+    '@feelandnote/shared/constants/cache-tags': { CACHE_TAGS: { CELEBS: 'celebs', CONTENTS: 'contents' } },
+    '@/lib/db/server': {}, '@/lib/db/static': { createStaticClient: () => ({ from }) },
+    '@/lib/cache': { cachedDetail: (_tag: string, _id: string, _keys: string[], read: () => unknown) => read() },
+    'next-intl/server': {}, '@/lib/utils/content-locale': { CL_SELECT_LIST: '*', CL_SELECT_LIST_WITH_AFFILIATE: '*', flattenLocales },
+    '@/lib/utils/search-sanitize': {}, '@/actions/home/getAffiliateBooks': {},
+  }
+  const loaded = { exports: {} as { getPublicUserContents: (params: object, locale: string) => Promise<{ items: { content_id: string }[] }> } }
+  new Function('require', 'module', 'exports', compiled)((key: string) => {
+    assert.ok(mocks[key], `unexpected import ${key}`)
+    return mocks[key]
+  }, loaded, loaded.exports)
+  const read = (page: number, limit: number) => loaded.exports.getPublicUserContents({ userId: 'celeb', page, limit, sortBy: 'recent' }, 'ko')
+  const batch = await read(1, 100)
+  for (const index of [0, 19, 20, 40, 99]) {
+    const page = await read(Math.floor(index / 20) + 1, 20)
+    assert.equal(page.items[index % 20]?.content_id, batch.items[index]?.content_id)
+  }
 })

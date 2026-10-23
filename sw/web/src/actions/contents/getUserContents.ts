@@ -168,6 +168,8 @@ async function queryUserContents(
   } else {
     query = query.order('created_at', { ascending: false })
   }
+  // 같은 시각에 등록된 감상도 조회 묶음 크기와 페이지에 관계없이 같은 순서로 읽는다.
+  if (ownerKind === 'celeb') query = query.order('id', { ascending: false })
 
   // 타인 프로필 조회 시 public만 표시
   if (!isOwnProfile) {
@@ -346,7 +348,7 @@ const getCachedCelebLibraryContents = (...args: CelebContentsArgs) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     args[0],
-    ['celeb-library-contents-v8-title-translation', ...args.map((a) => String(a ?? ''))],
+    ['celeb-library-contents-v9-stable-order', ...args.map((a) => String(a ?? ''))],
     () => {
       const [userId, type, page, limit, search, hasReview, sortBy, locale, preferredContentIds] = args
       return queryUserContents(createStaticClient(), {
