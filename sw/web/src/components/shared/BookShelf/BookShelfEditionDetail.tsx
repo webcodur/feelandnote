@@ -24,6 +24,7 @@ interface Props {
   active?: boolean; lazyIntroduction?: boolean;
   loading?: boolean;
   sharedEditionKeys?: ReadonlySet<string>;
+  showIntroduction?: boolean;
 }
 
 function formatDate(value: string | null, locale: string): string | null {
@@ -36,7 +37,7 @@ function formatDate(value: string | null, locale: string): string | null {
 }
 
 /** 작품을 고른 뒤에는 모든 책장이 같은 표지·판본·소개·서지를 보여준다. */
-export default function BookShelfEditionDetail({ source, edition: selectedEdition, active = true, lazyIntroduction = false, sharedEditionKeys, loading = false }: Props) {
+export default function BookShelfEditionDetail({ source, edition: selectedEdition, active = true, lazyIntroduction = false, sharedEditionKeys, loading = false, showIntroduction = true }: Props) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
   const edition = selectedEdition ?? source.editions[0]
@@ -46,10 +47,10 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
       sources: source.sources, editionKind: null, textScope: null,
       introductionAttribution: source.introductionAttribution, platform: null, purchaseUrl: null,
       affiliateLinks: source.affiliateLinks, locale: undefined };
-  const introduction = useBookIntroduction(edition.bookIntroduction, edition.locale ?? locale, edition.description, lazyIntroduction);
+  const introduction = useBookIntroduction(showIntroduction ? edition.bookIntroduction : null, edition.locale ?? locale, edition.description, lazyIntroduction);
   const busy = loading || introduction.pending;
   /* 상한 안의 소개는 통째로 늘어난다 — 상한을 넘는 장문만 칸 높이에 가둔다 */
-  const introFitsInline = fitsInlineReadingText(
+  const introFitsInline = !showIntroduction || fitsInlineReadingText(
     introduction.description ? normalizeContentIntroText(introduction.description) : null,
     locale,
   );
@@ -84,8 +85,8 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
       </div>
       <div className={`min-w-0 sm:col-start-2 sm:row-start-1 sm:flex sm:flex-col ${introFitsInline ? "" : "sm:contain-size"}`} aria-busy={busy}>
         <BookShelfEditionHeading source={source} edition={edition} sharedEditionKeys={sharedEditionKeys} />
-        {introduction.failed && <RetryBlock onRetry={introduction.retry} />}
-        {!introduction.failed && <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
+        {showIntroduction && introduction.failed && <RetryBlock onRetry={introduction.retry} />}
+        {showIntroduction && !introduction.failed && <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
           <ContentIntro key={edition.id ?? source.id} category="book" isLoading={busy} inlineLabel
             brief={{ contentId: source.id, category: "book", description: introduction.description,
               bookIntroduction: edition.bookIntroduction, introductionAttribution: edition.introductionAttribution,

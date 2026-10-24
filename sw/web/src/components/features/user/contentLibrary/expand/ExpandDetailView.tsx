@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
@@ -28,6 +28,8 @@ import { useExpandIndexSelection } from "./useExpandIndexSelection";
 import { useHeldHeight } from "./useHeldHeight";
 import type { ContentFocusRequest } from "../types";
 import { topOverlayBottom } from "@/lib/utils/topOverlayBottom";
+import LibraryShelfUtilities from "@/components/shared/LibraryShelfUtilities";
+import LibraryShelfLazyItem from "@/components/shared/LibraryShelfLazyItem";
 
 /** 화살표를 누른 직후로 볼 시간. 이보다 늦게 온 선택 변화는 화살표가 부른 것이 아니다 */
 const REVEAL_WINDOW_MS = 400;
@@ -51,6 +53,9 @@ interface ExpandDetailViewProps {
   /** 지금 펼쳐 보는 작품이 바뀔 때마다 알린다. "전체 보기"가 같은 자리에서 이어지게 쓴다 */
   onActiveContentChange?: (contentId: string | null, index: number) => void;
   focusRequest?: ContentFocusRequest;
+  showUtilities?: boolean;
+  showNavigation?: boolean;
+  recordsAction?: ReactNode;
 }
 
 export default function ExpandDetailView({
@@ -70,9 +75,13 @@ export default function ExpandDetailView({
   isContentRefreshing,
   onActiveContentChange,
   focusRequest,
+  showUtilities = true,
+  showNavigation = true,
+  recordsAction,
 }: ExpandDetailViewProps) {
   const t = useTranslations("archiveSearch");
   const locale = useLocale();
+  const [showAllItems, setShowAllItems] = useState(false);
   const indexId = useId();
   const presentation = useMemo(() => buildExpandPresentation(items, locale), [items, locale]);
   const navigationOrder = useMemo(
@@ -109,7 +118,11 @@ export default function ExpandDetailView({
   useEffect(() => {
     onActiveContentChange?.(selectedContentId, selectedIndex);
   }, [selectedContentId, selectedIndex, onActiveContentChange]);
-  const contentIds = useMemo(() => items.map((item) => item.content_id), [items]);
+  // 전체 매체에서는 유형별로 재정렬하므로 실제 「다음」 버튼과 같은 순서로 한 건 앞서 준비한다.
+  const contentIds = useMemo(() => navigationOrder.map((index) => items[index].content_id), [items, navigationOrder]);
+  const briefIndex = navigationOrder.indexOf(selectedIndex);
+  const nextContentId = showNavigation && contentIds.length > 1
+    ? contentIds[(briefIndex + 1) % contentIds.length] : undefined;
   const {
     contentId: loadedBriefContentId,
     brief: loadedBrief,
@@ -118,11 +131,12 @@ export default function ExpandDetailView({
     retry: retryBrief,
   } = useContentBrief(
     contentIds,
-    selectedIndex,
+    briefIndex,
     selectedContentId,
     isLatestSelection,
-    isActive,
+    isActive && !showAllItems,
     initialContentBrief,
+    showNavigation,
   );
   const brief = loadedBriefContentId === selectedContentId ? loadedBrief : null;
   const selectedPlaceholder = items[selectedIndex];
@@ -135,7 +149,8 @@ export default function ExpandDetailView({
     celebId,
     selectedContentId,
     initialContentRecord,
-    isActive,
+    isActive && !showAllItems,
+    nextContentId,
   );
   const selectedItem = record?.content_id === selectedContentId ? record : selectedPlaceholder;
   const isNavigationDisabled = total <= 1;
@@ -181,7 +196,7 @@ export default function ExpandDetailView({
   /* 키보드 ←→로도 넘긴다 — 긴 카드를 읽는 중간에도 작품을 바꿀 수 있어야 한다.
      입력 중이거나 대화상자·목록 상자가 열려 있으면 화살표는 그 자리의 조작으로 둔다 */
   useEffect(() => {
-    if (!isActive || isNavigationDisabled) return;
+    if (!isActive || isNavigationDisabled || !showNavigation || showAllItems) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) return;
       if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
@@ -193,25 +208,42 @@ export default function ExpandDetailView({
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [isActive, isNavigationDisabled, goPrevious, goNext]);
+  }, [isActive, isNavigationDisabled, goPrevious, goNext, showNavigation, showAllItems]);
 
   if (total === 0) return null;
 
+  const utilities = showUtilities && <LibraryShelfUtilities showAllItems={showAllItems}
+    onAllItemsChange={setShowAllItems} recordsAction={recordsAction} />;
+  if (showAllItems) return <>
+    {utilities}
+    <div data-shelf-all-items className="space-y-6 [overflow-anchor:none]">
+      {items.map((item, index) => <LibraryShelfLazyItem key={item.id} title={presentation.titles[index]}>
+        <ExpandDetailView items={[item]} ownerNickname={ownerNickname} ownerAvatarUrl={ownerAvatarUrl} celebId={celebId} isActive={isActive}
+          initialContentBrief={item.content_id === selectedContentId ? brief : undefined}
+          initialContentRecord={record?.content_id === item.content_id ? record
+            : initialContentRecord?.content_id === item.content_id ? initialContentRecord : undefined}
+          showUtilities={false} showNavigation={false} />
+      </LibraryShelfLazyItem>)}
+    </div>
+  </>;
+
   return (
+    <>
+    {utilities}
     <section
       ref={rootRef}
       data-expand-item-count={total}
       data-expand-content-id={selectedContentId}
       tabIndex={-1}
-      className={`${LIBRARY_DETAIL_FRAME_CLASS} scroll-mt-[var(--layer-celeb-heading-bottom,80px)] outline-none`}
+      className={`${showNavigation ? LIBRARY_DETAIL_FRAME_CLASS : "overflow-hidden rounded-xl border border-white/20 bg-bg-card"} scroll-mt-[var(--layer-celeb-heading-bottom,80px)] outline-none`}
     >
-      <ExpandArrowButton
+      {showNavigation && <ExpandArrowButton
         direction="previous"
         label={t("expandPrev")}
         disabled={isNavigationDisabled}
         placement="desktop"
         onClick={goPrevious}
-      />
+      />}
       <ExpandTitleHeader
         title={presentation.titles[selectedIndex]}
         titleBadge={presentation.titleBadges[selectedIndex]}
@@ -221,7 +253,8 @@ export default function ExpandDetailView({
         disabled={isNavigationDisabled}
         onPrevious={goPrevious}
         onNext={goNext}
-        indexControl={activeCategory !== undefined ? {
+        hideArrows={!showNavigation}
+        indexControl={showNavigation && activeCategory !== undefined ? {
           label: indexLabels.list,
           isOpen: isIndexOpen,
           indexId,
@@ -249,11 +282,12 @@ export default function ExpandDetailView({
             isActive={isActive}
             ownerNickname={ownerNickname}
             ownerAvatarUrl={ownerAvatarUrl}
+            showIntroduction
           />
         </div>
         {/* 소개와 감상 배경을 통째로 싣는 한 덩어리라 카드가 길다 — 다 읽은 자리에서 바로
             이전·다음으로 넘어가게 카드 아래에 이동 바를 둔다. 넓은 화면의 양옆 화살표와 함께 둔다 */}
-        <ExpandBottomNavigation
+        {showNavigation && <ExpandBottomNavigation
           label={t("expandBottomNavigation")}
           previousLabel={t("expandPrev")}
           nextLabel={t("expandNext")}
@@ -261,16 +295,16 @@ export default function ExpandDetailView({
           showOnDesktop
           onPrevious={goPrevious}
           onNext={goNext}
-        />
+        />}
       </div>
 
-      <ExpandArrowButton
+      {showNavigation && <ExpandArrowButton
         direction="next"
         label={t("expandNext")}
         disabled={isNavigationDisabled}
         placement="desktop"
         onClick={goNext}
-      />
+      />}
 
       {isIndexOpen && (
         <MobileIndexModal
@@ -289,5 +323,6 @@ export default function ExpandDetailView({
         />
       )}
     </section>
+    </>
   );
 }

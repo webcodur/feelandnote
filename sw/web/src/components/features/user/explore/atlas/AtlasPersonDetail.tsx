@@ -16,6 +16,7 @@ import NarratedMonologueModal from "@/components/shared/NarratedMonologueModal";
 import FactionPersonHeader from "@/components/features/faction/entry/FactionPersonHeader";
 import FactionPersonBooks from "@/components/features/faction/entry/FactionPersonBooks";
 import FactionPersonReviews from "@/components/features/faction/entry/FactionPersonReviews";
+import CelebShelfSection from "@/components/features/celeb/CelebShelfSection";
 import { FACTION_PERSON_LAYOUT as layout } from "@/components/features/faction/entry/factionPersonLayout";
 import { useContainerSectionNavigation } from "@/lib/scroll/useContainerSectionNavigation";
 import { useAudioAvailable } from "@/hooks/useReadingNarration";
@@ -46,8 +47,7 @@ export default function AtlasPersonDetail({ mode, person, theme, profile, group,
   const hasRecords = reality === "REAL" || reality === "BOTH";
   const items: AtlasNavItem[] = [
     { key: "profile", label: tCeleb("serviceIntroduction"), sectionId: `${prefix}-profile` },
-    ...(hasRecords ? [{ key: "records", label: tCeleb("recordCountsLabel"), sectionId: `${prefix}-records` }] : []),
-    { key: "books", label: tCeleb("relatedProducts"), sectionId: `${prefix}-books` },
+    { key: "books", label: tCeleb("bookshelfTitle"), sectionId: `${prefix}-books` },
   ].map((item, index) => ({ ...item, chapter: String(index + 1).padStart(2, "0") }));
   const { activeSectionId, navigate } = useContainerSectionNavigation(items.map(item => item.sectionId), articleRef);
   const fetchedGuide = useCelebReadingGuide(person.id);
@@ -84,13 +84,11 @@ export default function AtlasPersonDetail({ mode, person, theme, profile, group,
             <div className={`${layout.paragraphs} break-keep`}><FormattedText text={description} layout="prose" /></div>
           </section>}
         </HubSection>
-        {hasRecords && <HubSection compact id={items[1].sectionId} title={items[1].label} titleAs="h3"
-          index={1} total={items.length} tabIndex={-1} className="scroll-mt-6 outline-none">
-          <FactionPersonReviews key={`${person.id}:${locale}`} celebId={person.id} name={person.name} avatarUrl={person.avatarUrl} embedded />
-        </HubSection>}
         <HubSection compact id={items[items.length - 1].sectionId} title={items[items.length - 1].label} titleAs="h3"
           index={items.length - 1} total={items.length} tabIndex={-1} className="scroll-mt-6 outline-none">
-          <FactionPersonBooks celebId={person.id} embedded />
+          <CelebShelfSection key={`${person.id}:${locale}`} hasReviews={hasRecords}
+            librarySlot={<FactionPersonReviews celebId={person.id} name={person.name} avatarUrl={person.avatarUrl} embedded />}
+            booksSlot={<FactionPersonBooks celebId={person.id} embedded />} />
         </HubSection>
       </article>
       {guideOpen && guideText && <NarratedGuideModal nested celebId={person.id} text={guideText} audioUrl={guideAudioUrl}

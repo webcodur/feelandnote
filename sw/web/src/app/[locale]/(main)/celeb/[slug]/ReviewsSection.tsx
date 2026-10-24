@@ -9,7 +9,7 @@
 import { useCallback, useState } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import ContentLibrary from "@/components/features/user/contentLibrary/ContentLibrary";
 import { getCelebProfileUrl } from "@/lib/url";
@@ -74,9 +74,8 @@ export default function ReviewsSection({
         initialContentBrief={initialContentBrief}
         onActiveContentChange={onActiveContentChange}
         focusRequest={focusRequest}
-        // "전체 기록"은 카테고리 아래에서 연다.
-        // 펼쳐보기에서 보던 작품이 있으면 그 작품이 있는 쪽에서 이어 연다.
-        filterTrailing={(initialContents?.total ?? 0) > 0 ? (
+        // 전체 펼침 토글 옆의 화살표로 지금 보던 작품의 기록 페이지를 연다.
+        recordsAction={(initialContents?.total ?? 0) > 0 ? (
           <Link
             href={recordsHref}
             prefetch={false}
@@ -85,14 +84,13 @@ export default function ReviewsSection({
               event.preventDefault();
               setIsRecordsConfirmOpen(true);
             }}
-            aria-label={t("records.viewAll")}
-            title={t("records.viewAll")}
+            aria-label={t("records.openPage")}
+            title={t("records.openPage")}
             aria-haspopup="dialog"
             aria-expanded={isRecordsConfirmOpen}
-            className="relative inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/[0.18] bg-white/[0.04] px-9 py-2 text-sm font-semibold text-text-secondary hover:border-accent/60 hover:bg-white/[0.07] hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="absolute end-1 top-1/2 inline-flex size-8 -translate-y-1/2 items-center justify-center rounded border border-current/30 text-current hover:border-accent hover:bg-accent/15 hover:text-accent active:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
           >
-            <span className="text-center leading-5">{t("records.viewAll")}</span>
-            <ArrowUpRight size={16} className="absolute end-3 top-1/2 -translate-y-1/2" aria-hidden />
+            <ArrowRight size={16} aria-hidden />
           </Link>
         ) : undefined}
       />

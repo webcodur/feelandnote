@@ -9,21 +9,20 @@ test("FICTION reality uses story-first section order without analysis", () => {
     "personGuide",
     "virtualMonologue",
     "connections",
-    "affiliateBooks",
+    "library",
     "relatedFigures",
     "relatedFactions",
     "guestbook",
   ]);
 });
 
-test("REAL and BOTH reality keep reviews before the unified books section", () => {
+test("REAL and BOTH reality use one shelf for reviews and reference books", () => {
   const expected = [
     "introduction",
     "personGuide",
     "virtualMonologue",
-    "filmography",
     "library",
-    "affiliateBooks",
+    "filmography",
     "analysis",
     "connections",
     "relatedFigures",

@@ -38,7 +38,7 @@ export async function CelebBooksServer({ books, profile }: { books: BooksPromise
   const t = await getTranslations('celebPage.loading')
   return <div className={styles.arrived} data-celeb-loaded="books">
     {Boolean(hasBooks) && <CelebBookShelf celebId={profile.id} appeared={appeared} authored={authored}
-      professionBooks={professionBooks} profession={profile.profession} factionGroups={factionGroups} supplementaryDeferred={supplementaryDeferred} id="archive" />}
+      professionBooks={professionBooks} profession={profile.profession} factionGroups={factionGroups} supplementaryDeferred={supplementaryDeferred} />}
     {!hasBooks && <p className="py-10 text-center text-sm text-text-tertiary">{t('booksEmpty')}</p>}
   </div>
 }

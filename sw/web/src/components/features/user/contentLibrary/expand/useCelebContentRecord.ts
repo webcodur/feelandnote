@@ -10,7 +10,7 @@ type RecordEntry =
   | { status: "ready"; item: UserContentWithContent | null }
   | { status: "failed"; item: null };
 
-type ActiveEntry = RecordEntry & { contentId: string };
+type ActiveEntry = RecordEntry & { cacheKey: string };
 
 const MAX_REQUEST_ATTEMPTS = 3;
 const RETRY_DELAY_MS = 250;
@@ -23,12 +23,12 @@ export function useCelebContentRecord(
   prefetchContentId?: string,
 ) {
   const cacheRef = useRef<Map<string, RecordEntry>>(
-    new Map(initialRecord ? [[initialRecord.content_id, { status: "ready", item: initialRecord }]] : []),
+    new Map(initialRecord ? [[`${celebId}:${initialRecord.content_id}`, { status: "ready", item: initialRecord }]] : []),
   );
   const pendingRef = useRef<Map<string, Promise<RecordEntry>>>(new Map());
   const [active, setActive] = useState<ActiveEntry | null>(() => (
     initialRecord
-      ? { contentId: initialRecord.content_id, status: "ready", item: initialRecord }
+      ? { cacheKey: `${celebId}:${initialRecord.content_id}`, status: "ready", item: initialRecord }
       : null
   ));
   const [retryToken, setRetryToken] = useState(0);
@@ -37,8 +37,9 @@ export function useCelebContentRecord(
     if (!enabled || !celebId || !contentId) return;
     let cancelled = false;
     for (const targetId of new Set([contentId, prefetchContentId].filter((id): id is string => !!id))) {
-      const cached = cacheRef.current.get(targetId);
-      let request = cached ? Promise.resolve(cached) : pendingRef.current.get(targetId);
+      const cacheKey = `${celebId}:${targetId}`;
+      const cached = cacheRef.current.get(cacheKey);
+      let request = cached ? Promise.resolve(cached) : pendingRef.current.get(cacheKey);
 
       if (!request) {
         request = (async (): Promise<RecordEntry> => {
@@ -62,15 +63,15 @@ export function useCelebContentRecord(
         })()
           .then((entry) => {
             // 실패는 실제 빈 기록이 아니다. 작품을 다시 고르거나 재시도할 때 다시 요청한다.
-            if (entry.status === "ready") cacheRef.current.set(targetId, entry);
+            if (entry.status === "ready") cacheRef.current.set(cacheKey, entry);
             return entry;
           })
-          .finally(() => pendingRef.current.delete(targetId));
-        pendingRef.current.set(targetId, request);
+          .finally(() => pendingRef.current.delete(cacheKey));
+        pendingRef.current.set(cacheKey, request);
       }
 
       void request.then((entry) => {
-        if (!cancelled && targetId === contentId) setActive({ ...entry, contentId });
+        if (!cancelled && targetId === contentId) setActive({ ...entry, cacheKey });
       });
     }
     return () => { cancelled = true; };
@@ -78,12 +79,13 @@ export function useCelebContentRecord(
 
   const retry = useCallback(() => {
     if (!enabled || !contentId) return;
-    cacheRef.current.delete(contentId);
-    setActive((current) => current?.contentId === contentId ? null : current);
+    const cacheKey = `${celebId}:${contentId}`;
+    cacheRef.current.delete(cacheKey);
+    setActive((current) => current?.cacheKey === cacheKey ? null : current);
     setRetryToken((current) => current + 1);
-  }, [contentId, enabled]);
+  }, [celebId, contentId, enabled]);
 
-  const current = active?.contentId === contentId ? active : null;
+  const current = active?.cacheKey === `${celebId}:${contentId}` ? active : null;
   return {
     record: current?.status === "ready" ? current.item : null,
     isLoading: enabled && !!contentId && current === null,

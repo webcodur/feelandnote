@@ -735,6 +735,9 @@
       "basis": "Top-level categories are based on the work's medium.",
       "available": "Books, videos, games, and music are currently available. New categories can be added when a dependable external data source is available.",
       "suggestion": "To suggest a category, leave a post tagged as a suggestion on the community board."
-    }
+    },
+    "shelfViewAll": "View all",
+    "shelfViewSingle": "View one",
+    "shelfViewMode": "View mode"
   }
 }

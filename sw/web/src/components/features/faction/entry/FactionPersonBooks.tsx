@@ -16,6 +16,7 @@ export default function FactionPersonBooks({ celebId, embedded = false }: { cele
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
+    if (data || failed) return;
     let alive = true;
     getCelebReferenceBooks(celebId, locale)
       .then((result) => { if (alive) setData(result); })
@@ -24,7 +25,7 @@ export default function FactionPersonBooks({ celebId, embedded = false }: { cele
         if (alive) setFailed(true);
       });
     return () => { alive = false; };
-  }, [celebId, locale, attempt]);
+  }, [celebId, locale, attempt, data, failed]);
 
 
   return (

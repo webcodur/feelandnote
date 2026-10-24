@@ -33,6 +33,8 @@ export interface ContentLibraryProps {
   initialContentBrief?: ContentBrief | null;
   /** 조작대에 덧붙는 조작. 인물 서가에서는 검색대 옆에 표시한다. */
   filterTrailing?: ReactNode;
+  /** 전체 펼침 토글 옆에 붙는 기록 페이지 이동 조작. */
+  recordsAction?: ReactNode;
   /** 펼침 보기에서 지금 보는 작품이 바뀔 때마다 알린다("전체 보기" 자리 맞춤용) */
   onActiveContentChange?: (contentId: string | null, index: number) => void;
   /** 페이지의 다른 구획에서 지정한 작품을 펼침 보기에서 연다. */

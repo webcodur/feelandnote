@@ -1,12 +1,14 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] 공통 — 목차 순서대로 본문 구획 조립
- * - 목차 위치: 공통 (personGuide/virtualMonologue/library(리뷰)/affiliateBooks/analysis/connections/guestbook)
+ * - 목차 위치: 공통 (personGuide/virtualMonologue/library(책장)/analysis/connections/guestbook)
  * - 데이터: profile/serviceModel 및 독립적으로 채워지는 librarySlot/booksSlot
  * - 함께 보기: detail/useCelebServiceModel.ts, CelebAtlasRails.tsx, shared/HubSection.tsx
  * ───────────────────────────────────────────── */
 "use client";
 
-import { useMemo, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
+import { ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import type { CelebAnalysisData } from "@/actions/celebs/getCelebSideData";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
@@ -21,6 +23,7 @@ import FigureReadingSection from "../FigureReadingSection";
 import FigureAnalysisTabs from "../FigureAnalysisTabs";
 import CelebAnalysisRetry from "./CelebAnalysisRetry";
 import RelationGraphSection from "../RelationGraphSection";
+import CelebShelfSection from "@/components/features/celeb/CelebShelfSection";
 import type { CelebServiceModel } from "./useCelebServiceModel";
 import { useCelebSectionNavigation } from "./useCelebSectionNavigation";
 
@@ -51,6 +54,8 @@ export default function CelebRecordSections({
   relatedFiguresSlot,
   relatedFactionsSlot,
 }: CelebRecordSectionsProps) {
+  const filmographyText = useTranslations("celebPage.filmography");
+  const [filmographyOpen, setFilmographyOpen] = useState(false);
 
   // 섹션 배치 순서(celebSectionChapters.ts)와 맞춰 FICTION만 이야기 우선 배치를 쓴다.
   // BOTH는 실존 핵심이 있어 표준 배치(분석 뒤 관계)를 쓴다.
@@ -80,13 +85,45 @@ export default function CelebRecordSections({
       <HubSection
         key={key}
         id={item.target.sectionId}
-        title={item.label}
+        title={key === "filmography" ? (
+          <button
+            type="button"
+            aria-expanded={filmographyOpen}
+            aria-controls="filmography-content"
+            onClick={() => setFilmographyOpen((open) => !open)}
+            className="relative inline-flex min-h-11 items-center rounded px-8 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            {item.label}
+            <ChevronDown size={20} aria-hidden className={`absolute right-0 ${filmographyOpen ? "rotate-180" : ""}`} />
+          </button>
+        ) : item.label}
         index={index}
         total={serviceItems.length}
         tabIndex={-1}
         className={SECTION_CLASS_NAME}
       >
-        {children}
+        {key === "filmography" ? (
+          <>
+            {!filmographyOpen && (
+              <button
+                type="button"
+                aria-expanded={false}
+                aria-controls="filmography-content"
+                onClick={() => setFilmographyOpen(true)}
+                className="flex w-full flex-col items-center gap-3 rounded-xl border border-line bg-bg-card px-5 py-6 text-center hover:border-accent/60 hover:bg-bg-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <span className="text-sm leading-relaxed text-text-secondary">{filmographyText("description")}</span>
+                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-accent">
+                  {filmographyText("expand")}
+                  <ChevronDown size={16} aria-hidden />
+                </span>
+              </button>
+            )}
+            <div id="filmography-content" hidden={!filmographyOpen}>
+              {filmographyOpen ? children : null}
+            </div>
+          </>
+        ) : children}
       </HubSection>
     );
   };
@@ -121,9 +158,10 @@ export default function CelebRecordSections({
           />
         )))}
         {isFiction && connectionsSection}
+        {renderSection("library", <CelebShelfSection key={`${userId}:${locale}`} pageAnchors
+          hasReviews={!isFiction && (profile.celeb_tier ?? "full") === "full" && Object.values(profile.contentTypeCounts).some((count) => count > 0)}
+          librarySlot={librarySlot} booksSlot={booksSlot} />)}
         {renderSection("filmography", filmographySlot)}
-        {renderSection("library", librarySlot)}
-        {renderSection("affiliateBooks", booksSlot)}
         {renderSection("analysis", initialAnalysis ? (
           <FigureAnalysisTabs
             item={serviceItemsByKey.get("analysis")!}

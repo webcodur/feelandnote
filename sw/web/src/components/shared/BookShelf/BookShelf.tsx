@@ -11,6 +11,8 @@ import { LIBRARY_CONTROL_LAYOUT as layout } from '@/components/shared/libraryCon
 import type { BookShelfGroup } from './types'
 import styles from './BookShelf.module.css'
 import { RetryBlock } from '@/components/ui/pending'
+import LibraryShelfUtilities from '@/components/shared/LibraryShelfUtilities'
+import LibraryShelfLazyItem from '@/components/shared/LibraryShelfLazyItem'
 
 interface Props {
   groups: BookShelfGroup[]
@@ -38,6 +40,7 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
   const available = normalized.filter((group) => group.books.length > 0 || group.deferred)
   const [activeKey, setActiveKey] = useState(available[0]?.key)
   const [listOpen, setListOpen] = useState(false)
+  const [showAllItems, setShowAllItems] = useState(false)
   const [titlePulseRequest, setTitlePulseRequest] = useState(0)
   const [choiceKeys, setChoiceKeys] = useState<Record<string, string>>({})
   const active = available.find((group) => group.key === activeKey) ?? available[0]
@@ -86,14 +89,32 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
           </section>
         : <p className="mx-auto mb-5 max-w-2xl px-4 text-center text-sm leading-relaxed text-text-secondary">{shownIntro}</p>)}
       <section id={id} className={`${styles.shelf} min-w-0 ${className}`} aria-label={active.label}>
+        <LibraryShelfUtilities showAllItems={showAllItems}
+          onAllItemsChange={(value) => { setShowAllItems(value); setListOpen(false) }} />
         {pending || shownBooks.length === 0 ? <>
           {pending ?? <p className="py-8 text-center text-sm text-text-secondary">{t('bookShelfSearchEmpty')}</p>}
           {listOpen && <BookShelfBookList selectionKey={active.key} title={t('bookShelfBookList')} subtitle={active.intro} books={[]}
             selectedId="" onSelect={() => {}} onClose={() => setListOpen(false)} categoryPicker={categoryPicker} indexId={pendingIndexId} pending={pending} />}
           </>
-          : <BookShelfSelection selectionKey={`${active.key}:${choice?.key ?? ''}:${active.selectionKey ?? ''}`} intro={`${active.label}: ${shownIntro}`} listSubtitle={choice ? `${active.label} · ${choice.label}: ${shownIntro}` : active.listSubtitle} books={shownBooks} context={active.context} pagination={active.pagination}
-          listGroups={active.listGroups?.map((group) => ({ ...group, selectionKey: `${active.key}:${choice?.key ?? ''}:${group.key}` }))} onSelectListGroup={active.onSelectListGroup}
-          listOpen={listOpen} onListOpenChange={setListOpen} categoryPicker={categoryPicker} titlePulseRequest={titlePulseRequest} />}
+          : <>
+          <div hidden={showAllItems}>
+            <BookShelfSelection selectionKey={`${active.key}:${choice?.key ?? ''}:${active.selectionKey ?? ''}`} intro={`${active.label}: ${shownIntro}`} listSubtitle={choice ? `${active.label} · ${choice.label}: ${shownIntro}` : active.listSubtitle} books={shownBooks} context={active.context} pagination={active.pagination} isActive={!showAllItems}
+              listGroups={active.listGroups?.map((group) => ({ ...group, selectionKey: `${active.key}:${choice?.key ?? ''}:${group.key}` }))} onSelectListGroup={active.onSelectListGroup}
+              listOpen={listOpen} onListOpenChange={setListOpen} categoryPicker={categoryPicker} titlePulseRequest={titlePulseRequest} />
+          </div>
+          {showAllItems && <div data-shelf-all-items className="space-y-6 [overflow-anchor:none]">
+            {shownBooks.map((book) => <LibraryShelfLazyItem key={`${active.key}:${choice?.key ?? ''}:${active.selectionKey ?? ''}:${book.id}`} title={book.title}>
+              <BookShelfSelection selectionKey={book.id} intro={shownIntro ?? ''} books={[book]} context={active.context}
+                listOpen={false} onListOpenChange={setListOpen} showNavigation={false} />
+            </LibraryShelfLazyItem>)}
+            {active.pagination?.failed ? <RetryBlock onRetry={active.pagination.onLoadMore} /> : active.pagination?.hasMore && (
+              <button type="button" disabled={active.pagination.loading} aria-busy={active.pagination.loading} onClick={active.pagination.onLoadMore}
+                className="min-h-11 w-full rounded-control border border-white/15 px-3 py-2 text-sm text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait disabled:opacity-50">
+                {t('bookShelfLoadMore')}
+              </button>
+            )}
+          </div>}
+          </>}
       </section>
     </div>
   )

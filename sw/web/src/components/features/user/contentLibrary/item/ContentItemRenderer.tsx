@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { memo, useState } from "react";
+import { memo, useState, type ReactNode } from "react";
 import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -49,6 +49,7 @@ interface ContentItemRendererProps {
   /** 펼침 보기에서 지금 보는 작품이 바뀔 때마다 알린다("전체 보기" 자리 맞춤용) */
   onActiveContentChange?: (contentId: string | null, index: number) => void;
   focusRequest?: ContentFocusRequest;
+  recordsAction?: ReactNode;
 }
 // #endregion
 
@@ -73,6 +74,7 @@ function ContentItemRenderer({
   isContentRefreshing,
   onActiveContentChange,
   focusRequest,
+  recordsAction,
 }: ContentItemRendererProps) {
   // 별점 편집 모달 상태
   const [ratingEditTarget, setRatingEditTarget] = useState<{
@@ -113,6 +115,7 @@ function ContentItemRenderer({
         isContentRefreshing={isContentRefreshing}
         onActiveContentChange={onActiveContentChange}
         focusRequest={focusRequest}
+        recordsAction={recordsAction}
       />
     );
   }

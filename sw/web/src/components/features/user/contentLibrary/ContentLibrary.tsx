@@ -35,6 +35,7 @@ export default function ContentLibrary({
   initialContents,
   initialContentBrief,
   filterTrailing,
+  recordsAction,
   onActiveContentChange,
   focusRequest,
 }: ContentLibraryProps) {
@@ -101,6 +102,7 @@ export default function ContentLibrary({
       isContentRefreshing={ownerKind === "celeb" ? lib.isRefreshing : undefined}
       onActiveContentChange={onActiveContentChange}
       focusRequest={focusRequest}
+      recordsAction={recordsAction}
     />
   );
 

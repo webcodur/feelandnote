@@ -19,16 +19,18 @@ interface Props {
   recordIsComplete?: boolean;
   showMedia?: boolean;
   introductionMode?: "inline" | "modal";
+  showIntroduction?: boolean;
+  isActive?: boolean;
 }
 
 /** 책장 감상 분류도 인물 상세의 작품 소개·감상배경·전문 모달을 그대로 쓴다. */
-export default function BookShelfReviewDetail({ record, celebId, ownerNickname, contentIds, selectedIndex, expanded, reviewHeader, recordIsComplete = false, showMedia = true, introductionMode = "inline" }: Props) {
+export default function BookShelfReviewDetail({ record, celebId, ownerNickname, contentIds, selectedIndex, expanded, reviewHeader, recordIsComplete = false, showMedia = true, introductionMode = "inline", showIntroduction = true, isActive = true }: Props) {
   const placeholder = useMemo(() => mapPublicToUserContent([record], celebId)[0], [record, celebId]);
   const isActiveContent = useCallback((id: string) => id === record.content_id, [record.content_id]);
-  const brief = useContentBrief(contentIds, selectedIndex, record.content_id, isActiveContent, true, undefined, true);
+  const brief = useContentBrief(contentIds, selectedIndex, record.content_id, isActiveContent, isActive, undefined, true);
   // 명부의 감상 미리보기를 전문으로 오인하지 않고 상세 리뷰와 같은 공개 전문 조회를 쓴다.
   const nextContentId = contentIds.length > 1 ? contentIds[(selectedIndex + 1) % contentIds.length] : undefined;
-  const review = useCelebContentRecord(celebId, record.content_id, recordIsComplete ? placeholder : undefined, !recordIsComplete, nextContentId);
+  const review = useCelebContentRecord(celebId, record.content_id, recordIsComplete ? placeholder : undefined, isActive && !recordIsComplete, nextContentId);
   const cardRef = useHeldHeight(brief.isLoading || review.isLoading);
   return (
     <div ref={cardRef} data-bookshelf-review data-content-id={record.content_id}
@@ -44,12 +46,13 @@ export default function BookShelfReviewDetail({ record, celebId, ownerNickname, 
         hasRecordError={review.hasError}
         onRetryBrief={brief.retry}
         onRetryRecord={review.retry}
-        isActive
+        isActive={isActive}
         ownerNickname={ownerNickname}
         expanded={expanded}
         reviewHeader={reviewHeader}
         showMedia={showMedia}
         introductionMode={introductionMode}
+        showIntroduction={showIntroduction}
       />
     </div>
   );

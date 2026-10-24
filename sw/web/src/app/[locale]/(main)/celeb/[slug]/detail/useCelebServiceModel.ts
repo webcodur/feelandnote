@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] 공통 — 목차 모델(서비스 아이템 조립)
- * - 목차 위치: 공통 (전 구획: introduction/personGuide/virtualMonologue/library/affiliateBooks/analysis/connections/guestbook)
+ * - 목차 위치: 공통 (전 구획: introduction/personGuide/virtualMonologue/library/analysis/connections/guestbook)
  * - 데이터: profile/sideAvailability props
  * - 함께 보기: celebServiceItems.ts
  * ───────────────────────────────────────────── */
@@ -31,7 +31,7 @@ export interface CelebSideAvailability {
   /** 이어지는 인물 구획이 그려지는가(관계가 있어야 채운다) */
   relatedFigures: boolean;
   relatedFactions: boolean;
-  /** 관련 도서 구획을 표시하는가. 대기·빈 결과도 같은 자리를 쓴다. */
+  /** 책장에 참고도서를 표시하는가. 대기·빈 결과도 같은 자리를 쓴다. */
   affiliateBooks: boolean;
 }
 
@@ -73,8 +73,7 @@ export function useCelebServiceModel({
     availability,
   });
 
-  // 참고도서·관련 인물은 구획 순서표(celebSectionChapters)가 정한 자리로 끼운다 —
-  // 참고도서는 리뷰 다음, 관련 인물은 꼬리, 방명록이 맨 끝.
+  // 감상·참고도서는 책장 한 구획으로 묶고, 관련 인물·세력은 꼬리 순서를 따른다.
   // 최종 순서로 번호를 매겨 공통 구획 머리와 목차가 같은 번호를 사용한다.
   const t = useTranslations("celebPage");
   const items = useMemo(() => {
@@ -103,15 +102,15 @@ export function useCelebServiceModel({
       });
     }
     if (
-      sideAvailability.affiliateBooks
+      sideAvailability.affiliateBooks && !ordered.some((item) => item.key === "library")
     ) {
       ordered.push({
-        key: "affiliateBooks",
+        key: "library",
         chapter: "",
-        label: t("relatedProducts"),
-        icon: CELEB_SERVICE_ICONS.affiliateBooks,
+        label: t("bookshelfTitle"),
+        icon: CELEB_SERVICE_ICONS.library,
         ready: true,
-        target: { sectionId: "affiliate-books" },
+        target: { sectionId: "library" },
       });
     }
     return ordered.toSorted(

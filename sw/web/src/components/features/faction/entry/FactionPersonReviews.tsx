@@ -25,6 +25,7 @@ export default function FactionPersonReviews({ celebId, name, avatarUrl, embedde
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
+    if (data || failed) return;
     let alive = true;
     // 첫 감상 종류로 시작한다. 도서가 없고 영상·음악만 있는 인물도 기록을 열 수 있다.
     getPublicUserContents({ userId: celebId, limit: 1 }, locale)
@@ -34,7 +35,7 @@ export default function FactionPersonReviews({ celebId, name, avatarUrl, embedde
         if (alive) setFailed(true);
       });
     return () => { alive = false; };
-  }, [celebId, locale, attempt]);
+  }, [celebId, locale, attempt, data, failed]);
 
   return (
     <section className={embedded ? undefined : layout.shelf} aria-labelledby={embedded ? undefined : titleId} data-person-reviews>

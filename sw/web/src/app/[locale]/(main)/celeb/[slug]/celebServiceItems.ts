@@ -95,8 +95,7 @@ export function useCelebServiceItems({
       {
         key: "library",
         chapter: CELEB_SERVICE_CHAPTERS.library,
-        // 「기록」이 아니라 「리뷰」로 부른다 — 안에는 감상 기록만 남았다.
-        label: t("tabConsume"),
+        label: t("bookshelfTitle"),
         icon: CELEB_SERVICE_ICONS.library,
         ready: showLibrary && availability.library,
         target: { sectionId: "library" },

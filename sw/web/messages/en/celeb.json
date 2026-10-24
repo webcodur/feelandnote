@@ -326,9 +326,10 @@
       "introduction": "About the work",
       "myReview": "My review",
       "viewAllConfirmTitle": "All records",
-      "viewAllConfirmDescription": "Would you like to see all of {name}'s records?",
+      "viewAllConfirmDescription": "Would you like to go to the page showing all of {name}’s records?",
       "viewAllConfirmCancel": "Cancel",
-      "viewAllConfirmAction": "View all"
+      "viewAllConfirmAction": "Go to page",
+      "openPage": "Open all records page"
     },
     "readingControls": "Reading audio controls",
     "readingBack": "Back 10 seconds",
@@ -423,7 +424,7 @@
     "professionReadingOrder": "Study step {current} of {total}",
     "professionLearningPoint": "Learning focus",
     "professionExplorationPoint": "Exploration focus",
-    "relatedFactionsTitle": "Myths & Factions",
+    "relatedFactionsTitle": "Affiliations",
     "relatedFactionOpen": "Explore {name}",
     "relatedFactionsIntro": "The myths and factions this figure belongs to.",
     "relatedFactionMorePeople": "and {count} more",
@@ -473,8 +474,10 @@
       "shownCount": "Showing {shown} of {count} works",
       "loadMore": "Show more",
       "showAll": "View all",
-      "sortHelp": "Prioritizes their main creative role and cast billing, then TMDB rating counts and popularity."
+      "sortHelp": "Prioritizes their main creative role and cast billing, then TMDB rating counts and popularity.",
+      "expand": "Show film & TV credits"
     },
-    "enlargePortrait": "View full portrait"
+    "enlargePortrait": "View full portrait",
+    "bookshelfTitle": "Bookshelf"
   }
 }

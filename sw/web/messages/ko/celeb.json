@@ -326,9 +326,10 @@
       "introduction": "작품 소개",
       "myReview": "감상평",
       "viewAllConfirmTitle": "전체 기록",
-      "viewAllConfirmDescription": "{name}의 감상 기록을 모두 확인하시겠어요?",
+      "viewAllConfirmDescription": "{name}의 전체 감상 기록 페이지로 이동하시겠어요?",
       "viewAllConfirmCancel": "취소",
-      "viewAllConfirmAction": "전체 보기"
+      "viewAllConfirmAction": "페이지로 이동",
+      "openPage": "전체 기록 페이지로 이동"
     },
     "readingControls": "읽어보기 음성 재생",
     "readingBack": "10초 뒤로",
@@ -423,7 +424,7 @@
     "professionReadingOrder": "학습 순서 {current} / {total}",
     "professionLearningPoint": "학습 포인트",
     "professionExplorationPoint": "탐구 포인트",
-    "relatedFactionsTitle": "신화·세력",
+    "relatedFactionsTitle": "소속·세력",
     "relatedFactionOpen": "{name} 페이지 보기",
     "relatedFactionsIntro": "이 인물이 소속된 신화와 세력",
     "relatedFactionMorePeople": "외 {count}명",
@@ -488,8 +489,10 @@
       "shownCount": "{count}편 중 {shown}편 표시",
       "loadMore": "더 보기",
       "showAll": "전체 보기",
-      "sortHelp": "주 활동 분야와 출연진 순서를 우선하고, TMDB 평가 참여 수와 인기도를 반영합니다."
+      "sortHelp": "주 활동 분야와 출연진 순서를 우선하고, TMDB 평가 참여 수와 인기도를 반영합니다.",
+      "expand": "참여 작품 펼치기"
     },
-    "enlargePortrait": "대표사진 크게 보기"
+    "enlargePortrait": "대표사진 크게 보기",
+    "bookshelfTitle": "책장"
   }
 }

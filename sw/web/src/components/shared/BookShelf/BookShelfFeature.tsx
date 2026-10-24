@@ -10,7 +10,7 @@ import styles from "./BookShelfEditionStage.module.css";
 import layout from "./BookShelfChoiceRow.module.css";
 
 interface Props {
-  source: BookShelfBook; loading?: boolean; sharedEditionKeys?: ReadonlySet<string>;
+  source: BookShelfBook; loading?: boolean; sharedEditionKeys?: ReadonlySet<string>; showIntroduction?: boolean;
 }
 
 /** 작품 선택 아래에서는 판본 한 권의 표지·제목·본문을 함께 바꾼다. */
@@ -20,7 +20,7 @@ export default function BookShelfFeature(props: Props) {
   return <EditionStage key={key} {...props} />;
 }
 
-function EditionStage({ source, loading, sharedEditionKeys }: Props) {
+function EditionStage({ source, loading, sharedEditionKeys, showIntroduction }: Props) {
   const t = useTranslations("celebPage");
   const preferred = source.editions.find(edition => edition.id === source.preferredEditionId) ?? source.editions[0];
   const editions = [preferred, ...source.editions.filter(edition => edition.id !== preferred.id)];
@@ -68,7 +68,7 @@ function EditionStage({ source, loading, sharedEditionKeys }: Props) {
       {editions.map((edition, index) => (
         <div key={edition.id} className="w-full min-w-0 shrink-0 snap-start" aria-hidden={index !== activeIndex || undefined} inert={index !== activeIndex}>
           <BookShelfEditionDetail source={source} edition={edition}
-            active={index === activeIndex} lazyIntroduction loading={loading} sharedEditionKeys={sharedEditionKeys} />
+            active={index === activeIndex} lazyIntroduction loading={loading} sharedEditionKeys={sharedEditionKeys} showIntroduction={showIntroduction} />
         </div>
       ))}
     </div>
