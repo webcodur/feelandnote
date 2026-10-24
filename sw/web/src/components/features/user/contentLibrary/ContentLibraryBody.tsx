@@ -86,12 +86,6 @@ export default function ContentLibraryBody({
           <ErrorState message={error} onRetry={loadContents} compact />
         </div>
       )}
-      {isRefreshing && (
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-x-2 top-0 z-20 h-px animate-pulse bg-accent shadow-[0_0_10px_color-mix(in_srgb,var(--color-accent)_55%,transparent)]"
-        />
-      )}
       {animateHeight ? (
         <AnimatedHeight duration={200}>{contents}</AnimatedHeight>
       ) : contents}
