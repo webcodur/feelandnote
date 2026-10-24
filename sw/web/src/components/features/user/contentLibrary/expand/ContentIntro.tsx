@@ -10,7 +10,6 @@
 
 import { useId, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { BookOpen } from "lucide-react";
 
 import ClippedContentReadingText from "@/components/ui/ClippedContentReadingText";
 import ContentReadingText from "@/components/ui/ContentReadingText";
@@ -21,10 +20,11 @@ import { INTRO_PROVIDER_HEADING_NAME } from "@/components/shared/BookIntroductio
 import ContentTextModal from "@/components/ui/ContentTextModal";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { ContentIntroSource } from "@/actions/contents/fetchMusicIntros";
-import { getCategoryById, type CategoryId } from "@/constants/categories";
+import type { CategoryId } from "@/constants/categories";
 
 import { normalizeContentIntroText, selectContentIntroText } from "./contentIntroText";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
+import ContentSourceLabel from "./ContentSourceLabel";
 
 // 매체마다 제목을 달리 붙인다 — 영화를 "작품 소개"라 부르면 무엇의 소개인지 흐려진다
 export const INTRO_HEADING_KEY: Record<CategoryId, string> = {
@@ -66,14 +66,6 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
   const sourceText = selectContentIntroText(brief);
   const text = sourceText ? normalizeContentIntroText(sourceText) : null;
   const headingCategory = brief?.category ?? category;
-  const IntroIcon = getCategoryById(headingCategory)?.lucideIcon ?? BookOpen;
-  const inlineMarker = inlineLabel ? (
-    <span data-intro-inline-marker className="font-semibold text-text-primary">{t("expandContentIntro")}: </span>
-  ) : (
-    <span data-intro-inline-marker aria-hidden className="me-1.5 inline-block align-[-0.15em] text-accent sm:hidden">
-      <IntroIcon size={18} />
-    </span>
-  );
   // 책 소개는 출처를 제목에 합쳐 「다음 책 소개」처럼 한 덩어리로 읽는다
   const provider = headingCategory === "book" ? brief?.introductionAttribution?.provider : undefined;
   const providerName =
@@ -96,6 +88,11 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
   const openModal = () => setIsModalOpen(true);
   // 책은 보존된 소개 출처로, 음악은 지금 고른 바깥 소개로 나간다
   const modalSourceUrl = brief?.introductionAttribution?.url ?? active?.url ?? null;
+  const inlineMarker = (
+    <span data-intro-inline-marker className={`font-semibold text-text-primary ${inlineLabel ? "" : "sm:hidden"}`}>
+      <ContentSourceLabel href={modalSourceUrl}>{t("expandContentIntro")}</ContentSourceLabel>{": "}
+    </span>
+  );
   const introductionModal = isModalOpen && fullText && (
     <ContentTextModal
       isOpen
@@ -126,6 +123,7 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
   return (
     <section aria-label={inlineLabel ? t("expandContentIntro") : undefined} aria-labelledby={!inlineLabel ? headingId : undefined} className="sm:flex sm:h-full sm:flex-col">
       {!inlineLabel && <h4 id={headingId} className={`${EXPAND_SECTION_HEADING_CLASS} mb-4 hidden shrink-0 text-center sm:block`}>
+        <ContentSourceLabel href={modalSourceUrl}>
         {providerName ? (
           <>
             {/* 출처는 칩이 아니라 색만 다른 글자로 — 「다음 책 소개」처럼 한 덩어리로 읽는다 */}
@@ -134,6 +132,7 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
         ) : (
           headingText
         )}
+        </ContentSourceLabel>
       </h4>}
 
       {/* 영상 홍보 문구는 소개 위에 한 줄로 얹는다 */}
@@ -164,12 +163,6 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
             >
               {inlineMarker}<FormattedText text={text} layout={layout} />
             </ClippedContentReadingText>
-          )}
-          {modalSourceUrl && (
-            <a href={modalSourceUrl}
-              className="mt-2 inline-block shrink-0 text-xs text-text-tertiary underline decoration-white/20 underline-offset-2 hover:text-text-secondary" target="_blank" rel="noopener noreferrer">
-              {t("expandIntroSource")}
-            </a>
           )}
         </div>
       ) : active ? (
@@ -215,12 +208,6 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
             </ClippedContentReadingText>
           )}
 
-          {modalSourceUrl && (
-            <a href={modalSourceUrl}
-              className="mt-2 inline-block shrink-0 text-xs text-text-tertiary underline decoration-white/20 underline-offset-2 hover:text-text-secondary" target="_blank" rel="noopener noreferrer">
-              {t("expandIntroSource")}
-            </a>
-          )}
         </div>
       ) : (
         <p className="text-sm italic text-text-tertiary">{t("expandNoIntro")}</p>

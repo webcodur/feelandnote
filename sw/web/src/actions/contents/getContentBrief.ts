@@ -42,6 +42,11 @@ export interface ContentBrief {
   /** 저장 자료를 먼저 표시한 뒤 클라이언트에서 외부 소개를 보충한다. */
   enrichmentPending?: boolean
 }
+
+/** 소개 원천의 장애에도 저장된 서지는 유지하며, 실제 소개 없음과 실패를 구분한다. */
+export type ContentBriefResult =
+  | { status: 'ready'; brief: ContentBrief | null }
+  | { status: 'failed'; brief: ContentBrief | null }
 // #endregion
 
 const TYPE_TO_CATEGORY: Record<ContentType, CategoryId> = {
@@ -254,6 +259,20 @@ export async function getContentBriefStrict(
   const safeLocale = locale === 'en' ? 'en' : 'ko'
   const brief = await getCachedContentBrief(contentId, safeLocale)
   return completeContentBrief(brief, contentId, safeLocale)
+}
+
+/** 화면용 조회. 외부 소개 실패는 예외 대신 재시도할 수 있는 결과로 전달한다. */
+export async function getContentBriefResult(contentId: string, locale: string): Promise<ContentBriefResult> {
+  if (!UUID_PATTERN.test(contentId)) return { status: 'ready', brief: null }
+  const safeLocale = locale === 'en' ? 'en' : 'ko'
+  // DB 조회 실패는 소개 공급처 장애와 구별하고 호출부의 요청 재시도를 유지한다.
+  const brief = await getCachedContentBrief(contentId, safeLocale)
+  try {
+    return { status: 'ready', brief: await completeContentBrief(brief, contentId, safeLocale) }
+  } catch {
+    // 불완전한 결과를 서버 캐시에 저장하거나 「소개 없음」으로 확정하지 않는다.
+    return { status: 'failed', brief }
+  }
 }
 
 async function completeContentBrief(brief: ContentBrief | null, contentId: string, safeLocale: string): Promise<ContentBrief | null> {

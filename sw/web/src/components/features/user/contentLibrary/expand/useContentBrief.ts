@@ -7,15 +7,13 @@
 import { startTransition, useCallback, useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 
-import { getContentBriefStrict, type ContentBrief } from "@/actions/contents/getContentBrief";
+import { getContentBriefResult, type ContentBrief, type ContentBriefResult } from "@/actions/contents/getContentBrief";
 import { beginOperation } from "@/lib/analytics/operation";
 
 const MAX_REQUEST_ATTEMPTS = 3;
 const RETRY_DELAY_MS = 250;
 
-type SettledBriefEntry =
-  | { status: "ready"; brief: ContentBrief | null }
-  | { status: "failed"; brief: null };
+type SettledBriefEntry = ContentBriefResult;
 
 type BriefEntry = { status: "loading" } | SettledBriefEntry;
 
@@ -96,10 +94,10 @@ export function useContentBrief(
         const finish = beginOperation("content_brief", retryFailed ? "selected" : "prefetch");
         for (let attempt = 1; attempt <= MAX_REQUEST_ATTEMPTS; attempt += 1) {
           try {
-            const brief = await getContentBriefStrict(contentId, locale);
-            const entry: SettledBriefEntry = { status: "ready", brief };
+            const entry = await getContentBriefResult(contentId, locale);
             entriesRef.current.set(cacheKey, entry);
-            finish(brief ? "success" : "empty");
+            if (entry.status === "failed") finish("failure", "request");
+            else finish(entry.brief ? "success" : "empty");
             return entry;
           } catch (error) {
             if (attempt < MAX_REQUEST_ATTEMPTS) {
@@ -183,7 +181,8 @@ export function useContentBrief(
     contentId: localeCommitted?.contentId ?? null,
     brief: localeCommitted?.brief ?? null,
     isLoading: enabled && activeKey != null && (!isCurrent
-      || (!!localeCommitted?.brief?.enrichmentPending && !localeCommitted.brief.description)),
+      || (localeCommitted?.status === "ready"
+        && !!localeCommitted.brief?.enrichmentPending && !localeCommitted.brief.description)),
     hasError: enabled && isCurrent && localeCommitted?.status === "failed",
     retry,
   };
