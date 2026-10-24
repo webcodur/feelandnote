@@ -225,7 +225,15 @@
     "appleMusic": {
       "label": "Apple Music",
       "listen": "Listen in full",
-      "previewNotice": "30-second preview provided by Apple Music."
+      "previewNotice": "30-second preview provided by Apple Music.",
+      "preview": "Preview",
+      "play": "Play preview",
+      "pause": "Pause",
+      "seek": "Playback position",
+      "mute": "Mute",
+      "unmute": "Unmute",
+      "previewFailed": "Could not play the preview. Try again or listen on Apple Music.",
+      "track": "Track"
     },
     "externalLinks": "External Links",
     "recentContents": "Recently Viewed",

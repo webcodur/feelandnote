@@ -1,8 +1,8 @@
 /*
   파일명: /components/features/user/contentLibrary/expand/ExpandCard.tsx
   기능: 펼침 보기의 카드 한 장.
-  책임: 표지와 작품 소개, 인물의 감상배경을 한 덩어리로 쌓는다 — 소개 아래 가로선 하나를
-        두고 감상배경이 이어진다. 감상배경 칸은 채울 것이 하나도 없는 기록에서 통째로 뺀다.
+  책임: 표지와 작품 소개, 인물의 감상배경을 한 덩어리로 표시한다. 넓은 도서 카드는
+        표지 오른쪽에서 소개와 감상을 이어 읽는다. 감상배경 칸은 채울 것이 없으면 뺀다.
         소개·감상배경 모두 상한(INLINE_READING_TEXT_MAX) 안이면 통째로 싣고,
         인터뷰 전사처럼 상한을 넘는 장문만 접어 모달로 보낸다.
         제목과 작품 선택 목록은 카드 밖의 ExpandDetailView가 맡는다.
@@ -29,9 +29,14 @@ import { fitsInlineReadingText } from "@/constants/readingText";
 
 import { resolveContentIntroFullText } from "./contentIntroText";
 import ContentIntro from "./ContentIntro";
+import ContentSourceLabel from "./ContentSourceLabel";
+import { MusicDetails } from "./ContentMetaDetails";
 import ReviewScrollBox, { REVIEW_PREVIEW_TEXT_CLASS } from "./ReviewScrollBox";
 import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import { toAffiliateLinks } from "@/constants/affiliatePlatforms";
+
+// 블로그 감상색(#1f6b43)과 같은 계열을 어두운 배경에서 읽기 좋게 밝힌다.
+const REVIEW_TEXT_CLASS = "text-[#8bcaa7]";
 
 interface ExpandCardProps {
   item: UserContentWithContent;
@@ -55,6 +60,7 @@ interface ExpandCardProps {
   showMedia?: boolean;
   /** 작품 소개를 본문 대신 버튼으로 열 때 사용한다. */
   introductionMode?: "inline" | "modal";
+  showIntroduction?: boolean;
 }
 
 function ExpandCard({
@@ -72,6 +78,7 @@ function ExpandCard({
   reviewHeader,
   showMedia = true,
   introductionMode = "inline",
+  showIntroduction = true,
 }: ExpandCardProps) {
   const locale = useLocale();
   // 감상문 관련 문구(출처·스포일러·원문 안내)는 목록 카드와 같은 묶음을 쓴다
@@ -87,7 +94,7 @@ function ExpandCard({
   const reviewTooLong = !expanded && !!review && !fitsInlineReadingText(review, locale);
   /* 소개가 상한 안이면 통째로 싣는다 — 카드 격자도 그 길이를 따라 늘어야 해서 contain-size를 뗀다.
      상한을 넘는 장문만 칸 높이에 가둬 자른다 */
-  const introFitsInline = expanded || fitsInlineReadingText(resolveContentIntroFullText(brief), locale);
+  const introFitsInline = !showIntroduction || expanded || fitsInlineReadingText(resolveContentIntroFullText(brief), locale);
   const canExpandReview = !hasRecordError && !isRecordLoading && !!review && !isSpoiler;
   /* 감상배경 칸은 채울 것(글·별점·출처)이나 보여 줄 상태(불러오는 중·실패)가 하나도
      없을 때만 통째로 뺀다 — 소개만 남은 카드가 된다 */
@@ -95,65 +102,27 @@ function ExpandCard({
     || (item.rating != null && item.rating > 0) || !!item.source_url;
   const reviewHeading = ownerNickname ? tExpand("expandReviewOf", { name: ownerNickname }) : tExpand("expandReview");
   const reviewInlineLabel = locale === "en" ? reviewHeading : tExpand("expandReview");
+  const reviewInlineMarker = (
+    <span data-review-inline-marker className="font-semibold text-text-primary">
+      <ContentSourceLabel href={item.source_url}>{reviewInlineLabel}</ContentSourceLabel>{": "}
+    </span>
+  );
   const category = getCategoryByDbType(item.content.type)?.id ?? "book";
   const coverUrl = item.content.thumbnail_url;
   const purchaseLinks = toAffiliateLinks(item.content.affiliate_url);
   const hasBookPurchase = item.content.type === "BOOK";
+  const combineBookReading = showMedia && hasBookPurchase && !reviewHeader;
+  const musicDetails = item.content.type === "MUSIC" && !isBriefLoading
+    && brief?.contentId === item.content_id && brief.category === "music" && brief.metadata ? (
+      <div className="clear-both pt-4 sm:pt-5">
+        <MusicDetails key={item.content_id} metadata={brief.metadata} mediaEnabled={isActive} />
+      </div>
+    ) : null;
 
-  return (
-    <>
-      <article className="flex w-full shrink-0 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-bg-card">
-        {/* 윗칸 — 표지와 작품 소개. 아래 감상배경 칸과 가로선 하나로 이어진다
-            첫 행은 표지 높이에 고정하고 나머지는 둘째 행이 먹는다.
-            소개가 두 행에 걸려도 첫 행이 늘어나지 않아 버튼이 표지 밑에 붙는다 */}
-        <div className={showMedia ? "flow-root p-3 [--intro-media-height:198px] sm:grid sm:grid-cols-[12rem_minmax(0,1fr)] sm:gap-4 sm:p-4 md:grid-rows-[min-content_1fr] md:gap-x-5 md:gap-y-2 md:p-5" : "p-4 md:p-5"}>
-          {/* 모바일은 본문이 이 묶음을 감싸 흐른다. 본문의 fade mask보다 위에 두어 상세 이동·구매 클릭을 지킨다. */}
-          {showMedia && <div data-testid="expand-media" className="relative z-10 float-start me-3 w-24 sm:static sm:z-auto sm:contents">
-          <div data-testid="expand-cover" className="relative w-full shrink-0">
-            <ContentCoverLink
-              href={`/content/${item.content_id}?category=${category}`}
-              title={title}
-              imageSrc={coverUrl}
-              contentType={item.content.type}
-              className="h-[150px] w-full rounded-lg border border-white/10 bg-bg-secondary shadow-lg hover:border-accent/50 sm:h-72"
-            >
-              {(!coverUrl || isActive) && <ContentCover
-                src={coverUrl} alt={title} ContentIcon={TYPE_ICONS[item.content.type]}
-                sizes="(max-width: 639px) 96px, 192px" className="object-contain" loading="eager"
-              />}
-            </ContentCoverLink>
-          </div>
-
-          <ContentPurchaseAction contentId={item.content_id} type={item.content.type} placement="library-expand"
-            title={title} creator={creator} thumbnail={coverUrl} links={purchaseLinks} enabled={hasBookPurchase || isActive}
-            className="mt-1 w-full sm:col-span-1 sm:col-start-1 sm:row-start-2 sm:mt-0 sm:self-start" />
-          </div>}
-
-          {/* 상한 안의 소개는 통째로 늘어나고, 상한을 넘는 장문만 제 높이를 내지 않고(contain-size)
-              표지 열이 정한 높이만큼 채워 접힌다 — 버튼이 표지 바로 밑에 붙기 위해서다(ContentIntro).
-              모바일은 float를 감싸도록 일반 블록 흐름을 유지한다 */}
-          <div className={showMedia ? `min-w-0 sm:col-start-2 sm:row-start-1 ${introFitsInline ? "" : "sm:contain-size"} md:row-span-2 md:mx-auto md:w-full md:max-w-[var(--reading-preview-max-width,100%)]` : "mx-auto w-full min-w-0 max-w-[var(--reading-preview-max-width,100%)]"}>
-            {hasBriefError ? (
-              <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
-                <p>{tExpand("loadFailed")}</p>
-                <Button type="button" variant="secondary" size="sm" className="mt-3" onClick={onRetryBrief}>
-                  {tExpand("retry")}
-                </Button>
-              </div>
-            ) : (
-              <div className="sm:flex sm:h-full sm:flex-col">
-                <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
-                  <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} inlineLabel expanded={expanded} textLayout={reviewHeader ? "prose" : undefined} mode={introductionMode} />
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* 아래칸 — 이 인물이 왜 이 작품을 골랐는지. 이 서비스의 알맹이라
-            윗칸과 가로선·바탕색으로 갈라 놓되 같은 카드 안에 이어 붙인다 */}
-        {showReview && (
-        <section aria-label={reviewHeading} className={reviewHeader ? "border-t border-accent/25 bg-accent/[0.04]" : `flow-root border-t-2 border-accent/25 bg-accent/[0.04] px-3 py-5 sm:px-4 md:grid ${expanded ? "md:grid-cols-1" : "md:grid-cols-[12rem_minmax(0,1fr)]"} md:gap-x-5 md:px-5 md:py-6`}>
+  const reviewSection = showReview && (
+        <section aria-label={reviewHeading} className={!showIntroduction ? "min-w-0 py-1" : combineBookReading
+          ? "clear-both -mx-3 mt-5 border-t-2 border-accent/25 bg-accent/[0.04] px-3 py-5 sm:col-span-2 sm:-mx-4 sm:mt-0 sm:px-4 md:-mx-5 md:px-5 md:py-6 lg:col-span-1 lg:col-start-2 lg:row-start-2 lg:mx-0 lg:border-0 lg:bg-transparent lg:p-0"
+          : reviewHeader ? "border-t border-accent/25 bg-accent/[0.04]" : `flow-root border-t-2 border-accent/25 bg-accent/[0.04] px-3 py-5 sm:px-4 md:grid ${expanded ? "md:grid-cols-1" : "md:grid-cols-[12rem_minmax(0,1fr)]"} md:gap-x-5 md:px-5 md:py-6`}>
           <div className={reviewHeader ? "p-4 md:p-5" : "contents"}>
           <div className={`min-w-0 ${expanded || reviewHeader ? "md:col-start-1" : "md:col-start-2"} mx-auto w-full max-w-[var(--reading-preview-max-width,100%)]`}>
             {reviewHeader && <header className="mb-3">{reviewHeader}</header>}
@@ -190,33 +159,23 @@ function ExpandCard({
                   openLabel={tExpand("expandReviewExpand")}
                   fadeWhenFits={false}
                 >
-                  <span data-review-inline-marker className="font-semibold text-text-primary">{reviewInlineLabel}: </span>
-                  <FormattedText text={review} />
+                  {reviewInlineMarker}
+                  <FormattedText text={review} className={REVIEW_TEXT_CLASS} />
                 </ReviewScrollBox>
               ) : (
                 <div className="mx-auto min-w-0 w-full max-w-[var(--reading-preview-max-width,100%)]">
                   {reviewHeader ? (
                     <ContentReadingText text={review} tone="secondary" size="compact">
-                      <FormattedText text={review} layout="prose" />
+                      {reviewInlineMarker}
+                      <FormattedText text={review} layout="prose" className={REVIEW_TEXT_CLASS} />
                     </ContentReadingText>
                   ) : (
                     <div className={REVIEW_PREVIEW_TEXT_CLASS}>
-                      <span data-review-inline-marker className="font-semibold text-text-primary">{reviewInlineLabel}: </span>
-                      <FormattedText text={review} />
+                      {reviewInlineMarker}
+                      <FormattedText text={review} className={REVIEW_TEXT_CLASS} />
                     </div>
                   )}
                 </div>
-              )}
-              {/* 출처는 전문 표시로 모달을 못 여는 길에서도 카드에 남긴다 */}
-              {item.source_url && (
-                <a
-                  href={item.source_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-block text-xs text-text-tertiary underline decoration-white/20 underline-offset-2 hover:text-text-secondary"
-                >
-                  {t("reviewModal.source")}
-                </a>
               )}
             </>
           ) : null}
@@ -231,7 +190,59 @@ function ExpandCard({
           </div>
           </div>
         </section>
-        )}
+  );
+
+  return (
+    <>
+      <article className="flex w-full shrink-0 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-bg-card">
+        {/* 넓은 도서 카드는 표지·구매를 왼쪽에, 소개·감상을 오른쪽에 묶는다. */}
+        <div className={showMedia ? `flow-root p-3 [--intro-media-height:198px] sm:grid sm:grid-cols-[12rem_minmax(0,1fr)] sm:gap-4 sm:p-4 md:gap-x-5 md:p-5 ${combineBookReading ? "sm:items-start lg:grid-rows-[auto_1fr]" : "md:grid-rows-[min-content_1fr] md:gap-y-2"}` : "p-4 md:p-5"}>
+          {/* 모바일은 본문이 이 묶음을 감싸 흐른다. 본문의 fade mask보다 위에 두어 상세 이동·구매 클릭을 지킨다. */}
+          {showMedia && <div data-testid="expand-media" className={`relative z-10 float-start me-3 w-24 sm:static sm:z-auto ${combineBookReading ? "sm:col-start-1 sm:row-start-1 sm:me-0 sm:flex sm:w-full sm:flex-col sm:gap-2 lg:row-span-2" : "sm:contents"}`}>
+          <div data-testid="expand-cover" className="relative w-full shrink-0">
+            <ContentCoverLink
+              href={`/content/${item.content_id}?category=${category}`}
+              title={title}
+              imageSrc={coverUrl}
+              contentType={item.content.type}
+              className="h-[150px] w-full rounded-lg border border-white/10 bg-bg-secondary shadow-lg hover:border-accent/50 sm:h-72"
+            >
+              {(!coverUrl || isActive) && <ContentCover
+                src={coverUrl} alt={title} ContentIcon={TYPE_ICONS[item.content.type]}
+                sizes="(max-width: 639px) 96px, 192px" className="object-contain" loading="eager"
+              />}
+            </ContentCoverLink>
+          </div>
+
+          <ContentPurchaseAction contentId={item.content_id} type={item.content.type} placement="library-expand"
+            title={title} creator={creator} thumbnail={coverUrl} links={purchaseLinks} enabled={hasBookPurchase || isActive}
+            className="mt-1 w-full sm:col-span-1 sm:col-start-1 sm:row-start-2 sm:mt-0 sm:self-start" />
+          </div>}
+
+          {/* 상한 안의 소개는 통째로 늘어나고, 상한을 넘는 장문만 제 높이를 내지 않고(contain-size)
+              표지 열이 정한 높이만큼 채워 접힌다 — 버튼이 표지 바로 밑에 붙기 위해서다(ContentIntro).
+              모바일은 float를 감싸도록 일반 블록 흐름을 유지한다 */}
+          <div className={showMedia ? `min-w-0 sm:col-start-2 sm:row-start-1 ${introFitsInline || musicDetails ? "" : combineBookReading ? "sm:h-72 sm:contain-size" : "sm:contain-size"} ${combineBookReading ? "" : "md:row-span-2"} md:mx-auto md:w-full md:max-w-[var(--reading-preview-max-width,100%)]` : "mx-auto w-full min-w-0 max-w-[var(--reading-preview-max-width,100%)]"}>
+            {showIntroduction ? (hasBriefError ? (
+              <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
+                <p>{tExpand("loadFailed")}</p>
+                <Button type="button" variant="secondary" size="sm" className="mt-3" onClick={onRetryBrief}>
+                  {tExpand("retry")}
+                </Button>
+              </div>
+            ) : (
+              <div className={musicDetails ? `sm:flex sm:flex-col ${introFitsInline ? "" : "sm:h-72"}` : "sm:flex sm:h-full sm:flex-col"}>
+                <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
+                  <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} inlineLabel expanded={expanded} textLayout={reviewHeader ? "prose" : undefined} mode={introductionMode} />
+                </div>
+              </div>
+            )) : reviewSection}
+            {musicDetails}
+          </div>
+          {showIntroduction && combineBookReading && reviewSection}
+        </div>
+
+        {showIntroduction && !combineBookReading && reviewSection}
 
       </article>
 

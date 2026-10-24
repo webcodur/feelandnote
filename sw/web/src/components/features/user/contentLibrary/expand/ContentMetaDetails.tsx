@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import CreatorNames from "@/components/shared/content/creatorLink/CreatorNames";
 import MetadataField from "@/components/shared/content/MetadataField";
 import type { ContentMetadata } from "@/types/content";
+import MusicPreviewPlayer from "./MusicPreviewPlayer";
+import { ExternalLink } from "lucide-react";
 
 function SubHeading({ children }: { children: React.ReactNode }) {
   return <h4 className="mb-2 text-sm font-medium text-text-secondary">{children}</h4>;
@@ -55,6 +57,7 @@ export function MusicDetails({
 }) {
   const t = useTranslations("contentDetail");
   const tShared = useTranslations("shared.content");
+  const tMusic = useTranslations("contentDetail.appleMusic");
   const performers = metadata.artists?.length
     ? metadata.artists
     : metadata.performer
@@ -66,33 +69,37 @@ export function MusicDetails({
   const tracks = metadata.tracks ?? [];
 
   return (
-    <div className="space-y-4">
-      <div className="space-y-3">
+    <div data-music-details className="min-w-0 space-y-4">
+      <dl className="flex min-w-0 flex-wrap gap-x-6 gap-y-2 text-sm">
         {performers.length > 0 && (
-          <MetadataField label={tShared("artist")} value={<CreatorNames text={performers.join(" · ")} />} />
+          <div className="flex w-full min-w-0 gap-3">
+            <dt className="shrink-0 whitespace-nowrap text-text-tertiary">{tShared("artist")}</dt>
+            <dd className="min-w-0 break-words font-medium text-text-primary"><CreatorNames text={performers.join(" · ")} /></dd>
+          </div>
         )}
-        {metadata.albumType && <MetadataField label={tShared("albumType")} value={metadata.albumType} />}
-        {metadata.genre && <MetadataField label={tShared("genre")} value={metadata.genre} />}
-        {metadata.previewUrl && (
-          mediaEnabled ? (
-            <audio controls preload="none" src={metadata.previewUrl} className="h-10 w-full max-w-md">
-              <track kind="captions" />
-            </audio>
-          ) : (
-            <div aria-hidden className="h-10 w-full max-w-md rounded-md bg-white/[0.04]" />
-          )
-        )}
-        {listenLink && (
+        {metadata.albumType && <div className="flex min-w-0 gap-3">
+          <dt className="shrink-0 whitespace-nowrap text-text-tertiary">{tShared("albumType")}</dt>
+          <dd className="min-w-0 break-words text-text-secondary">{metadata.albumType === "track" ? tMusic("track") : metadata.albumType}</dd>
+        </div>}
+        {metadata.genre && <div className="flex min-w-0 gap-3">
+          <dt className="shrink-0 whitespace-nowrap text-text-tertiary">{tShared("genre")}</dt>
+          <dd className="min-w-0 break-words text-text-secondary">{metadata.genre}</dd>
+        </div>}
+      </dl>
+      {metadata.previewUrl && (mediaEnabled ? (
+        <MusicPreviewPlayer key={metadata.previewUrl} src={metadata.previewUrl} appleMusicUrl={metadata.itunesUrl} />
+      ) : <div aria-hidden className="h-[116px] rounded-xl border border-accent/20 bg-accent/[0.04]" />)}
+        {!metadata.previewUrl && listenLink && (
           <a
             href={listenLink.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex text-sm text-accent hover:text-accent-hover hover:underline"
+            className="inline-flex items-center gap-2 rounded-md border border-accent/20 px-3 py-2 text-sm text-accent hover:border-accent/50 hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             {listenLink.label}
+            <ExternalLink size={14} aria-hidden />
           </a>
         )}
-      </div>
 
       {tracks.length > 0 && (
         <div>
@@ -113,7 +120,7 @@ export function MusicDetails({
           </div>
         </div>
       )}
-      {metadata.label && <MetadataField label={t("label")} value={metadata.label} />}
+      {metadata.label && <p className="text-xs text-text-tertiary">{t("label")} · {metadata.label}</p>}
     </div>
   );
 }
