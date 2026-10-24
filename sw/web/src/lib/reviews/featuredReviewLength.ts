@@ -1,5 +1,5 @@
 /** 홈 감상은 본문 분량으로만 선별한다. 공백·서식·URL은 분량에서 뺀다. */
-export const FEATURED_REVIEW_MIN_TEXT_LENGTH = { ko: 400, en: 650 } as const
+export const FEATURED_REVIEW_MIN_TEXT_LENGTH = { ko: 300, en: 500 } as const
 
 export interface FeaturedReviewText {
   review: string | null
@@ -27,21 +27,41 @@ export function featuredReviewDay(now = Date.now()): string {
   return new Date(now - 3 * 60 * 60 * 1000).toISOString().slice(0, 10)
 }
 
-function score(row: FeaturedReviewCandidate): number {
+function score(key: string): number {
   let hash = 2166136261
-  for (const char of `${row.celeb_id}:${row.content_id}:${row.id}`) {
+  for (const char of key) {
     hash = Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0
   }
   return hash
 }
 
-/** 인물·작품·감상 ID로 순서를 고정하고 날짜마다 다음 후보로 이동한다. 이력은 저장하지 않는다. */
+function rotate<T>(rows: readonly T[], turn: number): T[] {
+  const offset = ((turn % rows.length) + rows.length) % rows.length
+  return [...rows.slice(offset), ...rows.slice(0, offset)]
+}
+
+/** 인물마다 하루씩 순환하고, 다음 차례에는 그 인물의 다음 감상을 고른다. 이력은 저장하지 않는다. */
 export function orderFeaturedReviews<T extends FeaturedReviewCandidate>(rows: readonly T[], day: string): T[] {
   const pool = [...new Map(rows.filter(row => row.celeb_id).map(row => [row.id, row])).values()]
-    .sort((a, b) => score(a) - score(b) || a.id.localeCompare(b.id))
+    .sort((a, b) => score(`${a.celeb_id}:${a.content_id}:${a.id}`) - score(`${b.celeb_id}:${b.content_id}:${b.id}`) || a.id.localeCompare(b.id))
   if (!pool.length) return []
   const dayNumber = Math.floor(Date.parse(`${day}T00:00:00Z`) / 86_400_000)
   if (!Number.isFinite(dayNumber)) throw new Error('Invalid featured review day')
-  const offset = ((dayNumber % pool.length) + pool.length) % pool.length
-  return [...pool.slice(offset), ...pool.slice(0, offset)]
+  const byPerson = new Map<string, T[]>()
+  for (const row of pool) {
+    const reviews = byPerson.get(row.celeb_id!) ?? []
+    reviews.push(row)
+    byPerson.set(row.celeb_id!, reviews)
+  }
+  const people = [...byPerson.keys()].sort((a, b) => score(a) - score(b) || a.localeCompare(b))
+  const personTurn = Math.floor(dayNumber / people.length)
+  const groups = rotate(people, dayNumber).map(id => rotate(byPerson.get(id)!, personTurn))
+  const ordered: T[] = []
+  // 판매 불가 후보를 건너뛸 때도 다른 인물의 첫 후보를 모두 본 뒤 두 번째 감상을 확인한다.
+  for (let round = 0; ordered.length < pool.length; round++) {
+    for (const group of groups) {
+      if (round < group.length) ordered.push(group[round])
+    }
+  }
+  return ordered
 }

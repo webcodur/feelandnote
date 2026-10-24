@@ -33,7 +33,7 @@ export default async function HomeFeaturedReviewSample() {
     .eq("status", "FINISHED")
     .or("is_spoiler.is.null,is_spoiler.eq.false")
     .eq("user.publication_status", "active");
-  const selected = await cachedList(CACHE_TAGS.CELEBS, ["home-review-length-selection-v1", day], async () => {
+  const selected = await cachedList(CACHE_TAGS.CELEBS, ["home-review-person-rotation-v2", day], async () => {
     if (!yes24PurchaseEnabled(process.env)) return null;
     // DB에서 짧은 본문을 먼저 제외하고, 공백·서식을 뺀 실제 분량은 코드에서 확인한다.
     const candidates = await selectAllPages<FeaturedReviewBookCandidate>((from, to) => buildQuery(
