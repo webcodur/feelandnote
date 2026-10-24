@@ -37,8 +37,9 @@ function CelebBookShelfBody({ celebId, celebName, appeared, authored, profession
   const t = useTranslations('celebPage')
   const locale = useLocale()
   const tProfession = useTranslations('profession')
-  const professionIntro = profession && profession !== 'other' && tProfession.has(profession)
-    ? t('professionShelfIntro', { profession: tProfession(profession) }) : t('relatedShelfIntro')
+  const professionLabel = profession && profession !== 'other' && tProfession.has(profession) ? tProfession(profession) : null
+  const professionIntro = professionLabel
+    ? t('professionShelfIntro', { profession: professionLabel }) : t('relatedShelfIntro')
   const [professionBooks, setProfessionBooks] = useState(initialProfessionBooks)
   const [factionGroups, setFactionGroups] = useState(initialFactionGroups)
   type LoadState = 'idle' | 'loading' | 'failed' | 'ready'
@@ -76,7 +77,7 @@ function CelebBookShelfBody({ celebId, celebName, appeared, authored, profession
     { key: 'appeared', context: { personId: celebId, kind: 'appeared', showReading }, label: t('groupAppeared'), intro: t('sourceWorksIntro'), books: appeared.map(figureBookToShelfBook) },
     ...(readBooks !== undefined ? [{ key: 'read', context: { personId: celebId, personName: celebName, kind: 'read' as const, showReading }, label: t('groupRead'), intro: t('readShelfIntro'), books: readBooks }] : []),
     { key: 'authored', context: { personId: celebId, kind: 'authored', showReading }, label: t('groupAuthored'), intro: t('authoredWorksIntro'), books: authored.map(figureBookToShelfBook) },
-    { key: 'profession', context: { personId: celebId, kind: 'profession', showReading }, label: t('groupProfession'), intro: professionIntro, books: professionShelfBooks, choices: professionChoices,
+    { key: 'profession', context: { personId: celebId, kind: 'profession', showReading }, label: professionLabel ?? t('groupProfession'), intro: professionIntro, books: professionShelfBooks, choices: professionChoices,
       ...(professionState !== 'ready' ? { deferred: { state: professionState, onLoad: loadProfession } } : {}) },
     {
       key: 'faction', context: { personId: celebId, kind: 'affiliation', showReading }, label: t('groupAffiliation'),

@@ -50,8 +50,9 @@ export default function ThemeBookShelf({ books, memberIds, name, mode }: Props) 
   const appeared = available.filter((book) => !ownIds.has(book.contentId) && book.appearedIds.some((id) => memberSet.has(id)))
   const authored = available.filter((book) => book.authoredIds.some((id) => memberSet.has(id)))
   const profession = professionData?.profession
-  const professionIntro = profession && profession !== 'other' && tProfession.has(profession)
-    ? tCeleb('professionShelfIntro', { profession: tProfession(profession) }) : tCeleb('relatedShelfIntro')
+  const professionLabel = profession && profession !== 'other' && tProfession.has(profession) ? tProfession(profession) : null
+  const professionIntro = professionLabel
+    ? tCeleb('professionShelfIntro', { profession: professionLabel }) : tCeleb('relatedShelfIntro')
   const professionShelfBooks = (professionData?.professionBooks ?? []).map(affiliateBookToShelfBook)
   const professionChoices = getProfessionShelfChoices(professionShelfBooks, {
     train: tCeleb('professionTrain'), become: tCeleb('professionBecome'), about: tCeleb('professionAbout'),
@@ -63,7 +64,7 @@ export default function ThemeBookShelf({ books, memberIds, name, mode }: Props) 
     { key: 'appeared', context: { memberIds, kind: 'appeared' }, label: tCeleb('groupAppeared'), intro: t(isMyth ? 'worksLeadOthers' : 'worksAppearedLead'), books: appeared.map(affiliateBookToShelfBook) },
     { key: 'read', context: { memberIds, kind: 'read' }, label: tCeleb('groupRead'), intro: t('worksReadLead'), books: read.map(affiliateBookToShelfBook), deferred: { state: readState, onLoad: loadRead } },
     { key: 'authored', context: { memberIds, kind: 'authored' }, label: tCeleb('groupAuthored'), intro: t('worksAuthoredLead'), books: authored.map(affiliateBookToShelfBook) },
-    { key: 'profession', context: { kind: 'profession' }, label: tCeleb('groupProfession'), intro: professionIntro,
+    { key: 'profession', context: { kind: 'profession' }, label: professionLabel ?? tCeleb('groupProfession'), intro: professionIntro,
       books: professionShelfBooks, choices: professionChoices, deferred: { state: professionState, onLoad: loadProfession } },
   ]
   return <BookShelf groups={groups} ariaLabel={t('worksTitle')} />

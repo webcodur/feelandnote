@@ -15,7 +15,7 @@ export default function ProfessionBooksShelf({ books, profession, professionLabe
     trainIntro: t('professionTrainIntro'),
     becomeIntro: t('professionBecomeIntro'), aboutIntro: t('professionAboutIntro'),
   }, { profession, locale })
-  return <BookShelf key={profession} ariaLabel={t('groupProfession')} controlsLayout="profession-page" groups={choices.map((choice) => ({
+  return <BookShelf key={profession} ariaLabel={professionLabel} controlsLayout="profession-page" groups={choices.map((choice) => ({
     ...choice, context: { kind: 'profession' as const },
     listSubtitle: `${professionLabel} · ${choice.label}: ${choice.intro}`,
   }))} />
