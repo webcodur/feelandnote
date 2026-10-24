@@ -26,6 +26,12 @@ test('view counting refreshes cached celebrity consumers', () => {
   ]) assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['celeb'])
 })
 
+test('shared person bookshelf tabs refresh cached celebrity HTML', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/celeb/CelebShelfSection.tsx',
+  ]).scopes, ['celeb'])
+})
+
 test('explore preferences and shared atlas screens only affect uncached listing screens', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/components/features/home/useExplorePreferences.ts',

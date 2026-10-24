@@ -180,6 +180,8 @@ const CELEB_FILES = new Set([
   'sw/web/src/actions/home/getFactionFigureBooks.ts',
   // 공통 책장은 인물 상세·세력·가상독백에서 쓰며 보관 HTML 소비자는 인물 상세다.
   'sw/web/src/components/features/celeb/CelebBookShelf.tsx',
+  // 감상·참고도서 탭은 인물 상세와 도감 모달에서 공유하며 보관 HTML 소비자는 인물 상세다.
+  'sw/web/src/components/features/celeb/CelebShelfSection.tsx',
   'sw/web/src/components/features/celeb/BookShelfAffiliationAddon.tsx',
   // 책장 감상의 보관 HTML 소비자는 인물 상세뿐이다. 홈은 앞단 캐시가 없다.
   'sw/web/src/components/shared/BookShelf/BookShelfReviewDetail.tsx',
