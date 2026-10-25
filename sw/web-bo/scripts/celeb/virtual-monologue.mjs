@@ -10,6 +10,7 @@ import { dirname, relative, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { createClient } from '@feelandnote/db'
 import {
+  AGY_PEOPLE_PER_CALL,
   AGY_TEXT_MODEL,
   agyCall,
   looksQuotaLimited,
@@ -121,12 +122,14 @@ function buildWriterPrompt(row, reasons = [], brief = null) {
   const name = row.nickname_en
     ? `${row.nickname}(${row.nickname_en})`
     : row.nickname
-  const base = `${name}. 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지. 첫 문장은 남들이 나를 두고 하는 평가나 질문으로 시작하지 않는다. 정중한 말투를 기본으로 한다. 다만 인물 고유의 말투는 자유롭게 써도 된다.`
+  // 확인된 자료가 얇은 인물은 작업자가 brief.length='short'로 짧은 원고를 고른다. 재료보다 긴 분량을 시키면 지어낸다.
+  const short = brief?.length === 'short'
+  const base = `${name}. 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 ${short ? 'A4 4분의 1 페이지' : 'A4 반 페이지'}. 첫 문장은 남들이 나를 두고 하는 평가나 질문으로 시작하지 않는다. 정중한 말투를 기본으로 한다. 다만 인물 고유의 말투는 자유롭게 써도 된다.`
   // 이름만 주면 같은 이름의 더 유명한 대상(작품 속 인물·사물·다른 사람)으로 쓴다(119편 실측). 누구인지는 소개 한 줄로 늘 고정한다.
   const bio = String(brief ? (brief.identity ?? brief.facts?.[0]?.text ?? '') : (row.bio ?? '')).trim()
   const lines = bio ? [base, `인물 소개: ${bio}`] : [base]
   if (brief) {
-    lines.push('한국어 분량 목표는 공백 포함 800~1000자다. 회사명·제품명·약어는 공식 표기를 쓴다.')
+    lines.push(`한국어 분량 목표는 공백 포함 ${short ? '400~600' : '800~1000'}자다. 회사명·제품명·약어는 공식 표기를 쓴다.`)
     lines.push('한국인이 한국어로 쓴 글답게 주의해서 작성한다. 인물 소개는 신원 식별용이며 사실 근거가 아니다. 아래 작업자가 정한 방향과 사용할 정보 목록에 있는 사실만으로 독백 본문을 쓴다. 소개의 직함·이력이라도 정보 목록에 없으면 본문에 추가하지 않는다. 사실·일화·직접 인용을 새로 만들지 않는다. 출처 목록은 본문에 넣지 않는다.')
     lines.push(`독백 방향: ${brief.monologueDirection}`)
     lines.push('사용할 정보:', ...brief.facts.map((fact) => `- ${fact.text} (근거: ${fact.sourceUrl})`))
@@ -2018,8 +2021,10 @@ async function translationCaller() {
 async function translateCommand() {
   const slugs = parseSlugs()
   const limit = Number.parseInt(argValue('--limit') ?? '', 10)
-  // 4편씩 묶었더니 긴 원고가 든 묶음에서 응답이 잘렸다.
-  const size = Math.max(1, Number.parseInt(argValue('--size') ?? '3', 10))
+  // 4편씩 묶었더니 긴 원고가 든 묶음에서 응답이 잘렸다. agy는 --size와 무관하게 1명씩 부른다.
+  const size = argValue('--backend') === 'agy'
+    ? AGY_PEOPLE_PER_CALL
+    : Math.max(1, Number.parseInt(argValue('--size') ?? '3', 10))
   const out = argValue('--out')
   const apply = hasFlag('--apply')
   const call = await translationCaller()

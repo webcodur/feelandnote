@@ -13,7 +13,7 @@
  */
 
 import { spawn } from 'node:child_process'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { isAbsolute, resolve } from 'node:path'
 
@@ -21,6 +21,8 @@ const AGY_BIN = process.env.AGY_BIN
   ?? 'C:/Users/webco/AppData/Local/agy/bin/agy.exe'
 export const AGY_TEXT_MODEL = 'gemini-3.8-flash-high'
 export const AGY_OPUS_MODEL = 'claude-opus-4-6-thinking'
+// 인물 단위 작업은 agy 1회 호출에 1명만 넣는다. 여러 명을 묶으면 시간 초과 한 번에 묶음 전원이 실패한다.
+export const AGY_PEOPLE_PER_CALL = 1
 const DEFAULT_TIMEOUT_MS = 900_000
 
 /**
@@ -32,16 +34,18 @@ const DEFAULT_TIMEOUT_MS = 900_000
  * @param {number} [opts.timeoutMs]
  * @param {object} [opts.jsonSchema] CLI 구조화 출력 스키마. 최종 structured_output만 반환한다.
  * @param {boolean} [opts.disableSlashCommands] print 호출에서 불필요한 확장을 끈다.
+ * @param {boolean} [opts.privateLog] 호출별 임시 로그로 쿼터 오류를 식별하고 호출 종료 때 폐기한다.
  * @returns {Promise<string>} stdout의 최종 텍스트.
  */
 export function agyCall(prompt, opts = {}) {
   const {
     docs = [], model = AGY_TEXT_MODEL, repoRoot = process.cwd(), timeoutMs = DEFAULT_TIMEOUT_MS, promptViaFile = false,
-    jsonSchema, disableSlashCommands = false,
+    jsonSchema, disableSlashCommands = false, privateLog = false,
   } = opts
   if (!String(model).trim()) throw new Error('agy 모델 ID가 비어 있다.')
   const work = mkdtempSync(resolve(tmpdir(), 'agy-call-'))
   const fullPrompt = withDocs(prompt, docs, repoRoot)
+  const privateLogPath = privateLog ? resolve(work, 'cli.log') : null
   // Windows CreateProcess의 명령행 길이 제한을 넘는 배치 입력은 임시 파일로 건넨다.
   // agy가 격리된 작업 폴더 안의 파일을 직접 읽게 해 긴 JSON을 argv에 싣지 않는다.
   let promptArgument = fullPrompt
@@ -62,6 +66,7 @@ export function agyCall(prompt, opts = {}) {
     '--print-timeout', `${Math.max(1, Math.ceil(timeoutMs / 60_000))}m`,
     ...(jsonSchema ? ['--output-format','json','--json-schema', JSON.stringify(jsonSchema)] : []),
     ...(disableSlashCommands ? ['--disable-slash-commands'] : []),
+    ...(privateLogPath ? ['--log-file', privateLogPath] : []),
   ]
 
   return new Promise((resolveCall, rejectCall) => {
@@ -71,35 +76,40 @@ export function agyCall(prompt, opts = {}) {
     child.stdout.setEncoding('utf8')
     child.stderr.setEncoding('utf8')
     let settled = false
+    let quotaExhausted = false
+    const failure = message => Object.assign(new Error(message), { quotaExhausted })
     const finish = (callback) => {
       if (settled) return
       settled = true
       clearTimeout(timer)
+      if (privateLogPath && existsSync(privateLogPath)) {
+        try { quotaExhausted = /Individual quota reached/i.test(readFileSync(privateLogPath, 'utf8')) } catch { /* stderr remains available */ }
+      }
       cleanup(work)
       callback()
     }
     const timer = setTimeout(() => {
       child.kill('SIGKILL')
-      finish(() => rejectCall(new Error(`agy 시간 초과 (${Math.round(timeoutMs / 60000)}분)`)))
+      finish(() => rejectCall(failure(`agy 시간 초과 (${Math.round(timeoutMs / 60000)}분)`)))
     }, timeoutMs)
 
     child.stdout.on('data', (data) => { out += data.toString() })
     child.stderr.on('data', (data) => { err += data.toString() })
-    child.on('error', (error) => finish(() => rejectCall(error)))
+    child.on('error', (error) => finish(() => rejectCall(Object.assign(error, { quotaExhausted }))))
     child.on('close', (code) => finish(() => {
       if (code !== 0) {
-        rejectCall(new Error(`agy exit ${code}: ${(err || out).slice(0, 500)}`))
+        rejectCall(failure(`agy exit ${code}: ${(err || out).slice(0, 500)}`))
         return
       }
       const text = out.trim()
       if (!text) {
-        rejectCall(new Error(`agy 빈 응답: ${err.slice(0, 300)}`))
+        rejectCall(failure(`agy 빈 응답: ${err.slice(0, 300)}`))
         return
       }
       if (jsonSchema) {
         let result
-        try { result = JSON.parse(text) } catch { rejectCall(new Error('agy 구조화 응답 JSON 파싱 실패')); return }
-        if (result.status !== 'SUCCESS' || !result.structured_output) { rejectCall(new Error('agy 구조화 결과 없음')); return }
+        try { result = JSON.parse(text) } catch { rejectCall(failure('agy 구조화 응답 JSON 파싱 실패')); return }
+        if (result.status !== 'SUCCESS' || !result.structured_output) { rejectCall(failure('agy 구조화 결과 없음')); return }
         resolveCall(JSON.stringify(result.structured_output))
         return
       }

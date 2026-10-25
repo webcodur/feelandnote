@@ -25,6 +25,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createClient } from '@feelandnote/db'
 import {
+  AGY_PEOPLE_PER_CALL,
   AGY_TEXT_MODEL,
   agyCall,
   looksQuotaLimited,
@@ -82,7 +83,8 @@ const REWRITE_EXISTING = process.argv.includes('--rewrite-existing')
 const REVIEW_EXISTING = process.argv.includes('--review-existing')
 const ALL = process.argv.includes('--all')
 const LIMIT = numberFlag('--limit', Number.POSITIVE_INFINITY)
-const BATCH_SIZE = numberFlag('--batch-size', 8)
+// 생성·검수 호출은 모두 agy다. 1회 호출에 1명만 넣는다.
+const BATCH_SIZE = AGY_PEOPLE_PER_CALL
 const CONCURRENCY = numberFlag('--conc', 3)
 const MODEL = flagValue('--model') ?? AGY_TEXT_MODEL
 const REVIEW_DECISIONS_ARG = flagValue('--review-decisions')

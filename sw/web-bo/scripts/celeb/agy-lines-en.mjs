@@ -11,13 +11,13 @@
  *
  * 실행 (sw/web-bo 에서):
  *   node scripts/celeb/agy-lines-en.mjs --list
- *   node scripts/celeb/agy-lines-en.mjs --conc 3 --group 3
+ *   node scripts/celeb/agy-lines-en.mjs --conc 3   # agy 1회 호출에 1명
  *   node scripts/celeb/agy-lines-en.mjs --slugs rurik,rollo
  */
 
 import path from 'node:path'
 import fs from 'node:fs'
-import { agyCall } from '../../../../.claude/skills/agy-antigravity/scripts/agy-call.mjs'
+import { AGY_PEOPLE_PER_CALL, agyCall } from '../../../../.claude/skills/agy-antigravity/scripts/agy-call.mjs'
 
 const arg0 = (f, d) => { const i = process.argv.indexOf(f); return i > -1 ? process.argv[i + 1] : d }
 // REAL/BOTH 는 lines-en, FICTION 은 lines-en-fiction 으로 나눠 담는다. 두 트랙의 대상 명단이 다르다.
@@ -28,7 +28,7 @@ const SITUATIONS = ['greeting', 'roll_call', 'deploy', 'battle_win', 'battle_dra
 
 const arg = (f, d) => { const i = process.argv.indexOf(f); return i > -1 ? process.argv[i + 1] : d }
 const CONC = Number(arg('--conc', 3))
-const GROUP = Number(arg('--group', 3))
+const GROUP = AGY_PEOPLE_PER_CALL
 const ONLY = (arg('--slugs', '') || '').split(',').map((s) => s.trim()).filter(Boolean)
 const LIST_ONLY = process.argv.includes('--list')
 

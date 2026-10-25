@@ -37,6 +37,7 @@ agm switch <email> --target agy
 - `auto-switch`에 `--model gemini|claude`로 해당 모델 쿼터 기준을 고를 수 있다 — CLAUDE가 0%인 계정을 피할 때 쓴다.
 - **전환은 다음 `agy` 프로세스부터 먹힌다.** 배치(`agy -p` 단발 호출)는 호출마다 새 프로세스라 전환 직후 이어 돌면 된다. 떠 있는 대화형 agy는 토큰을 메모리에 쥐고 있으니 재시작이 필요하다.
 - 전환 뒤 `agm list`로 `cli` 태그가 옮겼는지 확인하고 같은 명령으로 재개한다.
+- **`agm list`의 잔량은 실제 소진을 늦게 반영한다.** `auto-switch`가 방금 소진된 계정을 100%로 보고 다시 고를 수 있다. 전환 뒤 짧은 agy 호출 한 번으로 통하는지 확인하고, 같은 `Individual quota reached`가 나면 다음 계정을 `agm switch <email> --target agy`로 지정해 바꾼다.
 
 ## 풀 관리
 

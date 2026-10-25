@@ -17,7 +17,7 @@ import path from 'node:path'
 import fs from 'node:fs'
 import { config } from 'dotenv'
 import { createClient } from '@feelandnote/db'
-import { agyCall } from '../../../../.claude/skills/agy-antigravity/scripts/agy-call.mjs'
+import { AGY_PEOPLE_PER_CALL, agyCall } from '../../../../.claude/skills/agy-antigravity/scripts/agy-call.mjs'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY, {
@@ -50,8 +50,7 @@ It is a label, not a sentence. It appears alone under a portrait and in front of
 4. Do not copy the one-line definition. This is shorter and different in kind.
 5. Do not use a genre or source label such as "Biblical Figure", "Greek Myth" or "Old Testament". Those fit many people at once. Name what this person was.
 6. A founder is "X Founder" (company first): "Sony Founder", not "Founder of Sony". Never write "Co-founder"; drop the "Co-".
-7. Two figures must not get the same epithet. Read the whole list before deciding.
-8. Plain ASCII.
+7. Plain ASCII.
 
 ## Output format
 
@@ -113,9 +112,19 @@ async function main() {
     return
   }
 
-  // 중복 금지를 지키려면 한 번에 전원을 보여 줘야 한다. 27명은 한 프롬프트에 들어간다.
-  const text = await agyCall(buildPrompt(rows), { timeoutMs: 600000 })
-  const { ok, issues } = validate(text, rows)
+  // agy는 1회 호출에 1명만 넣는다(AGY_PEOPLE_PER_CALL). 인물 간 중복은 모두 받은 뒤 아래에서 검사한다.
+  const ok = [], issues = []
+  for (let i = 0; i < rows.length; i += AGY_PEOPLE_PER_CALL) {
+    const group = rows.slice(i, i + AGY_PEOPLE_PER_CALL)
+    const r = validate(await agyCall(buildPrompt(group), { timeoutMs: 600000 }), group)
+    ok.push(...r.ok); issues.push(...r.issues)
+  }
+  const seen = new Map()
+  for (const o of ok) {
+    const key = o.title_en.toLowerCase()
+    if (seen.has(key)) issues.push(`중복: ${o.title_en} (${seen.get(key)} / ${o.slug})`)
+    seen.set(key, o.slug)
+  }
   fs.writeFileSync(OUT, JSON.stringify(ok, null, 2) + '\n', 'utf8')
   for (const o of ok) console.log(`${o.slug}\t${o.title_en}`)
   if (issues.length) console.log(`\n주의:\n  ${issues.join('\n  ')}`)

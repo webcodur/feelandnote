@@ -11,7 +11,7 @@
  *
  * 실행 (sw/web-bo 에서):
  *   node scripts/celeb/agy-quote-en.mjs --list
- *   node scripts/celeb/agy-quote-en.mjs --conc 3 --group 8
+ *   node scripts/celeb/agy-quote-en.mjs --conc 3   # agy 1회 호출에 1명
  *   node scripts/celeb/agy-quote-en.mjs --apply
  */
 
@@ -19,7 +19,7 @@ import path from 'node:path'
 import fs from 'node:fs'
 import { config } from 'dotenv'
 import { createClient } from '@feelandnote/db'
-import { agyCall } from '../../../../.claude/skills/agy-antigravity/scripts/agy-call.mjs'
+import { AGY_PEOPLE_PER_CALL, agyCall } from '../../../../.claude/skills/agy-antigravity/scripts/agy-call.mjs'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY, {
@@ -31,7 +31,7 @@ const NO_QUOTE_KO = '[확인된 어록이 없습니다]'
 
 const arg = (f, d) => { const i = process.argv.indexOf(f); return i > -1 ? process.argv[i + 1] : d }
 const CONC = Number(arg('--conc', 3))
-const GROUP = Number(arg('--group', 8))
+const GROUP = AGY_PEOPLE_PER_CALL
 const LIST_ONLY = process.argv.includes('--list')
 const APPLY = process.argv.includes('--apply')
 

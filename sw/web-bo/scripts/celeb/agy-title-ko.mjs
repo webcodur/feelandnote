@@ -10,13 +10,13 @@
  *
  * 실행 (sw/web-bo 에서):
  *   node scripts/celeb/agy-title-ko.mjs --list
- *   node scripts/celeb/agy-title-ko.mjs --conc 4 --group 8
+ *   node scripts/celeb/agy-title-ko.mjs --conc 4   # agy 1회 호출에 1명
  *   node scripts/celeb/agy-title-ko.mjs --slugs rurik,rollo
  */
 
 import path from 'node:path'
 import fs from 'node:fs'
-import { agyCall } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs'
+import { AGY_PEOPLE_PER_CALL, agyCall } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs'
 
 const arg = (f, d) => { const i = process.argv.indexOf(f); return i > -1 ? process.argv[i + 1] : d }
 const BASE = path.resolve(process.cwd(), '../../data/celeb/gap-fill/titles')
@@ -25,7 +25,7 @@ const OUT_DIR = path.join(BASE, 'out')
 const RULEBOOK = path.resolve(process.cwd(), '../../docs/project/celeb/celeb-01-03-title.md')
 
 const CONC = Number(arg('--conc', 4))
-const GROUP = Number(arg('--group', 8))
+const GROUP = AGY_PEOPLE_PER_CALL
 const ONLY = (arg('--slugs', '') || '').split(',').map((s) => s.trim()).filter(Boolean)
 const LIST_ONLY = process.argv.includes('--list')
 

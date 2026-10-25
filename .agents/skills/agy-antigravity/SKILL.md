@@ -48,6 +48,8 @@ cd "C:/Users/webco/.gemini/antigravity-cli/log" && grep -aoiE "email=[^ ,}\"]+" 
 - 모델 지정은 `--model`, 실행 모드는 `--mode`(accept-edits, plan). 기본 모델로도 텍스트·이미지가 동작한다.
 - **`--print-timeout`을 반드시 늘린다.** 기본값 5분이라 웹 조사처럼 긴 호출은 `Error: timeout waiting for response`로 306초쯤에 죽는다(26.08.28 실측). 헬퍼는 `timeoutMs`를 이 플래그로도 넘긴다. 맨손 호출이면 `--print-timeout 25m`처럼 명시한다.
 
+**인물 단위 작업은 agy 1회 호출에 1명만 넣는다.** 여러 명을 한 프롬프트에 넣어 CLI 한 번을 재사용하지 않는다. 묶으면 시간 초과 한 번에 묶음 전원이 실패하고(26.10.21 실측: 7~10명 묶음이 1200초 초과로 연속 실패), 응답 잘림·인물 간 섞임도 생긴다. 발주와 실행은 배치로 한다. 대상 목록을 한 번에 넘기고, 1명당 agy 프로세스 하나를 여러 개 동시에 띄워 돌린다(기본 동시 3). 동시 1로 줄지어 돌리지 않는다. 값은 `scripts/agy-call.mjs`의 `AGY_PEOPLE_PER_CALL`이 쥐며, 스크립트는 묶음 크기를 이 상수로 고정하고 묶음 크기 플래그를 받지 않는다. 인물 간 중복 검사처럼 전체를 봐야 하는 일은 호출이 끝난 뒤 코드에서 한다.
+
 반복 호출이나 배치 스크립트에서는 직접 spawn을 다시 만들지 말고 `scripts/agy-call.mjs`의 `agyCall()`을 import한다. 이 헬퍼는 확인된 `.exe` 절대경로, 임시 작업 폴더, 타임아웃, stdout 수신을 한곳에 둔다. Windows 명령행 한도를 넘는 긴 입력은 임시 UTF-8 파일로 자동 전달한다. 기본 모델은 `gemini-3.8-flash-high`이며 다른 모델은 `agyCall(prompt, { model: '확인한-ID' })`로 명시한다.
 
 ## 전역 MCP는 임시 작업 폴더로 격리되지 않는다
