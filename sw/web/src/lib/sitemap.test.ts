@@ -22,6 +22,42 @@ function getSitemapEntries(name: string) {
 
 const CREATED_AT = '2026-08-01T00:00:00.000Z'
 
+test('특수문자 인물 slug도 상세 페이지와 같은 정본 주소와 한영 대체 주소를 싣는다', async (t) => {
+  const previousUrl = process.env.NEXT_PUBLIC_DB_API_URL
+  const previousKey = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+  const previousFetch = globalThis.fetch
+  process.env.NEXT_PUBLIC_DB_API_URL = 'https://db.example'
+  process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = 'test-key'
+  globalThis.fetch = async () => Response.json([
+    { slug: 'e:u', created_at: CREATED_AT, updated_at: null },
+    { slug: '홍길동', created_at: CREATED_AT, updated_at: null },
+    { slug: 'person?#&name', created_at: CREATED_AT, updated_at: null },
+  ])
+  t.after(() => {
+    if (previousUrl === undefined) delete process.env.NEXT_PUBLIC_DB_API_URL
+    else process.env.NEXT_PUBLIC_DB_API_URL = previousUrl
+    if (previousKey === undefined) delete process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+    else process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = previousKey
+    globalThis.fetch = previousFetch
+  })
+
+  const entries = await getSitemapEntries('celebs')
+  assert.ok(entries)
+  assert.equal(entries.length, 6)
+  for (const slug of ['e%3Au', '%ED%99%8D%EA%B8%B8%EB%8F%99', 'person%3F%23%26name']) {
+    const ko = `https://feelandnote.com/celeb/${slug}`
+    const en = `https://feelandnote.com/en/celeb/${slug}`
+    for (const url of [ko, en]) {
+      const entry = entries.find((item) => item.url === url)
+      assert.ok(entry, `missing canonical ${url}`)
+      assert.deepEqual(entry.alternates?.languages, { ko, en, 'x-default': ko })
+      assert.equal(new URL(url).search, '')
+      assert.equal(new URL(url).hash, '')
+    }
+  }
+  assert.ok(!serializeSitemap(entries).includes('/celeb/e:u'))
+})
+
 test('공개 데이터의 갱신 태그가 해당 사이트맵의 모든 조회에 연결된다', async (t) => {
   const previousUrl = process.env.NEXT_PUBLIC_DB_API_URL
   const previousKey = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY

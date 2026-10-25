@@ -3,6 +3,7 @@ import { INDEXABLE_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { CACHE_TAGS, type CacheTag } from '@feelandnote/shared/constants/cache-tags'
 import { getCelebProfessions } from '@/lib/celeb-professions'
 import { getAlternates, SITE_URL } from './seo'
+import { getCelebProfileUrl } from './url'
 import { INFLUENCE_RANKING_FIELDS, getInfluenceRankingHref } from '@/constants/influenceRanking'
 import { CURATOR_PAGE_SIZE } from '@/components/features/library/hub/curatorExplore'
 import { CURATED_HUB_PATH, resolveCuratedHubMeta } from './library/curatedMeta'
@@ -222,7 +223,7 @@ export async function getSitemapEntries(name: string): Promise<MetadataRoute.Sit
     const celebs = await fetchCelebs()
     return celebs.flatMap((celeb) =>
       entry(
-        `/celeb/${celeb.slug}`,
+        getCelebProfileUrl(celeb),
         'weekly',
         0.7,
         celeb.updated_at
