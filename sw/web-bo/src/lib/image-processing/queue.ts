@@ -7,7 +7,7 @@ const QUEUE_DIR = path.join(process.cwd(), '.tmp', 'image-processing')
 const QUEUE_FILE = path.join(QUEUE_DIR, 'queue.json')
 const MAX_RETAINED_JOBS = 200
 // 배경 제거 모델은 프로세스마다 973MB를 다시 읽는다. 대기 작업을 묶어 한 번만 띄운다.
-const MAX_BATCH_SIZE = 20
+const MAX_BATCH_SIZE = 10
 
 interface PersistedQueue {
   jobs: ImageProcessingJob[]
@@ -119,13 +119,14 @@ function mutate<T>(operation: () => Promise<T>): Promise<T> {
 
 async function runJobs(
   batch: ImageProcessingJob[],
-  onResult: (celebId: string, result: NobgAvatarResult) => void
+  onResult: (celebId: string, result: NobgAvatarResult) => void,
+  onProgress: (message: string) => void,
 ): Promise<unknown> {
   switch (batch[0].type) {
     case 'nobg-avatar':
-      return processNobgAvatars(batch.map((job) => job.celebId), onResult)
+      return processNobgAvatars(batch.map((job) => job.celebId), onResult, { onProgress })
     case 'nobg-avatar-only':
-      return processNobgAvatars(batch.map((job) => job.celebId), onResult, { reframe: false })
+      return processNobgAvatars(batch.map((job) => job.celebId), onResult, { reframe: false, onProgress })
   }
 }
 
@@ -138,6 +139,7 @@ function finishJob(job: ImageProcessingJob, result: NobgAvatarResult): void {
     job.error = result.error || '이미지 처리 실패'
   }
   job.finishedAt = new Date().toISOString()
+  job.progress = undefined
 }
 
 function startWorker(): void {
@@ -166,6 +168,7 @@ async function drainQueue(): Promise<void> {
         next.queuePosition = 0
         next.startedAt = new Date().toISOString()
         next.error = undefined
+        next.progress = '원본 준비 중'
         picked.push(next)
       }
       if (picked.length > 0) await persistQueue()
@@ -178,6 +181,11 @@ async function drainQueue(): Promise<void> {
       await runJobs(batch, (celebId, result) => {
         const job = batch.find((candidate) => candidate.celebId === celebId)
         if (job) finishJob(job, result)
+      }, (message) => {
+        void mutate(async () => {
+          for (const job of batch) if (job.status === 'running') job.progress = message
+          await persistQueue()
+        })
       })
     } catch (error) {
       const message = error instanceof Error ? error.message : '이미지 처리 실패'
@@ -231,6 +239,11 @@ export async function getImageProcessingJob(id: string): Promise<ImageProcessing
   await loadQueue()
   const job = jobs.get(id)
   return job ? cloneWithPosition(job) : null
+}
+
+export async function resumeImageProcessingQueue(): Promise<void> {
+  await loadQueue()
+  if (pendingIds.length > 0) startWorker()
 }
 
 export async function getImageProcessingJobsForCelebs(

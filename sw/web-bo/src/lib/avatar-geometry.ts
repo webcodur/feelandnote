@@ -163,16 +163,43 @@ export function computeCropFromBox(
   return r
 }
 
+export interface PreparationCropOptions {
+  /** 직접 검수한 원본 수염의 마지막 행(inclusive). 알파 전체 하단으로 추정하지 않는다. */
+  beardBottom?: number
+}
+
 /** 배경 제거 입력을 줄이고 정수리·목 여백을 남긴다. 위쪽 원본이 부족해도 위치를 밀지 않는다. */
-export function computePreparationCrop(a: FaceAnchors, imgW: number, imgH: number): CropResult {
+export function computePreparationCrop(a: FaceAnchors, imgW: number, imgH: number, options: PreparationCropOptions = {}): CropResult {
   const baseSize = (a.chinY - a.eyeY) / AVATAR_SPEC.eyeChinSpan
   if (!(baseSize > 0)) throw new Error('턱이 눈보다 위에 있다 — 랜드마크가 잘못됐다')
   const size = baseSize * AVATAR_SPEC.preparationScale
-  return clampCrop(
+  const base = clampCrop(
     a.eyeX - size * AVATAR_SPEC.centerX,
     a.eyeY - baseSize * AVATAR_SPEC.eyeLine - (size - baseSize) / 2,
     size, imgW, imgH, 'landmarks', true,
   )
+  const { beardBottom } = options
+  if (beardBottom === undefined) return base
+  if (!Number.isInteger(beardBottom) || beardBottom < a.chinY || beardBottom >= imgH) {
+    throw new Error('beardBottom은 턱끝 이상·원본 높이 미만인 수염 마지막 행의 정수 좌표여야 한다')
+  }
+  // 얼굴 위쪽은 기존 준비 크롭 그대로 두고 수염과 기존 목 여유만 더 확보한다.
+  const wantedBottom = beardBottom + 1 + (a.chinY - a.eyeY) * AVATAR_SILHOUETTE_SPEC.neckBelowChin
+  const bottom = Math.min(imgH, Math.max(base.top + base.size, wantedBottom))
+  const expandedSize = Math.ceil(bottom - base.top)
+  if (expandedSize > imgW) {
+    throw new Error('수염과 얼굴 위쪽을 함께 담을 원본 가로폭 부족: 더 넓은 원본을 확인하라')
+  }
+  const crop = clampCrop(a.eyeX - expandedSize * AVATAR_SPEC.centerX, base.top, expandedSize, imgW, imgH, 'landmarks', true)
+  if ((a.eyeY - crop.top) / crop.size < AVATAR_SPEC.tolerance.eyeLine[0] ||
+      Math.abs((a.eyeX - crop.left) / crop.size - AVATAR_SPEC.centerX) > AVATAR_SPEC.tolerance.centerX[1] - AVATAR_SPEC.centerX) {
+    throw new Error('수염과 양눈 위 얼굴·가로 중심을 함께 담을 원본 구도가 필요하다')
+  }
+  if (crop.top + crop.size <= beardBottom || crop.top + crop.size > imgH) {
+    throw new Error('원본 범위 안에서 수염 마지막 행을 보존하지 못했다')
+  }
+  if (wantedBottom > imgH) crop.warnings.push('원본 하단이 수염 아래 목 여유보다 짧다. 잘리지 않은 원본인지 직접 확인하라')
+  return crop
 }
 
 /** 잘린 결과가 규격 안에 드는지 판정한다. 값은 프레임을 1.0으로 본 비율이다. */
@@ -252,6 +279,13 @@ export interface SilhouetteAnchors extends FaceAnchors {
   centerX?: number
 }
 
+export interface SilhouetteCropOptions {
+  /** 직접 검수한 수염의 마지막 행(입력 원본 픽셀, inclusive). 생략하면 기존 목 기준이다. */
+  beardBottom?: number
+  /** 긴 수염과 함께 보존할 이마 상단의 입력 행. 머리카락·관모 상단이 아니며 beardBottom과만 쓴다. */
+  faceTop?: number
+}
+
 /**
  * 얼굴의 가로 기준점. 턱선 양끝(얼굴 좌우 끝)의 중점을 프레임 중앙에 둔다 —
  * 눈 중점이나 부각 쪽 눈을 쓰면 얼굴 전체가 한쪽으로 밀린다.
@@ -282,7 +316,7 @@ export interface SilhouetteCropResult extends CropResult {
   /** 결과 프레임에서 눈높이 */
   eyeLine: number
   /** 어떤 제약이 프레임 크기를 결정했는가 */
-  decidedBy: 'silhouette' | 'eye-line' | 'min-span' | 'max-span' | 'source-top'
+  decidedBy: 'silhouette' | 'eye-line' | 'min-span' | 'max-span' | 'source-top' | 'face-top'
 }
 
 /**
@@ -297,7 +331,8 @@ export function computeCropFromSilhouette(
   a: SilhouetteAnchors,
   s: SilhouetteInfo,
   imgW: number,
-  imgH: number
+  imgH: number,
+  options: SilhouetteCropOptions = {},
 ): SilhouetteCropResult {
   const S = AVATAR_SILHOUETTE_SPEC
   const span = a.chinY - a.eyeY
@@ -305,7 +340,23 @@ export function computeCropFromSilhouette(
   const warnings: string[] = []
   let decidedBy: SilhouetteCropResult['decidedBy'] = 'silhouette'
 
-  const wantedBottom = a.chinY + span * S.neckBelowChin
+  const { beardBottom, faceTop } = options
+  if (beardBottom !== undefined &&
+      (!Number.isInteger(beardBottom) || beardBottom < a.chinY || beardBottom >= imgH)) {
+    throw new Error('beardBottom은 턱끝 이상·원본 높이 미만인 수염 마지막 행의 정수 좌표여야 한다')
+  }
+  if (beardBottom !== undefined && s.rowLeft?.[beardBottom] === -1) {
+    throw new Error('beardBottom 기준 행에 불투명 실루엣이 없다: 실제 수염 끝을 다시 확인하라')
+  }
+  if (faceTop !== undefined) {
+    if (beardBottom === undefined) throw new Error('faceTop은 직접 검수한 beardBottom과 함께 사용해야 한다')
+    if (!Number.isInteger(faceTop) || faceTop < 0 || faceTop < s.headTop || faceTop >= a.eyeY || faceTop >= imgH) {
+      throw new Error('faceTop은 원본 실루엣 안에서 양눈보다 위에 있는 이마 상단의 정수 좌표여야 한다')
+    }
+    if (s.rowLeft?.[faceTop] === -1) throw new Error('faceTop 기준 행에 불투명 실루엣이 없다: 실제 이마 상단을 다시 확인하라')
+  }
+  // 긴 수염의 하단이 목 길이보다 우선한다. 마지막 행을 포함하도록 다음 픽셀 경계를 쓴다.
+  const wantedBottom = beardBottom === undefined ? a.chinY + span * S.neckBelowChin : beardBottom + 1
   const bottom = Math.min(wantedBottom, imgH)
   // 원본이 턱 바로 아래에서 끝나는 경우만 경고한다. 몇 픽셀 차이는 보이지 않는다
   if ((wantedBottom - imgH) / span > 0.1) warnings.push('원본 하단이 목 길이보다 짧아 턱 아래가 규격보다 적게 담긴다')
@@ -330,12 +381,42 @@ export function computeCropFromSilhouette(
     decidedBy = 'max-span'
   }
 
+  // 명시한 긴 수염 때문에 min-span 확대가 양눈 위 얼굴을 자르면 확대만 제한한다.
+  // 수염 하단과 기존 눈 하한을 함께 보존하고 얼굴 크기 목표 미달은 직접 검수로 드러낸다.
+  if (beardBottom !== undefined) {
+    const minimumForUpperFace = Math.ceil((bottom - a.eyeY) / (1 - AVATAR_SPEC.tolerance.eyeLine[0]))
+    if (size < minimumForUpperFace) {
+      size = minimumForUpperFace
+      warnings.push('수염 하단과 양눈 위 얼굴을 보존해 눈~턱 비율이 최소 목표보다 작다. 얼굴 크기를 직접 검수하라')
+    }
+  }
+
+  // 긴 수염과 검수한 이마를 동시에 보존한다. 일반 얼굴 크기 목표를 위해
+  // 이마를 자르지 않으며, 관모·머리 전체를 담는 옵션으로 쓰지 않는다.
+  if (faceTop !== undefined && size < bottom - faceTop) {
+    size = bottom - faceTop
+    decidedBy = 'face-top'
+    warnings.push('수염 하단과 검수한 이마 상단을 보존해 얼굴 크기 목표보다 잘림 방지를 우선했다. 얼굴 크기를 직접 검수하라')
+  }
+
   // 4) 원본 상단 밖으로 나가면 위에 붙인다
   let top = bottom - size
   if (top < 0) {
     top = 0
     size = bottom
     decidedBy = 'source-top'
+  }
+
+  if (beardBottom !== undefined && (a.eyeY - top) / size < AVATAR_SPEC.tolerance.eyeLine[0]) {
+    throw new Error('수염 하단과 양눈 위 얼굴을 함께 담을 원본 구도가 필요하다: beardBottom 좌표와 원본을 확인하라')
+  }
+  if (faceTop !== undefined) {
+    const eyeLine = (a.eyeY - top) / size
+    const chinLine = (a.chinY - top) / size
+    if (top > faceTop || eyeLine > AVATAR_SPEC.tolerance.eyeLine[1] ||
+        chinLine < AVATAR_SPEC.tolerance.chinLine[0] || chinLine > AVATAR_SPEC.tolerance.chinLine[1]) {
+      throw new Error('이마 상단과 수염 하단을 기존 눈·턱 허용 범위 안에 함께 담을 원본 구도가 필요하다')
+    }
   }
 
   const headroom = (s.headTop - top) / size
@@ -364,7 +445,8 @@ export function computeCropFromSilhouette(
 
   return {
     left: Math.round(left),
-    top: Math.round(top),
+    // 명시한 마지막 수염 행과 원본 하단을 반올림으로 넘기거나 잃지 않는다.
+    top: beardBottom === undefined ? Math.round(top) : bottom - Math.round(size),
     size: Math.round(size),
     wantedSize: Math.round(size),
     warnings,

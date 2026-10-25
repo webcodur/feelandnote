@@ -12,4 +12,5 @@ export interface ImageProcessingJob {
   finishedAt?: string
   resultUrl?: string
   error?: string
+  progress?: string
 }

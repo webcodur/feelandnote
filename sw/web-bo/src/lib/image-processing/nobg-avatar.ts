@@ -1,4 +1,4 @@
-import { spawn, type ChildProcess } from 'node:child_process'
+import { runNobg } from './nobg-process'
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
@@ -11,18 +11,7 @@ import { revalidateWebCeleb } from '@/lib/revalidate-web'
 import { createAdminClient } from '@/lib/db/admin'
 import { prepareNobgAvatars, encodeNobgAvatar } from './reframe-avatar'
 
-const NOBG_BATCH_DIR = 'C:\\project\\nobg\\batch'
-const NOBG_SCRIPT = path.join(NOBG_BATCH_DIR, 'batch_nobg.py')
 const MAX_SOURCE_BYTES = 30 * 1024 * 1024
-// 배경 제거 모델은 973MB짜리라 프로세스를 띄울 때마다 다시 읽는다.
-// 그래서 여러 장을 한 폴더에 모아 파이썬을 한 번만 실행한다.
-const PROCESS_BASE_TIMEOUT_MS = 2 * 60 * 1000
-const PROCESS_PER_IMAGE_TIMEOUT_MS = 60 * 1000
-const PROCESS_MAX_TIMEOUT_MS = 30 * 60 * 1000
-// 누끼는 CPU로 돈다. 제한 없이 돌리면 코어를 전부 잡아 그동안 컴퓨터로 다른 일을
-// 할 수 없다. medium은 장당 0.6초만 느려지고 점유는 절반으로 떨어진다.
-// full(가장 빠름)·low(배경 처리)로 바꾸려면 web-bo 환경변수 NOBG_SPEED를 쓴다.
-const NOBG_SPEED = process.env.NOBG_SPEED?.trim() || 'medium'
 
 export interface NobgAvatarResult {
   url?: string
@@ -30,34 +19,11 @@ export interface NobgAvatarResult {
 }
 
 export interface ProcessNobgAvatarsOptions {
+  onProgress?: (message: string) => void
   /** 대량 처리기는 마지막에 캐시를 한 번에 비우므로 인물별 호출을 끌 수 있다. */
   revalidate?: boolean
   /** false면 얼굴 검출·재배치 없이 배경만 제거한다. */
   reframe?: boolean
-}
-
-function terminateProcessTree(child: ChildProcess): Promise<void> {
-  if (!child.pid) {
-    child.kill('SIGKILL')
-    return Promise.resolve()
-  }
-  if (process.platform !== 'win32') {
-    child.kill('SIGKILL')
-    return Promise.resolve()
-  }
-
-  return new Promise((resolve) => {
-    const killer = spawn('taskkill', ['/pid', String(child.pid), '/T', '/F'], {
-      shell: false,
-      stdio: 'ignore',
-      windowsHide: true,
-    })
-    killer.once('error', () => {
-      child.kill('SIGKILL')
-      resolve()
-    })
-    killer.once('close', () => resolve())
-  })
 }
 
 /** 배치 스크립트가 인물별로 남기는 실패 사유를 뽑아낸다. */
@@ -68,58 +34,6 @@ function parseFailures(stdout: string): Map<string, string> {
     if (matched) failures.set(matched[1], matched[2].trim())
   }
   return failures
-}
-
-function runNobg(workDir: string, imageCount: number): Promise<string> {
-  const timeoutMs = Math.min(
-    PROCESS_MAX_TIMEOUT_MS,
-    PROCESS_BASE_TIMEOUT_MS + PROCESS_PER_IMAGE_TIMEOUT_MS * imageCount
-  )
-
-  return new Promise<string>((resolve, reject) => {
-    const child = spawn('py', ['-3.12', NOBG_SCRIPT, 'rembg'], {
-      cwd: NOBG_BATCH_DIR,
-      // 파이썬 출력이 cp949로 나오면 한글 실패 사유를 읽지 못한다.
-      env: {
-        ...process.env,
-        NOBG_WORK_DIR: workDir,
-        NOBG_SPEED,
-        PYTHONIOENCODING: 'utf-8',
-      },
-      shell: false,
-      windowsHide: true,
-    })
-    let stdout = ''
-    let stderr = ''
-    child.stdout.setEncoding('utf8')
-    child.stderr.setEncoding('utf8')
-    child.stdout.on('data', (chunk: string) => { stdout += chunk })
-    child.stderr.on('data', (chunk: string) => { stderr += chunk })
-
-    let timedOut = false
-    const timer = setTimeout(() => {
-      timedOut = true
-      void terminateProcessTree(child).finally(() => {
-        reject(new Error(`nobg 처리가 ${Math.round(timeoutMs / 60000)}분을 초과해 중단되었습니다.`))
-      })
-    }, timeoutMs)
-
-    child.on('error', (error) => {
-      clearTimeout(timer)
-      if (timedOut) return
-      reject(new Error(`nobg 실행 실패: ${error.message}`))
-    })
-    child.on('close', (code) => {
-      clearTimeout(timer)
-      if (timedOut) return
-      if (code === 0) {
-        resolve(stdout)
-        return
-      }
-      const detail = stderr.trim() || stdout.trim() || `exit ${code}`
-      reject(new Error(`nobg 처리 실패: ${detail.slice(-1200)}`))
-    })
-  })
 }
 
 async function downloadAvatar(url: string): Promise<Buffer> {
@@ -139,7 +53,7 @@ async function downloadAvatar(url: string): Promise<Buffer> {
 }
 
 async function publishNobgAvatar(
-  celeb: { id: string; slug: string | null },
+  celeb: { id: string; slug: string | null; avatarUrl: string },
   result: Buffer,
   revalidate: boolean,
   reframe: boolean,
@@ -152,13 +66,21 @@ async function publishNobgAvatar(
   }
   const finalAvatar = await encodeNobgAvatar(result, reframe)
 
+  // 자원 대기가 길어져도 그 사이 사용자가 고른 새 아바타를 덮어쓰지 않는다.
+  const admin = createAdminClient()
+  const { data: current, error: readError } = await admin.from('celebs')
+    .select('avatar_url').eq('id', celeb.id).maybeSingle()
+  if (readError) throw new Error(`등록 전 아바타 확인 실패: ${readError.message}`)
+  if (!current || current.avatar_url !== celeb.avatarUrl) {
+    throw new Error('대기 중 아바타가 변경되어 현재 사용자 이미지를 보존했습니다.')
+  }
+
   const key = `celebs/${celeb.id}/${CELEB_AVATAR_ORIGINAL.file}`
   await uploadToR2(key, finalAvatar, 'image/webp')
   // 배경을 지운 새 얼굴로 작은 판도 다시 만든다 — 안 하면 그 인물만 옛 얼굴이 남는다
   await uploadAvatarVariants(celeb.id, finalAvatar, (variantKey, body) => uploadToR2(variantKey, body, 'image/webp'))
 
   const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
-  const admin = createAdminClient()
   const { data: updated, error: updateError } = await admin
     .from('celebs')
     .update({ avatar_url: url })
@@ -207,6 +129,7 @@ export async function processNobgAvatars(
   const workDir = await mkdtemp(path.join(tmpdir(), 'feelandnote-nobg-'))
   const originalsDir = path.join(workDir, 'originals')
   const outputDir = path.join(workDir, 'nobg')
+  let completed = false
 
   try {
     await Promise.all([
@@ -215,7 +138,7 @@ export async function processNobgAvatars(
     ])
 
     // 원본을 한 폴더에 모은다. 여기서 걸러진 인물은 파이썬에 넘기지 않는다.
-    const prepared: { id: string; slug: string | null }[] = []
+    const prepared: { id: string; slug: string | null; avatarUrl: string }[] = []
     for (const celebId of targets) {
       const celeb = celebsById.get(celebId)
       if (!celeb) {
@@ -228,7 +151,7 @@ export async function processNobgAvatars(
       }
       try {
         await writeFile(path.join(originalsDir, `${celeb.id}.webp`), await downloadAvatar(celeb.avatar_url))
-        prepared.push({ id: celeb.id, slug: celeb.slug })
+        prepared.push({ id: celeb.id, slug: celeb.slug, avatarUrl: celeb.avatar_url })
       } catch (downloadError) {
         record(celebId, { error: fail(downloadError) })
       }
@@ -237,23 +160,25 @@ export async function processNobgAvatars(
 
     let failures = new Map<string, string>()
     try {
-      failures = parseFailures(await runNobg(workDir, prepared.length))
+      failures = parseFailures(await runNobg(workDir, prepared.length, { onProgress: options.onProgress }))
     } catch (runError) {
-      for (const celeb of prepared) record(celeb.id, { error: fail(runError) })
+      for (const celeb of prepared) record(celeb.id, { error: `${fail(runError)} 작업 자료: ${workDir}` })
       return results
     }
 
     // nobg만 고른 작업은 얼굴 검출·재배치를 건너뛰고 현재 구도를 보존한다.
     const reframe = options.reframe !== false
+    options.onProgress?.(reframe ? '얼굴 구도 맞추는 중' : '배경 제거 결과 확인 중')
     let outputs: Awaited<ReturnType<typeof prepareNobgAvatars>>
     try {
       outputs = await prepareNobgAvatars(workDir, { reframe })
     } catch (reframeError) {
-      for (const celeb of prepared) record(celeb.id, { error: fail(reframeError) })
+      for (const celeb of prepared) record(celeb.id, { error: `${fail(reframeError)} 작업 자료: ${workDir}` })
       return results
     }
 
     for (const celeb of prepared) {
+      options.onProgress?.('아바타 결과 등록 중')
       try {
         const processed = outputs.get(`${celeb.id}_nobg`)
         const output = processed?.file ? await readFile(processed.file).catch(() => null) : null
@@ -264,14 +189,15 @@ export async function processNobgAvatars(
           url: await publishNobgAvatar(celeb, output, options.revalidate !== false, reframe),
         })
       } catch (publishError) {
-        record(celeb.id, { error: fail(publishError) })
+        record(celeb.id, { error: `${fail(publishError)} 작업 자료: ${workDir}` })
       }
     }
+    completed = targets.every((id) => Boolean(results.get(id)?.url))
     return results
   } finally {
     const resolvedWorkDir = path.resolve(workDir)
     const resolvedTempRoot = path.resolve(tmpdir()) + path.sep
-    if (resolvedWorkDir.startsWith(resolvedTempRoot) && path.basename(resolvedWorkDir).startsWith('feelandnote-nobg-')) {
+    if (completed && resolvedWorkDir.startsWith(resolvedTempRoot) && path.basename(resolvedWorkDir).startsWith('feelandnote-nobg-')) {
       await rm(resolvedWorkDir, { recursive: true, force: true })
     }
   }

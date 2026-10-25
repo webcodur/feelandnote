@@ -138,7 +138,7 @@ export default function CelebAvatarNobgButton({
           <ScanLine className="h-4 w-4" />
         )}
         {currentJob?.status === 'running'
-          ? 'CPU 처리 중…'
+          ? currentJob.progress || '배경 제거 처리 중…'
           : currentJob?.status === 'queued'
             ? `대기 ${currentJob.queuePosition}번째`
             : reframe ? 'nobg + reframe' : 'nobg만'}

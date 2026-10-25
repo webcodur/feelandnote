@@ -11,7 +11,7 @@ description: 이미지 배경 제거(누끼)를 할 때 항상 적용한다. 전
 
 원본 저장소는 GitHub `webcodur/nobg`(비공개)다. 폴더가 없으면 반드시 `C:\project\nobg` 에 clone하고 `py -3.12 -m pip install -r batch/requirements.txt` 로 설치한다. 백오피스 누끼 버튼(`sw/web-bo/src/lib/image-processing/nobg-avatar.ts`)이 이 경로를 고정으로 부른다. `rembg` 명령은 `.env` 없이 돈다.
 
-백오피스에서 누끼가 걸리는 길은 셋이다 — 아바타 옆 「nobg 배경 제거」 버튼, 목록의 일괄 처리 바, 그리고 자르기 창의 「적용과 동시에 nobg 배경 제거」 체크(기본 꺼짐, 켜면 그대로 유지된다). 셋 다 같은 큐(`image-processing/queue.ts`)를 거쳐 한 번에 한 프로세스만 돈다.
+백오피스에서 누끼가 걸리는 길은 셋이다 — 아바타 옆 「nobg 배경 제거」 버튼, 목록의 일괄 처리 바, 그리고 자르기 창의 「적용과 동시에 nobg 배경 제거」 체크(기본 꺼짐, 켜면 그대로 유지된다). 셋 다 같은 큐(`image-processing/queue.ts`)를 거친다. 백오피스는 기본 `cuda`·`low`로 한 장도 바로 처리하며 명시한 환경변수가 우선한다. 백오피스와 CLI 배치는 공용 Python 도구의 OS 잠금으로 모델 로드·누끼를 한 프로세스씩 실행한다.
 
 ## 도구 두 가지
 

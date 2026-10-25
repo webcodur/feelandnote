@@ -3,6 +3,7 @@ import {
   computeCropFromSilhouette,
   horizontalAnchor,
   type SilhouetteAnchors,
+  type SilhouetteCropOptions,
   type SilhouetteInfo,
 } from './avatar-geometry'
 
@@ -68,8 +69,9 @@ export function computeReframeCrop(
   silhouette: SilhouetteInfo,
   width: number,
   height: number,
+  options: SilhouetteCropOptions = {},
 ) {
-  const crop = computeCropFromSilhouette(anchors, silhouette, width, height)
+  const crop = computeCropFromSilhouette(anchors, silhouette, width, height, options)
   const left = silhouette.rowLeft?.slice(crop.top, crop.top + crop.size) ?? []
   const right = silhouette.rowRight?.slice(crop.top, crop.top + crop.size) ?? []
   if ((crop.left < 0 && left.some((x) => x === 0)) ||

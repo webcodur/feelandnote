@@ -9,10 +9,12 @@
  * 좌표 계산은 src/lib/avatar-geometry.ts 하나만 쓴다. 여기서 수치를 다시 만들지 않는다.
  *
  * 사용법 (sw/web-bo 에서):
- *   npx tsx scripts/avatar/crop-local.ts <입력폴더> <출력폴더> [--size <px>] [--quality <1~100>] [--png]
+ *   npx tsx scripts/avatar/crop-local.ts <입력폴더> <출력폴더> [--size <px>] [--quality <1~100>] [--png] [--preparation] [--beard-bottom <원본 행>]
  *
  *   입력폴더의 <이름>.png|jpg|webp 를 읽어 출력폴더에 <이름>.webp 로 쓴다.
  *   --png 를 주면 webp 대신 png 로 쓴다(다음 단계에서 배경 제거를 할 때 쓴다).
+ *   --preparation 은 누끼 전 여유 크롭이다. 정수리·목을 남기고 부족한 위쪽은 투명하게 채운다.
+ *   --preparation --beard-bottom <행> 은 직접 검수한 원본 수염 끝을 남긴다. 단일 이미지 전용이다.
  *
  * 얼굴 미검출은 실패로 집계하고 건너뛴다. 짐승 머리(BEAST) 아바타가 여기 걸리는데,
  * 그쪽은 애초에 눈·턱 규격 대상이 아니므로 원본을 그대로 쓰면 된다.
@@ -24,7 +26,7 @@ import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
 import { createRequire } from 'module'
 import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
-import { AVATAR_SPEC, judgeGeometry, type FaceAnchors } from '../../src/lib/avatar-geometry'
+import { AVATAR_SPEC, computePreparationCrop, judgeGeometry, type FaceAnchors } from '../../src/lib/avatar-geometry'
 import { BO_ROOT } from '../lib/paths'
 
 const _require = createRequire(import.meta.url)
@@ -39,15 +41,22 @@ const flag = (name: string) => {
   const i = args.indexOf(`--${name}`)
   return i >= 0 ? args[i + 1] : null
 }
-const positional = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && args[i - 1].startsWith('--') && args[i - 1] !== '--png'))
+const booleanFlags = new Set(['--png', '--preparation'])
+const positional = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && args[i - 1].startsWith('--') && !booleanFlags.has(args[i - 1])))
 const inDir = positional[0]
 const outDir = positional[1]
 const size = Number(flag('size') ?? CELEB_AVATAR_ORIGINAL.sizePx)
 const quality = Number(flag('quality') ?? CELEB_AVATAR_ORIGINAL.webpQuality)
 const asPng = args.includes('--png')
+const preparation = args.includes('--preparation')
+const beardBottom = args.includes('--beard-bottom') ? Number(flag('beard-bottom')) : undefined
+if (beardBottom !== undefined && (!Number.isInteger(beardBottom) || beardBottom < 0 || !flag('beard-bottom'))) {
+  throw new Error('--beard-bottom 은 검수한 원본 수염 마지막 행의 0 이상 정수 좌표여야 한다')
+}
+if (beardBottom !== undefined && !preparation) throw new Error('--beard-bottom 은 --preparation 에서만 사용한다')
 
 if (!inDir || !outDir) {
-  console.error('사용법: npx tsx scripts/avatar/crop-local.ts <입력폴더> <출력폴더> [--size <px>] [--png]')
+  console.error('사용법: npx tsx scripts/avatar/crop-local.ts <입력폴더> <출력폴더> [--size <px>] [--png] [--preparation] [--beard-bottom <원본 행>]')
   process.exit(1)
 }
 
@@ -107,24 +116,27 @@ async function anchorsOf(buf: Buffer): Promise<{ anchors: FaceAnchors; W: number
  * 자를 정사각이 원본 밖으로 나가는 만큼 캔버스를 넓힌다.
  * 단색으로 채우면 배경 그라데이션과 어긋나 띠가 보이므로 가장자리 픽셀을 늘려 채운다.
  */
-async function padToFit(buf: Buffer, want: { left: number; top: number; size: number }, W: number, H: number) {
+async function padToFit(buf: Buffer, want: { left: number; top: number; size: number }, W: number, H: number, transparent = false) {
   const padLeft = Math.max(0, Math.ceil(-want.left))
   const padTop = Math.max(0, Math.ceil(-want.top))
   const padRight = Math.max(0, Math.ceil(want.left + want.size - W))
   const padBottom = Math.max(0, Math.ceil(want.top + want.size - H))
   if (!padLeft && !padTop && !padRight && !padBottom) return { buf, dx: 0, dy: 0, pad: 0 }
 
-  const padded = await sharp(buf, { limitInputPixels: false })
-    .extend({ left: padLeft, top: padTop, right: padRight, bottom: padBottom, extendWith: 'copy' })
-    .toBuffer()
+  const pipeline = sharp(buf, { limitInputPixels: false })
+  const edges = { left: padLeft, top: padTop, right: padRight, bottom: padBottom }
+  const padded = transparent
+    ? await pipeline.ensureAlpha().extend({ ...edges, background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer()
+    : await pipeline.extend({ ...edges, extendWith: 'copy' }).toBuffer()
   const pad = Math.max(padLeft, padTop, padRight, padBottom) / want.size
   return { buf: padded, dx: padLeft, dy: padTop, pad }
 }
 
 async function main() {
+  const files = readdirSync(inDir).filter((f) => /\.(webp|png|jpe?g)$/i.test(f)).sort()
+  if (beardBottom !== undefined && files.length !== 1) throw new Error('--beard-bottom 은 단일 이미지 입력에만 적용한다')
   await loadModels()
   mkdirSync(outDir, { recursive: true })
-  const files = readdirSync(inDir).filter((f) => /\.(webp|png|jpe?g)$/i.test(f)).sort()
   console.log(`크롭 대상 ${files.length}장`)
 
   const report: Record<string, unknown>[] = []
@@ -159,12 +171,12 @@ async function main() {
     const chinFloor = eyeChin / (AVATAR_SPEC.tolerance.chinLine[1] - eyeLine)
     const cropSize = Math.max(Math.min(wantedSize, fits), chinFloor)
 
-    const crop = {
+    const crop = preparation ? computePreparationCrop(anchors, W, H, { beardBottom }) : {
       left: anchors.eyeX - cropSize * centerX,
       top: anchors.eyeY - cropSize * eyeLine,
       size: cropSize,
     }
-    const { buf: canvas, dx, dy, pad } = await padToFit(buf, crop, W, H)
+    const { buf: canvas, dx, dy, pad } = await padToFit(buf, crop, W, H, preparation)
     // 반올림과 랜드마크 오차로 좌표가 캔버스 밖으로 삐져나가는 일이 있다(실측: left -17).
     const canvasMeta = await sharp(canvas, { limitInputPixels: false }).metadata()
     const canvasW = canvasMeta.width ?? W
@@ -184,16 +196,17 @@ async function main() {
     }
     const verdict = judgeGeometry(shifted, { left, top, size: side })
     const line = `eye ${(verdict.eyeLine * 100).toFixed(1)} chin ${(verdict.chinLine * 100).toFixed(1)} center ${(verdict.centerX * 100).toFixed(1)}`
-    const padNote = pad > 0.02 ? ` · 가장자리 ${Math.round(pad * 100)}% 늘림` : ''
+    const padNote = pad > 0.02 ? ` · ${preparation ? '투명 여백' : '가장자리 늘림'} ${Math.round(pad * 100)}%` : ''
     // 크롭 정사각이 목표 크기보다 작으면 늘려 쓰는 것이라 얼굴이 흐려진다.
     const thin = side < size ? ` · ⚠ 원본 얼굴이 작다 (${side}px → ${size}px 확대)` : ''
-    console.log(`  ${name} — ${verdict.pass ? '합격' : `이탈: ${verdict.faults.join(', ')}`} (${line}) crop ${side}px${padNote}${thin}`)
-    report.push({ name, ...verdict, cropPx: side, upscaled: side < size, pad: +pad.toFixed(3) })
+    const status = preparation ? '누끼 준비 크롭 · 최종 구도 검수 대기' : verdict.pass ? '합격' : `이탈: ${verdict.faults.join(', ')}`
+    console.log(`  ${name} — ${status} (${line}) crop ${side}px${padNote}${thin}`)
+    report.push({ name, ...verdict, ...(preparation ? { mode: 'preparation', needsFinalGeometryReview: true, warnings: 'warnings' in crop ? crop.warnings : [] } : {}), ...(beardBottom === undefined ? {} : { beardBottom, sourceCrop: crop, sourceAnchors: anchors }), cropPx: side, upscaled: side < size, pad: +pad.toFixed(3) })
     if (verdict.pass) ok++
   }
 
   writeFileSync(join(outDir, '_crop-report.json'), JSON.stringify(report, null, 2))
-  console.log(`\n합격 ${ok} / 이탈 ${files.length - skipped - ok} / 미검출 ${skipped}`)
+  console.log(preparation ? `\n누끼 준비 ${files.length - skipped} / 미검출 ${skipped} · 최종 reframe 검수 대기` : `\n합격 ${ok} / 이탈 ${files.length - skipped - ok} / 미검출 ${skipped}`)
 }
 
 main().catch((error) => {
