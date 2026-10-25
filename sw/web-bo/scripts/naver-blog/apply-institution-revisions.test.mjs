@@ -4,7 +4,9 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { REVISION_IDS, AVATAR_WIDTH, parseRevisionOptions, parseRevisionBody, selectRevisionTargets, assertRevisionSnapshot, assertFramesApplied, assertReservationPreserved, synchronizedRows, assertDbReviews, tableBaseTarget, assertFullListSource, assertTableOnlyChange, existingImageProof, fullListHtml, checkRevisionSource, tableAuthorBaseTarget, assertTableAuthorChange, needsExplicitServiceLink, explicitServiceLinkHtml, assertExplicitServiceLinkChange, textComponentParagraphs } from './apply-institution-revisions.mjs';
+import { REVISION_IDS, AVATAR_WIDTH, parseRevisionOptions, parseRevisionBody, selectRevisionTargets, assertRevisionSnapshot, assertFramesApplied, assertReservationPreserved, synchronizedRows, assertDbReviews, tableBaseTarget, assertFullListSource, assertTableOnlyChange, existingImageProof, fullListHtml, checkRevisionSource, tableAuthorBaseTarget, assertTableAuthorChange, needsExplicitServiceLink, explicitServiceLinkHtml, assertExplicitServiceLinkChange, textComponentParagraphs, prepareImages } from './apply-institution-revisions.mjs';
+import { EDITORIAL_PORTRAIT_WIDTH, EDITORIAL_FONT_SIZES } from './lib/editorial-editor.mjs';
+import { editorialParagraphStyles } from './lib/editorial-layout.mjs';
 
 const targetPath = '/library/curated/booker-prize-foundation/booker-prize-winners';
 const site = `https://feelandnote.com${targetPath}`;
@@ -288,6 +290,116 @@ function celebFixture() {
   return { ...f, revision, post: { ...f.post, kind: 'celeb', url: site }, draft: { ...f.draft, target }, options: { ...f.options, manifestRows: [{ ...f.options.manifestRows[0], kind: 'celeb', target }] } };
 }
 
+test('실제로 없는 표지 한 장만 명시적으로 생략하고 작품·구획·감상 순서를 보존한다', () => {
+  const { revision } = celebFixture();
+  revision.editorial = true;
+  revision.celeb = { portrait_url: 'https://example.com/portrait.jpg' };
+  revision.body = revision.body.replace('[avatar:https://example.com/avatar.jpg|100|독자]', `[avatar:${revision.celeb.portrait_url}|${EDITORIAL_PORTRAIT_WIDTH}|독자]`);
+  revision.dbReviews.push({ ...revision.dbReviews[0], review_id: 'review-4', content_id: 'book-4', review: '원문 감상 4입니다.' });
+  revision.body = revision.body.replace('다른 책도 확인하세요.', '[c]**책 4**[/c]\n[img:https://example.com/book4.jpg|240|책 4 표지]\n책 소개입니다.\n[q]원문 감상 4입니다.[/q]\n━━━━━━\n다른 책도 확인하세요.');
+  revision.bookMatches = revision.dbReviews.map((review, i) => ({ content_id: review.content_id, cover: `https://example.com/book${i + 1}.jpg` }));
+  for (let i = 1; i <= 4; i++) revision.body = revision.body.replace(`**책 ${i}**`, `**${String(i).padStart(2, '0')} · 『책 ${i}』**`);
+  revision.body = revision.body.replace('[img:https://example.com/book2.jpg|240|책 2 표지]\n', '');
+  revision.bookMatches[1] = { content_id: 'book-2', cover: null, cover_status: 'confirmed_unavailable', cover_source: 'https://example.com/missing-cover.jpg' };
+  for (const review of revision.dbReviews) {
+    review.note_label = '독자의 독서 경위';
+    revision.body = revision.body.replace(`[q]${review.review}[/q]`, `[q]${review.note_label}\n${review.review}[/q]`);
+  }
+  assert.equal(parseRevisionBody(revision).covers.length, 3);
+  const mutate = change => { const copy = structuredClone(revision); change(copy); assert.throws(() => parseRevisionBody(copy)); };
+  mutate(copy => { delete copy.bookMatches[1].cover_status; });
+  mutate(copy => { delete copy.bookMatches[1].cover_source; });
+  mutate(copy => { copy.bookMatches[1].content_id = 'wrong-book'; });
+  mutate(copy => { copy.body = copy.body.replace('[q]독자의 독서 경위\n원문 감상 2입니다.[/q]', '').replace('[q]독자의 독서 경위\n원문 감상 3입니다.[/q]', '[q]독자의 독서 경위\n원문 감상 2입니다.[/q]\n[q]독자의 독서 경위\n원문 감상 3입니다.[/q]'); });
+  mutate(copy => { copy.body = copy.body.replace('[img:https://example.com/book3.jpg|240|책 3 표지]', '').replace('[q]독자의 독서 경위\n원문 감상 2입니다.[/q]', '[img:https://example.com/book3.jpg|240|책 3 표지]\n[q]독자의 독서 경위\n원문 감상 2입니다.[/q]'); });
+});
+
+test('새 인물 양식은 실제 대표사진을 쓰고 라벨과 DB 감상을 별개로 검증한다', () => {
+  const { revision } = celebFixture();
+  revision.editorial = true;
+  revision.celeb = { portrait_url: 'https://example.com/portrait.webp' };
+  revision.body = revision.body.replace('[avatar:https://example.com/avatar.jpg|100|독자]', `[avatar:${revision.celeb.portrait_url}|${EDITORIAL_PORTRAIT_WIDTH}|독자]`);
+  for (const review of revision.dbReviews) {
+    review.note_label = '독자의 독서 경위';
+    revision.body = revision.body.replace(`[q]${review.review}[/q]`, `[q]${review.note_label}\n${review.review}[/q]`);
+  }
+  const plan = parseRevisionBody(revision);
+  assert.equal(plan.avatars[0].width, EDITORIAL_PORTRAIT_WIDTH);
+  assert.equal(revision.dbReviews[0].avatar_url, 'https://example.com/avatar.jpg');
+  assert.throws(() => parseRevisionBody({ ...revision, celeb: { portrait_url: revision.dbReviews[0].avatar_url } }), /인물 표시/);
+  assert.throws(() => parseRevisionBody({ ...revision, body: revision.body.replace('원문 감상 2입니다.', '새로 지어낸 감상') }), /DB 감상/);
+  assert.throws(() => parseRevisionBody({ ...revision, body: revision.body.replace('독자의 독서 경위\n', '') }), /DB 감상/);
+});
+
+test('이전 양식 저장 이력이 있어도 첫 editorial 전환은 허용하고 완료한 editorial 재실행은 차단한다', () => {
+  const f = celebFixture(), revision = f.revision;
+  revision.editorial = true;
+  revision.celeb = { portrait_url: 'https://example.com/portrait.webp' };
+  revision.body = revision.body.replace('[avatar:https://example.com/avatar.jpg|100|독자]', `[avatar:${revision.celeb.portrait_url}|${EDITORIAL_PORTRAIT_WIDTH}|독자]`);
+  for (const review of revision.dbReviews) {
+    review.note_label = '독자의 독서 경위';
+    revision.body = revision.body.replace(`[q]${review.review}[/q]`, `[q]${review.note_label}\n${review.review}[/q]`);
+  }
+  const oldDraft = { ...f.draft, revisionSha256: 'previous-format', rewrittenAt: 'previous-save' };
+  assert.equal(selectRevisionTargets([revision], [f.post], [oldDraft], f.options).length, 1);
+  assert.throws(() => selectRevisionTargets([revision], [f.post], [{ ...oldDraft, editorial: true }], f.options), /이미 개편/);
+  assert.throws(() => selectRevisionTargets([{ ...revision, editorial: undefined }], [f.post], [oldDraft], f.options), /이미 개편/);
+});
+
+function bonusFixture() {
+  const {revision}=celebFixture(); revision.editorial=true;revision.celeb={portrait_url:'https://example.com/portrait.jpg'};
+  revision.body=revision.body.replace('[avatar:https://example.com/avatar.jpg|100|독자]',`[avatar:${revision.celeb.portrait_url}|360|독자]`);
+  for(const review of revision.dbReviews){review.note_label='독자의 독서 경위';revision.body=revision.body.replace(`[q]${review.review}[/q]`,`[q]${review.note_label}\n${review.review}[/q]`);}
+  revision.bonusHeading='보너스 포토';revision.preservedPhotos=[{url:'https://example.com/bonus.jpg',width:640,name:'기존 사진'}];revision.preservedLinks=['https://example.com/original-interview'];
+  revision.body=revision.body.replace('다른 책도 확인하세요.','[c]**보너스 포토**[/c]\n[photo:https://example.com/bonus.jpg|640|기존 사진]\nhttps://example.com/original-interview\n다른 책도 확인하세요.');
+  return revision;
+}
+
+test('기존 보너스 사진과 링크는 명시한 목록·순서·위치가 일치할 때만 보존한다',()=>{
+  const revision=bonusFixture(),plan=parseRevisionBody(revision);assert.equal(plan.photos.length,1);assert.equal(plan.covers.length,3);
+  for(const change of [r=>delete r.preservedPhotos,r=>r.preservedPhotos[0].url='https://example.com/other.jpg',r=>r.preservedLinks=[],r=>r.body=r.body.replace('|640|','|801|'),r=>r.body=r.body.replace('[c]**보너스 포토**[/c]','다른 제목')]){const r=structuredClone(revision);change(r);assert.throws(()=>parseRevisionBody(r));}
+  const r=structuredClone(revision),photo='[photo:https://example.com/bonus.jpg|640|기존 사진]';r.body=r.body.replace(photo,'').replace('소개입니다.',photo+'\n소개입니다.');assert.throws(()=>parseRevisionBody(r),/보너스 사진/);
+});
+
+test('블로그의 간접 독서 경위는 DB 원문을 보존하고 그 원문 해시에 묶인 검수 문장만 쓴다',()=>{
+  const revision=bonusFixture(),row=revision.dbReviews[0];row.reading_note='독자는 이 책의 구성에 주목했다.';row.reading_note_review_sha256=crypto.createHash('sha256').update(row.review).digest('hex');
+  revision.body=revision.body.replace(row.review,row.reading_note);const plan=parseRevisionBody(revision);assert.equal(plan.quotes[0].paragraphs[1],row.reading_note);assertDbReviews({revision},{text:plan.text});
+  for(const mutate of [r=>delete r.dbReviews[0].reading_note_review_sha256,r=>r.dbReviews[0].review+=' 변경',r=>r.dbReviews[0].reading_note='[q]다른 인용[/q]']){const r=structuredClone(revision);mutate(r);assert.throws(()=>parseRevisionBody(r));}
+});
+
+test('보너스 사진에는 액자·다른 원본·크기 변경을 허용하지 않고 재열기 증거를 요구한다',()=>{
+  const revision=bonusFixture(),plan=parseRevisionBody(revision),target={title:revision.title,revision,plan};
+  const snapshot={title:target.title,text:plan.text,links:plan.links.map(href=>({href})),flow:plan.flow.map(f=>f.kind==='text'?{kind:'se-text',paragraphs:[f.text]}:f.kind==='image'?{kind:'image'}:f.kind==='quote'?{kind:'se-quotation',paragraphs:f.paragraphs,quoteStyle:'quotation_line',quoteAlign:'left'}:{kind:'se-horizontalLine'}),images:plan.images.map((i,index)=>({id:'photo-'+index,src:'https://blogfiles.pstatic.net/'+index+'.jpg',naturalWidth:640,naturalHeight:480,width:String(i.width),height:null,displayWidth:i.width,displayHeight:i.width*0.75,align:'se-section-align-center',caption:[],componentKind:'image',representative:index===0}))};
+  const proof=existingImageProof(target,snapshot);assertRevisionSnapshot(target,snapshot,proof);assert.throws(()=>assertRevisionSnapshot(target,snapshot,{...proof,unframedPhotos:null}));
+  for(const mutate of [i=>i.naturalWidth+=40,i=>i.src+='changed',i=>i.displayWidth=240]){const changed=structuredClone(snapshot);mutate(changed.images.at(-1));assert.throws(()=>assertRevisionSnapshot(target,changed,proof));}
+});
+
+test('기관 감상자는 새 양식에서도 작은 아바타 폭만 허용한다', () => {
+  const { revision } = celebFixture();
+  revision.kind = 'curated'; revision.target = targetPath;
+  revision.body = revision.body.replaceAll('/celeb/person-one', targetPath);
+  // This institution has only one face for three notes; even widening that face cannot bypass validation.
+  assert.throws(() => parseRevisionBody({ ...revision, editorial: true, body: revision.body.replace('|100|독자]', `|${EDITORIAL_PORTRAIT_WIDTH}|독자]`) }), /이미지 표시/);
+});
+
+test('새 서식은 책 제목과 저자를 나누고 독서 경위의 라벨만 작게 표시한다', () => {
+  const { revision } = celebFixture(); revision.editorial = true;
+  revision.body = revision.body.replace('[c]**책 1**[/c]', '[c]**01 · 『책 하나』**[/c]\n\n[c]저자 하나[/c]');
+  revision.dbReviews.forEach(review => { review.note_label = '독자의 독서 경위'; });
+  const plan = { operations: [
+    { kind: 'text', line: '[c]**01 · 『책 하나』**[/c]' },
+    { kind: 'text', line: '' },
+    { kind: 'text', line: '[c]저자 하나[/c]' },
+    { kind: 'quote', paragraphs: ['독자의 독서 경위', '원문 감상 1입니다.'] },
+  ] };
+  assert.deepEqual(editorialParagraphStyles(revision, plan), [
+    { text: '01 · 『책 하나』', size: EDITORIAL_FONT_SIZES.heading, align: 'center' },
+    { text: '저자 하나', size: EDITORIAL_FONT_SIZES.author, align: 'center' },
+    { text: '독자의 독서 경위', size: EDITORIAL_FONT_SIZES.label, align: 'left' },
+    { text: '원문 감상 1입니다.', size: EDITORIAL_FONT_SIZES.body, align: 'left' },
+  ]);
+});
+
 test('인물편은 첫 인물사진과 책 순서별 원문 인용을 사용하며 다른 인물 혼입을 거부한다', () => {
   const f = celebFixture(), [target] = selectRevisionTargets([f.revision], [f.post], [f.draft], f.options);
   assert.equal(target.plan.images[0].role, 'avatar'); assert.equal(target.plan.avatars.length, 1); assert.equal(target.plan.quotes.length, 3);
@@ -534,4 +646,24 @@ test('첫 링크 입력 전 빈 본문의 UI 안내문만 제외하고 같은 �
   const after = { title: '제목', text: [text], links: [{ text: site, href: site }], images: [], flow: [{ kind: 'se-text', paragraphs: [text] }] };
   assertExplicitServiceLinkChange(before, after, text, site);
   assert.throws(() => assertExplicitServiceLinkChange({ ...before, text: [hint] }, after, text, site), /text/);
+});
+
+
+test('긴 업로드 파일명이 잘려도 사진 식별값 전체가 앞에 남는다', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'naver-upload-name-'));
+  const bytes = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/l9sAAAAASUVORK5CYII=', 'base64');
+  const url = 'https://example.com/cover.png';
+  const name = '신곡(La Divina Commedia)(귀스타브 도레 삽화 수록본) 표지';
+  const cache = new Map([[url, { original: bytes, bytes, metadata: { format: 'png', width: 1, height: 1 } }]]);
+  try {
+    const { images: [image] } = await prepareImages({ post: { logNo: '221852314381' }, plan: { images: [{ url, name, role: 'cover', width: 200 }] } }, dir, cache);
+    const filename = path.basename(image.file);
+    assert.ok(filename.startsWith(image.marker + '-'));
+    assert.ok(filename.slice(0, 70).includes(image.marker));
+    assert.equal(image.name, name);
+    assert.deepEqual(fs.readFileSync(image.file), bytes);
+  } finally {
+    for (const f of fs.readdirSync(dir)) fs.unlinkSync(path.join(dir, f));
+    fs.rmdirSync(dir);
+  }
 });

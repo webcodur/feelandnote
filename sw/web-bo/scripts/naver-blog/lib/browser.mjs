@@ -28,14 +28,15 @@ function acquireLock() {
     const pid = Number(who.match(/pid=(\d+)/)?.[1]);
     let owned = true;
     if (pid) { try { process.kill(pid, 0); } catch { owned = false; } }
-    if (age < STALE_MS && owned) {
+    if (owned && (pid || age < STALE_MS)) {
       throw new Error(`다른 네이버 작업이 브라우저를 쓰고 있다(${who}, ${Math.round(age / 1000)}초 전). 끝난 뒤 다시 실행해라`);
     }
     console.log(`${owned ? '묵은' : '주인이 죽은'} 잠금을 지운다(${who})`);
     fs.rmSync(LOCK, { force: true });
   }
-  fs.writeFileSync(LOCK, `${path.basename(process.argv[1] ?? "?")} pid=${process.pid}`);
-  const release = () => { try { fs.rmSync(LOCK, { force: true }); } catch {} };
+  const owner = `${path.basename(process.argv[1] ?? "?")} pid=${process.pid}`;
+  fs.writeFileSync(LOCK, owner, { flag: 'wx' });
+  const release = () => { try { if (fs.readFileSync(LOCK, 'utf8') === owner) fs.rmSync(LOCK); } catch {} };
   process.on("exit", release);
   process.on("SIGINT", () => { release(); process.exit(130); });
   process.on("uncaughtException", (e) => { release(); throw e; });
@@ -71,11 +72,12 @@ async function alive() {
 /**
  * @param {object} [opts]
  * @param {number} [opts.protocolTimeout] 긴 글은 DOM 조회 한 번이 1분을 넘는다. 넉넉히 준다.
+ * @param {boolean} [opts.background] Chrome이 없으면 창을 열지 않고 같은 로그인 프로필로 렌더링한다.
  * @returns {Promise<{browser: import('puppeteer').Browser, launched: boolean}>}
  *   launched 가 true 면 이 스크립트가 띄운 것이다 — 끝나고 close 해도 된다.
  *   false 면 사용자 창이므로 **끄지 말고 disconnect 만 한다.**
  */
-export async function getBrowser({ protocolTimeout = 300000 } = {}) {
+export async function getBrowser({ protocolTimeout = 300000, background = false } = {}) {
   acquireLock();
   if (await alive()) {
     const browser = await puppeteer.connect({ browserURL: `http://localhost:${PORT}`, defaultViewport: null, protocolTimeout });
@@ -86,10 +88,10 @@ export async function getBrowser({ protocolTimeout = 300000 } = {}) {
   if (fs.existsSync(`${PROFILE}/SingletonLock`)) {
     throw new Error('프로필이 잠겨 있다. 그 프로필로 뜬 크롬이 있는지 확인해라');
   }
-  console.log('디버그 크롬이 꺼져 있다. 같은 프로필로 띄운다…');
+  console.log(background ? '같은 프로필의 백그라운드 Chrome을 사용한다(창을 열지 않음)…' : '디버그 크롬이 꺼져 있다. 같은 프로필로 띄운다…');
   const browser = await puppeteer.launch({
     executablePath: CHROME,
-    headless: false,          // 네이버 편집기는 실제 렌더링이 필요하다
+    headless: background,     // 백그라운드 작업은 창을 새로 띄우지 않고 같은 Chrome 엔진으로 렌더링한다.
     defaultViewport: null,
     protocolTimeout,
     userDataDir: PROFILE,

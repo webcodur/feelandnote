@@ -11,15 +11,29 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import sharp from 'sharp';
+import { createClient } from '@feelandnote/db';
 import { getBrowser } from './lib/browser.mjs';
 import { createExistingEditor } from './lib/existing-editor.mjs';
 import { assertPublishOptions } from './lib/publish-options.mjs';
 import { readSnapshot, closePublishPanel, canonicalImageSource } from './repair-institution-images.mjs';
+import { planPersonPhotos, assertPersonPhotoFlow, publishedImageSources, assetsForPost, assertPublicRepresentative, publishedImageNodes } from './lib/person-photo-plan.mjs';
 
 const args = process.argv.slice(2);
 const opt = (k) => args.find((a) => a.startsWith(`--${k}=`))?.split('=').slice(1).join('=');
 const ROOT = opt('root') ?? 'D:/blog-assets/naver-blog/portrait-images';
 const apply = args.includes('--apply');
+const liveMatch = args.includes('--live-match');
+const serviceDb = liveMatch ? createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY) : null;
+async function assertCurrentPortraits(changes) {
+  if (!serviceDb || !changes.length) return;
+  const { data, error } = await serviceDb.from('celebs').select('slug,portrait_url,avatar_url,publication_status').in('slug', [...new Set(changes.map(c => c.slug))]);
+  if (error) throw new Error(error.message);
+  for (const c of changes) {
+    const current = data.find(p => p.slug === c.slug);
+    const field = c.asset.sourceField ?? 'portrait_url';
+    if (current?.publication_status !== 'active' || current?.[field] !== (c.asset.sourceUrl ?? c.asset.portrait_url)) throw new Error(`서비스 사진이 준비 후 변경됨: ${c.slug} ${field}`);
+  }
+}
 // --dedupe: 같은 인물 사진이 반복되는 자리는 첫 자리만 새 이미지로 두고 나머지를 삭제한다.
 // 대상 자리는 인덱스가 아니라 현재 src의 portrait-/local- 파일명 마커로 찾는다 — 이미 손으로 고친 글은 마커가 안 맞아 건너뛴다.
 const dedupe = args.includes('--dedupe');
@@ -30,6 +44,7 @@ const hash = b => crypto.createHash('sha256').update(b).digest('hex');
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
 const targetsFile = opt('targets') ?? path.join(ROOT, 'targets.json');
+const stopFile = liveMatch ? path.join(path.dirname(targetsFile), 'stop') : null;
 const assetsFile = opt('assets') ?? path.join(ROOT, 'assets.json');
 const workDir = path.join(ROOT, `run-${Date.now()}`);
 fs.mkdirSync(workDir, { recursive: true });
@@ -47,6 +62,7 @@ const targets = JSON.parse(fs.readFileSync(targetsFile, 'utf8'));
 const { assets, auditMap } = JSON.parse(fs.readFileSync(assetsFile, 'utf8'));
 const assetBySlug = new Map(assets.map(a => [a.slug, a]));
 const queue = targets
+  .filter(t => !liveMatch || ['celeb', 'curated'].includes(t.kind))
   .filter(t => !onlyLogs || onlyLogs.includes(String(t.logNo)))
   .filter(t => apply && !retry ? !doneLogs.has(String(t.logNo)) : true)
   .slice(0, limit);
@@ -133,23 +149,18 @@ async function selectImage(page, image) {
 
 // 공개 본문을 읽어 이미지 순서·단락·제목·og:image를 만든다. 가상화로 편집기 DOM이 불안정한 글의 검증 기준이다.
 async function publicPost(logNo) {
-  const res = await fetch(`https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=${logNo}`, { headers: { 'user-agent': 'Mozilla/5.0' } });
+  const res = await fetch(`https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=${logNo}`, { headers: { 'user-agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(30000) });
+  if (!res.ok) throw new Error(`공개 글 조회 실패: ${logNo} HTTP ${res.status}`);
   const html = await res.text();
   const i = html.indexOf('se-main-container');
   const body = html.slice(i >= 0 ? i : 0);
-  const canon = u => u.replace(/\?type=\w+.*$/, '').replace(/\?.*$/, '');
-  const images = [];
-  for (const m of body.matchAll(/src="(https:\/\/[^"]*(?:pstatic|blogfiles)[^"]*\.(?:jpg|jpeg|png|webp)[^"]*)"/gi)) {
-    if (/skins|nblog|profile|ssl\.pstatic|type=s\d/.test(m[1])) continue;
-    const c = canon(m[1]);
-    if (images[images.length - 1] !== c) images.push(c);
-  }
+  const images = publishedImageSources(body);
   const texts = [...body.matchAll(/<p[^>]*class="[^"]*se-text-paragraph[^"]*"[^>]*>([\s\S]*?)<\/p>/g)]
     .map(m => m[1].replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/​/g, '').trim()).filter(Boolean);
   return {
     title: html.match(/property="og:title"\s+content="([^"]+)"/)?.[1] ?? '',
     og: html.match(/property="og:image"\s+content="([^"]+)"/)?.[1] ?? '',
-    images, texts,
+    images, texts, imageNodes: publishedImageNodes(body),
   };
 }
 
@@ -337,10 +348,12 @@ function verifyChange(before, after, changes, { preserveRep = true } = {}) {
   }
 }
 
-const { browser, launched } = await getBrowser({ protocolTimeout: 300000 });
+const { browser, launched } = await getBrowser({ protocolTimeout: 300000, background: true });
 const page = await browser.newPage();
 await page.setViewport({ width: 1440, height: 1000 });
-await page.bringToFront();
+const focusSession = await page.createCDPSession();
+await focusSession.send('Emulation.setFocusEmulationEnabled', { enabled: true });
+await focusSession.detach();
 const log = row => { fs.appendFileSync(resultsFile, JSON.stringify(row) + '\n'); console.log(JSON.stringify(row)); };
 let step = '', current = null, saved = false;
 page.on('dialog', d => { if (d.type() === 'beforeunload') d.accept().catch(() => {}); else { log({ dialog: d.type(), message: d.message() }); d.dismiss().catch(() => {}); } });
@@ -348,6 +361,7 @@ const editor = createExistingEditor(page, { onStep: s => { step = s; } });
 
 try {
   for (const target of queue) {
+    if (stopFile && fs.existsSync(stopFile)) { log({ stopRequested: true }); break; }
     current = target.logNo; saved = false; step = 'open';
     const post = { logNo: target.logNo, title: target.title, scheduledAt: target.scheduledAt, allowPrivate: target.allowPrivate };
     const initial = await editor.openTarget(post);
@@ -357,11 +371,17 @@ try {
     await closePublishPanel(page, editor);
     step = 'snapshot';
 
-    if (target.publicVerified && !dedupe) {
+    if (target.publicVerified && !dedupe && (!liveMatch || (!initial.reservation && !target.allowPrivate))) {
       // 가상화·깨진 원본 때문에 편집기 DOM 스냅샷이 불안정한 글: 공개 본문 HTML을 전후 대조 기준으로 쓴다.
       const pubBefore = await publicPost(current);
+      const publicImages = pubBefore.images.map(src => ({ src }));
+      if (liveMatch) {
+        const plan = planPersonPhotos(publicImages, assetsForPost(assets, target), auditMap, target.changes, target);
+        if (plan.unmatched.length || (!plan.changes.length && target.kind === 'celeb')) throw new Error(`공개 본문의 인물 식별 확인 필요: ${JSON.stringify(plan.unmatched)}`);
+        target.changes = plan.changes;
+      }
       if (target.expectedImageCount && pubBefore.images.length !== target.expectedImageCount) throw new Error(`공개 본문 사진 수 ${pubBefore.images.length} ≠ ${target.expectedImageCount}`);
-      fs.writeFileSync(path.join(workDir, `before-${current}.json`), JSON.stringify({ ...initial, public: pubBefore }, null, 2));
+      fs.writeFileSync(path.join(workDir, `before-${current}.json`), JSON.stringify({ ...initial, public: pubBefore, snapshot: { images: publicImages } }, null, 2));
       // 인물 사진 자리는 공개 본문의 파일명으로 확인한다.
       for (const c of target.changes) {
         const pubName = basename(pubBefore.images[c.index] ?? '');
@@ -374,7 +394,7 @@ try {
       if (!pending.length) { log({ logNo: current, result: 'already-replaced', photos: target.changes.length }); continue; }
       // 편집기 컴포넌트를 순서대로 마운트해 공개 본문 순서와 맞춘다.
       const compHandles = await page.$$('.se-component.se-image, .se-component.se-imageStrip');
-      const positions = [];
+      let positions = [];
       for (const h of compHandles) {
         const meta = await h.evaluate(async e => {
           e.scrollIntoView({ block: 'center', behavior: 'instant' });
@@ -384,18 +404,42 @@ try {
         for (let j = 0; j < meta.n; j++) positions.push({ id: meta.strip ? `${meta.id}::${j}` : meta.id });
         await h.dispose();
       }
+      if (liveMatch) {
+        if (pubBefore.imageNodes.length !== pubBefore.images.length) throw new Error('공개 사진 컴포넌트와 원본 수가 다르다');
+        positions = pubBefore.imageNodes;
+        for (const position of positions) {
+          const handle = await page.$(`.se-component[id="${position.id.split('::')[0]}"]`);
+          if (!handle) throw new Error(`공개 사진 컴포넌트가 편집기에 없다: ${position.id}`);
+          await handle.dispose();
+        }
+      }
       if (positions.length !== pubBefore.images.length) throw new Error(`편집기 사진 자리 ${positions.length} ≠ 공개 본문 ${pubBefore.images.length}`);
       const pseudo = { images: positions.map(p => ({ id: p.id, src: '' })) };
       step = 'replace';
+      await assertCurrentPortraits(pending);
       for (const c of pending) {
         pseudo.images[c.index].src = pubBefore.images[c.index];
+        if (liveMatch && target.kind !== 'curated' && !pseudo.images[c.index].id.includes('::')) {
+          await selectImage(page, pseudo.images[c.index]);
+          const el = await imageElement(page, pseudo.images[c.index]);
+          c.width = await el.evaluate(e => Number(e.getAttribute('width')) || Math.round(e.getBoundingClientRect().width));
+          await el.dispose();
+          if (!(c.width > 0)) throw new Error('현재 인물 사진의 표시 폭을 확인하지 못했다');
+        }
         await replaceOne(page, pseudo, c);
+        if (liveMatch && !pseudo.images[c.index].id.includes('::')) {
+          const el = await imageElement(page, pseudo.images[c.index]);
+          const width = await el.evaluate(e => Number(e.getAttribute('width')) || Math.round(e.getBoundingClientRect().width));
+          await el.dispose();
+          if (Math.abs(width - c.width) > 1) throw new Error(`교체 사진 폭이 다르다: ${width}/${c.width}`);
+        }
       }
       step = 'publish-options';
       await editor.click('button[class*=publish_btn]');
       if (!equal(initial.state, await editor.settings())) throw new Error('발행 설정이 바뀌었다');
       if (!apply) { log({ logNo: current, result: 'dry-unsaved', photos: pending.length }); continue; }
       step = 'save';
+      await assertCurrentPortraits(pending);
       await editor.click('button[class*=confirm_btn]');
       await page.waitForFunction(id => location.href.includes(`logNo=${id}`) && location.href.includes('isAfterUpdateOnly'), { timeout: 30000 }, String(current));
       saved = true;
@@ -408,8 +452,8 @@ try {
         if (changedIdx.has(i)) { if (!pubAfter.images[i].includes(pending.find(c => c.index === i).marker)) throw new Error(`공개 사진 ${i} 가 새 원본으로 바뀌지 않았다`); }
         else if (pubAfter.images[i] !== pubBefore.images[i]) throw new Error(`대상이 아닌 공개 사진 ${i} 가 바뀌었다`);
       }
-      const repIdx = pubBefore.images.indexOf(pubBefore.og.replace(/\?type=\w+.*$/, '').replace(/\?.*$/, ''));
-      const ogChanged = repIdx >= 0 && changedIdx.has(repIdx) ? pubAfter.og.includes(pending.find(c => c.index === repIdx).marker) : pubAfter.og === pubBefore.og;
+      assertPublicRepresentative(pubBefore, pubAfter);
+      const ogChanged = true;
       const verified = await editor.openTarget(post);
       if (!equal(initial.state, verified.state) || !equal(initial.reservation, verified.reservation)) throw new Error('저장 후 발행 설정 또는 예약이 달라졌다');
       await closePublishPanel(page, editor);
@@ -420,9 +464,16 @@ try {
     }
 
     // 네이버에서 원본이 삭제된 사진은 플레이스홀더로 남는다. 자리·src가 전후 동일하면 보존으로 본다.
+    if (liveMatch) await scanMountedImages(page);
     const before = await readSnapshot(page, { tolerateBroken: true });
+    if (liveMatch && !initial.reservation && !target.allowPrivate) {
+      const published = await publicPost(current);
+      if (published.images.length !== before.images.length || published.images.some((src, i) => basename(src) !== basename(before.images[i].src))) {
+        throw new Error(`공개 글과 편집기의 사진 목록이 다르다: ${published.images.length}/${before.images.length}`);
+      }
+    }
     if (before.title !== target.title.trim()) throw new Error(`제목이 다르다: ${before.title}`);
-    if (target.expectedImageCount && before.images.length !== target.expectedImageCount) {
+    if (!liveMatch && target.expectedImageCount && before.images.length !== target.expectedImageCount) {
       // dedupe: 예약글은 공개 본문이 없으니 손으로 고친 것으로 보고 건너뛴다. 발행글은 DOM 가상화 누락일 수 있어 아래에서 공개 본문으로 다시 판정한다.
       if (dedupe && target.scheduledAt) { log({ logNo: current, result: 'state-mismatch', images: before.images.length, expected: target.expectedImageCount }); continue; }
       if (!dedupe) throw new Error(`사진 수 ${before.images.length} ≠ ${target.expectedImageCount}`);
@@ -542,16 +593,20 @@ try {
     }
 
     // 이미 처리된 글은 사진 원본으로 판별해 건너뛴다.
-    const changes = target.audit ? auditChanges(before).changes : target.changes.map(c => ({ ...c, logNo: target.logNo }));
+    const livePlan = liveMatch ? planPersonPhotos(before.images, assetsForPost(assets, target), auditMap, target.changes, target) : null;
+    if (livePlan?.unmatched.length) throw new Error(`인물 식별 확인 필요: ${JSON.stringify(livePlan.unmatched)}`);
+    const changes = livePlan ? livePlan.changes : target.audit ? auditChanges(before).changes : target.changes.map(c => ({ ...c, logNo: target.logNo }));
+    if (liveMatch && !changes.length && (target.kind === 'celeb' || target.changes.length)) throw new Error('기존 인물 사진을 식별하지 못했다. 위치로 추측하지 않는다');
     for (const c of changes) c.logNo ??= target.logNo;
     const auditUnmatched = target.audit ? auditChanges(before).unmatched : [];
-    const pending = changes.filter(c => !before.images[c.index]?.src.includes(c.marker));
+    const pending = changes.filter(c => !before.images[c.index]?.src.includes(c.marker)
+      || (liveMatch && target.kind === 'curated' && Number(before.images[c.index]?.width) !== c.width));
     if (!pending.length) {
       if (!changes.length) log({ logNo: current, result: 'no-person-photo', unmatched: auditUnmatched });
       else { verifyChange(before, before, changes); log({ logNo: current, result: 'already-replaced', photos: changes.length }); }
       continue;
     }
-    for (const c of pending) {
+    for (const c of liveMatch ? [] : pending) {
       const image = before.images[c.index];
       const name = basename(image.src);
       // 과거 업로드 파일명은 reframe-/retry-/avatar- 등 접두사가 붙을 수 있어 slug·닉네임 포함 여부로 본다.
@@ -566,10 +621,12 @@ try {
       if (!knownOld) throw new Error(`사진 ${c.index} 의 기존 파일이 인물 사진으로 확인되지 않는다: ${name}`);
     }
     step = 'replace';
+    await assertCurrentPortraits(pending);
     for (const c of pending) await replaceOne(page, before, c);
     step = 'verify-ready';
     const ready = await readSnapshot(page, { tolerateBroken: true });
     verifyChange(before, ready, pending);
+    if (liveMatch) assertPersonPhotoFlow(before, ready, pending);
     fs.writeFileSync(path.join(workDir, `ready-${current}.json`), JSON.stringify({ snapshot: ready, state: initial.state, reservation: initial.reservation }, null, 2));
     step = 'publish-options';
     await editor.click('button[class*=publish_btn]');
@@ -583,6 +640,7 @@ try {
       continue;
     }
     step = 'save';
+    await assertCurrentPortraits(pending);
     await editor.click('button[class*=confirm_btn]');
     await page.waitForFunction(id => location.href.includes(`logNo=${id}`) && location.href.includes('isAfterUpdateOnly'), { timeout: 30000 }, String(current));
     saved = true;
@@ -592,6 +650,7 @@ try {
     await closePublishPanel(page, editor);
     const after = await readSnapshot(page, { tolerateBroken: true });
     verifyChange(before, after, pending);
+    if (liveMatch) assertPersonPhotoFlow(before, after, pending);
     const readySrc = ready.images.map(i => canonicalImageSource(i.src));
     const afterSrc = after.images.map(i => canonicalImageSource(i.src));
     if (!readySrc.every((s, i) => srcEquivalent(s, afterSrc[i]))) throw new Error('저장 전후 사진 원본이 달라졌다');

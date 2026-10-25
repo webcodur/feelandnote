@@ -4,6 +4,7 @@ import test from 'node:test';
 import vm from 'node:vm';
 import { assertPublishOptions } from './publish-options.mjs';
 import { createExistingEditor } from './existing-editor.mjs';
+import { buildReservationSlots } from './reservation-slots.mjs';
 
 function optionDocument(options = {}) {
   const scrapMode = options.missingScrapMode ? null : {
@@ -54,6 +55,14 @@ test('활성인 검색허용·전체공개·링크 공유·외부 공유만 통�
   assert.equal(result.scrapChecked, true);
   assert.equal(result.scrapMode, '링크허용');
   assert.equal(result.outsideChecked, true);
+});
+test('기존 글 재편은 원래 꺼져 있던 외부 공유를 보존하고 변경·비활성·불명확한 기준은 거부한다', async () => {
+  const preserve = { inputs: ['search','scrap','outside'].map(name => ({id:'publish-option-'+name,checked:name!=='outside',disabled:false})), shareMode:'링크허용' };
+  const page = options => ({evaluate:fn=>readOptions(fn,options)});
+  await assertPublishOptions(page({outside:{checked:false}}),{preserve});
+  await assert.rejects(assertPublishOptions(page({}),{preserve}),/원래 외부 공유/);
+  await assert.rejects(assertPublishOptions(page({outside:{checked:false,disabled:true}}),{preserve}),/비활성/);
+  await assert.rejects(assertPublishOptions(page({outside:{checked:false}}),{preserve:{...preserve,inputs:[]}}),/원래 설정 확인 불가/);
 });
 
 const invalidSharing = [
@@ -123,7 +132,7 @@ async function runBranch(kind, options, { dry = false, frameCase, frameArgs } = 
       }
       return kind === 'frame' ? 2 : { x: 0, y: 0 };
     },
-    $: async (selector) => ({
+    $: async (selector) => selector.includes('reserve_btn') ? null : ({
       click: async () => events.push(['panel', selector]),
       boundingBox: async () => ({ x: 100, y: 100, width: 2, height: 2 }),
     }),
@@ -137,6 +146,7 @@ async function runBranch(kind, options, { dry = false, frameCase, frameArgs } = 
   const frameState = { inputs: [], date: '2026. 10. 01', hour: '09', minute: '00' };
   const reservation = { row: 'reserved post\n2026.10.01 09:00', count: 2 };
   const createExistingEditor = () => ({
+    blankEditor: noOp,
     openTarget: async (target) => {
       events.push(['navigate', target.logNo]);
       opened++;
@@ -161,11 +171,14 @@ async function runBranch(kind, options, { dry = false, frameCase, frameArgs } = 
     cdp: { send: noOp }, browser: { disconnect: noOp }, launched: false,
     process: processStub, console: { log: (...parts) => events.push(['log', parts.join(' ')]) },
     ensureVisible: noOp, applyPhotoFrame: async () => { events.push(['frame']); return true; }, isDivider: () => false,
-    isQuote: () => false, isImg: () => false, IMG_RE: /^\[img:(.*)\]$/,
+    isQuote: () => false, isImg: () => false, isAvatar: () => false,
+    IMG_RE: /^\[img:(.*)\]$/, AVATAR_RE: /^\[avatar:(.*)\]$/,
     strip: (text) => text, typeLine: noOp, typeTitle: noOp, dismissResume: noOp,
     bodyParas: async () => kind === 'rewrite' && bodyReads++ < 2 ? [] : ['본문'],
+    allParas: async () => ['본문'], enableSharing: noOp,
     limit: 2, onlyTarget: null, scheduling: kind === 'new', atTime: '09:00',
-    slots: () => [new Date(), new Date()], preflight: async () => [],
+    buildReservationSlots: options => buildReservationSlots({ ...options, now: Date.parse('2026-09-30T00:00:00+09:00') }),
+    startDay: '2026-10-01', dows: [1, 2, 3, 4, 5, 6, 7], preflight: async () => [],
     selectCategory: async () => true, addTags: async () => 3,
     setSchedule: async () => { events.push(['schedule']); return '2026. 10. 01 09:00'; },
     saveAll: () => events.push(['save', structuredClone(drafts)]),

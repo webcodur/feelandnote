@@ -1,0 +1,10 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {assertParagraphPresentation} from './unified-typography.mjs';
+const article={operations:[{kind:'text',text:'감상 원문입니다.',role:'body',align:'left',color:'#1f6b43',gapBefore:true}]};
+const row=()=>({text:'감상 원문입니다.',align:'left',sizes:[16],weights:[400],colors:['rgb(31, 107, 67)'],separated:true});
+test('감상 값의 색·개행·정렬·강조가 달라지면 발행 검사를 통과시키지 않는다',()=>{assert.doesNotThrow(()=>assertParagraphPresentation(article,[row()]));for(const change of [{colors:['rgb(0, 0, 0)']},{separated:false},{align:'center'},{weights:[700]},{sizes:[19]}])assert.throws(()=>assertParagraphPresentation(article,[{...row(),...change}]),/differs/);});
+test('모바일의 실제 글자 보정값은 별도 확인하고 본문의 원문까지 대조한다',()=>{assert.doesNotThrow(()=>assertParagraphPresentation(article,[{...row(),sizes:[17]}],{font:{body:17}}));assert.throws(()=>assertParagraphPresentation(article,[{...row(),text:'다른 감상입니다.'}]),/differs/);});
+
+test('YES24 배경색이 입력 또는 저장 과정에서 빠지면 차단한다',()=>{const a={operations:[{kind:'link',text:'YES24에서 보기',role:'body',align:'center',background:'#e8f0f8',bold:true}]},p={...row(),text:'YES24에서 보기',align:'center',weights:[700],backgrounds:['rgb(232, 240, 248)']};assert.doesNotThrow(()=>assertParagraphPresentation(a,[p]));assert.throws(()=>assertParagraphPresentation(a,[{...p,backgrounds:['transparent']}]),/differs/);});
+
+test('사진 설명 링크는 모바일 본문 보정과 달리 13px이며 감상 제목 아래 빈 줄은 거부한다',()=>{const a={operations:[{kind:'link',text:'YES24에서 보기',role:'label',align:'center',bold:true,placement:'cover-caption',gapBefore:false}]},p={...row(),text:'YES24에서 보기',align:'center',weights:[700]};assert.doesNotThrow(()=>assertParagraphPresentation(a,[{...p,sizes:[13]}],{font:{label:15},captionFont:13}));const attached={operations:[{...article.operations[0],gapBefore:false,attachPrevious:true}]};assert.doesNotThrow(()=>assertParagraphPresentation(attached,[{...row(),separated:false}]));assert.throws(()=>assertParagraphPresentation(attached,[row()]),/differs/);});

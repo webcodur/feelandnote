@@ -10,6 +10,8 @@ import sharp from 'sharp';
 import { ASSETS } from '../blog-assets.mjs';
 import { createExistingEditor } from './lib/existing-editor.mjs';
 import { assertPublishOptions } from './lib/publish-options.mjs';
+import { EDITORIAL_PORTRAIT_WIDTH } from './lib/editorial-editor.mjs';
+import { applyEditorialLayout, assertEditorialLayout } from './lib/editorial-layout.mjs';
 import { typeTitle, typeLine, insertImage, insertDivider, insertQuote, applyPhotoFrame, IMG_RE, strip, isDivider } from './publish-drafts.mjs';
 import { readSnapshot as readImageSnapshot, insertLogo, setRepresentative, captureLogo, closePublishPanel, canonicalImageSource, assertLogoGeometry, uploadFile } from './repair-institution-images.mjs';
 
@@ -33,6 +35,7 @@ export function parseRevisionOptions(args) {
     if (arg === '--apply') options.apply = true;
     else if (arg === '--dry') options.apply = false;
     else if (arg === '--prepare-only') options.prepareOnly = true;
+    else if (arg === '--review') options.review = true;
     else if (arg === '--table-only') options.tableOnly = true;
     else if (arg === '--title-only') options.titleOnly = true;
     else if (arg === '--fill-table-authors') options.fillTableAuthors = true;
@@ -83,7 +86,7 @@ export function parseRevisionBody(revision) {
       if (!parts.at(-1).endsWith('[/q]')) throw new Error('닫히지 않은 감상 인용구');
       parts[parts.length - 1] = parts.at(-1).slice(0, -4);
       const value = parts.join('\n');
-      if (!value.trim() || /\[\/?q\]|\[(?:img|avatar):/.test(value)) throw new Error('빈 인용구 또는 중첩된 서식 표시');
+      if (!value.trim() || /\[\/?q\]|\[(?:img|avatar|photo):/.test(value)) throw new Error('빈 인용구 또는 중첩된 서식 표시');
       const paragraphs = value.split('\n').map(clean).filter(Boolean);
       const quote = { text: value, paragraphs, line: start };
       quotes.push(quote); text.push(...paragraphs); flow.push({ kind: 'quote', paragraphs });
@@ -92,14 +95,16 @@ export function parseRevisionBody(revision) {
     }
     if (isDivider(line)) { flow.push({ kind: 'divider' }); operations.push({ kind: 'divider', lineIndex: index }); continue; }
     const avatar = line.match(/^\[avatar:(https?:\/\/.+?)\|(\d+)\|([^\]]+)\]$/);
-    const image = avatar ?? line.match(IMG_RE);
+    const photo = line.match(/^\[photo:(https?:\/\/.+?)\|(\d+)\|([^\]]+)\]$/);
+    const image = avatar ?? photo ?? line.match(IMG_RE);
     if (image) {
       const width = Number(image[2]), name = image[3]?.trim();
-      if (!/^https?:\/\//.test(image[1]) || !Number.isInteger(width) || (avatar ? width !== AVATAR_WIDTH : width < 80 || width > 400) || !name) throw new Error(`이미지 표시 오류: ${line}`);
-      const entry = { url: image[1], width, name, line: index, role: avatar ? 'avatar' : /로고|logo/i.test(name) ? 'logo' : 'cover' };
+      const personWidth = celeb && revision.editorial === true ? EDITORIAL_PORTRAIT_WIDTH : AVATAR_WIDTH;
+      if (!/^https?:\/\//.test(image[1]) || !Number.isInteger(width) || (avatar ? width !== personWidth : width < 80 || width > (photo ? 800 : 400)) || !name || (photo && (!celeb || revision.editorial !== true))) throw new Error(`이미지 표시 오류: ${line}`);
+      const entry = { url: image[1], width, name, line: index, role: avatar ? 'avatar' : photo ? 'photo' : /로고|logo/i.test(name) ? 'logo' : 'cover' };
       images.push(entry); flow.push({ kind: 'image', index: images.length - 1 }); operations.push({ kind: 'image', image: entry, lineIndex: index }); continue;
     }
-    if (/\[(?:img|avatar):/.test(line) || /\[\/?(?:q|table)\]/.test(line)) throw new Error('깨진 이미지·인용구·표 표시');
+    if (/\[(?:img|avatar|photo):/.test(line) || /\[\/?(?:q|table)\]/.test(line)) throw new Error('깨진 이미지·인용구·표 표시');
     if ((line.match(/\*\*/g) ?? []).length % 2 || line.includes('[c]') !== line.includes('[/c]')) throw new Error('원고 서식 표시가 맞지 않는다');
     const value = strip(line); text.push(value); flow.push({ kind: 'text', text: value });
     operations.push({ kind: 'text', line: lines[index], lineIndex: index });
@@ -111,14 +116,28 @@ export function parseRevisionBody(revision) {
   if (new Set([...covers, ...logos].map(image => image.url)).size !== covers.length + logos.length) throw new Error('같은 표지 또는 로고가 원고에 중복되어 있다');
   if (celeb) {
     const reviews = revision.dbReviews, avatar = avatars[0];
-    if (logos.length || tables.length || revision.fullList || !Array.isArray(reviews) || reviews.length !== covers.length || quotes.length !== reviews.length || avatars.length !== 1) throw new Error('인물편은 상단 사진 한 장과 책마다 DB 감상 한 구획을 둔다');
+    const missing = revision.bookMatches?.filter(book => book.cover_status === 'confirmed_unavailable') ?? [];
+    let bookSections = null;
+    if (missing.length) {
+      if (revision.editorial !== true || !Array.isArray(reviews) || revision.bookMatches.length !== reviews.length || missing.some(book => book.cover !== null || !/^https:\/\//.test(book.cover_source ?? ''))) throw new Error('표지 없는 책은 확인한 원본 출처와 명시적 부재 근거가 필요하다');
+      bookSections = revision.bookMatches.map((book, i) => {
+        const matches = flow.map((item, at) => item.kind === 'text' && item.text.startsWith(`${String(i + 1).padStart(2, '0')} · 『`) ? at : -1).filter(at => at >= 0);
+        if (book.content_id !== reviews[i].content_id || matches.length !== 1) throw new Error('표지 없는 책의 작품·번호·감상 순서가 다르다');
+        return { book, at: matches[0] };
+      });
+      if (bookSections.some((section, i) => i && section.at <= bookSections[i - 1].at) || !same(revision.bookMatches.filter(book => book.cover_status !== 'confirmed_unavailable').map(book => book.cover), covers.map(cover => cover.url))) throw new Error('표지와 책 구획의 순서가 다르다');
+    }
+    if (logos.length || tables.length || revision.fullList || !Array.isArray(reviews) || reviews.length !== covers.length + missing.length || quotes.length !== reviews.length || avatars.length !== 1) throw new Error('인물편은 상단 사진 한 장과 책마다 DB 감상 한 구획을 둔다');
     if (images[0] !== avatar || flow[0]?.kind !== 'text' || flow[1]?.kind !== 'image' || flow[2]?.kind !== 'text') throw new Error('인물 사진과 이름은 첫 링크 바로 다음에 있어야 한다');
     for (let i = 0; i < reviews.length; i++) {
       const review = reviews[i];
-      if (!review.person || !review.person_label || !review.celeb_id || review.celeb_id !== reviews[0].celeb_id || avatar.name !== review.person || avatar.url !== review.avatar_url || flow[2].text !== review.person_label || quotes[i].text !== review.review) throw new Error(`인물 표시와 DB 감상 원문이 맞지 않는다: ${review.review_id}`);
-      const coverAt = flow.findIndex(item => item.kind === 'image' && images[item.index] === covers[i]);
+      const photo = revision.editorial === true ? revision.celeb?.portrait_url : review.avatar_url;
+      if (!review.person || !review.person_label || !review.celeb_id || review.celeb_id !== reviews[0].celeb_id || avatar.name !== review.person || avatar.url !== photo || flow[2].text !== review.person_label || quotes[i].text !== reviewQuoteText(revision, review)) throw new Error(`인물 표시와 DB 감상 원문이 맞지 않는다: ${review.review_id}`);
+      const cover = bookSections ? covers.find(image => image.url === bookSections[i].book.cover) : covers[i];
+      const coverAt = cover ? flow.findIndex(item => item.kind === 'image' && images[item.index] === cover) : bookSections[i].at;
       const quoteAt = flow.findIndex(item => item.kind === 'quote' && item.paragraphs === quotes[i].paragraphs);
-      const nextCoverAt = i + 1 < covers.length ? flow.findIndex(item => item.kind === 'image' && images[item.index] === covers[i + 1]) : flow.length;
+      const nextCoverAt = bookSections ? (bookSections[i + 1]?.at ?? flow.length) : i + 1 < covers.length ? flow.findIndex(item => item.kind === 'image' && images[item.index] === covers[i + 1]) : flow.length;
+      if (bookSections && (coverAt < bookSections[i].at || flow.slice(bookSections[i].at, nextCoverAt).filter(item => item.kind === 'image' && images[item.index].role === 'cover').length !== (cover ? 1 : 0))) throw new Error('확인된 표지 부재 구획에 다른 책 표지가 들어갔다');
       if (quoteAt <= coverAt || quoteAt >= nextCoverAt) throw new Error('인물 감상은 대응하는 책 표지 다음에 있어야 한다');
       if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(review.content_id ?? '')) {
         const url = `https://feelandnote.com/content/${review.content_id}?category=book`;
@@ -133,7 +152,7 @@ export function parseRevisionBody(revision) {
     if (!Array.isArray(reviews) || avatars.length !== reviews.length || quotes.length !== reviews.length) throw new Error('감상마다 인물 사진·이름·인용구가 한 벌이어야 한다');
     for (let i = 0; i < reviews.length; i++) {
       const review = reviews[i], avatar = avatars[i], quote = quotes[i], at = flow.findIndex(item => item.kind === 'image' && images[item.index] === avatar);
-      if (!review.person || !review.person_label || avatar.name !== review.person || avatar.url !== review.avatar_url || flow[at + 1]?.kind !== 'text' || flow[at + 1].text !== review.person_label || flow[at + 2]?.kind !== 'quote' || !same(flow[at + 2].paragraphs, quote.paragraphs) || quote.text !== review.review) throw new Error(`인물 표시와 DB 감상 원문이 맞지 않는다: ${review.review_id}`);
+      if (!review.person || !review.person_label || avatar.name !== review.person || avatar.url !== review.avatar_url || flow[at + 1]?.kind !== 'text' || flow[at + 1].text !== review.person_label || flow[at + 2]?.kind !== 'quote' || !same(flow[at + 2].paragraphs, quote.paragraphs) || quote.text !== reviewQuoteText(revision, review)) throw new Error(`인물 표시와 DB 감상 원문이 맞지 않는다: ${review.review_id}`);
     }
   }
   if (logos.length) {
@@ -142,6 +161,15 @@ export function parseRevisionBody(revision) {
     if (images[0] !== logos[0] || flow[0]?.kind !== 'text' || flow[1]?.kind !== 'image') throw new Error('기관 로고는 첫 목록 링크 바로 다음에 있어야 한다');
   } else if (revision.logoAsset) throw new Error('원고에 없는 로고 자산을 삽입하지 않는다');
   const site = `https://feelandnote.com${revision.target}`;
+  const photos = images.filter(image => image.role === 'photo');
+  if (photos.length || revision.preservedPhotos) {
+    if (!celeb || revision.editorial !== true || !Array.isArray(revision.preservedPhotos) || !same(photos.map(({url,width,name})=>({url,width,name})), revision.preservedPhotos) || !photos.length || new Set(photos.map(p=>p.url)).size !== photos.length || typeof revision.bonusHeading !== 'string' || !revision.bonusHeading.trim()) throw new Error('보너스 사진은 검수한 기존 사진 목록과 정확히 일치해야 한다');
+    const headingAt = flow.findIndex(item=>item.kind==='text'&&item.text===revision.bonusHeading);
+    const lastQuoteAt = flow.findLastIndex(item=>item.kind==='quote');
+    if (headingAt <= lastQuoteAt || photos.some(photo=>flow.findIndex(item=>item.kind==='image'&&images[item.index]===photo)<=headingAt)) throw new Error('보너스 사진은 책 소개 뒤 별도 제목 아래에 둔다');
+  }
+  const preservedLinks = revision.preservedLinks ?? [];
+  if (!Array.isArray(preservedLinks) || new Set(preservedLinks).size !== preservedLinks.length || preservedLinks.some(url=>typeof url!=='string'||!/^https?:\/\//.test(url)||urlKey(url)!==url||new URL(url).hostname.endsWith('feelandnote.com')) || (preservedLinks.length && (!celeb || !photos.length))) throw new Error('기존 외부 자료 링크 목록이 잘못됐다');
   if (tables.length || revision.fullList) {
     const list = revision.fullList, table = tables[0];
     if (tables.length !== 1 || !list || typeof list.heading !== 'string' || !list.heading.trim() || typeof list.source_file !== 'string' || !list.source_file || !validFullListMatrix(list) || !same(table.rows, [list.columns, ...list.rows])) throw new Error('전체 목록 표와 준비된 목록 메타가 맞지 않는다');
@@ -159,8 +187,21 @@ export function parseRevisionBody(revision) {
     ...(quote.text.match(/https?:\/\/[^\s<>]+/g) ?? []).map(urlKey),
     ...bookLinks.filter(link => link.reviewIndex === i).map(link => link.url),
   ]) : reviewLinks;
-  if (!text[0]?.endsWith(site) || !same(links, [site, ...middleLinks, site]) || closing !== flow.length - 1 || closing <= flow.findLastIndex(item => item.kind === 'image' || item.kind === 'divider')) throw new Error('첫 줄·마무리·DB 원문 링크와 인물편의 해당 감상 뒤 책 상세 링크만 원래 순서대로 둔다');
-  return { lines, images, covers, avatars, quotes, tables, operations, logo: logos[0] ?? null, text, links, flow, bookLinks };
+  if (!text[0]?.endsWith(site) || !same(links, [site, ...middleLinks, ...preservedLinks, site]) || closing !== flow.length - 1 || closing <= flow.findLastIndex(item => item.kind === 'image' || item.kind === 'divider')) throw new Error('첫 줄·마무리·DB 원문 링크와 검수한 보존 링크의 순서가 다르다');
+  return { lines, images, covers, avatars, photos, quotes, tables, operations, logo: logos[0] ?? null, text, links, flow, bookLinks };
+}
+
+function reviewQuoteText(revision, review) {
+  const text = reviewBodyText(revision, review);
+  if (revision.editorial !== true) return text;
+  if (typeof review.note_label !== 'string' || !review.note_label.trim() || /[\r\n\[\]<>]/.test(review.note_label)) throw new Error('독서 경위 라벨이 없거나 잘못됐다');
+  return `${review.note_label}\n${text}`;
+}
+
+function reviewBodyText(revision, review) {
+  if (review.reading_note === undefined) return review.review;
+  if (revision.editorial !== true || typeof review.reading_note !== 'string' || !review.reading_note.trim() || /\[(?:\/?q|img:|avatar:|photo:|\/?table)/.test(review.reading_note) || review.reading_note_review_sha256 !== hash(review.review)) throw new Error('요약 독서 경위와 검수한 DB 감상 원문 해시가 다르다');
+  return review.reading_note;
 }
 
 export function tableBaseTarget(target) {
@@ -217,7 +258,8 @@ export function selectRevisionTargets(rows, posts, drafts, options) {
     const differentSlug = post.kind === 'celeb' && post.slug && `/celeb/${post.slug}` !== revision.target;
     if (post.kind !== (revision.kind ?? 'curated') || postUrl !== `https://feelandnote.com${revision.target}` || differentSlug || (draft && draft.target !== revision.target) || [post.link, post.status, draft?.link, draft?.status].some(value => excluded.has(value))) throw new Error(`검수 원고와 활성 글이 맞지 않는다: ${id}`);
     if (!draft && (!revision.draftSeed || String(revision.draftSeed.logNo) !== id || revision.draftSeed.target !== revision.target || revision.draftSeed.kind !== revision.kind)) throw new Error(`기존 글에 대응하는 초안 메타가 없다: ${id}`);
-    if (options.manifestRows && draft?.revisionSha256 && !options.titleOnly && !options.fillTableAuthors) throw new Error(`이미 개편 저장·재열기를 마친 글이다. 다시 실행하지 않는다: ${id}`);
+    const firstEditorialRevision = revision.editorial === true && draft?.editorial !== true;
+    if (options.manifestRows && draft?.revisionSha256 && !options.titleOnly && !options.fillTableAuthors && !firstEditorialRevision) throw new Error(`이미 개편 저장·재열기를 마친 글이다. 다시 실행하지 않는다: ${id}`);
     const plan = parseRevisionBody(revision);
     const title = options.useRevisionTitle ? revision.title : post.title;
     const digest = hash({ title, body: revision.body, logoAsset: revision.logoAsset ?? null });
@@ -235,7 +277,7 @@ export function checkRevisionSource(revision, { bindContent = false } = {}) {
   if (!revision.source_revision_file || !/^[a-f0-9]{64}$/.test(revision.source_revision_sha256 ?? '') || hash(fs.readFileSync(revision.source_revision_file)) !== revision.source_revision_sha256) throw new Error(`검수 원고가 실행 파일 준비 뒤 변경됐거나 원본 해시가 없다: ${revision.logNo}`);
   if (bindContent) {
     const source = JSON.parse(fs.readFileSync(revision.source_revision_file, 'utf8'));
-    for (const key of ['logNo', 'kind', 'target', 'title', 'body', 'dbReviews', 'logoAsset', 'fullList', 'draftSeed']) {
+    for (const key of ['logNo', 'kind', 'target', 'title', 'body', 'dbReviews', 'celeb', 'editorial', 'logoAsset', 'fullList', 'draftSeed', 'preservedPhotos', 'preservedLinks', 'bonusHeading']) {
       if (!same(source[key] ?? null, revision[key] ?? null)) throw new Error(`실행 원고의 ${key}가 검수 원본과 다르다: ${revision.logNo}`);
     }
   }
@@ -259,13 +301,13 @@ function validFullListMatrix(list) {
     && list.rows.every(row => Array.isArray(row) && row.length === list.columns.length && row.some(Boolean) && row.every(cell => typeof cell === 'string' && cell === cell.trim() && !/[\t\r\n]/.test(cell)));
 }
 
-async function prepareImages(target, dir, cache = new Map()) {
+export async function prepareImages(target, dir, cache = new Map()) {
   const prepared = [];
   const bodyImages = target.plan.images.filter(image => image.role !== 'logo');
   for (let index = 0; index < bodyImages.length; index++) {
     const image = bodyImages[index];
     if (!cache.has(image.url)) {
-      const response = await fetch(image.url, { headers: { 'user-agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(30000) });
+      const response = await fetch(image.url, { cache: 'no-store', headers: { 'user-agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(30000) });
       if (!response.ok) throw new Error(`사진 다운로드 실패 ${response.status}: ${image.name}`);
       const original = Buffer.from(await response.arrayBuffer()), metadata = await sharp(original).metadata();
       if (!['png', 'jpeg', 'webp'].includes(metadata.format) || !metadata.width || !metadata.height || metadata.pages > 1) throw new Error(`사진 형식·크기 오류: ${image.name}`);
@@ -275,7 +317,8 @@ async function prepareImages(target, dir, cache = new Map()) {
     const { original, metadata, bytes } = cache.get(image.url);
     const marker = `revision-${target.post.logNo}-${index + 1}-${hash(bytes).slice(0, 12)}`;
     const name = image.name.replace(/[\\/:*?"<>|]/g, '').slice(0, 50);
-    const file = path.join(dir, `${name}-${marker}.${metadata.format === 'png' ? 'png' : 'jpg'}`);
+    // Naver truncates long upload names; keep the complete identity before the label.
+    const file = path.join(dir, `${marker}-${name}.${metadata.format === 'png' ? 'png' : 'jpg'}`);
     fs.writeFileSync(file, bytes, { flag: 'wx' });
     if (hash(fs.readFileSync(file)) !== hash(bytes)) throw new Error('표지 업로드 복사본 해시가 다르다');
     prepared.push({ ...image, marker, file, sourceSha256: hash(original), uploadSha256: hash(bytes), widthOriginal: metadata.width, heightOriginal: metadata.height });
@@ -355,6 +398,7 @@ export function existingImageProof(target, snapshot) {
   return {
     framedCovers: snapshot.images.filter((_, i) => target.plan.images[i]?.role === 'cover'),
     unframedAvatars: snapshot.images.filter((_, i) => target.plan.images[i]?.role === 'avatar'),
+    unframedPhotos: snapshot.images.filter((_, i) => target.plan.images[i]?.role === 'photo'),
     logoMarker: target.plan.logo ? `institution-${target.revision.target.split('/')[3]}-${target.revision.logoAsset.sha256.slice(0, 12)}` : null,
   };
 }
@@ -378,17 +422,20 @@ export function assertTableAuthorChange(target, before, after) {
   if (!same(comparable(before), comparable(after))) throw new Error('작가 빈칸을 채우면서 기존 제목·본문·사진·링크·구분선이 바뀌었다');
 }
 
-export function assertRevisionSnapshot(target, snapshot, { framedCovers = null, unframedAvatars = null, logoMarker = null } = {}) {
+export function assertRevisionSnapshot(target, snapshot, { framedCovers = null, unframedAvatars = null, unframedPhotos = null, logoMarker = null } = {}) {
   if (snapshot.title !== target.title || !same(snapshot.text, target.plan.text) || !same(snapshot.links.map(link => urlKey(link.href)), target.plan.links) || !same(flattenedFlow(snapshot), target.plan.flow)) throw new Error('수정 원고의 제목·본문·링크·사진·구분선 순서가 맞지 않는다');
   if (snapshot.images.length !== target.plan.images.length || snapshot.images.some(image => image.componentKind !== 'image' || !/^https?:\/\//.test(image.src) || !(image.naturalWidth > 0 && image.naturalHeight > 0) || image.align !== 'se-section-align-center')) throw new Error('수정 원고의 사진 개수·원본 로딩·가운데 정렬이 맞지 않는다');
   if (snapshot.images.filter(image => image.representative).length !== 1 || !snapshot.images[0]?.representative) throw new Error('첫 인물 사진·로고 또는 첫 표지 한 장이 대표사진이어야 한다');
   const covers = snapshot.images.filter((_, i) => target.plan.images[i].role === 'cover');
   if (framedCovers && !same(covers.map(photoIdentity), framedCovers.map(photoIdentity))) throw new Error('5번 액자를 적용한 표지의 원본·크기·순서가 달라졌다');
   const avatars = snapshot.images.filter((_, i) => target.plan.images[i].role === 'avatar');
+  const photos = snapshot.images.filter((_, i) => target.plan.images[i].role === 'photo');
+  if (photos.length && (!unframedPhotos || !same(photos.map(photoIdentity),unframedPhotos.map(photoIdentity)) || photos.some((photo,index)=>Math.abs(photo.displayWidth-target.plan.photos[index].width)>1||Math.abs(photo.displayHeight-photo.displayWidth*photo.naturalHeight/photo.naturalWidth)>1))) throw new Error('보너스 사진 원본·순서·표시 크기·비율이 달라졌다');
   if (avatars.length) {
     if (!unframedAvatars || !same(avatars.map(photoIdentity), unframedAvatars.map(photoIdentity))) throw new Error('인물 사진 원본·크기·순서가 바뀌었거나 액자가 적용됐다');
-    for (const avatar of avatars) {
-      if (!Number.isFinite(avatar.displayWidth) || Math.abs(avatar.displayWidth - AVATAR_WIDTH) > 1 || !(avatar.displayHeight > 0) || Math.abs(avatar.displayHeight - AVATAR_WIDTH * avatar.naturalHeight / avatar.naturalWidth) > 1) throw new Error(`인물 사진의 ${AVATAR_WIDTH}px 표시 크기 또는 비율이 맞지 않는다`);
+    for (const [index, avatar] of avatars.entries()) {
+      const width = target.plan.avatars[index].width;
+      if (!Number.isFinite(avatar.displayWidth) || Math.abs(avatar.displayWidth - width) > 1 || !(avatar.displayHeight > 0) || Math.abs(avatar.displayHeight - width * avatar.naturalHeight / avatar.naturalWidth) > 1) throw new Error(`인물 사진의 ${width}px 표시 크기 또는 비율이 맞지 않는다`);
     }
   }
   if (target.plan.logo) {
@@ -417,7 +464,7 @@ export function assertReservationPreserved(before, after, title) {
   if (!same(expected, after)) throw new Error('예약 목록의 제목 외 날짜·시각·건수가 달라졌다');
 }
 
-async function clearBody(page, title) {
+export async function clearBody(page, title) {
   const first = await page.$('.se-component.se-text:not(.se-documentTitle) .se-text-paragraph');
   if (!first) throw new Error('기존 본문 첫 단락이 없다');
   await first.evaluate(p => p.scrollIntoView({ block: 'center', behavior: 'instant' }));
@@ -432,7 +479,7 @@ async function clearBody(page, title) {
   if (result.title !== title || result.components.length !== 1 || !result.components[0].textOnly || result.components[0].text.length) throw new Error('본문 전체 선택 삭제 뒤 제목 보존·본문 완전 비움을 확인하지 못했다');
 }
 
-async function replaceTitle(page, before, after) {
+export async function replaceTitle(page, before, after) {
   if (before === after) return;
   const original = await readSnapshot(page);
   const field = await page.$('.se-documentTitle .se-text-paragraph');
@@ -492,7 +539,7 @@ export function assertDbReviews(target, snapshot) {
   if (!Array.isArray(target.revision.dbReviews)) throw new Error('현재 DB 감상 원문 대조 자료가 없다');
   for (const row of target.revision.dbReviews) {
     if (!row.review_id || !row.content_id || !row.celeb_id || !row.review?.trim()) throw new Error('DB 감상 원문 또는 관계 ID가 없다');
-    const lines = row.review.replace(/\r\n/g, '\n').split('\n').filter(line => line.trim()).map(line => line.trim());
+    const lines = reviewBodyText(target.revision, row).replace(/\r\n/g, '\n').split('\n').filter(line => line.trim()).map(line => line.trim());
     const matches = snapshot.text.filter((_, index) => same(snapshot.text.slice(index, index + lines.length), lines)).length;
     if (matches !== 1) throw new Error(`DB 감상 원문과 본문이 다르거나 중복이다: ${row.review_id}`);
   }
@@ -538,7 +585,7 @@ export async function centerTitle(page) {
 export function synchronizedRows(target, drafts, posts, now) {
   const local = drafts.filter(d => String(d.logNo) === String(target.post.logNo)), published = posts.filter(p => String(p.logNo) === String(target.post.logNo));
   if (local.length !== (target.draft ? 1 : 0) || published.length !== 1 || !same(local[0] ?? null, target.draft) || !same(published[0], target.post)) throw new Error('작업 도중 대상 원장 행이 바뀌었다. 덮어쓰지 않는다');
-  const draft = { ...(local[0] ?? target.revision.draftSeed), title: target.title, body: target.revision.body, framed: true, rewrittenAt: now, revisionSha256: target.digest };
+  const draft = { ...(local[0] ?? target.revision.draftSeed), title: target.title, body: target.revision.body, ...(target.revision.editorial === true ? {editorial:true}:{}), framed: true, rewrittenAt: now, revisionSha256: target.digest };
   const post = { ...published[0], title: target.title };
   return { drafts: target.draft ? drafts.map(d => d === local[0] ? draft : d) : [...drafts, draft], posts: posts.map(p => p === published[0] ? post : p) };
 }
@@ -564,7 +611,7 @@ export function fullListHtml(list, { includeHeading = true } = {}) {
   return [...html].map(character => character.codePointAt(0) > 127 ? `&#${character.codePointAt(0)};` : character).join('');
 }
 
-function setHtmlClipboard(html, htmlFile, dir) {
+export function setHtmlClipboard(html, htmlFile, dir) {
   const psFile = path.join(dir, 'set-full-list-clipboard.ps1');
   fs.writeFileSync(htmlFile, html, { flag: 'wx' });
   if (!fs.existsSync(psFile)) fs.writeFileSync(psFile, String.raw`param([string]$HtmlFile)
@@ -626,7 +673,7 @@ async function insertExplicitServiceLink(page, target, operation, dir) {
   assertExplicitServiceLinkChange(before, after, text, site);
 }
 
-async function insertFullListTable(page, target, dir, { atEnd = false } = {}) {
+export async function insertFullListTable(page, target, dir, { atEnd = false } = {}) {
   const htmlFile = path.join(dir, `full-list-${target.post.logNo}.html`);
   setHtmlClipboard(fullListHtml(target.revision.fullList, { includeHeading: !atEnd }), htmlFile, dir);
   if (!atEnd) {
@@ -693,7 +740,7 @@ export async function fillTableAuthors(page, target, log = () => {}) {
   }
 }
 
-async function leaveFullListTable(page) {
+export async function leaveFullListTable(page) {
   const tableId = await page.$eval('.se-component.se-table', node => node.id);
   const followingParagraph = () => page.evaluate(id => {
     const table = document.getElementById(id);
@@ -766,15 +813,15 @@ export async function main(args = process.argv.slice(2)) {
   }
   if (options.prepareOnly) { log({ result: 'prepared', browserOpened: false, targets: targets.length, report }); return; }
   const { getBrowser } = await import('./lib/browser.mjs');
-  const { browser, launched } = await getBrowser({ protocolTimeout: 60000 });
+  const { browser, launched } = await getBrowser({ protocolTimeout: 60000, background: true });
   const page = await browser.newPage(); await page.setViewport({ width: 1440, height: 1000 });
+  const focus = await page.createCDPSession(); await focus.send('Emulation.setFocusEmulationEnabled',{enabled:true}); await focus.detach();
   let step = '', current = '', saved = false;
   const editor = createExistingEditor(page, { onStep: value => { step = value; } });
   page.on('dialog', dialog => { if (dialog.type() === 'beforeunload') dialog.accept().catch(() => {}); else { log({ dialog: dialog.message() }); dialog.dismiss().catch(() => {}); } });
   try {
     for (const target of targets) {
       current = target.post.logNo; saved = false; checkRevisionSource(target.revision, sourceOptions);
-      await page.bringToFront();
       const original = await editor.openTarget({ ...target.post, body: undefined });
       await assertPublishOptions(page); await closePublishPanel(page, editor);
       const before = await readSnapshot(page);
@@ -819,7 +866,7 @@ export async function main(args = process.argv.slice(2)) {
             if (operation.image.role === 'logo') continue;
             const image = target.prepared.images[imageIndex++];
             if (image.role === 'cover') coverIndex++;
-            log({ logNo: current, stage: image.role === 'avatar' ? 'insert-person-avatar' : 'insert-book-cover', book: coverIndex, totalBooks: target.prepared.covers.length, name: image.name });
+            log({ logNo: current, stage: image.role === 'avatar' ? 'insert-person-avatar' : image.role === 'photo' ? 'insert-bonus-photo' : 'insert-book-cover', book: coverIndex, totalBooks: target.prepared.covers.length, name: image.name });
             await insertImage(page, cdp, image.url, image.width, image.name, { file: image.file });
           } else if (needsExplicitServiceLink(operation.line, target.revision.target)) await insertExplicitServiceLink(page, target, operation, dir);
           else await typeLine(page, operation.line);
@@ -843,9 +890,12 @@ export async function main(args = process.argv.slice(2)) {
       representative = framed.images[0].id;
       if (target.prepared.logo) representative = await insertLogo(page, target.prepared.logo.target, target.prepared.logo.file, framed.images.map(image => image.id));
       await setRepresentative(page, representative);
-      proof = { framedCovers: framed.images.filter(image => coverIds.includes(image.id)), unframedAvatars: unframed.images.filter(image => !coverIds.includes(image.id)), logoMarker: target.prepared.logo?.target.marker ?? null };
+      proof = { framedCovers: framed.images.filter(image => coverIds.includes(image.id)), unframedAvatars: unframed.images.filter((_,i) => target.prepared.images[i].role === 'avatar'), unframedPhotos: unframed.images.filter((_,i) => target.prepared.images[i].role === 'photo'), logoMarker: target.prepared.logo?.target.marker ?? null };
       }
       if (!options.fillTableAuthors) { step = 'center-post-title'; await centerTitle(page); }
+      if (target.revision.editorial === true && !options.titleOnly && !options.tableOnly && !options.fillTableAuthors) {
+        step = 'editorial-typography'; await applyEditorialLayout(page, target.revision, target.plan);
+      }
       step = 'verify-revision';
       const ready = await readSnapshot(page);
       fs.writeFileSync(path.join(dir, `ready-${current}.json`), JSON.stringify({ snapshot: ready, proof, revisionSha256: target.digest }, null, 2));
@@ -855,9 +905,22 @@ export async function main(args = process.argv.slice(2)) {
       if (options.tableOnly) assertTableOnlyChange(target, before, ready);
       if (options.fillTableAuthors) assertTableAuthorChange(target, before, ready);
       await assertParagraphAlignment(page, target);
+      if (target.revision.editorial === true) await assertEditorialLayout(page, target.revision, target.plan);
       await assertCenteredDividers(page); assertDbReviews(target, ready);
       await captureFirstPerson(page, target, path.join(dir, `ready-person-${current}.png`));
       await captureFullList(page, target, dir, 'ready');
+      if (options.review) {
+        const texts = [target.plan.text.find(t=>/^01 ·/.test(t)), (target.revision.dbReviews[0].reading_note ?? target.revision.dbReviews[0].review).split('\n')[0], target.revision.bonusHeading].filter(Boolean);
+        for (const [index,text] of texts.entries()) {
+          await page.$$eval('.se-text-paragraph',(nodes,text)=>nodes.find(p=>p.textContent.replace(/\u200b/g,'').trim()===text)?.scrollIntoView({block:'center',behavior:'instant'}),text);
+          await wait(250); await page.screenshot({path:path.join(dir,`ready-detail-${current}-${index}.png`)});
+        }
+        const token = crypto.randomUUID(); fs.writeFileSync(path.join(dir,`${current}-review-token`),token);
+        log({logNo:current,stage:'ready-for-screen-review',dir});
+        let reviewed=false;const until=Date.now()+300000;
+        while(Date.now()<until){const file=path.join(dir,`${current}-screen-reviewed`);if(fs.existsSync(file)&&fs.readFileSync(file,'utf8')===token){reviewed=true;break;}await wait(300);}
+        if(!reviewed)throw new Error('Native screen review timed out');
+      }
       await editor.click('button[class*=publish_btn]'); await assertPublishOptions(page);
       if (!same(await editor.settings(), original.state)) throw new Error('저장 전 분류·예약·공개·검색·공유·태그가 바뀌었다');
       if (!options.apply) {
@@ -874,6 +937,7 @@ export async function main(args = process.argv.slice(2)) {
       assertReservationPreserved(original.reservation, reopened.reservation, target.title);
       await closePublishPanel(page, editor);
       const after = await readSnapshot(page); assertRevisionSnapshot(target, after, proof);
+      if (target.revision.editorial === true) await assertEditorialLayout(page, target.revision, target.plan);
       await assertCenteredTitle(page);
       if (options.tableOnly) assertTableOnlyChange(target, before, after);
       if (options.fillTableAuthors) assertTableAuthorChange(target, before, after);
