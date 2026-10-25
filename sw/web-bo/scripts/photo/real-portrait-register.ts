@@ -48,7 +48,7 @@ async function main() {
   const done: unknown[] = []
   for (const row of rows) {
     // 웹 생성은 대화 주소, codex 생성은 로컬 세션 ID로 생성 근거를 남긴다.
-    if (row.reviewed !== true || !/^(?:https:\/\/(?:chatgpt\.com\/c\/|grok\.com\/(?:c\/|imagine\/))|codex-session:[0-9a-f-]{36}$)/.test(row.conversation_url) || !/^https:\/\//.test(row.identity_evidence)) throw new Error(`${row.slug}: missing visual review or source evidence`)
+    if (row.reviewed !== true || !/^(?:https:\/\/(?:chatgpt\.com\/c\/|grok\.com\/(?:c\/|imagine\/))|codex-session:[0-9a-f-]{36}$)/.test(row.conversation_url) || !/^https?:\/\//.test(row.identity_evidence)) throw new Error(`${row.slug}: missing visual review or source evidence`)
     const { data: person, error: findError } = await db.from('celebs').select('id,slug,nickname,celeb_reality,publication_status,avatar_url,portrait_url').eq('id', row.celeb_id).single()
     if (findError) throw new Error(findError.message)
     const allowedPublication = person?.publication_status === 'active' || (row.replace_portrait_url && person?.publication_status === 'inactive')
@@ -73,7 +73,10 @@ async function main() {
       const existing = await s3.send(new GetObjectCommand({ Bucket: bucket, Key: key }))
       const existingBody = Buffer.from(await existing.Body!.transformToByteArray())
       if (hash(existingBody) !== row.existing_photo_sha256) throw new Error(`${row.slug}: reviewed existing photo changed`)
-    } catch (error: any) { if (error.$metadata?.httpStatusCode !== 404) throw error }
+    } catch (error) {
+      const status = (error as { $metadata?: { httpStatusCode?: number } } | null)?.$metadata?.httpStatusCode
+      if (status !== 404) throw error
+    }
     const oriented = await sharp(source).rotate().toBuffer({ resolveWithObject: true })
     const ratio = CELEB_HERO_PHOTO_SPEC.aspectRatio
     const width = row.crop?.width ?? Math.min(oriented.info.width, Math.round(oriented.info.height * ratio))

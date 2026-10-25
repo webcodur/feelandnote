@@ -240,11 +240,8 @@ async function main() {
   const all = JSON.parse(readFileSync(batchPath, 'utf-8'))
   const rows = all.slice(0, limit === Infinity ? all.length : limit)
 
-  // 연출문에 갈래 표기가 없으면 한 건도 뽑지 않는다 — 생성 뒤에 알면 한도만 태운다
-  const badMode = rows.filter(r => !/^\s*SHOT MODE:\s*(POSED|ABSORBED)\b/im.test(r.brief || ''))
-  if (badMode.length) throw new Error(`SHOT MODE 누락 ${badMode.length}건: ${badMode.slice(0, 5).map(r => r.slug).join(', ')}`)
-  const noTarget = rows.filter(r => /^\s*SHOT MODE:\s*ABSORBED\b/im.test(r.brief) && !/gaze target:\s*\S/i.test(r.brief))
-  if (noTarget.length) throw new Error(`ABSORBED 인데 시선 대상 미지정 ${noTarget.length}건: ${noTarget.slice(0, 5).map(r => r.slug).join(', ')}`)
+  const noBrief = rows.filter(r => !r.brief?.trim())
+  if (noBrief.length) throw new Error(`대표사진 발주문 없음 ${noBrief.length}건: ${noBrief.slice(0, 5).map(r => r.slug).join(', ')}`)
   const noRef = rows.filter(r => !(r.facePath && existsSync(r.facePath)) && !r.avatar_url)
   if (noRef.length) throw new Error(`얼굴 REF 없음 ${noRef.length}건: ${noRef.slice(0, 5).map(r => r.slug).join(', ')}`)
   mkdirSync(WORK, { recursive: true })

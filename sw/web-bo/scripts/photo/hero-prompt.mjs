@@ -152,17 +152,11 @@ ${faceSpec.trim()}
 This is one specific human being, not a type. Give him an asymmetric, lived-in face with the marks his life and climate would leave on it — the face of his own people and his own age, this man's own irregular features, as far from a stock-photo face as the spec allows.`
 }
 
-// 화보형(정면 응시)과 본업 몰입형(일감 응시)은 섞이면 둘 다 죽는다.
-// 책을 읽으면서 카메라를 보는 컷, 빈손으로 포즈만 잡았는데 작업 중이라는 컷이 그 실패다.
-// 2차 개편 — 두 모드의 화보 문법(방향광·점정 동작·화면 안 광원)을 같은 블록에 박았다.
-export const GAZE = `GAZE — IT MATCHES THE SHOT MODE DECLARED ABOVE
-Each sheet runs one of two modes, and the whole picture follows that one.
-
-POSED — the default portrait mode. The person knows they are being photographed and looks directly into the camera lens with a comfortable, composed expression. Relax the brow and eye area instead of copying a reference frown, tense expression or sidelong glance. If torso and face point in conflicting directions, correct the torso, neck and head together so they face the same direction toward the camera, with both pupils meeting the lens. Do not retain the reference's opposing body and face orientations or fix only the eyes. For studio portraits, specify waist-shot framing without assigning a body, arm or hand pose beyond that necessary correction. Raised hands, including a hand near the face, are allowed in a representative portrait. Do not apply avatar-only hand exclusions to this portrait.
-
-ABSORBED — the height of a working motion, his attention entirely on the work. The peak instant: the pour, the strike, the cut. The work's own light sits inside the frame — the forge, the torch, the molten metal — throwing upward onto him while the room behind sinks into darkness. Sweat, soot, sparks or dust hang at the edge of the moment. His eyes lock on the object named as the gaze target, his brow tightens, his head and shoulders turn to it.
-
-THE HEAD STAYS UP AND THE WORK STAYS OUT. In ABSORBED the work happens away from the body and at chest height or above — out at arm's length, up on an anvil, a bench, a rail or a wall, held out into the light, raised overhead — and his head stays level with it. The chin turns; the face stays open to the camera, the eyes lit, the throat and jawline in view. The gaze target is a solid thing the viewer can see: a blade, an instrument, a joint of wood, the lip of a crucible.`
+// 자세와 표정은 대표사진 룰북의 단일 초상 기준을 따른다.
+export const GAZE = `GAZE AND BEARING — A NATURAL PORTRAIT
+The person is aware of the camera, with both pupils meeting the lens. Choose a natural body direction and angle suited to this person and the best reference: front-facing, left or right oblique, or a natural side-oriented body. Connect torso, neck and face comfortably and vary the portrait poses across people. Preserve the reference's natural shoulder heights, weight shift and flow through the body.
+Use a gentle closed-mouth smile by default; keep the firm eyes and mouth of a person whose defining impression is charisma or authority.
+Choose a simple pose that suits this person and the selected reference. A dancer's dance pose belongs in this same portrait when the reference supports it. Raised hands, including a hand near the face, are valid portrait poses. Keep hands outside pockets and their scale consistent with the body.`
 
 
 // 물건이 허공에 뜨거나 팔다리가 가구를 뚫는 컷을 막는다.
@@ -178,12 +172,9 @@ A vehicle or machine in the frame must be a whole working object, not a few of i
 
 Weapons and tools obey the same law. A blade is held by its grip with the whole hand closed around it, and its weight pulls the wrist and shoulder the way that weight really would. A sheathed weapon hangs from a belt or baldric that visibly carries it. A spear, staff or standard either rests its butt on the ground or is carried at a balance point the arm could actually hold. Straps, buckles and scabbards connect to something. A weapon hangs from its strap or sits in a closed hand, and the fingers close on something solid.`
 
-// 2차 개편 신설 — 「응답하는 사람」과 읽히는 배경이 기록사진을 만들었으므로
-// 혼자·죽은 배경을 프레임 수준에서 못 박는다(화보 문법 1·2).
-export const STAGE = `STAGE — ONE FIGURE, DEAD BACKGROUND
-Exactly one person stands in the frame, and the whole picture belongs to him. His standing is carried by light, metal, material and the look in his eyes.
-Behind him the place is reduced to atmosphere: either sunk into darkness so the figure alone catches the light, or dissolved by shallow depth of field into shapes and colours the viewer can only half-name. What lies back there reads as tone and shadow.
-Objects that share the frame are his own — made by him, carried by him — set down where he stands.`
+export const STAGE = `STAGE — THE PERSON AND A SUITABLE BACKGROUND
+One person fills the portrait. Choose colours and textures that suit the person, clothing and portrait; texture can be freely visible and expressive while the person remains clear.
+Build an ordinary studio portrait through the person's body, arms and hands against the chosen background. Use the best-looking reference of this person, whether a portrait, interview, archive photograph or fashion shoot. Watermarked or captioned references are useful generation material; render the finished photograph with a clean image surface. Keep verified uniform designs, numbers and team markings as part of the clothing.`
 
 // 이 지시가 없으면 인물이 원경으로 작게 박힌다(다리우스 1세 실측, 26.07.31).
 // 표시 비율과 폭은 공용 상수가 쥔다. 얼굴과 핵심 소품은 최종 중앙 세로 영역에 들어와야 한다.
@@ -213,6 +204,8 @@ If the setting described below is a wide place, move the camera IN CLOSE to the 
 export function buildHeroPrompt(row, outPath, opts = {}) {
   const identity = opts.identity ?? 'photo'
   const taskPrefix = opts.taskPrefix ?? 'HEROPHOTO'
+  // 기존 발주문의 모드 표기는 호환 입력으로 읽고 실제 발주에서는 현재 초상 기준을 쓴다.
+  const brief = row.brief.replace(/^\s*SHOT MODE:[^\r\n]*(?:\r?\n|$)/gim, '').trim()
 
   const opening = identity === 'described'
     ? 'Create a tightly framed portrait photograph of the person described below.'
@@ -231,7 +224,7 @@ ${opening}
 
 ${identityBlock}
 ${subject}
-${row.brief.trim()}
+${brief}
 
 ${GAZE}
 
