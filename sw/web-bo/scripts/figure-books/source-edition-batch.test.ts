@@ -9,6 +9,7 @@ import { getOpenLibraryBookMetadata } from '@feelandnote/content-search/openlibr
 import { verifyEditionWork, assertDistinctOriginalBookText } from '../../src/lib/book-edition-work'
 import { seriesVolumeInfo } from '@feelandnote/content-search/book-series'
 import { normalizeBookIdentity, resolveExternalBookInput } from '@feelandnote/content-search/external-book-input'
+import * as figureBookTerms from '@feelandnote/shared/constants/figure-book-terms'
 
 before(() => { process.env.KAKAO_REST_API_KEY = 'test-only' })
 
@@ -40,6 +41,48 @@ test('같은 번역의 상품은 추가 판본이 아니며 다른 역자는 별
   assert.throws(() => assertDistinctOriginalBookText(input, {}, rows), /같은 번역은 대표 한 판본/)
   assert.doesNotThrow(() => assertDistinctOriginalBookText({ ...input, translators: ['김헌'] }, {}, rows))
   assert.throws(() => assertDistinctOriginalBookText({ ...input, editionKind: 'abridged' }, {}, rows), /서비스에 등록하지/)
+})
+
+test('독립 검수로 제외한 후속 분권을 보존하면서 같은 번역의 시작권을 등록한다', () => {
+  const later = { id: 5129, content_id: contentId, locale: 'ko', isbn: '9791167375346', title: '셜리 2', creator: '샬럿 브론테',
+    edition_kind: null, text_scope: null, sources: { translators: ['송은주'], edition_selection_evidence: [{
+      method: 'independent_selection_review', llmReviewed: true, content_id: contentId, locale: 'ko', isbn: '9791167375346',
+      edition_title: '셜리 2', reason: 'editorial_exclusion', source_url: 'https://publisher.example/shirley-2',
+      explanation: '실제 목차가 19장에서 시작하는 같은 번역의 후속 분권이며, 별도 후속 소설이나 독립 선집이 아니다.',
+      edition_kind: 'volume', text_scope: 'volume/2',
+    }] } }
+  const input = { contentId, locale: 'ko' as const, isbn: '9791167375339', title: '셜리 1', creator: '샬럿 브론테',
+    sourceUrl: 'https://publisher.example/shirley-1', translators: ['송은주'], editionKind: 'volume', textScope: 'volume/1' }
+  assert.doesNotThrow(() => assertDistinctOriginalBookText(input, { workTitle: 'Shirley' }, [later]))
+  // 원어 소설도 이미 검수한 후속 실물은 그대로 보존한다.
+  const original = { ...input, locale: 'en' as const, creator: 'Charlotte Brontë', translators: undefined }
+  const originalLater = { ...later, locale: 'en', sources: { edition_selection_evidence: [{ ...later.sources.edition_selection_evidence[0], locale: 'en' }] } }
+  assert.doesNotThrow(() => assertDistinctOriginalBookText(original, { originalLanguage: 'en', identityEvidence: 'https://publisher.example/shirley' }, [originalLater]))
+  for (const alter of [
+    (row: typeof later) => { row.sources.edition_selection_evidence = [] },
+    (row: typeof later) => { row.sources.edition_selection_evidence[0].llmReviewed = false },
+    (row: typeof later) => { row.sources.edition_selection_evidence[0].isbn = '9791167375339' },
+    (row: typeof later) => { row.sources.edition_selection_evidence[0].content_id = 'another-work' },
+    (row: typeof later) => { row.sources.edition_selection_evidence[0].text_scope = 'complete' },
+    (row: typeof later) => { row.sources.edition_selection_evidence[0].text_scope = '' },
+    (row: typeof later) => { row.sources.edition_selection_evidence[0].edition_title = '셜리' },
+  ]) {
+    const changed = structuredClone(later); alter(changed)
+    assert.throws(() => assertDistinctOriginalBookText(input, {}, [changed]), /같은 번역은 대표 한 판본/)
+  }
+  assert.throws(() => assertDistinctOriginalBookText({ ...input, editionKind: 'full', textScope: 'complete' }, {}, [later]), /같은 번역은 대표 한 판본/)
+  assert.throws(() => assertDistinctOriginalBookText({ ...input, textScope: 'volume/2' }, {}, [later]), /시리즈는 시작권 하나/)
+  assert.throws(() => assertDistinctOriginalBookText(input, {}, [later, { ...later, isbn: '9788934971016', title: '셜리 1', sources: { translators: ['송은주'] } }]), /같은 번역은 대표 한 판본/)
+})
+
+test('독립 완결 희곡의 총서 번호와 범위 미상은 후속 분권 검수로 간주하지 않는다', () => {
+  const row = { content_id: contentId, locale: 'en', isbn: '9781108008433', title: 'Sophocles: The Plays and Fragments, Volume 6: The Electra',
+    creator: 'Sophocles', edition_kind: 'full', text_scope: 'Complete independent play Electra', sources: { translators: ['Richard Claverhouse Jebb'] } }
+  const input = { contentId, locale: 'en' as const, isbn: '9781108008419', title: 'The Philoctetes', creator: 'Sophocles', translators: ['Richard Claverhouse Jebb'],
+    sourceUrl: 'https://publisher.example/philoctetes', editionKind: 'volume', textScope: 'volume/1' }
+  assert.throws(() => assertDistinctOriginalBookText(input, {}, [row]), /같은 번역은 대표 한 판본/)
+  assert.throws(() => assertDistinctOriginalBookText(input, {}, [{ ...row, edition_kind: null, text_scope: null }]), /같은 번역은 대표 한 판본/)
+  assert.doesNotThrow(() => assertDistinctOriginalBookText({ ...input, translators: ['Another translator'] }, {}, [row]))
 })
 
 const compiled = ts.transpileModule(readFileSync(new URL('./source-edition-batch.ts', import.meta.url), 'utf8').replace(/\nmain\(\)\.catch\([\s\S]*$/, ''), {
@@ -84,7 +127,9 @@ function fixture(editionIsbn = isbn) {
       })
       if (method === 'GET') {
         const offset = Number(url.searchParams.get('offset') ?? 0), limit = Number(url.searchParams.get('limit') ?? tables[table].length)
-        const selected = tables[table].filter(matches).slice(offset, offset + limit)
+        const columns = url.searchParams.get('select')
+        const selected = tables[table].filter(matches).slice(offset, offset + limit).map(row =>
+          !columns || columns === '*' ? row : Object.fromEntries(columns.split(',').filter(key => key in row).map(key => [key, row[key]])))
         return Response.json(new Headers(init?.headers).get('Accept')?.includes('vnd.pgrst.object') ? selected[0] ?? null : selected)
       }
       const body = JSON.parse(String(init?.body)) as Row
@@ -133,6 +178,8 @@ function fixture(editionIsbn = isbn) {
     '@feelandnote/content-search/book-isbn': { toIsbn13 },
     '@feelandnote/content-search/openlibrary': { getOpenLibraryBookMetadata },
     '@feelandnote/content-search/book-introduction': { fetchBookIntroduction: async () => ({ source: null, sourceUrl: null, description: null }) },
+    '@feelandnote/content-search/amazon-book-registration': { fillMissingAmazonBookConnection: async () => { throw Error('unexpected Amazon write without --amazon-browser') } },
+    '@feelandnote/content-search/amazon-book-product': { AMAZON_BOOK_BATCH_SIZE: 1, amazonBookCandidate: () => { throw Error('unexpected Amazon lookup without --amazon-browser') } },
     '@feelandnote/content-search/kakao-books': { getBookByIsbn: kakaoLookup },
     '../../src/lib/external-book-input': { normalizeBookIdentity, resolveExternalBookInput: inputModule.exports.resolveExternalBookInput },
     '../../src/lib/book-edition-work': { verifyEditionWork },
@@ -147,6 +194,7 @@ function fixture(editionIsbn = isbn) {
     '@feelandnote/content-search/book-edition-policy': { SERVICE_BOOK_EDITION_KINDS },
     'next/cache': { revalidatePath: () => {} },
     '@feelandnote/shared/constants/cache-tags': { CACHE_TAGS: {} },
+    '@feelandnote/shared/constants/figure-book-terms': figureBookTerms,
     '@/lib/admin-auth': { requireAdmin: async () => {} },
     '@/lib/revalidate-web': { revalidateWebItems: async () => {} },
     '@/lib/db/admin': { createAdminClient: () => db },
@@ -172,6 +220,31 @@ test('CLI --apply writes a normal audio edition with raw physical format and ind
   assert.equal((sources.work_attribution as Row).work_key, '/works/OL1W')
   assert.equal((sources.work_attribution as Row).original_creator, 'Francis Bacon')
   assert.equal(f.state.writes[0].body.text_scope, 'complete unabridged reading')
+})
+
+test('CLI 시작권 등록은 검수된 후속 분권의 실물과 소개를 변경하지 않는다', async t => {
+  const f = fixture()
+  f.tables.contents[0].metadata = { workKey: '/works/OL1W', figureBook: { workTitle: 'The Essays', workCreator: 'Francis Bacon',
+    originalLanguage: 'en', identityEvidence: 'https://publisher.example/original' } }
+  const later = { id: 7, content_id: contentId, locale: 'en', isbn: '9780062301260', title: 'The Essays, Volume 2', creator: 'Francis Bacon',
+    description: 'Existing introduction for the later physical volume, retained unchanged.', edition_kind: null, text_scope: null,
+    sources: { primary: 'https://provider.example/later', edition_selection_evidence: [{ method: 'independent_selection_review', llmReviewed: true,
+      content_id: contentId, isbn: '9780062301260', locale: 'en', edition_title: 'The Essays, Volume 2', reason: 'editorial_exclusion',
+      source_url: 'https://publisher.example/volume-2', explanation: 'The independently inspected contents continue the same original work in its second physical volume.',
+      edition_kind: 'volume', text_scope: 'volume/2' }] } }
+  f.tables.figure_book_editions.push(later)
+  const retained = structuredClone(later)
+  f.state.manifest.editionKind = 'volume'
+  f.state.manifest.textScope = 'volume/1'
+  t.mock.method(globalThis, 'fetch', f.providerFetch); t.mock.method(console, 'log', () => {})
+  await f.run()
+  assert.equal(f.state.writes.length, 1)
+  assert.equal(f.state.writes[0].method, 'POST')
+  assert.equal(f.state.writes[0].body.isbn, isbn)
+  assert.equal(f.state.writes[0].body.text_scope, 'volume/1')
+  assert.ok(f.state.reads.some(url => url.pathname.endsWith('/figure_book_editions')
+    && url.searchParams.get('select')?.split(',').includes('content_id')))
+  assert.deepEqual(f.tables.figure_book_editions.find(row => row.id === 7), retained)
 })
 
 test('CLI와 BO 모두 같은 원어 본문의 다른 ISBN을 쓰기 전에 거부한다', async t => {

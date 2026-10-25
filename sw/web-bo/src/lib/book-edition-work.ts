@@ -98,20 +98,35 @@ export function assertDistinctOriginalBookText(input: OfficialEditionWork, figur
     editionKind: input.editionKind === 'full' ? null : input.editionKind ?? null, textScope: input.textScope ?? null,
     translator: input.translators?.join(', ') ?? null })
   if (volume && volume.number !== 1) throw new Error('시리즈는 시작권 하나를 대표로 등록합니다. 후속 권을 판본 선택지로 추가하지 않습니다')
+  // 첫권 복원 때도 실물 행을 지우거나 후속권을 첫권 본문으로 덮어쓰지 않는다.
+  // DB 보존 계약과 같은 현재 소유자·ISBN·제목의 단일 독립 검수만 인정한다.
+  // 검수자가 명시한 후속 범위는 서비스 정책으로 다시 판정하며 제목 번호로 추정하지 않는다.
+  const representatives = editions.filter(row => {
+    if (input.editionKind !== 'volume' || input.textScope !== 'volume/1'
+      || row.content_id !== input.contentId || row.locale !== input.locale
+      || !toIsbn13(string(row.isbn)) || toIsbn13(string(row.isbn)) === toIsbn13(input.isbn)) return true
+    const sources = object(row.sources), evidence = sources.edition_selection_evidence
+    if (!Array.isArray(evidence) || evidence.length !== 1) return true
+    const proof = object(evidence[0])
+    if (proof.llmReviewed !== true || proof.content_id !== input.contentId || proof.edition_kind !== 'volume'
+      || excludedBookEditionReason({ contentId: input.contentId, locale: string(row.locale), title: string(row.title), isbn: string(row.isbn), sources }) !== 'editorial_exclusion') return true
+    return excludedBookEditionReason({ locale: string(row.locale), title: string(row.title), editionKind: 'volume',
+      textScope: string(proof.text_scope), workTitles: [figure.workTitle, figure.originalTitle].filter((value): value is string => typeof value === 'string') }) !== 'nonstart_volume'
+  })
   const translation = bookEditionTranslationKey(input)
-  const sameTranslation = translation && editions.find(row => row.locale === input.locale
+  const sameTranslation = translation && representatives.find(row => row.locale === input.locale
     && bookEditionTranslationKey({ locale: String(row.locale), sources: row.sources }) === translation
     && toIsbn13(string(row.isbn)) !== toIsbn13(input.isbn))
   if (sameTranslation) throw new Error(`같은 번역은 대표 한 판본만 등록합니다. 기존 ISBN ${string(sameTranslation.isbn)}을 사용하세요`)
   // 같은 ISBN의 현재 행을 수정하는 경우는 추가 등록이 아니다.
   if (editions.some(row => row.locale === input.locale && toIsbn13(string(row.isbn)) === toIsbn13(input.isbn))) return
   const originalLocale = figure.originalLanguage === input.locale && independentSource(figure.identityEvidence)
-  if (!originalLocale && editions.some(row => row.locale === input.locale
+  if (!originalLocale && representatives.some(row => row.locale === input.locale
     && (!translation || !bookEditionTranslationKey({ locale: String(row.locale), sources: row.sources })))) {
     throw new Error('다른 판본을 추가하려면 기존 판본과 다른 역자를 확인해야 합니다. ISBN·출판사 차이는 상품 차이입니다')
   }
   if (!originalLocale || translation) return
-  const existing = editions.find(row => {
+  const existing = representatives.find(row => {
     const translators = object(row.sources).translators
     return row.locale === input.locale && same(string(row.creator), string(input.creator))
       && !(Array.isArray(translators) && translators.length)
@@ -148,7 +163,7 @@ export async function verifyEditionWork(db: DatabaseClient, input: OfficialEditi
     db.from('contents').select('id,type,metadata').eq('id', input.contentId).maybeSingle(),
     db.from('figure_book_contents').select('content_id').eq('content_id', input.contentId).maybeSingle(),
     db.from('content_locales').select('locale,title,creator,isbn,sources').eq('content_id', input.contentId),
-    db.from('figure_book_editions').select('id,locale,isbn,title,creator,edition_kind,text_scope,sources').eq('content_id', input.contentId),
+    db.from('figure_book_editions').select('id,content_id,locale,isbn,title,creator,edition_kind,text_scope,sources').eq('content_id', input.contentId),
     sameIsbnOwners(db, 'contents', isbn, { excludeId: input.contentId }),
     sameIsbnOwners(db, 'content_locales', isbn, { excludeId: input.contentId }),
     sameIsbnOwners(db, 'figure_book_editions', isbn, { excludeId: input.contentId }),

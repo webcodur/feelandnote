@@ -59,15 +59,26 @@ END;
 $volume$;
 CREATE OR REPLACE FUNCTION public.guard_figure_book_edition_policy() RETURNS trigger
 LANGUAGE plpgsql SET search_path='pg_catalog' AS $policy$
-DECLARE translators text; figure jsonb; original_locale boolean; selected boolean; previously_selected boolean;
+DECLARE translators text; figure jsonb; original_locale boolean; selected boolean; previously_selected boolean; restoring boolean:=false;
 BEGIN
  SELECT metadata->'figureBook' INTO figure FROM public.contents WHERE id=new.content_id FOR NO KEY UPDATE;
  selected=${selectionExcludedSql('new.title','new.isbn','new.locale','new.sources','new.content_id')};
  IF TG_OP='UPDATE' THEN
    previously_selected=${selectionExcludedSql('old.title','old.isbn','old.locale','old.sources','old.content_id')};
+   -- 잘못된 선정 판정의 철회는 실물과 다른 출처를 보존하고 아래 정상 판본 검사를 다시 받는다.
+   restoring=previously_selected AND NOT selected
+     AND jsonb_typeof(new.sources)='object' AND jsonb_typeof(old.sources)='object'
+     AND old.sources->'edition_selection_evidence'->0->'llmReviewed'='true'::jsonb
+     AND old.sources->'edition_selection_evidence'->0->>'content_id'=old.content_id
+     AND (CASE WHEN jsonb_typeof(old.sources->'edition_selection_evidence')='array'
+       THEN jsonb_array_length(old.sources->'edition_selection_evidence') ELSE 0 END)=1
+     AND new.sources->'edition_selection_evidence'='[]'::jsonb
+     AND (to_jsonb(new)-ARRAY['sources','updated_at']) IS NOT DISTINCT FROM
+         (to_jsonb(old)-ARRAY['sources','updated_at'])
+     AND (new.sources-'edition_selection_evidence') IS NOT DISTINCT FROM (old.sources-'edition_selection_evidence');
  END IF;
  -- 기존 실물의 비노출 판정만 보존한다. 새 ED나 본문·서지 변경을 허용하지 않는다.
- IF TG_OP='UPDATE' AND (
+ IF TG_OP='UPDATE' AND NOT coalesce(restoring,false) AND (
    previously_selected OR selected
    OR (new.sources->'edition_selection_evidence' IS DISTINCT FROM old.sources->'edition_selection_evidence'
      AND new.sources->'edition_selection_evidence' IS NOT NULL
@@ -107,7 +118,7 @@ BEGIN
  THEN RAISE EXCEPTION 'Abridged books, graded readers and unverified placeholders are not service editions'; END IF;
  translators=public.book_translator_identity(new.sources->'translators');
  original_locale=coalesce(figure->>'originalLanguage'=new.locale AND coalesce(figure->>'identityEvidence','') ~ '^https://',false);
- IF (TG_OP='INSERT' OR new.content_id IS DISTINCT FROM old.content_id OR new.locale IS DISTINCT FROM old.locale OR new.isbn IS DISTINCT FROM old.isbn)
+ IF (TG_OP='INSERT' OR restoring OR new.content_id IS DISTINCT FROM old.content_id OR new.locale IS DISTINCT FROM old.locale OR new.isbn IS DISTINCT FROM old.isbn)
  AND EXISTS (SELECT 1 FROM public.figure_book_editions e WHERE e.content_id=new.content_id AND e.locale=new.locale AND e.id<>new.id
    AND NOT ${retainedExclusionSql('e')}
    AND NOT original_locale AND (translators IS NULL OR public.book_translator_identity(e.sources->'translators') IS NULL))

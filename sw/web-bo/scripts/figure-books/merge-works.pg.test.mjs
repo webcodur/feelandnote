@@ -1228,6 +1228,46 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     query('DROP TRIGGER guard_figure_book_edition_policy ON figure_book_editions')
   })
 
+  await t.test('선정 철회는 같은 실물과 출처를 보존하고 정상 판본·중복 검사를 다시 통과한다', t => {
+    t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
+    const proof={method:'independent_selection_review',llmReviewed:true,content_id:'keep',isbn:'9783837025064',locale:'en',
+      edition_title:'A multilingual study',reason:'wrong_locale',source_url:'https://publisher.example/study',
+      explanation:'An earlier interpretation incorrectly excluded this multilingual edition as containing no English text.'}
+    const prepare=(scope='complete')=>{
+      query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions')
+      reset(`INSERT INTO figure_book_contents VALUES('keep');
+        INSERT INTO figure_book_editions(id,content_id,locale,title,creator,isbn,edition_kind,text_scope,sources)
+        VALUES(95,'keep','en','A multilingual study','Editor','9783837025064','full',${sqlLiteral(scope)},'{"primary":"openlibrary"}');
+        INSERT INTO member_contents VALUES('reader','keep','member','Keep the reading history',5);
+        INSERT INTO figure_book_products VALUES(9500,95,'amazon',true);`)
+      query(editionPolicySql())
+      query(`UPDATE figure_book_editions SET sources=sources||${sqlLiteral(JSON.stringify({edition_selection_evidence:[proof]}))}::jsonb WHERE id=95`)
+    }
+    prepare()
+    const selected=snapshot(),row=selected.figure_book_editions[0]
+    for(const patch of ["title='Changed title'", "content_id='drop'", "description='Changed body'"]){
+      assert.throws(()=>query(`UPDATE figure_book_editions SET sources=sources||'{"edition_selection_evidence":[]}'::jsonb,${patch} WHERE id=95`))
+      assert.deepEqual(snapshot(),selected)
+    }
+    assert.throws(()=>query("UPDATE figure_book_editions SET sources=sources||'{\"edition_selection_evidence\":[],\"primary\":\"manual\"}'::jsonb WHERE id=95"),/Retained edition exclusion/)
+    assert.deepEqual(snapshot(),selected)
+    assert.throws(()=>query("UPDATE figure_book_editions SET sources=sources-'edition_selection_evidence' WHERE id=95"),/Retained edition exclusion/)
+    query("UPDATE figure_book_editions SET sources=sources||'{\"edition_selection_evidence\":[]}'::jsonb WHERE id=95")
+    const restored=snapshot()
+    assert.deepEqual(restored.figure_book_editions,[{...row,sources:{...row.sources,edition_selection_evidence:[]}}])
+    assert.deepEqual(restored.member_contents,selected.member_contents)
+    assert.deepEqual(restored.figure_book_products,selected.figure_book_products)
+    prepare()
+    query("INSERT INTO figure_book_editions(id,content_id,locale,title,isbn,sources) VALUES(96,'keep','en','Current representative','9780140442281','{}')")
+    const withRepresentative=snapshot()
+    assert.throws(()=>query("UPDATE figure_book_editions SET sources=sources||'{\"edition_selection_evidence\":[]}'::jsonb WHERE id=95"),/verified different translation/)
+    assert.deepEqual(snapshot(),withRepresentative)
+    prepare('abridged')
+    const abridged=snapshot()
+    assert.throws(()=>query("UPDATE figure_book_editions SET sources=sources||'{\"edition_selection_evidence\":[]}'::jsonb WHERE id=95"),/not service editions/)
+    assert.deepEqual(snapshot(),abridged)
+  })
+
   await t.test('기존 실물의 검수된 선정 제외와 owner 이동만 상품·기간·감상 전체를 보존한다', t => {
     t.after(() => query('DROP TRIGGER IF EXISTS guard_figure_book_edition_policy ON figure_book_editions'))
     reset(`INSERT INTO figure_book_contents VALUES('keep'),('drop');

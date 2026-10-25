@@ -5,6 +5,46 @@ import {SNAPSHOT_TABLES} from './merge-work-sql.mjs'
 import {PROVIDER_BIBLIOGRAPHIC_DESCRIPTION_REVIEW,CATALOG_REPRESENTATIVE_SELECTION_REVIEW,buildCatalogRepairSnapshotSql,captureCatalogRepairSnapshot,expandReviewedExactIsbnIntroductionChanges,planGuardedCatalogRepairs,buildGuardedCatalogRepairSql,guardedCatalogRepairs,
  planGuardedCatalogExclusions,buildGuardedCatalogExclusionSql,guardedCatalogExclusions} from './guarded-catalog-repairs.mjs'
 
+function selectionRestoration(table='figure_book_editions'){
+ const data=Object.fromEntries(SNAPSHOT_TABLES.map(name=>[name,[]]))
+ data.contents=[{id:'restore-book',type:'BOOK',metadata:{}}]
+ const before={content_id:'restore-book',locale:'en',title:'A multilingual study',creator:'Editor',isbn:'9783837025064',description:null,
+  sources:{primary:'openlibrary',edition_selection_evidence:[{method:'independent_selection_review',llmReviewed:true,content_id:'restore-book',
+   isbn:'9783837025064',locale:'en',edition_title:'A multilingual study',reason:'wrong_locale',source_url:'https://publisher.example/book',
+   explanation:'An earlier review inferred that no English text was included.'}]}}
+ if(table==='figure_book_editions')Object.assign(before,{id:95,edition_kind:'full',text_scope:'complete'})
+ data[table]=[before]
+ data.member_contents=[{id:'protected',content_id:'restore-book',member_id:'reader',review:'Original review'}]
+ const proof={method:'independent_selection_restoration_review',llmReviewed:true,contentId:before.content_id,isbn:before.isbn,locale:before.locale,
+  editionTitle:before.title,excludedReason:'wrong_locale',sourceUrl:'https://library.example/exact-isbn',
+  explanation:'The exact-ISBN library record explicitly confirms that English text is included, contradicting the previous exclusion.',
+  bodyEvidence:'The catalogue identifies the same ISBN and lists German, English and Korean as the languages of the text.'}
+ const change={table,before,patch:{sources:{...before.sources,edition_selection_evidence:[]}},reviewedSelectionRestoration:proof}
+ return {data,change,proof}
+}
+
+test('independently reviewed selection restoration preserves all physical fields, other sources and reading references',()=>{
+ for(const table of ['content_locales','figure_book_editions']){
+  const {data,change}=selectionRestoration(table),plan=planGuardedCatalogRepairs(['restore-book'],data,[change])
+  assert.deepEqual(plan.expected[table],[{...change.before,sources:{...change.before.sources,edition_selection_evidence:[]}}])
+  for(const other of SNAPSHOT_TABLES.filter(name=>name!==table))assert.deepEqual(plan.expected[other],data[other])
+ }
+})
+
+test('selection restoration rejects unreviewed or stale evidence, physical changes, source replacement and implicit proof removal',()=>{
+ for(const mutate of [
+  f=>{delete f.change.reviewedSelectionRestoration},f=>{f.proof.llmReviewed=false},f=>{f.proof.contentId='another'},
+  f=>{f.proof.isbn='9780140442281'},f=>{f.proof.editionTitle='Different title'},f=>{f.proof.excludedReason='children_only'},
+  f=>{f.proof.sourceUrl='https://openlibrary.org/books/OL1M'},f=>{f.proof.bodyEvidence='Not enough'},
+  f=>{f.change.patch.title='A different title'},f=>{f.change.patch.sources.primary='manual'},
+  f=>{delete f.change.patch.sources.edition_selection_evidence},f=>{f.change.patch.sources.edition_selection_evidence=null},
+  f=>{f.change.before.sources.edition_selection_evidence[0].content_id='another'}
+ ]){
+  const f=selectionRestoration();mutate(f)
+  assert.throws(()=>planGuardedCatalogRepairs(['restore-book'],f.data,[f.change]),/Selection restoration/)
+ }
+})
+
 function providerBibliographicDescription(table='figure_book_editions'){
  const data=Object.fromEntries(SNAPSHOT_TABLES.map(name=>[name,[]]))
  data.contents=[{id:'provider-book',type:'BOOK',metadata:{},updated_at:'old'}]

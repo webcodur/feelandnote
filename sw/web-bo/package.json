@@ -94,7 +94,9 @@
     "photo:display": "tsx scripts/photo/display-variants.ts",
     "figure-books:series-audit": "node --import tsx scripts/figure-books/series-split-audit.mjs",
     "figure-books:series-audit:test": "node --import tsx --test scripts/figure-books/series-split-audit.test.mjs scripts/figure-books/series-work.test.mjs scripts/figure-books/series-split-source-check.test.mjs scripts/figure-books/series-split-repair.test.mjs scripts/figure-books/series-split-batch.test.mjs scripts/figure-books/series-split-verify.test.mjs scripts/figure-books/series-split-toc-check.test.mjs",
-    "figure-books:series-toc-check": "node --import tsx scripts/figure-books/series-split-toc-check.mjs"
+    "figure-books:series-toc-check": "node --import tsx scripts/figure-books/series-split-toc-check.mjs",
+    "contents:book-introductions": "tsx --tsconfig ../web/tsconfig.json scripts/contents/book-introductions.mjs",
+    "contents:book-introductions:test": "tsx --tsconfig ../web/tsconfig.json --test scripts/contents/book-introductions.test.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.997.0",

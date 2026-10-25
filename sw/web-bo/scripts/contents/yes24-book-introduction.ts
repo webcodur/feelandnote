@@ -11,17 +11,26 @@ export interface Yes24Introduction {
   reason: string
 }
 
-/** Keep the introduction inside its own balanced div; adjacent reviews are never candidates. */
-function introductionSection(html: string): string | null {
-  const marker = /<div\b[^>]*\bid=["']infoset_introduce["'][^>]*>/i.exec(html)
-  if (!marker) return null
+const INTRODUCTION_SECTIONS = ['infoset_introduce', 'infoset_pubReivew', 'infoset_review'] as const
+
+/** Keep each publisher-owned section inside its balanced div, excluding adjacent member reviews. */
+function introductionSection(html: string, sectionId: typeof INTRODUCTION_SECTIONS[number]): string | null {
   const tags = /<!--[\s\S]*?-->|<(script|style|textarea)\b[^>]*>[\s\S]*?<\/\1>|<\/?div\b[^>]*>/gi
-  tags.lastIndex = marker.index
+  let start: number | null = null
   let depth = 0
   for (let token; (token = tags.exec(html));) {
-    if (/^<div\b/i.test(token[0])) depth++
-    else if (/^<\/div\b/i.test(token[0]) && --depth === 0) return html.slice(marker.index, tags.lastIndex)
+    if (/^<div\b/i.test(token[0])) {
+      if (start === null) {
+        const id = token[0].match(/\s+id\s*=\s*(["'])(.*?)\1/i)?.[2]
+        if (id !== sectionId) continue
+        start = token.index
+      }
+      depth++
+    } else if (start !== null && /^<\/div\b/i.test(token[0]) && --depth === 0) {
+      return html.slice(start, tags.lastIndex)
+    }
   }
+  if (start === null) return null
   throw new Error('Unclosed YES24 introduction section')
 }
 
@@ -33,13 +42,16 @@ function decode(value: string): string {
     ({ nbsp: ' ', quot: '"', apos: "'", lt: '<', gt: '>', amp: '&' })[name.toLowerCase()]!)
 }
 
-export function extractYes24Introduction(html: string, isbn: string): string | null {
-  // ISBN in a recommendation elsewhere on the page does not establish product identity.
-  const pageIsbn = html.match(/<th\b[^>]*>\s*ISBN13\s*<\/th>\s*<td\b[^>]*>\s*(\d{13})\s*<\/td>/i)?.[1]
-  if (pageIsbn !== isbn) throw new Error('YES24 product page ISBN mismatch')
-  const block = introductionSection(html)
-  const body = block?.match(/<textarea\b[^>]*class=["'][^"']*\btxtContentText\b[^"']*["'][^>]*>([\s\S]*?)<\/textarea>/i)?.[1]
-  if (!body) return null
+function sectionIntroduction(block: string, publisherReview: boolean): string | null {
+  const visibleBlock = block.replace(/<!--[\s\S]*?-->|<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ')
+  const area = /<textarea\b[^>]*class=["'][^"']*\btxtContentText\b[^"']*["'][^>]*>([\s\S]*?)<\/textarea>/i.exec(visibleBlock)
+  if (!area) return null
+  if (publisherReview) {
+    // The section ID alone is not proof: require its own heading before the source body.
+    const heading = visibleBlock.slice(0, area.index).match(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>/i)?.[2]
+    if (!heading || decode(heading.replace(/<[^>]*>/g, ' ')).replace(/\s/g, '') !== '출판사리뷰') return null
+  }
+  const body = area[1]
   const text = decode(body).replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ')
     .replace(/<!--[\s\S]*?-->/g, ' ')
     .replace(/<(?:br\b[^>]*|\/(?:p|div|li|h[1-6]))>/gi, '\n')
@@ -47,6 +59,19 @@ export function extractYes24Introduction(html: string, isbn: string): string | n
     .replace(/[\t \u00a0]+/g, ' ').replace(/ *\n */g, '\n').replace(/\n{3,}/g, '\n\n').trim()
   // Explicitly cut off source text is left for review, never silently treated as complete.
   return /(?:\.{3,}|\u2026)\s*[,;:"'’”\)\]]*\s*$/.test(text) ? null : forLocale(text, 'ko')
+}
+
+export function extractYes24Introduction(html: string, isbn: string): string | null {
+  // ISBN in a recommendation elsewhere on the page does not establish product identity.
+  const pageIsbn = html.match(/<th\b[^>]*>\s*ISBN13\s*<\/th>\s*<td\b[^>]*>\s*(\d{13})\s*<\/td>/i)?.[1]
+  if (pageIsbn !== isbn) throw new Error('YES24 product page ISBN mismatch')
+  const descriptions = new Set<string>()
+  for (const sectionId of INTRODUCTION_SECTIONS) {
+    const block = introductionSection(html, sectionId)
+    const text = block && sectionIntroduction(block, sectionId !== 'infoset_introduce')
+    if (text) descriptions.add(text)
+  }
+  return descriptions.size ? [...descriptions].join('\n\n') : null
 }
 
 export function exactYes24Product(value: unknown, isbn: string): string | null {

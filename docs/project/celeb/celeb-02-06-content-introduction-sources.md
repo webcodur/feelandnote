@@ -2,18 +2,20 @@
 
 `contents` BOOK·VIDEO·GAME·MUSIC의 `content_locales.description`을 외부 출처에서 채울 때의 채널 연구 결과를 모은다. 등록 메타 채널은 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md)가 쥐고, 이 문서는 소개문(description) 원문의 출처별 실측 특성만 다룬다.
 
-공통 계약: 소개문은 실제 작품을 서술한 산문이어야 한다. 목차·저자 소개·물리 사양·독자 리뷰·`N곡 수록 스튜디오 앨범` 류의 서지 메모는 소개문이 아니다. 쓰기 절차(CAS·백업·재조회·캐시 갱신)는 `sw/web-bo/scripts/contents/`의 적용기(`apply-media-introductions.ts`·`apply-gbooks.ts`·`apply-book-introduction-translations*.ts`)와 `media-introduction-contract.ts`가 쥔다. 신규 등록으로 계속 생기는 공란의 반복 수집 순서와 도달점은 지속 과제 [`../../continuous/content-introductions.md`](../../continuous/content-introductions.md)가 쥔다.
+공통 계약: 소개문은 실제 작품을 서술한 산문이어야 한다. 목차·저자 소개·물리 사양·독자 리뷰·`N곡 수록 스튜디오 앨범` 류의 서지 메모는 소개문이 아니다. 쓰기 절차(CAS·재조회·캐시 갱신)는 `sw/web-bo/scripts/contents/`의 적용기(`apply-media-introductions.ts`·`apply-gbooks.ts`·`apply-book-introduction-translations*.ts`)와 `media-introduction-contract.ts`가 쥔다. 작업 자료는 [데이터 원칙](../data/README.md)을 따른다. 신규 등록으로 계속 생기는 공란의 반복 수집 순서와 도달점은 지속 과제 [`../../continuous/content-introductions.md`](../../continuous/content-introductions.md)가 쥔다.
 
-공통 보류 규칙: 선택된 판본·작품 밖으로 소개를 fallback하지 않는다. ISBN 중복·합본·부분권·오디오북 등 범위가 충돌하면 보류한다. 기존 보류분은 새 원문을 독립 검증하지 않고 자동 승인하지 않는다. 출처 요청 오류(타임아웃·429·5xx)는 「원문 없음」이 아니다 — 재시도 대상이다.
+공통 보류 규칙: 선택된 판본·작품 밖으로 소개를 fallback하지 않는다. ISBN 중복·합본·부분권·오디오북 등 범위가 충돌하면 보류한다. 기존 보류분은 새 원문을 독립 검증하지 않고 자동 승인하지 않는다. 출처 요청 오류(타임아웃·429·5xx)는 「원문 없음」이 아니다 — 재시도 대상이다. HTTP 200으로 반환된 CAPTCHA 안내도 요청 실패이므로 소개 누락으로 세거나 기존 출처 표식을 비우지 않는다.
 
 ## BOOK
+
+책장에 나오는 책에 소개 본문도 사용 가능한 원문 출처도 없는 경우를 **출력되는 결손(소개 없음)**으로 부른다. 실제 번역본이 없어 노출되지 않는 언어 카드는 대상이 아니다. 용어와 현재 판본 선택에 따른 집계는 [`book-introductions-lib.mjs`](../../../sw/web-bo/scripts/contents/book-introductions-lib.mjs), 신규 도서가 추가된 뒤의 통합 실행 명령은 [`지속 수집 문서`](../../continuous/content-introductions.md#반복-실행-순서)가 쥔다.
 
 | 채널 | 언어 | 실측 특성 |
 |---|---|---|
 | 카카오 책 | ko | 등록 시 1차. 책 페이지는 있어도 소개 란이 비어 있는 경우가 많다(구간·절판·소규모 출판사) |
-| YES24 상품 페이지 | ko | `recover-book-introductions.ts` 경로. ISBN·제목·저자 대조 후 `#infoset_introduce` 추출. 영문 `--apply`는 KO/EN 작품 오연결로 차단돼 있다 — ko만 쓴다 |
-| OpenLibrary | en | 등록 시 1차. description은 자원봉사자 수기 필드라 절반 이상이 비어 있다. 실측 공란의 ~66%가 「레코드는 있으나 description 없음」 |
-| Google Books | ko·en | 소개문 수집 한정 해제(26.09.15). 출판사 제공 description이 OL 공란 도서에도 실재한다 — ISBN 조회 명중 ~58%, 제목+저자 조회 ~13%. 일일 무료 한도 1,000회/키. 키 로테이션은 `gbooks-keypool.ts`(키별 카운터·죽은 키 표시·403/429 순환) |
+| YES24 상품 페이지 | ko | `recover-book-introductions.ts`와 BOOK 통합 수집 경로. ISBN·제목·저자 대조 후 `#infoset_introduce`와 제목이 ‘출판사 리뷰’인 `#infoset_pubReivew`의 본문을 수집한다. 회원 리뷰·추천평·책 속으로는 제외한다. 영문 `--apply`는 KO/EN 작품 오연결로 차단돼 있다 — ko만 쓴다 |
+| OpenLibrary | en | 등록 시 1차. description은 자원봉사자 수기 필드라 절반 이상이 비어 있다. 실측 공란의 ~66%가 「레코드는 있으나 description 없음」. `requestOpenLibraryBookBatch`로 판본을 받고 공식 `/api/get_many`로 원작을 다중 조회할 수 있다. `canUseBookWorkIntroduction` 통과는 후보 조건이며, 다른 책의 설명·다른 개정판·목차·독자 리뷰가 섞였는지 LLM이 본문을 읽고 판정한다 |
+| Google Books | ko·en | 소개문 수집 한정 해제(26.09.15). 출판사 제공 description이 OL 공란 도서에도 실재한다 — ISBN 조회 명중 ~58%, 제목+저자 조회 ~13%. API에 없는 본문이 ISBN 상세 페이지에는 있는 사례도 확인해, 통합 수집기의 `google-page`가 상세 본문과 실제 서지를 별도로 수집한다. 요청 ISBN만으로 일치 판정을 하지 않는다. 일일 무료 API 한도 1,000회/키. 키 로테이션은 `gbooks-keypool.ts`(키별 카운터·죽은 키 표시·403/429 순환) |
 | 위키백과(ko·en) | ko·en | 책 문서가 있는 유명작에 유효 — 표본 명중률 ko ~12%·en ~28%. 저자명이 발췌 앞부분에 함께 등장할 때만 채택. 수집기는 `collect-book-wiki.ts` |
 | 알라딘 TTB | ko | **사용 불가** — 알라딘 계정 로그인이 안 돼 TTB 키 발급이 불가하다(26.09.16 확인). `external_source` 허용값 `aladin`은 남겨둔다 |
 | 정보나루(data4library) | ko | 국립중앙도서관 API. `srchDtlList?isbn13=`로 책 소개(description) 조회 — 도서관코드 불필요. 인증키 발급 후 마이페이지 승인이 있어야 활성화된다. 일 500건, 서버 IP(오라클) 등록 시 일 30,000건. 수집기는 `prepare-naru.ts`, 적용은 `apply-gbooks.ts --file` 재사용 |
@@ -70,6 +72,7 @@ ko 행에 영문 본문만 잡히는 경우는 ko 로케일 검사가 걸러내�
 
 ## 번역 백엔드
 
+- 도서의 일본어 원문 소개도 `agm→agy`로 한국어 번역하며, 검수 입력의 `sourceLocale`에 `ja`를 기록해 실제 원문 언어를 보존한다.
 - ko→en 번역은 본 에이전트가 직접 한다(26.09.27 사용자 지시 — 외부 모델 호출 없이 직접 번역). en→ko 번역은 **agy 또는 ChatGPT만** 쓴다 — 당분간은 `agm` 계정 풀을 통한 agy 하나로 고정한다(`agy-accounts`·`agy-antigravity` 스킬). 이 agm→agy 경로는 이 작업에 한해 상시 승인돼 회차별 지시가 필요 없다(26.09.27 사용자 지시). 그 외 도구·용도는 `../../agent-rules.md`의 규칙대로 지시가 있을 때만 쓴다.
 - 번역은 검증된 원문에만 쓴다. 독립 조사·작성을 시키지 않는다.
 - 허용 출처 어디에도 원문이 없는 공란은 **본 에이전트가 직접 조사해 작성한다**(26.09.27 사용자 지시). 조사는 웹 검색으로 작품 정체를 확인하고, 근거로 삼은 URL을 `sources.description`에 기록하며 `description_method`는 `research`로 둔다. 사실 확인이 안 되는 작품은 여전히 공란이 정답이다.

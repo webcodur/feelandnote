@@ -1267,6 +1267,19 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   }
   if(change.reviewedFigureRelation!==undefined)throw Error('Figure relation proof may only review an existing figure relation')
   const evidence=patch?.sources?.edition_selection_evidence
+  if(['content_locales','figure_book_editions'].includes(table)&&!remove
+   &&reviewedBookEditionSelectionReason(before)&&!reviewedBookEditionSelectionReason({...before,...patch})){
+   const proof=change.reviewedSelectionRestoration,oldProof=before.sources.edition_selection_evidence
+   if(!Array.isArray(evidence)||evidence.length!==0||proof?.method!=='independent_selection_restoration_review'||proof.llmReviewed!==true
+    ||proof.contentId!==before.content_id||proof.isbn!==before.isbn||proof.locale!==before.locale||proof.editionTitle!==before.title
+    ||proof.excludedReason!==reviewedBookEditionSelectionReason(before)||!independentSource(proof.sourceUrl)
+    ||typeof proof.explanation!=='string'||proof.explanation.trim().length<60
+    ||typeof proof.bodyEvidence!=='string'||proof.bodyEvidence.trim().length<40
+    ||oldProof.length!==1||oldProof[0].llmReviewed!==true||oldProof[0].content_id!==before.content_id
+    ||Object.keys(patch).some(key=>key!=='sources')
+    ||!isDeepStrictEqual({...patch.sources,edition_selection_evidence:oldProof},before.sources))
+    throw Error('Selection restoration requires exact live identity, independent LLM review and unchanged physical data and other sources')
+  }
   if(evidence!==undefined&&!isDeepStrictEqual(evidence,before.sources?.edition_selection_evidence)
    &&(!Array.isArray(evidence)||evidence.some(proof=>!reviewedBookEditionSelectionReason({...before,
     isbn:proof?.isbn,title:proof?.edition_title,sources:{edition_selection_evidence:[proof]}})
