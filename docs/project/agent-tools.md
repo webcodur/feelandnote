@@ -15,7 +15,7 @@
 | 도구 | 정체 | 스킬 | 헬퍼 | 현재 용도 배정 |
 |---|---|---|---|---|
 | codex | OpenAI 코딩 CLI. `exec` 비대화 호출 | `codex-gpt` | `scripts/codex-call.mjs` | GPT 호출은 모두 `gpt-6.1-sol`. 조사·사실 검증·산문·대사·내장 image_gen 이미지 생성(REF 입력 지원) |
-| agy | Antigravity CLI(Gemini) 비대화 호출 | `agy-antigravity` | `scripts/agy-call.mjs` | 한국어 산문 처리 — 인물안내·가상독백 문장 생성. 큰 실내·군중 장면 이미지 |
+| agy | Antigravity CLI(Gemini) 비대화 호출 | `agy-antigravity` | `scripts/agy-call.mjs` | 한국어 산문 처리 — 인물안내·가상독백 문장 생성. 큰 실내·군중 장면 이미지. 인물 작업은 1회 호출에 1명 |
 | agy 계정 | agy 구글 계정 풀 쿼터·전환 | `agy-accounts` | — | agy 쿼터 소진 시 계정 전환·갱신 |
 | Kiro | Kiro CLI의 GPT Sol 비대화 | `kiro-gpt` | — | GPT 라인 보조 채널. 터미널×워커 병렬 |
 | opencode | muse-spark 등 로컬 CLI | `opencode-muse` | — | 한국어 산문 저비용 대량 배치. **조사를 명시하지 않으면 내재 지식으로 지어낸다** |
@@ -78,5 +78,6 @@
 | 2 등록·3 배정 | 로컬 스크립트 | 외부 CLI 없음 |
 | 4 아바타 | 시드 수집 `insane-search`·aside → **초상화 합성**(위 「아바타 합성」 우선순위) → nobg → reframe | Commons 크롭은 자유라이선스 사진 한정 폴백 |
 | 5 인물안내·가상독백 | **agy(Gemini)** | 작업자가 출처를 확인하고 글의 방향·사용할 정보를 리스팅해 전달한다. agy는 그 재료로 한국어 문장만 작성한다 |
-| 5 상황 대사·한마디 | **codex gpt-6.1-sol** | 실제 발언 기반 |
+| 5 상황 대사 | **codex gpt-6.1-sol** | 실제 발언 기반 |
+| 5 한마디 | 도구 제한 없음 | 작업자가 실제 발언을 찾아 확정한다. 번역·정리는 어떤 도구든 쓴다 |
 | 세력 이미지(단체샷·화보·표지) | **codex 내장 image_gen** | 공통 발주는 이미지 생성·발주 규칙, 테마 표지는 `faction-image` 스킬 |

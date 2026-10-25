@@ -24,6 +24,7 @@ scripts/
     timeline/     생애 연표·좌표
   avatar/         아바타 등록·크롭·측정
   photo/          인물 화보·얼굴 크롭·배너
+  naver-blog/     네이버 기존·예약 글 편집·검증·서비스 대표사진 동기화
   faction/        신화 인물 비공개 선등록(seed-inactive)
   fiction/        신화·전설·허구 인물
   figure-books/   전체 인물의 등장·연관 도서 후보·검수·반영
@@ -43,6 +44,7 @@ scripts/
 |---|---|
 | `celeb:audit:activation` | 전체 인물 데이터 보유율·공개 전환 준비도 감사. `--apply` 로 일괄 활성화까지 |
 | `celeb:audit:basic` | 기본 정보 결손 전수 조사(읽기 전용) |
+| `node scripts/celeb/bio-audit.mjs` | AGM·AGY·Gemini로 공개 인물의 bio 한영 전수점검. `init/run/status/sample/review/retry --run <OS 임시 작업 폴더>`. 검색으로 찾은 URL의 실제 HTML·PDF 본문을 수집해 Gemini에 제공하고 원문 발췌를 대조한다. 처음 4명 뒤 40명씩 조사하며 감독자의 출처 표본 검수 후 bio 두 필드만 조건부 반영한다. 실행·표본 기준은 `celeb/bio-audit-contract.mjs`가 쥔다. 작업 종료 뒤 임시 상태·조사 자료를 폐기한다 |
 | `celeb:audit:tracks` | 전 트랙 결손 전수 감사(읽기 전용) |
 | `celeb:audit:public` | 사용자 웹 노출 데이터의 구조·결측 1차 감사 |
 | `celeb:audit:spectrum` | 스펙트럼 근거문 감사(읽기 전용). 인물 복제와 근거문 내용 결함을 따로 세어 후보 목록을 쓴다 |
@@ -93,6 +95,10 @@ scripts/
 | `photo:crop-faces` | 화보에서 얼굴 정사각 크롭 추출(아바타용) |
 | `photo:crop-body` | 단체샷에서 인물별 전신 크롭 추출 |
 | `photo:world-banner` | 세계관 배너 이미지 준비 |
+| `node scripts/naver-blog/sync-person-photos.mjs` | 서비스 대표사진을 기존·예약 글의 인물 사진에 동기화. 기본은 자산 준비만, `--apply`는 반영·재열기 검증, `--apply --watch`는 변경 감시. 현재 글의 인물 사진을 매번 다시 식별하며 규칙은 [네이버 블로그](../../../docs/continuous/blog-naver-book.md)를 따른다 |
+| `naver-blog/lib/editorial-editor.mjs` | 기존 본문을 보존하는 SmartEditor 문단 선택·교체·정렬·글자 크기 도구. 전체 본문·사진·링크와 저장 후 재열기 검증은 호출자가 수행한다 |
+| `naver-blog/lib/editorial-layout.mjs` | 검수한 새 수정 원고의 책 제목·저자·독서 경위 서식을 적용·검사한다. 링크 문단 서식과 기관 아바타는 보존한다 |
+| `naver-blog/apply-editorial-changes.mjs --plan=<임시 JSON>` | 개별 검수한 기존 글의 문단·표 셀과 잘못된 책 표지 한 장을 수정한다. 표지 교체는 검수 파일 해시·현재 원본·업로드 크기·액자를 대조하고 다른 사진을 보존한다. 기본은 저장하지 않으며 `--apply --review`는 화면 자체 검토 후 저장·재열기에서 본문 전체·사진·표·링크·설정을 대조한다 |
 
 ## 신화·전설·허구 인물
 
@@ -116,6 +122,8 @@ scripts/
 | 명령 | 하는 일 |
 |---|---|
 | `book-recommend:resources` | 서재 탐방 DB 연결·표지 캐시 운영 |
+| `contents:book-introductions` | 서비스 노출 소개 누락 재집계. `--collect`로 현재 대상의 소개 원문을 한 바퀴 조회하고, `--reviewed <JSON> --apply`로 LLM 검수분만 참조 검사·CAS·재조회·운영 캐시·상세 검증까지 실행. 실행점은 `contents/book-introductions.mjs`, 기준과 현재 수치는 [소개 지속 수집](../../../docs/continuous/content-introductions.md) |
+| `contents:book-introductions:test` | 책장 노출·판본별 소개 누락·신규 등록·오디오 제외·검수 후 변경과 요청 실패 회귀 검사 |
 | `contents:book-sources` | BOOK 소개를 본문 대신 카카오·다음·OpenLibrary 출처 표시와 조회 주소로 전환. 기본은 읽기 전용, `--apply --backup-dir`로 반영 |
 | `figure-books:audit` | 전체 인물의 등장·연관 도서와 공개 쿠팡 판본 커버리지 감사 |
 | `figure-books:direct-candidates` | 기존 BOOK의 제목·저자에서 인물 이름이 직접 보이는 후보 추출 |

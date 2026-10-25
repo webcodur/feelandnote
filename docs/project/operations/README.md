@@ -5,7 +5,7 @@
 | 주소 | 문서 | 책임 |
 |---|---|---|
 | 01 | [`ops-01-service-strategy.md`](ops-01-service-strategy.md) | 경쟁·유입 연구, 읽을거리·수집·도서·비도서 판매 방향과 UI |
-| 02 | [`ops-02-seo.md`](ops-02-seo.md) | 사이트맵, robots, 메타데이터, 검색엔진 등록과 색인 운영 원칙 |
+| 02 | [`ops-02-seo.md`](ops-02-seo.md) | 사이트맵, robots, 메타데이터, 검색엔진 등록과 일일 신청·이력 대조·접수 검증 |
 | 03 | [`ops-03-affiliate-commerce.md`](ops-03-affiliate-commerce.md) | 도서 판매처 운영, 영상·게임·음악의 제휴 경로와 공개 이용 혜택 |
 | 04 | [`ops-04-adsense.md`](ops-04-adsense.md) | 광고 연결·승인 확인·콘텐츠 심사·게재 운영 |
 

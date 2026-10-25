@@ -11,7 +11,7 @@
 - [ ] 전역 콘텐츠는 있으나 인물 관계가 없음(26.09.29 확인) — 이사도라 덩컨–종의 기원·플루타르코스 영웅전, 마리 퀴리–파우스트·과학과 가설·쿠오바디스(전역 콘텐츠가 새로 생김), 세종(`sejong-the-great`)–논어, 제갈량–관자
 - [ ] 전역 콘텐츠부터 없음 — 마리 퀴리–판 타데우시, 피터 틸–낭만적 거짓과 소설적 진실
 
-- [ ] `content_locales.thumbnail_url`이 빈 판본(26.09.29 확인) — 피터 틸–주권적 개인·거대한 환상 KO, 이순신–전등신화 EN(`New Tales Told by Lamplight`). 젠슨 황–포지셔닝 EN은 표지가 채워져 빠졌다. 제프리 힌턴–The Organization of Behavior KO, 피터 틸–데카당스 사회 KO, 샘 올트먼–딜러스 오브 라이트닝 KO는 한국어 제목이 달라 대조하지 못했고, 해당 편이 작업 폴더에 걸려 있지 않다(보관소 `D:\remotion-assets\episodes`). `pnpm --filter remotion assets stage episodes <편>` 뒤 `book.ko.json`의 `contentId`로 본다.
+- [ ] 제프리 힌턴–The Organization of Behavior KO, 피터 틸–데카당스 사회 KO, 샘 올트먼–딜러스 오브 라이트닝 KO는 한국어 제목이 달라 대조하지 못했고, 해당 편이 작업 폴더에 걸려 있지 않다(보관소 `D:\remotion-assets\episodes`). `pnpm --filter remotion assets stage episodes <편>` 뒤 `book.ko.json`의 `contentId`로 확인한다.
 
 ## 카드뉴스
 

@@ -26,6 +26,7 @@ Aside는 사용자 계정으로 로그인된 실제 브라우저다. CDP로 제�
 - **이동 직후 첫 `page.screenshot`은 CDP 타임아웃이 잦다.** `bringToFront()` → `sleep(1500)` 뒤 다시 찍으면 된다. 재시도 루프를 스크립트 안에 넣는다.
 - 스크린샷 타임아웃이 연달아 나면 Aside 데몬이 내려갈 수 있다(`Aside isn't running`). `Start-Process "C:\Program Files\Aside\Application\Aside.exe"`로 다시 띄우고 `aside account status`로 확인한다.
 - 다 보고 나면 `for (const t of [...tabs]) await closeTab(t)`로 연 탭을 닫는다.
+- 프로세스를 강제 종료해 남은 탭은 다른 세션에서 `attachBrowserTab`→`closeTab`으로 닫히지 않는다. `aside --account <id> session list`에서 그 실행이 만든 `ephemeral  Aside CLI REPL` 세션을 찾아 `session delete <id>`로 지우면 그 세션의 탭이 함께 닫힌다. 다른 작업의 세션은 지우지 않는다.
 
 ## 실행 — repl만 쓴다
 
