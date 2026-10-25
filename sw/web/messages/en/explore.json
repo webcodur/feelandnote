@@ -738,6 +738,7 @@
     },
     "shelfViewAll": "View all",
     "shelfViewSingle": "View one",
-    "shelfViewMode": "View mode"
+    "shelfViewMode": "View mode",
+    "expandIntroLoadFailed": "Could not load the introduction."
   }
 }

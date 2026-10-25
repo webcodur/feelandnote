@@ -11,12 +11,13 @@ const tailwind = require('@tailwindcss/postcss')
 const messages = Object.fromEntries(['ko','en'].map(locale => [locale, {
   ...require(`../../../../../../messages/${locale}/core.json`),
   ...require(`../../../../../../messages/${locale}/content.json`),
+  ...require(`../../../../../../messages/${locale}/explore.json`),
 }]))
 type Builder = {
   onResolve: (options: { filter: RegExp }, callback: (args: { path: string }) => unknown) => void
   onLoad: (options: { filter: RegExp; namespace?: string }, callback: (args: { path: string }) => unknown) => void
 }
-type FixtureWindow = Window & { fixtureLocale?: string; updateCard: (props: Record<string, unknown>) => void }
+type FixtureWindow = Window & { fixtureLocale?: string; retryBriefCalls?: number; updateCard: (props: Record<string, unknown>) => void }
 
 test('music shelf restores preview and listening link without retaining another track', async () => {
   const resolveDir = fileURLToPath(new URL('./', import.meta.url))
@@ -27,7 +28,7 @@ test('music shelf restores preview and listening link without retaining another 
       import {createRoot} from 'react-dom/client'; import {useState} from 'react'; import Card from './ExpandCard';
       const item={content_id:'track-a',review:'Why this track matters',content:{id:'track-a',type:'MUSIC',title:'Buriburi',creator:'Balming Tiger'}};
       const brief={contentId:'track-a',category:'music',description:'Track introduction',metadata:{artists:['Eddie Vedder & Mike McCready'],albumType:'track',genre:'Alternative',previewUrl:'https://example.test/a.m4a',itunesUrl:'https://music.apple.com/album/track-a'}};
-      function App(){const [props,setProps]=useState({item,brief,isActive:true,isBriefLoading:false,isRecordLoading:false,hasBriefError:false,hasRecordError:false,onRetryBrief(){},onRetryRecord(){}});
+      function App(){const [props,setProps]=useState({item,brief,isActive:true,isBriefLoading:false,isRecordLoading:false,hasBriefError:false,hasRecordError:false,onRetryBrief(){window.retryBriefCalls=(window.retryBriefCalls||0)+1},onRetryRecord(){}});
         window.updateCard=next=>setProps(previous=>({...previous,...next}));return <Card {...props}/>}
       createRoot(document.getElementById('root')).render(<App/>);
     ` },
@@ -45,6 +46,8 @@ test('music shelf restores preview and listening link without retaining another 
               ? `export default function Cover({className}){return <div data-fixture-cover className={className} style={{background:'#343b3e'}}/>}`
             : args.path.endsWith('/ContentPurchaseAction')
               ? `export default function Purchase({className}){return <button className={className}>구매 및 감상</button>}`
+            : args.path.endsWith('/Button')
+              ? `export default function Button({children,className,onClick}){return <button className={className} onClick={onClick}>{children}</button>}`
             : args.path.endsWith('/FormattedText')
               ? `export default function Text({text}){return <span data-fixture-review>{text}</span>}`
             : `export const REVIEW_PREVIEW_TEXT_CLASS='';export default function Leaf({children}){return children??null}`
@@ -102,6 +105,9 @@ test('music shelf restores preview and listening link without retaining another 
     assert.equal(await page.$eval('audio',audio=>audio.muted),true)
     await page.$eval('audio',audio=>audio.dispatchEvent(new Event('error')))
     await page.waitForSelector('[data-music-preview] [role=alert]')
+    await page.click('button[aria-label="미리듣기 재생"]')
+    await page.waitForFunction(()=>!document.querySelector('[data-music-preview] [role=alert]'))
+    await page.$eval('audio',audio=>audio.dispatchEvent(new Event('pause')))
 
     const update = (props: Record<string, unknown>) => page.evaluate(props => (window as unknown as FixtureWindow).updateCard(props), props)
     await page.evaluate(() => { (window as unknown as FixtureWindow).fixtureLocale='en' })
@@ -113,6 +119,19 @@ test('music shelf restores preview and listening link without retaining another 
     await update({ownerNickname:undefined,hasBriefError:true})
     await page.waitForSelector('button[aria-label="미리듣기 재생"]')
     assert.ok(await page.$('audio'),'An introduction-provider error must not remove saved music playback')
+    for (const width of [320,390,900]) {
+      await page.setViewport({width,height:800})
+      const layout=await page.$eval('article [role=alert]',alert=>{
+        const notice=alert.getBoundingClientRect();const cover=document.querySelector('[data-testid=expand-cover]')!.getBoundingClientRect()
+        return {overlaps:notice.left<cover.right && notice.right>cover.left && notice.top<cover.bottom && notice.bottom>cover.top,overflow:document.documentElement.scrollWidth>innerWidth}
+      })
+      assert.equal(layout.overlaps,false,`The introduction failure must not overlap the cover at ${width}px`)
+      assert.equal(layout.overflow,false)
+      if (process.env.TEST_ARTIFACT_DIR) await page.screenshot({path:`${process.env.TEST_ARTIFACT_DIR}/intro-error-fixed-${width}.png`,fullPage:true})
+    }
+    assert.ok((await page.$eval('article [role=alert]',node=>node.textContent))?.includes('작품 소개를 불러오지 못했습니다.'))
+    await page.click('article [role=alert] button')
+    assert.equal(await page.evaluate(()=>(window as unknown as FixtureWindow).retryBriefCalls),1,'Retry must still request the introduction')
     await update({hasBriefError:false})
     await update({ showIntroduction: false })
     await page.waitForFunction(() => !document.querySelector('[data-fixture-intro]'))

@@ -738,6 +738,7 @@
     },
     "shelfViewAll": "전체 보기",
     "shelfViewSingle": "개별 보기",
-    "shelfViewMode": "보기 방식"
+    "shelfViewMode": "보기 방식",
+    "expandIntroLoadFailed": "작품 소개를 불러오지 못했습니다."
   }
 }

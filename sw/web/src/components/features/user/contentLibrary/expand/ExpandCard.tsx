@@ -224,8 +224,8 @@ function ExpandCard({
               모바일은 float를 감싸도록 일반 블록 흐름을 유지한다 */}
           <div className={showMedia ? `min-w-0 sm:col-start-2 sm:row-start-1 ${introFitsInline || musicDetails ? "" : combineBookReading ? "sm:h-72 sm:contain-size" : "sm:contain-size"} ${combineBookReading ? "" : "md:row-span-2"} md:mx-auto md:w-full md:max-w-[var(--reading-preview-max-width,100%)]` : "mx-auto w-full min-w-0 max-w-[var(--reading-preview-max-width,100%)]"}>
             {showIntroduction ? (hasBriefError ? (
-              <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
-                <p>{tExpand("loadFailed")}</p>
+              <div role="alert" className="flow-root rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
+                <p>{tExpand("expandIntroLoadFailed")}</p>
                 <Button type="button" variant="secondary" size="sm" className="mt-3" onClick={onRetryBrief}>
                   {tExpand("retry")}
                 </Button>
