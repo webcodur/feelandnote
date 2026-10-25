@@ -51,7 +51,7 @@ test('all records toggle and icon-only page link share one control and keep navi
       @import "tailwindcss" source(none);
       @source "./components/shared/LibraryShelfUtilities.tsx";
       @source "./app/[locale]/(main)/celeb/[slug]/ReviewsSection.tsx";
-      @theme { --color-accent: #ddbb66; --radius-control: 6px; }
+      @theme { --color-accent: #ddbb66; --color-text-primary: #f4f2ec; --color-text-secondary: #9a9490; --color-bg-card: #191817; --radius-control: 6px; }
     `, { from: fileURLToPath(new URL('../../../../../shelf-hover.css', import.meta.url)) })
     await page.setContent('<div id="root"></div>')
     await page.addStyleTag({ content: css.css })
@@ -72,19 +72,57 @@ test('all records toggle and icon-only page link share one control and keep navi
     assert.equal(arrowLayout.border, '1px', 'The inset page arrow must have its own outline')
     assert.equal(await page.$eval('[data-shelf-records-actions] a', node => node.textContent), '', 'Only the arrow icon belongs in the page link')
     assert.equal(await page.$eval('[data-shelf-records-actions] a', node => node.getAttribute('aria-label')), 'records.openPage')
-    for (const target of ['[data-shelf-single-toggle]', '[data-shelf-all-toggle]', '[data-shelf-records-actions] a']) {
+    const single = '[data-shelf-single-toggle]'
+    const all = '[data-shelf-all-toggle]'
+    const arrow = '[data-shelf-records-actions] a'
+    const appearance = (selector: string) => page.$eval(selector, node => {
+      const style = getComputedStyle(node)
+      return { background: style.backgroundColor, color: style.color, shadow: style.boxShadow }
+    })
+    await page.mouse.move(500, 500)
+    const selected = await appearance(single)
+    const unselected = await appearance(all)
+    const arrowRest = await appearance(arrow)
+    const outerBorder = await page.$eval('[data-shelf-records-actions]', node => getComputedStyle(node).borderTopColor)
+    assert.notEqual(selected.shadow, 'none', 'The chosen mode must retain its own selection marker')
+    assert.equal(unselected.shadow, 'none')
+    for (const target of [single, all, arrow]) {
       await page.hover(target)
       const border = await page.$eval('[data-shelf-records-actions]', node => {
         const style = getComputedStyle(node)
         return { width: style.borderTopWidth, colors: [style.borderTopColor, style.borderRightColor, style.borderBottomColor, style.borderLeftColor], overflow: style.overflow }
       })
       assert.equal(border.width, '1px', 'Joined controls must share one outer border')
-      assert.deepEqual(border.colors, Array(4).fill('rgb(221, 187, 102)'), 'Hovering either half must highlight the full outline uniformly')
+      assert.deepEqual(border.colors, Array(4).fill(outerBorder), 'Hover must not highlight the shared outer outline')
       assert.equal(border.overflow, 'hidden', 'Hover fills must stay inside the shared rounded corners')
+      if (target === all) {
+        const hovered = await appearance(all)
+        assert.notEqual(hovered.background, unselected.background)
+        assert.notEqual(hovered.color, selected.color, 'Hovering an unselected mode must not imitate selection')
+        assert.equal(hovered.shadow, 'none')
+        assert.deepEqual(await appearance(single), selected, 'Hovering another mode must preserve the selected mode')
+        assert.deepEqual(await appearance(arrow), arrowRest, 'Hovering all view must not also highlight its page arrow')
+        await page.mouse.down()
+        assert.notEqual((await appearance(all)).background, hovered.background, 'Pressed feedback must differ from hover')
+        assert.equal(await page.$eval(all, node => node.getAttribute('aria-pressed')), 'false')
+        // Release outside the control so this appearance check does not select it.
+        await page.mouse.move(500, 500)
+        await page.mouse.up()
+      }
+      if (target === arrow) {
+        assert.notEqual((await appearance(arrow)).background, arrowRest.background)
+        assert.deepEqual(await appearance(all), unselected, 'Arrow hover must stay inside the arrow button')
+        assert.deepEqual(await appearance(single), selected)
+      }
     }
     await page.click('[data-shelf-all-toggle]')
     await page.waitForSelector('[data-all-records]')
     assert.equal(await page.$eval('[data-shelf-all-toggle]', node => node.getAttribute('aria-pressed')), 'true')
+    await page.mouse.move(500, 500)
+    const selectedAll = await appearance(all)
+    assert.notEqual(selectedAll.shadow, 'none')
+    await page.hover(arrow)
+    assert.deepEqual(await appearance(all), selectedAll, 'Arrow hover must also preserve the selected all-view appearance')
     assert.equal(await page.$('[data-confirm]'), null)
     await page.click('[data-shelf-records-actions] a')
     await page.waitForSelector('[data-confirm]')

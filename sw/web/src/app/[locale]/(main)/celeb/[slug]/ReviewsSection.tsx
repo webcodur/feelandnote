@@ -88,7 +88,7 @@ export default function ReviewsSection({
             title={t("records.openPage")}
             aria-haspopup="dialog"
             aria-expanded={isRecordsConfirmOpen}
-            className="absolute end-1 top-1/2 inline-flex size-8 -translate-y-1/2 items-center justify-center rounded border border-current/30 text-current hover:border-accent hover:bg-accent/15 hover:text-accent active:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
+            className="absolute end-1 top-1/2 inline-flex size-8 -translate-y-1/2 items-center justify-center rounded border border-white/20 bg-bg-card text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent active:bg-accent/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
           >
             <ArrowRight size={16} aria-hidden />
           </Link>
