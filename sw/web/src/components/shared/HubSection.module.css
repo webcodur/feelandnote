@@ -13,6 +13,9 @@
   --hub-divider-after: 64px;
 }
 
+.homeRhythm { --hub-section-before: 24px; --hub-divider-after: 64px; }
+.homeRhythm .header { margin-bottom: 28px; }
+
 .opening {
   margin-top: 0;
   padding-top: 24px;
@@ -55,6 +58,8 @@
 @media (min-width: 768px) {
   .section { margin-top: var(--hub-section-before, 24px); }
   .spacious { --hub-section-before: 32px; --hub-divider-after: 80px; }
+  .homeRhythm { --hub-section-before: 32px; --hub-divider-after: 80px; }
+  .homeRhythm .header { margin-bottom: 32px; }
   .opening { margin-top: 0; padding-top: 32px; }
   .divider { margin-bottom: var(--hub-divider-after, 64px); }
   .afterDivider { padding-top: 64px; }

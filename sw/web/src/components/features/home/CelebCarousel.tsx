@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { Search, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
+import { MascotEmptyState } from '@/components/shared/mascots/Mascot';
 import { Pagination } from "@/components/ui";
 import CelebCard, { type CelebCardImage } from "@/components/shared/CelebCard";
 import { CELEB_GRID_LAYOUT, CELEB_GRID_LAYOUT_PORTRAIT } from "@/components/shared/celebGridLayout";
@@ -288,15 +288,8 @@ export default function CelebCarousel({
 
 // #region 하위 컴포넌트 (Helper Components)
 function EmptyState() {
-  const t = useTranslations("home.ui");
-  return (
-    <div className="flex flex-col items-center justify-center py-12 px-4">
-      <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-3">
-        <UserXIcon size={32} className="" />
-      </div>
-      <p className="text-sm text-text-secondary text-center">{t("empty.noCelebs")}</p>
-    </div>
-  );
+  const guide = useTranslations('mascot');
+  return <MascotEmptyState kind="owl" message={guide('figureSearchEmpty')} description={guide('figureSearchHint')} />;
 }
 
 function GridSkeleton({ imageMode }: { imageMode: CelebCardImage }) {

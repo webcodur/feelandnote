@@ -61,7 +61,7 @@ export default function StackedReviewLayout({ props, state }: { props: ContentCa
           {props.reviewIsOriginalLanguage && <span className="mb-1 text-[11px] text-amber-200">{state.t("reviewModal.originalLanguage")}</span>}
           <span className="block w-full break-words text-sm leading-[1.7] text-text-secondary">
             {isSpoiler ? state.t("reviewModal.spoiler") : displayReview
-              ? <span ref={reviewRef} className={"whitespace-pre-line line-clamp-5 " + (isReviewClipped ? "clip-fade-end" : "")}><FormattedText text={displayReview.replace(/\n\s*\n/g, " ")} /></span>
+              ? <span ref={reviewRef} className={"whitespace-pre-line line-clamp-5 " + (isReviewClipped ? "clip-fade-end" : "")}><FormattedText text={displayReview.replace(/\n\s*\n/g, " ")} className="text-review" /></span>
               : state.t("reviewModal.noReview")}
           </span>
         </button>

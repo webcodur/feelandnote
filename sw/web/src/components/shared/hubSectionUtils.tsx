@@ -15,6 +15,7 @@ export function hubSectionId(index: number, groupId?: string) {
 
 interface HubSectionConfig {
   key: string;
+  id?: string;
   moreHref?: string;
   titleKey: string;
   subtitleKey?: string;
@@ -30,6 +31,7 @@ export function hubSection(sections: readonly HubSectionConfig[], groupId: strin
   if (idx < 0) throw new Error(`hubSection: config에 없는 구획을 참조했다 (${groupId}/${key})`);
   const sec = sections[idx];
   return {
+    id: sec.id,
     title: t(sec.titleKey),
     subtitle: sec.subtitleKey ? t(sec.subtitleKey) : undefined,
     moreHref: sec.moreHref,
@@ -44,7 +46,7 @@ export function hubSection(sections: readonly HubSectionConfig[], groupId: strin
 
 /** 더보기를 구획 내부에서 따로 처리하는 구획용 — 래퍼가 붙이는 더보기를 뗀다 */
 export function withoutMore(p: ReturnType<typeof hubSection>) {
-  return { title: p.title, subtitle: p.subtitle, index: p.index, total: p.total, groupId: p.groupId, hideDivider: p.hideDivider };
+  return { id: p.id, title: p.title, subtitle: p.subtitle, index: p.index, total: p.total, groupId: p.groupId, hideDivider: p.hideDivider };
 }
 
 /**
@@ -66,9 +68,9 @@ export function hubAtlasNavItems(labels: readonly string[], groupId: string): At
 export const HOME_GROUP_ID = "home";
 
 export const HOME_SECTIONS: readonly HubSectionConfig[] = [
-  { key: "todayFigure", moreHref: "/explore/today",     titleKey: "todayFigure", subtitleKey: "todayFigureSub", moreKey: "viewAll" },
-  { key: "featuredReview", titleKey: "featuredReview", subtitleKey: "featuredReviewSub" },
-  { key: "figureLinks", moreHref: "/explore?sortBy=country_trending", titleKey: "figureLinks", subtitleKey: "figureLinksSub", moreKey: "viewAll", navTitleKey: "figureLinksNav" },
-  // { key: "freeBoard",   moreHref: "/agora/board/free",  titleKey: "freeBoard", moreKey: "viewAll" },
+  { key: "appreciations", titleKey: "navShowcase" },
+  { key: "search", id: "search", titleKey: "startTitle", navTitleKey: "navSearch" },
+  { key: "notice", id: "notices", titleKey: "noticeTitle", navTitleKey: "noticeTitle", moreHref: "/agora/board/notice", moreKey: "allNotices" },
+  { key: "contact", id: "contact", titleKey: "contactTitle", navTitleKey: "navContact" },
 ];
 // #endregion

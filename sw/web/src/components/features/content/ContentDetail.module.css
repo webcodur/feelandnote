@@ -65,7 +65,7 @@
 .spoilerToggle { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; color: var(--color-text-secondary); font-size: 12px; }
 .spoilerToggle:hover:not(:has(input:disabled)) { color: var(--color-text-primary); }
 .spoilerToggle:has(input:disabled) { cursor: not-allowed; opacity: 0.45; }
-.reviewFeedback:has([role="status"]:empty):not(:has([role="alert"])) { display: none; }
+.reviewFeedback { min-height: 44px; }
 .reactionField { min-width: 0; border: 0; padding: 0; }
 .reactionGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .reactionOption { position: relative; min-width: 0; cursor: pointer; }
@@ -76,7 +76,7 @@
 .reactionRadio:checked + .reactionLabel { border-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 12%, var(--color-bg-card)); color: var(--color-accent); }
 .reactionRadio:focus-visible + .reactionLabel { box-shadow: 0 0 0 2px var(--color-accent); }
 .reactionRadio:disabled + .reactionLabel { cursor: wait; opacity: 0.65; }
-.reactionStatus { color: var(--color-accent); font-size: 12px; }
+.reactionStatus { display: flex; align-items: center; min-height: 44px; color: var(--color-accent); font-size: 12px; }
 .composerFooter { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 @media (max-width: 767px) {
   .sectionBody { padding-inline: 14px; }

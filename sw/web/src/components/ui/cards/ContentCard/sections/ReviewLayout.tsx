@@ -123,7 +123,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
                   </p>
                 )}
                 <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-line break-words line-clamp-[7]">
-                  <FormattedText text={displayReview} />
+                  <FormattedText text={displayReview} className="text-review" />
                 </p>
               </div>
             )}

@@ -3,7 +3,7 @@ import type { CSSProperties, ReactNode, Ref } from "react";
 import FormattedText from "./FormattedText";
 import { isDeveloperMode } from "../../lib/developer-mode";
 
-type ContentReadingTone = "primary" | "secondary";
+export type ContentReadingTone = "primary" | "secondary" | "review";
 type ContentReadingSize = "compact" | "reader" | "modal";
 
 interface ContentReadingTextProps {
@@ -33,6 +33,7 @@ const SIZE_CLASSES: Record<ContentReadingSize, string> = {
 const TONE_CLASSES: Record<ContentReadingTone, string> = {
   primary: "text-text-primary",
   secondary: "text-text-secondary",
+  review: "text-review",
 };
 
 /** 작품 소개·감상평이 어디에서 열리든 같은 본문 위계와 특수부호 처리를 사용한다. */

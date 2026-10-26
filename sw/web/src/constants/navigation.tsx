@@ -196,7 +196,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     key: "about",
     titleKey: "nav.footer.sectionAbout",
     links: [
-      { key: "about", href: "/about", label: "서비스 소개" },
+      { key: "about", href: "/#about", label: "서비스 소개" },
       { key: "terms", href: "/terms", label: "이용약관" },
       { key: "privacy", href: "/privacy", label: "개인정보처리방침" },
     ],

@@ -9,6 +9,7 @@ import { updateReview } from "@/actions/contents/updateReview";
 import { SIMPLE_REVIEW_PRESETS } from "@/constants/review-presets";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 import styles from "./ContentDetail.module.css";
+import { MascotFeedback } from '@/components/shared/mascots/Mascot';
 
 interface MyReviewSectionProps {
   content: ContentDetailData["content"];
@@ -29,6 +30,7 @@ export default function MyReviewSection({ content, userRecord, onRecordChange }:
   const [review, setReview] = useState(userRecord?.review ?? "");
   const [isSpoiler, setIsSpoiler] = useState(userRecord?.isSpoiler ?? false);
   const [feedback, setFeedback] = useState<"saved" | null>(null);
+  const [saveSequence, setSaveSequence] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const selectedPreset = SIMPLE_REVIEW_PRESETS.find(preset => preset.id === selection);
   const manualDisabled = isPending || !!selectedPreset;
@@ -91,6 +93,7 @@ export default function MyReviewSection({ content, userRecord, onRecordChange }:
           setRating(nextRating);
         }
         setFeedback("saved");
+        setSaveSequence(value => value + 1);
       } catch (err) {
         console.error("[MyReviewSection:reaction]", err);
         setError(t("saveFailed"));
@@ -150,7 +153,7 @@ export default function MyReviewSection({ content, userRecord, onRecordChange }:
       </div>
       <div className={styles.reviewFeedback}>
         <span role="status" aria-live="polite" className={styles.reactionStatus}>
-          {feedback === "saved" ? t("saved") : ""}
+          {feedback === "saved" && <MascotFeedback key={saveSequence} message={t("saved")} />}
         </span>
         {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
       </div>

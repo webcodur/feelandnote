@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from 'next-intl';
+import Mascot from '@/components/shared/mascots/Mascot';
+import mascotStyles from '@/components/shared/mascots/Mascot.module.css';
 import dynamic from "next/dynamic";
 import HubSection from "@/components/shared/HubSection";
 import { hubSectionId } from "@/components/shared/hubSectionUtils";
@@ -56,6 +59,7 @@ export default function RestGameGrid({
   devMode,
 }: Props) {
   const [activeGame, setActiveGame] = useState<GameId | null>(null);
+  const tMascot = useTranslations('mascot');
   const visibleSections = REST_GAMES.filter((game) => devMode || !game.dev);
 
   useEffect(() => {
@@ -85,6 +89,13 @@ export default function RestGameGrid({
 
   return (
     <>
+      <div className={mascotStyles.welcome}>
+        <Mascot kind="lion" size={144} />
+        <div className={mascotStyles.welcomeCopy}>
+          <p className={mascotStyles.welcomeTitle}>{tMascot('restTitle')}</p>
+          <p className={mascotStyles.welcomeDescription}>{tMascot('restDescription')}</p>
+        </div>
+      </div>
       <div>
         {visibleSections.map((game, index) => {
           const labels = gameLabels[game.valueKey];

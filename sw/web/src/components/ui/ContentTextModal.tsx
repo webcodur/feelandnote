@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { Maximize2 } from "lucide-react";
 
-import ContentReadingText from "./ContentReadingText";
+import ContentReadingText, { type ContentReadingTone } from "./ContentReadingText";
 import Modal, { ModalBody } from "./Modal";
 import AutoScrollReadingText from "@/components/shared/AutoScrollReadingText";
 import type { ReadingSegment } from "@/lib/reading-timing";
@@ -39,6 +39,7 @@ interface ContentTextModalProps {
   onClose: () => void;
   title: string;
   text: string;
+  tone?: ContentReadingTone;
   notice?: ReactNode;
   /** 원문 기준 강조 범위(재생 문장 등) */
   mark?: { start: number; end: number } | null;
@@ -63,6 +64,7 @@ export default function ContentTextModal({
   onClose,
   title,
   text,
+  tone = "primary",
   notice,
   mark,
   segments,
@@ -96,7 +98,7 @@ export default function ContentTextModal({
         {notice}
         <ContentReadingText
           text={segments?.length && onPlayFrom ? undefined : text}
-          tone="primary"
+          tone={tone}
           size="modal"
           mark={segments?.length && onPlayFrom ? undefined : mark}
         >

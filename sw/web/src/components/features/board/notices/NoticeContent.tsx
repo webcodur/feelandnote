@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/board/notices/NoticeContent.tsx
   기능: 공지 메타 줄과 본문
-  책임: 공지 상세 화면과 홈 공지 모달이 같은 모양으로 공지를 읽히게 한다.
+  책임: 공지 상세 화면과 홈 공지 본문을 같은 모양으로 읽히게 한다.
 */
 
 import { Eye } from 'lucide-react'
@@ -41,7 +41,7 @@ export function NoticeMeta({ author, createdAt, viewCount, locale, className = '
   )
 }
 
-/** 줄바꿈을 살리고 HTTP(S) 주소를 공지 상세·홈 모달에서 같은 링크로 표시한다 */
+/** 줄바꿈을 살리고 HTTP(S) 주소를 공지 상세·홈에서 같은 링크로 표시한다 */
 export function NoticeBody({ content, className = '' }: { content: string; className?: string }) {
   const parts = content.split(/(https?:\/\/[^\s<>"']+[^\s<>"'.,!?;:)\]}>])/g)
 

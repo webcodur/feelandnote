@@ -48,7 +48,7 @@ test('특수문자 인물 slug도 상세 페이지와 같은 정본 주소와 �
     const ko = `https://feelandnote.com/celeb/${slug}`
     const en = `https://feelandnote.com/en/celeb/${slug}`
     for (const url of [ko, en]) {
-      const entry = entries.find((item) => item.url === url)
+      const entry: MetadataRoute.Sitemap[number] | undefined = entries.find((item) => item.url === url)
       assert.ok(entry, `missing canonical ${url}`)
       assert.deepEqual(entry.alternates?.languages, { ko, en, 'x-default': ko })
       assert.equal(new URL(url).search, '')

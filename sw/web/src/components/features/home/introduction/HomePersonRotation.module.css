@@ -1,0 +1,2 @@
+.container { max-width: var(--home-content-width,820px); margin-inline: auto; min-width: 0; }
+.stage { min-width: 0; padding: 4px; margin: -4px; overflow: clip; overflow-anchor: none; }

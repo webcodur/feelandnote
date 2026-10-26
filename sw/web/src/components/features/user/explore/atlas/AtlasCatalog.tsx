@@ -11,6 +11,8 @@ import type { AtlasWorld } from "../myth/atlasNavigationData";
 import { MYTH_LAYOUT as layout } from "../myth/mythLayout";
 import { SceneCompletionCountBadge } from "../myth/SceneCompletionBadge";
 import AtlasCatalogCard from "./AtlasCatalogCard";
+import AtlasCatalogList from "./AtlasCatalogList";
+import { MascotEmptyState } from '@/components/shared/mascots/Mascot';
 
 export default function AtlasCatalog({ mode, groups, initialTheme, recent }: {
   mode: AtlasWorld;
@@ -38,7 +40,7 @@ export default function AtlasCatalog({ mode, groups, initialTheme, recent }: {
     ? `${group.name} · ${tScenes("scenesCompleteCountShort", { count: group.completedNames.length })}` : group.name;
   return (
     <div data-atlas-catalog={mode} className={layout.shell}>
-      <AtlasNavSections items={contents} />
+      {theme !== null && <AtlasNavSections items={contents} />}
       <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-5 pb-2 pt-6 md:gap-6 md:pt-8">
         <div className="flex w-full flex-wrap items-center justify-between gap-3 text-sm text-text-secondary">
           <div data-atlas-catalog-total className="flex flex-wrap items-center gap-2">
@@ -72,12 +74,15 @@ export default function AtlasCatalog({ mode, groups, initialTheme, recent }: {
         <p role="status" aria-live="polite" aria-atomic="true" className={theme || query ? "text-xs text-text-tertiary" : "sr-only"}>{t("results", { count })}</p>
       </div>
       <div id={resultsId}>
-        {visible.map((group, index) => <HubSection key={group.id} id={`atlas-catalog-${group.id}`} title={group.name} index={index} total={visible.length} hideDivider={index === 0}>
+        {theme === null ? <AtlasCatalogList groups={visible} /> : visible.map((group, index) => <HubSection key={group.id} id={`atlas-catalog-${group.id}`} title={group.name} index={index} total={visible.length} hideDivider={index === 0}>
           <div className={layout.catalogGrid}>
             {group.entries.map(entry => <AtlasCatalogCard key={entry.id} entry={entry} />)}
           </div>
         </HubSection>)}
-        {!visible.length && <div className="py-16 text-center"><p className="text-sm text-text-secondary">{t("empty")}</p><button type="button" onClick={() => { setTheme(null); setQuery(""); }} className="mt-5 min-h-11 rounded-control border border-line-strong px-4 text-sm text-text-primary hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">{t("reset")}</button></div>}
+        {!visible.length && <MascotEmptyState kind="owl" message={t("empty")}>
+          <button type="button" onClick={() => { setTheme(null); setQuery(""); searchRef.current?.focus({ preventScroll: true }); }}
+            className="min-h-11 rounded-control border border-line-strong px-4 text-sm text-text-primary hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">{t("reset")}</button>
+        </MascotEmptyState>}
       </div>
     </div>
   );

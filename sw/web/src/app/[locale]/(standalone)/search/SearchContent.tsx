@@ -7,7 +7,8 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Loader2, ArrowUpDown, Info, SlidersHorizontal } from "lucide-react";
+import { Loader2, ArrowUpDown, Info, SlidersHorizontal } from "lucide-react";
+import { MascotEmptyState } from '@/components/shared/mascots/Mascot';
 import { useTranslations } from "next-intl";
 import { FilterSelect } from "@/components/ui";
 import { FilterChipDropdown } from "@/components/shared/filters";
@@ -135,7 +136,7 @@ export default function SearchContent() {
       )}
 
       {queryParam && !isLoading && !searchError && (
-         <div className="mb-6"><h1 className="text-xl font-bold">&quot;{queryParam}&quot; {t("resultCount", { count: totalCount })}</h1></div>
+         <div className="mb-6"><h1 className="text-xl font-bold [overflow-wrap:anywhere]">&quot;{queryParam}&quot; {t("resultCount", { count: totalCount })}</h1></div>
       )}
 
       {isLoading && (
@@ -228,19 +229,11 @@ export default function SearchContent() {
       )}
 
       {!isLoading && !searchError && queryParam && totalCount === 0 && (
-        <div className="py-20 text-center">
-          <Search size={48} className="mx-auto text-text-secondary mb-4" />
-          <h2 className="text-lg font-semibold text-text-primary mb-2">{t("noResults", { query: queryParam })}</h2>
-          <p className="text-text-secondary">{t("noResultsHint")}</p>
-        </div>
+        <MascotEmptyState kind="owl" message={t("noResults", { query: queryParam })} description={t("noResultsHint")} />
       )}
 
       {!queryParam && (
-        <div className="py-20 text-center">
-          <Search size={48} className="mx-auto text-text-secondary mb-4" />
-          <h2 className="text-lg font-semibold text-text-primary mb-2">{t("enterQuery")}</h2>
-          <p className="text-text-secondary">{t("enterQueryDesc")}</p>
-        </div>
+        <MascotEmptyState kind="owl" message={t("enterQuery")} description={t("enterQueryDesc")} />
       )}
     </>
   );

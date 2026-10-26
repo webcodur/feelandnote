@@ -28,6 +28,7 @@ interface GetUserContentsParams {
   search?: string  // 제목/저자 검색
   hasReview?: boolean  // true=리뷰 있음, false=리뷰 없음
   sortBy?: SortByOption  // 서버 정렬
+  preferredContentIds?: string[]
 }
 
 export interface UserContentPublic {
@@ -405,7 +406,7 @@ export async function getPublicUserContents(
   params: GetUserContentsParams,
   requestLocale?: string,
 ): Promise<GetUserContentsResponse> {
-  const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
+  const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent', preferredContentIds = [] } = params
   const locale = requestLocale ?? (await getLocale())
 
   return getCachedCelebLibraryContents(
@@ -417,7 +418,7 @@ export async function getPublicUserContents(
     hasReview,
     sortBy,
     locale,
-    [],
+    preferredContentIds,
   )
 }
 

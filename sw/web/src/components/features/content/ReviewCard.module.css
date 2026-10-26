@@ -53,6 +53,7 @@
 .source:active { background: var(--color-bg-secondary); }
 .body { padding: 16px 18px 18px; }
 .reading { min-width: 0; color: var(--color-text-secondary); font-size: 15px; line-height: 1.85; white-space: pre-wrap; overflow-wrap: anywhere; }
+.card[data-review-kind='celeb'] .reading { color: var(--color-review); }
 .collapsed { position: relative; max-height: 24lh; overflow: hidden; }
 .collapsed::after { content: ""; position: absolute; inset: auto 0 0; height: 3lh; background: linear-gradient(transparent, var(--color-bg-card)); pointer-events: none; }
 .readMore { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 44px; margin-top: 12px; border: 1px solid var(--color-line); border-radius: var(--radius-control); background: var(--color-bg-raised); color: var(--color-text-secondary); font-size: 13px; outline: none; }

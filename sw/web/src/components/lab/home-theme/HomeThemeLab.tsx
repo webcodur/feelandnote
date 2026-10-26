@@ -6,11 +6,10 @@ import { useTranslations } from 'next-intl';
 import { ArrowRight, ArrowUpRight, ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import PageContainer from '@/components/layout/PageContainer';
-import HomeBrandHeader from '@/components/features/home/HomeBrandHeader';
+import HomeBrandHeader from './HomeThemeBrandHeader';
 import HubSection, { HubMoreLink } from '@/components/shared/HubSection';
 import hubStyles from '@/components/shared/HubSection.module.css';
 import AtlasNavSections from '@/components/shared/atlasNav/AtlasNavSections';
-import { HOME_SECTIONS } from '@/components/shared/hubSectionUtils';
 import CelebImage from '@/components/ui/CelebImage';
 import ContentImage from '@/components/ui/ContentImage';
 import ContentCoverLink from '@/components/shared/ContentCoverLink';
@@ -23,11 +22,15 @@ import styles from './HomeThemeLab.module.css';
 
 const PersonContextModal = dynamic(() => import('@/components/shared/BookShelf/BookShelfPersonModal'), { ssr: false });
 
-// 구획의 순서·제목·번호는 실제 홈 설정을 따른다. 기존 시안의 앵커 주소만 유지한다.
+// 이전 홈의 테마 비교 시안. 서비스 메인의 새 소개·그래프 구성과 독립적으로 보존한다.
 const SECTION_IDS: Record<string, string> = {
   todayFigure: 'home-theme-today', featuredReview: 'home-theme-featured', figureLinks: 'home-theme-trending',
 };
-const SECTIONS = HOME_SECTIONS.filter(section => section.key in SECTION_IDS);
+const SECTIONS = [
+  { key: 'todayFigure', titleKey: 'todayFigure', navTitleKey: 'todayFigure' },
+  { key: 'featuredReview', titleKey: 'featuredReview', navTitleKey: 'featuredReview' },
+  { key: 'figureLinks', titleKey: 'figureLinks', navTitleKey: 'figureLinksNav' },
+];
 const COPY = {
   ko: {
     lab: '홈 테마 실험', note: '공개 데이터를 사용한 예시 편성', labs: '랩실', current: '현재 홈 비교',

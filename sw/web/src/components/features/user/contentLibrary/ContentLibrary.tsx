@@ -138,7 +138,7 @@ export default function ContentLibrary({
   if (lib.error && !hasContents) return <ErrorState message={lib.error} onRetry={lib.loadContents} compact={compact} />;
   if (lib.isLoading && !hasContents) return <LoadingState compact={compact} />;
   // 검색 중이 아닌데 콘텐츠가 없으면 빈 상태 표시
-  if (!hasContents && !isSearching) return <EmptyState message={resolvedEmptyMessage} compact={compact} />;
+  if (!hasContents && !isSearching) return <EmptyState message={resolvedEmptyMessage} compact={compact} member={ownerKind === 'member'} own={!isViewer} />;
 
   return (
     <div>

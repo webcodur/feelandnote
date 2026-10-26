@@ -248,6 +248,103 @@
       "backgroundTitle": "{name}의 감상배경",
       "source": "감상 출처",
       "unavailable": "지금은 감상을 불러올 수 없습니다."
+    },
+    "landing": {
+      "benefitLead": "남의 독서를 내 지식으로.",
+      "readAppreciations": "감상 기록 읽기",
+      "explorePeople": "인물 둘러보기",
+      "statsPeople": "인물",
+      "statsRecords": "감상 기록",
+      "whyTitle": "한 권을 읽고, 모두에게 배웁니다.",
+      "whyBody": "우리가 책 한 권을 읽고 떠올리는 사유는 한 갈래의 생각에 불과합니다. 저마다 다른 지식과 경험을 가진 이들이 남긴 한 문장을 읽으며, 혼자서는 얻지 못했을 지식과 사유까지 배워보세요.",
+      "appreciationsTitle": "모든 매체를 기록합니다.",
+      "appreciationsDescription": "인물이 책·음악·영상·게임을 접한 계기와 감상을 출처와 함께 기록합니다.",
+      "readingTitle": "한 사람의 모든 것을 읽어보세요.",
+      "readingDescription": "그가 읽은 책과 쓴 책, 그를 다룬 책과 그가 속한 세계를 다룬 책을 한자리에 모았습니다.",
+      "navAppreciations": "감상 기록",
+      "navReading": "관련 도서",
+      "startTitle": "인물과 작품을 찾아보세요.",
+      "searchPlaceholder": "인물·작품 검색",
+      "searchLabel": "인물 또는 작품 이름",
+      "searchAction": "검색",
+      "graph": {
+        "personLink": "인물 보기",
+        "openWork": "{title} 자세히 읽기",
+        "openBranch": "{title} 대표 작품 보기 · 전체 {count}개",
+        "branches": {
+          "BOOK": {
+            "title": "책",
+            "meaning": "읽은 책",
+            "reason": "인류가 쌓은 지식과 지혜의 보고입니다."
+          },
+          "MUSIC": {
+            "title": "음악",
+            "meaning": "들은 음악",
+            "reason": "언어를 넘어 감정을 나누는 예술입니다."
+          },
+          "VIDEO": {
+            "title": "영상",
+            "meaning": "본 영상",
+            "reason": "타인의 삶과 낯선 세계를 눈앞에서 경험합니다."
+          },
+          "GAME": {
+            "title": "게임",
+            "meaning": "즐긴 게임",
+            "reason": "시뮬레이션 속에서 직접 행동하고 목표를 달성합니다."
+          },
+          "read": {
+            "title": "감상",
+            "meaning": "그가 읽은 책"
+          },
+          "appearance": {
+            "title": "등장",
+            "meaning": "그를 다룬 책"
+          },
+          "authored": {
+            "title": "집필",
+            "meaning": "그가 쓴 책"
+          },
+          "affiliation": {
+            "title": "소속",
+            "meaning": "그가 속한 세계를 다룬 책"
+          }
+        },
+        "emptyBranch": "등록된 작품이 없습니다.",
+        "appreciation": "감상경위",
+        "description": "책 소개",
+        "noAppreciation": "아직 감상경위가 등록되지 않았습니다.",
+        "noDescription": "책 소개는 작품 페이지에서 확인할 수 있습니다.",
+        "readFull": "전문 읽기",
+        "source": "감상 출처",
+        "workLink": "작품 보기",
+        "relatedBooks": "{name} 관련 도서",
+        "graphLabel": "{name}의 작품 연결도",
+        "previewNote": "대표 작품을 골랐습니다. 전체 목록은 인물 페이지에서 볼 수 있습니다.",
+        "allBooks": "이 인물의 책 모두 보기",
+        "allAppreciations": "이 인물의 감상 모두 보기",
+        "unavailable": "인물 정보를 불러올 수 없습니다.",
+        "chooseWork": "대표 작품 선택",
+        "selectBranch": "{title} {count}개 중 {work} 읽기",
+        "selectionNote": "대표 감상 기록 중 일부입니다.",
+        "selectMedia": "{title} 감상 기록 읽기",
+        "selectMediaPrompt": "매체를 선택해 감상 기록을 읽어보세요.",
+        "backToMedia": "매체 선택으로 돌아가기",
+        "mediaNavigation": "감상 매체",
+        "personNavigation": "인물 전환",
+        "otherPeople": "다른 인물",
+        "previousPerson": "이전 인물",
+        "nextPerson": "다음 인물",
+        "bookNavigation": "관련 도서 분류"
+      },
+      "navAbout": "서비스 소개",
+      "navWhy": "감상의 효용",
+      "navSearch": "검색",
+      "noticeTitle": "공지사항",
+      "allNotices": "공지사항 전체 보기",
+      "contactTitle": "운영 및 문의",
+      "navContact": "운영·문의",
+      "latestNotice": "최근 공지",
+      "navShowcase": "감상 기록 · 관련 도서"
     }
   },
   "banner": {

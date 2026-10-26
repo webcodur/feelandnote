@@ -248,6 +248,103 @@
       "backgroundTitle": "How {name} experienced it",
       "source": "Source",
       "unavailable": "This story is currently unavailable."
+    },
+    "landing": {
+      "benefitLead": "Their reading. Your knowledge.",
+      "readAppreciations": "Read appreciations",
+      "explorePeople": "Explore people",
+      "statsPeople": "People",
+      "statsRecords": "Appreciation records",
+      "whyTitle": "Read one book. Learn from everyone.",
+      "whyBody": "Our reflections on a book follow only one of many possible paths. Read the sentences left by people with different knowledge and experience, and discover knowledge and ideas you would have missed on your own.",
+      "appreciationsTitle": "We record every kind of media.",
+      "appreciationsDescription": "We document how people came to books, music, film, and games, and what they said about them, with sources for each record.",
+      "readingTitle": "Read every side of a person.",
+      "readingDescription": "Find the books they read, the books they wrote, the books about them, and the books about the world they belonged to—all in one place.",
+      "navAppreciations": "Appreciations",
+      "navReading": "Related books",
+      "startTitle": "Search people and works.",
+      "searchPlaceholder": "Search people and works",
+      "searchLabel": "Person or work title",
+      "searchAction": "Search",
+      "graph": {
+        "personLink": "View person",
+        "openWork": "Read more about {title}",
+        "openBranch": "View featured {title} · {count} in total",
+        "branches": {
+          "BOOK": {
+            "title": "Books",
+            "meaning": "What they read",
+            "reason": "The knowledge and wisdom of generations, preserved in writing."
+          },
+          "MUSIC": {
+            "title": "Music",
+            "meaning": "What they listened to",
+            "reason": "An art that lets us share emotions across languages."
+          },
+          "VIDEO": {
+            "title": "Film and video",
+            "meaning": "What they watched",
+            "reason": "Experience other lives and worlds beyond your own."
+          },
+          "GAME": {
+            "title": "Games",
+            "meaning": "What they played",
+            "reason": "Act within a simulation and achieve a goal."
+          },
+          "read": {
+            "title": "Read",
+            "meaning": "Books they read"
+          },
+          "appearance": {
+            "title": "Featured in",
+            "meaning": "Books about them"
+          },
+          "authored": {
+            "title": "Written by",
+            "meaning": "Books they wrote"
+          },
+          "affiliation": {
+            "title": "Affiliations",
+            "meaning": "Books about their world"
+          }
+        },
+        "emptyBranch": "No works listed yet.",
+        "appreciation": "Behind the appreciation",
+        "description": "About the book",
+        "noAppreciation": "The story behind this appreciation has not been added yet.",
+        "noDescription": "Visit the work page for more information.",
+        "readFull": "Read in full",
+        "source": "Original source",
+        "workLink": "View work",
+        "relatedBooks": "Books about {name}",
+        "graphLabel": "Works connected to {name}",
+        "previewNote": "A selection of works is shown here. Visit the person’s page for the full collection.",
+        "allBooks": "See all books for this person",
+        "allAppreciations": "See all their appreciations",
+        "unavailable": "This person’s information is unavailable.",
+        "chooseWork": "Choose a featured work",
+        "selectBranch": "Read about {work}, one of {count} {title}",
+        "selectionNote": "A selection of appreciation records.",
+        "selectMedia": "Read {title} appreciations",
+        "selectMediaPrompt": "Select a medium to read an appreciation.",
+        "backToMedia": "Back to media",
+        "mediaNavigation": "Appreciation media",
+        "personNavigation": "Switch person",
+        "otherPeople": "Other people",
+        "previousPerson": "Previous person",
+        "nextPerson": "Next person",
+        "bookNavigation": "Book relationships"
+      },
+      "navAbout": "About",
+      "navWhy": "Why read appreciations",
+      "navSearch": "Search",
+      "noticeTitle": "Announcements",
+      "allNotices": "View all announcements",
+      "contactTitle": "Operations and Contact",
+      "navContact": "Contact",
+      "latestNotice": "Latest announcement",
+      "navShowcase": "Appreciations & related books"
     }
   },
   "banner": {

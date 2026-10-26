@@ -35,8 +35,7 @@ import ReviewScrollBox, { REVIEW_PREVIEW_TEXT_CLASS } from "./ReviewScrollBox";
 import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import { toAffiliateLinks } from "@/constants/affiliatePlatforms";
 
-// 블로그 감상색(#1f6b43)과 같은 계열을 어두운 배경에서 읽기 좋게 밝힌다.
-const REVIEW_TEXT_CLASS = "text-[#8bcaa7]";
+const REVIEW_TEXT_CLASS = "text-review";
 
 interface ExpandCardProps {
   item: UserContentWithContent;
@@ -252,6 +251,7 @@ function ExpandCard({
           onClose={() => setIsReviewModalOpen(false)}
           title={reviewHeading}
           text={review}
+          tone="review"
           source={
             item.source_url
               ? { href: item.source_url, label: t("reviewModal.source") }

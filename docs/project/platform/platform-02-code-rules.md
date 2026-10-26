@@ -16,6 +16,7 @@
 - left/right 대신 start/end
 - **조작용 요소(버튼·카드·칩)의 hover는 즉각 반응** — transition/delay 금지, 위로 뜸·확대 등 이동 지양. 상세는 아래 "상호작용" 참조
 - 반복 UI는 상수 배열 + map 렌더링
+- 빈 상태·도움말·저장 반응을 만들거나 고칠 때는 [서비스 캐릭터 활용](../service/service-07-mascots.md)에서 적용할 역할과 공통 구현을 먼저 확인한다.
 - 일반 모달의 최대 높이는 `sw/web/src/components/ui/modalLayout.ts`를 따른다. 개별 화면에 뷰포트 높이 상한을 다시 쓰지 않으며, 내부 목록은 모달의 남은 높이에서 스크롤한다. 전체 화면 뷰어만 `Modal.fullScreen` 또는 전용 전체 화면 구현을 사용한다.
 - 모달은 브라우저 방문 기록을 추가하거나 history 메서드를 덮어쓰지 않는다. 닫을 때 `history.back()`을 호출하지 않으며, 브라우저 뒤로가기는 실제 페이지 이동을 따른다.
 - 색 클래스는 `sw/web/src/app/globals.css`의 `@theme` 토큰 이름만 쓴다(`bg-bg-card`·`bg-bg-main`·`bg-bg-stone-light`·`text-text-tertiary`·`border-border`·`text-status-paused`·`accent`). 다른 디자인 체계의 이름(`bg-surface`·`bg-primary`·`bg-background`·`text-muted`)은 CSS가 만들어지지 않아 바탕이 투명해지거나 부모 글자색을 물려받는다. 새 색이 필요하면 `@theme`에 먼저 정의한다
@@ -63,6 +64,7 @@ export default function Page() {
 - 선은 두 단계뿐이다: `line`(흰색 7% — 기본 구분선·카드 테두리), `line-strong`(흰색 13% — hover·강조). 흰색을 얹는 방식이라 인물 상세의 세계 테마 바탕 위에서도 맞는다
 - 금색(`accent`)은 세 자리에만 쓴다 — 화면당 주요 행동 하나의 면(`Button primary`), 선택·현재 위치(밑줄·`bg-accent/10`), 발견·연결(인물명·작품 링크). 상자마다 금 테두리를 두르거나 금빛 번짐을 넣지 않는다. amber 계열로 두 번째 금색을 만들지 않는다
 - 텍스트: `text-primary`·`text-secondary`·`text-tertiary`
+- 인물의 감상 본문은 `text-review`로 구분한다. 미리보기·카드·전문 모달에서 같은 색을 쓰고, 작품 소개와 빈 상태에는 적용하지 않는다. 본문 안 인용·작품명 강조는 유지한다.
 - 상태: `status-watching`·`status-completed`·`status-paused`(위험 동작에도 쓴다)·`status-wish`
 
 ## 정렬

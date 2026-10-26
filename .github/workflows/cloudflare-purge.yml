@@ -15,6 +15,7 @@ on:
           - content
           - content-banners
           - explore-art
+          - mascots
           - seo
           - cached-html
           - emergency-zone

@@ -326,7 +326,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                   </button>
                 ) : contextReview.review ? (
                   <p className="text-sm leading-relaxed text-text-secondary whitespace-pre-line break-words">
-                    <FormattedText text={contextReview.review} />
+                    <FormattedText text={contextReview.review} className="text-review" />
                   </p>
                 ) : null}
                 {(/^https?:\/\//.test(contextReview.sourceUrl ?? "") || celeb.content_count > 1) && (

@@ -13,6 +13,7 @@ import styles from './BookShelf.module.css'
 import { RetryBlock } from '@/components/ui/pending'
 import LibraryShelfUtilities from '@/components/shared/LibraryShelfUtilities'
 import LibraryShelfLazyItem from '@/components/shared/LibraryShelfLazyItem'
+import BookShelfGuide from '@/components/shared/mascots/BookShelfGuide'
 
 interface Props {
   groups: BookShelfGroup[]
@@ -76,6 +77,7 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
       {title && <h3 className="flex items-center justify-center gap-2 px-4 py-4 text-center text-lg font-bold text-text-primary sm:px-6"><BookOpen size={17} aria-hidden />{title}</h3>}
       <div className={`mx-auto flex flex-col gap-2 ${pageControls ? layout.professionPageWidth : layout.width} ${layout.contentGap}`}>
         {groupPicker}
+        {normalized.some(group => group.context?.personId || group.context?.kind === 'theme') && <BookShelfGuide groups={normalized} />}
         {(choicePicker || active.addon) && <div className={layout.secondary} data-bookshelf-subcontrols>
           {choicePicker}{active.addon}
         </div>}

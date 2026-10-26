@@ -54,7 +54,7 @@ export default function ContentReviewModal({
             {reviewPresets && reviewPresets.length > 0 && (
               <PresetTags presets={reviewPresets} />
             )}
-            <p className="text-sm text-text-primary leading-relaxed whitespace-pre-line break-words">
+            <p className="text-sm text-review leading-relaxed whitespace-pre-line break-words">
               <FormattedText text={review} />
             </p>
           </div>

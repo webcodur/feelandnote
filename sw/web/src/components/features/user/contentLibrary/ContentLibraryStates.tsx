@@ -8,6 +8,8 @@
 import { useTranslations } from "next-intl";
 import { Loader2, Archive } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { MascotEmptyState } from '@/components/shared/mascots/Mascot';
+import { Link } from '@/i18n/navigation';
 
 interface LoadingStateProps {
   compact?: boolean;
@@ -43,9 +45,16 @@ export function ErrorState({ message, onRetry, compact = false }: ErrorStateProp
 interface EmptyStateProps {
   message: string;
   compact?: boolean;
+  member?: boolean;
+  own?: boolean;
 }
 
-export function EmptyState({ message, compact = false }: EmptyStateProps) {
+export function EmptyState({ message, compact = false, member = false, own = false }: EmptyStateProps) {
+  const t = useTranslations('mascot');
+  if (member) return <MascotEmptyState kind="lion" message={message} compact={compact}
+    description={own ? t('firstRecordHint') : undefined}>
+    {own && <Link href="/search?mode=content">{t('findWork')}</Link>}
+  </MascotEmptyState>;
   return (
     <div className={`text-center ${compact ? "py-6" : "py-12"}`}>
       <Archive size={compact ? 32 : 48} className="mx-auto mb-2 text-text-secondary opacity-50" />

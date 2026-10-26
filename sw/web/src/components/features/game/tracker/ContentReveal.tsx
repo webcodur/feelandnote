@@ -64,7 +64,7 @@ export default function ContentReveal({ content }: ContentRevealProps) {
       {content.review && (
         <div className="mt-5 border-t border-white/10 pt-4">
           <p className="text-[13px] sm:text-[15px] font-serif text-text-secondary leading-relaxed tracking-wide text-justify">
-            <FormattedText text={content.review} />
+            <FormattedText text={content.review} className="text-review" />
           </p>
         </div>
       )}

@@ -941,5 +941,14 @@
     "views": "Views",
     "viewsHint": "Repeat visits from the same browser within 30 minutes are counted once.",
     "failed": "Could not load or save likes. Please try again."
+  },
+  "mascot": {
+    "shelfGuide": "About these book categories",
+    "figureSearchHint": "Try a shorter name or remove some of the selected filters.",
+    "firstRecordHint": "Start with a work that stayed with you. A few words are enough.",
+    "findWork": "Find a work to record",
+    "restTitle": "Take a little break.",
+    "restDescription": "Meet a few figures, test your memory, and enjoy a game at your own pace.",
+    "figureSearchEmpty": "No figures match your search."
   }
 }

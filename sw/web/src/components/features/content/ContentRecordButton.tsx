@@ -14,6 +14,8 @@ import { addContent } from "@/actions/contents/addContent";
 import { removeContent } from "@/actions/contents/removeContent";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 import { cn } from "@/lib/utils";
+import Mascot from '@/components/shared/mascots/Mascot';
+import mascotStyles from '@/components/shared/mascots/Mascot.module.css';
 
 const RECORD_BUTTON_CLASS =
   "inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-md border px-3.5 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 disabled:cursor-wait";
@@ -41,6 +43,7 @@ export default function ContentRecordButton({
   const tError = useTranslations("actionErrors");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [addedRecordId, setAddedRecordId] = useState<string | null>(null);
 
   // 로그인 여부를 알기 전에는 그리지 않는다 — 로그인 사용자에게 로그인 링크가 번쩍이지 않게
   if (!isAuthResolved && !isLoggedIn) return null;
@@ -82,6 +85,7 @@ export default function ContentRecordButton({
           updatedAt: new Date().toISOString(),
         });
         setError(null);
+        setAddedRecordId(result.data.userContentId);
       } catch (err) {
         console.error("[ContentRecordButton:add]", err);
         setError(t("addFailed"));
@@ -95,6 +99,7 @@ export default function ContentRecordButton({
       try {
         await removeContent(userRecord.id);
         onRecordChange(null);
+        setAddedRecordId(null);
         setError(null);
       } catch (err) {
         console.error("[ContentRecordButton:delete]", err);
@@ -121,7 +126,12 @@ export default function ContentRecordButton({
         title={label}
         className={cn(RECORD_BUTTON_CLASS, userRecord ? RECORDED_CLASS : IDLE_CLASS)}
       >
-        {isPending ? <Loader2 size={14} className="animate-spin" aria-hidden /> : <RecordIcon size={14} aria-hidden />}
+        <span className={mascotStyles.recordIcon}>
+          {isPending ? <Loader2 size={14} className="animate-spin" aria-hidden />
+            : addedRecordId && addedRecordId === userRecord?.id
+              ? <Mascot kind="flame" size={24} className={mascotStyles.kindled} />
+              : <RecordIcon size={14} aria-hidden />}
+        </span>
         <span>{label}</span>
       </button>
     </div>

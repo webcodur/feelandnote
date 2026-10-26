@@ -59,6 +59,8 @@
   /* 보조 설명·개수·빈 상태 문구. 바탕 대비 약 5.1:1, 카드 대비 약 4.8:1 — 읽히되 secondary보다 확실히 한 단계 흐리다 */
   --color-text-tertiary: #8a867f;
   --color-text-gold: #d4af37;
+  /* 인물의 감상 본문. 작품 소개와 구분하고 인용·작품명 강조는 유지한다. */
+  --color-review: #8bcaa7;
 
   /* 현재 낭독 구간의 배경·밑줄. 본문의 인용·작품명 강조색과는 별개다. */
   --color-reading-active: #6fe3a0;

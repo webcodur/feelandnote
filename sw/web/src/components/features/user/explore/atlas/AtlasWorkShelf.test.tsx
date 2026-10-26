@@ -25,10 +25,11 @@ test('책장이 가까워질 때 목록을 받고 감상·직군은 선택한 �
     bundle: true, write: false, platform: 'browser', format: 'iife', jsx: 'automatic', define: { 'process.env': '{}' },
     plugins: [{ name: 'shelf-fixture', setup(builder: FixtureBuilder) {
       builder.onLoad({ filter: /\.css$/ }, () => ({ contents: 'export default {}', loader: 'js' }))
-      builder.onResolve({ filter: /^(next-intl|.*getFactionFigureBooks|.*getFactionMemberShelf|.*BookShelfSelection|.*BookShelfBookList|.*AtlasBookShelfSkeleton|.*pending|.*DeveloperCommerceFallback)$/ }, (args: { path: string }) => ({ path: args.path, namespace: 'fixture' }))
+      builder.onResolve({ filter: /^(next-intl|next\/image|.*getFactionFigureBooks|.*getFactionMemberShelf|.*BookShelfSelection|.*BookShelfBookList|.*AtlasBookShelfSkeleton|.*pending|.*DeveloperCommerceFallback)$/ }, (args: { path: string }) => ({ path: args.path, namespace: 'fixture' }))
       builder.onLoad({ filter: /.*/, namespace: 'fixture' }, (args: { path: string }) => {
         let contents = ''
         if (args.path === 'next-intl') contents = `export const useLocale = () => 'ko'; export const useTranslations = () => Object.assign(key => key, { has: () => false });`
+        else if (args.path === 'next/image') contents = `export default function Image({src,alt,width,height}) { return <img src={src} alt={alt} width={width} height={height}/>; }`
         else if (args.path.endsWith('getFactionFigureBooks')) contents = `export function getFactionFigureBooks() { window.calls.catalog++; return Promise.resolve([
           {contentId:'theme', title:'세력', url:'', isTheme:true, memberIds:[], appearedIds:[], authoredIds:[]},
           {contentId:'authored', title:'집필 책', url:'', memberIds:['a'], appearedIds:[], authoredIds:['a']}
@@ -57,6 +58,11 @@ test('책장이 가까워질 때 목록을 받고 감상·직군은 선택한 �
     await page.waitForSelector('[data-selection]')
     assert.deepEqual(await page.evaluate(() => (window as unknown as FixtureWindow).calls), { catalog: 1, read: 0, profession: 0 })
     assert.equal(await page.evaluate(() => (window as unknown as FixtureWindow).count), 2)
+    assert.equal(await page.$eval('details', element => element.open), false)
+    await page.click('details > summary')
+    assert.ok(await page.$('details [data-mascot="owl"]'))
+    assert.deepEqual(await page.evaluate(() => (window as unknown as FixtureWindow).calls), { catalog: 1, read: 0, profession: 0 }, '도감 분류 안내를 열어도 감상·직군 자료를 추가 조회하지 않는다')
+    await page.click('details > summary')
     const choose = async (key: string) => {
       await page.evaluate(key => {
         const button = [...document.querySelectorAll('button')].find(element => element.textContent?.includes(key))

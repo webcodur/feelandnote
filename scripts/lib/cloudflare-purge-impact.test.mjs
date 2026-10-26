@@ -11,6 +11,27 @@ import {
   createManualCloudflarePurgePlan,
 } from './cloudflare-purge-impact.mjs'
 
+test('home discovery stays uncached while mascot artwork has its own purge prefix', () => {
+  const homeFiles = [
+    'sw/web/src/components/features/home/introduction/HomeDiscoveryGallery.tsx',
+    'sw/web/src/components/features/home/introduction/HomeDiscoveryGallery.module.css',
+    'sw/web/src/actions/home/getHomeGraphData.ts',
+    'sw/web/src/actions/home/getHomeStats.ts',
+    'sw/web/src/actions/home/homeGraphItems.ts',
+    'sw/web/src/components/features/home/HomeNoticeList.module.css',
+    'sw/web/src/actions/board/notices/getNotices.ts',
+    'sw/web/src/components/features/board/notices/NoticeContent.tsx',
+    'sw/web/src/components/features/game/tracker/ContentReveal.tsx',
+  ]
+  assert.deepEqual(classifyCloudflarePurgeImpact(homeFiles).scopes, ['none'])
+  const artwork = classifyCloudflarePurgeImpact(['sw/web/public/images/mascots/flame.webp'])
+  assert.deepEqual(artwork.scopes, ['mascots'])
+  assert.deepEqual(artwork.prefixes, ['feelandnote.com/images/mascots/'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/ui/ContentReadingText.tsx',
+  ]).scopes, ['celeb', 'content'])
+})
+
 test('atlas participation and portrait stepping do not invalidate cached detail HTML', () => {
   const impact = classifyCloudflarePurgeImpact([
     'sw/web/src/components/features/engagement/FactionParticipation.tsx',

@@ -26,10 +26,11 @@ test('personal shelf loads only the selected supplementary category, retries and
     ` }, bundle: true, write: false, platform: 'browser', format: 'iife', jsx: 'automatic', define: { 'process.env': '{}' },
     plugins: [{ name: 'personal-shelf-fixture', setup(builder: Builder) {
       builder.onLoad({ filter: /\.css$/ }, () => ({ contents: 'export default {}', loader: 'js' }))
-      builder.onResolve({ filter: /^(next-intl|.*getProfessionBooks|.*getCelebFactionBooks|.*BookShelfSelection|.*BookShelfBookList|.*BookShelfAffiliationAddon|.*pending)$/ }, args => ({ path: args.path, namespace: 'fixture' }))
+      builder.onResolve({ filter: /^(next-intl|next\/image|.*getProfessionBooks|.*getCelebFactionBooks|.*BookShelfSelection|.*BookShelfBookList|.*BookShelfAffiliationAddon|.*pending)$/ }, args => ({ path: args.path, namespace: 'fixture' }))
       builder.onLoad({ filter: /.*/, namespace: 'fixture' }, args => {
         let contents: string
         if (args.path === 'next-intl') contents = `export const useLocale=()=>window.locale??'ko';export const useTranslations=namespace=>Object.assign(key=>namespace==='profession'&&key==='author'?(window.locale==='en'?'Author':'작가'):key,{has:key=>namespace==='profession'&&key==='author'});`
+        else if (args.path === 'next/image') contents = `export default function Image({src,alt,width,height}){return <img src={src} alt={alt} width={width} height={height}/>} `
         else if (args.path.endsWith('getProfessionBooks')) contents = `export async function getProfessionBooks(){window.calls.profession++;if(window.fail)throw Error('DB failed');return [{contentId:'professional',title:'Training',professionCategory:'train'}]}`
         else if (args.path.endsWith('getCelebFactionBooks')) contents = `export async function getCelebFactionBooks(){window.calls.faction++;return [{factionId:'f',factionName:'Faction',books:[{contentId:'affiliation',title:'Affiliation'}]}]}`
         else if (args.path.endsWith('BookShelfSelection')) contents = `export default function Selection({books}){return <div data-selection>{books[0]?.title}</div>}`
@@ -50,6 +51,12 @@ test('personal shelf loads only the selected supplementary category, retries and
     await page.waitForSelector('[data-selection]')
     assert.ok(await page.$('[role="radio"][aria-label="작가"]'), 'The category must use the actual profession name before lazy loading')
     assert.deepEqual(await page.evaluate(() => (window as unknown as FixtureWindow).calls), { profession: 0, faction: 0 })
+    assert.equal(await page.$eval('details', node => node.open), false, 'Category help starts closed')
+    await page.click('details > summary')
+    assert.equal(await page.$eval('details', node => node.open), true)
+    assert.ok(await page.$('details [data-mascot="owl"]'))
+    assert.deepEqual(await page.evaluate(() => (window as unknown as FixtureWindow).calls), { profession: 0, faction: 0 }, 'Opening help must not fetch supplementary categories')
+    await page.click('details > summary')
     const choose = async (name: string) => page.evaluate(name => {
       const button = [...document.querySelectorAll('button')].find(node => node.textContent?.includes(name) || name === 'groupAffiliation' && node.textContent?.includes('affiliationCount'))
       if (!button || button.disabled) throw Error('Unavailable category: ' + name)

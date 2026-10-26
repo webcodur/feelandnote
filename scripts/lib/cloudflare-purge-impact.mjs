@@ -8,6 +8,7 @@ export const CLOUDFLARE_PURGE_SCOPES = Object.freeze([
   'content',
   'content-banners',
   'explore-art',
+  'mascots',
   'seo',
   'cached-html',
   'emergency-zone',
@@ -44,6 +45,10 @@ const SCOPE_TARGETS = Object.freeze({
       `${SITE_HOST}/images/explore/quicknav/`,
       `${SITE_HOST}/images/library/professions/`,
     ],
+    files: [],
+  }),
+  mascots: Object.freeze({
+    prefixes: [`${SITE_HOST}/images/mascots/`],
     files: [],
   }),
   seo: Object.freeze({
@@ -282,6 +287,8 @@ const CONTENT_FILES = new Set([
 ])
 
 const CELEB_AND_CONTENT_FILES = new Set([
+  // 감상·소개 본문은 인물 서가와 작품 상세 양쪽에서 이 공통 텍스트를 소비한다.
+  'sw/web/src/components/ui/ContentReadingText.tsx',
   // 상세·감상배경 양쪽에서 메타를 보충하고 이미지 확대창을 연다.
   'sw/web/src/actions/contents/fetchContentMetadata.ts',
   'sw/web/src/components/ui/ImageViewerModal.tsx',
@@ -332,6 +339,15 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // 홈의 소개·통계·공지와 광장 공지 본문은 앞단 HTML 보관 대상이 아니다.
+  'sw/web/src/actions/home/getHomeGraphData.ts',
+  'sw/web/src/actions/home/getHomeStats.ts',
+  'sw/web/src/actions/home/homeGraphItems.ts',
+  'sw/web/src/actions/board/notices/getNotices.ts',
+  'sw/web/src/components/features/board/notices/NoticeContent.tsx',
+  'sw/web/src/components/features/home/HomeNoticeList.module.css',
+  // 감상 추적 게임에서만 표시하는 정답 공개 화면이다.
+  'sw/web/src/components/features/game/tracker/ContentReveal.tsx',
   // 신화 게임의 전체 화면 틀은 쉼터에서만 열며 앞단 HTML 보관 대상이 아니다.
   'sw/web/src/components/features/game/myth/shared/MythGameFrame.tsx',
   'sw/web/src/components/features/game/myth/shared/hub/MythHubLayer.tsx',
@@ -717,6 +733,8 @@ function isTestOnlyPath(file) {
 }
 
 function classifyFile(file) {
+  // 홈 전용 연결도·책장·검색 갤러리는 / 및 /en에서만 소비한다.
+  if (file.startsWith('sw/web/src/components/features/home/introduction/')) return []
   // myth 폴더의 나머지 부품과 달리 RecentHistoryRail을 통해 공통 레이아웃에도 실린다.
   if (file === 'sw/web/src/components/features/user/explore/myth/MythTitleImage.tsx') return ['cached-html']
   // 같은 이미지·fetch 헬퍼의 실제 소비자는 보관 HTML과 SEO 이미지 양쪽에 있다.
@@ -816,6 +834,7 @@ function classifyFile(file) {
 
   // 공개 자산은 HTML 스코프로 갱신할 수 없다. 같은 URL을 덮어썼는지는 경로만으로
   // 알 수 없으므로 이 갈래만 닫아 두고 사람이 판단하게 한다.
+  if (file.startsWith('sw/web/public/images/mascots/')) return ['mascots']
   if (file.startsWith('sw/web/public/')) {
     throw new Error(`Unclassified public asset path: ${file}`)
   }

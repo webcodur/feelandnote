@@ -5,6 +5,8 @@ description: UI 상호작용 즉각 반응 원칙. 버튼·카드·칩 등 조�
 
 # UI 상호작용 — 즉각 반응 원칙
 
+불씨·부엉이·사자를 안내·빈 상태·저장 반응에 쓰거나 고칠 때는 [서비스 캐릭터 활용](../../../docs/project/service/service-07-mascots.md)을 먼저 읽는다.
+
 전 앱(web·web-bo·lab·audio-bo) 공통. 조작용 요소의 hover는 **손을 올린 즉시** 바뀐다.
 
 ## 핵심 규칙

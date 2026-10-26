@@ -14,7 +14,7 @@ interface GetNoticesParams {
   offset?: number
   /** 발행 시각이 아직 오지 않은 공지까지 본다. 관리자 화면만 켠다. */
   includeScheduled?: boolean
-  /** 홈의 한 줄 공지는 고정글보다 최신 발행글을 먼저 보여 준다. */
+  /** 홈 공지는 고정글보다 최신 발행글을 먼저 보여 준다. */
   pinnedFirst?: boolean
 }
 
