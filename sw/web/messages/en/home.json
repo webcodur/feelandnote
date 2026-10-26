@@ -294,19 +294,23 @@
           },
           "read": {
             "title": "Read",
-            "meaning": "Books they read"
+            "meaning": "Books they read",
+            "shortTitle": "Read"
           },
           "appearance": {
             "title": "Featured in",
-            "meaning": "Books about them"
+            "meaning": "Books about them",
+            "shortTitle": "About"
           },
           "authored": {
             "title": "Written by",
-            "meaning": "Books they wrote"
+            "meaning": "Books they wrote",
+            "shortTitle": "Written"
           },
           "affiliation": {
             "title": "Affiliations",
-            "meaning": "Books about their world"
+            "meaning": "Books about their world",
+            "shortTitle": "World"
           }
         },
         "emptyBranch": "No works listed yet.",
@@ -343,7 +347,7 @@
       "contactTitle": "Operations and Contact",
       "navContact": "Contact",
       "latestNotice": "Latest announcement",
-      "navShowcase": "Appreciations & related books"
+      "navShowcase": "Library"
     }
   },
   "banner": {

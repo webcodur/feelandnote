@@ -255,7 +255,7 @@
       "explorePeople": "인물 둘러보기",
       "statsPeople": "인물",
       "statsRecords": "감상 기록",
-      "whyTitle": "한 권을 읽고, 모두에게 배웁니다.",
+      "whyTitle": "한 권을 읽고, 모두에게 배우세요.",
       "whyBody": "우리가 책 한 권을 읽고 떠올리는 사유는 한 갈래의 생각에 불과합니다. 저마다 다른 지식과 경험을 가진 이들이 남긴 한 문장을 읽으며, 혼자서는 얻지 못했을 지식과 사유까지 배워보세요.",
       "appreciationsTitle": "모든 매체를 기록합니다.",
       "appreciationsDescription": "인물이 책·음악·영상·게임을 접한 계기와 감상을 출처와 함께 기록합니다.",
@@ -294,19 +294,23 @@
           },
           "read": {
             "title": "감상",
-            "meaning": "그가 읽은 책"
+            "meaning": "그가 읽은 책",
+            "shortTitle": "읽은 책"
           },
           "appearance": {
             "title": "등장",
-            "meaning": "그를 다룬 책"
+            "meaning": "그를 다룬 책",
+            "shortTitle": "등장 도서"
           },
           "authored": {
             "title": "집필",
-            "meaning": "그가 쓴 책"
+            "meaning": "그가 쓴 책",
+            "shortTitle": "쓴 책"
           },
           "affiliation": {
             "title": "소속",
-            "meaning": "그가 속한 세계를 다룬 책"
+            "meaning": "그가 속한 세계를 다룬 책",
+            "shortTitle": "소속 도서"
           }
         },
         "emptyBranch": "등록된 작품이 없습니다.",
@@ -343,7 +347,7 @@
       "contactTitle": "운영 및 문의",
       "navContact": "운영·문의",
       "latestNotice": "최근 공지",
-      "navShowcase": "감상 기록 · 관련 도서"
+      "navShowcase": "서재"
     }
   },
   "banner": {

@@ -41,18 +41,18 @@ export default function HomeReadingList({ data, onNavigate }: { data: HomeGraphD
   return <div className={styles.container} data-home-reading-list aria-label={t('relatedBooks', { name: person.name })}>
     <div className={styles.layout}>
       <div className={styles.person}>
-        <Link href={`/celeb/${person.slug}`} className={styles.portrait} aria-label={`${person.name} · ${t('personLink')}`}>{person.avatarUrl && <CelebAvatarImage src={person.avatarUrl} alt="" className="object-contain object-bottom" sizes="(min-width: 800px) 160px, 52px" />}</Link>
-        <div className={styles.identity}><HomePersonName person={person} onNavigate={onNavigate} />{person.title && <span>{person.title}</span>}</div>
+        <HomePersonName person={person} onNavigate={onNavigate} title={person.title} portrait={<Link href={`/celeb/${person.slug}`} className={styles.portrait} aria-label={`${person.name} · ${t('personLink')}`}>{person.avatarUrl && <CelebAvatarImage src={person.avatarUrl} alt="" className="object-contain object-bottom" sizes="(min-width: 800px) 160px, 64px" />}</Link>} />
       </div>
       <div className={styles.shelf}>
         <div className={styles.relations} role="tablist" aria-orientation="vertical" aria-label={t('bookNavigation')}>
           {branches.map((branch, index) => {
             const Icon = RELATION_ICONS[branch.key] ?? BookOpen
             return <button key={branch.key} id={`${id}-${branch.key}`} type="button" role="tab" data-book-tab={branch.key}
+              aria-label={t(`branches.${branch.key}.meaning`)}
               aria-selected={selected === branch.key} aria-controls={`${id}-books`} tabIndex={selected === branch.key ? 0 : -1}
               onClick={() => select(branch.key)} onKeyDown={event => navigate(event, index)}>
               <Icon size={17} strokeWidth={1.5} aria-hidden />
-              <span>{t(`branches.${branch.key}.meaning`)}</span><ArrowRight size={14} aria-hidden className={styles.relationArrow} />
+              <span><span className={styles.fullMeaning}>{t(`branches.${branch.key}.meaning`)}</span><span className={styles.shortMeaning}>{t(`branches.${branch.key}.shortTitle`)}</span></span><ArrowRight size={14} aria-hidden className={styles.relationArrow} />
               {selected === branch.key && <motion.span className={styles.indicator} layoutId={`${id}-active-relation`} transition={{ duration: reduced ? 0 : .22 }} />}
             </button>
           })}
