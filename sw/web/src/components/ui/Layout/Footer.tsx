@@ -42,7 +42,7 @@ export default async function Footer() {
         <div className="mb-8 flex flex-col items-center gap-2 text-center md:mb-10">
           <Logo size="sm" variant="default" />
           <p className="text-sm text-text-secondary">{t("layout.footer.tagline")}</p>
-          <nav aria-label={t("layout.footer.officialChannels")} className="flex flex-wrap items-center justify-center gap-x-4">
+          {locale === "ko" && <nav aria-label={t("layout.footer.officialChannels")} className="flex flex-wrap items-center justify-center gap-x-4">
             {blogs.map((blog) => (
               <a
                 key={blog.url}
@@ -54,7 +54,7 @@ export default async function Footer() {
                 {blog.label}
               </a>
             ))}
-          </nav>
+          </nav>}
         </div>
 
         {/* 섹션 링크 — 휴대폰 2열 가운데, 넓은 화면 4열 */}
