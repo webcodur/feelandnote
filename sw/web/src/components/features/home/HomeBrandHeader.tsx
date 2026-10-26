@@ -7,7 +7,7 @@ export default async function HomeBrandHeader() {
   const [intro, site] = await Promise.all([
     getTranslations('home.ui.intro'), getTranslations('site'),
   ])
-  return <header id="about" tabIndex={-1} className={styles.hero}>
+  return <header className={styles.hero}>
     <div className={styles.heroBrand}><Logo size="sm" variant="hero" className={styles.brandMark} subtitle="YOUR CULTURAL LEGACY" /></div>
     <div className={styles.headlineGroup}>
       <h1 className={styles.headline}>{intro('introSub').split('\n').map(line => <span key={line}>{line}</span>)}</h1>

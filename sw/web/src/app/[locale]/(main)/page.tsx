@@ -34,7 +34,6 @@ export default async function MainPage() {
   const sectionClass = `${styles.homeSection} ${hubStyles.homeRhythm}`
   const contents = [
     { key: 'about', sectionId: 'about', label: t('navAbout') },
-    { key: 'why', sectionId: 'why', label: t('navWhy') },
     ...HOME_SECTIONS.map((section, index) => ({
       key: section.key, sectionId: section.id ?? hubSectionId(index, HOME_GROUP_ID),
       chapter: String(index + 1).padStart(2, '0'), label: t(section.navTitleKey ?? section.titleKey),
@@ -46,14 +45,14 @@ export default async function MainPage() {
     <AsyncIntlProvider>
       <PageContainer width="detail" className={hubStyles.page}>
         <AtlasNavSections items={contents} />
-        <div className={styles.opening} data-home-opening>
+        <section id="about" tabIndex={-1} className={styles.opening} data-home-opening>
           <HomeBrandHeader />
-          <section id="why" tabIndex={-1} className={styles.why}>
+          <div className={styles.why}>
             <h2>{t('whyTitle')}</h2>
             <p>{t('whyBody')}</p>
-          </section>
+          </div>
           <Lane fallback={<HomeStatsPending label={pending('loading')} />}><HomeStats /></Lane>
-        </div>
+        </section>
         <HubSection {...sec('appreciations')} hideDivider={false} tabIndex={-1} className={sectionClass}>
           <HomeShowcase
             appreciations={<Lane fallback={graphPending}><HomeGraphSection mode="appreciations" /></Lane>}

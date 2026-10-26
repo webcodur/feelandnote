@@ -1,4 +1,4 @@
-.opening { position: relative; isolation: isolate; }
+.opening { position: relative; isolation: isolate; scroll-margin-top: calc(var(--layer-header-h) + 24px); outline: none; }
 .opening::before { content: ''; position: absolute; inset: 0 0 12%; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 50% 12%,color-mix(in srgb,var(--color-accent) 3%,transparent),transparent 65%); }
 .hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 24px; scroll-margin-top: calc(var(--layer-header-h) + 24px); outline: none; }
 .heroBrand { margin-bottom: 20px; }
