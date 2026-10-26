@@ -1,65 +1,25 @@
 .container { container: home-graph / inline-size; min-width: 0; max-width: var(--home-content-width,820px); margin-inline: auto; }
-.graph { position: relative; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 44px 24px; isolation: isolate; }
-.branches { display: contents; }
-.edges { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-.edge { fill: none; stroke: var(--color-line-strong); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
-.graph:has(.branch:is(:hover,:focus-visible)) .edge { opacity: .3; }
-.graph:has([data-position='0']:is(:hover,:focus-visible)) .edge[data-position='0'],
-.graph:has([data-position='1']:is(:hover,:focus-visible)) .edge[data-position='1'],
-.graph:has([data-position='2']:is(:hover,:focus-visible)) .edge[data-position='2'],
-.graph:has([data-position='3']:is(:hover,:focus-visible)) .edge[data-position='3'] { stroke: var(--color-accent); opacity: 1; stroke-width: 1.75; }
+.graph { position: relative; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 20px 24px; isolation: isolate; }
 .root { grid-column: 1 / -1; width: 100%; min-width: 0; font-size: 16px; z-index: 1; }
 .portraitDisc { position: relative; display: block; flex: none; width: 64px; height: 76px; overflow: hidden; border-radius: 50% 50% 38% 38%; background: radial-gradient(ellipse at bottom,var(--color-bg-stone-light),transparent 70%); }
 .initial { display: grid; height: 100%; place-items: center; font-size: 32px; }
-.branch { position: relative; display: flex; flex-direction: column; align-items: center; align-self: start; min-width: 0; padding: 0 8px 8px; border-radius: var(--radius-control); text-align: center; outline: none; z-index: 2; }
-.branch::before { content: ''; position: absolute; inset: 0 0 auto; height: 128px; z-index: -1; pointer-events: none; background: radial-gradient(ellipse,color-mix(in srgb,var(--color-accent) 10%,transparent),transparent 70%); opacity: 0; transition: opacity 180ms ease-out; }
-.branch:is(:hover,:focus-visible) .branchHead, .branch:is(:hover,:focus-visible) .symbol { color: var(--color-accent); }
-.branch:is(:hover,:focus-visible)::before { opacity: 1; }
-.branch:is(:hover,:focus-visible) .symbol::before { background: var(--color-accent); }
-.branch:disabled { cursor: default; }
-.branchHead { position: relative; display: flex; width: 100%; align-items: center; justify-content: center; min-height: 24px; margin-top: 10px; padding-inline: 20px; font-size: 15px; }
-.branchHead strong { font-weight: 600; }
-.branchAction { position: absolute; inset-inline-end: 0; opacity: 0; }
-.branch:is(:hover,:focus-visible) .branchAction { opacity: 1; }
-.branchReason { max-width: 190px; margin-top: 6px; font-size: 14px; font-weight: 400; line-height: 1.65; color: var(--color-text-secondary); word-break: keep-all; text-wrap: pretty; }
-.symbol { position: relative; display: block; flex: none; width: 104px; height: 108px; max-width: 100%; color: var(--color-text-secondary); }
-.symbol::before { content: ''; position: absolute; inset-inline-start: calc(50% - 2px); top: -11px; width: 4px; height: 4px; border-radius: 50%; background: var(--color-line-strong); }
-.symbol::after { content: ''; position: absolute; inset: auto 5% -2px; height: 12px; z-index: -1; background: radial-gradient(ellipse,var(--color-bg-secondary),transparent 70%); }
-.symbol svg { width: 100%; height: 100%; filter: drop-shadow(0 3px 3px var(--color-bg-secondary)); }
-.empty { padding-block: 20px; font-size: 14px; color: var(--color-text-secondary); }
-.backButton { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; font-size: 14px; color: var(--color-text-secondary); outline: none; }
-.backButton:hover { color: var(--color-accent); }
-.choices { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-.choices button { min-height: 44px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--color-line); border-radius: 999px; font-size: 14px; line-height: 1.5; text-align: start; color: var(--color-text-secondary); outline: none; }
-.choices button[aria-pressed='true'] { color: var(--color-accent); border-color: var(--color-accent-dim); background: var(--color-bg-card); }
-.choices button:hover { color: var(--color-accent-hover); border-color: var(--color-accent-dim); }
 .portraitDisc { outline: none; }
-.portraitDisc:focus-visible, .branch:focus-visible, .backButton:focus-visible, .choices button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
-.selectedView { grid-column: 1 / -1; min-width: 0; }
-.selectedView .backButton { margin-bottom: 6px; }
+.portraitDisc:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+.selectedView { grid-column: 1 / -1; min-width: 0; padding: 16px; border: 1px solid var(--color-line-strong); border-radius: var(--radius-card); background: var(--color-bg-main); }
 .readingPanel { min-width: 0; min-height: 270px; padding: 4px; margin: -4px; overflow: hidden; outline: none; }
 .readingPanel:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-.graph[data-selected='true'] { row-gap: 20px; }
 @container home-graph (min-width: 761px) {
-  .graph { grid-template-columns: 232px repeat(4,minmax(0,1fr)); column-gap: 20px; }
   .root { grid-column: 1; font-size: 18px; }
   .portraitDisc { width: 160px; height: 196px; border-radius: 50% 50% var(--radius-control) var(--radius-control); background: radial-gradient(ellipse at 50% 65%,var(--color-bg-stone-light),transparent 70%); }
-  .branch { align-self: center; padding-top: 34px; }
-  .symbol { width: 90px; height: 96px; }
-  .graph[data-selected='true'] { grid-template-columns: 232px minmax(0,1fr); column-gap: 32px; align-items: start; }
+  .graph { grid-template-columns: var(--home-person-width) minmax(0,1fr); column-gap: 32px; align-items: start; }
+  .graph .root { margin-top: 96px; }
   .selectedView { grid-column: 2; }
 }
 @container home-graph (max-width: 760px) {
-  .graph { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 40px 24px; }
-  .branch { padding-inline: 8px; }
-  .branchHead { font-size: 14px; }
-  .symbol { width: 72px; height: 76px; }
+  .selectedView { padding: 12px; }
+  .graph { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px 24px; }
   .portraitDisc { width: 64px; height: 76px; }
-  .branchReason { line-height: 1.6; }
-  .choices { margin-bottom: 18px; }
 }
-@media (hover: none) { .branchAction { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .branch::before { transition: none; } }
 @container home-graph (max-width: 360px) {
   .graph { column-gap: 18px; }
 }

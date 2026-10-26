@@ -13,11 +13,11 @@
 .why h2 { max-width: 560px; margin-inline: auto; text-align: center; font-size: clamp(23px,2.4vw,26px); line-height: 1.45; font-weight: 600; letter-spacing: -.035em; word-break: keep-all; text-wrap: balance; }
 .why p { margin-top: 12px; font-size: 16px; font-weight: 400; line-height: 1.85; word-break: keep-all; text-wrap: pretty; }
 .homeSection { --home-content-width: 820px; outline: none; }
-.showcase { display: grid; gap: 40px; max-width: var(--home-content-width,820px); margin-inline: auto; min-width: 0; }
-.showcasePanel { min-width: 0; padding-block: 24px 8px; border-top: 1px solid var(--color-line-strong); }
+.showcasePanel { --home-person-width: 248px; max-width: var(--home-content-width,820px); margin-inline: auto; min-width: 0; padding: 28px 20px 24px; border: 1px solid var(--color-line-strong); border-radius: var(--radius-panel); background: var(--color-bg-card); }
 .showcaseHeading { text-align: center; margin-bottom: 32px; }
 .showcaseHeading h3 { font-size: 23px; font-weight: 600; line-height: 1.4; letter-spacing: -.035em; word-break: keep-all; }
-.showcaseHeading p { max-width: 580px; margin: 10px auto 0; font-size: 15px; line-height: 1.8; color: var(--color-text-secondary); word-break: keep-all; }
+.showcaseHeading p { max-width: 580px; margin: 10px auto 0; font-size: 15px; line-height: 1.8; color: var(--color-text-secondary); word-break: keep-all; text-wrap: balance; }
+:is(.definition,.why p,.showcaseHeading p,.contactCopy):lang(ko) { word-break: break-all; }
 .homeSection [data-hub-header] h2 { max-width: 760px; margin-top: 6px; font-size: clamp(24px,2.6vw,30px); font-weight: 600; line-height: 1.4; letter-spacing: -.035em; text-wrap: balance; }
 .homeSection [data-hub-header] > p { max-width: 580px; font-size: 15px; line-height: 1.8; text-wrap: pretty; }
 .search { display: flex; align-items: center; min-height: 56px; max-width: var(--home-content-width); margin-inline: auto; padding: 4px; border: 1px solid var(--color-line-strong); border-radius: var(--radius-card); background: var(--color-bg-card); }
@@ -29,12 +29,12 @@
 .search button:hover { background: var(--color-bg-stone-light); color: var(--color-accent-hover); }
 .search button:active { background: var(--color-bg-card); }
 .contact { max-width: var(--home-content-width); margin-inline: auto; text-align: center; }
-.contactPanel { display: grid; padding: 20px; border: 1px solid var(--color-line); border-radius: var(--radius-card); }
+.contactPanel { display: grid; gap: 16px; }
 .contactPanel:has(.support) { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
-.contactInfo { display: flex; min-width: 0; flex-direction: column; align-items: center; }
+.contactInfo { display: flex; min-width: 0; flex-direction: column; align-items: center; padding: 20px; border: 1px solid var(--color-line-strong); border-radius: var(--radius-card); background: var(--color-bg-card); }
 .contactHeading { font-size: 16px; font-weight: 600; line-height: 1.6; word-break: keep-all; }
 .contactCopy { margin: 10px 0 16px; text-align: start; font-size: 15px; line-height: 1.8; color: var(--color-text-secondary); word-break: keep-all; }
-.support { min-width: 0; padding-inline-start: 20px; border-inline-start: 1px solid var(--color-line); text-align: center; }
+.support { min-width: 0; padding: 20px; border: 1px solid var(--color-line-strong); border-radius: var(--radius-card); background: var(--color-bg-raised); text-align: center; }
 .support > aside, .support > aside > div { height: 100%; }
 .support > aside > div > div { display: flex; height: 100%; flex-direction: column; align-items: center; }
 .support p { margin-top: 10px; margin-bottom: 16px; line-height: 1.8; }
@@ -46,7 +46,7 @@
 .contactAction:active { background: var(--color-bg-stone-light); }
 .search button:focus-visible, .contactAction:focus-visible { outline: 2px solid var(--color-accent-hover); outline-offset: 4px; }
 @media (max-width: 640px) {
-  .showcasePanel { padding-block: 20px 8px; }
+  .showcasePanel { padding: 20px 16px; }
   .showcaseHeading { margin-bottom: 24px; }
   .showcaseHeading h3 { font-size: 21px; }
   .showcaseHeading p { font-size: 14px; }
@@ -66,12 +66,11 @@
   .searchIcon { display: none; }
   .search input { padding-inline: 10px; font-size: 16px; }
   .search button { min-height: 44px; padding: 10px 13px; gap: 6px; }
-  .contactPanel { padding: 20px; }
 }
 
 @media (max-width: 720px) {
   .contactPanel:has(.support) { grid-template-columns: 1fr; gap: 20px; }
-  .support { padding: 20px 0 0; border-inline-start: 0; border-top: 1px solid var(--color-line); }
+  .support { padding: 20px; }
 }
 @media (max-width: 380px) { .heroMascot { inset-inline-start: calc(100% - 2px); width: 38px !important; } }
 

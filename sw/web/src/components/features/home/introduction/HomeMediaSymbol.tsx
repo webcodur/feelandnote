@@ -6,7 +6,7 @@ import type { ContentType } from '@/types/database'
 type Paint = { surface: string; metal: string }
 
 function Book({ surface }: Paint) {
-  return <g stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round">
+  return <g stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">
     <path d="m24 25 72-13 12 8-74 13Z" fill="var(--color-text-secondary)" />
     <path d="m31 24 64-11M32 28l69-12" opacity=".35" />
     <path d="m24 25 10 8v94l-10-9Z" fill="var(--color-bg-stone-light)" />
@@ -18,22 +18,19 @@ function Book({ surface }: Paint) {
 }
 
 function Music({ surface }: Paint) {
-  return <g stroke="currentColor" strokeWidth="1.1">
-    <circle cx="85" cy="61" r="45" fill="var(--color-bg-secondary)" />
-    {[40, 36, 31, 27].map(r => <circle key={r} cx="85" cy="61" r={r} opacity=".3" />)}
-    <path d="M61 29a40 40 0 0 1 48 1M110 92a40 40 0 0 1-18 8" strokeWidth="3" opacity=".45" />
-    <circle cx="85" cy="61" r="13" fill="var(--color-bg-stone-light)" />
-    <circle cx="85" cy="61" r="3" fill="var(--color-bg-secondary)" />
-    <path d="m16 55 6-6h63l-6 6Z" fill="var(--color-text-tertiary)" />
-    <path d="M16 55h63v67H16Z" fill={surface} />
-    <path d="M22 55v67M31 72h31M31 78h20" opacity=".45" />
-    <circle cx="48" cy="99" r="9" opacity=".65" />
-    <path d="M48 94v10m-5-5h10" opacity=".65" />
+  return <g stroke="currentColor" strokeWidth="1.8">
+    <circle cx="72" cy="72" r="58" fill={surface} />
+    {[52, 47, 42, 37, 32].map(r => <circle key={r} cx="72" cy="72" r={r} opacity=".5" />)}
+    <path d="M35 35a52 52 0 0 1 50-13M109 109a52 52 0 0 1-50 13" strokeWidth="4" strokeLinecap="round" opacity=".65" />
+    <circle cx="72" cy="72" r="23" fill="currentColor" stroke="none" />
+    <circle cx="72" cy="72" r="18" stroke="var(--color-bg-main)" opacity=".6" />
+    <path d="M62 64h20M66 80h12" stroke="var(--color-bg-main)" strokeWidth="2" />
+    <circle cx="72" cy="72" r="4" fill="var(--color-bg-main)" stroke="none" />
   </g>
 }
 
 function Video({ surface }: Paint) {
-  return <g transform="rotate(-7 72 72)" stroke="currentColor" strokeWidth="1.1">
+  return <g transform="rotate(-7 72 72)" stroke="currentColor" strokeWidth="1.8">
     <rect x="32" y="12" width="80" height="120" rx="3" fill={surface} />
     {[20, 34, 48, 62, 76, 90, 104, 118].map(y => <g key={y} fill="currentColor" stroke="none" opacity=".65">
       <rect x="37" y={y} width="5" height="7" rx="1" /><rect x="102" y={y} width="5" height="7" rx="1" />
@@ -47,7 +44,7 @@ function Video({ surface }: Paint) {
 }
 
 function Game({ metal }: Paint) {
-  return <g stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round">
+  return <g stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">
     <path d="M40 19h60l13 14v88H28V33h12Z" fill={metal} />
     <path d="M41 19v14h59V19M35 40h71v59H35Z" fill="var(--color-bg-card)" />
     {[46, 54, 62, 70, 78, 86, 94].map(x => <path key={x} d={`M${x} 23v7`} opacity=".5" />)}

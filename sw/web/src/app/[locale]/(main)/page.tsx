@@ -54,10 +54,10 @@ export default async function MainPage() {
           <Lane fallback={<HomeStatsPending label={pending('loading')} />}><HomeStats /></Lane>
         </section>
         <HubSection {...sec('appreciations')} hideDivider={false} tabIndex={-1} className={sectionClass}>
-          <HomeShowcase
-            appreciations={<Lane fallback={graphPending}><HomeGraphSection mode="appreciations" /></Lane>}
-            books={<Lane fallback={graphPending}><HomeGraphSection mode="books" /></Lane>}
-          />
+          <HomeShowcase mode="appreciations"><Lane fallback={graphPending}><HomeGraphSection mode="appreciations" /></Lane></HomeShowcase>
+        </HubSection>
+        <HubSection {...sec('reading')} tabIndex={-1} className={sectionClass}>
+          <HomeShowcase mode="books"><Lane fallback={graphPending}><HomeGraphSection mode="books" /></Lane></HomeShowcase>
         </HubSection>
         <HubSection {...sec('search')} tabIndex={-1} className={sectionClass}>
           <HomeClosing />

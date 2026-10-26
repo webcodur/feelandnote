@@ -27,10 +27,10 @@ export default function HomeMediaTabs({ branches, value, panelId, onChange }: {
   return <div className={styles.tabs} role="tablist" aria-label={t('mediaNavigation')}>
     {branches.map(branch => <button key={branch.key} type="button" role="tab" id={`${panelId}-tab-${branch.key}`}
       data-media-mode={branch.key} aria-selected={value === branch.key} aria-controls={panelId}
+      aria-label={t(`branches.${branch.key}.title`)} title={t(`branches.${branch.key}.title`)}
       tabIndex={value === branch.key ? 0 : -1} disabled={!branch.items.length}
       onClick={() => onChange(branch)} onKeyDown={event => navigate(event, branch)}>
       {branch.items[0] && <span className={styles.symbol}><HomeMediaSymbol type={branch.items[0].type} /></span>}
-      <span>{t(`branches.${branch.key}.title`)}</span>
       {value === branch.key && <motion.span className={styles.indicator} layoutId={`${id}-indicator`} transition={{ duration: reduced ? 0 : .22 }} />}
     </button>)}
   </div>

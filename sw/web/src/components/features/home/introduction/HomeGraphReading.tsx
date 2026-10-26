@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { ArrowRight, ArrowUpRight, ExternalLink } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, ChevronRight, ExternalLink } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import Modal, { ModalBody } from '@/components/ui/Modal'
 import HomeWorkCover from './HomeWorkCover'
@@ -16,8 +16,8 @@ function sourceHref(value: string | null) {
   catch { return null }
 }
 
-export default function HomeGraphReading({ person, branch, item }: {
-  person: HomeGraphPerson; branch: HomeGraphBranch; item: HomeGraphItem
+export default function HomeGraphReading({ person, branch, item, onNext }: {
+  person: HomeGraphPerson; branch: HomeGraphBranch; item: HomeGraphItem; onNext?: () => void
 }) {
   const t = useTranslations('home.landing.graph')
   const [expanded, setExpanded] = useState(false)
@@ -32,7 +32,10 @@ export default function HomeGraphReading({ person, branch, item }: {
             <HomeWorkCover item={item} />
           </Link>
           <div className={styles.workIdentity}>
-            <h3 className={styles.readingTitle}><Link href={`/content/${item.id}`}>{item.title}</Link></h3>
+            <div className={styles.titleRow}>
+              <h3 className={styles.readingTitle}><Link href={`/content/${item.id}`}>{item.title}</Link></h3>
+              {onNext && <button type="button" className={styles.nextWork} data-next-work onClick={onNext} aria-label={t('nextWork')} title={t('nextWork')}><ChevronRight size={22} aria-hidden /></button>}
+            </div>
             {item.creator && <p className={styles.creator}>{item.creator}</p>}
           </div>
         </div>
