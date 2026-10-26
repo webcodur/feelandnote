@@ -10,7 +10,8 @@ import { LIST_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { getInfluenceRanking } from './getCelebs'
 import { toFactionMusic, type FactionMusic } from '@/lib/faction-music'
-import { toTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
+import { filterSceneVisibility, toTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
+import { canPreviewScenes } from '@/lib/auth/scenePreview'
 
 export interface FeaturedCeleb {
   id: string
@@ -221,7 +222,8 @@ const getCachedFactionMembers = unstable_cache((ids: string[]) => coalesceCacheQ
   tags: [CACHE_TAGS.FACTIONS],
 })
 
-function toFeaturedFaction(faction: FeaturedFactionRow, celebs: FeaturedCeleb[], extra: Pick<FeaturedFaction, 'parentSlug' | 'isGroup'>): FeaturedFaction {
+function toFeaturedFaction(faction: FeaturedFactionRow, celebs: FeaturedCeleb[], extra: Pick<FeaturedFaction, 'parentSlug' | 'isGroup'>, canPreview: boolean): FeaturedFaction {
+  const images = filterSceneVisibility(toImageArray(faction.team_images), canPreview)
   return {
     id: faction.id,
     name: faction.name,
@@ -232,8 +234,8 @@ function toFeaturedFaction(faction: FeaturedFactionRow, celebs: FeaturedCeleb[],
     description_en: faction.description_en ?? null,
     color: faction.color,
     slug: faction.slug ?? null,
-    team_images: toImageArray(faction.team_images),
-    scenes_complete: faction.scenes_complete === true,
+    team_images: images,
+    scenes_complete: faction.scenes_complete === true && images.some(image => image.kind === 'scene'),
     music: toFactionMusic(faction.theme_music),
     celebs,
     is_featured: faction.is_featured === true,
@@ -243,7 +245,7 @@ function toFeaturedFaction(faction: FeaturedFactionRow, celebs: FeaturedCeleb[],
 }
 
 export const getFeaturedFactions = cache(async (): Promise<FeaturedFaction[]> => {
-  const factionRows = await getCachedFactionRows()
+  const [factionRows, canPreview] = await Promise.all([getCachedFactionRows(), canPreviewScenes()])
   if (!factionRows.length) return []
 
   const activeFactions = factionRows.filter((t) => t.is_featured)
@@ -261,7 +263,7 @@ export const getFeaturedFactions = cache(async (): Promise<FeaturedFaction[]> =>
 
   // 배정된 인물이 한 명도 없으면 태그만 늘어놓는다
   if (Object.keys(membersByFaction).length === 0) {
-    return factionRows.map((faction) => toFeaturedFaction(faction, [], { parentSlug: faction.parentSlug, isGroup: faction.isGroup }))
+    return factionRows.map((faction) => toFeaturedFaction(faction, [], { parentSlug: faction.parentSlug, isGroup: faction.isGroup }, canPreview))
   }
 
   const result: FeaturedFaction[] = []
@@ -269,12 +271,12 @@ export const getFeaturedFactions = cache(async (): Promise<FeaturedFaction[]> =>
     const celebs = membersByFaction[faction.id] ?? []
     // 테마 헤더는 배정이 없어도 목록에 포함한다
     if (celebs.length > 0 || faction.isGroup) {
-      result.push(toFeaturedFaction(faction, celebs, { parentSlug: faction.parentSlug, isGroup: faction.isGroup }))
+      result.push(toFeaturedFaction(faction, celebs, { parentSlug: faction.parentSlug, isGroup: faction.isGroup }, canPreview))
     }
   }
   // 비활성 태그 추가
   for (const faction of factionRows.filter((t) => !t.is_featured)) {
-    result.push(toFeaturedFaction(faction, [], { parentSlug: faction.parentSlug, isGroup: faction.isGroup }))
+    result.push(toFeaturedFaction(faction, [], { parentSlug: faction.parentSlug, isGroup: faction.isGroup }, canPreview))
   }
   return result
 })
@@ -282,10 +284,10 @@ export const getFeaturedFactions = cache(async (): Promise<FeaturedFaction[]> =>
 export async function getFactionsByIds(factionIds: string[]): Promise<FeaturedFaction[]> {
   if (factionIds.length === 0) return []
 
-  const rows = await getCachedFactionRows()
+  const [rows, canPreview] = await Promise.all([getCachedFactionRows(), canPreviewScenes()])
   const selected = rows.filter(row => factionIds.includes(row.id) && row.is_featured)
   const members = await getCachedFactionMembers(selected.filter(row => !row.isGroup).map(row => row.id))
-  const factions = selected.map(row => toFeaturedFaction(row, members[row.id] ?? [], { parentSlug: row.parentSlug, isGroup: row.isGroup }))
+  const factions = selected.map(row => toFeaturedFaction(row, members[row.id] ?? [], { parentSlug: row.parentSlug, isGroup: row.isGroup }, canPreview))
   const factionById = new Map(factions.map((faction) => [faction.id, faction]))
 
   return factionIds
@@ -296,5 +298,6 @@ export async function getFactionsByIds(factionIds: string[]): Promise<FeaturedFa
 /** 스트리밍 전에 주소·공개 여부를 확인해 없는 테마에는 실제 404를 보낸다. */
 export async function getFactionRouteTarget(slug: string) {
   const rows = await getCachedFactionRows()
-  return rows.find(row => row.slug === slug && row.is_featured) ?? null
+  const row = rows.find(row => row.slug === slug && row.is_featured)
+  return row ? { ...row, team_images: filterSceneVisibility(toImageArray(row.team_images)) } : null
 }

@@ -39,6 +39,7 @@ test('atlas roster needs both an active profile and a visible assignment', async
     },
   }
   const mocks: Record<string, unknown> = {
+    '@/lib/auth/scenePreview': { canPreviewScenes: async () => false },
     'next/cache': { unstable_cache: (fn: unknown) => fn },
     'react': { cache: (fn: unknown) => fn },
     '@/lib/db/static': { createStaticClient: () => db },

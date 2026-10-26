@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
+import { filterSceneVisibility, toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { selectVisibleFactionMembers } from '@/lib/faction-members'
@@ -79,7 +79,7 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
     자동 규칙: 대분류가 겹치지 않게 하나씩, 단체샷 있는 테마 우선.
   */
   const hasPeople = (faction: HubFactionRow) => factionIdsWithPeople.has(faction.id)
-  const coverOf = (faction: HubFactionRow) => toTeamImages(faction.team_images)[0]?.url ?? null
+  const coverOf = (faction: HubFactionRow) => filterSceneVisibility(toTeamImages(faction.team_images))[0]?.url ?? null
 
   const selectedFactions: LinkableHubFactionRow[] = []
   const usedParents = new Set<string>()

@@ -358,6 +358,7 @@
         "captionNext": "다음 문장",
         "portraitImage": "대표 사진",
         "keyScenes": "주요 장면",
+        "scenesPreparing": "준비중 · 주인장 미리보기",
         "selectImage": "장면 바로가기",
         "imageNumber": "번호 (1–{count})",
         "goToImage": "이동",

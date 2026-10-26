@@ -14,6 +14,21 @@ const code = ts.transpileModule(readFileSync(new URL('./faction-scenes.ts', impo
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
 }).outputText
 
+test('준비중으로 저장한 장면은 다시 열어도 유지되고 공개 전환도 저장된다', async () => {
+  const f = fixture(), initial = await f.actions.getSceneEditorData('entry')
+  assert.ok(initial)
+  const result = await f.actions.saveSceneArtwork({ id: 'entry', revision: initial.revision,
+    scenes: initial.scenes.map(scene => ({ ...scene, preparing: true })), cover: initial.cover, scenesComplete: true })
+  assert.ok(result.success)
+  const reopened = await f.actions.getSceneEditorData('entry')
+  assert.ok(reopened?.scenes[0].preparing)
+  assert.equal(reopened.scenesComplete, true)
+  const published = await f.actions.saveSceneArtwork({ id: 'entry', revision: reopened.revision,
+    scenes: reopened.scenes.map(scene => ({ ...scene, preparing: false })), cover: reopened.cover, scenesPreparing: false })
+  assert.ok(published.success)
+  assert.equal((await f.actions.getSceneEditorData('entry'))?.scenes[0].preparing, undefined)
+});
+
 function fixture(authorized = true, transportDb?: DatabaseClient) {
   let images: unknown = [
     { url: 'https://assets.test/group.png', label: '단체', custom: 'keep' },
@@ -57,6 +72,31 @@ function fixture(authorized = true, transportDb?: DatabaseClient) {
   vm.runInNewContext(code, context)
   return { actions: context.exports as typeof import('./faction-scenes'), uploads, sceneUploads, images: () => images, complete: () => complete, writes: () => writes, race: () => { race = true }, externalCompletion: () => { complete = !complete; version++ }, externalEdit: () => { images = [...images as unknown[], { url: 'https://assets.test/external.png' }]; version++ } }
 }
+
+test('장면이 없어도 준비중을 저장하고 나중에 등록한 장면을 준비중으로 유지한다', async () => {
+  const f = fixture(), initial = await f.actions.getSceneEditorData('entry')
+  assert.ok(initial)
+  const saved = await f.actions.saveSceneArtwork({ id: 'entry', revision: initial.revision, scenes: [],
+    cover: { url: 'https://assets.test/myth/title-art/cover.png' }, scenesPreparing: true })
+  assert.ok(saved.success)
+  const empty = await f.actions.getSceneEditorData('entry')
+  assert.ok(empty?.scenesPreparing)
+  assert.equal(empty.scenes.length, 0)
+  assert.equal(empty.cover?.scenesPreparing, true)
+  const added = await f.actions.saveSceneArtwork({ id: 'entry', revision: empty.revision,
+    scenes: [{ url: 'https://assets.test/later.webp', kind: 'scene', label: '추가', caption: '나중에 등록한 장면' }], cover: empty.cover })
+  assert.ok(added.success)
+  const later = await f.actions.getSceneEditorData('entry')
+  assert.ok(later?.scenesPreparing)
+  assert.equal(later.scenes[0].preparing, true)
+  const published = await f.actions.saveSceneArtwork({ id: 'entry', revision: later.revision,
+    scenes: later.scenes, cover: later.cover, scenesPreparing: false })
+  assert.ok(published.success)
+  const publicData = await f.actions.getSceneEditorData('entry')
+  assert.equal(publicData?.scenesPreparing, false)
+  assert.equal(publicData?.cover?.scenesPreparing, undefined)
+  assert.equal(publicData?.scenes[0].preparing, undefined)
+});
 
 test('그림 변경 없이 완결 여부를 저장하고, 이후 해설 편집은 기존 완결 상태를 유지한다', async () => {
   const f = fixture(), initial = await f.actions.getSceneEditorData('entry')

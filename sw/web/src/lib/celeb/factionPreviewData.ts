@@ -1,7 +1,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
-import { toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
+import { filterSceneVisibility, toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
 import { createStaticClient } from '@/lib/db/static'
 import { PUBLIC_FACTION_FILTER, selectVisibleFactionMembers } from '@/lib/faction-members'
 import { LIST_REVALIDATE } from '@/lib/cache'
@@ -43,12 +43,12 @@ const getFactionPreviewRosters = unstable_cache(
       membersByFaction.set(row.lv2_id, members)
     }
     return factions.map(faction => {
-      const images = toTeamImages(faction.team_images)
+      const images = filterSceneVisibility(toTeamImages(faction.team_images))
       return { id: faction.id, cover: images.find(image => image.kind === 'cover')?.url ?? images[0]?.url ?? null,
         members: membersByFaction.get(faction.id) ?? [] }
     })
   }),
-  ['celeb-faction-preview-rosters-v4-group-catalog'],
+  ['celeb-faction-preview-rosters-v5-scene-visibility'],
   { revalidate: LIST_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS] },
 )
 

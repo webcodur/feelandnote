@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto'
 import sharp from 'sharp'
 import { revalidatePath } from 'next/cache'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
-import { toTeamImages, toSceneImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
+import { isSceneBundlePreparing, toTeamImages, toSceneImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { requireAdmin } from '@/lib/admin-auth'
 import { createClient } from '@/lib/db/server'
@@ -21,6 +21,7 @@ export interface SceneEntrySummary {
   id: string; name: string; nameEn: string | null; slug: string | null; isMyth: boolean
   sceneCount: number; koCount: number; enCount: number; hasCover: boolean
   scenesComplete: boolean
+  scenesPreparing: boolean
 }
 
 export async function listSceneEntries(): Promise<SceneEntrySummary[]> {
@@ -34,6 +35,7 @@ export async function listSceneEntries(): Promise<SceneEntrySummary[]> {
     koCount: toSceneImages(row.team_images, 'ko').length, enCount: toSceneImages(row.team_images, 'en').length,
     hasCover: coverIndex(row.team_images, row.is_myth) >= 0,
     scenesComplete: row.scenes_complete === true,
+    scenesPreparing: isSceneBundlePreparing(row.team_images),
   }))
 }
 
@@ -50,6 +52,7 @@ export async function getSceneEditorData(id: string) {
     id: data.id, name: data.name, slug: data.slug, isMyth: data.is_myth,
     revision: revisionOf(data.team_images, data.scenes_complete === true),
     scenesComplete: data.scenes_complete === true,
+    scenesPreparing: isSceneBundlePreparing(data.team_images),
     cover: index < 0 ? null : toTeamImages([raw[index]])[0] ?? null,
     scenes: images.filter(image => image.kind === 'scene'),
     members: await getFactionMembers(id),
@@ -57,16 +60,20 @@ export async function getSceneEditorData(id: string) {
 }
 export type SceneEditorData = NonNullable<Awaited<ReturnType<typeof getSceneEditorData>>>
 
-export async function saveSceneArtwork(input: { id: string; revision: string; scenes: FactionTeamImage[]; cover: FactionTeamImage | null; scenesComplete?: boolean }) {
+export async function saveSceneArtwork(input: { id: string; revision: string; scenes: FactionTeamImage[]; cover: FactionTeamImage | null; scenesComplete?: boolean; scenesPreparing?: boolean }) {
   await requireAdmin()
   const db = await createClient()
   const { data: current, error } = await db.from('faction_lv2').select('team_images,is_myth,scenes_complete,xmin').eq('id', input.id).single()
   if (error) return { success: false as const, error: error.message || '저장 전 내용을 확인하지 못했습니다. 잠시 뒤 다시 저장해 주세요.' }
   if (revisionOf(current.team_images, current.scenes_complete === true) !== input.revision) return { success: false as const, error: '다른 곳에서 장면이나 완결 여부가 수정됐습니다. 입력한 내용을 복사한 뒤 새로고침해 주세요.' }
   if (input.scenesComplete !== undefined && typeof input.scenesComplete !== 'boolean') return { success: false as const, error: '완결 여부를 확인해 주세요.' }
+  if (input.scenesPreparing !== undefined && typeof input.scenesPreparing !== 'boolean') return { success: false as const, error: '준비중 여부를 확인해 주세요.' }
   const invalid = validateSceneDraft(input.scenes, input.cover, current.is_myth)
   if (invalid) return { success: false as const, error: invalid }
-  const next = mergeSceneArtwork(current.team_images, input.scenes, input.cover, current.is_myth)
+  const preparing = input.scenesPreparing ?? (isSceneBundlePreparing(current.team_images) || isSceneBundlePreparing(input.scenes))
+  const scenes = input.scenes.map(scene => ({ ...scene, preparing }))
+  const cover = input.cover ? { ...input.cover, scenesPreparing: preparing } : null
+  const next = mergeSceneArtwork(current.team_images, scenes, cover, current.is_myth)
   const complete = input.scenesComplete ?? (current.scenes_complete === true)
   const revision = revisionOf(next, complete)
   let warning: string | undefined

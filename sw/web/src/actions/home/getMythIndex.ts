@@ -4,7 +4,8 @@ import { STATIC_REVALIDATE, cachedList, throwOnQueryError } from '@/lib/cache'
 import { compressedJsonCache } from '@/lib/compressedJsonCache'
 import { createStaticClient } from '@/lib/db/static'
 import { selectVisibleFactionMembers } from '@/lib/faction-members'
-import { toCoverImage, toSceneImages } from '@feelandnote/shared/lib/faction-team-image'
+import { filterSceneVisibility, toCoverImage, toSceneImages } from '@feelandnote/shared/lib/faction-team-image'
+import { canPreviewScenes } from '@/lib/auth/scenePreview'
 import type { MythData } from './mythTypes'
 import { MYTH_OTHER_GROUP_ID } from './mythTypes'
 
@@ -43,16 +44,22 @@ const readIndex = compressedJsonCache(async (locale: string): Promise<MythData> 
     return [{ id: row.id, slug: row.slug, name: locale === 'en' ? row.name_en || row.name : row.name,
       headline: locale === 'en' ? row.headline_en?.trim() || null : row.headline?.trim() || null, description: null, isPublished: row.published === true, scenesComplete: row.scenes_complete,
       regionId: regionIds.has(row.lv1_id) ? row.lv1_id : 'other',
-      images: [...(titleArt ? [{ url: titleArt.url, label: null }] : []), ...toSceneImages(row.team_images, locale).map(image => ({ url: image.url, label: null, kind: 'scene' as const }))],
+      images: [...(titleArt ? [{ url: titleArt.url, label: null }] : []), ...toSceneImages(row.team_images, locale).map(image => ({ url: image.url, label: null, kind: 'scene' as const, ...(image.preparing ? { preparing: true } : {}) }))],
       music: null, personIds: [...new Set(rows.map(member => member.celeb_id))], leadPersonIds: [], groups }]
   })
   const resultRegions = (regions.data ?? []).map(row => ({ id: row.id, slug: row.slug ?? '', name: locale === 'en' ? row.name_en || row.name : row.name, mythIds: entries.filter(myth => myth.regionId === row.id).map(myth => myth.id) })).filter(row => row.mythIds.length)
   const otherIds = entries.filter(myth => myth.regionId === 'other').map(myth => myth.id)
   if (otherIds.length) resultRegions.push({ id: 'other', slug: 'other', name: locale === 'en' ? 'Other myths' : '기타 신화', mythIds: otherIds })
   return { regions: resultRegions, myths: entries, people: [], works: [] }
-}, ['myth-index-v2'], { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS] })
+}, ['myth-index-v4-scene-bundle-preview'], { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS] })
 
-export const getMythIndex = cache(readIndex)
+export const getMythIndex = cache(async (locale: string): Promise<MythData> => {
+  const [data, canPreview] = await Promise.all([readIndex(locale), canPreviewScenes()])
+  return { ...data, myths: data.myths.map(myth => {
+    const images = filterSceneVisibility(myth.images, canPreview)
+    return { ...myth, images, scenesComplete: myth.scenesComplete && images.some(image => image.kind === 'scene') }
+  }) }
+})
 
 /** Metadata and the publication gate never prepare a book shelf. */
 export const getMythMetadata = cache((slug: string, locale: string) => cachedList(CACHE_TAGS.FACTIONS, ['myth-metadata-v1', slug, locale], async () => {

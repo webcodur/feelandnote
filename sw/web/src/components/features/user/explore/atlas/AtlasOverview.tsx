@@ -36,6 +36,7 @@ export default function AtlasOverview({ myth, navigation }: Props) {
   const images = myth.images.filter((image) => !unavailable.includes(image.url));
   const cover = images[0] ?? null;
   const scenes = images.filter(image => image.kind === 'scene');
+  const preparing = scenes.some(image => image.preparing);
   // 이번 마운트에서 뷰어가 보고한 번호가 우선, 없으면 기기에 저장된 번호. 장면 수가 줄어도 범위 안으로 자른다
   const storedIndex = sessionIndex ?? Number(savedScene ?? 0);
   const sceneIndex = scenes.length > 0 && Number.isFinite(storedIndex)
@@ -65,6 +66,7 @@ export default function AtlasOverview({ myth, navigation }: Props) {
         className={layout.selectionStack}>
         <div className="min-w-0">
           {navigation}
+          {preparing && <p role="status" className="mt-3 text-center text-xs font-semibold text-amber-400">{t('scenesPreparing')}</p>}
         </div>
         {displayImage && (
           <div className="relative aspect-[3/2] min-w-0 md:aspect-[2/1]">

@@ -1,4 +1,4 @@
-import { getCoverImageIndex, sceneBoundaryFormat, serializeTeamImages, toTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
+import { getCoverImageIndex, sceneBoundaryFormat, serializeTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 
 // serverActions.bodySizeLimit(10 MB) 안에서 FormData로 전송한다. 이미지 비율·해상도 제한은 없다.
 export const SCENE_UPLOAD_MAX_BYTES = 9 * 1024 * 1024
@@ -24,6 +24,8 @@ export function validateSceneDraft(scenes: FactionTeamImage[], cover: FactionTea
     }
     if (image.celebIds && (!Array.isArray(image.celebIds) || image.celebIds.some(id => typeof id !== 'string'))) return '등장인물을 확인해 주세요.'
     if (index < scenes.length && image.kind !== 'scene') return '주요 장면의 구분을 확인해 주세요.'
+    if (image.preparing !== undefined && typeof image.preparing !== 'boolean') return '준비중 여부를 확인해 주세요.'
+    if (image.scenesPreparing !== undefined && typeof image.scenesPreparing !== 'boolean') return '준비중 여부를 확인해 주세요.'
     if (image.opening) htmlUsed = false
     for (const side of ['opening', 'ending'] as const) {
       const boundary = image[side]
@@ -59,7 +61,7 @@ export function mergeSceneArtwork(value: unknown, scenes: FactionTeamImage[], co
     if (index === target) {
       if (cleanCover) {
         const extra = typeof item === 'object' && item ? { ...item } as Record<string, unknown> : {}
-        for (const key of ['url', 'kind', 'label', 'labelEn', 'caption', 'captionEn', 'ending', 'celebIds']) delete extra[key]
+        for (const key of ['url', 'kind', 'label', 'labelEn', 'caption', 'captionEn', 'ending', 'celebIds', 'scenesPreparing']) delete extra[key]
         next.push({ ...extra, ...cleanCover })
       }
     } else if (item && typeof item === 'object' && item.kind === 'scene') {

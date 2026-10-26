@@ -20,6 +20,7 @@ export default function SceneEditor({ data }: { data: SceneEditorData }) {
   const [ending, setEnding] = useState(data.scenes.at(-1)?.ending ?? emptyEnding)
   const [hasEnding, setHasEnding] = useState(!!data.scenes.at(-1)?.ending)
   const [scenesComplete, setScenesComplete] = useState(data.scenesComplete)
+  const [scenesPreparing, setScenesPreparing] = useState(data.scenesPreparing || !data.scenes.length)
   const [selected, setSelected] = useState<number | 'cover'>(data.scenes.length ? 0 : 'cover')
   const [query, setQuery] = useState('')
   const [jump, setJump] = useState('')
@@ -27,7 +28,7 @@ export default function SceneEditor({ data }: { data: SceneEditorData }) {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [revision, setRevision] = useState(data.revision)
-  const draft = { scenes, cover, ending, hasEnding, scenesComplete }
+  const draft = { scenes, cover, ending, hasEnding, scenesComplete, scenesPreparing }
   const [saved, setSaved] = useState(draft)
   const dirty = JSON.stringify(draft) !== JSON.stringify(saved)
   const addInput = useRef<HTMLInputElement>(null)
@@ -36,7 +37,8 @@ export default function SceneEditor({ data }: { data: SceneEditorData }) {
   const image = isCover ? cover : scenes[selected]
   const visible = scenes.map((scene, index) => ({ scene, index })).filter(({ scene, index }) =>
     `${index + 1} ${scene.label ?? ''} ${scene.labelEn ?? ''} ${scene.caption ?? ''}`.toLowerCase().includes(query.toLowerCase().trim()))
-  const withEnding = () => scenes.map((scene, index) => index === scenes.length - 1 && hasEnding ? { ...scene, ending } : scene)
+  const withEnding = () => scenes.map((scene, index) => ({ ...scene, preparing: scenesPreparing,
+    ...(index === scenes.length - 1 && hasEnding ? { ending } : {}) }))
 
   useEffect(() => {
     if (!dirty) return
@@ -58,7 +60,7 @@ export default function SceneEditor({ data }: { data: SceneEditorData }) {
   }
 
   const downloadDraft = () => {
-    const payload = { id: data.id, revision, scenes: withEnding(), cover, scenesComplete }
+    const payload = { id: data.id, revision, scenes: withEnding(), cover, scenesComplete, scenesPreparing }
     const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' }))
     const anchor = document.createElement('a')
     anchor.href = url; anchor.target = '_blank'
@@ -73,9 +75,9 @@ export default function SceneEditor({ data }: { data: SceneEditorData }) {
     if (invalid) return setError(invalid)
     setBusy(true); setError(''); setMessage('')
     try {
-      const result = await saveSceneArtwork({ id: data.id, revision, scenes: images, cover, scenesComplete })
+      const result = await saveSceneArtwork({ id: data.id, revision, scenes: images, cover, scenesComplete, scenesPreparing })
       if (!result.success) throw new Error(result.error)
-      setRevision(result.revision); setSaved(draft); setMessage(result.warning || '저장했습니다. 제목과 해설을 갖춘 장면이 해당 언어 화면에 노출됩니다.')
+      setRevision(result.revision); setSaved(draft); setMessage(result.warning || (scenesPreparing ? '준비중으로 저장했습니다. 주인장 계정으로 로그인하면 서비스에서 미리 볼 수 있습니다.' : '저장했습니다. 제목과 해설을 갖춘 장면이 해당 언어 화면에 노출됩니다.'))
       router.refresh()
     } catch (error) { setError(error instanceof Error && error.message ? error.message : '저장하지 못했습니다. 편집본을 백업한 뒤 다시 시도해 주세요.') }
     finally { setBusy(false) }
@@ -126,11 +128,16 @@ export default function SceneEditor({ data }: { data: SceneEditorData }) {
           <Link href={data.isMyth ? `/myths?myth=${data.id}` : `/factions/${data.id}`} className={SCENE_BUTTON}>기본 정보</Link>
           {data.slug && <a href={`${(process.env.NEXT_PUBLIC_WEB_URL || 'http://localhost:3000').replace(/\/$/, '')}/explore/${data.isMyth ? 'myth?myth=' : 'faction/'}${data.slug}`} target="_blank" rel="noreferrer" className={SCENE_BUTTON}><ExternalLink size={14} />서비스 보기</a>}
           <button type="button" onClick={downloadDraft} className={SCENE_BUTTON}><Download size={14} />편집본 백업</button>
-          <button type="button" onClick={() => { if (confirm('저장 전 변경을 되돌릴까요?')) { setScenes(saved.scenes); setCover(saved.cover); setEnding(saved.ending); setHasEnding(saved.hasEnding); setScenesComplete(saved.scenesComplete); setSelected(saved.scenes.length ? 0 : 'cover'); setMessage(''); setError('') } }} disabled={!dirty || busy} className={SCENE_BUTTON}>되돌리기</button>
+          <button type="button" onClick={() => { if (confirm('저장 전 변경을 되돌릴까요?')) { setScenes(saved.scenes); setCover(saved.cover); setEnding(saved.ending); setHasEnding(saved.hasEnding); setScenesComplete(saved.scenesComplete); setScenesPreparing(saved.scenesPreparing); setSelected(saved.scenes.length ? 0 : 'cover'); setMessage(''); setError('') } }} disabled={!dirty || busy} className={SCENE_BUTTON}>되돌리기</button>
           <button type="button" onClick={save} disabled={!dirty || busy} className={`${SCENE_BUTTON} border-accent/50 bg-accent/10 text-accent`}><Save size={15} />{busy ? '처리 중…' : '저장'}</button>
         </div>
       </div>
       <fieldset disabled={busy} className="space-y-2 border-b border-border px-4 py-3">
+        <label className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-text-primary hover:text-accent">
+          <input type="checkbox" checked={scenesPreparing} onChange={e => { setScenesPreparing(e.target.checked); setMessage('') }} className="accent-amber-500 outline-none focus-visible:ring-2 focus-visible:ring-accent" />
+          주요 장면 준비중 · 주인장만 보기
+        </label>
+        <p className="text-xs leading-5 text-text-tertiary">준비중으로 저장하면 일반 사용자에게 장면과 완성 표시를 숨깁니다. 주인장 계정으로 로그인하면 서비스 화면에서 장면을 미리 볼 수 있습니다. 공개할 때 체크를 해제하고 저장하세요.</p>
         <label className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-text-primary hover:text-accent">
           <input type="checkbox" checked={scenesComplete} onChange={e => { setScenesComplete(e.target.checked); setMessage('') }} className="accent-amber-500 outline-none focus-visible:ring-2 focus-visible:ring-accent" />
           주요 장면 완결

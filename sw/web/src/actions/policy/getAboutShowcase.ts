@@ -9,7 +9,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
+import { filterSceneVisibility, toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
 import { STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 
@@ -423,7 +423,7 @@ async function fetchAboutShowcase(locale: string): Promise<AboutShowcase> {
   for (const slug of TEAM_TAG_SLUGS) {
     const tag = factionBySlug.get(slug)
     if (!tag) continue
-    const shot = toTeamImages(tag.team_images)[0]
+    const shot = filterSceneVisibility(toTeamImages(tag.team_images))[0]
     if (!shot) continue
     const tagName = (isEn ? tag.name_en : tag.name) || tag.name
     const label = (isEn ? shot.labelEn : shot.label) ?? shot.label ?? null

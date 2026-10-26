@@ -40,6 +40,10 @@ export interface FactionTeamImage {
   url: string
   /** 직접 검수하고 해설을 붙인 주요 장면. 기존 단체 사진은 자동으로 장면에 포함하지 않는다. */
   kind?: 'scene' | 'cover'
+  /** 준비중 장면은 로그인한 주인장만 미리 본다. 생략하면 기존 공개 장면이다. */
+  preparing?: boolean
+  /** 표지에 저장하는 장면 묶음의 준비중 상태. 장면이 없어도 이후 등록분을 숨긴다. */
+  scenesPreparing?: boolean
   /** 이 사진이 담은 묶음의 제목 (예: "안전을 설계한 사람들") */
   label?: string
   labelEn?: string
@@ -94,6 +98,8 @@ export function toTeamImages(v: unknown): FactionTeamImage[] {
     out.push({
       url,
       ...(row.kind === 'scene' || row.kind === 'cover' ? { kind: row.kind } : {}),
+      ...(row.kind === 'scene' && row.preparing === true ? { preparing: true } : {}),
+      ...(row.kind !== 'scene' && row.scenesPreparing === true ? { scenesPreparing: true } : {}),
       ...(label ? { label } : {}),
       ...(labelEn ? { labelEn } : {}),
       ...(caption ? { caption } : {}),
@@ -118,6 +124,8 @@ export function serializeTeamImages(images: FactionTeamImage[]): FactionTeamImag
     .map(img => ({
       url: img.url,
       ...(img.kind === 'scene' || img.kind === 'cover' ? { kind: img.kind } : {}),
+      ...(img.kind === 'scene' && img.preparing === true ? { preparing: true } : {}),
+      ...(img.kind !== 'scene' && img.scenesPreparing === true ? { scenesPreparing: true } : {}),
       ...(img.label?.trim() ? { label: img.label.trim() } : {}),
       ...(img.labelEn?.trim() ? { labelEn: img.labelEn.trim() } : {}),
       ...(img.caption?.trim() ? { caption: img.caption.trim() } : {}),
@@ -130,7 +138,9 @@ export function serializeTeamImages(images: FactionTeamImage[]): FactionTeamImag
 
 /** 해당 언어의 제목·해설을 갖춘 주요 장면만 저장 순서대로 표시한다. */
 export function toSceneImages(value: unknown, locale: string) {
-  return toTeamImages(value).flatMap(image => {
+  const images = toTeamImages(value)
+  const bundlePreparing = images.some(image => image.scenesPreparing)
+  return images.flatMap(image => {
     if (image.kind !== 'scene') return []
     const label = locale === 'en' ? image.labelEn : image.label
     const caption = locale === 'en' ? image.captionEn : image.caption
@@ -140,10 +150,21 @@ export function toSceneImages(value: unknown, locale: string) {
     const openingText = locale === 'en' ? image.opening?.textEn : image.opening?.text
     return label && caption ? [{
       url: image.url, label, caption, kind: 'scene' as const,
+      ...(bundlePreparing || image.preparing ? { preparing: true } : {}),
       ...(openingTitle && openingText ? { opening: { title: openingTitle, text: openingText, ...(image.opening?.group ? { group: image.opening.group } : {}), ...(image.opening?.format ? { format: image.opening.format } : {}) } } : {}),
       ...(endingTitle && endingText ? { ending: { title: endingTitle, text: endingText, ...(image.ending?.format ? { format: image.ending.format } : {}) } } : {}),
     }] : []
   })
+}
+
+/** 서버 응답을 만들 때 적용한다. 표지와 기존 단체 사진은 공개 여부에 영향받지 않는다. */
+export function filterSceneVisibility<T extends { kind?: string; preparing?: boolean; scenesPreparing?: boolean }>(images: T[], canPreview = false): T[] {
+  const bundlePreparing = images.some(image => image.scenesPreparing === true)
+  return images.filter(image => image.kind !== 'scene' || canPreview || (!bundlePreparing && image.preparing !== true))
+}
+
+export function isSceneBundlePreparing(value: unknown): boolean {
+  return toTeamImages(value).some(image => image.scenesPreparing === true || (image.kind === 'scene' && image.preparing === true))
 }
 
 /** Explicit covers take precedence; legacy myth title art remains readable. */

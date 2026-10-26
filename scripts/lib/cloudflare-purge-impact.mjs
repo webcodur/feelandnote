@@ -173,6 +173,8 @@ const CELEB_FILES = new Set([
   'sw/web/src/lib/books/professionBookGuides.ts',
   // 소속 자료는 인물 상세의 소속 세력 구획에서도 읽는다.
   'sw/web/src/actions/home/getFeaturedFactions.ts',
+  // 준비중 장면의 권한 판정은 getFeaturedFactions를 통해 인물 상세 소속 자료에도 적용된다.
+  'sw/web/src/lib/auth/scenePreview.ts',
   // 공통 배정 조회는 getFeaturedFactions를 통해 인물 상세의 소속 명단도 바꾼다.
   'sw/web/src/lib/faction-members.ts',
   // getCelebFactionBooks가 개인 책장의 소속 도서를 이 헬퍼로 채운다.

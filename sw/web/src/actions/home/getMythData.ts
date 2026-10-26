@@ -14,7 +14,8 @@ import { getMythIndex } from './getMythIndex';
 import { MYTH_OPENING_SLUG } from '@/components/features/user/explore/myth/mythHref';
 import { resolveBookShelfBook } from '@/lib/books/bookShelf';
 import { toFactionMusic } from "@/lib/faction-music";
-import { toTeamImages, toSceneImages } from "@feelandnote/shared/lib/faction-team-image";
+import { filterSceneVisibility, toCoverImage, toSceneImages } from "@feelandnote/shared/lib/faction-team-image";
+import { canPreviewScenes } from '@/lib/auth/scenePreview';
 import { GRAVES_GREEK_MYTHS_ID, MYTH_OTHER_GROUP_ID, type Myth, type MythData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythTypes";
 
 interface Lv1Row {
@@ -212,7 +213,7 @@ async function fetchMythData(locale: string, factionId: string): Promise<MythDat
     if (!faction.slug) return [];
     const ids = unique(members.filter((member) => member.lv2_id === faction.id && validIds.has(member.celeb_id)).map((member) => member.celeb_id));
     if (ids.length === 0) return [];
-    const titleArt = toTeamImages(faction.team_images).find(image => image.url.includes("/myth/title-art/"));
+    const titleArt = toCoverImage(faction.team_images, true);
     const images: Myth['images'] = titleArt ? [{
       url: titleArt.url,
       label: (isEn ? titleArt.labelEn : titleArt.label) ?? null,
@@ -248,7 +249,7 @@ async function fetchMythData(locale: string, factionId: string): Promise<MythDat
   return { regions, myths, people, works };
 }
 
-const getCachedMythData = compressedJsonCache(fetchMythData, ['myth-detail-v43-atlas-descriptions'], {
+const getCachedMythData = compressedJsonCache(fetchMythData, ['myth-detail-v45-scene-bundle-preview'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });
@@ -261,7 +262,11 @@ export const getMythData = cache(async (locale: string = "ko", detailSlug?: stri
   const selected = published.find(myth => myth.slug === detailSlug)
     ?? published.find(myth => myth.slug === MYTH_OPENING_SLUG) ?? published[0];
   if (!selected) return index;
-  const detail = await getCachedMythData(language, selected.id);
+  const [rawDetail, canPreview] = await Promise.all([getCachedMythData(language, selected.id), canPreviewScenes()]);
+  const detail = { ...rawDetail, myths: rawDetail.myths.map(myth => {
+    const images = filterSceneVisibility(myth.images, canPreview);
+    return { ...myth, images, scenesComplete: myth.scenesComplete && images.some(image => image.kind === 'scene') };
+  }) };
   return { ...index, myths: index.myths.map(myth => myth.id === selected.id ? detail.myths.find(item => item.id === selected.id) ?? { ...myth, isPublished: false } : myth),
     people: detail.people, works: detail.works };
 });

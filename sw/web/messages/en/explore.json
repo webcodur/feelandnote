@@ -358,6 +358,7 @@
         "captionNext": "Next sentence",
         "portraitImage": "Portrait",
         "keyScenes": "Key scenes",
+        "scenesPreparing": "In preparation · Owner preview",
         "selectImage": "Jump to a scene",
         "imageNumber": "Number (1–{count})",
         "goToImage": "Go",

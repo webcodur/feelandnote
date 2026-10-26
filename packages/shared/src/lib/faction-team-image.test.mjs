@@ -1,6 +1,39 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {toTeamImages, serializeTeamImages, toSceneImages, toCoverImage, getCoverImageIndex} from './faction-team-image.ts';
+import {toTeamImages, serializeTeamImages, toSceneImages, toCoverImage, getCoverImageIndex, filterSceneVisibility, isSceneBundlePreparing} from './faction-team-image.ts';
+
+test('a cover holds preparation before scenes exist and hides later scenes without individual flags', () => {
+  const cover = {url:'https://assets.test/myth/title-art/cover.png',scenesPreparing:true};
+  const saved = serializeTeamImages(toTeamImages([cover]));
+  assert.equal(isSceneBundlePreparing(saved), true);
+  const registered = [...saved, {url:'late.webp',kind:'scene',label:'나중에 등록',caption:'비공개 설명',labelEn:'Later',captionEn:'Private'}];
+  assert.deepEqual(filterSceneVisibility(registered), saved);
+  for (const locale of ['ko','en']) {
+    assert.equal(toSceneImages(registered, locale)[0].preparing, true);
+    assert.equal(filterSceneVisibility(toSceneImages(registered, locale)).length, 0);
+    assert.equal(filterSceneVisibility(toSceneImages(registered, locale), true).length, 1);
+  }
+  assert.equal(filterSceneVisibility(registered, true).length, 2);
+  assert.equal(filterSceneVisibility(serializeTeamImages(registered.map(image => ({...image,scenesPreparing:false})))).length, 2);
+});
+
+test('preparing scenes survive editing and localization but stay out of public artwork', () => {
+  const images = [
+    {url:'cover.webp',kind:'cover'},
+    {url:'public.webp',kind:'scene',label:'공개',caption:'해설'},
+    {url:'private.webp',kind:'scene',preparing:true,label:'준비중',caption:'비공개 해설',labelEn:'Draft',captionEn:'Private caption',ending:{title:'끝',text:'비공개 결말'}},
+  ];
+  const saved = serializeTeamImages(toTeamImages(images));
+  assert.equal(saved[2].preparing, true);
+  assert.deepEqual(filterSceneVisibility(saved).map(image => image.url), ['cover.webp','public.webp']);
+  assert.equal(filterSceneVisibility(saved, true).length, 3);
+  assert.equal(toSceneImages(saved, 'en')[0].preparing, true);
+  assert.equal(filterSceneVisibility(toSceneImages(saved, 'en')).length, 0);
+  assert.ok(!JSON.stringify(filterSceneVisibility(toSceneImages(saved, 'ko'))).includes('비공개'));
+  const published = serializeTeamImages(saved.map(image => ({...image,preparing:false})));
+  assert.equal(filterSceneVisibility(published).length, 3);
+  assert.equal('preparing' in published[2], false);
+});
 
 test('explicit covers survive editing and never enter scene lists', () => {
   const cover = {url:'cover.webp',kind:'cover',label:'Cover',caption:'Caption'};
