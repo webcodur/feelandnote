@@ -47,6 +47,7 @@ test('explore preferences and shared atlas screens only affect uncached listing 
     'sw/web/src/components/features/user/explore/atlas/AtlasPersonDetail.tsx',
     'sw/web/src/components/features/user/explore/atlas/AtlasWorkShelf.tsx',
     'sw/web/src/lib/atlas-catalog.ts',
+    'sw/web/src/actions/home/getFactionHubPreviews.ts',
   ]).scopes, ['none'])
 })
 
