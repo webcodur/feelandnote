@@ -342,6 +342,11 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // 연대 판별 별칭과 검증된 표본은 쉼터·실험실 게임에서만 소비한다.
+  'sw/web/src/components/features/game/utils.ts',
+  'sw/web/src/components/features/game/moreless/fixture.ts',
+  'sw/web/src/components/features/game/proximity/fixture.ts',
+  'sw/web/src/components/features/game/redact/fixture.ts',
   // 홈의 소개·통계·공지와 광장 공지 본문은 앞단 HTML 보관 대상이 아니다.
   'sw/web/src/actions/home/getHomeGraphData.ts',
   'sw/web/src/actions/home/getHomeStats.ts',

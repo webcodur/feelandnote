@@ -813,6 +813,10 @@ test('shared game selection stays uncached while public identity refreshes celeb
     'sw/web/src/lib/game/figure-selection.ts',
     'sw/web/src/lib/game/figure-portraits.ts',
     'sw/web/src/actions/game/getMemoryFigures.ts',
+    'sw/web/src/components/features/game/utils.ts',
+    'sw/web/src/components/features/game/moreless/fixture.ts',
+    'sw/web/src/components/features/game/proximity/fixture.ts',
+    'sw/web/src/components/features/game/redact/fixture.ts',
   ]).scopes, ['none'])
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/lib/celeb/identity.ts',
