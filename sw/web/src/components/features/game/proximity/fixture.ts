@@ -8,6 +8,7 @@
  * 인물의 이름·생몰년·직군·국적은 모두 사실이다. 확인 불가한 값은 넣지 않았다.
  */
 
+import { selectGameFigures } from "@/lib/game/figure-selection";
 import type { SpectrumStats } from '@/lib/spectrum/types';
 import type { ProximityCeleb, ProximityCelebFull } from './types';
 
@@ -35,7 +36,7 @@ const ZERO_STATS: SpectrumStats = {
  * 체험 표본 인물 50명
  * 이름·생몰년·직군·국적만 사실로 확인된 값.
  */
-export const FIXTURE_CELEBS: ProximityCelebFull[] = [
+const SAMPLE_CELEBS: ProximityCelebFull[] = [
   { id: 'f-01', nickname: '아이작 뉴턴', nickname_en: 'Isaac Newton', profession: 'scientist', nationality: 'GB', birth_date: '1643', death_date: '1727', avatar_url: null, stats: ZERO_STATS },
   { id: 'f-02', nickname: '알베르트 아인슈타인', nickname_en: 'Albert Einstein', profession: 'scientist', nationality: 'DE', birth_date: '1879', death_date: '1955', avatar_url: null, stats: ZERO_STATS },
   { id: 'f-03', nickname: '레오나르도 다 빈치', nickname_en: 'Leonardo da Vinci', profession: 'scientist', nationality: 'IT', birth_date: '1452', death_date: '1519', avatar_url: null, stats: ZERO_STATS },
@@ -170,3 +171,5 @@ function getFixtureRegionGroup(nationality: string): string | null {
   }
   return null;
 }
+
+export const FIXTURE_CELEBS = selectGameFigures(SAMPLE_CELEBS, (row) => row);

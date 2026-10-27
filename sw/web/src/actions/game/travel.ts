@@ -17,6 +17,7 @@ import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { LISTING_DEFAULT_REALITIES } from "@feelandnote/shared/constants/celeb-tiers";
 import { STATIC_REVALIDATE } from "@/lib/cache";
+import { selectGameFigures } from "@/lib/game/figure-selection";
 import { createStaticClient } from "@/lib/db/static";
 import { selectAllPages, selectInChunks } from "@feelandnote/shared/lib/paginate";
 import type { AdjacencyEdge, TravelCeleb, TravelGraph } from "@/components/features/game/travel/types";
@@ -31,6 +32,7 @@ interface ProfileRow {
   nationality: string | null;
   profession: string | null;
   avatar_url: string | null;
+  death_date: string | null;
 }
 
 interface FactionAssignmentRow {
@@ -60,10 +62,10 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
   const db = createStaticClient();
 
   // 1) 활성 셀럽 프로필
-  const celebRows = await selectAllPages<ProfileRow>((from, to) =>
+  const allRows = await selectAllPages<ProfileRow>((from, to) =>
     db
       .from("celebs")
-      .select("id, nickname, nickname_en, slug, nationality, profession, avatar_url")
+      .select("id, nickname, nickname_en, slug, nationality, profession, avatar_url, death_date")
       .eq("publication_status", "active")
       .in("celeb_reality", [...LISTING_DEFAULT_REALITIES])
       .order("id", { ascending: true })
@@ -72,6 +74,8 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
       error: { message: string } | null;
     }>,
   );
+
+  const celebRows = selectGameFigures(allRows, (row) => row);
 
   if (celebRows.length === 0) {
     throw new Error("[fetchTravelGraph] No celebs loaded");
@@ -245,7 +249,7 @@ function addEdge(
 
 const getTravelGraphCached = unstable_cache(
   fetchTravelGraph,
-  ["travel-game-graph"],
+  ["travel-game-graph-historical-v2"],
   {
     revalidate: STATIC_REVALIDATE,
     tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS, CACHE_TAGS.FACTIONS],
@@ -260,22 +264,8 @@ export interface TravelGameData {
 }
 
 export async function getTravelGameData(): Promise<TravelGameData> {
-  try {
-    const locale = await getLocale();
-    const graph = await getTravelGraphCached(locale);
-
-    if (Object.keys(graph.adjacency).length === 0) {
-      throw new Error("Empty graph");
-    }
-
-    return { graph, isFixture: false };
-  } catch (err) {
-    // 조용한 폴백 금지 — 왜 표본으로 돌아갔는지 서버 로그에 남긴다
-    console.error("[travel] 실제 조회 실패 → 체험 표본으로 전환:", err);
-    // 환경값 부재 또는 조회 실패 → 체험 표본
-    const { FIXTURE_GRAPH } = await import(
-      "@/components/features/game/travel/fixture"
-    );
-    return { graph: FIXTURE_GRAPH, isFixture: true };
-  }
+  const locale = await getLocale();
+  const graph = await getTravelGraphCached(locale);
+  if (Object.keys(graph.adjacency).length === 0) throw new Error("Empty historical game graph");
+  return { graph, isFixture: false };
 }

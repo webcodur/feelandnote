@@ -7,13 +7,13 @@
 
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { selectInChunks } from "@feelandnote/shared/lib/paginate";
+import { selectAllPages, selectInChunks } from "@feelandnote/shared/lib/paginate";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { getLocale } from "next-intl/server";
 import { DOMAINS, type BattleCard, type Domain } from "@/lib/game/types";
 import type { DialogueLines } from "@/lib/game/voice/types";
-import { isPublicDomainCeleb } from "@/components/features/game/utils";
+import { GAME_FIGURE_RULES, selectGameFigures } from "@/lib/game/figure-selection";
 import { validateSpeechTone } from "@/lib/game/voice/speechTone";
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from "@/lib/utils/celeb-dialogues";
 import type { Tables } from "@/types/database.generated";
@@ -46,29 +46,27 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
   const db = createStaticClient();
   const isEn = locale === "en";
 
-  let query = db
-    .from("celebs")
-    .select(`
-      id, nickname, nickname_en, profession, title, title_en, nationality, avatar_url, death_date, gender, speech_tone, has_voice, voice_v, voice_speed,
-      celeb_influence!celeb_influence_celebs_fkey!inner(
-        political, strategic, tech, social, economic, cultural, transhistoricity
-      ),
-      celeb_spectrum:celeb_persona!celeb_persona_celebs_fkey!inner(command, martial, intellect, charm)
-    `)
-    .eq("publication_status", "active")
-    .not("death_date", "is", null)
-    .gte("celeb_influence.transhistoricity", MIN_TRANSHISTORICITY);
+  const data = await selectAllPages<CelebCardRow>((from, to) => {
+    let query = db
+      .from("celebs")
+      .select(`
+        id, nickname, nickname_en, profession, title, title_en, nationality, avatar_url, death_date, gender, speech_tone, has_voice, voice_v, voice_speed,
+        celeb_influence!celeb_influence_celebs_fkey!inner(
+          political, strategic, tech, social, economic, cultural, transhistoricity
+        ),
+        celeb_spectrum:celeb_persona!celeb_persona_celebs_fkey!inner(command, martial, intellect, charm)
+      `)
+      .eq("publication_status", "active")
+      .not("death_date", "is", null)
+      .gte("celeb_influence.transhistoricity", MIN_TRANSHISTORICITY);
 
-  if (celebIds && celebIds.length > 0) {
-    query = query.in("id", celebIds);
-  }
+    if (celebIds && celebIds.length > 0) {
+      query = query.in("id", celebIds);
+    }
 
-  const { data: spectrumData, error: spectrumError } = await query;
-
-  throwOnQueryError('[getCelebCards] 셀럽 카드 조회', spectrumError);
-  if (!spectrumData) return [];
-
-  const cardRows: CelebCardRow[] = spectrumData.filter(row => isPublicDomainCeleb(row.death_date));
+    return query.order("id").range(from, to).overrideTypes<CelebCardRow[], { merge: false }>();
+  }, GAME_FIGURE_RULES.candidateScanLimit);
+  const cardRows = selectGameFigures(data, (row) => row);
 
   // quote만 JSON path로 조회 (전체 lines JSONB 송출 방지)
   const cardIds = cardRows.map(r => r.id);
@@ -85,7 +83,7 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
   }
 
   return cardRows
-    .filter((row) => row.celeb_influence && row.celeb_spectrum && isPublicDomainCeleb(row.death_date))
+    .filter((row) => row.celeb_influence && row.celeb_spectrum)
     .map((row) => {
       const inf = Array.isArray(row.celeb_influence)
         ? row.celeb_influence[0]
@@ -126,7 +124,7 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
 
 const getCelebCardsCached = unstable_cache(
   fetchCelebCards,
-  ["celeb-cards"],
+  ["celeb-cards-historical-v2"],
   // celebs + celeb_dialogues
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES] }
 );

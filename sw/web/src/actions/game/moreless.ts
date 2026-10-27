@@ -10,6 +10,7 @@
 import { unstable_cache } from 'next/cache';
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags';
 import { STATIC_REVALIDATE } from '@/lib/cache';
+import { selectGameFigures } from "@/lib/game/figure-selection";
 import { createStaticClient } from '@/lib/db/static';
 import { selectAllPages } from '@feelandnote/shared/lib/paginate';
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers';
@@ -73,7 +74,7 @@ async function fetchMorelessCelebs(): Promise<MorelessCeleb[]> {
     }>
   );
 
-  return rows.flatMap((row) => {
+  return selectGameFigures(rows, (row) => pickProfile(row.celeb)).flatMap((row) => {
     const profile = pickProfile(row.celeb);
     if (!profile || profile.publication_status !== 'active') return [];
     if (row.total_score == null) return [];
@@ -93,7 +94,7 @@ async function fetchMorelessCelebs(): Promise<MorelessCeleb[]> {
 
 const getMorelessCelebsCached = unstable_cache(
   fetchMorelessCelebs,
-  ['moreless-game-celebs'],
+  ['moreless-game-celebs-historical-v2'],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 );
 

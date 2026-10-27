@@ -13,10 +13,10 @@ import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 import { STATIC_REVALIDATE } from "@/lib/cache";
+import { selectGameFigures } from "@/lib/game/figure-selection";
 import { createStaticClient } from "@/lib/db/static";
 import type { GroupDef, GroupItem } from "@/components/features/game/groups/types";
 import type { PuzzlePool } from "@/components/features/game/groups/engine";
-import { getFixturePool, isFixtureMode } from "@/components/features/game/groups/fixture";
 
 interface FactionRow {
   id: string;
@@ -36,6 +36,7 @@ interface FactionAssignmentRow {
     profession: string | null;
     nationality: string | null;
     publication_status: string;
+    death_date: string | null;
   } | null;
 }
 
@@ -69,7 +70,7 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
       celeb_id,
       lv2_id,
       celeb:celebs!faction_members_celeb_id_fkey (
-        id, nickname, nickname_en, avatar_url, profession, nationality, publication_status
+        id, nickname, nickname_en, avatar_url, profession, nationality, publication_status, death_date
       )
     `)
     .order("id", { ascending: true })
@@ -83,7 +84,7 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
   const factionMap = new Map(factions?.map((t) => [t.id, t]) ?? []);
 
   const assignmentsByFaction = new Map<string, FactionAssignmentRow[]>();
-  for (const a of assignments ?? []) {
+  for (const a of selectGameFigures(assignments ?? [], (row) => row.celeb)) {
     if (!a.celeb || a.celeb.publication_status !== "active") continue;
     const arr = assignmentsByFaction.get(a.lv2_id) ?? [];
     arr.push(a);
@@ -120,7 +121,7 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
 
   // 3) 직군별 묶음 (국적이 모두 다른 4명)
   const professionPool = new Map<string, FactionAssignmentRow["celeb"][]>();
-  for (const a of assignments ?? []) {
+  for (const a of selectGameFigures(assignments ?? [], (row) => row.celeb)) {
     if (!a.celeb || a.celeb.publication_status !== "active" || !a.celeb.profession) continue;
     const arr = professionPool.get(a.celeb.profession) ?? [];
     // 중복 방지
@@ -181,7 +182,7 @@ function pickDiverseByField(
 
 const getGroupsPoolCached = unstable_cache(
   fetchGroupsPool,
-  ["groups-game-pool"],
+  ["groups-game-pool-historical-v2"],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS] }
 );
 
@@ -193,17 +194,5 @@ export interface GroupsDataResult {
 export async function getGroupsData(): Promise<GroupsDataResult> {
   const locale = await getLocale();
 
-  if (isFixtureMode()) {
-    return { pool: getFixturePool(locale), isFixture: true };
-  }
-
-  try {
-    const pool = await getGroupsPoolCached(locale);
-    return { pool, isFixture: false };
-  } catch (err) {
-    // 조용한 폴백 금지 — 왜 표본으로 돌아갔는지 서버 로그에 남긴다
-    console.error("[groups] 실제 조회 실패 → 체험 표본으로 전환:", err);
-    // DB 조회 실패 시 표본으로 폴백 (화면에 명시)
-    return { pool: getFixturePool(locale), isFixture: true };
-  }
+  return { pool: await getGroupsPoolCached(locale), isFixture: false };
 }

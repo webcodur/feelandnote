@@ -28,7 +28,7 @@ function GameLoadingScreen() {
 
 const DawnGameWrapper = dynamic(() => import("@/components/features/game/dawn/DawnGameWrapper"), { loading: GameLoadingScreen });
 const LabyrinthGame = dynamic(() => import("@/components/features/game/labyrinth/LabyrinthGame"), { loading: GameLoadingScreen });
-const HegemonyGame = dynamic(() => import("@/components/features/game/hegemony/HegemonyGame"), { loading: GameLoadingScreen });
+const HegemonyGame = dynamic(() => import("@/components/features/game/battle/HegemonyGame"), { loading: GameLoadingScreen });
 const WanderGame = dynamic(() => import("@/components/features/game/wander/WanderGame"), { loading: GameLoadingScreen });
 const MemoryGame = dynamic(() => import("@/components/features/game/memory/MemoryGame"), { loading: GameLoadingScreen });
 const PortraitGame = dynamic(() => import("@/components/features/game/portrait/PortraitGame"), { loading: GameLoadingScreen });
@@ -41,6 +41,7 @@ interface GameLabel {
 interface Props {
   bgImagesDawn: GameBackgroundImages | null;
   bgImagesLabyrinth: GameBackgroundImages | null;
+  bgImagesHegemony: GameBackgroundImages | null;
   /** 미공개 게임 자료는 개발자 모드가 아닐 때 조회하지 않으므로 null이 들어온다 */
   wanderPools: WanderPools | null;
   memoryFigures: MemoryFigure[] | null;
@@ -52,6 +53,7 @@ interface Props {
 export default function RestGameGrid({
   bgImagesDawn,
   bgImagesLabyrinth,
+  bgImagesHegemony,
   wanderPools,
   memoryFigures,
   portraitFigures,
@@ -129,7 +131,7 @@ export default function RestGameGrid({
       )}
       
       {activeGame === "hegemony" && (
-        <HegemonyGame initialFullScreen={true} onExitFullScreenExternal={handleExit} />
+        <HegemonyGame bgImages={bgImagesHegemony} initialFullScreen={true} onExitFullScreenExternal={handleExit} />
       )}
 
       {devMode && activeGame === "suikoden" && (

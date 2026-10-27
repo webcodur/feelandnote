@@ -15,6 +15,7 @@ import { getLocale } from "next-intl/server";
 import { getCountryNameAsync } from "@/lib/countries";
 import type { Tables } from "@/types/database.generated";
 import type { DialogueLines } from "@/lib/game/voice/types";
+import { GAME_FIGURE_RULES, selectGameFigures } from "@/lib/game/figure-selection";
 import { gameText } from "@/lib/game/text";
 import { flattenLocales, type ContentLocaleRow, type TitleBadge } from "@/lib/utils/content-locale";
 
@@ -210,9 +211,9 @@ const getCachedTrackerCandidates = unstable_cache(
       exclude_ids: [],
     });
     if (error) throw new Error(error.message);
-    return data ?? [];
+    return selectGameFigures((data ?? []) as FallbackCelebRow[], (row) => row);
   },
-  ["tracker-candidates"],
+  ["tracker-candidates-historical-v2"],
   // get_tracker_candidates: celebs + celeb_persona + 감상문 + 한마디 조건
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM] }
 );
@@ -265,7 +266,7 @@ export async function getTrackerRound(
 
   return buildRound(db, chosen.id, chosen.slug ?? null,
     (resolve(chosen.nickname_en, chosen.nickname) ?? chosen.nickname) as string,
-    chosen.profession, chosen.avatar_url,
+    chosen.profession ?? "other", chosen.avatar_url,
     chosen.nationality, chosen.birth_date, chosen.death_date,
     resolve(chosenTexts?.bio_en, chosenTexts?.bio),
     chosenQuote,
@@ -293,14 +294,7 @@ const getCachedFallbackEligible = unstable_cache(
 
     if (celebRows.length === 0) return [];
 
-    // 퍼블릭 도메인 필터 (1920년 이전 사망)
-    const publicDomain = celebRows.filter((c) => {
-      const d = c.death_date;
-      if (!d || d === "") return false;
-      if (d.startsWith("-")) return true; // BC
-      const match = d.match(/^(\d{1,4})/);
-      return match ? parseInt(match[1], 10) <= 1920 : false;
-    });
+    const publicDomain = selectGameFigures(celebRows, (row) => row);
 
     // spectrum 존재 확인
     const celebIds = publicDomain.map((c) => c.id);
@@ -341,7 +335,7 @@ const getCachedFallbackEligible = unstable_cache(
       (c) => spectrumSet.has(c.id) && reviewSet.has(c.id) && quoteSet.has(c.id)
     );
   },
-  ["tracker-fallback-eligible"],
+  ["tracker-fallback-eligible-historical-v2"],
   // celebs + celeb_persona + celeb_contents(감상문 수) + celeb_dialogues(한마디)
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM] }
 );
@@ -394,15 +388,14 @@ async function getTrackerRoundFallback(
 const getCachedDistractorPool = unstable_cache(
   async (): Promise<DistractorRow[]> => {
     const db = createStaticClient();
-    const { data } = await db
+    const data = await selectAllPages<DistractorRow>((from, to) => db
       .from("celebs")
       .select("id, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date")
-      .eq("publication_status", "active")
-      .not("death_date", "is", null)
-      .limit(300);
-    return (data ?? []) as DistractorRow[];
+      .eq("publication_status", "active").not("death_date", "is", null)
+      .order("id").range(from, to), GAME_FIGURE_RULES.candidateScanLimit);
+    return selectGameFigures(data, (row) => row).slice(0, GAME_FIGURE_RULES.distractorPoolSize);
   },
-  ["tracker-distractor-pool"],
+  ["tracker-distractor-pool-historical-v2"],
   // celebs만 읽는다
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 );
@@ -491,14 +484,7 @@ async function buildRound(
   // 4. 유사 인물 오답 보기 5명 (직군·국적·생몰년 유사도, 퍼블릭 도메인만)
   const poolRows = (await getCachedDistractorPool()).filter((d) => d.id !== celebId);
 
-  // 퍼블릭 도메인 필터 (1920년 이전 사망)
-  const pool = poolRows.filter((d) => {
-    const dd = d.death_date;
-    if (!dd || dd === "") return false;
-    if (dd.startsWith("-")) return true;
-    const m = dd.match(/^(\d{1,4})/);
-    return m ? parseInt(m[1], 10) <= 1920 : false;
-  });
+  const pool = selectGameFigures(poolRows, (row) => row);
 
   const birthYear = parseYear(birthDate);
   const deathYear = parseYear(deathDate);

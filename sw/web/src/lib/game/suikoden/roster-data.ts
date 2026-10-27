@@ -1,3 +1,4 @@
+import { isHistoricalGameFigure } from "@/lib/game/figure-selection"
 import type { DatabaseClient } from '@feelandnote/db'
 import { parseSpectrumJsonb, type SpectrumJsonb } from '@/lib/spectrum/types'
 import { getCelebYear } from '@/lib/celeb/lifespan'
@@ -22,6 +23,8 @@ export async function readRoster(db: DatabaseClient, locale: string): Promise<{ 
     if (result.error) throw result.error
     const page = result.data ?? []
     for (const profile of page) {
+      // 신화·소설의 고정 인물은 유지하고, 실존·전승 인물은 공통 연대 기준으로 선발한다.
+      if (profile.celeb_reality !== 'FICTION' && !isHistoricalGameFigure(profile.death_date)) continue
       const persona = Array.isArray(profile.celeb_persona) ? profile.celeb_persona[0] : profile.celeb_persona
       const influence = Array.isArray(profile.celeb_influence) ? profile.celeb_influence[0] : profile.celeb_influence
       let stats: number[] | null = null

@@ -7,6 +7,7 @@
  *    bio는 해당 인물의 공지 사실만으로 구성했다.
  */
 
+import { selectGameFigures } from "@/lib/game/figure-selection";
 import type { RedactRoundData } from './types';
 
 interface FixtureCeleb {
@@ -179,9 +180,10 @@ function applyMasking(celeb: FixtureCeleb): RedactRoundData {
 
 /** 체험 표본에서 랜덤 1명의 라운드 데이터를 생성한다 */
 export function getFixtureRound(): RedactRoundData {
-  const celeb = FIXTURE_POOL[Math.floor(Math.random() * FIXTURE_POOL.length)];
+  const pool = selectGameFigures(FIXTURE_POOL, (row) => ({ death_date: row.birthDeath.split("–").at(-1)?.trim() ?? null }));
+  const celeb = pool[Math.floor(Math.random() * pool.length)];
   return applyMasking(celeb);
 }
 
 /** 표본 전체 풀 크기 (테스트용) */
-export const FIXTURE_POOL_SIZE = FIXTURE_POOL.length;
+export const FIXTURE_POOL_SIZE = selectGameFigures(FIXTURE_POOL, (row) => ({ death_date: row.birthDeath.split("–").at(-1)?.trim() ?? null })).length;

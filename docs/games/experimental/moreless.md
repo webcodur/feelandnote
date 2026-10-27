@@ -79,7 +79,7 @@
 |------|------|
 | `sw/web/src/components/features/game/moreless/types.ts` | 타입·상수 |
 | `sw/web/src/components/features/game/moreless/engine.ts` | 규칙 엔진 (쌍 추출, 채점, 쿨다운) |
-| `sw/web/src/components/features/game/moreless/fixture.ts` | 체험 표본 (실제 인물 50명) |
+| `sw/web/src/components/features/game/moreless/fixture.ts` | 공통 연대 기준으로 거른 체험 표본 |
 | `sw/web/src/components/features/game/moreless/MorelessGame.tsx` | 메인 게임 컴포넌트 |
 | `sw/web/src/components/features/game/moreless/MorelessLobby.tsx` | 로비 화면 |
 | `sw/web/src/components/features/game/moreless/MorelessBoard.tsx` | 비교 보드 (두 카드 + VS) |
@@ -93,7 +93,7 @@
 
 ## 공정성·오류 처리
 
-- **최소 격차 보장**: 5점 미만 차이 쌍은 절대 출제하지 않는다. 50명 표본 전원이 유효 파트너를 가짐(엔진 테스트 실증).
+- **최소 격차 보장**: 5점 미만 차이 쌍은 절대 출제하지 않는다. 파트너는 공통 연대 기준을 통과한 후보 안에서 고른다.
 - **쿨다운**: 4라운드 이내 재등장 방지. 풀 소진 시에만 완화.
 - **조회 실패**: try/catch → fixture 폴백. 화면 상단에 "체험 모드" 배너 상시 표시.
 - **조용한 폴백 금지**: 배너가 항상 보인다.

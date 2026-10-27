@@ -3,98 +3,15 @@
 import { unstable_cache } from "next/cache";
 import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { selectAllPages } from "@feelandnote/shared/lib/paginate";
-import { LISTING_DEFAULT_REALITIES } from "@feelandnote/shared/constants/celeb-tiers";
 import { STATIC_REVALIDATE } from "@/lib/cache";
-import { getCelebYear } from "@/lib/celeb/lifespan";
 import { createStaticClient } from "@/lib/db/static";
+import { readGamePortraitFigures } from "@/lib/game/figure-portraits";
 import type { MemoryFigure } from "@/components/features/game/memory/types";
 
-interface ProfileBrief {
-  id: string;
-  nickname: string;
-  nickname_en: string | null;
-  avatar_url: string | null;
-  birth_date: string | null;
-  profession: string | null;
-}
-
-interface MemoryFigureRow {
-  celeb_id: string;
-  total_score: number | null;
-  celeb: ProfileBrief | ProfileBrief[] | null;
-}
-
-/** 감상 기록 보유 여부를 확인할 후보 수 — 여기서 걸러 아래 정원을 채운다 */
-const CANDIDATE_LIMIT = 180;
-/** 카드 풀 정원 — 고급 15쌍의 세 배 이상이면 조합이 충분히 갈린다 */
-const FIGURE_LIMIT = 60;
-
-async function fetchMemoryFigures(locale: string): Promise<MemoryFigure[]> {
-  const db = createStaticClient();
-  const { data, error } = await db
-    .from("celeb_influence")
-    .select(`
-      celeb_id,
-      total_score,
-      celeb:celebs!celeb_influence_celebs_fkey!inner (
-        id,
-        nickname,
-        nickname_en,
-        avatar_url,
-        birth_date,
-        profession
-      )
-    `)
-    .eq("celeb.publication_status", "active")
-    .in("celeb.celeb_reality", [...LISTING_DEFAULT_REALITIES])
-    .not("celeb.avatar_url", "is", null)
-    .order("total_score", { ascending: false })
-    .order("celeb_id", { ascending: true })
-    .limit(CANDIDATE_LIMIT)
-    .overrideTypes<MemoryFigureRow[], { merge: false }>();
-
-  if (error) {
-    throw new Error(`[getMemoryFigures] ${error.message}`);
-  }
-
-  const candidates = (data ?? []).flatMap((row) => {
-    const profile = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb;
-    if (!profile?.avatar_url || !profile.nickname) return [];
-
-    return [{
-      id: profile.id,
-      name: locale === "en"
-        ? (profile.nickname_en || profile.nickname)
-        : profile.nickname,
-      avatarUrl: profile.avatar_url,
-      birthYear: getCelebYear(profile.birth_date) ?? 0,
-      profession: profile.profession,
-    }];
-  });
-
-  if (candidates.length === 0) return [];
-
-  // 게임이 끝나면 만난 인물의 감상 기록을 펼쳐 보여준다 — 기록이 없는 인물은 카드에 올리지 않는다
-  // 후보 180명의 감상 기록은 5천 행이 넘어 한 번에 받으면 1,000행에서 잘리고, 잘린 인물이 카드에서 빠진다 — 나눠 받는다
-  const reviewed = await selectAllPages<{ celeb_id: string }>((from, to) => db
-    .from("celeb_contents")
-    .select("celeb_id")
-    .in("celeb_id", candidates.map((figure) => figure.id))
-    .eq("visibility", "public")
-    .not("review", "is", null)
-    .neq("review", "")
-    .order("id", { ascending: true })
-    .range(from, to));
-
-  const hasReview = new Set(reviewed.map((row) => row.celeb_id));
-  return candidates.filter((figure) => hasReview.has(figure.id)).slice(0, FIGURE_LIMIT);
-}
-
 const getMemoryFiguresCached = unstable_cache(
-  fetchMemoryFigures,
-  ["memory-game-figures"],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] },
+  (locale: string) => readGamePortraitFigures(createStaticClient(), locale, true),
+  ["memory-game-figures-historical-v2"],
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] },
 );
 
 export async function getMemoryFigures(): Promise<MemoryFigure[]> {

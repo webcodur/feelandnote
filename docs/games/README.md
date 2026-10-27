@@ -74,6 +74,8 @@
 
 `docs/games/suikoden/`의 파일별 설명은 그 디렉토리 README가 이미 쥐므로 여기서 다시 옮겨 적지 않는다.
 
+무작위 등장인물의 공통 연대 판별과 후보 상한은 [`figure-selection.ts`](../../sw/web/src/lib/game/figure-selection.ts)가 쥔다. 기억·시대의 초상은 [`figure-portraits.ts`](../../sw/web/src/lib/game/figure-portraits.ts)에서 후보를 함께 조회하며, 게임별 감상 기록·능력치 조건은 각 조회에 남긴다. 천도의 신화·소설 인물과 트로이의 고정 배역은 해당 게임 명단을 따른다.
+
 ## 공통 문서와 경계
 
 | 문서 | 게임 작업에서 맡는 범위 |

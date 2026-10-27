@@ -13,6 +13,7 @@
 import { unstable_cache } from 'next/cache';
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags';
 import { STATIC_REVALIDATE } from '@/lib/cache';
+import { selectGameFigures } from "@/lib/game/figure-selection";
 import { createStaticClient } from '@/lib/db/static';
 import { selectAllPages } from '@feelandnote/shared/lib/paginate';
 import { getLocale } from 'next-intl/server';
@@ -98,9 +99,9 @@ const getCachedRedactCandidates = unstable_cache(
       }>
     );
     // 길이 필터 (서버측)
-    return rows.filter((r) => (r.bio?.length ?? 0) >= MIN_BIO_LENGTH);
+    return selectGameFigures(rows, (row) => row).filter((r) => (r.bio?.length ?? 0) >= MIN_BIO_LENGTH);
   },
-  ['redact-game-candidates'],
+  ['redact-game-candidates-historical-v2'],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 );
 

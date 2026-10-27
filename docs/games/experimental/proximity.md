@@ -74,7 +74,7 @@
 | `sw/web/src/actions/game/proximity.ts` | 서버 조회 |
 | `sw/web/src/components/features/game/proximity/types.ts` | 타입 정의 |
 | `sw/web/src/components/features/game/proximity/engine.ts` | 거리 계산·힌트 생성·시드 로직 |
-| `sw/web/src/components/features/game/proximity/fixture.ts` | 체험 표본 50명 + 대체 거리 계산 |
+| `sw/web/src/components/features/game/proximity/fixture.ts` | 공통 연대 기준으로 거른 체험 표본 + 대체 거리 계산 |
 | `sw/web/src/components/features/game/proximity/ProximityGame.tsx` | 메인 게임 오케스트레이터 |
 | `sw/web/src/components/features/game/proximity/ProximityLobby.tsx` | 로비 화면 |
 | `sw/web/src/components/features/game/proximity/ProximityGuessInput.tsx` | 자동완성 입력 |

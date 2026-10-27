@@ -5,6 +5,7 @@ import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { LISTING_DEFAULT_REALITIES } from "@feelandnote/shared/constants/celeb-tiers";
 import { STATIC_REVALIDATE } from "@/lib/cache";
+import { selectGameFigures } from "@/lib/game/figure-selection";
 import { createStaticClient } from "@/lib/db/static";
 import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 import type { GridCeleb, GridCondition } from "@/components/features/game/grid/types";
@@ -80,7 +81,7 @@ async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
     factionMap.set(row.celeb_id, arr);
   }
 
-  return celebs.map((p) => ({
+  return selectGameFigures(celebs, (row) => row).map((p) => ({
     id: p.id,
     nickname: locale === "en" ? (p.nickname_en || p.nickname) : p.nickname,
     nicknameEn: p.nickname_en || p.nickname,
@@ -125,7 +126,7 @@ async function fetchGridConditionLabels(): Promise<{
 
 const getGridCelebsCached = unstable_cache(
   fetchGridCelebs,
-  ["grid-game-celebs"],
+  ["grid-game-celebs-historical-v2"],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] },
 );
 
@@ -167,7 +168,7 @@ export async function getGridGameData(): Promise<GridGameData> {
     const { FIXTURE_CELEBS, FIXTURE_CONDITIONS } = await import(
       "@/components/features/game/grid/fixture"
     );
-    return { celebs: FIXTURE_CELEBS, conditions: FIXTURE_CONDITIONS, isFixture: true };
+    return { celebs: selectGameFigures(FIXTURE_CELEBS, (row) => ({ death_date: row.deathDate })), conditions: FIXTURE_CONDITIONS, isFixture: true };
   }
 }
 

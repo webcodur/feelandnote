@@ -1116,6 +1116,8 @@ export type Database = {
           portrait_url: string | null
           profession: string | null
           publication_status: string
+          reading_way: string | null
+          reading_way_en: string | null
           slug: string | null
           slug_suffix: string | null
           speech_tone: string | null
@@ -1158,6 +1160,8 @@ export type Database = {
           portrait_url?: string | null
           profession?: string | null
           publication_status?: string
+          reading_way?: string | null
+          reading_way_en?: string | null
           slug?: string | null
           slug_suffix?: string | null
           speech_tone?: string | null
@@ -1200,6 +1204,8 @@ export type Database = {
           portrait_url?: string | null
           profession?: string | null
           publication_status?: string
+          reading_way?: string | null
+          reading_way_en?: string | null
           slug?: string | null
           slug_suffix?: string | null
           speech_tone?: string | null

@@ -85,14 +85,9 @@ getGroupsData()
   → unstable_cache (7일, tags: ['tags', 'celebs'])
 ```
 
-### 체험 경로 (로컬·env 부재)
+### 조회 실패
 
-```
-getGroupsData()
-  → isFixtureMode() = true
-  → getFixturePool(locale) — 6묶음 24명 하드코딩 표본
-  → 화면에 "체험 모드" 배너 표시
-```
+연대 정보가 없는 체험 표본은 자동 투입하지 않는다. DB 환경값 부재와 조회 오류는 호출 화면에 드러낸다.
 
 ---
 
@@ -107,7 +102,7 @@ getGroupsData()
 | `sw/web/src/components/features/game/groups/GroupsBoard.tsx` | 보드 격자 UI |
 | `sw/web/src/components/features/game/groups/GroupsLobby.tsx` | 로비 |
 | `sw/web/src/components/features/game/groups/GroupsResult.tsx` | 결과 화면 |
-| `sw/web/src/actions/game/groups.ts` | 서버 액션 (DB 조회 + 체험 폴백) |
+| `sw/web/src/actions/game/groups.ts` | 서버 액션 (역사 인물 DB 조회) |
 | `sw/web/src/app/[locale]/lab/games/groups/page.tsx` | 단독 시험 페이지 |
 | `sw/web/messages/ko/game-groups.json` | 한국어 문구 (24키) |
 | `sw/web/messages/en/game-groups.json` | 영어 문구 (24키) |
@@ -118,7 +113,7 @@ getGroupsData()
 
 - **날짜 시드**: mulberry32 PRNG로 결정론적. 같은 날 같은 풀 → 같은 퍼즐. 유저 간 공정.
 - **겹침 방지**: 풀에서 4묶음을 선택할 때 인물 ID 중복을 검사하고, 겹치면 해당 묶음을 건너뛴다.
-- **조회 실패**: throw로 드러낸다. `?? []` 위장 없음. 환경값 부재 시 체험 표본으로 돌아가되 배너로 명시.
+- **조회 실패**: throw로 드러낸다. `?? []` 위장 없음. 환경값 부재 시에도 연대 불명 표본으로 대체하지 않는다.
 - **빈 풀**: 4묶음 미만이면 로비에서 "데이터 부족" 메시지와 함께 시작 버튼 비활성화.
 - **검증 함수**: `validatePuzzle()`이 16명·4묶음·중복 없음을 사전 검사. 실패 시 게임 진입 차단.
 

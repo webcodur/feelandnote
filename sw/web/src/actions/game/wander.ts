@@ -13,6 +13,7 @@ import { WANDER_ERAS, WANDER_POOL_SIZE } from "@/lib/game/wander/constants";
 import type { WanderFigure, WanderPools } from "@/lib/game/wander/types";
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from "@/lib/utils/celeb-dialogues";
 import type { Tables } from "@/types/database.generated";
+import { selectGameFigures } from "@/lib/game/figure-selection";
 import { gameText } from "@/lib/game/text";
 
 type ProfileRow = Pick<Tables<"celebs">, "id" | "nickname" | "nickname_en" | "title" | "title_en" | "nationality" | "avatar_url" | "birth_date" | "death_date">;
@@ -59,7 +60,7 @@ async function fetchWanderPools(locale: string): Promise<WanderPools> {
   const influenceMap = new Map(influences.map((row) => [row.celeb_id, row.total_score ?? 0]));
   const spectrumMap = new Map(spectra.map((row) => [row.celeb_id, row]));
   const currentYear = new Date().getFullYear();
-  const bases = celebRows.flatMap((profile): FigureBase[] => {
+  const bases = selectGameFigures(celebRows, (row) => row).flatMap((profile): FigureBase[] => {
     const spectrum = spectrumMap.get(profile.id);
     if (!spectrum || !profile.nickname) return [];
     return [{
@@ -98,7 +99,7 @@ async function fetchWanderPools(locale: string): Promise<WanderPools> {
   })])) as WanderPools;
 }
 
-const getWanderPoolsCached = unstable_cache(fetchWanderPools, ["wander-figure-pools"], {
+const getWanderPoolsCached = unstable_cache(fetchWanderPools, ["wander-figure-pools-historical-v2"], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES],
 });

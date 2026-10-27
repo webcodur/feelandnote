@@ -10,9 +10,10 @@
  * 비교적 명확한 격차가 있는 인물 50명을 선별했다.
  */
 
+import { selectGameFigures } from "@/lib/game/figure-selection";
 import type { MorelessCeleb } from './types';
 
-export const FIXTURE_CELEBS: MorelessCeleb[] = [
+const SAMPLE_CELEBS: MorelessCeleb[] = [
   // 최고 등급 (85-100)
   { id: 'ml-01', nickname: '공자', nickname_en: 'Confucius', profession: 'humanities_scholar', nationality: 'CN', birth_date: '-551', death_date: '-479', avatar_url: null, total_score: 97 },
   { id: 'ml-02', nickname: '아이작 뉴턴', nickname_en: 'Isaac Newton', profession: 'scientist', nationality: 'GB', birth_date: '1643', death_date: '1727', avatar_url: null, total_score: 93 },
@@ -74,3 +75,5 @@ export const FIXTURE_CELEBS: MorelessCeleb[] = [
   { id: 'ml-49', nickname: '마르쿠스 아우렐리우스', nickname_en: 'Marcus Aurelius', profession: 'humanities_scholar', nationality: 'IT', birth_date: '121', death_date: '180', avatar_url: null, total_score: 49 },
   { id: 'ml-50', nickname: '라파엘로 산치오', nickname_en: 'Raphael Sanzio', profession: 'visual_artist', nationality: 'IT', birth_date: '1483', death_date: '1520', avatar_url: null, total_score: 32 },
 ];
+
+export const FIXTURE_CELEBS = selectGameFigures(SAMPLE_CELEBS, (row) => row);

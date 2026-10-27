@@ -807,3 +807,14 @@ test('myth story guide viewer changes do not evict unrelated cached details', ()
     assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/components/features/faction/' + file]).scopes, ['none'])
   }
 })
+
+test('shared game selection stays uncached while public identity refreshes celebrity HTML', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/lib/game/figure-selection.ts',
+    'sw/web/src/lib/game/figure-portraits.ts',
+    'sw/web/src/actions/game/getMemoryFigures.ts',
+  ]).scopes, ['none'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/lib/celeb/identity.ts',
+  ]).scopes, ['celeb'])
+})

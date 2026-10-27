@@ -9,7 +9,7 @@ import { readRoster } from '@/lib/game/suikoden/roster-data'
 
 export interface CheondoLines { greeting: string[]; rollCall: string[]; deploy: string[]; clash: string[]; win: string[]; lose: string[]; quote: string }
 async function fetchRoster(locale: string) { return readRoster(createStaticClient(), locale) }
-const cachedRoster = unstable_cache(fetchRoster, ['cheondo-roster-v2-realities'], { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] })
+const cachedRoster = unstable_cache(fetchRoster, ['cheondo-roster-v3-historical'], { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] })
 export async function loadCheondoRoster() { return cachedRoster(await getLocale()) }
 
 export async function loadCheondoLines(ids: string[]): Promise<Record<string, CheondoLines>> {

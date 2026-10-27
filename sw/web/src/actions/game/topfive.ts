@@ -15,11 +15,11 @@ import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 import { STATIC_REVALIDATE } from "@/lib/cache";
+import { selectGameFigures } from "@/lib/game/figure-selection";
 import { createStaticClient } from "@/lib/db/static";
 import type { TopFivePool } from "@/components/features/game/topfive/engine";
 import type { CategoryType, TopFiveCandidate, TopFivePuzzle } from "@/components/features/game/topfive/types";
 import { CANDIDATES_COUNT } from "@/components/features/game/topfive/types";
-import { getFixturePool, isFixtureMode } from "@/components/features/game/topfive/fixture";
 
 // ──────────────────── 타입 ────────────────────
 
@@ -30,6 +30,7 @@ interface InfluenceRow {
     nickname: string;
     nickname_en: string | null;
     profession: string | null;
+    death_date: string | null;
   } | null;
 }
 
@@ -68,13 +69,13 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
 
   // 1) 영향력 순위를 직군별로 조회 (상위 2000명)
   // .limit(2000)을 걸어도 PostgREST가 1,000행에서 자른다 — 상위 2,000명까지 나눠 받고, 동점이 페이지 사이에서 흔들리지 않게 인물 id까지 정렬한다
-  const influences = await selectAllPages<InfluenceRow>((from, to) => db
+  const influenceRows = await selectAllPages<InfluenceRow>((from, to) => db
     .from("celeb_influence")
     .select(`
       celeb_id,
       total_score,
       celeb:celebs!celeb_influence_celebs_fkey!inner (
-        nickname, nickname_en, profession
+        nickname, nickname_en, profession, death_date
       )
     `)
     .eq("celeb.publication_status", "active")
@@ -82,6 +83,8 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
     .order("celeb_id", { ascending: true })
     .range(from, to)
     .overrideTypes<InfluenceRow[], { merge: false }>(), 2000);
+
+  const influences = selectGameFigures(influenceRows, (row) => row.celeb);
 
   if (influences.length === 0) throw new Error("No influence data");
 
@@ -204,7 +207,7 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
 
 const getTopFivePoolCached = unstable_cache(
   fetchTopFivePool,
-  ["topfive-game-pool"],
+  ["topfive-game-pool-historical-v2"],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 );
 
@@ -218,17 +221,6 @@ export interface TopFiveDataResult {
 export async function getTopFiveData(): Promise<TopFiveDataResult> {
   const locale = await getLocale();
 
-  if (isFixtureMode()) {
-    return { pool: getFixturePool(locale), isFixture: true };
-  }
-
-  try {
-    const pool = await getTopFivePoolCached(locale);
-    return { pool, isFixture: false };
-  } catch (err) {
-    // 조용한 폴백 금지 — 왜 표본으로 돌아갔는지 서버 로그에 남긴다
-    console.error("[topfive] 실제 조회 실패 → 체험 표본으로 전환:", err);
-    // DB 조회 실패 시 표본으로 폴백 (화면에 명시)
-    return { pool: getFixturePool(locale), isFixture: true };
-  }
+  // 연대 정보가 없는 표본으로 자동 대체하면 공통 선발 조건을 우회한다.
+  return { pool: await getTopFivePoolCached(locale), isFixture: false };
 }

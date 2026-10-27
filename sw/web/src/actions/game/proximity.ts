@@ -13,6 +13,7 @@
 import { unstable_cache } from 'next/cache';
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags';
 import { STATIC_REVALIDATE } from '@/lib/cache';
+import { selectGameFigures } from "@/lib/game/figure-selection";
 import { createStaticClient } from '@/lib/db/static';
 import { selectAllPages } from '@feelandnote/shared/lib/paginate';
 import { getLocale } from 'next-intl/server';
@@ -105,7 +106,7 @@ async function fetchProximityCelebs(): Promise<ProximityCelebFull[]> {
     }>
   );
 
-  return rows.flatMap((row) => {
+  return selectGameFigures(rows, (row) => pickProfile(row.celeb)).flatMap((row) => {
     const profile = pickProfile(row.celeb);
     if (!profile || profile.publication_status !== 'active') return [];
     return [{
@@ -124,7 +125,7 @@ async function fetchProximityCelebs(): Promise<ProximityCelebFull[]> {
 
 const getProximityCelebsCached = unstable_cache(
   fetchProximityCelebs,
-  ['proximity-game-celebs'],
+  ['proximity-game-celebs-historical-v2'],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.SPECTRUM] }
 );
 

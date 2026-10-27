@@ -36,9 +36,10 @@ async function RestPageBody({ searchParams }: RestPageProps) {
   const visibleSections = REST_GAMES.filter((game) => devMode || !game.dev);
 
   // 배경 이미지는 동기 fs 읽기라 가볍다 — 그대로 기다린다
-  const [bgImagesDawn, bgImagesLabyrinth] = await Promise.all([
+  const [bgImagesDawn, bgImagesLabyrinth, bgImagesHegemony] = await Promise.all([
     getGameBackgroundImages("dawn-1"),
     getGameBackgroundImages("labyrinth-1"),
+    getGameBackgroundImages("hegemony-1"),
   ]);
 
 
@@ -72,6 +73,7 @@ async function RestPageBody({ searchParams }: RestPageProps) {
         <RestGameGrid
           bgImagesDawn={bgImagesDawn}
           bgImagesLabyrinth={bgImagesLabyrinth}
+          bgImagesHegemony={bgImagesHegemony}
           wanderPools={wanderPools}
           memoryFigures={memoryFigures}
           portraitFigures={portraitFigures}

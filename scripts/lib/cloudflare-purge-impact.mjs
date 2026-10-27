@@ -149,6 +149,9 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // identity/profile-route는 인물 상세의 프로필과 읽어보기 본문을 공통 조회한다.
+  'sw/web/src/lib/celeb/identity.ts',
+
   // 조회 반영은 도감에서도 쓰지만 보관 HTML의 소비자는 인물 상세의 조회수 UI다.
   'sw/web/src/actions/celebs/incrementCelebView.ts',
   'sw/web/src/lib/celeb/viewDedup.ts',
@@ -676,6 +679,10 @@ const NON_RUNTIME_PREFIXES = [
 ]
 
 const NON_HTML_RUNTIME_PREFIXES = [
+  // 게임 후보 조회·연대 판별은 쉼터와 실험실에서만 소비한다.
+  'sw/web/src/actions/game/',
+  'sw/web/src/lib/game/figure-',
+
   // 약관·개인정보처리방침은 앞단 HTML 보관 대상이 아니다.
   'sw/web/src/app/[locale]/(policy)/',
   // 천도·유랑은 쉼터 게임에서만 쓰며, 실험실도 앞단 HTML 보관 대상이 아니다.
