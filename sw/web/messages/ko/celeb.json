@@ -493,6 +493,8 @@
       "expand": "참여 작품 펼치기"
     },
     "enlargePortrait": "대표사진 크게 보기",
-    "bookshelfTitle": "책장"
+    "bookshelfTitle": "책장",
+    "readingWay": "독서 방식",
+    "virtualMonologueDescription": "인물의 목소리를 빌려 삶과 생각을 풀어낸 가상독백입니다."
   }
 }

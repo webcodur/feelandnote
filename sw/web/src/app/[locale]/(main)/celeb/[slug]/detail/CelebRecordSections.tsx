@@ -20,6 +20,7 @@ import { CelebAtlasNav } from "../CelebAtlasRails";
 import styles from "../CelebPageContent.module.css";
 
 import FigureReadingSection from "../FigureReadingSection";
+import FigureReadingWaySection from "../FigureReadingWaySection";
 import FigureAnalysisTabs from "../FigureAnalysisTabs";
 import CelebAnalysisRetry from "./CelebAnalysisRetry";
 import RelationGraphSection from "../RelationGraphSection";
@@ -55,6 +56,7 @@ export default function CelebRecordSections({
   relatedFactionsSlot,
 }: CelebRecordSectionsProps) {
   const filmographyText = useTranslations("celebPage.filmography");
+  const t = useTranslations("celebPage");
   const [filmographyOpen, setFilmographyOpen] = useState(false);
 
   // 섹션 배치 순서(celebSectionChapters.ts)와 맞춰 FICTION만 이야기 우선 배치를 쓴다.
@@ -97,6 +99,7 @@ export default function CelebRecordSections({
             <ChevronDown size={20} aria-hidden className={`absolute right-0 ${filmographyOpen ? "rotate-180" : ""}`} />
           </button>
         ) : item.label}
+        subtitle={key === "virtualMonologue" ? t("virtualMonologueDescription") : undefined}
         index={index}
         total={serviceItems.length}
         tabIndex={-1}
@@ -146,7 +149,9 @@ export default function CelebRecordSections({
         onNavigate={navigate}
       />
       <div className={styles.sectionStack}>
-        {(["personGuide", "virtualMonologue"] as const).map((key) => renderSection(key, (
+        {(["personGuide", "readingWay", "virtualMonologue"] as const).map((key) => renderSection(key, key === "readingWay" ? (
+          <FigureReadingWaySection text={profile.readingWay} />
+        ) : (
           <FigureReadingSection
             kind={key === "personGuide" ? "guide" : "monologue"}
             reading={profile.reading}
@@ -154,7 +159,7 @@ export default function CelebRecordSections({
             celebId={userId}
             voiceV={profile.voice_v}
             readingLocale={locale === "en" && !profile.translationFallbacks?.includes("personGuide") ? "en" : "ko"}
-            monologueLocale={profile.translationFallbacks?.includes("virtualMonologue") ? (locale === "en" ? "ko" : "en") : locale}
+            monologueLocale={locale}
           />
         )))}
         {isFiction && connectionsSection}

@@ -34,6 +34,7 @@ export interface ServiceItem {
 
 export interface CelebServiceAvailability {
   personGuide: boolean;
+  readingWay: boolean;
   virtualMonologue: boolean;
   relations: boolean;
   influence: boolean;
@@ -58,7 +59,7 @@ export function useCelebServiceItems({
 
   return useMemo(() => {
     const items = [
-      /* ── 1. 머리말·인물 안내·가상독백 ── */
+      /* ── 1. 머리말·인물 안내·독서 방식·가상독백 ── */
       {
         key: "introduction",
         chapter: CELEB_SERVICE_CHAPTERS.introduction,
@@ -74,6 +75,14 @@ export function useCelebServiceItems({
         icon: CELEB_SERVICE_ICONS.personGuide,
         ready: availability.personGuide,
         target: { sectionId: "person-guide" },
+      },
+      {
+        key: "readingWay",
+        chapter: CELEB_SERVICE_CHAPTERS.readingWay,
+        label: t("readingWay"),
+        icon: CELEB_SERVICE_ICONS.readingWay,
+        ready: reality !== "FICTION" && availability.readingWay,
+        target: { sectionId: "reading-way" },
       },
       {
         key: "virtualMonologue",
@@ -179,6 +188,7 @@ export function useCelebServiceItems({
       availability.spectrum,
       availability.relations,
       availability.personGuide,
+      availability.readingWay,
       availability.virtualMonologue,
       availability.library,
       availability.filmography,

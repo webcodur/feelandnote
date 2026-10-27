@@ -60,6 +60,7 @@ export function useCelebServiceModel({
 
   const availability: CelebServiceAvailability = {
     personGuide: Boolean(profile.reading?.guide.trim()),
+    readingWay: (celebReality === "REAL" || celebReality === "BOTH") && Boolean(profile.readingWay?.trim()),
     virtualMonologue: Boolean(profile.virtualMonologue?.trim()),
     relations: sideAvailability.relations,
     influence: sideAvailability.influence,

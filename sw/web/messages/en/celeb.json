@@ -13,7 +13,7 @@
     "serviceIntroduction": "Profile",
     "reading": "Read",
     "personGuide": "Guide",
-    "virtualMonologue": "Monologue",
+    "virtualMonologue": "Imagined Monologue",
     "externalLinksTitle": "External resources",
     "externalLinksChannels": "Official channels",
     "externalLinksReferences": "Reference sources",
@@ -478,6 +478,8 @@
       "expand": "Show film & TV credits"
     },
     "enlargePortrait": "View full portrait",
-    "bookshelfTitle": "Bookshelf"
+    "bookshelfTitle": "Bookshelf",
+    "readingWay": "Reading Approach",
+    "virtualMonologueDescription": "An imagined monologue exploring the life and ideas of this figure in their voice."
   }
 }

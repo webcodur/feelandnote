@@ -1,6 +1,6 @@
 # 가상독백
 
-`celebs.virtual_monologue`는 인물이 자기 삶과 철학을 자기 목소리로 말하는 한국어 원고이고, `virtual_monologue_en`은 그 영문이다. 공개 전환의 확보 기준은 [`active 요건`](celeb-00-02-active-requirements.md)을 따른다. 사용자 화면에서는 모든 방문자에게 인물 상세의 독립된 가상독백 구획으로 보인다. 화면 표시 규격은 [`인물 상세`](../service/service-04-celeb-detail.md)가 쥔다. 영어 화면은 영문을 보이고, 영문이 비었으면 한국어를 보인다. 서비스 값의 원천은 DB다.
+`celebs.virtual_monologue`는 인물이 자기 삶과 철학을 자기 목소리로 말하는 한국어 원고이고, `virtual_monologue_en`은 그 영문이다. 공개 전환의 확보 기준은 [`active 요건`](celeb-00-02-active-requirements.md)을 따른다. 사용자 화면에서는 모든 방문자에게 인물 상세의 독립된 가상독백 구획으로 보인다. 화면 표시 규격은 [`인물 상세`](../service/service-04-celeb-detail.md)가 쥔다. 인물 상세는 해당 언어의 본문이 있을 때만 표시하며 다른 언어로 대체하지 않는다. 서비스 값의 원천은 DB다.
 
 실행점은 `sw/web-bo/scripts/celeb/virtual-monologue.mjs` 하나이고, 호출 절차는 `celeb-virtual-monologue` 스킬이 쥔다.
 

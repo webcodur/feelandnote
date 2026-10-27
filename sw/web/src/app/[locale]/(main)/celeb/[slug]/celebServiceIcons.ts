@@ -23,6 +23,7 @@ import {
 export const CELEB_SERVICE_ICONS = {
   introduction: User,
   personGuide: BookOpen,
+  readingWay: BookOpenText,
   virtualMonologue: MessageSquare,
   library: BookOpen,
   works: PenLine,

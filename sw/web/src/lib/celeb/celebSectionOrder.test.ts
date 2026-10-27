@@ -20,6 +20,7 @@ test("REAL and BOTH reality use one shelf for reviews and reference books", () =
   const expected = [
     "introduction",
     "personGuide",
+    "readingWay",
     "virtualMonologue",
     "library",
     "filmography",

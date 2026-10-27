@@ -20,10 +20,10 @@ export function normalizeCelebSlug(raw: string): string {
 }
 
 const fetchIdentityRow = cache(async (slug: string): Promise<IdentityRow | null> => {
-  return cachedDetail(CACHE_TAGS.CELEBS, slug, ['celeb-identity-v1', slug], async () => {
+  return cachedDetail(CACHE_TAGS.CELEBS, slug, ['celeb-identity-v2-reading-way', slug], async () => {
     const db = createStaticClient()
     const { data, error } = await db.from('celebs')
-      .select('id,slug,nickname,nickname_en,aliases,avatar_url,bio,bio_en,profession,title,title_en,headline,headline_en,nationality,birth_date,death_date,is_verified,created_at,has_voice,voice_v,voice_speed,wikidata_qid,celeb_tier,celeb_reality,content_research_confirmed_empty_at,view_count,portrait_url,portrait_caption,portrait_caption_en,virtual_monologue,virtual_monologue_en')
+      .select('id,slug,nickname,nickname_en,aliases,avatar_url,bio,bio_en,profession,title,title_en,headline,headline_en,nationality,birth_date,death_date,is_verified,created_at,has_voice,voice_v,voice_speed,wikidata_qid,celeb_tier,celeb_reality,content_research_confirmed_empty_at,view_count,portrait_url,portrait_caption,portrait_caption_en,virtual_monologue,virtual_monologue_en,reading_way,reading_way_en')
       .eq('slug', slug).eq('publication_status', 'active').maybeSingle()
     throwOnQueryError('celeb-identity', error)
     return data as IdentityRow | null

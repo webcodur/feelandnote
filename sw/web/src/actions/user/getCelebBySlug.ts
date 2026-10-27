@@ -173,6 +173,8 @@ export interface PublicCelebBySlugData {
     portrait_caption_en: string | null
     virtual_monologue: string | null
     virtual_monologue_en: string | null
+    reading_way: string | null
+    reading_way_en: string | null
   }
   contentCount: number
   followerCount: number
@@ -436,7 +438,7 @@ const getCelebBySlugCached = (slug: string) =>
     CACHE_TAGS.CELEBS,
     slug,
     // 가족과 네 사회 축을 함께 표시하되 가족 쌍의 사회 중복은 제외한다.
-    ['celeb-by-slug-v16-profile-greeting', slug],
+    ['celeb-by-slug-v17-reading-way', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )
@@ -465,7 +467,9 @@ export type CelebBySlugProfile = PublicUserProfile & {
   reading: {
     guide: string
   } | null
-  /** 인물이 1인칭으로 말하는 가상독백. 화면 언어로 고르며 영문이 없으면 한국어가 온다 */
+  /** 현재 화면 언어의 독서 방식. 다른 언어로 대체하지 않는다. */
+  readingWay: string | null
+  /** 현재 화면 언어의 가상독백. 다른 언어로 대체하지 않는다. */
   virtualMonologue: string | null
   /** 영문 화면에서 영문본이 없어 한국어 원문을 대신 보여주는 필드 */
   translationFallbacks: string[]
@@ -564,7 +568,10 @@ async function getCelebBySlugInner(
             guide: resolve('personGuide', pub.explanation.plain_text_en, pub.explanation.plain_text),
           }
         : null,
-      virtualMonologue: resolve('virtualMonologue', profile.virtual_monologue_en?.trim(), profile.virtual_monologue?.trim() || null) || null,
+      readingWay: profile.celeb_reality === 'REAL' || profile.celeb_reality === 'BOTH'
+        ? (isEn ? profile.reading_way_en : profile.reading_way)?.trim() || null
+        : null,
+      virtualMonologue: (isEn ? profile.virtual_monologue_en : profile.virtual_monologue)?.trim() || null,
       translationFallbacks,
     },
   }

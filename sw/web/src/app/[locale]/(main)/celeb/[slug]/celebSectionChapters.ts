@@ -9,11 +9,12 @@ import type { CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 export const CELEB_SERVICE_CHAPTERS = {
   introduction: "01",
   personGuide: "02",
-  virtualMonologue: "03",
-  library: "04",
-  analysis: "05",
-  connections: "06",
-  guestbook: "07",
+  readingWay: "03",
+  virtualMonologue: "04",
+  library: "05",
+  analysis: "06",
+  connections: "07",
+  guestbook: "08",
 } as const;
 
 /* 책장(library)은 감상 기록과 참고도서를 함께 담는다.
@@ -22,6 +23,7 @@ export const CELEB_SERVICE_CHAPTERS = {
 const STANDARD_SECTION_ORDER = [
   "introduction",
   "personGuide",
+  "readingWay",
   "virtualMonologue",
   "library",
   "filmography",
