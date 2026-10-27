@@ -1,6 +1,6 @@
 # 감상배경 소스 원문 재구축 — 소급 처리
 
-존 그린에서 확정한 방식(룰북 [`celeb-02-03-content-review.md`](../../project/celeb/celeb-02-03-content-review.md) 「원문 발췌 앞에는 맥락 쿠셔닝을 구분선으로 분리한다」 절)을, 감상 소스가 살아 있는 다른 실존 인물의 `celeb_contents.review`에도 소급 적용한다.
+존 그린에서 확정한 방식(룰북 [`celeb-02-03-content-review.md`](../../project/celeb/celeb-02-03-content-review.md) 「2.1. 원문 발췌와 해설의 배치」 절)을, 감상 소스가 살아 있는 다른 실존 인물의 `celeb_contents.review`에도 소급 적용한다.
 
 대상 상태: 짧은 편집 요약·3인칭 재서술로 쓰인 감상배경 중, 팟캐스트·인터뷰·에세이·감상문 등 verbatim 소스가 확인되는 기록. 원문과 맥락이 완성된 글이 이미 있는 경우(완성된 리뷰 경로)는 대상이 아니며, 맥락이 필요한 발췌만 쿠셔닝+구분선 구조를 적용한다.
 
