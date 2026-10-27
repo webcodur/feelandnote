@@ -56,7 +56,6 @@ export default function CelebRecordSections({
   relatedFactionsSlot,
 }: CelebRecordSectionsProps) {
   const filmographyText = useTranslations("celebPage.filmography");
-  const t = useTranslations("celebPage");
   const [filmographyOpen, setFilmographyOpen] = useState(false);
 
   // 섹션 배치 순서(celebSectionChapters.ts)와 맞춰 FICTION만 이야기 우선 배치를 쓴다.
@@ -99,7 +98,6 @@ export default function CelebRecordSections({
             <ChevronDown size={20} aria-hidden className={`absolute right-0 ${filmographyOpen ? "rotate-180" : ""}`} />
           </button>
         ) : item.label}
-        subtitle={key === "virtualMonologue" ? t("virtualMonologueDescription") : undefined}
         index={index}
         total={serviceItems.length}
         tabIndex={-1}

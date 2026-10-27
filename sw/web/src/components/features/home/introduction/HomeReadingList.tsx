@@ -67,9 +67,14 @@ export default function HomeReadingList({ data, onNavigate }: { data: HomeGraphD
                 transition={{ duration: reduced ? 0 : .25, delay: reduced ? 0 : index * .05 }}>
                 <Link href={`/content/${item.id}`} className={styles.book} aria-label={t('openWork', { title: item.title })}>
                   <span className={styles.cover}><HomeWorkCover item={item} /></span>
-                  <span className={styles.bookInfo}><strong>{item.title}</strong>{item.creator && <span>{item.creator}</span>}{item.relatedLabel && <span className={styles.affiliation}>{item.relatedLabel}</span>}</span>
+                  <span className={styles.bookInfo}><strong>{item.title}</strong>{item.creator && <span>{item.creator}</span>}</span>
                   <ArrowRight size={14} aria-hidden className={styles.bookArrow} />
                 </Link>
+                {item.relatedHref && item.relatedLabel && <Link href={item.relatedHref} className={styles.affiliation}
+                  aria-label={t('openAffiliation', { name: item.relatedLabel })}>
+                  <Globe2 size={16} aria-hidden /><span>{item.relatedLabel}</span>
+                  <span className={styles.affiliationAction}>{t('viewAffiliation')}<ArrowRight size={14} aria-hidden /></span>
+                </Link>}
               </motion.li>)}
             </motion.ul>
           </AnimatePresence>

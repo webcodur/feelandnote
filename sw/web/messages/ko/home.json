@@ -260,7 +260,7 @@
       "appreciationsTitle": "모든 매체를 기록합니다.",
       "appreciationsDescription": "인물이 책·음악·영상·게임을 접한 계기와 감상을 출처와 함께 기록합니다.",
       "readingTitle": "한 사람의 모든 것을 읽어보세요.",
-      "readingDescription": "그가 읽은 책과 쓴 책, 그를 다룬 책과 그가 속한 세계를 다룬 책을 한자리에 모았습니다.",
+      "readingDescription": "읽은 책과 집필한 책, 등장하는 책과 속한 세계를 다룬 책을 한자리에 모았습니다.",
       "navAppreciations": "감상 기록",
       "navReading": "관련 도서",
       "startTitle": "인물과 작품을 찾아보세요.",
@@ -294,22 +294,22 @@
           },
           "read": {
             "title": "감상",
-            "meaning": "그가 읽은 책",
+            "meaning": "읽은 책",
             "shortTitle": "읽은 책"
           },
           "appearance": {
             "title": "등장",
-            "meaning": "그를 다룬 책",
-            "shortTitle": "등장 도서"
+            "meaning": "등장하는 책",
+            "shortTitle": "등장하는 책"
           },
           "authored": {
             "title": "집필",
-            "meaning": "그가 쓴 책",
-            "shortTitle": "쓴 책"
+            "meaning": "집필한 책",
+            "shortTitle": "집필한 책"
           },
           "affiliation": {
             "title": "소속",
-            "meaning": "그가 속한 세계를 다룬 책",
+            "meaning": "속한 세계를 다룬 책",
             "shortTitle": "소속 도서"
           }
         },
@@ -337,7 +337,9 @@
         "previousPerson": "이전 인물",
         "nextPerson": "다음 인물",
         "bookNavigation": "관련 도서 분류",
-        "nextWork": "다음 작품"
+        "nextWork": "다음 작품",
+        "viewAffiliation": "소속 보기",
+        "openAffiliation": "{name} 소속 보기"
       },
       "navAbout": "서비스 소개",
       "navSearch": "검색",

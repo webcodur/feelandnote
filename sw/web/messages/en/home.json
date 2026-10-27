@@ -299,13 +299,13 @@
           },
           "appearance": {
             "title": "Featured in",
-            "meaning": "Books about them",
-            "shortTitle": "About"
+            "meaning": "Books they appear in",
+            "shortTitle": "Featured in"
           },
           "authored": {
             "title": "Written by",
-            "meaning": "Books they wrote",
-            "shortTitle": "Written"
+            "meaning": "Books they authored",
+            "shortTitle": "Authored"
           },
           "affiliation": {
             "title": "Affiliations",
@@ -337,7 +337,9 @@
         "previousPerson": "Previous person",
         "nextPerson": "Next person",
         "bookNavigation": "Book relationships",
-        "nextWork": "Next work"
+        "nextWork": "Next work",
+        "viewAffiliation": "Explore group",
+        "openAffiliation": "Explore {name}"
       },
       "navAbout": "About",
       "navSearch": "Search",
