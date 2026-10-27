@@ -1,6 +1,6 @@
 /** 관리자 아바타 자동 맞춤. 누끼는 CLI와 같은 reframe, 일반 사진은 nobg 전 여유 크롭. */
-import { computePreparationCrop, type CropResult, type SilhouetteInfo } from '@/lib/avatar-geometry'
-import { computeReframeCrop, reframeAnchorsOf, silhouetteFromRgba } from '@/lib/avatar-reframe'
+import { AVATAR_SILHOUETTE_SPEC, computePreparationCrop, type CropResult, type SilhouetteInfo } from '@/lib/avatar-geometry'
+import { computeReframeCrop, detectWithAvatarPadding, reframeAnchorsOf, silhouetteFromRgba, unpadAvatarLandmarks } from '@/lib/avatar-reframe'
 
 type FaceApi = typeof import('@vladmandic/face-api');
 type FaceLandmarks68 = import('@vladmandic/face-api').FaceLandmarks68;
@@ -24,7 +24,7 @@ function loadFaceApi(): Promise<FaceApi> {
     loading = (async () => {
       const faceapi = await import('@vladmandic/face-api');
       await Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URI),
+        faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URI),
         faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URI),
       ]);
       return faceapi;
@@ -49,21 +49,28 @@ export async function detectFaceLandmarks(
   const faceapi = await loadFaceApi();
   // 투명 영역을 CLI와 같은 중간 회색으로 깔아 얼굴을 검출한다.
   const canvas = document.createElement('canvas');
-  canvas.width = image.naturalWidth;
-  canvas.height = image.naturalHeight;
   const ctx = canvas.getContext('2d')!;
-  ctx.fillStyle = '#808080';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(image, 0, 0);
-  const detections = await faceapi
-    .detectAllFaces(canvas, new faceapi.TinyFaceDetectorOptions())
-    .withFaceLandmarks();
+  const { detections, padding } = await detectWithAvatarPadding(image.naturalWidth, image.naturalHeight, async (pad) => {
+    canvas.width = image.naturalWidth + pad * 2;
+    canvas.height = image.naturalHeight + pad * 2;
+    ctx.fillStyle = '#808080';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(image, pad, pad);
+    const options = new faceapi.SsdMobilenetv1Options({
+      minConfidence: AVATAR_SILHOUETTE_SPEC.detection.minConfidence,
+      maxResults: AVATAR_SILHOUETTE_SPEC.detection.maxResults,
+    });
+    return await faceapi.detectAllFaces(canvas, options).withFaceLandmarks();
+  });
   if (detections.length > 1) throw new Error('여러 얼굴이 검출됐습니다. 한 인물의 사진을 넣거나 직접 맞춰 주세요.');
   const detection = detections[0];
   if (!detection) return null;
 
   const { x, y, width, height } = detection.detection.box;
-  return { landmarks: detection.landmarks, box: { x, y, width, height } };
+  return {
+    landmarks: unpadAvatarLandmarks(detection.landmarks, padding),
+    box: { x: x - padding, y: y - padding, width, height },
+  };
 }
 
 /** 원본 알파를 그대로 읽는다. 얼굴 검출용 회색 합성본을 사용하면 안 된다. */

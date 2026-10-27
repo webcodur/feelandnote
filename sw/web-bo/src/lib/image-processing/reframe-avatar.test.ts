@@ -19,11 +19,17 @@ test('nobg 배치를 한 번만 reframe하고 개별 성공·실패를 구분한
       await writeFile(path.join(output, '_report.json'), JSON.stringify([
         { name: 'person_nobg', crop: { left: 0, top: 0, size: 800 } },
         { name: 'no-face_nobg', error: '얼굴 미검출' },
+        { name: 'off-center_nobg', error: '최종 얼굴 구도 이탈: 얼굴 중심축 58.0', crop: { left: 0, top: 0, size: 800 } },
+        { name: 'profile_nobg', crop: { left: 87, top: 99, size: 522 } },
+        { name: 'nose-clipped_nobg', error: '코끝이 크롭 가장자리에 붙거나 잘립니다.' },
       ]))
     } })
     assert.equal(calls, 1)
     assert.equal(results.get('person_nobg')?.file, path.join(root, 'reframed', 'person_nobg.webp'))
     assert.deepEqual(results.get('no-face_nobg'), { error: '얼굴 미검출' })
+    assert.deepEqual(results.get('off-center_nobg'), { error: '최종 얼굴 구도 이탈: 얼굴 중심축 58.0' })
+    assert.equal(results.get('profile_nobg')?.file, path.join(root, 'reframed', 'profile_nobg.webp'))
+    assert.deepEqual(results.get('nose-clipped_nobg'), { error: '코끝이 크롭 가장자리에 붙거나 잘립니다.' })
     await assert.rejects(prepareNobgAvatars(root, { run: async () => { throw new Error('model failed') } }), /model failed/)
   } finally {
     if (path.dirname(root) === parent && path.basename(root).startsWith('reframe-test-')) {

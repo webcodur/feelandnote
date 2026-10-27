@@ -53,8 +53,8 @@ async function main() {
   if (resolve(inDir) === resolve(outDir)) throw new Error('입력과 출력 폴더는 달라야 한다')
   const names = files.map((file) => parsePath(file).name.toLowerCase())
   if (new Set(names).size !== names.length) throw new Error('확장자를 제외한 파일명이 중복된다')
-  if (wantNobg && existsSync(outDir) && readdirSync(outDir).length) {
-    throw new Error('--nobg 출력 폴더는 비어 있어야 한다. 새 폴더를 지정하라')
+  if (existsSync(outDir) && readdirSync(outDir).length) {
+    throw new Error('재배치 출력 폴더는 비어 있어야 한다. 실패 인물의 이전 결과를 섞지 않도록 새 폴더를 지정하라')
   }
   const sources = new Map(files.map((file) => [parsePath(file).name, join(inDir, file)]))
   const processed = wantNobg ? await removeBackgrounds(files, inDir, outDir) : null
@@ -100,23 +100,31 @@ async function main() {
         continue
       }
       const crop = computeReframeCrop(anchors, sil, sil.W, sil.H, { beardBottom, faceTop })
-      // 좌우로 원본 밖으로 나간 만큼 투명으로 넓힌 뒤 자른다.
-      // sharp는 한 파이프라인 안에서 extend를 extract 뒤에 적용하므로 넓히기를 별도 단계로 끝내고 자른다.
-      const padL = Math.max(0, -crop.left)
-      const padR = Math.max(0, crop.left + crop.size - sil.W)
-      const canvas =
-        padL || padR
-          ? await sharp(buf)
-              .ensureAlpha()
-              .extend({ left: padL, right: padR, top: 0, bottom: 0, background: { r: 0, g: 0, b: 0, alpha: 0 } })
-              .png()
-              .toBuffer()
-          : buf
-      await sharp(canvas)
-        .extract({ left: crop.left + padL, top: crop.top, width: crop.size, height: crop.size })
-        .resize(CELEB_AVATAR_ORIGINAL.sizePx, CELEB_AVATAR_ORIGINAL.sizePx, { kernel: 'lanczos3' })
-        .webp({ quality: CELEB_AVATAR_ORIGINAL.webpQuality })
-        .toFile(join(outDir, name + '.webp'))
+      const preserveOriginal = crop.decidedBy === 'already-normalized' &&
+        sil.W === CELEB_AVATAR_ORIGINAL.sizePx && sil.H === CELEB_AVATAR_ORIGINAL.sizePx &&
+        (await sharp(buf).metadata()).format === 'webp'
+      if (preserveOriginal) {
+        // 완성본은 구도뿐 아니라 픽셀도 보존한다. 반복 실행할 때마다 손실 압축하지 않는다.
+        writeFileSync(join(outDir, name + '.webp'), buf)
+      } else {
+        // 좌우로 원본 밖으로 나간 만큼 투명으로 넓힌 뒤 자른다.
+        // sharp는 한 파이프라인 안에서 extend를 extract 뒤에 적용하므로 넓히기를 별도 단계로 끝내고 자른다.
+        const padL = Math.max(0, -crop.left)
+        const padR = Math.max(0, crop.left + crop.size - sil.W)
+        const canvas =
+          padL || padR
+            ? await sharp(buf)
+                .ensureAlpha()
+                .extend({ left: padL, right: padR, top: 0, bottom: 0, background: { r: 0, g: 0, b: 0, alpha: 0 } })
+                .png()
+                .toBuffer()
+            : buf
+        await sharp(canvas)
+          .extract({ left: crop.left + padL, top: crop.top, width: crop.size, height: crop.size })
+          .resize(CELEB_AVATAR_ORIGINAL.sizePx, CELEB_AVATAR_ORIGINAL.sizePx, { kernel: 'lanczos3' })
+          .webp({ quality: CELEB_AVATAR_ORIGINAL.webpQuality })
+          .toFile(join(outDir, name + '.webp'))
+      }
       const row: Row & { beardBottom?: number; faceTop?: number } = {
         name,
         ...(beardBottom === undefined ? {} : { beardBottom }),
@@ -124,6 +132,8 @@ async function main() {
         crop: { left: crop.left, top: crop.top, size: crop.size },
         spanRatio: +crop.spanRatio.toFixed(3),
         eyeLine: +crop.eyeLine.toFixed(3),
+        centerLine: +(((anchors.faceCenterX ?? anchors.centerX ?? anchors.eyeX) - crop.left) / crop.size).toFixed(3),
+        visualShiftRatio: +((crop.visualShift ?? 0) / crop.size).toFixed(4),
         emphasis: +anchors.emphasis.toFixed(2),
         headroom: +((sil.headTop - crop.top) / crop.size).toFixed(3),
         decidedBy: crop.decidedBy,
@@ -132,7 +142,7 @@ async function main() {
       }
       rows.push(row)
       console.log(
-        `  ${name.padEnd(24)} 눈~턱 ${(row.spanRatio! * 100).toFixed(1).padStart(5)}%  눈높이 ${(row.eyeLine! * 100).toFixed(1).padStart(5)}%  정수리여백 ${(row.headroom! * 100).toFixed(1).padStart(5)}%  x${row.upscale}  ${row.decidedBy}` +
+        `  ${name.padEnd(24)} 눈~턱 ${(row.spanRatio! * 100).toFixed(1).padStart(5)}%  눈높이 ${(row.eyeLine! * 100).toFixed(1).padStart(5)}%  얼굴중심 ${(row.centerLine! * 100).toFixed(1).padStart(5)}%  정수리여백 ${(row.headroom! * 100).toFixed(1).padStart(5)}%  x${row.upscale}  ${row.decidedBy}` +
           (Math.abs(anchors.emphasis) > AVATAR_SILHOUETTE_SPEC.emphasis.deadZone
             ? `  ${anchors.emphasis > 0 ? '왼쪽' : '오른쪽'} 부각 ${Math.abs(anchors.emphasis).toFixed(2)}`
             : '') +

@@ -248,12 +248,24 @@ export const AVATAR_SILHOUETTE_SPEC = {
   eyeLineMax: 0.51,
   /** 눈~턱 거리 / 프레임 한 변의 허용 범위. 김봉진(0.378)~빌 게이츠(0.414)를 감싼다 */
   eyeChinSpanRange: [0.36, 0.44],
-  /**
-   * 부각량 표시용 임계. 부각량은 ln(코끝→왼쪽 턱선 거리 / 코끝→오른쪽 턱선 거리)다.
-   * |값|이 deadZone을 넘으면 출력에 `왼쪽/오른쪽 부각`을 표시한다. 가로 배치에는 쓰지 않는다 —
-   * 가로 중앙은 항상 얼굴 좌우 끝(턱선 양끝)의 중점이다.
-   */
-  emphasis: { deadZone: 0.1, full: 0.3 },
+  /** 턱선 중점을 주축으로 두고 양눈 중점을 섞는다. 한쪽 눈 보정은 3/4 얼굴을 반대로 밀었다. */
+  horizontal: {
+    eyeMidWeight: 0.25,
+    /** 얼굴 높이 구간의 알파 면적 중심을 일부 반영한다. 어깨·가슴은 측정하지 않는다. */
+    silhouetteWeight: 0.6,
+    silhouetteDeadZone: 0.01,
+    maxSilhouetteShift: 0.05,
+    bandAboveEye: 0.8,
+    bandBelowChin: 0.15,
+  },
+  /** 완성본 재검출 오차로 크롭을 반복 축소하지 않는다. 이미 정상인 정사각에만 적용한다. */
+  stability: { ratioTolerance: 0.015, centerTolerance: 0.025, neckTolerance: 0.16 },
+  /** 측면에서도 코끝이 프레임 변에 붙거나 잘리지 않도록 확보할 최소 여유. 프레임 폭 대비. */
+  featureInset: 0.06,
+  /** 얼굴이 화면을 꽉 채워 미검출되면 검출 영상에만 붙일 회색 여백. 긴 변 대비. */
+  detection: { padding: 0.25, minConfidence: 0.4, maxResults: 10 },
+  /** ln(코끝→왼쪽 턱선 / 코끝→오른쪽 턱선). 얼굴 방향 진단용이며 측면을 배제하지 않는다. */
+  emphasis: { deadZone: 0.1 },
   /** 알파 채널에서 정수리로 인정할 최소 불투명 픽셀 수. 폭 대비. 흩날리는 머리카락 한두 올을 무시한다 */
   minOpaqueRun: 0.01,
   /** 알파 불투명 판정 임계 (0~255) */
@@ -271,12 +283,21 @@ export interface SilhouetteInfo {
    */
   rowLeft?: number[]
   rowRight?: number[]
+  /** 행별 불투명 픽셀 수와 그 픽셀들의 가로 평균. 머리카락·장식의 면적 균형을 잰다. */
+  rowMass?: number[]
+  rowCenterX?: number[]
 }
 
 /** 재배치용 앵커. 가로 기준을 눈 중점이 아닌 값으로 줄 수 있다 */
 export interface SilhouetteAnchors extends FaceAnchors {
-  /** 프레임 가로 중앙에 둘 원본 x. 없으면 eyeX. 한쪽이 부각된 얼굴은 horizontalAnchor()로 구한다 */
+  /** 프레임 가로 중앙에 둘 원본 x. 없으면 eyeX. horizontalAnchor()로 구한다. */
   centerX?: number
+  /** 보정 전 턱선 중점. 최종 검증에서 중심 보정 자체가 치우침을 숨기지 못하게 한다. */
+  faceCenterX?: number
+  /** 코끝의 가로 위치. 측면 얼굴의 앞부분이 크롭에 잘리지 않는지 확인한다. */
+  noseX?: number
+  /** 코끝과 턱선의 비대칭. 얼굴 방향 진단용이다. */
+  emphasis?: number
 }
 
 export interface SilhouetteCropOptions {
@@ -287,9 +308,9 @@ export interface SilhouetteCropOptions {
 }
 
 /**
- * 얼굴의 가로 기준점. 턱선 양끝(얼굴 좌우 끝)의 중점을 프레임 중앙에 둔다 —
- * 눈 중점이나 부각 쪽 눈을 쓰면 얼굴 전체가 한쪽으로 밀린다.
- * 반환 emphasis는 양수면 왼쪽 부각, 음수면 오른쪽 부각이며 진단 표시용이다.
+ * 턱선 양끝의 중점과 양눈 중점 사이에 가로 기준을 둔다.
+ * 코·턱선의 비대칭으로 한쪽 눈까지 옮기면 머리카락에 가려진 턱과 고개 회전을 혼동한다.
+ * 반환 emphasis는 양수면 왼쪽 부각, 음수면 오른쪽 부각이며 얼굴 방향 진단에 쓴다.
  */
 export function horizontalAnchor(p: {
   leftEyeX: number
@@ -297,26 +318,26 @@ export function horizontalAnchor(p: {
   noseX: number
   jawLeftX: number
   jawRightX: number
-}): { centerX: number; emphasis: number } {
+}): { centerX: number; faceCenterX: number; emphasis: number } {
   const faceMid = (p.jawLeftX + p.jawRightX) / 2
+  const eyeMid = (p.leftEyeX + p.rightEyeX) / 2
+  const centerX = faceMid + AVATAR_SILHOUETTE_SPEC.horizontal.eyeMidWeight * (eyeMid - faceMid)
   const leftWidth = p.noseX - p.jawLeftX
   const rightWidth = p.jawRightX - p.noseX
-  if (!(leftWidth > 0) || !(rightWidth > 0)) return { centerX: faceMid, emphasis: 0 }
+  if (!(leftWidth > 0) || !(rightWidth > 0)) return { centerX, faceCenterX: faceMid, emphasis: 0 }
   const emphasis = Math.log(leftWidth / rightWidth)
-  // 정면·약한 부각은 얼굴 좌우 끝의 중점을, 강한 부각(3/4 얼굴)은 부각된 쪽 눈을 중앙에 둔다.
-  // 강한 부각에서 턱선 양끝 중점은 가려진 쪽 추정 오차로 얼굴이 반대로 밀려 보인다.
-  const t = Math.min(1, Math.max(0, (Math.abs(emphasis) - 0.35) / 0.25))
-  const emphEyeX = emphasis > 0 ? p.leftEyeX : p.rightEyeX
-  return { centerX: faceMid + t * (emphEyeX - faceMid), emphasis }
+  return { centerX, faceCenterX: faceMid, emphasis }
 }
 
 export interface SilhouetteCropResult extends CropResult {
+  /** 머리카락·장식의 면적 균형으로 얼굴 기준에서 추가 이동한 원본 픽셀. */
+  visualShift?: number
   /** 결과 프레임에서 눈~턱 거리 비율 */
   spanRatio: number
   /** 결과 프레임에서 눈높이 */
   eyeLine: number
   /** 어떤 제약이 프레임 크기를 결정했는가 */
-  decidedBy: 'silhouette' | 'eye-line' | 'min-span' | 'max-span' | 'source-top' | 'face-top'
+  decidedBy: 'silhouette' | 'eye-line' | 'min-span' | 'max-span' | 'source-top' | 'face-top' | 'already-normalized'
 }
 
 /**

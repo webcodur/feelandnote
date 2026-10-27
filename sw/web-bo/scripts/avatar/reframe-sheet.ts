@@ -8,8 +8,10 @@ export interface Row {
   crop?: { left: number; top: number; size: number }
   spanRatio?: number
   eyeLine?: number
+  centerLine?: number
+  visualShiftRatio?: number
   headroom?: number
-  /** 부각량. 양수면 왼쪽 부각 → 왼쪽 눈 기준 */
+  /** 부각량. 양수면 왼쪽 부각, 음수면 오른쪽 부각. 가로 이동 기준은 아니다. */
   emphasis?: number
   decidedBy?: string
   upscale?: number
