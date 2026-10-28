@@ -624,6 +624,9 @@ const CACHED_HTML_FILES = new Set([
   'sw/web/src/lib/utils/countryFlag.ts',
   // 연표의 초기 국가 선택과 함께 읽는 동시대 인물 표시는 보관된 timeline HTML에 영향을 준다.
   'sw/web/src/lib/visitorCountry.ts',
+  // 연표 페이지의 인물 사진 비율·연도 표시는 캐시된 timeline 본문에도 실린다.
+  'sw/web/src/components/features/user/explore/sections/TimelineSection/sections/CelebTimelineItem.tsx',
+  'sw/web/src/components/features/user/explore/sections/TimelineSection/sections/TimelineEraList.tsx',
   'sw/web/src/components/features/user/explore/sections/TimelineSection/sections/ContemporariesPanel.tsx',
   'sw/web/src/components/features/user/explore/sections/TimelineSection/sections/CountryPicker.tsx',
   'sw/web/src/components/features/user/explore/sections/TimelineSection/sections/CountryPickerModal.tsx',

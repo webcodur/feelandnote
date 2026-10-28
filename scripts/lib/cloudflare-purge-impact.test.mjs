@@ -11,6 +11,14 @@ import {
   createManualCloudflarePurgePlan,
 } from './cloudflare-purge-impact.mjs'
 
+test('timeline portrait and year presenters refresh cached timeline HTML', () => {
+  for (const name of ['CelebTimelineItem', 'TimelineEraList', 'ContemporariesPanel']) {
+    assert.deepEqual(classifyCloudflarePurgeImpact([
+      `sw/web/src/components/features/user/explore/sections/TimelineSection/sections/${name}.tsx`,
+    ]).scopes, ['cached-html'])
+  }
+})
+
 test('home discovery stays uncached while mascot artwork has its own purge prefix', () => {
   const homeFiles = [
     'sw/web/src/components/features/home/introduction/HomeDiscoveryGallery.tsx',

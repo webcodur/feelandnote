@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
   const requestedLocale = searchParams.get('locale')
   const locale = requestedLocale === 'en' || requestedLocale === 'ko' ? requestedLocale
     : entryLocale(request.headers.get('CF-IPCountry'), request.cookies.get(LOCALE_PREFERENCE_COOKIE)?.value,
-      request.cookies.get('NEXT_LOCALE')?.value)
+      request.cookies.get('NEXT_LOCALE')?.value, request.headers.get('accept-language'))
   const returnTo = (path: string, fallback = '/') => {
     const destination = new URL(localizedAuthPath(path, locale, fallback), origin)
     if (/^\/(?:en\/)?login$/.test(destination.pathname) && nextParam) {

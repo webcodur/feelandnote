@@ -1,3 +1,5 @@
+import FormattedText from "@/components/ui/FormattedText";
+
 interface Props {
   text: string | null;
 }
@@ -9,7 +11,7 @@ export default function FigureReadingWaySection({ text }: Props) {
   return (
     <div className="mx-auto max-w-3xl space-y-5 py-5 text-[15px] leading-loose text-text-secondary [overflow-wrap:anywhere] md:py-6 md:text-base">
       {text.trim().split(/\r?\n\s*\r?\n/).map((paragraph, index) => (
-        <p key={index} className="whitespace-pre-line">{paragraph}</p>
+        <p key={index} className="whitespace-pre-line"><FormattedText text={paragraph} /></p>
       ))}
     </div>
   );

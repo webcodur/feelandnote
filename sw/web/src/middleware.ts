@@ -161,13 +161,13 @@ export async function middleware(request: NextRequest) {
   // First entry: foreign visitors use English, while explicit URLs and chosen language win.
   if (!/^\/(ko|en)(\/|$)/.test(rawPathname) && !isLocaleCrawler(request.headers.get('user-agent'))) {
     const locale = entryLocale(request.headers.get('CF-IPCountry'), request.cookies.get(LOCALE_PREFERENCE_COOKIE)?.value,
-      request.cookies.get('NEXT_LOCALE')?.value)
+      request.cookies.get('NEXT_LOCALE')?.value, request.headers.get('accept-language'))
     if (locale === 'en') {
       const url = request.nextUrl.clone()
       url.pathname = `/en${rawPathname === '/' ? '' : rawPathname}`
       const response = NextResponse.redirect(url, 307)
       response.headers.set('Cache-Control', 'private, no-store')
-      response.headers.set('Vary', 'CF-IPCountry, Cookie')
+      response.headers.set('Vary', 'CF-IPCountry, Cookie, Accept-Language')
       return response
     }
   }

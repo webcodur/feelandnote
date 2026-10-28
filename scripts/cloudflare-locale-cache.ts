@@ -20,7 +20,7 @@ const rule = {
   enabled: true,
   action: 'set_cache_settings',
   action_parameters: { cache: false },
-  expression: `(starts_with(http.request.uri.path, "/celeb/") or starts_with(http.request.uri.path, "/content/") or http.request.uri.path in {"/explore/directory" "/explore/timeline"}) and ((ip.src.country ne "KR" and ip.src.country ne "XX" and ip.src.country ne "T1") or http.cookie contains "${LOCALE_PREFERENCE_COOKIE}=en" or http.cookie contains "NEXT_LOCALE=en")`,
+  expression: `(starts_with(http.request.uri.path, "/celeb/") or starts_with(http.request.uri.path, "/content/") or http.request.uri.path in {"/explore/directory" "/explore/timeline"}) and ((ip.src.country ne "KR") or http.cookie contains "${LOCALE_PREFERENCE_COOKIE}=en" or http.cookie contains "NEXT_LOCALE=en")`,
 }
 const existing = current.result.rules.find((r: { ref: string }) => r.ref === rule.ref)
 console.log(JSON.stringify({ mode: process.argv.includes('--execute') ? 'execute' : 'plan', rule }))
