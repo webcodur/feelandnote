@@ -342,6 +342,8 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // 인증 콜백은 private, no-store 이동 응답만 반환하며 공개 HTML을 렌더링하지 않는다.
+  'sw/web/src/app/auth/callback/route.ts',
   // 연대 판별 별칭과 검증된 표본은 쉼터·실험실 게임에서만 소비한다.
   'sw/web/src/components/features/game/utils.ts',
   'sw/web/src/components/features/game/moreless/fixture.ts',

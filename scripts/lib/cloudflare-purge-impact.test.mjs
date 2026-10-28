@@ -19,6 +19,12 @@ test('timeline portrait and year presenters refresh cached timeline HTML', () =>
   }
 })
 
+test('authentication callback redirects need no cached HTML purge', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/app/auth/callback/route.ts',
+  ]).scopes, ['none'])
+})
+
 test('home discovery stays uncached while mascot artwork has its own purge prefix', () => {
   const homeFiles = [
     'sw/web/src/components/features/home/introduction/HomeDiscoveryGallery.tsx',
