@@ -31,6 +31,7 @@ import {
   legacyReleasesRootRemoveArgs,
   inspectVersionedDeploymentHtml,
   inspectExploreWarmupHtml,
+  warmExplorePage,
   inspectCaddyProxyPort,
   isDeploymentUnchanged,
   linkSharedDataCache,
@@ -92,10 +93,12 @@ test('canary admission uses reclaimable available RAM and rejects missing or ins
 
 test('all warmup routes must return the new build and finish promptly on the second pass', async t => {
   const counts = new Map()
+  const languages = []
   let stall = false
   const id = 'a351550f-web-20260827t111605z'
   const server = createServer((req, res) => {
     res.setHeader('connection', 'close')
+    languages.push(req.headers['accept-language'])
     counts.set(req.url, (counts.get(req.url) ?? 0) + 1)
     if (stall && req.url === '/en/explore/works' && counts.get(req.url) === 2) {
       res.writeHead(200); res.write('<html>'); return
@@ -108,6 +111,7 @@ test('all warmup routes must return the new build and finish promptly on the sec
   assert.equal(result.length, 86)
   assert.equal(counts.get('/explore/works/popular?mode=classics'), 2)
   assert.ok([...counts.values()].every(count => count === 2))
+  assert.ok(languages.every(language => language?.startsWith('ko')))
   counts.clear(); stall = true
   await assert.rejects(warmMainRoutes(server.address().port, 'bill-gates', id, { readyTimeoutMs: 100 }), /Warmup ready failed.*\/en\/explore\/works.*timeout/i)
 })
@@ -513,6 +517,23 @@ test('deployment HTML static assets must all identify the expected build', () =>
     ).deploymentId,
     deploymentId,
   )
+})
+
+test('explore warmup requests Korean explicitly when country headers are absent', async t => {
+  const id = 'a351550f-web-20260827t111605z'
+  const requests = []
+  const server = createServer((req, res) => {
+    requests.push(req.headers['accept-language'])
+    const prefix = req.headers['accept-language']?.startsWith('ko') ? '' : '/en'
+    res.end(`<html><script src="/_next/static/app.js?dpl=${id}"></script>
+      <a href="${prefix}/explore/ranking">Ranking</a>
+      <a href="${prefix}/celeb/bill-gates"><img src="/avatar.jpg"></a></html>`)
+  })
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
+  t.after(() => new Promise(resolve => { server.close(resolve); server.closeAllConnections() }))
+  const result = await warmExplorePage(server.address().port, id)
+  assert.equal(result.runs.length, 2)
+  assert.ok(requests.every(language => language?.startsWith('ko')))
 })
 
 test('explore warmup requires the deployed build and rendered profile cards', () => {

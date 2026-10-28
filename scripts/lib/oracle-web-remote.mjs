@@ -32,6 +32,8 @@ const SLOT_NAMES = ['blue', 'green']
 const CADDY_ADMIN_URL = 'http://127.0.0.1:2019'
 const CANARY_MEMORY_MAX_MB = 850
 const CANARY_MEMORY_RESERVE_MB = 256
+// 기본 주소는 한국어를 데우고, /en 주소는 명시된 영어를 데운다.
+const WARMUP_HEADERS = { 'user-agent': 'feelandnote-deploy-warmup/1.0', 'accept-language': 'ko-KR,ko;q=0.9' }
 export const PRIMARY_PORT = 3000
 // A 3 GiB origin normally peaks below 30 concurrent requests. Keep bursts outside Node.
 export const CADDY_MAX_CONCURRENT_REQUESTS = 64
@@ -771,14 +773,14 @@ export function inspectExploreWarmupHtml(html, pageUrl, expectedDeploymentId) {
   return { deploymentId: deployment.deploymentId }
 }
 
-async function warmExplorePage(port, expectedDeploymentId, passes = 2) {
+export async function warmExplorePage(port, expectedDeploymentId, passes = 2) {
   const pageUrl = `http://127.0.0.1:${port}/explore`
   const runs = []
 
   for (let pass = 1; pass <= passes; pass += 1) {
     const startedAt = Date.now()
     const response = await fetchWithTimeout(pageUrl, {
-      headers: { 'user-agent': 'feelandnote-deploy-warmup/1.0' },
+      headers: WARMUP_HEADERS,
       timeoutMs: 45_000,
     })
     if (!response.ok) throw new Error(`Explore warmup returned HTTP ${response.status}: ${pageUrl}`)
@@ -844,7 +846,7 @@ export async function warmMainRoutes(port, probeSlug, expectedDeploymentId, { re
       const startedAt = Date.now()
       try {
         const response = await fetchWithTimeout(url, {
-          headers: { 'user-agent': 'feelandnote-deploy-warmup/1.0' },
+          headers: WARMUP_HEADERS,
           timeoutMs: pass === 'warm' ? 60_000 : readyTimeoutMs,
         })
         const html = await response.text()
