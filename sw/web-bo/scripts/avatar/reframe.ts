@@ -135,6 +135,7 @@ async function main() {
         centerLine: +(((anchors.faceCenterX ?? anchors.centerX ?? anchors.eyeX) - crop.left) / crop.size).toFixed(3),
         visualShiftRatio: +((crop.visualShift ?? 0) / crop.size).toFixed(4),
         emphasis: +anchors.emphasis.toFixed(2),
+        rollDegrees: +(anchors.rollDegrees ?? 0).toFixed(1),
         headroom: +((sil.headTop - crop.top) / crop.size).toFixed(3),
         decidedBy: crop.decidedBy,
         upscale: +(CELEB_AVATAR_ORIGINAL.sizePx / crop.size).toFixed(2),

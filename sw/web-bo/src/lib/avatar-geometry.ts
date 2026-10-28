@@ -22,7 +22,8 @@ export const AVATAR_SPEC = {
 
   /**
    * 좌우 치우침을 판정하고 세로 극단만 막는 범위다.
-   * 얼굴 크기·얼굴 잘림·상반신 유입은 랜드마크 수치로 구분할 수 없어 사람이 검수한다.
+   * 이 눈·턱 기준만으로 얼굴 잘림을 판정하지 않는다. reframe은 전체 주요점의 원형 잘림도 검사하며,
+   * 얼굴 크기·상반신 유입과 검출 오차는 사람이 검수한다.
    * 머리 위 여백은 판정하지 않는다.
    */
   tolerance: {
@@ -262,6 +263,8 @@ export const AVATAR_SILHOUETTE_SPEC = {
   stability: { ratioTolerance: 0.015, centerTolerance: 0.025, neckTolerance: 0.16 },
   /** 측면에서도 코끝이 프레임 변에 붙거나 잘리지 않도록 확보할 최소 여유. 프레임 폭 대비. */
   featureInset: 0.06,
+  /** 실제 원형 표시에서 눈·코·입·턱선·눈썹을 남기는 프레임 대비 안쪽 여유. */
+  faceSafety: { circleInset: 0.02 },
   /** 얼굴이 화면을 꽉 채워 미검출되면 검출 영상에만 붙일 회색 여백. 긴 변 대비. */
   detection: { padding: 0.25, minConfidence: 0.4, maxResults: 10 },
   /** ln(코끝→왼쪽 턱선 / 코끝→오른쪽 턱선). 얼굴 방향 진단용이며 측면을 배제하지 않는다. */
@@ -290,6 +293,10 @@ export interface SilhouetteInfo {
 
 /** 재배치용 앵커. 가로 기준을 눈 중점이 아닌 값으로 줄 수 있다 */
 export interface SilhouetteAnchors extends FaceAnchors {
+  /** 검출된 얼굴 윤곽과 주요점. 원형 안의 잘림을 검사하며 머리카락·어깨는 포함하지 않는다. */
+  facePoints?: readonly { x: number; y: number }[]
+  /** 양눈 연결선의 기울기. 진단용이며 각도만으로 얼굴을 거절하지 않는다. */
+  rollDegrees?: number
   /** 프레임 가로 중앙에 둘 원본 x. 없으면 eyeX. horizontalAnchor()로 구한다. */
   centerX?: number
   /** 보정 전 턱선 중점. 최종 검증에서 중심 보정 자체가 치우침을 숨기지 못하게 한다. */
@@ -337,7 +344,7 @@ export interface SilhouetteCropResult extends CropResult {
   /** 결과 프레임에서 눈높이 */
   eyeLine: number
   /** 어떤 제약이 프레임 크기를 결정했는가 */
-  decidedBy: 'silhouette' | 'eye-line' | 'min-span' | 'max-span' | 'source-top' | 'face-top' | 'already-normalized'
+  decidedBy: 'silhouette' | 'eye-line' | 'min-span' | 'max-span' | 'source-top' | 'face-top' | 'face-safety' | 'already-normalized'
 }
 
 /**

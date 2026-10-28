@@ -31,6 +31,9 @@ export function reframeAnchorsOf(landmarks: {
   getRightEye(): Point[]
   getNose(): Point[]
   getJawOutline(): Point[]
+  getMouth?(): Point[]
+  getLeftEyeBrow?(): Point[]
+  getRightEyeBrow?(): Point[]
 }): (SilhouetteAnchors & ReturnType<typeof horizontalAnchor>) | null {
   const left = landmarks.getLeftEye()
   const right = landmarks.getRightEye()
@@ -50,7 +53,13 @@ export function reframeAnchorsOf(landmarks: {
     leftEyeX: L.x, rightEyeX: R.x, noseX: nose.x,
     jawLeftX: jaw[0].x, jawRightX: jaw[jaw.length - 1].x,
   })
-  return { eyeX: (L.x + R.x) / 2, eyeY, chinY, noseX: nose.x, ...horizontal }
+  return {
+    eyeX: (L.x + R.x) / 2, eyeY, chinY, noseX: nose.x, ...horizontal,
+    rollDegrees: Math.atan2(R.y - L.y, R.x - L.x) * 180 / Math.PI,
+    facePoints: [...left, ...right, ...landmarks.getNose(), ...jaw,
+      ...(landmarks.getMouth?.() ?? []), ...(landmarks.getLeftEyeBrow?.() ?? []),
+      ...(landmarks.getRightEyeBrow?.() ?? [])].map(({ x, y }) => ({ x, y })),
+  }
 }
 
 /** RGBA 알파에서 정규화용 실루엣을 읽는다. 투명 배경이 아니면 null. */
@@ -108,6 +117,58 @@ export function computeSilhouetteOffset(anchors: SilhouetteAnchors, silhouette: 
   return Math.sign(delta) * Math.min(beyondDeadZone * S.silhouetteWeight, size * S.maxSilhouetteShift)
 }
 
+function fitsFaceCircle(points: NonNullable<SilhouetteAnchors['facePoints']>, crop: { left: number; top: number; size: number }): boolean {
+  const radius = 0.5 - AVATAR_SILHOUETTE_SPEC.faceSafety.circleInset
+  return points.every(({ x, y }) => Math.hypot(
+    (x - crop.left) / crop.size - 0.5, (y - crop.top) / crop.size - 0.5,
+  ) <= radius)
+}
+
+/** 눈높이·목 길이 목표가 기울어진 얼굴을 자르면 기본 얼굴 크롭부터 확대를 되돌린다. */
+function protectFaceCircle(
+  anchors: SilhouetteAnchors, silhouette: SilhouetteInfo, width: number, height: number,
+  crop: SilhouetteCropResult, visualShift: number, options: SilhouetteCropOptions,
+): SilhouetteCropResult {
+  const points = anchors.facePoints
+  if (!points?.length || fitsFaceCircle(points, crop)) return crop
+  const span = anchors.chinY - anchors.eyeY
+  const centerX = (anchors.centerX ?? anchors.eyeX) + visualShift
+  // 픽셀 단위로 검사해 반올림 뒤에도 안전한 첫 크기를 고른다. 원본 밖 얼굴은 복원하지 않는다.
+  const start = Math.ceil(Math.max(crop.size, span / AVATAR_SPEC.eyeChinSpan))
+  for (let size = start; size <= Math.floor(height); size++) {
+    const bottom = options.beardBottom === undefined ? null : options.beardBottom + 1
+    const top = Math.round(Math.max(0, Math.min(height - size,
+      bottom === null ? anchors.eyeY - size * AVATAR_SPEC.eyeLine : bottom - size)))
+    if (bottom !== null && top + size !== bottom) continue
+    if (options.faceTop !== undefined && top > options.faceTop) continue
+    let left = Math.round(centerX - size * AVATAR_SPEC.centerX)
+    const touchesLeft = silhouette.rowLeft?.slice(top, top + size).some(x => x === 0) ?? true
+    const touchesRight = silhouette.rowRight?.slice(top, top + size).some(x => x >= width - 1) ?? true
+    if (left < 0 && touchesLeft) left = 0
+    if (left + size > width && touchesRight) left = width - size
+    if ((left < 0 && touchesLeft) || (left + size > width && touchesRight)) continue
+    const candidate = { left, top, size }
+    const verdict = judgeGeometry({ ...anchors,
+      centerX: (anchors.faceCenterX ?? anchors.centerX ?? anchors.eyeX) + visualShift,
+    }, candidate)
+    if (!verdict.pass || !fitsFaceCircle(points, candidate)) continue
+    const noseLine = ((anchors.noseX ?? anchors.eyeX) - left) / size
+    if (noseLine < AVATAR_SILHOUETTE_SPEC.featureInset || noseLine > 1 - AVATAR_SILHOUETTE_SPEC.featureInset) continue
+    if (width === height && left === 0 && top === 0 && size === width &&
+        options.beardBottom === undefined && options.faceTop === undefined) {
+      return { ...crop, ...candidate, wantedSize: size, warnings: [],
+        spanRatio: span / size, eyeLine: anchors.eyeY / size, decidedBy: 'already-normalized' }
+    }
+    const warnings = crop.warnings.filter(w => !w.startsWith('정수리를 ') && !w.startsWith('실루엣이 원본 좌우'))
+    warnings.push('원형 프레임의 얼굴 잘림을 감지해 눈높이·목 여백 목표보다 얼굴 보존을 우선했습니다.')
+    const headroom = (silhouette.headTop - top) / size
+    if (headroom < -0.005) warnings.push(`정수리를 ${Math.round(-headroom * 100)}% 잘랐다 (face-safety)`)
+    return { ...crop, ...candidate, wantedSize: size, warnings,
+      spanRatio: span / size, eyeLine: (anchors.eyeY - top) / size, decidedBy: 'face-safety' }
+  }
+  throw new Error('원형 프레임 안에 얼굴 전체를 보존할 원본 여유가 없습니다. 더 넓은 원본으로 다시 시도하세요.')
+}
+
 /** 중심 보정과 원본 경계 제한 뒤 최종 얼굴 위치를 검증한다. */
 export function computeReframeCrop(
   anchors: SilhouetteAnchors,
@@ -118,8 +179,14 @@ export function computeReframeCrop(
 ): SilhouetteCropResult {
   if (![anchors.eyeX, anchors.eyeY, anchors.chinY, anchors.centerX ?? anchors.eyeX,
     anchors.faceCenterX ?? anchors.eyeX, anchors.noseX ?? anchors.eyeX, anchors.emphasis ?? 0,
-    silhouette.headTop, width, height].every(Number.isFinite) || width <= 0 || height <= 0) {
+    anchors.rollDegrees ?? 0, silhouette.headTop, width, height].every(Number.isFinite) || width <= 0 || height <= 0) {
     throw new Error('유효하지 않은 얼굴 기준점 또는 이미지 크기')
+  }
+  if (anchors.facePoints?.some(({ x, y }) => !Number.isFinite(x) || !Number.isFinite(y))) {
+    throw new Error('유효하지 않은 얼굴 주요점')
+  }
+  if (anchors.facePoints?.some(({ x, y }) => x < 0 || x >= width || y < 0 || y >= height)) {
+    throw new Error('원본 바깥의 얼굴 주요점이 있습니다. 잘리지 않은 더 넓은 원본이 필요합니다.')
   }
   const S = AVATAR_SILHOUETTE_SPEC
   const span = anchors.chinY - anchors.eyeY
@@ -140,9 +207,10 @@ export function computeReframeCrop(
       spanRatio, eyeLine, decidedBy: 'already-normalized' as const }
     : computeCropFromSilhouette(anchors, silhouette, width, height, options)
   const visualShift = normalized ? frameShift : computeSilhouetteOffset(anchors, silhouette, initial.size)
-  const crop = normalized || !visualShift ? initial : computeCropFromSilhouette(
+  const positioned = normalized || !visualShift ? initial : computeCropFromSilhouette(
     { ...anchors, centerX: (anchors.centerX ?? anchors.eyeX) + visualShift }, silhouette, width, height, options,
   )
+  const crop = protectFaceCircle(anchors, silhouette, width, height, positioned, visualShift, options)
   const left = silhouette.rowLeft?.slice(crop.top, crop.top + crop.size) ?? []
   const right = silhouette.rowRight?.slice(crop.top, crop.top + crop.size) ?? []
   if ((crop.left < 0 && left.some((x) => x === 0)) ||

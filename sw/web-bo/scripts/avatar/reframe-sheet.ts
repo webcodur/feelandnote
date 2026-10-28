@@ -13,6 +13,7 @@ export interface Row {
   headroom?: number
   /** 부각량. 양수면 왼쪽 부각, 음수면 오른쪽 부각. 가로 이동 기준은 아니다. */
   emphasis?: number
+  rollDegrees?: number
   decidedBy?: string
   upscale?: number
   warnings?: string[]

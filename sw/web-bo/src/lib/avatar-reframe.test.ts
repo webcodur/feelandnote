@@ -190,7 +190,11 @@ test('3/4 얼굴의 가로 기준은 턱선 중점과 양눈 중점 사이에 �
   assert.ok(anchors.centerX >= 425 && anchors.centerX <= 450)
   assert.notEqual(anchors.centerX, anchors.eyeX)
   const silhouette = { headTop: 140, touchesTop: false, rowLeft: new Array(1000).fill(100), rowRight: new Array(1000).fill(800) }
-  assert.deepEqual(computeReframeCrop(anchors, silhouette, 1000, 1000), computeCropFromSilhouette(anchors, silhouette, 1000, 1000))
+  const crop = computeReframeCrop(anchors, silhouette, 1000, 1000)
+  assert.ok(Math.abs((anchors.centerX - crop.left) / crop.size - 0.5) <= 1 / crop.size)
+  for (const { x, y } of anchors.facePoints!) {
+    assert.ok(Math.hypot((x - crop.left) / crop.size - 0.5, (y - crop.top) / crop.size - 0.5) <= 0.5)
+  }
 })
 
 // 하지원 등록본에서 검출한 값. 한쪽 눈 보정과 원본 경계 제한이 겹쳐
