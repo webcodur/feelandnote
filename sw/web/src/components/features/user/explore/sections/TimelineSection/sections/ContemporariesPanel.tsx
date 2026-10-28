@@ -25,7 +25,7 @@ export default function ContemporariesPanel({ celeb, contemporaries, locale }: P
   const t = useTranslations("explore.ui.timeline");
   if (contemporaries.length === 0) {
     return (
-      <div className="ml-[40px] md:ml-[120px] pl-4 pt-1 pb-2 animate-slide-down">
+      <div className="ms-[18px] md:ms-7 md:ps-2.5 pt-1 pb-2 animate-slide-down">
         <p className="text-xs text-text-secondary">
           {t("noContemporaries")}
         </p>
@@ -34,7 +34,7 @@ export default function ContemporariesPanel({ celeb, contemporaries, locale }: P
   }
 
   return (
-    <div className="ml-[40px] md:ml-[120px] pl-4 pt-1 pb-2 animate-slide-down">
+    <div className="ms-[18px] md:ms-7 md:ps-2.5 pt-1 pb-2 animate-slide-down">
       <p className="text-xs text-text-secondary mb-2">
         {t("figureEra", { name: locale === "en" ? (celeb.nickname_en || celeb.nickname) : celeb.nickname })}
       </p>

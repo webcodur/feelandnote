@@ -14,7 +14,7 @@ export default function TimelineEraList({ groups, collapsedEras, onToggleEra, it
 }) {
   const { expandedBio, showContemporaries, loadingContemporaries, ...callbacks } = itemProps;
   return <div className="relative">
-      <div className="absolute start-[34px] top-0 bottom-0 w-px bg-white/10 md:start-[114px]" />
+      <div className="absolute start-2 top-0 bottom-0 w-px bg-white/10 md:start-2.5" />
       {groups.map(group => {
         const collapsed = collapsedEras.has(group.era.key);
         return <div key={group.era.key} id={'era-' + group.era.key} className="scroll-mt-20">

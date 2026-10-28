@@ -7,7 +7,7 @@ import { CelebImage, VoiceBadge } from "@/components/ui";
 import { getCelebProfileUrl } from "@/lib/url";
 import type { Locale } from "@/types/locale";
 import type { TimelineCeleb } from "@/actions/home";
-import { getYear, formatYear, formatLifespan } from "../utils";
+import { formatLifespan } from "../utils";
 import ContemporariesPanel from "./ContemporariesPanel";
 import { useTranslations } from "next-intl";
 
@@ -35,14 +35,15 @@ export default function CelebTimelineItem({ celeb, locale, isBioExpanded, isCont
   return (
     <div className="mb-3 md:mb-5 group/item">
       <div className="flex gap-1.5 md:gap-3">
-        <div className="w-[38px] md:w-[120px] flex items-start justify-end shrink-0 pt-3">
-          <span className="text-xs md:text-sm text-text-primary font-mono mr-1 md:mr-2">{formatYear(getYear(celeb.birth_date!))}</span>
+        <div aria-hidden="true" className="w-3 md:w-4 flex items-start justify-end shrink-0 pt-3">
           <span className="mt-1 w-2 h-2 md:w-3 md:h-3 rounded-full shrink-0 z-10 bg-bg-card border-2 border-accent/40" />
         </div>
         <div className="min-w-0 flex-1 py-1.5 md:p-2.5">
-          <div className="flex items-start gap-2 md:gap-3">
-            <Link href={href} prefetch={false} aria-label={displayName} className="block shrink-0 w-9 h-9 md:w-14 md:h-14 rounded-full overflow-hidden border border-white/10 hover:border-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
-              <CelebImage src={celeb.avatar_url} alt={displayName} shape="circle" maxPx={128} fallbackSize={24} />
+          <div className="flex items-stretch gap-2 md:gap-3">
+            <Link href={href} prefetch={false} aria-label={displayName} className="relative block shrink-0 w-20 md:w-24 min-h-20 md:min-h-24 rounded-lg border border-transparent hover:border-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
+              <div className="absolute inset-0">
+                <CelebImage src={celeb.avatar_url} alt={displayName} fit="contain" fallbackSize={24} />
+              </div>
             </Link>
             <div className="min-w-0 flex-1">
               <div className="flex items-start gap-1 md:gap-2">
