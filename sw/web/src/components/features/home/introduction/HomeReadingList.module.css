@@ -34,6 +34,17 @@
 .book:is(:hover,:focus-visible) .bookInfo strong { color: var(--color-accent); }
 .book:is(:hover,:focus-visible) .bookArrow { opacity: 1; }
 .book:active { background: var(--color-bg-raised); }
+.withReview { border: 1px solid var(--color-line-strong); border-radius: var(--radius-card); background: var(--color-bg-main); }
+.withReview .book { flex: none; border: 0; background: transparent; }
+.withReview .book:hover { background: var(--color-bg-card); }
+.withReview .cover { width: 64px; height: 92px; }
+.review { min-width: 0; padding: 0 12px 4px; }
+.reviewText { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; max-height: 7.2em; overflow: hidden; padding-inline-start: 10px; border-inline-start: 2px solid var(--color-review); font-size: 13px; line-height: 1.8; }
+.reviewLinks { display: flex; flex-wrap: wrap; align-items: center; gap: 0 14px; margin-top: 3px; }
+.reviewLinks a, .reviewLinks button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-height: 44px; color: var(--color-text-secondary); font-size: 12px; outline: none; }
+.reviewLinks button { color: var(--color-accent); }
+.reviewLinks a:hover, .reviewLinks button:hover { color: var(--color-accent-hover); text-decoration: underline; text-underline-offset: 4px; }
+.reviewLinks a:focus-visible, .reviewLinks button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 .portrait { outline: none; }
 .portrait:focus-visible, .book:focus-visible, .affiliation:focus-visible, .relations button:focus-visible, .bookStage:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 @container home-reading-list (min-width: 761px) {

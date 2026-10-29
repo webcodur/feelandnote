@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { useTranslations } from 'next-intl'
 import { ExternalLink, Music } from 'lucide-react'
 import { getMediaEmbed, type MediaEmbedResult } from '@/actions/contents/getMediaEmbed'
@@ -9,6 +10,15 @@ import type { ContentType } from '@/types/database'
 interface MediaEmbedProps {
   contentId: string
   type: ContentType
+  showImages?: boolean
+  title?: string
+}
+
+const ContentImageGallery = dynamic(() => import('./ContentImageGallery'))
+
+function MediaGallery({ images, title, type }: { images: string[]; title: string; type: ContentType }) {
+  const t = useTranslations('contentDetail')
+  return <ContentImageGallery images={images} title={title} label={t(type === 'VIDEO' ? 'stills' : 'screenshots')} />
 }
 
 // Apple Music 30초 미리듣기 — 외부 iframe 없이 우리 플레이어로 직접 재생한다.
@@ -41,8 +51,8 @@ function AppleMusicPreview({ src, appleMusicUrl }: { src: string; appleMusicUrl?
   )
 }
 
-export default function MediaEmbed({ contentId, type }: MediaEmbedProps) {
-  const requestKey = `${contentId}:${type}`
+export default function MediaEmbed({ contentId, type, showImages = false, title = '' }: MediaEmbedProps) {
+  const requestKey = `${contentId}:${type}:${showImages}`
   const supportsEmbed = type === 'VIDEO' || type === 'GAME' || type === 'MUSIC'
   const [result, setResult] = useState<{ key: string; embed: MediaEmbedResult | null } | null>(null)
 
@@ -51,7 +61,7 @@ export default function MediaEmbed({ contentId, type }: MediaEmbedProps) {
     if (!supportsEmbed) return
 
     let cancelled = false
-    getMediaEmbed(contentId, type)
+    getMediaEmbed(contentId, type, showImages)
       .then((embed) => {
         if (!cancelled) setResult({ key: requestKey, embed })
       })
@@ -61,7 +71,7 @@ export default function MediaEmbed({ contentId, type }: MediaEmbedProps) {
     return () => {
       cancelled = true
     }
-  }, [contentId, requestKey, supportsEmbed, type])
+  }, [contentId, requestKey, showImages, supportsEmbed, type])
 
   if (!supportsEmbed) return null
 
@@ -85,18 +95,22 @@ export default function MediaEmbed({ contentId, type }: MediaEmbedProps) {
     return <div className="w-full aspect-video rounded-lg bg-white/5 animate-shimmer" />
   }
 
-  if (!embed?.embedType || !embed.embedId) return null
+  if (!embed?.embedId && !embed?.images?.length) return null
 
   return (
-    <div className="w-full aspect-video rounded-lg overflow-hidden">
+    <div className="space-y-5">
+      {showImages && !!embed?.images?.length && <MediaGallery images={embed.images} title={title} type={type} />}
+      {embed?.embedId && <div className="w-full aspect-video rounded-lg overflow-hidden">
       <iframe
         src={`https://www.youtube.com/embed/${embed.embedId}`}
+        title={title ? `${title} · YouTube` : 'YouTube'}
         width="100%"
         height="100%"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
         loading="lazy"
       />
+      </div>}
     </div>
   )
 }

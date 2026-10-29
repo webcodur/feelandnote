@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { createPortal } from "react-dom";
 import { Check, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Copy, Info, Rows3, TextAlignJustify, X } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -288,8 +289,10 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
   const navigationWidth = imageRatio
     ? `max(clamp(5rem, 10vw, 9rem), calc((100cqw - min(100cqw, 100cqh * ${imageRatio})) / 2))`
     : "max(clamp(5rem, 10vw, 9rem), 20%)";
-  const artworkImage = <Image key="current" src={image.url} alt={image.label ?? title} fill unoptimized draggable={false} className="object-contain select-none"
-    onLoad={event => recordImageRatio(image.url, event)} />;
+  const artworkImage = <BlurDissolve key={image.url} className="absolute inset-0" animateOnMount durationMs={300}>
+    <Image src={image.url} alt={image.label ?? title} fill unoptimized draggable={false} className="object-contain select-none"
+      onLoad={event => recordImageRatio(image.url, event)} />
+  </BlurDissolve>;
   const artwork = slideCount === 1 && !isScene ? (
     <button type="button" data-artwork-single-close onClick={onClose} aria-label={tAccess("close")}
       className="absolute inset-0 cursor-zoom-out border border-transparent outline-none hover:border-accent/50 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">

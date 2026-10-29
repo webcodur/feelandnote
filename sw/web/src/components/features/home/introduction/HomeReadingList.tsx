@@ -1,16 +1,26 @@
 'use client'
 
 import useMediaQuery from '@/hooks/useMediaQuery'
+import dynamic from 'next/dynamic'
 import { useId, useState, type KeyboardEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
-import { ArrowRight, BookOpen, Globe2, PenLine, UserRound, type LucideIcon } from 'lucide-react'
+import { ArrowRight, BookOpen, ExternalLink, Globe2, PenLine, UserRound, type LucideIcon } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import CelebAvatarImage from '@/components/ui/CelebAvatarImage'
+import ClippedContentReadingText from '@/components/ui/ClippedContentReadingText'
 import HomeWorkCover from './HomeWorkCover'
 import HomePersonName, { type HomePersonNavigation } from './HomePersonName'
-import type { HomeGraphBranchKey, HomeGraphData } from './types'
+import type { HomeGraphBranchKey, HomeGraphData, HomeGraphItem } from './types'
 import styles from './HomeReadingList.module.css'
+
+const ContentTextModal = dynamic(() => import('@/components/ui/ContentTextModal'))
+
+function sourceHref(value: string | null) {
+  if (!value) return null
+  try { const url = new URL(value); return ['https:', 'http:'].includes(url.protocol) ? url.href : null }
+  catch { return null }
+}
 
 const RELATION_ICONS: Partial<Record<HomeGraphBranchKey, LucideIcon>> = {
   read: BookOpen, appearance: UserRound, authored: PenLine, affiliation: Globe2,
@@ -21,9 +31,11 @@ export default function HomeReadingList({ data, onNavigate }: { data: HomeGraphD
   const { person, branches } = data
   const id = useId()
   const [selected, setSelected] = useState(branches[0].key)
+  const [expanded, setExpanded] = useState<HomeGraphItem | null>(null)
   const [direction, setDirection] = useState(1)
   const reduced = useMediaQuery('(prefers-reduced-motion: reduce)')
   const current = branches.find(branch => branch.key === selected) ?? branches[0]
+  const expandedSource = sourceHref(expanded?.sourceUrl ?? null)
 
   function select(key: HomeGraphBranchKey) {
     setDirection(branches.findIndex(branch => branch.key === key) >= branches.findIndex(branch => branch.key === selected) ? 1 : -1)
@@ -62,7 +74,7 @@ export default function HomeReadingList({ data, onNavigate }: { data: HomeGraphD
             <motion.ul key={current.key} className={styles.books} custom={direction} data-book-items={current.key}
               variants={{ enter: (value: number) => ({ opacity: 0, y: value * 12 }), center: { opacity: 1, y: 0 }, exit: (value: number) => ({ opacity: 0, y: -value * 12 }) }}
               initial="enter" animate="center" exit="exit" transition={{ duration: reduced ? 0 : .17 }}>
-              {current.items.map((item, index) => <motion.li key={item.id}
+              {current.items.map((item, index) => <motion.li key={item.id} className={current.key === 'read' && item.text?.trim() ? styles.withReview : undefined}
                 initial={{ opacity: 0, rotateY: reduced ? 0 : -10, x: reduced ? 0 : 8 }} animate={{ opacity: 1, rotateY: 0, x: 0 }}
                 transition={{ duration: reduced ? 0 : .25, delay: reduced ? 0 : index * .05 }}>
                 <Link href={`/content/${item.id}`} className={styles.book} aria-label={t('openWork', { title: item.title })}>
@@ -70,6 +82,14 @@ export default function HomeReadingList({ data, onNavigate }: { data: HomeGraphD
                   <span className={styles.bookInfo}><strong>{item.title}</strong>{item.creator && <span>{item.creator}</span>}</span>
                   <ArrowRight size={14} aria-hidden className={styles.bookArrow} />
                 </Link>
+                {current.key === 'read' && item.text?.trim() && <div className={styles.review} data-home-book-review>
+                  <ClippedContentReadingText text={item.text} tone="review" className={styles.reviewText}
+                    onClick={() => setExpanded(item)} clickLabel={`${item.title} · ${t('readFull')}`} />
+                  <div className={styles.reviewLinks}>
+                    {sourceHref(item.sourceUrl) && <a href={sourceHref(item.sourceUrl)!} target="_blank" rel="noopener noreferrer"><ExternalLink size={12} aria-hidden />{t('source')}</a>}
+                    <button type="button" onClick={() => setExpanded(item)} aria-haspopup="dialog" aria-label={`${item.title} · ${t('readFull')}`}>{t('readFull')}<ArrowRight size={13} aria-hidden /></button>
+                  </div>
+                </div>}
                 {item.relatedHref && item.relatedLabel && <Link href={item.relatedHref} className={styles.affiliation}
                   aria-label={t('openAffiliation', { name: item.relatedLabel })}>
                   <Globe2 size={16} aria-hidden /><span>{item.relatedLabel}</span>
@@ -81,5 +101,8 @@ export default function HomeReadingList({ data, onNavigate }: { data: HomeGraphD
         </div>
       </div>
     </div>
+    {expanded && <ContentTextModal isOpen onClose={() => setExpanded(null)} title={expanded.title}
+      text={expanded.text ?? ''} tone="review"
+      source={expandedSource ? { href: expandedSource, label: t('source') } : undefined} />}
   </div>
 }

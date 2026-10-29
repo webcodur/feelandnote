@@ -6,6 +6,7 @@ import { ArrowRight, ChevronRight, ExternalLink } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import ClippedContentReadingText from '@/components/ui/ClippedContentReadingText'
 import ContentTextModal from '@/components/ui/ContentTextModal'
+import MediaEmbed from '@/components/features/content/MediaEmbed'
 import HomeWorkCover from './HomeWorkCover'
 import type { HomeGraphBranch, HomeGraphItem, HomeGraphPerson } from './types'
 import styles from './HomeGraphReading.module.css'
@@ -49,6 +50,9 @@ export default function HomeGraphReading({ person, branch, item, onNext }: {
           <Link href={`/content/${item.id}`}>{t('workLink')}<ArrowRight size={15} aria-hidden /></Link>
           {item.relatedHref && <Link href={item.relatedHref}>{t('relatedBooks', { name: item.relatedLabel ?? '' })}<ArrowRight size={15} aria-hidden /></Link>}
         </div>
+        {item.type !== 'BOOK' && <div className={styles.media} data-home-work-media={item.type}>
+          <MediaEmbed key={item.id} contentId={item.id} type={item.type} title={item.title} showImages />
+        </div>}
       </div>
     </div>
     <ContentTextModal isOpen={expanded} onClose={() => setExpanded(false)} title={item.title}

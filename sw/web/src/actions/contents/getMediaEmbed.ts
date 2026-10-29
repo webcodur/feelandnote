@@ -8,6 +8,9 @@ import { createStaticClient } from '@/lib/db/static'
 import { getVideoTrailer } from '@feelandnote/content-search/tmdb'
 import { getGameTrailer } from '@feelandnote/content-search/igdb'
 import { getTrackById } from '@feelandnote/content-search/itunes-music'
+import { fetchContentMetadata } from './fetchContentMetadata'
+import { getContentGalleryImages } from '@/lib/contentBanner'
+import type { ContentMetadata } from '@/types/content'
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
@@ -18,6 +21,7 @@ export type MediaEmbedResult = {
   previewUrl?: string | null
   /** Apple Music의 곡·앨범 페이지 */
   appleMusicUrl?: string | null
+  images?: string[]
 }
 
 /**
@@ -57,7 +61,8 @@ async function resolveMusic(
 
 async function fetchMediaEmbed(
   contentId: string,
-  type: ContentType
+  type: ContentType,
+  includeImages: boolean
 ): Promise<MediaEmbedResult> {
   const none: MediaEmbedResult = { embedType: null, embedId: null }
 
@@ -68,7 +73,7 @@ async function fetchMediaEmbed(
   const db = createStaticClient()
   const { data, error } = await db
     .from('contents')
-    .select('external_id, external_source, metadata')
+    .select('external_id, external_source, type, metadata')
     .eq('id', contentId)
     .single()
 
@@ -76,21 +81,25 @@ async function fetchMediaEmbed(
   throwOnQueryError('매체 재생원 조회', error, { ignoreCodes: [NO_ROWS_CODE] })
 
   const externalId = data?.external_id
-  if (!externalId) return none
+  if (!externalId || data.type !== type) return none
 
   if (type === 'MUSIC') {
     if (data?.external_source !== 'itunes') return none
     return resolveMusic(externalId, data?.metadata as Record<string, unknown> | null)
   }
 
-  if (type === 'VIDEO') {
-    const key = await getVideoTrailer(externalId)
-    return key ? { embedType: 'youtube', embedId: key } : none
-  }
-
-  if (type === 'GAME') {
-    const key = await getGameTrailer(externalId)
-    return key ? { embedType: 'youtube', embedId: key } : none
+  if (type === 'VIDEO' || type === 'GAME') {
+    const storedImages = getContentGalleryImages(type, data.metadata as ContentMetadata | null)
+    const [key, extra] = await Promise.all([
+      type === 'VIDEO' ? getVideoTrailer(externalId) : getGameTrailer(externalId),
+      includeImages && !storedImages.length
+        ? fetchContentMetadata(externalId, type, data.external_source ?? undefined)
+        : Promise.resolve(null),
+    ])
+    const images = includeImages
+      ? (storedImages.length ? storedImages : getContentGalleryImages(type, extra?.metadata as ContentMetadata | null))
+      : undefined
+    return { ...(key ? { embedType: 'youtube' as const, embedId: key } : none), images }
   }
 
   return none
@@ -99,13 +108,14 @@ async function fetchMediaEmbed(
 // DB 조회 + 외부 API(trailer/preview) 결과를 함께 캐시한다
 const getCachedMediaEmbed = unstable_cache(
   fetchMediaEmbed,
-  ['media-embed'],
+  ['media-embed-v2'],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CONTENTS] }
 )
 
 export async function getMediaEmbed(
   contentId: string,
-  type: ContentType
+  type: ContentType,
+  includeImages = false
 ): Promise<MediaEmbedResult> {
-  return getCachedMediaEmbed(contentId, type)
+  return getCachedMediaEmbed(contentId, type, includeImages)
 }
