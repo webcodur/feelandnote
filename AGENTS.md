@@ -60,7 +60,7 @@ Feelandnote는 도서·영상·게임·음악 소비 기록과 인물 기반 큐
 
 - 실행 규약·허용값·임계값은 코드 상수 하나를 SSoT로 두고 화면·서버 액션·스크립트가 import해 사용한다. 문서는 값을 복제하지 않는다.
 - 비밀 파일의 배치·발급·이전·유출 대응은 `docs/project/platform/platform-04-env-vars.md`를 따른다. 비밀값을 문서에 적거나 빈 서식 파일을 만들지 않는다.
-- BOOK 신규 메타는 한국어판 카카오, 영문 원서 OpenLibrary만 쓴다. 네이버 책 API는 되살리지 않는다. Google Books는 소개문 수집에만 예외로 허용하며 조건은 `docs/project/platform/platform-05-external-services.md`가 쥔다.
+- BOOK 신규 메타는 한국어판 카카오, 영문 원서 OpenLibrary만 쓴다(영문판 표지는 같은 판본임을 확인하면 카카오·서점 등 어디서든 보완 가능). 네이버 책 API는 되살리지 않는다. Google Books는 소개문 수집에만 예외로 허용하며 조건은 `docs/project/platform/platform-05-external-services.md`가 쥔다.
 - 셀럽 아바타는 독립된 신원 근거가 있어야 한다. 등록·교체는 `celeb-avatar-register` 스킬과 `docs/project/celeb/celeb-08-01-avatar.md`를 따른다.
 - Google API는 무료 키와 로그인 경로만 쓴다. 결제 계정이 붙은 GCP 프로젝트의 키를 `.env`나 코드에 두지 않고, 유료 Gemini·Vertex·Cloud TTS 호출 코드를 만들지 않는다.
 

@@ -58,7 +58,7 @@ ISBN만 있거나 검색 스니펫·출판사 소개·도서관 소장 정보만
 Amazon 상품 연결·배치 실행·API 이용 조건은 [제휴 상거래의 Amazon 규칙](../operations/ops-03-affiliate-commerce.md#amazon-associates)을 따른다.
 
 - OpenLibrary에서 영문 제목·원저자·ISBN과 본문 언어를 확인한다. ISBN 국가군과 `eng` 태그는 단서일 뿐이며, 판본 제목·출판사·원제·본문 범위를 함께 대조한다. 제목이 영어여도 다른 언어 번역이나 오디오북·해설서이면 원전의 영문 BOOK 판본으로 쓰지 않는다.
-- 표지는 ISBN 기반 OpenLibrary cover를 사용한다. 응답 성공이나 cover ID만으로 채택하지 않고 실제 이미지의 제목·저자·판본을 대조한다. `-1` 같은 결손값, placeholder, 속표지·본문 페이지, 식별할 수 없는 장정 이미지는 표지로 쓰지 않는다. 이전의 `confirmed_unavailable`도 새로 확인한 같은 ISBN의 정상 표지가 있으면 보완한다.
+- 표지는 ISBN 기반 OpenLibrary cover를 사용하고, 없으면 같은 ISBN의 카카오 표지를 쓴다. 둘 다 없으면 같은 판본임을 눈으로 확인한 서점·출판사 표지를 `figure-books:book` 명세의 `en.cover{url,sourceUrl}`로 넣는다(아마존은 `images-na.ssl-images-amazon.com/images/P/<ISBN-10>.01.LZZZZZZZ.jpg`). `sources.thumbnail`에는 표지를 받은 페이지 URL을 남긴다. 응답 성공이나 cover ID만으로 채택하지 않고 실제 이미지의 제목·저자·판본을 대조한다. `-1` 같은 결손값, placeholder, 속표지·본문 페이지, 식별할 수 없는 장정 이미지는 표지로 쓰지 않는다. 이전의 `confirmed_unavailable`도 새로 확인한 같은 ISBN의 정상 표지가 있으면 보완한다.
 - 한 locale 안의 ISBN·표지·출판사·제목은 같은 판본에서 가져온다. ko와 en이 서로 다른 판본인 것은 정상이다.
 - 메타와 표지 출처가 다르면 `sources`에 각각 기록한다. 표지를 확인하지 못하면 `thumbnail_url=null`, `sources.thumbnail='confirmed_unavailable'`로 둔다.
 - 검증 가능한 영문판이 없으면 판본 값을 채우지 않고 표시용 제목 행만 둔다(「한국어판 확인」의 표시용 제목 행 규칙과 같고 배지는 `[no-en]`). 한국어 도서의 영문 표시 제목은 **제목의 뜻을 옮긴 영어 번역 제목**을 기본으로 한다(`translated`). 실제 영문 번역판이 있으면 그 출판 제목을 쓰고(예: 채식주의자 → `The Vegetarian`), 표지에 출판사가 넣은 영문 부제가 있으면 그것을 우선한다. 영어권 관용이 음차 표기를 유지하는 고유명사 제목(예: `Liezi`, `Hong Gildong jeon`)만 `romanized`로 둔다 — 그 밖의 음차 표기는 영어 독자에게 의미 없는 문자열이라 금지한다(26.09.22 사용자 결정). EN 페이지에 한글 제목이 그대로 나가는 쪽이 더 크리티컬하므로 en 표시용 제목을 먼저 채운다.
@@ -126,6 +126,6 @@ ISBN 없는 표시용 한국어 행도 원서의 작품·저자·판본과 실�
 5. 실존 인물 관계의 `source_url`·`review`와 요청 범위의 `review_en`을 함께 저장한다.
 6. 새 행과 재사용한 행을 모두 재조회해 작품·locale·관계가 의도한 ID에 붙었는지 확인한다.
 
-`celeb_contents.status`는 이미 읽거나 보거나 들은 작품이면 `FINISHED`, 앞으로 감상하겠다고 밝힌 작품이면 `WANT`다. 기본 `visibility`는 `public`이다. 수정·삭제할 때는 `celeb_id`와 `content_id`를 함께 지정한다.
+`celeb_contents.status`는 항상 `FINISHED`다. 셀럽의 `WANT` 상태는 폐기했다. 서비스 집계·서재가 `FINISHED`만 세므로 `WANT` 행은 화면에서 빠진다. 앞으로 감상하겠다고 밝힌 작품은 그 사실을 감상배경에 쓴다. 기본 `visibility`는 `public`이다. 수정·삭제할 때는 `celeb_id`와 `content_id`를 함께 지정한다.
 
 첫 `celeb_contents` 연결은 DB 트리거가 `light`를 `full`로 자동 승격하고 0건 확정 시각을 비운다. 별도 수동 승격 UPDATE를 하지 않는다.
