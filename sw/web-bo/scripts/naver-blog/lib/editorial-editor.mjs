@@ -46,6 +46,22 @@ export function createEditorialEditor(page) {
     } finally { await handle.dispose(); }
     // Drag selection can silently collapse inside a long quotation. Shift-click is stable.
     await page.mouse.click(points.start.x, points.start.y);
+    await wait(150);
+    // Placing the caret can scroll the editor. A stale end point lands on the next paragraph,
+    // and typing over that selection merges the two paragraphs, so measure the end again.
+    points.end = await page.evaluate(({ selector, text, occurrence }) => {
+      const p = [...document.querySelectorAll(selector)].filter(p => p.textContent.replace(/\u200b/g, '').trim() === text)[occurrence];
+      if (!p) throw new Error('Paragraph disappeared after placing the caret');
+      const walker = document.createTreeWalker(p, NodeFilter.SHOW_TEXT), nodes = [];
+      while (walker.nextNode()) if (walker.currentNode.textContent.replace(/\u200b/g, '').length) nodes.push(walker.currentNode);
+      const last = nodes.at(-1);
+      let end = last.length;
+      while (last.textContent[end - 1] === '\u200b') end--;
+      const tail = document.createRange(); tail.setStart(last, end - 1); tail.setEnd(last, end);
+      const b = tail.getBoundingClientRect();
+      if (b.top < 125 || b.bottom > innerHeight - 20) throw new Error('Paragraph end moved outside the viewport');
+      return { x: b.right - 1, y: b.top + b.height / 2 };
+    }, { selector, text, occurrence });
     await page.keyboard.down('Shift');
     try { await page.mouse.click(points.end.x, points.end.y); }
     finally { await page.keyboard.up('Shift'); }

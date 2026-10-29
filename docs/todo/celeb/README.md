@@ -5,6 +5,7 @@
 
 | 문서 | 다음 작업 |
 |---|---|
+| [`db-blog-review-handoff.md`](db-blog-review-handoff.md) | 블로그 모든 글·항목과 연결된 DB 감상 재편 — 현재 드러난 문제와 반영되지 않은 교정 인계 |
 | [`viewing-review-verbatim.md`](viewing-review-verbatim.md) | 감상배경 소스 원문 재구축 소급 — 오프라·빌 게이츠·머스크 등 발췌형 기록에 쿠셔닝+구분선 구조 적용 |
 | [`influence-spectrum.md`](influence-spectrum.md) | 영향력·스펙트럼 잔여 검토 — 다른 15축 근거 적정성, 영향력 검사기, 사실성, 검사기 구멍. |
 | [`reading-way-field.md`](reading-way-field.md) | `celebs.reading_way` 독서 방식 필드 기획 — 값 체계·채움 기준·노출 위치 미결 |

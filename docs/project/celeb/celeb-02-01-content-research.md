@@ -103,6 +103,29 @@ BOOK 조사에서는 YES24에서 인물을 찾아 작가 페이지의 **「작�
 
 한국 인물이거나 한국어 자료가 별도로 있을 가능성이 크면 한국어 검색을 보탠다. 최근 검색에서 새 작품이 더 나오지 않고 결과가 같은 작품만 반복하면 종료한다. 고정된 목표 건수를 채우려고 근거가 약한 작품을 넣지 않는다.
 
+### 재큐레이션에서 원출처 추적
+
+재큐레이션 페이지에서 책별 「(Source)」·「source」 링크와 인용 조각을 먼저 모은다. 링크가 없거나 깨졌으면 인용 조각에서 특이한 구절을 따옴표로 묶어 검색한다.
+
+- **아마존이 출처로 걸린 경우**: 재큐레이션의 아마존 링크는 상품 상세 페이지일 뿐이라 무엇을 가리키는지 다시 본다.
+  - 상세 페이지 추천사(Editorial Reviews·Praise)에 인물 이름이 있으면 책 추천사다. 「추천사를 썼다」로 쓰고 상품 페이지를 `source_url`로 둔다. 페이퍼백에 없으면 하드커버·오디오북·킨들 판본을 차례로 연다.
+  - 엉뚱한 상품이 걸리기도 한다(아리아나 허핑턴 『명상록』의 출처가 『Tribe of Mentors』 상품). 이때는 인용 구절로 원출처를 다시 찾는다.
+  - 인물이 직접 쓴 고객 리뷰는 프로필 페이지에 목록이 뜨지 않는다. `amazon.com/product-reviews/<ASIN>/?filterByKeyword=<리뷰 속 특이 낱말>`로 찾고, 리뷰는 판본별 상품에 따로 붙으므로 없으면 다른 ISBN·킨들 ASIN으로 반복한다. 찾으면 작성자명·날짜를 대조하고 `https://www.amazon.com/gp/customer-reviews/<리뷰ID>`를 `source_url`로 둔다.
+- **트윗**: 상태 URL은 insane-search 엔진으로 열면 본문·작성 시각·답글 대상(`parent`)이 나온다. 답글이면 대상 글까지 올라가 질문 맥락을 확보한다. 삭제된 트윗은 `twitter.com/<계정>/status/<ID>` 주소로 웨이백 보관본을 찾는다. 트윗 ID는 출처 링크에서만 가져오고 추정하지 않는다.
+  insane-search가 막히면 `https://api.fxtwitter.com/<계정>/status/<ID>`의 JSON에서 `tweet.text`·`created_at`을 읽는다(26.10.29 타이슨·겔싱어 트윗 확인).
+  - 삭제됐다고 나오는 트윗과 웨이백 보관본은 curl·`archive.org/wayback/available`이 429를 내도 Aside로 `web.archive.org/web/<연도>/https://twitter.com/<계정>/status/<ID>`를 열면 대개 읽힌다. `x.com` 주소로는 보관본이 거의 없다. 보관본이 있으면 그 스냅샷 주소를 `source_url`로 둔다.
+  - 링크 없는 인용문의 트윗은 로그인된 Aside에서 X 검색 `from:<계정> <인용문 낱말>`로 찾는다. 「인기」 탭(`&src=typed_query`)만 옛 트윗을 돌려주고 「최신」(`&f=live`)은 0건이 나온다. 15초 간격으로 십여 번 검색하면 「문제가 발생했습니다」 제한이 걸리므로 1분 간격으로 돌리고, 제한 화면이 나오면 15분 쉰다. 검색 결과에는 낱말 일부만 맞는 다른 트윗도 섞이므로 본문을 인용문과 대조해 고른다. Bing의 `site:x.com` 검색은 옛 트윗을 색인하지 않는다. 계정 이름은 위키데이터 P2002에서 가져온다.
+- **YouTube 자막**: yt-dlp 자막 요청과 YouTube 「스크립트 표시」 패널이 429·무한 로딩으로 막히면, Aside로 `youtubetotranscript.com/transcript?v=<ID>&current_language_code=en`을 열어 자막 전문을 읽는다. 자동 자막에는 화자 표시가 없으므로, 여럿이 말하는 방송에서는 문맥상 화자가 확정될 때만 쓴다.
+- **팀 페리스 쇼**: tim.blog 회차 페이지의 「Selected Links」는 언급된 책 목록일 뿐이다. 발언은 공식 녹취록(`tim.blog/…/the-tim-ferriss-show-transcripts-…/` 또는 `tim.blog/wp-content/uploads/<연>/<월>/<회차>-<이름>.pdf`)에서 확인한다.
+- **원 그랜드 북스**: 명사의 「무인도 책 열 권」 큐레이터 페이지(`onegrandbooks.com/shop/curators/<이름>/`)와 책 페이지의 「Curator Reviews」에 본인이 쓴 한두 문장 추천사가 있다. 원출처로 쓴다.
+- **뉴욕타임스 「By the Book」**: 기사 본문은 구독 벽에 잘려도 Aside로 연 페이지의 `window.__preloadedData`에 문답 전체가 `"text"` 필드로 들어 있다. `JSON.stringify(window.__preloadedData)`에서 `"text":"…"` 조각을 순서대로 뽑아 읽는다.
+- **팟캐스트 회차의 선택 도서**: listennotes는 로그인 벽이 있다. 방송사 회차 페이지(BBC `bbc.co.uk/programmes/<ID>`의 「Cate’s choices」 등)에 인물이 고른 책과 이유가 정리돼 있다.
+- **403·빈 화면**: oprah.com·mountvernon.org·net-a-porter·onegrandbooks처럼 일반 요청을 막는 곳은 Aside로 열어 `document.body.innerText`를 읽는다. Aside에서도 본문이 비면(sierraclub.org) 웨이백 연도 주소 `web.archive.org/web/<연도>/<원 URL>`로 연다.
+- **유료 벽·사라진 기사**: 웨이백 `https://web.archive.org/web/<연도>id_/<원 URL>`로 원문을 연다. 여러 쪽짜리 기사는 `?pagewanted=all`·`?pagewanted=2` 보관본도 확인한다. 주소가 바뀐 기사는 `archive.org/wayback/available?url=` 또는 CDX(`web.archive.org/cdx/search/cdx?url=`)로 보관 시점을 찾는다.
+- **재큐레이션 자체의 과거본**: 현재 페이지에 책이 없으면 같은 페이지의 웨이백 과거본도 본다. 과거본에도 없으면 원래 근거가 없던 관계로 판단한다.
+- **찾을 수 없는 근거**: 인스타그램 스토리·하이라이트는 아카이브에 남지 않는다. Goodreads 사용자 목록, 출처 표시 없는 팬사이트 목록은 원출처가 아니다. 이 경우 관계 처리는 사용자에게 보고한다.
+- **스캔 원본**: 기관 블로그가 손글씨 목록·편지 사진을 실었으면 이미지 원본을 받아 직접 읽고, 목록에 실제로 있는 작품만 쓴다(칼 세이건 1954년 독서 목록, 미국 의회도서관).
+
 독립 대상을 반복 조사하는 배치는 [`RESEARCH_RELAY_ALGORITHM.md`](../../../RESEARCH_RELAY_ALGORITHM.md)를 따른다. 이 작업의 자체검수는 신규 관계마다 `source_url`이 인물과 작품을 실제로 잇는지, 감상경위가 근거 범위를 넘지 않는지 확인하는 것이다.
 
 ## 0건 확정
