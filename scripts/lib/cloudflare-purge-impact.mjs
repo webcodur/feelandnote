@@ -270,6 +270,8 @@ const CONTENT_PREFIXES = [
 ]
 
 const CONTENT_FILES = new Set([
+  // 미디어 재생원은 홈·빠른 기록에도 쓰지만 보관 HTML의 소비자는 작품 상세뿐이다.
+  'sw/web/src/actions/contents/getMediaEmbed.ts',
   // ContentImageGallery의 지연 로드 확대창도 사용한다. 도감 본문 자체는 앞단 캐시가 없다.
   'sw/web/src/components/features/faction/FactionArtworkViewer.tsx',
   'sw/web/src/components/features/faction/FactionArtworkTitle.tsx',

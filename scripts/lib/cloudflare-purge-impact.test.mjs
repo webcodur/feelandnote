@@ -102,6 +102,14 @@ test('atlas artwork also reaches the cached content gallery through its dynamic 
   ]) assert.deepEqual(classifyCloudflarePurgeImpact([file]).scopes, ['content'])
 })
 
+test('media embeds refresh cached content detail without purging uncached home consumers', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/actions/contents/getMediaEmbed.ts',
+    'sw/web/src/components/features/content/MediaEmbed.tsx',
+    'sw/web/src/components/features/home/introduction/HomeGraphReading.tsx',
+  ]).scopes, ['content'])
+})
+
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
 test('scroll fixes refresh cached consumers while myth game frames need no HTML purge', () => {
