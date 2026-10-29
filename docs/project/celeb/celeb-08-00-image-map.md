@@ -21,7 +21,7 @@ R2에 등록한 인물 이미지의 단일 원천은 서버 파일이며, DB의 
 |---|---|---|---|
 | 아바타 | `celebs.avatar_url` | R2 `celebs/{id}/avatar.webp`; 원형·작은 카드·식별자 | [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md), `celeb-avatar-register` 스킬 |
 | 아바타 작은 판 | 원본 아바타에서 파생 | 같은 R2 경로의 `avatar-sm.webp`; 작은 고정 크기 카드 | `packages/shared/src/constants/celeb-avatar-small.ts` |
-| 대표 사진 | `celebs.portrait_url`, `portrait_caption(_en)` | R2 `celebs/{id}/photo.webp`; 인물 상세 입장부 | [`celeb-08-02-hero-photo.md`](celeb-08-02-hero-photo.md), `CELEB_HERO_PHOTO_SPEC` |
+| 대표 사진 | `celebs.portrait_url` | R2 `celebs/{id}/photo.webp`; 인물 상세 입장부 | [`celeb-08-02-hero-photo.md`](celeb-08-02-hero-photo.md), `CELEB_HERO_PHOTO_SPEC` |
 | 각성 이미지 | `celebs.awakened_image_url` | R2 `celebs/{id}/awakened.webp`; 사용자 웹 소비 방식은 미확정 | 편집·표시·저장 규격은 [`CELEB_AWAKENED_IMAGE_SPEC`](../../../sw/web-bo/src/lib/celeb-awakened-image.ts), 사용자 웹 도입은 [`../../todo/celeb/README.md`](../../todo/celeb/README.md) |
 | 세력도감 개인화보 | `faction_members.image_url` | R2 `faction/{lv2Id}/celeb-{celebId}.webp`; 화면은 `faction_member_rows` 뷰에서 읽고 원본 비율로 표시 | [이미지 생성·발주 규칙](../production/prod-01-image-generation.md) |
 | 세력도감 테마 이미지·기존 묶음 | `faction_lv2.team_images` | R2 `faction/{lv2Id}/team/…`; 표지·주요 장면과 기존 사진 묶음. 서비스 표시와 묶음 처리는 [`service-01-explore.md`](../service/service-01-explore.md) 「세력도감」이 쥔다 | 표지는 `faction-image` 스킬, 주요 장면은 [이미지 생성·발주 규칙](../production/prod-01-image-generation.md) |
@@ -34,7 +34,6 @@ R2에 등록한 인물 이미지의 단일 원천은 서버 파일이며, DB의 
 
 - 인물 상세 대표 사진은 `portrait_url`을 우선하고, 없으면 연결된 세력도감 개인화보를 사용한다. 둘 다 없으면 상단은 아바타 레이아웃으로 바뀐다.
 - 세력도감 큰 인물 자리는 개인화보가 없으면 아바타로 물러난다.
-- 대표 사진에서 fallback 개인화보를 사용하면 `portrait_caption(_en)`을 표시하지 않는다. 그 캡션은 대표 사진 원본만 설명한다.
 
 ## 불변사항
 

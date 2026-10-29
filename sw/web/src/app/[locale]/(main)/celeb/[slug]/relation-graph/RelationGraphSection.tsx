@@ -15,6 +15,7 @@ import useRelationDialogue from "@/hooks/useRelationDialogue";
 import { graphStageHeight } from "./graphLayout";
 import { useNearViewport } from "@/components/ui/pending";
 import useViewportAnchor from "./useViewportAnchor";
+import { wikidataQidOf } from "@feelandnote/shared/constants/celeb-wikidata";
 
 const RelationDiagram = dynamic(() => import("./RelationDiagram"), {
   ssr: false,
@@ -118,7 +119,7 @@ export default function RelationGraphSection({
     nationality: centerProfile.nationality ?? null,
     birthDate: centerProfile.birth_date ?? null,
     deathDate: centerProfile.death_date ?? null,
-    qid: centerProfile.wikidata_qid ?? null,
+    qid: wikidataQidOf(centerProfile.wikidata_qid),
   } : null;
   const centerSpeaker = centerPerson ? stateFor(centerPerson) : null;
 

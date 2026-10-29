@@ -10,8 +10,7 @@ type IdentityRow = Omit<PublicCelebBySlugData['profile'], 'selected_title'>
 export type CelebIdentity = Pick<CelebBySlugProfile,
   'id' | 'slug' | 'nickname' | 'nickname_en' | 'nickname_ko' | 'avatar_url' | 'bio' |
   'profession' | 'title' | 'title_en' | 'title_ko' | 'headline' | 'nationality' | 'birth_date' | 'death_date' |
-  'celeb_tier' | 'celeb_reality' | 'photo_url' | 'photo_caption' | 'photo_caption_en' |
-  'translationFallbacks'>
+  'celeb_tier' | 'celeb_reality' | 'photo_url' | 'translationFallbacks'>
 
 export function normalizeCelebSlug(raw: string): string {
   let value = raw
@@ -20,10 +19,10 @@ export function normalizeCelebSlug(raw: string): string {
 }
 
 const fetchIdentityRow = cache(async (slug: string): Promise<IdentityRow | null> => {
-  return cachedDetail(CACHE_TAGS.CELEBS, slug, ['celeb-identity-v2-reading-way', slug], async () => {
+  return cachedDetail(CACHE_TAGS.CELEBS, slug, ['celeb-identity-v3-no-caption', slug], async () => {
     const db = createStaticClient()
     const { data, error } = await db.from('celebs')
-      .select('id,slug,nickname,nickname_en,aliases,avatar_url,bio,bio_en,profession,title,title_en,headline,headline_en,nationality,birth_date,death_date,is_verified,created_at,has_voice,voice_v,voice_speed,wikidata_qid,celeb_tier,celeb_reality,content_research_confirmed_empty_at,view_count,portrait_url,portrait_caption,portrait_caption_en,virtual_monologue,virtual_monologue_en,reading_way,reading_way_en')
+      .select('id,slug,nickname,nickname_en,aliases,avatar_url,bio,bio_en,profession,title,title_en,headline,headline_en,nationality,birth_date,death_date,is_verified,created_at,has_voice,voice_v,voice_speed,wikidata_qid,celeb_tier,celeb_reality,content_research_confirmed_empty_at,view_count,portrait_url,virtual_monologue,virtual_monologue_en,reading_way,reading_way_en')
       .eq('slug', slug).eq('publication_status', 'active').maybeSingle()
     throwOnQueryError('celeb-identity', error)
     return data as IdentityRow | null
@@ -54,7 +53,6 @@ export async function getCelebIdentity(slug: string, locale: string): Promise<Ce
     nationality: row.nationality, birth_date: row.birth_date, death_date: row.death_date,
     celeb_tier: row.celeb_tier as CelebBySlugProfile['celeb_tier'],
     celeb_reality: row.celeb_reality as CelebBySlugProfile['celeb_reality'],
-    photo_url: row.portrait_url, photo_caption: row.portrait_caption,
-    photo_caption_en: row.portrait_caption_en, translationFallbacks,
+    photo_url: row.portrait_url, translationFallbacks,
   }
 }

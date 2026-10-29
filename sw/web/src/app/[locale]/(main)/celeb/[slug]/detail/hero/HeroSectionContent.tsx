@@ -89,7 +89,6 @@ export default function CelebHeroSection({
             <HeroPhoto
               profile={profile}
               nickname={profile.nickname}
-              locale={locale}
               frame={worldStyle.frame}
               hasGreetingAudio={hasGreetingAudio}
               isVoiceActive={isVoiceActive}

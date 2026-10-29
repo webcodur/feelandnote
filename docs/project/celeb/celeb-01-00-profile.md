@@ -9,7 +9,7 @@
   "nickname": "한국어 이름",
   "nickname_en": "영문 이름",
   "aliases": ["다른 이름"],
-  "wikidata_qid": "Q번호 또는 빈 문자열",
+  "wikidata_qid": "Q번호, 없음이 확인되면 NONE, 미확신이면 빈 문자열",
   "profession": "직군 코드",
   "nationality": "ISO 3166-1 alpha-2 국가 코드",
   "gender": true,
@@ -26,7 +26,7 @@
 ```
 
 - 새 인물은 값을 만들기 전에 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md) 「중복 확인」으로 같은 사람이 이미 있는지 본다.
-- `aliases`는 「다른 이름」 기준으로 고르고 없으면 빈 배열이다. `wikidata_qid`는 확신할 때만 쓴다.
+- `aliases`는 「다른 이름」 기준으로 고르고 없으면 빈 배열이다. `wikidata_qid`는 확신할 때만 쓰며, 값 규칙은 [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md) 「Wikidata QID」를 따른다.
 - `gender`는 남성 `true`, 여성 `false`, 판정 불가·해당 없음은 `null`이다.
 - 기원전 연도는 음수로 쓴다.
 - 값 안의 큰따옴표는 작은따옴표로 바꿔 JSON을 깨뜨리지 않는다.

@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] hero — 줌·사진 영역
  * - 목차 위치: 머리말(본문 앞, 목차 밖)
- * - 데이터: profile/nickname/locale + 음성 상태(onGreet/isVoiceActive)
+ * - 데이터: profile/nickname + 음성 상태(onGreet/isVoiceActive)
  * - 함께 보기: HeroSectionContent.tsx, useCelebVoice.ts, HeroIdentity.tsx
  * ───────────────────────────────────────────── */
 "use client";
@@ -12,7 +12,6 @@ import { useTranslations } from "next-intl";
 import CelebWorldFrame from "@/components/features/celeb/CelebWorldFrame";
 import type { WorldFrame } from "@/lib/celeb/worldStyle";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
-import type { Locale } from "@/types/locale";
 
 import CelebPortrait from "@/components/shared/CelebPortrait";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
@@ -32,9 +31,8 @@ function MaybeWorldFrame({ frame, framed, children }: MaybeWorldFrameProps) {
 }
 
 interface HeroPhotoProps {
-  profile: Pick<CelebBySlugProfile, 'photo_url' | 'avatar_url' | 'photo_caption' | 'photo_caption_en'>;
+  profile: Pick<CelebBySlugProfile, 'photo_url' | 'avatar_url'>;
   nickname: string;
-  locale: Locale;
   frame: WorldFrame;
   hasGreetingAudio: boolean;
   isVoiceActive: boolean;
@@ -44,7 +42,6 @@ interface HeroPhotoProps {
 export default function HeroPhoto({
   profile,
   nickname,
-  locale,
   frame,
   hasGreetingAudio,
   isVoiceActive,
@@ -55,11 +52,6 @@ export default function HeroPhoto({
 
   /* ── 2. 줌 대상 파생값 ── */
   const zoomImageUrl = profile.photo_url ?? profile.avatar_url ?? null;
-  const zoomCaption = profile.photo_url
-    ? (locale === "en"
-        ? profile.photo_caption_en ?? profile.photo_caption
-        : profile.photo_caption) ?? null
-    : null;
 
   const greetLabel = hasGreetingAudio
     ? t("playGreetingVoice")
@@ -75,7 +67,6 @@ export default function HeroPhoto({
             avatarUrl={profile.avatar_url}
             nickname={nickname}
             zoomSrc={zoomImageUrl}
-            zoomCaption={zoomCaption}
             zoomLabel={t("enlargePhoto")}
             hasVoice={hasGreetingAudio}
             isVoicePlaying={isVoiceActive}
@@ -110,7 +101,7 @@ export default function HeroPhoto({
           </button>
         )}
         {profile.photo_url && photoOpen && (
-          <ImageViewerModal src={profile.photo_url} alt={nickname} caption={zoomCaption}
+          <ImageViewerModal src={profile.photo_url} alt={nickname}
             isOpen={photoOpen} onClose={() => setPhotoOpen(false)} showImageShadow={false} closeOnImageClick />
         )}
       </div>

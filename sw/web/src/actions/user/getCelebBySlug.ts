@@ -2,6 +2,7 @@
 import { cache } from 'react'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
+import { wikidataQidOf } from '@feelandnote/shared/constants/celeb-wikidata'
 import {
   CELEB_RELATION_TYPE_ORDER,
   celebRelationDisplayType,
@@ -169,8 +170,6 @@ export interface PublicCelebBySlugData {
     content_research_confirmed_empty_at: string | null
     view_count: number | null
     portrait_url: string | null
-    portrait_caption: string | null
-    portrait_caption_en: string | null
     virtual_monologue: string | null
     virtual_monologue_en: string | null
     reading_way: string | null
@@ -189,9 +188,6 @@ export interface PublicCelebBySlugData {
   relations: CelebRelationItem[]
   /** 상단 대표 화보(PC 세로형). 전용 화보가 없으면 세력도감 화보를 끌어다 쓴다 */
   photoUrl: string | null
-  /** 그 화보가 그린 순간을 적은 한 줄. 비어 있으면 화면에 아무것도 뜨지 않는다 */
-  photoCaption: string | null
-  photoCaptionEn: string | null
 }
 
 async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugData | null> {
@@ -278,10 +274,10 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .from('celeb_relations_external')
       .select('rel_type, rel_group, qid, name_ko, name_en, image_url, note, note_en')
       .eq('from_id', celebId),
-    profile.wikidata_qid
+    wikidataQidOf(profile.wikidata_qid)
       ? relationDb.from('celeb_relations_external')
         .select('from_id,rel_type,rel_group,from:celebs!celeb_rel_external_celebs_fkey(wikidata_qid)')
-        .eq('qid', profile.wikidata_qid)
+        .eq('qid', wikidataQidOf(profile.wikidata_qid)!)
         .overrideTypes<{ from_id: string; rel_type: string; rel_group: string | null; from: { wikidata_qid: string | null } | null }[], { merge: false }>()
       : Promise.resolve({ data: [], error: null }),
     db
@@ -348,18 +344,21 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
   for (const row of incomingExternalRelationsResult.data ?? []) {
     if (!isCelebFamilyRelation(row.rel_type, row.rel_group)) continue
     familyIds.add(row.from_id)
-    if (row.from?.wikidata_qid) familyQids.add(row.from.wikidata_qid)
+    const fromQid = wikidataQidOf(row.from?.wikidata_qid)
+    if (fromQid) familyQids.add(fromQid)
   }
   for (const row of rawRelations) {
     if (!isCelebFamilyRelation(row.rel_type, row.rel_group)) continue
     const target = row.from_id === celebId ? row.to : row.from
-    if (target?.wikidata_qid) familyQids.add(target.wikidata_qid)
+    const targetQid = wikidataQidOf(target?.wikidata_qid)
+    if (targetQid) familyQids.add(targetQid)
   }
   const internalRelations: CelebRelationItem[] = mergeRelationRowsForViewer(rawRelations, celebId)
     .flatMap((relation) => {
       const target = relationProfiles.get(relation.counterpartId)
       if (!target) return []
-      if (relation.relGroup !== 'family' && (familyIds.has(target.id) || (target.wikidata_qid && familyQids.has(target.wikidata_qid)))) return []
+      const targetQid = wikidataQidOf(target.wikidata_qid)
+      if (relation.relGroup !== 'family' && (familyIds.has(target.id) || (targetQid && familyQids.has(targetQid)))) return []
       return [{
       relType: relation.relType,
       relGroup: relation.relGroup,
@@ -374,7 +373,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       birth_date: target.birth_date,
       death_date: target.death_date,
       // 등록 인물도 관계 카드에서 본 카드와 위키데이터 원본을 함께 제공한다.
-      qid: target.wikidata_qid,
+      qid: targetQid,
       note: relation.note,
       note_en: relation.noteEn,
     }]
@@ -424,9 +423,6 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     relations,
     // 전용 화보 → 세력도감 화보(정렬 첫 장) 순. 둘 다 없으면 화면이 얼굴 사진으로 돌아간다
     photoUrl: profile.portrait_url ?? factions.find((t) => t.factionImageUrl)?.factionImageUrl ?? null,
-    // 설명은 전용 화보에만 붙는다. 세력도감 화보를 끌어다 쓴 경우에는 그 그림의 설명이 아니므로 비운다
-    photoCaption: profile.portrait_url ? profile.portrait_caption ?? null : null,
-    photoCaptionEn: profile.portrait_url ? profile.portrait_caption_en ?? null : null,
   }
 }
 
@@ -438,7 +434,7 @@ const getCelebBySlugCached = (slug: string) =>
     CACHE_TAGS.CELEBS,
     slug,
     // 가족과 네 사회 축을 함께 표시하되 가족 쌍의 사회 중복은 제외한다.
-    ['celeb-by-slug-v17-reading-way', slug],
+    ['celeb-by-slug-v18-no-caption', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )
@@ -461,9 +457,6 @@ export type CelebBySlugProfile = PublicUserProfile & {
   relations: CelebRelationItem[]
   /** 상단 대표 화보(PC 세로형). 없으면 null이라 화면이 얼굴 사진으로 돌아간다 */
   photo_url: string | null
-  /** 그 화보가 그린 순간 한 줄. 비면 크게 보기에 아무것도 뜨지 않는다. 캐시가 언어를 안 타므로 둘 다 내리고 화면에서 고른다 */
-  photo_caption: string | null
-  photo_caption_en: string | null
   reading: {
     guide: string
   } | null
@@ -552,7 +545,8 @@ async function getCelebBySlugInner(
       has_voice: profile.has_voice ?? false,
       voice_v: profile.voice_v ?? 0,
       voice_speed: profile.voice_speed ?? 1.0,
-      wikidata_qid: profile.wikidata_qid ?? null,
+      // 화면·링크·필모그래피는 실제 항목만 쓴다. 없음 표시(NONE)는 null로 내린다.
+      wikidata_qid: wikidataQidOf(profile.wikidata_qid),
       celeb_tier: ((profile.celeb_tier as CelebTier) ?? 'full'),
       celeb_reality: ((profile.celeb_reality as CelebReality) ?? 'REAL'),
       view_count: profile.view_count ?? 0,
@@ -561,8 +555,6 @@ async function getCelebBySlugInner(
       factions: pub.factions ?? [],
       relations: pub.relations ?? [],
       photo_url: pub.photoUrl ?? null,
-      photo_caption: pub.photoCaption ?? null,
-      photo_caption_en: pub.photoCaptionEn ?? null,
       reading: pub.explanation
         ? {
             guide: resolve('personGuide', pub.explanation.plain_text_en, pub.explanation.plain_text),

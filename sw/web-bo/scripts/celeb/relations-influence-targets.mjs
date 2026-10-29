@@ -2,6 +2,7 @@
 import { parseArgs } from 'node:util'
 import { createClient } from '@feelandnote/db'
 import { canonicalizeCelebRelationAxis, celebRelationAxis, celebRelationPairKey, isCelebFamilyRelation } from '@feelandnote/shared/constants/celeb-relations'
+import { wikidataQidOf } from '@feelandnote/shared/constants/celeb-wikidata'
 
 const { values } = parseArgs({ options: {
   limit: { type: 'string', default: '10' },
@@ -49,7 +50,7 @@ function percentileMap(value) {
 const viewRank = percentileMap(p => Number(p.view_count ?? 0))
 const influenceRank = percentileMap(p => scoreById.get(p.id) ?? 0)
 const counts = new Map(real.map(p => [p.id, { influence_sources: 0, influence_recipients: 0 }]))
-const peopleByQid = new Map(people.filter(p => p.wikidata_qid).map(p => [p.wikidata_qid, p]))
+const peopleByQid = new Map(people.flatMap(p => { const qid = wikidataQidOf(p.wikidata_qid); return qid ? [[qid, p]] : [] }))
 const familyPairs = new Set(relations
   .filter(r => isCelebFamilyRelation(r.rel_type, r.rel_group))
   .map(r => celebRelationPairKey(r.from_id, r.to_id)))

@@ -98,7 +98,8 @@ writeFileSync(resolve(LEDGER, 'wikidata-qid-backfill-pass2.json'), JSON.stringif
 if (APPLY) {
   let done = 0
   for (const m of matched) {
-    const { error } = await db.from('celebs').update({ wikidata_qid: m.qid }).eq('id', m.celeb_id)
+    // 빈 값만 채운다. 검증된 QID와 없음 확인(NONE)은 덮어쓰지 않는다.
+    const { error } = await db.from('celebs').update({ wikidata_qid: m.qid }).eq('id', m.celeb_id).is('wikidata_qid', null)
     if (error) console.log('DB 실패', m.nick, error.message)
     else done++
   }

@@ -17,7 +17,7 @@
 | 수식어 | `title(_en)` | [`celeb-01-03-title.md`](../celeb/celeb-01-03-title.md) |
 | 티어·공개 | `celeb_tier`, `publication_status`, `content_research_confirmed_empty_at` | [`celeb-00-01-pipeline.md`](../celeb/celeb-00-01-pipeline.md) · [`celeb-00-05-publication.md`](../celeb/celeb-00-05-publication.md) |
 | 실존 표시 | `celeb_reality`(`REAL`·`BOTH`·`FICTION`, DB CHECK `celebs_celeb_reality_check`) — `celeb_tier`와 독립된 축. 파이프라인이 아니라 세상이 그 인물을 실존·가상 중 어느 쪽으로 보는지만 나타낸다 | [`celeb-00-01-pipeline.md`](../celeb/celeb-00-01-pipeline.md) |
-| 이미지 | `avatar_url`, `portrait_url`, `portrait_caption(_en)`, `awakened_image_url` | [`celeb-08-00-image-map.md`](../celeb/celeb-08-00-image-map.md) |
+| 이미지 | `avatar_url`, `portrait_url`, `awakened_image_url` | [`celeb-08-00-image-map.md`](../celeb/celeb-08-00-image-map.md) |
 | 발화·음성 | `speech_tone`, `has_voice`, `voice_id_ko`, `voice_id_en`, `voice_v`, `voice_speed` | [`celeb-04-01-speech.md`](../celeb/celeb-04-01-speech.md) · `celeb-dialogue-voice-publish` 스킬 |
 | 가상독백 | `virtual_monologue(_en)`, `virtual_monologue_locked_at` | [`celeb-04-03-virtual-monologue.md`](../celeb/celeb-04-03-virtual-monologue.md) |
 

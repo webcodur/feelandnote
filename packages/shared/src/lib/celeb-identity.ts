@@ -6,6 +6,8 @@
  * celeb-01-03-title.md 「대표작 표기」가 쥔다. 여기서는 사람이 판정하기 전에 걸러낼 수 있는 것만 본다.
  */
 
+import { wikidataQidOf } from '../constants/celeb-wikidata'
+
 /** `title`은 대개 이 길이 안에서 끝낸다. 넘으면 경고만 한다(뜻을 훼손하면서 줄이지 않는다). */
 export const CELEB_TITLE_LENGTH = { min: 2, max: 12 } as const
 
@@ -131,7 +133,8 @@ function identityKeys(row: CelebIdentityRow): { qid: string | null; dates: strin
   const death = row.death_date?.trim() ?? ''
   const fullBirth = FULL_DATE.test(birth)
   return {
-    qid: row.wikidata_qid?.trim().toUpperCase() || null,
+    // 없음 표시(NONE)는 여러 인물이 공유하므로 같은 사람의 근거가 아니다.
+    qid: wikidataQidOf(row.wikidata_qid),
     dates: fullBirth && FULL_DATE.test(death) ? `${birth}|${death}` : null,
     birth: fullBirth && !death ? birth : null,
     names: nameKeys(row),

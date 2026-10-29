@@ -1111,8 +1111,6 @@ export type Database = {
           nationality: string | null
           nickname: string
           nickname_en: string | null
-          portrait_caption: string | null
-          portrait_caption_en: string | null
           portrait_url: string | null
           profession: string | null
           publication_status: string
@@ -1155,8 +1153,6 @@ export type Database = {
           nationality?: string | null
           nickname: string
           nickname_en?: string | null
-          portrait_caption?: string | null
-          portrait_caption_en?: string | null
           portrait_url?: string | null
           profession?: string | null
           publication_status?: string
@@ -1199,8 +1195,6 @@ export type Database = {
           nationality?: string | null
           nickname?: string
           nickname_en?: string | null
-          portrait_caption?: string | null
-          portrait_caption_en?: string | null
           portrait_url?: string | null
           profession?: string | null
           publication_status?: string

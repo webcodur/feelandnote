@@ -9,6 +9,7 @@ import {
   celebRelationPairKey,
   isCelebFamilyRelation,
 } from '@feelandnote/shared/constants/celeb-relations'
+import { wikidataQidOf } from '@feelandnote/shared/constants/celeb-wikidata'
 
 export type RelationFact = { from_id: string; to_id: string; rel_type: string; rel_group?: string | null }
 export type RelationPerson = {
@@ -22,7 +23,8 @@ export function externalFamilyRelationFacts(
 ): RelationFact[] {
   const byQid = new Map<string, string[]>()
   for (const person of people) {
-    if (person.wikidata_qid) byQid.set(person.wikidata_qid, [...(byQid.get(person.wikidata_qid) ?? []), person.id])
+    const qid = wikidataQidOf(person.wikidata_qid)
+    if (qid) byQid.set(qid, [...(byQid.get(qid) ?? []), person.id])
   }
   return rows.flatMap(row => isCelebFamilyRelation(row.rel_type, row.rel_group)
     ? (byQid.get(row.qid) ?? []).map(to_id => ({

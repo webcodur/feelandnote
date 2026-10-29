@@ -13,6 +13,7 @@
 
 import { canonicalizeCelebRelationAxis, celebRelationPairKey, isCelebFamilyRelation, CELEB_FAMILY_RELATION_TYPES } from '@feelandnote/shared/constants/celeb-relations'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { wikidataQidOf } from '@feelandnote/shared/constants/celeb-wikidata'
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { cachedList, STATIC_REVALIDATE } from '@/lib/cache'
@@ -151,7 +152,7 @@ export async function getRelationShapes(): Promise<RelationShapes> {
   const familyPairs = new Set(relations
     .filter(row => isCelebFamilyRelation(row.rel_type, row.rel_group))
     .map(row => celebRelationPairKey(row.from_id, row.to_id)))
-  const byQid = new Map(celebs.filter(c => c.wikidata_qid).map(c => [c.wikidata_qid, c.id]))
+  const byQid = new Map(celebs.flatMap(c => { const qid = wikidataQidOf(c.wikidata_qid); return qid ? [[qid, c.id] as const] : [] }))
   for (const row of externalRelations) {
     if (!isCelebFamilyRelation(row.rel_type, row.rel_group)) continue
     const targetId = byQid.get(row.qid)

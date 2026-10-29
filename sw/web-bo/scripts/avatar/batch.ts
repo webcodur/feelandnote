@@ -29,6 +29,7 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { createClient } from '@feelandnote/db'
 import sharp from 'sharp'
 import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
+import { WIKIDATA_QID_NONE, wikidataQidOf } from '@feelandnote/shared/constants/celeb-wikidata'
 import { uploadAvatarVariants } from '../../src/lib/avatar-small'
 import { readFileSync, appendFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
@@ -590,7 +591,11 @@ async function processOne(
   // 우선순위: 기존 DB QID의 P18 → 검색 hits 중 P18 보유 인간 → 검색 hits 중 인간의 enwiki pageimage 폴백.
   type Detail = EntityClaims & { qid: string; commonsFile: string; source: 'P18' | 'enwiki_pageimage' }
   let detail: Detail | null = null
-  const existing = profile.wikidata_qid?.trim()
+  // Wikidata에 항목이 없음이 확인된 인물은 자동 검색하지 않는다(단건 upload.ts 경로).
+  if (profile.wikidata_qid?.trim() === WIKIDATA_QID_NONE) {
+    return { kind: 'skipped', reason: 'confirmed_no_qid', detail: 'Wikidata 항목 없음이 확인된 인물 — upload.ts --image-url로 등록' }
+  }
+  const existing = wikidataQidOf(profile.wikidata_qid) ?? undefined
   let qidReassigned = false
 
   async function evaluate(qid: string): Promise<Detail | null> {

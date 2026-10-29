@@ -36,7 +36,7 @@
 - 신원·원본·구도 판정은 [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md), 실행은 `celeb-avatar-register` 스킬이 쥔다.
 - 대량 자동 수집은 `scripts/avatar/batch.ts --scan-db`다. 라이브 등록 전 **신원 감사**가 필수다 — 위키데이터 이름 검색은 동명이인을 잘못 집는다(실측: 드라이런 성공분의 상당수가 다른 인물의 사진이었다). Commons 파일 페이지의 설명·depicts로 실제 인물을 대조하고, 오인 건은 `--exclude-file`로 뺀다.
 - 라이브 등록은 DB에 사전 검증된 `wikidata_qid`가 있어야 한다(`missing_verified_qid` 차단). 감사를 통과한 인물의 QID를 `celebs.wikidata_qid`에 먼저 기록한 뒤 돌린다.
-- 자동 경로가 빠진 인물(no_qid·no_p18·face_not_detected)은 단건 `upload.ts --image-url`로 간다 — `--identity-evidence`에 그 인물을 특정하는 독립 근거 URL이 필요하다.
+- 자동 경로가 빠진 인물(no_qid·confirmed_no_qid·no_p18·face_not_detected)은 단건 `upload.ts --image-url`로 간다 — `--identity-evidence`에 그 인물을 특정하는 독립 근거 URL이 필요하다.
 - 등록 배치마다 정규화(빛 방향 통일·재배치)까지 끝낸다. `celeb-avatar-reframe` 스킬.
 
 ## 5. 콘텐츠

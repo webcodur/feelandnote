@@ -3,6 +3,7 @@
  */
 import { createClient } from '@feelandnote/db'
 import { canonicalizeCelebRelation, celebRelationInputGroup, celebRelationFactKey, isCelebFamilyRelation, CELEB_RELATION_AXES, celebRelationPairKey, preferSpecificCelebRelationType, type CelebRelationInputType } from '@feelandnote/shared/constants/celeb-relations'
+import { wikidataQidOf } from '@feelandnote/shared/constants/celeb-wikidata'
 import { config } from 'dotenv'
 import { resolve } from 'node:path'
 import { parseArgs } from 'node:util'
@@ -68,8 +69,9 @@ async function run() {
   const celebs = await loadCelebs()
   const holders = new Map<string, Row[]>()
   for (const person of celebs) {
-    if (!person.wikidata_qid) continue
-    holders.set(person.wikidata_qid, [...(holders.get(person.wikidata_qid) ?? []), person])
+    const qid = wikidataQidOf(person.wikidata_qid)
+    if (!qid) continue
+    holders.set(qid, [...(holders.get(qid) ?? []), person])
   }
   const byQid = new Map<string, Row>()
   let duplicateQids = 0

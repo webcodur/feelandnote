@@ -1,6 +1,7 @@
 'use server'
 
 import { canonicalizeCelebRelation, canonicalizeCelebRelationAxis, celebRelationDisplayType, celebRelationDisplayGroup, celebRelationCounterpartId, celebRelationPairKey, celebRelationTypeForViewer, isCelebFamilyRelation } from '@feelandnote/shared/constants/celeb-relations'
+import { wikidataQidOf } from '@feelandnote/shared/constants/celeb-wikidata'
 import { createAdminClient } from '@/lib/db/admin'
 import { getTimelineEvents, type TimelineEvent } from './timeline'
 
@@ -97,16 +98,18 @@ export async function getCelebLinkedData(celebId: string): Promise<CelebLinkedDa
     .filter(row => isCelebFamilyRelation(row.rel_type, row.rel_group)).map(row => row.qid))
   const familyIds = new Set<string>()
   const incomingFamily: LinkedRelation[] = []
-  if (profileRow.data?.wikidata_qid) {
+  const profileQid = wikidataQidOf(profileRow.data?.wikidata_qid)
+  if (profileQid) {
     const incoming = await admin.from('celeb_relations_external')
       .select('from_id,rel_type,rel_group,note,from:celebs!celeb_rel_external_celebs_fkey(nickname,slug,wikidata_qid)')
-      .eq('qid', profileRow.data.wikidata_qid)
+      .eq('qid', profileQid)
       .overrideTypes<{ from_id: string; rel_type: string; rel_group: string | null; note: string | null; from: { nickname: string; slug: string | null; wikidata_qid: string | null } | null }[], { merge: false }>()
     if (incoming.error) throw new Error(`역방향 외부 가족 조회 실패: ${incoming.error.message}`)
     for (const row of incoming.data ?? []) {
       if (!isCelebFamilyRelation(row.rel_type, row.rel_group)) continue
       familyIds.add(row.from_id)
-      if (row.from?.wikidata_qid) familyQids.add(row.from.wikidata_qid)
+      const fromQid = wikidataQidOf(row.from?.wikidata_qid)
+      if (fromQid) familyQids.add(fromQid)
       incomingFamily.push({
         counterpart_id: row.from_id,
         counterpart_nickname: row.from?.nickname ?? '(삭제된 인물)',
@@ -118,7 +121,7 @@ export async function getCelebLinkedData(celebId: string): Promise<CelebLinkedDa
   }
   for (const row of relRows.data ?? []) {
     if (!isCelebFamilyRelation(row.rel_type, row.rel_group)) continue
-    const qid = counterparts.get(row.from_id === celebId ? row.to_id : row.from_id)?.wikidata_qid
+    const qid = wikidataQidOf(counterparts.get(row.from_id === celebId ? row.to_id : row.from_id)?.wikidata_qid)
     if (qid) familyQids.add(qid)
   }
   const relations: LinkedRelation[] = [
@@ -135,7 +138,8 @@ export async function getCelebLinkedData(celebId: string): Promise<CelebLinkedDa
       if (!family && familyIds.has(counterpartId)) return []
       const relType = celebRelationTypeForViewer(axis, celebId)!
       const counterpart = counterparts.get(counterpartId)
-      if (!family && counterpart?.wikidata_qid && familyQids.has(counterpart.wikidata_qid)) return []
+      const counterpartQid = wikidataQidOf(counterpart?.wikidata_qid)
+      if (!family && counterpartQid && familyQids.has(counterpartQid)) return []
       return [{
         counterpart_id: counterpartId,
         counterpart_nickname: counterpart?.nickname ?? '(삭제된 인물)',

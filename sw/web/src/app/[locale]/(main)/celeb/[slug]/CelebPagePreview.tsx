@@ -26,7 +26,7 @@ export default async function CelebPagePreview({ identity, locale }: { identity:
           <div className={styles.bannerStage}><CelebWorldBannerView worldId={worldId} images={getWorldBannerImages(worldId)} /></div>
           <div className={styles.identityPanel} style={{ '--celeb-hero-photo-width': `${CELEB_HERO_PHOTO_SPEC.desktopWidthPx}px` } as CSSProperties}>
             <div className={`${styles.heroColumn} ${identity.photo_url ? '' : styles.avatarHeroColumn}`}>
-              <HeroPhoto profile={identity} nickname={identity.nickname} locale={locale as Locale}
+              <HeroPhoto profile={identity} nickname={identity.nickname}
                 frame={getWorldStyle(worldId).frame} hasGreetingAudio={false} isVoiceActive={false} onGreet={undefined} />
             </div>
             <div className={styles.identityCopy}>
