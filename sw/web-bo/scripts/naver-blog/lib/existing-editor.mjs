@@ -15,12 +15,19 @@ export function createExistingEditor(page, { onStep = () => {} } = {}) {
     if (!response?.ok()) throw new Error(`글쓰기 화면 조회 실패: HTTP ${response?.status()}`);
     await page.waitForSelector('button[class*=publish_btn]', { timeout: 30000 });
     await page.waitForFunction(() => !document.body.innerText.includes('글을 불러오고 있습니다'), { timeout: 20000 });
+    await page.waitForSelector('.se-documentTitle .se-text-paragraph', { timeout: 30000 });
+    // SmartEditor's resume prompt arrives after the toolbar and blank canvas.
+    // Waiting only for the publish button races its late modal/backdrop.
+    await wait(4000);
     // 저장된 다른 원고를 불러오지 않는다. 취소는 원고 삭제가 아니다.
     const resume = await page.evaluateHandle(() => {
       const layer = [...document.querySelectorAll('[role=dialog],.se-popup')].find(e => e.offsetParent && /작성 중|임시저장|불러오/.test(e.textContent));
       return layer ? [...layer.querySelectorAll('button')].find(e => /^(취소|아니오|닫기)$/.test(e.textContent.trim())) ?? null : null;
     });
-    if (resume.asElement()) await resume.asElement().click();
+    if (resume.asElement()) {
+      await resume.asElement().click();
+      await page.waitForFunction(() => ![...document.querySelectorAll('[role=dialog],.se-popup')].some(e=>e.offsetParent&&/작성 중인 글|작성중이던 내용|이어서 작성/.test(e.textContent)), { timeout: 10000 });
+    }
     await resume.dispose();
   }
 

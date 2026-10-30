@@ -291,7 +291,7 @@ export function buildDescription(
         : `#Shorts #LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation${tkHashtagEn}`,
       '',
     )
-    base.push('Feelandnote — https://feelandnote.com')
+    base.push('feelandnote — https://feelandnote.com')
     return base.join('\n')
   }
 
@@ -312,7 +312,7 @@ export function buildDescription(
       lines.push('⏱ 타임라인', ...chapters.map(c => `${c.time} ${c.label}`), '')
     }
     lines.push('🔗 링크')
-    lines.push('Feelandnote — https://feelandnote.com')
+    lines.push('feelandnote — https://feelandnote.com')
     if (linkLines.length) lines.push(...linkLines)
     lines.push('', `#서재탐방 #${celebName.replace(/\s/g, '')} #독서 #책추천${tkHashtagKo}`)
     return lines.join('\n')
@@ -328,7 +328,7 @@ export function buildDescription(
     lines.push('⏱ Timeline', ...chapters.map(c => `${c.time} ${c.label}`), '')
   }
   lines.push('🔗 Links')
-  lines.push('Feelandnote — https://feelandnote.com')
+  lines.push('feelandnote — https://feelandnote.com')
   if (linkLines.length) lines.push(...linkLines)
   lines.push('', `#LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation${tkHashtagEn}`)
   return lines.join('\n')
@@ -373,7 +373,7 @@ export function buildSoloDescription(
       '',
       '🔗 링크',
     )
-    lines.push('Feelandnote — https://feelandnote.com')
+    lines.push('feelandnote — https://feelandnote.com')
     if (linkLines.length) lines.push(...linkLines)
     lines.push('', `#한권깊이 #서재탐방 #${celebName.replace(/\s/g, '')} #독서 #책추천${tkHashtagKo}`)
     return lines.join('\n')
@@ -389,7 +389,7 @@ export function buildSoloDescription(
     '',
     '🔗 Links',
   )
-  lines.push('Feelandnote — https://feelandnote.com')
+  lines.push('feelandnote — https://feelandnote.com')
   if (linkLines.length) lines.push(...linkLines)
   lines.push('', `#OneBookDeep #LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation${tkHashtagEn}`)
   return lines.join('\n')

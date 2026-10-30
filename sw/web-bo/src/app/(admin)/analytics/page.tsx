@@ -11,7 +11,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
   const options = parseAnalyticsOptions(await searchParams)
   return <div className="mx-auto max-w-[1440px] space-y-5">
     <header className="border-b border-border pb-5">
-      <p className="text-xs tracking-widest text-accent">FEEL & NOTE / 이용 분석</p>
+      <p className="text-xs tracking-widest text-accent">feelandnote / 이용 분석</p>
       <h1 className="mt-2 text-2xl font-semibold tracking-tight md:text-3xl">서비스 이용 현황</h1>
       <p className="mt-2 text-sm leading-relaxed text-text-secondary">어디서 들어와 무엇을 선택하고, 어떤 결과를 얻었는지 확인합니다.</p>
     </header>

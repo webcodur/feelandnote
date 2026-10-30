@@ -25,7 +25,7 @@
 
 | 도구 | 정체 | 규약 원천 | 용도 |
 |---|---|---|---|
-| aside | 사용자 실제 브라우저를 CLI로 제어(세션·쿠키 그대로) | `aside-browser` | 로그인 화면 제어·원문 열람 |
+| aside | 사용자 실제 브라우저를 CLI로 제어(세션·쿠키 그대로) | [`aside-browser`](../../.agents/skills/aside-browser/SKILL.md) | 로그인 화면 제어·원문 열람·웹 채팅 계정별 병렬 호출 |
 | insane-search | 웹 페이지 열람 도구 | `agent-rules.md` 「도구」 29 | 웹 페이지는 처음부터 이쪽으로 연다 — `WebFetch` 거부 도메인이 많다 |
 
 ### 미디어 생성·처리
@@ -43,6 +43,7 @@
 | [`../resource/res-01-agent-operations.md`](../resource/res-01-agent-operations.md) | 모델 역할 분담·병렬화 한계·자동화 경계 |
 | [`../resource/res-02-cli-agent-invocation.md`](../resource/res-02-cli-agent-invocation.md) | CLI 에이전트를 셸로 호출하는 공통 규격·함정 |
 | [`../resource/res-03-diagnose-edit-verify.md`](../resource/res-03-diagnose-edit-verify.md) | 진단-편집 분업 패턴 |
+| [`../resource/res-04-browser-chat-automation.md`](../resource/res-04-browser-chat-automation.md#gemini-계정별-병렬-운용) | 웹 채팅 호출·Gemini 계정별 병렬 운용과 확인 범위 |
 | [`../resource/res-31-openai-usage.md`](../resource/res-31-openai-usage.md) | OpenAI API 모델·비용·이미지 옵션(작성 시점 기준) |
 | [`../production/prod-01-image-generation.md`](../production/prod-01-image-generation.md) | 이미지 발주 원칙 — 구도·REF·검수 |
 

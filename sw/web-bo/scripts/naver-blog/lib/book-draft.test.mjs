@@ -31,6 +31,16 @@ test('책편을 기존 operations로 변환하고 동명이인·멀티라인 원
   assert.ok(plan.operations.every(op => Number.isInteger(op.lineIndex)));
 });
 
+test('짧은 DB 감상도 책편에 원문 그대로 쓰며 빈 감상은 거부한다', () => {
+  const draft = fixture();
+  const original = draft.dbReviews[0].review;
+  draft.dbReviews[0].review = '좋았습니다.';
+  draft.body = draft.body.replace(original, draft.dbReviews[0].review);
+  assert.equal(parseBookDraft(draft).quotes[0].text, '좋았습니다.');
+  draft.dbReviews[0].review = ' ';
+  assert.throws(() => parseBookDraft(draft));
+});
+
 for (const [name, mutate] of [
   ['다른 글 유형', d => { d.kind = 'celeb'; }],
   ['다른 책 target', d => { d.target = d.target.replace(uuid(1), uuid(9)); }],

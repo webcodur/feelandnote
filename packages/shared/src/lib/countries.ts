@@ -77,8 +77,9 @@ function getCountries(): Country[] {
 }
 
 // 국가 데이터 조회 (기존 비동기 인터페이스 유지)
-export async function fetchCountries(): Promise<Country[]> {
-  return getCountries()
+export async function fetchCountries(options?: { includeHistorical?: boolean }): Promise<Country[]> {
+  if (!options?.includeHistorical) return getCountries()
+  return [...getCountries(), ...Object.entries(HISTORICAL_COUNTRIES).map(([code, names]) => ({ code, ...names }))]
 }
 
 // 국가 코드 → 한글명 변환 (동기)

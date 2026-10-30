@@ -101,12 +101,12 @@ Oracle VM에서 PostgreSQL·Auth·PostgREST를 직접 운영한다. 앱은 `pack
 | MUSIC | **Apple iTunes Search API / Apple Music** | 정상 (`itunes-music.ts`) |
 | 뉴스·블로그·이미지 | 네이버 검색 | 정상 (`naver-news.ts`·`naver-blog.ts`·`naver-image.ts`) |
 
-TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 문의 진행 상태는 [사용자 웹 남은 작업](../../todo/web.md#구현)이 쥔다.
+TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. feelandnote의 문의 진행 상태는 [사용자 웹 남은 작업](../../todo/web.md#구현)이 쥔다.
 
 - **TMDB**: [공식 FAQ](https://developer.themoviedb.org/docs/faq)는 계정 설정에서 API 키를 발급하고, 상업용 데이터·이미지 라이선스는 운영 국가를 포함해 `sales@themoviedb.org`로 문의하도록 안내한다. 키가 발급됐다는 사실만으로 상업 이용 허가를 받은 것으로 판단하지 않는다.
 - **IGDB**: [공식 Partnership 안내](https://api-docs.igdb.com/#partnership)는 상업 계약 등록을 `partner@igdb.com`으로 요청하도록 안내한다. [Business FAQ](https://api-docs.igdb.com/#business-related-faq)는 상업용 API도 무료이며 사용자에게 보이는 고정 위치에 출처를 표시하도록 한다. Twitch 개발자 포털의 앱 등록·자격증명 발급은 이 파트너 등록과 별개다.
 
-**Apple 공개 차트와 수익 제휴도 구분한다.** [공식 도구 안내](https://performance-partners.apple.com/tools)는 음악·앱·도서 등의 RSS 목록을 웹사이트에 넣는 용도를 제공한다. 베스트셀러는 이 공개 피드의 정보·이미지와 원본 작품 링크를 사용하며 Apple 제휴 추적 토큰을 붙이지 않는다. 음악·영화 카드에는 공식 배지를 표시한다. 국가·매체별 제공 범위는 [작품 화면](../service/service-02-library.md#인기-작품-갱신)을 따른다. 수수료를 받는 Performance Partner Program은 별도 신청이며, [현재 신청 안내](https://performance-partners.apple.com/partners)는 Apple 스토어에 콘텐츠를 가진 권리자와 초대받은 일부 파트너를 대상으로 한다. Feel&Note는 현재 해당 권리자 자격이나 초대를 확인하지 못했으므로 Apple 수익 제휴 신청을 진행하지 않는다. 공개 차트는 일반 링크로 제공하며, 출처 안내에 이 링크를 통한 구매·구독 수수료 수익이 없음을 표시한다.
+**Apple 공개 차트와 수익 제휴도 구분한다.** [공식 도구 안내](https://performance-partners.apple.com/tools)는 음악·앱·도서 등의 RSS 목록을 웹사이트에 넣는 용도를 제공한다. 베스트셀러는 이 공개 피드의 정보·이미지와 원본 작품 링크를 사용하며 Apple 제휴 추적 토큰을 붙이지 않는다. 음악·영화 카드에는 공식 배지를 표시한다. 국가·매체별 제공 범위는 [작품 화면](../service/service-02-library.md#인기-작품-갱신)을 따른다. 수수료를 받는 Performance Partner Program은 별도 신청이며, [현재 신청 안내](https://performance-partners.apple.com/partners)는 Apple 스토어에 콘텐츠를 가진 권리자와 초대받은 일부 파트너를 대상으로 한다. feelandnote는 현재 해당 권리자 자격이나 초대를 확인하지 못했으므로 Apple 수익 제휴 신청을 진행하지 않는다. 공개 차트는 일반 링크로 제공하며, 출처 안내에 이 링크를 통한 구매·구독 수수료 수익이 없음을 표시한다.
 
 **Steam 게임 차트**는 공개 호스트 `api.steampowered.com`의 `ISteamChartsService/GetGamesByConcurrentPlayers/v1`와 `IStoreBrowseService/GetItems/v1`를 인증 키 없이 읽는다. [Web API 안내](https://partner.steamgames.com/doc/webapi_overview)는 공개 HTTP 메서드를 설명하고, [이용 약관](https://steamcommunity.com/dev/apiterms)은 앱을 통한 Steam 데이터 표시와 원본 링크 사용 조건을 정한다. 출처·집계 시각·원본 게임 링크를 표시하고 제휴 관계로 표현하지 않는다. [Steam 공식 안내](https://partner.steamgames.com/doc/marketing/utm_analytics?l=english)는 Steam 자체의 판매 제휴 프로그램이 없다고 명시한다. 따라서 Steam 수익 제휴 신청은 진행하지 않으며, 출처 안내에 해당 링크의 수수료 수익이 없음을 표시한다. 개별 차트 메서드는 현재 공식 레퍼런스에 상세 규격이 없어 응답 변경·중단 가능성을 고려해 검증과 캐시 만료를 적용한다. 조회·검증은 `src/lib/library/steamChart.ts`, 캐시는 `src/actions/library/steamChart.ts`, 화면은 [작품 화면](../service/service-02-library.md#인기-작품-갱신)이 쥔다.
 
@@ -122,12 +122,12 @@ TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 
 
 사용자 도서 검색은 `packages/content-search/src/book-search.ts`에서 화면 locale에 따라 한국어판 카카오·영어판 OpenLibrary로 자동 분기한다. 한국어 화면에만 한국어판·영어판 선택을 제공하고 선택을 보관한다. 한국어 검색 URL의 `bookLanguage`가 우선하며 영문 화면은 선택값과 관계없이 영어판을 검색한다. 상세 이동에는 검색에 사용한 언어를 `bookLanguage`로 유지한다. OpenLibrary 목록은 영어판의 제목·ISBN·판본 ID·작품 ID를 사용하고, 등록은 해당 식별자를 ISBN 단건 응답과 대조한 뒤 정식 메타를 사용한다. 검색 색인의 부제 누락으로 등록을 거절하지 않으며, 식별자가 없는 기존 입력의 제목·원저자 검증은 유지한다. 검색 실패는 0건과 구분하며 카카오로 자동 전환하지 않는다.
 
-사용자 웹의 검색·영문 판본 캐시는 `sw/web/src/lib/books/bookSearch.server.ts`가 맡는다. OpenLibrary 키워드·판본·작품·저자 호출은 `openlibrary-request.ts`의 프로세스별 호출 간격을 공유한다. 다중 프로세스의 전체 호출 제한은 이 간격만으로 보장되지 않는다. Amazon은 확인된 영어판의 구매·서점 검색 링크이며 도서 메타 공급처가 아니다.
+사용자 웹의 검색·영문 판본 캐시는 `sw/web/src/lib/books/bookSearch.server.ts`가 맡는다. OpenLibrary 키워드·판본·작품·저자 호출은 `openlibrary-request.ts`의 프로세스별 호출 간격을 공유한다. 다중 프로세스의 전체 호출 제한은 이 간격만으로 보장되지 않는다. Amazon은 확인된 영어판의 구매·서점 검색 링크이며 도서 메타 공급처가 아니다. 제목·설명 같은 Amazon 값은 DB에 등록하지 않는다(같은 판본을 확인한 영문판 표지 보완은 아래 신규 메타 항목의 예외를 따른다). 다만 콘텐츠 조사·확인에서는 판본·저자·출간일·책 소개·추천사를 대조하는 정보원으로 쓴다.
 
 - 래퍼: `packages/content-search/src/kakao-books.ts`. 반환 타입을 네이버와 같은 모양으로 맞춰 호출부는 import 경로만 바꿨다.
 - 서비스 키: `KAKAO_REST_API_KEY`. 로컬과 Oracle 운영의 보관 위치·교체는 [환경변수 문서](platform-04-env-vars.md#3-3-외부-콘텐츠-검색-api)를 따른다. 책 검색은 별도 제품 설정·심사 없이 REST API 키만으로 호출된다. 책 검색 키 교체는 인증 서버의 카카오 로그인 `providers.kakao` 설정과 별개다.
 - **개인 연구·조사에는 `KAKAO_RESEARCH_REST_API_KEY`를 쓴다.** 앱에 붙이지 않는 자료 조사·검색용이며, 로컬 보관 위치는 [환경변수 문서](platform-04-env-vars.md#3-3-외부-콘텐츠-검색-api)를 따른다. 서비스 연동과 앱·DB 등록용 수집은 `KAKAO_REST_API_KEY`를 쓴다. 연구용 호출은 연구 키를 명시적으로 읽고, `kakao-books.ts`를 재사용할 때는 해당 조사 프로세스에서만 모듈을 불러오기 전에 `process.env.KAKAO_REST_API_KEY = process.env.KAKAO_RESEARCH_REST_API_KEY`로 지정한다. 연구 키가 없으면 설정 오류로 멈춘다.
-- BOOK 신규 메타는 한국어판 카카오와 영문 원서 OpenLibrary에서만 수집한다. `contents.external_source`와 locale `sources`의 과거 `aladin`·`naver_book` 표기는 기존 데이터의 출처이며 신규 수집 허용 목록이 아니다. 출판사·도서관·서점의 독립 서지는 작품과 판본의 정체성을 확인하는 근거로 사용한다. 등록 경계는 [콘텐츠 등록](../celeb/celeb-02-02-content-registration.md)을 따른다.
+- BOOK 신규 메타는 한국어판 카카오와 영문 원서 OpenLibrary에서만 수집한다. 영문판 표지가 OpenLibrary에 없으면 같은 ISBN의 카카오 표지를, 그것도 없으면 작업자가 같은 판본임을 눈으로 확인한 서점·출판사 표지를 쓴다. `contents.external_source`와 locale `sources`의 과거 `aladin`·`naver_book` 표기는 기존 데이터의 출처이며 신규 수집 허용 목록이 아니다. 출판사·도서관·서점의 독립 서지는 작품과 판본의 정체성을 확인하는 근거로 사용한다. 등록 경계는 [콘텐츠 등록](../celeb/celeb-02-02-content-registration.md)을 따른다.
 - 네이버 검색 API의 「쇼핑·책·전문자료」는 2026-07-31에 종료됐고(HTTP 404 `SE05`), API 문서 페이지는 종료 문구 없이 남아 있다. 문서가 아니라 실제 호출을 믿는다. 도서 관련 네이버 코드는 전량 제거했으며 되살리지 않는다. 같은 키의 **뉴스·블로그·이미지 검색**은 정상이라 계속 쓴다(블로그는 기록 참고 자료, 이미지는 인물 사진 찾기, 뉴스는 오늘의 인물).
 
 **네이버와 다른 점 (구현 시 주의)**

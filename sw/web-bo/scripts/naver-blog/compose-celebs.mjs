@@ -25,6 +25,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { ASSETS } from '../blog-assets.mjs';
+import {CELEB_CATEGORY as CATEGORY} from './lib/celeb-categories.mjs';
+import {hasEligibleBlogReview,compareBlogReviewPriority} from './lib/blog-review-eligibility.mjs';
 
 const args = process.argv.slice(2);
 const opt = (k) => { const i = args.indexOf(`--${k}`); return i >= 0 ? args[i + 1] : null; };
@@ -125,20 +127,32 @@ function pickFive(books) {
     try { const u = new URL(b.source_url); return u.host + u.pathname.split("/").slice(0, 3).join("/"); }
     catch { return b.source_url ?? String(b.content_id); }
   };
-  const chosen = [];
-  const used = new Set();
-  for (const b of books) {
-    if (chosen.length >= 5) break;
-    const k = key(b);
-    if (used.has(k)) continue;
-    used.add(k);
-    chosen.push(b);
-  }
-  for (const b of books) {          // 출처가 모자라면 순위대로 채운다
-    if (chosen.length >= 5) break;
-    if (!chosen.includes(b)) chosen.push(b);
-  }
-  return chosen.slice(0, 5);
+  const pickFrom = (pool, limit) => {
+    const chosen = [];
+    const used = new Set();
+    for (const b of pool) {
+      if (chosen.length >= limit) break;
+      const k = key(b);
+      if (used.has(k)) continue;
+      used.add(k);
+      chosen.push(b);
+    }
+    for (const b of pool) {
+      if (chosen.length >= limit) break;
+      if (!chosen.includes(b)) chosen.push(b);
+    }
+    return chosen;
+  };
+
+  const domestic = books.filter(b => b.isDomestic);
+  const foreign = books.filter(b => !b.isDomestic);
+
+  const chosenDomestic = pickFrom(domestic, 5);
+  if (chosenDomestic.length >= 5) return chosenDomestic.slice(0, 5);
+
+  const needed = 5 - chosenDomestic.length;
+  const chosenForeign = pickFrom(foreign, needed);
+  return [...chosenDomestic, ...chosenForeign].slice(0, 5);
 }
 
 /**
@@ -148,15 +162,6 @@ function pickFive(books) {
  *    `leader` 가 표에 없어 **철학자·역사학자 13명이 「인플루엔서」로 분류**됐다. 몽테스키외와
  *    사마천이 미스터비스트 옆에 놓일 뻔했다. 모르는 직군은 멈추고 사람이 표를 채운다.
  */
-const CATEGORY = {
-  author: '작가', writer: '작가', poet: '작가',
-  director: '아티스트', musician: '아티스트', artist: '아티스트',
-  actor: '배우', entrepreneur: '기업가', investor: '투자자',
-  politician: '정치인', leader: '정치인', commander: '정치인',
-  scholar: '학자', scientist: '학자', philosopher: '학자',
-  humanities_scholar: '학자', social_scientist: '학자', natural_scientist: '학자',
-  influencer: '인플루엔서', athlete: '스포츠인',
-};
 
 /** 인물 이름 옆에 붙는 직군 표시(「한강 · 작가」). prepare-celeb-revisions.mjs 의 표와 같다. */
 const PROF_LABEL = {
@@ -165,6 +170,8 @@ const PROF_LABEL = {
   scholar: '학자', scientist: '과학자', philosopher: '철학자', humanities_scholar: '인문학자', social_scientist: '사회과학자',
   natural_scientist: '자연과학자', influencer: '인플루언서', athlete: '스포츠인',
 };
+
+const isDomestic = (r) => !!r?.isbn && r?.sources?.title !== 'translated';
 
 export async function material(slug) {
   const { data: c, error } = await db
@@ -179,27 +186,36 @@ export async function material(slug) {
   const ko = new Map(); const type = new Map();
   for (let i = 0; i < cids.length; i += 300) {
     const chunk = cids.slice(i, i + 300);
-    const a = await db.from('content_locales').select('content_id,title,creator,thumbnail_url').eq('locale', 'ko').in('content_id', chunk);
+    const a = await db.from('content_locales').select('content_id,title,creator,thumbnail_url,isbn,sources').eq('locale', 'ko').in('content_id', chunk);
     const b = await db.from('contents').select('id,type').in('id', chunk);
     if (a.error || b.error) throw new Error(`책 메타 조회 실패: ${(a.error ?? b.error).message}`);
     for (const r of a.data ?? []) ko.set(r.content_id, r);
     for (const r of b.data ?? []) type.set(r.id, r.type);
   }
 
+  const mapBook = (r) => {
+    const loc = ko.get(r.content_id) ?? {};
+    const domestic = isDomestic(loc);
+    const title = (!domestic && loc.title && !loc.title.includes('원서')) ? `${loc.title} (원서)` : loc.title;
+    return { ...r, ...loc, title, isDomestic: domestic };
+  };
+
   const books = (cc ?? [])
     .filter((r) => type.get(r.content_id) === 'BOOK')
     .filter((r) => ko.get(r.content_id)?.thumbnail_url)
-    .filter((r) => (r.review ?? '').length >= 80)
+    .filter((r) => hasEligibleBlogReview(r.review))
+    .map(mapBook)
     .sort((a, b) => {
+      const domDiff = (b.isDomestic ? 1 : 0) - (a.isDomestic ? 1 : 0);
+      if (domDiff !== 0) return domDiff;
       const q = (x) => (/["“”'']/.test(x.review ?? '') ? 1 : 0);
-      return q(b) - q(a) || (b.review ?? '').length - (a.review ?? '').length;
-    })
-    .map((r) => ({ ...r, ...ko.get(r.content_id) }));
+      return compareBlogReviewPriority(a, b) || q(b) - q(a);
+    });
 
   const totalBooks = (cc ?? []).filter((r) => type.get(r.content_id) === 'BOOK').length;
   const videos = (cc ?? []).filter((r) => type.get(r.content_id) === 'VIDEO').length;
   const musics = (cc ?? []).filter((r) => type.get(r.content_id) === 'MUSIC').length;
-  return { celeb: c, books, allBooks: (cc ?? []).filter(r => type.get(r.content_id) === 'BOOK').map(r => ({ ...r, ...ko.get(r.content_id) })), totalBooks, videos, musics };
+  return { celeb: c, books, allBooks: (cc ?? []).filter(r => type.get(r.content_id) === 'BOOK').map(mapBook), totalBooks, videos, musics };
 }
 
 function buildPrompt(m) {

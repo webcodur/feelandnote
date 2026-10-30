@@ -29,10 +29,11 @@ interface CelebCarouselProps {
   initialTotalPages: number;
   initialTrendCountry?: TrendCountry;
   initialTrend?: Awaited<ReturnType<typeof getCelebs>>["trend"];
-  professionCounts: ProfessionCounts;
-  nationalityCounts: NationalityCounts;
-  contentTypeCounts: ContentTypeCounts;
-  genderCounts: GenderCounts;
+  professionCounts?: ProfessionCounts;
+  nationalityCounts?: NationalityCounts;
+  nationalityOptions?: string[];
+  contentTypeCounts?: ContentTypeCounts;
+  genderCounts?: GenderCounts;
   hideHeader?: boolean;
   mode?: "grid" | "carousel";
   syncToUrl?: boolean;
@@ -49,10 +50,11 @@ export default function CelebCarousel({
   initialTotalPages,
   initialTrendCountry,
   initialTrend,
-  professionCounts,
-  nationalityCounts,
-  contentTypeCounts,
-  genderCounts,
+  professionCounts = {},
+  nationalityCounts = [],
+  nationalityOptions,
+  contentTypeCounts = {},
+  genderCounts = [],
   mode = "grid",
   syncToUrl = false,
   realityTotals,
@@ -68,6 +70,7 @@ export default function CelebCarousel({
     initialTrend,
     professionCounts,
     nationalityCounts,
+    nationalityOptions,
     contentTypeCounts,
     genderCounts,
     syncToUrl,

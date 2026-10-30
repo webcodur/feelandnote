@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { useCelebFilters, CelebDetailFilterValues } from "./useCelebFilters";
+import { toggleFilterSelection } from "@/constants/celebFilterSelection";
 
 /** 선택 중에는 조회·URL을 바꾸지 않고, 적용할 때만 실제 필터에 전달한다. */
 export function useCelebDetailDraft(filters: ReturnType<typeof useCelebFilters>) {
@@ -22,6 +23,8 @@ export function useCelebDetailDraft(filters: ReturnType<typeof useCelebFilters>)
     ...draft,
     handleProfessionChange: (value: string) => update("profession", value),
     handleNationalityChange: (value: string) => update("nationality", value),
+    toggleProfession: (value: string) => setDraft(previous => ({ ...previous, profession: toggleFilterSelection(previous.profession, value) })),
+    toggleNationality: (value: string) => setDraft(previous => ({ ...previous, nationality: toggleFilterSelection(previous.nationality, value) })),
     handleContentTypeChange: (value: string) => update("contentType", value),
     handleGenderChange: (value: string) => update("gender", value),
     handleRealityChange: (value: CelebDetailFilterValues["realityValue"]) => update("realityValue", value),

@@ -13,7 +13,10 @@ export function buildReservationSlots({ count, start, time, occupied = [], dows 
   const cursor = new Date(`${start}T00:00:00+09:00`);
   if (!Number.isFinite(cursor.getTime()) || new Date(cursor.getTime() + 9 * 3600000).toISOString().slice(0, 10) !== start) throw new Error('실재하지 않는 시작일');
   const out = [];
-  for (let guard = 0; out.length < count && guard < 400; guard++, cursor.setUTCDate(cursor.getUTCDate() + 1)) {
+  // Every week has an eligible day. Allow for elapsed days, occupied dates and the requested stock.
+  const elapsedDays = Math.max(0, Math.ceil((now + 60000 - cursor.getTime()) / 86400000));
+  const searchDays = elapsedDays + (busy.size + count + 1) * 7;
+  for (let guard = 0; out.length < count && guard < searchDays; guard++, cursor.setUTCDate(cursor.getUTCDate() + 1)) {
     const koreanDay = new Date(cursor.getTime() + 9 * 3600000);
     const date = koreanDay.toISOString().slice(0, 10);
     const dow = koreanDay.getUTCDay() || 7;
@@ -23,6 +26,6 @@ export function buildReservationSlots({ count, start, time, occupied = [], dows 
     out.push(slot);
     busy.add(date);
   }
-  if (out.length !== count) throw new Error('400일 안에 빈 예약일을 확보하지 못했다');
+  if (out.length !== count) throw new Error('빈 예약일을 확보하지 못했다');
   return out;
 }

@@ -66,7 +66,7 @@ async function dismissResume(page) {
 }
 
 // 제목을 친다. 긴 제목은 나눠 치고, 결과가 다르면 지우고 다시 친다.
-const titleText = (page) => page.evaluate(() => { const p = document.querySelector('.se-documentTitle .se-text-paragraph'); if (!p || p.querySelector('.se-placeholder')) return ''; return p.textContent.replace(/​/g, '').trim(); });
+const titleText = (page) => page.evaluate(() => { const p = document.querySelector('.se-documentTitle .se-text-paragraph'); if (!p) return ''; const copy=p.cloneNode(true);copy.querySelectorAll('.se-placeholder').forEach(n=>n.remove());return copy.textContent.replace(/​/g, '').trim(); });
 async function typeTitle(page, title) {
   for (let attempt = 0; attempt < 3; attempt++) {
     for (let i = 0; i < title.length; i += 30) { await page.keyboard.type(title.slice(i, i + 30), { delay: 15 }); await wait(150); }
@@ -121,6 +121,7 @@ async function download(url, name) {
 
 // 이미지 하나를 넣고 폭을 맞춘 뒤 가운데로 놓는다.
 async function insertImage(page, cdp, url, width, name, prepared = null) {
+  const stateWait = prepared?.waitForState === true;
   const file = prepared?.file ?? await download(url, name);
   const count = () => page.evaluate(() => document.querySelectorAll('.se-component.se-image').length);
   const before = await count();
@@ -131,17 +132,23 @@ async function insertImage(page, cdp, url, width, name, prepared = null) {
   for (let i = 0; i < 24 && !cdp.__chooser; i++) await wait(250);
   if (!cdp.__chooser) throw new Error('파일 선택창이 열리지 않았다');
   await cdp.send('DOM.setFileInputFiles', { files: [file], backendNodeId: cdp.__chooser.backendNodeId });
-  let ok = false;
-  for (let k = 0; k < 30; k++) { await wait(1500); if ((await count()) > before) { ok = true; break; } }
-  if (!ok) throw new Error('이미지가 삽입되지 않았다');
-  await wait(1200);
+  if (stateWait) {
+    await page.waitForFunction(before => { const nodes=[...document.querySelectorAll('.se-component.se-image')], image=nodes.at(-1)?.querySelector('img');return nodes.length===before+1&&image?.complete&&image.naturalWidth>1&&image.naturalHeight>1&&image.getBoundingClientRect().width>0; }, {timeout:45000}, before);
+  } else {
+    let ok = false;
+    for (let k = 0; k < 30; k++) { await wait(1500); if ((await count()) > before) { ok = true; break; } }
+    if (!ok) throw new Error('이미지가 삽입되지 않았다');
+    await wait(1200);
+  }
 
   // 방금 넣은 이미지를 골라 폭과 정렬을 맞춘다.
   const pos = await page.evaluate(() => { const cs = [...document.querySelectorAll('.se-component.se-image')]; const c = cs[cs.length - 1]; c.scrollIntoView({ block: 'center', behavior: 'instant' }); const i = c.querySelector('img') ?? c; const r = i.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
-  await page.mouse.click(pos.x, pos.y); await wait(900);
+  await page.mouse.click(pos.x, pos.y);
+  if(stateWait)await page.waitForFunction(()=>[...document.querySelectorAll('button')].some(e=>e.offsetParent&&!e.disabled&&/크기 변경 열기/.test(e.getAttribute('aria-label')||e.textContent)),{timeout:5000});else await wait(900);
   const size = await page.evaluate(() => { const e = [...document.querySelectorAll('button')].find((x) => x.offsetParent && /크기 변경 열기/.test(x.getAttribute('aria-label') || x.textContent)); if (!e) return null; const r = e.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
   if (size) {
-    await page.mouse.click(size.x, size.y); await wait(900);
+    await page.mouse.click(size.x, size.y);
+    if(stateWait)await page.waitForFunction(()=>[...document.querySelectorAll('[class*=resizing-input] input, input[class*=resizing-input]')].some(e=>e.offsetParent&&!e.disabled),{timeout:5000});else await wait(900);
     const wi = await page.evaluate(() => {
       const input = [...document.querySelectorAll('[class*=resizing-input] input, input[class*=resizing-input]')].find(e => e.offsetParent && !e.disabled);
       if (!input) return null;
@@ -153,7 +160,8 @@ async function insertImage(page, cdp, url, width, name, prepared = null) {
       // ElementHandle.click의 IntersectionObserver 대기 대신 이미 보이는 입력칸을 실제 좌표로 누른다.
       await page.mouse.click(wi.x, wi.y, { clickCount: 3 }); await wait(200);
       if (!(await page.evaluate(() => document.activeElement?.matches('[class*=resizing-input] input, input[class*=resizing-input]')))) throw new Error('사진 폭 입력칸에 포커스가 없다');
-      await page.keyboard.type(String(width), { delay: 40 }); await page.keyboard.press('Enter'); await wait(1400);
+      await page.keyboard.type(String(width), { delay: 40 }); await page.keyboard.press('Enter');
+      if(stateWait)await page.waitForFunction(width=>Math.abs([...document.querySelectorAll('.se-component.se-image img')].at(-1).getBoundingClientRect().width-width)<=30,{timeout:5000},width);else await wait(1400);
       const got = await page.evaluate(() => { const cs = [...document.querySelectorAll('.se-component.se-image img')]; return Math.round(cs[cs.length - 1].getBoundingClientRect().width); });
       if (Math.abs(got - width) > 30) console.log(`  경고: 폭 ${got} (요청 ${width})`);
     }
@@ -198,7 +206,7 @@ async function insertImage(page, cdp, url, width, name, prepared = null) {
       if (again) { await page.mouse.click(again.x, again.y); await wait(1200); }
       continue;
     }
-    await wait(1300);
+    if(stateWait)await page.waitForFunction(()=>[...document.querySelectorAll('.se-component.se-image')].at(-1)?.querySelector('.se-section-align-center'),{timeout:5000});else await wait(1300);
   }
   if ((await alignNowImg()) !== 'center') throw new Error(`이미지를 가운데로 놓지 못했다(현재 ${await alignNowImg()})`);
   // 캐럿을 본문 끝으로 되돌린다.
@@ -296,11 +304,11 @@ const isCenter = (l) => /^\[c\].*\[\/c\]$/.test(l.trim());
 // [q]…[/q] — 인용구로 감싼다. 간결체 덩어리를 나레이터의 정중체와 눈으로 가른다.
 const isQuote = (l) => /^\[q\].*\[\/q\]$/.test(l.trim());
 
-async function insertDivider(page) {
+async function insertDivider(page, {waitForState=false} = {}) {
   const before = await page.evaluate(() => document.querySelectorAll('.se-component.se-horizontalLine').length);
   const pos = await page.evaluate(() => { const e = document.querySelector('[class*=se-toolbar-item-insert-h] button, [class*=se-toolbar-item-insert-h]'); if (!e) return null; const r = e.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
   if (!pos) throw new Error('구분선 단추를 찾지 못했다');
-  await page.mouse.click(pos.x, pos.y); await wait(1200);
+  await page.mouse.click(pos.x, pos.y);if(waitForState)await page.waitForFunction(before=>document.querySelectorAll('.se-component.se-horizontalLine').length===before+1,{timeout:5000},before);else await wait(1200);
   const after = await page.evaluate(() => document.querySelectorAll('.se-component.se-horizontalLine').length);
   if (after <= before) throw new Error('구분선이 들어가지 않았다');
 }
@@ -478,6 +486,7 @@ async function selectCategory(page, name) {
 
 // 발행 전 자체 점검. 하나라도 걸리면 그 글은 올리지 않는다.
 async function preflight(d) {
+  if(d.format==='unified')return ['통합 양식은 publish-unified-new.mjs 또는 apply-unified-article.mjs로 처리한다'];
   const bad = [];
   const body = d.body ?? '';
   if (!d.title || d.title.length < 8) bad.push('제목이 너무 짧다');
@@ -874,7 +883,7 @@ await cdp.send('Page.setInterceptFileChooserDialog', { enabled: false }).catch((
 if (launched) await browser.close(); else browser.disconnect();   // 사용자 창은 끄지 않는다
 }
 
-export { bodyParas, typeTitle, typeLine, insertImage, insertDivider, insertQuote, applyPhotoFrame, enableSharing, IMG_RE, strip, isDivider, isImg, isQuote };
+export { bodyParas, typeTitle, typeLine, insertImage, insertDivider, insertQuote, applyPhotoFrame, enableSharing, selectCategory, addTags, setSchedule, IMG_RE, strip, isDivider, isImg, isQuote };
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   main().catch(error => { console.error(error); process.exitCode = 1; });
 }

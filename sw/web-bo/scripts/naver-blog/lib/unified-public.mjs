@@ -19,6 +19,18 @@ export function assertUnifiedPublic(article,snapshot,anchorTargets,nativeImages)
  const url=new URL(snapshot.ogUrl);if(!['blog.naver.com','m.blog.naver.com'].includes(url.hostname)||!(url.pathname==='/dmx777/'+article.logNo||url.searchParams.get('blogId')==='dmx777'&&url.searchParams.get('logNo')===article.logNo))throw Error('Public post identity differs');
 }
 async function bodyFrame(page){for(let i=0;i<30;i++){for(const frame of page.frames())if(await frame.$('.se-main-container'))return frame;await new Promise(r=>setTimeout(r,500));}throw Error('Rendered public article missing');}
+export async function verifyPublishedTitle(browser,post,dir){
+ const results=[];
+ for(const [device,width,height]of [['desktop',1280,900],['mobile',390,844]]){
+  const page=await browser.newPage();try{
+   await page.setViewport({width,height,isMobile:device==='mobile',hasTouch:device==='mobile'});if(device==='mobile')await page.setUserAgent('Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36');
+   const url=device==='mobile'?'https://m.blog.naver.com/dmx777/'+post.logNo:'https://blog.naver.com/PostView.naver?blogId=dmx777&logNo='+post.logNo;
+   let frame,snapshot;for(let attempt=0;attempt<3;attempt++){await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});frame=await bodyFrame(page);snapshot={title:await frame.$$eval('.se-documentTitle .se-text-paragraph',nodes=>nodes.map(n=>n.textContent).join('').replace(/\u200b/g,'').trim())};if(snapshot.title===post.title)break;if(attempt===2)throw Error('Published restored title differs: '+JSON.stringify({device,expected:post.title,actual:snapshot.title}));await new Promise(r=>setTimeout(r,1500));}
+   await page.screenshot({path:path.join(dir,'public-'+device+'-title.png')});results.push({device,title:snapshot.title,verified:true});
+  }finally{await page.close();}
+ }
+ return results;
+}
 export async function assertRenderedImages(frame,{expectedCount,timeoutMs=10000}){
  const selector='.se-main-container img.se-image-resource',count=await frame.$$eval(selector,nodes=>nodes.length),images=[];
  if(count!==expectedCount)throw Error('Rendered image count differs');

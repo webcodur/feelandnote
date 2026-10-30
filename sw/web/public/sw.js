@@ -1,6 +1,6 @@
 /*
   파일명: /public/sw.js
-  기능: Feel&Note 서비스 워커
+  기능: feelandnote 서비스 워커
   책임: 오프라인 대체 화면을 보장하고, 정적 자산·이미지만 제한적으로 캐시한다.
 
   캐시 정책 (docs/project/apps/apps-03-android.md §3.2)

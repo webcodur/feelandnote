@@ -214,3 +214,6 @@ data/celeb/headline-rewrite/reviews/
 # msys/git-bash 크래시 덤프
 *.stackdump
 tmp-*
+
+# iPilot — 분리 이전을 전제로 한 독립 프로젝트라 이 저장소에서 추적하지 않는다
+sw/ipilot/

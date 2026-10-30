@@ -15,7 +15,7 @@ Brand(2.5s) → ServiceGreeting(고정 인사 ~2s) → FeaturedQuote(대표명�
 
 ### 섹션 상세
 
-- **ServiceGreeting**: 고정 인사 — "안녕하세요, feelandnote 서재 탐방 시간입니다." (ko) / "Welcome to the Feelandnote Library Tour." (en). 모든 에피소드 동일 텍스트, 공용 오디오(`voice/common/A1-service-greeting.wav`).
+- **ServiceGreeting**: 고정 인사 — "안녕하세요, feelandnote 서재 탐방 시간입니다." (ko) / "Welcome to the feelandnote Library Tour." (en). 모든 에피소드 동일 텍스트, 공용 오디오(`voice/common/A1-service-greeting.wav`).
 - **FeaturedQuote**: 셀럽 대표 명언. 아바타 160px + 인용문 중앙 배치. **DB 등록 명언(`celeb_dialogues.lines.quote` / 영문 `celeb_dialogues.lines_en.quote`)을 우선 사용한다.** 명언은 이 두 곳에만 있다 — `profiles.quotes`·`quotes_en` 컬럼은 존재하지 않는다.
 - **HostIntro**: 좌측 아바타 + 우측 셀럽 소개(Phase 1) → 감상철학(Phase 2) 크로스페이드. 좌상단 라벨 "서재 탐방".
 - **Book Gap**: 세로 묶음 — 소형 표지(100×150) + 번호(`N/M`) + 제목. 중앙 배치.

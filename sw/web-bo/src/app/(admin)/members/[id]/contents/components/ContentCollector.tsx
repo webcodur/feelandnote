@@ -45,7 +45,6 @@ export default function ContentCollector({ celebId, celebName }: Props) {
     toggleSelect,
     toggleSelectAll,
     handleSearchResultChange,
-    handleStatusChange,
     openManualSearch,
     updateExtractedItem,
     handleManualSearchSelect,
@@ -102,7 +101,6 @@ export default function ContentCollector({ celebId, celebName }: Props) {
         onOpenManualSearch={openManualSearch}
         onUpdateExtractedItem={updateExtractedItem}
         onHandleSearchResultChange={handleSearchResultChange}
-        onHandleStatusChange={handleStatusChange}
         onSetImagePopupUrl={setImagePopupUrl}
         onSetActiveIndex={setActiveIndex}
       />

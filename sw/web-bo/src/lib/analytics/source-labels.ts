@@ -6,7 +6,7 @@ const sources: Record<string, SourceExplanation> = {
   'm.blog.naver.com': { title: '네이버 모바일 블로그', description: '네이버 블로그 모바일 화면의 링크를 거쳐 온 것으로 기록됐습니다.' },
   'blog.naver.com': { title: '네이버 블로그', description: '네이버 블로그 글 등의 링크를 거쳐 온 것으로 기록됐습니다.' },
   'searchadvisor.naver.com': { title: '네이버 서치어드바이저', description: '사이트 등록·수집 상태 점검 도구를 출처로 기록한 방문입니다. 운영자가 점검하며 연 접속일 수 있어 일반 독자 유입과 구별해 봅니다.' },
-  'android_app': { title: 'Feel & Note 안드로이드 앱', description: '앱 실행·바로가기 주소에 붙인 유입 태그입니다. twa는 웹사이트를 앱 안에서 여는 방식이며 검색이나 광고를 뜻하지 않습니다.' },
+  'android_app': { title: 'feelandnote 안드로이드 앱', description: '앱 실행·바로가기 주소에 붙인 유입 태그입니다. twa는 웹사이트를 앱 안에서 여는 방식이며 검색이나 광고를 뜻하지 않습니다.' },
   'accounts.google.com': { title: '구글 로그인 경유', description: '구글 계정 화면을 출처로 기록한 방문입니다. 로그인 후 복귀일 수 있어 새로운 방문자를 데려온 경로로 단정하지 않습니다.' },
   'kauth.kakao.com': { title: '카카오 로그인 경유', description: '카카오 인증 화면을 출처로 기록한 방문입니다. 로그인 후 복귀일 수 있습니다.' },
   'admin.linkprice.com': { title: '링크프라이스 관리자 화면', description: '제휴 링크 관리 화면에서 들어온 것으로 기록됐습니다. 운영자나 제휴 링크 점검 접속일 수 있습니다.' },

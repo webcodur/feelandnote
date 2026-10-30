@@ -197,7 +197,8 @@
         },
         "selected": "Selected filters",
         "empty": "No additional filters selected.",
-        "apply": "Apply filters"
+        "apply": "Apply filters",
+        "multiple": "Select one or more"
       },
       "cardImage": {
         "label": "View",

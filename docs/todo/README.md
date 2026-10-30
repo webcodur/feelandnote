@@ -23,7 +23,7 @@
 
 | 문서 | 작업 |
 |---|---|
-| [`celeb/README.md`](celeb/README.md) | 영향력·스펙트럼 잔여 검토, 문서 없이 남은 판단(판본 교정·통합 미확정·음원 메타·각성모드·절판 잔여) |
+| [`celeb/README.md`](celeb/README.md) | DB·블로그 감상 재편, 영향력·스펙트럼 잔여 검토, 문서 없이 남은 판단(판본 교정·통합 미확정·음원 메타·각성모드·절판 잔여) |
 | [`img/README.md`](img/README.md) | **이미지가 있어야 끝나는 일** — 아바타 정규화 미결분 |
 | [`myth.md`](myth.md) | 대응 신격 안내 자리·신 계보 공백 |
 | [`myth-handoff.md`](myth-handoff.md) | 신화의 세계 화면·데이터 구조 확장. 인물 누락·건국 전승 공개 판단은 `founding-myth.md` |

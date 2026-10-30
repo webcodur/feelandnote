@@ -23,6 +23,8 @@ import { getKSTDateKey } from '@/lib/game/date-seed'
 import { findCelebsByName } from '@/lib/celeb/celebNameSearchIndex'
 import { normalizeListingParams, canPromoteDailyListing, listingPage } from '@/constants/celebListingPolicy'
 import { runListingQuery } from '@/lib/listingQueryBudget'
+import { filterSelection } from '@/constants/celebFilterSelection'
+import { applyListingMultiFilters } from '@/lib/celeb/listingMultiFilters'
 
 export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count' | 'trending' | 'country_trending'
 
@@ -73,7 +75,7 @@ export interface GetCelebsParams {
   page?: number
   limit?: number
   profession?: string
-  nationality?: string  // 'all' | 'none' | 국가명
+  nationality?: string  // 'all' | 'none' | 쉼표로 구분한 국가 코드
   contentType?: string  // 'all' | 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
   contentPresence?: CelebContentPresence
   gender?: string  // 'all' | 'male' | 'female' (DB: true=male, false=female)
@@ -258,6 +260,11 @@ async function fetchCelebsPublic(
   const offset = (page - 1) * limit
   // 이름 검색을 id로 풀어 왔으면 DB의 글자 포함 검사 대신 그 id로 좁힌다
   const rpcSearch = searchIds ? '' : (search ?? '')
+  const professions = filterSelection(profession)
+  const nationalities = filterSelection(nationality)
+  const needsMultiFilters = professions.length > 1 || nationalities.length > 1 || nationalities.includes('none')
+  const rpcProfession = professions.length > 1 ? null : profession
+  const rpcNationality = nationalities.length > 1 || nationalities.includes('none') ? null : nationality
 
   let rows: CelebRow[]
   let total: number
@@ -268,7 +275,7 @@ async function fetchCelebsPublic(
     // Disable the RPC limit: all listing filters must precede promotion and pagination.
     const query = (count = false) => {
       let request = db.rpc('get_celebs_sorted', {
-        p_profession: profession, p_nationality: nationality, p_content_type: contentType,
+        p_profession: rpcProfession, p_nationality: rpcNationality, p_content_type: contentType,
         p_sort_by: 'content_count', p_search: rpcSearch, p_limit: null, p_offset: 0,
         p_faction_id: factionId, p_min_content_count: minContentCount, p_gender: gender,
         p_include_inactive: includeInactive, p_celeb_tiers: tiers,
@@ -277,7 +284,7 @@ async function fetchCelebsPublic(
       }, { count: count ? 'exact' : undefined })
       if (contentPresence === 'without') request = request.eq('content_count', 0)
       if (searchIds) request = request.in('id', searchIds)
-      return request
+      return applyListingMultiFilters(request, profession, nationality)
     }
     const promotedResult = trendMatches.length
       ? await query().in('id', trendMatches.map(match => match.id))
@@ -320,7 +327,7 @@ async function fetchCelebsPublic(
     const day = recommendationDay
     const query = (count = false) => {
       let request = db.rpc('get_celebs_sorted', {
-        p_profession: profession, p_nationality: nationality, p_content_type: contentType,
+        p_profession: rpcProfession, p_nationality: rpcNationality, p_content_type: contentType,
         p_sort_by: 'daily_recommend', p_search: rpcSearch, p_limit: null, p_offset: 0,
         p_faction_id: factionId, p_min_content_count: minContentCount, p_gender: gender,
         p_include_inactive: includeInactive, p_celeb_tiers: tiers,
@@ -329,7 +336,7 @@ async function fetchCelebsPublic(
       }, { count: count ? 'exact' : undefined })
       if (contentPresence === 'without') request = request.eq('content_count', 0)
       if (searchIds) request = request.in('id', searchIds)
-      return request
+      return applyListingMultiFilters(request, profession, nationality)
     }
     const positions = new Map(trendMatches.map((match, index) => [match.id, index]))
     const matchById = new Map(trendMatches.map((match) => [match.id, match]))
@@ -381,12 +388,12 @@ async function fetchCelebsPublic(
     throwOnQueryError('인기 인물 목록', error)
     rows = (data || []) as CelebRow[]
     total = rows.length
-  } else if (contentPresence === 'without' || searchIds) {
+  } else if (contentPresence === 'without' || searchIds || needsMultiFilters) {
     // RPC 내부 LIMIT을 해제하고 PostgREST에서 작품수·이름 조건 → 전체 개수 → 페이지를 적용한다.
     // 내부 LIMIT 뒤에 조건을 걸면 현재 페이지의 인물만 걸러져 총수와 페이지가 틀린다.
-    const label = searchIds ? '이름 검색 인물 목록' : '작품 없는 인물 목록'
+    const label = '조건별 인물 목록'
     let request = db.rpc('get_celebs_sorted', {
-      p_profession: profession, p_nationality: nationality, p_content_type: contentType,
+      p_profession: rpcProfession, p_nationality: rpcNationality, p_content_type: contentType,
       p_sort_by: sortBy, p_search: rpcSearch, p_limit: null, p_offset: 0,
       p_faction_id: factionId, p_min_content_count: minContentCount, p_gender: gender,
       p_include_inactive: includeInactive, p_celeb_tiers: tiers,
@@ -395,6 +402,7 @@ async function fetchCelebsPublic(
     }, { count: includeTotal ? 'exact' : undefined })
     if (contentPresence === 'without') request = request.eq('content_count', 0)
     if (searchIds) request = request.in('id', searchIds)
+    request = applyListingMultiFilters(request, profession, nationality)
     let result = await request.range(offset, offset + limit - 1)
     if (result.error?.code === 'PGRST103') {
       // 검색 결과보다 뒤쪽 쪽 번호가 주소에 남아 있으면 범위 밖 오류가 난다. 없는 행을 지어내지 않고 개수만 되살린다
@@ -539,11 +547,11 @@ const getCelebsCached = unstable_cache(
   // 반환 모양이 바뀌면 반드시 버전을 올린다. 배포 간 영속 캐시가 구형 필드를 되돌려줄 수 있다.
   // v11: 접속 국가와 일일 날짜를 추천 캐시 키에 포함한다.
   // v13: 행에 portrait_url을 실어 카드의 사진 보기가 쓴다.
-  ['celebs-public-v13-card-portrait'],
+  ['celebs-public-v14-multiple-filters'],
   // celebs·celeb_influence(정렬/랭킹) + faction_member_rows·faction_lv2 + celeb_dialogues +
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
-    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v13-card-portrait']),
+    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v14-multiple-filters']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )
@@ -551,9 +559,9 @@ const getCelebsCached = unstable_cache(
 // 인기(trending)만 따로 감싼다 — 30일 창 순위를 7일 캐시에 묶으면 한 주 내내 같은 순위가 나온다
 const getCelebsTrendingCached = unstable_cache(
   fetchCelebsPublicOnce,
-  ['celebs-public-trending-v8-card-portrait'],
+  ['celebs-public-trending-v9-multiple-filters'],
   {
-    revalidate: spreadRevalidate(LIST_REVALIDATE, ['celebs-public-trending-v8-card-portrait']),
+    revalidate: spreadRevalidate(LIST_REVALIDATE, ['celebs-public-trending-v9-multiple-filters']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )

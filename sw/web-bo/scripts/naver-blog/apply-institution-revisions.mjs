@@ -1,3 +1,4 @@
+import {prepareNativeImage} from './lib/native-image.mjs';
 // 기존 글 개편. 새 대상은 --ids=글번호 --manifest=JSON으로 검수 원고와 원장을 대조한다.
 // 예약 목록 진입 → 원본 사진 재업로드 → 표지 액자 5 → 선택적 로고 → 저장·재열기 → 해당 원장 행 동기화.
 import fs from 'node:fs';
@@ -309,9 +310,7 @@ export async function prepareImages(target, dir, cache = new Map()) {
     if (!cache.has(image.url)) {
       const response = await fetch(image.url, { cache: 'no-store', headers: { 'user-agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(30000) });
       if (!response.ok) throw new Error(`사진 다운로드 실패 ${response.status}: ${image.name}`);
-      const original = Buffer.from(await response.arrayBuffer()), metadata = await sharp(original).metadata();
-      if (!['png', 'jpeg', 'webp'].includes(metadata.format) || !metadata.width || !metadata.height || metadata.pages > 1) throw new Error(`사진 형식·크기 오류: ${image.name}`);
-      const bytes = metadata.format === 'webp' ? await sharp(original).flatten({ background: '#ffffff' }).jpeg({ quality: 95 }).toBuffer() : original;
+      const original = Buffer.from(await response.arrayBuffer()), {metadata,bytes} = await prepareNativeImage(original);
       cache.set(image.url, { original, metadata, bytes });
     }
     const { original, metadata, bytes } = cache.get(image.url);

@@ -1,4 +1,4 @@
-# Feel&Note 문서 지도
+# feelandnote 문서 지도
 
 저장소 전체 작업 규약은 루트 [`AGENTS.md`](../AGENTS.md), 에이전트 운용 원칙은 [`project/agent-rules.md`](project/agent-rules.md)가 쥔다. 작업할 영역의 허브 README만 열고, 모든 문서를 한꺼번에 읽지 않는다.
 

@@ -70,9 +70,34 @@ const INITIAL_STATE: PlaybackState = {
   playbackRate: 1,
 };
 
+/** A fixed asset path is only a candidate: unrecorded text must not create a media request. */
+function useRecordedAudioAvailable(audioUrl: string): boolean | null {
+  const match = audioUrl.match(/\/celebs\/([a-f0-9-]+)\/voice\/(ko|en)\/(reading|vmonologue)\.mp3(?:\?v=(\d+))?$/i);
+  const checkUrl = match ? `/api/reading-timing?${new URLSearchParams({
+    id: match[1], locale: match[2], v: match[4] ?? "0",
+    kind: match[3] === "reading" ? "reading" : "monologue",
+  })}` : "";
+  const [checked, setChecked] = useState<{ url: string; available: boolean } | null>(null);
+
+  useEffect(() => {
+    if (!checkUrl) return;
+    const controller = new AbortController();
+    // The asset host has no CORS headers; the same-origin API checks the fixed path with HEAD.
+    void fetch(checkUrl, { method: "HEAD", signal: controller.signal }).then((response) => {
+      if (!controller.signal.aborted) setChecked({ url: audioUrl, available: response.status === 200 });
+    }).catch(() => {
+      if (!controller.signal.aborted) setChecked({ url: audioUrl, available: false });
+    });
+    return () => controller.abort();
+  }, [audioUrl, checkUrl]);
+
+  return !audioUrl ? false : !checkUrl ? true : checked?.url === audioUrl ? checked.available : null;
+}
+
 /** 음원 파일의 메타데이터가 열리는지만 본다. 재생 장치 없이 존재 여부가 필요한 자리(탭 표시 등)용.
     null = 아직 확인 중, true = 재생 가능, false = 파일이 없거나 비어 있다. */
 export function useAudioAvailable(audioUrl: string): boolean | null {
+  const recorded = useRecordedAudioAvailable(audioUrl);
   const [state, setState] = useState<{ url: string; available: boolean | null }>({
     url: audioUrl,
     available: audioUrl ? null : false,
@@ -81,7 +106,7 @@ export function useAudioAvailable(audioUrl: string): boolean | null {
   if (state.url !== audioUrl) setState({ url: audioUrl, available: audioUrl ? null : false });
 
   useEffect(() => {
-    if (!audioUrl || typeof Audio === "undefined") return;
+    if (!audioUrl || recorded !== true || typeof Audio === "undefined") return;
     const audio = new Audio();
     audio.preload = "metadata";
     let done = false;
@@ -104,13 +129,14 @@ export function useAudioAvailable(audioUrl: string): boolean | null {
       audio.removeAttribute("src");
       audio.load();
     };
-  }, [audioUrl]);
+  }, [audioUrl, recorded]);
 
-  return available;
+  return recorded === false ? false : available;
 }
 
 /** Only expose playback after the recorded file's metadata has loaded. */
 export function useReadingNarration(audioUrl: string) {
+  const recorded = useRecordedAudioAvailable(audioUrl);
   const [snapshot, setSnapshot] = useState({ url: audioUrl, ...INITIAL_STATE });
   const sessionRef = useRef<PlaybackSession | null>(null);
   const state = snapshot.url === audioUrl ? snapshot : INITIAL_STATE;
@@ -126,7 +152,7 @@ export function useReadingNarration(audioUrl: string) {
   }, []);
 
   useEffect(() => {
-    if (!audioUrl || typeof Audio === "undefined") return;
+    if (!audioUrl || recorded !== true || typeof Audio === "undefined") return;
     const audio = new Audio();
     const session: PlaybackSession = { url: audioUrl, audio, wantsPlayback: false, request: 0, interrupt: () => {} };
     sessionRef.current = session;
@@ -209,7 +235,7 @@ export function useReadingNarration(audioUrl: string) {
       audio.removeAttribute("src");
       audio.load();
     };
-  }, [audioUrl, update]);
+  }, [audioUrl, recorded, update]);
 
   const play = useCallback(() => {
     const session = sessionRef.current;

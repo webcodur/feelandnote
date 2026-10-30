@@ -38,6 +38,8 @@
 - 실존 인물은 web-bo `/celebs/new`의 `createCeleb`로 등록한다. 이 경로는 UUID·slug·`celeb_metrics`를 만들고 `light`로 시작하며 공개 상태 기본값은 `inactive`, 실존 축 기본값은 `REAL`이다. 전승·허구 인물은 등록 화면에서 실존 축을 직접 고른다.
 - 전승 인물 일괄 등록은 이름·영문명·식별 가능한 bio를 준비한 뒤 `pnpm --dir sw/web-bo faction:seed:inactive --file <명세.json>`을 사용한다. 이 경로는 `light` 티어에 비공개로 넣는다. 실존 축은 명세의 `celeb_reality`가 정하며 `FICTION`과 `BOTH`만 받는다(생략하면 `FICTION`). 실존 인물은 이 경로로 넣지 않는다. 기본은 dry-run이며 사용자가 DB 반영을 지시했을 때만 `--apply`한다.
 - 실존 인물 일괄 등록은 [데이터 원칙](../data/README.md#작업-파일백업)에 따른 작업 폴더의 원고를 `pnpm --dir sw/web-bo celeb:seed:inactive --dir "<등록 원고 폴더의 절대경로>"`로 넣는다. 기본은 dry-run이고 DB 반영 지시 뒤에만 `--apply`한다. 등록·후속 작업의 DB 재조회 검증이 끝나면 작업 자료를 정리한다.
+- 그룹 멤버는 몇 년 이상 정식 활동한 그룹의 주요 라인업만 넣는다. 멤버 구성은 그룹마다 출처로 다시 검증하고, 소개를 쓸 출처가 없는 멤버·연예계를 떠나 일반인이 된 사람·데뷔 직후 탈퇴한 멤버는 넣지 않는다. 두 그룹을 거친 멤버는 한 번만 등록하고 수식어는 대표 그룹으로 둔다.
+- 다시 등록하지 않는다(사용자 결정): 프로필 삭제를 요청한 CLC 권은빈(2026-10-21), 다이아 솜이(2026-10-23), 인지도 재선별로 지운 하이키·위클리·라잇썸·퍼플키스·세이마이네임·메이딘·우아·트라이비·배드빌런·첫사랑·유니스 멤버(2026-10-24), 아이오아이 파생 그룹의 아이오아이 외 멤버(구구단·위키미키·프리스틴), 활동이 짧았던 클라씨·픽시·소나무·베리굿·써니힐·투야·티티마 멤버.
 - 어느 경로든 등록 전에 아래 「중복 확인」을 거친다. 다른 이름(`aliases`)은 등록 때 함께 넣는다. 일괄 경로는 원장·명세의 `aliases`를 싣고, 화면 등록·수정은 인물 폼의 「다른 이름」 칸(한 줄에 하나)에 적는다.
 - 공통 결과 계약은 [`celeb-01-00-profile.md`](celeb-01-00-profile.md), 사실 판정은 [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md), 수식어는 [`celeb-01-03-title.md`](celeb-01-03-title.md), 나머지 소개 문구는 [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md)를 따른다.
 - 아바타 등록·정규화는 [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md)를 따른다. 등록한 아바타의 정규화 실행은 `celeb-avatar-reframe` 스킬이다.
@@ -88,6 +90,7 @@
   ├─ Speech·읽어보기·연표·관계
   ├─ 영향력·스펙트럼(선택, 별도 요청 시)
   ├─ 가상독백 한영
+  ├─ 독서 방식 조사(최소 1회, 조사 미달도 인정)
   ├─ 콘텐츠 조사
   │    ├─ 한 건 이상 연결 → DB가 full로 자동 승격
   │    ├─ 네 유형 조사 후 0건 → 확정 시각 기록, light 유지
@@ -107,6 +110,7 @@
 | 스펙트럼(선택) | [`celeb-03-02-spectrum.md`](celeb-03-02-spectrum.md) |
 | 말투·한마디·상황 대사 | [`celeb-04-01-speech.md`](celeb-04-01-speech.md), [`celeb-04-02-speech-pipeline.md`](celeb-04-02-speech-pipeline.md) |
 | 인물 안내 | [`celeb-05-01-reading.md`](celeb-05-01-reading.md) |
+| 독서 방식 (`REAL`·`BOTH`) | [`celeb-05-02-reading-way.md`](celeb-05-02-reading-way.md) |
 | 가상독백 | [`celeb-04-03-virtual-monologue.md`](celeb-04-03-virtual-monologue.md) |
 | 생애 연표 | [`celeb-06-01-timeline.md`](celeb-06-01-timeline.md), [`celeb-06-02-timeline-real-relay.md`](celeb-06-02-timeline-real-relay.md) |
 | 관계 | [`celeb-07-01-relations.md`](celeb-07-01-relations.md) |

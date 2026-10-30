@@ -8,6 +8,7 @@ import { LangModeProvider } from '@/contexts/LangModeContext'
 import CelebSearchBar from '@/components/celeb/CelebSearchBar'
 import CelebExplanationSection from './CelebExplanationSection'
 import CelebLinkedData from './CelebLinkedData'
+import CelebReadingWaySection from './CelebReadingWaySection'
 import { getCelebExplanation } from '@/lib/admin/celeb-explanations'
 import { getCelebLinkedData } from '@/actions/admin/celeb-linked-data'
 
@@ -59,6 +60,13 @@ export default async function CelebDetailPage({ params }: PageProps) {
             voiceCeleb={voiceCeleb}
           />
         </CelebForm>
+
+        {celeb.celeb_reality !== 'FICTION' && (
+          <CelebReadingWaySection
+            readingWay={celeb.reading_way ?? null}
+            readingWayEn={celeb.reading_way_en ?? null}
+          />
+        )}
 
         <DeepProfileAccordion celebId={celeb.id} slug={celeb.slug || slug} />
 

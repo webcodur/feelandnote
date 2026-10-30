@@ -4,7 +4,7 @@ Read this reference when operating, debugging, or changing `sw/audio-bo`.
 
 ## Boundaries
 
-- Run from the Feelandnote repository with `pnpm dev:audio-bo` on port 3005.
+- Run from the feelandnote repository with `pnpm dev:audio-bo` on port 3005.
 - Keep code and documentation in the repository.
 - Keep jobs, WAV files, training data, models, and caches on D:.
 - Store each job at `D:\audios\interview-cleaner\projects\<job-id>`.

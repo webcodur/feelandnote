@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { parseFilterParams } from "@/app/[locale]/(main)/explore/figures/filterParams";
+import { normalizeListingParams } from "@/constants/celebListingPolicy";
+import { CELEB_FILTER_SELECTION_LIMITS, toggleFilterSelection } from "@/constants/celebFilterSelection";
 import {
   EXPLORE_PREFERENCES_KEY, canRestoreExploreFilters, createExplorePreferences,
   readExplorePreferences, restoreExplorePreferenceUrl, writeExplorePreferences,
@@ -59,4 +61,31 @@ test("stored unknown parameters cannot restore search, page, or internal flags",
   const params = new URLSearchParams(saved.filters);
   assert.equal(params.get("contentType"), "VIDEO");
   for (const key of ["search", "page", "tagId", "includeInactive"]) assert.equal(params.has(key), false);
+});
+
+test("multiple professions and countries survive URL and preference restoration, including more than 80 characters", () => {
+  const professions = "scientist,author,entrepreneur,politician,director,musician,artist,actor,athlete,journalist";
+  const parsed = parseFilterParams({ profession: professions, nationality: "US,KR,US", page: "2" });
+  const preferences = createExplorePreferences(parsed, "portrait");
+  const restored = readExplorePreferences(storage(JSON.stringify(preferences)));
+  assert.deepEqual(restored, preferences);
+  const request = normalizeListingParams(parseFilterParams(Object.fromEntries(new URLSearchParams(restored!.filters))));
+  assert.equal(request.nationality, "KR,US");
+  assert.equal(request.profession!.split(",").length, 10);
+  assert.equal(request.page, 1);
+});
+
+test("deselecting one country retains the other, deselecting the last or choosing all removes the server constraint", () => {
+  assert.equal(toggleFilterSelection("KR,US", "US"), "KR");
+  assert.equal(toggleFilterSelection("KR", "KR"), "all");
+  assert.equal(toggleFilterSelection("KR,US", "all"), "all");
+  const request = normalizeListingParams({ profession: "all", nationality: toggleFilterSelection("KR", "KR") });
+  assert.equal(request.nationality, undefined);
+  assert.equal(request.profession, undefined);
+});
+
+test("multiple filters remain bounded and canonical before cache keys or database queries", () => {
+  assert.equal(normalizeListingParams({ profession: "scientist,author,scientist" }).profession, "author,scientist");
+  assert.throws(() => normalizeListingParams({ nationality: Array.from({ length: CELEB_FILTER_SELECTION_LIMITS.items + 1 }, (_, i) => `C${i}`).join(",") }));
+  assert.throws(() => normalizeListingParams({ profession: "a".repeat(CELEB_FILTER_SELECTION_LIMITS.valueLength + 1) }));
 });

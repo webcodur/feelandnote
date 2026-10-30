@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import {libraryFunnel} from './unified-library-funnel.mjs';
 import {AVATAR_WIDTH} from '../apply-institution-revisions.mjs';
 import {EDITORIAL_PORTRAIT_WIDTH} from './editorial-editor.mjs';
 
@@ -14,7 +15,7 @@ export const UNIFIED_ARTICLE = Object.freeze({
 });
 const digest = value => crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const url = value => { const u = new URL(value); if (!['http:', 'https:'].includes(u.protocol)) throw Error('HTTP source required'); return u.href; };
-export function canonicalHttpHref(value){const u=new URL(url(value));u.pathname=u.pathname.replace(/\(/g,'%28').replace(/\)/g,'%29');return u.href;}
+export function canonicalHttpHref(value){const u=new URL(url(value));u.pathname=u.pathname.replace(/\(/g,'%28').replace(/\)/g,'%29');u.search=u.search.replace(/\(/g,'%28').replace(/\)/g,'%29');return u.href;}
 export function servicePostUrl(post){
  if(post.kind!=='celeb')return post.url;
  let pathSlug=null;if(post.url){const u=new URL(post.url),match=u.pathname.match(/^\/celeb\/([a-z0-9.-]+)\/?$/);if(u.origin!=='https://feelandnote.com'||!match)throw Error('Person service URL identity differs');pathSlug=match[1];}
@@ -51,7 +52,15 @@ export function yes24Link(book) {
   }
   const isbn = clean(book.isbn).replace(/[-\s]/g,'');
   const query = /^(?:\d{13}|\d{9}[\dXx])$/.test(isbn) ? isbn : clean(book.title)+' '+clean(book.creator);
-  return {text:'YES24에서 찾기',href:'https://www.yes24.com/Product/Search?domain=BOOK&query='+encodeURIComponent(query)};
+  const encodedQuery = encodeURIComponent(query).replace(/\(/g,'%28').replace(/\)/g,'%29');
+  return {text:'YES24에서 찾기',href:'https://www.yes24.com/Product/Search?domain=BOOK&query='+encodedQuery};
+}
+
+export function isVerifiedSelectionOnlyInstitution(input){
+ return input.kind==='curated'&&input.books?.length===UNIFIED_ARTICLE.maxBooks&&input.selection?.method==='verified-curated-selection-without-reader-notes'
+  &&input.selection.publicReviewCount===0&&input.selection.eligibleBooks>=input.books.length
+  &&typeof input.selection.listId==='string'&&input.selection.listId.length>0
+  &&input.fullList?.source==='curated_lists:'+input.selection.listId;
 }
 
 export function compileUnifiedArticle(input) {
@@ -65,12 +74,21 @@ export function compileUnifiedArticle(input) {
   if (!Array.isArray(input.books) || !input.books.length || input.books.length > UNIFIED_ARTICLE.maxBooks) throw Error('One to five explicit book selections required');
   if(input.books.length<UNIFIED_ARTICLE.maxBooks){const eligible=input.selection?.eligibleBooks;if(!Number.isInteger(eligible)||eligible!==input.books.length||eligible>=UNIFIED_ARTICLE.maxBooks)throw Error('Five books required unless the complete eligible service set is smaller');}
   if (new Set(input.books.map(b=>b.content_id)).size!==input.books.length) throw Error('Duplicate book selections');
+  let seenForeign=false;
+  for(const b of input.books){
+    const isForeign=b.isDomestic===false||b.title?.includes('(원서)');
+    if(isForeign)seenForeign=true;
+    else if(seenForeign&&b.isDomestic===true)throw Error('Domestic Korean editions must be placed before foreign editions: '+b.title);
+  }
+  const funnel=libraryFunnel(input),selectionOnly=isVerifiedSelectionOnlyInstitution(input);
+  if(selectionOnly&&input.books.some(b=>(b.reviews??(b.review?[b]:[])).length))throw Error('Selection-only institution cannot discard existing reading notes');
   const operations = [], sources = [], addText = (text, role='body', align=null,anchor=null,format={}) => {
     for (const [i,part] of split(text).entries()) operations.push({kind:'text',text:part,role,align:align??(['heading','label','author'].includes(role)?'center':'left'),...format,...(anchor&&i===0?{anchor}:{})});
   }, addLink = (text,href,align='center') => operations.push({kind:'link',text,href:url(href),role:'label',align});
   operations.push({kind:'image',url:url(subject.imageUrl),width:UNIFIED_ARTICLE.portraitWidth,role:input.kind==='celeb'?'portrait':'logo',name:subject.name});
-  addText(subject.name+(subject.profession?' · '+subject.profession:''),'heading','center');
-  if (subject.introduction) addText(subject.introduction,'body','left',null,{gapBefore:true});
+  addText(funnel?.heading??(subject.name+(subject.profession?' · '+subject.profession:'')),'heading','center');
+  if (subject.introduction){const first=operations.length;addText(subject.introduction,'body','left',null,{gapBefore:true});if(funnel)operations[first].gapBefore=false;}
+  if(selectionOnly)addText('수상작을 만날 수 있는 다섯 권과 전체 선정 목록을 함께 소개합니다.','body','left',null,{gapBefore:true});
   operations.push({kind:'divider'});addText('목차','label');
   const contents=(text,target)=>{addText(text,'body','center');operations.at(-1).tocTarget=target;};
   for(const [i,book]of input.books.entries())contents(String(i+1).padStart(2,'0')+'. '+book.title,'book-'+String(i+1).padStart(2,'0'));
@@ -88,7 +106,7 @@ export function compileUnifiedArticle(input) {
     Object.assign(operations.at(-1),{placement:'cover-caption',bold:true,gapBefore:false});
     addText('책 소개','label',null,null,{gapBefore:false});const introductionStart=operations.length;addText(book.introduction,'body','left',null,{gapBefore:true});Object.assign(operations[introductionStart],{gapBefore:false,attachPrevious:true});
     const notes = book.reviews ?? (book.review ? [book] : []);
-    if (!notes.length) throw Error('Service reading background required: '+book.title);
+    if (!notes.length&&!selectionOnly) throw Error('Service reading background required: '+book.title);
     for (const note of notes) {
       if (!clean(note.review)||!note.source_url||!note.id) throw Error('Exact service review and source required: '+book.title);
       if (input.kind==='curated') {
@@ -120,10 +138,10 @@ export function compileUnifiedArticle(input) {
   }
   operations.push({kind:'divider'});
   addText(input.kind==='celeb'
-    ?'필앤노트는 인물들의 감상 기록을 통해 책과 작품을 발견하는 서비스입니다.\n\n인물의 감상 기록과 작품별 정보를 함께 살펴볼 수 있습니다.'
+    ?'필앤노트는 인물들의 감상 기록을 통해 책과 작품을 발견하는 서비스입니다.\n\n'+(funnel?.footer??'인물의 감상 기록과 작품별 정보를 함께 살펴볼 수 있습니다.')
     :'필앤노트에서는 기관별 선정 도서와 작품 정보, 인물들의 감상 기록을 함께 살펴볼 수 있습니다.','body','center','service-info',{gapBefore:true});
-  addLink('필앤노트에서 '+subject.name+(input.kind==='celeb'?'의 전체 감상 기록 보기':'의 전체 선정 도서 보기'),serviceUrl);
-  Object.assign(operations.at(-1),{role:'body',bold:true,gapBefore:true});
+  addLink(funnel?.link??('필앤노트에서 '+subject.name+(input.kind==='celeb'?'의 전체 감상 기록 보기':'의 전체 선정 도서 보기')),serviceUrl);
+  Object.assign(operations.at(-1),{role:'body',bold:true,gapBefore:!funnel});
   const article={version:UNIFIED_ARTICLE.version,policyHash:digest(UNIFIED_ARTICLE),logNo:String(input.logNo),kind:input.kind,title:input.title,serviceUrl,operations,sources,sourceHash:materialHash(input)};
   return {...article,articleHash:digest(article)};
 }

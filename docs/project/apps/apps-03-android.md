@@ -1,6 +1,6 @@
 # 안드로이드 앱 (TWA 셸)
 
-Feel&Note 안드로이드 앱은 네이티브 재개발이 아니라 **PWA를 보강한 사용자 웹(`sw/web`)을 TWA(Trusted Web Activity)로 감싼 셸**이다. 사용자 기기의 브라우저가 본서비스를 전체 화면으로 렌더링하므로 웹 배포가 곧 앱 콘텐츠 업데이트다. WebView 앱은 OAuth 내장 브라우저 정책과 웹 자산 이중 관리 때문에 쓰지 않는다.
+feelandnote 안드로이드 앱은 네이티브 재개발이 아니라 **PWA를 보강한 사용자 웹(`sw/web`)을 TWA(Trusted Web Activity)로 감싼 셸**이다. 사용자 기기의 브라우저가 본서비스를 전체 화면으로 렌더링하므로 웹 배포가 곧 앱 콘텐츠 업데이트다. WebView 앱은 OAuth 내장 브라우저 정책과 웹 자산 이중 관리 때문에 쓰지 않는다.
 
 셸 빌드·서명 키·도메인 연결 절차는 [`sw/android/README.md`](../../../sw/android/README.md)가 쥔다. 출시 전 남은 일은 [`docs/todo/android-release.md`](../../todo/android-release.md)가 쥔다.
 

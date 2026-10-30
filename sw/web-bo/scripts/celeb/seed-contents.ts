@@ -7,7 +7,7 @@
  * - 작품 마스터는 제목(ko/en)·유형·제작자로 기존 contents를 찾고, 없으면 만든다
  *   (external_source/external_id는 비워 둔다 — API 수집분이 아닌 수동 조사분).
  * - celeb_contents는 (celeb_id, content_id) 기존 행이 있으면 건너뛴다.
- * - review·review_en·source_url·status(FINISHED/WANT)를 그대로 넣는다.
+ * - review·review_en·source_url·status를 그대로 넣는다. 셀럽 status는 FINISHED뿐이다(WANT 폐기).
  */
 import { config } from 'dotenv'
 import { resolve } from 'node:path'
@@ -54,7 +54,7 @@ async function main() {
       for (const c of r.contents ?? []) {
         if (!c.type || !c.title) { problems.push(`${nick}: type/title 누락`); continue }
         if (!['BOOK', 'VIDEO', 'GAME', 'MUSIC'].includes(c.type)) { problems.push(`${nick}: 유효하지 않은 type ${c.type}`); continue }
-        if (!['FINISHED', 'WANT'].includes(c.status)) { problems.push(`${nick}: 유효하지 않은 status ${c.status}`); continue }
+        if (c.status !== 'FINISHED') { problems.push(`${nick}: 유효하지 않은 status ${c.status}`); continue }
         items.push({ celeb_id: cid, nick, d: c })
       }
     }

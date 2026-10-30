@@ -18,6 +18,6 @@ export function assertParagraphPresentation(article,actual,{font=null,captionFon
  const rgb=hex=>'rgb('+hex.match(/[a-f\d]{2}/gi).map(v=>parseInt(v,16)).join(', ')+')';
  for(const [i,p]of actual.entries()){
   const op=ops[i],s=textPresentation(op),size=op.placement==='cover-caption'&&captionFont!==null?captionFont:font?.[op.role]??s.size;
-  if(p.text!==op.text||p.align!==s.align||!p.sizes.length||p.sizes.some(n=>n!==size)||p.weights.some(w=>(w>=600)!==s.bold)||op.color&&p.colors.some(c=>c!==rgb(op.color))||s.background&&(!p.backgrounds?.length||p.backgrounds.some(c=>c!==rgb(s.background)))||s.gapBefore&&!p.separated||op.attachPrevious&&p.separated)throw Error('Typography, emphasis, review color, background or spacing differs: '+p.text.slice(0,60));
+  if(p.text!==op.text||p.align!==s.align||!p.sizes.length||p.sizes.some(n=>n!==size)||p.weights.some(w=>(w>=600)!==s.bold)||op.color&&p.colors.some(c=>c!==rgb(op.color))||s.background&&(!p.backgrounds?.length||p.backgrounds.some(c=>c!==rgb(s.background)))||s.gapBefore&&!p.separated||op.attachPrevious&&p.separated)throw Error('Typography, emphasis, review color, background or spacing differs: '+p.text.slice(0,60)+' / '+JSON.stringify({expected:{...s,size},actual:{align:p.align,sizes:p.sizes,weights:p.weights,separated:p.separated,colors:p.colors}}));
  }
 }

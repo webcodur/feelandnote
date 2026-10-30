@@ -4,20 +4,19 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { assembleBookMaterial, saveBookMaterial } from './book-material.mjs';
-import { MIN_REVIEW_LENGTH } from './lib/roster-data.mjs';
 
 const content = { id: 'book', type: 'BOOK' };
 const locale = { content_id: 'book', locale: 'ko', title: '1984', thumbnail_url: 'cover', affiliate_url: { coupang: 'original-url' } };
 const celeb = (id, extra = {}) => ({ id, nickname: '동명이인', slug: id, publication_status: 'active', celeb_tier: 'full', avatar_url: null, ...extra });
-const relation = (id, celeb_id, extra = {}) => ({ id, celeb_id, content_id: 'book', review: ` ${'가'.repeat(MIN_REVIEW_LENGTH)}\n`, source_url: 'original-source', ...extra });
+const relation = (id, celeb_id, extra = {}) => ({ id, celeb_id, content_id: 'book', review: ' 감상 원문입니다.\n', source_url: 'original-source', ...extra });
 
-test('감상 원문·관계ID·동명이인을 보존하고 비활성·짧은 감상을 제외한다', () => {
+test('감상 원문·관계ID·동명이인과 짧은 감상을 보존하고 비활성·빈 감상을 제외한다', () => {
   const a = relation('r1', 'a'), b = relation('r2', 'b');
   const data = assembleBookMaterial({ content, locale,
     celebs: [celeb('a'), celeb('b'), celeb('hidden', { publication_status: 'draft' })],
-    relations: [a, b, relation('r3', 'hidden'), relation('r4', 'a', { review: '짧음' }), relation('r5', 'a', { content_id: 'other' })],
+    relations: [a, b, relation('r3', 'hidden'), relation('r4', 'a', { review: ' \n' }), relation('r5', 'a', { content_id: 'other' }), relation('r6', 'a', { review: '짧음' })],
   });
-  assert.deepEqual(data.readers.map(r => [r.relation_id, r.celeb_id]), [['r1', 'a'], ['r2', 'b']]);
+  assert.deepEqual(data.readers.map(r => [r.relation_id, r.celeb_id]), [['r1', 'a'], ['r2', 'b'], ['r6', 'a']]);
   assert.equal(data.readers[0].review, a.review);
   assert.equal(data.readers[0].source_url, a.source_url);
   assert.deepEqual(data.book.affiliate_url, locale.affiliate_url);

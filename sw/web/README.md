@@ -1,4 +1,4 @@
-# Feel&Note 사용자 웹
+# feelandnote 사용자 웹
 
 Next.js 사용자 서비스다. 로컬 개발은 저장소 루트에서 `pnpm dev:web`으로 실행한다.
 

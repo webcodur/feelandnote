@@ -14,7 +14,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { extname, resolve } from 'node:path'
 import { createClient, type DatabaseClient } from '@feelandnote/db'
-import { getBookByIsbn } from '@feelandnote/content-search/kakao-books'
+import { getBookByIsbn, getKakaoBookByIsbn } from '@feelandnote/content-search/kakao-books'
 import { getOpenLibraryBookMetadata } from '@feelandnote/content-search/openlibrary'
 import { amazonBookCandidate, type AmazonBookIdentity, type AmazonBookLookup } from '@feelandnote/content-search/amazon-book-product'
 import {
@@ -247,7 +247,11 @@ async function resolveKakaoEdition(isbn: string): Promise<ExternalBookEdition> {
       || !book.coverImageUrl?.trim()) {
     throw new Error(`Kakao edition ${isbn} is missing title, creator, publisher, or cover`)
   }
-  const introduction = await fetchBookIntroduction({ isbn, locale: 'ko' })
+  // 다음 상세가 CAPTCHA로 막히면 소개를 비워 두고 등록한다. 웹이 소개를 다시 조회한다.
+  const introduction = await fetchBookIntroduction({ isbn, locale: 'ko' }).catch((error: unknown) => {
+    if (/CAPTCHA/u.test(String(error))) return null
+    throw error
+  })
   return {
     source: 'kakao_book',
     isbn,
@@ -272,14 +276,18 @@ async function resolveKakaoEdition(isbn: string): Promise<ExternalBookEdition> {
   }
 }
 
-async function resolveOpenLibraryEdition(isbn: string): Promise<ExternalBookEdition> {
+async function resolveOpenLibraryEdition(isbn: string, cover?: { url: string; sourceUrl: string }): Promise<ExternalBookEdition> {
   const book = await getOpenLibraryBookMetadata(isbn, { allowMissingPublisher: true })
   if (!book) throw new Error(`OpenLibrary returned no verified English edition for ISBN ${isbn}`)
-  if (!book.coverImageUrl) throw new Error(`OpenLibrary edition ${isbn} has no verifiable cover`)
+  // 표지는 OpenLibrary → 같은 ISBN의 카카오 → 명세의 확인된 표지 순으로 쓴다. 메타는 OpenLibrary 그대로다.
+  const kakao = book.coverImageUrl ? null : await getKakaoBookByIsbn(book.isbn)
+  const fallback = kakao?.coverImageUrl ? { url: kakao.coverImageUrl, sourceUrl: kakao.metadata.link } : cover
+  const thumbnailUrl = book.coverImageUrl ?? fallback?.url
+  if (!thumbnailUrl) throw new Error(`OpenLibrary edition ${isbn} has no verifiable cover`)
   const introduction = await fetchBookIntroduction({ isbn, locale: 'en' })
   return {
     source: 'openlibrary', isbn: book.isbn, title: book.title, creator: book.creator,
-    thumbnailUrl: book.coverImageUrl, publisher: book.publisher || null,
+    thumbnailUrl, ...(book.coverImageUrl || !fallback ? {} : { thumbnailSourceUrl: fallback.sourceUrl }), publisher: book.publisher || null,
     description: introduction?.source ?? null, sourceUrl: book.sourceUrl,
     descriptionSourceUrl: introduction?.sourceUrl ?? null,
     releaseDate: /^\d{4}-\d{2}-\d{2}$/.test(book.publishDate ?? '') ? book.publishDate : null,
@@ -296,7 +304,7 @@ async function resolveExternalEditions(manifest: FigureBookManifest): Promise<{
     manifest.ko.translationStatus === 'published'
       ? resolveKakaoEdition(manifest.ko.isbn)
       : Promise.resolve(undefined),
-    manifest.en ? resolveOpenLibraryEdition(manifest.en.isbn) : Promise.resolve(undefined),
+    manifest.en ? resolveOpenLibraryEdition(manifest.en.isbn, manifest.en.cover) : Promise.resolve(undefined),
   ])
   return { ko, en }
 }

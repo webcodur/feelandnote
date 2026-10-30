@@ -6,6 +6,7 @@ import { DEFAULT_EXPLORE_PROFESSION } from "@/constants/celebProfessions";
 import { parseTrendCountry } from "@/constants/trendCountries";
 import { listingPage, listingPageSize, CELEB_LISTING_LIMITS } from "@/constants/celebListingPolicy";
 import { EXPLORE_FILTER_KEYS, parseExploreContentType } from "@/constants/exploreFilters";
+import { filterSelection, serializeFilterSelection } from "@/constants/celebFilterSelection";
 
 // URL searchParams에서 필터/정렬 값 파싱
 function parseParam(params: Record<string, string | string[] | undefined>, key: string): string | undefined {
@@ -42,8 +43,8 @@ export function parseFilterParams(params: Record<string, string | string[] | und
     trendCountry: parseTrendCountry(parseParam(params, "trendCountry")),
     // 실존 축 필터. 미지정이면 getCelebs가 기본(REAL·BOTH, FICTION 제외)만 노출한다.
     realities: parseCelebRealities(parseParam(params, "reality")),
-    profession: notAll(parseParam(params, "profession") || DEFAULT_EXPLORE_PROFESSION),
-    nationality: notAll(parseParam(params, "nationality")),
+    profession: notAll(serializeFilterSelection(filterSelection(parseParam(params, "profession") || DEFAULT_EXPLORE_PROFESSION))),
+    nationality: notAll(serializeFilterSelection(filterSelection(parseParam(params, "nationality")))),
     contentType: notAll(parseExploreContentType(parseParam(params, "contentType"))),
     contentPresence: parseExploreContentPresence(parseParam(params, "contentPresence"), parseParam(params, "tier")),
     gender: notAll(parseParam(params, "gender")),

@@ -9,11 +9,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';
+import {compileUnifiedArticle} from './lib/unified-article.mjs';
 
 const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const raw = JSON.parse(fs.readFileSync(DRAFTS, 'utf8'));
 const all = Array.isArray(raw) ? raw : raw.items ?? raw.drafts ?? [];
-const targets = process.argv.includes('--all') ? all : all.filter((x) => x.status === 'draft');
+const selected = process.argv.includes('--all') ? all : all.filter((x) => x.status === 'draft');
+const unified=selected.filter(x=>x.format==='unified'),targets=selected.filter(x=>x.format!=='unified');
+for(const row of unified){const article=compileUnifiedArticle(row.unifiedMaterial);if(article.articleHash!==row.unifiedArticle?.articleHash||article.logNo!==String(row.logNo)||article.title!==row.title)throw Error('통합 원고 불일치: '+row.target);}
+if(unified.length)console.log(`통합 양식 ${unified.length}편 — 공통 생성기와 최종 원고 일치`);
 
 console.log(`검사 대상 ${targets.length}편 / 전체 ${all.length}편\n`);
 const say = (label, rows) => console.log(`${label.padEnd(22)} ${rows.length ? `${rows.length}건 — ${rows.slice(0, 6).join(', ')}` : '없음'}`);

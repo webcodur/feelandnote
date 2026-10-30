@@ -17,11 +17,12 @@ import {
 import type { CelebSortBy } from "@/actions/home";
 import type { CelebContentPresence } from "@/constants/celebContentPresence";
 import type { TrendCountry } from "@/constants/trendCountries";
-import { CELEB_REALITIES, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
+import { type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 import CelebsSection from "@/components/features/user/explore/sections/CelebsSection";
 import CelebsByProfession from "@/components/features/user/explore/sections/CelebsByProfession";
 import CelebStatsBar from "@/components/features/user/explore/sections/CelebStatsBar";
 import { RetryBlock } from "@/components/ui/pending";
+import { fetchCountries } from "@/lib/countries";
 
 /** 자료가 정말 0건인 구획 — 자리는 남기고 한 줄만 둔다 */
 async function EmptyLine() {
@@ -93,62 +94,21 @@ export interface FiguresFilterParams {
   birthYearMax?: number;
 }
 
-/* 필터 결과(그리드 뷰) — 필터 줄과 목록이 같은 상호작용 상태(검색어·정렬·페이지)를 공유하는
-   하나의 위젯이라 두 레인으로 쪼개지 않는다. 카운트 4종 + 목록을 함께 기다린다 */
+// 선택지별 숫자는 집계하지 않는다. 국적 선택지는 국가 코드 목록을 쓴다.
 export async function FiguresFilterResult({ params }: { params: FiguresFilterParams }) {
-  let result: [
-    Awaited<ReturnType<typeof getCelebs>>,
-    Awaited<ReturnType<typeof getProfessionCounts>>,
-    Awaited<ReturnType<typeof getNationalityCounts>>,
-    Awaited<ReturnType<typeof getContentTypeCounts>>,
-    Awaited<ReturnType<typeof getGenderCounts>>,
-    Awaited<ReturnType<typeof getCelebs>>,
-    Awaited<ReturnType<typeof getCelebs>>,
-  ];
+  let celebsResult: Awaited<ReturnType<typeof getCelebs>>;
   try {
-    result = await Promise.all([
-      getCelebs({
-        page: params.page,
-        limit: params.pageSize,
-        minContentCount: 0,
-        sortBy: params.sortBy,
-        trendCountry: params.trendCountry,
-        profession: params.profession,
-        nationality: params.nationality,
-        contentType: params.contentType,
-        contentPresence: params.contentPresence,
-        gender: params.gender,
-        search: params.search,
-        factionId: params.factionId,
-        tiers: params.tiers,
-        realities: params.realities,
-        birthYearMin: params.birthYearMin,
-        birthYearMax: params.birthYearMax,
-      }),
-      getProfessionCounts(),
-      getNationalityCounts(),
-      getContentTypeCounts(),
-      getGenderCounts(),
-      // 헤드라인용 실존 축별 명부 수 — 필터 없이 축만 바꿔 센다. 캐시된 조회라 저렴하다
-      getCelebs({ page: 1, limit: 1, sortBy: "name_asc", realities: ["FICTION", "BOTH"], includeViewerState: false }),
-      getCelebs({ page: 1, limit: 1, sortBy: "name_asc", realities: [...CELEB_REALITIES], includeViewerState: false }),
-    ]);
+    celebsResult = await getCelebs({
+      ...params,
+      limit: params.pageSize,
+      minContentCount: 0,
+    });
   } catch (e) {
     console.error("[FiguresPage] 필터 결과 조회 실패:", e);
     return <RetryBlock />;
   }
-
-  // JSX 생성은 try 밖에서 한다 — try 안 JSX는 렌더 오류를 못 잡으면서 린트만 문다
-  const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, genderCounts, fictionResult, allResult] = result;
-  if (celebsResult.error || fictionResult.error || allResult.error) return <RetryBlock />;
-  // 사실 쪽은 명부와 같은 기준(활성·REAL·BOTH)을 쓰는 genderCounts의 all — 기본 뷰는 직군 좁힘이 걸려 있어 celebsResult.total을 쓰면 안 된다
-  const realityTotals = {
-    real: genderCounts.find((entry) => entry.value === "all")?.count ?? celebsResult.total,
-    fiction: fictionResult.total,
-    all: allResult.total,
-    // 실존(REAL+BOTH)과 가상(FICTION+BOTH)의 교집합이다. 추가 조회 없이 BOTH 수를 구한다.
-    mixed: (genderCounts.find((entry) => entry.value === "all")?.count ?? celebsResult.total) + fictionResult.total - allResult.total,
-  };
+  if (celebsResult.error) return <RetryBlock />;
+  const countries = await fetchCountries({ includeHistorical: true });
   return (
     <div className="space-y-6 md:space-y-8">
       <CelebsSection
@@ -157,11 +117,7 @@ export async function FiguresFilterResult({ params }: { params: FiguresFilterPar
         initialTotalPages={celebsResult.totalPages}
         initialTrendCountry={params.trendCountry}
         initialTrend={celebsResult.trend}
-        professionCounts={professionCounts}
-        nationalityCounts={nationalityCounts}
-        contentTypeCounts={contentTypeCounts}
-        genderCounts={genderCounts}
-        realityTotals={realityTotals}
+        nationalityOptions={countries.map(country => country.code)}
       />
     </div>
   );

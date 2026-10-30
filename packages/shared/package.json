@@ -59,7 +59,8 @@
     "./constants/responsive-artwork": "./src/constants/responsive-artwork.ts",
     "./hooks/use-professions": "./src/hooks/use-professions.tsx",
     "./constants/profession-books": "./src/constants/profession-books.ts",
-    "./constants/site-brand": "./src/constants/site-brand.ts"
+    "./constants/site-brand": "./src/constants/site-brand.ts",
+    "./constants/celeb-reading-way": "./src/constants/celeb-reading-way.ts"
   },
   "peerDependencies": {
     "next": ">=15",

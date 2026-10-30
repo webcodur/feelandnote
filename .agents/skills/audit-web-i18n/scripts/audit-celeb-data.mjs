@@ -37,7 +37,7 @@ function findRepoRoot(start) {
     const parent = path.dirname(current);
     if (parent === current) {
       throw new Error(
-        "Could not find the Feel&Note repository root. Run this inside the repository.",
+        "Could not find the feelandnote repository root. Run this inside the repository.",
       );
     }
     current = parent;
@@ -579,7 +579,7 @@ const summary = {
 if (jsonOutput) {
   console.log(JSON.stringify({ summary, coverage: coverageSummary, findings }, null, 2));
 } else {
-  console.log("Feel&Note celebrity locale data audit");
+  console.log("feelandnote celebrity locale data audit");
   console.log(`- scope: ${scanAll ? (activeOnly ? "all active celebs" : "all celebs") : slugs.join(", ")}`);
   console.log(`- celebs: ${profiles.length}`);
 

@@ -16,6 +16,11 @@ import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';
 import { getBrowser, getNaverPage, ensureLoggedIn } from './lib/browser.mjs';
 import { createExistingEditor } from './lib/existing-editor.mjs';
+import {compileUnifiedArticle} from './lib/unified-article.mjs';
+import {assertUnifiedSnapshot,assertTypography} from './apply-unified-article.mjs';
+import {readSnapshot,closePublishPanel} from './repair-institution-images.mjs';
+import {assertPublishOptions} from './lib/publish-options.mjs';
+import {sameReservation} from './lib/same-reservation.mjs';
 
 const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const POSTS = path.join(ASSETS, 'naver-blog/posts.json');
@@ -45,7 +50,7 @@ const posts = fs.existsSync(POSTS) ? JSON.parse(fs.readFileSync(POSTS, 'utf8')) 
 const targets = one ? rows.filter((r) => String(r.logNo) === String(one)) : rows.filter((r) => r.logNo);
 console.log(`검사 대상 ${targets.length}편\n`);
 
-const { browser, launched } = await getBrowser({ protocolTimeout: 300000 });
+const { browser, launched } = await getBrowser({ protocolTimeout: 300000, background:true });
 const page = await getNaverPage(browser);
 page.on('dialog', (d) => { d.accept().catch(() => {}); });
 await ensureLoggedIn(page);
@@ -73,6 +78,15 @@ const bad = [];
 for (const row of targets) {
   const slug = (row.target || '').replace('/celeb/', '');
   try {
+    if(row.format==='unified'){
+      const article=compileUnifiedArticle(row.unifiedMaterial),post=posts.find(p=>String(p.logNo)===String(row.logNo));
+      if(article.articleHash!==row.unifiedArticle?.articleHash||article.articleHash!==post?.unified?.articleHash||!row.unifiedImages)throw Error('현재 통합 원고·대장·업로드 원본 대조 불가');
+      const opened=await editor.openTarget({...post,body:undefined});await assertPublishOptions(page);await closePublishPanel(page,editor);
+      const snapshot=await readSnapshot(page),table=await page.$$eval('.se-component.se-table tr',rs=>rs.map(r=>[...r.querySelectorAll('td,th')].map(c=>c.innerText.replace(/\u200b/g,'').trim())));
+      assertUnifiedSnapshot(article,snapshot,table,row.unifiedImages);await assertTypography(page,article);
+      if(opened.reservation&&!sameReservation(opened.reservation,{...opened.reservation,row:article.title+'\n'+post.scheduledAt}))throw Error('예약 시각 불일치');
+      console.log(`정상 ${slug} (${row.logNo}) — 공통 통합 원고·사진·서식·예약 시각 일치`);continue;
+    }
     await page.bringToFront();
     const opened = await open(row);
     const got = opened.got;
@@ -114,10 +128,12 @@ for (const row of targets) {
     // 저장하지 않고 나간다. 열어 둔 발행 패널의 이탈 확인창은 dialog 핸들러가 수락한다.
     if (opened.reserved) await page.goto('https://blog.naver.com/dmx777', { waitUntil: 'domcontentloaded', timeout: 30000 }).catch(() => {});
   } catch (e) {
+    bad.push({slug,logNo:row.logNo,problems:[String(e)]});
     console.log(`확인실패 ${slug}: ${String(e).split('\n')[0].slice(0, 100)}`);
   }
 }
 
 console.log(`\n손상 ${bad.length}편 / 검사 ${targets.length}편`);
 if (bad.length) console.log(bad.map((b) => `${b.logNo} ${b.slug}`).join('\n'));
+if (bad.length) process.exitCode=1;
 if (launched) await browser.close(); else browser.disconnect();

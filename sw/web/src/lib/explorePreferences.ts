@@ -3,6 +3,7 @@ import type { FiguresFilterParams } from "@/app/[locale]/(main)/explore/figures/
 import type { CelebCardImage } from "@/components/shared/CelebCard";
 import { EXPLORE_FILTER_KEYS, EXPLORE_PREFERENCE_KEYS } from "@/constants/exploreFilters";
 import { CELEB_LISTING_LIMITS, normalizeListingParams } from "@/constants/celebListingPolicy";
+import { CELEB_FILTER_SELECTION_MAX_LENGTH } from "@/constants/celebFilterSelection";
 
 export const EXPLORE_PREFERENCES_KEY = "fn:explore-preferences:v1";
 
@@ -35,7 +36,8 @@ export function readExplorePreferences(storage: PreferenceStorage): ExplorePrefe
     const params = new URLSearchParams();
     for (const key of EXPLORE_PREFERENCE_KEYS) {
       const value = input.get(key);
-      if (value !== null && value.length <= CELEB_LISTING_LIMITS.filterLength) params.set(key, value);
+      const maxLength = key === "profession" || key === "nationality" ? CELEB_FILTER_SELECTION_MAX_LENGTH : CELEB_LISTING_LIMITS.filterLength;
+      if (value !== null && value.length <= maxLength) params.set(key, value);
     }
     const parsed = parseFilterParams(Object.fromEntries(params));
     normalizeListingParams({ ...parsed, limit: parsed.pageSize });

@@ -315,7 +315,7 @@ function assertIdentityEvidence(
       || /r2\.dev\/celebs\/[^/]+\/avatar\.webp(?:[?#]|$)/i.test(normalized)
     if (isOwnServiceAvatar) {
       throw new Error(
-        '기존 Feel&Note 서비스 아바타는 독립적인 신원 근거가 아니다. '
+        '기존 feelandnote 서비스 아바타는 독립적인 신원 근거가 아니다. '
         + '공식·기관·본인 페이지를 별도로 제시하라.'
       )
     }

@@ -46,7 +46,7 @@ done → live → todo 순서로 탐색한다.
 
 | 필드 | 설명 | 번역 방식 |
 |------|------|-----------|
-| `serviceGreeting` | 서비스 인사 | 고정 문구: "Welcome to the Feelandnote Library Tour." |
+| `serviceGreeting` | 서비스 인사 | 고정 문구: "Welcome to the feelandnote Library Tour." |
 | `serviceIntro` | 오늘의 인물 소개 | 자연스러운 영문 |
 | `celebIntro` | 인물 소개 나레이션 | 나레이터 톤의 영문. 문장 수를 ko와 최대한 맞춤 |
 | `bridge` | 브릿지 | 자연스러운 영문 |
@@ -146,7 +146,7 @@ en.json에 `locale: "en"` 설정 후 저장.
   featuredQuote: (전문)
 
 === narrator ===
-  serviceGreeting: Welcome to the Feelandnote Library Tour.
+  serviceGreeting: Welcome to the feelandnote Library Tour.
   celebIntro: (50자 미리보기) [ko N문장 → en N문장]
 
 === books (N권) ===

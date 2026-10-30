@@ -5,7 +5,7 @@
  *        → 공용 비율 변환 → R2 celebs/{id}/photo.webp → celebs.portrait_url
  *
  * REF는 두 갈래다.
- *   facePath — 로컬 얼굴 파일(`D:/image/_재료/지정/<인물>.png`). 아바타가 없는 인물의 경로다.
+ *   facePath — 로컬 얼굴 파일(`D:/image/_재료/지정/01_미등록_등록검토/<인물>.png`). 아바타가 없는 인물의 경로다.
  *   avatar_url — 이미 아바타가 있는 인물의 원격 경로.
  *
  * 진위검사가 핵심이다. codex는 생성에 실패해도 입력 REF를 그대로 돌려주는 일이 있어

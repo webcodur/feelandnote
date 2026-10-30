@@ -1,6 +1,6 @@
 ---
 name: aside-browser
-description: 사용자의 실제 Aside 브라우저(로그인 세션·쿠키·프로필 그대로)를 aside CLI로 제어한다. puppeteer·CDP·curl이 Akamai 등 봇 차단으로 403(Access Denied)을 받는 사이트의 페이지 열람·DOM 추출·스크린샷, 로그인이 필요한 화면 조작에 쓴다. "어사이드", "aside", "403 차단", "Access Denied 우회", "실제 브라우저로 열어", "쿠팡 상품 긁어" 요청에 적용한다.
+description: 사용자의 실제 Aside 브라우저(로그인 세션·쿠키·프로필 그대로)를 aside CLI로 제어한다. puppeteer·CDP·curl이 Akamai 등 봇 차단으로 403(Access Denied)을 받는 사이트의 페이지 열람·DOM 추출·스크린샷, 로그인 화면 조작, Gemini 계정별 병렬 호출에 쓴다. "어사이드", "aside", "403 차단", "Access Denied 우회", "실제 브라우저로 열어", "쿠팡 상품 긁어" 요청에 적용한다.
 ---
 
 # Aside 브라우저 제어
@@ -35,6 +35,7 @@ Aside는 사용자 계정으로 로그인된 실제 브라우저다. CDP로 제�
 - 한 번의 `aside repl` 호출은 새 세션이다. 탭 오픈부터 데이터 추출까지 한 호출 안에 넣는다 — 이전 호출의 `tabs`는 이어지지 않는다. 타임아웃 120초.
 - 전역 함수: `openTab(url)`, `snapshot(page, {interactive})`, `sleep(ms)`, `page.evaluate()`, `page.screenshot()`, `listBrowserTabs()`, `attachActiveBrowserTab()`. `page.waitForTimeout`은 없다 — 전역 `sleep`을 쓴다.
 - 페이지 읽기는 `snapshot()`이 기본이고, 셀렉터를 아는 경우 `page.evaluate()`로 직접 뽑는다. 전체 API는 `aside guide repl`을 본다.
+- CLI 호출은 마지막 식의 값을 출력하지 않는다. 읽은 값은 `console.log()`로 내보낸다. `page`는 전역 활성 탭이라 `openTab()`이 돌려준 핸들을 변수로 받아 쓰고, 다 읽으면 `closeTab()`으로 닫는다. 응답 없는 사이트에서 호출이 끝나지 않을 수 있으므로 셸에서 `timeout 100 aside repl …`처럼 상한을 건다.
 - MCP로도 노출돼 있다(`mcp__aside__repl` 등). MCP 호출은 세션 간 REPL 스코프가 유지된다.
 
 ## 쿠팡 레시피 (검증됨)
@@ -65,6 +66,14 @@ aside repl "const p = await openTab('https://www.coupang.com/vp/products/<ID>');
 - **다운로드 파일의 이름만으로 인물을 확정하지 않는다.** 여러 ChatGPT 탭에서 다운로드 이벤트가 다른 탭의 파일을 반환한 사례가 있다. 병렬 회수에서는 선택한 뷰어 원본과 다운로드 파일을 디코딩한 픽셀 해시로 대조한다. 이 경우 선택한 뷰어의 로드된 `blob:` 이미지를 `page.evaluate()` 안에서 원래 `naturalWidth`·`naturalHeight` 크기의 canvas에 그려 `toDataURL('image/png')`로 회수한다. Base64는 REPL의 `fs.writeFile()`로 `pwd` 아래에 저장하고, 얼굴을 참조와 대조한다. 화면 캡처나 썸네일을 생성 원본 대신 쓰지 않는다.
 - **Grok 원본 회수는 이미지 출처에 맞춘다.** 외부 이미지 URL은 canvas가 오염될 수 있고, 페이지 내부 `fetch`나 다운로드가 성공처럼 보여도 0바이트 파일이 남을 수 있다. 실제 열린 뷰어에서 확인한 `assets.grok.com` 원본 URL을 Aside REPL 전역의 쿠키가 유지되는 `fetch(url)`로 받아 `fs.writeFile()`로 저장한다. `page.evaluate()` 내부의 `fetch`와 구분한다. HTTP 성공·이미지 MIME·실제 바이트 수·이미지 디코딩과 픽셀 크기를 확인하고, JPEG 등 실제 형식에 맞춰 확장자를 정한다.
 
+## Gemini 계정별 병렬 호출
+
+계정별 동시 생성의 확인 범위와 한도 처리는 [브라우저 채팅의 Gemini 병렬 운용](../../../docs/resource/res-04-browser-chat-automation.md#gemini-계정별-병렬-운용)을 따른다. `aside account list`로 브라우저 프로필을 확인하고, 각 프로필의 `googleAccounts.list()`로 Google 계정 번호를 확인한다. **Aside의 `uN`은 브라우저 프로필이고, Gemini 주소의 `/u/<accountId>/`는 그 프로필 안의 Google 계정 번호다.** `new AsideClient({account:'uN'})`를 작업마다 따로 만들고 `https://gemini.google.com/u/<accountId>/app?hl=ko`를 자기 연결에서 연 뒤, 화면의 실제 로그인 계정을 대조한다.
+
+같은 프로필의 다른 Google 계정도 서로 다른 연결·탭으로 운용할 수 있다. Page 핸들과 실제 `pwd` 아래의 첨부·다운로드 파일을 연결별로 보유한다. 계정 전환으로 연결을 바꿀 때는 새 `pwd`를 다시 받아 입력 파일 위치도 바꾼다. Google 계정 번호는 프로필별로 확인하며 다른 프로필에 그대로 적용하지 않는다.
+
+`AsideClient.callRepl()`은 연결 하나 안의 호출을 직렬 처리한다. 두 작업을 병렬로 돌리려면 각각 별도 client를 만들고, 각 연결 안에서는 탭 열기 → 입력 → 전송 → 회수 순서를 지킨다. 같은 client의 호출을 `Promise.all()`로 묶는 것만으로는 병렬 제어가 되지 않는다.
+
 ## 주의
 
 웹 모델에 작업을 맡기는 디지털 노마드는 사용자가 지시한 모델·계정·로그인 승인 범위에서 실행한다. 룰북과 입력은 파일로 첨부하고, 결과는 웹이 만든 다운로드 파일로 받아 로컬 검사기에 넘긴다. 긴 결과를 작업자 대화에 복사하지 않고 파일 경로·크기·해시·검사 오류만 보고한다.
@@ -72,5 +81,7 @@ aside repl "const p = await openTab('https://www.coupang.com/vp/products/<ID>');
 반복 작업은 `aside mcp`의 `repl`이나 대화형 `aside repl` 연결을 유지한다. 단발 `aside repl "..."`이 끝나면 새로 연 탭도 사라지므로 긴 생성 작업에 쓰지 않는다. `fs`는 프로젝트·세션 밖의 파일을 거부할 수 있다. 호스트에서 전달 파일을 실제 `pwd`의 세션 폴더로 복사한 뒤 `setInputFiles()`로 첨부하고, 결과는 `waitForEvent('download')`와 `download.saveAs()`로 같은 세션 폴더에 저장하여 호스트가 회수한다. 웹 Claude Sonnet에서 JSON 파일 배송을 실제 확인했다. Artifact 뷰어에는 결과 전체가 노출되므로 대기 중에는 상태만 읽고 완료 뒤에도 채팅 feed·다운로드 버튼으로 범위를 좁힌다.
 
 호출은 [`scripts/aside-client.mjs`](scripts/aside-client.mjs)의 `AsideClient`를 재사용한다. 생성자가 초기화하므로 `await client.ready`로 준비를 기다리고 `initialize()`를 다시 호출하지 않는다. 계정·연결을 바꿀 때는 호출 헬퍼도 새 client에 연결하고 전달 파일 경로를 새 REPL `pwd`에 맞춘다. 파일 첨부·대화 재개·다운로드는 [`scripts/browser-helpers.mjs`](scripts/browser-helpers.mjs), 사용자가 맡긴 계정 전환·가입은 [`scripts/auth.mjs`](scripts/auth.mjs)가 쥔다. 로그인된 구글 계정을 먼저 선택하고 Claude만 로그아웃한다. 비밀값은 로컬 메모리에서만 읽으며 보고에는 계정 번호와 성공·보류만 남긴다. 결과 파일의 신원·현재 입력 해시·실제 모델과 원문 근거 검사는 작업별 검사기가 수행한다.
+
+**`download.saveAs()`는 복사이며 기본 다운로드 파일을 옮기지 않는다.** `download.path()`로 실제 다운로드 경로를 받고, 현재 화면 응답과 회수 파일의 일치 및 별도 작업 파일의 보존을 확인한 뒤 [`removeVerifiedDownloadCopy`](scripts/download-cleanup.mjs)로 기본 다운로드 사본을 정리한다. 이 함수는 정확한 파일 경로·별도 보존본의 동일 해시를 확인하고 Windows의 `Remove-Item -LiteralPath`로 그 파일만 지운다. 폴더 전체나 파일명 패턴으로 사용자 다운로드를 정리하지 않는다. 불일치 응답은 다른 탭의 파일일 수 있으므로 현재 작업의 원본으로 확정해 지우지 않는다.
 
 - 사용자의 실제 프로필·로그인 세션을 쓴다. 기본은 조회·추출이며, 웹 모델에 작업 전달·계정 전환·로그인·가입 승인은 사용자가 명시적으로 맡긴 범위에서 실행한다. 주문·결제·유료 구독은 별도 명시 지시가 필요하다.

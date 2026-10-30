@@ -49,7 +49,6 @@ export default function CollectView({ celebId, celebName }: Props) {
     toggleSelect,
     toggleSelectAll,
     handleSearchResultChange,
-    handleStatusChange,
     openManualSearch,
     updateExtractedItem,
     handleManualSearchSelect,
@@ -125,7 +124,6 @@ export default function CollectView({ celebId, celebName }: Props) {
         onOpenManualSearch={openManualSearch}
         onUpdateExtractedItem={updateExtractedItem}
         onHandleSearchResultChange={handleSearchResultChange}
-        onHandleStatusChange={handleStatusChange}
         onSetImagePopupUrl={setImagePopupUrl}
         onSetActiveIndex={setActiveIndex}
       />

@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
 import { BIRTH_YEAR_MIN, BIRTH_YEAR_MAX } from "@/lib/celeb/birthYearScale";
 import type { useCelebFilters } from "./useCelebFilters";
+import { filterSelection, serializeFilterSelection } from "@/constants/celebFilterSelection";
 
 export type DetailFilter = "profession" | "nationality" | "contentType" | "gender" | "birthYear" | "reality";
 
@@ -15,10 +16,12 @@ export function useCelebDetailConditions(filters: ReturnType<typeof useCelebFilt
   const getNationality = useNationalityLabel();
   const getContentType = useContentTypeLabel();
   const getGender = useGenderLabel();
-  const conditions: { key: DetailFilter; label: string; clear: () => void }[] = [];
+  const conditions: { key: DetailFilter; value?: string; label: string; clear: () => void }[] = [];
 
-  if (filters.profession !== "all") conditions.push({ key: "profession", label: `${t("filterProfession")}: ${getProfession(filters.profession)}`, clear: () => filters.handleProfessionChange("all") });
-  if (filters.nationality !== "all") conditions.push({ key: "nationality", label: `${t("filterNationality")}: ${getNationality(filters.nationality)}`, clear: () => filters.handleNationalityChange("all") });
+  const professions = filterSelection(filters.profession);
+  const nationalities = filterSelection(filters.nationality);
+  for (const value of professions) conditions.push({ key: "profession", value, label: `${t("filterProfession")}: ${getProfession(value)}`, clear: () => filters.handleProfessionChange(serializeFilterSelection(professions.filter(item => item !== value))) });
+  for (const value of nationalities) conditions.push({ key: "nationality", value, label: `${t("filterNationality")}: ${getNationality(value)}`, clear: () => filters.handleNationalityChange(serializeFilterSelection(nationalities.filter(item => item !== value))) });
   if (filters.contentType !== "all") conditions.push({ key: "contentType", label: `${t("filterContent")}: ${getContentType(filters.contentType)}`, clear: () => filters.handleContentTypeChange("all") });
   if (filters.gender !== "all") conditions.push({ key: "gender", label: `${t("filterGender")}: ${getGender(filters.gender)}`, clear: () => filters.handleGenderChange("all") });
   if (filters.birthYearMin !== undefined || filters.birthYearMax !== undefined) {

@@ -2,24 +2,31 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildRoster, renderRoster, celebSlug } from './roster-data.mjs';
 
+
 const celeb = (id, extra = {}) => ({ id, slug: id, nickname: '같은 이름', celeb_tier: 'full', publication_status: 'active', ...extra });
 const book = (id, extra = {}) => ({ id, type: 'BOOK', ...extra });
 const ko = (id, extra = {}) => ({ content_id: id, locale: 'ko', title: '같은 제목', creator: id, thumbnail_url: 'https://example.com/cover.jpg', ...extra });
-const review = (celeb_id, content_id, extra = {}) => ({ celeb_id, content_id, review: '가'.repeat(80), ...extra });
+const review = (celeb_id, content_id, extra = {}) => ({ celeb_id, content_id, review: '가'.repeat(80)+'. 두 번째 문장이다.', ...extra });
 const fixture = extra => ({ celebs: [], relations: [], contents: [], locales: [], posts: [], drafts: [], ...extra });
 
-test('BOOK·한국어 제목·ko 표지·80자 감상만 세고 비활성 인물은 후보에서 제외한다', () => {
+test('BOOK·한국어 제목·ko 표지·비어 있지 않은 감상만 세고 비활성 인물은 후보에서 제외한다', () => {
   const ids = ['a', 'b', 'c', 'd', 'e', 'video', 'music', 'short', 'empty-title', 'en-title', 'no-cover', 'en-locale'];
   const data = fixture({
     celebs: [celeb('ready'), celeb('inactive', { publication_status: 'draft' }), celeb('light', { celeb_tier: 'light' })],
     contents: ids.map(id => book(id, id === 'video' ? { type: 'VIDEO' } : id === 'music' ? { type: 'MUSIC' } : {})),
     locales: ids.map(id => ko(id, ({ 'empty-title': { title: ' ' }, 'en-title': { title: 'Original title' }, 'no-cover': { thumbnail_url: '' }, 'en-locale': { locale: 'en' } })[id])),
-    relations: ['ready', 'inactive', 'light'].flatMap(c => ids.map(id => review(c, id, id === 'short' ? { review: '가'.repeat(79) } : {}))),
+    relations: ['ready', 'inactive', 'light'].flatMap(c => ids.map(id => review(c, id, id === 'short' ? { review: '' } : {}))),
   });
   data.relations.push(review('ready', 'a'));
   const r = buildRoster(data);
   assert.deepEqual(r.candidates.map(c => [c.id, c.n]), [['ready', 5]]);
   assert.equal(r.books.length, 0, '비활성 독자와 중복 관계로 책 후보를 만들면 안 됨');
+});
+
+test('짧은 한 문장도 신규 후보 책 수에서 제외하지 않는다',()=>{
+  const r=buildRoster(fixture({min:1,celebs:[celeb('one')],contents:[book('short')],locales:[ko('short')],relations:[review('one','short',{review:'이 책을 즐겁게 읽었다.'})]}));
+  assert.equal(r.candidates[0].n,1);
+  assert.match(renderRoster(r),/짧은 감상도 후보에 남긴다/);
 });
 
 test('기존 동일 인물의 두 글과 5권 미만 글을 보존하고 URL·초안 인물을 신규 후보에서 뺀다', () => {

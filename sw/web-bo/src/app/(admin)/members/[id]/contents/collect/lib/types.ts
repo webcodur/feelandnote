@@ -26,6 +26,5 @@ export interface SearchResultItem {
 export interface ProcessedItem extends ExtractedContentWithSearch {
   selectedSearchResult: SearchResultItem | null
   searchSource: 'ko' | 'original' | 'manual'
-  status: string
   lastSearchQuery?: string
 }

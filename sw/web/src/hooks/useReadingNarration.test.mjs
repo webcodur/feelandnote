@@ -16,10 +16,11 @@ function memoryStorage(initial = null) {
   };
 }
 
-function harness(initialUrl = '/ko.mp3', storage = memoryStorage()) {
+function harness(initialUrl = '/ko.mp3', storage = memoryStorage(), checkAudio = async () => ({ status: 200 }), hook = 'useReadingNarration') {
   const slots = [];
   const effects = [];
   const audios = [];
+  const checks = [];
   let cursor = 0;
   let url = initialUrl;
   let dirty = false;
@@ -86,6 +87,9 @@ function harness(initialUrl = '/ko.mp3', storage = memoryStorage()) {
     exports,
     require: (name) => name === '@/lib/audio-ducking' ? audioChannels : react,
     Audio: AudioMock,
+    URLSearchParams,
+    AbortController,
+    fetch: (url, init) => { checks.push({ url, ...init }); return checkAudio(url, init); },
     window: { localStorage: storage },
   });
   function render(nextUrl = url) {
@@ -94,7 +98,7 @@ function harness(initialUrl = '/ko.mp3', storage = memoryStorage()) {
     do {
       cursor = 0;
       dirty = false;
-      result = exports.useReadingNarration(url);
+      result = exports[hook](url);
     } while (dirty);
     while (effects.length) effects.shift()();
     return result;
@@ -104,6 +108,7 @@ function harness(initialUrl = '/ko.mp3', storage = memoryStorage()) {
   return {
     render,
     audios,
+    checks,
     unmount,
     remount(nextUrl = url) {
       unmount();
@@ -114,6 +119,57 @@ function harness(initialUrl = '/ko.mp3', storage = memoryStorage()) {
 }
 
 const flushPromises = async () => { await Promise.resolve(); await Promise.resolve(); };
+
+const monologueUrl = 'https://assets.feelandnote.com/celebs/1ab7e089-040f-4aa1-b0a1-81dc1dd510d7/voice/ko/vmonologue.mp3?v=15';
+
+test('an unrecorded monologue never creates an audio element or requests the missing media', async () => {
+  const run = harness(monologueUrl, memoryStorage(), async () => ({ status: 204 }));
+  await flushPromises();
+  run.render();
+  assert.equal(run.audios.length, 0);
+  assert.equal(run.render().available, false);
+  assert.equal(run.checks.length, 1);
+  assert.equal(run.checks[0].method, 'HEAD');
+  assert.equal(run.checks[0].url, '/api/reading-timing?id=1ab7e089-040f-4aa1-b0a1-81dc1dd510d7&locale=ko&v=15&kind=monologue');
+});
+
+test('a recorded narration loads only after the existence check succeeds', async () => {
+  const run = harness(monologueUrl);
+  assert.equal(run.audios.length, 0);
+  await flushPromises();
+  run.render();
+  assert.equal(run.audios.length, 1);
+  assert.equal(run.audios[0].src, monologueUrl);
+  run.audios[0].metadata();
+  assert.equal(run.render().available, true);
+});
+
+test('the narration badge also skips missing media and reports no audio', async () => {
+  const run = harness(monologueUrl, memoryStorage(), async () => ({ status: 204 }), 'useAudioAvailable');
+  assert.equal(run.render(), null);
+  await flushPromises();
+  assert.equal(run.render(), false);
+  assert.equal(run.audios.length, 0);
+});
+
+test('an unavailable existence-check API leaves narration as text only', async () => {
+  const run = harness(monologueUrl, memoryStorage(), async () => { throw new Error('network error'); });
+  await flushPromises();
+  run.render();
+  assert.equal(run.render().available, false);
+  assert.equal(run.audios.length, 0);
+});
+
+test('a late existence check cannot load narration after unmount', async () => {
+  let complete;
+  const run = harness(monologueUrl, memoryStorage(), () => new Promise(resolve => { complete = resolve; }));
+  run.unmount();
+  complete({ status: 200 });
+  await flushPromises();
+  run.render('');
+  assert.equal(run.audios.length, 0);
+  assert.equal(run.checks[0].signal.aborted, true);
+});
 
 test('metadata makes valid recordings available; missing recordings stay hidden', () => {
   const run = harness();
@@ -234,11 +290,11 @@ test('selected rate persists across languages, people, remounts and a fresh page
 });
 
 test('invalid saved rates and unsupported selection never reach the player', () => {
-  for (const value of ['broken', 'null', '"1.5"', '0', '3', '1.1', '1e400']) {
+  for (const value of ['broken', 'null', '"1.5"', '0', '3', '2.51', '1e400']) {
     const run = harness('/ko.mp3', memoryStorage(value));
     run.audios[0].metadata();
     assert.equal(run.render().playbackRate, 1, value);
-    for (const invalid of [NaN, Infinity, -1, 0.5, 1.1, 3]) run.render().setPlaybackRate(invalid);
+    for (const invalid of [NaN, Infinity, -1, 0.4, 2.6, 3]) run.render().setPlaybackRate(invalid);
     assert.equal(run.audios[0].playbackRate, 1);
   }
 });

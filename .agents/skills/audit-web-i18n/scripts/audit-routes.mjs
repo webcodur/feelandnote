@@ -37,7 +37,7 @@ function findRepoRoot(start) {
     const parent = path.dirname(current);
     if (parent === current) {
       throw new Error(
-        "Could not find the Feel&Note repository root. Run this inside the repository.",
+        "Could not find the feelandnote repository root. Run this inside the repository.",
       );
     }
     current = parent;
@@ -555,7 +555,7 @@ const summary = {
 if (jsonOutput) {
   console.log(JSON.stringify({ summary, findings, routes: routeResults }, null, 2));
 } else {
-  console.log("Feel&Note web i18n route audit");
+  console.log("feelandnote web i18n route audit");
   console.log(`- base URL: ${baseUrl}`);
   console.log(`- slugs: ${slugs.join(", ")}`);
   printFindings();

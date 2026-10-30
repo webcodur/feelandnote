@@ -114,6 +114,8 @@ export interface Member {
   headline?: string | null
   headline_en?: string | null
   bio_en?: string | null
+  reading_way?: string | null
+  reading_way_en?: string | null
   virtual_monologue?: string | null
   virtual_monologue_locked_at?: string | null
   celeb_tier?: string | null
@@ -345,6 +347,8 @@ async function celebProfileToMember(data: any): Promise<Member> {
     headline: data.headline ?? null,
     headline_en: data.headline_en ?? null,
     bio_en: data.bio_en ?? null,
+    reading_way: data.reading_way ?? null,
+    reading_way_en: data.reading_way_en ?? null,
     virtual_monologue: data.virtual_monologue ?? null,
     virtual_monologue_locked_at: data.virtual_monologue_locked_at ?? null,
     speech_tone: data.speech_tone ?? null,

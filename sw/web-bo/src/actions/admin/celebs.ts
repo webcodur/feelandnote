@@ -1375,7 +1375,6 @@ export async function getCelebContents(
 interface AddCelebContentInput {
   celeb_id: string
   content_id: string
-  status: string
   review?: string
   review_en?: string
   is_spoiler?: boolean
@@ -1411,7 +1410,8 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
     .insert({
       celeb_id: input.celeb_id,
       content_id: input.content_id,
-      status: input.status,
+      // 셀럽 감상은 FINISHED 하나다. 감상 예정이라는 사실은 review에 쓴다.
+      status: 'FINISHED',
       review: input.review || null,
       review_en: input.review_en || null,
       is_spoiler: input.is_spoiler || false,
@@ -1450,7 +1450,6 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
 interface UpdateCelebContentInput {
   id: string
   celeb_id: string
-  status?: string
   review?: string | null
   is_spoiler?: boolean
   visibility?: string
@@ -1478,7 +1477,6 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
   // celeb_contents 테이블 업데이트
   const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() }
 
-  if (input.status !== undefined) updateData.status = input.status
   if (input.review !== undefined) updateData.review = input.review
   if (input.is_spoiler !== undefined) updateData.is_spoiler = input.is_spoiler
   if (input.visibility !== undefined) updateData.visibility = input.visibility

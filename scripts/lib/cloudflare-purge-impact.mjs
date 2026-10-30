@@ -9,6 +9,7 @@ export const CLOUDFLARE_PURGE_SCOPES = Object.freeze([
   'content-banners',
   'explore-art',
   'mascots',
+  'service-worker',
   'seo',
   'cached-html',
   'emergency-zone',
@@ -21,6 +22,7 @@ const SITE_ORIGIN = `https://${SITE_HOST}`
 
 const SCOPE_TARGETS = Object.freeze({
   none: Object.freeze({ prefixes: [], files: [] }),
+  'service-worker': Object.freeze({ prefixes: [], files: [`${SITE_ORIGIN}/sw.js`] }),
   celeb: Object.freeze({
     prefixes: [
       `${SITE_HOST}/celeb/`,
@@ -772,6 +774,11 @@ function classifyFile(file) {
     'sw/web/src/app/[locale]/(main)/explore/figures/sections.tsx',
     'sw/web/src/components/features/home/CelebCarousel.tsx',
     'sw/web/src/components/features/home/useCelebFilters.ts',
+    // 상세 조건 선택과 목록 조회의 소비자는 캐시하지 않는 인물 탐색뿐이다.
+    'sw/web/src/components/features/home/useCelebDetailConditions.ts',
+    'sw/web/src/components/features/home/useCelebDetailDraft.ts',
+    'sw/web/src/components/features/user/explore/sections/CelebsSection.tsx',
+    'sw/web/src/lib/celeb/listingMultiFilters.ts',
     // 탐색 목록의 기본값·브라우저 저장은 위 명부에서만 소비한다.
     'sw/web/src/components/features/home/useExplorePreferences.ts',
     'sw/web/src/constants/exploreFilters.ts',
@@ -854,6 +861,8 @@ function classifyFile(file) {
   // 공개 자산은 HTML 스코프로 갱신할 수 없다. 같은 URL을 덮어썼는지는 경로만으로
   // 알 수 없으므로 이 갈래만 닫아 두고 사람이 판단하게 한다.
   if (file.startsWith('sw/web/public/images/mascots/')) return ['mascots']
+  // Cloudflare가 같은 주소를 4시간 보관한다. HTML과 별개로 파일 하나만 갱신한다.
+  if (file === 'sw/web/public/sw.js') return ['service-worker']
   if (file.startsWith('sw/web/public/')) {
     throw new Error(`Unclassified public asset path: ${file}`)
   }

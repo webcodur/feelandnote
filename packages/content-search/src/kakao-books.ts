@@ -152,9 +152,24 @@ export function normalizeKakaoContents(contents: string): string {
     .trim()
 }
 
+// 카카오 응답에 저자가 아예 비어 있는 판본 가운데, 서점 서지와 같은 간행본의 다른 권으로 저자를 확인한 판본만 적는다.
+// ISBN13과 다음 책 ID가 모두 맞고 저자 목록이 비어 있을 때만 채운다. 다른 저자가 적힌 응답은 바꾸지 않는다.
+const REVIEWED_MISSING_AUTHORS: Readonly<Record<string, { bookId: string; creator: string }>> = {
+  // 소설 공자 1 (시간여행, 2019). 같은 간행본 2권의 카카오 응답과 YES24 1권 서지가 모두 우쾌제 저다.
+  // https://www.yes24.com/Product/Goods/70931877 · https://www.yes24.com/Product/Goods/75446308
+  '9791185346922': { bookId: '4903206', creator: '우쾌제' },
+}
+
+function reviewedMissingAuthor(isbn: string, url: string): string {
+  const review = REVIEWED_MISSING_AUTHORS[isbn]
+  if (!review) return ''
+  try { return new URL(url).searchParams.get('bookId') === review.bookId ? review.creator : '' } catch { return '' }
+}
+
 function toResult(book: KakaoBook): KakaoBookSearchResult {
   const isbn = pickKakaoBookIsbn(book.isbn)
   const creator = normalizeKakaoBookCreator(book.authors, book.translators)
+    || (book.authors?.length ? '' : reviewedMissingAuthor(isbn, book.url))
 
   return {
     externalId: isbn || book.url,

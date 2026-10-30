@@ -1,6 +1,6 @@
 ---
 name: audit-web-i18n
-description: Feel&Note 사용자 웹의 한국어·영어 locale 대응을 코드, DB 콘텐츠, 실화면에서 함께 감사하고 필요 시 교정한다. 번역 누락, 하드코딩 문구, 상세 페이지 locale 점검, KO/EN 의미 대응, 영어 문장 자연스러움, 번역 확장으로 인한 레이아웃 깨짐, hreflang·canonical·중복 ID·스크롤 앵커를 확인해 달라는 요청에 사용한다.
+description: feelandnote 사용자 웹의 한국어·영어 locale 대응을 코드, DB 콘텐츠, 실화면에서 함께 감사하고 필요 시 교정한다. 번역 누락, 하드코딩 문구, 상세 페이지 locale 점검, KO/EN 의미 대응, 영어 문장 자연스러움, 번역 확장으로 인한 레이아웃 깨짐, hreflang·canonical·중복 ID·스크롤 앵커를 확인해 달라는 요청에 사용한다.
 ---
 
 # Web i18n 감사

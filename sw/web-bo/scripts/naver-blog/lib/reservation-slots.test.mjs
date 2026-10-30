@@ -12,6 +12,18 @@ test('한국 날짜가 바뀐 직후에도 오늘의 미래 시각을 배정한�
 test('명시한 요일에도 기존 예약을 건너뛴다', () => {
   assert.deepEqual(dates(buildReservationSlots({ count: 1, start: '2026-10-04', time: '09:00', now: Date.parse('2026-10-04T00:00:00+09:00'), dows: [7], occupied: ['2026.10.04 09:00'] })), ['2026-10-11']);
 });
+
+test('400일 넘게 예약이 차 있어도 다음 해의 첫 빈 날짜를 찾는다', () => {
+  const start = Date.parse('2026-10-04T00:00:00+09:00');
+  const occupied = Array.from({ length: 400 }, (_, day) => new Date(start + day * 86400000 + 9 * 3600000).toISOString().slice(0, 10) + ' 09:00');
+  assert.deepEqual(dates(buildReservationSlots({ count: 1, start: '2026-10-04', time: '09:00', now: start, occupied })), ['2027-11-08']);
+});
+
+test('선택한 요일만 써서 400일을 넘기는 재고도 전부 배정한다', () => {
+  const slots = buildReservationSlots({ count: 60, start: '2026-10-04', time: '09:00', now: Date.parse('2026-10-04T00:00:00+09:00'), dows: [7] });
+  assert.equal(slots.length, 60);
+  assert.deepEqual([dates(slots)[0], dates(slots).at(-1)], ['2026-10-04', '2027-11-21']);
+});
 test('잘못된 날짜와 시각을 거부한다', () => {
   for (const extra of [{ start: '2026-02-30' }, { time: '24:00' }, { time: '09:05' }, { dows: [0] }]) {
     assert.throws(() => buildReservationSlots({ count: 1, start: '2026-10-04', time: '09:00', ...extra }));

@@ -22,7 +22,7 @@ function findRepoRoot(start) {
     const parent = path.dirname(current);
     if (parent === current) {
       throw new Error(
-        "Could not find the Feel&Note repository root. Run this inside the repository.",
+        "Could not find the feelandnote repository root. Run this inside the repository.",
       );
     }
     current = parent;
@@ -330,8 +330,7 @@ function sameLineIgnored(sourceFile, node) {
 }
 
 const neutralText = new Set([
-  "Feel&Note",
-  "FEEL & NOTE",
+  "feelandnote",
   "YouTube",
   "Wikidata",
   "BC",
@@ -668,7 +667,7 @@ const summary = {
 if (jsonOutput) {
   console.log(JSON.stringify({ summary, findings }, null, 2));
 } else {
-  console.log("Feel&Note web i18n static audit");
+  console.log("feelandnote web i18n static audit");
   console.log(`- message keys: ko=${summary.messageKeys.ko}, en=${summary.messageKeys.en}`);
   printFindings();
   console.log(

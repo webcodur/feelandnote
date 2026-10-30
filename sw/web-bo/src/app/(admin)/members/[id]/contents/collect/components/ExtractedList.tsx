@@ -28,7 +28,6 @@ interface ExtractedListProps {
     source: 'ko' | 'original',
     resultIndex: number
   ) => void
-  onHandleStatusChange: (index: number, status: string) => void
   onSetImagePopupUrl: (url: string | null) => void
   onSetActiveIndex: (index: number | null) => void
 }
@@ -51,7 +50,6 @@ export default function ExtractedList({
   onOpenManualSearch,
   onUpdateExtractedItem,
   onHandleSearchResultChange,
-  onHandleStatusChange,
   onSetImagePopupUrl,
   onSetActiveIndex,
 }: ExtractedListProps) {
@@ -178,7 +176,6 @@ export default function ExtractedList({
                         onOpenManualSearch={onOpenManualSearch}
                         onUpdateExtractedItem={onUpdateExtractedItem}
                         onHandleSearchResultChange={onHandleSearchResultChange}
-                        onHandleStatusChange={onHandleStatusChange}
                         onSetImagePopupUrl={onSetImagePopupUrl}
                         onActivate={onSetActiveIndex}
                       />

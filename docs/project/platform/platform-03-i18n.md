@@ -17,9 +17,9 @@
 - **라이브러리**: `next-intl` (App Router 네이티브, RSC/SSR 완전 호환)
 - **라우팅**: 경로 기반 (`/ko/explore`, `/en/explore`)
 - **기본 언어**: `ko` (`localePrefix: 'as-needed'`)
-- 첫 진입의 언어 접두사가 없는 주소는 한국 접속에 한국어, 해외 접속에 `/en`을 적용한다. 언어 버튼으로 고른 값(`fn_locale_preference`)과 명시된 `/ko`·`/en`이 우선한다. 과거 자동 발급된 `NEXT_LOCALE=ko`는 해외 영어 진입을 막지 않는다. 검색 크롤러·SEO·API·정적 자산은 국가별로 이동시키지 않는다. 실행 원천은 `src/i18n/entryLocale.ts`와 `src/middleware.ts`다.
+- 첫 진입의 언어 접두사가 없는 주소는 한국 접속에 한국어, 해외 접속에 `/en`을 적용한다. 국가를 판별하지 못하면 브라우저의 최우선 선호 언어(`Accept-Language`의 가중치 반영)가 한국어일 때 한국어, 그 외에는 영어로 진입한다. 브라우저 언어도 없으면 영어를 쓴다. 언어 버튼으로 고른 값(`fn_locale_preference`)과 명시된 `/ko`·`/en`이 우선한다. 과거 자동 발급된 `NEXT_LOCALE=ko`는 해외 영어 진입을 막지 않는다. 검색 크롤러·SEO·API·정적 자산은 국가별로 이동시키지 않는다. 실행 원천은 `src/i18n/entryLocale.ts`와 `src/middleware.ts`다.
 - 언어 자동 이동과 본문·메타데이터 렌더의 봇 판별은 `src/lib/render-user-agent.ts`의 공용 서명을 함께 쓴다. 다음 검색봇·답변 조회·링크 미리보기도 요청한 한영 주소를 유지한다.
-- 앞단 HTML 캐시가 국가별 이동을 가로막지 않도록 `scripts/cloudflare-locale-cache.ts`가 해외 첫 진입·저장된 영어 선택의 한국어 주소를 캐시에서 제외한다. 영어 주소의 기존 캐시는 유지한다.
+- 앞단 HTML 캐시가 언어 이동을 가로막지 않도록 `scripts/cloudflare-locale-cache.ts`가 해외·국가 미확인 첫 진입과 저장된 영어 선택의 한국어 주소를 캐시에서 제외한다. 영어 주소의 기존 캐시는 유지한다.
 - 언어 전환은 검색 조건·페이지·섹션 해시를 유지한다. 로그인 연결은 원래 목적지를 `redirect`로 전달하고 인증 콜백은 `locale`과 `next`를 이어받아 같은 언어로 복귀한다. 공용 연결은 `src/components/shared/AuthLink.tsx`, 목적지 검증은 `src/lib/auth/callback-url.ts`가 맡는다.
 - **DB 다국어 방안**: `content_locales` 테이블 (PK: content_id + locale). 기존 방안 A(컬럼 추가)에서 테이블 분리로 전환 완료.
 

@@ -7,5 +7,6 @@
 | 01 | [`apps-01-web-bo.md`](apps-01-web-bo.md) | 관리자 백오피스와 영상 제작 관리 |
 | 02 | [`apps-02-audio-bo.md`](apps-02-audio-bo.md) | 로컬 음원·받아쓰기·화자 학습·음성 합성 작업실 |
 | 03 | [`apps-03-android.md`](apps-03-android.md) | PWA+TWA 안드로이드 앱 셸의 구성·Play 요건·제약. 빌드 절차는 `sw/android/README.md` |
+| — | [`sw/ipilot/README.md`](../../../sw/ipilot/README.md) | 분리 이전을 전제로 한 독립 Next.js 항공 학습 플랫폼 |
 
 음성 복제 엔진 비교는 [`res-12-voice-clone-engines.md`](../../resource/res-12-voice-clone-engines.md), 안드로이드 출시 남은 일은 [`docs/todo/android-release.md`](../../todo/android-release.md)가 쥔다.

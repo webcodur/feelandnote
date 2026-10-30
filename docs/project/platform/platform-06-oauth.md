@@ -1,6 +1,6 @@
 # OAuth 인증 설정 가이드
 
-Feelandnote 프로젝트의 OAuth 소셜 로그인 설정 문서.
+feelandnote 프로젝트의 OAuth 소셜 로그인 설정 문서.
 
 ## 아키텍처 개요
 

@@ -139,6 +139,24 @@ test('도서 검색은 전자상품 코드와 잘못된 ISBN을 판본 ISBN으�
   }
 })
 
+test('저자가 빈 응답은 검수한 ISBN·다음 책 ID가 모두 맞을 때만 저자를 채운다', async (t) => {
+  const response = (url: string, authors: string[] = []) => Response.json({
+    documents: [{ title: '소설 공자 1', contents: '', isbn: '1185346929 9791185346922', url, authors, translators: [],
+      publisher: '시간여행', datetime: '', thumbnail: '', status: '정상판매' }],
+    meta: { total_count: 1, is_end: true },
+  })
+  const cases: [string, string[], string][] = [
+    ['https://search.daum.net/search?w=bookpage&bookId=4903206', [], '우쾌제'],
+    ['https://search.daum.net/search?w=bookpage&bookId=1', [], ''],
+    ['https://search.daum.net/search?w=bookpage&bookId=4903206', ['다른 저자'], '다른 저자'],
+  ]
+  for (const [url, authors, creator] of cases) {
+    const fetchMock = t.mock.method(globalThis, 'fetch', async () => response(url, authors))
+    assert.equal((await kakao.searchBooks('9791185346922')).items[0].creator, creator)
+    fetchMock.mock.restore()
+  }
+})
+
 test('ISBN13이 함께 있으나 무효하면 ISBN10만으로 판본 ISBN을 추정하지 않는다', async (t) => {
   t.mock.method(globalThis, 'fetch', async () => bookResponse('8994228349 9788994228342'))
   const result = await kakao.searchBooks('조회한 책')

@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createClient } from '@feelandnote/db';
 import { ASSETS } from '../blog-assets.mjs';
-import { MIN_REVIEW_LENGTH } from './lib/roster-data.mjs';
+import { hasEligibleBlogReview } from './lib/blog-review-eligibility.mjs';
 
 export function assembleBookMaterial({ content, locale, relations, celebs }) {
   if (!content || content.type !== 'BOOK') throw new Error('BOOK 작품만 추출할 수 있습니다.');
@@ -16,7 +16,7 @@ export function assembleBookMaterial({ content, locale, relations, celebs }) {
   const readers = relations.filter(r => {
     const c = byId.get(r.celeb_id);
     return r.content_id === content.id && c?.publication_status === 'active' && c.celeb_tier === 'full'
-      && c.slug && typeof r.review === 'string' && r.review.length >= MIN_REVIEW_LENGTH;
+      && c.slug && typeof r.review === 'string' && hasEligibleBlogReview(r.review);
   }).map(r => {
     const c = byId.get(r.celeb_id);
     return {

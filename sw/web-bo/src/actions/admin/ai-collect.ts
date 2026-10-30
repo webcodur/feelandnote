@@ -63,7 +63,6 @@ interface SaveCollectedInput {
       metadata: Record<string, unknown>
     }
     contentType: ContentType
-    status: string
     itemSourceUrl?: string
     itemReview?: string
     titleOriginal?: string
@@ -192,7 +191,6 @@ export async function saveCollectedContents(input: SaveCollectedInput): Promise<
       await addCelebContent({
         celeb_id: input.celebId,
         content_id: contentResult.contentId,
-        status: item.status,
         review: item.itemReview,
         source_url: item.itemSourceUrl || input.sourceUrl,
       })

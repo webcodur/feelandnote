@@ -17,4 +17,5 @@
 | [`figure-books.md`](figure-books.md) | 인물 연결·판본 교정의 현재 상태와 보류 사항 |
 | [`content-introductions.md`](content-introductions.md) | 소개 없는 책의 남은 수와 수집·검수·반영 명령 |
 | [`celeb-review-deep-dive.md`](celeb-review-deep-dive.md) | 인물 감상배경 딥다이브 — 얕게 등록된 review를 원문 수준으로 깊게 만드는 도달점 |
+| [`celeb-reading-way.md`](celeb-reading-way.md) | 독서 방식 작업 인계 — 웹 Argon 호출·사실 검수·본문·책장 등록·정리와 현재 재개 지점 |
 | [`free-posts.md`](free-posts.md) | 운영자 아가톤의 자유글 — 유튜브 커뮤니티·자유게시판에 내는 홍보·업데이트·잡소리 초안과 도달점 |

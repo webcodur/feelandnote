@@ -1,7 +1,7 @@
 // 책편 원고를 기존 편집기의 text/image/quote/divider operations로 변환한다.
 // 파일·DB·브라우저에는 접근하지 않는다.
 import { strip, isDivider } from '../publish-drafts.mjs';
-import { MIN_REVIEW_LENGTH } from './roster-data.mjs';
+import { hasEligibleBlogReview } from './blog-review-eligibility.mjs';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const urls = value => value.match(/https?:\/\/[^\s<>]+/g) ?? [];
@@ -24,7 +24,7 @@ export function parseBookDraft(draft) {
   for (const r of reviews) {
     if (!UUID.test(r.relation_id ?? '') || !UUID.test(r.celeb_id ?? '') || r.content_id !== book.content_id
       || !/^[a-z0-9][a-z0-9.-]*$/.test(r.slug ?? '') || !nonempty(r.nickname) || !nonempty(r.headline)
-      || !imageUrl(r.avatar_url) || typeof r.review !== 'string' || r.review.length < MIN_REVIEW_LENGTH
+      || !imageUrl(r.avatar_url) || typeof r.review !== 'string' || !hasEligibleBlogReview(r.review)
       || r.url !== `https://feelandnote.com/celeb/${r.slug}`) throw new Error('인물·감상 ID 또는 책·인물 연결과 원문 재료가 맞지 않는다');
   }
   for (const key of ['relation_id', 'celeb_id', 'slug', 'avatar_url']) {

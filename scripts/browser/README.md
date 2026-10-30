@@ -1,6 +1,6 @@
 # 브라우저 백엔드 Plan A/B
 
-Feelandnote의 브라우저 작업은 두 백엔드로 나눈다.
+feelandnote의 브라우저 작업은 두 백엔드로 나눈다.
 
 ## Plan A — Obscura
 
@@ -36,3 +36,7 @@ pnpm browser:plan-b
 Plan A가 페이지를 제대로 읽지 못하면 Plan B로 전환한다. 두 백엔드를 동시에 같은 로그인 세션으로 사용하지 않는다.
 
 콘텐츠 메타데이터의 공식 출처인 `packages/content-search` 경로는 이 백엔드 선택과 무관하게 유지한다.
+
+독서 방식 작업의 읽기 전용 진행 화면은 `node scripts/browser/reading-way-progress.mjs`로 연다. [HTML](reading-way-progress.html)은 `http://127.0.0.1:4317`에서 DB 집계·실행 상태·작업 기록과 한국 시간 타임스탬프를 자동 갱신한다.
+
+독서 방식에서 조사한 책의 등록은 `node --import tsx scripts/browser/reading-way-books-apply.mjs --plan <절대경로>`로 먼저 확인하고 `--apply`로 반영한다. 조사·검증과 입력의 책임은 [독서 방식 룰북](../../docs/project/celeb/celeb-05-02-reading-way.md)을 따른다.

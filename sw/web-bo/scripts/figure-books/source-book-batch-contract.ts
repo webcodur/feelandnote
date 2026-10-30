@@ -47,6 +47,8 @@ export type FigureBookManifest = {
       }
   en?: {
     isbn: string
+    /** OpenLibrary·카카오에 표지가 없을 때 작업자가 확인한 같은 판본 표지 */
+    cover?: { url: string; sourceUrl: string }
   }
 }
 
@@ -56,6 +58,8 @@ export type ExternalBookEdition = {
   title: string
   creator: string
   thumbnailUrl: string
+  /** 표지를 메타와 다른 출처(같은 ISBN의 카카오)에서 받았을 때의 출처 URL */
+  thumbnailSourceUrl?: string
   publisher: string | null
   description: string | null
   sourceUrl: string
@@ -195,7 +199,8 @@ const WORK_KEYS = new Set(['identity', 'title', 'creator', 'titleAliases', 'crea
 const EDITION_KEYS = new Set(['kind', 'scope'])
 const KO_PUBLISHED_KEYS = new Set(['translationStatus', 'isbn'])
 const KO_UNAVAILABLE_KEYS = new Set(['translationStatus', 'creator', 'evidenceUrls'])
-const EN_KEYS = new Set(['isbn'])
+const EN_KEYS = new Set(['isbn', 'cover'])
+const EN_COVER_KEYS = new Set(['url', 'sourceUrl'])
 
 function recordOf(value: unknown, field: string): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) {
@@ -331,6 +336,14 @@ export function parseFigureBookManifest(input: unknown): FigureBookManifest {
     en = {
       isbn: isbn13(enRaw.isbn, 'en.isbn'),
     }
+    if (enRaw.cover !== undefined) {
+      const coverRaw = recordOf(enRaw.cover, 'en.cover')
+      rejectUnknownKeys(coverRaw, EN_COVER_KEYS, 'en.cover')
+      const url = requiredText(coverRaw.url, 'en.cover.url')
+      const sourceUrl = requiredText(coverRaw.sourceUrl, 'en.cover.sourceUrl')
+      if (!url.startsWith('https://') || !sourceUrl.startsWith('https://')) throw new Error('en.cover URLs must use https')
+      en.cover = { url, sourceUrl }
+    }
   }
   if (ko.translationStatus !== 'published' && !en) {
     throw new Error('en is required when no Korean edition is confirmed')
@@ -372,7 +385,7 @@ function localeSources(edition: ExternalBookEdition): Record<string, unknown> {
     creator: edition.sourceUrl,
     isbn: edition.sourceUrl,
     ...(edition.publisher ? { publisher: edition.sourceUrl } : {}),
-    thumbnail: edition.sourceUrl,
+    thumbnail: edition.thumbnailSourceUrl ?? edition.sourceUrl,
     ...(Array.isArray(translators) && translators.length ? { translators } : {}),
     ...(isBookIntroductionSource(edition.description) && edition.descriptionSourceUrl
       ? { description: edition.descriptionSourceUrl }

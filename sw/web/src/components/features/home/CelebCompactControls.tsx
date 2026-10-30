@@ -120,7 +120,7 @@ export default function CelebCompactControls({ filters, onInteraction, resultLab
       {chips.length > 0 && (
         <div className="flex flex-wrap justify-center gap-2">
           {chips.map(condition => (
-            <button key={condition.key} type="button" disabled={filters.isLoading} onClick={() => {
+            <button key={`${condition.key}:${condition.value ?? ""}`} type="button" disabled={filters.isLoading} onClick={() => {
               onInteraction?.();
               condition.clear();
             }}

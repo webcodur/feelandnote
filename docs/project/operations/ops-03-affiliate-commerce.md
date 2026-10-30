@@ -36,13 +36,13 @@
 
 ## 영상·게임·음악의 이용·할인 연결
 
-2026-09-26 공식 안내 확인. 수수료가 없는 공개 혜택도 제공 대상으로 삼는다. 아래 프로그램의 존재를 확인한 것이며, Feel&Note의 가입·승인이나 전용 할인 확보를 뜻하지 않는다.
+2026-09-26 공식 안내 확인. 수수료가 없는 공개 혜택도 제공 대상으로 삼는다. 아래 프로그램의 존재를 확인한 것이며, feelandnote의 가입·승인이나 전용 할인 확보를 뜻하지 않는다.
 
 | 경로 | 이용자에게 제공할 연결 | 제휴 여부와 조건 |
 |---|---|---|
 | Steam | 현재 작품의 공식 구매·할인 확인. [공식 위젯](https://partner.steamgames.com/doc/marketing/widget)은 가격·할인을 갱신한다 | [Steam 자체 어필리에이트는 없다](https://partner.steamgames.com/doc/marketing/utm_analytics?l=english). 일반 안내로 제공할 수 있다. 개발사와의 별도 보상 계약은 Steam 제휴와 구별한다 |
 | [Green Man Gaming](https://www.greenmangaming.com/affiliates/)·[Fanatical](https://www.fanatical.com/en/affiliates) | 공식 유통 디지털 게임의 할인·번들. 각 상품의 Steam 등 등록처, 한국 등록 가능 여부, 본편·DLC를 확인 | 웹사이트 대상 제휴 모집이 있다. GMG는 Impact 신청·상품 카탈로그 API·전용 오퍼 경로, Fanatical은 AWIN 신청 경로를 안내한다. 판매처 전체가 아니라 실제 취급 작품에 한해 연결한다 |
-| [Xsolla Partner Network](https://developers.xsolla.com/creators/campaigns-cc/) | 참여 개발사·퍼블리셔의 작품별 캠페인에서 게임 키·프로모션 코드·추적 링크 제공 | 캠페인에 따라 수익 배분 기회가 있다. [공식 FAQ](https://developers.xsolla.com/creators/faq-cc/)는 YouTube·Twitch·TikTok·X 채널을 지원한다고 안내한다. 웹사이트만으로 참여할 수 있는지와 Feel&Note가 참여 가능한 작품은 미확인이다 |
+| [Xsolla Partner Network](https://developers.xsolla.com/creators/campaigns-cc/) | 참여 개발사·퍼블리셔의 작품별 캠페인에서 게임 키·프로모션 코드·추적 링크 제공 | 캠페인에 따라 수익 배분 기회가 있다. [공식 FAQ](https://developers.xsolla.com/creators/faq-cc/)는 YouTube·Twitch·TikTok·X 채널을 지원한다고 안내한다. 웹사이트만으로 참여할 수 있는지와 feelandnote가 참여 가능한 작품은 미확인이다 |
 | [Apple Services Performance Partners](https://performance-partners.apple.com/home) | Apple Music의 앨범·곡, Apple TV의 작품과 구독 연결 | 음악·영상 구독 등의 적격 전환에 수수료를 지급한다. 현재 제한적으로 파트너를 선발하므로 신청·승인이 필요하며 국가·상품별 적격 여부를 확인한다. 공개 체험 안내는 제휴 승인과 별개다 |
 | [Apple Music 한국](https://www.apple.com/kr/apple-music/)·[Spotify 한국](https://www.spotify.com/kr-ko/premium/) | 공식 신규 이용자 체험·학생 요금제 등 현재 제공되는 혜택 | 체험 이력·기기·결제 수단 등에 따라 적용이 다르다. Spotify의 일반 서비스용 수수료 제휴는 이번 조사에서 확인하지 못했다. 개인 초대 코드를 서비스용 제휴 코드로 전용하지 않는다 |
 | [네이버플러스 디지털 콘텐츠 혜택](https://help.naver.com/service/23168/contents/19902) | 멤버십 가입자가 넷플릭스 광고형 스탠다드·Spotify Premium 베이직·PC Game Pass 등을 선택하는 방법 | 월별 선택 혜택이므로 여러 서비스를 동시에 무료 제공한다고 쓰지 않는다. 멤버십 요금과 선택 조건을 알리는 일반 안내다. [Spotify 베이직](https://help.naver.com/service/23168/contents/24787)은 다운로드·무손실 음원을 제공하지 않는다 |

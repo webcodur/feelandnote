@@ -9,6 +9,7 @@
 import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@feelandnote/db'
+import { hasCompletedReadingWayResearch } from '@feelandnote/shared/constants/celeb-reading-way'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 
@@ -34,7 +35,7 @@ async function pageAll<T>(table: string, cols: string, apply?: (q: any) => any):
 
 async function main() {
   const celebs = await pageAll<any>('celebs',
-    'id, slug, nickname, nickname_en, headline, headline_en, bio, bio_en, avatar_url, profession, nationality, birth_date, celeb_tier,celeb_reality',
+    'id, slug, nickname, nickname_en, headline, headline_en, bio, bio_en, avatar_url, profession, nationality, birth_date, celeb_tier,celeb_reality,reading_way,reading_way_en',
     (q) => q.eq('publication_status', 'inactive'))
   console.log('inactive ' + celebs.length + '명')
 
@@ -70,6 +71,7 @@ async function main() {
     const g: string[] = []
     const tier = c.celeb_tier ?? 'full'
     const reality = c.celeb_reality ?? 'REAL'
+    if (!hasCompletedReadingWayResearch(c)) g.push('독서 방식: 미조사')
     if (blank(c.avatar_url)) g.push('avatar_url')
     if (blank(c.nickname)) g.push('nickname')
     if (blank(c.headline)) g.push('headline')

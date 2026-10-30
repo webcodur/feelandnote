@@ -197,7 +197,8 @@
         },
         "selected": "선택한 필터",
         "empty": "추가로 선택한 필터가 없습니다.",
-        "apply": "적용하기"
+        "apply": "적용하기",
+        "multiple": "여러 개 선택 가능"
       },
       "cardImage": {
         "label": "보기",

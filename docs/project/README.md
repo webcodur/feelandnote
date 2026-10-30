@@ -1,6 +1,6 @@
 # 프로젝트 현역 문서
 
-Feel&Note의 현재 앱 구조, 서비스 규격, 데이터 계약, 제작·운영 규칙을 모은다. 게임은 독립 영역인 [`docs/games/`](../games/README.md)에서 관리한다. 파일명 규칙은 [`docs/README.md`](../README.md) 「파일명 규칙」을 따른다.
+feelandnote의 현재 앱 구조, 서비스 규격, 데이터 계약, 제작·운영 규칙을 모은다. 게임은 독립 영역인 [`docs/games/`](../games/README.md)에서 관리한다. 파일명 규칙은 [`docs/README.md`](../README.md) 「파일명 규칙」을 따른다.
 
 ## 영역
 

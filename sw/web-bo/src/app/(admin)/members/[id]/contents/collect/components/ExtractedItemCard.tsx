@@ -15,7 +15,6 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
-import { STATUS_OPTIONS } from '@/constants/statuses'
 import type { ExtractedContent } from '@feelandnote/ai-services/content-extractor'
 import type { ProcessedItem } from '../lib/types'
 import { CONTENT_TYPE_OPTIONS, getMetadataSummary } from '../lib/utils'
@@ -39,7 +38,6 @@ interface ExtractedItemCardProps {
     source: 'ko' | 'original',
     resultIndex: number
   ) => void
-  onHandleStatusChange: (index: number, status: string) => void
   onSetImagePopupUrl: (url: string | null) => void
   onActivate: (index: number) => void
 }
@@ -59,7 +57,6 @@ export default function ExtractedItemCard({
   onOpenManualSearch,
   onUpdateExtractedItem,
   onHandleSearchResultChange,
-  onHandleStatusChange,
   onSetImagePopupUrl,
   onActivate,
 }: ExtractedItemCardProps) {
@@ -308,26 +305,6 @@ export default function ExtractedItemCard({
                 onClick={(e) => e.stopPropagation()}
               />
             </div>
-            {/* 감상 상태 */}
-            <div className="flex items-center gap-3">
-              <label className="text-xs text-text-secondary w-16 shrink-0">
-                상태
-              </label>
-              <div className="flex-1">
-                <select
-                  value={processed?.status || 'FINISHED'}
-                  onChange={(e) => onHandleStatusChange(index, e.target.value)}
-                  className="flex-1 px-2 py-1.5 bg-bg-secondary border border-border rounded text-sm text-text-primary focus:border-accent focus:outline-none"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {STATUS_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
           </div>
 
           {/* Review Section */}
@@ -527,20 +504,6 @@ export default function ExtractedItemCard({
               </div>
             )}
 
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-text-secondary shrink-0 w-16">상태:</span>
-              <select
-                value={processed.status}
-                onChange={(e) => onHandleStatusChange(index, e.target.value)}
-                className="px-2 py-1 bg-bg-secondary border border-border rounded text-sm text-text-primary focus:border-accent focus:outline-none"
-              >
-                {STATUS_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            </div>
           </div>
         )}
       {/* No results yet - show search CTA if processed but empty (접히지 않고, 배제되지 않은 경우만) */}

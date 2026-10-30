@@ -25,6 +25,7 @@ import { config } from 'dotenv'
 import { createClient } from '@feelandnote/db'
 import { INFLUENCE_FIELDS } from '@feelandnote/influence-constants/core'
 import { isCelebContentResearchTarget } from '@feelandnote/shared/constants/celeb-content-research'
+import { hasCompletedReadingWayResearch } from '@feelandnote/shared/constants/celeb-reading-way'
 import {
   CELEB_DIALOGUE_SITUATIONS,
   CELEB_DIALOGUE_VARIANTS_PER_SITUATION,
@@ -145,7 +146,7 @@ async function allProfiles(): Promise<Row[]> {
       .select([
         'id', 'slug', 'nickname', 'nickname_en', 'headline', 'headline_en', 'title', 'title_en', 'bio', 'bio_en',
         'profession', 'nationality', 'gender', 'birth_date', 'publication_status', 'celeb_tier', 'celeb_reality', 'speech_tone',
-        'avatar_url', 'content_research_confirmed_empty_at',
+        'avatar_url', 'content_research_confirmed_empty_at', 'reading_way', 'reading_way_en',
       ].join(','))
       .order('id')
       .range(from, from + PAGE - 1)
@@ -715,6 +716,7 @@ async function main() {
     const sources = figureBooksByCeleb.get(profile.id) ?? []
 
     addProfileGaps(profile, gaps)
+    if (!hasCompletedReadingWayResearch(profile)) gaps.push('basic:reading_way_research')
     addReadingGaps(explanationById.get(profile.id), gaps)
     // 선택 평가 행이 이미 있으면 반쯤 작성된 행의 공개는 막는다. 없는 행은 요구하지 않는다.
     if (reality !== 'FICTION') {
@@ -735,9 +737,8 @@ async function main() {
       }
     } else if (tier === 'full') {
       if (linked.length === 0) gaps.push('content:full_without_content')
-      // 읽고 싶은 책을 담아 두는 것은 서비스의 정상 기능이다. FINISHED 가 한 건도 없을 때만 막는다.
-      // 전부 FINISHED 를 요구하면 WANT 한 건 때문에 완비 인물이 탈락한다(실측 3명).
-      if (!linked.some((x) => x.status === 'FINISHED')) gaps.push('content:no_finished')
+      // 셀럽 status는 DB 제약상 FINISHED뿐이다(WANT 폐기). 다른 값이 보이면 제약이 풀린 것이다.
+      if (linked.some((x) => x.status !== 'FINISHED')) gaps.push('content:non_finished_status')
       for (const item of linked) {
         if (blank(item.review)) gaps.push(`content:${item.content_id}.review`)
         if (blank(item.review_en)) gaps.push(`content:${item.content_id}.review_en`)

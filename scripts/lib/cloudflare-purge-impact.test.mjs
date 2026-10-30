@@ -25,6 +25,19 @@ test('authentication callback redirects need no cached HTML purge', () => {
   ]).scopes, ['none'])
 })
 
+test('service worker changes purge the exact script while exploration filter helpers need no HTML purge', () => {
+  const worker = classifyCloudflarePurgeImpact(['sw/web/public/sw.js'])
+  assert.deepEqual(worker.scopes, ['service-worker'])
+  assert.deepEqual(worker.files, ['https://feelandnote.com/sw.js'])
+  assert.deepEqual(worker.prefixes, [])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/home/useCelebDetailConditions.ts',
+    'sw/web/src/components/features/home/useCelebDetailDraft.ts',
+    'sw/web/src/components/features/user/explore/sections/CelebsSection.tsx',
+    'sw/web/src/lib/celeb/listingMultiFilters.ts',
+  ]).scopes, ['none'])
+})
+
 test('home discovery stays uncached while mascot artwork has its own purge prefix', () => {
   const homeFiles = [
     'sw/web/src/components/features/home/introduction/HomeDiscoveryGallery.tsx',

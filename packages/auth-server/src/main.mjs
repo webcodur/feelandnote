@@ -10,13 +10,13 @@ const pool = new pg.Pool({ connectionString: config.databaseUrl, max: 8, connect
 pool.on('error', error => console.error('Database connection failed', { code: error.code }));
 const mailer = nodemailer.createTransport(config.smtp);
 const sendMail = ({ to, type, link }) => mailer.sendMail({
-  from: config.mailFrom, to, subject: type === 'recovery' ? 'Feel&Note password reset' : 'Confirm your Feel&Note email',
-  text: `Feel&Note\n\n${type === 'recovery' ? 'Reset your password' : 'Confirm your email address'}:\n${link}\n\nThis link expires in one hour. If you did not request it, ignore this message.`,
+  from: config.mailFrom, to, subject: type === 'recovery' ? 'feelandnote password reset' : 'Confirm your feelandnote email',
+  text: `feelandnote\n\n${type === 'recovery' ? 'Reset your password' : 'Confirm your email address'}:\n${link}\n\nThis link expires in one hour. If you did not request it, ignore this message.`,
 });
 const service = new AuthService({ pool, config, sendMail, provider: new OAuthProvider(config) });
 await service.init();
 const server = createAuthServer(service);
-server.listen(9999, '0.0.0.0', () => console.log('Feel&Note Auth listening on port 9999'));
+server.listen(9999, '0.0.0.0', () => console.log('feelandnote Auth listening on port 9999'));
 // Existing expired flow/token rows are bounded without introducing any schema.
 const clean = setInterval(async () => {
   try {

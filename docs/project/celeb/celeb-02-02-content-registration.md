@@ -29,7 +29,7 @@ fiction도 BOOK 메타와 `content_locales` 규칙은 이 문서를 공유하지
 | GAME | `igdb.ts` | `igdb` |
 | MUSIC | `itunes-music.ts` | `itunes` |
 
-Google Books와 네이버 도서는 신규 BOOK 메타·표지에 사용하지 않는다. Google Books의 소개문 수집 예외는 외부 서비스 문서를 따른다. Amazon은 BOOK 메타 원천이나 `external_source`가 아니다. 구매 링크를 `content_locales.affiliate_url`에 두는 것은 메타 등록과 별개다. 기존 등록 BOOK을 보완할 때 정식 메타 경로에 해당 판본의 데이터가 없으면 공식 출판사·도서관 등의 실물 서지와 본문 근거를 대조해 메타·표지를 채운다. `sources`에는 실제 확인한 자료의 URL을 기록하고, `external_source`를 허용 공급처에서 받은 것처럼 꾸미지 않는다. 과거 `sources`에 남은 공급처명만으로 오염으로 판정하지 않는다.
+Google Books와 네이버 도서는 신규 BOOK 메타·표지에 사용하지 않는다. Google Books의 소개문 수집 예외는 외부 서비스 문서를 따른다. Amazon은 BOOK 메타 원천이나 `external_source`가 아니다. 등록하지 않을 뿐 정보 확인에는 쓴다. 상품 상세의 서지(판형·출간일·부제·전체 저자·번역자)·추천사(Editorial Reviews·Praise)·미리보기·고객 리뷰는 판본 정체성, 원제·본문 범위, 신간의 실재, 인물의 추천·감상 근거를 대조하는 자료다. 이렇게 확인한 뒤 등록 값은 위 정식 메타 경로에서 가져오고, 아마존 값을 `content_locales` 메타로 옮겨 적지 않는다. 구매 링크를 `content_locales.affiliate_url`에 두는 것은 메타 등록과 별개다. 기존 등록 BOOK을 보완할 때 정식 메타 경로에 해당 판본의 데이터가 없으면 공식 출판사·도서관 등의 실물 서지와 본문 근거를 대조해 메타·표지를 채운다. `sources`에는 실제 확인한 자료의 URL을 기록하고, `external_source`를 허용 공급처에서 받은 것처럼 꾸미지 않는다. 과거 `sources`에 남은 공급처명만으로 오염으로 판정하지 않는다.
 
 ## BOOK
 
@@ -49,6 +49,8 @@ ISBN만 있거나 검색 스니펫·출판사 소개·도서관 소장 정보만
 
 기관 선정 목록에 오른 옛 한국 작품처럼 **원어가 한국어인데 지금 유통되는 판본이 없는 책**은 「번역본 없음」이 아니다. 이런 책은 작품을 만들어 목록에 잇되(`external_source`·`external_id` 비움), ko 행은 원제·저자를 든 표시용 행(`sources.primary='none'`, `sources.title='original'`)으로 두고 **`sources.availability='out_of_print'`** 를 적는다. 화면은 이 표식을 판본 확인보다 먼저 보고 「절판된 책 / Out of print」 띠를 붙인다(`content-locale.ts`의 `resolveTitleBadge`). 실재 판본을 카카오에서 확인했는데 판매 상태가 `절판`·`품절`이면 그 판본 행에도 같은 표식을 둔다. 새 컬럼을 만들지 않고 `sources` JSONB 한 키로 끝낸다. 선집·전집만 남은 작품은 선집을 판본으로 삼지 않고 이 절차를 따른다. 실행점은 `sw/web-bo/scripts/curated/research-apply.mjs`다.
 
+감상 근거가 확인된 외국어 원전도 확보할 수 있는 한영 판본을 끝까지 찾은 뒤 없으면 건너뛰지 않는다. 같은 방식으로 판본 없는 작품을 만들고 ko·en 두 표시용 행에 `sources.availability='out_of_print'`를 둔다(26.10.29 사용자 결정). 독서 방식 책장 반영에서는 `scripts/browser/reading-way-books-apply.mjs`가 이 형식을 받는다.
+
 실판본의 절판 여부는 카카오 검색 API의 `status`가 `절판`일 때, 또는 카카오가 상태를 비워 둔 책을 알라딘 상품 페이지(`wproduct.aspx?ISBN=`)의 `schema.org` `availability`가 `OutOfStock`이고 본문에 「절판」 문구가 있을 때 인정한다(26.09.13 실측: 카카오 빈 상태 표본 4권 전부 알라딘 절판, 정상판매 2권은 InStock). YES24·교보·다음 책은 스크립트 렌더링이라 한 번의 요청으로 못 읽는다. 실행점은 `sw/web-bo/scripts/contents/book-availability-sync.mjs --aladin`이며, 26.09.13에 한국어 실판본 전량을 한 번 돌렸다. **이후로는 전수 조회를 반복하지 않고** 새 등록분이나 표본(`--limit`)만 가끔 점검한다(사용자 결정).
 
 감상·연결 도서가 **현역 판본이 있는데도 절판 판본 하나에만 묶여** 절판 띠가 붙거나 감상 선반에서 빠지는 경우가 있다(난중일기 완역본이 품절된 옛 ISBN에 묶였던 사례). 「현역 판본이 존재하는가」를 건별로 확인한 뒤 고친다. 진짜로 유통이 끝난 책도 있으므로 절판 표시를 일괄로 지우지 않는다. `sw/web-bo/scripts/contents/book-edition-refresh.mjs`는 정규화 제목과 저자 겹침으로 후보를 찾는다. 이것만으로 동일 저작을 확정하지 않고 원제·본문 범위를 대조하며, 현역 판본을 추가해도 실재 구판과 그 대표 키는 보존한다. 권수만 다른 다권본, 속편만 팔리는 시리즈, 판매 판본이 없는 절판서는 절판 표시가 맞는 상태로 둔다. 같은 저작이 여러 `contents`로 갈라졌으면 `merge-works.mjs`가 목록·컬렉션·기록·노트 연결까지 옮긴다.
@@ -61,6 +63,7 @@ Amazon 상품 연결·배치 실행·API 이용 조건은 [제휴 상거래의 A
 - 표지는 ISBN 기반 OpenLibrary cover를 사용하고, 없으면 같은 ISBN의 카카오 표지를 쓴다. 둘 다 없으면 같은 판본임을 눈으로 확인한 서점·출판사 표지를 `figure-books:book` 명세의 `en.cover{url,sourceUrl}`로 넣는다(아마존은 `images-na.ssl-images-amazon.com/images/P/<ISBN-10>.01.LZZZZZZZ.jpg`). `sources.thumbnail`에는 표지를 받은 페이지 URL을 남긴다. 응답 성공이나 cover ID만으로 채택하지 않고 실제 이미지의 제목·저자·판본을 대조한다. `-1` 같은 결손값, placeholder, 속표지·본문 페이지, 식별할 수 없는 장정 이미지는 표지로 쓰지 않는다. 이전의 `confirmed_unavailable`도 새로 확인한 같은 ISBN의 정상 표지가 있으면 보완한다.
 - 한 locale 안의 ISBN·표지·출판사·제목은 같은 판본에서 가져온다. ko와 en이 서로 다른 판본인 것은 정상이다.
 - 메타와 표지 출처가 다르면 `sources`에 각각 기록한다. 표지를 확인하지 못하면 `thumbnail_url=null`, `sources.thumbnail='confirmed_unavailable'`로 둔다.
+- 출간됐지만 카카오·OpenLibrary에 아직 없는 영어 신간은 출판사 상품 페이지에서 ISBN·판형·출판사·표지를 확인해 en 판본 행을 채운다(26.10.30 사용자 지시). `sources.primary='publisher'`, `sources.isbn`에 ISBN을 확인한 출판사 페이지를 적고, 다른 항목도 실제로 확인한 페이지 URL을 남긴다. 작품의 `external_source`·`external_id`는 비우고 ko는 표시용 제목 행으로 둔다. 절판 표식은 붙이지 않는다. 독서 방식 책장 반영에서는 `reading-way-books-apply.mjs`가 이 형식을 받는다.
 - 검증 가능한 영문판이 없으면 판본 값을 채우지 않고 표시용 제목 행만 둔다(「한국어판 확인」의 표시용 제목 행 규칙과 같고 배지는 `[no-en]`). 한국어 도서의 영문 표시 제목은 **제목의 뜻을 옮긴 영어 번역 제목**을 기본으로 한다(`translated`). 실제 영문 번역판이 있으면 그 출판 제목을 쓰고(예: 채식주의자 → `The Vegetarian`), 표지에 출판사가 넣은 영문 부제가 있으면 그것을 우선한다. 영어권 관용이 음차 표기를 유지하는 고유명사 제목(예: `Liezi`, `Hong Gildong jeon`)만 `romanized`로 둔다 — 그 밖의 음차 표기는 영어 독자에게 의미 없는 문자열이라 금지한다(26.09.22 사용자 결정). EN 페이지에 한글 제목이 그대로 나가는 쪽이 더 크리티컬하므로 en 표시용 제목을 먼저 채운다.
 
 ## VIDEO·GAME·MUSIC

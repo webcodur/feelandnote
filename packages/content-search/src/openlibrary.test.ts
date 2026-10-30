@@ -107,6 +107,39 @@ test('Tiffany’s 원전에 실제 추가 공저자가 생기면 정식 ISBN 메
   await assert.rejects(getOpenLibraryBookMetadata(tiffanysContext.isbn), /저자 목록을 판본에서 확인할 수 없어/)
 })
 
+test('검수한 원전의 낭독자·중복 저자 항목만 빼고, 다른 추가 저자는 계속 거부한다', () => {
+  const cases: [string, string[], string[], string[]][] = [
+    ['/works/OL1812917W', ['/authors/OL217475A'], ['/authors/OL217475A', '/authors/OL7303599A'], ['/authors/OL217475A']],
+    ['/works/OL3928916W', ['/authors/OL2853063A'], ['/authors/OL715808A', '/authors/OL2853063A'], ['/authors/OL715808A']],
+    ['/works/OL8135504W', ['/authors/OL39115A', '/authors/OL1392769A'], ['/authors/OL39115A', '/authors/OL1392769A', '/authors/OL7874065A'], ['/authors/OL39115A', '/authors/OL1392769A']],
+    ['/works/OL1925473W', ['/authors/OL230834A'], ['/authors/OL230834A', '/authors/OL9102398A', '/authors/OL2589896A'], ['/authors/OL230834A']],
+  ]
+  for (const [workKey, edition, work, expected] of cases) {
+    const context = { workKey, editionKey: '/books/OL1M', isbn: '9780000000000' }
+    assert.deepEqual(getBookOriginalAuthorKeys(edition, work, context), expected)
+    assert.equal(getBookOriginalAuthorKeys(edition, [...work, '/authors/OL2A'], context), null)
+    assert.equal(getBookOriginalAuthorKeys(['/authors/OL2A'], work, context), null)
+  }
+  assert.equal(getBookOriginalAuthorKeys(['/authors/OL217475A'], ['/authors/OL217475A', '/authors/OL7303599A'], { workKey: '/works/OL1W', editionKey: null, isbn: null }), null)
+})
+
+test('언어가 빈 판본은 검수한 ISBN·판본 ID일 때만 영어로 보고, 다른 언어가 적히면 계속 거부한다', async (t) => {
+  const edition = { ...metadataEdition, key: '/books/OL26810840M', title: 'David Lynch: The Man from Another Place (Icons)',
+    isbn_13: ['9780544343757'], publishers: ['New Harvest'], languages: [] as { key: string }[], covers: [] }
+  const run = async (value: typeof edition, isbn: string) => {
+    const mock = t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => {
+      if (String(url).includes('/isbn/')) return Response.json(value)
+      if (String(url).startsWith('https://covers.openlibrary.org/')) return new Response('', { status: 404 })
+      return Response.json({ name: 'Dennis Lim' })
+    })
+    try { return await getOpenLibraryBookMetadata(isbn) } finally { mock.mock.restore() }
+  }
+  assert.deepEqual((await run(edition, '9780544343757'))?.languages, ['/languages/eng'])
+  await assert.rejects(run({ ...edition, key: '/books/OL1M' }, '9780544343757'), /영어를 확인할 수 없습니다/)
+  await assert.rejects(run({ ...edition, languages: [{ key: '/languages/spa' }] }, '9780544343757'), /영어를 확인할 수 없습니다/)
+  await assert.rejects(run({ ...edition, isbn_13: ['9781501197260'] }, '9781501197260'), /영어를 확인할 수 없습니다/)
+})
+
 test('출판사 누락은 기본 경로에서 거부하고 명시한 등록 경로에서만 빈 값으로 보존한다', async (t) => {
   const mock = t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => {
     if (String(url).includes('/isbn/')) return Response.json({ ...metadataEdition, publishers: [], covers: [123] })

@@ -11,7 +11,7 @@ const KIND_URL: Record<string, (id: string, locale: "ko" | "en", v: number) => s
 };
 const KIND_STEM: Record<string, string> = { reading: "reading", monologue: "vmonologue", faction: "description" };
 
-export async function GET(request: NextRequest) {
+function audioRequest(request: NextRequest) {
   const query = request.nextUrl.searchParams;
   const id = query.get("id") ?? "";
   const locale = query.get("locale");
@@ -21,10 +21,33 @@ export async function GET(request: NextRequest) {
   if (!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(id)
     || (locale !== "ko" && locale !== "en") || !/^\d{1,10}$/.test(version)
     || !Object.hasOwn(KIND_STEM, kind)) {
-    return new Response(null, { status: 400 });
+    return null;
   }
+  return { stem, audioUrl: KIND_URL[kind](id, locale, Number(version)) };
+}
+
+/** Check whether narration was actually recorded, without loading missing media in the browser. */
+export async function HEAD(request: NextRequest) {
+  const parsed = audioRequest(request);
+  if (!parsed) return new Response(null, { status: 400 });
+  const headers = { "Cache-Control": "no-store" };
+  if (!parsed.audioUrl) return new Response(null, { status: 204, headers });
+  try {
+    const audio = await fetch(parsed.audioUrl, {
+      method: "HEAD", cache: "no-store", signal: AbortSignal.timeout(8000),
+    });
+    const exists = audio.ok && audio.headers.get("content-length") !== "0";
+    return new Response(null, { status: exists ? 200 : 204, headers });
+  } catch {
+    return new Response(null, { status: 204, headers });
+  }
+}
+
+export async function GET(request: NextRequest) {
+  const parsed = audioRequest(request);
+  if (!parsed) return new Response(null, { status: 400 });
+  const { stem, audioUrl } = parsed;
   const missing = () => new Response(null, { status: 204, headers: { "Cache-Control": "no-store" } });
-  const audioUrl = KIND_URL[kind](id, locale, Number(version));
   if (!audioUrl) return missing();
   try {
     const signal = AbortSignal.timeout(8000);

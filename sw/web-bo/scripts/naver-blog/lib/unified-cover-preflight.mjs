@@ -1,3 +1,4 @@
+import {supportedStaticImage} from './native-image.mjs';
 import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';import sharp from 'sharp';
 import {coverDisplayWidth,UNIFIED_ARTICLE} from './unified-article.mjs';
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
@@ -20,7 +21,7 @@ export async function preflightUnifiedCovers(materialFile,out){
    if(!response.ok){if([404,410].includes(response.status))throw localError('Cover unavailable: '+book.title+' / HTTP '+response.status);throw Error('Cover download interrupted: HTTP '+response.status);}
    const bytes=Buffer.from(await response.arrayBuffer());let metadata;
    try{metadata=await sharp(bytes).metadata();}catch{throw localError('Cover is not a readable image: '+book.title);}
-   if(!['png','jpeg','webp'].includes(metadata.format)||metadata.width<=1||metadata.height<=1||metadata.pages>1)throw localError('Cover is missing or unsupported: '+book.title);
+   if(!supportedStaticImage(metadata))throw localError('Cover is missing or unsupported: '+book.title);
    geometry={url:book.coverUrl,width:metadata.width,height:metadata.height,sourceSha256:crypto.createHash('sha256').update(bytes).digest('hex')};
    cache[book.coverUrl]=geometry;write(cacheFile,cache);
   }

@@ -7,6 +7,7 @@
     "dev:remotion": "pnpm --filter @feelandnote/remotion dev",
     "dev:lab": "pnpm --filter @feelandnote/lab dev",
     "dev:audio-bo": "pnpm --filter @feelandnote/audio-bo dev",
+    "dev:ipilot": "pnpm --filter @ipilot/web dev",
     "browser:status": "node scripts/browser/backend.mjs status",
     "browser:plan-a": "node scripts/browser/backend.mjs start-a",
     "browser:plan-b": "node scripts/browser/backend.mjs check-b",

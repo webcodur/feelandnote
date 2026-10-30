@@ -20,6 +20,7 @@ import { createExplorePreferences, restoreExplorePreferenceUrl } from "@/lib/exp
 import { parseFilterParams } from "@/app/[locale]/(main)/explore/figures/filterParams";
 import type { CelebCardImage } from "@/components/shared/CelebCard";
 import { useExplorePreferences } from "./useExplorePreferences";
+import { filterSelection, serializeFilterSelection } from "@/constants/celebFilterSelection";
 
 // #region 상수
 export const SORT_VALUES = CELEB_SORT_OPTIONS;
@@ -59,10 +60,11 @@ interface UseCelebFiltersParams {
   initialTotalPages: number;
   initialTrendCountry?: TrendCountry;
   initialTrend?: Awaited<ReturnType<typeof getCelebs>>["trend"];
-  professionCounts: ProfessionCounts;
-  nationalityCounts: NationalityCounts;
-  contentTypeCounts: ContentTypeCounts;
-  genderCounts: GenderCounts;
+  professionCounts?: ProfessionCounts;
+  nationalityCounts?: NationalityCounts;
+  nationalityOptions?: string[];
+  contentTypeCounts?: ContentTypeCounts;
+  genderCounts?: GenderCounts;
   syncToUrl?: boolean;
   includeInactive?: boolean;
   onIncludeInactiveChange?: (value: boolean) => void;
@@ -74,10 +76,11 @@ export function useCelebFilters({
   initialTotalPages,
   initialTrendCountry = "KR",
   initialTrend,
-  professionCounts,
-  nationalityCounts,
-  contentTypeCounts,
-  genderCounts,
+  professionCounts = {},
+  nationalityCounts = [],
+  nationalityOptions,
+  contentTypeCounts = {},
+  genderCounts = [],
   syncToUrl = false,
   includeInactive = false,
 }: UseCelebFiltersParams) {
@@ -96,8 +99,8 @@ export function useCelebFilters({
 
   const [celebs, setCelebs] = useState<CelebProfile[]>(initialCelebs);
   const { isLoading, listingError, loadListing, invalidateListingCache } = useCelebListingRequest();
-  const [profession, setProfession] = useState<string>(() => getInitialValue("profession", syncToUrl ? DEFAULT_EXPLORE_PROFESSION : "all"));
-  const [nationality, setNationality] = useState<string>(() => getInitialValue("nationality", "all"));
+  const [profession, setProfession] = useState<string>(() => serializeFilterSelection(filterSelection(getInitialValue("profession", syncToUrl ? DEFAULT_EXPLORE_PROFESSION : "all"))));
+  const [nationality, setNationality] = useState<string>(() => serializeFilterSelection(filterSelection(getInitialValue("nationality", "all"))));
   const [contentType, setContentType] = useState<string>(() => syncToUrl ? parseExploreContentType(searchParams.get("contentType")) : "all");
   const [cardImage, setCardImage] = useState<CelebCardImage>("avatar");
   const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", syncToUrl ? DEFAULT_EXPLORE_SORT : "daily_recommend", SORT_VALUES));
@@ -442,6 +445,7 @@ export function useCelebFilters({
     activeLabels,
     professionCounts,
     nationalityCounts,
+    nationalityOptions: nationalityOptions ?? nationalityCounts.map(item => item.value),
     contentTypeCounts,
     genderCounts,
     currentPage,

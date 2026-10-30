@@ -1,5 +1,6 @@
 import type { CelebSortBy, GetCelebsParams } from '@/actions/home/getCelebs'
 import { CELEB_SORT_OPTIONS } from './celebSort'
+import { CELEB_FILTER_SELECTION_LIMITS, CELEB_FILTER_SELECTION_MAX_LENGTH, filterSelection, serializeFilterSelection } from './celebFilterSelection'
 
 export const CELEB_LISTING_LIMITS = {
   pageSizes: [12, 24, 48] as readonly number[],
@@ -7,7 +8,7 @@ export const CELEB_LISTING_LIMITS = {
   maxLimit: 200,
   maxOffset: 24_000,
   searchLength: 80,
-  filterLength: 80,
+  filterLength: CELEB_FILTER_SELECTION_LIMITS.valueLength,
   concurrentQueries: 8,
   timeoutMs: 12_000,
   professionBatchSize: 4,
@@ -38,7 +39,18 @@ export function normalizeListingParams(input: GetCelebsParams): GetCelebsParams 
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Invalid listing request')
   const params = { ...input }
   const invalid = () => { throw new Error('Invalid listing filters') }
-  for (const key of ['profession', 'nationality', 'contentType', 'gender', 'factionId', 'trendCountry'] as const) {
+  for (const key of ['profession', 'nationality'] as const) {
+    const value = params[key]
+    if (value !== undefined) {
+      if (typeof value !== 'string' || value.length > CELEB_FILTER_SELECTION_MAX_LENGTH) invalid()
+      const selected = filterSelection(value)
+      if (selected.length > CELEB_FILTER_SELECTION_LIMITS.items || selected.some(item => item.length > CELEB_FILTER_SELECTION_LIMITS.valueLength)) invalid()
+      const normalized = serializeFilterSelection(selected)
+      if (normalized === 'all') delete params[key]
+      else params[key] = normalized
+    }
+  }
+  for (const key of ['contentType', 'gender', 'factionId', 'trendCountry'] as const) {
     const value = params[key]
     if (value !== undefined && (typeof value !== 'string' || value.length > CELEB_LISTING_LIMITS.filterLength)) invalid()
     if (value === 'all' || value === '') delete params[key]

@@ -9,7 +9,6 @@ import { Star, Edit2, Trash2, Loader2, X, Check, RefreshCw, Hash, Database, Link
 import Button from '@/components/ui/Button'
 import ContentSelector, { type SelectedContent } from '@/components/content/ContentSelector'
 import { CONTENT_TYPE_CONFIG, CONTENT_TYPES, type ContentType } from '@/constants/contentTypes'
-import { STATUS_OPTIONS } from '@/constants/statuses'
 
 interface Props {
   contents: CelebContent[]
@@ -17,7 +16,6 @@ interface Props {
 }
 
 interface EditFormState {
-  status: string
   review: string
   source_url: string
   content_type: string
@@ -48,7 +46,6 @@ export default function ContentList({ contents, celebId }: Props) {
     setEditingId(content.id)
     setCurrentContentDbId(content.content.id)
     setEditForm({
-      status: content.status,
       review: content.review || '',
       source_url: content.source_url || '',
       content_type: content.content.type,
@@ -115,7 +112,6 @@ export default function ContentList({ contents, celebId }: Props) {
       await updateCelebContent({
         id: userContentId,
         celeb_id: celebId,
-        status: editForm.status,
         review: editForm.review || null,
         source_url: editForm.source_url || null,
         content_id: finalContentId,
@@ -269,9 +265,6 @@ export default function ContentList({ contents, celebId }: Props) {
 
                 {!isEditing && (
                   <div className="mt-2 space-y-1">
-                    <div className="flex items-center gap-3 text-sm">
-                      <StatusBadge status={content.status} />
-                    </div>
                     {content.review && <p className="text-sm text-text-secondary whitespace-pre-line">{content.review}</p>}
                     <div className="text-xs">
                       <span className="text-text-secondary">출처: </span>
@@ -350,19 +343,6 @@ export default function ContentList({ contents, celebId }: Props) {
                     )}
 
                     {/* 기록 정보 수정 (celeb_contents 테이블) */}
-                    <div className="flex items-center gap-3">
-                      <select
-                        value={editForm.status}
-                        onChange={(e) => setEditForm({ ...editForm, status: e.target.value })}
-                        className="px-3 py-1.5 bg-bg-secondary border border-border rounded text-sm text-text-primary focus:border-accent focus:outline-none"
-                      >
-                        {STATUS_OPTIONS.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
                     <textarea
                       value={editForm.review}
                       onChange={(e) => setEditForm({ ...editForm, review: e.target.value })}
@@ -396,11 +376,4 @@ export default function ContentList({ contents, celebId }: Props) {
       })}
     </div>
   )
-}
-
-function StatusBadge({ status }: { status: string }) {
-  const statusConfig = STATUS_OPTIONS.find((opt) => opt.value === status)
-  const label = statusConfig?.label || status
-  const color = statusConfig?.color || 'text-gray-400'
-  return <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-white/5 ${color}`}>{label}</span>
 }

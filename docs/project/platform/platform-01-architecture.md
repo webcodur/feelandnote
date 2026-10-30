@@ -2,7 +2,7 @@
 
 > **최종 실측 체크: 26.07.30** — 안드로이드 앱 셸 신설과 sw/web 신규 경로 반영
 
-`sw/` 아래 6개 앱으로 구성한다.
+`sw/` 아래 7개 앱으로 구성한다.
 
 | 앱 | 스택 | 역할 |
 |---|---|---|
@@ -12,6 +12,7 @@
 | `sw/lab` | Vite + React | 그래픽 실험장 |
 | `sw/audio-bo` | Next.js App Router | 로컬 GPU 음성 작업실 |
 | `sw/android` | Gradle + TWA | 안드로이드 앱 셸 (상세: [안드로이드 앱 SSoT](../apps/apps-03-android.md)) |
+| `sw/ipilot` | Next.js App Router | 독립 항공 학습 플랫폼 · 로컬 3006 (상세: [앱 README](../../../sw/ipilot/README.md)) |
 
 `sw/android`는 자체 화면이 없다. 사용자의 브라우저가 `feelandnote.com`을 전체 화면으로 그리고, 앱은 그 껍데기만 맡는다. 웹을 배포하면 앱 내용도 함께 바뀌므로 앱을 다시 낼 필요가 없다. Node 패키지가 아니라 `pnpm-workspace.yaml`에 넣지 않으며(워크스페이스는 글롭이 아니라 개별 명시 방식이다), 빌드는 Android Studio가 맡는다.
 

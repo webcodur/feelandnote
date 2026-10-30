@@ -48,6 +48,7 @@
 | 데이터 | 룰북 | 비고 |
 |---|---|---|
 | 인물 안내(한영) | [`celeb-05-01-reading.md`](celeb-05-01-reading.md) | |
+| 독서 방식 조사 | [`celeb-05-02-reading-way.md`](celeb-05-02-reading-way.md) | 최초 1회 조사 필수. 조사 미달도 인정 |
 | 가상독백(한영) | [`celeb-04-03-virtual-monologue.md`](celeb-04-03-virtual-monologue.md) | 외부 CLI 중간 단계 |
 | 말투·한마디·상황 대사 | [`celeb-04-01-speech.md`](celeb-04-01-speech.md) · [`celeb-04-02-speech-pipeline.md`](celeb-04-02-speech-pipeline.md) | 실제 발언 기반 |
 | 영향력·스펙트럼(선택) | [`celeb-03-01-influence.md`](celeb-03-01-influence.md) · [`celeb-03-02-spectrum.md`](celeb-03-02-spectrum.md) | 별도 요청 시 작성. 선택 기준은 active 요건을 따른다 |
@@ -58,4 +59,4 @@
 ## 6. 공개 전환
 
 - 필수 데이터와 조사는 [`active 요건`](celeb-00-02-active-requirements.md), 상태 변경·노출·현재 DB 제약은 [`인물 공개 상태`](celeb-00-05-publication.md)를 따른다.
-- 세력 진열은 3단계의 `is_featured`·`hidden`으로 인물 공개와 별도로 판단한다. 얼굴 신원이 보류된 인물은 `inactive`만으로 도감에서 숨겨지지 않으므로 해당 배정의 `hidden=true`를 유지한다.
+- 세력 진열은 3단계의 `is_featured`·`hidden`으로 인물 공개와 별도로 판단한다.

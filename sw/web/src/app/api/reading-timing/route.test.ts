@@ -36,3 +36,34 @@ test("timing API only serves sidecars matching the audio ETag", async () => {
     globalThis.fetch = fetchOriginal;
   }
 });
+
+test("narration HEAD checks only the fixed audio path and treats missing, empty or unreachable files as unavailable", async () => {
+  process.env.NEXT_PUBLIC_R2_PUBLIC_URL = "https://assets.example.test";
+  const { HEAD } = await import("./route");
+  const original = globalThis.fetch;
+  const requests: Array<{ url: string; method?: string }> = [];
+  let status = 404;
+  let length = "100";
+  globalThis.fetch = async (url, init) => {
+    requests.push({ url: String(url), method: init?.method });
+    return new Response(null, { status, headers: { "Content-Length": length } });
+  };
+  const request = () => new NextRequest("http://localhost/api/reading-timing?id=1ab7e089-040f-4aa1-b0a1-81dc1dd510d7&locale=ko&v=15&kind=monologue");
+  try {
+    assert.equal((await HEAD(request())).status, 204);
+    status = 200;
+    assert.equal((await HEAD(request())).status, 200);
+    assert.deepEqual(requests[0], {
+      url: "https://assets.example.test/celebs/1ab7e089-040f-4aa1-b0a1-81dc1dd510d7/voice/ko/vmonologue.mp3?v=15", method: "HEAD",
+    });
+    length = "0";
+    assert.equal((await HEAD(request())).status, 204);
+    const count = requests.length;
+    assert.equal((await HEAD(new NextRequest("http://localhost/api/reading-timing?id=../../secret&locale=ko"))).status, 400);
+    assert.equal(requests.length, count);
+    globalThis.fetch = async () => { throw new Error("unreachable"); };
+    assert.equal((await HEAD(request())).status, 204);
+  } finally {
+    globalThis.fetch = original;
+  }
+});

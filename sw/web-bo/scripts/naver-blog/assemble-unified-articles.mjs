@@ -26,6 +26,7 @@ export function assembleUnifiedArticles({materials,summaries,out,ids=null,supple
       const previous=path.join(out,logNo+'-article.json');
       // A native transaction owns its prepared input until its receipt exists.
       if(fs.existsSync(previous)&&read(previous).articleHash===article.articleHash){const html=renderPreparedPreview(article,out),preview=path.join(out,logNo+'.html');if(!fs.existsSync(preview)||fs.readFileSync(preview,'utf8')!==html)write(preview,html);state.ready.push({logNo,articleHash:article.articleHash});continue;}
+      if(fs.existsSync(previous)){const receiptFile=path.join(out,logNo+'-native-verified.json'),old=read(previous);if(fs.existsSync(receiptFile)){const receipt=read(receiptFile);if(receipt.saved&&receipt.verified&&receipt.articleHash===old.articleHash){const folder=path.join(out,'revision-base');fs.mkdirSync(folder,{recursive:true});const previewFile=path.join(out,logNo+'-preview-images.json');write(path.join(folder,logNo+'.json'),{article:old,material:read(path.join(out,file)),receipt,preview:fs.existsSync(previewFile)?read(previewFile):null});}}}
       write(path.join(out,file),material);write(previous,article);write(path.join(out,logNo+'.html'),renderPreparedPreview(article,out));
       state.ready.push({logNo,articleHash:article.articleHash});
     }catch(error){state.pending.push({logNo,error:String(error)});}

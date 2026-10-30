@@ -6,6 +6,8 @@ import { useTranslations } from 'next-intl'
 import { ExternalLink, Music } from 'lucide-react'
 import { getMediaEmbed, type MediaEmbedResult } from '@/actions/contents/getMediaEmbed'
 import type { ContentType } from '@/types/database'
+import { PendingBlock } from '@/components/ui/pending'
+import ContentImageGalleryPlaceholder from './ContentImageGalleryPlaceholder'
 
 interface MediaEmbedProps {
   contentId: string
@@ -14,7 +16,31 @@ interface MediaEmbedProps {
   title?: string
 }
 
-const ContentImageGallery = dynamic(() => import('./ContentImageGallery'))
+const ContentImageGallery = dynamic(() => import('./ContentImageGallery'), { loading: ContentImageGalleryPlaceholder })
+
+// 탭을 다시 열면 이미 받은 자료를 바로 쓴다. 실패한 요청은 저장하지 않는다.
+const MEDIA_CACHE_MS = 60_000
+const MEDIA_CACHE_LIMIT = 32
+const mediaCache = new Map<string, { embed: MediaEmbedResult; expires: number }>()
+const pendingMedia = new Map<string, Promise<MediaEmbedResult>>()
+function readMedia(key: string) {
+  const entry = mediaCache.get(key)
+  if (entry && entry.expires > Date.now()) return entry.embed
+  mediaCache.delete(key)
+  return undefined
+}
+function loadMedia(key: string, contentId: string, type: ContentType, showImages: boolean) {
+  const pending = pendingMedia.get(key)
+  if (pending) return pending
+  const request = getMediaEmbed(contentId, type, showImages).then(embed => {
+    mediaCache.delete(key)
+    mediaCache.set(key, { embed, expires: Date.now() + MEDIA_CACHE_MS })
+    if (mediaCache.size > MEDIA_CACHE_LIMIT) mediaCache.delete(mediaCache.keys().next().value!)
+    return embed
+  }).finally(() => pendingMedia.delete(key))
+  pendingMedia.set(key, request)
+  return request
+}
 
 function MediaGallery({ images, title, type }: { images: string[]; title: string; type: ContentType }) {
   const t = useTranslations('contentDetail')
@@ -55,13 +81,14 @@ export default function MediaEmbed({ contentId, type, showImages = false, title 
   const requestKey = `${contentId}:${type}:${showImages}`
   const supportsEmbed = type === 'VIDEO' || type === 'GAME' || type === 'MUSIC'
   const [result, setResult] = useState<{ key: string; embed: MediaEmbedResult | null } | null>(null)
+  const cached = readMedia(requestKey)
 
   useEffect(() => {
     // VIDEO, GAME, MUSIC 모두 서버 액션 호출
-    if (!supportsEmbed) return
+    if (!supportsEmbed || cached !== undefined) return
 
     let cancelled = false
-    getMediaEmbed(contentId, type, showImages)
+    loadMedia(requestKey, contentId, type, showImages)
       .then((embed) => {
         if (!cancelled) setResult({ key: requestKey, embed })
       })
@@ -71,17 +98,17 @@ export default function MediaEmbed({ contentId, type, showImages = false, title 
     return () => {
       cancelled = true
     }
-  }, [contentId, requestKey, showImages, supportsEmbed, type])
+  }, [cached, contentId, requestKey, showImages, supportsEmbed, type])
 
   if (!supportsEmbed) return null
 
-  const loading = result?.key !== requestKey
-  const embed = loading ? null : (result?.embed ?? null)
+  const loading = cached === undefined && result?.key !== requestKey
+  const embed = cached ?? (loading ? null : (result?.embed ?? null))
 
   // MUSIC: Apple Music 미리듣기만 렌더링
   if (type === 'MUSIC') {
     if (loading) {
-      return <div className="w-full h-[152px] rounded-xl bg-white/5 animate-shimmer" />
+      return <PendingBlock variant="panel" minHeight="min-h-[152px]" className="[&>div:first-child]:h-auto" />
     }
     if (embed?.embedType === 'appleMusicPreview') {
       return embed.previewUrl
@@ -92,7 +119,12 @@ export default function MediaEmbed({ contentId, type, showImages = false, title 
   }
 
   if (loading) {
-    return <div className="w-full aspect-video rounded-lg bg-white/5 animate-shimmer" />
+    return <PendingBlock variant="panel" className="[&>div:first-child]:h-auto">
+      <div className="space-y-5">
+        {showImages && <ContentImageGalleryPlaceholder />}
+        <div className="w-full aspect-video rounded-lg border border-line bg-bg-card" />
+      </div>
+    </PendingBlock>
   }
 
   if (!embed?.embedId && !embed?.images?.length) return null

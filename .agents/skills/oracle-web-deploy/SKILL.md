@@ -1,6 +1,6 @@
 ---
 name: oracle-web-deploy
-description: Feel&Note 사용자 웹의 Oracle standalone 배포 계획, 패키징, canary, release 전환, 운영 롤백을 수행할 때 적용한다. "오라클 배포", "web 운영 배포", "release 전환", "운영 롤백" 요청에 사용한다.
+description: feelandnote 사용자 웹의 Oracle standalone 배포 계획, 패키징, canary, release 전환, 운영 롤백을 수행할 때 적용한다. "오라클 배포", "web 운영 배포", "release 전환", "운영 롤백" 요청에 사용한다.
 ---
 
 # Oracle web deploy

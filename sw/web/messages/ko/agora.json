@@ -47,7 +47,7 @@
     "items": {
       "notice": {
         "label": "공지사항",
-        "description": "Feelandnote의 새로운 소식과 업데이트"
+        "description": "feelandnote의 새로운 소식과 업데이트"
       },
       "feedback": {
         "label": "피드백",

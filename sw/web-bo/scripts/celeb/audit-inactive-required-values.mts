@@ -9,6 +9,7 @@ import { config } from 'dotenv'
 import { createClient } from '@feelandnote/db'
 import { isCelebReality } from '@feelandnote/shared/constants/celeb-tiers'
 import { CELEB_CONTENT_COUNT, resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
+import { hasCompletedReadingWayResearch } from '@feelandnote/shared/constants/celeb-reading-way'
 
 const PAGE = 100
 const CHUNK = 100
@@ -18,7 +19,7 @@ const PROFILE_TEXT_FIELDS = [
   'avatar_url', 'virtual_monologue', 'virtual_monologue_en',
 ] as const
 const PROFILE_SELECT = ['id', ...PROFILE_TEXT_FIELDS, 'gender', 'celeb_tier',
-  'celeb_reality', 'publication_status', 'content_research_confirmed_empty_at'].join(',')
+  'celeb_reality', 'publication_status', 'content_research_confirmed_empty_at', 'reading_way', 'reading_way_en'].join(',')
 
 export const MANUAL_CHECKS = [
   '기본 사실·아바타 신원·본문 품질·한마디의 진위',
@@ -51,6 +52,7 @@ export function requiredValueGaps(profile: Profile, explanation: Explanation | u
   const gaps = PROFILE_TEXT_FIELDS.filter(field => missingText(profile[field], true)).map(field => field as string)
   if (typeof profile.gender !== 'boolean') gaps.push('gender')
   if (!isCelebReality(profile.celeb_reality)) gaps.push('celeb_reality')
+  if (!hasCompletedReadingWayResearch(profile)) gaps.push('reading_way_research')
   if (missingText(explanation?.plain_text, true)) gaps.push('plain_text')
   if (missingText(explanation?.plain_text_en, true)) gaps.push('plain_text_en')
   // 검증된 말이 없는 인물의 표준 '없음' 값도 유효하므로 한마디에는 자리 표시 필터를 쓰지 않는다.

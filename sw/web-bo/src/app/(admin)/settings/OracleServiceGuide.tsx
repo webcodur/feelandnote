@@ -48,7 +48,7 @@ export function OracleServiceGuide() {
     <section aria-labelledby="oracle-guide-title" className="space-y-4 text-sm leading-7 text-text-secondary">
       <header>
         <h2 id="oracle-guide-title" className="scroll-mt-24 text-xl font-semibold text-text-primary">Oracle 서비스 구성과 사용 안내</h2>
-        <p className="mt-2">오라클은 Feel&amp;Note의 웹 서버와 데이터베이스 서버를 실행하는 곳입니다. 위 상태판은 서버의 실제 응답과 사용량을 조회하고, 아래 안내는 각 자원의 역할과 확인 방법을 설명합니다.</p>
+        <p className="mt-2">오라클은 feelandnote의 웹 서버와 데이터베이스 서버를 실행하는 곳입니다. 위 상태판은 서버의 실제 응답과 사용량을 조회하고, 아래 안내는 각 자원의 역할과 확인 방법을 설명합니다.</p>
         <nav aria-label="오라클 안내 목차" className="mt-3 flex flex-wrap gap-2">
           {guideSections.map(({ id, label }) => <a key={id} href={`#${id}`} className={linkClass}>{label}</a>)}
         </nav>

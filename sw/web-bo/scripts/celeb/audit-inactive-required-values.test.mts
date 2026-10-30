@@ -9,9 +9,21 @@ const profile = (): Profile => ({
   bio: '소개.', bio_en: 'Biography.', headline: '한 줄.', headline_en: 'Headline.', avatar_url: 'https://assets.test/avatar.webp',
   virtual_monologue: '독백.', virtual_monologue_en: 'Monologue.', publication_status: 'inactive',
   celeb_tier: 'light', celeb_reality: 'REAL', content_research_confirmed_empty_at: '2026-10-12T00:00:00Z',
+  reading_way: '', reading_way_en: '',
 })
 const guide = { profile_id: 'p', plain_text: '안내.', plain_text_en: 'Guide.' }
 const quote = { celeb_id: 'p', quote: '검증된 한마디.', quote_en: 'Verified quote.' }
+
+test('독서 방식은 본문 필수가 아니라 조사 1회 필수이며, 미달도 충족한다', () => {
+  const p = profile(); p.reading_way = null; p.reading_way_en = null
+  assert.deepEqual(requiredValueGaps(p, guide, quote, 1), ['reading_way_research'])
+  p.celeb_reality = 'BOTH'
+  assert.deepEqual(requiredValueGaps(p, guide, quote, 1), ['reading_way_research'])
+  p.reading_way = ''; p.reading_way_en = ''
+  assert.deepEqual(requiredValueGaps(p, guide, quote, 1), [])
+  p.reading_way = null; p.reading_way_en = null; p.celeb_reality = 'FICTION'
+  assert.deepEqual(requiredValueGaps(p, guide, quote, 0), [])
+})
 
 test('선택 데이터·생존 인물 사망일·여성의 false 값은 결손이 아니다', () => {
   assert.deepEqual(requiredValueGaps(profile(), guide, quote, 0), [])

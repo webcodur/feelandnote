@@ -1,5 +1,4 @@
-// compose-celebs.mjs material()의 BOOK·ko 표지·감상 80자 조건에 한국어 제목 확인을 더한다.
-export const MIN_REVIEW_LENGTH = 80;
+import {hasEligibleBlogReview} from './blog-review-eligibility.mjs';
 const text = value => String(value ?? '').trim();
 // 한국어판도 《1984》처럼 숫자 제목을 쓴다. ko 메타의 숫자 제목은 남긴다.
 const koreanTitle = value => /[가-힣]/.test(text(value)) || /^(?=.*\d)[\d\s.,:!?~…()[\]{}+\-–—]+$/.test(text(value));
@@ -23,7 +22,7 @@ export function buildRoster({ celebs, relations, contents, locales, posts, draft
   const byPerson = new Map(), byBook = new Map();
   for (const r of relations) {
     const c = byId.get(r.celeb_id), meta = ko.get(r.content_id);
-    if (!active(c) || !bookIds.has(r.content_id) || !koreanTitle(meta?.title) || !text(meta?.thumbnail_url) || (r.review ?? '').length < MIN_REVIEW_LENGTH) continue;
+    if (!active(c) || !bookIds.has(r.content_id) || !koreanTitle(meta?.title) || !text(meta?.thumbnail_url) || !hasEligibleBlogReview(r.review)) continue;
     if (!byPerson.has(c.id)) byPerson.set(c.id, new Set());
     byPerson.get(c.id).add(r.content_id);
     if (!byBook.has(r.content_id)) byBook.set(r.content_id, { ...meta, readers: new Map() });
@@ -60,7 +59,7 @@ const cell = value => text(value).replace(/\|/g, '\\|').replace(/[\r\n]+/g, ' ')
 const personLink = c => `[${cell(c.nickname)}](https://feelandnote.com/celeb/${c.slug})`;
 export function renderRoster(r, { top = 120 } = {}) {
   const out = ['# 인물·책 안내글 대장', '', '`pnpm naver:roster`가 DB와 `posts.json`·`celeb-drafts.json`에서 만든다.', '',
-    `인물 후보의 책 수는 활성 full 인물에게 연결된 BOOK 중 ko 제목(한글 또는 숫자 제목)·ko 표지·${MIN_REVIEW_LENGTH}자 이상 감상이 있는 서로 다른 책 수다. 신규 인물만 ${r.min}권 이상을 요구한다. 기존 글은 책 수와 현재 인물 공개 상태에 관계없이 모두 남긴다.`, '',
+    `인물 후보의 책 수는 활성 full 인물에게 연결된 BOOK 중 ko 제목(한글 또는 숫자 제목)·ko 표지·비어 있지 않은 감상이 있는 서로 다른 책 수다. 대표책은 감상이 풍부한 기록을 우선하며 짧은 감상도 후보에 남긴다. 신규 인물만 ${r.min}권 이상을 요구한다. 기존 글은 책 수와 현재 인물 공개 상태에 관계없이 모두 남긴다.`, '',
     '| 구분 | 글 수 | 인물 수 |', '|---|---:|---:|',
     `| 기존 인물 글 | ${r.existing.length} | ${r.existingPeople} |`,
     `| 이번 작성 중 글 대장에 있는 글 | ${r.current.length} | ${r.currentPeople} |`,

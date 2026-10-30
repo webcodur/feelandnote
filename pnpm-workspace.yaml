@@ -4,6 +4,7 @@ packages:
   - 'sw/lab'
   - 'sw/remotion'
   - 'sw/audio-bo'
+  - 'sw/ipilot'
   - 'packages/*'
 
 # 사용자 웹은 현재 컴퓨터에서 빌드한 standalone을 Oracle Linux x64에서 실행한다.

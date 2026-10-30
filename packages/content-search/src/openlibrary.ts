@@ -77,6 +77,14 @@ export function getOpenLibraryTranslatorNames(details: { contributions?: unknown
   return [...new Set(names)]
 }
 
+// 판본 응답에 언어가 아예 비어 있는 영어 종이책 가운데, 출판사·서지 기록으로 영어판임을 확인한 판본만 적는다.
+// ISBN과 OpenLibrary 판본 ID가 모두 맞고 언어 목록이 비어 있을 때만 영어로 본다. 다른 언어가 적힌 응답은 그대로 거부한다.
+const REVIEWED_ENGLISH_EDITIONS: Readonly<Record<string, string>> = {
+  // David Lynch: The Man from Another Place (New Harvest, 2015), Dennis Lim. 미국 출판사의 영어 원서다.
+  // https://www.publishersweekly.com/9780544343757 · https://archive.org/details/davidlynchmanfro0000limd
+  '9780544343757': '/books/OL26810840M',
+}
+
 /** 판본 언어는 판본 응답으로 확인한다. 국가군과 원전 언어는 번역판 언어의 근거가 아니다. */
 export async function getOpenLibraryBookMetadata(
   rawIsbn: string,
@@ -90,7 +98,8 @@ export async function getOpenLibraryBookMetadata(
   if (!/^\/books\/OL\d+M$/.test(edition.key ?? '')) throw new Error(`${isbn}: OpenLibrary 판본 ID를 확인할 수 없습니다`)
   const returnedIsbns = [...(edition.isbn_13 ?? []), ...(edition.isbn_10 ?? [])].map(toIsbn13).filter(Boolean)
   if (!returnedIsbns.includes(isbn)) throw new Error(`${isbn}: OpenLibrary 응답 ISBN이 다른 판본입니다`)
-  const languages = (edition.languages ?? []).map(item => item.key)
+  const recordedLanguages = (edition.languages ?? []).map(item => item.key)
+  const languages = !recordedLanguages.length && REVIEWED_ENGLISH_EDITIONS[isbn] === edition.key ? ['/languages/eng'] : recordedLanguages
   if (!languages.includes('/languages/eng')) throw new Error(`${isbn}: OpenLibrary 판본의 영어를 확인할 수 없습니다`)
   const mainTitle = edition.title?.trim() ?? ''
   const subtitle = edition.subtitle?.trim() ?? ''

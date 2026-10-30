@@ -8,7 +8,6 @@ import { createContentFromExternal } from '@/actions/admin/external-search'
 import { Plus, Loader2, X } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import ContentSelector, { type SelectedContent } from '@/components/content/ContentSelector'
-import { STATUS_OPTIONS } from '@/constants/statuses'
 import type { ContentType } from '@feelandnote/content-search/types'
 
 interface Props {
@@ -22,7 +21,7 @@ export default function AddContentForm({ celebId }: Props) {
   const [error, setError] = useState<string | null>(null)
   const [selectedContent, setSelectedContent] = useState<SelectedContent | null>(null)
   const [contentType, setContentType] = useState<ContentType>('BOOK')
-  const [form, setForm] = useState({ status: 'FINISHED', review: '', review_en: '', source_url: '' })
+  const [form, setForm] = useState({ review: '', review_en: '', source_url: '' })
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -58,7 +57,6 @@ export default function AddContentForm({ celebId }: Props) {
       await addCelebContent({
         celeb_id: celebId,
         content_id: contentId,
-        status: form.status,
         review: form.review || undefined,
         review_en: form.review_en || undefined,
         source_url: form.source_url || undefined,
@@ -84,7 +82,7 @@ export default function AddContentForm({ celebId }: Props) {
     setIsOpen(false)
     setSelectedContent(null)
     setError(null)
-    setForm({ status: 'FINISHED', review: '', review_en: '', source_url: '' })
+    setForm({ review: '', review_en: '', source_url: '' })
   }
 
   const thumbnailUrl = selectedContent?.source === 'db' ? selectedContent.data.thumbnail_url : selectedContent?.data.coverImageUrl
@@ -126,21 +124,6 @@ export default function AddContentForm({ celebId }: Props) {
                     <button type="button" onClick={() => setSelectedContent(null)} className="p-1 text-text-secondary hover:text-text-primary shrink-0">
                       <X className="w-4 h-4" />
                     </button>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-text-secondary">상태</label>
-                    <select
-                      value={form.status}
-                      onChange={(e) => setForm({ ...form, status: e.target.value })}
-                      className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none"
-                    >
-                      {STATUS_OPTIONS.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
                   </div>
 
                   <div className="space-y-2">

@@ -171,7 +171,7 @@ const DOMAIN_GUIDE = {
 };
 
 function promptFor(domain, batch) {
-  return `Translate the following Korean database fields into natural English for Feel&Note, a cultural archive.
+  return `Translate the following Korean database fields into natural English for feelandnote, a cultural archive.
 
 ${DOMAIN_GUIDE[domain]}
 

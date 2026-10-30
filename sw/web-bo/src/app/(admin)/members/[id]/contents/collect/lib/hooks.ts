@@ -177,7 +177,6 @@ export function useCollect({ celebId, celebName }: UseCollectProps) {
           ...item,
           selectedSearchResult: hasKo ? bestKo : hasOrig ? bestOrig : null,
           searchSource: hasKo ? 'ko' : hasOrig ? 'original' : 'manual',
-          status: 'FINISHED',
           lastSearchQuery: hasKo
             ? extracted.titleKo || extracted.title
             : extracted.title,
@@ -210,7 +209,6 @@ export function useCollect({ celebId, celebName }: UseCollectProps) {
           data: {
             searchResult: finalSearchResult,
             contentType: original.type,
-            status: item.status,
             itemSourceUrl: original.sourceUrl,
             itemReview: original.review,
             titleOriginal:
@@ -336,13 +334,6 @@ export function useCollect({ celebId, celebName }: UseCollectProps) {
     })
   }
 
-  function handleStatusChange(index: number, status: string) {
-    const item = processedItems.get(index)
-    if (!item) return
-
-    setProcessedItems(new Map(processedItems).set(index, { ...item, status }))
-  }
-
   const openManualSearch = useCallback((index: number) => {
     setSearchModalIndex(index)
     setSearchModalOpen(true)
@@ -377,7 +368,6 @@ export function useCollect({ celebId, celebName }: UseCollectProps) {
           searchResultsOriginal: [],
           selectedSearchResult: result,
           searchSource: 'manual',
-          status: 'FINISHED',
           lastSearchQuery: query,
         })
       )
@@ -545,7 +535,6 @@ export function useCollect({ celebId, celebName }: UseCollectProps) {
     toggleSelect,
     toggleSelectAll,
     handleSearchResultChange,
-    handleStatusChange,
     openManualSearch,
     updateExtractedItem,
     handleManualSearchSelect,
