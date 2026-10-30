@@ -82,12 +82,20 @@ if (values.reviewed) {
         dry: false, webUrl: 'https://feelandnote.com', secret: process.env.CRON_SECRET }) }))
     }
     let publicVerified = 0
+    // 상세 화면은 인용부호를 강조 span과 곡선 따옴표로, 『』를 《》로 바꾸고 RSC 페이로드에서 따옴표를 이스케이프한다.
+    // 태그·엔티티·따옴표·괄호표·공백을 걷어 낸 본문으로 대조해 실제 노출을 확인한다.
+    const visibleText = value => value.replace(/<[^>]*>/g, '').replace(/\\"/g, '"').replace(/&quot;|&#x27;|&#39;|&amp;|&lt;|&gt;/g, ' ')
+      .replace(/["'“”‘’«»「」『』《》〈〉\\]/g, '').replace(/\s+/g, '')
+    const failures = []
     for (const review of reviews.filter(review => review.target.isDefault)) {
       const response = await fetch(`https://feelandnote.com/${review.target.locale}/content/${review.target.contentId}`)
       const html = await response.text(), escaped = review.description.trim().slice(0, 60).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;')
-      if (!response.ok || (!html.includes(review.description.trim().slice(0, 60)) && !html.includes(escaped))) throw Error('운영 상세 소개 확인 실패: ' + review.target.contentId)
+      const found = html.includes(review.description.trim().slice(0, 60)) || html.includes(escaped)
+        || visibleText(html).includes(visibleText(review.description.trim()).slice(0, 50))
+      if (!response.ok || !found) { failures.push(review.target.contentId); continue }
       publicVerified++
     }
+    if (failures.length) throw Error('운영 상세 소개 확인 실패: ' + failures.join(', '))
     console.log(JSON.stringify({ event: 'verified', runtimeVerified: reviews.length, publicVerified }))
     catalog = await lib.loadBookIntroductionCatalog(db, values['content-id'] ?? [])
     census = await lib.visibleBookIntroductionCensus(catalog, db, locales)

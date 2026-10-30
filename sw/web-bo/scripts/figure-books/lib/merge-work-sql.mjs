@@ -441,9 +441,14 @@ export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [], re
   const evidenceUpdates = ['figure_book_editions', 'content_locales'].flatMap(table => snapshot[table].filter(row => row.content_id === pair.drop && (table !== 'figure_book_editions' || !removedPartIds.has(String(row.id)))).flatMap(row => {
     const source = row.sources
     if (!source || typeof source !== 'object') return []
-    const sources = { ...source }
+    let sources = { ...source }
     if (Array.isArray(source.edition_work_evidence)) sources.edition_work_evidence = source.edition_work_evidence.map(rebindProof)
     if (Array.isArray(source.edition_selection_evidence)) sources.edition_selection_evidence = source.edition_selection_evidence.map(proof => proof?.method === 'independent_selection_review' && (BOOK_EDITION_WORK_BOUND_SELECTION_REASONS.includes(proof.reason) || proof.reason === 'wrong_locale') && proof.content_id === pair.drop ? {...proof, content_id:pair.keep} : proof)
+    // 비노출 실물은 DB 가드가 선정 근거 외의 sources 변경을 막는다. 다른 근거까지 재결속하면
+    // owner 이동이 빠져 이전 owner에서 제외가 풀린다. 선정 근거만 옮기고 나머지 원출처는 보존한다.
+    if (table === 'figure_book_editions' && reviewedBookEditionSelectionReason({ ...row, sources: source })
+      && !isDeepStrictEqual(source.edition_selection_evidence, sources.edition_selection_evidence))
+      sources = { ...source, edition_selection_evidence: sources.edition_selection_evidence }
     if (source.work_attribution) sources.work_attribution = rebindProof(source.work_attribution)
     const physicalProof = source.isbnless_physical_edition_evidence
     if (physicalProof?.method === 'independent_isbnless_physical_edition_review' && physicalProof.contentId === pair.drop)

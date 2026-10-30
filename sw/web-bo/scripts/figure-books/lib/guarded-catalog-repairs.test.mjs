@@ -45,6 +45,41 @@ test('selection restoration rejects unreviewed or stale evidence, physical chang
  }
 })
 
+function representativeReplacement(){
+ const {data}=selectionRestoration('content_locales'),before=data.content_locales[0]
+ const reference={id:112,content_id:before.content_id,locale:before.locale,isbn:'9780140442281',title:'A verified full translation',creator:'Original Author',
+  publisher:'Publisher',description:null,thumbnail_url:null,verified:true,edition_kind:'full',text_scope:'complete',sources:{primary:'openlibrary'}}
+ data.figure_book_editions=[reference]
+ const patch=Object.fromEntries(['title','creator','description','publisher','isbn','thumbnail_url','verified'].map(key=>[key,reference[key]]))
+ patch.sources={...reference.sources,edition_selection_evidence:structuredClone(before.sources.edition_selection_evidence)}
+ const proof={method:'independent_existing_edition_representative_review',llmReviewed:true,contentId:before.content_id,beforeIsbn:before.isbn,
+  referenceEditionId:reference.id,isbn:reference.isbn,locale:before.locale,editionTitle:reference.title,sourceUrl:'https://publisher.example/full-translation',
+  reason:'The old representative remains excluded; select the independently checked full translation already registered under this exact work.',
+  bodyEvidence:'The publisher identifies this ISBN as a complete translation of the original work rather than the excluded adaptation.'}
+ return {data,change:{table:'content_locales',before,patch,reviewedRepresentativeReplacement:proof},proof,reference}
+}
+
+test('an excluded locale card can select an existing normal edition without restoring the excluded ISBN',()=>{
+ const {data,change}=representativeReplacement(),plan=planGuardedCatalogRepairs(['restore-book'],data,[change])
+ assert.deepEqual(plan.expected.content_locales,[{...change.before,...change.patch}])
+ for(const table of SNAPSHOT_TABLES.filter(name=>name!=='content_locales'))assert.deepEqual(plan.expected[table],data[table])
+})
+
+test('representative selection rejects stale identities, excluded replacements, lost exclusions and physical changes',()=>{
+ for(const mutate of [
+  f=>{delete f.change.reviewedRepresentativeReplacement},f=>{f.proof.llmReviewed=false},f=>{f.proof.beforeIsbn='9780140442281'},
+  f=>{f.proof.referenceEditionId=999},f=>{f.proof.sourceUrl='https://openlibrary.org/books/OL1M'},
+  f=>{f.reference.content_id='other'},f=>{f.reference.locale='ko'},f=>{f.reference.edition_kind='abridged'},
+  f=>{f.change.patch.sources.edition_selection_evidence=[]},f=>{f.change.patch.publisher='Other Publisher'},
+  f=>{f.change.patch.affiliate_url='https://wrong.example'},f=>{f.proof.bodyEvidence='Unverified'}
+ ]){
+  const f=representativeReplacement();mutate(f)
+  assert.throws(()=>planGuardedCatalogRepairs(['restore-book'],f.data,[f.change]),/Representative replacement|Selection restoration/)
+ }
+ const f=representativeReplacement()
+ assert.throws(()=>planGuardedCatalogRepairs(['restore-book'],f.data,[f.change,{table:'figure_book_editions',before:f.reference,patch:{publisher:'Changed'}}]),/physical edition unchanged/)
+})
+
 function providerBibliographicDescription(table='figure_book_editions'){
  const data=Object.fromEntries(SNAPSHOT_TABLES.map(name=>[name,[]]))
  data.contents=[{id:'provider-book',type:'BOOK',metadata:{},updated_at:'old'}]
@@ -1466,6 +1501,55 @@ test('independently researched ISBN-less original correction binds the actual au
  const sql=buildGuardedCatalogRepairSql(['work'],data,[correction])
  for(const table of SNAPSHOT_TABLES)assert.equal(sql.split('CATALOG_REPAIR: rowset mismatch in '+table+"'").length-1,2)
  assert.ok(!sql.includes('UPDATE public.celeb_contents'))
+})
+
+test('ISBN-less work correction keeps provider primaries, binds ISBN-less editions to the display card and never invents an author',()=>{
+ const description='이 책은 작가가 가족과 친구들에게 보낸 편지를 모은 서간집이다. 편지에는 일상에서 겪은 사건과 주변 사람들과의 관계, 글을 쓰는 과정에서 마주한 고민이 담겨 있다. 독자는 시기와 상대에 따라 달라지는 목소리를 통해 공개된 작품 뒤에 놓인 개인적인 경험을 살펴볼 수 있다.\n\n서간은 완성된 작품만으로는 드러나지 않는 작가의 생활과 생각을 읽게 한다. 수록된 편지와 그 맥락을 함께 따라가며 인간관계와 창작 활동이 어떻게 이어졌는지 확인할 수 있다는 점에서 작가의 작품을 이해하는 데 도움이 된다.'
+ const source='https://encyclopedia.example/original-work'
+ const build=({creator='실제 저자',primary='kakao_book'}={})=>{
+  const data=snapshot();data.contents[0].metadata={}
+  data.content_locales=[{content_id:'work',locale:'ko',title:'원작 안내',creator,isbn:null,description:'채움 문장이 되풀이된 소개다.',sources:{primary,description:'https://old.example/x'},updated_at:'old'}]
+  data.figure_book_editions=[{id:7,content_id:'work',locale:'ko',title:'원작 안내',isbn:null,description:'채움 문장이 되풀이된 소개다.',sources:{description:'https://old.example/x'},updated_at:'old'}]
+  const card=data.content_locales[0],edition=data.figure_book_editions[0]
+  const proof=extra=>({method:'independent_work_introduction_review',contentId:'work',referenceLocale:'ko',referenceWorkTitle:card.title,referenceCreator:card.creator,
+   locale:'ko',editionTitle:card.title,sourceUrl:source,reason:'독립 백과사전이 이 원작과 저자를 확인하고, 기존 소개의 반복 문장은 근거가 없다.',evidence:[{url:source,note:'원작과 저자 확인.'}],...extra})
+  const cardChange={table:'content_locales',before:card,patch:{description,sources:{...card.sources,description:source,description_method:'research',description_source_locale:'ko'}},reviewedIntroductionCorrection:proof()}
+  const editionChange={table:'figure_book_editions',before:edition,patch:{description,sources:{...edition.sources,description:source,description_method:'research',description_source_locale:'ko'}},reviewedIntroductionCorrection:proof({editionId:7})}
+  return {data,cardChange,editionChange,proof}
+ }
+ const ok=build(),plan=planGuardedCatalogRepairs(['work'],ok.data,[ok.cardChange,ok.editionChange])
+ assert.equal(plan.expected.content_locales[0].sources.primary,'kakao_book')
+ assert.equal(plan.expected.figure_book_editions[0].description,description)
+ assert.deepEqual(plan.expected.member_contents,ok.data.member_contents)
+ for(const primary of['none','openlibrary']){const other=build({primary});planGuardedCatalogRepairs(['work'],other.data,[other.cardChange])}
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],ok.data,[{...ok.cardChange,patch:{...ok.cardChange.patch,sources:{...ok.cardChange.patch.sources,primary:'none'}}}]),/Work introduction/)
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],ok.data,[{...ok.cardChange,patch:{...ok.cardChange.patch,sources:undefined}}]))
+ for(const extra of[{editionId:undefined},{editionId:8},{referenceLocale:'en'}])
+  assert.throws(()=>planGuardedCatalogRepairs(['work'],ok.data,[{...ok.editionChange,reviewedIntroductionCorrection:{...ok.editionChange.reviewedIntroductionCorrection,...extra}}]))
+ const withIsbn=build();withIsbn.data.figure_book_editions.push({id:9,content_id:'work',locale:'en',title:'Original',isbn:'9780140449136',description:null,sources:{}})
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],withIsbn.data,[withIsbn.cardChange]),/ISBN-less original/)
+ const unknown=build({creator:null})
+ const unknownChange={...unknown.cardChange,reviewedIntroductionCorrection:{...unknown.cardChange.reviewedIntroductionCorrection,creatorUnrecorded:true}}
+ planGuardedCatalogRepairs(['work'],unknown.data,[unknownChange])
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],unknown.data,[unknown.cardChange]),/Work introduction/)
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],unknown.data,[{...unknownChange,patch:{...unknownChange.patch,creator:'지어낸 저자'}}]))
+ const recorded=build({creator:null});recorded.data.content_locales.push({content_id:'work',locale:'en',title:'Original',creator:'Known author',isbn:null,description:null,sources:{primary:'none'}})
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],recorded.data,[{...recorded.cardChange,reviewedIntroductionCorrection:{...recorded.cardChange.reviewedIntroductionCorrection,creatorUnrecorded:true}}]),/Work introduction/)
+})
+
+test('locale reference correction keeps an ISBN-less provider primary on the display card',()=>{
+ const data=snapshot();data.figure_book_editions=[]
+ const reference=data.content_locales[0];Object.assign(reference,{isbn:'9780674250703',creator:'Actual author'})
+ const before={content_id:'work',locale:'ko',title:'Title',creator:'실제 저자',isbn:null,description:'채움 문장이 되풀이된 소개다.',sources:{primary:'openlibrary',description:'https://openlibrary.org/search?q=x'}}
+ data.content_locales.push(before)
+ const source='https://publisher.example/original-work'
+ const description='이 책은 작가가 가족과 친구들에게 보낸 편지를 모은 서간집이다. 편지에는 일상에서 겪은 사건과 주변 사람들과의 관계, 글을 쓰는 과정에서 마주한 고민이 담겨 있다. 독자는 시기와 상대에 따라 달라지는 목소리를 통해 공개된 작품 뒤에 놓인 개인적인 경험을 살펴볼 수 있다.\n\n서간은 완성된 작품만으로는 드러나지 않는 작가의 생활과 생각을 읽게 한다. 수록된 편지와 그 맥락을 함께 따라가며 인간관계와 창작 활동이 어떻게 이어졌는지 확인할 수 있다는 점에서 작가의 작품을 이해하는 데 도움이 된다.'
+ const proof={method:'independent_locale_reference_introduction_review',contentId:'work',referenceLocale:'en',referenceWorkTitle:reference.title,referenceCreator:reference.creator,
+  isbn:reference.isbn,locale:'ko',editionTitle:before.title,sourceUrl:source,reason:'Independent publisher confirms the original and author.',evidence:[{url:source,note:'Original and author verified.'}]}
+ const patch={description,sources:{...before.sources,description:source,description_method:'research',description_source_locale:'ko'}}
+ const plan=planGuardedCatalogRepairs(['work'],data,[{table:'content_locales',before,patch,reviewedIntroductionCorrection:proof}])
+ assert.equal(plan.expected.content_locales.find(row=>row.locale==='ko').sources.primary,'openlibrary')
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[{table:'content_locales',before,patch:{...patch,sources:{...patch.sources,primary:'none'}},reviewedIntroductionCorrection:proof}]),/Locale reference/)
 })
 
 test('ISBN-less display introduction can bind its same-work locale ISBN without inventing an edition',()=>{

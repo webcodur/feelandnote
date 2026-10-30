@@ -128,6 +128,11 @@ function reviewedFigureRelation(snapshot,change){
   throw Error('Figure relation patch may only correct the reviewed authored/appearance role')
  return candidates
 }
+// ISBN 없는 행의 소개 교정은 원래 메타 출처 표시(primary)를 바꾸지 못한다. 출처가 없던 행에 출처를 지어 붙이는 것도 막는다.
+function isbnlessPrimaryKept(before,patch){
+ const sources=patch?.sources
+ return !!sources&&typeof sources==='object'&&!Array.isArray(sources)&&(sources.primary??null)===(before.sources?.primary??null)
+}
 function reviewedIntroductionLanguage(before,patch,proof){
  const method=patch.sources?.description_method,sourceLocale=patch.sources?.description_source_locale
  return method==='research'&&sourceLocale===before.locale
@@ -1211,6 +1216,27 @@ export async function captureCatalogRepairSnapshot(_db,workIds,spawn) {
  snapshotCheck(snapshot);return snapshot
 }
 
+// 제외 판본의 복원이 아니라, 이미 검수·등록된 정상 판본을 언어 카드의 대표로 고르는 경우다.
+function reviewedExistingEditionRepresentative(snapshot,change){
+ const {table,before,patch,reviewedRepresentativeReplacement:proof}=change
+ const reference=snapshot.figure_book_editions.find(row=>String(row.id)===String(proof?.referenceEditionId))
+ const fields=['title','creator','description','publisher','isbn','thumbnail_url','verified']
+ const expectedSources=reference&&{...reference.sources,edition_selection_evidence:before.sources?.edition_selection_evidence}
+ if(table!=='content_locales'||change.remove||!patch||!reviewedBookEditionSelectionReason(before)
+  ||proof?.method!=='independent_existing_edition_representative_review'||proof.llmReviewed!==true
+  ||proof.contentId!==before.content_id||proof.beforeIsbn!==before.isbn||proof.locale!==before.locale
+  ||!reference||reference.content_id!==before.content_id||reference.locale!==before.locale
+  ||!toIsbn13(reference.isbn??'')||reference.isbn===before.isbn||proof.isbn!==reference.isbn||proof.editionTitle!==reference.title
+  ||excludedBookEditionReason({...reference,editionKind:reference.edition_kind,textScope:reference.text_scope})
+  ||!independentSource(proof.sourceUrl)||typeof proof.reason!=='string'||proof.reason.trim().length<60
+  ||typeof proof.bodyEvidence!=='string'||proof.bodyEvidence.trim().length<40
+  ||Object.keys(patch).some(key=>!fields.includes(key)&&key!=='sources')
+  ||fields.some(key=>!isDeepStrictEqual((Object.hasOwn(patch,key)?patch[key]:before[key])??null,reference[key]??null))
+  ||!isDeepStrictEqual(patch.sources,expectedSources))
+  throw Error('Representative replacement requires the exact existing normal edition, preserved exclusion and independent review')
+ return reference
+}
+
 /** LLM이 확정한 소개 한 건을 검토한 snapshot의 동일 작품·언어·ISBN 행에만 조립한다. DB 쓰기는 기존 가드가 한다. */
 export function expandReviewedExactIsbnIntroductionChanges(snapshot,reviews) {
  snapshotCheck(snapshot)
@@ -1267,7 +1293,9 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   }
   if(change.reviewedFigureRelation!==undefined)throw Error('Figure relation proof may only review an existing figure relation')
   const evidence=patch?.sources?.edition_selection_evidence
+  if(change.reviewedRepresentativeReplacement!==undefined)reviewedExistingEditionRepresentative(snapshot,change)
   if(['content_locales','figure_book_editions'].includes(table)&&!remove
+   &&change.reviewedRepresentativeReplacement===undefined
    &&reviewedBookEditionSelectionReason(before)&&!reviewedBookEditionSelectionReason({...before,...patch})){
    const proof=change.reviewedSelectionRestoration,oldProof=before.sources.edition_selection_evidence
    if(!Array.isArray(evidence)||evidence.length!==0||proof?.method!=='independent_selection_restoration_review'||proof.llmReviewed!==true
@@ -1334,6 +1362,11 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   }
  }
  for(const change of changes)if(change.table==='figure_book_characters')reviewedFigureRelation(expected,change)
+ for(const change of changes)if(change.reviewedRepresentativeReplacement!==undefined){
+  const reference=reviewedExistingEditionRepresentative(snapshot,change)
+  if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference)))
+   throw Error('Representative replacement must retain its reviewed physical edition unchanged')
+ }
  for(const {before,reviewedIsbnlessEditionRemoval:proof} of changes)if(proof!==undefined)
   reviewedIsbnlessEditionRemoval(before,proof,snapshot,expected,changes,assigned)
  for(const {before,reviewedPlaceholderRemoval:proof} of changes)if(proof!==undefined){
@@ -1436,10 +1469,10 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
     const clear=patch?.description===null&&patch?.sources?.description===null
     const reference=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===proof.referenceLocale
      &&row.title===proof.referenceWorkTitle&&row.creator===proof.referenceCreator&&toIsbn13(row.isbn??'')===toIsbn13(proof.isbn??''))
-    if(table!=='content_locales'||remove||!patch||before.isbn!==null||before.sources?.primary!=='none'
+    if(table!=='content_locales'||remove||!patch||before.isbn!==null||!isbnlessPrimaryKept(before,patch)
      ||proof.contentId!==before.content_id||proof.referenceLocale===before.locale||!reference||!toIsbn13(reference.isbn??'')
      ||!String(proof.referenceWorkTitle??'').trim()||!String(proof.referenceCreator??'').trim()
-     ||patch.isbn!==undefined&&patch.isbn!==null||patch.sources?.primary!=='none'
+     ||patch.isbn!==undefined&&patch.isbn!==null
      ||!clear&&!reviewedIntroductionLanguage(before,patch,proof)
      ||proof.locale!==before.locale||proof.editionTitle!==(patch.title??before.title)
      ||!(independentSource(proof.sourceUrl)||!clear&&reviewedProviderTranslationSource(reference,patch,proof))
@@ -1459,10 +1492,16 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
     const reference=snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===proof.referenceLocale
      &&row.title===proof.referenceWorkTitle&&row.creator===proof.referenceCreator)
     const workRows=[...snapshot.content_locales,...snapshot.figure_book_editions].filter(row=>row.content_id===before.content_id)
-    if(table!=='content_locales'||remove||!patch||proof.contentId!==before.content_id||before.isbn!==null
-     ||before.sources?.primary!=='none'||!reference||!String(proof.referenceWorkTitle??'').trim()||!String(proof.referenceCreator??'').trim()
+    // 저자가 어느 카드에도 기록되지 않은 원작만 제목 결속을 허용하고, 그때도 저자를 새로 지어 넣지 않는다.
+    const unrecordedAuthor=proof.referenceCreator===null&&proof.creatorUnrecorded===true
+     &&snapshot.content_locales.filter(row=>row.content_id===before.content_id).every(row=>!String(row.creator??'').trim())
+     &&patch?.creator===undefined
+    // ISBN 없는 판본 행은 같은 언어 표시 카드의 정체로만 결속한다.
+    const editionBound=table!=='figure_book_editions'||proof.referenceLocale===before.locale&&proof.editionId!==undefined&&String(proof.editionId)===String(before.id)
+    if(!['content_locales','figure_book_editions'].includes(table)||!editionBound||remove||!patch||proof.contentId!==before.content_id||before.isbn!==null
+     ||!isbnlessPrimaryKept(before,patch)||!reference||!String(proof.referenceWorkTitle??'').trim()||!String(proof.referenceCreator??'').trim()&&!unrecordedAuthor
      ||workRows.some(row=>String(row.isbn??'').trim())||patch.isbn!==undefined&&patch.isbn!==null
-     ||patch.sources?.primary!=='none'||!reviewedIntroductionLanguage(before,patch,proof)
+     ||!reviewedIntroductionLanguage(before,patch,proof)
      ||proof.locale!==before.locale||proof.editionTitle!==(patch.title??before.title)
      ||!independentSource(proof.sourceUrl)||patch.sources.description!==proof.sourceUrl||!String(proof.reason??'').trim()
      ||!Array.isArray(proof.evidence)||proof.evidence.some(item=>!independentSource(item?.url)))

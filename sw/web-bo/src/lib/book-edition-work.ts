@@ -102,6 +102,11 @@ export function assertDistinctOriginalBookText(input: OfficialEditionWork, figur
   // DB 보존 계약과 같은 현재 소유자·ISBN·제목의 단일 독립 검수만 인정한다.
   // 검수자가 명시한 후속 범위는 서비스 정책으로 다시 판정하며 제목 번호로 추정하지 않는다.
   const representatives = editions.filter(row => {
+    // 다른 작품으로 검수해 비노출한 실물(wrong_work)은 이 원전의 번역이 아니므로 대표 충돌로 세지 않는다.
+    const rowSources = object(row.sources), rowProofs = rowSources.edition_selection_evidence
+    if (row.content_id === input.contentId && Array.isArray(rowProofs) && rowProofs.length === 1
+      && object(rowProofs[0]).llmReviewed === true && object(rowProofs[0]).content_id === input.contentId
+      && excludedBookEditionReason({ contentId: input.contentId, locale: string(row.locale), title: string(row.title), isbn: string(row.isbn), sources: rowSources }) === 'wrong_work') return false
     if (input.editionKind !== 'volume' || input.textScope !== 'volume/1'
       || row.content_id !== input.contentId || row.locale !== input.locale
       || !toIsbn13(string(row.isbn)) || toIsbn13(string(row.isbn)) === toIsbn13(input.isbn)) return true

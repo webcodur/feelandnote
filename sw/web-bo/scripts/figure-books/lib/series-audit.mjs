@@ -1,6 +1,7 @@
 import { toIsbn13 } from '../../../../../packages/content-search/src/book-isbn.ts'
 import { registeredSeriesMatches, bookEditionTitleKey, stripBookEditionLabels } from './series-work.mjs'
 import { requiresIndependentBookWorkReview } from '../../../../../packages/content-search/src/book-work-risk.ts'
+import { reviewedBookEditionSelectionReason } from '../../../../../packages/content-search/src/book-edition-policy.ts'
 import bookEditionWork from '../../../src/lib/book-edition-work.ts'
 const { verifiedOmnibusIsbn, normalizeOpenLibraryWorkKey } = bookEditionWork
 
@@ -24,26 +25,12 @@ export function detectEditionAttributionRisks(catalog) {
   const koreanCards = new Map((catalog.locales ?? []).filter(row => row.locale === 'ko').map(row => [row.content_id, row]))
   const authorTokens = value => normalizeAuditText(value).normalize('NFKD').replace(/\p{M}/gu,'').match(/[a-z]{3,}/g) ?? []
   return catalog.editions.flatMap(edition => {
+    // LLM이 실물 ISBN별로 비노출 판정한 판본은 선택지가 아니므로 귀속 위험 후보에서 뺀다.
+    if (reviewedBookEditionSelectionReason({ ...edition, contentId: edition.content_id })) return []
     const figure = object(works.get(edition.content_id)?.figureBook), reasons = []
     if (requiresIndependentBookWorkReview(edition.publisher)) reasons.push('study_guide_publisher_requires_independent_work_review')
     const author = string(figure.workCreator ?? figure.originalCreator)
-    const koreanAuthor = string(koreanCards.get(edition.content_id)?.creator)
-    const koreanNames = value => value.match(/[가-힣]{2,}/gu) ?? []
-    // 같은 제목 검색이 다른 저자의 책을 가져오는 오류를 찾는다. 음역·공저·역자 차이는 검수 후보로만 남긴다.
-    if (edition.locale === 'ko' && koreanNames(koreanAuthor).length && koreanNames(string(edition.creator)).length
-      && creatorKey(koreanAuthor) !== creatorKey(edition.creator)
-      && !koreanNames(koreanAuthor).some(name => koreanNames(string(edition.creator)).includes(name))) reasons.push('korean_edition_card_creator_mismatch')
-    // 한국어 이름이 함께 적힌 영문 크레딧도 대조한다. 번역가 표기는 검수 후보일 뿐 통합 근거가 아니다.
-    if (edition.locale === 'en' && authorTokens(author).length >= 2
-      && author && !GENERIC_CREATORS.test(author) && authorTokens(edition.creator).length >= 2
-      && creatorKey(author) !== creatorKey(edition.creator)
-      && !authorTokens(author).some(token => authorTokens(edition.creator).includes(token))) reasons.push('english_edition_original_creator_mismatch')
-    const numbered = numberedTitle(edition.title)
-    if (numbered && edition.edition_kind === 'full' && edition.text_scope === 'complete') reasons.push('numbered_edition_claims_complete_text')
-    // 한 선집 자체의 완본과 원전의 발췌를 구별한다. 부록·주석의 설명은 본문 범위로 읽지 않는다.
-    if (edition.edition_kind === 'full' && edition.text_scope === 'complete'
-      && (/발췌|천줄읽기/iu.test(edition.title ?? '')
-        || (!/\bselected\b/iu.test(figure.workTitle ?? '') && /\b(?:selected|excerpts?|abridged)\b/iu.test(edition.title ?? '')))) reasons.push('partial_text_claims_full_edition')
+    // 저자 표기·발췌 후보를 LLM이 실물 ISBN 근거로 검수해 원전 귀속을 남긴 판본은 다시 올리지 않는다.
     const evidence = edition.sources?.edition_work_evidence
     const reviewedOriginal = (Array.isArray(evidence) ? evidence : []).some(p => p && p.method === 'independent_work_review'
       && p.content_id === edition.content_id && p.work_identity === figure.workIdentity && p.text_scope === edition.text_scope
@@ -53,6 +40,27 @@ export function detectEditionAttributionRisks(catalog) {
       && normalizeAuditText(p.original_title) === normalizeAuditText(figure.workTitle ?? figure.originalTitle)
       && normalizeAuditText(p.original_creator) === normalizeAuditText(figure.workCreator ?? figure.originalCreator)
       && /^https:\/\//.test(p.source_url ?? ''))
+    const koreanAuthor = string(koreanCards.get(edition.content_id)?.creator)
+    const koreanNames = value => value.match(/[가-힣]{2,}/gu) ?? []
+    // 같은 제목 검색이 다른 저자의 책을 가져오는 오류를 찾는다. 음역·공저·역자 차이는 검수 후보로만 남긴다.
+    if (edition.locale === 'ko' && koreanNames(koreanAuthor).length && koreanNames(string(edition.creator)).length
+      && creatorKey(koreanAuthor) !== creatorKey(edition.creator)
+      && !koreanNames(koreanAuthor).some(name => koreanNames(string(edition.creator)).includes(name)) && !reviewedOriginal) reasons.push('korean_edition_card_creator_mismatch')
+    // 한국어 이름이 함께 적힌 영문 크레딧도 대조한다. 번역가 표기는 검수 후보일 뿐 통합 근거가 아니다.
+    if (edition.locale === 'en' && authorTokens(author).length >= 2
+      && author && !GENERIC_CREATORS.test(author) && authorTokens(edition.creator).length >= 2
+      && creatorKey(author) !== creatorKey(edition.creator)
+      && !authorTokens(author).some(token => authorTokens(edition.creator).includes(token)) && !reviewedOriginal) reasons.push('english_edition_original_creator_mismatch')
+    const numbered = numberedTitle(edition.title)
+    // 독립 단행본임을 LLM이 판본 근거로 남긴 경우(위 reviewedOriginal보다 느슨한 범위·제목 계약)는 후보에서 뺀다.
+    const reviewedStandalone = (Array.isArray(edition.sources?.edition_work_evidence) ? edition.sources.edition_work_evidence : []).some(p => p?.method === 'independent_work_review'
+      && p.content_id === edition.content_id && p.text_scope === edition.text_scope && p.edition_kind === edition.edition_kind
+      && normalizeAuditText(p.edition_title) === normalizeAuditText(edition.title) && (p.isbn ?? null) === (edition.isbn ?? null) && /^https:\/\//.test(p.source_url ?? ''))
+    if (numbered && !reviewedStandalone && edition.edition_kind === 'full' && edition.text_scope === 'complete') reasons.push('numbered_edition_claims_complete_text')
+    // 한 선집 자체의 완본과 원전의 발췌를 구별한다. 부록·주석의 설명은 본문 범위로 읽지 않는다.
+    if (edition.edition_kind === 'full' && edition.text_scope === 'complete' && !reviewedOriginal
+      && (/발췌|천줄읽기/iu.test(edition.title ?? '')
+        || (!/\bselected\b/iu.test(figure.workTitle ?? '') && /\b(?:selected|excerpts?|abridged)\b/iu.test(edition.title ?? '')))) reasons.push('partial_text_claims_full_edition')
     if (figure.workIdentity && !figure.workIdentity.startsWith('book/') && !reviewedOriginal
       && /^(?:complete\s+)?(?:commentary|retelling|adaptation)\b|^complete.*\bretelling\b|^독립\s*(?:해설|재화|각색)/iu.test(edition.text_scope ?? '')) reasons.push('independent_text_attached_to_original')
     return reasons.length ? [{contentId:edition.content_id,editionId:edition.id,isbn:edition.isbn,title:edition.title,
