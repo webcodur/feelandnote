@@ -1,9 +1,12 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
+import { memberContentCacheTag } from '@/lib/memberContentCache'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import { createClient } from '@/lib/db/server'
+import { statusAfterReview } from '@feelandnote/shared/constants/statuses'
+import type { ContentStatus } from '@/types/database'
 
 interface UpdateReviewParams {
   userContentId: string
@@ -13,7 +16,7 @@ interface UpdateReviewParams {
   isSpoiler?: boolean
 }
 
-type UpdateReviewData = void
+type UpdateReviewData = { status: ContentStatus }
 
 export async function updateReview(params: UpdateReviewParams): Promise<ActionResult<UpdateReviewData>> {
   const db = await createClient()
@@ -31,7 +34,7 @@ export async function updateReview(params: UpdateReviewParams): Promise<ActionRe
 
   const { data: existing, error: existingError } = await db
     .from('member_contents')
-    .select('id, rating, review, content_id')
+    .select('id, status, rating, review, review_presets, content_id')
     .eq('id', params.userContentId)
     .eq('member_id', user.id)
     .single()
@@ -41,11 +44,16 @@ export async function updateReview(params: UpdateReviewParams): Promise<ActionRe
   }
 
   const updateData: {
+    status: ContentStatus
     rating?: number | null
     review?: string | null
     review_presets?: string[] | null
     is_spoiler?: boolean
-  } = {}
+  } = { status: statusAfterReview(existing.status as ContentStatus, {
+    rating: params.rating === undefined ? existing.rating : params.rating,
+    review: params.review === undefined ? existing.review : params.review,
+    reviewPresets: params.reviewPresets === undefined ? existing.review_presets : params.reviewPresets,
+  }) }
   if (params.rating !== undefined) updateData.rating = params.rating
   if (params.review !== undefined) updateData.review = params.review
   if (params.reviewPresets !== undefined) updateData.review_presets = params.reviewPresets
@@ -62,6 +70,7 @@ export async function updateReview(params: UpdateReviewParams): Promise<ActionRe
   }
 
   revalidatePath(`/${user.id}/records/${existing.content_id}`)
+  revalidateTag(memberContentCacheTag(user.id), { expire: 0 })
   revalidatePath(`/${user.id}/reading`)
   revalidatePath('/achievements')
   revalidatePath(`/content/${existing.content_id}`)
@@ -78,5 +87,5 @@ export async function updateReview(params: UpdateReviewParams): Promise<ActionRe
     },
   })
 
-  return success(undefined)
+  return success({ status: updateData.status })
 }

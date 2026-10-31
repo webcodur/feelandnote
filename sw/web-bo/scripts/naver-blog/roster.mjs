@@ -35,7 +35,7 @@ const page = async (table, select, order, filter = q => q) => {
 };
 const [celebs, relations, contents, locales] = await Promise.all([
   page('celebs', 'id,slug,nickname,celeb_tier,publication_status,profession', 'id'),
-  page('celeb_contents', 'id,celeb_id,content_id,review,source_url', 'id'),
+  page('celeb_contents', 'id,celeb_id,content_id,review,source_url', 'id', q => q.eq('status', 'FINISHED')),
   page('contents', 'id,type', 'id', q => q.eq('type', 'BOOK')),
   page('content_locales', 'content_id,locale,title,creator,thumbnail_url', 'content_id', q => q.eq('locale', 'ko')),
 ]);

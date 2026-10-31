@@ -56,7 +56,7 @@ export const PAGE_CARD_MAP: PageCardInfo[] = [
       {
         name: "일반 콘텐츠",
         card: "ContentCard",
-        description: "관심(WANT) 등록한 콘텐츠. 포스터 레이아웃 + saved 뱃지.",
+        description: "감상 안함으로 보관한 콘텐츠. 포스터 레이아웃 + saved 뱃지.",
       },
     ],
   },

@@ -1,3 +1,4 @@
+import * as memberContentCache from '../../lib/memberContentCache'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
@@ -41,6 +42,7 @@ test('홈 대표 작품은 공개 감상만 앞에 놓고, 전체 건수와 다�
   type Result = { total: number; items: { content_id: string; public_record: { content_preview: string } }[] }
   const loaded = { exports: {} as { getPublicUserContents: (params: object, locale: string) => Promise<Result> } }
   new Function('require', 'module', 'exports', compiled)((key: string) => {
+    if(key === '@/lib/memberContentCache') return memberContentCache
     assert.ok(mocks[key], `unexpected import ${key}`)
     return mocks[key]
   }, loaded, loaded.exports)

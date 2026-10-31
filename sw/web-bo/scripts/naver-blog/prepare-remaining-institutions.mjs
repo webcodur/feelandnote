@@ -22,7 +22,7 @@ const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRE
 async function page(table, select = '*', filter = q => q) {
   const rows = [];
   for (let from = 0; ; from += 1000) {
-    const { data, error } = await filter(db.from(table).select(select)).range(from, from + 999);
+    const { data, error } = await filter(table === 'celeb_contents' ? db.from(table).select(select).eq('status','FINISHED') : db.from(table).select(select)).range(from, from + 999);
     if (error) throw error;
     rows.push(...data);
     if (data.length < 1000) return rows;

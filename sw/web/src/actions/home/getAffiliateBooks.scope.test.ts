@@ -14,10 +14,10 @@ function load(selectedSources?: unknown, metadata?: unknown) {
   const tables: Record<string, Record<string, unknown>[]> = {
     celebs: ['peer', 'self'].map(id => ({ id, profession: 'inventor', publication_status: 'active', birth_date: '1960-01-01' })),
     celeb_contents: [
-      { id: '1', celeb_id: 'peer', content_id: 'book-a', visibility: 'public' },
-      { id: '2', celeb_id: 'peer', content_id: 'book-b', visibility: 'public' },
-      { id: '3', celeb_id: 'self', content_id: 'self-only', visibility: 'public' },
-      { id: '4', celeb_id: 'peer', content_id: 'private-only', visibility: 'private' },
+      { status: 'FINISHED', id: '1', celeb_id: 'peer', content_id: 'book-a', visibility: 'public' },
+      { status: 'FINISHED', id: '2', celeb_id: 'peer', content_id: 'book-b', visibility: 'public' },
+      { status: 'FINISHED', id: '3', celeb_id: 'self', content_id: 'self-only', visibility: 'public' },
+      { status: 'FINISHED', id: '4', celeb_id: 'peer', content_id: 'private-only', visibility: 'private' },
     ],
     figure_book_contents: [],
     content_locales: ['book-a', 'book-b', 'self-only', 'private-only', 'unrelated'].map(content_id => ({

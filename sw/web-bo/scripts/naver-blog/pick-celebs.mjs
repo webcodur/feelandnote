@@ -74,7 +74,7 @@ export function usableBooks(rows, koByContent, typeById) {
 
 async function dump() {
   const celebs = await page('celebs', 'id,slug,nickname,headline,profession,celeb_tier,publication_status');
-  const cc = await page('celeb_contents', 'celeb_id,content_id,review');
+  const cc = await page('celeb_contents', 'celeb_id,content_id,review', q => q.eq('status', 'FINISHED'));
   const cids = [...new Set(cc.map((r) => r.content_id).filter(Boolean))];
 
   const koByContent = new Map();

@@ -21,7 +21,6 @@ import {
   resolveDatasetPresentation,
   type ContentDatasetMode,
   type ContentLibraryDataOptions,
-  type LibrarySeed,
 } from "./contentLibraryDataState";
 import { createContentDatasetKey, type ContentDatasetSnapshot } from "./contentLibraryDataCache";
 
@@ -46,9 +45,7 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     targetUserId,
     viewMode,
   } = options;
-  const seedRef = useRef<LibrarySeed | null | undefined>(undefined);
-  if (seedRef.current === undefined) seedRef.current = createLibrarySeed(options);
-  const seed = seedRef.current;
+  const [seed] = useState(() => createLibrarySeed(options));
   // 조회 조건별로 받은 자료를 붙들어, 같은 조건으로 돌아올 때 다시 요청하지 않는다.
   const datasetCacheRef = useRef<Map<string, ContentDatasetSnapshot> | null>(null);
   if (datasetCacheRef.current === null) datasetCacheRef.current = new Map();
@@ -167,16 +164,17 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
 
   const loadTypeCounts = useCallback(async () => {
     const requestId = ++countRequestIdRef.current;
-    setTypeCountsError(null);
 
     for (let attempt = 1; attempt <= MAX_COUNT_REQUEST_ATTEMPTS; attempt += 1) {
       try {
+        const status = reviewFilter === 'all' ? undefined : reviewFilter;
         const counts = isViewer && targetUserId
           ? ownerKind === 'celeb'
             ? await getCelebContentCounts(targetUserId)
-            : await getUserContentCounts(targetUserId)
-          : await getContentCounts();
+            : await getUserContentCounts(targetUserId, status)
+          : await getContentCounts(status);
         if (requestId !== countRequestIdRef.current) return;
+        setTypeCountsError(null);
         setTypeCounts(counts);
         return;
       } catch (countError) {
@@ -191,25 +189,29 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
         return;
       }
     }
-  }, [isViewer, ownerKind, t, targetUserId]);
+  }, [isViewer, ownerKind, reviewFilter, t, targetUserId]);
 
   useEffect(() => {
-    void loadTypeCounts();
+    let active = true;
+    void Promise.resolve().then(() => { if (active) return loadTypeCounts(); });
     return () => {
+      active = false;
       countRequestIdRef.current += 1;
     };
   }, [loadTypeCounts]);
 
   useEffect(() => {
     if (!isViewer || contents.length === 0 || isStaleExpandDatasetForList) {
-      setSavedContentIds(null);
       return;
     }
     if (contentsMode === "expand") return;
     const cacheKey = contents.map((item) => item.content_id).join("|");
     if (savedContentIdsCacheRef.current.has(cacheKey)) {
-      setSavedContentIds(savedContentIdsCacheRef.current.get(cacheKey) ?? null);
-      return;
+      let active = true;
+      void Promise.resolve().then(() => {
+        if (active) setSavedContentIds(savedContentIdsCacheRef.current.get(cacheKey) ?? null);
+      });
+      return () => { active = false; };
     }
     let active = true;
     void checkContentsSaved(contents.map((item) => item.content_id)).then((ids) => {
@@ -235,7 +237,7 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     total,
     typeCounts,
     typeCountsError,
-    savedContentIds,
+    savedContentIds: !isViewer || contents.length === 0 || isStaleExpandDatasetForList ? null : savedContentIds,
     setSavedContentIds,
     loadContents: reloadContents,
     loadTypeCounts,

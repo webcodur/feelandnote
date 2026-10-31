@@ -22,6 +22,7 @@
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { config } from 'dotenv'
+import { isContentStatus } from '@feelandnote/shared/constants/statuses'
 import { createClient } from '@feelandnote/db'
 import { INFLUENCE_FIELDS } from '@feelandnote/influence-constants/core'
 import { isCelebContentResearchTarget } from '@feelandnote/shared/constants/celeb-content-research'
@@ -737,8 +738,7 @@ async function main() {
       }
     } else if (tier === 'full') {
       if (linked.length === 0) gaps.push('content:full_without_content')
-      // 셀럽 status는 DB 제약상 FINISHED뿐이다(WANT 폐기). 다른 값이 보이면 제약이 풀린 것이다.
-      if (linked.some((x) => x.status !== 'FINISHED')) gaps.push('content:non_finished_status')
+      if (linked.some((x) => !isContentStatus(x.status))) gaps.push('content:invalid_status')
       for (const item of linked) {
         if (blank(item.review)) gaps.push(`content:${item.content_id}.review`)
         if (blank(item.review_en)) gaps.push(`content:${item.content_id}.review_en`)

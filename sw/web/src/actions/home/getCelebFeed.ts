@@ -63,7 +63,7 @@ async function fetchCelebFeed(
   const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
 
   let query = db
-    .from('celeb_contents')
+    .from('celeb_contents').eq('status', 'FINISHED')
     .select(`
       id,
       review,
@@ -166,7 +166,7 @@ async function fetchCelebFeed(
 
 const getCelebFeedCached = unstable_cache(
   fetchCelebFeed,
-  ['celeb-feed-v3'],
+  ['celeb-feed-v3-consumption'],
   // celeb_contents·contents + celebs(공개 필터·표시 정보) 조인
   { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )

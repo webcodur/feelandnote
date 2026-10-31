@@ -1,7 +1,8 @@
 'use server'
 
 import { createClient } from '@/lib/db/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
+import { memberContentCacheTag } from '@/lib/memberContentCache'
 import { logActivity } from '@/actions/activity'
 
 export async function removeContent(userContentId: string) {
@@ -51,6 +52,7 @@ export async function removeContent(userContentId: string) {
     throw new Error('콘텐츠 삭제에 실패했습니다')
   }
 
+  revalidateTag(memberContentCacheTag(user.id), { expire: 0 })
   revalidatePath(`/${user.id}/reading`)
   revalidatePath(`/${user.id}/reading/collections`)
   revalidatePath(`/${user.id}/reading/interests`)

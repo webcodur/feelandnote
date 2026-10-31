@@ -288,7 +288,9 @@
     "tvSeries": "TV 시리즈",
     "peopleLoading": "참여 인물 확인 중",
     "retryPeople": "인물 정보 다시 불러오기",
-    "characterCreator": "원작 캐릭터 창작"
+    "characterCreator": "원작 캐릭터 창작",
+    "consumptionStatus": "감상 여부",
+    "statusUpdateFailed": "감상 여부를 변경하지 못했습니다. 다시 시도해주세요."
   },
   "review": {
     "positive": {

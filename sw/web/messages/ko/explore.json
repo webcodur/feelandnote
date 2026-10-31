@@ -682,7 +682,7 @@
     "placeholder": "제목 | 저자 (2+)",
     "filter": {
       "category": "카테고리",
-      "review": "리뷰",
+      "review": "감상 여부",
       "sort": "정렬"
     },
     "sort": {
@@ -694,8 +694,8 @@
     },
     "review": {
       "all": "전체",
-      "hasReview": "리뷰 있음",
-      "noReview": "리뷰 없음"
+      "consumed": "감상함",
+      "notConsumed": "감상 안함"
     },
     "search": "검색",
     "clearSearch": "검색어 지우기",

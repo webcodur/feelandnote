@@ -22,13 +22,13 @@ export interface StatusFilterOption {
 
 // 상태 설정 (Record 형태, 색상 정보 포함)
 export const STATUS_CONFIG: Record<ContentStatus, StatusConfig> = {
-  WANT: { label: '관심', color: 'text-yellow-400', bgColor: 'bg-yellow-500/10' },
+  WANT: { label: '감상 안함', color: 'text-yellow-400', bgColor: 'bg-yellow-500/10' },
   FINISHED: { label: '감상함', color: 'text-green-400', bgColor: 'bg-green-500/10' },
 }
 
 // 모든 상태 옵션 (콘텐츠 추가/수정용)
 export const STATUS_OPTIONS: StatusOption[] = [
-  { value: 'WANT', label: '관심', color: 'text-yellow-400' },
+  { value: 'WANT', label: '감상 안함', color: 'text-yellow-400' },
   { value: 'FINISHED', label: '감상함', color: 'text-green-400' },
 ]
 
@@ -39,10 +39,20 @@ export const STATUS_FILTER_OPTIONS: StatusFilterOption[] = [
 ]
 
 // 셀럽 콘텐츠용 상태 옵션
-export const CELEB_STATUS_OPTIONS: StatusOption[] = [
-  { value: 'FINISHED', label: '감상함' },
-  { value: 'WANT', label: '관심' },
-]
+export const CELEB_STATUS_OPTIONS = STATUS_OPTIONS
+
+export function isContentStatus(value: unknown): value is ContentStatus {
+  return STATUS_OPTIONS.some(option => option.value === value)
+}
+
+/** 감상문을 지워도 감상함은 유지한다. 별점·감상을 새로 남기면 감상함으로 전환한다. */
+export function statusAfterReview(current: ContentStatus, record: {
+  rating?: number | null; review?: string | null; reviewPresets?: string[] | null
+}): ContentStatus {
+  return (record.rating != null && record.rating > 0)
+    || Boolean(record.review?.trim()) || Boolean(record.reviewPresets?.some(value => value.trim()))
+    ? 'FINISHED' : current
+}
 
 // 유틸 함수
 export const getStatusLabel = (status: ContentStatus): string => {

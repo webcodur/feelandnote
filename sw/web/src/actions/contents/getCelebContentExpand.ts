@@ -50,6 +50,7 @@ async function fetchIndex(
     .select(`id, content_id, status, visibility, created_at, content:contents!inner(${contentFields})`, { count: 'exact' })
     .eq('celeb_id', params.userId)
     .eq('visibility', 'public')
+    .eq('status', 'FINISHED')
     .order('created_at', { ascending: false })
 
   if (params.type) query = query.eq('content.type', params.type)
@@ -82,7 +83,7 @@ export async function getPublicCelebContentIndex(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     params.userId,
-    ['celeb-content-expand-index-v5-title-translation', locale, ...key],
+    ['celeb-content-expand-index-v6-consumption', locale, ...key],
     () => fetchIndex(params, locale),
     { extraTags: [CACHE_TAGS.CONTENTS] },
   )
@@ -96,6 +97,7 @@ async function fetchRecord(celebId: string, contentId: string, locale: string) {
     .eq('celeb_id', celebId)
     .eq('content_id', contentId)
     .eq('visibility', 'public')
+    .eq('status', 'FINISHED')
     .maybeSingle()
   throwOnQueryError('celeb content selected record', error)
   return data ? mapCelebRecordRow(data as unknown as Record<string, unknown>, locale) : null
@@ -106,7 +108,7 @@ export async function getPublicCelebContentRecord(
   contentId: string,
 ): Promise<UserContentPublic | null> {
   const locale = await getLocale()
-  const key = ['celeb-content-expand-record-v5-title-translation', celebId, contentId, locale]
+  const key = ['celeb-content-expand-record-v6-consumption', celebId, contentId, locale]
   return unstable_cache(() => fetchRecord(celebId, contentId, locale), key, {
     revalidate: spreadRevalidate(STATIC_REVALIDATE, key),
     tags: [...new Set([

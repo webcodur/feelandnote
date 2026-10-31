@@ -1,3 +1,5 @@
+import * as statuses from '../../../../../packages/shared/src/constants/statuses'
+import * as memberContentCache from '../../lib/memberContentCache'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test, { before } from 'node:test'
@@ -65,7 +67,9 @@ function fixture(englishBook?: Awaited<ReturnType<typeof getOpenLibraryBookMetad
   db.auth.getUser = async () => ({ data: { user: { id: 'owner', aud: 'authenticated', created_at: '', app_metadata: {}, user_metadata: {} } }, error: null })
   const mocks: Record<string, unknown> = {
     '@/lib/db/server': { createClient: async () => db },
-    'next/cache': { revalidatePath: (path: string) => state.revalidated.push(path) },
+    '@/lib/memberContentCache': memberContentCache,
+    '@feelandnote/shared/constants/statuses': statuses,
+    'next/cache': { revalidateTag() {}, revalidatePath: (path: string) => state.revalidated.push(path) },
     '@/actions/activity': { logActivity: async () => { state.activity++ } },
     '@/lib/errors': { failure: (error: string, message = error) => ({ success: false, error, message }),
       success: (data: unknown) => ({ success: true, data }), handleDatabaseError: () => ({ success: false, error: 'DB_ERROR' }) },
@@ -129,11 +133,11 @@ test('canonical DB ID is reused offline and an existing member rating/review/pre
   const f = fixture()
   f.tables.contents.push({ id: 'canonical-id', type: 'BOOK', metadata: { original: true } })
   f.tables.content_locales.push({ content_id: 'canonical-id', title: '기존 원전', description: '보존할 소개', locale: 'ko' })
-  f.tables.member_contents.push({ id: 'old-record', member_id: 'owner', content_id: 'canonical-id', rating: 4.5, review: '내 감상', review_presets: ['INSIGHT'], created_at: 'original-date' })
+  f.tables.member_contents.push({ id: 'old-record', status: 'FINISHED', member_id: 'owner', content_id: 'canonical-id', rating: 4.5, review: '내 감상', review_presets: ['INSIGHT'], created_at: 'original-date' })
   const before = structuredClone(f.tables)
   const result = await f.add({ ...input(), id: 'canonical-id', title: '위조 제목', creator: '위조 저자' })
   assert.equal(result.success, true)
-  assert.deepEqual(result.data?.existingRecord, { rating: 4.5, review: '내 감상', reviewPresets: ['INSIGHT'] })
+  assert.deepEqual(result.data?.existingRecord, { status: 'FINISHED', rating: 4.5, review: '내 감상', reviewPresets: ['INSIGHT'] })
   assert.deepEqual(f.tables, before)
   assert.equal(f.state.introduction, 0); assert.equal(fetch.mock.callCount(), 0)
   assert.ok(f.state.writes.every(row => row.table === 'member_contents'))

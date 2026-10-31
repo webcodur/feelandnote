@@ -48,7 +48,7 @@ async function fetchDawnCelebContents(
   // 단일 쿼리: celeb_contents JOIN contents (셀럽당 최대 4개는 클라이언트에서 제한)
   // contents는 to-one 조인이라 객체로 반환 — 파서가 배열로 추론하므로 overrideTypes로 교정
   const { data, error } = await db
-    .from("celeb_contents")
+    .from("celeb_contents").eq('status', 'FINISHED')
     .select(
       `celeb_id, content_id, review, review_en, source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
     )
@@ -89,7 +89,7 @@ async function fetchDawnCelebContents(
 
 const getCachedDawnCelebContents = unstable_cache(
   fetchDawnCelebContents,
-  ["dawn-celeb-contents-v2"],
+  ["dawn-celeb-contents-v2-consumption"],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CONTENTS] }
 );
 

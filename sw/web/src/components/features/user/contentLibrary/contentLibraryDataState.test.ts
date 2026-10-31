@@ -79,7 +79,7 @@ test("list request arguments preserve pagination, filters, and member sorting", 
     currentPage: 3,
     ownerKind: "member",
     pageSize: 4,
-    reviewFilter: "no_review",
+    reviewFilter: "WANT",
     sortOption: "rating_desc",
     viewMode: "list",
   });
@@ -89,7 +89,7 @@ test("list request arguments preserve pagination, filters, and member sorting", 
     page: 3,
     limit: 4,
     search: "ada",
-    hasReview: false,
+    status: "WANT",
     sortBy: "rating_desc",
   });
 });
@@ -103,7 +103,7 @@ test("expand requests one full page and celeb requests force recent sorting", ()
     maxItems: 12,
     ownerKind: "celeb",
     pageSize: 4,
-    reviewFilter: "has_review",
+    reviewFilter: "FINISHED",
     sortOption: "title",
     viewMode: "expand",
   });
@@ -113,7 +113,7 @@ test("expand requests one full page and celeb requests force recent sorting", ()
     page: 1,
     limit: 500,
     search: undefined,
-    hasReview: true,
+    status: "FINISHED",
     sortBy: "recent",
   });
 });

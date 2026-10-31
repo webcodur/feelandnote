@@ -682,7 +682,7 @@
     "placeholder": "Title | Author (2+)",
     "filter": {
       "category": "Category",
-      "review": "Review",
+      "review": "Experience",
       "sort": "Sort"
     },
     "sort": {
@@ -694,8 +694,8 @@
     },
     "review": {
       "all": "All",
-      "hasReview": "With review",
-      "noReview": "Without review"
+      "consumed": "Experienced",
+      "notConsumed": "Not experienced"
     },
     "search": "Search",
     "clearSearch": "Clear search",

@@ -144,7 +144,7 @@ export async function getUserStats(
       .from('member_contents')
       .select('id', { count: 'exact', head: true })
       .eq('member_id', userId)
-      .in('status', ['FINISHED', 'RECOMMENDED', 'NOT_RECOMMENDED']),
+      .eq('status', 'FINISHED'),
     db
       .from('member_contents')
       .select('review')

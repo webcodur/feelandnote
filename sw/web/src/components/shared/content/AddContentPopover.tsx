@@ -10,7 +10,6 @@ import Button from "@/components/ui/Button";
 import { useTranslations } from "next-intl";
 
 interface AddContentPopoverProps {
-  /** @deprecated status 파라미터는 무시됨. 리뷰 기반으로 전환. */
   onAdd: (status?: string) => void;
   isAdding?: boolean;
   isAdded?: boolean;
@@ -20,8 +19,7 @@ interface AddContentPopoverProps {
 
 /**
  * 콘텐츠 추가 버튼
- * 기존에는 상태(WANT/FINISHED) 선택 팝오버였으나,
- * 리뷰 기반 전환으로 인해 단순 버튼으로 변경됨.
+ * 기록만 담으면 감상 안함으로 저장하고, 작품 상세에서 감상 여부를 바꾼다.
  */
 export default function AddContentPopover({
   onAdd,

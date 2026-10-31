@@ -120,7 +120,7 @@ async function fetchReviewFeed(
     `
 
   let memberQuery = db
-    .from('member_contents')
+    .from('member_contents').eq('status', 'FINISHED')
     .select(`
       ${selectBase},
       rating,
@@ -132,7 +132,7 @@ async function fetchReviewFeed(
     .order('updated_at', { ascending: false })
 
   let celebQuery = db
-    .from('celeb_contents')
+    .from('celeb_contents').eq('status', 'FINISHED')
     .select(`
       ${selectBase},
       user:celebs!celeb_contents_celeb_id_fkey(id, nickname, nickname_en, avatar_url, profession, title, title_en, headline, headline_en, slug)
@@ -188,7 +188,7 @@ async function fetchReviewFeed(
 
 const getReviewFeedCached = unstable_cache(
   fetchReviewFeed,
-  ['review-feed'],
+  ['review-feed-v2-consumption'],
   // member_contents·celeb_contents와 각 표시 원본 조인
   { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
@@ -202,7 +202,7 @@ const getReviewFeedCached = unstable_cache(
  */
 const trackPublicReviewCelebBulkDependency = unstable_cache(
   async () => true,
-  ['public-review-feed-celeb-bulk-dependency-v1'],
+  ['public-review-feed-celeb-bulk-dependency-v1-consumption'],
   { revalidate: false, tags: [bulkTag(CACHE_TAGS.CELEBS)] },
 )
 

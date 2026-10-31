@@ -1,46 +1,40 @@
 'use server'
 
 import { createClient } from '@/lib/db/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
+import { memberContentCacheTag } from '@/lib/memberContentCache'
 import { logActivity } from '@/actions/activity'
 import type { ContentStatus } from '@/types/database'
+import { isContentStatus } from '@feelandnote/shared/constants/statuses'
 import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 
 interface UpdateStatusParams {
   userContentId: string
   status: ContentStatus
-  clearReview?: boolean // WANT로 변경 시 리뷰 초기화
 }
 
-/**
- * @deprecated status 컬럼은 더 이상 사용하지 않음.
- * 리뷰(rating/review) 유무로 감상 여부를 판단함.
- * 이 함수는 레거시 호환성을 위해 유지되며, 추후 제거 예정.
- */
-export async function updateStatus({ userContentId, status, clearReview }: UpdateStatusParams): Promise<ActionResult<null>> {
+/** 감상 여부만 바꾸며 회원이 남긴 별점·감상문은 보존한다. */
+export async function updateStatus({ userContentId, status }: UpdateStatusParams): Promise<ActionResult<null>> {
   const db = await createClient()
 
   const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return failure('UNAUTHORIZED')
   }
+  if (!isContentStatus(status)) return failure('VALIDATION_ERROR', '감상 여부를 확인해주세요.')
 
   // 이전 상태 조회
-  const { data: existing } = await db
+  const { data: existing, error: existingError } = await db
     .from('member_contents')
     .select('status, content_id')
     .eq('id', userContentId)
     .eq('member_id', user.id)
     .single()
-
-  // WANT로 변경 시 리뷰 초기화 옵션
-  const updateData = clearReview
-    ? { status, rating: null, review: null, is_spoiler: false }
-    : { status }
+  if (existingError || !existing) return failure('NOT_FOUND')
 
   const { error } = await db
     .from('member_contents')
-    .update(updateData)
+    .update({ status })
     .eq('id', userContentId)
     .eq('member_id', user.id)
 
@@ -48,7 +42,11 @@ export async function updateStatus({ userContentId, status, clearReview }: Updat
     return handleDatabaseError(error, { context: 'content', logPrefix: '[상태 변경]' })
   }
 
+  revalidateTag(memberContentCacheTag(user.id), { expire: 0 })
   revalidatePath(`/${user.id}/reading`)
+  revalidatePath('/achievements')
+  revalidatePath(`/content/${existing.content_id}`)
+  revalidatePath(`/en/content/${existing.content_id}`)
 
   // 활동 로그
   await logActivity({

@@ -40,7 +40,7 @@ async function fetchSharedContents(
   const rows: CelebContentRow[] = []
   for (let from = 0; ; from += 1000) {
     let query = db
-      .from('celeb_contents')
+      .from('celeb_contents').eq('status', 'FINISHED')
       .select('content_id, celeb_id, contents!inner(type), celebs(nickname)')
       .in('celeb_id', celebIds)
       .eq('visibility', 'public')
@@ -99,7 +99,7 @@ async function fetchSharedContents(
 
 const getCachedSharedContents = unstable_cache(
   fetchSharedContents,
-  ['shared-contents'],
+  ['shared-contents-v2-consumption'],
   // celeb_contents를 직접 집계해 셀럽들이 감상한 콘텐츠를 뽑는다
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )

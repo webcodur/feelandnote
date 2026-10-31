@@ -12,6 +12,9 @@ import { useTranslations } from "next-intl";
 import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react";
 import { addContent } from "@/actions/contents/addContent";
 import { removeContent } from "@/actions/contents/removeContent";
+import { updateStatus } from "@/actions/contents/updateStatus";
+import { STATUS_OPTIONS } from "@feelandnote/shared/constants/statuses";
+import type { ContentStatus } from "@/types/database";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 import { cn } from "@/lib/utils";
 import Mascot from '@/components/shared/mascots/Mascot';
@@ -41,6 +44,7 @@ export default function ContentRecordButton({
 }: ContentRecordButtonProps) {
   const t = useTranslations("contentDetail");
   const tError = useTranslations("actionErrors");
+  const tStatus = useTranslations("status");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [addedRecordId, setAddedRecordId] = useState<string | null>(null);
@@ -77,7 +81,7 @@ export default function ContentRecordButton({
         }
         onRecordChange({
           id: result.data.userContentId,
-          status: "FINISHED",
+          status: result.data.existingRecord?.status ?? "WANT",
           rating: null,
           review: null,
           isSpoiler: false,
@@ -111,11 +115,35 @@ export default function ContentRecordButton({
   const RecordIcon = userRecord ? BookmarkCheck : Bookmark;
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-wrap items-center gap-2">
       {error && (
         <span role="alert" className="whitespace-nowrap text-xs text-red-400">
           {error}
         </span>
+      )}
+      {userRecord && (
+        <div role="group" aria-label={t("consumptionStatus")} className="inline-flex gap-1">
+          {STATUS_OPTIONS.map(option => (
+            <button key={option.value} type="button" disabled={isPending}
+              aria-pressed={userRecord.status === option.value}
+              className={cn(RECORD_BUTTON_CLASS, userRecord.status === option.value ? RECORDED_CLASS : IDLE_CLASS)}
+              onClick={() => {
+                const record = userRecord;
+                const status: ContentStatus = option.value;
+                if (record.status === status) return;
+                startTransition(async () => {
+                  try {
+                    const result = await updateStatus({ userContentId: record.id, status });
+                    if (!result.success) { setError(tError(result.error)); return; }
+                    onRecordChange({ ...record, status });
+                    setError(null);
+                  } catch { setError(t("statusUpdateFailed")); }
+                });
+              }}>
+              {tStatus(option.value === "FINISHED" ? "finished" : "want")}
+            </button>
+          ))}
+        </div>
       )}
       <button
         type="button"

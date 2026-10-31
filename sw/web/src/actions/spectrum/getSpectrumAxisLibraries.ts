@@ -152,7 +152,7 @@ async function fetchLibraryPairs(): Promise<Map<string, string[]>> {
   const db = createStaticClient()
   const rows = await selectAllPages<LibraryRow>((from, to) =>
     db
-      .from('celeb_contents')
+      .from('celeb_contents').eq('status', 'FINISHED')
       .select('celeb_id, content_id')
       .not('review', 'is', null)
       .neq('review', '')
@@ -344,7 +344,7 @@ async function fetchSpectrumAxisLibraries(): Promise<SpectrumAxisLibrary[]> {
 const getCachedSpectrumAxisLibraries = unstable_cache(
   fetchSpectrumAxisLibraries,
   // v3: 작가(creator·creator_en)를 붙이고 감상 인물 미리보기(readers)를 뺐다 — 담기는 모양이 바뀌면 키를 올린다
-  ['spectrum-axis-libraries-v4-locale-cover'],
+  ['spectrum-axis-libraries-v4-locale-cover-consumption'],
   // celeb_persona 점수 + celeb_contents 감상 관계 + content_locales 메타.
   // 만료는 키마다 어긋나게 잡는다 — 성향 화면의 큰 캐시들이 한 시각에 같이 식으면 3초 제한에 걸린다
   {

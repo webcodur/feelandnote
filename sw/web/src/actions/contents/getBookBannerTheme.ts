@@ -17,9 +17,9 @@ interface ReaderRow { reader: Reader | Reader[] | null }
 /** Banner context uses all public readers, independently of the ten-item review feed. */
 export async function getBookBannerTheme(contentId: string): Promise<BookBannerTheme> {
   try {
-    return await cachedDetail(CACHE_TAGS.CONTENTS, contentId, ["book-banner-v1", contentId], async () => {
+    return await cachedDetail(CACHE_TAGS.CONTENTS, contentId, ["book-banner-v1-consumption", contentId], async () => {
       const db = createStaticClient();
-      const [rows, work] = await Promise.all([selectAllPages<ReaderRow>((from, to) => db.from("celeb_contents")
+      const [rows, work] = await Promise.all([selectAllPages<ReaderRow>((from, to) => db.from("celeb_contents").eq('status', 'FINISHED')
         .select("id,reader:celebs!celeb_contents_celeb_id_fkey!inner(nationality,birth_date,death_date,celeb_reality)")
         .eq("content_id", contentId).eq("visibility", "public").eq("reader.publication_status", "active")
         .order("id").range(from, to).overrideTypes<ReaderRow[], { merge: false }>()),

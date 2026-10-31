@@ -51,7 +51,7 @@ async function fetchCelebLibraryPreview(celebId: string, locale: string): Promis
   const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
 
   const { data, error } = await db
-    .from('celeb_contents')
+    .from('celeb_contents').eq('status', 'FINISHED')
     .select(`
       id,
       review,
@@ -97,7 +97,7 @@ async function fetchCelebLibraryPreview(celebId: string, locale: string): Promis
 
 const getCelebLibraryPreviewCached = unstable_cache(
   fetchCelebLibraryPreview,
-  ['celeb-library-preview-v2'],
+  ['celeb-library-preview-v2-consumption'],
   { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS] }
 )
 

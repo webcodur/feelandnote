@@ -288,7 +288,9 @@
     "tvSeries": "TV series",
     "peopleLoading": "Loading people",
     "retryPeople": "Retry loading people",
-    "characterCreator": "Original characters"
+    "characterCreator": "Original characters",
+    "consumptionStatus": "Experience",
+    "statusUpdateFailed": "Could not update your experience. Please try again."
   },
   "review": {
     "positive": {

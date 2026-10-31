@@ -35,7 +35,7 @@ async function fetchReadBooks(memberIds: string[], locale: string): Promise<Fact
   /* 감상 — 구성원 ID는 공통 묶음 크기로, 각 묶음의 기록은 끝까지 받는다 */
   const recordRows = await selectInChunks<{ content_id: string; celeb_id: string }>(memberIds, async (ids) => ({
     data: await selectAllPages<{ content_id: string; celeb_id: string }>((from, to) => db
-      .from("celeb_contents")
+      .from("celeb_contents").eq('status', 'FINISHED')
       .select("content_id, celeb_id")
       .eq("visibility", "public")
       .in("celeb_id", ids)
@@ -58,7 +58,7 @@ export async function getFactionReadBooks(memberIds: string[], locale: string): 
   const ids = [...new Set(memberIds)].sort();
   if (!ids.length) return [];
   const language = locale === "en" ? "en" : "ko";
-  return cachedList(CACHE_TAGS.CELEBS, ['faction-read-books-v1-compact', language, ids.join(',')],
+  return cachedList(CACHE_TAGS.CELEBS, ['faction-read-books-v1-compact-consumption', language, ids.join(',')],
     () => fetchReadBooks(ids, language), { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] });
 }
 
@@ -66,7 +66,7 @@ export async function getFactionProfessionShelf(memberIds: string[], locale: str
   const ids = [...new Set(memberIds)].sort();
   if (!ids.length) return { profession: null, professionBooks: [] };
   const language = locale === "en" ? "en" : "ko";
-  const profession = await cachedList(CACHE_TAGS.CELEBS, ['faction-profession-v2', ids.join(',')], async () => {
+  const profession = await cachedList(CACHE_TAGS.CELEBS, ['faction-profession-v2-consumption', ids.join(',')], async () => {
     const db = createStaticClient();
     /* 직군 — 구성원 사이 가장 많은 직군의 선정 목록을 읽는다. */
     const memberRows = await selectInChunks<{ id: string; profession: string | null }>(ids, (ids) => db

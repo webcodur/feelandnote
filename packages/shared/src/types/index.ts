@@ -1,8 +1,4 @@
-/**
- * @deprecated status 컬럼은 더 이상 사용하지 않음. 리뷰(rating/review) 유무로 감상 여부 판단.
- * - 관심: rating IS NULL AND review IS NULL
- * - 감상완료: rating IS NOT NULL OR review IS NOT NULL
- */
+/** 감상 여부의 정본. WANT는 기존 DB·열린 탭과 호환되는 '감상 안함' 저장값이다. */
 export type ContentStatus = 'WANT' | 'FINISHED'
 
 // 콘텐츠 타입

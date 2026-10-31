@@ -129,6 +129,6 @@ ISBN 없는 표시용 한국어 행도 원서의 작품·저자·판본과 실�
 5. 실존 인물 관계의 `source_url`·`review`와 요청 범위의 `review_en`을 함께 저장한다.
 6. 새 행과 재사용한 행을 모두 재조회해 작품·locale·관계가 의도한 ID에 붙었는지 확인한다.
 
-`celeb_contents.status`는 항상 `FINISHED`다. 셀럽의 `WANT` 상태는 폐기했다. 서비스 집계·서재가 `FINISHED`만 세므로 `WANT` 행은 화면에서 빠진다. 앞으로 감상하겠다고 밝힌 작품은 그 사실을 감상배경에 쓴다. 기본 `visibility`는 `public`이다. 수정·삭제할 때는 `celeb_id`와 `content_id`를 함께 지정한다.
+`celeb_contents.status`는 실제 감상 여부로 지정하며, 허용값과 공개 목록·집계 기준은 [감상 관계](../data/data-02-content.md#감상-관계)를 따른다. 앞으로 감상하겠다는 의사만 확인된 작품은 감상함으로 올리지 않는다. 기본 `visibility`는 `public`이다. 수정·삭제할 때는 `celeb_id`와 `content_id`를 함께 지정한다.
 
 첫 `celeb_contents` 연결은 DB 트리거가 `light`를 `full`로 자동 승격하고 0건 확정 시각을 비운다. 별도 수동 승격 UPDATE를 하지 않는다.

@@ -218,7 +218,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     explanationResult,
   ] = await Promise.all([
     db
-      .from('celeb_contents')
+      .from('celeb_contents').eq('status', 'FINISHED')
       .select('*', { count: 'exact', head: true })
       .eq('celeb_id', celebId),
     db
@@ -434,7 +434,7 @@ const getCelebBySlugCached = (slug: string) =>
     CACHE_TAGS.CELEBS,
     slug,
     // 가족과 네 사회 축을 함께 표시하되 가족 쌍의 사회 중복은 제외한다.
-    ['celeb-by-slug-v18-no-caption', slug],
+    ['celeb-by-slug-v19-consumption', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )

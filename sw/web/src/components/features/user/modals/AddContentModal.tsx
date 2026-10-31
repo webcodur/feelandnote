@@ -27,6 +27,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
   const t = useTranslations("customContent");
   const tc = useTranslations("content.category");
   const tError = useTranslations("actionErrors");
+  const tStatus = useTranslations("status");
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>("book");
   const [title, setTitle] = useState("");
@@ -172,7 +173,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
                     : "bg-bg-card border-border/50 text-text-secondary hover:bg-bg-stone-light hover:text-text-primary"
                 }`}
               >
-                {option.label}
+                {tStatus(option.value === "FINISHED" ? "finished" : "want")}
               </Button>
             ))}
           </div>

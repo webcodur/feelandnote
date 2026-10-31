@@ -120,7 +120,7 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
   const celebContents = await selectInChunks<CelebContentRow>(celebIds, (chunk) =>
     selectAllPages<CelebContentRow>((from, to) =>
       db
-        .from("celeb_contents")
+        .from("celeb_contents").eq('status', 'FINISHED')
         .select("celeb_id, content_id")
         .in("celeb_id", chunk)
         .order("id", { ascending: true })
@@ -249,7 +249,7 @@ function addEdge(
 
 const getTravelGraphCached = unstable_cache(
   fetchTravelGraph,
-  ["travel-game-graph-historical-v2"],
+  ["travel-game-graph-historical-v2-consumption"],
   {
     revalidate: STATIC_REVALIDATE,
     tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS, CACHE_TAGS.FACTIONS],

@@ -24,12 +24,12 @@ export interface BookShelfPeople {
 
 /** 작품 관계와 공개 감상 기록을 따로 읽는다. 구성원이라는 사실만으로 등장을 추정하지 않는다. */
 export async function getBookShelfPeople(contentId: string, locale: string): Promise<BookShelfPeople> {
-  return cachedDetail(CACHE_TAGS.CONTENTS, contentId, ['book-shelf-people-v3', contentId, locale], async () => {
+  return cachedDetail(CACHE_TAGS.CONTENTS, contentId, ['book-shelf-people-v3-consumption', contentId, locale], async () => {
     const db = createStaticClient()
     type RecordRow = { celeb_id: string; review: string | null; review_en?: string | null; source_url: string | null; is_spoiler: boolean | null }
     const [assignments, records] = await Promise.all([
       getFigureBookAssignmentsByContent(contentId),
-      selectAllPages<RecordRow>((from, to) => db.from('celeb_contents')
+      selectAllPages<RecordRow>((from, to) => db.from('celeb_contents').eq('status', 'FINISHED')
         .select(`celeb_id,review,${locale === 'en' ? 'review_en,' : ''}source_url,is_spoiler`)
         .eq('content_id', contentId).eq('visibility', 'public').order('id').range(from, to)
         .overrideTypes<RecordRow[], { merge: false }>()),

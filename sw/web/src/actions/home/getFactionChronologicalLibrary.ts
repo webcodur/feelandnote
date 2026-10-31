@@ -87,7 +87,7 @@ async function fetchFactionChronologicalLibrary(factionId: string, locale: strin
   const reviewEnSelect = locale === "en" ? "review_en, " : "";
   // 큰 진영(백 명대)이면 기록이 1,000행을 넘을 수 있다 — 나눠 받는다
   const data = await selectAllPages((from, to) => db
-    .from("celeb_contents")
+    .from("celeb_contents").eq('status', 'FINISHED')
     .select(
       `celeb_id, content_id, review, ${reviewEnSelect}source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
     )
@@ -136,7 +136,7 @@ async function fetchFactionChronologicalLibrary(factionId: string, locale: strin
 
 const getFactionChronologicalLibraryCached = unstable_cache(
   fetchFactionChronologicalLibrary,
-  ['faction-chronological-library-v3-double-approval'],
+  ['faction-chronological-library-v3-double-approval-consumption'],
   // faction_member_rows(편성) + celebs + celeb_contents
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );

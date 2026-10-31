@@ -213,7 +213,7 @@ const getCachedTrackerCandidates = unstable_cache(
     if (error) throw new Error(error.message);
     return selectGameFigures((data ?? []) as FallbackCelebRow[], (row) => row);
   },
-  ["tracker-candidates-historical-v2"],
+  ["tracker-candidates-historical-v2-consumption"],
   // get_tracker_candidates: celebs + celeb_persona + 감상문 + 한마디 조건
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM] }
 );
@@ -316,7 +316,7 @@ const getCachedFallbackEligible = unstable_cache(
     // 리뷰 있는 콘텐츠 4건 이상인 셀럽만 허용
     const reviewRows = await selectInChunks<{ celeb_id: string }>(celebIds, (chunk) =>
       db
-        .from("celeb_contents")
+        .from("celeb_contents").eq('status', 'FINISHED')
         .select("celeb_id")
         .in("celeb_id", chunk)
         .not("review", "is", null)
@@ -335,7 +335,7 @@ const getCachedFallbackEligible = unstable_cache(
       (c) => spectrumSet.has(c.id) && reviewSet.has(c.id) && quoteSet.has(c.id)
     );
   },
-  ["tracker-fallback-eligible-historical-v2"],
+  ["tracker-fallback-eligible-historical-v2-consumption"],
   // celebs + celeb_persona + celeb_contents(감상문 수) + celeb_dialogues(한마디)
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM] }
 );
@@ -395,7 +395,7 @@ const getCachedDistractorPool = unstable_cache(
       .order("id").range(from, to), GAME_FIGURE_RULES.candidateScanLimit);
     return selectGameFigures(data, (row) => row).slice(0, GAME_FIGURE_RULES.distractorPoolSize);
   },
-  ["tracker-distractor-pool-historical-v2"],
+  ["tracker-distractor-pool-historical-v2-consumption"],
   // celebs만 읽는다
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 );
@@ -424,7 +424,7 @@ async function buildRound(
       .eq("celeb_id", celebId)
       .single(),
     db
-      .from("celeb_contents")
+      .from("celeb_contents").eq('status', 'FINISHED')
       .select("content_id, review, review_en, source_url")
       .eq("celeb_id", celebId)
       .not("review", "is", null)

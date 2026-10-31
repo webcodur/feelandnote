@@ -171,15 +171,10 @@
     "lab": "Lab"
   },
   "status": {
-    "want": "관심",
-    "watching": "진행중",
-    "dropped": "중단",
+    "want": "감상 안함",
     "finished": "감상함",
-    "recommended": "추천",
-    "notRecommended": "비추",
     "export": {
-      "want": "보고싶어요",
-      "watching": "보는 중",
+      "want": "감상 안함",
       "finished": "감상함"
     }
   },
@@ -576,7 +571,8 @@
       "artist": "아티스트",
       "celebNameAria": "{name} — 같은 이름의 등록 인물 보기",
       "celebNameHeading": "같은 이름의 등록 인물",
-      "celebNameNote": "이름이 같은 인물입니다. 동명이인일 수 있으니 확인 후 선택해 주세요."
+      "celebNameNote": "이름이 같은 인물입니다. 동명이인일 수 있으니 확인 후 선택해 주세요.",
+      "markFinished": "감상함으로 변경"
     },
     "celeb": {
       "info": "정보",

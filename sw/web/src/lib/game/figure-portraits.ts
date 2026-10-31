@@ -38,7 +38,7 @@ export async function readGamePortraitFigures(db: DatabaseClient, locale: string
   });
   if (!requireReview) return candidates.slice(0, GAME_FIGURE_RULES.portraitPoolSize);
   const reviews = await selectInChunks<{ celeb_id: string }>(candidates.map((p) => p.id), (ids) =>
-    selectAllPages<{ celeb_id: string }>((from, to) => db.from("celeb_contents")
+    selectAllPages<{ celeb_id: string }>((from, to) => db.from("celeb_contents").eq('status', 'FINISHED')
       .select("celeb_id").in("celeb_id", ids).eq("visibility", "public")
       .not("review", "is", null).neq("review", "").order("id").range(from, to))
       .then((data) => ({ data, error: null })));

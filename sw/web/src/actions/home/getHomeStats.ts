@@ -5,11 +5,11 @@ import { cachedList, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 
 export async function getHomeStats() {
-  return cachedList(CACHE_TAGS.CELEBS, ['home-public-counts-v1'], async () => {
+  return cachedList(CACHE_TAGS.CELEBS, ['home-public-counts-v1-consumption'], async () => {
     const db = createStaticClient()
     const [people, records] = await Promise.all([
       db.from('celebs').select('id', { count: 'exact', head: true }).eq('publication_status', 'active'),
-      db.from('celeb_contents').select('id,celebs!inner(id)', { count: 'exact', head: true })
+      db.from('celeb_contents').eq('status', 'FINISHED').select('id,celebs!inner(id)', { count: 'exact', head: true })
         .eq('celebs.publication_status', 'active').eq('visibility', 'public'),
     ])
     throwOnQueryError('홈 공개 인물 수', people.error)

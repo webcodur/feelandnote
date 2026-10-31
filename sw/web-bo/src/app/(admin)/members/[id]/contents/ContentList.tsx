@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { STATUS_OPTIONS, getStatusLabel } from '@feelandnote/shared/constants/statuses'
+import type { ContentStatus } from '@feelandnote/shared/types'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { deleteCelebContent, updateCelebContent, CelebContent } from '@/actions/admin/celebs'
@@ -16,6 +18,7 @@ interface Props {
 }
 
 interface EditFormState {
+  status: ContentStatus
   review: string
   source_url: string
   content_type: string
@@ -46,6 +49,7 @@ export default function ContentList({ contents, celebId }: Props) {
     setEditingId(content.id)
     setCurrentContentDbId(content.content.id)
     setEditForm({
+      status: content.status as ContentStatus,
       review: content.review || '',
       source_url: content.source_url || '',
       content_type: content.content.type,
@@ -110,6 +114,7 @@ export default function ContentList({ contents, celebId }: Props) {
       }
 
       await updateCelebContent({
+        status: editForm.status,
         id: userContentId,
         celeb_id: celebId,
         review: editForm.review || null,
@@ -220,6 +225,7 @@ export default function ContentList({ contents, celebId }: Props) {
                         {displayTypeConfig?.label || displayContent.type}
                       </span>
                     </div>
+                    <span className="text-xs text-text-secondary">{getStatusLabel(content.status as ContentStatus)}</span>
                     {/* 콘텐츠 메타 정보 */}
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-[11px]">
                       <button
@@ -343,6 +349,13 @@ export default function ContentList({ contents, celebId }: Props) {
                     )}
 
                     {/* 기록 정보 수정 (celeb_contents 테이블) */}
+                    <label className="block text-sm text-text-secondary">감상 여부
+                      <select aria-label="감상 여부" value={editForm.status}
+                        onChange={e => setEditForm({ ...editForm, status: e.target.value as ContentStatus })}
+                        className="ml-2 rounded border border-border bg-bg-secondary px-2 py-1 hover:border-accent">
+                        {STATUS_OPTIONS.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+                      </select>
+                    </label>
                     <textarea
                       value={editForm.review}
                       onChange={(e) => setEditForm({ ...editForm, review: e.target.value })}

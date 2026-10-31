@@ -170,16 +170,11 @@
     "lab": "Lab"
   },
   "status": {
-    "want": "Interested",
-    "watching": "In Progress",
-    "dropped": "Dropped",
-    "finished": "Finished",
-    "recommended": "Recommended",
-    "notRecommended": "Not Recommended",
+    "want": "Not experienced",
+    "finished": "Experienced",
     "export": {
-      "want": "Want to see",
-      "watching": "Watching",
-      "finished": "Finished"
+      "want": "Not experienced",
+      "finished": "Experienced"
     }
   },
   "title": {
@@ -575,7 +570,8 @@
       "artist": "Artists",
       "celebNameAria": "{name} — see figures with this name",
       "celebNameHeading": "Figures with this name",
-      "celebNameNote": "These figures share this name. They may be different people, so please check before selecting."
+      "celebNameNote": "These figures share this name. They may be different people, so please check before selecting.",
+      "markFinished": "Mark as experienced"
     },
     "celeb": {
       "info": "Info",

@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { STATUS_OPTIONS } from '@feelandnote/shared/constants/statuses'
+import type { ContentStatus } from '@feelandnote/shared/types'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { addCelebContent } from '@/actions/admin/celebs'
@@ -21,6 +23,7 @@ export default function AddContentForm({ celebId }: Props) {
   const [error, setError] = useState<string | null>(null)
   const [selectedContent, setSelectedContent] = useState<SelectedContent | null>(null)
   const [contentType, setContentType] = useState<ContentType>('BOOK')
+  const [status, setStatus] = useState<ContentStatus>('FINISHED')
   const [form, setForm] = useState({ review: '', review_en: '', source_url: '' })
 
   async function handleSubmit(e: React.FormEvent) {
@@ -55,6 +58,7 @@ export default function AddContentForm({ celebId }: Props) {
       }
 
       await addCelebContent({
+        status,
         celeb_id: celebId,
         content_id: contentId,
         review: form.review || undefined,
@@ -83,6 +87,7 @@ export default function AddContentForm({ celebId }: Props) {
     setSelectedContent(null)
     setError(null)
     setForm({ review: '', review_en: '', source_url: '' })
+    setStatus('FINISHED')
   }
 
   const thumbnailUrl = selectedContent?.source === 'db' ? selectedContent.data.thumbnail_url : selectedContent?.data.coverImageUrl
@@ -126,6 +131,12 @@ export default function AddContentForm({ celebId }: Props) {
                     </button>
                   </div>
 
+                  <label className="block text-sm text-text-secondary">감상 여부
+                    <select aria-label="감상 여부" value={status} onChange={e => setStatus(e.target.value as ContentStatus)}
+                      className="ml-2 rounded border border-border bg-bg-secondary px-2 py-1 hover:border-accent">
+                      {STATUS_OPTIONS.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+                    </select>
+                  </label>
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-text-secondary">
                       리뷰 <span className="text-text-secondary/60">(선택)</span>

@@ -88,7 +88,7 @@ async function fetchFactionSharedLibrary(factionId: string): Promise<SharedConte
   // 3. celeb_contents + contents JOIN
   // 큰 진영(백 명대)이면 기록이 1,000행을 넘을 수 있다 — 나눠 받는다
   const data = await selectAllPages((from, to) => db
-    .from("celeb_contents")
+    .from("celeb_contents").eq('status', 'FINISHED')
     .select(
       `celeb_id, content_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE}, isbn))`
     )
@@ -166,7 +166,7 @@ async function fetchFactionSharedLibrary(factionId: string): Promise<SharedConte
 
 const getFactionSharedLibraryCached = unstable_cache(
   fetchFactionSharedLibrary,
-  ['faction-shared-library-v10-double-approval'],
+  ['faction-shared-library-v10-double-approval-consumption'],
   // faction_member_rows(편성) + celebs + celeb_contents + 한국어 판본
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );

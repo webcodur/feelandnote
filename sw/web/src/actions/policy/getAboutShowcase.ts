@@ -247,7 +247,7 @@ async function fetchJourney(
     // celeb_contents와 content_locales는 contents를 거쳐 이어지므로 한 번에 조인하지 않고 나눠 읽는다
     const reviewField = isEn ? 'review_en' : 'review'
     const { data: rows, error: rowsError } = await db
-      .from('celeb_contents')
+      .from('celeb_contents').eq('status', 'FINISHED')
       .select(`content_id, ${reviewField}`)
       .eq('celeb_id', person.id)
       .in('content_id', pinned as unknown as string[])
@@ -337,7 +337,7 @@ async function fetchEvidence(
 
     const reviewField = isEn ? 'review_en' : 'review'
     const { data: rows, error: rowsError } = await db
-      .from('celeb_contents')
+      .from('celeb_contents').eq('status', 'FINISHED')
       .select(`content_id, source_url, ${reviewField}`)
       .eq('celeb_id', matched.id)
       .not('source_url', 'is', null)
@@ -399,7 +399,7 @@ async function fetchAboutShowcase(locale: string): Promise<AboutShowcase> {
       .select('id', { count: 'exact', head: true })
       .eq('publication_status', 'active'),
     db
-      .from('celeb_contents')
+      .from('celeb_contents').eq('status', 'FINISHED')
       .select('id', {
         count: 'exact',
         head: true,

@@ -2,7 +2,7 @@ import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import { CATEGORY_ID_TO_TYPE, getCategoryByDbType, type CategoryId } from "@/constants/categories";
 import { CELEB_EXPAND_INDEX_LIMIT } from "@/constants/contentLibrary";
-import type { ContentType } from "@/types/database";
+import type { ContentType, ContentStatus } from "@/types/database";
 
 import {
   mapPublicToUserContent,
@@ -61,7 +61,7 @@ export interface ContentRequest {
   page: number;
   limit: number;
   search: string | undefined;
-  hasReview: boolean | undefined;
+  status: ContentStatus | undefined;
   sortBy: RequestSortOption;
 }
 
@@ -91,9 +91,8 @@ export function createContentRequest(input: ContentRequestInput): ContentRequest
     page: isExpand || input.compact ? 1 : input.currentPage,
     limit: isExpand ? CELEB_EXPAND_INDEX_LIMIT : input.maxItems || input.pageSize,
     search: trimmedSearch.length >= 2 ? trimmedSearch : undefined,
-    hasReview: input.reviewFilter === "all"
-      ? undefined
-      : input.reviewFilter === "has_review",
+    status: input.ownerKind === "celeb" ? "FINISHED"
+      : input.reviewFilter === "all" ? undefined : input.reviewFilter,
     sortBy: input.ownerKind === "celeb" ? "recent" : requestedSort,
   };
 }

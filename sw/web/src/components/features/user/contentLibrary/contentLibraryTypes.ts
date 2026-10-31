@@ -9,7 +9,7 @@ import { hasKoreanBookPurchase } from "./contentAffiliate";
 
 // #region 타입
 export type SortOption = "recent" | "title" | "rating_desc" | "rating_asc" | "creator";
-export type ReviewFilter = "all" | "has_review" | "no_review";
+export type ReviewFilter = "all" | import("@/types/database").ContentStatus;
 /** list=목록 · expand=목록에서 고른 한 건을 넓게 보기 */
 export type ViewMode = "list" | "expand";
 export type ContentLibraryMode = "owner" | "viewer";

@@ -1,3 +1,4 @@
+import * as memberContentCache from '../../lib/memberContentCache'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
@@ -36,6 +37,7 @@ test('initial celeb records do not wait for sales recommendations or peer reader
   ])
   const loaded = { exports: {} as { getPublicUserContents: (params: object, locale: string) => Promise<{ total: number }> } }
   new Function('require', 'module', 'exports', compiled)((key: string) => {
+    if(key === '@/lib/memberContentCache') return memberContentCache
     assert.ok(mocks.has(key), `unexpected import ${key}`)
     return mocks.get(key)
   }, loaded, loaded.exports)
@@ -71,6 +73,7 @@ test('책장 선정 원행을 전달해도 일반 공개 감상 목록의 행·�
   const loaded = { exports: {} as { getPublicUserContents: (params: object, locale: string) => Promise<Response>;
     getUserContents: (params: object) => Promise<Response> } }
   new Function('require', 'module', 'exports', compiled)((key: string) => {
+    if(key === '@/lib/memberContentCache') return memberContentCache
     assert.ok(mocks[key], `unexpected import ${key}`)
     return mocks[key]
   }, loaded, loaded.exports)
@@ -112,6 +115,7 @@ test('동시에 등록한 인물 감상은 100건 위치 조회와 20건 페이�
   }
   const loaded = { exports: {} as { getPublicUserContents: (params: object, locale: string) => Promise<{ items: { content_id: string }[] }> } }
   new Function('require', 'module', 'exports', compiled)((key: string) => {
+    if(key === '@/lib/memberContentCache') return memberContentCache
     assert.ok(mocks[key], `unexpected import ${key}`)
     return mocks[key]
   }, loaded, loaded.exports)

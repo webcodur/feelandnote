@@ -180,7 +180,7 @@ export async function material(slug) {
     .eq('slug', slug).single();
   if (error || !c) throw new Error(`인물을 찾지 못했다: ${slug}`);
 
-  const { data: cc, error: ccError } = await db.from('celeb_contents').select('id,content_id,review,source_url').eq('celeb_id', c.id);
+  const { data: cc, error: ccError } = await db.from('celeb_contents').eq('status','FINISHED').select('id,content_id,review,source_url').eq('celeb_id', c.id);
   if (ccError) throw new Error(`감상 조회 실패: ${ccError.message}`);
   const cids = [...new Set((cc ?? []).map((r) => r.content_id).filter(Boolean))];
   const ko = new Map(); const type = new Map();

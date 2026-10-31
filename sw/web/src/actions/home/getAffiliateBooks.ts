@@ -201,7 +201,7 @@ async function countModernReaders(contentIds: string[]): Promise<Map<string, num
     let data: { content_id: string; celeb_id: string }[] = []
     try {
       data = (await Promise.all(chunks.slice(i, i + PAGINATION_QUERY_CONCURRENCY).map(chunk => selectAllPages<{ content_id: string; celeb_id: string }>((from, to) => db
-        .from('celeb_contents')
+        .from('celeb_contents').eq('status', 'FINISHED')
         .select('content_id, celeb_id')
         .in('content_id', chunk)
         .order('id', { ascending: true })
@@ -221,7 +221,7 @@ async function countModernReaders(contentIds: string[]): Promise<Map<string, num
   return counts
 }
 
-const fetchScopedAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, ['affiliate-pool-scoped-v7-work-selection'], {
+const fetchScopedAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, ['affiliate-pool-scoped-v7-work-selection-consumption'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CELEBS],
 })
@@ -230,7 +230,7 @@ const fetchScopedAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, [
 async function fetchReadByCeleb(celebId: string): Promise<Set<string>> {
   const db = createStaticClient()
   const { data, error } = await db
-    .from('celeb_contents')
+    .from('celeb_contents').eq('status', 'FINISHED')
     .select('content_id')
     .eq('celeb_id', celebId)
     .limit(1000)
@@ -276,7 +276,7 @@ async function fetchProfessionReaders(profession: string): Promise<{ content_id:
   if (peerIds.length === 0) return []
 
   return selectAllPages<{ content_id: string; celeb_id: string }>((from, to) => db
-    .from('celeb_contents')
+    .from('celeb_contents').eq('status', 'FINISHED')
     .select('content_id,celeb_id')
     .eq('visibility', 'public')
     .in('celeb_id', peerIds)
@@ -284,7 +284,7 @@ async function fetchProfessionReaders(profession: string): Promise<{ content_id:
 }
 
 async function fetchReadersByProfession(profession: string, excludeCelebIds: ReadonlySet<string>): Promise<Map<string, string[]>> {
-  const data = await cachedList(CACHE_TAGS.CONTENTS, ['profession-readers-v1', profession],
+  const data = await cachedList(CACHE_TAGS.CONTENTS, ['profession-readers-v1-consumption', profession],
     () => fetchProfessionReaders(profession), { extraTags: [CACHE_TAGS.CELEBS] })
   const readers = new Map<string, string[]>()
   for (const row of data) {
@@ -374,7 +374,7 @@ async function getAffiliateBooksForCelebInner(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['affiliate-books-celeb-v14-work-selection', celebId, locale, String(limit), excluded ? exclusionFingerprint([...excluded]) : ''],
+    ['affiliate-books-celeb-v14-work-selection-consumption', celebId, locale, String(limit), excluded ? exclusionFingerprint([...excluded]) : ''],
     () => fetchAffiliateBooksForCeleb({ origins, read, peers }, limit, pool, excluded),
     // 수명은 기본값(1주)을 쓴다. 위 풀과 같은 이유다 — 인물 상세 초기 렌더가 이 결과를
     // 쓰므로 짧게 두면 페이지 한 장의 수명이 함께 내려간다. 상품이 바뀌면 아래 태그로 비워진다.

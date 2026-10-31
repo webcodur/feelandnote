@@ -56,7 +56,7 @@ async function fetchCelebModalPublic(
 
   // 병렬 조회
   const [contentResult, followerResult, influenceResult, factions, dialogueResult] = await Promise.all([
-    db.from('celeb_contents').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
+    db.from('celeb_contents').eq('status', 'FINISHED').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
     db.from('member_celeb_follows').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
     db.from('celeb_influence').select('total_score').eq('celeb_id', celebId).maybeSingle(),
     // 세력도감 소속 — 원천은 배정 표(faction_members)이고 DB 뷰 faction_member_rows로 읽는다.
@@ -151,7 +151,7 @@ const getFactionCelebModalCached = unstable_cache(
     if (!assignment) return null
     return fetchCelebModalPublic(celebId)
   },
-  ['faction-celeb-modal-v2-double-approval'],
+  ['faction-celeb-modal-v2-double-approval-consumption'],
   {
     revalidate: STATIC_REVALIDATE,
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],

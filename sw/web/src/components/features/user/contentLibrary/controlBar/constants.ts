@@ -22,6 +22,6 @@ export const SORT_OPTIONS: { value: SortOption; key: string }[] = [
 
 export const REVIEW_FILTER_OPTIONS: { value: ReviewFilter; key: string }[] = [
   { value: "all", key: "all" },
-  { value: "has_review", key: "hasReview" },
-  { value: "no_review", key: "noReview" },
+  { value: "FINISHED", key: "consumed" },
+  { value: "WANT", key: "notConsumed" },
 ];

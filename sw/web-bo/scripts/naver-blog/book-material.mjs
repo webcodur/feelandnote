@@ -72,7 +72,7 @@ async function main() {
   assembleBookMaterial({ content: contentResult.data, locale: localeResult.data, relations: [], celebs: [] });
   const relations = [];
   for (let from = 0; ; from += 1000) {
-    const { data, error } = await db.from('celeb_contents').select('id,celeb_id,content_id,review,source_url')
+    const { data, error } = await db.from('celeb_contents').eq('status','FINISHED').select('id,celeb_id,content_id,review,source_url')
       .eq('content_id', id).order('id').range(from, from + 999);
     if (error) throw new Error(`감상 조회 실패: ${error.message}`);
     relations.push(...data);

@@ -1,8 +1,10 @@
 'use server'
 
 import { createClient } from '@/lib/db/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
+import { memberContentCacheTag } from '@/lib/memberContentCache'
 import type { ContentType, ContentStatus } from '@/types/database'
+import { isContentStatus } from '@feelandnote/shared/constants/statuses'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import { sourceToLocale, sourceToJsonb } from '@/lib/utils/content-locale'
@@ -26,7 +28,6 @@ interface AddContentParams {
   metadata?: Record<string, unknown>  // 원본 메타데이터
   subtype?: string              // video의 경우 movie | tv
   externalSource?: string       // 외부 API 출처 (kakao_book, tmdb 등)
-  /** @deprecated status는 더 이상 사용하지 않음. 리뷰 유무로 감상 여부 판단. */
   status?: ContentStatus
   createdAt?: string            // 추가 날짜 (YYYY-MM-DD), 기본값: 오늘
   isRecommended?: boolean       // 추천 여부
@@ -37,6 +38,7 @@ interface AddContentData {
   userContentId: string
   /** 이미 기록해 둔 작품일 때만 채워진다. 새로 담은 작품에는 없다 */
   existingRecord?: {
+    status: ContentStatus
     rating: number
     review: string
     reviewPresets: string[]
@@ -49,6 +51,10 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
   const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return failure('UNAUTHORIZED')
+  }
+
+  if (params.status !== undefined && !isContentStatus(params.status)) {
+    return failure('VALIDATION_ERROR', '감상 여부를 확인해주세요.')
   }
 
   if (params.createdAt && !Number.isFinite(new Date(params.createdAt).getTime())) {
@@ -210,7 +216,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     }
   }
 
-  // 2. 회원 감상 기록 생성 (status 기본값: WANT)
+  // 2. 선택한 감상 여부를 보존한다. 기록만 담을 때는 감상 안함이다.
   const insertData: {
     member_id: string
     content_id: string
@@ -220,8 +226,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
   } = {
     member_id: user.id,
     content_id: contentId,
-    // status는 deprecated - 레거시 호환을 위해 FINISHED로 고정
-    status: 'FINISHED' as ContentStatus,
+    status: params.status ?? 'WANT',
   }
 
   // 날짜가 지정된 경우 created_at 설정
@@ -246,7 +251,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
       // 이미 기록해 둔 작품이다. 별점·감상·프리셋까지 함께 돌려줘야 편집기가 빈 칸으로 열리지 않는다
       const { data: existing, error: fetchError } = await db
         .from('member_contents')
-        .select('id, rating, review, review_presets')
+        .select('id, status, rating, review, review_presets')
         .eq('member_id', user.id)
         .eq('content_id', contentId)
         .single()
@@ -259,6 +264,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
         contentId,
         userContentId: existing.id,
         existingRecord: {
+          status: existing.status as ContentStatus,
           rating: existing.rating ?? 0,
           review: existing.review ?? '',
           reviewPresets: existing.review_presets ?? [],
@@ -270,6 +276,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
   }
   if (!userContent) return failure('DB_ERROR', '감상 기록의 저장 결과를 확인하지 못했습니다.')
 
+  revalidateTag(memberContentCacheTag(user.id), { expire: 0 })
   revalidatePath(`/${user.id}/reading`)
   revalidatePath('/achievements')
 

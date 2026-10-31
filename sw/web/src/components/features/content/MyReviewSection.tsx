@@ -80,7 +80,7 @@ export default function MyReviewSection({ content, userRecord, onRecordChange }:
         }
         onRecordChange({
           id: userContentId,
-          status: userRecord?.status ?? "FINISHED",
+          status: result.data.status,
           rating: nextRating,
           review: nextReview,
           reviewPresets,

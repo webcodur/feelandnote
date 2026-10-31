@@ -1,6 +1,8 @@
 'use server'
 
 import { createClient } from '@/lib/db/server'
+import { isContentStatus } from '@feelandnote/shared/constants/statuses'
+import type { ContentStatus } from '@feelandnote/shared/types'
 import { createAdminClient } from '@/lib/db/admin'
 import { revalidatePath } from 'next/cache'
 import { type GeneratedInfluence } from '@feelandnote/ai-services/celeb-profile'
@@ -1371,6 +1373,7 @@ export async function getCelebContents(
 
 // #region addCelebContent
 interface AddCelebContentInput {
+  status?: ContentStatus
   celeb_id: string
   content_id: string
   review?: string
@@ -1380,6 +1383,7 @@ interface AddCelebContentInput {
 }
 
 export async function addCelebContent(input: AddCelebContentInput): Promise<{ id: string; isExisting?: boolean }> {
+  if (input.status !== undefined && !isContentStatus(input.status)) throw new Error('감상 여부를 확인해주세요.')
   const db = await createClient()
 
   // 서명 검증된 현재 관리자 식별자 확인
@@ -1408,8 +1412,7 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
     .insert({
       celeb_id: input.celeb_id,
       content_id: input.content_id,
-      // 셀럽 감상은 FINISHED 하나다. 감상 예정이라는 사실은 review에 쓴다.
-      status: 'FINISHED',
+      status: input.status ?? 'FINISHED',
       review: input.review || null,
       review_en: input.review_en || null,
       is_spoiler: input.is_spoiler || false,
@@ -1445,6 +1448,7 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
 
 // #region updateCelebContent
 interface UpdateCelebContentInput {
+  status?: ContentStatus
   id: string
   celeb_id: string
   review?: string | null
@@ -1460,6 +1464,7 @@ interface UpdateCelebContentInput {
 }
 
 export async function updateCelebContent(input: UpdateCelebContentInput): Promise<void> {
+  if (input.status !== undefined && !isContentStatus(input.status)) throw new Error('감상 여부를 확인해주세요.')
   // Admin 클라이언트 사용 (RLS 우회)
   const adminClient = createAdminClient()
 
@@ -1472,6 +1477,7 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
 
   // celeb_contents 테이블 업데이트
   const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() }
+  if (input.status !== undefined) updateData.status = input.status
 
   if (input.review !== undefined) updateData.review = input.review
   if (input.is_spoiler !== undefined) updateData.is_spoiler = input.is_spoiler

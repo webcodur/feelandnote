@@ -4,7 +4,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import type { DatabaseClient } from '@feelandnote/db'
 import { createClient } from '@/lib/db/server'
 import { createStaticClient } from '@/lib/db/static'
-import { cachedList, cachedDetail, throwOnQueryError } from '@/lib/cache'
+import { cachedDetail, LIST_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import {
@@ -16,6 +16,7 @@ import {
 } from '@/lib/utils/content-locale'
 import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
 import { getAffiliateBooksForCeleb } from '@/actions/home/getAffiliateBooks'
+import { memberContentCacheId } from '@/lib/memberContentCache'
 
 type SortByOption = 'recent' | 'rating_desc' | 'rating_asc'
 
@@ -80,6 +81,7 @@ export interface GetUserContentsResponse {
 interface QueryUserContentsOptions {
   userId: string
   ownerKind: 'member' | 'celeb'
+  status?: ContentStatus
   type?: ContentType
   page: number
   limit: number
@@ -100,6 +102,7 @@ async function queryUserContents(
   const {
     userId,
     ownerKind,
+    status,
     type,
     page,
     limit,
@@ -181,7 +184,9 @@ async function queryUserContents(
     query = query.eq('content.type', type)
   }
 
-  // status 필터 제거 (사용자 요구사항: status 무관하게 리뷰 유무로만 판단)
+  // 셀럽의 감상 목록은 감상함만, 회원 목록은 선택한 감상 여부를 따른다.
+  const consumptionStatus = ownerKind === 'celeb' ? 'FINISHED' : status
+  if (consumptionStatus) query = query.eq('status', consumptionStatus)
 
   // 검색 결과 content_id 필터
   if (searchContentIds) {
@@ -315,6 +320,7 @@ type PublicContentsArgs = [
   hasReview: boolean | undefined,
   sortBy: SortByOption,
   locale: string,
+  status: ContentStatus | undefined,
 ]
 
 type CelebContentsArgs = [...PublicContentsArgs, preferredContentIds: string[]]
@@ -326,9 +332,9 @@ async function getCelebAffiliatePriorityIds(userId: string, locale: string): Pro
 }
 
 const queryPublicUserContents = (...args: PublicContentsArgs) => {
-  const [userId, type, page, limit, search, hasReview, sortBy, locale] = args
+  const [userId, type, page, limit, search, hasReview, sortBy, locale, status] = args
   return queryUserContents(createStaticClient(), {
-    userId, ownerKind: 'member', type, page, limit, search, hasReview, sortBy, locale,
+    userId, ownerKind: 'member', status, type, page, limit, search, hasReview, sortBy, locale,
     isOwnProfile: false,
   })
 }
@@ -336,8 +342,9 @@ const queryPublicUserContents = (...args: PublicContentsArgs) => {
 // 타인 회원 서재 — 공개 테이블(member_contents, contents, content_locales)만 읽으므로 캐시.
 // 일반 사용자 서재를 남이 열람하는 경로. 본인이 책을 추가하면 곧 반영돼야 하므로 1시간.
 const getCachedPublicUserContents = (...args: Parameters<typeof queryPublicUserContents>) =>
-  cachedList(CACHE_TAGS.CONTENTS, ['public-user-contents-v3-title-translation', ...args.map((a) => String(a ?? ''))], () =>
+  cachedDetail(CACHE_TAGS.CONTENTS, memberContentCacheId(args[0]), ['public-user-contents-v4-consumption', ...args.map((a) => String(a ?? ''))], () =>
     queryPublicUserContents(...args),
+    { revalidate: LIST_REVALIDATE },
   )
 
 // 셀럽 서재 SSR 전용 캐시 — 위와 키를 분리하고 수명을 7일로 둔다.
@@ -349,9 +356,9 @@ const getCachedCelebLibraryContents = (...args: CelebContentsArgs) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     args[0],
-    ['celeb-library-contents-v9-stable-order', ...args.map((a) => String(a ?? ''))],
+    ['celeb-library-contents-v10-consumption', ...args.map((a) => String(a ?? ''))],
     () => {
-      const [userId, type, page, limit, search, hasReview, sortBy, locale, preferredContentIds] = args
+      const [userId, type, page, limit, search, hasReview, sortBy, locale, status, preferredContentIds] = args
       return queryUserContents(createStaticClient(), {
         userId,
         ownerKind: 'celeb',
@@ -360,6 +367,7 @@ const getCachedCelebLibraryContents = (...args: CelebContentsArgs) =>
         limit,
         search,
         hasReview,
+        status,
         sortBy,
         locale,
         isOwnProfile: false,
@@ -372,10 +380,10 @@ const getCachedCelebLibraryContents = (...args: CelebContentsArgs) =>
 // 공개 프로필의 클라이언트 재조회용. viewer 모드는 이미 타인 화면으로 확정됐으므로
 // auth.getUser()를 다시 거치지 않고 1시간 공개 캐시를 바로 읽는다.
 export async function getPublicViewerContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
-  const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
+  const { userId, type, page = 1, limit = 20, search, hasReview, status, sortBy = 'recent' } = params
   const locale = await getLocale()
 
-  return getCachedPublicUserContents(userId, type, page, limit, search, hasReview, sortBy, locale)
+  return getCachedPublicUserContents(userId, type, page, limit, search, hasReview, sortBy, locale, status)
 }
 
 /* 셀럽 서가의 클라이언트 재조회용.
@@ -383,7 +391,7 @@ export async function getPublicViewerContents(params: GetUserContentsParams): Pr
    쪽을 넘기거나 조건을 바꾸는 순간 남의 테이블을 뒤져 목록이 사라진다(26.08.10 확인).
    대상이 셀럽인 화면은 반드시 이 함수를 쓴다 — SSR과 같은 캐시를 공유한다. */
 export async function getPublicCelebContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
-  const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
+  const { userId, type, page = 1, limit = 20, search, hasReview, status, sortBy = 'recent' } = params
   const locale = await getLocale()
   const preferredContentIds = await getCelebAffiliatePriorityIds(userId, locale)
 
@@ -396,6 +404,7 @@ export async function getPublicCelebContents(params: GetUserContentsParams): Pro
     hasReview,
     sortBy,
     locale,
+    status,
     preferredContentIds,
   )
 }
@@ -406,7 +415,7 @@ export async function getPublicUserContents(
   params: GetUserContentsParams,
   requestLocale?: string,
 ): Promise<GetUserContentsResponse> {
-  const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent', preferredContentIds = [] } = params
+  const { userId, type, page = 1, limit = 20, search, hasReview, status, sortBy = 'recent', preferredContentIds = [] } = params
   const locale = requestLocale ?? (await getLocale())
 
   return getCachedCelebLibraryContents(
@@ -418,12 +427,13 @@ export async function getPublicUserContents(
     hasReview,
     sortBy,
     locale,
+    status,
     preferredContentIds,
   )
 }
 
 export async function getUserContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
-  const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
+  const { userId, type, page = 1, limit = 20, search, hasReview, status, sortBy = 'recent' } = params
   const db = await createClient()
   const locale = await getLocale()
 
@@ -434,10 +444,10 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
   if (isOwnProfile) {
     // egress-allow: 본인 서재 — 추가/삭제 즉시 반영 필요, 캐시 부적합
     return queryUserContents(db, {
-      userId, ownerKind: 'member', type, page, limit, search, hasReview, sortBy, locale,
+      userId, ownerKind: 'member', status, type, page, limit, search, hasReview, sortBy, locale,
       isOwnProfile: true,
     })
   }
 
-  return getCachedPublicUserContents(userId, type, page, limit, search, hasReview, sortBy, locale)
+  return getCachedPublicUserContents(userId, type, page, limit, search, hasReview, sortBy, locale, status)
 }

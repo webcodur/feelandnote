@@ -56,6 +56,8 @@ where content.id = :content_id;
 | `records` | 회원의 노트·인용 기록 |
 | `notes`·`note_sections` | 구조화된 감상 노트 |
 
+감상 여부는 회원·셀럽 모두 공용 [`statuses.ts`](../../../packages/shared/src/constants/statuses.ts)의 두 상태만 사용한다. `FINISHED`는 감상함, 기존 저장값 `WANT`는 감상 안함이다. 감상문 없이 감상함을 선택할 수 있으며 감상문을 지워도 상태는 유지한다. 회원이 별점·감상문·짧은 반응을 저장하면 감상함으로 전환하고, 상태만 바꿀 때는 기존 감상 내용을 보존한다. 감상자·공개 셀럽 책장·전체 감상 권수는 감상함만 세며, 회원 목록은 선택한 감상 여부로 목록과 숫자를 함께 조회한다. 블로그의 전체 감상 도서 수와 글에서 소개한 권수는 구분한다.
+
 `member_contents`와 `celeb_contents`는 각각 `(주체, content_id)` 관계를 한 번만 가진다. 회원 평점은 `member_contents.rating`에만 있으며 `celeb_contents`에는 평점이 없다. 인물 관계에는 `source_url`과 감상경위 `review`·`review_en`을 사용한다. 셀럽 감상 기록에는 개별 공개 범위가 없으며 `visibility`는 기존 조회와의 호환을 위해 `public`으로 고정한다. 비공개·팔로워 공개·NULL은 DB 제약으로 금지하고, 인물 자체의 공개 여부는 `celebs.publication_status`가 결정한다. 회원 감상 기록의 공개 범위는 별개다. 조사·등록·감상경위의 세부 경계는 [`../celeb/README.md`](../celeb/README.md)의 콘텐츠 문서군을 따른다.
 
 첫 `celeb_contents` 관계가 생기면 DB가 `light` 인물을 `full`로 승격하고 0건 확정 시각을 비운다. `full` 전환에는 적어도 한 관계가 있어야 한다. 이 티어 의미는 [`../celeb/celeb-00-01-pipeline.md`](../celeb/celeb-00-01-pipeline.md)가 쥔다.
