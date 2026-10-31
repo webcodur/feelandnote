@@ -1272,7 +1272,6 @@ export interface CelebContent {
   status: string
   review: string | null
   is_spoiler: boolean
-  visibility: string
   source_url: string | null
   created_at: string
   updated_at: string
@@ -1349,7 +1348,6 @@ export async function getCelebContents(
       status: item.status,
       review: item.review,
       is_spoiler: item.is_spoiler || false,
-      visibility: item.visibility || 'public',
       source_url: item.source_url || null,
       created_at: item.created_at,
       updated_at: item.updated_at,
@@ -1415,7 +1413,6 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
       review: input.review || null,
       review_en: input.review_en || null,
       is_spoiler: input.is_spoiler || false,
-      visibility: 'public',
       contributor_member_id: userId,
       source_url: input.source_url || null,
     })
@@ -1452,7 +1449,6 @@ interface UpdateCelebContentInput {
   celeb_id: string
   review?: string | null
   is_spoiler?: boolean
-  visibility?: string
   source_url?: string | null
   // contents 테이블 필드
   content_id?: string
@@ -1479,7 +1475,6 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
 
   if (input.review !== undefined) updateData.review = input.review
   if (input.is_spoiler !== undefined) updateData.is_spoiler = input.is_spoiler
-  if (input.visibility !== undefined) updateData.visibility = input.visibility
   if (input.source_url !== undefined) updateData.source_url = input.source_url
 
   // 콘텐츠 교체 시 content_id 업데이트

@@ -1,7 +1,4 @@
-import type { CelebTier, CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
-
 import { particleFor, type ParticleKind } from "../korean-particle";
-import { estimateTextWidth, SNIPPET_WIDTH, splitSentences, summarizeSentences } from "../seoSentences";
 
 /* ─────────────────────────────────────────────
  * 인물 상세의 검색 제목·설명문
@@ -50,42 +47,29 @@ export interface CelebMetaInput {
   headline?: string | null;
   headline_en?: string | null;
   counts: ContentCounts;
-  tier?: CelebTier;
-  /** REAL이 아니면(BOTH·FICTION) 원전·전승 중심 제목·설명을 쓴다.
-   *  BOTH 인물도 실제 감상 기록이 얇아 이 문체가 더 맞는다. */
-  reality?: CelebReality;
-  /** 인물 안내 본문. 요청 언어로 쓰인 글만 넘긴다 — 영문 화면에 한국어 대체본을 싣지 않는다. */
-  guide?: string | null;
-  /** 요청 언어로 쓰인 bio만 넘긴다. */
+  /** 요청 언어의 소개 전문. 다른 언어의 대체값은 조립부에서 제외한다. */
   bio?: string | null;
-  hasConnections?: boolean;
-  /** 화면의 분석 유무. 검색 설명에는 인물과 작품에 관한 사실만 싣는다. */
-  hasInfluence?: boolean;
-  hasSpectrum?: boolean;
+  /** 소개가 없을 때만 사용하는 요청 언어의 인물 안내 전문. */
+  guide?: string | null;
+  /** headline도 없을 때 제목의 신원을 보완하는 등장 작품. */
   sourceWorks?: readonly CelebMetaSourceWork[];
-  /** 가장 많이 기록된 분야에서 다른 인물도 많이 감상한 순서의 작품 제목. */
-  signatureWorks?: readonly string[];
 }
 
 // 합계가 이 이하이면 「책 1권」처럼 얇은 숫자를 앞세우지 않는다.
 const COUNT_HIDE_THRESHOLD = 2;
-const DESCRIPTION_MAX = 175;
 // 검색 결과 제목 칸(PC 약 600px, 20px 글자)의 폭을 한글 한 자 = 1로 어림한 값.
 // 분야 건수는 이 폭 안에 들어가는 만큼만 싣는다 — 넘친 뒤는 「…」로 잘린다.
 const TITLE_WIDTH_BUDGET = 30;
-const SIGNATURE_WORK_LIMIT = 3;
 // 영어 제목이 검색 결과 한 줄(PC 600px)에 드는 글자 수 어림. 64자짜리(Dido: …)는 한 줄에 들었고 76자짜리는 잘렸다(26.09.29 예상 화면)
 const EN_TITLE_MAX_CHARS = 64;
-// 인물 안내·bio 첫 문장의 최대 길이. 이보다 긴 첫 문장은 자르지 않고 싣지 않는다(leadSentence).
-const LEAD_MAX = 110;
 
 const RECORD_TYPE_ORDER: readonly RecordType[] = ["BOOK", "VIDEO", "MUSIC", "GAME"];
 
-const RECORD_LABEL_KO: Record<RecordType, { noun: string; unit: string; open: string; close: string }> = {
-  BOOK: { noun: "책", unit: "권", open: "《", close: "》" },
-  VIDEO: { noun: "영상", unit: "편", open: "〈", close: "〉" },
-  MUSIC: { noun: "음악", unit: "곡", open: "〈", close: "〉" },
-  GAME: { noun: "게임", unit: "개", open: "〈", close: "〉" },
+const RECORD_LABEL_KO: Record<RecordType, { noun: string; unit: string }> = {
+  BOOK: { noun: "책", unit: "권" },
+  VIDEO: { noun: "영상", unit: "편" },
+  MUSIC: { noun: "음악", unit: "곡" },
+  GAME: { noun: "게임", unit: "개" },
 };
 
 const RECORD_LABEL_EN: Record<RecordType, { one: string; many: string; bare: string; verb: string }> = {
@@ -120,11 +104,9 @@ export function formatCelebRecordCounts(counts: ContentCounts, locale: string): 
   );
 }
 
-/** 감상 기록으로 제목·설명을 세우는 인물. BOTH·FICTION은 원전 중심 문체를 쓴다. */
+/** 감상 기록 유무만 제목을 가른다. 티어·실존 분류는 사용하지 않는다. */
 function leadsWithRecords(input: CelebMetaInput): boolean {
-  return (input.tier ?? "full") === "full"
-    && (input.reality ?? "REAL") === "REAL"
-    && totalCount(input.counts) > 0;
+  return totalCount(input.counts) > 0;
 }
 
 function cleanSourceTitle(title: string): string {
@@ -136,7 +118,6 @@ function cleanSourceTitle(title: string): string {
 }
 
 function primarySource(input: CelebMetaInput): string | null {
-  if ((input.reality ?? "REAL") === "REAL") return null;
   const source = (input.sourceWorks ?? [])
     .map((work, index) => ({ work, index }))
     .filter(({ work }) => work.relationType === "appearance" && work.title?.trim())
@@ -169,60 +150,15 @@ function fitTitle(build: (typeCount: number) => string, typeTotal: number): stri
   return fitted;
 }
 
-function listEn(items: readonly string[]): string {
-  if (items.length <= 1) return items.join("");
-  return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
-}
-
-/**
- * 첫 문장만 가져온다. limit보다 길면 싣지 않는다 — 「…」로 잘라 싣지 않는다(26.09.29 유저 지시).
- * 둘째 문장 이후의 긴 서술은 검색 설명에 붙이지 않는다.
- */
-function leadSentence(raw: string | null | undefined, limit: number): string | null {
-  const cleaned = raw?.replace(/\s+/g, " ").trim();
-  // 자리가 이만큼도 없으면 잘린 토막만 남으므로 싣지 않는다.
-  if (!cleaned || limit < 24) return null;
-  const [first] = splitSentences(cleaned);
-  return first && first.length <= limit ? endSentence(first) : null;
-}
-
-/**
- * 문장 부호 없이 끝난 소개(위키데이터식 한 줄 「President of Cameroon since 1982」「미국의 영화 제작자 (1947년생)」)에
- * 마침표를 찍는다 — 뒤에 꼬리 문장이 붙으면 「… since 1982 Explore …」처럼 두 문장이 한 문장으로 읽혔다(26.09.29 전수 점검).
- */
 function endSentence(text: string): string {
   return /[.!?。…"”'’」』]$/.test(text) ? text : `${text}.`;
 }
 
-/** 대표작 목록에서 표기만 다른 같은 작품(「Back In Black」「Back in Black」)을 하나로 모은다. */
-function uniqueWorks(works: readonly string[] | undefined): string[] {
-  const seen = new Set<string>();
-  return (works ?? []).filter((work) => {
-    const key = work.normalize("NFKC").toLowerCase().replace(/\s+/g, " ").trim();
-    if (!key || seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-}
-
-// 「헤라클레스 전승에 등장한다.」「A figure from the Heracles tradition.」처럼 누구에게나 붙는 첫 문장.
-const BIO_BOILERPLATE = /^([^.]{0,40}에 등장한다|A figure from [^.]{1,80})\.\s*/;
-
-function usableBio(bio: string | null | undefined): string | null {
-  const cleaned = bio?.replace(/\s+/g, " ").trim();
-  if (!cleaned) return null;
-  const stripped = cleaned.replace(BIO_BOILERPLATE, "").trim();
-  return stripped.length >= 8 ? stripped : null;
-}
-
-/**
- * 인물 정체를 먼저 지키고, 뒤의 사실 문장은 통째로 들어갈 때만 잇는다.
- * 어느 쪽도 「…」로 자르지 않는다.
- */
-function composeDescription(head: string, tail: string): string {
-  const combined = tail ? `${head} ${tail}` : head;
-  const fitted = summarizeSentences(combined, DESCRIPTION_MAX);
-  return summarizeSentences(fitted, SNIPPET_WIDTH, estimateTextWidth) || head;
+function biographyDescription(input: CelebMetaInput, identity: string): string {
+  const text = input.bio?.replace(/\s+/g, " ").trim()
+    || input.guide?.replace(/\s+/g, " ").trim()
+    || identity;
+  return endSentence(text);
 }
 
 /* ── 한국어 ── */
@@ -262,58 +198,9 @@ export function buildCelebTitleKo(input: CelebMetaInput): string {
   );
 }
 
-/**
- * 대표작을 하나씩 덜어 완전한 감상 사실 문장이 들어가는 만큼만 싣는다.
- * 자주 바뀌는 건수와 페이지 기능 소개는 설명에 넣지 않는다.
- */
-function fitRecordTail(
-  head: string,
-  works: readonly string[],
-  buildTail: (shown: readonly string[]) => string,
-): string {
-  for (let count = works.length; count > 0; count--) {
-    const combined = `${head} ${buildTail(works.slice(0, count))}`;
-    if (combined.length <= DESCRIPTION_MAX && estimateTextWidth(combined) <= SNIPPET_WIDTH) return combined;
-  }
-  return composeDescription(head, "");
-}
-
-function recordDescriptionKo(input: CelebMetaInput): string {
-  const type = rankRecordTypes(input.counts)[0];
-  const label = RECORD_LABEL_KO[type];
-  const verbs: Record<RecordType, string> = { BOOK: "읽었다", VIDEO: "보았다", MUSIC: "들었다", GAME: "플레이했다" };
-  const works = uniqueWorks(input.signatureWorks).slice(0, SIGNATURE_WORK_LIMIT);
-  if (works.length === 0) return profileDescriptionKo(input);
-
-  return fitRecordTail(`${identityKo(input)}.`, works, (shown) => {
-    const titles = shown.map((work) => `${label.open}${work}${label.close}`).join(", ");
-    // 한 작품뿐이면 「등」을 붙이지 않고, 조사는 닫는 괄호 앞 작품명에 맞춘다.
-    const object = input.counts[type] > shown.length ? `${titles} 등을` : `${titles}${particleFor(shown[shown.length - 1], "object")}`;
-    return `${object} ${verbs[type]}.`;
-  });
-}
-
-function profileDescriptionKo(input: CelebMetaInput): string {
-  const source = primarySource(input);
-  // 인물 안내는 「누구는 …이다」로 시작해 이름과 정체를 함께 담는다. 없으면 이름, headline에 bio를 잇는다.
-  const guide = leadSentence(input.guide, LEAD_MAX);
-  const identity = `${identityKo(input)}.`;
-  const bio = guide ? null : leadSentence(usableBio(input.bio), Math.max(0, LEAD_MAX - identity.length - 1));
-  const head = guide || (bio ? `${identity} ${bio}` : identity);
-  const tail = source && !head.includes(`《${source}》`) ? `《${source}》에 등장한다.` : "";
-  return composeDescription(head, tail);
-}
-
-/** 라이트 실존 인물의 짧은 소개는 전문을 제공한다. 검색 화면의 표시 길이는 엔진이 정한다. */
-function realLightBiography(input: CelebMetaInput): string | null {
-  if (input.tier !== "light" || (input.reality ?? "REAL") !== "REAL") return null;
-  const bio = input.bio?.replace(/\s+/g, " ").trim();
-  return bio ? endSentence(bio) : null;
-}
-
+/** 분류·감상 유무와 관계없이 소개 전문을 제공한다. 표시 길이는 검색엔진이 정한다. */
 export function buildCelebDescriptionKo(input: CelebMetaInput): string {
-  return realLightBiography(input)
-    ?? (leadsWithRecords(input) ? recordDescriptionKo(input) : profileDescriptionKo(input));
+  return biographyDescription(input, identityKo(input));
 }
 
 /* ── 영어 ── */
@@ -327,15 +214,6 @@ function identityEn(input: CelebMetaInput): string {
   if (source) return `${input.nickname} in ${sourceAfterPrepositionEn(source)}`;
   const title = input.title?.trim();
   return title ? `${input.nickname}: ${title}` : input.nickname;
-}
-
-/** 설명문 첫 문장. 관사로 시작하는 정의는 이름 뒤 동격으로, 나머지는 쌍점으로 잇는다. */
-function identitySentenceEn(input: CelebMetaInput): string {
-  const headline = headlineEnOf(input);
-  if (headline && /^(The|A|An) /.test(headline)) {
-    return `${input.nickname}, ${headline.charAt(0).toLowerCase()}${headline.slice(1)}.`;
-  }
-  return `${identityEn(input)}.`;
 }
 
 /** 영어도 수식어를 이름 뒤 괄호에 둔다 — 「Information Theory」「Les Misérables」처럼 동격으로 읽히지 않는 값이 있다. */
@@ -370,33 +248,9 @@ export function buildCelebTitleEn(input: CelebMetaInput): string {
   return fitTitle((typeCount) => `${subject}: ${joinTitleEn(parts.slice(0, typeCount))}`, parts.length);
 }
 
-function recordDescriptionEn(input: CelebMetaInput): string {
-  const type = rankRecordTypes(input.counts)[0];
-  const works = uniqueWorks(input.signatureWorks).slice(0, SIGNATURE_WORK_LIMIT);
-  if (works.length === 0) return profileDescriptionEn(input);
-  const scopes: Record<RecordType, string> = {
-    BOOK: "Books read include", VIDEO: "Videos watched include", MUSIC: "Music listened to includes", GAME: "Games played include",
-  };
-  return fitRecordTail(identitySentenceEn(input), works, (shown) => `${scopes[type]} ${listEn(shown)}.`);
-}
-
-function profileDescriptionEn(input: CelebMetaInput): string {
-  const source = primarySource(input);
-  const guide = leadSentence(input.guide, LEAD_MAX);
-  const identity = identitySentenceEn(input);
-  const bio = guide ? null : leadSentence(usableBio(input.bio), Math.max(0, LEAD_MAX - identity.length - 1));
-  const head = guide || (bio ? `${identity} ${bio}` : identity);
-  const sourceName = source?.replace(/^The /, "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const sourceMentioned = sourceName && new RegExp(`\\b(?:in|from|of) (?:the )?${sourceName}\\b`, "i").test(head);
-  const tail = source && !sourceMentioned ? `Appears in ${sourceAfterPrepositionEn(source)}.` : "";
-  return composeDescription(head, tail);
-}
-
 export function buildCelebDescriptionEn(input: CelebMetaInput): string {
-  return realLightBiography(input)
-    ?? (leadsWithRecords(input) ? recordDescriptionEn(input) : profileDescriptionEn(input));
+  return biographyDescription(input, identityEn(input));
 }
 
 export const buildCelebTitle = (input: CelebMetaInput, locale: string) => locale === "en" ? buildCelebTitleEn(input) : buildCelebTitleKo(input);
-
 export const buildCelebDescription = (input: CelebMetaInput, locale: string) => locale === "en" ? buildCelebDescriptionEn(input) : buildCelebDescriptionKo(input);

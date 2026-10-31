@@ -1,19 +1,17 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] 머리말 — SEO 메타데이터 조립
  * - 목차 위치: 머리말
- * - 데이터: getCelebBySlug, getFigureBooksForCeleb, getCelebSignatureWorks
+ * - 데이터: getCelebBySlug, headline 누락 시 getFigureBooksForCeleb
  * - 함께 보기: celebPageJsonLd.ts, page.tsx, lib/celeb/meta.ts(문구 규칙)
  * ───────────────────────────────────────────── */
 import type { Metadata } from "next";
 
-import { getCelebSignatureWorks } from "@/actions/celebs/getCelebSignatureWorks";
 import { getFigureBooksForCeleb, type FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { getCelebRouteProfile } from "@/lib/profile-route";
 import {
   buildCelebDescription,
   buildCelebTitle,
-  rankRecordTypes,
   rankSourceWork,
   type CelebMetaInput,
 } from "@/lib/celeb/meta";
@@ -23,12 +21,11 @@ import { INDEXABLE_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 
 interface CelebMetaExtras {
   sources?: readonly FigureBookContent[];
-  signatureWorks?: readonly string[];
 }
 
 export function createCelebMetaInput(
   profile: CelebBySlugProfile,
-  { sources = [], signatureWorks = [] }: CelebMetaExtras = {},
+  { sources = [] }: CelebMetaExtras = {},
 ): CelebMetaInput {
   // 영문 화면에서 한국어로 대체된 글은 설명문에 싣지 않는다.
   const fallbacks = new Set(profile.translationFallbacks ?? []);
@@ -38,8 +35,6 @@ export function createCelebMetaInput(
     headline: profile.headline,
     headline_en: profile.headline_en,
     counts: profile.contentTypeCounts,
-    tier: profile.celeb_tier ?? "full",
-    reality: profile.celeb_reality ?? "REAL",
     guide: fallbacks.has("personGuide") ? null : profile.reading?.guide ?? null,
     bio: fallbacks.has("bio") ? null : profile.bio,
     sourceWorks: sources.map((source) => ({
@@ -47,7 +42,6 @@ export function createCelebMetaInput(
       relationType: source.relationType,
       sourceRank: rankSourceWork(source),
     })),
-    signatureWorks,
   };
 }
 
@@ -56,19 +50,13 @@ export async function buildCelebPageMetadata(
   slug: string,
 ): Promise<Metadata> {
   const profile = await getCelebRouteProfile(slug, locale);
-  const reality = profile.celeb_reality ?? "REAL";
   const tier = profile.celeb_tier ?? "full";
-  const leadType = rankRecordTypes(profile.contentTypeCounts)[0];
-  const [sources, signatureWorks] = await Promise.all([
-    // 원전·등장 작품은 celeb_tier와 무관하게 모든 인물이 가질 수 있다. REAL이 아니면
-    // (BOTH·FICTION) 실제 감상 기록이 얇으므로 원전 정보로 제목·설명을 세운다.
-    reality !== "REAL" ? getFigureBooksForCeleb(profile.id, locale) : Promise.resolve([]),
-    // 감상 기록으로 설명을 세우는 인물만 대표작을 고른다.
-    tier === "full" && reality === "REAL" && leadType
-      ? getCelebSignatureWorks(profile.id, leadType, locale)
-      : Promise.resolve([]),
-  ]);
-  const metaInput = createCelebMetaInput(profile, { sources, signatureWorks });
+  const hasRecords = Object.values(profile.contentTypeCounts).some((count) => count > 0);
+  // 등장 작품은 감상으로 세지 않는다. headline이 없는 무감상 인물의 제목 보완에만 조회한다.
+  const sources = !hasRecords && !profile.headline?.trim()
+    ? await getFigureBooksForCeleb(profile.id, locale)
+    : [];
+  const metaInput = createCelebMetaInput(profile, { sources });
   const title = buildCelebTitle(metaInput, locale);
   const description = buildCelebDescription(metaInput, locale);
   const seoLocale = locale === "en" ? "en" : "ko";
