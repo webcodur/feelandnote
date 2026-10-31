@@ -1,6 +1,6 @@
 .stage {
   overflow-anchor: none;
-  transition: height 240ms ease-out;
+  transition: height var(--bookshelf-duration) var(--bookshelf-easing);
 }
 
 @media (prefers-reduced-motion: reduce) {

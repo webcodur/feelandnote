@@ -36,23 +36,23 @@ export default function TranshistoricityInfoModal({ isOpen, onClose, value, expl
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={t("title")} icon={Hourglass} size="lg">
-      <ModalBody className="space-y-4">
+      <ModalBody className="space-y-4 text-center">
         <section className="space-y-2 border-b border-line pb-4">
-          <ScoreBar label={t("title")} value={value} max={40} maxText={ti("scoreOutOf", { max: 40 })} />
+          <ScoreBar emphasized label={t("title")} value={value} max={40} maxText={ti("scoreOutOf", { max: 40 })} />
           {isTranslationFallback && <p className="text-sm text-text-tertiary">{ti("originalKorean")}</p>}
-          <p className="whitespace-pre-line text-sm leading-relaxed text-text-secondary">{explanation || ti("noDetails")}</p>
+          <p className="whitespace-pre-line text-balance text-sm font-medium leading-relaxed text-text-primary break-keep">{explanation || ti("noDetails")}</p>
         </section>
         <div className="space-y-2">
-          <p className="text-sm font-medium leading-relaxed text-text-primary break-keep">
+          <p className="text-balance text-sm leading-relaxed text-text-secondary break-keep">
             {t("definition")}
           </p>
-          <p className="text-xs leading-relaxed break-keep">
+          <p className="text-balance text-xs leading-relaxed text-text-secondary break-keep">
             {t("criteria")}
           </p>
         </div>
 
         <div className="space-y-1.5">
-          <h3 className="px-1 text-xs font-bold uppercase tracking-wider">
+          <h3 className="px-1 text-center text-xs font-bold uppercase tracking-wider text-text-secondary">
             {t("bandsTitle")}
           </h3>
 
@@ -61,7 +61,7 @@ export default function TranshistoricityInfoModal({ isOpen, onClose, value, expl
             return (
               <div
                 key={band.key}
-                className={`flex items-start gap-3 rounded-lg px-3 py-2.5 ${
+                className={`flex flex-col items-center gap-1.5 rounded-lg px-3 py-2.5 ${
                   isCurrent ? "border border-accent/40 bg-accent/10" : "border border-transparent"
                 }`}
               >
@@ -69,7 +69,7 @@ export default function TranshistoricityInfoModal({ isOpen, onClose, value, expl
                   className={`shrink-0 rounded-md px-2 py-1 text-xs font-black tabular-nums ${
                     isCurrent
                       ? "bg-accent/25 text-accent"
-                      : "bg-white/5 "
+                      : "bg-white/5 text-text-secondary"
                   }`}
                 >
                   {band.range}
@@ -78,7 +78,7 @@ export default function TranshistoricityInfoModal({ isOpen, onClose, value, expl
                 <div className="min-w-0 space-y-0.5">
                   <p
                     className={`text-sm font-semibold break-keep ${
-                      isCurrent ? "text-accent" : "text-text-primary"
+                      isCurrent ? "text-accent" : "text-text-secondary"
                     }`}
                   >
                     {t(`bands.${band.key}.desc`)}
@@ -88,7 +88,7 @@ export default function TranshistoricityInfoModal({ isOpen, onClose, value, expl
                       </span>
                     )}
                   </p>
-                  <p className="text-xs leading-relaxed break-keep">
+                  <p className={`text-xs leading-relaxed break-keep ${isCurrent ? "text-text-primary" : "text-text-tertiary"}`}>
                     {t(`bands.${band.key}.examples`)}
                   </p>
                 </div>

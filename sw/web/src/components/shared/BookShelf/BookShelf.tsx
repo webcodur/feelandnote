@@ -13,7 +13,10 @@ import styles from './BookShelf.module.css'
 import { RetryBlock } from '@/components/ui/pending'
 import LibraryShelfUtilities from '@/components/shared/LibraryShelfUtilities'
 import LibraryShelfLazyItem from '@/components/shared/LibraryShelfLazyItem'
-import BookShelfGuide from '@/components/shared/mascots/BookShelfGuide'
+import BookShelfPersonalControls from './BookShelfPersonalControls'
+import AnimatedHeight from '@/components/ui/AnimatedHeight'
+import BookShelfTransition from './BookShelfTransition'
+import { BOOKSHELF_MOTION, BOOKSHELF_MOTION_STYLE } from './bookShelfMotion'
 
 interface Props {
   groups: BookShelfGroup[]
@@ -21,14 +24,15 @@ interface Props {
   title?: string
   id?: string
   className?: string
-  controlsLayout?: 'default' | 'profession-page'
+  controlsLayout?: 'default' | 'profession-page' | 'personal'
 }
 
-/** 개인·신화·팩션의 공통 책장. 분류는 칩으로 바꾸고 제목에서 선택 목록을 연다. */
+/** 개인·신화·팩션의 공통 책장. 선택한 분류의 도서를 같은 본문과 목록으로 보여준다. */
 export default function BookShelf({ groups, ariaLabel, title, id, className = '', controlsLayout = 'default' }: Props) {
   const t = useTranslations('celebPage')
   const pendingIndexId = useId()
   const pageControls = controlsLayout === 'profession-page'
+  const personalControls = controlsLayout === 'personal'
   const normalized = groups.map((group) => ({ ...group,
     books: [...new Map(group.books.filter(isBookShelfAvailable).map((book) => [book.id, book])).values()],
     listGroups: group.listGroups?.map((item) => ({ ...item,
@@ -54,42 +58,68 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
   const shownBooks = choice?.books ?? active.books
   const shownIntro = choice?.intro ?? active.intro
   const overview = choice?.overview ?? active.overview
+  const selectGroup = (key: string) => {
+    setActiveKey(key)
+    if (!listOpen) setTitlePulseRequest((current) => current + 1)
+  }
+  const chipGroups = normalized.filter((group) => !group.control)
+  const personalGroup = chipGroups.find((group) => group.key === 'profession' && (group.books.length > 0 || group.deferred))
+  const personalChoice = personalGroup?.choices?.find((item) => item.key === choiceKeys[personalGroup.key] && item.books.length > 0)
+    ?? personalGroup?.choices?.find((item) => item.books.length > 0)
   const groupPicker = <LibraryCategoryPicker
     className={pageControls ? layout.professionPagePicker : undefined}
     chipClassName={pageControls ? layout.professionChip : undefined}
     columns={active.context?.kind === 'profession' && normalized.length === 3 ? 3 : 2}
-    options={normalized.map((group) => ({ key: group.key, label: group.chipLabel ?? group.label,
+    options={chipGroups.map((group) => ({ key: group.key, label: group.chipLabel ?? group.label,
       count: group.chipLabel !== undefined || (group.deferred && group.deferred.state !== 'ready') ? undefined : group.books.length,
       disabled: group.books.length === 0 && !group.deferred }))}
     value={active.key} ariaLabel={ariaLabel}
-    onChange={(key) => { setActiveKey(key); if (!listOpen) setTitlePulseRequest((current) => current + 1) }} />
+    onChange={selectGroup} />
+  const groupControls = available.filter((group) => group.control).map((group) => (
+    <div key={group.key} className={personalControls ? 'w-full' : layout.secondary} data-bookshelf-group-control={group.key}>
+      {group.control!({ isActive: active.key === group.key, onActivate: () => selectGroup(group.key) })}
+    </div>
+  ))
   const choicePicker = choice && <LibraryCategoryPicker className={layout.secondaryPicker}
       columns={active.context?.kind === 'profession' && active.choices?.length === 3 ? 3 : 2}
       options={active.choices!.map((item) => ({ key: item.key, label: item.label, count: item.books.length, disabled: item.books.length === 0 }))}
       value={choice.key} ariaLabel={active.label}
       onChange={(key) => { setChoiceKeys((current) => ({ ...current, [active.key]: key })); if (!listOpen) setTitlePulseRequest((current) => current + 1) }} />
-  const categoryPicker = <div className="flex flex-col gap-2">{groupPicker}{choicePicker}</div>
+  const personalPicker = <BookShelfPersonalControls groups={chipGroups} selected={personalGroup} activeKey={active.key}
+    isActive={active.key === personalGroup?.key} choiceKey={personalChoice?.key} ariaLabel={ariaLabel} onSelect={selectGroup}
+    onChoice={(key) => {
+      if (!personalGroup) return
+      setChoiceKeys((current) => ({ ...current, [personalGroup.key]: key }))
+      selectGroup(personalGroup.key)
+    }} />
+  const categoryPicker = <div className="flex flex-col gap-3" style={BOOKSHELF_MOTION_STYLE}>{groupControls}{personalControls ? personalPicker : <>{groupPicker}{choicePicker}</>}</div>
   const pending = loadState === 'failed' ? <RetryBlock onRetry={load} />
-    : loadState && loadState !== 'ready' ? <div aria-busy="true" data-bookshelf-loading className="mx-auto min-h-[28rem] max-w-3xl animate-pulse bg-white/[0.02]" /> : null
+    : loadState && loadState !== 'ready' ? <div role="status" aria-busy="true" data-bookshelf-loading
+        className="flex min-h-12 items-center justify-center gap-2 px-4 py-3 text-center text-xs text-text-tertiary">
+        <span aria-hidden className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-current motion-reduce:animate-none" />
+        {t('loading.books')}
+      </div> : null
 
   return (
-    <div className="min-w-0" aria-label={ariaLabel} data-bookshelf>
+    <div className="min-w-0 [overflow-anchor:none]" style={BOOKSHELF_MOTION_STYLE} aria-label={ariaLabel} data-bookshelf>
       {title && <h3 className="flex items-center justify-center gap-2 px-4 py-4 text-center text-lg font-bold text-text-primary sm:px-6"><BookOpen size={17} aria-hidden />{title}</h3>}
-      <div className={`mx-auto flex flex-col gap-2 ${pageControls ? layout.professionPageWidth : layout.width} ${layout.contentGap}`}>
-        {groupPicker}
-        {normalized.some(group => group.context?.personId || group.context?.kind === 'theme') && <BookShelfGuide groups={normalized} />}
-        {(choicePicker || active.addon) && <div className={layout.secondary} data-bookshelf-subcontrols>
-          {choicePicker}{active.addon}
-        </div>}
+      <AnimatedHeight duration={BOOKSHELF_MOTION.duration} className={`mx-auto ${personalControls ? 'w-full max-w-[26rem] px-4 sm:px-0' : pageControls ? layout.professionPageWidth : layout.width} ${layout.contentGap}`}>
+      <div className={`flex flex-col ${personalControls ? 'gap-3' : 'gap-2'}`}>
+        {groupControls}
+        {personalControls ? personalPicker : <>{groupPicker}
+        {choicePicker && <div className={layout.secondary} data-bookshelf-subcontrols>
+          {choicePicker}
+        </div>}</>}
       </div>
-      {active.context?.kind === 'profession' && (overview
+      </AnimatedHeight>
+      {active.context?.kind === 'profession' && <BookShelfTransition changeKey={overview?.title ?? shownIntro}>{overview
         ? <section data-profession-overview className="mx-auto mb-6 max-w-2xl border-y border-accent/20 px-4 py-5 text-left sm:mb-8 sm:px-6 sm:py-6">
             <h3 className="mb-2 break-keep text-pretty text-base font-semibold leading-relaxed text-accent">{overview.title}</h3>
             <p className="break-keep text-pretty text-sm leading-7 text-text-secondary sm:text-[15px]">
               {overview.paragraphs.join(' ')}
             </p>
           </section>
-        : <p className="mx-auto mb-5 max-w-2xl px-4 text-center text-sm leading-relaxed text-text-secondary">{shownIntro}</p>)}
+        : <p className="mx-auto mb-5 max-w-2xl px-4 text-center text-sm leading-relaxed text-text-secondary">{shownIntro}</p>}</BookShelfTransition>}
       <section id={id} className={`${styles.shelf} min-w-0 ${className}`} aria-label={active.label}>
         <LibraryShelfUtilities showAllItems={showAllItems}
           onAllItemsChange={(value) => { setShowAllItems(value); setListOpen(false) }} />

@@ -76,8 +76,8 @@ export interface BookShelfGroup {
   onSelectListGroup?: (key: string) => void
   /** 직군을 고른 뒤 책 목록 위에서 선택하는 읽기 목적. */
   choices?: { key: string; label: string; intro: string; overview?: ProfessionBookOverview; books: BookShelfBook[] }[]
-  /** 소속 선택 등 책 목록 앞에 붙는 부가 기능. 책 표시는 항상 공통 모듈이 맡는다. */
-  addon?: ReactNode
+  /** 분류 칩 대신 항상 표시하는 선택기. 현재 분류의 활성 상태는 선택기 자체에 표시한다. */
+  control?: (props: { isActive: boolean; onActivate: () => void }) => ReactNode
   /** 다음 책 묶음은 책 목록 안에서만 불러온다. */
   pagination?: {
     hasMore: boolean

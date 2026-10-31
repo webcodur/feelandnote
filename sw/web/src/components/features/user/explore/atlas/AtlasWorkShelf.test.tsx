@@ -58,11 +58,7 @@ test('책장이 가까워질 때 목록을 받고 감상·직군은 선택한 �
     await page.waitForSelector('[data-selection]')
     assert.deepEqual(await page.evaluate(() => (window as unknown as FixtureWindow).calls), { catalog: 1, read: 0, profession: 0 })
     assert.equal(await page.evaluate(() => (window as unknown as FixtureWindow).count), 2)
-    assert.equal(await page.$eval('details', element => element.open), false)
-    await page.click('details > summary')
-    assert.ok(await page.$('details [data-mascot="owl"]'))
-    assert.deepEqual(await page.evaluate(() => (window as unknown as FixtureWindow).calls), { catalog: 1, read: 0, profession: 0 }, '도감 분류 안내를 열어도 감상·직군 자료를 추가 조회하지 않는다')
-    await page.click('details > summary')
+    assert.equal(await page.$('details'), null, '도감 책장에도 별도 분류 안내를 표시하지 않는다')
     const choose = async (key: string) => {
       await page.evaluate(key => {
         const button = [...document.querySelectorAll('button')].find(element => element.textContent?.includes(key))

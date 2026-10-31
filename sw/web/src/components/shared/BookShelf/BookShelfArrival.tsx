@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from 'react'
 import styles from './BookShelf.module.css'
+import { BOOKSHELF_MOTION_STYLE } from './bookShelfMotion'
 
 /** 실제 내용의 높이를 따라가며 비동기 자료가 들어올 때만 짧게 펼친다. */
 export default function BookShelfArrival({ children, ready, className = '', name }: {
@@ -13,14 +14,14 @@ export default function BookShelfArrival({ children, ready, className = '', name
     const outer = frame.current
     const inner = content.current
     if (!outer || !inner) return
-    const measure = () => { outer.style.height = `${inner.getBoundingClientRect().height}px` }
+    const measure = () => { outer.style.height = `${inner.offsetHeight}px` }
     measure()
     const observer = new ResizeObserver(measure)
     observer.observe(inner)
     return () => observer.disconnect()
   }, [])
   return (
-    <div ref={frame} className={`${styles.arrival} ${className}`} data-bookshelf-arrival={name}
+    <div ref={frame} style={BOOKSHELF_MOTION_STYLE} className={`${styles.arrival} ${className}`} data-bookshelf-arrival={name}
       data-ready={ready} aria-busy={!ready}>
       <div ref={content} className={styles.arrivalContent}>{children}</div>
     </div>

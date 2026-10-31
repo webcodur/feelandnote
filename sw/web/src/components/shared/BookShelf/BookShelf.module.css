@@ -31,7 +31,7 @@
   border-radius: inherit;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 320ms ease-out;
+  transition: opacity var(--bookshelf-duration) var(--bookshelf-easing);
   filter: saturate(var(--chip-saturation)) brightness(var(--chip-brightness));
   background:
     linear-gradient(rgb(4 9 14 / var(--chip-shade)), rgb(4 9 14 / var(--chip-shade))),
@@ -88,17 +88,17 @@
 .arrival {
   overflow: clip;
   overflow-anchor: none;
-  transition: height 240ms ease-out;
+  transition: height var(--bookshelf-duration) var(--bookshelf-easing);
 }
 
 .arrivalContent { display: flow-root; }
 
 .arrival[data-ready="true"] > .arrivalContent, .listArrival {
-  animation: shelf-arrive 220ms ease-out;
+  animation: shelf-arrive var(--bookshelf-duration) var(--bookshelf-easing);
 }
 
 @keyframes shelf-arrive {
-  from { opacity: 0; }
+  from { opacity: 0.45; }
   to { opacity: 1; }
 }
 
@@ -134,20 +134,64 @@
   background: var(--shelf-surface, var(--color-bg-card));
 }
 
-/* 펼친 항목도 선택기와 같은 꺾쇠 여백 안에서 정렬한다. */
+.personalCard {
+  min-width: 0;
+  overflow: visible;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 0.025);
+}
+
+.personalCard[data-active="true"] {
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 4%, var(--color-bg-card));
+}
+
+.personalTitle { color: var(--color-text-secondary); }
+.personalCard[data-active="true"] .personalTitle { color: var(--color-text-primary); }
+.personalTitle:hover { color: var(--color-accent); }
+
+.purpose {
+  color: var(--color-text-secondary);
+  border-color: var(--color-line);
+  background: rgb(255 255 255 / 0.02);
+}
+
+.purpose[data-selected="true"] {
+  border-color: var(--color-line-strong);
+  background: rgb(255 255 255 / 0.045);
+}
+
+.purpose[aria-checked="true"] {
+  color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+
+.purpose:enabled:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.purpose:enabled:active {
+  background: color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+/* 꺾쇠만 드롭다운으로 쓰고, 펼친 항목은 가운데 정렬한다. */
 @supports (appearance: base-select) {
-  .affiliationSelect,
-  .affiliationSelect::picker(select) {
+  .sourceSelect,
+  .sourceSelect::picker(select) {
     appearance: base-select;
   }
 
-  .affiliationSelect {
+  .sourceSelect {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .affiliationSelect > button {
+  .sourceSelect > button {
     width: 100%;
     border: 0;
     padding: 0;
@@ -155,36 +199,42 @@
     color: inherit;
     font: inherit;
     text-align: center;
+    opacity: 0;
   }
 
-  .affiliationSelect svg {
+  .sourceSelect svg {
     display: inline-block;
     vertical-align: -2px;
   }
 
-  .affiliationSelect::picker-icon,
-  .affiliationSelect option::checkmark {
+  .sourceSelect::picker-icon,
+  .sourceSelect option::checkmark {
     display: none;
   }
 
-  .affiliationSelect::picker(select) {
+  .sourceSelect::picker(select) {
     min-width: anchor-size(width);
     border: 1px solid rgb(255 255 255 / 0.15);
     background: var(--color-bg-secondary);
     color: var(--color-text-primary);
   }
 
-  .affiliationSelect option {
+  .sourceSelect option {
     display: block;
-    padding: 4px 32px 4px 12px;
+    padding: 4px 12px;
     text-align: center;
     font-weight: 400;
   }
 
-  .affiliationSelect option:checked,
-  .affiliationSelect option:hover,
-  .affiliationSelect option:focus-visible {
+  .sourceSelect option:checked,
+  .sourceSelect option:hover,
+  .sourceSelect option:focus-visible {
     background: var(--color-accent);
     color: var(--color-bg-secondary);
+  }
+
+  .sourceSelect option:disabled {
+    color: var(--color-text-tertiary);
+    opacity: 0.5;
   }
 }

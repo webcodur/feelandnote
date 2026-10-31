@@ -11,6 +11,7 @@ import BookShelfAffiliationAddon from './BookShelfAffiliationAddon'
 import { getProfessionShelfChoices } from '@/lib/books/professionShelf'
 import { getProfessionBooks } from '@/actions/books/getProfessionBooks'
 import { getCelebFactionBooks } from '@/actions/celebs/getCelebFactionBooks'
+import { RetryBlock } from '@/components/ui/pending'
 
 interface Props {
   celebId: string
@@ -47,6 +48,7 @@ function CelebBookShelfBody({ celebId, celebName, appeared, authored, profession
   const [factionState, setFactionState] = useState<LoadState>(supplementaryDeferred ? 'idle' : 'ready')
   const alive = useRef(true)
   const pending = useRef({ profession: false, faction: false })
+  const root = useRef<HTMLDivElement>(null)
   useEffect(() => { alive.current = true; return () => { alive.current = false } }, [])
   const loadProfession = useCallback(() => {
     if (!profession || pending.current.profession) return
@@ -56,6 +58,17 @@ function CelebBookShelfBody({ celebId, celebName, appeared, authored, profession
     }).catch(error => { console.error('[CelebBookShelf:profession]', error); if (alive.current) setProfessionState('failed') })
       .finally(() => { pending.current.profession = false })
   }, [profession, locale])
+  useEffect(() => {
+    const target = root.current
+    if (professionState !== 'idle' || !target) return
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return
+      observer.disconnect()
+      loadProfession()
+    })
+    observer.observe(target)
+    return () => observer.disconnect()
+  }, [professionState, loadProfession])
   const loadFactions = useCallback(() => {
     if (pending.current.faction) return
     pending.current.faction = true; setFactionState('loading')
@@ -64,6 +77,7 @@ function CelebBookShelfBody({ celebId, celebName, appeared, authored, profession
     }).catch(error => { console.error('[CelebBookShelf:faction]', error); if (alive.current) setFactionState('failed') })
       .finally(() => { pending.current.faction = false })
   }, [celebId, locale])
+  useEffect(() => { if (factionState === 'idle') loadFactions() }, [factionState, loadFactions])
   const [factionId, setFactionId] = useState(factionGroups[0]?.factionId)
   const selectedFaction = factionGroups.find((group) => group.factionId === factionId) ?? factionGroups[0]
   const showReading = readBooks !== undefined
@@ -81,16 +95,18 @@ function CelebBookShelfBody({ celebId, celebName, appeared, authored, profession
       ...(professionState !== 'ready' ? { deferred: { state: professionState, onLoad: loadProfession } } : {}) },
     {
       key: 'faction', context: { personId: celebId, kind: 'affiliation', showReading }, label: t('groupAffiliation'),
-      ...(factionState === 'ready' ? { chipLabel: t('affiliationCount', { count: factionGroups.length }) } : {}),
       ...(factionState !== 'ready' ? { deferred: { state: factionState, onLoad: loadFactions } } : {}),
       intro: t(selectedFaction?.isMyth ? 'factionShelfIntroMyth' : 'factionShelfIntroFaction'),
       books: selectedFaction?.books.map(affiliateBookToShelfBook) ?? [], selectionKey: selectedFaction?.factionId,
       listGroups: factionGroups.map((group) => ({ key: group.factionId, label: group.factionName, books: group.books.map(affiliateBookToShelfBook) })),
       onSelectListGroup: setFactionId,
-      addon: selectedFaction
-        ? <BookShelfAffiliationAddon groups={factionGroups} selected={selectedFaction} onSelect={setFactionId} />
-        : undefined,
+      control: ({ isActive, onActivate }) => selectedFaction
+        ? <BookShelfAffiliationAddon groups={factionGroups} selected={selectedFaction} isActive={isActive} onActivate={onActivate}
+            onSelect={(id) => { setFactionId(id); onActivate() }} />
+        : factionState === 'failed' ? <RetryBlock onRetry={loadFactions} />
+        : factionState !== 'ready' ? <div aria-busy="true" data-bookshelf-affiliation-loading className="min-h-9 animate-pulse rounded-md bg-white/[0.04] pointer-coarse:min-h-11" />
+        : null,
     },
   ]
-  return <BookShelf groups={groups} ariaLabel={t('relatedProducts')} id={id} title={title} />
+  return <div ref={root} data-celeb-bookshelf><BookShelf groups={groups} ariaLabel={t('relatedProducts')} id={id} title={title} controlsLayout="personal" /></div>
 }

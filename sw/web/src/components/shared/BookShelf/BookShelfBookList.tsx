@@ -11,6 +11,7 @@ import ArchiveSearchControls from '@/components/features/user/contentLibrary/con
 import type { BookShelfBook, BookShelfGroup, BookShelfListGroup } from './types'
 import BookShelfListItem from './BookShelfListItem'
 import listStyles from './BookShelfList.module.css'
+import { BOOKSHELF_MOTION_STYLE } from './bookShelfMotion'
 
 export default function BookShelfBookList({ selectionKey, title, subtitle, books, selectedId, onSelect, onClose, pagination, categoryPicker, indexId, listGroups, selectedGroupKey, pending }: {
   selectionKey: string
@@ -41,7 +42,7 @@ export default function BookShelfBookList({ selectionKey, title, subtitle, books
         hasAppliedSearch={Boolean(appliedQuery)} compact fullWidth className={categoryPicker ? 'mt-2' : undefined}
         inputLabel={t(pagination?.hasMore ? 'bookShelfSearchLoaded' : 'bookShelfSearchAll', { count: allBooks.length })} />}
     </>}>
-      <LibraryIndexList id={indexId} aria-label={title} selectedKey={selectedId} resetKey={`${selectionKey}:${appliedQuery}`} data-bookshelf-list-dialog>
+      <LibraryIndexList id={indexId} style={BOOKSHELF_MOTION_STYLE} aria-label={title} selectedKey={selectedId} resetKey={`${selectionKey}:${appliedQuery}`} data-bookshelf-list-dialog>
       {pending ? pending : <>
       {shownGroups ? <div className="space-y-6 px-2 py-2" data-bookshelf-grouped-list>
         {shownGroups.map((group) => <section key={group.key} aria-label={group.label} className="overflow-hidden rounded-lg bg-white/[0.02]" data-bookshelf-list-group={group.key}>

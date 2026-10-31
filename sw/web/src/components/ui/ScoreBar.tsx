@@ -77,6 +77,8 @@ interface Props {
   insetValue?: boolean;
   /** 독립 행의 대표 눈금 — insetValue와 함께 쓰며 더 높은 금테 막대가 된다 */
   prominent?: boolean;
+  /** 상세 안내에서 점수의 높낮이와 무관하게 현재 값을 선명하게 표시 */
+  emphasized?: boolean;
   className?: string;
 }
 
@@ -91,15 +93,16 @@ export default function ScoreBar({
   selected = false,
   insetValue = false,
   prominent = false,
+  emphasized = false,
   className,
 }: Props) {
   const safeValue = Number.isFinite(value) ? value : 0;
   const percent = max > 0 ? Math.min(100, Math.max(0, (safeValue / max) * 100)) : 0;
-  const tier = getScoreTier(safeValue, max);
+  const tier = emphasized ? 4 : getScoreTier(safeValue, max);
   const score = (
     <span className={cn("shrink-0 font-serif tabular-nums", insetValue ? (prominent ? "text-base" : "text-sm sm:text-sm") : "text-right text-xs")}>
       <span className={cn(insetValue ? (prominent ? "font-bold text-accent" : "font-semibold text-text-primary") : VALUE_BY_TIER[tier], !insetValue && thick && "text-sm")}>{safeValue}</span>
-      {maxText && <span className={cn("ms-1 text-text-secondary/70", !insetValue && "font-bold")}>{maxText}</span>}
+      {maxText && <span className={cn("ms-1", emphasized ? "text-text-primary" : "text-text-secondary/70", !insetValue && "font-bold")}>{maxText}</span>}
     </span>
   );
 

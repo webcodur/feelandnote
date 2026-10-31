@@ -939,7 +939,6 @@
     "failed": "Could not load or save likes. Please try again."
   },
   "mascot": {
-    "shelfGuide": "About these book categories",
     "figureSearchHint": "Try a shorter name or remove some of the selected filters.",
     "firstRecordHint": "Start with a work that stayed with you. A few words are enough.",
     "findWork": "Find a work to record",

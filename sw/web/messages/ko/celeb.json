@@ -494,6 +494,7 @@
     },
     "enlargePortrait": "대표사진 크게 보기",
     "bookshelfTitle": "책장",
-    "readingWay": "독서 방식"
+    "readingWay": "독서 방식",
+    "bookShelfCategoryTitle": "{category}의 책장"
   }
 }

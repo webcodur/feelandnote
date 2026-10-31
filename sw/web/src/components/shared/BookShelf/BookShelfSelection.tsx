@@ -12,6 +12,7 @@ import { TOP_OVERLAY_MIN_BOTTOM, topOverlayBottom } from '@/lib/utils/topOverlay
 import BookShelfBookList from './BookShelfBookList'
 import { LIBRARY_DETAIL_FRAME_CLASS, LibraryArrowButton, LibraryBottomNavigation, LibraryTitleHeader } from '@/components/shared/LibraryDetailNavigation'
 import type { BookShelfBook, BookShelfContext, BookShelfGroup, BookShelfListGroup } from './types'
+import { useBookShelfTransition } from './BookShelfTransition'
 
 const BookShelfReviewDetail = dynamic(() => import('./BookShelfReviewDetail'))
 
@@ -64,6 +65,7 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
   const detailKey = `${locale}:${selected?.id}`
   const needsDetails = isActive && !!selected && !selected.detailsLoaded && !showReview
   const current = details[detailKey]
+  useBookShelfTransition(detailRef, `${selectionKey}:${detailKey}:${!!current}`)
 
   useEffect(() => {
     if (!needsDetails || !selectedContentId || current) return

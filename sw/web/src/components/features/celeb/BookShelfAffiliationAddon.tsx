@@ -8,14 +8,18 @@ import { Link } from '@/i18n/navigation'
 import { mythHref } from '@/components/features/user/explore/myth/mythHref'
 import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 import styles from '@/components/shared/BookShelf/BookShelf.module.css'
+import BookShelfTransition from '@/components/shared/BookShelf/BookShelfTransition'
 
 /** 공통 책장에 소속 선택과 신화·세력 페이지 이동만 덧붙인다. */
-export default function BookShelfAffiliationAddon({ groups, selected, onSelect }: {
+export default function BookShelfAffiliationAddon({ groups, selected, onSelect, isActive, onActivate }: {
   groups: CelebFactionBookGroup[]
   selected: CelebFactionBookGroup
   onSelect: (id: string) => void
+  isActive: boolean
+  onActivate: () => void
 }) {
   const t = useTranslations('celebPage')
+  const selectedBookCount = new Set(selected.books.filter(isBookShelfAvailable).map((book) => book.contentId)).size
   const selectRef = useRef<HTMLSelectElement>(null)
   const iconRef = useRef<HTMLSpanElement>(null)
   useEffect(() => {
@@ -46,19 +50,24 @@ export default function BookShelfAffiliationAddon({ groups, selected, onSelect }
     }
   }, [groups])
   return (
-    <div className="flex w-full items-center justify-center gap-2" data-bookshelf-affiliation>
-      <div className="min-w-0 flex-1 text-sm text-text-secondary">
-        <span className="relative inline-flex w-full min-w-0">
+    <div className={`flex w-full items-stretch overflow-visible rounded-md border text-[13px] ${isActive ? 'border-accent/60 bg-accent/10 text-accent' : 'border-line-strong bg-white/[0.025] text-text-secondary'}`} data-bookshelf-affiliation data-active={isActive}>
+      <div className="flex min-w-0 flex-1 items-stretch">
+        <button type="button" onClick={onActivate} aria-pressed={isActive} data-bookshelf-activate-affiliation
+          className="flex h-9 min-w-0 flex-1 items-center justify-start gap-1.5 rounded-s-md px-3 font-semibold leading-5 hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent active:bg-accent/20 pointer-coarse:h-11">
+          <BookShelfTransition inline changeKey={selected.factionName} className="truncate">{selected.factionName}</BookShelfTransition>
+          <span className="ms-auto inline-flex shrink-0 items-center gap-1 text-xs font-medium tabular-nums"><BookShelfTransition inline changeKey={selectedBookCount} className="min-w-[2ch] text-right">{selectedBookCount}</BookShelfTransition><BookOpen size={14} aria-hidden /></span>
+        </button>
+        <span className="relative inline-flex w-9 shrink-0 pointer-coarse:w-11">
           <select ref={selectRef} value={selected.factionId} onChange={(event) => onSelect(event.target.value)} data-bookshelf-select-affiliation
             aria-label={t('groupAffiliation')}
-            className={`${styles.affiliationSelect} min-h-11 w-full min-w-0 appearance-none rounded-md border border-white/[0.18] bg-white/[0.04] pl-3 pr-8 text-center text-sm font-semibold leading-5 text-text-primary outline-none [text-align-last:center] hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-accent`}>
+            className={`${styles.sourceSelect} h-9 w-9 min-w-0 cursor-pointer appearance-none border-0 bg-transparent p-0 text-transparent outline-none hover:bg-accent/10 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent pointer-coarse:h-11 pointer-coarse:w-11`}>
             {groups.map((group) => {
               const bookCount = new Set(group.books.filter(isBookShelfAvailable).map((book) => book.contentId)).size
               return <option key={group.factionId} value={group.factionId} data-affiliation-label={`${group.factionName} (${bookCount})`}
-                aria-label={`${group.factionName} (${t('bookShelfCount', { count: bookCount })})`} className="pl-3 pr-8 text-center">{`${group.factionName} (${bookCount})`}</option>
+                aria-label={`${group.factionName} (${t('bookShelfCount', { count: bookCount })})`} className="bg-bg-secondary px-3 text-center text-text-primary">{`${group.factionName} (${bookCount})`}</option>
             })}
           </select>
-          <ChevronDown size={14} className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2" aria-hidden />
+          <ChevronDown size={14} className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" aria-hidden />
           <span ref={iconRef} hidden aria-hidden><BookOpen size={14} aria-hidden /></span>
         </span>
       </div>
@@ -66,8 +75,8 @@ export default function BookShelfAffiliationAddon({ groups, selected, onSelect }
         <Link href={selected.isMyth ? mythHref(selected.factionSlug) : `/explore/faction/${selected.factionSlug}`}
           aria-label={t('affiliationPageOpen', { name: selected.factionName })}
           title={t('affiliationPageOpen', { name: selected.factionName })}
-          className="inline-flex size-11 shrink-0 items-center justify-center rounded-control border border-line-strong bg-white/[0.03] text-accent hover:border-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:bg-accent/20">
-          <ArrowUpRight size={22} strokeWidth={2.5} aria-hidden />
+          className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-e-md border-s border-line text-text-secondary hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent active:bg-accent/20 pointer-coarse:h-11 pointer-coarse:w-11">
+          <ArrowUpRight size={17} strokeWidth={2} aria-hidden />
         </Link>
       </div>
     </div>
