@@ -12,6 +12,8 @@
 
 ## 현재 도달점
 
+인물 글의 전체 감상 권수는 `pnpm --dir sw/web-bo naver:audit-book-counts`로 대조한다. [`audit-book-counts.mjs`](../../sw/web-bo/scripts/naver-blog/audit-book-counts.mjs)가 실제 공개 글과 현재 예약 문서의 제목·본문을 읽어 서비스의 감상함 도서 수와 비교하며, 글에서 소개한 권수는 전체 권수와 구별한다. 글·예약·관리 목록을 저장하거나 수정하지 않는다.
+
 인물 안내글의 주인공 사진은 서비스의 대표사진(portrait_url), 기관 안내글의 감상자 얼굴은 서비스 아바타(avatar_url)를 쓴다. 감상자 표시 폭은 apply-institution-revisions.mjs의 AVATAR_WIDTH가 정한다. [`sync-person-photos.mjs`](../../sw/web-bo/scripts/naver-blog/sync-person-photos.mjs)의 `--apply --watch`가 인물·기관 안내글의 공개·예약 글을 순회한 뒤 역할별 서비스 이미지의 변경을 감시한다. 기존 파일명과 검수된 인물 매핑으로 현재 사진 자리를 다시 식별하며, 저장 전후에 본문·책 표지·사진 배치·대표 지정·발행 설정·예약 시각을 대조한다. 식별 불명은 저장하지 않고 보류하며, 저장 후 검증 실패는 자동 처리를 중단한다. 사진 변경 감시는 사용자 요청으로 중지했고 Windows 예약 작업 `Feelandnote-NaverPortraitSync`도 비활성화했다. 현재 실행 위치는 예약 작업의 `--work` 인자가 가리키며 실행 상태·검증 자료는 OS 임시 작업 폴더에 둔다. 과거 교체 자산과 매핑은 `D:/blog-assets/naver-blog/{portrait-images,local-images,reframe-images}/`에 있다.
 
 **기관 51편과 신규 인물 안내글 59편의 본문 개편은 끝났고, 그 뒤로 신규 인물 27편을 같은 양식으로 예약했다(2026-10-04 기준).** 먼저 완료한 기관 18편과 이후 기관 33편·신규 인물 59편을 합친 수다. 책 소개·인물 사진과 이름·DB 원문 감상·서비스 링크를 적용했고 기관편에는 전체 목록 표를 넣었다. 사용자 요청에 따라 사진 교체 첫 순회 뒤 인물·기관 글의 구성을 다시 정비한다.
