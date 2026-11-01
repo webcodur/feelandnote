@@ -41,7 +41,10 @@ export default function BookShelfAffiliationAddon({ groups, selected, onSelect, 
   }, [groups])
   return (
     <div className={`${styles.affiliation} relative flex w-full items-stretch overflow-visible rounded-md border ${isActive ? 'border-accent/60 bg-accent/10 text-accent' : 'border-line-strong bg-white/[0.025] text-text-secondary'}`} data-bookshelf-affiliation data-active={isActive}>
-        <button type="button" onClick={onActivate} aria-pressed={isActive} data-bookshelf-activate-affiliation
+        <button type="button" onClick={() => {
+          if (isActive) selectRef.current?.showPicker()
+          else onActivate()
+        }} aria-pressed={isActive} aria-haspopup={isActive ? 'listbox' : undefined} data-bookshelf-activate-affiliation
           className={`${styles.controlHeight} flex min-w-0 flex-1 items-center rounded-md px-3 hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent active:bg-white/[0.1]`}>
           <BookShelfControlHeading label={selected.factionName} count={selectedBookCount} actions />
         </button>

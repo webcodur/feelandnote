@@ -102,6 +102,11 @@ test('shared person bookshelf tabs refresh cached celebrity HTML', () => {
 
 test('explore preferences and shared atlas screens only affect uncached listing screens', () => {
   assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/home/CelebBirthYearFilter.tsx',
+    'sw/web/src/components/features/home/CelebAgeFilter.tsx',
+    'sw/web/src/components/features/home/RecentExploreFilters.tsx',
+    'sw/web/src/lib/celeb/ageFilter.ts',
+    'sw/web/src/lib/books/bookSearch.server.ts',
     'sw/web/src/components/features/home/useExplorePreferences.ts',
     'sw/web/src/constants/exploreFilters.ts',
     'sw/web/src/lib/explorePreferences.ts',

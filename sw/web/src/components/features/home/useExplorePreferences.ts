@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useEffectEvent, useState } from "react";
+import { useCallback, useEffect, useEffectEvent, useRef, useState } from "react";
 import {
   canRestoreExploreFilters, readExplorePreferences, writeExplorePreferences,
+  exploreFilterHistoryEntries, readExploreFilterHistory, rememberExploreFilters, writeExploreFilterHistory,
   type ExplorePreferences,
 } from "@/lib/explorePreferences";
 
@@ -12,8 +13,15 @@ export function useExplorePreferences(
   onRestore: (saved: ExplorePreferences, restoreFilters: boolean) => void,
 ) {
   const [ready, setReady] = useState(false);
+  const previousFilters = useRef<string | null>(null);
+  const [recentFilters, setRecentFilters] = useState<string[]>([]);
+  const saveHistory = useCallback((next: string[]) => {
+    setRecentFilters(next);
+    try { writeExploreFilterHistory(window.localStorage, next); } catch { /* 저장 접근이 막힌 브라우저 */ }
+  }, []);
   const restore = useEffectEvent(() => {
     try {
+      setRecentFilters(readExploreFilterHistory(window.localStorage));
       const saved = readExplorePreferences(window.localStorage);
       if (saved) onRestore(saved, canRestoreExploreFilters(window.location.search) && saved.filters !== preferences.filters);
     } catch {
@@ -39,4 +47,22 @@ export function useExplorePreferences(
       // 저장을 허용하지 않는 브라우저에서도 탐색은 동작한다.
     }
   }, [enabled, ready, filters, cardImage]);
+
+  const remember = useEffectEvent(() => {
+    const previous = previousFilters.current;
+    previousFilters.current = filters;
+    if (previous !== null) saveHistory(rememberExploreFilters(recentFilters, filters, previous));
+  });
+  useEffect(() => {
+    if (!enabled || !ready) return;
+    let active = true;
+    queueMicrotask(() => { if (active) remember(); });
+    return () => { active = false; };
+  }, [enabled, ready, filters]);
+
+  return {
+    recentFilters,
+    currentFilterEntries: exploreFilterHistoryEntries(filters),
+    removeRecentFilter: (entry: string) => saveHistory(recentFilters.filter(item => item !== entry)),
+  };
 }

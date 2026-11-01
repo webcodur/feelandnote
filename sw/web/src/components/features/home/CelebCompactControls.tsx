@@ -13,6 +13,7 @@ import { useCelebDetailConditions } from "./useCelebDetailConditions";
 import { SORT_VALUES, type useCelebFilters } from "./useCelebFilters";
 import type { CelebSortBy } from "@/actions/home";
 import CelebDetailFiltersModal from "./CelebDetailFiltersModal";
+import RecentExploreFilters from "./RecentExploreFilters";
 import CardImageToggle from "@/components/shared/CardImageToggle";
 import type { CelebCardImage } from "@/components/shared/CelebCard";
 import ExploreSearchControls, { EXPLORE_CONTROL_CHANGED_CLASS, EXPLORE_CONTROL_CLASS as controlClass, EXPLORE_PANEL_CLASS } from "@/components/shared/ExploreSearchControls";
@@ -131,6 +132,7 @@ export default function CelebCompactControls({ filters, onInteraction, resultLab
           ))}
         </div>
       )}
+      <RecentExploreFilters filters={filters} onInteraction={onInteraction} />
       {/* 결과 수와 검색 급증 안내를 한 줄에 둔다 — 둘 다 "지금 보이는 명단"에 대한 설명이다 */}
       {(resultLabel || dailyTrendHits > 0) && (
         <div className="flex flex-wrap items-center justify-center gap-x-2 text-xs text-text-secondary">

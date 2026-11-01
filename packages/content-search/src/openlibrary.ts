@@ -83,6 +83,9 @@ const REVIEWED_ENGLISH_EDITIONS: Readonly<Record<string, string>> = {
   // David Lynch: The Man from Another Place (New Harvest, 2015), Dennis Lim. 미국 출판사의 영어 원서다.
   // https://www.publishersweekly.com/9780544343757 · https://archive.org/details/davidlynchmanfro0000limd
   '9780544343757': '/books/OL26810840M',
+  // Secrets of the Millionaires (Profit Ideas, 1988), George F. Sterne. 동일 ISBN의 영어 종이책을 확인했다.
+  // https://www.abebooks.com/Secrets-Millionaires-George-F-Sterne-Profit/31794609539/bd
+  '9780940398207': '/books/OL8420574M',
 }
 
 /** 판본 언어는 판본 응답으로 확인한다. 국가군과 원전 언어는 번역판 언어의 근거가 아니다. */

@@ -21,6 +21,10 @@ const MY_STORY_WORK_AUTHORS = ['/authors/OL1235607A', '/authors/OL12242479A'] as
 // 연결 원전의 저자 목록에 낭독자나 같은 사람의 중복 표기가 섞인 원전. 판본 저자가 원전 실저자 전원이고,
 // 원전에만 있는 항목이 아래 검수한 키뿐일 때만 판본 저자를 원저자로 쓴다.
 const REVIEWED_EXTRA_WORK_AUTHORS: Readonly<Record<string, { authors: readonly string[]; extras: readonly string[] }>> = {
+  // A Kind of Freedom: Margaret Wilkerson Sexton 단독 저작. 나머지 세 사람은 오디오북 낭독자다.
+  // https://www.counterpointpress.com/books/a-kind-of-freedom-2/
+  // https://www.blackstonelibrary.com/catalog/product/view/id/30321/s/a-kind-of-freedom/category/8/
+  '/works/OL19719476W': { authors: ['/authors/OL7525383A'], extras: ['/authors/OL8109473A', '/authors/OL7938864A', '/authors/OL7989906A'] },
   // The Miracle of Castel di Sangro: Joe McGinniss 단독 저작. OL2853063A는 같은 사람의 소문자 표기다.
   // https://openlibrary.org/works/OL3928916W.json · https://www.hachettebookgroup.com/titles/joe-mcginniss/the-miracle-of-castel-di-sangro/9780316557368/
   '/works/OL3928916W': { authors: ['/authors/OL715808A'], extras: ['/authors/OL2853063A'] },
@@ -39,6 +43,11 @@ const REVIEWED_EXTRA_WORK_AUTHORS: Readonly<Record<string, { authors: readonly s
 export function getBookOriginalAuthorKeys(
   editionAuthors: readonly string[], workAuthors: readonly string[], context?: OriginalAuthorContext,
 ): string[] | null {
+  // 같은 신간의 Kiran Desai 중복 저자 ID. 출판사가 이 ISBN의 저자를 확인한다.
+  // https://www.penguin.co.uk/books/471012/the-loneliness-of-sonia-and-sunny-by-desai-kiran/9780241770825
+  if (context?.workKey === '/works/OL42397165W' && context.editionKey === '/books/OL57521454M'
+    && context.isbn === '9780241770825' && editionAuthors.length === 1 && workAuthors.length === 1
+    && editionAuthors[0] === '/authors/OL13646946A' && workAuthors[0] === '/authors/OL20133A') return [...workAuthors]
   if (context?.workKey === '/works/OL25145419W' && context.editionKey === '/books/OL33459068M'
     && context.isbn === '9780751597134' && editionAuthors.length === MY_STORY_EDITION_AUTHORS.length
     && MY_STORY_EDITION_AUTHORS.every(key => editionAuthors.includes(key))
@@ -49,6 +58,10 @@ export function getBookOriginalAuthorKeys(
     && editionAuthors[0] === TIFFANYS_AUTHOR_KEYS[0] && workAuthors.length === TIFFANYS_AUTHOR_KEYS.length
     && TIFFANYS_AUTHOR_KEYS.every(key => workAuthors.includes(key))) return [TIFFANYS_AUTHOR_KEYS[0]]
   const reviewed = context?.workKey ? REVIEWED_EXTRA_WORK_AUTHORS[context.workKey] : undefined
+  // 출판사가 확인한 Hardcover 판본에는 OL 저자 목록이 비어 있다. 이 정확한 판본의 검수한 목록만 보완한다.
+  if (context?.workKey === '/works/OL19719476W' && context.editionKey === '/books/OL27896740M'
+    && context.isbn === '9781619029224' && !editionAuthors.length && workAuthors.length === 4
+    && reviewed && [...reviewed.authors, ...reviewed.extras].every(key => workAuthors.includes(key))) return [...reviewed.authors]
   if (reviewed && reviewed.authors.every(key => workAuthors.includes(key)) && reviewed.extras.every(key => workAuthors.includes(key))
     && workAuthors.every(key => reviewed.authors.includes(key) || reviewed.extras.includes(key))
     && editionAuthors.every(key => reviewed.authors.includes(key) || reviewed.extras.includes(key))

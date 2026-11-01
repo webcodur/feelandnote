@@ -395,6 +395,11 @@ const NON_HTML_RUNTIME_FILES = new Set([
   // 삭제된 경량 인물 모달은 현재 소비자가 없다. 탐색 통계·필터도 홈·인물 탐색 전용이다.
   'sw/web/src/components/features/celeb/modals/LightCelebModal.tsx',
   'sw/web/src/components/features/home/CelebDetailFiltersModal.tsx',
+  // 생년·나이 입력과 최근 선택은 인물 탐색 필터에서만 쓰며 보관 HTML에는 들어가지 않는다.
+  'sw/web/src/components/features/home/CelebBirthYearFilter.tsx',
+  'sw/web/src/components/features/home/CelebAgeFilter.tsx',
+  'sw/web/src/components/features/home/RecentExploreFilters.tsx',
+  'sw/web/src/lib/celeb/ageFilter.ts',
   'sw/web/src/components/features/home/CelebFiltersDesktop.tsx',
   'sw/web/src/components/features/home/CelebFiltersMobile.tsx',
   'sw/web/src/components/features/user/explore/CelebStatsModal.tsx',
@@ -451,6 +456,8 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/user/explore/sections/SimilarSection.tsx',
   // 검색·등록과 서비스 소개는 앞단 보관 HTML 경로가 아니다.
   'sw/web/src/actions/contents/fetchBookMetadata.ts',
+  // 외부 도서 검색·등록과 외부 상세 대체 화면에서만 조회하며 보관하는 정식 작품 상세는 DB를 읽는다.
+  'sw/web/src/lib/books/bookSearch.server.ts',
   'sw/web/src/actions/policy/getAboutShowcase.ts',
   // 현재 런타임 소비자가 없는 공개 액션. 판본 자료 자체의 소비자는 위에서 판정한다.
   'sw/web/src/actions/home/getFactionSharedLibrary.ts',

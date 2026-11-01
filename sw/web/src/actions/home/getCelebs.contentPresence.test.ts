@@ -234,6 +234,16 @@ test('explore starts with every profession and retains explicit profession URLs'
   assert.equal(parseFilterParams({ profession: 'author', page: '2' }).profession, 'author')
 })
 
+test('name searches pass the selected reality scope to both listing and count queries', async () => {
+  for (const [reality, expected] of [[undefined, ['REAL', 'BOTH']], ['all', ['REAL', 'BOTH', 'FICTION']], ['FICTION,BOTH', ['FICTION', 'BOTH']], ['BOTH', ['BOTH']]] as const) {
+    const f = fixture()
+    await f.getCelebs({ ...parseFilterParams({ reality, search: '제우스', contentPresence: 'all', contentType: 'all', sortBy: 'name_asc' }), includeViewerState: false })
+    assert.ok(f.calls.some(call => call.name === 'get_celebs_sorted'))
+    assert.ok(f.calls.some(call => call.name === 'count_celebs_filtered'))
+    for (const call of f.calls) assert.deepEqual(call.args.p_celeb_realities, [...expected])
+  }
+})
+
 test('today recommendations use the existing sorted listing and preserve pagination', async () => {
   const f = fixture()
   const params = { sortBy: 'daily_recommend', contentPresence: parseFilterParams({ sortBy: 'daily_recommend' }).contentPresence, limit: 24, includeViewerState: false }

@@ -10,7 +10,7 @@ import { getCountryFlagCode } from "@/lib/utils/countryFlag";
 
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
 import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
-import { BirthYearSliderCore } from "./CelebBirthYearFilter";
+import { BirthYearFilterCore } from "./CelebBirthYearFilter";
 import type { useCelebFilters, CelebRealityFilter } from "./useCelebFilters";
 import { useCelebDetailConditions, type DetailFilter } from "./useCelebDetailConditions";
 import { useCelebDetailDraft } from "./useCelebDetailDraft";
@@ -24,7 +24,7 @@ const DETAIL_FILTERS: { value: DetailFilter; label: string }[] = [
   { value: "nationality", label: "filterNationality" },
   { value: "contentType", label: "filterContent" },
   { value: "gender", label: "filterGender" },
-  { value: "birthYear", label: "filterBirthYear" },
+  { value: "birthYear", label: "filterBirthYearAge" },
   { value: "reality", label: "filterReality" },
 ];
 const REALITY_OPTIONS: CelebRealityFilter[] = ["all", "real", "fiction", "mixed"];
@@ -155,7 +155,7 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
       <div key={active} className="h-80 min-h-0 overflow-y-auto overscroll-contain [scrollbar-gutter:stable]">
         {active === "birthYear" ? (
           <div className={draftFilters.isLoading ? "pointer-events-none opacity-60" : ""} aria-busy={draftFilters.isLoading}>
-            <BirthYearSliderCore min={draftFilters.birthYearMin} max={draftFilters.birthYearMax} onChange={(min, max) => { draftFilters.handleBirthYearChange(min, max); }} />
+            <BirthYearFilterCore min={draftFilters.birthYearMin} max={draftFilters.birthYearMax} onChange={(min, max) => { draftFilters.handleBirthYearChange(min, max); }} />
           </div>
         ) : (
           <>

@@ -1,5 +1,5 @@
 import { parseExploreSort } from "@/constants/celebSort";
-import { parseCelebRealities } from "@feelandnote/shared/constants/celeb-tiers";
+import { LISTING_DEFAULT_REALITIES, parseCelebRealities } from "@feelandnote/shared/constants/celeb-tiers";
 import type { FiguresFilterParams } from "./sections";
 import { parseExploreContentPresence } from "@/constants/celebContentPresence";
 import { DEFAULT_EXPLORE_PROFESSION } from "@/constants/celebProfessions";
@@ -41,8 +41,8 @@ export function parseFilterParams(params: Record<string, string | string[] | und
     pageSize,
     sortBy,
     trendCountry: parseTrendCountry(parseParam(params, "trendCountry")),
-    // 실존 축 필터. 미지정이면 getCelebs가 기본(REAL·BOTH, FICTION 제외)만 노출한다.
-    realities: parseCelebRealities(parseParam(params, "reality")),
+    // 화면의 기본 선택(실존·복합)을 조회에도 명시한다. 전체 선택은 FICTION까지 포함한다.
+    realities: parseCelebRealities(parseParam(params, "reality")) ?? [...LISTING_DEFAULT_REALITIES],
     profession: notAll(serializeFilterSelection(filterSelection(parseParam(params, "profession") || DEFAULT_EXPLORE_PROFESSION))),
     nationality: notAll(serializeFilterSelection(filterSelection(parseParam(params, "nationality")))),
     contentType: notAll(parseExploreContentType(parseParam(params, "contentType"))),

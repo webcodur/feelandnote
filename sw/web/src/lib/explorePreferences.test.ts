@@ -6,6 +6,8 @@ import { CELEB_FILTER_SELECTION_LIMITS, toggleFilterSelection } from "@/constant
 import {
   EXPLORE_PREFERENCES_KEY, canRestoreExploreFilters, createExplorePreferences,
   readExplorePreferences, restoreExplorePreferenceUrl, writeExplorePreferences,
+  EXPLORE_FILTER_HISTORY_KEY, EXPLORE_FILTER_HISTORY_LIMIT, exploreFilterHistoryEntries,
+  readExploreFilterHistory, rememberExploreFilters, writeExploreFilterHistory,
 } from "./explorePreferences";
 
 function storage(raw: string | null = null) {
@@ -20,6 +22,15 @@ test("first visit defaults to people with books; explicit all and other media su
   assert.equal(parseFilterParams({ contentType: "all" }).contentType, undefined);
   assert.equal(parseFilterParams({ contentType: "MUSIC" }).contentType, "MUSIC");
   assert.equal(parseFilterParams({ contentType: "invalid" }).contentType, "BOOK");
+});
+
+test("explore sends its visible default reality filter and preserves an explicit all selection", () => {
+  assert.deepEqual(parseFilterParams({}).realities, ["REAL", "BOTH"]);
+  assert.deepEqual(parseFilterParams({ search: "제우스", reality: "all" }).realities, ["REAL", "BOTH", "FICTION"]);
+  const preferences = createExplorePreferences(parseFilterParams({ reality: "all" }), "avatar");
+  const restored = readExplorePreferences(storage(JSON.stringify(preferences)));
+  assert.ok(restored);
+  assert.deepEqual(parseFilterParams(Object.fromEntries(new URLSearchParams(restored.filters))).realities, ["REAL", "BOTH", "FICTION"]);
 });
 
 test("all filters and portrait viewing round trip while search, page, and faction stay temporary", () => {
@@ -88,4 +99,35 @@ test("multiple filters remain bounded and canonical before cache keys or databas
   assert.equal(normalizeListingParams({ profession: "scientist,author,scientist" }).profession, "author,scientist");
   assert.throws(() => normalizeListingParams({ nationality: Array.from({ length: CELEB_FILTER_SELECTION_LIMITS.items + 1 }, (_, i) => `C${i}`).join(",") }));
   assert.throws(() => normalizeListingParams({ profession: "a".repeat(CELEB_FILTER_SELECTION_LIMITS.valueLength + 1) }));
+});
+
+test("recent filters split multiple selections and store only changed individual values", () => {
+  assert.deepEqual(exploreFilterHistoryEntries("profession=author,actor&nationality=US,KR"), ["profession=actor", "profession=author", "nationality=KR", "nationality=US"]);
+  assert.deepEqual(exploreFilterHistoryEntries("search=private&page=3&pageSize=48&sortBy=name_asc&trendCountry=US"), []);
+  assert.deepEqual(exploreFilterHistoryEntries("profession=all&nationality=all&contentType=all&contentPresence=all&gender=all&reality=all"), []);
+  assert.deepEqual(exploreFilterHistoryEntries("reality=FICTION,REAL,BOTH"), []);
+  assert.deepEqual(rememberExploreFilters(["contentType=BOOK"], "contentType=all", "contentType=BOOK"), ["contentType=BOOK"]);
+  const previous = "contentType=BOOK&nationality=KR&reality=REAL,BOTH";
+  assert.deepEqual(rememberExploreFilters([], "contentType=MUSIC&nationality=KR,US&reality=BOTH,REAL", previous), ["nationality=US", "contentType=MUSIC"]);
+  let history: string[] = [];
+  for (let i = 0; i < EXPLORE_FILTER_HISTORY_LIMIT + 2; i++) history = rememberExploreFilters(history, `byMin=${i}`);
+  assert.equal(history.length, EXPLORE_FILTER_HISTORY_LIMIT);
+  const entry = history[2];
+  history = rememberExploreFilters(history, entry);
+  assert.equal(history[0], entry);
+  assert.equal(new Set(history).size, history.length);
+});
+
+test("individual recent filters persist, and older combinations are split on read", () => {
+  const saved = storage();
+  const entries = exploreFilterHistoryEntries("contentType=BOOK&contentPresence=with&reality=REAL,BOTH&search=private&tagId=private");
+  writeExploreFilterHistory(saved, entries);
+  assert.deepEqual(readExploreFilterHistory(saved), entries);
+  saved.setItem(EXPLORE_FILTER_HISTORY_KEY, JSON.stringify([null, 9, "gender=invalid", "sortBy=name_asc", "trendCountry=US", "contentType=all", "contentPresence=all", "reality=all", "reality=REAL,BOTH,FICTION", "profession=actor&nationality=KR,US", "nationality=KR"]));
+  assert.deepEqual(readExploreFilterHistory(saved), ["profession=actor", "nationality=KR", "nationality=US"]);
+  saved.setItem(EXPLORE_FILTER_HISTORY_KEY, "{broken");
+  assert.deepEqual(readExploreFilterHistory(saved), []);
+  const blocked = { getItem: () => { throw new Error("blocked"); }, setItem: () => { throw new Error("blocked"); } };
+  assert.deepEqual(readExploreFilterHistory(blocked), []);
+  assert.doesNotThrow(() => writeExploreFilterHistory(blocked, entries));
 });

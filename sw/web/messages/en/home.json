@@ -74,7 +74,24 @@
         "minLabel": "From",
         "maxLabel": "To",
         "bcHint": "Use a negative number for BCE (e.g. -384)",
-        "reset": "Reset"
+        "reset": "Reset",
+        "mode": "Filter by birth year or age",
+        "yearMode": "Birth year",
+        "ageMode": "Age",
+        "age": {
+          "selection": "Age condition",
+          "atMost": "At most",
+          "atLeast": "At least",
+          "range": "Between",
+          "minimum": "Minimum age (at least)",
+          "maximum": "Maximum age (at most)",
+          "unit": "years",
+          "unbounded": "No limit",
+          "basis": "Calculated as {year} minus birth year. This may differ from age based on the birthday.",
+          "and": "and"
+        },
+        "fromYear": "Born in {year} or later",
+        "toYear": "Born in {year} or earlier"
       },
       "characterInfo": "Character Info",
       "viewingRecords": "Viewing Records",
@@ -175,7 +192,7 @@
       },
       "reality": {
         "all": "All",
-        "real": "Real",
+        "real": "Real & composite",
         "fiction": "Fiction",
         "mixed": "Composite",
         "mixedDescription": "Figures with historical records and legendary or fictional portrayals."
@@ -224,7 +241,13 @@
         "homeEmpty": "There are currently no trending figures to show."
       },
       "affiliationsTitle": "Themes related to {name}",
-      "listLoadFailed": "The list could not be loaded. Previous results are still shown. Try fewer filters or retry."
+      "listLoadFailed": "The list could not be loaded. Previous results are still shown. Try fewer filters or retry.",
+      "recentFilters": {
+        "title": "Recently used filters",
+        "apply": "Apply filters: {label}",
+        "remove": "Remove from recent filters: {label}"
+      },
+      "filterBirthYearAge": "Birth year / age"
     },
     "hub": {
       "todayFigure": "Today's Figure",

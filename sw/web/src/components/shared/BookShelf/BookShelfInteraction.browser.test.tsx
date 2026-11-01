@@ -23,9 +23,9 @@ test('bookshelf controls share typography and centering, with distinct hover, pr
         {key:'about',label:'Explore',intro:'',books:books(8)}]};
       const affiliations=['The Singularity Is Near','SpaceX','Tesla','Private Spaceflight','xAI','X',"Musk's Network",'PayPal Mafia',"Peter Thiel's Network",'Social Media','Crypto Assets','OpenAI','Autonomous Driving']
         .map((name,i)=>({factionId:'f'+i,factionName:name,factionSlug:'faction-'+i,books:books(i===0?2:1).map(b=>({contentId:b.id,title:b.title}))}));
-      function App(){const [choice,setChoice]=useState('become');return <main style={{maxWidth:420,margin:'48px auto'}}>
+      function App(){const [choice,setChoice]=useState('become');const [active,setActive]=useState(false);return <main style={{maxWidth:420,margin:'48px auto'}}>
         <Affiliation groups={affiliations} selected={affiliations[0]}
-          isActive={false} onSelect={()=>{}} onActivate={()=>{}}/>
+          isActive={active} onSelect={()=>{}} onActivate={()=>setActive(true)}/>
         <div style={{marginTop:12}}><Controls groups={[{key:'appeared',label:'Appearing',intro:'',books:books(14)},{key:'authored',label:'Written',intro:'',books:[]},group]}
           selected={group} activeKey="profession" choiceKey={choice} isActive ariaLabel="Bookshelf" onSelect={()=>{}} onChoice={setChoice}/></div>
       </main>}createRoot(document.getElementById('root')).render(<App/>);
@@ -90,6 +90,14 @@ test('bookshelf controls share typography and centering, with distinct hover, pr
       assert.ok(picker.left >= picker.frameLeft && picker.right <= picker.frameRight, 'The menu must remain within the row edges')
       assert.ok(picker.left >= 0 && picker.right <= picker.viewportWidth, 'The menu must stay inside the viewport')
       assert.ok(picker.height <= 320, 'Long lists must scroll instead of growing across the page')
+      await page.keyboard.press('Escape')
+      if (width === 320) {
+        await page.click('[data-bookshelf-activate-affiliation]')
+        assert.equal(await page.$eval('[data-bookshelf-affiliation]', node => node.getAttribute('data-active')), 'true')
+        assert.equal(await page.$('[data-bookshelf-select-affiliation]:open'), null, 'Activating affiliations must only switch the shelf')
+      }
+      await page.click('[data-bookshelf-activate-affiliation]')
+      await page.waitForSelector('[data-bookshelf-select-affiliation]:open')
       await page.keyboard.press('Escape')
     }
     const appearance = (selector: string) => page.$eval(selector, node => {

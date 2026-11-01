@@ -26,10 +26,13 @@ export function useCelebDetailConditions(filters: ReturnType<typeof useCelebFilt
   if (filters.gender !== "all") conditions.push({ key: "gender", label: `${t("filterGender")}: ${getGender(filters.gender)}`, clear: () => filters.handleGenderChange("all") });
   if (filters.birthYearMin !== undefined || filters.birthYearMax !== undefined) {
     const formatYear = (value: number) => value < 0 ? year("bc", { year: -value }) : String(value);
-    conditions.push({ key: "birthYear", label: `${t("filterBirthYear")}: ${year("range", { min: formatYear(filters.birthYearMin ?? BIRTH_YEAR_MIN), max: formatYear(filters.birthYearMax ?? BIRTH_YEAR_MAX) })}`, clear: () => filters.handleBirthYearChange(undefined, undefined) });
+    const label = filters.birthYearMin === undefined ? year("toYear", { year: formatYear(filters.birthYearMax!) })
+      : filters.birthYearMax === undefined ? year("fromYear", { year: formatYear(filters.birthYearMin) })
+      : year("range", { min: formatYear(filters.birthYearMin ?? BIRTH_YEAR_MIN), max: formatYear(filters.birthYearMax ?? BIRTH_YEAR_MAX) });
+    conditions.push({ key: "birthYear", label: `${t("filterBirthYear")}: ${label}`, clear: () => filters.handleBirthYearChange(undefined, undefined) });
   }
-  // 사실은 명부 기본값이다. 해제하면 같은 기본값으로 돌아간다.
-  if (filters.realityValue !== "real") conditions.push({ key: "reality", label: `${t("filterReality")}: ${t(`reality.${filters.realityValue}`)}`, clear: () => filters.handleRealityChange("real") });
+  // 기본 실존·복합도 실제 제외 조건이다. 표시하고, 해제하면 전체로 넓힌다.
+  if (filters.realityValue !== "all") conditions.push({ key: "reality", label: `${t("filterReality")}: ${t(`reality.${filters.realityValue}`)}`, clear: () => filters.handleRealityChange("all") });
 
   return conditions;
 }

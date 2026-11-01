@@ -12,6 +12,7 @@ import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
 import Modal, { ModalFooter } from "@/components/ui/Modal";
 import { BIRTH_YEAR_MIN, BIRTH_YEAR_MAX, yearToPercent, percentToYear } from "@/lib/celeb/birthYearScale";
+import CelebAgeFilter from "./CelebAgeFilter";
 
 interface BirthYearRange {
   min?: number;
@@ -36,6 +37,24 @@ function formatYear(year: number, t: ReturnType<typeof useTranslations>): string
 }
 
 // ── 핵심 슬라이더 (트랙 + 듀얼 썸 + 숫자 입력) ──────────────────────────
+export function BirthYearFilterCore(props: CelebBirthYearFilterProps) {
+  const t = useTranslations("home.ui.birthYear");
+  const [mode, setMode] = useState<"year" | "age">("year");
+  return (
+    <div>
+      <div className="sticky top-0 z-10 flex gap-2 bg-bg-card px-4 pt-4 pb-2" role="group" aria-label={t("mode")}>
+        {(["year", "age"] as const).map(value => (
+          <button key={value} type="button" aria-pressed={mode === value} onClick={() => setMode(value)}
+            className={`min-h-10 flex-1 rounded-control border px-3 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent ${mode === value ? "border-accent/40 bg-accent/10 text-accent hover:bg-accent/20" : "border-line text-text-secondary hover:border-line-strong hover:bg-white/5 hover:text-text-primary"}`}>
+            {t(value === "year" ? "yearMode" : "ageMode")}
+          </button>
+        ))}
+      </div>
+      {mode === "year" ? <BirthYearSliderCore {...props} /> : <CelebAgeFilter {...props} />}
+    </div>
+  );
+}
+
 export function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilterProps) {
   const t = useTranslations("home.ui.birthYear");
   const trackRef = useRef<HTMLDivElement>(null);
@@ -66,39 +85,34 @@ export function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilter
 
   const dragThumb = useCallback((thumb: "min" | "max", e: ReactPointerEvent<HTMLDivElement>) => {
     e.currentTarget.setPointerCapture(e.pointerId);
+    // 드래그의 최신 값은 이벤트 안에서 갱신한다. 상태 updater는 부모 알림을 실행하지 않는다.
+    let next = draft;
     const handleMove = (moveEvent: PointerEvent) => {
       const year = yearFromClientX(moveEvent.clientX);
       if (year === null) return;
-      setDraft((prev) => {
-        if (thumb === "min") return { ...prev, min: Math.min(year, prev.max) };
-        return { ...prev, max: Math.max(year, prev.min) };
-      });
+      next = thumb === "min" ? { ...next, min: Math.min(year, next.max) }
+        : { ...next, max: Math.max(year, next.min) };
+      setDraft(next);
     };
     const handleUp = () => {
       window.removeEventListener("pointermove", handleMove);
       window.removeEventListener("pointerup", handleUp);
-      setDraft((prev) => {
-        commit(prev);
-        return prev;
-      });
+      commit(next);
     };
     window.addEventListener("pointermove", handleMove);
     window.addEventListener("pointerup", handleUp);
-  }, [yearFromClientX, commit]);
+  }, [draft, yearFromClientX, commit]);
 
   const nudgeThumb = useCallback((thumb: "min" | "max", e: ReactKeyboardEvent<HTMLDivElement>) => {
     const step = e.key === "ArrowLeft" || e.key === "ArrowDown" ? -1 : e.key === "ArrowRight" || e.key === "ArrowUp" ? 1 : 0;
     if (step === 0) return;
     e.preventDefault();
     const bigStep = e.shiftKey ? 10 : 1;
-    setDraft((prev) => {
-      const next = thumb === "min"
-        ? { ...prev, min: Math.min(Math.max(prev.min + step * bigStep, BIRTH_YEAR_MIN), prev.max) }
-        : { ...prev, max: Math.max(Math.min(prev.max + step * bigStep, BIRTH_YEAR_MAX), prev.min) };
-      commit(next);
-      return next;
-    });
-  }, [commit]);
+    const next = thumb === "min"
+      ? { ...draft, min: Math.min(Math.max(draft.min + step * bigStep, BIRTH_YEAR_MIN), draft.max) }
+      : { ...draft, max: Math.max(Math.min(draft.max + step * bigStep, BIRTH_YEAR_MAX), draft.min) };
+    commit(next);
+  }, [draft, commit]);
 
   const handleInputCommit = useCallback((thumb: "min" | "max", raw: string) => {
     const parsed = parseInt(raw, 10);
@@ -230,7 +244,7 @@ export function CelebBirthYearFilterDesktop({ min, max, isLoading = false, onCha
       </Button>
 
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title={t("filterBirthYear")} size="sm" closeOnOverlayClick>
-        <BirthYearSliderCore min={min} max={max} onChange={onChange} />
+        <BirthYearFilterCore min={min} max={max} onChange={onChange} />
         <ModalFooter>
           <Button type="button" unstyled onClick={() => setIsOpen(false)} className="w-full h-10 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg text-sm text-accent">
             {t("go")}
@@ -277,7 +291,7 @@ export function CelebBirthYearFilterMobile({
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose} title={t("filterBirthYear")} size="sm" closeOnOverlayClick>
-        <BirthYearSliderCore min={min} max={max} onChange={onChange} />
+        <BirthYearFilterCore min={min} max={max} onChange={onChange} />
         <ModalFooter>
           <Button type="button" unstyled onClick={onClose} className="w-full h-10 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg text-sm text-accent">
             {t("go")}

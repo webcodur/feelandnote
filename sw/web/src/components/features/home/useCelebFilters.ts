@@ -20,7 +20,7 @@ import { createExplorePreferences, restoreExplorePreferenceUrl } from "@/lib/exp
 import { parseFilterParams } from "@/app/[locale]/(main)/explore/figures/filterParams";
 import type { CelebCardImage } from "@/components/shared/CelebCard";
 import { useExplorePreferences } from "./useExplorePreferences";
-import { filterSelection, serializeFilterSelection } from "@/constants/celebFilterSelection";
+import { filterSelection, serializeFilterSelection, toggleFilterSelection } from "@/constants/celebFilterSelection";
 
 // #region 상수
 export const SORT_VALUES = CELEB_SORT_OPTIONS;
@@ -127,11 +127,9 @@ export function useCelebFilters({
     const ps = parseInt(searchParams.get("pageSize") || String(DEFAULT_PAGE_SIZE), 10);
     return PAGE_SIZE_OPTIONS.includes(ps) ? ps : DEFAULT_PAGE_SIZE;
   });
-  // 실존 축 필터. 미지정이면 getCelebs가 기본(REAL·BOTH)만 노출한다 — FICTION은 빠진다.
-  const [realities, setRealities] = useState<CelebReality[] | undefined>(() => {
-    if (!syncToUrl) return undefined;
-    return parseCelebRealities(searchParams.get("reality"));
-  });
+  // 기본 선택도 명시해 화면에 표시한 실존 여부와 조회 조건을 맞춘다.
+  const [realities, setRealities] = useState<CelebReality[]>(() =>
+    (syncToUrl ? parseCelebRealities(searchParams.get("reality")) : undefined) ?? [...LISTING_DEFAULT_REALITIES]);
   // 생년 범위 필터(연도, BC는 음수). 미지정이면 제한하지 않는다.
   const getInitialYear = (key: string): number | undefined => {
     if (!syncToUrl) return undefined;
@@ -142,25 +140,30 @@ export function useCelebFilters({
   };
   const [birthYearMin, setBirthYearMin] = useState<number | undefined>(() => getInitialYear("byMin"));
   const [birthYearMax, setBirthYearMax] = useState<number | undefined>(() => getInitialYear("byMax"));
-  useExplorePreferences(syncToUrl, createExplorePreferences({
+  const applySavedFilters = useCallback((savedFilters: string) => {
+    const next = parseFilterParams(Object.fromEntries(new URLSearchParams(savedFilters)));
+    setProfession(next.profession ?? "all"); setNationality(next.nationality ?? "all");
+    setContentType(next.contentType ?? "all"); setContentPresence(next.contentPresence ?? DEFAULT_EXPLORE_CONTENT_PRESENCE);
+    setGender(next.gender ?? "all"); setSortBy(next.sortBy);
+    setTrendCountry(next.trendCountry ?? initialTrendCountry); setRealities([...(next.realities ?? LISTING_DEFAULT_REALITIES)]);
+    setBirthYearMin(next.birthYearMin); setBirthYearMax(next.birthYearMax);
+    setPageSize(next.pageSize); setCurrentPage(1);
+    const query = new URLSearchParams(restoreExplorePreferenceUrl(window.location.search, savedFilters));
+    query.delete("page"); query.delete("tier");
+    query.set("pageSize", String(next.pageSize));
+    window.history.replaceState(null, "", `${window.location.pathname}?${query}${window.location.hash}`);
+    void loadListing({ ...next, search: appliedSearch || undefined, factionId, includeInactive,
+      limit: next.pageSize, minContentCount: 0, trendCountry: next.trendCountry ?? initialTrendCountry }, result => {
+      setCelebs(result.celebs); setTotal(result.total); setTotalPages(result.totalPages);
+      setTrend(result.trend); setCurrentPage(result.page);
+    });
+  }, [initialTrendCountry, loadListing, appliedSearch, factionId, includeInactive]);
+  const filterHistory = useExplorePreferences(syncToUrl, createExplorePreferences({
     profession, nationality, contentType, contentPresence, gender, sortBy, trendCountry,
     pageSize, realities, birthYearMin, birthYearMax,
   }, cardImage), (saved, restoreFilters) => {
     setCardImage(saved.cardImage);
-    if (!restoreFilters) return;
-    const next = parseFilterParams(Object.fromEntries(new URLSearchParams(saved.filters)));
-    setProfession(next.profession ?? "all"); setNationality(next.nationality ?? "all");
-    setContentType(next.contentType ?? "all"); setContentPresence(next.contentPresence ?? DEFAULT_EXPLORE_CONTENT_PRESENCE);
-    setGender(next.gender ?? "all"); setSortBy(next.sortBy);
-    setTrendCountry(next.trendCountry ?? initialTrendCountry); setRealities(next.realities ? [...next.realities] : undefined);
-    setBirthYearMin(next.birthYearMin); setBirthYearMax(next.birthYearMax);
-    setPageSize(next.pageSize); setCurrentPage(1);
-    const query = restoreExplorePreferenceUrl(window.location.search, saved.filters);
-    window.history.replaceState(null, "", `${window.location.pathname}?${query}${window.location.hash}`);
-    void loadListing({ ...next, limit: next.pageSize, minContentCount: 0, trendCountry: next.trendCountry ?? initialTrendCountry }, result => {
-      setCelebs(result.celebs); setTotal(result.total); setTotalPages(result.totalPages);
-      setTrend(result.trend); setCurrentPage(result.page);
-    });
+    if (restoreFilters) applySavedFilters(saved.filters);
   });
   const getPageHref = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -320,7 +323,7 @@ export function useCelebFilters({
     updateUrlParams({ trendCountry: country, page: null });
   }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams, trendCountry]);
 
-  /* 실존 축 변경. '사실'은 명부 기본값으로 되돌리는 것이라 URL은 비운다.
+  /* 실존 축 변경. '실존·복합'은 명부 기본값으로 되돌리는 것이라 URL은 비운다.
      '가상'은 FICTION·BOTH — 프로필 배지가 "사실 | 가상"을 함께 다는 인물도 가상 쪽에서 만난다.
      상태는 항상 명시 배열로 둔다 — 오버라이드와 기본값을 undefined로 구분할 수 없기 때문이다. */
   const handleRealityChange = useCallback((value: CelebRealityFilter) => {
@@ -464,5 +467,22 @@ export function useCelebFilters({
     handleSearchInput,
     handleSearchSubmit,
     handleSearchClear,
+    ...filterHistory,
+    handleRecentFilterApply: (entry: string) => {
+      const saved = new URLSearchParams(entry);
+      const value = (key: string) => saved.get(key)!;
+      if (saved.has("profession")) handleProfessionChange(toggleFilterSelection(profession, value("profession")));
+      else if (saved.has("nationality")) handleNationalityChange(toggleFilterSelection(nationality, value("nationality")));
+      else if (saved.has("contentType")) handleContentTypeChange(value("contentType"));
+      else if (saved.has("contentPresence")) handleContentPresenceChange(value("contentPresence"));
+      else if (saved.has("gender")) handleGenderChange(value("gender"));
+      else if (saved.has("reality")) {
+        const values = parseCelebRealities(value("reality")) ?? [];
+        handleRealityChange(values.length === 1 && values[0] === "BOTH" ? "mixed"
+          : values.includes("REAL") && values.includes("FICTION") ? "all" : values.includes("FICTION") ? "fiction" : "real");
+      } else if (saved.has("byMin") || saved.has("byMax")) {
+        handleBirthYearChange(saved.has("byMin") ? Number(value("byMin")) : undefined, saved.has("byMax") ? Number(value("byMax")) : undefined);
+      }
+    },
   };
 }
