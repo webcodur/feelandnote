@@ -1,25 +1,49 @@
-.container { container: home-graph / inline-size; min-width: 0; max-width: var(--home-content-width,820px); margin-inline: auto; }
-.graph { position: relative; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 20px 24px; isolation: isolate; }
-.root { grid-column: 1 / -1; width: 100%; min-width: 0; font-size: 16px; z-index: 1; }
-.portraitDisc { position: relative; display: block; flex: none; width: 64px; height: 76px; overflow: hidden; border-radius: 50% 50% 38% 38%; background: radial-gradient(ellipse at bottom,var(--color-bg-stone-light),transparent 70%); }
-.initial { display: grid; height: 100%; place-items: center; font-size: 32px; }
-.portraitDisc { outline: none; }
-.portraitDisc:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
-.selectedView { grid-column: 1 / -1; min-width: 0; padding: 16px; border: 1px solid var(--color-line-strong); border-radius: var(--radius-card); background: var(--color-bg-main); }
-.readingPanel { min-width: 0; min-height: 270px; padding: 4px; margin: -4px; overflow: hidden; outline: none; }
+.container { container: home-graph / inline-size; min-width: 0; }
+.graph { display: grid; grid-template-columns: minmax(0,1fr); min-width: 0; overflow: hidden; border: 1px solid var(--color-line); border-radius: var(--radius-panel); background: var(--color-bg-secondary); }
+.root { display: grid; grid-template-columns: 44px minmax(0,1fr) 44px; align-items: center; gap: 12px; min-width: 0; padding: 20px 16px; }
+.portraitStage { position: relative; display: block; grid-column: 2; grid-row: 1; justify-self: center; width: 160px; max-width: 100%; overflow: hidden; border-radius: var(--radius-control); background: var(--color-bg-raised); outline: none; }
+.emptyPortrait { aspect-ratio: 4 / 5; }
+.imageLayer, .personImage { position: relative; }
+.avatarLayer, .compactInitial { display: none; }
+.photo, .avatar { display: block; width: 100%; height: auto; object-fit: contain; object-position: center; }
+.initial { display: grid; height: 100%; min-height: 160px; place-items: center; color: var(--color-text-secondary); font-size: 32px; }
+.portraitStage:hover { filter: brightness(1.08); }
+.portraitStage:focus-visible { outline: 2px solid var(--color-accent); outline-offset: -4px; }
+.personCaption { display: contents; }
+.personIdentity { grid-column: 2; grid-row: 2; flex: 1; min-width: 0; text-align: center; }
+.personName { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; max-width: 100%; padding-block: 4px; color: var(--color-text-primary); font-size: 20px; font-weight: 600; line-height: 1.25; letter-spacing: -.035em; overflow-wrap: anywhere; outline: none; }
+.personIdentity p { color: var(--color-text-secondary); font-size: 13px; line-height: 1.5; }
+.personNavigation { display: contents; }
+.personNavigation button { grid-column: 1; grid-row: 1 / span 2; align-self: center; }
+.personNavigation button + button { grid-column: 3; }
+.personCaption button { display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid var(--color-line-strong); border-radius: var(--radius-control); color: var(--color-text-secondary); outline: none; }
+.personName:hover, .personCaption button:hover { color: var(--color-accent); }
+.personCaption button:hover { background: var(--color-bg-raised); }
+.personName:focus-visible, .personCaption button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.selectedView { min-width: 0; padding: 0 16px 20px; }
+.readingPanel { min-width: 0; padding: 4px; margin: -4px; overflow: hidden; outline: none; }
 .readingPanel:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-@container home-graph (min-width: 761px) {
-  .root { grid-column: 1; font-size: 18px; }
-  .portraitDisc { width: 160px; height: 196px; border-radius: 50% 50% var(--radius-control) var(--radius-control); background: radial-gradient(ellipse at 50% 65%,var(--color-bg-stone-light),transparent 70%); }
-  .graph { grid-template-columns: var(--home-person-width) minmax(0,1fr); column-gap: 32px; align-items: start; }
-  .graph .root { margin-top: 96px; }
-  .selectedView { grid-column: 2; }
+@container home-graph (min-width: 860px) {
+  .graph { grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); align-items: start; }
+  .root { display: block; align-self: stretch; padding: 0; background: var(--color-bg-card); }
+  .portraitStage { width: 100%; aspect-ratio: 4 / 5; border-radius: 0; }
+  .imageLayer, .personImage { position: absolute; inset: 0; }
+  .photo, .avatar { height: 100%; }
+  .initial { font-size: 80px; }
+  .personCaption { display: flex; align-items: center; min-width: 0; min-height: 112px; gap: 12px; padding: 20px; border-top: 1px solid var(--color-line); }
+  .personIdentity { text-align: start; }
+  .personName { justify-content: start; }
+  .personNavigation { display: flex; flex: none; border: 1px solid var(--color-line-strong); border-radius: var(--radius-control); }
+  .personNavigation button { border: 0; }
+  .personNavigation button + button { border-inline-start: 1px solid var(--color-line-strong); }
+  .personName { font-size: 32px; }
+  .selectedView { display: flex; align-self: stretch; flex-direction: column; contain: size; padding: 16px 24px 24px; }
+  .readingPanel, .readingPanel > div { display: flex; flex: 1; min-height: 0; flex-direction: column; }
+  .booksGraph .root { align-self: start; }
 }
-@container home-graph (max-width: 760px) {
-  .selectedView { padding: 12px; }
-  .graph { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px 24px; }
-  .portraitDisc { width: 64px; height: 76px; }
-}
-@container home-graph (max-width: 360px) {
-  .graph { column-gap: 18px; }
+@container home-graph (min-width: 520px) and (max-width: 859px) {
+  .root { gap: 16px; padding: 24px 20px; }
+  .personName { font-size: 24px; }
+  .personIdentity p { font-size: 14px; }
+  .selectedView { padding: 0 20px 24px; }
 }

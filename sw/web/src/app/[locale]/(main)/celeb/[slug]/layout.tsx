@@ -71,7 +71,7 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
               locale === "ko" ? styles.detailTypographyKorean : ""
             } animate-fade-in`}
           >
-            <RecentHistorySection kind="profile" currentId={profile.id} />
+            <RecentHistorySection kind="profile" currentId={profile.id} collapsible />
             {children}
           </div>
         </PageContainer>

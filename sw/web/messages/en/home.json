@@ -108,7 +108,7 @@
       },
       "tags": {
         "noDescription": "No detailed description available.",
-        "goToFaction": "Go to faction page",
+        "goToFaction": "Go to theme page",
         "atlasTitle": "People Atlas"
       },
       "banner": {
@@ -223,7 +223,7 @@
         "dailyInfoBody": "Today's picks use a daily seeded draw. People whose names match Google Trends searches in {country} that started in the past {days} days and are still actively trending get an additional chance in the draw.",
         "homeEmpty": "There are currently no trending figures to show."
       },
-      "affiliationsTitle": "{name}'s Affiliations",
+      "affiliationsTitle": "Themes related to {name}",
       "listLoadFailed": "The list could not be loaded. Previous results are still shown. Try fewer filters or retry."
     },
     "hub": {
@@ -252,16 +252,11 @@
     },
     "landing": {
       "benefitLead": "Their reading. Your knowledge.",
-      "readAppreciations": "Read appreciations",
-      "explorePeople": "Explore people",
       "statsPeople": "People",
-      "statsRecords": "Appreciation records",
-      "whyTitle": "Read one book. Learn from everyone.",
-      "whyBody": "Our reflections on a book follow only one of many possible paths. Read the sentences left by people with different knowledge and experience, and discover knowledge and ideas you would have missed on your own.",
       "appreciationsTitle": "We record every kind of media.",
       "appreciationsDescription": "We document how people came to books, music, film, and games, and what they said about them, with sources for each record.",
       "readingTitle": "Read every side of a person.",
-      "readingDescription": "Find the books they read, the books they wrote, the books about them, and the books about the world they belonged to—all in one place.",
+      "readingDescription": "All the books connected to a person, in one place.",
       "navAppreciations": "Appreciations",
       "navReading": "People and Books",
       "startTitle": "Search people and works.",
@@ -295,31 +290,27 @@
           },
           "read": {
             "title": "Read",
-            "meaning": "Books they read",
-            "shortTitle": "Read"
+            "meaning": "Books they read"
           },
           "appearance": {
-            "title": "Featured in",
-            "meaning": "Books they appear in",
-            "shortTitle": "Featured in"
+            "title": "Appearing",
+            "meaning": "Books they appear in"
           },
           "authored": {
-            "title": "Written by",
-            "meaning": "Books they authored",
-            "shortTitle": "Authored"
+            "title": "Written",
+            "meaning": "Books they authored"
           },
           "affiliation": {
-            "title": "Affiliations",
-            "meaning": "Books about their world",
-            "shortTitle": "World"
+            "title": "Related themes",
+            "meaning": "Books about themes and worlds connected to this person"
           }
         },
         "emptyBranch": "No works listed yet.",
         "appreciation": "Behind the appreciation",
-        "description": "About the book",
+        "description": "About the work",
         "noAppreciation": "The story behind this appreciation has not been added yet.",
         "noDescription": "Visit the work page for more information.",
-        "readFull": "Read in full",
+        "readFull": "View full text",
         "source": "Original source",
         "workLink": "View work",
         "relatedBooks": "People and Books · {name}",
@@ -339,8 +330,21 @@
         "nextPerson": "Next person",
         "bookNavigation": "Book relationships",
         "nextWork": "Next work",
-        "viewAffiliation": "Explore group",
-        "openAffiliation": "Explore {name}"
+        "viewAffiliation": "Explore theme",
+        "openAffiliation": "Explore the theme: {name}",
+        "mediaPreview": "{type} preview",
+        "reviewBackground": "Appreciation background",
+        "bookIntroduction": "About the work",
+        "nextBook": "Next book",
+        "showBookIntroduction": "Read about the work",
+        "showReviewBackground": "Read appreciation background",
+        "previewShort": "Preview",
+        "mediaUnavailable": "No preview is available for this work.",
+        "introShort": "Intro",
+        "reviewShort": "Review",
+        "workNavigation": "Browse works",
+        "previousBook": "Previous book",
+        "previousWork": "Previous work"
       },
       "navAbout": "About",
       "navSearch": "Search",
@@ -349,7 +353,8 @@
       "contactTitle": "Operations and Contact",
       "navContact": "Contact",
       "latestNotice": "Latest announcement",
-      "navShowcase": "Library"
+      "navShowcase": "Library",
+      "statsAppreciations": "Appreciations"
     }
   },
   "banner": {

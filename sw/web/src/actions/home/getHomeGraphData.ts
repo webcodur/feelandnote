@@ -15,12 +15,12 @@ import { homeAffiliationBookItem, homeAppreciationItem, homeFigureBookItem, uniq
 
 async function personForHome(slug: string, locale: string): Promise<HomeGraphPerson | null> {
   const { data, error } = await createStaticClient().from('celebs')
-    .select('id,slug,nickname,nickname_en,avatar_url,title,title_en')
+    .select('id,slug,nickname,nickname_en,avatar_url,portrait_url,title,title_en')
     .eq('slug', slug).eq('publication_status', 'active').maybeSingle()
   throwOnQueryError('홈 그래프 인물', error)
   if (!data?.slug) return null
   return { id: data.id, slug: data.slug, name: (locale === 'en' ? data.nickname_en : data.nickname) || data.nickname,
-    avatarUrl: data.avatar_url, title: locale === 'en' ? data.title_en : data.title }
+    avatarUrl: data.avatar_url, photoUrl: data.portrait_url, title: locale === 'en' ? data.title_en : data.title }
 }
 
 function displayableRecord(row: UserContentPublic) {
@@ -56,7 +56,7 @@ async function fetchReadingGraph(locale: string, slug: string): Promise<HomeGrap
   ])
   const { appeared, authored } = getDisplayFigureBookGroups(references)
   const affiliationItems = uniqueHomeGraphItems(affiliations.flatMap(group => group.books.map(book =>
-    homeAffiliationBookItem(book, group.factionSlug, group.factionName))))
+    homeAffiliationBookItem(book, group.factionSlug, group.factionName, { description: group.factionDescription, group: group.memberGroup }))))
   const readItems = read.items.filter(displayableRecord).slice(0, HOME_GRAPH_PREVIEW_COUNT)
   return { person, branches: [
     { key: 'read', count: read.total, items: readItems.map(row => homeAppreciationItem(row, locale)) },
@@ -69,7 +69,7 @@ async function fetchReadingGraph(locale: string, slug: string): Promise<HomeGrap
 export async function getHomeGraphData(mode: HomeGraphMode, locale: string, slug: string = HOME_GRAPH_PEOPLE[mode][0]): Promise<HomeGraphData | null> {
   if (!(HOME_GRAPH_PEOPLE[mode] as readonly string[]).includes(slug)) return null
   const picks = mode === 'books' ? [...(HOME_GRAPH_READING_PICKS[slug] ?? [])] : HOME_GRAPH_MEDIA.flatMap(type => [...HOME_GRAPH_PICKS[type]])
-  return cachedList(CACHE_TAGS.CELEBS, ['home-introduction-graph-v4', mode, locale, slug, ...picks],
+  return cachedList(CACHE_TAGS.CELEBS, ['home-introduction-graph-v7-affiliation-summary', mode, locale, slug, ...picks],
     () => mode === 'books' ? fetchReadingGraph(locale, slug) : fetchAppreciationGraph(locale, slug),
     { revalidate: STATIC_REVALIDATE, extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.FACTIONS] })
 }

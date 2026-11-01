@@ -5,7 +5,7 @@
 
   캐시 정책 (docs/project/apps/apps-03-android.md §3.2)
     페이지 이동            network-first, 실패 시 오프라인 화면
-    /_next/static/*        cache-first (내용 해시가 붙은 불변 자산)
+    /_next/static/*        내용 해시가 붙은 자산만 cache-first, 개발 번들은 우회
     로고·앱 셸 아이콘      cache-first
     인물·책 이미지         항목 수 상한을 둔 cache-first
     인증 응답·사용자 기록  캐시 금지
@@ -28,7 +28,7 @@
   이 파일을 고쳐 VERSION 을 올릴 때만 옛 캐시를 지운다.
 */
 
-const VERSION = 'v1'
+const VERSION = 'v2'
 const SHELL_CACHE = `fn-shell-${VERSION}`
 const STATIC_CACHE = `fn-static-${VERSION}`
 const IMAGE_CACHE = `fn-image-${VERSION}`
@@ -129,9 +129,16 @@ function isBypassed(request, url, sameOrigin) {
   if (request.headers.has('range')) return true
   if (request.headers.has('Next-Action')) return true
   if (request.headers.has('RSC')) return true
+  if (request.mode !== 'navigate' && (request.cache === 'reload' || request.cache === 'no-store')) return true
   if (!sameOrigin) return false
   if (url.searchParams.has('_rsc')) return true
   return NEVER_CACHE_PREFIXES.some((prefix) => url.pathname.startsWith(prefix))
+}
+
+// 개발 번들은 page.js처럼 주소가 고정된다. 이를 저장하면 새 HTML에 옛 코드가 섞인다.
+function isImmutableStaticPath(pathname) {
+  const filename = pathname.split('/').pop() || ''
+  return !filename.includes('.hot-update.') && /(?:^|[.-])[a-f0-9]{8,}(?=[.-])/i.test(filename)
 }
 
 self.addEventListener('fetch', (event) => {
@@ -147,7 +154,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (sameOrigin && url.pathname.startsWith('/_next/static/')) {
-    event.respondWith(cacheFirst(request, STATIC_CACHE, MAX_STATIC_ENTRIES))
+    if (isImmutableStaticPath(url.pathname)) event.respondWith(cacheFirst(request, STATIC_CACHE, MAX_STATIC_ENTRIES))
     return
   }
 

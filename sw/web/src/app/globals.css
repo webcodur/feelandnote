@@ -61,6 +61,9 @@
   --color-text-gold: #d4af37;
   /* 인물의 감상 본문. 작품 소개와 구분하고 인용·작품명 강조는 유지한다. */
   --color-review: #8bcaa7;
+  /* 책 소개 본문 — 어두운 바탕에서도 읽히는 밝은 황갈색. */
+  --color-book-intro: #d7bea9;
+  --color-book-intro-emphasis: #fff7ed;
 
   /* 현재 낭독 구간의 배경·밑줄. 본문의 인용·작품명 강조색과는 별개다. */
   --color-reading-active: #6fe3a0;
@@ -115,6 +118,12 @@
     0% { background-position: -120% 100%; }
     100% { background-position: 220% 100%; }
   }
+}
+
+/* 책 소개에서는 금색 인용과 갈색 본문이 섞이지 않도록 강조를 밝은 크림색으로 구분한다. */
+.text-book-intro :is(.text-accent, .text-accent-hover, .text-text-primary) {
+  color: var(--color-book-intro-emphasis);
+  font-weight: 600;
 }
 
 @layer base {

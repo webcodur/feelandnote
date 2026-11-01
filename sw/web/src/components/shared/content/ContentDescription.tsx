@@ -5,9 +5,10 @@ import ContentReadingText from "@/components/ui/ContentReadingText";
 import { PendingBlock, RetryBlock } from "@/components/ui/pending";
 import { normalizeIntroBreaks } from "@/lib/utils/prose-line-breaks";
 
-export default function ContentDescription({ title, description, source, status = "ready", loadingLabel, emptyLabel, failedLabel, onRetry }: {
+export default function ContentDescription({ title, description, contentType, source, status = "ready", loadingLabel, emptyLabel, failedLabel, onRetry }: {
   title: string;
   description?: string | null;
+  contentType?: string;
   source?: ReactNode;
   status?: "loading" | "ready" | "failed";
   loadingLabel?: string;
@@ -21,7 +22,7 @@ export default function ContentDescription({ title, description, source, status 
       <h3 className="text-sm font-semibold text-text-primary">{title}</h3>
       {text && source}
     </div>
-    {text ? <ContentReadingText text={text} size="modal" tone="secondary" />
+    {text ? <ContentReadingText text={text} size="modal" tone={contentType === "BOOK" ? "intro" : "secondary"} />
       : status === "loading" ? <PendingBlock variant="panel" minHeight="min-h-28" label={loadingLabel} />
         : status === "failed" ? <RetryBlock message={failedLabel} onRetry={onRetry} />
           : <p className="text-sm leading-relaxed text-text-secondary">{emptyLabel}</p>}

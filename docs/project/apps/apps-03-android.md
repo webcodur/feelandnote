@@ -10,7 +10,7 @@ feelandnote 안드로이드 앱은 네이티브 재개발이 아니라 **PWA를 
 |---|---|---|
 | 앱 셸 | `sw/android/` | Gradle 프로젝트(`compileSdk`·`targetSdk` 36, `minSdk` 23). `androidbrowserhelper`의 LauncherActivity·DelegationService·FileProvider, App Links는 `feelandnote.com` 전체. 서명은 추적 밖 `keystore.properties`에서만 읽는다 |
 | 도메인 검증 | `/.well-known/assetlinks.json` 라우트 | 패키지명·SHA-256 지문을 환경변수 `ANDROID_APP_PACKAGE_NAME`·`ANDROID_APP_CERT_FINGERPRINTS`로 읽는다([환경변수](../platform/platform-04-env-vars.md)). 지문이 없으면 빈 값으로 응답해 앱 도메인 검증이 실패한다 |
-| PWA | `sw/web/src/app/manifest.ts`, `public/sw.js`, `public/offline.html`, `public/icons/` | 아이콘 192·512·maskable 512·Play 512, 런처 바로가기 3종, `start_url`에 TWA 계측 표시. 서비스 워커는 인증·API·Server Action·비GET·Range를 전부 우회하고, 개발 환경에서는 등록하지 않는다 |
+| PWA | `sw/web/src/app/manifest.ts`, `public/sw.js`, `public/offline.html`, `public/icons/` | 아이콘 192·512·maskable 512·Play 512, 런처 바로가기 3종, `start_url`에 TWA 계측 표시. 서비스 워커는 인증·API·Server Action·비GET·Range와 해시 없는 개발 번들을 우회한다. 개발에서는 초기 HTML에서 남은 필앤노트 워커를 해제하며, 운영에서만 등록한다 |
 | 정책 창구 | `/account-deletion`(ko·en, 비로그인 접근, 사이트맵 등재), 이용약관 제7조·제8조 | 앱 밖 계정 삭제 요청 경로, 금지 콘텐츠·신고·차단 조항 |
 | 신고·차단 | 웹 `src/actions/moderation/`·`src/components/features/moderation/`, 테이블 `reports`·`blocks` | 자유게시판 글·댓글, 방명록, 프로필에서 신고·차단. 차단 필터는 조회 지점에서, `unstable_cache`를 쓰는 방명록은 캐시 밖 래퍼에서 적용한다 |
 | 신고 운영 | web-bo `/reports` | 신고 큐, 대상 원문 스냅샷, 처리·반려·되돌리기, 대상 숨김·삭제, 계정 정지·해제 |

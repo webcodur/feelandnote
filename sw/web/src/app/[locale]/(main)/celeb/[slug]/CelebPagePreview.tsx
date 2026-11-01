@@ -21,7 +21,7 @@ export default async function CelebPagePreview({ identity, locale }: { identity:
     deathDate: identity.death_date, reality: identity.celeb_reality });
   return (
     <div className={`${styles.page} ${hubStyles.page}`} data-page-identity>
-      <HubSection id="introduction" title={t('serviceIntroduction')} index={0} total={1} hideDivider className={styles.opening}>
+      <HubSection id="introduction" title={t('serviceIntroduction')} index={0} total={1} hideDivider hideHeader className={styles.opening}>
         <div className={styles.openingFrame}>
           <div className={styles.bannerStage}><CelebWorldBannerView worldId={worldId} images={getWorldBannerImages(worldId)} /></div>
           <div className={styles.identityPanel} style={{ '--celeb-hero-photo-width': `${CELEB_HERO_PHOTO_SPEC.desktopWidthPx}px` } as CSSProperties}>

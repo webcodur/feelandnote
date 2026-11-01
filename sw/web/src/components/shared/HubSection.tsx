@@ -32,6 +32,8 @@ interface HubSectionProps {
   moreLabel?: string;
   children: React.ReactNode;
   hideDivider?: boolean;
+  /** 인물 표지처럼 콘텐츠 자체가 제목을 담는 구획은 머리말을 스크린리더에만 제공한다. */
+  hideHeader?: boolean;
   /** 0-based 인덱스 (넘버링 · 네비게이션용) */
   index?: number;
   /** 전체 섹션 수 */
@@ -54,6 +56,7 @@ export default function HubSection({
   moreLabel,
   children,
   hideDivider = false,
+  hideHeader = false,
   index,
   total,
   groupId,
@@ -74,7 +77,7 @@ export default function HubSection({
           윗줄은 금선 사이 번호(「— 01 —」, 책의 장 번호 모양), 아랫줄은 제목 하나다(26.09.28 유저 선택).
           예전의 「1/3」 줄·제목 옆 번호·좌우 화살표는 걷었다 — 화살표는 바로 위 목차와 같은 이동을 되풀이했고,
           제목 옆 번호·화살표는 좌우 거리가 달라 머리 규격이 어긋나 보였다 */}
-      <div data-hub-header className={`flex flex-col items-center text-center px-1 ${styles.header}`}>
+      <div data-hub-header className={hideHeader ? "sr-only" : `flex flex-col items-center text-center px-1 ${styles.header}`}>
         {hasNumber ? (
           <div aria-hidden className="flex select-none items-center gap-2.5">
             <span className="h-0.5 w-6 rounded-full bg-accent" />

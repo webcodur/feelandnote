@@ -1,3 +1,13 @@
+.disclosure { padding-top: 8px; }
+.summary { display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-height: 44px; padding: 8px 12px; border-radius: var(--radius-control); color: var(--color-text-secondary); font-size: 14px; font-weight: 500; list-style: none; cursor: pointer; outline: none; }
+.summary::-webkit-details-marker { display: none; }
+.summary:hover { background: var(--color-bg-card); color: var(--color-accent); }
+.summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.disclosure[open] > .summary > svg:last-child { transform: rotate(180deg); }
+.disclosure .heading { display: none; }
+.disclosure [data-recent-history-controls] { padding-top: 0; padding-bottom: 0; }
+.disclosure [data-recent-history-controls] > div:last-child { display: none; }
+
 .heading {
   margin-bottom: 12px;
   color: var(--color-text-secondary);

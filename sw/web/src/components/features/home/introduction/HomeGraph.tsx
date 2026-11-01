@@ -5,51 +5,55 @@ import { useTranslations } from 'next-intl'
 import { HomeGraphRoot } from './HomeGraphNode'
 import HomeGraphReading from './HomeGraphReading'
 import HomeMediaTabs from './HomeMediaTabs'
-import type { HomePersonNavigation } from './HomePersonName'
-import type { HomeGraphData, HomeGraphItem, HomeGraphBranch, HomeGraphBranchKey } from './types'
+import { useHomeReadingContent } from './useHomeReadingContent'
+import type { HomeGraphData, HomeGraphItem, HomeGraphBranch, HomeGraphBranchKey, HomeGraphMode, HomePersonNavigation } from './types'
 import styles from './HomeGraph.module.css'
 
-export default function HomeGraph({ data, onNavigate }: { data: HomeGraphData; onNavigate?: HomePersonNavigation }) {
+export default function HomeGraph({ data, onNavigate, mode = 'appreciations' }: { data: HomeGraphData; onNavigate?: HomePersonNavigation; mode?: HomeGraphMode }) {
   const t = useTranslations('home.landing.graph')
   const id = useId()
   const [selection, setSelection] = useState<{ key: HomeGraphBranchKey; item: HomeGraphItem } | null>(() => {
-    const branch = data.branches.find(value => value.key === 'BOOK' && value.items.length) ?? data.branches.find(value => value.items.length)
+    const branch = data.branches.find(value => value.key === (mode === 'books' ? 'read' : 'BOOK') && value.items.length) ?? data.branches.find(value => value.items.length)
     return branch ? { key: branch.key, item: branch.items[0] } : null
   })
   const panelRef = useRef<HTMLDivElement>(null)
-  const focusNextWork = useRef(false)
+  const focusWorkDirection = useRef<-1 | 1 | null>(null)
   const selectedBranch = data.branches.find(branch => branch.key === selection?.key)
   const panelId = `${id}-reading`
+  const readingContent = useHomeReadingContent(data, selection?.key, selection?.item)
 
   useLayoutEffect(() => {
-    if (!focusNextWork.current) return
+    if (!focusWorkDirection.current) return
     const panel = panelRef.current
-    if (document.activeElement === document.body || panel?.contains(document.activeElement)) panel?.querySelector<HTMLButtonElement>('[data-next-work]')?.focus({ preventScroll: true })
-    focusNextWork.current = false
+    const selector = focusWorkDirection.current === -1 ? '[data-previous-work]' : '[data-next-work]'
+    if (document.activeElement === document.body || panel?.contains(document.activeElement)) panel?.querySelector<HTMLButtonElement>(selector)?.focus({ preventScroll: true })
+    focusWorkDirection.current = null
   }, [selection?.key, selection?.item.id])
 
   function openBranch(branch: HomeGraphBranch) {
     const item = branch.items[0]
     if (!item || branch.key === selection?.key) return
-    focusNextWork.current = false
+    focusWorkDirection.current = null
     setSelection({ key: branch.key, item })
   }
 
-  function nextWork() {
+  function moveWork(direction: -1 | 1) {
     if (!selection || !selectedBranch || selectedBranch.items.length < 2) return
     const index = selectedBranch.items.findIndex(item => item.id === selection.item.id)
-    focusNextWork.current = true
-    setSelection({ key: selectedBranch.key, item: selectedBranch.items[(index + 1) % selectedBranch.items.length] })
+    focusWorkDirection.current = direction
+    setSelection({ key: selectedBranch.key, item: selectedBranch.items[(index + direction + selectedBranch.items.length) % selectedBranch.items.length] })
   }
 
-  return <div className={styles.container} data-home-scene="appreciations">
-    <div className={styles.graph} data-home-graph="appreciations" aria-label={t('graphLabel', { name: data.person.name })}>
+  return <div className={styles.container} data-home-scene={mode}>
+    <div className={`${styles.graph} ${mode === 'books' ? styles.booksGraph : ''}`} data-home-graph={mode} aria-label={t(mode === 'books' ? 'relatedBooks' : 'graphLabel', { name: data.person.name })}>
       <HomeGraphRoot person={data.person} onNavigate={onNavigate} />
       {selection && selectedBranch && <div className={styles.selectedView}>
-        <HomeMediaTabs branches={data.branches} value={selection.key} panelId={panelId} onChange={openBranch} />
-        <div ref={panelRef} className={styles.readingPanel} id={panelId} role="tabpanel" aria-labelledby={`${panelId}-tab-${selection.key}`} tabIndex={0}>
+        <HomeMediaTabs branches={data.branches} value={selection.key} panelId={panelId} onChange={openBranch} mode={mode} />
+        <div ref={panelRef} className={styles.readingPanel} id={panelId} role="tabpanel" aria-labelledby={`${panelId}-tab-${selection.key}`} tabIndex={0} data-book-relation={mode === 'books' ? selection.key : undefined}>
           <div key={`${selection.key}-${selection.item.id}`} data-media-reading={selection.key} data-work-id={selection.item.id}>
-            <HomeGraphReading person={data.person} branch={selectedBranch} item={selection.item} onNext={selectedBranch.items.length > 1 ? nextWork : undefined} />
+            <HomeGraphReading person={data.person} branch={selectedBranch} item={selection.item} mode={mode}
+              {...readingContent} onNext={selectedBranch.items.length > 1 ? () => moveWork(1) : undefined}
+              onPrevious={selectedBranch.items.length > 1 ? () => moveWork(-1) : undefined} />
           </div>
         </div>
       </div>}

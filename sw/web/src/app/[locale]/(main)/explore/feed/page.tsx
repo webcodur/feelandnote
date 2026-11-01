@@ -1,9 +1,11 @@
-/*
-  파일명: /app/(main)/explore/feed/page.tsx
-  기능: 인물 피드 페이지
-  책임: 인물들의 아카이브 피드를 보여준다.
-*/ // ------------------------------
+import { getLocale } from 'next-intl/server'
+import { redirect } from '@/i18n/navigation'
 
+export default async function RetiredCelebFeedPage() {
+  redirect({ href: '/explore', locale: await getLocale() })
+}
+
+/* 인물 피드 화면은 비활성화한다. 기존 구현은 주석으로 보존한다.
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
 import Lane from "@/components/ui/pending/Lane";
@@ -37,3 +39,4 @@ async function CelebFeedServer() {
 export default function CelebFeedPage() {
   return <Lane fallback={<PendingBlock variant="rows" count={5} />}><CelebFeedServer /></Lane>;
 }
+*/

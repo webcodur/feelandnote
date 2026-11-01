@@ -15,6 +15,7 @@
 
 .homeRhythm { --hub-section-before: 64px; --hub-divider-after: 56px; }
 .homeRhythm .header { margin-bottom: 28px; }
+.homeLead { --hub-section-before: 32px; --hub-divider-after: 28px; }
 
 .opening {
   margin-top: 0;
@@ -60,6 +61,7 @@
   .spacious { --hub-section-before: 32px; --hub-divider-after: 80px; }
   .homeRhythm { --hub-section-before: 88px; --hub-divider-after: 72px; }
   .homeRhythm .header { margin-bottom: 32px; }
+  .homeLead { --hub-section-before: 40px; --hub-divider-after: 32px; }
   .opening { margin-top: 0; padding-top: 32px; }
   .divider { margin-bottom: var(--hub-divider-after, 64px); }
   .afterDivider { padding-top: 64px; }

@@ -65,6 +65,7 @@ export default function Page() {
 - 금색(`accent`)은 세 자리에만 쓴다 — 화면당 주요 행동 하나의 면(`Button primary`), 선택·현재 위치(밑줄·`bg-accent/10`), 발견·연결(인물명·작품 링크). 상자마다 금 테두리를 두르거나 금빛 번짐을 넣지 않는다. amber 계열로 두 번째 금색을 만들지 않는다
 - 텍스트: `text-primary`·`text-secondary`·`text-tertiary`
 - 인물의 감상 본문은 `text-review`로 구분한다. 미리보기·카드·전문 모달에서 같은 색을 쓰고, 작품 소개와 빈 상태에는 적용하지 않는다. 본문 안 인용·작품명 강조는 유지한다.
+- 책 소개 본문은 `text-book-intro`를 쓴다. 홈·책장·작품 상세·소개 모달에서 같은 갈색 계열을 사용하며, 색상 값은 `globals.css`가 쥔다. 감상 본문은 기존 색을 유지한다. 책 소개 안의 작품명·인용은 밝은 전용 강조색으로 본문과 구분한다.
 - 상태: `status-watching`·`status-completed`·`status-paused`(위험 동작에도 쓴다)·`status-wish`
 
 ## 정렬

@@ -134,6 +134,51 @@
   background: var(--shelf-surface, var(--color-bg-card));
 }
 
+.controlLabel, .controlCount, .sourceSelect {
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.controlLabel { font-weight: 600; }
+
+.controlCount {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.controlHeight, .controlAction, .controlHeading {
+  --bookshelf-control-size: 36px;
+}
+
+.controlHeight, .controlAction { height: var(--bookshelf-control-size); }
+.controlAction { width: var(--bookshelf-control-size); }
+.controlDropdown { right: var(--bookshelf-control-size); }
+
+.affiliation {
+  anchor-name: --bookshelf-affiliation;
+  anchor-scope: --bookshelf-affiliation;
+}
+
+.controlHeading {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+
+.controlHeadingWithActions {
+  grid-template-columns: calc(var(--bookshelf-control-size) * 2 - 12px) minmax(0, 1fr) calc(var(--bookshelf-control-size) * 2 - 12px);
+}
+
+.controlHeadingWithActions::before, .controlHeadingWithActions::after { content: ''; }
+
+@media (pointer: coarse) {
+  .controlHeight, .controlAction, .controlHeading { --bookshelf-control-size: 44px; }
+}
+
 .personalCard {
   min-width: 0;
   overflow: visible;
@@ -149,7 +194,7 @@
 
 .personalTitle { color: var(--color-text-secondary); }
 .personalCard[data-active="true"] .personalTitle { color: var(--color-text-primary); }
-.personalTitle:hover { color: var(--color-accent); }
+.personalTitle:hover { color: var(--color-text-primary); }
 
 .purpose {
   color: var(--color-text-secondary);
@@ -169,13 +214,25 @@
 }
 
 .purpose:enabled:hover {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
-  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  color: var(--color-text-primary);
+  border-color: rgb(255 255 255 / 0.2);
+  background: rgb(255 255 255 / 0.06);
 }
 
 .purpose:enabled:active {
-  background: color-mix(in srgb, var(--color-accent) 20%, transparent);
+  border-color: rgb(255 255 255 / 0.3);
+  background: rgb(255 255 255 / 0.1);
+}
+
+.purpose[aria-checked="true"]:enabled:hover {
+  color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 65%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+}
+
+.purpose[aria-checked="true"]:enabled:active {
+  border-color: color-mix(in srgb, var(--color-accent) 80%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 22%, transparent);
 }
 
 /* 꺾쇠만 드롭다운으로 쓰고, 펼친 항목은 가운데 정렬한다. */
@@ -202,18 +259,25 @@
     opacity: 0;
   }
 
-  .sourceSelect svg {
-    display: inline-block;
-    vertical-align: -2px;
-  }
-
   .sourceSelect::picker-icon,
   .sourceSelect option::checkmark {
     display: none;
   }
 
   .sourceSelect::picker(select) {
-    min-width: anchor-size(width);
+    position-anchor: --bookshelf-affiliation;
+    position-area: bottom;
+    position-try-order: normal;
+    position-try-fallbacks: flip-block;
+    inset: auto;
+    width: anchor-size(width);
+    min-width: 0;
+    max-width: calc(100vw - 24px);
+    min-block-size: 1lh;
+    max-block-size: min(20rem, 100%);
+    margin: 4px 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     border: 1px solid rgb(255 255 255 / 0.15);
     background: var(--color-bg-secondary);
     color: var(--color-text-primary);
@@ -226,11 +290,14 @@
     font-weight: 400;
   }
 
-  .sourceSelect option:checked,
-  .sourceSelect option:hover,
-  .sourceSelect option:focus-visible {
+  .sourceSelect option:checked {
     background: var(--color-accent);
     color: var(--color-bg-secondary);
+  }
+
+  .sourceSelect option:enabled:not(:checked):is(:hover, :focus-visible) {
+    background: var(--color-bg-raised);
+    color: var(--color-text-primary);
   }
 
   .sourceSelect option:disabled {

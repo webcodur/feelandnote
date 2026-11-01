@@ -1,11 +1,11 @@
 'use client'
 
-import { BookOpen } from 'lucide-react'
 import type { KeyboardEvent } from 'react'
 import { useTranslations } from 'next-intl'
 import type { BookShelfGroup } from './types'
 import styles from './BookShelf.module.css'
 import BookShelfTransition from './BookShelfTransition'
+import BookShelfControlHeading from './BookShelfControlHeading'
 
 interface Props {
   groups: BookShelfGroup[]
@@ -44,18 +44,16 @@ export default function BookShelfPersonalControls({ groups, selected, activeKey,
         {relations.map((group) => <button key={group.key} type="button" role="radio" data-bookshelf-relation={group.key}
           aria-checked={activeKey === group.key} data-selected={activeKey === group.key}
           disabled={group.books.length === 0 && !group.deferred} onClick={() => onSelect(group.key)}
-          className={`${styles.purpose} flex min-h-11 min-w-0 items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-35`}>
-          <BookShelfTransition inline changeKey={group.label}>{group.label}</BookShelfTransition>
-          <BookShelfTransition inline changeKey={count(group) ?? 'pending'} className="min-w-[2ch] tabular-nums">{count(group) ?? '—'}</BookShelfTransition>
+          className={`${styles.purpose} ${styles.controlHeight} flex min-w-0 items-center justify-center gap-2 rounded-md border px-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-35`}>
+          <span className={styles.controlLabel} data-bookshelf-control-label><BookShelfTransition inline changeKey={group.label}>{group.label}</BookShelfTransition></span>
+          <span className={styles.controlCount} data-bookshelf-control-count><BookShelfTransition inline changeKey={count(group) ?? 'pending'}>{count(group) ?? '–'}</BookShelfTransition></span>
         </button>)}
       </div>}
       {selected && <div className={styles.personalCard} data-bookshelf-profession-controls data-active={isActive} aria-busy={pending}>
       <div className="flex min-w-0 items-stretch">
         <button type="button" onClick={() => onSelect(selected.key)} aria-pressed={isActive} data-bookshelf-activate-personal
-          className={`${styles.personalTitle} flex min-h-14 min-w-0 flex-1 items-center gap-2.5 rounded-ss-lg px-4 text-left text-sm font-semibold hover:bg-white/[0.04] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent active:bg-accent/10`}>
-          <BookOpen size={17} className="shrink-0" aria-hidden />
-          <BookShelfTransition inline changeKey={selected.label} className="min-w-0 flex-1 break-keep">{t('bookShelfCategoryTitle', { category: selected.label })}</BookShelfTransition>
-          <BookShelfTransition inline changeKey={selectedCount ?? 'pending'} className="shrink-0 whitespace-nowrap text-right text-xs font-medium tabular-nums text-text-secondary">{t('bookShelfCount', { count: selectedCount ?? '–' })}</BookShelfTransition>
+          className={`${styles.personalTitle} ${styles.controlHeight} flex min-w-0 flex-1 items-center rounded-t-lg px-3 hover:bg-white/[0.06] hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent active:bg-white/[0.1]`}>
+          <BookShelfControlHeading label={t('bookShelfCategoryTitle', { category: selected.label })} count={selectedCount} />
         </button>
       </div>
       {selected.choices && <div role="radiogroup" aria-label={selected.label} data-bookshelf-subcontrols
@@ -64,9 +62,9 @@ export default function BookShelfPersonalControls({ groups, selected, activeKey,
         {selected.choices.map((choice) => <button key={choice.key} type="button" role="radio"
           aria-checked={isActive && choice.key === choiceKey} data-selected={choice.key === choiceKey}
           disabled={choice.books.length === 0} onClick={() => onChoice(choice.key)}
-          className={`${styles.purpose} flex min-h-20 min-w-0 flex-col items-center justify-center gap-1 rounded-md border px-1 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-35`}>
-          <span className="text-xs font-medium leading-5">{choice.label}</span>
-          <BookShelfTransition inline changeKey={pending ? 'pending' : choice.books.length} className="min-w-[2ch] font-serif text-2xl font-semibold leading-none tabular-nums">{pending ? '–' : choice.books.length}</BookShelfTransition>
+          className={`${styles.purpose} flex min-h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-md border px-1 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-35`}>
+          <span className={styles.controlLabel} data-bookshelf-control-label>{choice.label}</span>
+          <span className={styles.controlCount} data-bookshelf-control-count><BookShelfTransition inline changeKey={pending ? 'pending' : choice.books.length} className="min-w-[2ch]">{pending ? '–' : choice.books.length}</BookShelfTransition></span>
         </button>)}
       </div>}
       </div>}

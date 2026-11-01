@@ -83,6 +83,7 @@ export default function HeroIdentity({ profile, locale, preview = false }: HeroI
               <CelebAvatarImage
                 src={profile.avatar_url}
                 alt=""
+                sizes="64px"
                 className={styles.identityAvatarImage}
               />
             </button>

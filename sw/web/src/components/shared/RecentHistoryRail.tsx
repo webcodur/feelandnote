@@ -2,7 +2,7 @@
 
 import { useState, useSyncExternalStore } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { BookOpen, History, Users, UserRound, X } from "lucide-react";
+import { BookOpen, ChevronDown, History, Users, UserRound, X } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import { isCurrentRecentHistory, recentHistoryHref, recentHistoryKey, type RecentHistoryItem, type RecentHistoryKind } from "@/lib/recent-history";
@@ -96,12 +96,19 @@ export default function RecentHistoryRail({ items, onSelect, reserveSpace = true
 }
 
 /** 실제 본문과 초기 로딩 틀이 같은 목록·높이를 사용한다. */
-export function RecentHistorySection({ kind, currentId, preserveScroll = false }: {
+export function RecentHistorySection({ kind, currentId, preserveScroll = false, collapsible = false }: {
   kind: RecentHistoryKind;
   currentId?: string;
   preserveScroll?: boolean;
+  collapsible?: boolean;
 }) {
+  const t = useTranslations("shared");
   const items = useRecentHistory(null, kind);
   const hydrated = useSyncExternalStore(subscribeHydration, hydratedSnapshot, serverSnapshot);
-  return <RecentHistoryRail items={items} currentId={currentId} preserveScroll={preserveScroll} pending={!hydrated} />;
+  const rail = <RecentHistoryRail items={items} currentId={currentId} preserveScroll={preserveScroll} pending={!hydrated} />;
+  if (!collapsible) return rail;
+  return <details className={railStyles.disclosure}>
+    <summary className={railStyles.summary}><History size={16} aria-hidden />{t("recentHistory")}<ChevronDown size={15} aria-hidden /></summary>
+    {rail}
+  </details>;
 }

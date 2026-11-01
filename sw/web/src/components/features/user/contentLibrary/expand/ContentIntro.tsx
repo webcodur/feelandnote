@@ -66,6 +66,7 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
   const sourceText = selectContentIntroText(brief);
   const text = sourceText ? normalizeContentIntroText(sourceText) : null;
   const headingCategory = brief?.category ?? category;
+  const tone = headingCategory === "book" ? "intro" : "secondary";
   // 책 소개는 출처를 제목에 합쳐 「다음 책 소개」처럼 한 덩어리로 읽는다
   const provider = headingCategory === "book" ? brief?.introductionAttribution?.provider : undefined;
   const providerName =
@@ -99,6 +100,7 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
       onClose={() => setIsModalOpen(false)}
       title={headingText}
       text={fullText}
+      tone={tone}
       source={modalSourceUrl ? { href: modalSourceUrl, label: t("expandIntroSource") } : undefined}
     />
   );
@@ -149,13 +151,13 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
       ) : text ? (
         <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
           {fitsInline ? (
-            <ContentReadingText text={text} tone="secondary" size="compact">
+            <ContentReadingText text={text} tone={tone} size="compact">
               {inlineMarker}<FormattedText text={text} layout={layout} />
             </ContentReadingText>
           ) : (
             <ClippedContentReadingText
               text={text}
-              tone="secondary"
+              tone={tone}
               size="compact"
               className={INTRO_BODY_CLASS}
               onClick={openModal}
@@ -192,13 +194,13 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
           )}
 
           {fitsInline ? (
-            <ContentReadingText text={activeText} tone="secondary" size="compact">
+            <ContentReadingText text={activeText} tone={tone} size="compact">
               {inlineMarker}<FormattedText text={activeText} layout={layout} />
             </ContentReadingText>
           ) : (
             <ClippedContentReadingText
               text={activeText}
-              tone="secondary"
+              tone={tone}
               size="compact"
               className={INTRO_BODY_CLASS}
               onClick={openModal}

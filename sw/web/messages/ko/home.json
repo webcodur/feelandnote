@@ -108,7 +108,7 @@
       },
       "tags": {
         "noDescription": "상세 설명이 없습니다.",
-        "goToFaction": "세력 페이지로 이동",
+        "goToFaction": "주제 페이지로 이동",
         "atlasTitle": "인물도감"
       },
       "banner": {
@@ -223,7 +223,7 @@
         "dailyInfoBody": "오늘의 추천은 날짜마다 달라지는 추첨으로 인물을 고릅니다. {country} Google Trends에서 최근 {days}일 안에 시작해 현재도 검색이 급증 중인 검색어와 이름이 일치한 인물은 추첨에서 추가 기회를 얻습니다.",
         "homeEmpty": "현재 표시할 수 있는 검색 급증 인물이 없습니다."
       },
-      "affiliationsTitle": "{name}의 소속",
+      "affiliationsTitle": "{name}의 관련 주제",
       "listLoadFailed": "목록을 불러오지 못했습니다. 이전 결과를 표시합니다. 조건을 줄이거나 다시 시도해 주세요."
     },
     "hub": {
@@ -252,16 +252,11 @@
     },
     "landing": {
       "benefitLead": "남의 독서를 내 지식으로.",
-      "readAppreciations": "감상 기록 읽기",
-      "explorePeople": "인물 둘러보기",
       "statsPeople": "인물",
-      "statsRecords": "감상 기록",
-      "whyTitle": "한 권을 읽고, 모두에게 배우세요.",
-      "whyBody": "우리가 책 한 권을 읽고 떠올리는 사유는 한 갈래의 생각에 불과합니다. 저마다 다른 지식과 경험을 가진 이들이 남긴 한 문장을 읽으며, 혼자서는 얻지 못했을 지식과 사유까지 배워보세요.",
       "appreciationsTitle": "모든 매체를 기록합니다.",
       "appreciationsDescription": "인물이 책·음악·영상·게임을 접한 계기와 감상을 출처와 함께 기록합니다.",
       "readingTitle": "한 사람의 모든 것을 읽어보세요.",
-      "readingDescription": "읽은 책과 집필한 책, 등장하는 책과 속한 세계를 다룬 책을 한자리에 모았습니다.",
+      "readingDescription": "인물과 연결된 모든 책을 한자리에 모았습니다.",
       "navAppreciations": "감상 기록",
       "navReading": "인물과 책",
       "startTitle": "인물과 작품을 찾아보세요.",
@@ -295,31 +290,27 @@
           },
           "read": {
             "title": "감상",
-            "meaning": "읽은 책",
-            "shortTitle": "읽은 책"
+            "meaning": "읽은 책"
           },
           "appearance": {
             "title": "등장",
-            "meaning": "등장하는 책",
-            "shortTitle": "등장하는 책"
+            "meaning": "등장하는 책"
           },
           "authored": {
             "title": "집필",
-            "meaning": "집필한 책",
-            "shortTitle": "집필한 책"
+            "meaning": "집필한 책"
           },
           "affiliation": {
-            "title": "소속",
-            "meaning": "속한 세계를 다룬 책",
-            "shortTitle": "소속 도서"
+            "title": "관련 주제",
+            "meaning": "인물과 연결된 주제와 세계를 다룬 책"
           }
         },
         "emptyBranch": "등록된 작품이 없습니다.",
         "appreciation": "감상경위",
-        "description": "책 소개",
+        "description": "작품 소개",
         "noAppreciation": "아직 감상경위가 등록되지 않았습니다.",
-        "noDescription": "책 소개는 작품 페이지에서 확인할 수 있습니다.",
-        "readFull": "전문 읽기",
+        "noDescription": "작품 소개는 상세 페이지에서 확인할 수 있습니다.",
+        "readFull": "전체 보기",
         "source": "감상 출처",
         "workLink": "작품 보기",
         "relatedBooks": "인물과 책 · {name}",
@@ -339,8 +330,21 @@
         "nextPerson": "다음 인물",
         "bookNavigation": "인물과 책 분류",
         "nextWork": "다음 작품",
-        "viewAffiliation": "소속 보기",
-        "openAffiliation": "{name} 소속 보기"
+        "viewAffiliation": "주제 살펴보기",
+        "openAffiliation": "{name} 주제 살펴보기",
+        "mediaPreview": "{type} 미리보기",
+        "reviewBackground": "감상 배경",
+        "bookIntroduction": "작품 소개",
+        "nextBook": "다음 책",
+        "showBookIntroduction": "작품 소개 보기",
+        "showReviewBackground": "감상 배경 보기",
+        "previewShort": "미리보기",
+        "mediaUnavailable": "이 작품의 미리보기 자료가 없습니다.",
+        "introShort": "소개",
+        "reviewShort": "감상",
+        "workNavigation": "작품 넘기기",
+        "previousBook": "이전 책",
+        "previousWork": "이전 작품"
       },
       "navAbout": "서비스 소개",
       "navSearch": "검색",
@@ -349,7 +353,8 @@
       "contactTitle": "운영 및 문의",
       "navContact": "운영·문의",
       "latestNotice": "최근 공지",
-      "navShowcase": "서재"
+      "navShowcase": "서재",
+      "statsAppreciations": "감상"
     }
   },
   "banner": {

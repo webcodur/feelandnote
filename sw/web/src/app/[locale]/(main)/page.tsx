@@ -47,13 +47,9 @@ export default async function MainPage() {
         <AtlasNavSections items={contents} />
         <section id="about" tabIndex={-1} className={styles.opening} data-home-opening>
           <HomeBrandHeader />
-          <div className={styles.why}>
-            <h2>{t('whyTitle')}</h2>
-            <p>{t('whyBody')}</p>
-          </div>
-          <Lane fallback={<HomeStatsPending label={pending('loading')} />}><HomeStats /></Lane>
         </section>
-        <HubSection {...sec('appreciations')} hideDivider={false} tabIndex={-1} className={sectionClass}>
+        <HubSection {...sec('appreciations')} hideDivider={false} tabIndex={-1} className={`${sectionClass} ${hubStyles.homeLead}`}>
+          <Lane fallback={<HomeStatsPending label={pending('loading')} />}><HomeStats /></Lane>
           <HomeShowcase mode="appreciations"><Lane fallback={graphPending}><HomeGraphSection mode="appreciations" /></Lane></HomeShowcase>
         </HubSection>
         <HubSection {...sec('reading')} tabIndex={-1} className={sectionClass}>

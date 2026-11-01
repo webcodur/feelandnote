@@ -158,7 +158,8 @@ export default function BookIntroductionPanel({
               }
             }}
             className={cn(
-              "whitespace-pre-line text-base leading-7 text-text-secondary",
+              "whitespace-pre-line text-base leading-7",
+              contentType === "BOOK" ? "text-book-intro" : "text-text-secondary",
               !fitsInline && [
                 "max-h-28 overflow-hidden",
                 appearance === "plate" && fill.preview,
@@ -299,7 +300,7 @@ function IntroductionModal({
           </button>
         </header>
         <div className={cn("min-h-0 flex-1 overflow-y-auto overscroll-y-contain px-5 py-6 [overflow-anchor:none] sm:px-8 sm:py-8", !plain && "bg-texture-noise")}>
-          <ContentReadingText text={description} size="modal" />
+          <ContentReadingText text={description} size="modal" tone={contentType === "BOOK" ? "intro" : "primary"} />
           {(source.providerName || source.sourceUrl) && (
             <div className="mt-6 flex justify-end">
               <SourceChip {...source} />

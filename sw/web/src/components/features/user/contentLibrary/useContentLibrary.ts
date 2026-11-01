@@ -1,11 +1,10 @@
 /* 콘텐츠 라이브러리의 화면 상태와 파생 목록을 조합한다. */
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocale } from "next-intl";
-
 import { addContent } from "@/actions/contents/addContent";
-import type { CategoryId } from "@/constants/categories";
+import { CATEGORIES, type CategoryId } from "@/constants/categories";
 
 import {
   filterAndSortContents,
@@ -42,7 +41,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     if (ownerKind !== "celeb" || !targetUserId || !initialContents?.items[0]) return undefined;
     return mapPublicToUserContent([initialContents.items[0]], targetUserId)[0];
   }, [initialContents, ownerKind, targetUserId]);
-
   const [activeTab, setActiveTabState] = useState<CategoryId>(
     getInitialLibraryCategory(ownerKind, initialContents),
   );
@@ -53,13 +51,11 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [appliedSearchQuery, setAppliedSearchQuery] = useState(initialSearchQuery);
   const [collapsedMonths, setCollapsedMonths] = useState<Set<string>>(new Set());
-
   const [pickedViewMode, setPickedViewMode] = useState<ViewMode | null>(null);
   // 인물 서가는 펼침으로 고정한다. 목록형은 감상 기록 전체 보기 페이지가 맡는다.
   const viewMode: ViewMode = ownerKind === "celeb"
     ? "expand"
     : pickedViewMode ?? defaultViewMode ?? "list";
-
   const data = useContentLibraryData({
     activeTab,
     appliedSearchQuery,
@@ -77,7 +73,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     targetUserId,
     viewMode,
   });
-
   const filteredAndSortedContents = useMemo(
     () => filterAndSortContents(
       data.contents,
@@ -95,11 +90,16 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     () => monthKeys.length > 0 && monthKeys.every((key) => collapsedMonths.has(key)),
     [collapsedMonths, monthKeys],
   );
-
   const setActiveTab = useCallback((value: CategoryId) => {
     setActiveTabState(value);
     setCurrentPage(1);
   }, []);
+  useEffect(() => {
+    if (ownerKind !== "celeb") return;
+    const category = new URLSearchParams(window.location.search).get("category");
+    const frame = requestAnimationFrame(() => { if (CATEGORIES.some(item => item.id === category)) setActiveTab(category as CategoryId); });
+    return () => cancelAnimationFrame(frame);
+  }, [ownerKind, setActiveTab]);
   const setPageSize = useCallback((value: number) => {
     setPageSizeState(value);
     setCurrentPage(1);

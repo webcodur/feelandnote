@@ -28,7 +28,7 @@ export function homeFigureBookItem(book: FigureBookContent): HomeGraphItem {
   }
 }
 
-export function homeAffiliationBookItem(book: AffiliateBook, slug: string, name: string): HomeGraphItem {
+export function homeAffiliationBookItem(book: AffiliateBook, slug: string, name: string, context?: { description?: string | null; group?: string | null }): HomeGraphItem {
   return {
     id: book.contentId,
     title: book.title,
@@ -39,6 +39,8 @@ export function homeAffiliationBookItem(book: AffiliateBook, slug: string, name:
     sourceUrl: null,
     relatedHref: `/explore/faction/${slug}`,
     relatedLabel: name,
+    relatedDescription: context?.description,
+    relatedGroup: context?.group,
   }
 }
 

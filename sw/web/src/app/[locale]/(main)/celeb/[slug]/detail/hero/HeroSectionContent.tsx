@@ -67,7 +67,7 @@ export default function CelebHeroSection({
   } = useCelebVoice({ profile, greeting, nickname: profile.nickname, locale });
   const worldStyle = getWorldStyle(worldId);
   return (
-    <HubSection id="introduction" title={serviceItems[0]?.label ?? t("serviceIntroduction")} index={0} total={serviceItems.length} hideDivider tabIndex={-1} className={styles.opening}>
+    <HubSection id="introduction" title={serviceItems[0]?.label ?? t("serviceIntroduction")} index={0} total={serviceItems.length} hideDivider hideHeader tabIndex={-1} className={styles.opening}>
       {/* ── 2. 월드 배너 ── */}
       <div className={styles.openingFrame}>
         <div className={styles.bannerStage}>

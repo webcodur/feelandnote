@@ -73,7 +73,7 @@ export default function Yes24BookModal({ item, onClose }: { item: BestsellerItem
     purchase={{ contentId: item.id, type: "BOOK", title, creator: author, thumbnail: cover,
       placement: "popular-chart", bookLocale: isYes24 ? "ko" : "en", isbn: item.isbn ?? undefined,
       yes24Href: isYes24 ? purchaseHref ?? undefined : undefined }}>
-    <ContentDescription title={t("detail.introduction")} description={description}
+    <ContentDescription title={t("detail.introduction")} description={description} contentType="BOOK"
       source={<BookIntroductionSource attribution={{ provider: isYes24 ? "yes24" : "itunes", url: sourceUrl, translated: false }} />}
       status={state.status === "failed" ? "failed" : state.status === "loading" ? "loading" : "ready"}
       loadingLabel={t("detail.loading")} emptyLabel={t("detail.unavailable")} failedLabel={t("detail.failed")}

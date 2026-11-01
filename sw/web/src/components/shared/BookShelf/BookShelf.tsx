@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useEffectEvent, useId, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { BookOpen } from 'lucide-react'
 import { isBookShelfAvailable } from '@/lib/books/bookShelf'
@@ -25,10 +25,11 @@ interface Props {
   id?: string
   className?: string
   controlsLayout?: 'default' | 'profession-page' | 'personal'
+  urlGroupParam?: string
 }
 
 /** 개인·신화·팩션의 공통 책장. 선택한 분류의 도서를 같은 본문과 목록으로 보여준다. */
-export default function BookShelf({ groups, ariaLabel, title, id, className = '', controlsLayout = 'default' }: Props) {
+export default function BookShelf({ groups, ariaLabel, title, id, className = '', controlsLayout = 'default', urlGroupParam }: Props) {
   const t = useTranslations('celebPage')
   const pendingIndexId = useId()
   const pageControls = controlsLayout === 'profession-page'
@@ -44,6 +45,16 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
   }))
   const available = normalized.filter((group) => group.books.length > 0 || group.deferred)
   const [activeKey, setActiveKey] = useState(available[0]?.key)
+  const selectUrlGroup = useEffectEvent(() => {
+    if (!urlGroupParam) return
+    const key = new URLSearchParams(window.location.search).get(urlGroupParam)
+    if (key && groups.some(group => group.key === key)) setActiveKey(key)
+  })
+  useEffect(() => {
+    if (!urlGroupParam) return
+    const frame = requestAnimationFrame(() => selectUrlGroup())
+    return () => cancelAnimationFrame(frame)
+  }, [urlGroupParam])
   const [listOpen, setListOpen] = useState(false)
   const [showAllItems, setShowAllItems] = useState(false)
   const [titlePulseRequest, setTitlePulseRequest] = useState(0)

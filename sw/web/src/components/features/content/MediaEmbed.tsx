@@ -14,6 +14,7 @@ interface MediaEmbedProps {
   type: ContentType
   showImages?: boolean
   title?: string
+  emptyMessage?: string
 }
 
 const ContentImageGallery = dynamic(() => import('./ContentImageGallery'), { loading: ContentImageGalleryPlaceholder })
@@ -77,7 +78,7 @@ function AppleMusicPreview({ src, appleMusicUrl }: { src: string; appleMusicUrl?
   )
 }
 
-export default function MediaEmbed({ contentId, type, showImages = false, title = '' }: MediaEmbedProps) {
+export default function MediaEmbed({ contentId, type, showImages = false, title = '', emptyMessage }: MediaEmbedProps) {
   const requestKey = `${contentId}:${type}:${showImages}`
   const supportsEmbed = type === 'VIDEO' || type === 'GAME' || type === 'MUSIC'
   const [result, setResult] = useState<{ key: string; embed: MediaEmbedResult | null } | null>(null)
@@ -104,6 +105,7 @@ export default function MediaEmbed({ contentId, type, showImages = false, title 
 
   const loading = cached === undefined && result?.key !== requestKey
   const embed = cached ?? (loading ? null : (result?.embed ?? null))
+  const empty = emptyMessage ? <p role="status" className="py-8 text-center text-sm text-text-secondary">{emptyMessage}</p> : null
 
   // MUSIC: Apple Music 미리듣기만 렌더링
   if (type === 'MUSIC') {
@@ -113,9 +115,9 @@ export default function MediaEmbed({ contentId, type, showImages = false, title 
     if (embed?.embedType === 'appleMusicPreview') {
       return embed.previewUrl
         ? <AppleMusicPreview src={embed.previewUrl} appleMusicUrl={embed.appleMusicUrl} />
-        : null
+        : empty
     }
-    return null
+    return empty
   }
 
   if (loading) {
@@ -127,7 +129,7 @@ export default function MediaEmbed({ contentId, type, showImages = false, title 
     </PendingBlock>
   }
 
-  if (!embed?.embedId && !embed?.images?.length) return null
+  if (!embed?.embedId && !embed?.images?.length) return empty
 
   return (
     <div className="space-y-5">

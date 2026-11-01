@@ -108,5 +108,5 @@ function CelebBookShelfBody({ celebId, celebName, appeared, authored, profession
         : null,
     },
   ]
-  return <div ref={root} data-celeb-bookshelf><BookShelf groups={groups} ariaLabel={t('relatedProducts')} id={id} title={title} controlsLayout="personal" /></div>
+  return <div ref={root} data-celeb-bookshelf><BookShelf groups={groups} ariaLabel={t('relatedProducts')} id={id} title={title} controlsLayout="personal" urlGroupParam="shelf" /></div>
 }
