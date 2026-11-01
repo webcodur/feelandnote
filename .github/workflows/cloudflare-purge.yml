@@ -16,6 +16,7 @@ on:
           - content-banners
           - explore-art
           - mascots
+          - favicons
           - seo
           - cached-html
           - emergency-zone
@@ -68,6 +69,7 @@ jobs:
               or . == "content"
               or . == "content-banners"
               or . == "explore-art"
+              or . == "favicons"
               or . == "seo"
               or . == "cached-html"
               or . == "emergency-zone";
@@ -83,6 +85,8 @@ jobs:
               or . == "feelandnote.com/sitemaps/";
             def allowed_file:
               . == "https://feelandnote.com/sitemap.xml"
+              or . == "https://feelandnote.com/favicon.ico"
+              or . == "https://feelandnote.com/icons/favicon-rounded.png"
               or . == "https://feelandnote.com/robots.txt"
               or . == "https://feelandnote.com/feed.xml"
               or . == "https://feelandnote.com/opengraph-image"

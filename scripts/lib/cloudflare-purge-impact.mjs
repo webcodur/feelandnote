@@ -10,6 +10,7 @@ export const CLOUDFLARE_PURGE_SCOPES = Object.freeze([
   'explore-art',
   'mascots',
   'service-worker',
+  'favicons',
   'seo',
   'cached-html',
   'emergency-zone',
@@ -23,6 +24,13 @@ const SITE_ORIGIN = `https://${SITE_HOST}`
 const SCOPE_TARGETS = Object.freeze({
   none: Object.freeze({ prefixes: [], files: [] }),
   'service-worker': Object.freeze({ prefixes: [], files: [`${SITE_ORIGIN}/sw.js`] }),
+  favicons: Object.freeze({
+    prefixes: [],
+    files: [
+      `${SITE_ORIGIN}/favicon.ico`,
+      `${SITE_ORIGIN}/icons/favicon-rounded.png`,
+    ],
+  }),
   celeb: Object.freeze({
     prefixes: [
       `${SITE_HOST}/celeb/`,
@@ -754,6 +762,9 @@ function isTestOnlyPath(file) {
 }
 
 function classifyFile(file) {
+  // ICO의 파일 해시가 공통 head에 실린다. 보관 HTML과 실제 아이콘 URL을 함께 갱신한다.
+  if (file === 'sw/web/src/app/favicon.ico') return ['favicons', 'cached-html']
+  if (file === 'sw/web/public/icons/favicon-rounded.png') return ['favicons']
   // 홈 전용 연결도·책장·검색 갤러리는 / 및 /en에서만 소비한다.
   if (file.startsWith('sw/web/src/components/features/home/introduction/')) return []
   // myth 폴더의 나머지 부품과 달리 RecentHistoryRail을 통해 공통 레이아웃에도 실린다.
