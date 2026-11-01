@@ -4,7 +4,7 @@ import { assertPurgeTargets } from './cloudflare-purge.mjs'
 import { createManualCloudflarePurgePlan } from './lib/cloudflare-purge-impact.mjs'
 
 test('배포 뒤 쓰는 범위는 우리 존 경로만 겨냥한다', () => {
-  for (const scope of ['celeb', 'content', 'seo', 'cached-html']) {
+  for (const scope of ['celeb', 'content', 'seo', 'cached-html', 'favicons']) {
     const plan = createManualCloudflarePurgePlan(scope, '')
     assert.doesNotThrow(() => assertPurgeTargets(plan))
     assert.ok(plan.prefixes.length + plan.files.length > 0)

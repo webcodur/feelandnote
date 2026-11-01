@@ -11,6 +11,20 @@ import {
   createManualCloudflarePurgePlan,
 } from './cloudflare-purge-impact.mjs'
 
+test('favicon changes refresh exact assets and cached HTML containing the ICO hash', () => {
+  const png = classifyCloudflarePurgeImpact(['sw/web/public/icons/favicon-rounded.png'])
+  assert.deepEqual(png.scopes, ['favicons'])
+  assert.deepEqual(png.prefixes, [])
+  assert.deepEqual(png.files, [
+    'https://feelandnote.com/favicon.ico',
+    'https://feelandnote.com/icons/favicon-rounded.png',
+  ])
+  const ico = classifyCloudflarePurgeImpact(['sw/web/src/app/favicon.ico'])
+  assert(ico.scopes.includes('favicons'))
+  assert(ico.scopes.includes('cached-html'))
+  assert.deepEqual(ico.files.filter(file => file.endsWith('.ico') || file.endsWith('.png')), png.files)
+})
+
 test('timeline portrait and year presenters refresh cached timeline HTML', () => {
   for (const name of ['CelebTimelineItem', 'TimelineEraList', 'ContemporariesPanel']) {
     assert.deepEqual(classifyCloudflarePurgeImpact([
