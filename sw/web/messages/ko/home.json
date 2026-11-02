@@ -245,7 +245,14 @@
       "recentFilters": {
         "title": "최근 사용한 필터",
         "apply": "{label} 필터 적용",
-        "remove": "최근 필터에서 {label} 삭제"
+        "remove": "최근 필터에서 {label} 삭제",
+        "clearAll": "최근 필터 모두 삭제",
+        "toggle": "최근 필터 사용",
+        "disable": "최근 필터 사용 끄기",
+        "enable": "최근 필터 사용 켜기",
+        "limit": "최근 필터 저장 개수",
+        "increaseLimit": "저장 개수 늘리기",
+        "decreaseLimit": "저장 개수 줄이기"
       },
       "filterBirthYearAge": "생년·나이"
     },

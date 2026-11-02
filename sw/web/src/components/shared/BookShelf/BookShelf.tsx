@@ -146,9 +146,9 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
               listOpen={listOpen} onListOpenChange={setListOpen} categoryPicker={categoryPicker} titlePulseRequest={titlePulseRequest} />
           </div>
           {showAllItems && <div data-shelf-all-items className="space-y-6 [overflow-anchor:none]">
-            {shownBooks.map((book) => <LibraryShelfLazyItem key={`${active.key}:${choice?.key ?? ''}:${active.selectionKey ?? ''}:${book.id}`} title={book.title}>
+            {shownBooks.map((book, index) => <LibraryShelfLazyItem key={`${active.key}:${choice?.key ?? ''}:${active.selectionKey ?? ''}:${book.id}`} title={book.title}>
               <BookShelfSelection selectionKey={book.id} intro={shownIntro ?? ''} books={[book]} context={active.context}
-                listOpen={false} onListOpenChange={setListOpen} showNavigation={false} />
+                listOpen={false} onListOpenChange={setListOpen} showNavigation={false} allItemsPosition={{ index, total: shownBooks.length }} />
             </LibraryShelfLazyItem>)}
             {active.pagination?.failed ? <RetryBlock onRetry={active.pagination.onLoadMore} /> : active.pagination?.hasMore && (
               <button type="button" disabled={active.pagination.loading} aria-busy={active.pagination.loading} onClick={active.pagination.onLoadMore}

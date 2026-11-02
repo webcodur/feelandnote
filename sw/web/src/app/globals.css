@@ -64,6 +64,9 @@
   /* 책 소개 본문 — 어두운 바탕에서도 읽히는 밝은 황갈색. */
   --color-book-intro: #d7bea9;
   --color-book-intro-emphasis: #fff7ed;
+  /* 읽기 강조색은 인물 세계·화면의 조작용 accent 테마와 독립적으로 유지한다. */
+  --color-reading-quote: #f9d76e;
+  --color-reading-term: #d4af37;
 
   /* 현재 낭독 구간의 배경·밑줄. 본문의 인용·작품명 강조색과는 별개다. */
   --color-reading-active: #6fe3a0;
@@ -120,8 +123,8 @@
   }
 }
 
-/* 책 소개에서는 금색 인용과 갈색 본문이 섞이지 않도록 강조를 밝은 크림색으로 구분한다. */
-.text-book-intro :is(.text-accent, .text-accent-hover, .text-text-primary) {
+/* 소개 속 작품명은 밝은 크림색으로 구분한다. 인용·용어는 공통 읽기 강조색을 유지한다. */
+.text-book-intro .text-text-primary {
   color: var(--color-book-intro-emphasis);
   font-weight: 600;
 }

@@ -4,6 +4,8 @@ import { useCallback, useEffect, useEffectEvent, useRef, useState } from "react"
 import {
   canRestoreExploreFilters, readExplorePreferences, writeExplorePreferences,
   exploreFilterHistoryEntries, readExploreFilterHistory, rememberExploreFilters, writeExploreFilterHistory,
+  readExploreFilterHistoryEnabled, writeExploreFilterHistoryEnabled,
+  EXPLORE_FILTER_HISTORY_LIMITS, normalizeExploreFilterHistoryLimit, readExploreFilterHistoryLimit, writeExploreFilterHistoryLimit,
   type ExplorePreferences,
 } from "@/lib/explorePreferences";
 
@@ -15,13 +17,21 @@ export function useExplorePreferences(
   const [ready, setReady] = useState(false);
   const previousFilters = useRef<string | null>(null);
   const [recentFilters, setRecentFilters] = useState<string[]>([]);
-  const saveHistory = useCallback((next: string[]) => {
-    setRecentFilters(next);
-    try { writeExploreFilterHistory(window.localStorage, next); } catch { /* 저장 접근이 막힌 브라우저 */ }
-  }, []);
+  const [recentFiltersEnabled, setRecentFiltersEnabled] = useState(true);
+  const [recentFiltersLimit, setRecentFiltersLimit] = useState<number>(EXPLORE_FILTER_HISTORY_LIMITS.default);
+  const saveHistory = useCallback((next: string[], limit = recentFiltersLimit) => {
+    const trimmed = next.slice(0, limit);
+    setRecentFilters(trimmed);
+    try { writeExploreFilterHistory(window.localStorage, trimmed, limit); } catch { /* 저장 접근이 막힌 브라우저 */ }
+  }, [recentFiltersLimit]);
   const restore = useEffectEvent(() => {
     try {
-      setRecentFilters(readExploreFilterHistory(window.localStorage));
+      const limit = readExploreFilterHistoryLimit(window.localStorage);
+      const history = readExploreFilterHistory(window.localStorage, limit);
+      setRecentFiltersLimit(limit);
+      setRecentFilters(history);
+      writeExploreFilterHistory(window.localStorage, history, limit);
+      setRecentFiltersEnabled(readExploreFilterHistoryEnabled(window.localStorage));
       const saved = readExplorePreferences(window.localStorage);
       if (saved) onRestore(saved, canRestoreExploreFilters(window.location.search) && saved.filters !== preferences.filters);
     } catch {
@@ -51,18 +61,34 @@ export function useExplorePreferences(
   const remember = useEffectEvent(() => {
     const previous = previousFilters.current;
     previousFilters.current = filters;
-    if (previous !== null) saveHistory(rememberExploreFilters(recentFilters, filters, previous));
+    if (previous !== null && recentFiltersEnabled) saveHistory(rememberExploreFilters(recentFilters, filters, previous, recentFiltersLimit));
   });
   useEffect(() => {
     if (!enabled || !ready) return;
     let active = true;
     queueMicrotask(() => { if (active) remember(); });
     return () => { active = false; };
-  }, [enabled, ready, filters]);
+  }, [enabled, ready, filters, recentFiltersEnabled]);
 
   return {
     recentFilters,
+    recentFiltersEnabled,
+    recentFiltersReady: ready,
+    recentFiltersLimit,
+    handleRecentFiltersLimitChange: (value: number) => {
+      const limit = normalizeExploreFilterHistoryLimit(value);
+      previousFilters.current = filters;
+      setRecentFiltersLimit(limit);
+      saveHistory(recentFilters, limit);
+      try { writeExploreFilterHistoryLimit(window.localStorage, limit); } catch { /* 저장 접근이 막힌 브라우저 */ }
+    },
     currentFilterEntries: exploreFilterHistoryEntries(filters),
     removeRecentFilter: (entry: string) => saveHistory(recentFilters.filter(item => item !== entry)),
+    clearRecentFilters: () => { previousFilters.current = filters; saveHistory([]); },
+    handleRecentFiltersEnabledChange: (next: boolean) => {
+      previousFilters.current = filters;
+      setRecentFiltersEnabled(next);
+      try { writeExploreFilterHistoryEnabled(window.localStorage, next); } catch { /* 저장 접근이 막힌 브라우저 */ }
+    },
   };
 }

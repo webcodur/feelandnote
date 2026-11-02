@@ -7,7 +7,7 @@ const readSibling = (name: string) =>
   readFileSync(fileURLToPath(new URL(name, import.meta.url)), "utf8");
 
 test("content introduction keeps long prose in the document scroll", () => {
-  const contentIntro = readSibling("./ContentIntro.tsx");
+  const contentIntro = readSibling("../../../../shared/ContentReading/ContentIntro.tsx");
 
   assert.doesNotMatch(
     contentIntro,
@@ -17,7 +17,7 @@ test("content introduction keeps long prose in the document scroll", () => {
 });
 
 test("review box lets the wheel escape to the page", () => {
-  const reviewBox = readSibling("./ReviewScrollBox.tsx");
+  const reviewBox = readSibling("../../../../shared/ContentReading/ReviewScrollBox.tsx");
 
   assert.doesNotMatch(
     reviewBox,

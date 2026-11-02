@@ -2,10 +2,10 @@
 
 import { useCallback, useMemo, type ReactNode } from "react";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
-import { mapPublicToUserContent } from "@/components/features/user/contentLibrary/contentLibraryTypes";
-import ExpandCard from "@/components/features/user/contentLibrary/expand/ExpandCard";
-import { useContentBrief } from "@/components/features/user/contentLibrary/expand/useContentBrief";
-import { useCelebContentRecord } from "@/components/features/user/contentLibrary/expand/useCelebContentRecord";
+import { mapPublicToUserContent } from "@/components/shared/ContentReading/mapPublicContents";
+import ExpandCard from "@/components/shared/ContentReading/ExpandCard";
+import { useContentBrief } from "@/components/shared/ContentReading/useContentBrief";
+import { useCelebContentRecord } from "@/components/shared/ContentReading/useCelebContentRecord";
 import { useHeldHeight } from "@/components/features/user/contentLibrary/expand/useHeldHeight";
 
 interface Props {

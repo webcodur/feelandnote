@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { getPublicCelebContentRecord } from "@/actions/contents/getCelebContentExpand";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
-import { mapPublicToUserContent } from "../contentLibraryTypes";
+import { mapPublicToUserContent } from "@/components/shared/ContentReading/mapPublicContents";
 
 type RecordEntry =
   | { status: "ready"; item: UserContentWithContent | null }

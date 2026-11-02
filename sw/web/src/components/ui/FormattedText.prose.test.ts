@@ -92,7 +92,7 @@ test("paragraph ranges preserve original CRLF and indentation offsets", () => {
   const start = source.indexOf("강조");
   const $ = prose(source, { start, end: start + 2 });
   assert.equal($('mark').text(), "강조");
-  assert.equal($('mark').parent().attr('class'), "font-serif text-accent");
+  assert.equal($('mark').parent().attr('class'), "font-serif text-reading-term");
 });
 
 test("narration marks in later paragraphs retain title and term emphasis", () => {

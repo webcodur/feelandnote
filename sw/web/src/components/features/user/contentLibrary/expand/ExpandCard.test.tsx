@@ -25,7 +25,7 @@ test('music shelf restores preview and listening link without retaining another 
     absWorkingDir: fileURLToPath(new URL('../../../../../../', import.meta.url)),
     tsconfig: fileURLToPath(new URL('../../../../../../tsconfig.json', import.meta.url)),
     stdin: { resolveDir, loader: 'tsx', contents: `
-      import {createRoot} from 'react-dom/client'; import {useState} from 'react'; import Card from './ExpandCard';
+      import {createRoot} from 'react-dom/client'; import {useState} from 'react'; import Card from '@/components/shared/ContentReading/ExpandCard';
       const item={content_id:'track-a',review:'Why this track matters',content:{id:'track-a',type:'MUSIC',title:'Buriburi',creator:'Balming Tiger'}};
       const brief={contentId:'track-a',category:'music',description:'Track introduction',metadata:{artists:['Eddie Vedder & Mike McCready'],albumType:'track',genre:'Alternative',previewUrl:'https://example.test/a.m4a',itunesUrl:'https://music.apple.com/album/track-a'}};
       function App(){const [props,setProps]=useState({item,brief,isActive:true,isBriefLoading:false,isRecordLoading:false,hasBriefError:false,hasRecordError:false,onRetryBrief(){window.retryBriefCalls=(window.retryBriefCalls||0)+1},onRetryRecord(){}});
@@ -62,9 +62,9 @@ test('music shelf restores preview and listening link without retaining another 
     page.on('pageerror', error => errors.push(String(error)))
     const css = await postcss([tailwind()]).process(`
       @import "tailwindcss" source(none);
-      @source "./components/features/user/contentLibrary/expand/ExpandCard.tsx";
-      @source "./components/features/user/contentLibrary/expand/ContentMetaDetails.tsx";
-      @source "./components/features/user/contentLibrary/expand/MusicPreviewPlayer.tsx";
+      @source "./components/shared/ContentReading/ExpandCard.tsx";
+      @source "./components/shared/ContentReading/ContentMetaDetails.tsx";
+      @source "./components/shared/ContentReading/MusicPreviewPlayer.tsx";
       @theme { --color-accent:#78b7cf; --color-accent-hover:#a3d6e7; --color-bg-main:#090f12; --color-bg-card:#101c22; --color-text-primary:#e5e9eb; --color-text-secondary:#9aadb6; --color-text-tertiary:#82949c; }
     `, { from: fileURLToPath(new URL('../../../../../music-fixture.css', import.meta.url)) })
     await page.setContent('<style>body{margin:0;background:#090f12;color:#9aadb6;font:15px/1.65 sans-serif}#root{max-width:900px;margin:auto}</style><div id="root"></div>')

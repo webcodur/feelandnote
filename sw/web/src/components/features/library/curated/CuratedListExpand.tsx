@@ -27,15 +27,15 @@ import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { CuratedListDetail, CuratedListItem } from "@/actions/library/types";
 import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import { isAccessType } from "@/lib/commerce/contentAccess";
-import ContentIntro from "@/components/features/user/contentLibrary/expand/ContentIntro";
-import { resolveContentIntroFullText } from "@/components/features/user/contentLibrary/expand/contentIntroText";
+import ContentIntro from "@/components/shared/ContentReading/ContentIntro";
+import { resolveContentIntroFullText } from "@/components/shared/ContentReading/contentIntroText";
 import { fitsInlineReadingText } from "@/constants/readingText";
 import ContentMetaPanel from "@/components/features/user/contentLibrary/expand/ContentMetaPanel";
 import {
   ExpandBottomNavigation,
   ExpandTitleHeader,
 } from "@/components/features/user/contentLibrary/expand/ExpandNavigation";
-import { useContentBrief } from "@/components/features/user/contentLibrary/expand/useContentBrief";
+import { useContentBrief } from "@/components/shared/ContentReading/useContentBrief";
 import { useHeldHeight } from "@/components/features/user/contentLibrary/expand/useHeldHeight";
 import Button from "@/components/ui/Button";
 import ContentCover from "@/components/ui/ContentCover";

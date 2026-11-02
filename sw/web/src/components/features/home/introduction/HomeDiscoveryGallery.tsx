@@ -1,29 +1,33 @@
 import { getLocale, getTranslations } from 'next-intl/server'
 import { ArrowRight, Images, Users } from 'lucide-react'
-import { getMostRecordedCelebLinks } from '@/actions/home/getCelebs'
-import { getHomeGraphData } from '@/actions/home/getHomeGraphData'
+import { getHomePeople } from '@/actions/home/getHomePeople'
+import { getHomeGraphDeck } from '@/actions/home/getHomeGraphData'
 import CelebAvatarImage from '@/components/ui/CelebAvatarImage'
 import ContentCover from '@/components/ui/ContentCover'
 import { NAV_ITEMS } from '@/constants/navigation'
 import { Link } from '@/i18n/navigation'
 import { getCelebProfileUrl } from '@/lib/url'
+import { getVisitorCountry } from '@/lib/visitorCountryServer'
+import { HOME_PEOPLE_COUNT } from '@/lib/homePeople'
+import { HOME_GRAPH_MEDIA } from './config'
 import styles from './HomeDiscoveryGallery.module.css'
 
-const GALLERY_IMAGE_COUNT = 3
+const GALLERY_IMAGE_COUNT = HOME_PEOPLE_COUNT
 
 export default async function HomeDiscoveryGallery() {
-  const [locale, t] = await Promise.all([getLocale(), getTranslations('nav')])
+  const [locale, t, country] = await Promise.all([getLocale(), getTranslations('nav'), getVisitorCountry()])
   const [peopleResult, worksResult] = await Promise.allSettled([
-    getMostRecordedCelebLinks(GALLERY_IMAGE_COUNT * 2, 1),
-    getHomeGraphData('appreciations', locale),
+    getHomePeople(country),
+    getHomeGraphDeck('appreciations', locale, country),
   ])
   if (peopleResult.status === 'rejected') console.error('[home] 탐색 인물 이미지 조회 실패', peopleResult.reason)
   if (worksResult.status === 'rejected') console.error('[home] 탐색 작품 이미지 조회 실패', worksResult.reason)
   const people = peopleResult.status === 'fulfilled'
     ? peopleResult.value.filter(person => person.avatar_url).slice(0, GALLERY_IMAGE_COUNT) : []
-  const works = worksResult.status === 'fulfilled'
-    ? (worksResult.value?.branches.flatMap(branch => branch.items.find(item => item.thumbnailUrl) ?? []) ?? [])
-      .slice(0, GALLERY_IMAGE_COUNT) : []
+  const workCandidates = worksResult.status === 'fulfilled'
+    ? worksResult.value.flatMap(data => data.branches.flatMap(branch => branch.items.filter(item => item.thumbnailUrl))) : []
+  const mediaSamples = HOME_GRAPH_MEDIA.flatMap(type => workCandidates.find(item => item.type === type) ?? [])
+  const works = [...new Map([...mediaSamples, ...workCandidates].map(item => [item.id, item])).values()].slice(0, GALLERY_IMAGE_COUNT)
   const peopleHref = NAV_ITEMS.find(item => item.key === 'explore')!.href
   const worksHref = NAV_ITEMS.find(item => item.key === 'library')!.href
 

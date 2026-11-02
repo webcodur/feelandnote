@@ -2,10 +2,6 @@ export const HOME_GRAPH_PREVIEW_COUNT = 2
 export const HOME_GRAPH_CANDIDATE_COUNT = 12
 export const HOME_PERSON_ROTATION_STORAGE_PREFIX = 'feelandnote:home-rotation:v1'
 export const HOME_GRAPH_MEDIA = ['BOOK', 'MUSIC', 'VIDEO', 'GAME'] as const
-export const HOME_GRAPH_PEOPLE = {
-  appreciations: ['lex-fridman', 'stephen-fry', 'henry-cavill'],
-  books: ['carl-sagan', 'albert-einstein', 'bill-gates'],
-} as const
 
 // 연결도는 실제 공개 감상 기록이 있는 대표 작품으로 구성한다.
 export const HOME_GRAPH_PICKS = {

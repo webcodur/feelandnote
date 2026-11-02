@@ -33,7 +33,7 @@ function renderHighlightedTextWithStyle(text: string) {
 test("straight and typographic double quotes share the same emphasis", () => {
   const html = renderText('"straight quote" 그리고 “여닫는 quote”');
 
-  assert.equal((html.match(/font-medium text-accent-hover/g) ?? []).length, 2);
+  assert.equal((html.match(/font-medium text-reading-quote/g) ?? []).length, 2);
   assert.match(html, /“straight quote”/);
   assert.match(html, /“여닫는 quote”/);
 });
@@ -47,7 +47,7 @@ test("long quoted book overviews stay plain with their punctuation and content i
     const text = `Overview: ${open}${LONG_BOOK_OVERVIEW}${close}`;
     for (const render of [renderText, renderHighlightedTextWithStyle]) {
       const html = render(text);
-      assert.doesNotMatch(html, /text-accent|text-3d-gold|font-medium|font-semibold|background-image/);
+      assert.doesNotMatch(html, /text-reading-(?:quote|term)|text-3d-gold|font-medium|font-semibold|background-image/);
       assert.equal(load(html).text(), `Overview: ${normalizedOpen}${LONG_BOOK_OVERVIEW}${normalizedClose}`);
     }
     assert.deepEqual(emphasisSpans(text), []);
@@ -58,7 +58,7 @@ test("long quoted book overviews stay plain with their punctuation and content i
 test("short quotations and titles still stand out beside a long quoted overview", () => {
   const html = renderText(`“${LONG_BOOK_OVERVIEW}” 다음은 “짧은 인용”과 《작품명》, 인공지능(AI).`);
   const $ = load(html);
-  assert.equal($('.text-accent-hover').map((_, el) => $(el).text()).get().join(''), '“짧은 인용”');
+  assert.equal($('.text-reading-quote').map((_, el) => $(el).text()).get().join(''), '“짧은 인용”');
   assert.equal($('.text-text-primary').text(), '《작품명》');
   assert.ok($('.text-text-primary').hasClass('font-semibold'));
   assert.equal(emphasisClassName('《작품명》', 'text-3d-gold-bright'), 'font-semibold text-3d-gold-bright');
@@ -69,7 +69,7 @@ test("long dash asides do not paint the surrounding paragraph", () => {
   const aside = 'an organization where members trust one another and cooperate without fear '.repeat(4).trim();
   for (const text of [`Books —${aside}— shaped him.`, `Books – ${aside} – shaped him.`, `Books --${aside}-- shaped him.`]) {
     const html = renderText(text);
-    assert.doesNotMatch(html, /text-accent/);
+    assert.doesNotMatch(html, /text-reading-(?:quote|term)/);
     assert.equal(load(html).text(), text);
   }
 });
@@ -81,7 +81,7 @@ test("active narration marks remain available inside a long plain quotation", ()
   const $ = load(renderToStaticMarkup(React.createElement(FormattedText, { text, mark: { start, end } })));
   assert.equal($('mark').text(), text.slice(start, end));
   assert.ok($('mark').hasClass('text-inherit'));
-  assert.equal($('.text-accent-hover, .text-accent').length, 0);
+  assert.equal($('.text-reading-quote, .text-reading-term').length, 0);
   assert.equal($.text(), text);
 });
 
@@ -96,7 +96,7 @@ test("splitting a long quotation into playable sentences does not restore its go
     ],
     onPlayFrom: () => {},
   })));
-  assert.equal($('.text-accent-hover, .text-accent').length, 0);
+  assert.equal($('.text-reading-quote, .text-reading-term').length, 0);
   assert.equal($('[role="button"]').length, 2);
   assert.equal($('mark').text(), text.slice(split));
   assert.equal($.text(), text);
@@ -105,7 +105,7 @@ test("splitting a long quotation into playable sentences does not restore its go
 test("typographic single quotes receive inline quote emphasis", () => {
   const html = renderText("‘여닫는 작은따옴표’");
 
-  assert.match(html, /class="font-serif text-accent">‘여닫는 작은따옴표’<\/span>/);
+  assert.match(html, /class="font-serif text-reading-term">‘여닫는 작은따옴표’<\/span>/);
 });
 
 test("typographic quotes keep the modal highlight override", () => {
@@ -127,7 +127,7 @@ test("modal highlight style applies only to quoted parts, not plain text", () =>
 test("English dash asides retain their punctuation and receive emphasis", () => {
   for (const aside of ["—a lasting influence—", "— a lasting influence —", "– a lasting influence –", "--a lasting influence--"]) {
     const html = renderText(`Books ${aside} shaped him.`);
-    assert.ok(html.includes(`<span class="font-serif text-accent">${aside}</span>`));
+    assert.ok(html.includes(`<span class="font-serif text-reading-term">${aside}</span>`));
     assert.ok(html.includes("<span> shaped him.</span>"));
   }
 });
@@ -139,29 +139,29 @@ test("ranges, hyphens and unpaired dashes remain plain text", () => {
     "He read — an influence\nthat lasted — for years.",
     "—One thought. Another—",
   ]) {
-    assert.doesNotMatch(renderText(text), /text-accent/);
+    assert.doesNotMatch(renderText(text), /text-reading-(?:quote|term)/);
   }
 });
 
 test("English contractions and possessives do not become quotations", () => {
   const html = renderText("Don't change a writer's words. Don’t change a writer’s words.");
-  assert.doesNotMatch(html, /text-accent/);
+  assert.doesNotMatch(html, /text-reading-(?:quote|term)/);
 });
 
 test("single-quoted English phrases keep internal apostrophes", () => {
   const html = renderText("'Don't stop' and ‘a writer’s life’");
-  assert.equal((html.match(/class="font-serif text-accent"/g) ?? []).length, 2);
+  assert.equal((html.match(/class="font-serif text-reading-term"/g) ?? []).length, 2);
   assert.match(html, /‘Don&#x27;t stop’<\/span>/);
   assert.match(html, /‘a writer’s life’<\/span>/);
 });
 
 test("Korean quotes keep emphasis when a particle hugs the closing quote", () => {
   const html = renderText("‘빠르게 움직이고 기존의 틀을 깨라’는 모토로 내달렸다.");
-  assert.match(html, /class="font-serif text-accent">‘빠르게 움직이고 기존의 틀을 깨라’<\/span>/);
+  assert.match(html, /class="font-serif text-reading-term">‘빠르게 움직이고 기존의 틀을 깨라’<\/span>/);
   assert.match(html, /<span>는 모토로 내달렸다.<\/span>/);
 
   const attached = renderText("속으로'안돼'라고 했다.");
-  assert.match(attached, /class="font-serif text-accent">‘안돼’<\/span>/);
+  assert.match(attached, /class="font-serif text-reading-term">‘안돼’<\/span>/);
   assert.match(attached, /<span>라고 했다.<\/span>/);
 });
 
@@ -199,7 +199,7 @@ test("quotes split across narration segments still get emphasis", () => {
     React.createElement(ReadingHighlightText, { text, segments, onPlayFrom: () => {} }),
   );
   // 인용구가 세그먼트 경계에서 잘려도 조각마다 강조가 입혀진다 — “ · 싸우자! · 싸우자! · 싸우자!” 네 조각
-  assert.equal((html.match(/font-medium text-accent-hover/g) ?? []).length, 4);
+  assert.equal((html.match(/font-medium text-reading-quote/g) ?? []).length, 4);
   // 조각마다 자기 세그먼트의 재생 버튼을 유지한다 — 클릭한 지점부터 재생되는 게 그대로다
   assert.equal((html.match(/role="button"/g) ?? []).length, 6);
   assert.match(html, /싸우자!”<\/span>/);
@@ -212,7 +212,7 @@ test("reading previews share English emphasis and paragraph-relative narration m
     text, mark: { start, end: start + "influence".length },
   }));
   assert.equal((html.match(/<p>/g) ?? []).length, 2);
-  assert.match(html, /class="font-serif text-accent">—a lasting <\/span>/);
+  assert.match(html, /class="font-serif text-reading-term">—a lasting <\/span>/);
   assert.match(html, /<mark[^>]*aria-current="true">influence<\/mark>/);
 });
 
@@ -222,7 +222,7 @@ test("parenthetical definitions use secondary text while Korean terms stay plain
   assert.match(html, /<span>과 엔트로피<\/span><span class="font-normal text-text-secondary ms-\[0\.12em\]">\(무질서도\)<\/span><span>를 설명했다./);
   const $ = load(renderText("지혜, 용기(勇氣), 절제와 사회 계약(社會契約)"));
   assert.equal($('.text-text-secondary').map((_, el) => $(el).text()).get().join(''), '(勇氣)(社會契約)');
-  assert.equal($('.text-accent-hover, .text-accent, .font-semibold').length, 0);
+  assert.equal($('.text-reading-quote, .text-reading-term, .font-semibold').length, 0);
   assert.equal($.text(), "지혜, 용기(勇氣), 절제와 사회 계약(社會契約)");
 });
 
@@ -247,7 +247,7 @@ test("parenthetical formatting preserves spaces, hyphenated names, and punctuati
 });
 
 test("numeric references, dates and empty parentheses remain plain", () => {
-  assert.doesNotMatch(renderText("Microsoft (1975), 게이츠(1955), chapter (3), B()"), /text-accent|text-text-secondary/);
+  assert.doesNotMatch(renderText("Microsoft (1975), 게이츠(1955), chapter (3), B()"), /text-reading-(?:quote|term)|text-text-secondary/);
   assert.match(renderText("(a separate aside)"), /font-normal text-text-secondary/);
 });
 
@@ -255,7 +255,7 @@ test("parenthetical formatting leaves surrounding punctuation and paragraphs pla
   for (const prefix of ["artificial. ", "artificial\n", "artificial\n\n"]) {
     const html = renderText(`${prefix}intelligence (AI)`);
     assert.match(html, /intelligence <\/span><span class="font-normal text-text-secondary">\(AI\)/);
-    assert.doesNotMatch(html, /text-accent|font-semibold/);
+    assert.doesNotMatch(html, /text-reading-(?:quote|term)|font-semibold/);
   }
 });
 
@@ -281,9 +281,9 @@ test("active narration preserves the colors and weights of quotes, titles and te
     text, mark: { start: 0, end: text.length },
   })));
   const parentStyle = (text: string) => $('mark').filter((_, el) => $(el).text() === text).parent().attr('class');
-  assert.equal(parentStyle('“직접 인용”'), 'font-medium text-accent-hover');
+  assert.equal(parentStyle('“직접 인용”'), 'font-medium text-reading-quote');
   assert.equal(parentStyle('《작품명》'), 'text-text-primary font-semibold');
-  assert.equal(parentStyle('‘짧은 강조’'), 'font-serif text-accent');
+  assert.equal(parentStyle('‘짧은 강조’'), 'font-serif text-reading-term');
   assert.equal(parentStyle('(AI)'), 'font-normal text-text-secondary ms-[0.12em]');
   assert.equal($('mark').filter((_, el) => $(el).text().includes('인공지능')).parent().attr('class'), undefined);
   assert.ok($('mark').filter((_, el) => $(el).text() === '본문 ').hasClass('text-inherit'));
@@ -310,7 +310,7 @@ test("parenthetical definitions stay neutral when narration splits inside them",
   const spaced = $('span').filter((_, el) => $(el).hasClass('ms-[0.12em]'));
   assert.equal(spaced.length, 1);
   assert.equal(spaced.text(), '(勇');
-  assert.equal($('.text-accent-hover, .text-accent, .text-3d-gold-bright, [style]').length, 0);
+  assert.equal($('.text-reading-quote, .text-reading-term, .text-3d-gold-bright, [style]').length, 0);
   assert.deepEqual(emphasisSpans(text), [{ start: text.indexOf('('), end: text.indexOf(')') + 1 }]);
 });
 
@@ -326,9 +326,9 @@ test("an active quote keeps emphasis when narration splits it across sentences",
     onPlayFrom: () => {},
   })));
   assert.equal($('mark').text(), '둘째 문장!”');
-  assert.ok($('mark').closest('.text-accent-hover').length > 0);
+  assert.ok($('mark').closest('.text-reading-quote').length > 0);
   assert.ok($('mark').hasClass('text-inherit'));
   assert.ok($('mark').hasClass('decoration-reading-active/70'));
   assert.equal($('mark').length, 1);
-  assert.ok($('span.text-accent-hover').first().text().startsWith('“첫 문장!'));
+  assert.ok($('span.text-reading-quote').first().text().startsWith('“첫 문장!'));
 });

@@ -245,7 +245,14 @@
       "recentFilters": {
         "title": "Recently used filters",
         "apply": "Apply filters: {label}",
-        "remove": "Remove from recent filters: {label}"
+        "remove": "Remove from recent filters: {label}",
+        "clearAll": "Clear all recent filters",
+        "toggle": "Use recent filters",
+        "disable": "Turn off recent filters",
+        "enable": "Turn on recent filters",
+        "limit": "Number of recent filters to keep",
+        "increaseLimit": "Keep more recent filters",
+        "decreaseLimit": "Keep fewer recent filters"
       },
       "filterBirthYearAge": "Birth year / age"
     },

@@ -4,7 +4,7 @@
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
 
-import { MusicDetails, VideoDetails } from "./ContentMetaDetails";
+import { MusicDetails, VideoDetails } from "@/components/shared/ContentReading/ContentMetaDetails";
 import GameScreenshots from "./GameScreenshots";
 
 interface ContentMetaPanelProps {

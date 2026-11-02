@@ -86,6 +86,12 @@ const REVIEWED_ENGLISH_EDITIONS: Readonly<Record<string, string>> = {
   // Secrets of the Millionaires (Profit Ideas, 1988), George F. Sterne. 동일 ISBN의 영어 종이책을 확인했다.
   // https://www.abebooks.com/Secrets-Millionaires-George-F-Sterne-Profit/31794609539/bd
   '9780940398207': '/books/OL8420574M',
+  // The Motivation Hacker (Nick Winter, 2014). 동일 ISBN의 서지에 영어판임이 명시돼 있다.
+  // https://www.bokus.com/bok/9780989279826/the-motivation-hacker/
+  '9780989279826': '/books/OL35721942M',
+  // 2024 (Penguin Press, 2025), Josh Dawsey·Tyler Pager·Isaac Arnsdorf. 같은 ISBN의 영어 양장본을 확인했다.
+  // https://penguinrandomhousehighereducation.com/book/?isbn=9780593832530 · https://www.target.com/p/-/A-1002282511
+  '9780593832530': '/books/OL59511626M',
 }
 
 /** 판본 언어는 판본 응답으로 확인한다. 국가군과 원전 언어는 번역판 언어의 근거가 아니다. */

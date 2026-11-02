@@ -90,6 +90,7 @@ test("a small archive renders all records with no pagination", async () => {
       contentId,
       category: "book",
       description: `Synopsis for ${contentId}`,
+      introductionAttribution: { provider: 'daum', url: 'https://publisher.test/book', translated: false },
       releaseDate: null,
       metadata: null,
     }),
@@ -113,6 +114,10 @@ test("a small archive renders all records with no pagination", async () => {
   assert.equal($("article").length, 3);
   assert.match($("article").text(), /Full review 1/);
   assert.match($("article").text(), /Full review 3/);
+  assert.equal($('[data-content-reading-label="intro"] a').first().attr('href'), 'https://publisher.test/book');
+  assert.equal($('[data-content-reading-label="review"] a').first().attr('href'), items[0].source_url);
+  assert.equal($('[data-content-reading-label="review"] a').first().attr('target'), '_blank');
+  assert.equal($('article').first().text().includes(items[0].source_url!), false, 'Source URLs are linked from the label rather than repeated as a footer');
   assert.equal($("a[rel=prev]").length, 0);
   assert.equal($("a[rel=next]").length, 0);
   assert.equal(getAlternates(recordsPath("example"), "en").canonical, "https://feelandnote.com/en/celeb/example/records");

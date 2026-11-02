@@ -19,7 +19,7 @@ test('review and book shelves default to visible introductions and collapsed rec
     stdin: { resolveDir, loader: 'tsx', contents: `
       import {createRoot} from 'react-dom/client'; import Shelf from './BookShelf/BookShelf';
       import Reviews from '../features/user/contentLibrary/expand/ExpandDetailView';
-      const books=Array.from({length:20},(_,i)=>({id:'book-'+i,title:'Book '+i,creator:null,editions:[],detailsLoaded:true,thumbnailUrl:null}));
+      const books=Array.from({length:20},(_,i)=>({id:'book-'+i,title:'Book '+i,creator:null,editions:[],detailsLoaded:true,thumbnailUrl:null,professionCategory:'train'}));
       const items=books.map(b=>({id:b.id,content_id:b.id,content:{id:b.id,title:b.title,creator:null,type:'BOOK',thumbnail_url:null}}));
       createRoot(document.getElementById('root')).render(<>
         <div data-review-shelf><Reviews items={items} recordsAction={<a href="/records?focus=book-1" aria-label="Open records" onClick={event=>{event.preventDefault();window.recordVisits=(window.recordVisits??0)+1}}>↗</a>}/></div>
@@ -32,7 +32,7 @@ test('review and book shelves default to visible introductions and collapsed rec
       builder.onResolve({ filter: /^(next-intl|next\/dynamic|.*\/(ExpandCard|useContentBrief|useCelebContentRecord|ExpandNavigation|LibraryDetailNavigation|MobileIndexModal|BookShelfBookList|BookShelfFeature|BookShelfRelations|useBookIntroduction|getBookShelfBook|LibraryCategoryPicker))$/ }, args => ({ path: args.path, namespace: 'fixture' }))
       builder.onLoad({ filter: /.*/, namespace: 'fixture' }, args => {
         let contents: string
-        if (args.path === 'next-intl') contents = `export const useLocale=()=>'ko';export const useTranslations=()=>key=>key;`
+        if (args.path === 'next-intl') contents = `export const useLocale=()=>'ko';export const useTranslations=()=>(key,values)=>key==='professionReadingOrder'?values.current+' / '+values.total:key;`
         else if (args.path === 'next/dynamic') contents = `export default function dynamic(){return ()=>null}`
         else if (args.path.endsWith('/ExpandCard')) contents = `export default function Card({item,showIntroduction}){return <article data-card={item.id} style={{minHeight:300}}>{showIntroduction&&<p data-intro>Introduction</p>}</article>}`
         else if (args.path.endsWith('/BookShelfFeature')) contents = `export default function Feature({source,showIntroduction}){return <article data-card={source.id} style={{minHeight:300}}>{showIntroduction&&<p data-intro>Introduction</p>}</article>}`
@@ -58,6 +58,7 @@ test('review and book shelves default to visible introductions and collapsed rec
     const errors: string[] = []
     page.on('pageerror', error => errors.push(String(error)))
     await page.setViewport({ width: 1000, height: 700 })
+    await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }])
     await page.setContent('<style>[hidden]{display:none} [data-shelf-list-item]{margin-bottom:24px} [aria-busy=true]{min-height:320px}</style><div id="root"></div>')
     await page.addScriptTag({ content: output.outputFiles[0].text })
     await page.waitForSelector('[data-book-shelf] [data-card]')
@@ -87,8 +88,32 @@ test('review and book shelves default to visible introductions and collapsed rec
       assert.equal(await page.$$eval(`${root} [data-shelf-list-item]`, nodes => nodes.length), 20)
       assert.equal(await page.$$eval(`${utilities} button`, nodes => nodes.length), 2, 'All-items cards must not duplicate utility buttons')
       assert.ok(await page.$$eval(`${root} [data-shelf-all-items] [data-card]`, nodes => nodes.length) < 20, 'Offscreen details must remain deferred')
+      if (root === '[data-book-shelf]') {
+        const list = `${root} [data-shelf-all-items]`
+        const orders = await page.$$eval(`${list} [data-profession-reading-order]`, nodes => nodes.map(node => ({
+          label: node.textContent,
+          index: Array.from(node.closest('[data-shelf-all-items]')!.children).indexOf(node.closest('[data-shelf-list-item]')!),
+        })))
+        assert.ok(orders.length > 0)
+        for (const order of orders) assert.equal(order.label, `${order.index + 1} / 20`, 'All-items reading order must use the full list position and total')
+        const first = `${list} [data-shelf-list-item]:first-child`
+        assert.equal(await page.$eval(`${first} [data-direction="previous"]`, node => (node as HTMLButtonElement).disabled), true)
+        await page.click(`${first} [data-direction="next"]`)
+        await page.waitForFunction(selector => {
+          const target = document.querySelector(selector)!;
+          return Math.abs(target.getBoundingClientRect().top - 88) < 2;
+        }, {}, `${list} [data-shelf-list-item]:nth-child(2)`)
+        assert.ok(await page.$(`${first} [data-card="book-0"]`), 'Scrolling must retain the books already shown')
+        await page.click(`${list} [data-shelf-list-item]:nth-child(2) [data-direction="previous"]`)
+        await page.waitForFunction(selector => Math.abs(document.querySelector(selector)!.getBoundingClientRect().top - 88) < 2, {}, first)
+      }
       await page.$eval(`${root} [data-shelf-list-item]:last-child`, node => node.scrollIntoView())
       await page.waitForSelector(`${root} [data-shelf-all-items] [data-card="book-19"] [data-intro]`)
+      if (root === '[data-book-shelf]') {
+        const last = `${root} [data-shelf-list-item]:last-child`
+        assert.equal(await page.$eval(`${last} [data-profession-reading-order]`, node => node.textContent), '20 / 20')
+        assert.equal(await page.$eval(`${last} [data-direction="next"]`, node => (node as HTMLButtonElement).disabled), true)
+      }
       await page.click(single)
       await page.waitForFunction(root => !document.querySelector(`${root} [data-shelf-all-items]`), {}, root)
       assert.equal(await page.$eval(all, node => node.textContent?.trim()), 'shelfViewAll')

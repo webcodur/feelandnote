@@ -3,12 +3,12 @@
 import { useCallback, useMemo } from "react";
 import { TitleNoticeBadges } from "@/components/ui/ProvisionalTitleBadge";
 import { useTranslations } from "next-intl";
-import FormattedText from "@/components/ui/FormattedText";
+import ContentReadingBody from '@/components/shared/ContentReading/ContentReadingBody';
+import { resolveContentIntroduction } from '@/components/shared/ContentReading/contentReadingData';
 import ClippedContentReadingText from "@/components/ui/ClippedContentReadingText";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
 import { useClippedText } from "@/hooks/useClippedText";
-import { useContentBrief } from "@/components/features/user/contentLibrary/expand/useContentBrief";
-import { resolveContentIntroFullText } from "@/components/features/user/contentLibrary/expand/contentIntroText";
+import { useContentBrief } from "@/components/shared/ContentReading/useContentBrief";
 import CardCover from "./CardCover";
 import CardModals from "./CardModals";
 import type { ContentCardProps } from "../types";
@@ -25,7 +25,7 @@ export default function StackedReviewLayout({ props, state }: { props: ContentCa
   const introduction = useContentBrief(contentIds, 0, props.contentId ?? null, isActiveContent,
     !!props.contentId && !state.editionUnavailable, undefined, false,
     state.showEditionToggle ? state.activeEdition : props.bookLocale);
-  const introText = resolveContentIntroFullText(introduction.brief);
+  const { text: introText, sourceUrl: introSource } = resolveContentIntroduction(introduction.brief);
   return <>
     <article data-home-review-card className={"flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-line bg-bg-card " + (props.className ?? "")}>
       <header className="flex min-w-0 flex-wrap items-baseline justify-center gap-x-2 gap-y-0.5 border-b border-line px-3 py-3 text-center sm:px-4">
@@ -44,10 +44,9 @@ export default function StackedReviewLayout({ props, state }: { props: ContentCa
               <div className="h-3 w-4/5 animate-pulse rounded bg-white/[0.06]" />
             </div> : introduction.hasError ? <RetryBlock onRetry={introduction.retry} className="gap-1 py-1 text-xs" />
               : introText && !state.editionUnavailable ? <ClippedContentReadingText
-                text={introText} tone="secondary" size="compact" className="min-h-0 flex-1 overflow-hidden rounded-sm"
+                text={introText} tone="intro" size="compact" className="min-h-0 flex-1 overflow-hidden rounded-sm"
                 onClick={() => state.setShowIntroModal(true)} clickLabel={tIntro("expandIntroMore")}>
-                <span className="font-semibold text-text-primary">{tIntro("expandContentIntro")}: </span>
-                <FormattedText text={introText.replace(/\n\s*\n/g, " ")} />
+                <ContentReadingBody kind="intro" label={tIntro('expandContentIntro')} text={introText} sourceUrl={introSource} />
               </ClippedContentReadingText> : <p className="text-xs italic text-text-tertiary">{tIntro("expandNoIntro")}</p>}
           </div>
           <p className="sr-only">{t("reviewBackground")}</p>
@@ -56,15 +55,16 @@ export default function StackedReviewLayout({ props, state }: { props: ContentCa
       </div>
       <div className="flex min-w-0 flex-1 flex-col px-3 pb-3 sm:px-4 sm:pb-4">
 
-        <button type="button" onClick={handleClick} aria-haspopup="dialog" aria-label={t("openReview", { title: displayTitle })}
+        <div role="button" tabIndex={0} onClick={handleClick}
+          onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); event.currentTarget.click() } }} aria-haspopup="dialog" aria-label={t("openReview", { title: displayTitle })}
           className="flex min-w-0 flex-1 flex-col rounded-md text-left outline-none hover:bg-white/[0.03] focus-visible:ring-2 focus-visible:ring-accent">
           {props.reviewIsOriginalLanguage && <span className="mb-1 text-[11px] text-amber-200">{state.t("reviewModal.originalLanguage")}</span>}
           <span className="block w-full break-words text-sm leading-[1.7] text-text-secondary">
             {isSpoiler ? state.t("reviewModal.spoiler") : displayReview
-              ? <span ref={reviewRef} className={"whitespace-pre-line line-clamp-5 " + (isReviewClipped ? "clip-fade-end" : "")}><FormattedText text={displayReview.replace(/\n\s*\n/g, " ")} className="text-review" /></span>
+              ? <span ref={reviewRef} className={"whitespace-pre-line line-clamp-5 " + (isReviewClipped ? "clip-fade-end" : "")}><ContentReadingBody kind="review" label={tIntro('expandReview')} text={displayReview} sourceUrl={props.sourceUrl} /></span>
               : state.t("reviewModal.noReview")}
           </span>
-        </button>
+        </div>
       </div>
     </article>
     {props.effectsEnabled !== false && <CardModals props={props} state={state} />}

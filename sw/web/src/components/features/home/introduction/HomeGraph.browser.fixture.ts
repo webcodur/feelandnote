@@ -36,7 +36,7 @@ export async function fixture(locale: 'ko' | 'en', mode: 'appreciations' | 'book
         'next/dynamic': `import React, { lazy, Suspense } from 'react'; export default (load, options={}) => { const Component=lazy(load); return props=><Suspense fallback={options.loading ? <options.loading/> : null}><Component {...props}/></Suspense> }`,
         '@/i18n/navigation': "export const Link = 'a'; export const useRouter = () => ({refresh(){}});",
         '@/actions/contents/getMediaEmbed': `export async function getMediaEmbed(id) { window.mediaCalls=(window.mediaCalls||0)+1; await new Promise(resolve=>setTimeout(resolve,700)); if(id.startsWith('MUSIC'))return {embedType:'appleMusicPreview',embedId:id,previewUrl:null}; return {embedType:'youtube',embedId:id,images:Array.from({length:12},()=> 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>')}; }`,
-        '@/actions/contents/getContentBrief': `export async function getContentBriefResult(contentId){window.introCalls=(window.introCalls||0)+1;await new Promise(resolve=>setTimeout(resolve,${options.introDelay ?? 0}));window.introSettled=(window.introSettled||0)+1;return ${options.failIntro ? '{status:"failed",brief:null}' : `{status:"ready",brief:{contentId,description:${options.intro === undefined ? '"Introduction of "+contentId' : JSON.stringify(options.intro)}}}`}}`,
+        '@/actions/contents/getContentBrief': `export async function getContentBriefResult(contentId){window.introCalls=(window.introCalls||0)+1;await new Promise(resolve=>setTimeout(resolve,${options.introDelay ?? 0}));window.introSettled=(window.introSettled||0)+1;return ${options.failIntro ? '{status:"failed",brief:null}' : `{status:"ready",brief:{contentId,description:${options.intro === undefined ? (mode === 'books' ? '(/^(appearance|authored|affiliation)/.test(contentId) ? (contentId.endsWith("1") ? '+JSON.stringify(referenceIntro)+' : "A reading experience with enough detail to extend beyond the visible preview. ".repeat(80)) : "Introduction of "+contentId)' : '"Introduction of "+contentId') : JSON.stringify(options.intro)}}}`}}`,
         '@/lib/analytics/operation': 'export const beginOperation=()=>()=>{};',
         './HomeWorkCover': empty,
         '@/components/ui/media-objects/InteractiveMediaCover': 'export default p => <img src={p.image} alt={p.title} style={{width:"100%",height:"100%"}}/>;',
@@ -54,7 +54,7 @@ export async function fixture(locale: 'ko' | 'en', mode: 'appreciations' | 'book
   })
   const cssRequire = createRequire(require.resolve('@tailwindcss/postcss'))
   const css = await cssRequire('postcss')([require('@tailwindcss/postcss')()]).process(
-    '@import "tailwindcss" source(none); @source "./src/components/features/content/*.tsx"; @source "./src/components/ui/pending/*.tsx"; @source "./src/components/ui/ContentReadingText.tsx"; @source "./src/components/shared/ContentCoverLink.tsx"; @theme { --color-bg-main:#10100f; --color-bg-card:#1b1a18; --color-line:#38352f; --color-accent:#d7bd78; --radius-card:12px; --radius-control:6px; }',
+    '@import "tailwindcss" source(none); @source "./src/components/features/content/*.tsx"; @source "./src/components/ui/pending/*.tsx"; @source "./src/components/ui/ContentReadingText.tsx"; @source "./src/components/shared/ContentReading/*.tsx"; @source "./src/components/shared/ContentCoverLink.tsx"; @theme { --color-bg-main:#10100f; --color-bg-card:#1b1a18; --color-line:#38352f; --color-accent:#d7bd78; --radius-card:12px; --radius-control:6px; }',
     { from: path.join(appDir, 'home-media-fixture.css') },
   )
   return {

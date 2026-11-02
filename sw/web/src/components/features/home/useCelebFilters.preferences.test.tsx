@@ -3,7 +3,7 @@ import test from "node:test";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import puppeteer, { type Page } from "puppeteer";
-import { EXPLORE_PREFERENCES_KEY } from "@/lib/explorePreferences";
+import { EXPLORE_PREFERENCES_KEY, EXPLORE_FILTER_HISTORY_KEY } from "@/lib/explorePreferences";
 
 const require = createRequire(import.meta.url);
 const { build } = createRequire(require.resolve("tsx"))("esbuild");
@@ -18,6 +18,7 @@ async function fixture() {
       import { createRoot } from 'react-dom/client';
       import { useCelebFilters } from './src/components/features/home/useCelebFilters';
       import { useCelebDetailConditions } from './src/components/features/home/useCelebDetailConditions';
+      import RecentExploreFilters from './src/components/features/home/RecentExploreFilters';
       window.requests = [];
       function Harness() {
         const f = useCelebFilters({ initialCelebs: [], initialTotal: 1, initialTotalPages: 1,
@@ -29,6 +30,8 @@ async function fixture() {
         const conditions = useCelebDetailConditions(f);
         return <><output id="state">{JSON.stringify(state)}</output>
           <output id="history">{JSON.stringify(f.recentFilters)}</output>
+          <output id="history-enabled">{String(f.recentFiltersEnabled)}</output>
+          <RecentExploreFilters filters={f} />
           {f.recentFilters.map((entry, index) => <span key={entry}><button data-entry={entry} id={'recent-' + index} onClick={() => f.handleRecentFilterApply(entry)}>apply</button><button data-remove-entry={entry} id={'remove-recent-' + index} onClick={() => f.removeRecentFilter(entry)}>remove</button></span>)}
           {conditions.map(condition => <button key={condition.key} id={'condition-' + condition.key} onClick={condition.clear}>{condition.label}</button>)}
           <input id="query" value={f.search} onChange={event => f.handleSearchInput(event.target.value)} />
@@ -144,6 +147,8 @@ test("recent individual filters add and remove one choice without replacing othe
     await page.addScriptTag({ content: bundle }); await state(page);
     const history = () => page.$eval("#history", element => JSON.parse(element.textContent!) as string[]);
     assert.equal((await history()).length, 0, "initial defaults must not fill the shortcuts");
+    await page.click("[data-recent-filter-limit]", { clickCount: 3 });
+    await page.keyboard.press("Backspace"); await page.keyboard.type("12"); await page.keyboard.press("Enter");
     await page.click("#custom"); await state(page);
     assert.ok((await history()).includes("nationality=KR"));
     await page.click("#country-us"); await state(page);
@@ -181,6 +186,91 @@ test("recent individual filters add and remove one choice without replacing othe
     assert.equal((await history()).includes("nationality=KR"), false);
     await page.reload(); await page.addScriptTag({ content: bundle }); await state(page);
     assert.equal((await history()).includes("nationality=KR"), false);
+  } finally {
+    await browser.close();
+  }
+});
+
+test("clear-all only clears history, and disabling stops both recording and quick apply across visits", async () => {
+  const browser = await puppeteer.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.setRequestInterception(true);
+    page.on("request", request => { void request.respond({ contentType: "text/html", body: '<html><body><div id="root"></div></body></html>' }); });
+    const bundle = await fixture();
+    await page.goto("http://explore.test/ko/explore?contentPresence=all");
+    await page.addScriptTag({ content: bundle }); await state(page);
+    const history = () => page.$eval("#history", element => JSON.parse(element.textContent!) as string[]);
+    const clear = '[aria-label="recentFilters.clearAll"]';
+    const toggle = '[role="switch"][aria-label="recentFilters.toggle"]';
+    await page.click("#custom"); await state(page);
+    assert.ok((await history()).length > 0);
+    const applied = await state(page);
+    await page.click(clear);
+    assert.deepEqual(await history(), []);
+    assert.deepEqual(await state(page), applied, "clearing history must not change active filters");
+    await page.reload(); await page.addScriptTag({ content: bundle }); await state(page);
+    assert.deepEqual(await history(), [], "cleared items must not return on reload");
+    await page.click("#book"); await state(page);
+    assert.deepEqual(await history(), ["contentType=BOOK"]);
+    await page.click(toggle);
+    assert.equal(await page.$eval(toggle, element => element.getAttribute("aria-checked")), "false");
+    assert.equal(await page.$('[aria-label="recentFilters.title"] [aria-pressed]'), null, "disabled history must not offer shortcuts");
+    await page.click("#custom"); await state(page);
+    assert.deepEqual(await history(), ["contentType=BOOK"], "filter changes while off must not be recorded");
+    await page.click('button[data-entry="contentType=BOOK"]');
+    assert.equal((await state(page)).contentType, "MUSIC", "disabled shortcuts cannot apply even through a stale caller");
+    await page.reload(); await page.addScriptTag({ content: bundle }); await state(page);
+    await page.waitForFunction(() => document.getElementById("history-enabled")?.textContent === "false");
+    await page.click("#reality-mixed"); await state(page);
+    assert.deepEqual(await history(), ["contentType=BOOK"]);
+    await page.click(toggle);
+    assert.deepEqual(await history(), ["contentType=BOOK"], "reenabling must not record the filters used while off");
+    await page.click("#custom"); await state(page);
+    assert.ok((await history()).some(entry => entry.startsWith("reality=")), "new choices are recorded after reenabling");
+    await page.click(toggle);
+    await page.click(clear);
+    assert.deepEqual(await history(), [], "hidden history can also be cleared while off");
+  } finally {
+    await browser.close();
+  }
+});
+
+test("history capacity can be stepped, edited, trimmed and restored without changing active filters", async () => {
+  const browser = await puppeteer.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.setRequestInterception(true);
+    page.on("request", request => { void request.respond({ contentType: "text/html", body: '<html><body><div id="root"></div></body></html>' }); });
+    await page.goto("http://explore.test/ko/explore?contentPresence=all&contentType=all");
+    await page.evaluate(key => localStorage.setItem(key, JSON.stringify(["nationality=KR", "profession=actor", "contentType=MUSIC", "gender=female", "byMin=1986"])), EXPLORE_FILTER_HISTORY_KEY);
+    const bundle = await fixture();
+    await page.addScriptTag({ content: bundle }); await state(page);
+    const history = () => page.$eval("#history", element => JSON.parse(element.textContent!) as string[]);
+    const limit = () => page.$eval("[data-recent-filter-limit]", element => (element as HTMLInputElement).value);
+    await page.waitForFunction(() => JSON.parse(document.getElementById("history")!.textContent!).length === 3);
+    assert.equal(await limit(), "3");
+    assert.equal(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).length, EXPLORE_FILTER_HISTORY_KEY), 3);
+    await page.click('[aria-label="recentFilters.increaseLimit"]');
+    assert.equal(await limit(), "4");
+    assert.equal((await history()).length, 3, "raising capacity must not restore already discarded entries");
+    await page.click("#custom"); await state(page);
+    assert.equal((await history()).length, 4);
+    const before = await state(page);
+    await page.click("[data-recent-filter-limit]", { clickCount: 3 });
+    await page.keyboard.press("Backspace"); await page.keyboard.type("2");
+    assert.equal((await history()).length, 4, "typing a limit must not discard entries until committed");
+    await page.keyboard.press("Enter");
+    assert.equal(await limit(), "2");
+    assert.equal((await history()).length, 2);
+    assert.deepEqual(await state(page), before);
+    await page.reload(); await page.addScriptTag({ content: bundle }); await state(page);
+    await page.waitForFunction(() => document.querySelector<HTMLInputElement>("[data-recent-filter-limit]")?.value === "2");
+    assert.equal((await history()).length, 2);
+    await page.click('[aria-label="recentFilters.decreaseLimit"]');
+    assert.equal(await limit(), "1");
+    assert.equal((await history()).length, 1);
+    assert.equal(await page.$eval('[aria-label="recentFilters.decreaseLimit"]', element => (element as HTMLButtonElement).disabled), true);
   } finally {
     await browser.close();
   }

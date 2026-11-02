@@ -42,7 +42,7 @@ export function emphasisClassName(matched: string, highlightClassName?: string):
     (matched.startsWith('"') && matched.endsWith('"')) ||
     (matched.startsWith("“") && matched.endsWith("”"))
   ) {
-    return highlightClassName ? `font-semibold ${highlightClassName}` : "font-medium text-accent-hover";
+    return highlightClassName ? `font-semibold ${highlightClassName}` : "font-medium text-reading-quote";
   }
   if (
     (matched.startsWith('『') && matched.endsWith('』')) ||
@@ -60,7 +60,7 @@ export function emphasisClassName(matched: string, highlightClassName?: string):
     (matched.startsWith("–") && matched.endsWith("–")) ||
     (matched.startsWith("--") && matched.endsWith("--"))
   ) {
-    return highlightClassName ? `font-medium ${highlightClassName}` : "font-serif text-accent";
+    return highlightClassName ? `font-medium ${highlightClassName}` : "font-serif text-reading-term";
   }
   return undefined;
 }

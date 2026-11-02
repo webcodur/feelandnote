@@ -1,6 +1,7 @@
 'use server'
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { excludedBookEditionReason } from '@feelandnote/content-search/book-edition-policy'
 import { getPublicUserContents, type UserContentPublic } from '@/actions/contents/getUserContents'
 import { getFigureBookPresentationsForCeleb } from '@/actions/figure-books/getFigureBookPresentations'
@@ -9,18 +10,22 @@ import { getDisplayFigureBookGroups } from '@/lib/celeb/authoredBooks'
 import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 import { cachedList, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
-import { HOME_GRAPH_CANDIDATE_COUNT, HOME_GRAPH_MEDIA, HOME_GRAPH_PEOPLE, HOME_GRAPH_PICKS, HOME_GRAPH_PREVIEW_COUNT, HOME_GRAPH_READING_PICKS } from '@/components/features/home/introduction/config'
+import { HOME_PEOPLE_COUNT, HOME_PEOPLE_GRAPH_ATTEMPTS, orderHomePeople } from '@/lib/homePeople'
+import { parseVisitorCountry } from '@/lib/visitorCountry'
+import { HOME_GRAPH_CANDIDATE_COUNT, HOME_GRAPH_MEDIA, HOME_GRAPH_PICKS, HOME_GRAPH_PREVIEW_COUNT, HOME_GRAPH_READING_PICKS } from '@/components/features/home/introduction/config'
 import type { HomeGraphData, HomeGraphMode, HomeGraphPerson } from '@/components/features/home/introduction/types'
 import { homeAffiliationBookItem, homeAppreciationItem, homeFigureBookItem, uniqueHomeGraphItems } from './homeGraphItems'
+import { getHomePeople } from './getHomePeople'
 
 async function personForHome(slug: string, locale: string): Promise<HomeGraphPerson | null> {
   const { data, error } = await createStaticClient().from('celebs')
-    .select('id,slug,nickname,nickname_en,avatar_url,portrait_url,title,title_en')
-    .eq('slug', slug).eq('publication_status', 'active').maybeSingle()
+    .select('id,slug,nickname,nickname_en,avatar_url,portrait_url,title,title_en,nationality')
+    .eq('slug', slug).eq('publication_status', 'active').in('celeb_reality', [...LISTING_DEFAULT_REALITIES]).maybeSingle()
   throwOnQueryError('홈 그래프 인물', error)
   if (!data?.slug) return null
   return { id: data.id, slug: data.slug, name: (locale === 'en' ? data.nickname_en : data.nickname) || data.nickname,
-    avatarUrl: data.avatar_url, photoUrl: data.portrait_url, title: locale === 'en' ? data.title_en : data.title }
+    avatarUrl: data.avatar_url, photoUrl: data.portrait_url, title: locale === 'en' ? data.title_en : data.title,
+    nationality: data.nationality }
 }
 
 function displayableRecord(row: UserContentPublic) {
@@ -37,7 +42,7 @@ async function fetchAppreciationGraph(locale: string, slug: string): Promise<Hom
   if (!person) return null
   const branches = await Promise.all(HOME_GRAPH_MEDIA.map(async type => {
     const result = await getPublicUserContents({ userId: person.id, type, hasReview: true, limit: HOME_GRAPH_CANDIDATE_COUNT,
-      preferredContentIds: slug === HOME_GRAPH_PEOPLE.appreciations[0] ? [...HOME_GRAPH_PICKS[type]] : [] }, locale)
+      preferredContentIds: slug === 'lex-fridman' ? [...HOME_GRAPH_PICKS[type]] : [] }, locale)
     const items = result.items.filter(displayableRecord).map(row => homeAppreciationItem(row, locale))
       .filter(item => item.text?.trim() && item.sourceUrl).slice(0, HOME_GRAPH_PREVIEW_COUNT)
     return { key: type, count: result.total, items }
@@ -66,22 +71,30 @@ async function fetchReadingGraph(locale: string, slug: string): Promise<HomeGrap
   ] }
 }
 
-export async function getHomeGraphData(mode: HomeGraphMode, locale: string, slug: string = HOME_GRAPH_PEOPLE[mode][0]): Promise<HomeGraphData | null> {
-  if (!(HOME_GRAPH_PEOPLE[mode] as readonly string[]).includes(slug)) return null
+export async function getHomeGraphData(mode: HomeGraphMode, locale: string, slug: string): Promise<HomeGraphData | null> {
   const picks = mode === 'books' ? [...(HOME_GRAPH_READING_PICKS[slug] ?? [])] : HOME_GRAPH_MEDIA.flatMap(type => [...HOME_GRAPH_PICKS[type]])
-  return cachedList(CACHE_TAGS.CELEBS, ['home-introduction-graph-v7-affiliation-summary', mode, locale, slug, ...picks],
+  return cachedList(CACHE_TAGS.CELEBS, ['home-introduction-graph-v9-country-people', mode, locale, slug, ...picks],
     () => mode === 'books' ? fetchReadingGraph(locale, slug) : fetchAppreciationGraph(locale, slug),
     { revalidate: STATIC_REVALIDATE, extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.FACTIONS] })
 }
 
-export async function getHomeGraphDeck(mode: HomeGraphMode, locale: string): Promise<HomeGraphData[]> {
-  const results = await Promise.allSettled(HOME_GRAPH_PEOPLE[mode].map(slug => getHomeGraphData(mode, locale, slug)))
-  return results.flatMap((result, index) => {
-    if (result.status === 'rejected') {
-      console.error('[home] 순환 인물 조회 실패', mode, HOME_GRAPH_PEOPLE[mode][index], result.reason)
-      return []
-    }
-    const data = result.value
-    return data?.person.avatarUrl && data.branches.length === 4 && data.branches.every(branch => branch.items.length) ? [data] : []
-  })
+export async function getHomeGraphDeck(mode: HomeGraphMode, locale: string, visitorCountry: string | null = null): Promise<HomeGraphData[]> {
+  const country = parseVisitorCountry(visitorCountry)
+  const people = await getHomePeople(country, mode)
+  const available: HomeGraphData[] = []
+  const candidates = people.map(person => person.slug).slice(0, HOME_PEOPLE_GRAPH_ATTEMPTS)
+  const needsLocal = !!country && people.some(person => person.nationality === country)
+  for (let at = 0; at < candidates.length;) {
+    const slugs = candidates.slice(at, at + Math.max(1, HOME_PEOPLE_COUNT - available.length))
+    at += slugs.length
+    const results = await Promise.allSettled(slugs.map(slug => getHomeGraphData(mode, locale, slug)))
+    results.forEach((result, index) => {
+      if (result.status === 'rejected') console.error('[home] 순환 인물 조회 실패', mode, slugs[index], result.reason)
+      else if (result.value?.person.avatarUrl && result.value.branches.some(branch => branch.items.length)) available.push(result.value)
+    })
+    const hasLocal = !needsLocal || available.some(data => data.person.nationality === country)
+    const hasAmerican = available.some(data => data.person.nationality === 'US')
+    if (available.length >= HOME_PEOPLE_COUNT && hasLocal && hasAmerican) break
+  }
+  return orderHomePeople(available, country, data => data.person.id, data => data.person.nationality).slice(0, HOME_PEOPLE_COUNT)
 }

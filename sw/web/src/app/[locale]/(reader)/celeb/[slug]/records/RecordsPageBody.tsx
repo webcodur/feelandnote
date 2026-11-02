@@ -4,6 +4,7 @@ import type { GetUserContentsResponse } from "@/actions/contents/getUserContents
 import BackToLibraryLink from "./BackToLibraryLink";
 import RecordsList from "./RecordsList";
 import { RECORDS_PAGE_SIZE, recordsPath } from "./recordsPageData";
+import type { resolveContentIntroduction } from '@/components/shared/ContentReading/contentReadingData';
 
 export interface RecordsLabels {
   title: string;
@@ -23,7 +24,7 @@ interface RecordsPageBodyProps {
   slug: string;
   locale: string;
   contents: GetUserContentsResponse;
-  descriptions: Record<string, string | null>;
+  descriptions: Record<string, ReturnType<typeof resolveContentIntroduction>>;
   initialFocusContentId?: string;
   labels: RecordsLabels;
 }

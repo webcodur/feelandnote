@@ -159,6 +159,10 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // 서재 내부에서 상위 공용 읽기 모듈로 옮겼다. 보관 HTML 소비자는 인물 상세다.
+  ...['ContentIntro.tsx', 'ExpandCard.tsx', 'ReviewScrollBox.tsx', 'ContentMetaDetails.tsx',
+    'MusicPreviewPlayer.tsx', 'useContentBrief.ts', 'useCelebContentRecord.ts', 'mapPublicContents.ts']
+    .map(file => `sw/web/src/components/shared/ContentReading/${file}`),
   // identity/profile-route는 인물 상세의 프로필과 읽어보기 본문을 공통 조회한다.
   'sw/web/src/lib/celeb/identity.ts',
 
@@ -302,6 +306,9 @@ const CONTENT_FILES = new Set([
 ])
 
 const CELEB_AND_CONTENT_FILES = new Set([
+  // 라벨·본문·소개 원천 해석은 작품 소개 모달과 인물 책장 양쪽에서 쓴다.
+  ...['ContentReadingBody.tsx', 'ContentSourceLabel.tsx', 'contentReadingData.ts', 'contentIntroText.ts']
+    .map(file => `sw/web/src/components/shared/ContentReading/${file}`),
   // 감상·소개 본문은 인물 서가와 작품 상세 양쪽에서 이 공통 텍스트를 소비한다.
   'sw/web/src/components/ui/ContentReadingText.tsx',
   // 상세·감상배경 양쪽에서 메타를 보충하고 이미지 확대창을 연다.
@@ -363,6 +370,8 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/game/redact/fixture.ts',
   // 홈의 소개·통계·공지와 광장 공지 본문은 앞단 HTML 보관 대상이 아니다.
   'sw/web/src/actions/home/getHomeGraphData.ts',
+  'sw/web/src/actions/home/getHomePeople.ts',
+  'sw/web/src/lib/homePeople.ts',
   'sw/web/src/actions/home/getHomeStats.ts',
   'sw/web/src/actions/home/homeGraphItems.ts',
   'sw/web/src/actions/board/notices/getNotices.ts',

@@ -51,7 +51,7 @@ test('review shelf fetches only current and actual next work in parallel, reuses
   `, {...sharedMocks,
     'getContentBrief': `export function getContentBriefResult(id,locale){return window.request('brief:'+locale+':'+id)}`,
     'getCelebContentExpand': `export function getPublicCelebContentRecord(celeb,id){return window.request('record:'+(celeb==='figure'?'':celeb+':')+id)}`,
-    'contentLibraryTypes': `export function mapPublicToUserContent(items){return items}`,
+    'mapPublicContents': `export function mapPublicToUserContent(items){return items}`,
     'operation': `export const beginOperation=()=>()=>{};`,
     'ExpandCard': `export default function Card({item,brief}){return <article data-current={item.content_id} data-brief={brief?.contentId} data-record={item.review}/>}`,
     'ExpandNavigation': `export {LibraryArrowButton as ExpandArrowButton,LibraryTitleHeader as ExpandTitleHeader,LibraryBottomNavigation as ExpandBottomNavigation} from './LibraryDetailNavigation';`,

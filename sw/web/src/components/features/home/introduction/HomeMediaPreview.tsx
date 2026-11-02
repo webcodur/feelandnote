@@ -15,7 +15,7 @@ export default function HomeMediaPreview({ item }: { item: HomeGraphItem }) {
   return <>
     <button type="button" className={styles.mediaToggle} data-media-toggle aria-haspopup="dialog" aria-expanded={open}
       aria-label={label} title={label} onClick={() => setOpen(true)}>
-      <CirclePlay size={18} aria-hidden />{t('previewShort')}
+      <CirclePlay size={18} aria-hidden />
     </button>
     {open && <Modal isOpen onClose={() => setOpen(false)} title={`${item.title} · ${label}`} stickyHeader size="full"
       frame="plain" boxClassName="rounded-panel border border-line-strong bg-bg-card" animateHeight={false}>

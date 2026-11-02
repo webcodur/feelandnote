@@ -2,10 +2,10 @@
 
 import { useId, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { ArrowLeftRight, ArrowUpRight, ChevronLeft, ChevronRight, Globe2 } from 'lucide-react'
+import { ArrowLeftRight, ArrowUpRight, ChevronLeft, ChevronRight, Globe2, Maximize2 } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
-import ContentReadingText from '@/components/ui/ContentReadingText'
-import FormattedText from '@/components/ui/FormattedText'
+import ContentReadingBody from '@/components/shared/ContentReading/ContentReadingBody'
+import { contentSourceHref } from '@/components/shared/ContentReading/contentReadingData'
 import { useClippedText } from '@/hooks/useClippedText'
 import ContentTextModal from '@/components/ui/ContentTextModal'
 import ContentCoverLink from '@/components/shared/ContentCoverLink'
@@ -14,31 +14,27 @@ import HomeMediaPreview from './HomeMediaPreview'
 import type { HomeGraphBranch, HomeGraphItem, HomeGraphMode, HomeGraphPerson } from './types'
 import styles from './HomeGraphReading.module.css'
 
-function sourceHref(value: string | null) {
-  if (!value) return null
-  try { const url = new URL(value); return ['https:', 'http:'].includes(url.protocol) ? url.href : null }
-  catch { return null }
-}
-
-export default function HomeGraphReading({ person, branch, item, mode = 'appreciations', reviewItem, introduction, onNext, onPrevious }: {
+export default function HomeGraphReading({ person, branch, item, mode = 'appreciations', reviewItem, introduction, introductionSourceUrl, onNext, onPrevious }: {
   person: HomeGraphPerson; branch: HomeGraphBranch; item: HomeGraphItem; mode?: HomeGraphMode;
-  reviewItem?: HomeGraphItem; introduction?: string | null; onNext?: () => void; onPrevious?: () => void
+  reviewItem?: HomeGraphItem; introduction?: string | null; introductionSourceUrl?: string | null; onNext?: () => void; onPrevious?: () => void
 }) {
   const t = useTranslations('home.landing.graph')
+  const tReview = useTranslations('content.reviewModal')
   const [expanded, setExpanded] = useState(false)
   const [showIntroduction, setShowIntroduction] = useState(false)
   const mediaId = useId()
   const bookMode = mode === 'books'
   const appreciation = branch.key === 'read' || ['BOOK', 'MUSIC', 'VIDEO', 'GAME'].includes(branch.key)
   const reviewText = reviewItem?.text?.trim() || (appreciation ? item.text?.trim() : null)
-  const introText = introduction?.trim() || (!appreciation ? item.text?.trim() : null)
-  const review = !!reviewText && (!introText || !showIntroduction)
+  const introText = introduction?.trim() || null
+  const review = !!reviewText && !showIntroduction
   const activeText = review ? reviewText : introText
-  const canSwitch = item.type === 'BOOK' && !!reviewText && !!introText
-  const tone = review ? 'review' : introText && item.type === 'BOOK' ? 'intro' : 'primary'
-  const previewText = activeText || (!bookMode && !item.relatedLabel ? t(appreciation ? 'noAppreciation' : 'noDescription') : null)
+  const tone = review ? 'review' : 'intro'
+  const previewText = activeText || (showIntroduction ? t('noDescription') : !bookMode && !item.relatedLabel ? t(appreciation ? 'noAppreciation' : 'noDescription') : null)
   const { ref: textRef, isClipped } = useClippedText<HTMLDivElement>(previewText)
-  const source = review ? sourceHref(reviewItem?.sourceUrl ?? item.sourceUrl) : null
+  const source = contentSourceHref(review ? reviewItem?.sourceUrl ?? item.sourceUrl : introductionSourceUrl)
+  const canExpand = !!activeText && isClipped
+  const openFullText = () => { if (!window.getSelection()?.toString()) setExpanded(true) }
   const readingId = `${mediaId}-text`
   const position = branch.items.findIndex(value => value.id === item.id) + 1
   return <article className={`${styles.reading} ${bookMode ? styles.bookReading : ''}`} data-graph-reading data-reading-mode={review ? 'review' : 'intro'} aria-live="polite" aria-atomic="true">
@@ -66,11 +62,16 @@ export default function HomeGraphReading({ person, branch, item, mode = 'appreci
                   <ChevronRight size={18} aria-hidden />
                 </button>
               </div>}
-              {canSwitch && <button type="button" className={styles.textToggle} data-home-reading-toggle aria-controls={readingId}
-                aria-label={t(review ? 'showBookIntroduction' : 'showReviewBackground')}
-                title={t(review ? 'showBookIntroduction' : 'showReviewBackground')}
-                aria-pressed={!review} onClick={() => setShowIntroduction(value => !value)}>
-                <ArrowLeftRight size={15} aria-hidden />{t(review ? 'introShort' : 'reviewShort')}
+              <button type="button" className={styles.textToggle} data-home-reading-toggle aria-controls={readingId}
+                aria-label={t(!review && reviewText ? 'showReviewBackground' : 'showBookIntroduction')}
+                title={t(!review && reviewText ? 'showReviewBackground' : 'showBookIntroduction')}
+                aria-pressed={!review} onClick={() => setShowIntroduction(value => reviewText ? !value : true)}>
+                <ArrowLeftRight size={18} aria-hidden />
+              </button>
+              {activeText && <button type="button" className={styles.textToggle} data-home-text-expand
+                aria-haspopup="dialog" aria-expanded={expanded} aria-label={t('readFull')} title={t('readFull')}
+                onClick={() => setExpanded(true)}>
+                <Maximize2 size={18} aria-hidden />
               </button>}
               {item.type !== 'BOOK' && <HomeMediaPreview item={item} />}
             </div>
@@ -86,18 +87,19 @@ export default function HomeGraphReading({ person, branch, item, mode = 'appreci
           {item.relatedHref ? <Link href={item.relatedHref} aria-label={branch.key === 'affiliation' ? t('openAffiliation', { name: item.relatedLabel }) : undefined}>{item.relatedLabel}</Link> : item.relatedLabel}
           <span>→</span>{item.title}</p>}
         {previewText && <div ref={textRef} id={readingId} data-home-reading-preview
+          data-home-reading-expandable={canExpand || undefined}
+          role={canExpand ? 'presentation' : undefined}
+          onClick={canExpand ? event => { if (!(event.target as HTMLElement).closest('a')) openFullText() } : undefined}
           className={`${styles.readingText} ${review ? styles.reviewText : tone === 'intro' ? styles.introText : ''} ${isClipped ? 'clip-fade-end' : ''}`}>
-          {review && source ? <><a href={source} target="_blank" rel="noopener noreferrer" className={styles.reviewSource} data-home-review-source
-            aria-label={`${t('reviewBackground')} · ${t('source')}`}>{t('reviewBackground')}</a>: </>
-            : <span className={styles.readingLabel}>{t(review || (!introText && appreciation) ? 'reviewBackground' : 'bookIntroduction')}: </span>}
-          <ContentReadingText text={previewText} tone={tone} className={styles.inlineText}
-            onClick={activeText && isClipped ? () => setExpanded(true) : undefined} clickLabel={t('readFull')}>
-            <FormattedText text={previewText} />
-          </ContentReadingText>
+          {review && (reviewItem ?? item).originalLanguage && <p className="mb-2 text-xs text-text-secondary">{tReview('originalLanguage')}</p>}
+          <ContentReadingBody kind={review ? 'review' : 'intro'} text={previewText}
+            label={t(review || (!showIntroduction && !introText && appreciation) ? 'reviewBackground' : 'bookIntroduction')}
+            sourceUrl={source} />
         </div>}
       </div>
     </div>
     <ContentTextModal isOpen={expanded} onClose={() => setExpanded(false)} title={item.title}
+      readingLabel={t(review ? 'reviewBackground' : 'bookIntroduction')}
       text={activeText ?? ''} tone={tone}
       source={source ? { href: source, label: t('source') } : undefined} />
   </article>

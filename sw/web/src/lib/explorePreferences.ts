@@ -8,7 +8,9 @@ import { CELEB_REALITIES } from "@feelandnote/shared/constants/celeb-tiers";
 
 export const EXPLORE_PREFERENCES_KEY = "fn:explore-preferences:v1";
 export const EXPLORE_FILTER_HISTORY_KEY = "fn:explore-filter-history:v1";
-export const EXPLORE_FILTER_HISTORY_LIMIT = 12;
+export const EXPLORE_FILTER_HISTORY_ENABLED_KEY = "fn:explore-filter-history-enabled:v1";
+export const EXPLORE_FILTER_HISTORY_LIMIT_KEY = "fn:explore-filter-history-limit:v1";
+export const EXPLORE_FILTER_HISTORY_LIMITS = { default: 3, min: 1, max: 99 } as const;
 
 export interface ExplorePreferences {
   filters: string;
@@ -79,13 +81,13 @@ export function exploreFilterHistoryEntries(filters: string): string[] {
   return entries;
 }
 
-export function rememberExploreFilters(history: readonly string[], filters: string, previousFilters = ""): string[] {
+export function rememberExploreFilters(history: readonly string[], filters: string, previousFilters = "", limit: number = EXPLORE_FILTER_HISTORY_LIMITS.default): string[] {
   const previous = new Set(exploreFilterHistoryEntries(previousFilters));
   const entries = exploreFilterHistoryEntries(filters).filter(entry => !previous.has(entry));
-  return [...entries, ...history.filter(item => !entries.includes(item))].slice(0, EXPLORE_FILTER_HISTORY_LIMIT);
+  return [...entries, ...history.filter(item => !entries.includes(item))].slice(0, normalizeExploreFilterHistoryLimit(limit));
 }
 
-export function readExploreFilterHistory(storage: PreferenceStorage): string[] {
+export function readExploreFilterHistory(storage: PreferenceStorage, limit = readExploreFilterHistoryLimit(storage)): string[] {
   try {
     const raw: unknown = JSON.parse(storage.getItem(EXPLORE_FILTER_HISTORY_KEY) ?? "null");
     if (!Array.isArray(raw)) return [];
@@ -95,20 +97,47 @@ export function readExploreFilterHistory(storage: PreferenceStorage): string[] {
       for (const entry of exploreFilterHistoryEntries(item)) {
         if (!history.includes(entry)) history.push(entry);
       }
-      if (history.length >= EXPLORE_FILTER_HISTORY_LIMIT) break;
+      if (history.length >= normalizeExploreFilterHistoryLimit(limit)) break;
     }
-    return history.slice(0, EXPLORE_FILTER_HISTORY_LIMIT);
+    return history.slice(0, normalizeExploreFilterHistoryLimit(limit));
   } catch {
     return [];
   }
 }
 
-export function writeExploreFilterHistory(storage: PreferenceStorage, history: readonly string[]): void {
+export function writeExploreFilterHistory(storage: PreferenceStorage, history: readonly string[], limit = readExploreFilterHistoryLimit(storage)): void {
   try {
-    storage.setItem(EXPLORE_FILTER_HISTORY_KEY, JSON.stringify(history.slice(0, EXPLORE_FILTER_HISTORY_LIMIT)));
+    storage.setItem(EXPLORE_FILTER_HISTORY_KEY, JSON.stringify(history.slice(0, normalizeExploreFilterHistoryLimit(limit))));
   } catch {
     // 저장이 막혀 있어도 현재 화면의 내역은 사용할 수 있다.
   }
+}
+
+export function normalizeExploreFilterHistoryLimit(value: unknown): number {
+  const number = typeof value === "number" ? value : typeof value === "string" && value.trim() ? Number(value) : NaN;
+  return Number.isFinite(number)
+    ? Math.max(EXPLORE_FILTER_HISTORY_LIMITS.min, Math.min(EXPLORE_FILTER_HISTORY_LIMITS.max, Math.trunc(number)))
+    : EXPLORE_FILTER_HISTORY_LIMITS.default;
+}
+
+export function readExploreFilterHistoryLimit(storage: PreferenceStorage): number {
+  try { return normalizeExploreFilterHistoryLimit(storage.getItem(EXPLORE_FILTER_HISTORY_LIMIT_KEY)); }
+  catch { return EXPLORE_FILTER_HISTORY_LIMITS.default; }
+}
+
+export function writeExploreFilterHistoryLimit(storage: PreferenceStorage, limit: number): void {
+  try { storage.setItem(EXPLORE_FILTER_HISTORY_LIMIT_KEY, String(normalizeExploreFilterHistoryLimit(limit))); }
+  catch { /* 저장이 막혀 있어도 현재 화면에서는 선택한 개수를 사용한다. */ }
+}
+
+export function readExploreFilterHistoryEnabled(storage: PreferenceStorage): boolean {
+  try { return storage.getItem(EXPLORE_FILTER_HISTORY_ENABLED_KEY) !== "false"; }
+  catch { return true; }
+}
+
+export function writeExploreFilterHistoryEnabled(storage: PreferenceStorage, enabled: boolean): void {
+  try { storage.setItem(EXPLORE_FILTER_HISTORY_ENABLED_KEY, String(enabled)); }
+  catch { /* 저장을 허용하지 않아도 현재 화면의 사용 여부는 바꿀 수 있다. */ }
 }
 
 export function writeExplorePreferences(storage: PreferenceStorage, preferences: ExplorePreferences): void {

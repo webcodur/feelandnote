@@ -8,8 +8,8 @@ import ContentCover from "@/components/ui/ContentCover";
 import ContentCoverLink from "@/components/shared/ContentCoverLink";
 import BookShelfEditionHeading from "./BookShelfEditionHeading";
 import BookShelfArrival from "./BookShelfArrival";
-import ContentIntro from "@/components/features/user/contentLibrary/expand/ContentIntro";
-import { normalizeContentIntroText } from "@/components/features/user/contentLibrary/expand/contentIntroText";
+import ContentIntro from "@/components/shared/ContentReading/ContentIntro";
+import { normalizeContentIntroText } from "@/components/shared/ContentReading/contentIntroText";
 import { fitsInlineReadingText } from "@/constants/readingText";
 import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import type { AffiliateLink } from "@/constants/affiliatePlatforms";
@@ -87,7 +87,7 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
         <BookShelfEditionHeading source={source} edition={edition} sharedEditionKeys={sharedEditionKeys} />
         {showIntroduction && introduction.failed && <RetryBlock onRetry={introduction.retry} />}
         {showIntroduction && !introduction.failed && <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
-          <ContentIntro key={edition.id ?? source.id} category="book" isLoading={busy} inlineLabel
+          <ContentIntro key={edition.id ?? source.id} category="book" isLoading={busy}
             brief={{ contentId: source.id, category: "book", description: introduction.description,
               bookIntroduction: edition.bookIntroduction, introductionAttribution: edition.introductionAttribution,
               releaseDate: edition.releaseDate ?? null, metadata: null }} />

@@ -14,7 +14,7 @@ import type { CategoryId } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/types/content";
 import { LIBRARY_DETAIL_FRAME_CLASS } from "@/components/shared/LibraryDetailNavigation";
 import { buildExpandPresentation } from "./buildExpandPresentation";
-import ExpandCard from "./ExpandCard";
+import ExpandCard from "@/components/shared/ContentReading/ExpandCard";
 import MobileIndexModal from "./MobileIndexModal";
 import { getExpandIndexNavigationOrder } from "./groupExpandIndexItems";
 import {
@@ -22,8 +22,8 @@ import {
   ExpandBottomNavigation,
   ExpandTitleHeader,
 } from "./ExpandNavigation";
-import { useContentBrief } from "./useContentBrief";
-import { useCelebContentRecord } from "./useCelebContentRecord";
+import { useContentBrief } from "@/components/shared/ContentReading/useContentBrief";
+import { useCelebContentRecord } from "@/components/shared/ContentReading/useCelebContentRecord";
 import { useExpandIndexSelection } from "./useExpandIndexSelection";
 import { useHeldHeight } from "./useHeldHeight";
 import type { ContentFocusRequest } from "../types";

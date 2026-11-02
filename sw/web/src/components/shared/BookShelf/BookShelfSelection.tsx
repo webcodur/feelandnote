@@ -30,7 +30,7 @@ function requestBook(id: string, locale: string) {
   return request
 }
 
-export default function BookShelfSelection({ selectionKey, intro, listSubtitle, books, context, pagination, listOpen, onListOpenChange, categoryPicker, titlePulseRequest, listGroups, onSelectListGroup, showIntroduction = true, showNavigation = true, isActive = true }: {
+export default function BookShelfSelection({ selectionKey, intro, listSubtitle, books, context, pagination, listOpen, onListOpenChange, categoryPicker, titlePulseRequest, listGroups, onSelectListGroup, showIntroduction = true, showNavigation = true, allItemsPosition, isActive = true }: {
   selectionKey: string;
   intro: string; listSubtitle?: string; books: BookShelfBook[]; context?: BookShelfContext; pagination?: BookShelfGroup['pagination'];
   listOpen: boolean; onListOpenChange: (open: boolean) => void; categoryPicker?: ReactNode;
@@ -39,6 +39,7 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
   onSelectListGroup?: (key: string) => void;
   showIntroduction?: boolean;
   showNavigation?: boolean;
+  allItemsPosition?: { index: number; total: number };
   isActive?: boolean;
 }) {
   const locale = useLocale()
@@ -111,7 +112,7 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
 
   if (!selected) return null
   const guidanceLabel = selected.professionCategory === 'train'
-    ? t('professionReadingOrder', { current: selectedIndex + 1, total: books.length })
+    ? t('professionReadingOrder', { current: (allItemsPosition?.index ?? selectedIndex) + 1, total: allItemsPosition?.total ?? books.length })
     : selected.professionCategory === 'become' ? t('professionLearningPoint')
       : selected.professionCategory === 'about' ? t('professionExplorationPoint') : undefined
   const source = current?.book
@@ -127,6 +128,15 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
   }
   const sharedEditionKeys = new Set([...worksByEdition].filter(([, ids]) => ids.size > 1).map(([key]) => key))
   const navigate = (offset: number) => {
+    if (allItemsPosition) {
+      const item = detailRef.current?.closest('[data-shelf-list-item]')
+      const target = item?.parentElement?.querySelectorAll<HTMLElement>(':scope > [data-shelf-list-item]')[allItemsPosition.index + offset]
+      if (target) {
+        target.style.scrollMarginTop = `${topOverlayBottom(target) + 8}px`
+        target.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })
+      }
+      return
+    }
     if (books.length <= 1) return
     const id = books[(selectedIndex + offset + books.length) % books.length].id
     revealIdRef.current = id
@@ -134,7 +144,8 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
   }
   const goPrevious = () => navigate(-1)
   const goNext = () => navigate(1)
-  const disabled = books.length <= 1
+  const disabled = (allItemsPosition?.total ?? books.length) <= 1
+  const desktopNavigation = showNavigation || !!allItemsPosition
   const previousLabel = t('records.previous')
   const nextLabel = t('records.next')
 
@@ -142,8 +153,8 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
     <div data-bookshelf-selection>
       {listOpen && <BookShelfBookList selectionKey={selectionKey} title={t('bookShelfBookList')} subtitle={listSubtitle ?? intro} books={books} listGroups={listGroups}
         selectedGroupKey={listGroups?.find((group) => group.selectionKey === selectionKey)?.key} selectedId={selected.id} onSelect={selectListBook} onClose={closeList} pagination={pagination} categoryPicker={categoryPicker} indexId={indexId} />}
-      <div ref={detailRef} className={showNavigation ? LIBRARY_DETAIL_FRAME_CLASS : 'overflow-hidden rounded-xl border border-white/20 bg-bg-card'} data-bookshelf-detail>
-        {showNavigation && <LibraryArrowButton direction="previous" label={previousLabel} disabled={disabled} placement="desktop" onClick={goPrevious} testPrefix="bookshelf" />}
+      <div ref={detailRef} className={desktopNavigation ? LIBRARY_DETAIL_FRAME_CLASS : 'overflow-hidden rounded-xl border border-white/20 bg-bg-card'} data-bookshelf-detail>
+        {desktopNavigation && <LibraryArrowButton direction="previous" label={previousLabel} disabled={disabled || allItemsPosition?.index === 0} placement="desktop" onClick={goPrevious} testPrefix="bookshelf" />}
         <LibraryTitleHeader title={selected.title} creator={selected.creator?.replace(/\^/g, ', ') ?? null}
           previousLabel={previousLabel} nextLabel={nextLabel} disabled={disabled} onPrevious={goPrevious} onNext={goNext} testPrefix="bookshelf"
           hideArrows={!showNavigation} indexControl={showNavigation ? { label: t('bookShelfBookList'), isOpen: listOpen, indexId, onToggle: () => onListOpenChange(!listOpen), pulseRequest: titlePulseRequest } : undefined} />
@@ -168,7 +179,7 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
           {showNavigation && <LibraryBottomNavigation label={t('sourceWorkPickerLabel')} previousLabel={previousLabel} nextLabel={nextLabel}
             disabled={disabled} onPrevious={goPrevious} onNext={goNext} testPrefix="bookshelf" />}
         </div>
-        {showNavigation && <LibraryArrowButton direction="next" label={nextLabel} disabled={disabled} placement="desktop" onClick={goNext} testPrefix="bookshelf" />}
+        {desktopNavigation && <LibraryArrowButton direction="next" label={nextLabel} disabled={disabled || (!!allItemsPosition && allItemsPosition.index === allItemsPosition.total - 1)} placement="desktop" onClick={goNext} testPrefix="bookshelf" />}
       </div>
     </div>
   )

@@ -469,6 +469,7 @@ export function useCelebFilters({
     handleSearchClear,
     ...filterHistory,
     handleRecentFilterApply: (entry: string) => {
+      if (!filterHistory.recentFiltersEnabled) return;
       const saved = new URLSearchParams(entry);
       const value = (key: string) => saved.get(key)!;
       if (saved.has("profession")) handleProfessionChange(toggleFilterSelection(profession, value("profession")));

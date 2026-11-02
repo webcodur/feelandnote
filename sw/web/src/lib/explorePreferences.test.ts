@@ -6,8 +6,10 @@ import { CELEB_FILTER_SELECTION_LIMITS, toggleFilterSelection } from "@/constant
 import {
   EXPLORE_PREFERENCES_KEY, canRestoreExploreFilters, createExplorePreferences,
   readExplorePreferences, restoreExplorePreferenceUrl, writeExplorePreferences,
-  EXPLORE_FILTER_HISTORY_KEY, EXPLORE_FILTER_HISTORY_LIMIT, exploreFilterHistoryEntries,
+  EXPLORE_FILTER_HISTORY_KEY, EXPLORE_FILTER_HISTORY_LIMITS, exploreFilterHistoryEntries,
   readExploreFilterHistory, rememberExploreFilters, writeExploreFilterHistory,
+  EXPLORE_FILTER_HISTORY_ENABLED_KEY, readExploreFilterHistoryEnabled, writeExploreFilterHistoryEnabled,
+  EXPLORE_FILTER_HISTORY_LIMIT_KEY, normalizeExploreFilterHistoryLimit, readExploreFilterHistoryLimit, writeExploreFilterHistoryLimit,
 } from "./explorePreferences";
 
 function storage(raw: string | null = null) {
@@ -110,8 +112,8 @@ test("recent filters split multiple selections and store only changed individual
   const previous = "contentType=BOOK&nationality=KR&reality=REAL,BOTH";
   assert.deepEqual(rememberExploreFilters([], "contentType=MUSIC&nationality=KR,US&reality=BOTH,REAL", previous), ["nationality=US", "contentType=MUSIC"]);
   let history: string[] = [];
-  for (let i = 0; i < EXPLORE_FILTER_HISTORY_LIMIT + 2; i++) history = rememberExploreFilters(history, `byMin=${i}`);
-  assert.equal(history.length, EXPLORE_FILTER_HISTORY_LIMIT);
+  for (let i = 0; i < EXPLORE_FILTER_HISTORY_LIMITS.default + 2; i++) history = rememberExploreFilters(history, `byMin=${i}`);
+  assert.equal(history.length, EXPLORE_FILTER_HISTORY_LIMITS.default);
   const entry = history[2];
   history = rememberExploreFilters(history, entry);
   assert.equal(history[0], entry);
@@ -130,4 +132,41 @@ test("individual recent filters persist, and older combinations are split on rea
   const blocked = { getItem: () => { throw new Error("blocked"); }, setItem: () => { throw new Error("blocked"); } };
   assert.deepEqual(readExploreFilterHistory(blocked), []);
   assert.doesNotThrow(() => writeExploreFilterHistory(blocked, entries));
+});
+
+test("recent filter use can be disabled persistently without affecting stored filters", () => {
+  const saved = storage();
+  writeExploreFilterHistory(saved, ["nationality=KR"]);
+  assert.equal(readExploreFilterHistoryEnabled(saved), true);
+  writeExploreFilterHistoryEnabled(saved, false);
+  assert.equal(readExploreFilterHistoryEnabled(saved), false);
+  assert.deepEqual(readExploreFilterHistory(saved), ["nationality=KR"]);
+  writeExploreFilterHistoryEnabled(saved, true);
+  assert.equal(readExploreFilterHistoryEnabled(saved), true);
+  saved.setItem(EXPLORE_FILTER_HISTORY_ENABLED_KEY, "invalid");
+  assert.equal(readExploreFilterHistoryEnabled(saved), true);
+  const blocked = { getItem: () => { throw new Error("blocked"); }, setItem: () => { throw new Error("blocked"); } };
+  assert.equal(readExploreFilterHistoryEnabled(blocked), true);
+  assert.doesNotThrow(() => writeExploreFilterHistoryEnabled(blocked, false));
+});
+
+test("history capacity defaults to three and uses the saved limit for reads and future records", () => {
+  const saved = storage();
+  assert.equal(readExploreFilterHistoryLimit(saved), 3);
+  const entries = ["nationality=KR", "profession=actor", "contentType=MUSIC", "gender=female", "byMin=1986"];
+  writeExploreFilterHistory(saved, entries);
+  assert.deepEqual(readExploreFilterHistory(saved), entries.slice(0, 3));
+  writeExploreFilterHistoryLimit(saved, 5);
+  writeExploreFilterHistory(saved, entries);
+  assert.deepEqual(readExploreFilterHistory(saved), entries);
+  writeExploreFilterHistoryLimit(saved, 2);
+  assert.deepEqual(readExploreFilterHistory(saved), entries.slice(0, 2));
+  assert.deepEqual(rememberExploreFilters(entries, "nationality=US", "", 2), ["nationality=US", "nationality=KR"]);
+  for (const value of ["", "invalid", "Infinity"]) {
+    saved.setItem(EXPLORE_FILTER_HISTORY_LIMIT_KEY, value);
+    assert.equal(readExploreFilterHistoryLimit(saved), EXPLORE_FILTER_HISTORY_LIMITS.default);
+  }
+  assert.equal(normalizeExploreFilterHistoryLimit(0), EXPLORE_FILTER_HISTORY_LIMITS.min);
+  assert.equal(normalizeExploreFilterHistoryLimit(1000), EXPLORE_FILTER_HISTORY_LIMITS.max);
+  assert.equal(normalizeExploreFilterHistoryLimit(3.8), 3);
 });

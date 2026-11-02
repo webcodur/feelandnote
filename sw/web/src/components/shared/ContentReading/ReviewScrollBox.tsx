@@ -1,5 +1,5 @@
 /*
-  파일명: /components/features/user/contentLibrary/expand/ReviewScrollBox.tsx
+  파일명: /components/shared/ContentReading/ReviewScrollBox.tsx
   기능: 감상배경·독백·안내 본문의 짧은 미리보기. 전문은 눌러 모달로 읽는다.
   책임: 화면 높이에 맞춰 일찍 자르고 내부 스크롤은 만들지 않는다.
         마지막으로 보이는 글줄을 흐린다. 감상 목록은 글이 잘릴 때만 흐릴 수 있다.

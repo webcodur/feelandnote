@@ -1,4 +1,5 @@
 import type { ContentType } from '@/types/database'
+import type { BookIntroductionAttribution } from '@/lib/utils/book-description'
 
 export type HomeGraphMode = 'appreciations' | 'books'
 export type HomePersonNavigation = (direction: -1 | 1) => void
@@ -11,6 +12,7 @@ export interface HomeGraphPerson {
   avatarUrl: string | null
   photoUrl?: string | null
   title: string | null
+  nationality?: string | null
 }
 
 export interface HomeGraphItem {
@@ -21,6 +23,8 @@ export interface HomeGraphItem {
   type: ContentType
   text: string | null
   sourceUrl: string | null
+  introductionAttribution?: BookIntroductionAttribution | null
+  originalLanguage?: boolean
   relatedHref?: string
   relatedLabel?: string
   relatedDescription?: string | null

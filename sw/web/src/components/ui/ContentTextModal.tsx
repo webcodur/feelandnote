@@ -6,6 +6,7 @@ import Modal, { ModalBody } from "./Modal";
 import AutoScrollReadingText from "@/components/shared/AutoScrollReadingText";
 import type { ReadingSegment } from "@/lib/reading-timing";
 import { Z_INDEX } from "@/constants/zIndex";
+import ContentReadingBody from '@/components/shared/ContentReading/ContentReadingBody';
 
 const MODAL_GOLD_CLASS = "text-3d-gold-bright";
 const MODAL_GOLD_STYLE: CSSProperties = {
@@ -39,6 +40,7 @@ interface ContentTextModalProps {
   onClose: () => void;
   title: string;
   text: string;
+  readingLabel?: string;
   tone?: ContentReadingTone;
   notice?: ReactNode;
   /** 원문 기준 강조 범위(재생 문장 등) */
@@ -64,6 +66,7 @@ export default function ContentTextModal({
   onClose,
   title,
   text,
+  readingLabel,
   tone = "primary",
   notice,
   mark,
@@ -87,7 +90,7 @@ export default function ContentTextModal({
       fadeClippedEnd
       zIndex={nested ? Z_INDEX.modal + 1 : undefined}
       escapeCapture={nested}
-      footer={source ? (
+      footer={source && !readingLabel ? (
         <div data-content-text-source className="flex justify-end border-t border-line px-4 py-1 sm:px-6">
           <a href={source.href} target="_blank" rel="noopener noreferrer"
             className={MODAL_SOURCE_CLASS} style={MODAL_GOLD_STYLE}>{source.label}</a>
@@ -112,7 +115,8 @@ export default function ContentTextModal({
               onPlayFrom={onPlayFrom}
               sentenceLabel={sentenceLabel}
             />
-          ) : null}
+          ) : readingLabel ? <ContentReadingBody kind={tone === 'review' ? 'review' : 'intro'} label={readingLabel}
+            text={text} sourceUrl={source?.href} /> : null}
         </ContentReadingText>
       </ModalBody>
     </Modal>

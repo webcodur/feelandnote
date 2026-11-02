@@ -25,7 +25,7 @@ test("인물 페이지의 짧은 소개와 접힌 장문도 본문 표시를 사
         <NextIntlClientProvider locale="ko" timeZone="Asia/Seoul" messages={{archiveSearch:{
           expandContentIntro:"작품 소개",expandBookIntro:"책 소개",expandIntroMore:"전체 소개 보기",
         }}}>
-          <ContentIntro brief={brief} category="book" isLoading={false} inlineLabel />
+          <ContentIntro brief={brief} category="book" isLoading={false} />
         </NextIntlClientProvider>,
       );
       const $ = load(html);

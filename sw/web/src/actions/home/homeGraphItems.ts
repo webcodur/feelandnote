@@ -2,15 +2,18 @@ import type { UserContentPublic } from '@/actions/contents/getUserContents'
 import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import type { HomeGraphItem } from '@/components/features/home/introduction/types'
+import { resolveAppreciationText } from '@/components/shared/ContentReading/contentReadingData'
 
 export function homeAppreciationItem(row: UserContentPublic, locale: string): HomeGraphItem {
+  const review = resolveAppreciationText(locale, row.public_record?.content_preview, row.public_record?.content_preview_en)
   return {
     id: row.content_id,
     title: row.content.title,
     creator: row.content.creator,
     thumbnailUrl: row.content.thumbnail_url,
     type: row.content.type,
-    text: (locale === 'en' ? row.public_record?.content_preview_en : row.public_record?.content_preview) ?? null,
+    text: row.public_record?.is_spoiler ? null : review.text,
+    originalLanguage: review.originalLanguage,
     sourceUrl: row.source_url,
   }
 }
@@ -25,6 +28,7 @@ export function homeFigureBookItem(book: FigureBookContent): HomeGraphItem {
     type: 'BOOK',
     text: edition?.description ?? book.description ?? null,
     sourceUrl: null,
+    introductionAttribution: edition?.introductionAttribution ?? book.introductionAttribution,
   }
 }
 

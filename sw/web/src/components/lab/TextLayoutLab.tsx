@@ -4,7 +4,7 @@ import { useState } from "react";
 import FormattedText from "@/components/ui/FormattedText";
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import ContentTextModal from "@/components/ui/ContentTextModal";
-import { decodeContentIntroEntities } from "@/components/features/user/contentLibrary/expand/contentIntroText";
+import { decodeContentIntroEntities } from "@/components/shared/ContentReading/contentIntroText";
 import { normalizeIntroBreaks, normalizeLegacyIntroBreaks } from "@/lib/utils/prose-line-breaks";
 
 const EXAMPLES = [

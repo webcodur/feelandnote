@@ -40,7 +40,7 @@ test('home media uses a modal without page growth or repeat fetch', async t => {
         await page.waitForFunction(() => document.querySelector('[data-home-reading-preview]')?.textContent?.includes('Introduction of BOOK1'))
         assert.equal(await page.evaluate(() => (window as Window & { introCalls?: number }).introCalls), 1)
         await page.click('[data-home-reading-toggle]')
-        assert.ok(await page.$('[data-home-review-source]'))
+        assert.ok(await page.$('[data-content-reading-label="review"] a'))
         assert.equal(await page.$('[data-home-media-description]'), null)
         assert.equal(await page.$('[data-home-explore]'), null)
         assert.equal(await page.$eval('[data-cover-zoom]', element => element.previousElementSibling?.getAttribute('href')), '/content/BOOK1')
@@ -144,7 +144,7 @@ test('People and Books shares the person and reading layout while keeping book r
         await page.waitForSelector('[data-home-graph="books"] [data-book-relation="read"]')
         assert.equal(await page.$$eval('[data-book-tabs] [role="tab"]', elements => elements.length), 4)
         assert.equal(await page.$('[data-home-media-description]'), null, 'Book relationships must not show an appreciation benefit for an unread book')
-        assert.equal(await page.$eval('[data-home-review-source]', e => e.getAttribute('href')), 'https://source.test/evidence')
+        assert.equal(await page.$eval('[data-content-reading-label="review"] a', e => e.getAttribute('href')), 'https://source.test/evidence')
         if (width >= 860) {
           const person = await page.$eval('[data-graph-root]', e => ({ height: e.getBoundingClientRect().height, width: e.getBoundingClientRect().width,
             childrenHeight: [...e.children].reduce((sum, child) => sum + child.getBoundingClientRect().height, 0) }))
@@ -168,7 +168,7 @@ test('People and Books shares the person and reading layout while keeping book r
         await page.click('[data-book-tab="appearance"]')
         assert.equal(await page.$eval('[data-work-id]', element => element.getAttribute('data-work-id')), 'appearance1')
         assert.ok(await page.$eval('[data-home-reading-preview]', e => e.textContent?.includes('Book introduction')))
-        assert.equal(await page.$('[data-home-reading-toggle]'), null, 'Introduction-only books need no switch')
+        assert.ok(await page.$('[data-home-reading-toggle]'), 'Introduction-only books also keep the introduction control')
         assert.equal(await page.$('a[href="https://source.test/evidence"]'), null, 'A book introduction must not inherit the read-book source')
         await page.click('[data-next-work]')
         assert.equal(await page.$eval('[data-work-id]', element => element.getAttribute('data-work-id')), 'appearance2')

@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef } from "react";
 
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import ContentCover from "@/components/ui/ContentCover";
 import ContentReadingText from "@/components/ui/ContentReadingText";
-import FormattedText from "@/components/ui/FormattedText";
+import ContentReadingBody from '@/components/shared/ContentReading/ContentReadingBody';
+import { resolveAppreciationText, type resolveContentIntroduction } from '@/components/shared/ContentReading/contentReadingData';
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 
 import type { RecordsLabels } from "./RecordsPageBody";
@@ -13,7 +14,7 @@ import type { RecordsLabels } from "./RecordsPageBody";
 interface RecordsListProps {
   locale: string;
   items: GetUserContentsResponse["items"];
-  descriptions: Record<string, string | null>;
+  descriptions: Record<string, ReturnType<typeof resolveContentIntroduction>>;
   initialFocusContentId?: string;
   startIndex?: number;
   labels: Pick<
@@ -22,9 +23,6 @@ interface RecordsListProps {
   >;
 }
 
-const LINK_CLASS = "text-accent underline underline-offset-4 hover:text-accent-hover";
-const READING_LABEL_CLASS = "text-xs font-black uppercase tracking-[0.16em] text-3d-gold-bright";
-const READING_LABEL_STYLE = { filter: "none" } satisfies CSSProperties;
 const REVIEW_SECTION_CLASS = "relative mt-10 border-t border-accent/25 pt-9 sm:mt-14 sm:pt-10";
 
 export default function RecordsList({
@@ -49,9 +47,7 @@ export default function RecordsList({
     <div ref={listRef} className="space-y-8">
       {items.map((item, index) => {
         const review = item.public_record;
-        const text = locale === "en" && review?.content_preview_en
-          ? review.content_preview_en
-          : review?.content_preview;
+        const { text, originalLanguage } = resolveAppreciationText(locale, review?.content_preview, review?.content_preview_en);
         const thumbnail = locale === "en" && item.content.thumbnail_en
           ? item.content.thumbnail_en
           : item.content.thumbnail_url;
@@ -93,32 +89,26 @@ export default function RecordsList({
                 </div>
               )}
 
-              {description && (
-                <div>
-                  <p className={`${READING_LABEL_CLASS} text-center`} style={READING_LABEL_STYLE}>
-                    {labels.introduction}
-                  </p>
-                  <ContentReadingText text={description} tone="secondary" size="reader" className="mt-3" />
-                </div>
+              {description?.text && (
+                <ContentReadingText tone="intro" size="reader">
+                  <ContentReadingBody kind="intro" label={labels.introduction} text={description.text} sourceUrl={description.sourceUrl} />
+                </ContentReadingText>
               )}
 
-              <div className={description ? REVIEW_SECTION_CLASS : "relative"}>
-                {description && (
+              <div className={description?.text ? REVIEW_SECTION_CLASS : "relative"}>
+                {description?.text && (
                   <span
                     aria-hidden
                     className="pointer-events-none absolute -top-1 left-1/2 size-2 -translate-x-1/2 rotate-45 bg-accent/75"
                   />
                 )}
-                <p className={`${READING_LABEL_CLASS} text-center`} style={READING_LABEL_STYLE}>
-                  {labels.myReview}
-                </p>
-                <ContentReadingText tone="primary" size="reader" className="mt-4">
+                <ContentReadingText tone="review" size="reader">
                   {text && !review?.is_spoiler && (
                     <>
-                      {locale === "en" && !review?.content_preview_en && (
+                      {originalLanguage && (
                         <p className="mb-3 text-sm text-text-secondary">{labels.originalLanguage}</p>
                       )}
-                      <FormattedText text={text} />
+                      <ContentReadingBody kind="review" label={labels.myReview} text={text} sourceUrl={item.source_url} />
                     </>
                   )}
                   {text && review?.is_spoiler && (
@@ -126,18 +116,6 @@ export default function RecordsList({
                   )}
                   {!text && <p className="text-text-secondary">{labels.emptyReview}</p>}
                 </ContentReadingText>
-                {item.source_url && (
-                  <p className="mt-6 break-words border-t border-white/10 pt-4 text-sm">
-                    <a
-                      href={item.source_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={LINK_CLASS}
-                    >
-                      {labels.source}: {item.source_url}
-                    </a>
-                  </p>
-                )}
               </div>
             </div>
           </article>

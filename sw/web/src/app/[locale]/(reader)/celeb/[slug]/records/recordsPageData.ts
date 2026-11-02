@@ -2,6 +2,7 @@ import type { GetUserContentsResponse } from "@/actions/contents/getUserContents
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { getCelebProfileUrl } from "@/lib/url";
+import { resolveContentIntroduction } from '@/components/shared/ContentReading/contentReadingData';
 
 const RECORDS_FETCH_BATCH_SIZE = 100;
 export const RECORDS_PAGE_SIZE = 20;
@@ -96,7 +97,7 @@ export async function loadRecords(
   const descriptions = Object.fromEntries(
     await Promise.all(contents.items.map(async (item) => {
       const brief = await dependencies.getBrief(item.content_id, locale).catch(() => null);
-      return [item.content_id, brief?.description ?? null] as const;
+      return [item.content_id, resolveContentIntroduction(brief)] as const;
     })),
   );
 

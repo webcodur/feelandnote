@@ -1,5 +1,5 @@
 /*
-  파일명: /components/features/user/contentLibrary/expand/ExpandCard.tsx
+  파일명: /components/shared/ContentReading/ExpandCard.tsx
   기능: 펼침 보기의 카드 한 장.
   책임: 표지와 작품 소개, 인물의 감상배경을 한 덩어리로 표시한다. 넓은 도서 카드는
         표지 오른쪽에서 소개와 감상을 이어 읽는다. 감상배경 칸은 채울 것이 없으면 뺀다.
@@ -15,7 +15,7 @@ import { useLocale, useTranslations } from "next-intl";
 
 import ContentCover from "@/components/ui/ContentCover";
 import { TYPE_ICONS } from "@/components/ui/cards/ContentCard/constants";
-import FormattedText from "@/components/ui/FormattedText";
+import ContentReadingBody from "@/components/shared/ContentReading/ContentReadingBody";
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import ContentCoverLink from "@/components/shared/ContentCoverLink";
 import ContentTextModal from "@/components/ui/ContentTextModal";
@@ -27,15 +27,14 @@ import type { ContentBrief } from "@/actions/contents/getContentBrief";
 
 import { fitsInlineReadingText } from "@/constants/readingText";
 
-import { resolveContentIntroFullText } from "./contentIntroText";
-import ContentIntro from "./ContentIntro";
-import ContentSourceLabel from "./ContentSourceLabel";
+import { resolveContentIntroFullText } from "@/components/shared/ContentReading/contentIntroText";
+import ContentIntro from "@/components/shared/ContentReading/ContentIntro";
+import { resolveAppreciationText } from "@/components/shared/ContentReading/contentReadingData";
 import { MusicDetails } from "./ContentMetaDetails";
 import ReviewScrollBox, { REVIEW_PREVIEW_TEXT_CLASS } from "./ReviewScrollBox";
 import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import { toAffiliateLinks } from "@/constants/affiliatePlatforms";
 
-const REVIEW_TEXT_CLASS = "text-review";
 
 interface ExpandCardProps {
   item: UserContentWithContent;
@@ -86,8 +85,7 @@ function ExpandCard({
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   const { title, creator } = getLocalizedContent(item.content, locale);
-  const review = locale === "en" && item.review_en ? item.review_en : item.review;
-  const reviewIsOriginalLanguage = locale === "en" && !item.review_en && !!item.review;
+  const { text: review, originalLanguage: reviewIsOriginalLanguage } = resolveAppreciationText(locale, item.review, item.review_en);
   const isSpoiler = item.is_spoiler ?? false;
   /* 인터뷰 전사 급 장문만 접어 모달로 보낸다. 그 외 감상배경은 통째로 보인다 */
   const reviewTooLong = !expanded && !!review && !fitsInlineReadingText(review, locale);
@@ -100,12 +98,8 @@ function ExpandCard({
   const showReview = hasRecordError || isRecordLoading || !!review || isSpoiler
     || (item.rating != null && item.rating > 0) || !!item.source_url;
   const reviewHeading = ownerNickname ? tExpand("expandReviewOf", { name: ownerNickname }) : tExpand("expandReview");
-  const reviewInlineLabel = locale === "en" ? reviewHeading : tExpand("expandReview");
-  const reviewInlineMarker = (
-    <span data-review-inline-marker className="font-semibold text-text-primary">
-      <ContentSourceLabel href={item.source_url}>{reviewInlineLabel}</ContentSourceLabel>{": "}
-    </span>
-  );
+  const reviewBody = review ? <ContentReadingBody kind="review" label={tExpand("expandReview")}
+    text={review} sourceUrl={item.source_url} textLayout={reviewHeader ? "prose" : undefined} /> : null;
   const category = getCategoryByDbType(item.content.type)?.id ?? "book";
   const coverUrl = item.content.thumbnail_url;
   const purchaseLinks = toAffiliateLinks(item.content.affiliate_url);
@@ -158,20 +152,17 @@ function ExpandCard({
                   openLabel={tExpand("expandReviewExpand")}
                   fadeWhenFits={false}
                 >
-                  {reviewInlineMarker}
-                  <FormattedText text={review} className={REVIEW_TEXT_CLASS} />
+                  {reviewBody}
                 </ReviewScrollBox>
               ) : (
                 <div className="mx-auto min-w-0 w-full max-w-[var(--reading-preview-max-width,100%)]">
                   {reviewHeader ? (
                     <ContentReadingText text={review} tone="secondary" size="compact">
-                      {reviewInlineMarker}
-                      <FormattedText text={review} layout="prose" className={REVIEW_TEXT_CLASS} />
+                      {reviewBody}
                     </ContentReadingText>
                   ) : (
                     <div className={REVIEW_PREVIEW_TEXT_CLASS}>
-                      {reviewInlineMarker}
-                      <FormattedText text={review} className={REVIEW_TEXT_CLASS} />
+                      {reviewBody}
                     </div>
                   )}
                 </div>
@@ -232,7 +223,7 @@ function ExpandCard({
             ) : (
               <div className={musicDetails ? `sm:flex sm:flex-col ${introFitsInline ? "" : "sm:h-72"}` : "sm:flex sm:h-full sm:flex-col"}>
                 <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
-                  <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} inlineLabel expanded={expanded} textLayout={reviewHeader ? "prose" : undefined} mode={introductionMode} />
+                  <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} expanded={expanded} textLayout={reviewHeader ? "prose" : undefined} mode={introductionMode} />
                 </div>
               </div>
             )) : reviewSection}
@@ -250,6 +241,7 @@ function ExpandCard({
           isOpen
           onClose={() => setIsReviewModalOpen(false)}
           title={reviewHeading}
+          readingLabel={tExpand("expandReview")}
           text={review}
           tone="review"
           source={
