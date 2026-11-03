@@ -73,7 +73,7 @@ async function fetchReadingGraph(locale: string, slug: string): Promise<HomeGrap
 
 export async function getHomeGraphData(mode: HomeGraphMode, locale: string, slug: string): Promise<HomeGraphData | null> {
   const picks = mode === 'books' ? [...(HOME_GRAPH_READING_PICKS[slug] ?? [])] : HOME_GRAPH_MEDIA.flatMap(type => [...HOME_GRAPH_PICKS[type]])
-  return cachedList(CACHE_TAGS.CELEBS, ['home-introduction-graph-v9-country-people', mode, locale, slug, ...picks],
+  return cachedList(CACHE_TAGS.CELEBS, ['home-introduction-graph-v11-person-first', mode, locale, slug, ...picks],
     () => mode === 'books' ? fetchReadingGraph(locale, slug) : fetchAppreciationGraph(locale, slug),
     { revalidate: STATIC_REVALIDATE, extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.FACTIONS] })
 }
@@ -82,7 +82,13 @@ export async function getHomeGraphDeck(mode: HomeGraphMode, locale: string, visi
   const country = parseVisitorCountry(visitorCountry)
   const people = await getHomePeople(country, mode)
   const available: HomeGraphData[] = []
-  const candidates = people.map(person => person.slug).slice(0, HOME_PEOPLE_GRAPH_ATTEMPTS)
+  // 선호 국가의 기록이 실제 표시 조건을 통과하지 못해도 다른 국가를 확인할 자리를 남긴다.
+  const preferred = people.filter(person => person.nationality === country || person.nationality === 'US')
+  const other = people.filter(person => person.nationality !== country && person.nationality !== 'US')
+  const preferredLimit = HOME_PEOPLE_GRAPH_ATTEMPTS - HOME_PEOPLE_COUNT
+  const candidates = [...preferred.slice(0, preferredLimit), ...other.slice(0, HOME_PEOPLE_COUNT),
+    ...preferred.slice(preferredLimit), ...other.slice(HOME_PEOPLE_COUNT)]
+    .slice(0, HOME_PEOPLE_GRAPH_ATTEMPTS).map(person => person.slug)
   const needsLocal = !!country && people.some(person => person.nationality === country)
   for (let at = 0; at < candidates.length;) {
     const slugs = candidates.slice(at, at + Math.max(1, HOME_PEOPLE_COUNT - available.length))

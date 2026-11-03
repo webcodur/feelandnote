@@ -65,6 +65,7 @@ test('all home works keep icon-only introduction controls, including missing int
         await page.waitForFunction(() => (window as Window & { introSettled?: number }).introSettled === 1)
         await page.waitForFunction(() => document.querySelector('[data-home-reading-preview]')?.textContent?.includes('Only the introduction') || document.querySelector('[data-content-reading-label="review"] a'))
         assert.ok(await page.$('[data-home-reading-toggle]'), 'Keep the introduction control even with only one text or a failed request')
+        assert.equal(await page.$eval('[data-home-reading-toggle]', element => (element as HTMLButtonElement).disabled), kind === 'intro-only', 'Only a work with an appreciation background can switch between the two texts')
         assert.equal(await page.$eval('[data-graph-reading]', e => e.getAttribute('data-reading-mode')), kind === 'intro-only' ? 'intro' : 'review')
         await page.click('[data-home-reading-toggle]')
         assert.equal(await page.$eval('[data-graph-reading]', e => e.getAttribute('data-reading-mode')), 'intro')

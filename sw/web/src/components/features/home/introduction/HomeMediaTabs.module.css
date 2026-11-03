@@ -1,8 +1,9 @@
-.tabs { display: grid; flex: none; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--color-line-strong); }
+.tabs { display: grid; flex: none; grid-template-columns: repeat(var(--home-tab-count,4),minmax(0,1fr)); gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--color-line-strong); }
 .tabs button { position: relative; display: flex; min-width: 0; min-height: 52px; align-items: center; justify-content: center; gap: 8px; padding: 8px 6px 12px; color: var(--color-text-secondary); outline: none; }
-.tabs button:hover { color: var(--color-accent); background: var(--color-bg-card); }
+.tabs button:hover:not(:disabled) { color: var(--color-accent); background: var(--color-bg-card); }
 .tabs button[aria-selected='true'] { color: var(--color-accent); }
-.tabs button:disabled { color: var(--color-text-tertiary); cursor: default; }
+.tabs button:disabled { color: color-mix(in srgb, var(--color-text-secondary) 45%, var(--color-bg-main)); filter: grayscale(1); cursor: not-allowed; }
+.tabs button:disabled > .symbol { opacity: .75; }
 .symbol { display: block; flex: none; width: 22px; aspect-ratio: 1; }
 .symbol svg { width: 100%; height: 100%; }
 .label { min-width: 0; overflow-wrap: anywhere; word-break: keep-all; font-size: 18px; font-weight: 600; line-height: 1.4; }
@@ -14,6 +15,7 @@
 }
 @container (max-width: 519px) {
   .tabs { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px 12px; }
+  .tabs[data-tab-count='1'] { grid-template-columns: minmax(0,1fr); }
   .symbol { width: 20px; }
   .tabs button { min-height: 48px; gap: 6px; }
   .label { font-size: 16px; }

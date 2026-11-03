@@ -4,13 +4,15 @@ import { createRequire } from 'node:module'
 import test from 'node:test'
 import ts from 'typescript'
 import type { HomeGraphData, HomeGraphMode } from '@/components/features/home/introduction/types'
+import type { ContentType } from '@/types/database'
 
 const require = createRequire(import.meta.url)
 
-function fixture(emptyLocal = false) {
-  const countries: Record<string, string> = { local1: 'KR', local2: 'KR', american: 'US', local3: 'KR' }
+function fixture(emptyLocal = false, media: ContentType = 'BOOK', validSlugs?: string[]) {
+  const countries: Record<string, string> = { local1: 'KR', american: 'US', local2: 'KR', local3: 'KR', japanese: 'JP', french: 'FR', british: 'GB' }
   const realityFilters: unknown[] = []
-  const directory = ['local1', 'american', 'local2', 'local3'].map(slug => ({ id: slug, slug, nationality: countries[slug] }))
+  const requestedMedia: string[] = []
+  const directory = Object.keys(countries).map(slug => ({ id: slug, slug, nationality: countries[slug] }))
   const mocks: Record<string, unknown> = {
     '@/lib/cache': { STATIC_REVALIDATE: 1, cachedList: (_tag: string, _keys: string[], load: () => unknown) => load(), throwOnQueryError() {} },
     './getHomePeople': { getHomePeople: async () => directory },
@@ -24,14 +26,14 @@ function fixture(emptyLocal = false) {
       }
       return query
     } }) },
-    '@/actions/contents/getUserContents': { getPublicUserContents: async ({ userId, type }: { userId: string; type: string }) => ({
+    '@/actions/contents/getUserContents': { getPublicUserContents: async ({ userId, type }: { userId: string; type: string }) => { requestedMedia.push(type); return ({
       total: 1,
-      items: type === 'BOOK' && !(emptyLocal && userId === 'local1') ? [{
+      items: type === media && !(emptyLocal && userId === 'local1') && (!validSlugs || validSlugs.includes(userId)) ? [{
         content_id: userId + '-book', source_url: 'https://source.test/evidence',
         public_record: { content_preview: '감상', content_preview_en: 'Review' },
-        content: { type: 'BOOK', title: 'Book', thumbnail_url: 'cover', bookLocale: { title: 'Book', thumbnail_url: 'cover' } },
+        content: { type: media, title: 'Work', thumbnail_url: 'cover', bookLocale: { title: 'Book', thumbnail_url: 'cover' } },
       }] : [],
-    }) },
+    }) } },
     '@/actions/figure-books/getFigureBookPresentations': { getFigureBookPresentationsForCeleb: async () => [] },
     '@/actions/celebs/getCelebFactionBooks': { getCelebFactionBooks: async () => [] },
     '@/lib/celeb/authoredBooks': { getDisplayFigureBookGroups: () => ({ appeared: [], authored: [] }) },
@@ -43,7 +45,7 @@ function fixture(emptyLocal = false) {
   }).outputText
   const loaded = { exports: {} as { getHomeGraphDeck: (mode: HomeGraphMode, locale: string, country: string) => Promise<HomeGraphData[]> } }
   new Function('require', 'module', 'exports', source)((id: string) => mocks[id] ?? require(id), loaded, loaded.exports)
-  return { get: loaded.exports.getHomeGraphDeck, realityFilters }
+  return { get: loaded.exports.getHomeGraphDeck, realityFilters, requestedMedia }
 }
 
 test('both upper home sections use the rotating local and American directory without a fixed representative', async () => {
@@ -64,4 +66,22 @@ test('an empty local profile is skipped while keeping the available local and Am
   assert.ok(deck.some(data => data.person.slug === 'local2'))
   assert.ok(deck.some(data => data.person.nationality === 'US'))
   assert.equal(deck.some(data => data.person.slug === 'local1'), false)
+})
+
+test('a person with one available medium stays eligible and carries all four categories in the same bookshelf', async () => {
+  for (const media of ['BOOK', 'MUSIC', 'VIDEO', 'GAME'] as const) {
+    const f = fixture(false, media)
+    const deck = await f.get('appreciations', 'ko', 'KR')
+    assert.deepEqual(deck.map(data => data.person.nationality), ['KR', 'US', 'KR'])
+    assert.ok(deck.every(data => data.branches.length === 4 && data.branches.filter(branch => branch.items.length).length === 1
+      && data.branches.find(branch => branch.key === media)?.items.every(item => item.text && item.sourceUrl)))
+    assert.deepEqual([...new Set(f.requestedMedia)], ['BOOK', 'MUSIC', 'VIDEO', 'GAME'])
+  }
+})
+
+test('other countries fill the person list when preferred countries have no displayable appreciation', async () => {
+  const f = fixture(false, 'GAME', ['japanese', 'french', 'british'])
+  const deck = await f.get('appreciations', 'ko', 'KR')
+  assert.deepEqual(deck.map(data => data.person.nationality), ['JP', 'FR', 'GB'])
+  assert.ok(deck.every(data => data.branches.find(branch => branch.key === 'GAME')?.items[0].sourceUrl))
 })

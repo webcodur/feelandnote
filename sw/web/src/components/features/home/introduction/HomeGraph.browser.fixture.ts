@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url)
 const { build } = createRequire(require.resolve('tsx'))('esbuild')
 export const appDir = fileURLToPath(new URL('../../../../../', import.meta.url))
 
-export async function fixture(locale: 'ko' | 'en', mode: 'appreciations' | 'books' = 'appreciations', personName = 'Stephen Fry', referenceIntro: string | null = 'Book introduction', options: { review?: string | null; intro?: string | null; introDelay?: number; failIntro?: boolean } = {}) {
+export async function fixture(locale: 'ko' | 'en', mode: 'appreciations' | 'books' = 'appreciations', personName = 'Stephen Fry', referenceIntro: string | null = 'Book introduction', options: { review?: string | null; intro?: string | null; introDelay?: number; failIntro?: boolean; personFirst?: boolean; sparseRelations?: boolean; sparseMedia?: boolean } = {}) {
   const review = options.review === undefined ? 'Review' : options.review
   const output = await build({
     absWorkingDir: appDir, tsconfig: path.join(appDir, 'tsconfig.json'), outdir: 'fixture', write: false,
@@ -14,6 +14,8 @@ export async function fixture(locale: 'ko' | 'en', mode: 'appreciations' | 'book
     stdin: { resolveDir: appDir, loader: 'tsx', contents: `
       import { createRoot } from 'react-dom/client';
       import HomeGraph from './src/components/features/home/introduction/HomeGraph';
+      import HomePersonRotation from './src/components/features/home/introduction/HomePersonRotation';
+      import introStyles from './src/components/features/home/introduction/HomeIntroduction.module.css';
       import AnimatedHeight from './src/components/ui/AnimatedHeight';
       import { useHomePersonRotation } from './src/components/features/home/introduction/useHomePersonRotation';
       const mode=${JSON.stringify(mode)};
@@ -22,8 +24,11 @@ export async function fixture(locale: 'ko' | 'en', mode: 'appreciations' | 'book
       const person={ id:'person', slug:'person', name:${JSON.stringify(personName)}, title:'Writer and broadcaster', avatarUrl:'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2296%22 height=%2296%22/%3E', photoUrl:'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22480%22 height=%22600%22/%3E' };
       const relationItem=(key,i)=>({...item('BOOK',i),id:key+i,title:key+i,text:i===1?(key==='read'?${JSON.stringify(review)}:${JSON.stringify(referenceIntro)}):longText,sourceUrl:key==='read'?'https://source.test/evidence':null,...(key==='affiliation'?{relatedLabel:'Their world',relatedHref:'/explore/faction/their-world',relatedDescription:'A theme about people and their world.',relatedGroup:'Their group'}:{})});
       const data={person,branches:mode==='books'?['read','appearance','authored','affiliation'].map(key=>({key,count:2,items:[relationItem(key,1),relationItem(key,2)]})):['BOOK','VIDEO','GAME','MUSIC'].map(type=>({key:type,count:2,items:[item(type,1),item(type,2)]}))};
+      if(${!!options.sparseRelations}) data.branches=data.branches.map(branch=>['read','authored'].includes(branch.key)?branch:{...branch,items:[]});
+      if(${!!options.sparseMedia}) data.branches=data.branches.map(branch=>branch.key==='BOOK'?branch:{...branch,items:[]});
+      const people=[1,2,3].map(index=>({person:{...person,id:'person'+index,slug:'person'+index,name:'Person '+index},branches:data.branches}));
       function RotationProbe(){const {ref,index,move}=useHomePersonRotation(3,'appreciations');return <div ref={ref}><span data-rotation-index>{index}</span><button data-rotation-next onClick={()=>move(1)}>Next person</button></div>}
-      createRoot(document.getElementById('root')).render(<><AnimatedHeight><HomeGraph mode={mode} data={data} onNavigate={()=>{}}/></AnimatedHeight><section id="following">Following section</section><RotationProbe/></>);
+      createRoot(document.getElementById('root')).render(<>${options.personFirst ? '<div className={introStyles.showcaseEditorial}><HomePersonRotation mode={mode} people={people}/></div>' : '<AnimatedHeight><HomeGraph mode={mode} data={data} onNavigate={()=>{}}/></AnimatedHeight>'}<section id="following">Following section</section><RotationProbe/></>);
     ` },
     plugins: [{ name: 'home-media-fixture', setup(builder: {
       onResolve: (options: { filter: RegExp }, callback: (args: { path: string }) => unknown) => void

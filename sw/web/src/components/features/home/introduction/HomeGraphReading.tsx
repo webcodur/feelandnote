@@ -63,9 +63,9 @@ export default function HomeGraphReading({ person, branch, item, mode = 'appreci
                 </button>
               </div>}
               <button type="button" className={styles.textToggle} data-home-reading-toggle aria-controls={readingId}
-                aria-label={t(!review && reviewText ? 'showReviewBackground' : 'showBookIntroduction')}
-                title={t(!review && reviewText ? 'showReviewBackground' : 'showBookIntroduction')}
-                aria-pressed={!review} onClick={() => setShowIntroduction(value => reviewText ? !value : true)}>
+                aria-label={t(!reviewText ? 'noAppreciation' : !review ? 'showReviewBackground' : 'showBookIntroduction')}
+                title={t(!reviewText ? 'noAppreciation' : !review ? 'showReviewBackground' : 'showBookIntroduction')}
+                disabled={!reviewText} aria-pressed={!review} onClick={() => setShowIntroduction(value => !value)}>
                 <ArrowLeftRight size={18} aria-hidden />
               </button>
               {activeText && <button type="button" className={styles.textToggle} data-home-text-expand

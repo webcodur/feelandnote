@@ -48,7 +48,7 @@ export default function HomeGraph({ data, onNavigate, mode = 'appreciations' }: 
     <div className={`${styles.graph} ${mode === 'books' ? styles.booksGraph : ''}`} data-home-graph={mode} aria-label={t(mode === 'books' ? 'relatedBooks' : 'graphLabel', { name: data.person.name })}>
       <HomeGraphRoot person={data.person} onNavigate={onNavigate} />
       {selection && selectedBranch && <div className={styles.selectedView}>
-        <HomeMediaTabs branches={data.branches} value={selection.key} panelId={panelId} onChange={openBranch} mode={mode} />
+        <HomeMediaTabs branches={mode === 'books' ? data.branches.filter(branch => branch.items.length) : data.branches} value={selection.key} panelId={panelId} onChange={openBranch} mode={mode} />
         <div ref={panelRef} className={styles.readingPanel} id={panelId} role="tabpanel" aria-labelledby={`${panelId}-tab-${selection.key}`} tabIndex={0} data-book-relation={mode === 'books' ? selection.key : undefined}>
           <div key={`${selection.key}-${selection.item.id}`} data-media-reading={selection.key} data-work-id={selection.item.id}>
             <HomeGraphReading person={data.person} branch={selectedBranch} item={selection.item} mode={mode}

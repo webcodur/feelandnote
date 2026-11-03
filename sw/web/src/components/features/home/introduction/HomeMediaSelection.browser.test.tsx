@@ -1,0 +1,92 @@
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import puppeteer from 'puppeteer'
+import { fixture } from './HomeGraph.browser.fixture'
+
+test('category changes keep the same person and only person navigation changes the bookshelf owner', async t => {
+  const browser = await puppeteer.launch({ headless: true })
+  try {
+    for (const [locale, width] of [['ko', 390], ['ko', 1440], ['en', 390]] as const) await t.test(`${locale} ${width}px`, async () => {
+      const bundle = await fixture(locale, 'appreciations', 'Person', null, { personFirst: true })
+      const page = await browser.newPage()
+      const errors: string[] = []
+      page.on('pageerror', error => errors.push(String(error)))
+      await page.setViewport({ width, height: 1000 })
+      await page.setRequestInterception(true)
+      page.on('request', request => void request.respond({ contentType: 'text/html', body: '<html><body><div id="root" style="max-width:960px;margin:24px auto;padding:0 16px"></div></body></html>' }))
+      const mount = async () => { await page.addStyleTag({ content: bundle.css }); await page.addScriptTag({ content: bundle.js }); await page.waitForSelector('[data-home-rotation="appreciations"]') }
+      try {
+        await page.goto('http://home-media-selection.test/')
+        await mount()
+        assert.equal(await page.$$eval('[data-home-rotation="appreciations"] [role="tab"]', tabs => tabs.length), 4)
+        assert.ok(await page.$('[data-home-graph] [role="tablist"]'), 'Keep media tabs inside the original reading column')
+        assert.equal(await page.$eval('[data-graph-root]', element => getComputedStyle(element).display), width === 1440 ? 'block' : 'grid', 'Keep the desktop photo-and-reading columns at the full editorial width')
+        const layout = await page.$eval('[data-home-graph]', element => {
+          const person = element.querySelector('[data-graph-root]')!.getBoundingClientRect()
+          const tabs = element.querySelector('[role="tablist"]')!.getBoundingClientRect()
+          return { personRight: person.right, personBottom: person.bottom, tabLeft: tabs.left, tabTop: tabs.top }
+        })
+        assert.ok(width === 1440 ? layout.tabLeft >= layout.personRight : layout.tabTop >= layout.personBottom - 1, 'Tabs stay above the work in the right column, or below the portrait on mobile')
+        const person = () => page.$eval('[data-home-rotation="appreciations"]', element => element.getAttribute('data-person'))
+        const nextPerson = async () => { await page.click('[data-home-rotation="appreciations"] [data-person-direction="1"]') }
+        assert.equal(await person(), 'person1')
+        await page.click('[data-media-mode="MUSIC"]')
+        assert.equal(await person(), 'person1')
+        assert.equal(await page.$eval('[data-media-reading]', element => element.getAttribute('data-media-reading')), 'MUSIC')
+        await page.click('[data-next-work]')
+        assert.equal(await person(), 'person1', 'Moving between works does not replace the person')
+        await page.click('[data-media-mode="BOOK"]')
+        assert.equal(await person(), 'person1')
+        await page.click('[data-media-mode="MUSIC"]')
+        assert.equal(await person(), 'person1')
+        await page.focus('[data-media-mode="MUSIC"]')
+        await page.keyboard.press('ArrowLeft')
+        assert.equal(await person(), 'person1')
+        assert.equal(await page.evaluate(() => document.activeElement?.getAttribute('data-media-mode')), 'GAME')
+        assert.equal(await page.$eval('[role="tab"][aria-selected="true"]', element => element.id), await page.$eval('[data-home-rotation="appreciations"] [role="tabpanel"]', element => element.getAttribute('aria-labelledby')))
+        await nextPerson()
+        assert.equal(await person(), 'person2')
+        await page.click('[data-media-mode="VIDEO"]')
+        assert.equal(await person(), 'person2', 'Categories now belong to the newly selected person')
+        await page.reload()
+        await mount()
+        assert.equal(await person(), 'person2', 'Restore the selected person for the section, independently of the category')
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
+        assert.deepEqual(errors, [])
+      } finally { await page.close() }
+    })
+
+    await t.test('an empty category stays disabled instead of choosing another person', async () => {
+      const bundle = await fixture('ko', 'appreciations', 'Person', null, { personFirst: true, sparseMedia: true })
+      const page = await browser.newPage()
+      try {
+        await page.setContent('<div id="root" style="max-width:960px;margin:24px auto;padding:0 16px"></div>')
+        await page.addStyleTag({ content: bundle.css })
+        await page.addScriptTag({ content: bundle.js })
+        await page.waitForSelector('[data-home-rotation="appreciations"]')
+        assert.equal(await page.$$eval('[role="tab"]:disabled', tabs => tabs.length), 3)
+        assert.ok(await page.$('[data-media-mode="MUSIC"]:disabled svg'), 'The absent category keeps its media icon')
+        await page.click('[data-media-mode="MUSIC"]')
+        assert.equal(await page.$eval('[data-home-rotation="appreciations"]', element => element.getAttribute('data-person')), 'person1')
+        assert.equal(await page.$eval('[data-media-reading]', element => element.getAttribute('data-media-reading')), 'BOOK')
+      } finally { await page.close() }
+    })
+
+    await t.test('sparse book relationships', async () => {
+      const bundle = await fixture('ko', 'books', 'Person', 'Introduction', { sparseRelations: true })
+      const page = await browser.newPage()
+      try {
+        await page.setViewport({ width: 390, height: 1000 })
+        await page.setContent('<div id="root" style="max-width:960px;margin:24px auto;padding:0 16px"></div>')
+        await page.addStyleTag({ content: bundle.css })
+        await page.addScriptTag({ content: bundle.js })
+        await page.waitForSelector('[data-book-tabs]')
+        assert.deepEqual(await page.$$eval('[data-book-tab]', tabs => tabs.map(tab => tab.getAttribute('data-book-tab'))), ['read', 'authored'])
+        assert.equal(await page.$('[role="tab"]:disabled'), null)
+        await page.click('[data-book-tab="authored"]')
+        assert.equal(await page.$eval('[data-home-reading-toggle]', element => (element as HTMLButtonElement).disabled), true)
+        assert.ok(await page.$('[data-home-reading-toggle] svg'), 'Keep the disabled transition icon when no appreciation exists')
+      } finally { await page.close() }
+    })
+  } finally { await browser.close() }
+})
