@@ -10,12 +10,11 @@ import { getDisplayFigureBookGroups } from '@/lib/celeb/authoredBooks'
 import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 import { cachedList, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
-import { HOME_PEOPLE_COUNT, HOME_PEOPLE_GRAPH_ATTEMPTS, orderHomePeople } from '@/lib/homePeople'
-import { parseVisitorCountry } from '@/lib/visitorCountry'
+import { HOME_PEOPLE_COUNT, HOME_PEOPLE_GRAPH_ATTEMPTS } from '@/lib/homePeople'
 import { HOME_GRAPH_CANDIDATE_COUNT, HOME_GRAPH_MEDIA, HOME_GRAPH_PICKS, HOME_GRAPH_PREVIEW_COUNT, HOME_GRAPH_READING_PICKS } from '@/components/features/home/introduction/config'
 import type { HomeGraphData, HomeGraphMode, HomeGraphPerson } from '@/components/features/home/introduction/types'
 import { homeAffiliationBookItem, homeAppreciationItem, homeFigureBookItem, uniqueHomeGraphItems } from './homeGraphItems'
-import { getHomePeople } from './getHomePeople'
+import { getHomeShowcasePeople } from './getHomePeople'
 
 async function personForHome(slug: string, locale: string): Promise<HomeGraphPerson | null> {
   const { data, error } = await createStaticClient().from('celebs')
@@ -78,29 +77,20 @@ export async function getHomeGraphData(mode: HomeGraphMode, locale: string, slug
     { revalidate: STATIC_REVALIDATE, extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.FACTIONS] })
 }
 
-export async function getHomeGraphDeck(mode: HomeGraphMode, locale: string, visitorCountry: string | null = null): Promise<HomeGraphData[]> {
-  const country = parseVisitorCountry(visitorCountry)
-  const people = await getHomePeople(country, mode)
-  const available: HomeGraphData[] = []
-  // 선호 국가의 기록이 실제 표시 조건을 통과하지 못해도 다른 국가를 확인할 자리를 남긴다.
-  const preferred = people.filter(person => person.nationality === country || person.nationality === 'US')
-  const other = people.filter(person => person.nationality !== country && person.nationality !== 'US')
-  const preferredLimit = HOME_PEOPLE_GRAPH_ATTEMPTS - HOME_PEOPLE_COUNT
-  const candidates = [...preferred.slice(0, preferredLimit), ...other.slice(0, HOME_PEOPLE_COUNT),
-    ...preferred.slice(preferredLimit), ...other.slice(HOME_PEOPLE_COUNT)]
+export async function getHomeGraphDeck(mode: HomeGraphMode, locale: string): Promise<HomeGraphData[]> {
+  // 감상 구획의 편성을 먼저 확정해 인물과 책 구획에 같은 인물이 나오지 않게 한다.
+  const taken = new Set(mode === 'books' ? (await getHomeGraphDeck('appreciations', locale)).map(data => data.person.id) : [])
+  const candidates = (await getHomeShowcasePeople(mode)).filter(person => !taken.has(person.id))
     .slice(0, HOME_PEOPLE_GRAPH_ATTEMPTS).map(person => person.slug)
-  const needsLocal = !!country && people.some(person => person.nationality === country)
-  for (let at = 0; at < candidates.length;) {
-    const slugs = candidates.slice(at, at + Math.max(1, HOME_PEOPLE_COUNT - available.length))
+  const available: HomeGraphData[] = []
+  for (let at = 0; at < candidates.length && available.length < HOME_PEOPLE_COUNT;) {
+    const slugs = candidates.slice(at, at + HOME_PEOPLE_COUNT - available.length)
     at += slugs.length
     const results = await Promise.allSettled(slugs.map(slug => getHomeGraphData(mode, locale, slug)))
     results.forEach((result, index) => {
       if (result.status === 'rejected') console.error('[home] 순환 인물 조회 실패', mode, slugs[index], result.reason)
       else if (result.value?.person.avatarUrl && result.value.branches.some(branch => branch.items.length)) available.push(result.value)
     })
-    const hasLocal = !needsLocal || available.some(data => data.person.nationality === country)
-    const hasAmerican = available.some(data => data.person.nationality === 'US')
-    if (available.length >= HOME_PEOPLE_COUNT && hasLocal && hasAmerican) break
   }
-  return orderHomePeople(available, country, data => data.person.id, data => data.person.nationality).slice(0, HOME_PEOPLE_COUNT)
+  return available
 }

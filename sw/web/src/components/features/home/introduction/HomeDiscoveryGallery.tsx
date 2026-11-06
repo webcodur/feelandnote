@@ -1,6 +1,6 @@
 import { getLocale, getTranslations } from 'next-intl/server'
 import { ArrowRight, Images, Users } from 'lucide-react'
-import { getHomePeople } from '@/actions/home/getHomePeople'
+import { getHomeDiscoveryPeople } from '@/actions/home/getHomePeople'
 import { getHomeGraphDeck } from '@/actions/home/getHomeGraphData'
 import CelebAvatarImage from '@/components/ui/CelebAvatarImage'
 import ContentCover from '@/components/ui/ContentCover'
@@ -17,8 +17,8 @@ const GALLERY_IMAGE_COUNT = HOME_PEOPLE_COUNT
 export default async function HomeDiscoveryGallery() {
   const [locale, t, country] = await Promise.all([getLocale(), getTranslations('nav'), getVisitorCountry()])
   const [peopleResult, worksResult] = await Promise.allSettled([
-    getHomePeople(country),
-    getHomeGraphDeck('appreciations', locale, country),
+    getHomeDiscoveryPeople(country),
+    getHomeGraphDeck('appreciations', locale),
   ])
   if (peopleResult.status === 'rejected') console.error('[home] 탐색 인물 이미지 조회 실패', peopleResult.reason)
   if (worksResult.status === 'rejected') console.error('[home] 탐색 작품 이미지 조회 실패', worksResult.reason)

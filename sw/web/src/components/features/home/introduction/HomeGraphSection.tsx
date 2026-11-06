@@ -4,12 +4,11 @@ import { RetryBlock } from '@/components/ui/pending'
 import { Link } from '@/i18n/navigation'
 import HomePersonRotation from './HomePersonRotation'
 import type { HomeGraphMode } from './types'
-import { getVisitorCountry } from '@/lib/visitorCountryServer'
 
 export default async function HomeGraphSection({ mode }: { mode: HomeGraphMode }) {
-  const [locale, country] = await Promise.all([getLocale(), getVisitorCountry()])
+  const locale = await getLocale()
   let data
-  try { data = await getHomeGraphDeck(mode, locale, country) }
+  try { data = await getHomeGraphDeck(mode, locale) }
   catch (error) { console.error('[home] 그래프 조회 실패', mode, error); return <RetryBlock /> }
   if (data.length) return <HomePersonRotation mode={mode} people={data} />
   const t = await getTranslations('home.landing.graph')

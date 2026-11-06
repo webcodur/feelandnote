@@ -9,13 +9,13 @@ import type { ContentType } from '@/types/database'
 const require = createRequire(import.meta.url)
 
 function fixture(emptyLocal = false, media: ContentType = 'BOOK', validSlugs?: string[]) {
-  const countries: Record<string, string> = { local1: 'KR', american: 'US', local2: 'KR', local3: 'KR', japanese: 'JP', french: 'FR', british: 'GB' }
+  const countries: Record<string, string> = { local1: 'KR', american: 'US', local2: 'KR', local3: 'KR', american2: 'US', japanese: 'JP', french: 'FR', british: 'GB' }
   const realityFilters: unknown[] = []
   const requestedMedia: string[] = []
   const directory = Object.keys(countries).map(slug => ({ id: slug, slug, nationality: countries[slug] }))
   const mocks: Record<string, unknown> = {
     '@/lib/cache': { STATIC_REVALIDATE: 1, cachedList: (_tag: string, _keys: string[], load: () => unknown) => load(), throwOnQueryError() {} },
-    './getHomePeople': { getHomePeople: async () => directory },
+    './getHomePeople': { getHomeShowcasePeople: async () => directory },
     '@/lib/db/static': { createStaticClient: () => ({ from() {
       let slug = ''
       const query = {
@@ -43,17 +43,18 @@ function fixture(emptyLocal = false, media: ContentType = 'BOOK', validSlugs?: s
   const source = ts.transpileModule(readFileSync(new URL('./getHomeGraphData.ts', import.meta.url), 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText
-  const loaded = { exports: {} as { getHomeGraphDeck: (mode: HomeGraphMode, locale: string, country: string) => Promise<HomeGraphData[]> } }
+  const loaded = { exports: {} as { getHomeGraphDeck: (mode: HomeGraphMode, locale: string) => Promise<HomeGraphData[]> } }
   new Function('require', 'module', 'exports', source)((id: string) => mocks[id] ?? require(id), loaded, loaded.exports)
   return { get: loaded.exports.getHomeGraphDeck, realityFilters, requestedMedia }
 }
 
-test('both upper home sections use the rotating local and American directory without a fixed representative', async () => {
+test('both upper home sections keep the ranked order without repeating anyone', async () => {
   const f = fixture()
-  for (const mode of ['appreciations', 'books'] as const) {
-    const deck = await f.get(mode, 'ko', 'KR')
-    assert.deepEqual(deck.map(data => data.person.nationality), ['KR', 'US', 'KR'])
-    assert.deepEqual(deck.map(data => data.person.slug), ['local1', 'american', 'local2'])
+  const appreciations = await f.get('appreciations', 'ko')
+  const books = await f.get('books', 'ko')
+  assert.deepEqual(appreciations.map(data => data.person.slug), ['local1', 'american', 'local2'])
+  assert.deepEqual(books.map(data => data.person.slug), ['local3', 'american2', 'japanese'])
+  for (const deck of [appreciations, books]) {
     assert.ok(deck.every(data => data.branches.some(branch => branch.items.length)))
     assert.ok(deck.every(data => data.branches.some(branch => !branch.items.length)), 'Missing media or relations must not discard an otherwise useful local person')
   }
@@ -61,7 +62,7 @@ test('both upper home sections use the rotating local and American directory wit
 })
 
 test('an empty local profile is skipped while keeping the available local and American people', async () => {
-  const deck = await fixture(true).get('appreciations', 'en', 'KR')
+  const deck = await fixture(true).get('appreciations', 'en')
   assert.equal(deck.length, 3)
   assert.ok(deck.some(data => data.person.slug === 'local2'))
   assert.ok(deck.some(data => data.person.nationality === 'US'))
@@ -71,7 +72,7 @@ test('an empty local profile is skipped while keeping the available local and Am
 test('a person with one available medium stays eligible and carries all four categories in the same bookshelf', async () => {
   for (const media of ['BOOK', 'MUSIC', 'VIDEO', 'GAME'] as const) {
     const f = fixture(false, media)
-    const deck = await f.get('appreciations', 'ko', 'KR')
+    const deck = await f.get('appreciations', 'ko')
     assert.deepEqual(deck.map(data => data.person.nationality), ['KR', 'US', 'KR'])
     assert.ok(deck.every(data => data.branches.length === 4 && data.branches.filter(branch => branch.items.length).length === 1
       && data.branches.find(branch => branch.key === media)?.items.every(item => item.text && item.sourceUrl)))
@@ -79,9 +80,9 @@ test('a person with one available medium stays eligible and carries all four cat
   }
 })
 
-test('other countries fill the person list when preferred countries have no displayable appreciation', async () => {
+test('later candidates fill the person list when earlier ones have no displayable appreciation', async () => {
   const f = fixture(false, 'GAME', ['japanese', 'french', 'british'])
-  const deck = await f.get('appreciations', 'ko', 'KR')
+  const deck = await f.get('appreciations', 'ko')
   assert.deepEqual(deck.map(data => data.person.nationality), ['JP', 'FR', 'GB'])
   assert.ok(deck.every(data => data.branches.find(branch => branch.key === 'GAME')?.items[0].sourceUrl))
 })
