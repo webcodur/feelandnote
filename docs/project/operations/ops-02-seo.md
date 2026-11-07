@@ -249,7 +249,7 @@ JSON-LD는 서버 렌더 HTML에 싣는다. 클라이언트에서 주입하면 �
 9. **외부 통로는 소속을 밝힌다.** 네이버 블로그(책)·티스토리(영화)는 검색 결과 자리를 차지해 사람을 사이트로 보내는 통로다. 소속 공개가 저가치 대량 콘텐츠의 면제 조건은 아니다([Google 스팸 정책](https://developers.google.com/search/docs/essentials/spam-policies)). 운영은 [`blog-naver-book.md`](../../continuous/blog-naver-book.md)·[`blog-tistory-cinema.md`](../../continuous/blog-tistory-cinema.md)가 쥔다. 블로그가 감상 배경 원문을 일부 옮겨 싣는 것은 중단 사유가 아니다.
 10. **수동 조치·보안 문제는 API로 못 읽는다.** Search Console 화면으로 확인하며, 「감지된 문제 없음」은 자동 시스템 평가까지 배제하는 근거가 아니다. 화면을 열기 위해 도메인 속성(`sc-domain:feelandnote.com`, DNS 확인)과 URL 접두어 속성(`https://feelandnote.com/`, 메타태그 확인)을 함께 유지한다.
 11. **H1은 문서에 하나다.** 모바일·데스크톱 배너를 CSS로 숨기더라도 둘 다 `<h1>`이면 다중 H1이다. 모바일 제목은 접근성 헤딩 role로 둔다. `aria-hidden` 장식 이미지의 `alt=""`는 정상이며 경고를 없애려 의미 없는 alt를 만들지 않는다.
-12. **옛 주소는 308로 통합한다.** 강세부호가 든 옛 slug·오염된 인물 주소는 `sw/web/src/middleware.ts`에서 현행 ASCII slug로 영구 이동한다.
+12. **옛 주소는 308로 통합한다.** 강세부호가 든 옛 slug·오염된 인물 주소는 `sw/web/src/middleware.ts`에서 현행 ASCII slug로 영구 이동한다. 병합으로 사라진 작품 주소는 남은 작품의 `metadata.mergedFrom`을 조회해 작품 페이지에서 영구 이동한다. `merge-works.mjs`가 이 기록을 남긴다.
 13. **표기가 검색어와 다르면 DB 이름을 고친다.** 통용 표기와 다른 `celebs.nickname`(예: `멧 데이먼`)은 Wikidata 한국어 라벨·한국어 위키백과 문서명과 대조해 교정한다. slug·영문명·canonical은 그대로 둔다.
 
 ## 재발 방지 — 렌더와 메타 파일

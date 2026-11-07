@@ -1,5 +1,6 @@
 /** 작품 통합은 한 PostgreSQL transaction에서만 실행한다. 충돌은 전체 pair를 되돌린다. */
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
+import { MERGED_WORK_IDS_KEY } from '@feelandnote/shared/lib/book-metadata'
 import { bookEditionTranslationKey, excludedBookEditionReason, reviewedBookEditionSelectionReason, BOOK_EDITION_WORK_BOUND_SELECTION_REASONS } from '@feelandnote/content-search/book-edition-policy'
 import { isOriginalEdition } from './edition-translation-policy.mjs'
 import { CONTENT_ARRAY_REFERENCES } from './content-array-references.mjs'
@@ -592,6 +593,8 @@ BEGIN
   IF (SELECT count(*) FROM public.figure_book_products p JOIN public.figure_book_editions e ON e.id=p.edition_id WHERE e.content_id=keep_id) <> ${snapshot.figure_book_products.length} THEN RAISE EXCEPTION 'MERGE_REVIEW: product history lost'; END IF;
   ${['records', 'notes', 'flow_nodes', 'curated_list_items', 'activity_logs', 'commerce_events', 'profession_book_picks'].map(table => `IF (SELECT count(*) FROM public.${table} WHERE content_id=keep_id) <> ${snapshot[table].filter(row => [pair.keep, pair.drop].includes(row.content_id)).length} THEN RAISE EXCEPTION 'MERGE_REVIEW: ${table} rows lost'; END IF;`).join('\n')}
   IF EXISTS(SELECT 1 FROM public.contents c WHERE c.id=keep_id AND (c.member_count IS DISTINCT FROM (SELECT count(*) FROM public.member_contents WHERE content_id=keep_id) OR c.celeb_count IS DISTINCT FROM (SELECT count(*) FROM public.celeb_contents WHERE content_id=keep_id) OR c.record_count IS DISTINCT FROM (SELECT count(*) FROM public.member_contents WHERE content_id=keep_id)+(SELECT count(*) FROM public.celeb_contents WHERE content_id=keep_id))) THEN RAISE EXCEPTION 'MERGE_REVIEW: content counters differ from relationships'; END IF;
+  -- 지워지는 작품의 옛 주소가 남은 작품으로 이동하도록 흡수한 ID를 누적한다.
+  UPDATE public.contents k SET metadata=coalesce(k.metadata,'{}'::jsonb)||jsonb_build_object('${MERGED_WORK_IDS_KEY}',(SELECT jsonb_agg(DISTINCT merged.id) FROM (SELECT drop_id::text AS id UNION SELECT jsonb_array_elements_text(c.metadata->'${MERGED_WORK_IDS_KEY}') FROM public.contents c WHERE c.id IN(keep_id,drop_id) AND jsonb_typeof(c.metadata->'${MERGED_WORK_IDS_KEY}')='array') merged)) WHERE k.id=keep_id;
   DELETE FROM public.contents WHERE id=drop_id;
 END;
 ${delimiter};

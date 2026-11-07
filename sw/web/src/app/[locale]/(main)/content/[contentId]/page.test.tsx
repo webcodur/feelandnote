@@ -12,7 +12,7 @@ type PageApi = {
   generateMetadata: (props: Props) => Promise<Record<string, unknown>>;
 };
 
-function loadPage(read: (id: string, locale: string) => Promise<unknown>): PageApi {
+function loadPage(read: (id: string, locale: string) => Promise<unknown>, mergedInto: string | null = null): PageApi {
   const compiled = ts.transpileModule(readFileSync(new URL("./page.tsx", import.meta.url), "utf8"), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
   }).outputText;
@@ -20,7 +20,8 @@ function loadPage(read: (id: string, locale: string) => Promise<unknown>): PageA
   const mocks: Record<string, unknown> = {
     "react": { cache: (fn: unknown) => fn },
     "next-intl/server": { setRequestLocale: noop, getTranslations: async () => (key: string) => key },
-    "@/actions/contents/getContentDetail": { getInitialPublicContentInfo: read },
+    "@/actions/contents/getContentDetail": { getInitialPublicContentInfo: read, getMergedContentId: async () => mergedInto },
+    "@/i18n/navigation": { getPathname: ({ href, locale }: { href: string; locale: string }) => `${locale === "en" ? "/en" : ""}${href}` },
     "@/actions/contents/getBookBannerTheme": { getBookBannerTheme: async () => "library" },
     "@/lib/seo": {
       getAlternates: (path: string, locale: string) => ({ canonical: `https://feelandnote.com${locale === "en" ? "/en" : ""}${path}` }),
@@ -50,6 +51,16 @@ test("missing saved UUID returns notFound from metadata and before the streaming
   for (const locale of ["ko", "en"]) {
     await assert.rejects(page.generateMetadata(props(uuid, locale)), is404);
     await assert.rejects(page.default(props(uuid, locale)), is404);
+  }
+});
+
+test("merged work UUID permanently redirects to the kept work in either locale", async () => {
+  const kept = "00000000-0000-4000-8000-000000000100";
+  const page = loadPage(async () => null, kept);
+  for (const [locale, path] of [["ko", `/content/${kept}`], ["en", `/en/content/${kept}`]]) {
+    const isMove = (error: unknown) => error instanceof Error && "digest" in error && String(error.digest).includes(`;${path};308`);
+    await assert.rejects(page.generateMetadata(props(uuid, locale)), isMove);
+    await assert.rejects(page.default(props(uuid, locale)), isMove);
   }
 });
 

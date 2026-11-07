@@ -4,6 +4,7 @@ import { cache } from 'react'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createClient } from '@/lib/db/server'
 import { createStaticClient } from '@/lib/db/static'
+import { MERGED_WORK_IDS_KEY } from '@feelandnote/shared/lib/book-metadata'
 import { getContentById } from './getContentById'
 import { fetchContentMetadata, type ContentMetadata } from './fetchContentMetadata'
 import { getPublicReviewFeed, getReviewFeed, type ReviewFeedItem } from './getReviewFeed'
@@ -414,6 +415,14 @@ async function fetchUserRecord(
 
 // 공개 조회는 쿠키와 viewer 정보를 읽지 않는다. 구획별 데이터 캐시를 공유한다.
 export const getPublicContentDetail = cache(getPublicContentDetailInner)
+
+/** 병합으로 사라진 작품 ID를 흡수한 작품을 찾는다. 작품을 찾지 못한 주소에서만 호출한다. */
+export async function getMergedContentId(contentId: string): Promise<string | null> {
+  const { data, error } = await createStaticClient().from('contents').select('id')
+    .contains('metadata', { [MERGED_WORK_IDS_KEY]: [contentId] }).limit(1).maybeSingle()
+  if (error) console.error('[병합 작품 조회]', error.message)
+  return data?.id ?? null
+}
 
 /** 첫 화면은 저장된 서지만 읽는다. 외부 소개와 리뷰·관련 목록은 별도로 보강한다. */
 export async function getInitialPublicContentInfo(contentId: string, locale: string): Promise<ContentDetailData['content'] | null> {

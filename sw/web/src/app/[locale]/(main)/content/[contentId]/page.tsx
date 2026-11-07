@@ -6,12 +6,13 @@
 
 import { cache } from "react";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { validate as isUuid } from "uuid";
 import ContentDetailPage from "@/components/features/content/ContentDetailPage";
-import { getInitialPublicContentInfo } from "@/actions/contents/getContentDetail";
+import { getInitialPublicContentInfo, getMergedContentId } from "@/actions/contents/getContentDetail";
 import { getBookBannerTheme } from "@/actions/contents/getBookBannerTheme";
+import { getPathname } from "@/i18n/navigation";
 import {
   getAlternates,
   getCreativeWorkCreatorJsonLd,
@@ -35,12 +36,19 @@ interface PageProps {
 // Lane은 요청별 스트리밍을 사용한다. 서지·리뷰·관련 목록의 항목별 데이터 캐시는 유지한다.
 export const revalidate = false;
 
+/** 병합으로 사라진 작품 주소는 남은 작품으로 영구 이동한다. 그 밖의 UUID는 404다. */
+async function exitMissingContent(contentId: string, locale: string): Promise<never> {
+  const mergedInto = await getMergedContentId(contentId);
+  if (mergedInto) permanentRedirect(getPathname({ href: `/content/${mergedInto}`, locale }));
+  notFound();
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, contentId } = await params;
   setRequestLocale(locale);
 
   const content = await getContentInfo(contentId, locale);
-  if (!content && isUuid(contentId)) notFound();
+  if (!content && isUuid(contentId)) await exitMissingContent(contentId, locale);
   const t = await getTranslations({ locale, namespace: "contentDetail" });
   const alternates = getAlternates(
     `/content/${contentId}`,
@@ -114,7 +122,7 @@ export default async function Page({ params }: PageProps) {
   const { locale, contentId } = await params;
   setRequestLocale(locale);
   // 저장된 작품의 UUID는 외부 검색 ID가 아니다. Lane을 보내기 전에 404를 확정한다.
-  if (isUuid(contentId) && !await getContentInfo(contentId, locale)) notFound();
+  if (isUuid(contentId) && !await getContentInfo(contentId, locale)) await exitMissingContent(contentId, locale);
   return <Lane fallback={<ContentDetailPending />}><ContentBody locale={locale} contentId={contentId} /></Lane>;
 }
 
