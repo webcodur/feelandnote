@@ -104,8 +104,10 @@
 - Oracle public vantage point에서 홈 REST를 10분마다 확인하고
   `MemoryUtilization[5m].mean() > 90` 알람을 기존 이메일 topic에 연결한다.
 
-- 느린 RPC 재작성: `get_celebs_sorted`·`get_persona_extremes`·`get_content_celeb_user_counts`(평균 1.4~3초, 최대 14초).
+- 느린 RPC 재작성: `get_persona_extremes`·`get_content_celeb_user_counts`(평균 1.4~3초, 최대 14초).
   「공개 조회 문장 제한·인덱스」의 기존 목록(`get_chosen_scriptures`·`get_celeb_feed_type_counts`)과 함께 처리한다.
+  재작성 전에 `set local role anon`으로 `explain (analyze)`를 본다. 관리자 계정은 RLS를 건너뛰어 원인이 안 보이고, `costs off`는 JIT 요약을 숨긴다.
+  `get_celebs_sorted`는 정책의 `is_admin()`을 쿼리당 1회로 묶고 JIT를 꺼서 해결했다(`20261107090000`·`20261107100000`). 같은 형태의 SELECT 정책이 8개 남았다(`member_contents`·`records` 등).
 
 - 배치 스크립트의 SSH 세션 재사용: `sw/web-bo/scripts/contents/book-description-sources.ts`(책마다 `spawnSync ssh`),
   `sw/web-bo/scripts/celeb/headline-rewrite/apply.ts`(쿼리마다 ssh), `sw/web-bo/scripts/figure-books/source-book-batch.ts`.
