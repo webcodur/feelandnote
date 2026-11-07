@@ -25,7 +25,9 @@ GA 인증 파일은 `sw/web/credentials/ga-service-account.json` 한 곳에 둔�
 
 Daum 웹마스터 PIN은 로컬 운영용 `credentials/daum-webmaster-pin.txt`에 둔다. `.gitignore`의 `**/credentials/`로 제외되며, 새 컴퓨터에서 Daum 수집 작업을 하려면 이 파일도 별도로 옮긴다.
 
-저장소 **밖** 파일도 6종 있다.
+R2 Oracle DB 암호화 백업의 복구키는 `credentials/oracle-db-backup-age.key`에 둔다. 서버에는 공개 recipient만 둔다. 이 파일이 없으면 백업을 풀 수 없으니 새 컴퓨터로 옮길 때 빠뜨리지 않는다.
+
+저장소 **밖** 파일도 5종 있다.
 
 | 파일 | 위치 | 용도 |
 |------|------|------|
@@ -34,8 +36,6 @@ Daum 웹마스터 PIN은 로컬 운영용 `credentials/daum-webmaster-pin.txt`�
 | `obscura.exe` | `C:\Tools\obscura\<버전>\` | 브라우저 MCP 실행 파일 (비밀값 아님, 재설치로 대체 가능) |
 | `rootca.key`·`rootca.crt`·`rootca.srl` | `C:/Users/<사용자>/.feelandnote/cloudflare-aop/` | Cloudflare Authenticated Origin Pulls 갱신용 CA. `rootca.key`는 비밀값이며 Oracle에는 올리지 않는다. 로컬 사본이 없어도 현재 서비스는 계속 뜨지만 인증서 갱신 때 새 CA로 교체해야 한다 |
 | `feelandnote_oracle`·`feelandnote_oracle.pub` | `C:/Users/<사용자>/.ssh/` | Oracle 웹·DB VM SSH. 비밀키는 공개 저장소나 서버에 복사하지 않는다 |
-| `oracle-db-backup-age.key` | `C:/Users/<사용자>/.feelandnote/` | R2의 Oracle DB 암호화 백업 복구키. 서버에는 공개 recipient만 둔다 |
-
 **`.env`가 필요 없는 앱**: `sw/lab`(환경변수 참조 0건), `sw/android`(Gradle 프로젝트), `packages/*`(자체 파일 없이 각 앱의 값을 물려받음).
 **`sw/audio-bo/.env`도 음성 API를 쓰면 옮긴다.** ElevenLabs 계정 키와 음성 도구 설정이 들어 있다. 로컬 작업 폴더는 코드 기본값(`D:\audios\...`·`D:\GPT-SoVITS\...`)을 쓰며, 다른 컴퓨터에서 위치가 다르면 §5를 본다.
 
