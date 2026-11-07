@@ -537,6 +537,12 @@ const NON_HTML_RUNTIME_FILES = new Set([
   // 탐색 허브(/explore)와 서재는 Cloudflare ruleset v4가 보관하지 않는다.
   // 보관 대상은 인물·작품 상세와 explore의 directory·timeline뿐이다.
   'sw/web/src/actions/library/bestsellers.ts',
+  // 차트 조회의 소비자는 작품 탐색 첫 화면과 실행 중 호출되는 책 정보 조회뿐이다.
+  'sw/web/src/actions/library/musicChart.ts',
+  'sw/web/src/actions/library/steamChart.ts',
+  'sw/web/src/actions/library/storeChart.ts',
+  'sw/web/src/lib/library/bestsellerFeed.ts',
+  'sw/web/src/lib/library/chartRead.ts',
   'sw/web/src/actions/library/index.ts',
   'sw/web/src/actions/library/types.ts',
   'sw/web/src/app/[locale]/(main)/explore/page.tsx',
