@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { APPLE_BOOKS_FEED_URL, CHART_MAX_AGE_MS, fetchAppleBooksChart, fetchYes24Chart, parseAppleBooksChart, parseYes24Chart, previousKoreanDate, recentKoreanChartDates, selectBookChart, yes24ChartEnabled } from './bestsellerFeed'
+import { APPLE_BOOKS_FEED_URL, CHART_FETCH_ATTEMPTS, CHART_MAX_AGE_MS, fetchAppleBooksChart, fetchChartJson, fetchYes24Chart, parseAppleBooksChart, parseYes24Chart, previousKoreanDate, recentKoreanChartDates, selectBookChart, yes24ChartEnabled } from './bestsellerFeed'
 
 const now = Date.parse('2026-09-14T05:00:00Z')
 const basis = '2026-09-13'
@@ -142,4 +142,37 @@ test('network error details never include credentials in the propagated error', 
     assert.equal((error as Error).message, 'Book chart network request failed')
     return true
   })
+})
+test('a hanging or 5xx feed request is retried until one attempt succeeds', async t => {
+  const originalTimeout = AbortSignal.timeout.bind(AbortSignal)
+  t.mock.method(AbortSignal, 'timeout', () => originalTimeout(5))
+  // AbortSignal.timeout 타이머는 이벤트 루프를 붙잡지 않으므로 대기 중 프로세스가 끝나지 않게 한다
+  const keepAlive = setInterval(() => {}, 5)
+  t.after(() => clearInterval(keepAlive))
+  let calls = 0
+  const fetcher = (async (_url: string, init: RequestInit) => {
+    calls++
+    if (calls === 1) return new Promise<Response>((_resolve, reject) => {
+      init.signal!.addEventListener('abort', () => reject(new Error('aborted')), { once: true })
+    })
+    if (calls === 2) return new Response('', { status: 502 })
+    return Response.json({ ok: true })
+  }) as unknown as typeof fetch
+  assert.deepEqual(await fetchChartJson(fetcher, 'https://example.com/feed.json', {}), { ok: true })
+  assert.equal(calls, 3)
+})
+test('feed retries stop at the attempt limit and never repeat a client error', async () => {
+  for (const [status, expected] of [[503, CHART_FETCH_ATTEMPTS], [404, 1]]) {
+    let calls = 0
+    const fetcher = (async () => { calls++; return new Response('', { status }) }) as unknown as typeof fetch
+    await assert.rejects(fetchChartJson(fetcher, 'https://example.com/feed.json', {}), /HTTP/)
+    assert.equal(calls, expected)
+  }
+})
+test('a caller deadline is shared by all attempts instead of being extended', async () => {
+  const controller = new AbortController()
+  let calls = 0
+  const fetcher = (async () => { calls++; controller.abort(); throw new Error('aborted') }) as unknown as typeof fetch
+  await assert.rejects(fetchChartJson(fetcher, 'https://example.com/feed.json', {}, ['application/json'], controller.signal), /network/)
+  assert.equal(calls, 1)
 })

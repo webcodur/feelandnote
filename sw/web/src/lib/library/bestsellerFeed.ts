@@ -5,6 +5,9 @@ export const APPLE_BOOKS_FEED_URL = 'https://rss.marketingtools.apple.com/api/v2
 export const CHART_CACHE_SECONDS = { ko: 24 * 3600, en: 3600 } as const
 export const CHART_MAX_AGE_MS = 48 * 3600_000
 export const CHART_REQUEST_BUDGET_MS = 5000
+// Apple 피드는 요청의 약 30%가 응답 없이 멈추고 일부는 502를 준다. 성공 응답은 2.1초 안에 온다(26.11.08 운영 서버 실측).
+export const CHART_ATTEMPT_TIMEOUT_MS = 2500
+export const CHART_FETCH_ATTEMPTS = 3
 const MAX_BYTES = 1_000_000
 const LIMIT = 20
 type JsonObject = { [key: string]: unknown }
@@ -121,13 +124,27 @@ export function parseAppleBooksChart(value: unknown, now = Date.now()): BookChar
 // Apple 피드는 User-Agent 없는 요청(undici 기본값)을 연결만 받고 응답 없이 붙잡아 둔다 — 명시 UA가 필수다
 const FEED_USER_AGENT = 'feelandnote/1.0 (+https://feelandnote.com)'
 
+/** 다시 요청하면 성공할 수 있는 실패. 응답 내용이 잘못된 경우와 구분한다. */
+class TransientChartError extends Error {}
+
+/** 호출자가 마감(signal)을 주면 모든 시도가 그 마감 하나를 나눠 쓰고, 없으면 시도마다 짧은 제한 시간을 둔다. */
 export async function fetchChartJson(fetcher: typeof fetch, url: string, headers: HeadersInit, contentTypes: readonly string[] = ['application/json'], signal?: AbortSignal): Promise<unknown> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await readChartJson(fetcher, url, headers, contentTypes, signal ?? AbortSignal.timeout(CHART_ATTEMPT_TIMEOUT_MS))
+    } catch (error) {
+      if (!(error instanceof TransientChartError) || attempt >= CHART_FETCH_ATTEMPTS || signal?.aborted) throw error
+    }
+  }
+}
+async function readChartJson(fetcher: typeof fetch, url: string, headers: HeadersInit, contentTypes: readonly string[], signal: AbortSignal): Promise<unknown> {
   const response = await fetcher(url, {
     headers: { 'User-Agent': FEED_USER_AGENT, ...headers },
-    signal: signal ?? AbortSignal.timeout(CHART_REQUEST_BUDGET_MS),
+    signal,
     redirect: 'error',
   })
-    .catch(() => { throw new Error('Book chart network request failed') })
+    .catch(() => { throw new TransientChartError('Book chart network request failed') })
+  if (response.status >= 500) throw new TransientChartError(`Book chart HTTP ${response.status}`)
   if (!response.ok) throw new Error(`Book chart HTTP ${response.status}`)
   const contentType = response.headers.get('content-type')?.split(';')[0].trim().toLowerCase()
   if (!contentType || !contentTypes.includes(contentType)) throw new Error('Invalid chart content type')
@@ -144,7 +161,10 @@ export async function fetchChartJson(fetcher: typeof fetch, url: string, headers
       if (size > MAX_BYTES) { await reader.cancel(); throw new Error('Chart exceeds size limit') }
       chunks.push(value)
     }
-  } catch { throw new Error(size > MAX_BYTES ? 'Chart exceeds size limit' : 'Chart response interrupted') }
+  } catch {
+    if (size > MAX_BYTES) throw new Error('Chart exceeds size limit')
+    throw new TransientChartError('Chart response interrupted')
+  }
   finally { reader.releaseLock() }
   const bytes = new Uint8Array(size)
   let offset = 0

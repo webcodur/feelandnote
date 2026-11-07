@@ -38,11 +38,12 @@ function fixture(environment: { YES24_API_KEY?: string; YES24_CHARTS_ENABLED?: s
         const timer = setTimeout(() => reject(new Error('fixture stalled')), 200)
         init?.signal?.addEventListener('abort', () => { clearTimeout(timer); reject(new Error('deadline')) }, { once: true })
       })
-      const now = new Date().toISOString()
+      const now = new Date(Date.now()).toISOString()
       if (url.includes('yes24.com')) {
         const date = new URL(url).searchParams.get('date')!
         dates.push(date)
-        if (fails || failDates.has(date)) return new Response('', { status: 503 })
+        if (failDates.has(date)) return new Response('', { status: 404 })
+        if (fails) return new Response('', { status: 503 })
         return Response.json({ success: true, data: { meta: { apiLink: url, pubDate: now },
           items: [{ itemId: 1, sortOrder: 1, title, author: 'Author', goodsType: '도서', isbn13: '9788966260959',
             cover: 'https://image.yes24.com/goods/1/L', link: 'https://www.yes24.com/product/goods/1' }] } })
@@ -56,14 +57,15 @@ function fixture(environment: { YES24_API_KEY?: string; YES24_CHARTS_ENABLED?: s
   const loaded = { exports: {} as { getBestsellers: (category: string, locale: string) => Promise<feed.BookChartSelection> } }
   new Function('require', 'module', 'exports', 'process', compiled)((id: string) => mocks[id] ?? require(id), loaded, loaded.exports, { env: environment })
   const incrementalCache = {
-    generateCacheKey: async (key: string) => key,
+    generateSimpleCacheKey: async (key: string) => key,
     get: async (key: string) => entries.get(key) ?? null,
     set: async (key: string, value: unknown) => { entries.set(key, { value, isStale: false }) },
   }
   async function read(locale = 'en') {
     const store = { route: '/explore/works', incrementalCache, pendingRevalidates: {} as { [key: string]: Promise<unknown> } }
     const result = await workAsyncStorage.run(store, () => workUnitAsyncStorage.run(
-      { type: 'prerender-legacy', phase: 'render', tags: null, revalidate: Infinity },
+      // 운영 요청과 같은 경로 — 프리렌더 모드는 만료 값을 기다려 갱신하므로 뒤에서 갱신하는 동작을 재현하지 못한다
+      { type: 'request', phase: 'render', url: { pathname: '/explore/works', search: '' } },
       () => loaded.exports.getBestsellers('ALL', locale),
     ))
     await Promise.allSettled(Object.values(store.pendingRevalidates))
@@ -93,6 +95,26 @@ test('failed background refresh retains the last successful official chart', asy
   assert.equal((await f.read()).items[0].title, 'First chart')
   assert.equal((await f.read()).items[0].title, 'First chart')
 })
+test('a cached chart past the display limit is replaced by a source read in the same request', async (t) => {
+  let clock = Date.now()
+  t.mock.method(Date, 'now', () => clock)
+  const f = fixture()
+  await f.read()
+  clock += feed.CHART_MAX_AGE_MS + 1
+  f.publish('Next chart'); f.expire()
+  const result = await f.read()
+  assert.equal(result.status, 'ready')
+  assert.equal(result.items[0].title, 'Next chart')
+})
+test('a cached chart past the display limit stays hidden while the source is down', async (t) => {
+  let clock = Date.now()
+  t.mock.method(Date, 'now', () => clock)
+  const f = fixture()
+  await f.read()
+  clock += feed.CHART_MAX_AGE_MS + 1
+  f.fail(true); f.expire()
+  assert.equal((await f.read()).status, 'unavailable')
+})
 test('cold failure backs off briefly so a dead feed cannot stall every request', async (t) => {
   let clock = Date.now()
   t.mock.method(Date, 'now', () => clock)
@@ -103,8 +125,8 @@ test('cold failure backs off briefly so a dead feed cannot stall every request',
   // 백오프 중에는 업스트림이 살아나도 재시도하지 않는다 — 요청당 타임아웃 반복을 막는 장치
   f.fail(false); f.publish('Recovered')
   assert.equal((await f.read()).status, 'unavailable')
-  assert.equal(f.calls(), 1)
-  clock += 11 * 60_000
+  assert.equal(f.calls(), feed.CHART_FETCH_ATTEMPTS)
+  clock += 61_000
   assert.equal((await f.read()).items[0].title, 'Recovered')
 })
 test('disabled or missing YES24 credentials never call a source', async () => {
