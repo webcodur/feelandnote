@@ -14,6 +14,7 @@ import { appendFileSync, readFileSync, readdirSync, writeFileSync } from 'node:f
 import { join, resolve } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { argumentValue, bareIsbn, dbClient, kakaoByIsbn, kakaoCreator, openLibraryByIsbn, squash } from '../figure-books/lib/figure-work.mjs'
+import { findBookIsbnOwners } from '@feelandnote/content-search/book-work-lookup'
 const introductionModule = await import('@feelandnote/content-search/book-introduction')
 const { fetchBookIntroduction } = introductionModule.default ?? introductionModule
 
@@ -72,12 +73,14 @@ async function main() {
 
     // 2) 이미 있는 작품인가(ISBN)
     let contentId = null
+    const owners = new Set()
     for (const isbn of [ko?.isbn, en?.isbn].filter(Boolean)) {
-      const { data: byExt } = await db.from('contents').select('id').eq('external_id', isbn).limit(1)
-      const { data: byLoc } = byExt?.length ? { data: [] } : await db.from('content_locales').select('content_id').eq('isbn', isbn).limit(1)
-      contentId = byExt?.[0]?.id ?? byLoc?.[0]?.content_id ?? null
-      if (contentId) { stat.reuse++; break }
+      const { ids, error } = await findBookIsbnOwners(db, isbn)
+      if (error) throw error
+      for (const id of ids) owners.add(id)
     }
+    if (owners.size > 1) { console.log(`  건너뜀 ${label} | 판본 ISBN의 소유 작품 ${owners.size}개`); stat.skip++; continue }
+    if (owners.size) { [contentId] = owners; stat.reuse++ }
 
     // ISBN 이 없거나 달라도 같은 작품(제목 정규화 일치 + 저자 성 일치)이 있으면 새로 만들지 않는다
     if (!contentId) {

@@ -19,6 +19,7 @@
 import { createClient, type DatabaseClient } from '@feelandnote/db'
 import { mkdirSync, readFileSync, writeFileSync } from 'fs'
 import { boPath, scriptsPath } from '../lib/paths'
+import { findBookIsbnOwners } from '@feelandnote/content-search/book-work-lookup'
 
 
 function loadEnv(p: string) {
@@ -571,9 +572,18 @@ async function main() {
     // 3) 이미 있는 작품인지 확인 — 같은 작품을 두 벌 만들지 않는다
     const externalId = isVideo ? (found.tmdbId ? `tmdb-movie-${found.tmdbId}` : null) : found.isbn
     let contentId: string | null = null
-    if (externalId) {
+    if (externalId && isVideo) {
       const { data: existing } = await db.from('contents').select('id').eq('external_id', externalId).limit(1)
       if (existing?.length) contentId = existing[0].id as string
+    } else if (externalId) {
+      const { ids: owners, error: ownerError } = await findBookIsbnOwners(db, externalId)
+      if (ownerError || owners.length > 1) {
+        console.log(`    건너뜀: ISBN ${externalId} ${ownerError ? '조회 실패' : `소유 작품 ${owners.length}개`}`)
+        notFound++
+        failures.push({ list: listSlug, title: it.raw_title, creator: it.raw_creator })
+        continue
+      }
+      contentId = owners[0] ?? null
     }
     // ISBN 이 달라도 같은 작품(제목+저자)이 이미 있으면 그쪽에 잇는다 — 판본 없이 등록된 작품(표시용 행만)이 있어 ISBN 대조만으로는 두 벌이 생긴다(26.09.13)
     if (!contentId && !isVideo) contentId = await findSameWork(db, found.locale, found.title, found.creator)

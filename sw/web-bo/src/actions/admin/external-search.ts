@@ -10,6 +10,7 @@ import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduc
 import { requireAdmin } from '@/lib/admin-auth'
 import { resolveExternalBookInput, sameBookIdentity } from '@/lib/external-book-input'
 import { externalBookWorkKey } from '@feelandnote/content-search/external-book-input'
+import { findBookIsbnOwners, hasBookWorkKeyMatch } from '@feelandnote/content-search/book-work-lookup'
 
 // 외부 API 검색
 export async function searchExternalContent(
@@ -81,24 +82,15 @@ export async function createContentFromExternal(
     }
 
     if (resolvedBook) {
-      const isbnMatches = await Promise.all([
-        db.from('content_locales').select('content_id').eq('isbn', resolvedBook.externalId),
-        db.from('figure_book_editions').select('content_id').eq('isbn', resolvedBook.externalId),
-      ])
-      for (const match of isbnMatches) if (match.error) throw match.error
-      const owners = [...new Set(isbnMatches.flatMap(match => (match.data ?? []).map(row => row.content_id)))]
+      const { ids: owners, error: isbnError } = await findBookIsbnOwners(db, resolvedBook.externalId)
+      if (isbnError) throw isbnError
       if (owners.length > 1) throw new Error('같은 ISBN이 여러 작품에 연결돼 있습니다. 작품 귀속을 먼저 확인해주세요.')
       if (owners.length === 1) return { success: true, contentId: owners[0] }
       const workKey = externalBookWorkKey(resolvedBook)
       if (workKey) {
-        const matches = await Promise.all([
-          db.from('contents').select('id').eq('type', 'BOOK').eq('metadata->>workKey', workKey).limit(1),
-          db.from('contents').select('id').eq('type', 'BOOK').eq('metadata->figureBook->>openLibraryWork', workKey).limit(1),
-          db.from('figure_book_editions').select('content_id').eq('sources->>workKey', workKey).limit(1),
-          db.from('content_locales').select('content_id').eq('sources->>workKey', workKey).limit(1),
-        ])
-        for (const match of matches) if (match.error) throw match.error
-        if (matches.some(match => match.data?.length)) throw new Error('같은 원작의 판본이 있습니다. 기존 작품에서 본문 범위를 확인한 뒤 판본을 추가해주세요.')
+        const { found, error: workKeyError } = await hasBookWorkKeyMatch(db, workKey)
+        if (workKeyError) throw workKeyError
+        if (found) throw new Error('같은 원작의 판본이 있습니다. 기존 작품에서 본문 범위를 확인한 뒤 판본을 추가해주세요.')
       }
     }
 

@@ -5,6 +5,7 @@ import { isDeepStrictEqual } from 'node:util'
 import ts from 'typescript'
 import { createClient } from '@feelandnote/db'
 import * as seriesWork from './lib/series-work.mjs'
+import * as bookWorkLookup from '@feelandnote/content-search/book-work-lookup'
 
 process.env.KAKAO_REST_API_KEY = 'test-only'
 const figureWork = await import('./lib/figure-work.mjs')
@@ -94,6 +95,7 @@ function fixture(script) {
       argumentValue: (name, fallback) => ({ out: 'out.jsonl', muse: 'missing.jsonl', 'merge-out': 'merge.json', backup: 'backup.json' })[name] ?? fallback },
     './lib/verified-batch-edition.mjs': guards,
     './lib/series-work.mjs': seriesWork,
+    '@feelandnote/content-search/book-work-lookup': bookWorkLookup,
     './lib/research.mjs': { research: () => { throw Error('Paid research attempted') }, declaredNone: () => false, parsePipeRow: () => null },
   }
   return { tables, state, db, providerFetch, async run() {

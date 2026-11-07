@@ -4,6 +4,7 @@ import ts from 'typescript'
 import {readFileSync} from 'node:fs'
 import {createClient} from '@feelandnote/db'
 import {externalBookWorkKey,sameBookIdentity} from '@feelandnote/content-search/external-book-input'
+import {findBookIsbnOwners,hasBookWorkKeyMatch} from '@feelandnote/content-search/book-work-lookup'
 
 const source=ts.transpileModule(readFileSync(new URL('./external-search.ts',import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText
 const isbn='9780062301253',book={externalId:isbn,externalSource:'openlibrary',locale:'en',title:'Elon Musk',creator:'Ashlee Vance',coverImageUrl:null,
@@ -24,6 +25,7 @@ function fixture(rows:Record<string,Record<string,unknown>[]>) {
   '@feelandnote/shared/constants/cache-tags':{},'@feelandnote/shared/lib/book-metadata':{},'@feelandnote/content-search/book-introduction':{},
   '@/lib/admin-auth':{requireAdmin:async()=>{}},'@/lib/external-book-input':{resolveExternalBookInput:async()=>book,sameBookIdentity},
   '@feelandnote/content-search/external-book-input':{externalBookWorkKey},
+  '@feelandnote/content-search/book-work-lookup':{findBookIsbnOwners,hasBookWorkKeyMatch},
  }
  const module={exports:{} as {createContentFromExternal:(input:unknown,type:string)=>Promise<{success:boolean;contentId?:string;error?:string}>}}
  new Function('require','module','exports',source)((name:string)=>{assert.ok(name in mocks,name);return mocks[name]},module,module.exports)

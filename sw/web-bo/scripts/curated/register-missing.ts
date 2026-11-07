@@ -16,6 +16,7 @@ import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { REPO_ROOT, scriptsPath } from '../lib/paths'
 import { creatorMatches, titleMatches } from './lib/match'
+import { findBookIsbnOwners } from '@feelandnote/content-search/book-work-lookup'
 
 const ROOT = REPO_ROOT
 const WORK = scriptsPath('curated', '.tmp', 'korean-titles')
@@ -114,9 +115,14 @@ async function main() {
       //    삽입이 거부되고, 억지로 만들면 같은 작품이 두 행으로 갈린다(5-3 참고).
       const isbnKey = best.isbn ?? r.isbn
       if (isbnKey) {
-        const { data: dup } = await db.from('contents').select('id').eq('external_id', isbnKey).maybeSingle()
-        if (dup?.id) {
-          const { error } = await db.from('curated_list_items').update({ content_id: dup.id }).eq('id', r.id)
+        const { ids: owners, error: ownerError } = await findBookIsbnOwners(db, isbnKey)
+        if (ownerError || owners.length > 1) {
+          console.log(`  건너뜀 ${r.id} | ISBN ${isbnKey} ${ownerError ? '조회 실패' : `소유 작품 ${owners.length}개`}`)
+          notFound++
+          continue
+        }
+        if (owners[0]) {
+          const { error } = await db.from('curated_list_items').update({ content_id: owners[0] }).eq('id', r.id)
           if (error) notFound++
           else { linked++; registered++ }
           continue

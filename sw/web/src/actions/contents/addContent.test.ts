@@ -7,6 +7,7 @@ import ts from 'typescript'
 import { createClient } from '@feelandnote/db'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { registeredSeriesMatches } from '@feelandnote/content-search/book-series'
+import { findBookIsbnOwners, hasBookWorkKeyMatch } from '@feelandnote/content-search/book-work-lookup'
 import { getOpenLibraryBookMetadata } from '@feelandnote/content-search/openlibrary'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 
@@ -79,6 +80,7 @@ function fixture(englishBook?: Awaited<ReturnType<typeof getOpenLibraryBookMetad
     '@feelandnote/shared/lib/book-metadata': { withoutBookDescription },
     '@feelandnote/content-search/book-isbn': { toIsbn13 },
     '@feelandnote/content-search/book-series': { registeredSeriesMatches },
+    '@feelandnote/content-search/book-work-lookup': { findBookIsbnOwners, hasBookWorkKeyMatch },
     '@feelandnote/content-search/external-book-input': provider,
     '@feelandnote/content-search/book-introduction': { fetchBookIntroduction: async () => {
       state.introduction++

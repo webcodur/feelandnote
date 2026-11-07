@@ -14,6 +14,7 @@ import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduc
 import { resolveExternalBookInput, externalBookWorkKey } from '@feelandnote/content-search/external-book-input'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { registeredSeriesMatches } from '@feelandnote/content-search/book-series'
+import { findBookIsbnOwners, hasBookWorkKeyMatch } from '@feelandnote/content-search/book-work-lookup'
 import { getEnglishBookMetadataCached } from '@/lib/books/bookSearch.server'
 
 interface AddContentParams {
@@ -88,17 +89,8 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
       return failure('VALIDATION_ERROR', '도서는 검색에서 확인한 판본 ISBN으로 추가해주세요. 상품 코드나 수동 제목만으로 실판본을 등록할 수 없습니다.')
     }
     // 같은 ISBN이 대표 카드가 아닌 별도 판본에 있어도 원래 작품을 재사용한다.
-    const matches = await Promise.all([
-      db.from('contents').select('id').eq('type', 'BOOK').eq('external_id', isbn),
-      db.from('content_locales').select('content_id').eq('isbn', isbn),
-      db.from('figure_book_editions').select('content_id').eq('isbn', isbn),
-    ])
-    for (const result of matches) if (result.error) return handleDatabaseError(result.error, { context: 'content', logPrefix: '[판본 작품 확인]' })
-    const ids = [...new Set([
-      ...(matches[0].data ?? []).map(row => row.id),
-      ...(matches[1].data ?? []).map(row => row.content_id),
-      ...(matches[2].data ?? []).map(row => row.content_id),
-    ])]
+    const { ids, error: isbnError } = await findBookIsbnOwners(db, isbn)
+    if (isbnError) return handleDatabaseError(isbnError as Parameters<typeof handleDatabaseError>[0], { context: 'content', logPrefix: '[판본 작품 확인]' })
     if (ids.length > 1) return failure('CONFLICT', '같은 ISBN이 여러 작품에 연결되어 있습니다. 작품을 다시 확인해주세요.')
     if (ids.length === 1) {
       const { data, error } = await db.from('contents').select('id, type').eq('id', ids[0]).maybeSingle()
@@ -117,14 +109,9 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
       }
       const workKey = externalBookWorkKey(book)
       if (workKey) {
-        const matches = await Promise.all([
-          db.from('contents').select('id').eq('type', 'BOOK').eq('metadata->>workKey', workKey).limit(1),
-          db.from('contents').select('id').eq('type', 'BOOK').eq('metadata->figureBook->>openLibraryWork', workKey).limit(1),
-          db.from('figure_book_editions').select('content_id').eq('sources->>workKey', workKey).limit(1),
-          db.from('content_locales').select('content_id').eq('sources->>workKey', workKey).limit(1),
-        ])
-        for (const match of matches) if (match.error) return handleDatabaseError(match.error, { context: 'content', logPrefix: '[도서 원작 판본 확인]' })
-        if (matches.some(match => match.data?.length)) return failure('CONFLICT', '같은 원작에 연결된 판본이 있습니다. 기존 작품에서 본문 범위를 확인한 뒤 판본을 추가해주세요.')
+        const { found, error: workKeyError } = await hasBookWorkKeyMatch(db, workKey)
+        if (workKeyError) return handleDatabaseError(workKeyError as Parameters<typeof handleDatabaseError>[0], { context: 'content', logPrefix: '[도서 원작 판본 확인]' })
+        if (found) return failure('CONFLICT', '같은 원작에 연결된 판본이 있습니다. 기존 작품에서 본문 범위를 확인한 뒤 판본을 추가해주세요.')
       }
       const seriesWorks: { id: string; metadata: unknown }[] = []
       for (let from = 0; ; from += 1000) {

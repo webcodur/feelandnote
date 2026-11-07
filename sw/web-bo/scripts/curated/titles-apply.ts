@@ -19,6 +19,7 @@ import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { REPO_ROOT, scriptsPath } from '../lib/paths'
 import { normTitle, creatorMatches, titleMatches, titleAlternatives } from './lib/match'
+import { findBookIsbnOwners } from '@feelandnote/content-search/book-work-lookup'
 
 const ROOT = REPO_ROOT
 const WORK = scriptsPath('curated', '.tmp', 'korean-titles')
@@ -278,6 +279,20 @@ async function main() {
       if (!best) {
         notFound++
         continue
+      }
+
+      if (best.isbn) {
+        const { ids: owners, error: ownerError } = await findBookIsbnOwners(db, best.isbn)
+        if (ownerError || owners.length > 1) {
+          console.log(`  건너뜀 ${m.koTitle} | ISBN ${best.isbn} ${ownerError ? '조회 실패' : `소유 작품 ${owners.length}개`}`)
+          notFound++
+          continue
+        }
+        if (owners[0]) {
+          await db.from('curated_list_items').update({ content_id: owners[0] }).eq('id', m.id)
+          matchedExisting++
+          continue
+        }
       }
 
       const { data: content, error } = await db

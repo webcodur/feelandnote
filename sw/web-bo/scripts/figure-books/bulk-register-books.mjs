@@ -22,6 +22,7 @@ import { existsSync } from 'node:fs'
 import { backfillEditionKinds as backfillKinds, wikidataIdentity } from './lib/figure-work.mjs'
 import { resolveBatchBook, reviewedBatchScope, verifyBatchWork } from './lib/verified-batch-edition.mjs'
 import { registeredSeriesMatches } from './lib/series-work.mjs'
+import { findBookIsbnOwners } from '@feelandnote/content-search/book-work-lookup'
 
 const PAGE_SIZE = 1000
 
@@ -115,6 +116,9 @@ async function main() {
     const isbn = bare(row.kakao?.isbn)
     if (!isbn || isbn.length !== 13 || seen.has(isbn) || registeredIsbns.has(isbn)) continue
     seen.add(isbn)
+    const { ids: owners, error: ownerError } = await findBookIsbnOwners(db, isbn)
+    if (ownerError) throw ownerError
+    if (owners.length) continue
     targets.push({ isbn, title: row.kakao.title, creator: (row.kakao.authors ?? []).join(', '), edition: row.edition })
   }
   if (process.argv.includes('--backfill-kinds')) {

@@ -28,6 +28,7 @@
     "./types": "./src/types.ts",
     "./external-book-input": "./src/external-book-input.ts",
     "./book-series": "./src/book-series.ts",
+    "./book-work-lookup": "./src/book-work-lookup.ts",
     "./book-edition-policy": "./src/book-edition-policy.ts"
   },
   "dependencies": {
