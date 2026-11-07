@@ -19,7 +19,7 @@
 | 4 | `sw/web/credentials/ga-service-account.json` | `sw/web/credentials/` | 유입 통계(GA4) 조회 불가. 웹 구동 자체는 됨 |
 | 5 | `client_secret.json`·`youtube_token.json`·`youtube_token_en.json` | `sw/remotion/credentials/` | 🔴 **유튜브 업로드·메타 갱신·삭제 전부 불가** (KO·EN 채널 OAuth. `scripts/youtube/youtube-core.ts`가 읽는다) |
 | 6 | `.mcp.json` | 저장소 루트 | AI 도구의 검색 콘솔 등 로컬 MCP 연결 불가. 서비스 구동과 무관 |
-| 7 | `.claude/settings.local.json` | 저장소 루트 | Claude Code 개인 설정만. 서비스와 무관 |
+| 7 | `settings.json` | `C:/Users/<사용자>/.claude/` | Claude Code 개인 설정과 자동 모드 규칙. 서비스와 무관 |
 
 GA 인증 파일은 `sw/web/credentials/ga-service-account.json` 한 곳에 둔다. 검색 콘솔 점검 스크립트 `sw/remotion/scripts/_scratch-gsc-url-inspect.mjs`도 이 파일을 읽는다.
 
@@ -218,7 +218,6 @@ ElevenLabs에는 콘솔의 API Key ID가 아니라 키 생성·회전 시 표시
 
 그 밖에 새 컴퓨터에서 챙길 것:
 
-- **`.claude/skills/` 정션 재생성** — `.agents/skills/`를 가리키는 로컬 정션이라 복제로 따라오지 않는다. `.agents/link-skills.ps1`을 실행해 다시 만든다.
 - **안드로이드 서명 키** — `sw/android/keystore.properties`와 `*.jks`는 추적 제외 대상이며 현재 저장소 안에 실물이 없다(예시 파일만 있다). 앱 서명·출시 단계라면 서명 키를 보관처에서 따로 옮긴다.
 - **음성 작업 폴더** — 위 표의 `D:\audios\...`·`D:\GPT-SoVITS\...`는 저장소 밖 별도 설치물이다. 음성 학습·합성을 쓸 때만 필요하다.
 - **agy 다계정 풀** — `%USERPROFILE%\.antigravity-agent\` 폴더를 통째로 옮기고 `go install github.com/shyim/agm@latest`로 도구를 설치한다. `.mk`가 함께 가면 계정 재로그인 없이 토큰이 풀린다. 이관 뒤 `agm validate`로 확인한다. 폴더를 못 옮기면 폴더 안 `SETUP.md`의 B안(어사이드 볼트로 계정 재구축)을 따른다.

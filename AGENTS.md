@@ -73,7 +73,7 @@ feelandnote는 도서·영상·게임·음악 소비 기록과 인물 기반 큐
 - 진행 중 작업: `docs/todo/README.md` / 반복 지속 과제: `docs/continuous/README.md`
 - 작업 파일·백업·폐기 판단: `docs/project/data/README.md` / 인물 작업: `data/celeb/README.md`
 
-작업 전 `docs/README.md`에서 해당 영역만 찾아 읽는다. 모든 문서를 한꺼번에 읽지 않는다. 사용자의 요청과 일치하는 스킬이 있으면 그 `SKILL.md`를 먼저 읽고 스킬이 가리키는 현행 SSoT만 추가로 연다.
+작업 전 `docs/README.md`에서 해당 영역만 찾아 읽는다. 모든 문서를 한꺼번에 읽지 않는다. 스킬은 `.agents/skills/*/SKILL.md`에 있다. 작업 전 `description`을 검색해 요청과 맞는 스킬을 찾고, 그 `SKILL.md`를 먼저 읽은 뒤 스킬이 가리키는 현행 SSoT만 추가로 연다.
 
 직접 작업할 때도 담당 룰북을 따른다. 위임은 사용자 지시가 있을 때만 하며, 발주문에 룰북 경로를 명시한다. 한국어 값 생성을 나눠 시킬 때는 「한국인이 한국어로 쓴 글 답게 주의해서 작성」을 매번 싣는다.
 

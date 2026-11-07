@@ -151,17 +151,13 @@ _backup/
 
 # 외부 AI 에이전트 설정
 # .agents = 멀티툴 공용 스킬·문서 (git 추적)
-# 아래는 .agents/skills 를 가리키는 로컬 정션이다. 실체가 아니므로 추적하지 않는다.
-# 새 컴퓨터나 새 스킬 추가 시 `.agents/link-skills.ps1` 로 다시 만든다.
-/.claude/skills/
+# .claude = Claude Code 도구가 만드는 로컬 파일. 추적하지 않는다.
+/.claude/
 /.codex/
 /scratch/
 /_workspace/
 /sw/scripts/
 /scripts/remotion/
-
-# 스케줄러·기타 캐시
-.claude/scheduled_tasks.lock
 
 # Wrangler cache
 .wrangler/
@@ -183,9 +179,6 @@ tmp/
 
 # Remotion 번들 캐시 (고정 outDir)
 .cache/
-
-# Claude Code 개인 설정 (로컬 전용 — 키·경로가 섞이므로 추적하지 않는다)
-.claude/settings.local.json
 
 # 다른 AI CLI의 로컬 설정 (command-code 등)
 .commandcode/

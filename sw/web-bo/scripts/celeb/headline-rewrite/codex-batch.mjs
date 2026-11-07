@@ -27,7 +27,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { config } from 'dotenv'
 import { createClient } from '@feelandnote/db'
-import { codexCall, looksRateLimited } from '../../../../../.claude/skills/codex-gpt/scripts/codex-call.mjs'
+import { codexCall, looksRateLimited } from '../../../../../.agents/skills/codex-gpt/scripts/codex-call.mjs'
 import { agyCall } from '../../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs'
 import { HEADLINE_BAN } from './rules.mjs'
 

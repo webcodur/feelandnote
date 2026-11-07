@@ -17,7 +17,7 @@
 
 import path from 'node:path'
 import fs from 'node:fs'
-import { AGY_PEOPLE_PER_CALL, agyCall } from '../../../../.claude/skills/agy-antigravity/scripts/agy-call.mjs'
+import { AGY_PEOPLE_PER_CALL, agyCall } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs'
 
 const arg0 = (f, d) => { const i = process.argv.indexOf(f); return i > -1 ? process.argv[i + 1] : d }
 // REAL/BOTH 는 lines-en, FICTION 은 lines-en-fiction 으로 나눠 담는다. 두 트랙의 대상 명단이 다르다.

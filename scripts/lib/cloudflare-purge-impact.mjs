@@ -702,7 +702,6 @@ const CACHED_ROUTE_PREFIXES = [
 
 const NON_RUNTIME_PREFIXES = [
   '.agents/',
-  '.claude/',
   '.github/',
   'data/',
   'docs/',

@@ -19,7 +19,7 @@ import path from 'node:path'
 import fs from 'node:fs'
 import { config } from 'dotenv'
 import { createClient } from '@feelandnote/db'
-import { AGY_PEOPLE_PER_CALL, agyCall } from '../../../../.claude/skills/agy-antigravity/scripts/agy-call.mjs'
+import { AGY_PEOPLE_PER_CALL, agyCall } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY, {
