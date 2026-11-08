@@ -38,54 +38,55 @@ test("straight and typographic double quotes share the same emphasis", () => {
   assert.match(html, /“여닫는 quote”/);
 });
 
-test("long quoted book overviews stay plain with their punctuation and content intact", () => {
+test("long quotations inside a paragraph keep their emphasis", () => {
   for (const [open, close, normalizedOpen, normalizedClose] of [
     ['"', '"', '“', '”'], ['“', '”', '“', '”'],
     ["'", "'", '‘', '’'], ['‘', '’', '‘', '’'],
-    ['「', '」', '‘', '’'], ['〈', '〉', '‘', '’'], ['<', '>', '‘', '’'],
   ]) {
-    const text = `Overview: ${open}${LONG_BOOK_OVERVIEW}${close}`;
-    for (const render of [renderText, renderHighlightedTextWithStyle]) {
-      const html = render(text);
-      assert.doesNotMatch(html, /text-reading-(?:quote|term)|text-3d-gold|font-medium|font-semibold|background-image/);
-      assert.equal(load(html).text(), `Overview: ${normalizedOpen}${LONG_BOOK_OVERVIEW}${normalizedClose}`);
-    }
-    assert.deepEqual(emphasisSpans(text), []);
-    assert.equal(emphasisClassName(`${open}${LONG_BOOK_OVERVIEW}${close}`), undefined);
+    const quoted = `${open}${LONG_BOOK_OVERVIEW}${close}`;
+    const $ = load(renderText(`Overview: ${quoted}`));
+    assert.equal($('.text-reading-quote, .text-reading-term').text(), `${normalizedOpen}${LONG_BOOK_OVERVIEW}${normalizedClose}`);
+    assert.deepEqual(emphasisSpans(`Overview: ${quoted}`), [{ start: 10, end: 10 + quoted.length }]);
   }
 });
 
-test("short quotations and titles still stand out beside a long quoted overview", () => {
-  const html = renderText(`“${LONG_BOOK_OVERVIEW}” 다음은 “짧은 인용”과 《작품명》, 인공지능(AI).`);
-  const $ = load(html);
-  assert.equal($('.text-reading-quote').map((_, el) => $(el).text()).get().join(''), '“짧은 인용”');
-  assert.equal($('.text-text-primary').text(), '《작품명》');
-  assert.ok($('.text-text-primary').hasClass('font-semibold'));
-  assert.equal(emphasisClassName('《작품명》', 'text-3d-gold-bright'), 'font-semibold text-3d-gold-bright');
-  assert.equal($('.text-text-secondary').text(), '(AI)');
+test("a text wholly wrapped in one long quotation keeps its quotes and emphasis", () => {
+  for (const layout of ["inline", "prose"] as const) {
+    const $ = load(renderToStaticMarkup(React.createElement(FormattedText, { text: `"${LONG_BOOK_OVERVIEW}"`, layout })));
+    assert.equal($('.text-reading-quote').text(), `“${LONG_BOOK_OVERVIEW}”`);
+  }
 });
 
-test("long dash asides do not paint the surrounding paragraph", () => {
+test("separate quoted paragraphs keep their quotes and emphasis", () => {
+  const text = "“첫 인용이다.”\n\n머스크는 이렇게 답했다.\n\n“둘째 인용이다.”";
+  const $ = load(renderToStaticMarkup(React.createElement(FormattedText, { text, layout: "prose" })));
+  assert.deepEqual($('.text-reading-quote').map((_, el) => $(el).text()).get(), ["“첫 인용이다.”", "“둘째 인용이다.”"]);
+  const pair = load(renderText("“앞 인용”과 “뒤 인용”"));
+  assert.equal(pair('.text-reading-quote').length, 2);
+});
+
+test("long dash asides keep their emphasis", () => {
   const aside = 'an organization where members trust one another and cooperate without fear '.repeat(4).trim();
   for (const text of [`Books —${aside}— shaped him.`, `Books – ${aside} – shaped him.`, `Books --${aside}-- shaped him.`]) {
-    const html = renderText(text);
-    assert.doesNotMatch(html, /text-reading-(?:quote|term)/);
-    assert.equal(load(html).text(), text);
+    const $ = load(renderText(text));
+    assert.equal($('.text-reading-term').length, 1);
+    assert.equal($.text(), text);
   }
 });
 
-test("active narration marks remain available inside a long plain quotation", () => {
+test("active narration marks remain available inside a long emphasized quotation", () => {
   const text = `“${LONG_BOOK_OVERVIEW}”`;
   const start = text.indexOf('biology');
   const end = start + 'biology of trust and cooperation'.length;
-  const $ = load(renderToStaticMarkup(React.createElement(FormattedText, { text, mark: { start, end } })));
-  assert.equal($('mark').text(), text.slice(start, end));
-  assert.ok($('mark').hasClass('text-inherit'));
-  assert.equal($('.text-reading-quote, .text-reading-term').length, 0);
-  assert.equal($.text(), text);
+  for (const layout of ["inline", "prose"] as const) {
+    const $ = load(renderToStaticMarkup(React.createElement(FormattedText, { text, layout, mark: { start, end } })));
+    assert.equal($('mark').text(), text.slice(start, end));
+    assert.ok($('mark').hasClass('text-inherit'));
+    assert.equal($.text(), text);
+  }
 });
 
-test("splitting a long quotation into playable sentences does not restore its gold emphasis", () => {
+test("splitting a long quotation into playable sentences keeps its quote emphasis on every piece", () => {
   const text = `“${LONG_BOOK_OVERVIEW}”`;
   const split = text.indexOf('He helps');
   const $ = load(renderToStaticMarkup(React.createElement(ReadingHighlightText, {
@@ -96,7 +97,7 @@ test("splitting a long quotation into playable sentences does not restore its go
     ],
     onPlayFrom: () => {},
   })));
-  assert.equal($('.text-reading-quote, .text-reading-term').length, 0);
+  assert.equal($('.text-reading-quote').length, 2);
   assert.equal($('[role="button"]').length, 2);
   assert.equal($('mark').text(), text.slice(split));
   assert.equal($.text(), text);
