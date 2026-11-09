@@ -1,6 +1,7 @@
 import {
   fetchDaumBookDescription,
   getDaumMobileDetailUrl,
+  KAKAO_CONTENTS_CUT_LENGTH,
   getKakaoBookByIsbn,
   toIsbn13,
 } from '@feelandnote/content-search/kakao-books'
@@ -27,6 +28,20 @@ export function forLocale(description: string | null | undefined, locale: 'ko' |
   // 라틴 문자만으로 프랑스어·스페인어 등을 영어라고 판단하지 않는다.
   const englishWords = new Set(text.toLowerCase().match(/\b(?:the|and|of|to|is|are|was|were|with|for|from|this|that|his|her|its|book|novel|story)\b/g) ?? [])
   if (englishWords.size < 2) return null
+  return text
+}
+
+/** 잘림 길이에 닿은 카카오 소개는 마지막으로 끝난 문장까지만 쓴다. 끝난 문장이 없거나 너무 짧아지면 그대로 둔다. */
+export function trimKakaoContents(text: string | null): string | null {
+  if (!text || text.length < KAKAO_CONTENTS_CUT_LENGTH) return text
+  // 『오늘부터 우리는!!』처럼 작품명 괄호 안의 부호에서 끊지 않도록 괄호 짝이 맞는 자리만 쓴다.
+  const balanced = (head: string) => [['『', '』'], ['「', '」'], ['《', '》'], ['〈', '〉'], ['(', ')'], ['[', ']']]
+    .every(([open, close]) => head.split(open).length === head.split(close).length)
+  for (const end of [...text.matchAll(/[.!?。…]+["'”’)\]]*(?=\s|$)/g)].reverse()) {
+    const trimmed = text.slice(0, end.index! + end[0].length).trim()
+    if (trimmed.length < 40) break
+    if (balanced(trimmed)) return trimmed
+  }
   return text
 }
 
@@ -90,7 +105,8 @@ export async function fetchBookIntroduction(input: {
 
   const book = await getKakaoBookByIsbn(isbn)
   if (!book) return { source: source ?? null, sourceUrl: source === 'KAKAO' ? kakaoSourceUrl(isbn) : null, description: null }
-  const kakaoDescription = forLocale(book.metadata.description, locale)
+  const kakaoContents = forLocale(book.metadata.description, locale)
+  const kakaoDescription = trimKakaoContents(kakaoContents)
   const kakao: BookIntroduction = { source: 'KAKAO', sourceUrl: kakaoSourceUrl(isbn), description: kakaoDescription }
   if (source === 'KAKAO') return kakao
 
@@ -100,7 +116,8 @@ export async function fetchBookIntroduction(input: {
     try {
       daumDescription = forLocale(await fetchDaumBookDescription(sourceUrl), locale)
     } catch (error) {
-      if (source === 'DAUM' || !kakaoDescription) throw error
+      // 잘렸을 수 있는 카카오 소개를 대체값으로 고르면 일시 장애가 잘린 소개를 출처로 굳힌다.
+      if (source === 'DAUM' || !kakaoContents || kakaoContents.length >= KAKAO_CONTENTS_CUT_LENGTH) throw error
     }
   }
   if (source === 'DAUM') return { source, sourceUrl, description: daumDescription }

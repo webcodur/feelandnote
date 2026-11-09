@@ -4,6 +4,8 @@
 
 공통 계약: 소개문은 실제 작품을 서술한 산문이어야 한다. 목차·저자 소개·물리 사양·독자 리뷰·`N곡 수록 스튜디오 앨범` 류의 서지 메모는 소개문이 아니다. 쓰기 절차(CAS·재조회·캐시 갱신)는 `sw/web-bo/scripts/contents/`의 적용기(`apply-media-introductions.ts`·`apply-gbooks.ts`·`apply-book-introduction-translations*.ts`)와 `media-introduction-contract.ts`가 쥔다. 작업 자료는 [데이터 원칙](../data/README.md)을 따른다. 신규 등록으로 계속 생기는 공란의 반복 수집 순서와 도달점은 지속 과제 [`../../continuous/content-introductions.md`](../../continuous/content-introductions.md)가 쥔다.
 
+분량 상한은 글자 수로 자르지 않고 문장 경계에서 끊는다. 번역은 끊긴 조각까지 옮기므로(`Grammy Awar 후보`) 잘림이 언어를 건너 퍼진다.
+
 공통 보류 규칙: 선택된 판본·작품 밖으로 소개를 fallback하지 않는다. ISBN 중복·합본·부분권·오디오북 등 범위가 충돌하면 보류한다. 기존 보류분은 새 원문을 독립 검증하지 않고 자동 승인하지 않는다. 출처 요청 오류(타임아웃·429·5xx)는 「원문 없음」이 아니다 — 재시도 대상이다. HTTP 200으로 반환된 CAPTCHA 안내도 요청 실패이므로 소개 누락으로 세거나 기존 출처 표식을 비우지 않는다.
 
 ## BOOK
@@ -12,7 +14,7 @@
 
 | 채널 | 언어 | 실측 특성 |
 |---|---|---|
-| 카카오 책 | ko | 등록 시 1차. 책 페이지는 있어도 소개 란이 비어 있는 경우가 많다(구간·절판·소규모 출판사) |
+| 카카오 책 | ko | 등록 시 1차. 책 페이지는 있어도 소개 란이 비어 있는 경우가 많다(구간·절판·소규모 출판사). **API의 `contents`는 약 250자에서 문장 중간이 잘리고, 전문의 첫 문단을 건너뛰기도 한다.** 이 값을 본문으로 저장하지 않고 `fetchBookIntroduction`으로 다음 상세 전문과 비교해 고른다. 잘림 판정 길이는 `KAKAO_CONTENTS_CUT_LENGTH`가 쥔다. 다음에 더 긴 전문이 없어 카카오를 쓸 때는 그 길이에 닿은 본문을 마지막으로 끝난 문장까지만 내보낸다(`trimKakaoContents`). ISBN 칸의 10자리 값은 979 ISBN의 앞자리가 빠진 값일 수 있어 ISBN·외부 ID로 저장하지 않는다 |
 | YES24 상품 페이지 | ko | `recover-book-introductions.ts`와 BOOK 통합 수집 경로. ISBN·제목·저자 대조 후 `#infoset_introduce`와 제목이 ‘출판사 리뷰’인 `#infoset_pubReivew`의 본문을 수집한다. 회원 리뷰·추천평·책 속으로는 제외한다. 영문 `--apply`는 KO/EN 작품 오연결로 차단돼 있다 — ko만 쓴다 |
 | OpenLibrary | en | 등록 시 1차. description은 자원봉사자 수기 필드라 절반 이상이 비어 있다. 실측 공란의 ~66%가 「레코드는 있으나 description 없음」. `requestOpenLibraryBookBatch`로 판본을 받고 공식 `/api/get_many`로 원작을 다중 조회할 수 있다. `canUseBookWorkIntroduction` 통과는 후보 조건이며, 다른 책의 설명·다른 개정판·목차·독자 리뷰가 섞였는지 LLM이 본문을 읽고 판정한다 |
 | Google Books | ko·en | 소개문 수집 한정 해제(26.09.15). 출판사 제공 description이 OL 공란 도서에도 실재한다 — ISBN 조회 명중 ~58%, 제목+저자 조회 ~13%. API에 없는 본문이 ISBN 상세 페이지에는 있는 사례도 확인해, 통합 수집기의 `google-page`가 상세 본문과 실제 서지를 별도로 수집한다. 요청 ISBN만으로 일치 판정을 하지 않는다. 일일 무료 API 한도 1,000회/키. 키 로테이션은 `gbooks-keypool.ts`(키별 카운터·죽은 키 표시·403/429 순환) |

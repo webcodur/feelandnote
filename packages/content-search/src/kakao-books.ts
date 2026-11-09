@@ -11,6 +11,9 @@ export { toIsbn13 } from './book-isbn'
 const KAKAO_REST_API_KEY = process.env.KAKAO_REST_API_KEY
 const KAKAO_BOOK_API_URL = 'https://dapi.kakao.com/v3/search/book'
 const REQUEST_TIMEOUT_MS = 5000
+/** 카카오 contents는 약 250자에서 문장 중간이 잘린다. 이 길이 이상이면 전문이라고 믿지 않고 다음 상세를 확인한다. */
+export const KAKAO_CONTENTS_CUT_LENGTH = 240
+const DAUM_ADULT_NOTICE = '성인인증이 필요합니다.'
 
 interface KakaoBook {
   title: string
@@ -212,7 +215,8 @@ export function parseDaumBookDescription(html: string): string | null {
     .replace(/\n{4,}/g, '\n\n\n')
     .trim()
 
-  return text || null
+  // 성인 도서는 소개 자리에 인증 안내를 내려 준다. 소개 누락과 같게 다룬다.
+  return text && text !== DAUM_ADULT_NOTICE ? text : null
 }
 
 export function getDaumMobileDetailUrl(bookUrl: string): string | null {

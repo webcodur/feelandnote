@@ -85,6 +85,30 @@ test('다음 장애는 자동선정에서만 검증된 카카오 소개로 대�
   await assert.rejects(introductions.fetchBookIntroduction({ locale: 'ko', source: 'DAUM', sourceUrl: DAUM }), /timeout/)
 })
 
+test('잘렸을 수 있는 긴 카카오 소개는 다음 장애의 대체값으로 고르지 않는다', async (t) => {
+  t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => {
+    if (String(url).includes('dapi.kakao.com')) return kakaoResponse('잘린 한국어 소개'.repeat(40))
+    throw new Error('Daum timeout')
+  })
+  await assert.rejects(introductions.fetchBookIntroduction({ isbn: ISBN, locale: 'ko' }), /timeout/)
+})
+
+test('잘림 길이에 닿은 카카오 소개는 마지막 문장 끝까지만 쓴다', () => {
+  const cut = '첫 문장입니다. '.repeat(30) + '둘째 문장은 중간에서 잘'
+  assert.equal(introductions.trimKakaoContents(cut), '첫 문장입니다. '.repeat(30).trim())
+  assert.equal(introductions.trimKakaoContents('짧은 소개는 문장 중간이어도 그대로'), '짧은 소개는 문장 중간이어도 그대로')
+  const noEnd = '끝나는 문장 부호가 없는 긴 소개 '.repeat(20)
+  assert.equal(introductions.trimKakaoContents(noEnd), noEnd)
+  const title = '앞 문장입니다. '.repeat(25) + '『오늘부터 우리는!! 1』 애장판으로 다시 만나는'
+  assert.equal(introductions.trimKakaoContents(title), '앞 문장입니다. '.repeat(25).trim())
+})
+
+test('카카오 출처를 고정한 조회도 잘린 꼬리를 내보내지 않는다', async (t) => {
+  t.mock.method(globalThis, 'fetch', async () => kakaoResponse('완결된 문장입니다. '.repeat(25) + '잘린 꼬리'))
+  const result = await introductions.fetchBookIntroduction({ isbn: ISBN, locale: 'ko', source: 'KAKAO' })
+  assert.equal(result.description, '완결된 문장입니다. '.repeat(25).trim())
+})
+
 test('자동선정도 유효한 카카오 소개 없이 다음이 실패하면 장애를 전달한다', async (t) => {
   t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => String(url).includes('dapi.kakao.com')
     ? kakaoResponse('') : new Response('', { status: 503 }))
