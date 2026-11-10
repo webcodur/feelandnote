@@ -13,7 +13,6 @@ const args = process.argv.slice(2);
 const go = args.includes('--yes');
 const limit = Number(args.find((a) => /^\d+$/.test(a)) ?? 999);
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-const UA = { headers: { 'user-agent': 'Mozilla/5.0' } };
 
 const posts = JSON.parse(fs.readFileSync(POSTS, 'utf8'));
 const saveDeleted = (target) => {
@@ -31,14 +30,20 @@ console.log(`삭제 대상 ${targets.length}건`);
 for (const t of targets) console.log(`  ${t.logNo}  ${t.title}`);
 if (!go) { console.log('\n미리보기다. 실제로 지우려면 --yes 를 붙인다.'); process.exit(0); }
 
-const live = async (logNo) => {
-  const response = await fetch(`https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=${logNo}`, UA);
-  if (!response.ok) throw new Error(`공개 글 조회 실패: HTTP ${response.status}`);
-  const html = await response.text();
-  return html.includes('se-main-container');
-};
-
 const { browser, launched } = await getBrowser({ protocolTimeout: 300000 });
+// 비공개 글은 비로그인 조회에 보이지 않는다. 존재 확인은 소유자 로그인 탭에서 한다.
+const live = async (logNo) => {
+  const probe = await browser.newPage();
+  let missing = false;   // 삭제된 글은 "존재하지 않는 글" 알림창을 띄워 이동을 막는다.
+  probe.on('dialog', async (d) => { missing = true; await d.dismiss().catch(() => {}); });
+  try {
+    const response = await probe.goto(`https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=${logNo}`, { waitUntil: 'domcontentloaded', timeout: 30000 }).catch((e) => { if (!missing) throw e; });
+    if (missing) return false;
+    if (!response?.ok()) throw new Error(`글 조회 실패: HTTP ${response?.status()}`);
+    await wait(2500);
+    return !missing && await probe.evaluate(() => Boolean(document.querySelector('.se-main-container')));
+  } finally { await probe.close().catch(() => {}); }
+};
 const page = await browser.newPage();
 let accepted = false;
 let expectedDialog = null;
