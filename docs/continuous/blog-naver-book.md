@@ -338,6 +338,5 @@ chrome.exe --remote-debugging-port=9222 --user-data-dir=C:\project\_chrome-naver
 - **한국어 표기 미확인 항목:** 교정한 35편에 원제 1,162건·원문 저자명 927건이 남았다(목록 간 중복 포함). 국내 미출간으로 판정한 수치가 아니다. `D:/blog-assets/naver-blog/table-ko/targets.json`의 현재 `rows`에서 국내 출간명과 작품 범위를 대조해 확인된 항목만 추가 교정한다. 북클럽의 「The Devil to Pay in the Backlands」도 원제를 유지했다(`table-ko/221804018469.json`).
 - 기관 로고의 1:1 정리는 사용자 지시대로 별도로 진행한다.
 - 맥스 레브친 글 첫 줄 링크를 확인·보완한다. 기존 인물 재작성 때 함께 처리한다.
-- 인물 페이지가 없어 닫은 3건(크리스 더피·아밀 살리헤펜딕·파비오 사소)은 사이트에 인물을 등록하면 다시 연다.
 - "서비스 플랫폼 이전합니다" 공지에 인물 목록(`/explore/directory`)과 기관 선정(`/library/curated`) 링크를 더하는 것은 사용자 원고라 제안만 한다.
 - 제목만 같고 저자가 다른 중복 content 24건은 별도 확인 대상이다(파커의 `Promised land`와 오바마 회고록, 1935·1948년판 `안나 카레니나` 등).
