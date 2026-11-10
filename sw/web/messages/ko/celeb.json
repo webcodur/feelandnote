@@ -352,6 +352,14 @@
     "moreReadBooks": "감상한 책 더 보기",
     "groupProfession": "직군",
     "groupAffiliation": "관련 주제",
+    "shelfCategories": {
+      "directRow": "감상",
+      "exploreRow": "탐색",
+      "appeared": "등장",
+      "authored": "집필",
+      "profession": "직군",
+      "faction": "주제"
+    },
     "affiliationCount": "관련 주제 {count}개",
     "factionShelfIntroFaction": "선택한 주제와 관련된 책입니다.",
     "factionShelfIntroMyth": "선택한 신화와 관련된 책입니다.",

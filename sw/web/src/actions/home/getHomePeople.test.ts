@@ -32,7 +32,7 @@ test('discovery prioritizes local people while showcases ignore nationality and 
   }
   const source = ts.transpileModule(readFileSync(new URL('./getHomePeople.ts', import.meta.url), 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText
   const loaded = { exports: {} as {
-    getHomeShowcasePeople: (mode: string, day: string) => Promise<typeof rows>
+    getHomeShowcasePeople: (day: string) => Promise<typeof rows>
     getHomeDiscoveryPeople: (country: string | null, day: string) => Promise<typeof rows>
   } }
   new Function('require', 'module', 'exports', source)((id: string) => mocks[id] ?? require(id), loaded, loaded.exports)
@@ -46,13 +46,13 @@ test('discovery prioritizes local people while showcases ignore nationality and 
   assert.ok(korean.every(row => !('birth_date' in row)))
   assert.deepEqual((await discovery('JP', '2026-11-03')).slice(0, 3).map(row => row.nationality), ['JP', 'US', 'US'], 'Other countries only fill missing local slots')
   assert.deepEqual((await discovery('US', '2026-11-03')).slice(0, 2).map(row => row.nationality), ['US', 'US'])
-  const books = await showcase('books', '2026-11-02')
+  const books = await showcase('2026-11-02')
   assert.deepEqual(books.slice(0, 2).map(row => row.id).sort(), ['us1', 'us2'], 'Only contemporary people clearing the influence bar lead, whatever their nationality')
   assert.ok(books.findIndex(row => row.id === 'kr-ancient') >= 2)
   assert.ok(books.findIndex(row => row.id === 'kr1') >= 2)
   assert.equal(books.some(row => row.id === 'kr-empty'), false)
   assert.equal(queries.length, 5, 'Discovery and showcases share the same qualified candidates across countries and days')
-  assert.deepEqual(queries.map(query => query.p_content_type), [undefined, 'BOOK', 'MUSIC', 'VIDEO', 'GAME'], 'Categories only count coverage and do not select a different person directory')
+  assert.deepEqual(queries.map(query => query.p_content_type), [undefined, 'BOOK', 'VIDEO', 'MUSIC', 'GAME'], 'Categories only count coverage and do not select a different person directory')
   assert.ok(queries.every(query => query.p_limit === null && query.p_sort_by === 'influence'))
   assert.ok(queries.every(query => query.p_include_inactive === false))
   assert.equal(queries[0].p_min_content_count, 5)

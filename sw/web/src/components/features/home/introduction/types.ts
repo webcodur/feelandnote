@@ -1,9 +1,10 @@
 import type { ContentType } from '@/types/database'
 import type { BookIntroductionAttribution } from '@/lib/utils/book-description'
+import type { ProfessionBookCategory } from '@feelandnote/shared/constants/profession-books'
+import type { HOME_GRAPH_RELATIONS } from './config'
 
-export type HomeGraphMode = 'appreciations' | 'books'
 export type HomePersonNavigation = (direction: -1 | 1) => void
-export type HomeGraphBranchKey = ContentType | 'read' | 'appearance' | 'authored' | 'affiliation'
+export type HomeGraphBranchKey = ContentType | typeof HOME_GRAPH_RELATIONS[number]
 
 export interface HomeGraphPerson {
   id: string
@@ -29,6 +30,7 @@ export interface HomeGraphItem {
   relatedLabel?: string
   relatedDescription?: string | null
   relatedGroup?: string | null
+  professionCategory?: ProfessionBookCategory
 }
 
 export interface HomeGraphBranch {

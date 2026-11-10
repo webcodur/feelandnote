@@ -35,15 +35,17 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     defaultPageSize,
     initialContents,
     initialContentBrief,
+    activeTab: controlledTab,
   } = options;
   const isViewer = mode === "viewer";
   const initialContentRecord = useMemo(() => {
     if (ownerKind !== "celeb" || !targetUserId || !initialContents?.items[0]) return undefined;
     return mapPublicToUserContent([initialContents.items[0]], targetUserId)[0];
   }, [initialContents, ownerKind, targetUserId]);
-  const [activeTab, setActiveTabState] = useState<CategoryId>(
+  const [pickedTab, setActiveTabState] = useState<CategoryId>(
     getInitialLibraryCategory(ownerKind, initialContents),
   );
+  const activeTab = controlledTab ?? pickedTab;
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSizeState] = useState(defaultPageSize ?? 10);
   const [sortOption, setSortOptionState] = useState<SortOption>("recent");

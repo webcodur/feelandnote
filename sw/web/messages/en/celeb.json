@@ -352,6 +352,14 @@
     "moreReadBooks": "More books read",
     "groupProfession": "Profession",
     "groupAffiliation": "Related themes",
+    "shelfCategories": {
+      "directRow": "Firsthand",
+      "exploreRow": "Explore",
+      "appeared": "About",
+      "authored": "Wrote",
+      "profession": "Career",
+      "faction": "Themes"
+    },
     "affiliationCount": "{count} related {count, plural, one {theme} other {themes}}",
     "factionShelfIntroFaction": "Books related to the selected theme.",
     "factionShelfIntroMyth": "Books related to the selected myth.",

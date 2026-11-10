@@ -29,7 +29,7 @@ test('daily influence-weighted rotations are stable for one day, vary across day
   const selections = Array.from({ length: 14 }, (_, index) => pick(`2026-11-${String(index + 1).padStart(2, '0')}`))
   assert.ok(new Set(selections.map(value => value.join(','))).size > 10)
   assert.ok(new Set(selections.flat()).size > 12)
-  assert.notDeepEqual(rotateHomePeople(pool, '2026-11-02', 'books'), rotateHomePeople(pool, '2026-11-02', 'appreciations'))
+  assert.notDeepEqual(rotateHomePeople(pool, '2026-11-02', 'discovery'), rotateHomePeople(pool, '2026-11-02', 'appreciations'))
 })
 
 test('greater influence increases selection frequency without excluding lower-scoring candidates', () => {

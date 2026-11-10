@@ -11,6 +11,7 @@
 .avatar { object-fit: cover; object-position: bottom; filter: grayscale(.4); }
 .works .picture:nth-child(2) { bottom: 10px; }
 .works .picture[data-media='MUSIC'] { height: var(--picture-width); }
+.names { display: none; width: 100%; padding: 0 16px 12px; overflow: hidden; color: var(--color-text-tertiary); font-size: 13px; line-height: 1.5; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
 .label { position: relative; display: flex; min-height: 48px; width: 100%; align-items: center; justify-content: center; padding-inline: 40px; font-size: 16px; font-weight: 500; border-top: 1px solid var(--color-line-strong); border-radius: 0 0 var(--radius-panel) var(--radius-panel); outline: none; }
 .label svg { position: absolute; right: 12px; color: var(--color-text-tertiary); }
 .label:is(:hover,:focus-visible), .label:is(:hover,:focus-visible) svg { color: var(--color-accent-hover); }
@@ -33,9 +34,10 @@
   .picture:nth-child(3) { transform: translateX(24%) rotate(10deg); }
 }
 @media (max-width: 640px) {
-  .gallery { gap: 12px; margin-bottom: 20px; }
-  .entry { --picture-width: min(clamp(50px,14vw,90px),calc(100cqw / 3.4)); }
-  .stack { height: clamp(108px,28vw,168px); }
+  .gallery { grid-template-columns: minmax(0,1fr); gap: 12px; margin-bottom: 20px; }
+  .entry { --picture-width: clamp(72px,22vw,108px); }
+  .stack { height: clamp(136px,40vw,184px); }
+  .names { display: block; }
   .label { min-height: 44px; font-size: 15px; }
   .label svg { right: 8px; width: 15px; }
 }

@@ -5,6 +5,7 @@
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
+import type { CategoryId } from "@/constants/categories";
 import { hasKoreanBookPurchase } from "./contentAffiliate";
 
 // #region 타입
@@ -22,6 +23,8 @@ export interface FlowInfo {
 }
 
 export interface UseContentLibraryOptions {
+  /** 상위 선택기가 정한 매체. 지정하면 내부 선택보다 우선한다. */
+  activeTab?: CategoryId;
   maxItems?: number;
   compact?: boolean;
   showCategories?: boolean;

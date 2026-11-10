@@ -23,39 +23,37 @@
 .readingTitle { text-align: start; font-size: clamp(30px,4cqw,42px); font-weight: 600; line-height: 1.12; letter-spacing: -.04em; word-break: keep-all; overflow-wrap: anywhere; }
 .readingTitle a { outline: none; }
 .readingTitle a:hover { color: var(--color-accent); }
-.creator { margin-top: 12px; font-size: 15px; line-height: 1.6; color: var(--color-text-secondary); }
+/* 저자와 분류 이름을 한 줄에 둔다. 좁으면 분류가 아래로 내려간다. */
+.metaRow { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 12px; margin-top: 12px; }
+.creator { min-width: 0; font-size: 15px; line-height: 1.6; color: var(--color-text-secondary); }
+.category { display: none; flex: none; align-items: center; gap: 5px; margin-inline-start: auto; padding: 2px 8px; border: 1px solid var(--color-line); border-radius: 999px; color: var(--color-text-tertiary); font-size: 12px; line-height: 1.5; white-space: nowrap; }
+/* 표지가 없을 때도 표지와 같은 규격의 틀을 유지한다. */
+.coverFallback { position: absolute; inset: 0; display: grid; place-items: center; border: 1px solid var(--color-line-strong); border-radius: var(--radius-control); background: var(--color-bg-card); }
+.coverFallback > svg { width: 62%; height: auto; }
+.category svg { flex: none; }
+.category strong { color: var(--color-accent); font-weight: 600; }
 .readingText { position: relative; max-height: 18rem; overflow: clip; font-size: 17px; font-weight: 400; line-height: 1.9; white-space: pre-line; word-break: keep-all; overflow-wrap: anywhere; }
 .readingText:empty { display: none; }
 .reviewText { color: var(--color-review); }
 .introText { color: var(--color-book-intro); }
 .readingText[data-home-reading-expandable] { cursor: pointer; }
+.readingText[data-home-reading-expandable]:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 .readingText[data-home-reading-expandable]:hover { filter: brightness(1.15); }
 .textToggle { display: inline-grid; flex: none; place-items: center; width: 44px; height: 44px; border-radius: var(--radius-control); color: var(--color-text-secondary); outline: none; }
 .textToggle:hover:not(:disabled) { color: var(--color-accent-hover); }
 .textToggle:disabled { background: rgb(255 255 255 / .025); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .045); color: color-mix(in srgb, var(--color-text-secondary) 35%, var(--color-bg-main)); cursor: not-allowed; }
 .textToggle:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
-.relation { display: flex; flex-wrap: wrap; gap: 6px 8px; margin-top: 18px; font-size: 15px; line-height: 1.9; color: var(--color-text-primary); }
-.relation span { color: var(--color-accent); }
-.relation a:hover { color: var(--color-accent-hover); text-decoration: underline; text-underline-offset: 4px; }
 .reading a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
-.bookRelation { flex: none; margin-bottom: 20px; padding: 8px 14px 14px; border: 1px solid var(--color-line); border-radius: var(--radius-control); background: var(--color-bg-card); color: var(--color-text-secondary); font-size: 14px; line-height: 1.75; word-break: keep-all; overflow-wrap: anywhere; }
-.affiliationDescription { margin-top: 4px; }
-.topicLink { display: flex; align-items: center; gap: 8px; min-height: 44px; color: var(--color-accent); font-size: 15px; font-weight: 600; }
-.topicLink > span { flex: 1; min-width: 0; }
+.bookRelation { flex: none; margin-bottom: 12px; color: var(--color-text-secondary); font-size: 14px; line-height: 1.75; word-break: keep-all; overflow-wrap: anywhere; }
+.affiliationDescription:not(:first-child) { margin-top: 4px; }
+.contextLabel { text-decoration: underline; text-underline-offset: 4px; }
+.topicLink { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; color: var(--color-accent); font-size: 14px; font-weight: 600; }
 .topicLink > svg { flex: none; }
 .bookRelation a:hover { color: var(--color-accent-hover); text-decoration: underline; text-underline-offset: 4px; }
-.bookReading, .bookReading .readingContent, .bookReading .readingBody { display: flex; flex: 1; flex-direction: column; }
-.bookReading .cover { width: 128px; height: 182px; }
-.bookReading .workHeading { gap: 20px; margin-bottom: 20px; }
-.bookReading .readingTitle { font-size: clamp(28px,3.5cqw,34px); }
 :is(.readingTitle,.readingText,.bookRelation):lang(ko) { word-break: break-all; }
 @container (min-width: 860px) {
   .reading, .readingContent, .readingBody { display: flex; flex: 1; min-height: 0; flex-direction: column; }
   .reading .readingText { flex: 1; min-height: 0; max-height: none; }
-}
-@container (max-width: 859px) {
-  .bookReading .cover { width: 88px; height: 126px; }
-  .bookReading .workHeading { gap: 16px; }
 }
 @container (max-width: 519px) {
   .workControls { column-gap: 4px; }
@@ -64,23 +62,23 @@
   .cover { width: 88px; height: 126px; }
   .workHeading { align-items: flex-start; gap: 20px; margin-bottom: 20px; }
   .readingTitle { font-size: 30px; }
-  .creator { margin-top: 4px; }
+  .metaRow { margin-top: 4px; }
+}
+/* 칩이 아이콘으로 바뀌는 폭에서만 분류 이름을 글자로 보여준다. */
+@container home-graph (max-width: 471px) {
+  .category { display: inline-flex; }
 }
 @container home-graph (max-width: 519px) {
-  .readingTitle { font-size: 30px; }
+  .readingTitle { font-size: 22px; letter-spacing: -.03em; }
+  .creator { font-size: 14px; }
   .workHeading { gap: 16px; }
-  .readingText { font-size: 16px; line-height: 1.9; }
-}
-@container home-graph (max-width: 320px) {
-  .cover { width: 88px; height: 126px; }
-  .workHeading { gap: 16px; }
-  .readingTitle { font-size: 27px; }
+  .readingText { font-size: 15px; line-height: 1.8; }
 }
 @container home-graph (max-width: 340px) {
-  .workHeading, .bookReading .workHeading { display: grid; grid-template-columns: 88px minmax(0,1fr); gap: 10px 16px; }
+  .workHeading { display: grid; grid-template-columns: 88px minmax(0,1fr); gap: 10px 16px; }
   .workIdentity { display: contents; }
   .titleRow { grid-column: 2; grid-row: 1; min-height: 0; }
   .cover { grid-column: 1; grid-row: 1 / span 3; }
-  .creator { grid-column: 2; grid-row: 2; margin-top: 0; }
+  .metaRow { grid-column: 2; grid-row: 2; margin-top: 0; }
   .workControls { grid-column: 2; grid-row: 3; align-self: end; margin-top: 0; padding-top: 0; }
 }

@@ -6,7 +6,8 @@ import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import type { CelebFactionBookGroup } from '@/actions/celebs/getCelebFactionBooks'
 import BookShelf from '@/components/shared/BookShelf/BookShelf'
-import { affiliateBookToShelfBook, figureBookToShelfBook, type BookShelfBook, type BookShelfGroup } from '@/components/shared/BookShelf/types'
+import { affiliateBookToShelfBook, availableShelfBooks, figureBookToShelfBook, type BookShelfBook, type BookShelfGroup } from '@/components/shared/BookShelf/types'
+import { useCelebShelfControl } from './CelebShelfContext'
 import BookShelfAffiliationAddon from './BookShelfAffiliationAddon'
 import { getProfessionShelfChoices } from '@/lib/books/professionShelf'
 import { getProfessionBooks } from '@/actions/books/getProfessionBooks'
@@ -49,6 +50,7 @@ function CelebBookShelfBody({ celebId, celebName, appeared, authored, profession
   const alive = useRef(true)
   const pending = useRef({ profession: false, faction: false })
   const root = useRef<HTMLDivElement>(null)
+  const shelf = useCelebShelfControl()
   useEffect(() => { alive.current = true; return () => { alive.current = false } }, [])
   const loadProfession = useCallback(() => {
     if (!profession || pending.current.profession) return
@@ -59,7 +61,8 @@ function CelebBookShelfBody({ celebId, celebName, appeared, authored, profession
       .finally(() => { pending.current.profession = false })
   }, [profession, locale])
   useEffect(() => {
-    const target = root.current
+    // 통합 책장에서는 숨겨진 패널 대신 책장 구획이 화면에 들어올 때 직군 책 수를 채운다.
+    const target = root.current?.closest<HTMLElement>('[data-celeb-shelf]') ?? root.current
     if (professionState !== 'idle' || !target) return
     const observer = new IntersectionObserver((entries) => {
       if (!entries.some((entry) => entry.isIntersecting)) return
@@ -108,5 +111,20 @@ function CelebBookShelfBody({ celebId, celebName, appeared, authored, profession
         : null,
     },
   ]
-  return <div ref={root} data-celeb-bookshelf><BookShelf groups={groups} ariaLabel={t('relatedProducts')} id={id} title={title} controlsLayout="personal" urlGroupParam="shelf" /></div>
+  const reportExplore = shelf?.reportExplore
+  const exploreState = JSON.stringify({
+    counts: {
+      appeared: availableShelfBooks(appeared.map(figureBookToShelfBook)).length,
+      authored: availableShelfBooks(authored.map(figureBookToShelfBook)).length,
+      profession: professionState === 'ready' ? availableShelfBooks(professionShelfBooks).length : null,
+      faction: factionState === 'ready' ? availableShelfBooks(factionGroups.flatMap((group) => group.books.map(affiliateBookToShelfBook))).length : null,
+    },
+    choices: professionChoices.map((choice) => {
+      const count = professionState === 'ready' ? availableShelfBooks(choice.books).length : null
+      return { key: choice.key, label: choice.label, count, disabled: count === 0 }
+    }),
+  })
+  useEffect(() => { reportExplore?.(JSON.parse(exploreState)) }, [reportExplore, exploreState])
+  return <div ref={root} data-celeb-bookshelf><BookShelf groups={groups} ariaLabel={t('relatedProducts')} id={id} title={title} controlsLayout="personal" urlGroupParam="shelf"
+    selection={shelf ? { groupKey: shelf.category, choiceKey: shelf.choice } : undefined} /></div>
 }

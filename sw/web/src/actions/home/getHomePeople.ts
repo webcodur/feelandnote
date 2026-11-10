@@ -9,7 +9,6 @@ import { createStaticClient } from '@/lib/db/static'
 import { HOME_PEOPLE_MIN_CONTENT_COUNT, isHomePersonContemporary, isHomeShowcasePerson, orderHomePeople, rotateHomePeople } from '@/lib/homePeople'
 import { countryFirst, parseVisitorCountry } from '@/lib/visitorCountry'
 import { getKSTDateKey } from '@/lib/game/date-seed'
-import type { HomeGraphMode } from '@/components/features/home/introduction/types'
 
 export interface HomePersonCandidate {
   id: string
@@ -45,8 +44,8 @@ async function candidateDirectory(): Promise<HomePersonCandidate[]> {
 }
 
 /** 상단 구획 편성. 접속 국가를 보지 않으며, 기준을 넘은 현대인으로 못 채울 때만 나머지 후보를 쓴다. */
-export async function getHomeShowcasePeople(mode: HomeGraphMode, day: string = getKSTDateKey()): Promise<HomePersonCandidate[]> {
-  const people = rotateHomePeople(await candidateDirectory(), day, mode)
+export async function getHomeShowcasePeople(day: string = getKSTDateKey()): Promise<HomePersonCandidate[]> {
+  const people = rotateHomePeople(await candidateDirectory(), day, 'appreciations')
   return [...people.filter(isHomeShowcasePerson), ...people.filter(person => !isHomeShowcasePerson(person))]
 }
 

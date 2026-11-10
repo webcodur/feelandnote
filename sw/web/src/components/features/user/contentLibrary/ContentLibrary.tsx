@@ -38,17 +38,20 @@ export default function ContentLibrary({
   recordsAction,
   onActiveContentChange,
   focusRequest,
+  category,
+  onCategoryChange,
 }: ContentLibraryProps) {
   const locale = useLocale();
   const lib = useContentLibrary({
     maxItems, compact, mode, ownerKind, targetUserId,
     defaultViewMode, defaultPageSize,
-    initialContents, initialContentBrief,
+    initialContents, initialContentBrief, activeTab: category,
   });
   const [isExpandIndexOpen, setIsExpandIndexOpen] = useState(false);
   const [titlePulseRequest, setTitlePulseRequest] = useState(0);
-  const selectCategory = (category: CategoryId) => {
-    lib.setActiveTab(category);
+  const changeCategory = onCategoryChange ?? lib.setActiveTab;
+  const selectCategory = (next: CategoryId) => {
+    changeCategory(next);
     if (ownerKind === "celeb" && !isExpandIndexOpen) setTitlePulseRequest((current) => current + 1);
   };
   const toggleExpandIndex = useCallback(() => {
@@ -98,7 +101,7 @@ export default function ContentLibrary({
       onExpandIndexPreferenceChange={setIsExpandIndexOpen}
       activeCategory={ownerKind === "celeb" ? lib.activeTab : undefined}
       categoryCounts={ownerKind === "celeb" ? lib.typeCounts : undefined}
-      onCategoryChange={ownerKind === "celeb" ? lib.setActiveTab : undefined}
+      onCategoryChange={ownerKind === "celeb" ? changeCategory : undefined}
       isContentRefreshing={ownerKind === "celeb" ? lib.isRefreshing : undefined}
       onActiveContentChange={onActiveContentChange}
       focusRequest={focusRequest}
@@ -154,7 +157,7 @@ export default function ContentLibrary({
         </div>
       )}
 
-      <div className={ownerKind === "celeb" ? `mx-auto ${layout.width} ${layout.contentGap}` : undefined}>
+      {!onCategoryChange && <div className={ownerKind === "celeb" ? `mx-auto ${layout.width} ${layout.contentGap}` : undefined}>
         <ContentLibraryControls
           ownerKind={ownerKind}
           categoryItems={lib.contents.map((item) => ({ type: item.content.type }))}
@@ -188,8 +191,7 @@ export default function ContentLibrary({
             </>
           }
         />
-
-      </div>
+      </div>}
 
       <ContentLibraryBody
         contentClassName={ownerKind === "celeb" ? "pt-0" : undefined}

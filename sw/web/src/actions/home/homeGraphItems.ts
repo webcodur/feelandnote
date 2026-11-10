@@ -48,6 +48,20 @@ export function homeAffiliationBookItem(book: AffiliateBook, slug: string, name:
   }
 }
 
+export function homeProfessionBookItem(book: AffiliateBook): HomeGraphItem {
+  return {
+    id: book.contentId,
+    title: book.title,
+    creator: book.creator ?? null,
+    thumbnailUrl: book.thumbnail ?? null,
+    type: 'BOOK',
+    text: book.description ?? null,
+    sourceUrl: null,
+    relatedDescription: book.selectionReason,
+    professionCategory: book.professionCategory,
+  }
+}
+
 export function uniqueHomeGraphItems(items: HomeGraphItem[]): HomeGraphItem[] {
   return [...new Map(items.map(item => [item.id, item])).values()]
 }

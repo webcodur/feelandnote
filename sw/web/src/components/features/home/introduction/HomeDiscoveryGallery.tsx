@@ -18,7 +18,7 @@ export default async function HomeDiscoveryGallery() {
   const [locale, t, country] = await Promise.all([getLocale(), getTranslations('nav'), getVisitorCountry()])
   const [peopleResult, worksResult] = await Promise.allSettled([
     getHomeDiscoveryPeople(country),
-    getHomeGraphDeck('appreciations', locale),
+    getHomeGraphDeck(locale),
   ])
   if (peopleResult.status === 'rejected') console.error('[home] 탐색 인물 이미지 조회 실패', peopleResult.reason)
   if (worksResult.status === 'rejected') console.error('[home] 탐색 작품 이미지 조회 실패', worksResult.reason)
@@ -41,6 +41,7 @@ export default async function HomeDiscoveryGallery() {
         </Link>)}
         {!people.length && <Users size={48} className={styles.fallback} aria-hidden />}
       </div>
+      {people.length > 0 && <p className={styles.names} data-discovery-names aria-hidden>{people.map(person => locale === 'en' ? person.nickname_en || person.nickname : person.nickname).join(' · ')}</p>}
       <Link href={peopleHref} className={styles.label} data-discovery-kind="people">{t('explore')}<ArrowRight size={17} aria-hidden /></Link>
     </div>
     <div className={`${styles.entry} ${styles.works}`}>
@@ -51,6 +52,7 @@ export default async function HomeDiscoveryGallery() {
         </Link>)}
         {!works.length && <Images size={48} className={styles.fallback} aria-hidden />}
       </div>
+      {works.length > 0 && <p className={styles.names} data-discovery-names aria-hidden>{works.map(item => item.title).join(' · ')}</p>}
       <Link href={worksHref} className={styles.label} data-discovery-kind="works">{t('library')}<ArrowRight size={17} aria-hidden /></Link>
     </div>
   </div>

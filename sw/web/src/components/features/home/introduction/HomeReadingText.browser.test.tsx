@@ -3,10 +3,10 @@ import test from 'node:test'
 import puppeteer from 'puppeteer'
 import { fixture } from './HomeGraph.browser.fixture'
 
-test('home reading offers an explicit full-text icon and keeps clipped-preview interactions in both home sections', async t => {
+test('home reading opens full text from the clipped preview in both home sections', async t => {
   const bundles = {
-    appreciations: await fixture('ko', 'appreciations'),
-    books: await fixture('en', 'books'),
+    appreciations: await fixture('ko'),
+    books: await fixture('en'),
   }
   const browser = await puppeteer.launch({ headless: true })
   try {
@@ -47,19 +47,12 @@ test('home reading offers an explicit full-text icon and keeps clipped-preview i
             await page.$eval('[data-graph-reading] h3 a', (element, title) => { element.textContent = title }, originalTitle)
           }
         }
-        const openText = '[data-graph-reading] [data-home-text-expand]'
         const checkShort = async (label: string) => {
           assert.ok(await page.$eval('[data-graph-reading]', (element, value) => element.textContent?.includes(value), label))
-          assert.ok(await page.$(openText), 'Short text also offers the explicit full-view icon')
-          assert.equal(await page.$eval(openText, element => element.textContent), '')
-          assert.ok(await page.$eval(openText, element => !!element.closest('[data-home-work-controls]')))
+          assert.equal(await page.$('[data-home-text-expand]'), null, 'The separate full-view icon stays removed')
           assert.equal(await page.$('[data-home-reading-expandable]'), null, 'Fully visible text itself must not be a modal trigger')
           await page.$eval('[data-home-reading-preview]', element => (element as HTMLElement).click())
           assert.equal(await page.$('[data-test-text-modal]'), null)
-          await page.click(openText)
-          await page.waitForSelector('[data-test-text-modal]')
-          assert.ok(await page.$eval('[data-test-text-modal] p', element => !!element.textContent))
-          await page.click('[data-test-text-modal] button')
           assert.equal(await page.$('[data-graph-reading] .clip-fade-end'), null)
           if (label === 'About the work:') assert.equal(await page.$('[data-content-reading-label="review"] a'), null)
           else {
@@ -108,7 +101,7 @@ test('home reading offers an explicit full-text icon and keeps clipped-preview i
         assert.ok(await page.evaluate(() => !!window.getSelection()?.toString()), 'The full-area interaction must still allow selecting text')
         assert.equal(await page.$('[data-test-text-modal]'), null, 'Selecting text must not open a modal')
         await page.evaluate(() => window.getSelection()?.removeAllRanges())
-        await page.focus(openText)
+        await page.focus('[data-home-reading-expandable]')
         await page.keyboard.press('Enter')
         await page.waitForSelector('[data-test-text-modal]')
         assert.ok((await page.$eval('[data-test-text-modal] p', element => element.textContent?.length ?? 0)) > 1000)
@@ -119,7 +112,7 @@ test('home reading offers an explicit full-text icon and keeps clipped-preview i
         await page.waitForFunction(() => document.querySelector('[data-home-reading-expandable]') === null)
         await checkShort(mode === 'books' ? 'Appreciation background' : '감상 배경')
         if (mode === 'books') {
-          await page.click('[data-book-tab="appearance"]')
+          await page.click('[data-shelf-category="appearance"]')
           await checkShort('About the work:')
           await page.click('[data-next-work]')
           await page.waitForSelector('[data-home-reading-expandable]')

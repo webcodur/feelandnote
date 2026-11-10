@@ -12,6 +12,8 @@ import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 
 import ContentLibrary from "@/components/features/user/contentLibrary/ContentLibrary";
+import { useCelebShelfControl } from "@/components/features/celeb/CelebShelfContext";
+import { CATEGORIES } from "@/constants/categories";
 import { getCelebProfileUrl } from "@/lib/url";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
@@ -44,6 +46,9 @@ export default function ReviewsSection({
 }: ReviewsSectionProps) {
   const t = useTranslations("celebPage");
   const router = useRouter();
+  // 인물 상세의 통합 책장에서는 위쪽 선택기가 매체를 정한다.
+  const shelf = useCelebShelfControl();
+  const shelfCategory = shelf ? CATEGORIES.find((item) => item.dbType === shelf.category)?.id : undefined;
 
   // 펼쳐보기에서 지금 보던 작품을 "전체 보기"에서도 같은 자리에서 이어 보게 한다.
   const [activeContent, setActiveContent] = useState<{ contentId: string; index: number } | null>(null);
@@ -74,6 +79,8 @@ export default function ReviewsSection({
         initialContentBrief={initialContentBrief}
         onActiveContentChange={onActiveContentChange}
         focusRequest={focusRequest}
+        category={shelfCategory}
+        onCategoryChange={shelf ? (next) => { const type = CATEGORIES.find((item) => item.id === next)?.dbType; if (type) shelf.select(type); } : undefined}
         // 전체 펼침 토글 옆의 화살표로 지금 보던 작품의 기록 페이지를 연다.
         recordsAction={(initialContents?.total ?? 0) > 0 ? (
           <Link

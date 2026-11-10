@@ -7,7 +7,7 @@ export const HOME_PEOPLE_MIN_CONTENT_COUNT = 5
 export const HOME_PEOPLE_GRAPH_ATTEMPTS = 12
 export const HOME_PEOPLE_CONTEMPORARY_BIRTH_YEAR = 1900
 export const HOME_SHOWCASE_MIN_INFLUENCE = INFLUENCE_RANK_THRESHOLDS.C
-export type HomePeoplePurpose = 'appreciations' | 'books' | 'discovery'
+export type HomePeoplePurpose = 'appreciations' | 'discovery'
 
 /** 기준 연도 이후 태어나 생존 중인 인물을 현대인으로 본다. 일일 추천 정렬과 같은 기준이다. */
 export function isHomePersonContemporary(birthDate: string | null | undefined, deathDate: string | null | undefined) {

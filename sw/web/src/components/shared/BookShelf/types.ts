@@ -7,6 +7,7 @@ import type { BookIntroductionReference, BookIntroductionAttribution } from '@/l
 import type { TitleBadge } from '@/lib/utils/content-locale'
 import type { UserContentPublic } from '@/actions/contents/getUserContents'
 import type { ProfessionBookOverview } from '@/lib/books/professionBookGuides'
+import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 
 /** 관계 유형과 무관하게 책장 안의 모든 책이 사용하는 표시 자료. */
 export interface BookShelfBook {
@@ -88,6 +89,11 @@ export interface BookShelfGroup {
   /** 같은 탭 안에서 소속 등 목록의 맥락이 바뀌면 책 선택을 초기화한다. */
   selectionKey?: string
   context?: BookShelfContext
+}
+
+/** 책장에 실제로 놓이는 책. 확인된 판본이 없는 책을 빼고 같은 작품은 한 번만 둔다. */
+export function availableShelfBooks<T extends { id: string; titleBadge?: TitleBadge | null }>(books: T[]): T[] {
+  return [...new Map(books.filter(isBookShelfAvailable).map((book) => [book.id, book])).values()]
 }
 
 export function figureBookToShelfBook(book: FigureBookContent): BookShelfBook {

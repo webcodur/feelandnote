@@ -48,12 +48,9 @@ export default async function MainPage() {
         <section id="about" tabIndex={-1} className={styles.opening} data-home-opening>
           <HomeBrandHeader />
         </section>
-        <HubSection {...sec('appreciations')} hideDivider={false} tabIndex={-1} className={`${sectionClass} ${hubStyles.homeLead}`}>
+        <HubSection {...sec('reading')} hideDivider={false} tabIndex={-1} className={`${sectionClass} ${hubStyles.homeLead}`}>
           <Lane fallback={<HomeStatsPending label={pending('loading')} />}><HomeStats /></Lane>
-          <HomeShowcase mode="appreciations"><Lane fallback={graphPending}><HomeGraphSection mode="appreciations" /></Lane></HomeShowcase>
-        </HubSection>
-        <HubSection {...sec('reading')} tabIndex={-1} className={sectionClass}>
-          <HomeShowcase mode="books"><Lane fallback={graphPending}><HomeGraphSection mode="books" /></Lane></HomeShowcase>
+          <HomeShowcase><Lane fallback={graphPending}><HomeGraphSection /></Lane></HomeShowcase>
         </HubSection>
         <HubSection {...sec('search')} tabIndex={-1} className={sectionClass}>
           <HomeClosing />

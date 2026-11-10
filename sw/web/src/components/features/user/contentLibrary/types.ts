@@ -39,4 +39,7 @@ export interface ContentLibraryProps {
   onActiveContentChange?: (contentId: string | null, index: number) => void;
   /** 페이지의 다른 구획에서 지정한 작품을 펼침 보기에서 연다. */
   focusRequest?: ContentFocusRequest;
+  /** 상위 책장 선택기가 매체를 정할 때 쓴다. onCategoryChange를 넘기면 자체 매체 선택기를 숨긴다. */
+  category?: CategoryId;
+  onCategoryChange?: (category: CategoryId) => void;
 }

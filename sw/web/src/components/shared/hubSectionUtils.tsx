@@ -68,7 +68,6 @@ export function hubAtlasNavItems(labels: readonly string[], groupId: string): At
 export const HOME_GROUP_ID = "home";
 
 export const HOME_SECTIONS: readonly HubSectionConfig[] = [
-  { key: "appreciations", titleKey: "navAppreciations" },
   { key: "reading", titleKey: "navReading" },
   { key: "search", id: "search", titleKey: "startTitle", navTitleKey: "navSearch" },
   { key: "notice", id: "notices", titleKey: "noticeTitle", navTitleKey: "noticeTitle", moreHref: "/agora/board/notice", moreKey: "allNotices" },

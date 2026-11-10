@@ -283,23 +283,21 @@
     "landing": {
       "benefitLead": "남의 독서를 내 지식으로.",
       "statsPeople": "인물",
-      "appreciationsTitle": "모든 매체를 기록합니다.",
-      "appreciationsDescription": "인물이 책·음악·영상·게임을 접한 계기와 감상을 출처와 함께 기록합니다.",
       "readingTitle": "한 사람의 모든 것을 읽어보세요.",
-      "readingDescription": "인물과 연결된 모든 책을 한자리에 모았습니다.",
-      "navAppreciations": "감상 기록",
+      "readingDescription": "인물이 직접 감상한 작품과, 인물을 따라 읽을 책을 한자리에 모았습니다.",
       "navReading": "인물과 책",
       "startTitle": "인물과 작품을 찾아보세요.",
       "searchPlaceholder": "인물·작품 검색",
       "searchLabel": "인물 또는 작품 이름",
       "searchAction": "검색",
+      "searchTarget": "검색 대상",
       "graph": {
         "personLink": "인물 보기",
         "openWork": "{title} 자세히 읽기",
         "openBranch": "{title} 대표 작품 보기 · 전체 {count}개",
         "branches": {
           "BOOK": {
-            "title": "책",
+            "title": "도서",
             "meaning": "읽은 책",
             "reason": "인류가 쌓은 지식과 지혜의 보고입니다."
           },
@@ -318,10 +316,6 @@
             "meaning": "즐긴 게임",
             "reason": "시뮬레이션 속에서 직접 행동하고 목표를 달성합니다."
           },
-          "read": {
-            "title": "감상",
-            "meaning": "읽은 책"
-          },
           "appearance": {
             "title": "등장",
             "meaning": "등장하는 책"
@@ -330,20 +324,30 @@
             "title": "집필",
             "meaning": "집필한 책"
           },
+          "profession": {
+            "title": "직군",
+            "meaning": "인물의 직군을 이해하는 선정 도서"
+          },
           "affiliation": {
-            "title": "관련 주제",
+            "title": "주제",
             "meaning": "인물과 연결된 주제와 세계를 다룬 책"
           }
         },
+        "directRow": "감상",
+        "exploreRow": "탐색",
+        "professionChoices": {
+          "train": "훈련",
+          "become": "수업",
+          "about": "탐구"
+        },
+        "selectionReason": "선정 이유",
         "emptyBranch": "등록된 작품이 없습니다.",
         "appreciation": "감상경위",
         "description": "작품 소개",
         "noAppreciation": "아직 감상경위가 등록되지 않았습니다.",
         "noDescription": "작품 소개는 상세 페이지에서 확인할 수 있습니다.",
-        "readFull": "전체 보기",
         "source": "감상 출처",
         "workLink": "작품 보기",
-        "relatedBooks": "인물과 책 · {name}",
         "graphLabel": "{name}의 감상 기록",
         "previewNote": "대표 작품을 골랐습니다. 전체 목록은 인물 페이지에서 볼 수 있습니다.",
         "allBooks": "이 인물의 책 모두 보기",
@@ -353,12 +357,10 @@
         "selectionNote": "대표 감상 기록 중 일부입니다.",
         "selectMedia": "{title} 감상 기록 읽기",
         "selectMediaPrompt": "매체를 선택해 감상 기록을 읽어보세요.",
-        "mediaNavigation": "감상 매체",
         "personNavigation": "인물 전환",
         "otherPeople": "다른 인물",
         "previousPerson": "이전 인물",
         "nextPerson": "다음 인물",
-        "bookNavigation": "인물과 책 분류",
         "nextWork": "다음 작품",
         "viewAffiliation": "주제 살펴보기",
         "openAffiliation": "{name} 주제 살펴보기",

@@ -283,16 +283,14 @@
     "landing": {
       "benefitLead": "Their reading. Your knowledge.",
       "statsPeople": "People",
-      "appreciationsTitle": "We record every kind of media.",
-      "appreciationsDescription": "We document how people came to books, music, film, and games, and what they said about them, with sources for each record.",
       "readingTitle": "Read every side of a person.",
-      "readingDescription": "All the books connected to a person, in one place.",
-      "navAppreciations": "Appreciations",
+      "readingDescription": "What a person has read, watched, heard and played, and the books that lead you through their world.",
       "navReading": "People and Books",
       "startTitle": "Search people and works.",
       "searchPlaceholder": "Search people and works",
       "searchLabel": "Person or work title",
       "searchAction": "Search",
+      "searchTarget": "Search in",
       "graph": {
         "personLink": "View person",
         "openWork": "Read more about {title}",
@@ -309,7 +307,7 @@
             "reason": "An art that lets us share emotions across languages."
           },
           "VIDEO": {
-            "title": "Film and video",
+            "title": "Video",
             "meaning": "What they watched",
             "reason": "Experience other lives and worlds beyond your own."
           },
@@ -318,32 +316,38 @@
             "meaning": "What they played",
             "reason": "Act within a simulation and achieve a goal."
           },
-          "read": {
-            "title": "Read",
-            "meaning": "Books they read"
-          },
           "appearance": {
-            "title": "Appearing",
+            "title": "About",
             "meaning": "Books they appear in"
           },
           "authored": {
-            "title": "Written",
+            "title": "Wrote",
             "meaning": "Books they authored"
           },
+          "profession": {
+            "title": "Career",
+            "meaning": "Selected books for understanding their profession"
+          },
           "affiliation": {
-            "title": "Related themes",
+            "title": "Themes",
             "meaning": "Books about themes and worlds connected to this person"
           }
         },
+        "directRow": "Firsthand",
+        "exploreRow": "Explore",
+        "professionChoices": {
+          "train": "Training",
+          "become": "Lessons",
+          "about": "Inquiry"
+        },
+        "selectionReason": "Why this book",
         "emptyBranch": "No works listed yet.",
         "appreciation": "Behind the appreciation",
         "description": "About the work",
         "noAppreciation": "The story behind this appreciation has not been added yet.",
         "noDescription": "Visit the work page for more information.",
-        "readFull": "View full text",
         "source": "Original source",
         "workLink": "View work",
-        "relatedBooks": "People and Books · {name}",
         "graphLabel": "Appreciations by {name}",
         "previewNote": "A selection of works is shown here. Visit the person’s page for the full collection.",
         "allBooks": "See all books for this person",
@@ -353,12 +357,10 @@
         "selectionNote": "A selection of appreciation records.",
         "selectMedia": "Read {title} appreciations",
         "selectMediaPrompt": "Select a medium to read an appreciation.",
-        "mediaNavigation": "Appreciation media",
         "personNavigation": "Switch person",
         "otherPeople": "Other people",
         "previousPerson": "Previous person",
         "nextPerson": "Next person",
-        "bookNavigation": "Book relationships",
         "nextWork": "Next work",
         "viewAffiliation": "Explore theme",
         "openAffiliation": "Explore the theme: {name}",

@@ -24,7 +24,7 @@ import FigureReadingWaySection from "../FigureReadingWaySection";
 import FigureAnalysisTabs from "../FigureAnalysisTabs";
 import CelebAnalysisRetry from "./CelebAnalysisRetry";
 import RelationGraphSection from "../RelationGraphSection";
-import CelebShelfSection from "@/components/features/celeb/CelebShelfSection";
+import CelebShelfCategories from "@/components/features/celeb/CelebShelfCategories";
 import type { CelebServiceModel } from "./useCelebServiceModel";
 import { useCelebSectionNavigation } from "./useCelebSectionNavigation";
 
@@ -61,6 +61,7 @@ export default function CelebRecordSections({
   // 섹션 배치 순서(celebSectionChapters.ts)와 맞춰 FICTION만 이야기 우선 배치를 쓴다.
   // BOTH는 실존 핵심이 있어 표준 배치(분석 뒤 관계)를 쓴다.
   const isFiction = (profile.celeb_reality ?? "REAL") === "FICTION";
+  const hasReviews = !isFiction && (profile.celeb_tier ?? "full") === "full" && Object.values(profile.contentTypeCounts).some((count) => count > 0);
   const { items: serviceItems } = serviceModel;
   const { activeSectionId, navigate } = useCelebSectionNavigation(
     serviceItems.map((item) => item.target.sectionId),
@@ -161,9 +162,8 @@ export default function CelebRecordSections({
           />
         )))}
         {isFiction && connectionsSection}
-        {renderSection("library", <CelebShelfSection key={`${userId}:${locale}`} pageAnchors
-          hasReviews={!isFiction && (profile.celeb_tier ?? "full") === "full" && Object.values(profile.contentTypeCounts).some((count) => count > 0)}
-          librarySlot={librarySlot} booksSlot={booksSlot} />)}
+        {renderSection("library", <CelebShelfCategories key={`${userId}:${locale}`} directCounts={hasReviews ? profile.contentTypeCounts : null}
+          librarySlot={hasReviews ? librarySlot : null} booksSlot={booksSlot} />)}
         {renderSection("filmography", filmographySlot)}
         {renderSection("analysis", initialAnalysis ? (
           <FigureAnalysisTabs

@@ -3,12 +3,11 @@
 import { useEffect, useEffectEvent, useId, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { BookOpen } from 'lucide-react'
-import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 import BookShelfSelection from './BookShelfSelection'
 import BookShelfBookList from './BookShelfBookList'
 import LibraryCategoryPicker from '@/components/shared/LibraryCategoryPicker'
 import { LIBRARY_CONTROL_LAYOUT as layout } from '@/components/shared/libraryControlLayout'
-import type { BookShelfGroup } from './types'
+import { availableShelfBooks, type BookShelfGroup } from './types'
 import styles from './BookShelf.module.css'
 import { RetryBlock } from '@/components/ui/pending'
 import LibraryShelfUtilities from '@/components/shared/LibraryShelfUtilities'
@@ -26,27 +25,25 @@ interface Props {
   className?: string
   controlsLayout?: 'default' | 'profession-page' | 'personal'
   urlGroupParam?: string
+  /** 바깥 선택기가 분류와 읽기 목적을 정한다. 이때 책장 자체 선택기는 숨기고 현재 분류의 보조 조작만 남긴다. */
+  selection?: { groupKey: string; choiceKey?: string }
 }
 
 /** 개인·신화·팩션의 공통 책장. 선택한 분류의 도서를 같은 본문과 목록으로 보여준다. */
-export default function BookShelf({ groups, ariaLabel, title, id, className = '', controlsLayout = 'default', urlGroupParam }: Props) {
+export default function BookShelf({ groups, ariaLabel, title, id, className = '', controlsLayout = 'default', urlGroupParam, selection }: Props) {
   const t = useTranslations('celebPage')
   const pendingIndexId = useId()
   const pageControls = controlsLayout === 'profession-page'
   const personalControls = controlsLayout === 'personal'
   const normalized = groups.map((group) => ({ ...group,
-    books: [...new Map(group.books.filter(isBookShelfAvailable).map((book) => [book.id, book])).values()],
-    listGroups: group.listGroups?.map((item) => ({ ...item,
-      books: [...new Map(item.books.filter(isBookShelfAvailable).map((book) => [book.id, book])).values()],
-    })).filter((item) => item.books.length > 0),
-    choices: group.choices?.map((choice) => ({ ...choice,
-      books: [...new Map(choice.books.filter(isBookShelfAvailable).map((book) => [book.id, book])).values()],
-    })),
+    books: availableShelfBooks(group.books),
+    listGroups: group.listGroups?.map((item) => ({ ...item, books: availableShelfBooks(item.books) })).filter((item) => item.books.length > 0),
+    choices: group.choices?.map((choice) => ({ ...choice, books: availableShelfBooks(choice.books) })),
   }))
   const available = normalized.filter((group) => group.books.length > 0 || group.deferred)
   const [activeKey, setActiveKey] = useState(available[0]?.key)
   const selectUrlGroup = useEffectEvent(() => {
-    if (!urlGroupParam) return
+    if (!urlGroupParam || selection) return
     const key = new URLSearchParams(window.location.search).get(urlGroupParam)
     if (key && groups.some(group => group.key === key)) setActiveKey(key)
   })
@@ -59,12 +56,18 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
   const [showAllItems, setShowAllItems] = useState(false)
   const [titlePulseRequest, setTitlePulseRequest] = useState(0)
   const [choiceKeys, setChoiceKeys] = useState<Record<string, string>>({})
-  const active = available.find((group) => group.key === activeKey) ?? available[0]
+  const active = available.find((group) => group.key === (selection?.groupKey ?? activeKey)) ?? available[0]
+  const pulseKey = selection && `${selection.groupKey}:${selection.choiceKey ?? ''}`
+  const [shownPulseKey, setShownPulseKey] = useState(pulseKey)
+  if (pulseKey !== shownPulseKey) {
+    setShownPulseKey(pulseKey)
+    if (!listOpen) setTitlePulseRequest((current) => current + 1)
+  }
   const loadState = active?.deferred?.state
   const load = active?.deferred?.onLoad
   useEffect(() => { if (loadState === 'idle') load?.() }, [loadState, load])
   if (!active) return null
-  const choice = active.choices?.find((item) => item.key === choiceKeys[active.key] && item.books.length > 0)
+  const choice = active.choices?.find((item) => item.key === (selection ? selection.choiceKey : choiceKeys[active.key]) && item.books.length > 0)
     ?? active.choices?.find((item) => item.books.length > 0)
   const shownBooks = choice?.books ?? active.books
   const shownIntro = choice?.intro ?? active.intro
@@ -103,7 +106,11 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
       setChoiceKeys((current) => ({ ...current, [personalGroup.key]: key }))
       selectGroup(personalGroup.key)
     }} />
-  const categoryPicker = <div className="flex flex-col gap-3" style={BOOKSHELF_MOTION_STYLE}>{groupControls}{personalControls ? personalPicker : <>{groupPicker}{choicePicker}</>}</div>
+  const activeControl = selection && active.control && <div className="w-full" data-bookshelf-group-control={active.key}>
+    {active.control({ isActive: true, onActivate: () => {} })}
+  </div>
+  const categoryPicker = selection ? activeControl || undefined
+    : <div className="flex flex-col gap-3" style={BOOKSHELF_MOTION_STYLE}>{groupControls}{personalControls ? personalPicker : <>{groupPicker}{choicePicker}</>}</div>
   const pending = loadState === 'failed' ? <RetryBlock onRetry={load} />
     : loadState && loadState !== 'ready' ? <div role="status" aria-busy="true" data-bookshelf-loading
         className="flex min-h-12 items-center justify-center gap-2 px-4 py-3 text-center text-xs text-text-tertiary">
@@ -114,7 +121,8 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
   return (
     <div className="min-w-0 [overflow-anchor:none]" style={BOOKSHELF_MOTION_STYLE} aria-label={ariaLabel} data-bookshelf>
       {title && <h3 className="flex items-center justify-center gap-2 px-4 py-4 text-center text-lg font-bold text-text-primary sm:px-6"><BookOpen size={17} aria-hidden />{title}</h3>}
-      <AnimatedHeight duration={BOOKSHELF_MOTION.duration} className={`mx-auto ${personalControls ? 'w-full max-w-[26rem] px-4 sm:px-0' : pageControls ? layout.professionPageWidth : layout.width} ${layout.contentGap}`}>
+      {selection ? activeControl && <div className={`mx-auto w-full max-w-[26rem] px-4 sm:px-0 ${layout.contentGap}`}>{activeControl}</div>
+      : <AnimatedHeight duration={BOOKSHELF_MOTION.duration} className={`mx-auto ${personalControls ? 'w-full max-w-[26rem] px-4 sm:px-0' : pageControls ? layout.professionPageWidth : layout.width} ${layout.contentGap}`}>
       <div className={`flex flex-col ${personalControls ? 'gap-3' : 'gap-2'}`}>
         {groupControls}
         {personalControls ? personalPicker : <>{groupPicker}
@@ -122,7 +130,7 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
           {choicePicker}
         </div>}</>}
       </div>
-      </AnimatedHeight>
+      </AnimatedHeight>}
       {active.context?.kind === 'profession' && <BookShelfTransition changeKey={overview?.title ?? shownIntro}>{overview
         ? <section data-profession-overview className="mx-auto mb-6 max-w-2xl border-y border-accent/20 px-4 py-5 text-left sm:mb-8 sm:px-6 sm:py-6">
             <h3 className="mb-2 break-keep text-pretty text-base font-semibold leading-relaxed text-accent">{overview.title}</h3>

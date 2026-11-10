@@ -1,7 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import type { ReactNode } from "react";
+import { useContext, type ReactNode } from "react";
+import { LibraryShelfLeadingContext } from "./LibraryShelfLeadingContext";
 
 interface Props {
   showAllItems: boolean;
@@ -11,9 +12,12 @@ interface Props {
 
 export default function LibraryShelfUtilities({ showAllItems, onAllItemsChange, recordsAction }: Props) {
   const t = useTranslations("archiveSearch");
+  const leading = useContext(LibraryShelfLeadingContext);
   const buttonClass = "min-w-24 py-2 text-sm font-semibold text-text-secondary hover:bg-white/[0.06] hover:text-text-primary active:bg-accent/30 active:text-accent aria-pressed:bg-accent/15 aria-pressed:text-accent aria-pressed:shadow-[inset_0_-2px_0_var(--color-accent)] aria-pressed:hover:bg-accent/20 aria-pressed:active:bg-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent";
   return (
-    <div data-shelf-utilities className="mb-3 flex flex-wrap justify-center gap-2">
+    <div data-shelf-utilities className="relative mb-3 flex flex-wrap justify-center gap-2">
+      {/* 전환 단추 왼쪽 빈자리에 둔다. 자리가 모자란 아주 좁은 폭에서는 단추 위 한 줄로 올린다. */}
+      {leading && <div data-shelf-leading className="absolute start-0 top-1/2 -translate-y-1/2 @max-[339px]:static @max-[339px]:flex @max-[339px]:w-full @max-[339px]:translate-y-0 @max-[339px]:justify-center">{leading}</div>}
       {/* 작품 소개는 항상 표시한다. 소개 토글은 일단 주석 처리한다.
       <button data-shelf-intro-toggle type="button" aria-pressed={showIntroduction} onClick={() => onIntroductionChange(!showIntroduction)}
         className={`min-h-11 rounded-control border hover:border-accent ${borderClass(showIntroduction)} ${toggleClass(showIntroduction)}`}>

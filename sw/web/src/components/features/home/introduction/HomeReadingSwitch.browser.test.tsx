@@ -7,7 +7,7 @@ test('all home works keep icon-only introduction controls, including missing int
   const browser = await puppeteer.launch({ headless: true })
   try {
     for (const locale of ['ko', 'en'] as const) for (const width of [320, 390, 1440]) await t.test(`${locale} ${width}px`, async () => {
-      const bundle = await fixture(locale, 'appreciations', 'Stephen Fry', null, { introDelay: 150 })
+      const bundle = await fixture(locale, 'Stephen Fry', null, { introDelay: 150 })
       const page = await browser.newPage()
       try {
         await page.setViewport({ width, height: 1000 })
@@ -43,19 +43,19 @@ test('all home works keep icon-only introduction controls, including missing int
         assert.equal(await page.$eval('[data-home-reading-preview]', e => e.textContent?.includes('Introduction of BOOK1')), false, 'A new book must not inherit the previous introduction')
         await waitForToggle()
         await page.waitForFunction(() => (window as Window & { introSettled?: number }).introSettled === 2)
-        await page.click('[data-media-mode="MUSIC"]')
+        await page.click('[data-shelf-category="MUSIC"]')
         assert.ok(await page.$('[data-home-reading-toggle]'), 'Music also keeps an introduction control')
         assert.equal(await page.$eval('[data-media-toggle]', e => e.textContent), '')
         await page.click('[data-home-reading-toggle]')
         await page.waitForFunction(() => document.querySelector('[data-home-reading-preview]')?.textContent?.includes('Introduction of MUSIC1'))
-        await page.click('[data-media-mode="BOOK"]')
+        await page.click('[data-shelf-category="BOOK"]')
         await waitForToggle()
         assert.equal(await page.evaluate(() => (window as Window & { introCalls?: number }).introCalls), 3, 'Revisited introductions stay cached')
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
       } finally { await page.close() }
     })
     for (const kind of ['review-only', 'intro-only', 'failed-intro'] as const) await t.test(kind, async () => {
-      const bundle = await fixture('ko', 'appreciations', 'Stephen Fry', null, kind === 'intro-only'
+      const bundle = await fixture('ko', 'Stephen Fry', null, kind === 'intro-only'
         ? { review: null, intro: 'Only the introduction' } : kind === 'review-only' ? { intro: null } : { failIntro: true })
       const page = await browser.newPage()
       try {
