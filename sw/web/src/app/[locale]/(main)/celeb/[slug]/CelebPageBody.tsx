@@ -53,7 +53,8 @@ export default async function CelebPageBody({ params }: PageProps) {
   const factionMemberships = profile.factions.filter(faction => faction.isPublished && faction.slug)
   const sideAvailability = { relations: profile.relations.length > 0,
     influence: sidePresence.influence, spectrum: sidePresence.spectrum,
-    relatedFigures: profile.relations.length > 0, relatedFactions: factionMemberships.length > 0, affiliateBooks: true }
+    // 관계가 없어도 직군·시대·나라가 가까운 인물로 채우므로 항상 세운다
+    relatedFigures: true, relatedFactions: factionMemberships.length > 0, affiliateBooks: true }
   const pageTitle = buildCelebTitle(createCelebMetaInput(profile), locale)
   const clientProfile = { ...profile, greeting: null, explanation: null, dialogue: null }
   const jsonLdLinks = initial
