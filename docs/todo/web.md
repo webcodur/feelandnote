@@ -55,8 +55,12 @@
 
 ## 외부 채널에 서비스 소개
 
-네이버 블로그(책)와 티스토리(영화)는 연결·예약을 마쳤다. 다음 추가 채널은 긱뉴스의 Show GN과
+네이버 블로그(책)는 연결·예약을 마쳤다. 티스토리(영화)는 효과가 없어 26.11.11에 닫았다. 다음 추가 채널은 긱뉴스의 Show GN과
 디스콰이엇이며, 둘 다 한국어로 소개한다. 두 초안은 D드라이브에 준비되어 있고 아직 게시하지 않았다.
+
+- [ ] 티스토리용으로 만든 영화 원고 951편(`D:\blog-assets\tistory-cinema`)과 제작 도구(`sw/web-bo/scripts/tistory-cinema`)의
+  운용 방법을 정한다. 폐기·사이트 내 활용·다른 형태로 재가공 중에서 고르고, 빈 블로그 자체의 폐쇄 여부도 함께 정한다.
+  닫은 근거는 [`blog-tistory-cinema.md`](../continuous/blog-tistory-cinema.md) 첫머리에 있다.
 
 - [ ] 긱뉴스 Show GN: 한국어 소개 초안(`D:\docs\feelandnote\community-intro\show-gn.ko.md`)을
   사용자와 최종 검토한 뒤 서비스 소개 글을 게시한다.
