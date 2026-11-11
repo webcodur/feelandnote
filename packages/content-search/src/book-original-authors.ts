@@ -43,6 +43,17 @@ const REVIEWED_EXTRA_WORK_AUTHORS: Readonly<Record<string, { authors: readonly s
 export function getBookOriginalAuthorKeys(
   editionAuthors: readonly string[], workAuthors: readonly string[], context?: OriginalAuthorContext,
 ): string[] | null {
+  // Rules for Revolutionaries: 이 종이판은 Becky Bond·Zack Exley 공저이며 판본에서 Exley만 빠졌다.
+  // https://www.chelseagreen.com/product/rules-for-revolutionaries/
+  if (context?.workKey === '/works/OL20042321W' && context.editionKey === '/books/OL27222354M'
+    && context.isbn === '9781603587273' && editionAuthors.length === 1 && editionAuthors[0] === '/authors/OL7611476A'
+    && workAuthors.length === 2 && ['/authors/OL7611476A', '/authors/OL7801718A'].every(key => workAuthors.includes(key))) return [...workAuthors]
+  // Trade What You See: Wiley가 확인한 공저자 Jouflas를 쓴다. 원전의 Joeflas는 같은 사람의 오기다.
+  // https://www.wiley.com/en-in/trade-what-you-see-how-to-profit-from-pattern-recognition-p-9780470106761
+  if (context?.workKey === '/works/OL16933598W' && context.editionKey === '/books/OL9347182M'
+    && context.isbn === '9780470106761' && editionAuthors.length === 2
+    && ['/authors/OL191686A', '/authors/OL3241415A'].every(key => editionAuthors.includes(key))
+    && workAuthors.length === 2 && ['/authors/OL191686A', '/authors/OL7362760A'].every(key => workAuthors.includes(key))) return [...editionAuthors]
   // 같은 신간의 Kiran Desai 중복 저자 ID. 출판사가 이 ISBN의 저자를 확인한다.
   // https://www.penguin.co.uk/books/471012/the-loneliness-of-sonia-and-sunny-by-desai-kiran/9780241770825
   if (context?.workKey === '/works/OL42397165W' && context.editionKey === '/books/OL57521454M'

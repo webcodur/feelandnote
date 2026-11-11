@@ -45,6 +45,79 @@ test('selection restoration rejects unreviewed or stale evidence, physical chang
  }
 })
 
+function displayTitleConversion(){
+ const {data}=selectionRestoration('content_locales'),before=data.content_locales[0]
+ before.locale='ko';before.sources.primary='none';before.sources.title='original'
+ Object.assign(before.sources.edition_selection_evidence[0],{locale:'ko'})
+ const reference={...structuredClone(before),locale:'en',sources:{primary:'openlibrary'},publisher:'Publisher',thumbnail_url:'https://publisher.example/cover.jpg'}
+ data.content_locales.push(reference)
+ const patch={title:'다국어 연구',creator:'편자',isbn:null,publisher:null,thumbnail_url:null,affiliate_url:null,verified:false,
+  sources:{primary:'none',title:'translated',edition_selection_evidence:structuredClone(before.sources.edition_selection_evidence)}}
+ const proof={method:'independent_display_title_review',llmReviewed:true,contentId:before.content_id,locale:'ko',beforeTitle:before.title,beforeIsbn:before.isbn,
+  referenceTable:'content_locales',referenceLocale:'en',referenceIsbn:reference.isbn,sourceUrl:'https://publisher.example/exact-isbn',
+  reason:'The verified English edition remains under the same work while the Korean display row stops claiming the English ISBN and physical metadata.'}
+ return {data,change:{table:'content_locales',before,patch,reviewedDisplayTitleConversion:proof},proof,reference}
+}
+
+test('display title conversion retains the English physical metadata and all reading references',()=>{
+ const f=displayTitleConversion(),plan=planGuardedCatalogRepairs(['restore-book'],f.data,[f.change])
+ assert.deepEqual(plan.expected.content_locales,[{...f.change.before,...f.change.patch},f.reference])
+ assert.deepEqual(plan.expected.member_contents,f.data.member_contents)
+})
+
+test('display title conversion rejects actual editions, stale identities, missing references and partial clearing',()=>{
+ for(const mutate of [
+  f=>{f.change.before.sources.primary='openlibrary'},f=>{f.proof.llmReviewed=false},f=>{f.proof.beforeIsbn='9780140442281'},
+  f=>{f.proof.beforeTitle='Different'},f=>{f.reference.content_id='other'},f=>{f.reference.isbn=null},
+  f=>{f.proof.referenceLocale='ko'},f=>{f.proof.sourceUrl='https://openlibrary.org/books/OL1M'},
+  f=>{delete f.change.patch.publisher},f=>{f.change.patch.verified=true},f=>{f.change.patch.isbn=f.change.before.isbn},
+  f=>{f.change.patch.sources.primary='openlibrary'},f=>{delete f.change.patch.sources.edition_selection_evidence}
+ ]){const f=displayTitleConversion();mutate(f);assert.throws(()=>planGuardedCatalogRepairs(['restore-book'],f.data,[f.change]),/Display title conversion/)}
+ const f=displayTitleConversion()
+ assert.throws(()=>planGuardedCatalogRepairs(['restore-book'],f.data,[f.change,{table:'content_locales',before:f.reference,patch:{publisher:'Changed'}}]),/physical reference unchanged/)
+})
+
+test('display conversion can retain an excluded physical edition but cannot substitute another ISBN or discard its introduction',()=>{
+ const fixture=()=>{
+  const f=displayTitleConversion()
+  f.data.content_locales.pop()
+  Object.assign(f.reference,{id:97,locale:'ko',edition_kind:'abridged',text_scope:'graded reader'})
+  f.data.figure_book_editions=[f.reference]
+  Object.assign(f.proof,{referenceTable:'figure_book_editions',referenceLocale:'ko',referenceEditionId:97})
+  return f
+ }
+ const f=fixture(),plan=planGuardedCatalogRepairs(['restore-book'],f.data,[f.change])
+ assert.deepEqual(plan.expected.figure_book_editions,[f.reference])
+ const changed=fixture();changed.reference.isbn='9780140442281';changed.proof.referenceIsbn=changed.reference.isbn
+ assert.throws(()=>planGuardedCatalogRepairs(['restore-book'],changed.data,[changed.change]),/Display title conversion/)
+ const prose=fixture();prose.change.before.description='Existing complete introduction';prose.change.before.sources.description='https://publisher.example/intro'
+ prose.change.patch.description=null
+ assert.throws(()=>planGuardedCatalogRepairs(['restore-book'],prose.data,[prose.change]),/Existing introduction must be retained/)
+})
+
+test('wrong-language English cards can become display titles only with their exact exclusion and retained normal Korean source',()=>{
+ const fixture=()=>{
+  const f=displayTitleConversion(),before=f.change.before
+  before.locale='en';before.sources.primary='openlibrary';before.sources.title='https://openlibrary.org/books/OL1M'
+  Object.assign(before.sources.edition_selection_evidence[0],{locale:'en'})
+  f.reference.locale='ko';f.reference.sources={primary:'kakao_book',title:'https://publisher.example/korean-edition'}
+  Object.assign(f.proof,{locale:'en',referenceLocale:'ko',excludedReason:'wrong_locale',sourceUrl:before.sources.edition_selection_evidence[0].source_url,
+   referenceSourceUrl:f.reference.sources.title,bodyEvidence:'The exact ISBN source identifies a Chinese translation, while the independently verified Korean edition remains unchanged under the same work.'})
+  f.change.patch.sources.edition_selection_evidence=structuredClone(before.sources.edition_selection_evidence)
+  return f
+ }
+ const f=fixture(),plan=planGuardedCatalogRepairs(['restore-book'],f.data,[f.change])
+ assert.deepEqual(plan.expected.content_locales[1],f.reference)
+ assert.deepEqual(plan.expected.member_contents,f.data.member_contents)
+ assert.equal(plan.expected.content_locales[0].isbn,null)
+ for(const mutate of [
+  f=>{f.change.before.sources.edition_selection_evidence[0].llmReviewed=false},
+  f=>{f.proof.sourceUrl='https://publisher.example/another-book'},f=>{f.proof.referenceSourceUrl='https://publisher.example/different-isbn'},
+  f=>{f.proof.bodyEvidence='Only a guess'},f=>{f.reference.sources.primary='none'},
+  f=>{f.reference.sources.edition_selection_evidence=[{...f.change.before.sources.edition_selection_evidence[0],locale:'ko'}]}
+ ]){const f=fixture();mutate(f);assert.throws(()=>planGuardedCatalogRepairs(['restore-book'],f.data,[f.change]),/Display title conversion/)}
+})
+
 function representativeReplacement(){
  const {data}=selectionRestoration('content_locales'),before=data.content_locales[0]
  const reference={id:112,content_id:before.content_id,locale:before.locale,isbn:'9780140442281',title:'A verified full translation',creator:'Original Author',
@@ -665,6 +738,19 @@ test('new selection evidence uses the resolver array and canonical reason contra
  before.sources.edition_selection_evidence=proof
  assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,[{table:'content_locales',before,patch:{publisher:'Actual publisher'}}]))
  assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,patch([proof])))
+})
+
+test('new same-ISBN selection review binds the displayed row title while preserving earlier edition history',()=>{
+ const data=snapshot(),before=data.content_locales[0]
+ before.isbn='9780140449136'
+ const proof={method:'independent_selection_review',reason:'wrong_locale',content_id:'work',isbn:before.isbn,locale:before.locale,
+  edition_title:before.title,source_url:'https://publisher.example/exact-language',explanation:'The exact ISBN is a Korean-language edition; its romanized title does not establish an English translation.'}
+ const change=evidence=>({table:'content_locales',before,patch:{sources:{...before.sources,edition_selection_evidence:evidence}}})
+ assert.throws(()=>planGuardedCatalogRepairs(['work'],data,[change([{...proof,edition_title:'A source title different from the actual row'}])]),/actual row title/)
+ assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,[change([proof])]))
+ const previous={...proof,isbn:'9780140442281',edition_title:'An earlier excluded edition'}
+ before.sources.edition_selection_evidence=[previous]
+ assert.doesNotThrow(()=>planGuardedCatalogRepairs(['work'],data,[change([previous,proof])]))
 })
 
 test('discarding a known raw provenance wrapper preserves introduction, current sources and protected text without inventing a URL',()=>{

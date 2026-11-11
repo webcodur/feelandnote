@@ -161,6 +161,19 @@ const REVIEWED_MISSING_AUTHORS: Readonly<Record<string, { bookId: string; creato
   // 소설 공자 1 (시간여행, 2019). 같은 간행본 2권의 카카오 응답과 YES24 1권 서지가 모두 우쾌제 저다.
   // https://www.yes24.com/Product/Goods/70931877 · https://www.yes24.com/Product/Goods/75446308
   '9791185346922': { bookId: '4903206', creator: '우쾌제' },
+  // 아래 다섯 판본은 같은 ISBN13의 YES24 상품 서지로 저자를 확인했다(26.11.09). 번역자는 넣지 않는다.
+  // 팁 프롬 더 탑 (디플롯, 2026) https://www.yes24.com/product/goods/180948324
+  '9791193591499': { bookId: '7152433', creator: '켄 양, 클리퍼드 피어슨, 라그다 알하얄리' },
+  // 세계사 만물관 (윌북, 2022) https://www.yes24.com/product/goods/112255790
+  '9791155815090': { bookId: '6151145', creator: '피에르 싱가라벨루, 실뱅 브네르' },
+  // 십대부터 읽는 천자문에 담긴 과학 (바퀴달린집, 2026) https://www.yes24.com/product/goods/183810918
+  '9791199779600': { bookId: '7186532', creator: '신규진' },
+  // 흔한햄 1 (위즈덤하우스, 2024) https://www.yes24.com/product/goods/128849991
+  '9791171712052': { bookId: '6679754', creator: '잇선' },
+  // 고사성어 이야기 조나라 편 1: 한단학보 (이담북스, 2018) https://www.yes24.com/product/goods/61305249
+  '9788926882993': { bookId: '444664', creator: '저우궁신' },
+  // 신의 탑 1 (영컴, 2019) https://www.yes24.com/product/goods/82131193 (26.11.10)
+  '9791190153171': { bookId: '5124236', creator: 'SIU' },
 }
 
 function reviewedMissingAuthor(isbn: string, url: string): string {

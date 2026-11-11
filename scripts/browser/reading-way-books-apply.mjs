@@ -3,7 +3,7 @@ import path from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
 import {isDeepStrictEqual} from 'node:util';
-import {database,revalidateTags} from './reading-way-argon.mjs';
+import {database,revalidateTags,assertCollectionMode} from './reading-way-argon.mjs';
 import {stripMarkdownEmphasis} from './reading-way-text.mjs';
 import {CACHE_TAGS,itemRevalidationTags} from '../../packages/shared/src/constants/cache-tags.ts';
 import {toIsbn13} from '../../packages/content-search/src/book-isbn.ts';
@@ -18,7 +18,10 @@ const fields=['locale','title','creator','isbn','publisher','thumbnail_url','des
 export function validatePlan(p){
   if(!/^[a-z0-9][a-z0-9.-]*$/.test(p.slug??''))throw Error('Invalid slug');
   if(!Array.isArray(p.originals)||!p.originals.length||!Array.isArray(p.relations)||!p.relations.length)throw Error('Missing originals/relations');
-  for(const o of p.originals)if(!path.isAbsolute(o.path)||!/^[a-f0-9]{64}$/.test(o.sha256??''))throw Error('Invalid original reference');
+  for(const o of p.originals){
+    if(!path.isAbsolute(o.path)||!/^[a-f0-9]{64}$/.test(o.sha256??''))throw Error('Invalid original reference');
+    assertCollectionMode(o.modelObservation);
+  }
   const works=p.newWorks??[],extra=p.newLocales??[],ids=new Set();
   for(const r of p.relations){required(r.content_id,'content ID');if(ids.has(r.content_id))throw Error('Duplicate relation');ids.add(r.content_id);if(!Number.isInteger(r.original_index)||!p.originals[r.original_index]||!Number.isInteger(r.book_index)||r.book_index<0)throw Error('Invalid book reference');}
   const newIds=new Set();

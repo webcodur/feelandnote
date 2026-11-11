@@ -1216,6 +1216,39 @@ export async function captureCatalogRepairSnapshot(_db,workIds,spawn) {
  snapshotCheck(snapshot);return snapshot
 }
 
+function reviewedDisplayTitleConversion(snapshot,change){
+ const {table,before,patch,reviewedDisplayTitleConversion:proof}=change
+ const reference=proof?.referenceTable==='content_locales'
+  ?snapshot.content_locales.find(row=>row.content_id===before.content_id&&row.locale===proof.referenceLocale)
+  :proof?.referenceTable==='figure_book_editions'
+   ?snapshot.figure_book_editions.find(row=>String(row.id)===String(proof.referenceEditionId)):null
+ const marks=['translated','romanized','original'],physical=['isbn','publisher','thumbnail_url','affiliate_url']
+ const foreignProof=before.sources?.edition_selection_evidence?.find(item=>item.llmReviewed===true
+  &&item.source_url===proof?.sourceUrl&&reviewedBookEditionSelectionReason({...before,sources:{edition_selection_evidence:[item]}})==='wrong_locale')
+ const excludedForeign=before.sources?.primary==='openlibrary'&&before.locale==='en'&&foreignProof
+  &&proof?.excludedReason==='wrong_locale'&&proof.referenceTable==='content_locales'&&reference?.locale==='ko'
+  &&reference.sources?.primary==='kakao_book'&&independentSource(proof.referenceSourceUrl)
+  &&proof.referenceSourceUrl===reference.sources?.title&&!excludedBookEditionReason({...reference,contentId:before.content_id})
+  &&typeof proof.bodyEvidence==='string'&&proof.bodyEvidence.trim().length>=60
+ const display=before.sources?.primary==='none'&&marks.includes(before.sources?.title)
+ if(table!=='content_locales'||change.remove||!patch||!display&&!excludedForeign
+  ||proof?.method!=='independent_display_title_review'||proof.llmReviewed!==true
+  ||proof.contentId!==before.content_id||proof.locale!==before.locale||proof.beforeTitle!==before.title||proof.beforeIsbn!==before.isbn
+  ||!toIsbn13(before.isbn??'')||!independentSource(proof.sourceUrl)
+  ||typeof proof.reason!=='string'||proof.reason.trim().length<60
+  ||!reference||reference.content_id!==before.content_id||reference.sources?.primary==='none'
+  ||!toIsbn13(reference.isbn??'')||reference.isbn!==proof.referenceIsbn
+  ||proof.referenceTable==='content_locales'&&reference.locale===before.locale
+  ||proof.referenceTable==='figure_book_editions'&&toIsbn13(reference.isbn)!==toIsbn13(before.isbn)
+  ||physical.some(field=>patch[field]!==null)||patch.verified!==false
+  ||patch.sources?.primary!=='none'||!marks.includes(patch.sources?.title)
+  ||!isDeepStrictEqual(patch.sources?.edition_selection_evidence,before.sources?.edition_selection_evidence)
+  ||Object.keys(patch).some(field=>!['title','creator','description','sources','verified',...physical].includes(field))
+  ||!String(patch.title??before.title).trim()||!String(patch.creator??before.creator).trim())
+  throw Error('Display title conversion requires an exact reviewed display row and retained physical metadata under the same work')
+ return reference
+}
+
 // 제외 판본의 복원이 아니라, 이미 검수·등록된 정상 판본을 언어 카드의 대표로 고르는 경우다.
 function reviewedExistingEditionRepresentative(snapshot,change){
  const {table,before,patch,reviewedRepresentativeReplacement:proof}=change
@@ -1293,9 +1326,11 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   }
   if(change.reviewedFigureRelation!==undefined)throw Error('Figure relation proof may only review an existing figure relation')
   const evidence=patch?.sources?.edition_selection_evidence
+  if(change.reviewedDisplayTitleConversion!==undefined)reviewedDisplayTitleConversion(snapshot,change)
   if(change.reviewedRepresentativeReplacement!==undefined)reviewedExistingEditionRepresentative(snapshot,change)
   if(['content_locales','figure_book_editions'].includes(table)&&!remove
    &&change.reviewedRepresentativeReplacement===undefined
+   &&change.reviewedDisplayTitleConversion===undefined
    &&reviewedBookEditionSelectionReason(before)&&!reviewedBookEditionSelectionReason({...before,...patch})){
    const proof=change.reviewedSelectionRestoration,oldProof=before.sources.edition_selection_evidence
    if(!Array.isArray(evidence)||evidence.length!==0||proof?.method!=='independent_selection_restoration_review'||proof.llmReviewed!==true
@@ -1313,6 +1348,12 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
     isbn:proof?.isbn,title:proof?.edition_title,sources:{edition_selection_evidence:[proof]}})
     &&!reviewedBookEditionSelectionReason({...before,...patch,isbn:proof?.isbn,title:proof?.edition_title,
      sources:{edition_selection_evidence:[proof]}}))))throw Error('Selection evidence must be an array of reviews with canonical selection reasons and valid source evidence')
+  if(Array.isArray(evidence)&&!isDeepStrictEqual(evidence,before.sources?.edition_selection_evidence)){
+   const after={...before,...patch},old=Array.isArray(before.sources?.edition_selection_evidence)?before.sources.edition_selection_evidence:[]
+   if(evidence.some(proof=>!old.some(previous=>isDeepStrictEqual(previous,proof))
+    &&toIsbn13(proof.isbn)===toIsbn13(after.isbn??'')&&proof.locale===after.locale&&proof.edition_title!==after.title))
+    throw Error('New selection evidence for the current ISBN must match the actual row title')
+  }
   const selectionProof=change.reviewedSelectionExclusion
   const afterKind=Object.hasOwn(patch??{},'edition_kind')?patch.edition_kind:before.edition_kind
   if(table==='figure_book_editions'&&!remove&&afterKind!=null&&!SERVICE_BOOK_EDITION_KINDS.includes(afterKind))
@@ -1362,6 +1403,11 @@ export function planGuardedCatalogRepairs(workIds,snapshot,changes) {
   }
  }
  for(const change of changes)if(change.table==='figure_book_characters')reviewedFigureRelation(expected,change)
+ for(const change of changes)if(change.reviewedDisplayTitleConversion!==undefined){
+  const reference=reviewedDisplayTitleConversion(snapshot,change)
+  if(!expected[change.reviewedDisplayTitleConversion.referenceTable].some(row=>isDeepStrictEqual(row,reference)))
+   throw Error('Display title conversion must retain its physical reference unchanged')
+ }
  for(const change of changes)if(change.reviewedRepresentativeReplacement!==undefined){
   const reference=reviewedExistingEditionRepresentative(snapshot,change)
   if(!expected.figure_book_editions.some(row=>isDeepStrictEqual(row,reference)))

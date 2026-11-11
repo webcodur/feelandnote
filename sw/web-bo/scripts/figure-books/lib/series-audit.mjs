@@ -92,6 +92,16 @@ function displayOnly(row) {
   const sources = object(row.sources)
   return sources.primary === 'none' && ['translated', 'romanized', 'original'].includes(sources.title)
 }
+
+/** 표시용 행에 남은 실물 판본 값을 찾는다. 실제 ISBN 없는 구판인지 검수하며, 자동으로 비우지 않는다. */
+export function detectDisplayPublicationRisks(catalog) {
+  return (catalog.locales ?? []).flatMap(row => {
+    if (!displayOnly(row)) return []
+    const fields = ['isbn', 'publisher', 'thumbnail_url', 'affiliate_url'].filter(key => string(row[key]))
+    return fields.length ? [{contentId:row.content_id,locale:row.locale,title:row.title,creator:row.creator,
+      fields,isbn:row.isbn ?? null,publisher:row.publisher ?? null,thumbnailUrl:row.thumbnail_url ?? null}] : []
+  })
+}
 /** 같은 표제의 권별 책과 대조할 수 있는 명시적 세트 표기만 푼다. 독립 선집 표제는 받지 않는다. */
 export function seriesSetTitle(value) {
  const title=String(value??'').trim().replace(/\(재판\)|\(특별\s*한정\s*보급판\)/gu,'').trim()

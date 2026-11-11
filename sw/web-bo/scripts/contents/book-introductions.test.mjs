@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { visibleBookIntroductionCensus, buildReviewedIntroductionChanges, targetKey, refreshCollectionRows } from './book-introductions-lib.mjs'
+import { visibleBookIntroductionCensus, buildReviewedIntroductionChanges, reviewedIntroductionCatalogInserts, targetKey, refreshCollectionRows } from './book-introductions-lib.mjs'
 
 const id = '212b634d-3f26-5e60-9e4f-e1c8207db208'
 const work = { id, type: 'BOOK', metadata: {} }
@@ -14,6 +14,20 @@ const target = { contentId: id, editionId: 1, locale: 'en', title: 'A Book', cre
 const review = { target, llmReviewed: true, description: 'The book follows a family as its members confront changes in their lives and their relationships with one another.',
   sourceUrl: 'https://www.penguinrandomhouse.com/books/224693/book/', method: 'provider', sourceLocale: 'en',
   evidence: [{ url: 'https://www.penguinrandomhouse.com/books/224693/book/', note: 'Read the publisher body; the actual title, author and scope match the selected edition.' }] }
+
+test('소개 보완만으로 판본을 생성하지 않고 검수한 언어 카드의 명시적 판본 검수만 전달한다', () => {
+  assert.deepEqual(reviewedIntroductionCatalogInserts([review]), [])
+  const catalogReview = {contentId:id,locale:'en',textLanguage:'en',isbn:target.isbn,title:target.title,creator:target.creator,
+    sourceUrl:review.sourceUrl,workTitle:'An Original',workCreator:'An Author',editionKind:null,textScope:null}
+  const input = {...review,target:{...target,editionId:null},catalogReview}
+  assert.deepEqual(reviewedIntroductionCatalogInserts([input]), [catalogReview])
+  for (const patch of [{llmReviewed:false},{target},{target:{...input.target,isDefault:false}},
+    {catalogReview:{...catalogReview,contentId:'another'}},{catalogReview:{...catalogReview,isbn:'9781612192055'}},
+    {catalogReview:{...catalogReview,locale:'ko'}},{catalogReview:{...catalogReview,title:'Another book'}},
+    {catalogReview:{...catalogReview,sourceUrl:'https://unread.example/book'}}]) {
+    assert.throws(() => reviewedIntroductionCatalogInserts([{...input,...patch}]), /명시적 검수/)
+  }
+})
 
 test('번역판 없는 표시용 카드는 서비스 노출 소개 누락으로 세지 않는다', async () => {
   const result = await visibleBookIntroductionCensus(catalog([card('ko', { sources: { primary: 'none', title: 'translated' } })]))

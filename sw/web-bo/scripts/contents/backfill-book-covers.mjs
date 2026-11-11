@@ -16,7 +16,7 @@ const text = value => String(value ?? '').trim()
 const sshArgs = ['-i', resolve(homedir(), '.ssh/feelandnote_oracle'), '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10',
   'ubuntu@152.67.198.197', 'docker exec -i feelandnote-db psql -X -qAt -v ON_ERROR_STOP=1 -U postgres -d postgres']
 
-function sql(statement) {
+export function sql(statement) {
   const result = spawnSync('ssh', sshArgs, { input: statement, encoding: 'utf8', timeout: 120000, maxBuffer: 64 * 1024 * 1024 })
   if (result.error || result.status !== 0) throw new Error(result.error?.message ?? result.stderr)
   return result.stdout.trim().split(/\r?\n/u).filter(Boolean).map(line => JSON.parse(line))
@@ -55,6 +55,18 @@ async function openLibraryBatch(isbns, command) {
 }
 
 async function main() {
+  if (process.argv.includes('--help')) {
+    console.log('빈 표지: pnpm contents:book-covers [--stored-covers] [--limit N] [--apply]\n축소 주소를 큰 버전으로: pnpm contents:book-covers --upgrade-thumbnails [--content-id UUID] [--limit N] [--apply]\n전체 실측·같은 ISBN의 큰 표지 수집: pnpm contents:book-covers --upgrade-low-resolution [--content-id UUID] [--limit N] [--session-dir PATH] [--apply]\n책 등록·판본 정비 뒤 실측 검사를 재실행한다. LLM 호출 없이 같은 ISBN·같은 이미지·해상도 증가를 통과한 표지만 교체한다.')
+    return
+  }
+  if (process.argv.includes('--upgrade-thumbnails')) {
+    const { upgradeBookThumbnails } = await import('./book-thumbnail-upgrade.mjs')
+    return upgradeBookThumbnails(sql, process.argv.slice(2))
+  }
+  if (process.argv.includes('--upgrade-low-resolution')) {
+    const { upgradeLowResolutionBooks } = await import('./book-low-resolution-upgrade.mjs')
+    return upgradeLowResolutionBooks(sql, process.argv.slice(2))
+  }
   const apply = process.argv.includes('--apply')
   const limitIndex = process.argv.indexOf('--limit')
   const limit = limitIndex < 0 ? Infinity : Number(process.argv[limitIndex + 1])

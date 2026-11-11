@@ -10,9 +10,10 @@
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { createHash } from 'node:crypto'
 import { spawn } from 'node:child_process'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { extname, resolve } from 'node:path'
+import { deserialize, serialize } from 'node:v8'
 import { createClient, type DatabaseClient } from '@feelandnote/db'
 import { getBookByIsbn, getKakaoBookByIsbn } from '@feelandnote/content-search/kakao-books'
 import { getOpenLibraryBookMetadata } from '@feelandnote/content-search/openlibrary'
@@ -183,21 +184,85 @@ function recordOrNull(value: unknown, field: string): Record<string, unknown> | 
   return value as Record<string, unknown>
 }
 
-async function loadBookCatalog(db: DatabaseClient): Promise<BookCatalogSnapshot> {
-  const [rawContents, rawLocales] = await Promise.all([
-    selectAll<Record<string, unknown>>((from, to) => db
+const CONTENT_COLUMNS = 'id,type,subtype,external_source,external_id,release_date,metadata,member_count,celeb_count,record_count,created_at'
+const LOCALE_COLUMNS = 'content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,affiliate_url,sources,verified,created_at,updated_at'
+const CATALOG_CACHE_TTL_MS = 30 * 60_000
+const CATALOG_CACHE_OVERLAP_MS = 5 * 60_000
+const CATALOG_DELTA_ID_CHUNK = 200
+
+type RawRow = Record<string, unknown>
+type RawCatalog = { contents: RawRow[]; locales: RawRow[] }
+
+async function loadRawCatalog(db: DatabaseClient): Promise<RawCatalog> {
+  const [contents, locales] = await Promise.all([
+    selectAll<RawRow>((from, to) => db
       .from('contents')
-      .select('id,type,subtype,external_source,external_id,release_date,metadata,member_count,celeb_count,record_count,created_at')
+      .select(CONTENT_COLUMNS)
       .eq('type', 'BOOK')
       .order('id')
       .range(from, to) as never),
-    selectAll<Record<string, unknown>>((from, to) => db
+    selectAll<RawRow>((from, to) => db
       .from('content_locales')
-      .select('content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,affiliate_url,sources,verified,created_at,updated_at')
+      .select(LOCALE_COLUMNS)
       .order('content_id')
       .order('locale')
       .range(from, to) as never),
   ])
+  return { contents, locales }
+}
+
+const compareText = (left: unknown, right: unknown): number => {
+  const a = String(left), b = String(right)
+  return a < b ? -1 : a > b ? 1 : 0
+}
+
+/** 일괄 등록 전용(FIGURE_BOOK_CATALOG_CACHE). 전체 목록은 스냅샷을 재사용하고 그 이후 변경분은 매번 DB에서 받는다. */
+async function loadRawCatalogCached(db: DatabaseClient, file: string): Promise<RawCatalog> {
+  let base: (RawCatalog & { at: number }) | null = null
+  try {
+    if (Date.now() - statSync(file).mtimeMs < CATALOG_CACHE_TTL_MS) base = deserialize(readFileSync(file))
+  } catch { base = null }
+  if (!base) {
+    const at = Date.now()
+    const raw = await loadRawCatalog(db)
+    const temp = `${file}.${process.pid}.tmp`
+    writeFileSync(temp, serialize({ at, ...raw }))
+    try { renameSync(temp, file) } catch { rmSync(temp, { force: true }) } // 다른 프로세스가 읽는 중이면 다음 실행에 맡긴다.
+    return raw
+  }
+
+  const since = new Date(base.at - CATALOG_CACHE_OVERLAP_MS).toISOString()
+  const [newContents, changedLocales] = await Promise.all([
+    selectAll<RawRow>((from, to) => db
+      .from('contents').select(CONTENT_COLUMNS).eq('type', 'BOOK').gte('created_at', since).order('id').range(from, to) as never),
+    selectAll<RawRow>((from, to) => db
+      .from('content_locales').select(LOCALE_COLUMNS).gte('updated_at', since).order('content_id').order('locale').range(from, to) as never),
+  ])
+  const changedIds = [...new Set(changedLocales.map((row) => String(row.content_id)))]
+  const changedContents: RawRow[] = []
+  for (let index = 0; index < changedIds.length; index += CATALOG_DELTA_ID_CHUNK) {
+    const { data, error } = await (db.from('contents').select(CONTENT_COLUMNS).eq('type', 'BOOK')
+      .in('id', changedIds.slice(index, index + CATALOG_DELTA_ID_CHUNK)) as never as Promise<{ data: RawRow[] | null; error: { message: string } | null }>)
+    if (error) throw new Error(`DB catalog read failed: ${error.message}`)
+    changedContents.push(...(data ?? []))
+  }
+
+  const contents = new Map(base.contents.map((row) => [String(row.id), row]))
+  for (const row of [...newContents, ...changedContents]) contents.set(String(row.id), row)
+  const localeKey = (row: RawRow) => `${row.content_id}\u0000${row.locale}`
+  const locales = new Map(base.locales.map((row) => [localeKey(row), row]))
+  for (const row of changedLocales) locales.set(localeKey(row), row)
+  return {
+    contents: [...contents.values()].sort((a, b) => compareText(a.id, b.id)),
+    locales: [...locales.values()].sort((a, b) => compareText(a.content_id, b.content_id) || compareText(a.locale, b.locale)),
+  }
+}
+
+async function loadBookCatalog(db: DatabaseClient): Promise<BookCatalogSnapshot> {
+  const cacheFile = process.env.FIGURE_BOOK_CATALOG_CACHE
+  const { contents: rawContents, locales: rawLocales } = cacheFile
+    ? await loadRawCatalogCached(db, cacheFile)
+    : await loadRawCatalog(db)
 
   const contents = rawContents.map((row): StoredContentRow => ({
     id: String(row.id),

@@ -1,284 +1,127 @@
-# 독서 방식 작업 인계
+# 독서 방식 이어하기
 
-**2026-10-30 15:32 일단락(사용자 지시).** 러너와 감시기를 모두 멈췄다. 재개 전에 Gemini 화면을 한 번 열어 Google 확인 화면이 없는지 본다. DB 기준 수치는 `--summary`로 다시 조회한다.
+작성·수정·계정 운용과 단독 실행은 [독서 방식 룰북](../project/celeb/celeb-05-02-reading-way.md)이 쥔다. Gemini에 보내는 규칙은 그 문서의 `<!-- argon -->` 구간만 쓴다.
 
-**다섯 번째 묶음(26.10.30 11:28 선정 20명)의 진행 상태**
-- 반영 완료 9명: stanley-kubrick·sylvester-stallone·ralph-fiennes·mike-tyson·jo-jung-rae는 본문 국소 수정 후 저장했다(조정래는 책 0권, 타이슨은 책장 5→12권). jean-claude-van-damme·hwang-young-cho·pom-klementieff·denise-richards는 조사 미달(빈 본문)로 저장했다.
-- 미요청 11명: otto-von-bismarck, alex-karp, kim-seung-youn, daniela-amodei, takeda-shingen, rebecca-ferguson, daniel-ek, eiichiro-oda, haruki-murakami, ms-rachel, donnie-yen. 재개하면 `--collect-only --limit 20`이 위 두 명과 함께 우선순위대로 다시 고른다.
+## 현재 재개 지점
 
-**재개 전에 알아 둘 변경(26.10.30, 커밋 전)**
-- Argon 첨부는 세 룰북(`celeb-05-02`·`celeb-02-01`·`celeb-02-03`)의 `<!-- argon -->` 구간만 보낸다. 한 사람 요청이 약 2만 7천 자에서 약 1만 400자로 줄었다. 13:28 이전에 받은 원고는 통째 첨부로 쓴 것이다.
-- 장시간 실행은 감시기(`scripts/browser/reading-way-watch-start.mjs`)로 띄운다. 사용법은 아래 항목과 룰북에 있다.
-- 아마존 상품 페이지는 등록 값으로 쓰지 않지만 판본·신간 실재·추천사 확인에는 쓴다([등록 규칙](../project/celeb/celeb-02-02-content-registration.md#타입별-메타-원천)).
+블로그 후보 인물을 웹 Gemini의 Carbon 높음으로 쓰고 있다(아래 「블로그 후보 인물 작성」). 26.11.11 오스틴 올레드는 Ultra 계정(u4) 대화 `2868b55dbd6acaf4`에서 생성 중이었고, 다음 차례는 아만 생어·정유정이다. 생성 중이던 대화는 같은 계정에서 열어 회수하고, 비어 있으면 새 대화로 다시 보낸다.
 
-**남은 책장 일** (작업 폴더의 `pending-books.txt`가 임시 원본이다. 지워져도 아래로 재개할 수 있다)
-- `--books-only`로 받을 책: neil-degrasse-tyson 버트런드 러셀 소책자 4권(NYT 2013 「By the Book」), dan-brown 같은 기사의 추가분(『Moonwalking with Einstein』 등 6권), marissa-mayer 『Churchill』(Paul Johnson, IEEE Spectrum 2012), emmett-shear 「7 books to know me」(2023-08-26 트윗)와 추가 트윗들, sylvester-stallone 『Gödel, Escher, Bach』·『Revolt of the Angels』(Interview 1985-09).
-- 원출처를 못 읽은 항목: indra-nooyi 트윗 4건(웨이백 CDX 접속 실패), jensen-huang 『Zero to One』(Milken 2025 녹취록 PDF 미확보), michael-jackson 기존 관계 『Life of P. T. Barnum』(출처가 팬 블로그이고 출처마다 책이 달라 작품 미확정).
+이건희·이어령·무스타파 술레이만은 26.11.07의 Argon 본문이 저장돼 있고 재작성이 남았다. 당시 작업 폴더의 미반영 원고는 한 컴퓨터의 임시 폴더에만 있으므로 재개 입력으로 쓰지 않는다. Carbon 새 대화에서 조사부터 다시 하고, 저장 때 착수 시점의 한영 값과 비교해 다른 세션 변경을 덮어쓰지 않는다.
 
-**운영 메모**
-- 분량 상한(26.10.30 도입) 이전에 저장된 본문 중 상한을 넘던 69명은 `--shorten`으로 모두 줄여 저장했다(남은 대상 0명). 새 원고는 러너가 상한을 검사한다.
-- 실행은 `node scripts/browser/reading-way-watch-start.mjs --rounds N -- <러너 인수>`로 감시기를 분리해 띄운다. 실행자는 `node scripts/browser/reading-way-watch.mjs --wait 1500`으로 기다렸다가, 검수 대기 원고는 대조 결과를 읽고 판단한 뒤 저장한다. 상태·기록은 `%TEMP%/feelandnote/reading-way-watch/`의 `status.json`·`watch.log`다. Kiro 셸 도구는 `--pool u0:2` 같은 인수를 서버 실행으로 오인해 막으므로, 감시기 시작은 백그라운드 프로세스 도구로 실행한다.
-- Aside 메뉴의 「web」 프로필이 자동화가 쓰는 u0(webcodur@gmail.com)다. 확인 화면은 이미 열려 있던 탭에는 보이지 않을 수 있으므로, 사용자에게 그 프로필에서 새 탭으로 `gemini.google.com/u/<번호>/app`을 열어 확인을 통과해 달라고 요청한다. 26.10.30 15:00에 topstarpicks002 계정에서 한 번 통과하자 같은 프로필의 다른 계정도 함께 풀렸다. 감시기 격리 기록은 `status.json`의 `quarantine`·`flags`를 비우고 다시 띄운다.
-- 26.10.30 07:57 Google 확인 화면(`google.com/sorry`)이 계정 4·1·2·0에 같은 식별값으로 떠 접속 단위로 막혔다. 같은 날 Aside 브라우저로 Google 검색을 수십 회 돌린 뒤였으므로, 원출처 검색은 `remote_web_search`·`web_fetch`를 먼저 쓰고 Aside Google 검색은 X 등 일반 검색이 닿지 않는 경우에만 쓴다. 축약본은 원래 본문에 없던 사실이 들어가지 않았는지 대조한 뒤 저장한다.
-- 이미 책장에 있는 작품이 원고에 다시 나오면 삽입기가 거부한다. 원고의 감상배경이 더 정확하면 기존 관계 행의 `review`·`review_en`·`source_url`을 현재 행 비교 transaction으로 바꾸고(작업 폴더의 `setrev.mjs`), 새 작품만 계획에 넣는다.
-- 별도 감사 후보: arianna-huffington 기존 책장의 재큐레이션 사이트 출처.
+과거에 맥락 수정을 지적해 다시 쓰게 한 인물은 이전 원고·지적을 보내지 않고 새 대화에서 조사부터 다시 한다. 국소 오류만 고친 건은 재작성에서 뺀다. 복구한 본문에 빠진 책이 있으면 감상 근거를 확인해 책장도 연결한다.
 
-판본 선택·절판 표시·번역본 없음 같은 일상 판단은 실행자가 확인해 처리하고 보고 없이 다음 묶음으로 넘어간다. 사용자에게는 규칙으로 정할 수 없는 판단이나 예상 밖 문제만 알린다(26.10.29 사용자 지시).
-작업 중 드러난 중복 작품·잘못된 판본 같은 데이터 이상은 실행자가 바로 고치고 보고하지 않는다. 새로 찾은 조사 기법은 그 회차 안에 [조사 룰북](../project/celeb/celeb-02-01-content-research.md) 「재큐레이션에서 원출처 추적」에 적는다(26.10.30 사용자 지시).
+다음 대상은 현재 DB와 블로그 대장으로 선정한다. 과거 명단·계정 번호·한도 시각이나 삭제된 임시 작업 폴더를 재개 입력으로 쓰지 않는다. 블로그 쪽은 `D:/blog-assets/naver-blog/posts.json`의 `readingWay.sourceHash`와 현재 DB 본문의 UTF-8 SHA-256을 비교한다.
 
-작성·수정·우선순위의 정본은 [독서 방식 룰북](../project/celeb/celeb-05-02-reading-way.md)이다. 실제 값은 서비스 DB에서 다시 조회한다.
+조사·본문 저장·블로그 반영은 본 세션이 직접 수행하고, 새로 필요한 작품·판본은 '대기 - 판본 (수령)' 세션에 인계한다.
 
-앞선 블룸버그 작업은 독서 방식과 뉴욕타임스 2012년 기사에 근거한 리뷰 4건, [기존 네이버 글](https://blog.naver.com/dmx777/221799683610)의 교정까지 반영했다. 이것을 기존 책장 전체의 전수 감사 완료로 세지 않는다.
+## 실행 진입점
 
-## 담당자가 처음 읽을 파일
+현행 본문·감상배경 작성은 룰북 「단독 실행 도구」의 웹채팅 경로([`scripts/browser/reading-way-web/`](../../scripts/browser/reading-way-web/))로 한다. 아래 러너는 집계·다음 대상 확인과 export 함수 제공에 쓴다.
 
-작업 디렉터리는 `C:/project/feelandnote`다. 루트 `AGENTS.md`를 먼저 읽고, 아래 문서를 해당 단계에서 연다.
-
-| 파일 | 확인할 내용 |
-|---|---|
-| [독서 방식 룰북](../project/celeb/celeb-05-02-reading-way.md) | 필드의 취지, Argon과 실행자의 역할, 수정 허용 범위, 조사 순서 |
-| [Aside 스킬](../../.agents/skills/aside-browser/SKILL.md) | 실제 로그인 세션 제어, 계정별 연결, 첨부·다운로드·정리 |
-| [콘텐츠 조사](../project/celeb/celeb-02-01-content-research.md) · [감상경위](../project/celeb/celeb-02-03-content-review.md) | 책을 실제 감상·추천했다는 근거와 책별 한영 글 |
-| [콘텐츠 등록](../project/celeb/celeb-02-02-content-registration.md) · [콘텐츠 감사](../project/celeb/celeb-02-04-content-audit.md) · [작품·판본](../project/celeb/celeb-02-05-figure-books.md) | 기존 작품 재사용, 메타·언어·표지, 기존 데이터 교정과 보존 |
-| [데이터 관리](../project/data/README.md) | 현재 DB 조회, UTF-8 SQL 전달, 임시 자료 폐기 |
-| [Argon 러너](../../scripts/browser/reading-way-argon.mjs) | `submit`·`collect`·`save`·`revalidate`·`database`, 실제 CLI 옵션 |
-| [책장 반영기](../../scripts/browser/reading-way-books-apply.mjs) | `validatePlan`·`resolveBook`·`applyPlan`, 원본 기반 새 관계 삽입 |
-
-## 역할과 조사 대상
-
-웹 Gemini **Argon, Pro 이상 계정, 사고 수준 High**가 조사·분석·한국어 작성·최종 수정·영문 번역을 모두 맡는다. 실행자는 인물 식별 정보, 룰북, 최소한의 출처 링크를 전달한다. 김윤환의 「책과 사람」에 해당 인물이 있으면 그 기사 링크를 우선 쓴다. 초기 발주에 실행자가 고른 사실 목록·완성 문장·문단 구성안을 얹지 않는다.
-
-실행자는 결과를 **사실 확인 목적으로** 읽는다. 문체·비유·해석을 취향으로 평가해 고치거나, 내용을 축약·윤문하지 않는다. 플랫폼의 인물 분석과 해석은 허용된다. 확인되지 않은 발언·내면·인과관계를 사실로 썼는지는 출처로 검증한다. 본문이 독서 방식인지, 책별 리뷰를 모은 연표인지에 대한 작성 기준도 룰북을 Argon에게 전달해 적용한다.
-
-단순 연도·이름·대명사·링크 등의 사실 오류는 근거를 확인하고 국소 수정한다. 잘못 조사한 사실을 바로잡으면 글의 맥락까지 바뀌는 경우에만 오류와 실제 출처를 Argon에게 보내 다시 받는다. 스타일 문제를 사실 오류처럼 포장해 돌려보내지 않는다.
-
-대상은 `celeb_reality IN ('REAL','BOTH')`이며 `FICTION`은 제외한다. 우선순위는 **네이버 게시 → 서비스 조회수 → 네이버 예약 → 영향력 → 나머지**다. 러너가 현재 블로그 기록과 DB로 선정한다. 약 20명씩 조사하며 미완료 책장 검증을 마친 뒤 다음 묶음으로 간다.
-
-`celebs.reading_way`·`reading_way_en`의 두 빈 문자열은 실제 조사 후 Argon이 미달로 판정한 경우다. NULL은 미조사이며, 사실 오류 원고의 노출을 보류한 작업 상태도 NULL로 남길 수 있다. 한도·접속 실패·검색 도구 부재·모델 거절은 조사 미달이 아니다. 일반 배치는 이미 미달인 인물을 다시 고르지 않으며, 명시적 재조사 지시가 있어야 `--retry-insufficient`를 쓴다.
-
-## Gemini 계정과 연결
-
-1. `aside account list`로 현재 브라우저 프로필을 보고, 선택한 프로필에서 `googleAccounts.list()`로 로그인된 Google 계정을 확인한다. 예전 계정 번호·구독·초기화 시각을 현재 상태로 간주하지 않는다. 비밀값은 문서나 로그에 복사하지 않는다.
-2. Aside 프로필 `u0`와 Gemini URL의 `/u/2/`는 다른 번호다. `--pool u0:2`는 Aside 프로필 u0 안의 Google 계정 2를 뜻한다. URL과 화면의 실제 계정을 대조한다.
-3. 전체 동시 작업은 별도 `AsideClient`·MCP 연결 **두 개까지**다. 각 연결이 자신의 Page 핸들·대화 URL·실제 REPL `pwd`·첨부·다운로드를 보유한다. 같은 client의 `callRepl()`은 직렬 처리되므로 `Promise.all()`만 붙여 병렬화하지 않는다. 서로 다른 러너를 띄웠어도 전체 두 연결 한도와 계정 중복 배정을 확인한다.
-4. 전송 직전에 실제 Argon·Pro·High와 첨부 완료를 확인한다. 인물이 바뀌면 새 대화, 같은 인물의 사실 교정·응답 회수는 기존 대화 URL을 쓴다. 러너의 `ensureArgonHigh`가 이를 검사한다.
-5. 한 계정의 한도는 그 작업에만 적용한다. 다른 계정의 회수·저장은 계속한다. 초기화 시각은 실제 한도 문구에 있을 때만 기록한다. 구독 종료·로그인 필요와 구분하고, Google의 비정상 트래픽·본인 확인 화면이면 자동 계정 순환을 중단한다. 다른 모델로 대체하지 않는다.
-
-Aside는 유료 자연어 `exec`가 아닌 REPL을 쓴다. 기존 [AsideClient](../../.agents/skills/aside-browser/scripts/aside-client.mjs)를 생성하고 `await client.ready`로 기다린다. 반복 제어는 연결을 유지하며, 계정·연결을 바꾸면 새 `pwd`에 입력 파일을 다시 준비한다.
-
-## 호출 명령과 결과 회수
-
-아래 명령은 저장소 루트에서 실행한다. 계정 풀과 대상 slug는 **실제 확인한 값으로 바꾼다**. `u0:0,u0:2`는 구문 예시이며 현재 사용 가능 계정이라는 뜻이 아니다.
+저장소 루트에서 실행한다. 아래 계정 표기는 구문 예시이므로 현재 로그인 계정과 High 선택 가능 여부를 확인해 바꾼다.
 
 ```powershell
-# DB 현황만 조회. 모델을 호출하지 않는다.
+# 모델 호출 없이 현재 DB 집계와 다음 대상 선정
 node --import tsx scripts/browser/reading-way-argon.mjs --summary
+node --import tsx scripts/browser/reading-way-argon.mjs --limit 10
 
-# 새 본문·책 자료를 회수하고, 사실 검수 전에는 DB에 노출하지 않는다.
-node --import tsx scripts/browser/reading-way-argon.mjs --apply --collect-only --only TARGET_SLUG --pool u0:0,u0:2
+# 한국어 원고만 회수
+node --import tsx scripts/browser/reading-way-argon.mjs --apply --collect-only --limit 10 --pool u0:0,u0:2
 
-# 남은 책 검증을 끝낸 뒤 우선순위에 따른 다음 20명의 원고·책 자료를 회수한다.
-node --import tsx scripts/browser/reading-way-argon.mjs --apply --collect-only --limit 20 --pool u0:0,u0:2
-
-# 기존 본문은 유지하고 지정한 인물의 책 자료만 받는다.
-node --import tsx scripts/browser/reading-way-argon.mjs --apply --books-only --only TARGET_SLUG --pool u0:0,u0:2
-
-# 현재 우선순위의 다음 20명 선택만 확인한다. 호출·저장은 하지 않는다.
-node --import tsx scripts/browser/reading-way-argon.mjs --limit 20
+# 본문을 바꾸지 않는 별도 책장 조사
+node --import tsx scripts/browser/reading-way-argon.mjs --apply --books-only --only TARGET_SLUG --pool u0:0
 ```
 
-`--apply`가 없으면 대상 선정 후 끝난다. **일반 `--apply`는 본문을 바로 저장하지만 `--apply --collect-only`는 회수만 한다.** 새 원고·사실 오류 재작성은 후자를 기본으로 쓴다. `--collect-only`와 `--books-only`·`--continuous`는 함께 쓸 수 없고, `--books-only`는 `--only`가 필요하다. 일반 발행 경로의 `--book-research`는 본문 저장과 책 자료 회수를 함께 수행하므로 검수 전 회수 모드와 혼동하지 않는다.
+회수 뒤의 무료 웹채팅 번역·본문 저장·도서 메타 확인·감상 관계 삽입·기존 블로그 수정은 룰북의 「단독 실행 도구」를 따른다. `draft_ready`·`books_pending`은 회수 상태이며 DB 반영 완료가 아니다. 회수 전용 러너는 정상 종료하므로 실행자는 회수 뒤 검수·무료 번역·저장·블로그 반영을 이어서 처리하고 다음 인물로 넘어간다. 러너를 띄우거나 원고를 회수했다는 보고만 남기고 턴을 끝내지 않는다. 진행 화면의 실행점은 [브라우저 도구 README](../../scripts/browser/README.md)에 있다.
 
-사실 교정은 `%TEMP%/feelandnote/<자기 작업 폴더>/facts.txt`에 실제 오류·근거 URL만 쓰고 전달한다. 책 범위를 한두 권으로 좁힐 때도 이 파일에 대상 작품과 확인할 사실을 명시한다.
+저장 단계가 `query returned no rows` 등으로 실패해도 글이 이미 저장됐을 수 있다. 다시 생성하기 전에 DB 값과 원고를 대조하고, 일치하면 캐시만 갱신한다.
 
-```powershell
-node --import tsx scripts/browser/reading-way-argon.mjs --apply --collect-only --only TARGET_SLUG --pool u0:0,u0:2 --feedback 'TARGET_SLUG=C:/ABSOLUTE/facts.txt'
+`--books-only` 재실행이 첨부 단계에서 `Current input attachment missing`으로 멈춘 사례가 있다(26.11.06, 원고 회수는 같은 날 정상). 일시 장애인지 Gemini 화면 변경인지 가리지 못했다. 재현되면 첨부 단계를 먼저 고치고, 이 문단을 지운다.
 
-# 실제 기존 대화와 같은 프로필·Google 계정으로 재개한다.
-node --import tsx scripts/browser/reading-way-argon.mjs --apply --books-only --only TARGET_SLUG --pool u0:2 --resume 'TARGET_SLUG=https://gemini.google.com/u/2/app/ACTUAL_CHAT_ID?hl=ko' --feedback 'TARGET_SLUG=C:/ABSOLUTE/facts.txt'
-```
+응답이 「웹 검색 중」에서 멈추는 사례가 있다(26.11.07). 중지 버튼이 없고 새로고침하면 대화가 비어 있어 기다려도 나오지 않는다. 정상 응답은 2~5분이므로 8분을 넘으면 끊고 새 대화로 보낸다. 원문을 첨부한 재검수는 「새 웹 검색이 필요 없다」고 적으면 1~2분에 끝났다. 무료 번역기는 입력을 한 줄로 보내므로 영어 문단 구분이 사라질 수 있다. 저장 전에 한국어 문단 수와 대조한다.
 
-러너가 룰북과 발주문을 파일로 첨부하며, 인물별 식별 정보와 출처를 함께 보낸다. 별도 UI 교정 안내를 `fill()`로 넣을 때는 짧은 안내의 줄바꿈을 공백으로 정규화한다. Gemini가 여러 문단에 빈 줄을 덧붙여 입력 일치 검증이 실패한 사례가 있다. 긴 내용을 직접 타이핑하는 대신 파일로 첨부한다.
+러너는 한 명이라도 High 확인이 보류(`model_verification_pending`)되면 배치 전체를 멈춘다. 남은 인물은 따로 다시 보낸다. 새 대화 전체 검수와 단서 재조사는 CLI 옵션이 없어 러너의 `submit`·`collect`를 import해 쓴다. 본문이 있는 인물은 `--feedback`으로만 대상이 되고, 단서 파일은 본문이 빈 인물에게만 첨부된다.
 
-인수할 JSON은 다음 모양이다. 책만 받을 때는 최상위 `ko`·`en`을 만들지 않는다.
+맥락을 짚지 않는 전체 검수는 문장을 다듬을 뿐 근거 없는 주장을 거르지 못했다(26.11.08, 4건 모두). 근거 없는 대목이 그대로 남거나 오히려 늘었다. 저장 전에 문장 단위로 원출처를 대조한다.
 
-```json
-{
-  "slug": "TARGET_SLUG",
-  "ko": "최종 한국어 독서 방식",
-  "en": "같은 사실의 최종 영어 본문",
-  "books": [{
-    "title_ko": "한국어 작품명", "title_en": "영문 작품명",
-    "author_ko": "원저자", "author_en": "Original author",
-    "source_url": "https://실제-감상-근거",
-    "source_urls": ["https://추가-근거"],
-    "evidence": "감상 관계를 확인한 조사 내용",
-    "review_ko": "이 인물의 책별 한국어 감상배경",
-    "review_en": "같은 감상배경의 영어 본문"
-  }],
-  "unresolved": []
-}
-```
+## 블로그 후보 인물 작성 (26.11.10 착수)
 
-완료는 해당 요청 뒤의 응답으로 확인한다. 새 사용자 메시지 접수, 응답 순서·인물, 생성 중지 버튼·검색 진행 상태, JSON 완결성을 함께 본다. `/app/<id>` 주소가 늦게 생길 수 있으므로 `page.evaluate(() => location.href)`로 실제 주소를 읽는다. URL 지연·관측 타임아웃만으로 다시 전송하지 않는다. 완료된 응답의 회수 오류는 같은 대화에서 해결한다.
+네이버 신규 글 후보(`sw/web-bo/scripts/naver-blog/lib/roster-data.mjs`의 `buildRoster` 후보) 가운데 독서 방식이 빈 실존 인물을 후보 순번대로 쓴다. 착수 시점 1,020명이었다. 대상은 매번 `buildRoster`를 다시 계산해 현재 DB로 고른다. 발송·회수·저장은 룰북 「단독 실행 도구」의 웹채팅 경로를 따른다.
 
-러너는 화면의 현재 응답과 다운로드 본문을 대조하고 원본 SHA-256을 남긴다. 진행 로그의 `books_pending.output`·`sha256`·`url`이 회수 원본을 찾는 단서다. 다른 탭의 파일이 섞인 다운로드는 새 생성 대신 기존 완료 응답에서 재회수한다. 원본 JSON을 편집하거나 긴 본문을 상위 대화에 반복 출력하지 않는다.
+- 저장 37명: 김경일·네이선 램버트·라이언 홀리데이·강신주·이재명·마크 맨슨·이안 호가스·타일러 코웬·이명현·살만 루슈디·장대익·버지니아 울프(이상 Argon), 제임스 클리어·표창원·이광형·패트릭 벳데이비드·마빈 랴오·김경주·오강남·한홍구·잭 에드워즈·박노자·우종학·조너선 하이트·스튜어트 브랜드·김대식·정운찬·김찬호·첼시 프랭크·백낙청·스콧 애런슨·스콧 영·김윤식·톰 빌유·김동춘·라이언 셰이·이언 M. 뱅크스(이상 Carbon).
+- Carbon 응답은 생성 끝에 "An error occurred"로 끝나는 일이 잦다(23회 중 약 8회). 정운찬은 출처표 요청까지 오류가 나 실행자가 참조 원문으로 확인한 대목만 남겼다.
+- 26.11.11 u4에서 탭 두 개로 동시 발송해 보니 두 탭 모두 원고를 정상 회수했다. 오류율이 눈에 띄게 오르지 않는 한 두 탭으로 돌린다.
+- Carbon도 출처 없는 문장을 낸다. 오강남은 26문장 중 17문장이 검색 요약에만 기대 실행자가 확인 원문만으로 다시 짰고, 벳데이비드는 레이 달리오의 제사를 본인 말로, 한홍구는 연재 꼭지 소개문을 본인 글로 옮겼다. 26.11.11 분량 상한을 목표가 아닌 선으로, 직접 인용을 핵심 서너 군데로 줄인 뒤에도 문단 첫 문장에 출처 없는 요약이 남는다.
 
-## 사실 검수와 본문 등록
+### 다시 쓸 인물
 
-기계 검사는 인물·형식·해시·동시 변경을 확인한다. 감상 근거와 사실관계는 실행자가 원출처 본문을 읽고 판단한다. HTTP 200, 검색 스니펫, 모델의 `evidence`만으로 검수 완료라고 하지 않는다. 실제 화자가 누구인지, 그 사람이 해당 작품을 읽거나 추천했는지, 연도와 판본 범위가 맞는지 확인한다.
+빈 원고는 빈 값으로 저장하지 않았다. 끝나면 이 목록에서 지운다.
 
-Argon 원고에서 반복해 나온 오류다. 원문과 대조할 때 이 유형부터 본다(26.10.29 두 번째 묶음).
+- `aman-madaan`: 참조가 굿리즈 리뷰(로그인 필요)뿐이라 Argon 원고가 비었다.
+- `patrick-o'shaughnessy`: 출처표 20문장 중 17문장이 출처 없음(참조가 트윗뿐)이라 폐기했다. 블로그·Colossus 원출처를 직접 찾아 새 대화로 보낸다. 팟캐스트 진행자라 녹취 대조가 필요하다.
+- `moon-jae-in`: 출처표 12문장 중 서울경제 대목만 확인했다. 평산책방 인사말·독서노트·『대통령의 독서』 인용은 미확인(psbooks·경향은 스크립트 렌더링).
+- `cho-hae-joang`: Argon High 빈 원고(참조 경향신문 1건). 다른 원출처로 다시 보낸다.
+- `park-tae-woong`: Carbon 원고가 325자·2문단의 근거 없는 일반론이었다. 참조가 알라딘 이벤트 1건뿐이라 다른 원출처가 필요하다.
+- `byun-young-joo`: Carbon 원고 1,721자의 대부분이 유튜브 `3AvVqg9GgM4`·`Je042JvGPJY` 근거라 자막 대조가 필요하다(26.11.11 yt-dlp 429). 채널예스 21867·spinoza1677 822 원문과 일부 세부(춘향전·선데이서울 일화)가 맞지 않았다.
+- 본문은 있으나 사유 기록 없이 재작성 후보로 남은 인물: `jung-seung-je` `han-dong-hoon` `hwang-kyo-ahn` `huh-young-man` `na-kyung-won` `duke-of-wellington` `richard-dawkins` `martin-luther`. 재작성 전에 현재 본문과 원출처를 대조해 필요한지부터 가린다.
 
-| 유형 | 실제 사례 |
-|---|---|
-| 출처 없는 독서법 일반론 | "에세이를 쓰듯 자료를 읽는다"(블란쳇), "빈곤 연구서를 읽을 때 저자의 시각을 눈여겨본다"(유누스). 본인 발언을 찾지 못하면 문장째 뺀다 |
-| 날짜·장면 이동 | 워싱턴의 『돈키호테』 구입을 5월 정족수 대기 중으로 옮김(실제 9월 17일), "2024년 인터뷰"(실제 2023년 10월) |
-| 머뭇거린 말을 단정 | "이 책도 에단 호크가 준 것 같다"를 "그 상자에서 꺼낸 책"으로(팰트로) |
-| 질문자의 말을 인물에게 | 『트라이시클』 기자가 꺼낸 로종 경구를 브리지스가 인용했다고 씀 |
-| 숫자·고유명사 바꿈 | 할인 매대 "50센트~1달러"를 25센트로(타이슨), 셰드린을 체르니솁스키로(마르크스), 『자본론』에 없는 『고리오 영감』 |
-| 두 출처를 이어 붙인 인과 | 『사피엔스』 독서를 『기억 전달자』의 경고와 연결(브리지스). 본인이 잇지 않았으면 뺀다 |
-| 다른 언어 낱말 섞임 | 영문 본문의 인도네시아어 "ratusan" |
-| 축하·언급을 추천으로 | 친구 출간을 축하한 트윗을 『The Charisma Myth』 추천으로(마이어). 원문 전체를 읽고 감상·추천인지 본다 |
-| 같은 제목의 다른 저자 책 | 21세기북스 2005 『미래를 경영하라』(톰 피터스)를 드러커 책으로(공병호). 국내판 출판사·연도로 원서를 대조한다 |
-| 출처 목록과 다른 책 | 파이브북스 다섯 권에 없는 『죽음의 부정』을 넣고 『Elia Kazan』을 뺌(우디 앨런). 큐레이션 목록은 원문 목록과 한 권씩 맞춘다 |
-| 본인 서술과 반대 | "책을 거의 안 읽었다"고 썼으나 자서전 서문은 "I've always been an avid book reader"(셰이) |
-| 색 표시·굵게 표시 오독 | 2005년 목록의 녹색 책을 주황색 「각별한 책」으로(호프먼). 표시는 원문 HTML의 실제 색·굵기로 확인한다 |
+### 본문에 나왔으나 책장에 없는 책
 
-관계 판정은 [콘텐츠 조사](../project/celeb/celeb-02-01-content-research.md)를 다시 확인한다. 이번 묶음에서 실행자가 처음에 잘못 뺐다가 바로잡은 기준은 다음과 같다. 책 추천사는 「추천사를 썼다」로 채택한다. 직접 산 책이나 "다음에 읽겠다"고 밝힌 책은 읽을 의사로 채택하고, 아직 읽지 않았다는 사실을 감상배경에 쓴다. 『잠언』처럼 범위를 특정한 경전은 성경 전체와 별도 작품으로 둔다. 그림책 제외는 [작품·판본](../project/celeb/celeb-02-05-figure-books.md) 기준을 따른다. 같은 저자의 다른 책을 언급했다는 사실만으로는 그 책을 읽었다고 보지 않는다.
+`--books-only` 또는 웹채팅 책장 보완 경로로 감상경위를 받아 반영하고, 끝난 줄은 지운다.
 
-Argon이 "현재 환경에서 검색 도구가 비활성화되어" 같은 사유를 `unresolved`에 남기면 그 원고는 원문 없이 기억으로 쓴 것이다. 러너는 이 응답을 저장하거나 조사 미달로 처리하지 않는다. `research_unavailable` 이벤트를 남기고 그 계정을 한 시간 쉬게 한 뒤, 다른 계정의 새 대화로 두 번까지 다시 받는다. 사유를 남기지 않고 기억으로 쓴 원고는 코드가 잡지 못하므로 위 표대로 대조한다.
+- `mark-manson`: 안티프래질(Antifragile, Taleb) · 인피니트 제스트(Infinite Jest, Wallace) — 본문 근거 markmanson.net/7-books, /5-massive-books
+- `lee-jae-myung`: 암굴왕(몬테크리스토 백작) · 해저 2만리 · 태백산맥 — 근거 중앙일보 25341144, 시사저널 164833, 월간중앙 312832
+- `ian-hogarth`: 안나 카레니나(Anna Karenina) — 근거 ianhogarth.com/blog/my-favourite-books-films-and-artists-of-2014 1위
+- `tyler-cowen`: 숨겨진 우주(Warped Passages, Randall) · 지옥편(Inferno, Dante) · 아이네이스(Aeneid, Vergil) — 근거 MR 2005/10/what_ive_been_r, 2006/02/moby_dick_the_g
+- `lee-myeong-hyeon`: 에덴의 용(The Dragons of Eden, Sagan) — 근거 theliverary.kr/article?id=1357 / 과학자처럼 사고하기 확인 필요(pressian 68345). 문더스트는 본인 번역서(집필 탭 후보), 필사노트는 본인 저서
+- `salman-rushdie`: 거울 나라의 앨리스(Through the Looking-Glass) · 반지의 제왕(Lord of the Rings) — 근거 en.wikipedia Salman_Rushdie 인용(원출처 Rushdie 에세이 확인 필요). 젊은 예술가의 초상은 인용 언급뿐
+- `james-clear`: The Tell-Tale Brain (명령하는 뇌, 착각하는 뇌), The Subtle Art of Not Giving a F*ck (신경 끄기의 기술)
+- `lee-kwang-hyung`: Day of Empire (제국의 미래, 에이미 추아) — 출처 readingnews 12585 "이 책을 읽고 바뀌었다"
+- `patrick-bet-david`: That Was Then, This Is Now · Of Mice and Men (18세까지 완독한 두 권) · Measure What Matters(OKR, 두 번 읽음) · The Ride of a Lifetime — 출처 Doing the Impossible PDF, readthistwice
+- `kim-kyung-ju`: 장석남 『지금은 간신히 아무도 그립지 않을 무렵』 — 출처 dailytw 10649·dadoc 1493 (군 시절 제대까지 읽음)
+- `oh-gang-nam`: 불트만 『신약성서와 신화』(New Testament and Mythology, 류동식 역) — 출처 aladin 작가 인터뷰 @28108 (본인은 제목을 '인가 하는'으로 불확실하게 기억)
+- `jack-edwards`: The Hunger Games(헝거 게임, '지금까지 독서가로 남은 이유') — 출처 youtube Y_JEgBP2SmE. 산소 도둑의 일기는 80/150쪽 중단 고민(완독 미확인), 솔로몬의 노래는 미독
+- `vladimir-tikhonov`: 호메로스 『오디세이아』(어린 시절 특히 좋아함) — 출처 ch.yes24 Article 14033
+- `woo-jong-hak`: 전쟁과 평화 · 카라마조프가의 형제들 · 분노의 포도 · 침묵의 행성 밖에서(C. S. 루이스) · 그리스도교를 다시 묻다(더글러스 존 홀) — 출처 solarcosmos.tistory.com 671·681·1122
+- `stewart-brand`: 노버트 위너 『사이버네틱스』(Cybernetics, 1968 브록먼과 밑줄 그으며 읽음) — 출처 edge.org Fred Turner
+- `daeshik-kim`: The Hitchhiker's Guide to the Galaxy 1권(은하수를 여행하는 히치하이커를 위한 안내서, 고교 시절부터 탐독) — 출처 gknewson 762. 책장엔 2권(The Restaurant at the End of the Universe)만 있음
+- `kim-chan-ho`: 김종삼 시집 『북 치는 소년』(대학 입학 후 처음 산 책) — 출처 hani 882388. 김우창 저서는 제목 미특정
+- `kim-yun-sik`: 임화 『문학의 논리』(1940, 서재 창가 책꽂이에 두고 자주 들춰봄) — 출처 m-joongang 302602
+- `tom-bilyeu`: The Gunslinger (Stephen King) — 근거: awesomeatyourjob 209 녹취 "the book that changed my life ... my dad convinced me"
+- `kim-dong-chun`: 리영희 『전환시대의 논리』 — 근거: 한겨레 452409 "하늘이 무너지는 충격", 리영희재단 회고문(1977년 입학 후 읽음)
+- `iain-m.-banks`: The Lord of the Rings (J. R. R. Tolkien) — 1969 구록 도서관 1·2권, 언윈 문고본으로 재독 — 근거: Science Fiction Eye 1990 인터뷰
 
-단순 사실 수정은 원본을 보존한 채 적용할 부분만 명시한다. 맥락을 바꾸는 오류는 `--feedback`으로 Argon에 돌려보내 최종 원고를 다시 받는다. 사실 오류 원고의 노출 보류가 필요하면 현재값을 비교하는 transaction으로 두 본문을 NULL 처리한다. `save()`는 문자열 본문용이라 NULL 보류에 그대로 쓸 수 없다. 접속 실패를 미달 빈 문자열로 저장하지 않는다.
+## 책 등록이 남은 인물
 
-검수한 `--collect-only` 원고는 러너가 export하는 `save(person, result, work)`와 `revalidate(person)`로 저장한다. 별도 본문 등록 CLI는 없다. 다음은 일회성 실행 파일의 기본 형태다. 원본 경로와 회수 시 기록한 SHA-256을 인수로 받으며, 사실 검수를 끝낸 뒤에만 실행한다.
+아래 인물은 독서 방식 글을 저장했으나 글에 나온 책의 감상 콘텐츠 등록을 끝내지 않았다. `--books-only --only SLUG`로 조사하고 책장 반영기로 미리 본 뒤 반영한다. 작품에 판본 행이 있으면 같은 언어 행까지 맞춘다([콘텐츠 등록](../project/celeb/celeb-02-02-content-registration.md) 「영문판과 표지」). 끝난 인물은 이 목록에서 지운다.
 
-```js
-import fs from 'node:fs/promises';
-import os from 'node:os';
-import path from 'node:path';
-import {pathToFileURL} from 'node:url';
-import {createHash} from 'node:crypto';
-const root = 'C:/project/feelandnote';
-process.loadEnvFile(path.join(root, 'sw/web-bo/.env'));
-const {database, save, revalidate} = await import(
-  pathToFileURL(path.join(root, 'scripts/browser/reading-way-argon.mjs')).href
-);
-const [source, expectedHash] = process.argv.slice(2);
-if (!source || !path.isAbsolute(source) || !/^[a-f0-9]{64}$/.test(expectedHash ?? '')) throw Error('원본 경로·해시 필요');
-const raw = await fs.readFile(source);
-if (createHash('sha256').update(raw).digest('hex') !== expectedHash) throw Error('원본 변경');
-const result = JSON.parse(raw.toString('utf8').replace(/^\uFEFF/, ''));
-if (!/^[a-z0-9][a-z0-9.-]*$/.test(result.slug ?? '')) throw Error('인물 식별 오류');
-await fs.mkdir(path.join(os.tmpdir(), 'feelandnote'), {recursive: true});
-const work = await fs.mkdtemp(path.join(os.tmpdir(), 'feelandnote/reading-way-main-'));
-const literal = value => "'" + String(value).replaceAll("'", "''") + "'";
-const query = `SELECT json_build_object('id',id,'slug',slug,'ko',reading_way,'en',reading_way_en)
- FROM public.celebs WHERE slug=${literal(result.slug)} AND celeb_reality IN ('REAL','BOTH');`;
-const person = JSON.parse((await database(query, work)).text.trim());
-// 허용된 국소 사실 수정이 있으면 이 지점에서 검증한 부분만 적용한다.
-await save(person, result, work);
-await revalidate(person);
-console.log(JSON.stringify({saved: person.slug, temporaryWork: work}));
-```
+`chow-yun-fat` `chris-hemsworth` `david-goggins` `ichiro-suzuki` `james-hetfield` `jeremy-renner` `kim-seung-youn` `lea-seydoux` `lee-hoe-yeong` `lisa-su` `mark-rothko` `pierce-brosnan` `rebecca-ferguson` `sung-uk-moon`
 
-위 코드를 자기 임시 작업 폴더의 실행 파일로 저장했다면 호출 형식은 다음과 같다. `EXPECTED_SHA256`은 회수 로그의 실제 64자리 값으로 바꾼다.
+## 글과 책장 전수 대조 결과 (26.11.08)
 
-```powershell
-node --import tsx C:/ABSOLUTE/apply-main.mjs C:/ABSOLUTE/argon-result.json EXPECTED_SHA256
-```
+독서 방식이 있는 424명의 본문을 두 갈래로 검증했다. 다시 돌리면 [reading-way-shelf-scan.mts](../../scripts/browser/reading-way-shelf-scan.mts)가 책장에 없는 후보를 낸다. 기계 후보 수를 누락 수로 읽지 않는다.
 
-`save`는 현재 한영 본문을 비교하고 인물 행을 잠근 뒤, 두 본문 이외 값의 보존과 저장 후 원문 일치를 검사한다. 통신 오류가 나도 이미 commit됐을 수 있으므로 현재 DB를 재조회하고 결과가 같은지 확인한다. 원본·현재값이 다른데 강제로 덮어쓰지 않는다. SQL은 `database()`가 UTF-8 파일로 전달한다. 한글 SQL을 PowerShell 텍스트 파이프로 psql에 보내지 않는다.
+- **책장에 없는 책.** 후보 1,003건을 LLM이 문맥·책장으로 거르고 원문을 확인해 153건을 책장에 넣었다. 근거를 못 찾은 책은 깊게 재조사해 찾으면 등록하고, 끝내 없으면 본문에서 뺐다.
+- **책장에 있는 책.** 본문 문장 1,228건을 그 책의 감상 콘텐츠와 대조하고, 어긋난 258건만 소스 링크로 확인했다. 틀린 쪽이 감상이면 감상을 고쳤다. 감상 콘텐츠가 있으면 이 대조가 웹 검색보다 싸고 정확하다.
+- 본문은 모두 175명을 고쳤고 블로그 독서 방식 구획도 같은 값으로 교체했다.
 
-예제는 원본 JSON이 정상 JSON인 경우다. 다운로드에 코드 펜스 등이 붙었으면 러너의 `parseOriginal` 규격을 확인해 메모리에서 해석하고, 원본 파일 자체는 바꾸지 않는다. 임시 SQL과 실행 파일은 반영 검증 뒤 데이터 관리 규칙대로 정리한다.
+- 주제 문장의 근거까지 무너진 10명은 Argon High로 새로 썼다. 원문 대조를 거쳐 7명을 저장했다. 판빙빙·궁리·조이 웡은 Argon이 근거 부족으로 빈 원고를 냈고 책장에도 감상 책이 없어 조사 미달로 저장했다. 같은 상태였던 `hans-zimmer` `lee-kun-hee`는 다른 세션이 맡았다.
 
-## 조사에서 나온 책을 책장에 반영
+## 기존에 남긴 책장 확인 후보
 
-1. **현재 책장을 먼저 조회한다.** 인물의 `celeb_contents`, 연결 `contents`, 모든 `content_locales`, 실제 `figure_book_editions`·상품과 관련 참조를 본다. 기존 작품은 QID → ISBN → 원제·원저자로 찾는다. ISBN만 달라졌다고 새 작품을 만들지 않는다.
-2. **관계를 판정한다.** 실제 독서·감상·추천·감상 의사가 근거에 있어야 한다. 집필·소장·일반 언급·다른 화자의 발언을 감상으로 옮기지 않는다. 작가 일반 선호의 대표 작품 연결은 조사 룰북의 명시 조건에 따른다.
-3. **작품과 판본을 가른다.** 같은 원전의 다른 번역은 같은 작품 아래 둔다. 단편집과 표제작, 저자·편자의 독립 선집, 재화·각색·학습용 축약본은 실제 목차와 본문 범위로 판단한다. 표제작을 대표로 연결할 때는 실제 감상 범위와 서비스의 대표 선정을 구별한다.
-4. **정식 메타를 확인한다.** 한국어는 `getKakaoBookByIsbn`·`searchBooks`, 영어는 `getOpenLibraryBookMetadata`를 쓴다. 영어 제목만 보고 영어판으로 삼지 않으며 OL 판본의 실제 언어·원저자·원작 연결을 확인한다. 네이버·Google Books·Amazon을 신규 BOOK 메타 원천으로 쓰지 않는다. 아마존 상품 페이지는 판본·신간 실재·추천사 확인에 쓴다([등록 규칙](../project/celeb/celeb-02-02-content-registration.md#타입별-메타-원천)). ISBN·출판사·번역자를 추정해 채우지 않는다.
-5. **소개·표지를 따로 확인한다.** `fetchBookIntroduction({isbn, locale})`가 실제 소개를 준 뒤에만 `KAKAO`·`DAUM`·`OPEN` 표식과 출처를 저장한다. 실패·미확인은 NULL이며 기존 유효 소개를 지우지 않는다. 표지는 실제 이미지를 열어 같은 ISBN의 제목·저자·판본을 대조한다. 실제 검색 후 못 찾은 표지만 `thumbnail_url=null`, `sources.thumbnail='confirmed_unavailable'`로 둔다.
-6. **감상배경은 해당 인물의 Argon 원본에서 가져온다.** 다른 인물의 리뷰를 복사하지 않는다. 실제 한영 판본을 못 찾은 쪽은 등록 규칙의 표시용 제목 행을 쓰며, `sources.primary='none'`, `sources.title='translated'|'romanized'|'original'`, ISBN·출판사·표지 NULL로 구별한다. 한영 판본을 끝내 찾지 못한 책은 건너뛰지 않고 [「절판」](../project/celeb/celeb-02-02-content-registration.md#절판--판본이-없는-원어-작품-260913) 규칙대로 `external_id`·`external_source`를 `null`로 둔 작품과, `sources.availability='out_of_print'`를 단 ko·en 표시용 행 두 개로 등록한다. ISBN·출판사를 꾸며 넣지 않는다. OL 래퍼가 저자 목록 불일치로 거부한 판본은 OL 판본 JSON의 언어·저자·작품 연결과 표지를 직접 대조해 맞으면 쓴다.
+아래는 과거 문서에서 남긴 미확정 후보다. 착수할 때 현재 책장과 원출처를 다시 확인하고 이미 반영된 작품은 제외한다.
 
-래퍼 경로는 `packages/content-search/src/kakao-books.ts`, `openlibrary.ts`, `book-introduction.ts`다. 환경변수를 읽는 모듈은 `process.loadEnvFile()` 뒤에 동적 import하거나 Node `--env-file=sw/web-bo/.env`로 먼저 로드한다. Windows 절대경로의 import는 `pathToFileURL()`을 쓴다.
+- 닐 디그래스 타이슨: NYT 2013 「By the Book」의 버트런드 러셀 소책자 4권.
+- 댄 브라운: 해당 인터뷰의 추가 도서 6권(`Moonwalking with Einstein` 등).
+- 마리사 메이어: Paul Johnson의 `Churchill`, IEEE Spectrum 2012 인터뷰.
+- 에밋 시어: 2023-08-26 「7 books to know me」 트윗과 추가 트윗.
+- 실베스터 스탤론: `Gödel, Escher, Bach`·`Revolt of the Angels`, Interview 1985-09.
+- 원출처 미확보: 인드라 누이 트윗 4건, 젠슨 황의 `Zero to One`(Milken 2025 녹취록), 마이클 잭슨의 기존 `Life of P. T. Barnum` 관계.
+- 키라 나이틀리: 마사 겔혼의 다하우 취재 글은 원출처 대목과 수록집을 확정하지 못해 추가하지 않았다.
+- 아리아나 허핑턴: 기존 책장 재큐레이션 출처의 원출처 추적 후보.
+- 마거릿 대처: 더글러스 리드 『Insanity Fair』. 자서전에 "made a deep impression on me"로 확인했다(『The Path to Power』 2장). Argon High 감상경위를 받아 OpenLibrary `/works/OL1162898W`로 연결한다.
+- 살라딘: 우사마 이븐 문키드 『디완』. 근거가 아랍어 위키뿐이다. 비위키 원출처를 찾지 못하면 본문의 "즐겨 읽었다"를 확인된 범위로 고친다.
+- 윤서인: 『신의 탑』 1권(9791190153171)의 저자를 `REVIEWED_MISSING_AUTHORS`에 보완했다. 유튜브 `Ea3wowN52gw` 자막에서 감상 대목을 다시 확인한 뒤 등록한다.
+- 닥터 수스: 기존 에드워드 리어 『넌센스 노래』 관계의 출처가 리어 본인의 브리태니커 항목이다. 수스의 독서 근거가 없어 관계를 지울지 사용자 확인이 필요하다.
 
-새 감상 관계는 `reading-way-books-apply.mjs`의 계획으로 등록한다. 다음은 **이미 있는 작품**에 관계 한 개를 추가하는 입력 형식이다. 인덱스는 0부터 시작하고 원본 파일의 실제 책 번호를 쓴다.
-
-```json
-{
-  "slug": "TARGET_SLUG",
-  "originals": [{"path": "C:/ABSOLUTE/argon-result.json", "sha256": "회수한 원본의 실제 SHA-256"}],
-  "relations": [{
-    "content_id": "검수한 기존 작품 ID", "original_index": 0, "book_index": 0,
-    "factual_edits": [{"field": "source_url", "from": "원본의 링크", "to": "확인한 실제 근거 링크"}]
-  }]
-}
-```
-
-국소 수정이 없으면 `factual_edits`를 생략한다. 허용 필드는 `review`·`review_en`·`source_url`이며 `from`이 정확히 한 번 있어야 한다. 문자열 치환은 사실 수정용으로만 쓴다.
-
-새 작품이 정말 없을 때는 `newWorks: [{id, external_id, external_source, locales: [...]}]`를 추가한다. locale 행에는 `locale,title,creator,isbn,publisher,thumbnail_url,description,sources`를 모두 명시한다. ko·en 두 행과 실제 판본의 ISBN 하나 이상이 필요하다. 판본이 없는 작품만 `external_id`·`external_source`를 `null`로 두고 두 행 모두 절판 표시용 행으로 넣는다. 기존 작품의 빠진 locale만 추가할 때는 `newLocales`를 쓴다. 필수값과 예외는 `validatePlan`을 직접 확인한다. `newWorks`의 작품 INSERT는 ID·타입·외부 ID·공급처만 저장하므로, 임의로 붙인 metadata가 저장될 것으로 기대하지 않는다. 원전 메타 보완은 검수한 카탈로그 교정으로 처리한다.
-
-```powershell
-node scripts/browser/reading-way-books-apply.mjs --plan C:/ABSOLUTE/verified-plan.json
-node scripts/browser/reading-way-books-apply.mjs --plan C:/ABSOLUTE/verified-plan.json --apply
-```
-
-미리보기가 통과한 같은 계획을 반영한다. 이 도구는 원본 해시·인물·중복 ISBN·기존 관계·작품·locale의 동시 변경을 검사하고, 삽입 후 이전 기록 보존·책 수 증가·원문 일치·캐시 갱신을 확인한다. **삽입 전용**이므로 이미 있는 관계가 나오면 현재 DB를 검토하고, 재시도로 중복 등록하지 않는다. COMMIT 후 재조회·캐시 단계에서 실패할 수도 있으므로 도구 오류를 곧 미반영으로 간주하지 않는다.
-
-## 기존 리뷰·메타·판본을 고칠 때
-
-기존 `celeb_contents.review` 교정은 책장 삽입기에 넣지 않는다. 현재는 별도 리뷰 갱신 CLI가 없으므로 작업 폴더의 일회성 실행 파일에서 `database()`로 처리한다. 실제 행 ID·인물 ID·작품 ID를 고정하고 전체 이전 행을 비교하는 transaction으로 확정한 `review`·`review_en`·`source_url`만 바꾼다. ID·`created_at`·상태·공개 설정·기여자·회원·자식 참조와 나머지 감상은 보존한다. 연결 작품의 검수 전후 참조도 대조하고 같은 조건으로 재조회한다.
-
-작품·locale·실판본의 수정은 [guarded-catalog-repairs.mjs](../../sw/web-bo/scripts/figure-books/lib/guarded-catalog-repairs.mjs)를 쓴다.
-
-- `captureCatalogRepairSnapshot(null, workIds)`로 현재 18개 표를 **메모리에서** 읽는다. DB 덤프나 별도 복구 원장을 만들지 않는다.
-- 검수한 `changes: [{table,before,patch}]`로 `planGuardedCatalogRepairs`를 먼저 실행한다.
-- `guardedCatalogRepairs`는 **실제 쓰기**다. `apply:false`·`dryRun:true`가 미리보기 옵션일 것이라고 생각하고 부르지 않는다. 현재값 비교·transaction·독립 재조회를 통과해야 한다.
-- 기존 소개의 제거·교체와 제외 판본 변경은 코드가 정한 독립 검수 근거가 필요하다. 실제 ISBN·원전·출처를 읽고 그 계약에 맞는 근거만 넣는다. 보호 검사를 통과하려고 근거를 지어내거나 가드를 약하게 만들지 않는다.
-- 이미 검수·등록된 정상 판본으로 제외 판본의 대표 카드를 교체할 때는 `reviewedRepresentativeReplacement`를 쓴다. 원래 제외 근거와 정상 실판본을 보존한다. 제외된 같은 판본의 복원과는 다른 작업이다.
-
-추가 번역판은 `sw/web-bo/scripts/figure-books/source-edition-batch.ts --file ABSOLUTE_PLAN`으로 미리 보고 `--apply`로 넣는다. 실제 명령은 다음과 같다.
-
-```powershell
-node --env-file=sw/web-bo/.env --import tsx sw/web-bo/scripts/figure-books/source-edition-batch.ts --file C:/ABSOLUTE/editions.json
-```
-
-입력의 `contentId,locale,isbn,editionKind,textScope,sortOrder`와 실제 본문 범위를 확인한다. 단권이라는 이유로 `full/complete`를 채우지 않는다. 원전 귀속 검사가 막으면 해당 ISBN·공식 제목·전체 저자·범위·독립 출처를 확인해 `sources.edition_work_evidence`의 `independent_work_review`로 서버에 먼저 보존하고 다시 검사한다. 영문판의 OL 원전 자체가 다르면 이 근거로도 우회할 수 없다.
-
-## 반영 확인·진행 화면·정리
-
-본문은 `revalidate(person)`, 책·메타 변경은 `revalidateTags`와 공유 캐시 태그 상수로 인물 ID·slug·작품 ID 및 필요한 집합 태그를 갱신한다. 캐시 실패만으로 이미 반영된 DB 쓰기를 반복하지 않는다. `--revalidate-only --only SLUG`는 **본문 캐시 재시도용**이며 작품 태그까지 처리하는 옵션이 아니다.
-
-현재 DB의 한영 본문·감상배경·링크·권수를 다시 조회하고, [공개 인물 페이지](https://feelandnote.com/celeb/hayao-miyazaki)와 백오피스 `/celebs/<slug>#reading-way`에서 해당 내용을 확인한다. SWR 첫 응답이 이전 값이면 후속 응답을 확인한다. 저장 성공, 원본 일치, 캐시 갱신, 실제 노출을 별도로 판단한다. 사용자의 개발 서버는 재시작하지 않고, 캐시 때문에 build를 돌리지 않는다.
-
-기존 블로그 글에도 교정한 감상배경이 실려 있다면 [네이버 블로그 지속 과제](blog-naver-book.md)의 현행 편집 경로로 DB 확정문과 근거 링크를 맞춘다. DB를 고친 것만으로 블로그가 갱신됐다고 보고하지 않는다. 저장 후 재열람과 공개 본문을 확인하고 기존 이미지·링크·발행·예약 설정을 보존한다. 블로그 제작 도구가 직접 읽는 현재 원고·이미지는 임시 조사 자료와 구별한다.
-
-진행 화면은 [reading-way-progress.mjs](../../scripts/browser/reading-way-progress.mjs)가 `%TEMP%/feelandnote/reading-way-argon-runner-*/stdout.log`의 구조화 이벤트와 DB·실제 프로세스를 읽는다. 기존 `run-with-log.mjs`는 `%TEMP%/feelandnote/reading-way-batch-current/`에 있으며, 전달한 인수로 러너를 실행하고 이 형식의 고유 로그 폴더를 만든다. 파일 존재와 내용을 확인해 재사용한다. 장시간 작업을 새로 독립 실행할 경우 `Start-Process -WindowStyle Hidden -PassThru`로 띄워 PID를 기록하고 stdout을 위 경로에 둔다.
-
-`books_pending`은 책 자료 수신 상태다. 단권 보완의 수신 건수와 인물 전체의 미완료 수를 구별한다. 일부 반영은 `books_partial`과 실제 남은 수를 기록하고 집계용 `books_pending`도 전체 남은 수로 맞춘다. 해당 인물의 책 검증·반영·재조회를 마쳤을 때만 `books_verified`를 기록한다. 러너의 다음 묶음 대기는 마지막 `books_pending/books_verified` 이벤트를 보므로 화면만 보고 완료 상태를 꾸미지 않는다. `--collect-only` 원고는 `draft_ready`여도 아직 DB 미반영이다. 수동 저장을 검증한 뒤 그 실제 결과를 기록한다.
-
-`saveAs()`는 기본 다운로드를 이동하지 않고 사본을 만든다. [다운로드 정리 함수](../../.agents/skills/aside-browser/scripts/download-cleanup.mjs)는 실제 `download.path()`의 파일을 별도 저장본과 해시 대조한 뒤 그 사본만 삭제한다. 독서 방식 러너에는 정상 응답 일치 후 이 처리가 반영돼 있다. 다른 탭 응답과 불일치한 다운로드는 소유가 확정되지 않았으므로 경로를 기록하고 대조하며, 이름 패턴으로 사용자 폴더를 지우지 않는다.
-
-DB 반영·재조회·공개 확인이 끝난 대상의 프롬프트·원본 응답·후보 메타·출처 사본·일회성 실행 파일·다운로드 사본은 전량 정리한다. 여러 미완료 책을 함께 담은 원본은 마지막 사용 대상까지 끝날 때 보존한다. 실행자가 등록하지 않기로 판단한 책이 남은 원본은 사용자가 그 판단을 확인할 때까지 지우지 않는다. Windows 삭제는 절대경로·소유·Git 추적 여부를 확인하고 `Remove-Item -LiteralPath`를 쓴다. 진행 로그와 미완료 자료가 끝난 자료와 섞여 있다는 이유로 통째로 삭제하지 않는다.
-
-실행기나 정리 코드를 변경했을 때 확인할 기존 검사:
-
-```powershell
-node --import tsx scripts/browser/reading-way-argon.mjs --self-test
-node --test scripts/browser/reading-way-books-apply.test.mjs
-node --test .agents/skills/aside-browser/scripts/download-cleanup.test.mjs
-node --import tsx --test sw/web-bo/scripts/figure-books/lib/guarded-catalog-repairs.test.mjs
-```
-
-데이터 작업만 할 때 이 검사들을 관성적으로 반복하지 않고, 실제 반영 대상의 원본·현재 DB·출처·노출을 확인한다.
-
-## 진행 화면
-
-[진행 화면](http://127.0.0.1:4317/reading-way-progress.html)은 사용자가 중간보고용으로 띄워 두기를 원한다(26.10.29). 작업을 시작할 때 포트의 응답을 먼저 확인하고, 서버가 없을 때만 아래 파일을 별도 숨김 프로세스로 실행한다. 수동 저장·책장 반영 결과도 이 화면에 나오도록 `published`·`books_verified` 이벤트를 실제 반영 뒤에 남긴다. 모델 호출은 별도다.
-
-```powershell
-$progress = Start-Process -FilePath (Get-Command node).Source -ArgumentList @('--import','tsx','scripts/browser/reading-way-progress.mjs') -WorkingDirectory 'C:/project/feelandnote' -WindowStyle Hidden -PassThru
-$progress.Id
-```
+확인·반영·검증이 끝난 항목은 이 목록에서 제거한다. 완료 이력이나 원고 사본은 쌓지 않는다.

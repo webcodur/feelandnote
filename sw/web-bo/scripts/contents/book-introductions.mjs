@@ -10,6 +10,7 @@
  * 검수 JSON은 배열. 각 항목은 {target: targets.json의 한 항목, llmReviewed:true,
  * description, sourceUrl, method:'provider'|'research'|'translation', sourceLocale:'ko'|'en'|'ja',
  * evidence:[{url:sourceUrl,note:'읽은 본문의 작품·판본 범위 판정'}]}.
+ * 카드 소개와 누락 판본을 함께 연결하려면 catalogReview에 reviewed-catalog-insert.mjs의 검수 입력을 명시한다.
  * en·ja→ko 번역에는 translationBackend:'agy'를 추가한다. 출처 응답을 기계 승인하지 않는다.
  * 기준: docs/project/celeb/celeb-02-06-content-introduction-sources.md
  * 대상·출처·검수 자료는 OS TEMP에서만 사용하고 반영·검증 후 폐기한다. DB 행 사본은 저장하지 않는다.
@@ -62,9 +63,15 @@ if (values.reviewed) {
   const snapshot = await guards.captureCatalogRepairSnapshot(db, ids)
   const changes = lib.buildReviewedIntroductionChanges(snapshot, reviews, census.targets)
   guards.planGuardedCatalogRepairs(ids, snapshot, changes)
+  const catalogReviews = lib.reviewedIntroductionCatalogInserts(reviews)
+  const catalogIds = [...new Set(catalogReviews.map(review => review.contentId))]
+  const catalogInsert = catalogReviews.length ? await import('../figure-books/lib/reviewed-catalog-insert.mjs') : null
+  if (catalogInsert) catalogInsert.planReviewedCatalogInsert(catalogIds, snapshot, catalogReviews)
   console.log(JSON.stringify({ event: 'reviewed', apply: Boolean(values.apply), introductions: reviews.length, rows: changes.length }))
   if (values.apply) {
     console.log(JSON.stringify({ event: 'applied', ...await guards.guardedCatalogRepairs(db, ids, changes) }))
+    if (catalogInsert) console.log(JSON.stringify({ event: 'catalog-applied',
+      ...await catalogInsert.applyReviewedCatalogInsert(db, catalogIds, catalogReviews) }))
     const after = await guards.captureCatalogRepairSnapshot(db, ids)
     for (const change of changes) {
       const row = after[change.table].find(row => change.table === 'content_locales'
@@ -91,7 +98,7 @@ if (values.reviewed) {
       const response = await fetch(`https://feelandnote.com/${review.target.locale}/content/${review.target.contentId}`)
       const html = await response.text(), escaped = review.description.trim().slice(0, 60).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;')
       const found = html.includes(review.description.trim().slice(0, 60)) || html.includes(escaped)
-        || visibleText(html).includes(visibleText(review.description.trim()).slice(0, 50))
+        || visibleText(html).includes(visibleText(review.description.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;')).slice(0, 50))
       if (!response.ok || !found) { failures.push(review.target.contentId); continue }
       publicVerified++
     }

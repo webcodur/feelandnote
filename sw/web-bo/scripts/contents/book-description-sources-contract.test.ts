@@ -24,6 +24,20 @@ test('unknown summaries are retained even when a longer external introduction ex
   assert.equal(result.change, null)
   assert.equal(planIntroductionChange('content_locales', { ...row, description: '온도는 -1도다.' }, { ...fetched, description: '온도는 1도다.' }).change, null)
 })
+test('a long excerpt from the middle of the source and an entity-escaped copy can be replaced', () => {
+  const opening = '카카오 응답에서 빠지는 첫 문단입니다. '
+  const body = '원문에 있는 긴 책 소개 '.repeat(15)
+  const middle = planIntroductionChange('content_locales', { ...row, description: body.slice(0, 200) }, { ...fetched, description: opening + body })
+  assert.equal(middle.reason, 'external-copy')
+  const escaped = planIntroductionChange('content_locales', { ...row, description: `&lt;서울대 선정&gt; ${body.slice(0, 200)}` }, { ...fetched, description: `<서울대 선정> ${body}` })
+  assert.equal(escaped.reason, 'external-copy')
+  const cutEntity = planIntroductionChange('content_locales', { ...row, description: `${body.slice(0, 200)} &lt;퇴원&gt` }, { ...fetched, description: `${body.slice(0, 200)} <퇴원>으로 등단했다.` })
+  assert.equal(cutEntity.reason, 'external-copy')
+  const cutBracket = planIntroductionChange('content_locales', { ...row, description: `${body.slice(0, 200)} &lt;퇴` }, { ...fetched, description: `${body.slice(0, 200)} <퇴원>으로 등단했다.` })
+  assert.equal(cutBracket.reason, 'external-copy')
+  const short = planIntroductionChange('content_locales', { ...row, description: body.slice(0, 30) }, { ...fetched, description: opening + body })
+  assert.equal(short.reason, 'unverified-stored-text')
+})
 test('an exact copy or a long truncated prefix can be replaced', () => {
   const exact = planIntroductionChange('content_locales', { ...row, description: fetched.description }, fetched)
   assert.equal(exact.reason, 'external-copy')

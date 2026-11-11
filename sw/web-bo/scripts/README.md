@@ -44,6 +44,7 @@ scripts/
 |---|---|
 | `celeb:audit:activation` | 전체 인물 데이터 보유율·공개 전환 준비도 감사. `--apply` 로 일괄 활성화까지 |
 | `celeb:audit:basic` | 기본 정보 결손 전수 조사(읽기 전용) |
+| `celeb:research:ledger` · `celeb:research:aladin` · `celeb:research:youtube` | 감상 조사 원장(출처별 기록, 0건 확정 관문)·알라딘 「저자의 추천」 수집·유튜브 채널 감상 단서 스캔. `celeb/content-research/`. 쓰는 법은 [`celeb-02-07`](../../../docs/project/celeb/celeb-02-07-content-research-techniques.md#스크립트) |
 | `node scripts/celeb/bio-audit.mjs` | AGM·AGY·Gemini로 공개 인물의 bio 한영 전수점검. `init/run/status/sample/review/retry --run <OS 임시 작업 폴더>`. 검색으로 찾은 URL의 실제 HTML·PDF 본문을 수집해 Gemini에 제공하고 원문 발췌를 대조한다. 처음 4명 뒤 40명씩 조사하며 감독자의 출처 표본 검수 후 bio 두 필드만 조건부 반영한다. 실행·표본 기준은 `celeb/bio-audit-contract.mjs`가 쥔다. 작업 종료 뒤 임시 상태·조사 자료를 폐기한다 |
 | `celeb:audit:tracks` | 전 트랙 결손 전수 감사(읽기 전용) |
 | `celeb:audit:public` | 사용자 웹 노출 데이터의 구조·결측 1차 감사 |
@@ -122,6 +123,9 @@ scripts/
 | 명령 | 하는 일 |
 |---|---|
 | `book-recommend:resources` | 서재 탐방 DB 연결·표지 캐시 운영 |
+| `contents:book-covers --upgrade-thumbnails` | 전체 BOOK 언어 카드·판본에서 카카오·OpenLibrary·알라딘·YES24 축소 주소와 출판사 Imgix 너비 제한을 검사한다. 기본은 미리보기. 실제 해상도 증가·같은 이미지 대조를 통과한 주소만 `--apply`로 CAS 저장·재조회·작품과 연결 인물의 로컬·운영 캐시 갱신. 전체 대량 반영은 `--apply --bulk-cache`, 소량은 `--content-id UUID`·`--limit N`. 신규 등록·판본 정비 뒤 재실행한다. 표지 규칙은 콘텐츠 등록 문서가 쥔다. 플래그 없이 실행하면 기존 빈 표지 채우기 |
+| `contents:book-covers --upgrade-low-resolution` | 기존 BOOK 표지 전체의 크기를 실측하고, 작은 표지는 같은 ISBN의 더 큰 동일 표지를 자동 수집한다. 기본은 미리보기이며 `--apply`가 표지·출처만 CAS 저장·재조회·캐시 갱신한다. `--content-id UUID`·`--limit N`·`--session-dir PATH` 지원. LLM 호출 없음. 등록 뒤 전체 검사는 이 명령을 쓰며 규칙은 콘텐츠 등록 문서가 쥔다 |
+| `contents:book-covers:test` | 표지의 판본 일치·원본 주소 제한·다른 이미지와 축소 원본 거부·동시 수정 보호 검사 |
 | `contents:book-introductions` | 서비스 노출 소개 누락 재집계. `--collect`로 현재 대상의 소개 원문을 한 바퀴 조회하고, `--reviewed <JSON> --apply`로 LLM 검수분만 참조 검사·CAS·재조회·운영 캐시·상세 검증까지 실행. 실행점은 `contents/book-introductions.mjs`, 기준과 현재 수치는 [소개 지속 수집](../../../docs/continuous/content-introductions.md) |
 | `contents:book-introductions:test` | 책장 노출·판본별 소개 누락·신규 등록·오디오 제외·검수 후 변경과 요청 실패 회귀 검사 |
 | `contents:book-sources` | BOOK 소개를 본문 대신 카카오·다음·OpenLibrary 출처 표시와 조회 주소로 전환. 기본은 읽기 전용, `--apply --backup-dir`로 반영 |

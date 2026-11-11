@@ -92,6 +92,58 @@ const REVIEWED_ENGLISH_EDITIONS: Readonly<Record<string, string>> = {
   // 2024 (Penguin Press, 2025), Josh Dawsey·Tyler Pager·Isaac Arnsdorf. 같은 ISBN의 영어 양장본을 확인했다.
   // https://penguinrandomhousehighereducation.com/book/?isbn=9780593832530 · https://www.target.com/p/-/A-1002282511
   '9780593832530': '/books/OL59511626M',
+  // A Year Down Yonder: https://books.google.com/books/about/A_Year_Down_Yonder.html?id=on9zvLNKWg0C
+  '9780439321976': '/books/OL25432175M',
+  // Life or Death: https://archive.org/details/lifeordeath0000robo
+  '9780751552898': '/books/OL25670141M',
+  // The Argonauts: https://academic.macmillan.com/academictrade/9781555977351/theargonauts/
+  '9781555977351': '/books/OL27438414M',
+  // A Handful of Dust: https://archive.org/details/handfulofdust0000waug_o7k5
+  '9780140287400': '/books/OL7352360M',
+  // The Red Tree: https://books.google.com/books/about/The_Red_Tree.html?id=OJD-AQAACAAJ
+  '9780734405395': '/books/OL7889155M',
+  // Other Paths to Glory: https://obnb.uk/p10734388-other-paths-to-glory
+  '9780752847665': '/books/OL7984339M',
+  // Spinning Silver: https://assets-us-01.kc-usercontent.com/c47bdf8e-37f3-4353-b63b-5f82ede29bf0/9f900453-93fa-41c6-8478-967a146e65c6/Autumn%20Catalogue%202018%20for%20Web%20%282%29.pdf
+  '9781509899012': '/books/OL26772355M',
+  // Jade Legacy: https://www.hachettebookgroup.com/titles/fonda-lee/jade-legacy/9780316440974/
+  '9780316440974': '/books/OL32220809M',
+  // The Return: Fathers, Sons and the Land in Between: https://archive.org/details/returnfathersson0000mata_e9a1
+  '9780345807755': '/books/OL26856175M',
+  // The Stone Diaries: https://archive.org/details/stonediaries00shie_2
+  '9780394223629': '/books/OL21551797M',
+  // Where Late the Sweet Birds Sang: https://us.macmillan.com/books/9780312866150/wherelatethesweetbirdssang/
+  '9780312866150': '/books/OL26465191M',
+  // Men We Reaped: https://archive.org/details/menwereapedmemoi0000ward
+  '9781608195213': '/books/OL26185690M',
+  // The Netanyahus: https://www.nyrb.com/products/the-netanyahus?variant=37645523091624
+  '9781681376073': '/books/OL32239363M',
+  // Amos Fortune, free man: https://archive.org/details/amosfortunefreem0000yate
+  '9780140341584': '/books/OL24332648M',
+  // Mrs. Frisby and the Rats of Nimh: https://archive.org/details/mrsfrisbyratsofn0000obri_k2p5
+  '9780141333335': '/books/OL26119732M',
+  // Piranesi: https://www.bloomsbury.com/us/piranesi-9781635575637/
+  '9781635575637': '/books/OL28300471M',
+  // The lock artist: https://archive.org/details/lockartist00stev
+  '9780312696955': '/books/OL24620047M',
+  // Lucky Jim: https://archive.org/details/luckyjim0000amis_a1b0
+  '9780140278705': '/books/OL7352061M',
+  // Redeployment: https://archive.org/details/redeployment0000klay
+  '9781594204999': '/books/OL25664533M',
+  // Journey to the center of the earth: https://archive.org/details/journeytocentero00aeri
+  '9781559027830': '/books/OL8609200M',
+  // H Is for Hawk: https://groveatlantic.com/book/h-is-for-hawk/
+  '9780802124739': '/books/OL27900973M',
+  // A Manual for Cleaning Women: https://ndlsearch.ndl.go.jp/books/R100000136-I1970304959963170462
+  '9781447294894': '/books/OL27700712M',
+  // The Slap: https://www.penguinrandomhouse.com/books/306448/the-slap-by-christos-tsiolkas/9780143117148/
+  '9780143117148': '/books/OL24233054M',
+  // Hello Universe: https://catalog.freelibrary.org/Record/2656130
+  '9781432860356': '/books/OL27339354M',
+  // The Promise: https://static.fnac-static.com/multimedia/PT/pdf/9781784744069.pdf
+  '9781784744076': '/books/OL32882494M',
+  // And Their Children After Them: https://uk.bookshop.org/p/books/and-their-children-after-them-nicolas-mathieu/423349536bbdfdad?ean=9781529303827
+  '9781529303827': '/books/OL28628379M',
 }
 
 /** 판본 언어는 판본 응답으로 확인한다. 국가군과 원전 언어는 번역판 언어의 근거가 아니다. */

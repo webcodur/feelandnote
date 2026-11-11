@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import bookEditionWork from '../../src/lib/book-edition-work.ts'
 const { verifiedOmnibusIsbn } = bookEditionWork
 import test from 'node:test'
-import { detectSplitSeries, numberedTitle } from './lib/series-audit.mjs'
+import { detectSplitSeries, numberedTitle, detectDisplayPublicationRisks } from './lib/series-audit.mjs'
 import { parseSeriesAuditArgs, detectSeriesVolumeClutter } from './series-split-audit.mjs'
 
 function catalog(rows, extra = {}) {
@@ -13,6 +13,19 @@ function catalog(rows, extra = {}) {
   }
 }
 const scan = rows => detectSplitSeries(catalog(rows)).candidates
+
+test('ISBN 없는 실물 구판과 순수 표시용 행을 보존하며 표시용 행의 실물 값만 검수 후보로 찾는다', () => {
+ const input=catalog([
+  {id:'old',isbn:null,publisher:'Old Press',thumbnail_url:'https://publisher.example/old.jpg',sources:{primary:'openlibrary',title:'https://openlibrary.org/books/OL1M'}},
+  {id:'display',publisher:null,sources:{primary:'none',title:'translated'}},
+  {id:'mixed',publisher:null,thumbnail_url:'https://publisher.example/cover.jpg',sources:{primary:'none',title:'original'}},
+  {id:'blank',publisher:' ',thumbnail_url:'',sources:{primary:'none',title:'romanized'}},
+ ])
+ const before=structuredClone(input)
+ const found=detectDisplayPublicationRisks(input)
+ assert.deepEqual(found.map(row=>({id:row.contentId,fields:row.fields})),[{id:'mixed',fields:['thumbnail_url']}])
+ assert.deepEqual(input,before)
+})
 
 test('같은 제목의 다른 저자 판본은 한국어 카드와 대조해 검수 후보로 찾는다', async () => {
  const {detectEditionAttributionRisks}=await import('./lib/series-audit.mjs')

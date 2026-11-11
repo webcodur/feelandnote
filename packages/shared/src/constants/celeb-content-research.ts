@@ -46,6 +46,31 @@ export function resolveCelebContentCount(
 }
 
 /**
+ * 감상 조사가 거쳐야 할 출처 범위. 실행 기록(조사 원장)의 키다.
+ *
+ * 0건 확정은 이 목록의 출처마다 실행 기록(결과 있음·없음·해당 없음)이 있을 때만 남긴다.
+ * 출처별 판정과 요령은 `docs/project/celeb/celeb-02-01-content-research.md`「출처 범위」와
+ * `celeb-02-07-content-research-techniques.md`가 쥔다.
+ */
+export const CELEB_CONTENT_RESEARCH_SOURCES = [
+  { key: 'web_search', label: '웹 통합·유형별 검색' },
+  { key: 'recommend_pages', label: '추천사 페이지(알라딘·YES24·아마존)' },
+  { key: 'interviews', label: '인터뷰 기사·문답' },
+  { key: 'broadcasts', label: '방송 출연' },
+  { key: 'podcasts', label: '팟캐스트' },
+  { key: 'social', label: '본인 SNS(X·인스타그램·블로그·페이스북)' },
+  { key: 'youtube', label: '유튜브(본인 채널·출연 영상)' },
+  { key: 'own_books', label: '본인 저서(자서전·회고록·에세이)' },
+  { key: 'curation', label: '큐레이션 매체' },
+  { key: 'recuration', label: '재큐레이션·위키(후보 탐색)' },
+] as const
+
+export type CelebContentResearchSourceKey = (typeof CELEB_CONTENT_RESEARCH_SOURCES)[number]['key']
+
+/** 출처 하나의 실행 결과. `na`는 그 인물에게 해당 출처가 없음을 확인한 것이다. */
+export const CELEB_CONTENT_RESEARCH_RESULTS = ['found', 'none', 'na'] as const
+
+/**
  * 콘텐츠 조사 목록에 오르는 모집단.
  *
  * 조사 대상 목록을 뽑는 쿼리는 이 상수를 써서 조건을 건다. 값을 하드코딩하면

@@ -4,6 +4,16 @@ import {validatePlan,resolveBook,checkReadback} from './reading-way-books-apply.
 
 const relation={content_id:'book-id',original_index:0,book_index:0};
 const original={books:[{review_ko:'추천 목록의 마지막 책이다.',review_en:'The last book.',source_url:'https://example.com/source'}]};
+const high={mode:'ArgonHigh'};
+const originalReference={path:'C:/temp/raw.json',sha256:'a'.repeat(64),modelObservation:{preSendMode:high,collectionStartMode:high,collectionMode:high,actualModel:'unknown'}};
+test('book reviews require High observations for every referenced response before database access',()=>{
+  const p={slug:'test-person',originals:[originalReference],relations:[relation]};
+  validatePlan(p);
+  for(const evidence of [undefined,...['ArgonLow','Flash','unknown'].flatMap(mode=>['preSendMode','collectionStartMode','collectionMode'].map(field=>({...originalReference.modelObservation,[field]:{mode}})))]){
+    assert.throws(()=>validatePlan({...p,originals:[{...originalReference,modelObservation:evidence}]}),{code:'MODEL_VERIFICATION_PENDING'});
+  }
+  assert.throws(()=>validatePlan({...p,originals:[originalReference,{...originalReference,modelObservation:undefined}]}),{code:'MODEL_VERIFICATION_PENDING'});
+});
 test('reviews come from the referenced response; a local factual edit must match exactly once',()=>{
   const r=resolveBook({...relation,factual_edits:[{field:'review',from:'마지막 책',to:'책'}]},[original]);
   assert.equal(r.review,'추천 목록의 책이다.');assert.equal(r.review_en,original.books[0].review_en);
@@ -13,13 +23,13 @@ test('reviews come from the referenced response; a local factual edit must match
   assert.throws(()=>resolveBook({...relation,book_index:1},[original]));
 });
 test('rejects duplicate shelf relationships and invented edition values on a display row',()=>{
-  const p={slug:'test-person',originals:[{path:'C:/temp/raw.json',sha256:'a'.repeat(64)}],relations:[relation]};
+  const p={slug:'test-person',originals:[originalReference],relations:[relation]};
   validatePlan(p);assert.throws(()=>validatePlan({...p,relations:[relation,relation]}));
   const display={locale:'ko',title:'표시 제목',creator:'저자',isbn:null,publisher:'꾸민 출판사',thumbnail_url:null,description:null,sources:{primary:'none',title:'translated'}};
   assert.throws(()=>validatePlan({...p,newLocales:[{...display,content_id:'book-id'}]}));
 });
 test('a work without any KO/EN edition is accepted only as out-of-print display rows',()=>{
-  const p={slug:'test-person',originals:[{path:'C:/temp/raw.json',sha256:'a'.repeat(64)}],relations:[relation]};
+  const p={slug:'test-person',originals:[originalReference],relations:[relation]};
   const row=(locale,title)=>({locale,title,creator:'저자',isbn:null,publisher:null,thumbnail_url:null,description:null,sources:{primary:'none',title,availability:'out_of_print'}});
   const work={id:'book-id',external_id:null,external_source:null,locales:[row('ko','translated'),row('en','original')]};
   validatePlan({...p,newWorks:[work]});
@@ -27,7 +37,7 @@ test('a work without any KO/EN edition is accepted only as out-of-print display 
   assert.throws(()=>validatePlan({...p,newWorks:[{...work,external_source:'kakao_book'}]}));
 });
 test('a new release missing from Kakao/OpenLibrary may use one checked English publisher edition',()=>{
-  const p={slug:'test-person',originals:[{path:'C:/temp/raw.json',sha256:'a'.repeat(64)}],relations:[relation]};
+  const p={slug:'test-person',originals:[originalReference],relations:[relation]};
   const ko={locale:'ko',title:'표시 제목',creator:'저자',isbn:null,publisher:null,thumbnail_url:null,description:null,sources:{primary:'none',title:'translated'}};
   const page='https://publisher.example/book/9780063456952';
   const en={locale:'en',title:'Book',creator:'Author',isbn:'9780063456952',publisher:'Publisher',thumbnail_url:'https://publisher.example/cover.jpg',description:null,sources:{primary:'publisher',isbn:page,thumbnail:page}};

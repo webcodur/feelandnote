@@ -77,6 +77,14 @@ export function inFlight(log) {
   return Object.values(last).filter(e => ['conversation_located', 'resumed'].includes(e.event) && e.url).map(e => ({slug: e.slug, url: e.url, profile: e.profile}));
 }
 
+export function stopForModelVerification(s, ev, {save = saveStatus, record = journal} = {}) {
+  const hold = ev.findLast(e => e.event === 'model_verification_pending');
+  if (!hold) return false;
+  s.state = 'alert'; s.note = `모델 확인 보류: ${hold.slug ?? ''}. 원본과 대화 보존, 자동 재시작 중지`;
+  save(s); record('alert', {reason: 'model_verification_pending', slug: hold.slug, output: hold.output ?? null});
+  return true;
+}
+
 function parse(argv) {
   const o = {rounds: 1, runner: [], status: false, wait: null};
   const sep = argv.indexOf('--');
@@ -111,14 +119,14 @@ async function waitMode(ms) {
   }
 }
 
-function withPool(args, pool, resumes) {
+export function withPool(args, pool, resumes = null) {
   const out = [];
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--pool') { out.push('--pool', pool.join(',')); i++; }
-    else if (args[i] === '--resume') i++;
+    else if (args[i] === '--resume' && resumes !== null) i++;
     else out.push(args[i]);
   }
-  for (const r of resumes) out.push('--resume', `${r.slug}=${r.url}`);
+  for (const r of resumes ?? []) out.push('--resume', `${r.slug}=${r.url}`);
   return out;
 }
 
@@ -165,7 +173,8 @@ async function supervise(o) {
     logs: resumeRound ? prev.logs ?? [] : [], quarantine: prev.quarantine ?? {}, flags: prev.flags ?? [], errorRestarts: []};
   saveStatus(s);
   journal('watch_started', {rounds: o.rounds, runner: o.runner.join(' '), adopt: adopt?.pid ?? null});
-  let resumes = [], roundOpen = false;
+  // 최초 실행은 CLI의 --resume를 유지한다. 이후 배열은 복구 대상이며, 빈 배열이면 이전 재개 인수를 지운다.
+  let resumes = null, roundOpen = false;
   for (;;) {
     // 검수 대기 원고가 있으면 다시 띄우지 않는다. 같은 인물이 다시 선정돼 중복 요청이 나간다.
     const pending = adopt ? [] : pendingDrafts(s.logs);
@@ -183,10 +192,10 @@ async function supervise(o) {
     let run;
     if (adopt) { run = adopt; adopt = null; journal('runner_adopted', run); }
     else {
-      const args = withPool(o.runner, pool, resumes.filter(r => pool.includes(r.profile)));
+      const args = withPool(o.runner, pool, resumes?.filter(r => pool.includes(r.profile)) ?? null);
       run = await launch(args);
       s.logs.push(run.log);
-      journal('runner_started', {pid: run.pid, log: run.log, pool: pool.join(','), resumes: resumes.map(r => r.slug)});
+      journal('runner_started', {pid: run.pid, log: run.log, pool: pool.join(','), resumes: (resumes ?? []).map(r => r.slug)});
     }
     s.state = 'running'; s.note = null; s.pid = run.pid; saveStatus(s);
     const startedAt = now();
@@ -204,6 +213,7 @@ async function supervise(o) {
     }
     s.pid = null;
     const ev = events(run.log);
+    if (stopForModelVerification(s, ev)) return;
     const finished = ev.findLast(e => e.event === 'finished');
     const error = ev.findLast(e => e.event === 'error');
     resumes = inFlight(run.log);

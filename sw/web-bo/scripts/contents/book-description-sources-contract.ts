@@ -65,11 +65,15 @@ export function planIntroductionMetadataCleanup(
 
 /** Formatting differences are ignored; unrelated summaries are never treated as copies. */
 export function normalizeIntroductionCopy(value: string): string {
+  // 엔티티를 먼저 풀어야 &lt;책&gt;으로 저장된 사본과 <책>이 든 원문이 같은 값이 된다.
+  // 잘린 사본은 끝이 &gt 처럼 엔티티 중간이나 <퇴원 처럼 괄호 중간에서 끊겨 있으므로 그 조각도 뗀다.
   return value.normalize('NFKC')
-    .replace(/<[^>]*>/g, ' ')
+    .replace(/&[a-z]{0,5}$/i, '')
     .replace(/&(?:nbsp|amp|quot|apos|lt|gt);/gi, (entity) => ({
       '&nbsp;': ' ', '&amp;': '&', '&quot;': '"', '&apos;': "'", '&lt;': '<', '&gt;': '>',
     })[entity.toLowerCase()] ?? entity)
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/<[^>]*$/, '')
     .replace(/[\p{Z}\s]+/gu, '')
     .replace(/(?:\.{1,3}|…)+$/u, '')
     .trim()
@@ -106,8 +110,9 @@ export function planIntroductionChange(
   if ((row.locale === 'en') !== (selection.source === 'OPEN')) return { change: null, reason: 'source-language-mismatch' }
   const current = normalizeIntroductionCopy(row.description ?? '')
   const fetched = normalizeIntroductionCopy(selection.description)
-  // A sufficiently long exact prefix establishes that a truncated API copy is being extended.
-  if (current && current !== fetched && !(current.length >= 80 && fetched.startsWith(current))) {
+  // A sufficiently long exact excerpt establishes that a truncated API copy is being extended.
+  // Kakao may also drop the opening lines of the same text, so the excerpt need not be a prefix.
+  if (current && current !== fetched && !(current.length >= 80 && fetched.includes(current))) {
     return { change: null, reason: 'unverified-stored-text' }
   }
   return {

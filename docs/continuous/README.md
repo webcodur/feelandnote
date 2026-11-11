@@ -6,7 +6,7 @@
 
 | 문서 | 지속 과제 |
 |---|---|
-| [`google-indexing.md`](google-indexing.md) | Google·네이버·Bing·Daum의 현재 검색 문제, 마지막 접수·다음 주소·미확정 주소 |
+| [`google-indexing.md`](google-indexing.md) | Google·네이버·Bing의 현재 검색 문제, 마지막 접수·다음 주소·미확정 주소 |
 | [`celeb-tts-dialogue.md`](celeb-tts-dialogue.md) | 인물 대사 검수·한영 음성 합성·게시 규칙과 도달점(명단은 DB 조회) |
 | [`celeb-tts-reading.md`](celeb-tts-reading.md) | 읽어보기 한영 음성 일일 생성·검수·등록과 타이밍 불량분 폐기·재대기 도달점 |
 | [`faction-desc-voice.md`](faction-desc-voice.md) | 세력·신화 개요 한영 음성 생성·검수·등록 도달점 |
@@ -17,5 +17,5 @@
 | [`figure-books.md`](figure-books.md) | 인물 연결·판본 교정의 현재 상태와 보류 사항 |
 | [`content-introductions.md`](content-introductions.md) | 소개 없는 책의 남은 수와 수집·검수·반영 명령 |
 | [`celeb-review-deep-dive.md`](celeb-review-deep-dive.md) | 인물 감상배경 딥다이브 — 얕게 등록된 review를 원문 수준으로 깊게 만드는 도달점 |
-| [`celeb-reading-way.md`](celeb-reading-way.md) | 독서 방식 작업 인계 — 웹 Argon 호출·사실 검수·본문·책장 등록·정리와 현재 재개 지점 |
+| [`celeb-reading-way.md`](celeb-reading-way.md) | 독서 방식의 현재 재개 지점·다시 쓸 인물·책장 대기 목록과 실행 진입점 |
 | [`free-posts.md`](free-posts.md) | 운영자 아가톤의 자유글 — 유튜브 커뮤니티·자유게시판에 내는 홍보·업데이트·잡소리 초안과 도달점 |

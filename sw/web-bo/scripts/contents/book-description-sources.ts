@@ -4,7 +4,7 @@
  */
 import { createHash } from 'node:crypto'
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
@@ -25,6 +25,8 @@ const REQUEST_INTERVAL_MS = 1000
 const MAX_CONSECUTIVE_FAILURES = 3
 const READBACK_ATTEMPTS = 10
 const READBACK_DELAY_MS = 500
+const SSH_CONNECT_RETRIES = 5
+const SSH_CONNECT_RETRY_MS = 60_000
 const ROW_SELECT = 'content_id,locale,title,creator,publisher,isbn,description,sources'
 interface Book {
   id: string
@@ -41,11 +43,11 @@ async function main() {
     'content-id': { type: 'string', multiple: true }, locale: { type: 'string' },
     'include-stored': { type: 'boolean' }, apply: { type: 'boolean' },
     'source-only': { type: 'boolean' }, reselect: { type: 'boolean' },
-    'verify-markers': { type: 'boolean' },
+    'verify-markers': { type: 'boolean' }, 'content-ids-file': { type: 'string' }, 'kakao-to-daum': { type: 'boolean' },
     'backup-dir': { type: 'string' }, help: { type: 'boolean' },
   }, strict: true })
   if (values.help) {
-    console.log('book-description-sources [--limit 20] [--after content-id] [--content-id ID] [--locale ko|en] [--include-stored] [--source-only] [--verify-markers] [--apply --backup-dir PATH]\nDefault: read-only, NULL introductions only. --include-stored also checks existing external copies; prepared/unknown text is preserved. --source-only converts existing trusted URLs (Kakao/Daum for ko, OpenLibrary for en) without external requests. English --apply requires --source-only or --verify-markers, unless one explicit --content-id is supplied. --reselect re-fetches rows that already carry a marker (explicit --content-id only, e.g. after an ISBN change) and keeps the old marker when no introduction is found. --verify-markers re-resolves every marker row: the stored pointer is verified first, then a fresh provider lookup; a marker that resolves to nothing becomes NULL (investigation needed) while its source URL is kept.')
+    console.log('book-description-sources [--limit 20] [--after content-id] [--content-id ID] [--locale ko|en] [--include-stored] [--source-only] [--verify-markers] [--content-ids-file PATH] [--kakao-to-daum] [--apply --backup-dir PATH]\nDefault: read-only, NULL introductions only. --include-stored also checks existing external copies; prepared/unknown text is preserved. --source-only converts existing trusted URLs (Kakao/Daum for ko, OpenLibrary for en) without external requests. English --apply requires --source-only or --verify-markers, unless one explicit --content-id is supplied. --reselect re-fetches rows that already carry a marker (explicit --content-id only, e.g. after an ISBN change) and keeps the old marker when no introduction is found. --verify-markers re-resolves every marker row: the stored pointer is verified first, then a fresh provider lookup; a marker that resolves to nothing becomes NULL (investigation needed) while its source URL is kept. --content-ids-file limits the run to the IDs in a file (one per line), resumable with --after. --kakao-to-daum moves KAKAO markers to DAUM only when Daum returns a longer text of the same ISBN, because Kakao cuts its text at about 250 characters; Korean only. A locale whose lookups keep failing stops the run instead of scanning on.')
     return
   }
   const limit = Number(values.limit)
@@ -53,6 +55,12 @@ async function main() {
   if (values.locale && !['ko', 'en'].includes(values.locale)) throw new Error('--locale must be ko or en')
   if (values['source-only'] && !values.locale) throw new Error('--source-only requires --locale ko or en')
   if (values.reselect && !values['content-id']?.length) throw new Error('--reselect requires --content-id')
+  if (values['kakao-to-daum'] && values.locale !== 'ko') throw new Error('--kakao-to-daum requires --locale ko')
+  if (values['kakao-to-daum'] && (values.reselect || values['source-only'] || values['verify-markers'] || values['include-stored'])) throw new Error('--kakao-to-daum runs alone')
+  if (values['content-ids-file'] && values['content-id']?.length) throw new Error('Specify --content-id or --content-ids-file, not both')
+  const targetIds = values['content-ids-file']
+    ? [...new Set(readFileSync(values['content-ids-file'], 'utf8').split(/\r?\n/).map((id) => id.trim()).filter(Boolean))].sort()
+    : null
   if (values.reselect && values['source-only']) throw new Error('--reselect cannot be combined with --source-only')
   if (values['verify-markers'] && (values.reselect || values['source-only'])) throw new Error('--verify-markers cannot be combined with --reselect or --source-only')
   if (values.apply && values.locale === 'en' && !values['source-only'] && !values['verify-markers'] && values['content-id']?.length !== 1) {
@@ -76,14 +84,25 @@ async function main() {
   const backupDir = values.apply ? resolve(values['backup-dir']!, new Date().toISOString().replace(/[:.]/g, '-')) : null
   if (backupDir) mkdirSync(backupDir, { recursive: true })
   const throttle = async () => { await delay(Math.max(0, REQUEST_INTERVAL_MS - (Date.now() - lastRequest))); lastRequest = Date.now() }
-  const freshLookup = async (isbn: string, locale: 'ko' | 'en', contentId: string): Promise<IntroductionSelection | undefined> => {
+  // 카카오 ISBN 칸의 10자리 값은 979 ISBN의 앞자리가 빠진 값일 수 있어 978로 환산하면 다른 번호를 조회한다.
+  // 이런 행은 등록 때 저장한 다음 책 주소로 같은 책을 직접 조회한다.
+  const tenDigitIsbnDaumUrl = (row: IntroductionRow): string | undefined => {
+    if (row.locale !== 'ko' || row.isbn?.trim().length !== 10) return undefined
+    for (const key of ['isbn', 'title', 'description']) {
+      const url = row.sources?.[key]
+      const detailUrl = typeof url === 'string' ? getDaumMobileDetailUrl(url) : null
+      if (detailUrl) return detailUrl
+    }
+    return undefined
+  }
+  const freshLookup = async (isbn: string, locale: 'ko' | 'en', contentId: string, daumUrl?: string): Promise<IntroductionSelection | undefined> => {
     if (disabledLocales.has(locale)) { count(`lookup-skipped-${locale}`); return undefined }
-    const key = `${locale}:${isbn}`
+    const key = `${locale}:${daumUrl ?? isbn}`
     const cached = lookup.get(key)
     if (cached) return cached
     await throttle()
     try {
-      const result = await fetchBookIntroduction({ isbn, locale })
+      const result = await fetchBookIntroduction(daumUrl ? { locale, source: 'DAUM', sourceUrl: daumUrl } : { isbn, locale })
       lookup.set(key, result)
       if (lookup.size > 500) lookup.delete(lookup.keys().next().value!)
       failures.delete(locale)
@@ -100,11 +119,17 @@ async function main() {
       return undefined
     }
   }
-  while (books < limit) {
+  while (books < limit && !disabledLocales.size) {
     let query = db.from('contents').select('id,external_source,external_id,metadata')
       .eq('type', 'BOOK').order('id').limit(Math.min(PAGE_SIZE, limit - books))
     if (cursor) query = query.gt('id', cursor)
     if (values['content-id']?.length) query = query.in('id', values['content-id'])
+    if (targetIds) {
+      // The full list does not fit in one request URL.
+      const page = targetIds.filter((id) => id > cursor).slice(0, Math.min(PAGE_SIZE, limit - books))
+      if (!page.length) break
+      query = query.in('id', page)
+    }
     const { data, error } = await query
     if (error) throw error
     if (!data?.length) break
@@ -123,6 +148,7 @@ async function main() {
     }
     const [locales, editions] = await Promise.all([readRows('content_locales'), readRows('figure_book_editions')])
     for (const raw of data) {
+      if (disabledLocales.size) break
       const book: Book = { ...raw, content_locales: locales.filter((row) => row.content_id === raw.id),
         figure_book_editions: editions.filter((row) => row.content_id === raw.id) }
       books += 1
@@ -133,7 +159,21 @@ async function main() {
       ]
       for (const { table, row } of rows) {
         if (!['ko', 'en'].includes(row.locale) || (values.locale && row.locale !== values.locale)) continue
+        // 선정 제외 판정이 붙은 행은 화면에 나가지 않고, 판본 행은 DB 가드가 출처 변경을 거부한다.
+        if (Array.isArray(row.sources?.edition_selection_evidence) && row.sources.edition_selection_evidence.length) { count('excluded-edition'); continue }
         const marker = isBookIntroductionSource(row.description) ? row.description as BookIntroductionSource : null
+        if (values['kakao-to-daum']) {
+          if (marker !== 'KAKAO') { count('not-kakao-marker'); continue }
+          const isbn = row.isbn?.trim() || (book.external_source === 'kakao_book' ? book.external_id : null)
+          if (!isbn) { count('missing-isbn'); continue }
+          const result = await freshLookup(isbn, 'ko', book.id, tenDigitIsbnDaumUrl(row))
+          if (result === undefined) continue
+          if (result.source !== 'DAUM') { count('kakao-kept'); continue }
+          const decision = planIntroductionChange(table, row, result, { reselect: true })
+          count(decision.reason)
+          if (decision.change) changes.push(decision.change)
+          continue
+        }
         if (marker && !values.reselect && !values['verify-markers']) { count('already-selected'); continue }
         if (!marker && row.description?.trim() && !values['include-stored']) { count('stored-text'); continue }
         if (!marker && row.description?.trim() && hasPreparedIntroduction(row)) { count('prepared-text'); continue }
@@ -217,7 +257,7 @@ async function main() {
           continue
         }
         if (!isbn) { count('missing-isbn'); continue }
-        const result = await freshLookup(isbn, row.locale, book.id)
+        const result = await freshLookup(isbn, row.locale, book.id, tenDigitIsbnDaumUrl(row))
         if (result === undefined) continue
         const decision = planIntroductionChange(table, row, result, { reselect: values.reselect })
         count(decision.reason)
@@ -234,10 +274,17 @@ async function main() {
         writeFileSync(resolve(backupDir, `${name}.json`), backup, { encoding: 'utf8', flag: 'wx' })
         writeFileSync(resolve(backupDir, `${name}.sha256`), createHash('sha256').update(backup).digest('hex') + '\n', { flag: 'wx' })
         const sql = buildIntroductionApplySql(book.id, changes, metadataChange)
-        const appliedResult = spawnSync('ssh', ['-i', resolve(homedir(), '.ssh/feelandnote_oracle'),
+        const runApply = () => spawnSync('ssh', ['-i', resolve(homedir(), '.ssh/feelandnote_oracle'),
           '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', 'ubuntu@152.67.198.197',
           'sudo docker exec -i feelandnote-db psql -U postgres -d postgres -X -q -A -t -v ON_ERROR_STOP=1'],
         { input: sql, encoding: 'utf8', timeout: 45000, maxBuffer: 1024 * 1024 })
+        let appliedResult = runApply()
+        // 연결이 맺어지기 전의 실패만 재시도한다. 트랜잭션이 시작되지 않았으므로 중복 반영이 없다.
+        for (let attempt = 0; attempt < SSH_CONNECT_RETRIES && /^ssh: connect to host/m.test(appliedResult.stderr ?? ''); attempt += 1) {
+          count('ssh-connect-retry')
+          await delay(SSH_CONNECT_RETRY_MS)
+          appliedResult = runApply()
+        }
         if (appliedResult.error || appliedResult.status !== 0) throw new Error(appliedResult.error?.message ?? appliedResult.stderr)
         // Confirm persisted descriptions and source URLs before advancing the cursor.
         // The API may briefly serve a stale replica immediately after the SSH transaction;

@@ -4,13 +4,15 @@
 
 ## 현재 도달점
 
-2026-10-30 재검수에서 출력되는 결손(소개 없음)은 한국어 0건·영어 104건이다. 영어 104건은 모두 판본 없이 영어 카드로 대체 노출되는 작품이다. 같은 날 20:59에 0건에 도달한 뒤 22:21–22:49에 다른 세션이 새로 등록한 카드들이며, 이번 재집계에서도 남아 있다. 아래 반복 실행 순서로 이 104건부터 보완한다.
+2026-11-10 운영 재집계에서 출력되는 결손(소개 없음)은 한국어 0건·영어 2,347건이다. 기본 선택판뿐 아니라 사용자가 선택할 수 있는 다른 판본과 언어 카드도 포함한 수치이며, 영어 기본 선택판만의 누락은 2,343건이다. 새 책이 계속 등록되므로 현재 대상은 아래 집계 명령으로 다시 확인한다. 『Journeys and Explorations in the Cotton Kingdom』과 Robert Watson의 『History of the Reign of Philip the Second, King of Spain』은 현재 ISBN의 복각본 수록 범위가 불명확해 보류 중이다. 『Ever Newer Shores』와 George F. Sterne의 『Secrets of the Millionaires』는 책 내용을 설명할 독립 출처를 찾지 못했다.
+
+출처 조회는 Google Books 무료 키의 일일 한도가 차면 ISBN 정확 일치 응답을 받을 수 없다. 이때는 OpenLibrary 판본·원전 설명과 출판사·도서관·서평 페이지를 읽어 쓰고, 그 페이지를 `sourceUrl`·`evidence`로 남긴다.
 
 `pnpm contents:book-introductions`는 기본 선택판과 사용자가 선택할 수 있는 다른 판본을 함께 확인한다. 전체 보완 대상은 `targetRows`이며, 언어별 `defaultMissing`은 기본 선택판의 소개 누락 수다. 본문과 사용 가능한 출처 참조가 모두 없는 경우를 센다.
 
 ISBN도 작품 앵커(`workTitle`)도 없어 선정 제외 근거를 붙일 수 없는 값 없는 행(내용을 확인할 수 없는 악보·자리표시 행)은 `guardedCatalogExclusions`의 `whole_work`로 작품째 지운다. 보호 참조(감상·이용 기록 등)가 있으면 가드가 막는다.
 
-남은 행은 조사 작성(`apply-book-research-introductions.ts --plan FILE --apply`)으로 채운다. 근거 주소는 ISBN의 WorldCat 검색(`https://search.worldcat.org/search?q=bn:<ISBN>`)이나 카카오·위키백과 문서를 쓴다. OpenLibrary 주소는 교정 경로의 독립 출처 검사에서 거부된다. 분량은 공백 제외 한국어 150–450자, 영어 350–1,400자이며, 한 행이라도 분량·대상이 맞지 않으면 그 묶음 전체가 반영되지 않는다. 이미 쓴 소개를 고칠 때는 `reviewedIntroductionCorrection`을 붙인 보호 반영(`guarded-catalog-repairs.mjs`)을 쓴다.
+남은 행은 검증한 제공자 본문을 먼저 쓰고, 반대 언어에만 본문이 있으면 번역한다. 원문 소개가 없는 책은 조사 작성(`apply-book-research-introductions.ts --plan FILE --apply`)으로 채운다. 근거 주소는 ISBN의 WorldCat 검색(`https://search.worldcat.org/search?q=bn:<ISBN>`)이나 카카오·위키백과 문서를 쓴다. OpenLibrary 주소는 교정 경로의 독립 출처 검사에서 거부된다. 조사 작성의 분량은 공백 제외 한국어 150–450자, 영어 350–1,400자이며, 한 행이라도 분량·대상이 맞지 않으면 그 묶음 전체가 반영되지 않는다. 이미 쓴 소개를 고칠 때는 `reviewedIntroductionCorrection`을 붙인 보호 반영(`guarded-catalog-repairs.mjs`)을 쓴다.
 
 아래 행은 소개를 쓰지 않고, 그 언어의 ISBN 행 전부(언어 카드와 판본 행)에 `sources.edition_selection_evidence`(`independent_selection_review`)를 붙여 책장에서 뺀다. 카드에도 근거를 붙여야 남은 카드가 대체 노출되지 않는다. 작품·관계·이용 기록은 지우지 않는다. 2026-10-30에 한국어 94작품(190행)과 영어 240작품(456행)을 이렇게 처리했다.
 
@@ -42,6 +44,26 @@ ISBN도 작품 앵커(`workTitle`)도 없어 선정 제외 근거를 붙일 수 
 
 엉뚱한 인물에 붙은 비도서(제목의 낱말이 인물 이름과 겹친 악보·잡지·음악 이론서 등)와 인물 연결 없이 남은 문제집은 소개를 쓰지 않고 `guardedCatalogExclusions`의 `catalog_only`로 책장에서 빼고, 남는 언어 카드가 대체 노출되지 않게 그 ISBN 행에 `sources.edition_selection_evidence`(`non_reading_product`·`editorial_exclusion`)를 붙인다. 작품·언어 카드·이용 기록은 지우지 않는다. 2026-10-30에 5건(본조비 III 밴드스코어→조비, 민요 선율 조식과 화성→조식, LEE 잡지→보아, 연결 없는 중학 영어 문제집 2건)을 이렇게 처리했다.
 
+## 잘린 소개 점검
+
+소개가 문장 중간에 끊겨 있으면 저장값이 잘린 사본이다. 원인과 채널 특성은 [소개 수집 룰북](../project/celeb/celeb-02-06-content-introduction-sources.md)이 쥔다. 2026-11-06에 전수 보완했다. 새 대량 등록 뒤에는 끝이 문장이 아닌 240~262자 행과 정확히 500자·1,200자인 행을 먼저 뽑아 본다.
+
+`sw/web-bo`에서 실행한다. 미리보기로 사유별 건수를 본 뒤 `--apply --backup-dir <작업 폴더>/_backup`을 붙인다.
+
+```powershell
+# 저장 본문이 전문의 일부로 확인된 행을 전문 출처로 바꾼다
+pnpm contents:book-sources --content-ids-file <ID 파일> --include-stored --locale ko --limit 100000
+
+# KAKAO 표식을 같은 ISBN의 더 긴 다음 전문으로 옮긴다
+pnpm contents:book-sources --content-ids-file <ID 파일> --kakao-to-daum --locale ko --limit 100000
+```
+
+- 대조에 실패한 행은 도구가 그대로 둔다. 저장값과 다음 전문을 나란히 읽어 판단한다.
+- 끝이 문장이 아니어도 추천사 출처(`-동아일보`), 수록작 목록, 인용 쪽수(`【389-390쪽】`)는 잘림이 아니다.
+- 더 긴 원문이 없으면 마지막 완결 문장까지만 남긴다. 작품명 괄호 안의 느낌표에서 끊지 않도록 괄호 짝을 본다.
+- 영문이 주인 한국어 행은 표식으로 바꾸면 화면이 거르므로 전문을 본문으로 저장한다.
+- 잘린 영문을 번역한 행에는 끊긴 조각이 남는다(`Grammy Awar 후보`). 원문을 고치면 번역도 함께 본다.
+
 ## 반복 실행 순서
 
 `sw/web-bo`에서 실행한다.
@@ -61,5 +83,7 @@ pnpm contents:book-introductions --reviewed "<검수 JSON 경로>" --apply
 새 책만 처리하려면 `--content-id <작품 ID>`를 붙인다. 기존 조회 자료를 이어 쓰려면 `--collect --work-dir "<기존 작업 폴더>"`로 실행한다. 어느 경우든 현재 DB에서 대상을 다시 읽는다.
 
 수집한 소개는 같은 작품·ISBN·언어·본문 범위인지 읽고 검수한다. 반영 명령은 DB 재조회, 책장 선택 확인, 관련 캐시 갱신, 기본 선택판의 운영 상세 확인까지 수행한다. 입력 형식과 전체 옵션은 [실행 스크립트](../../sw/web-bo/scripts/contents/book-introductions.mjs)의 `--help`를 본다.
+
+기존 카탈로그에 해당 언어 판본이 빠져 있으면 카드 소개를 채워도 화면은 다른 언어 판본을 고를 수 있다. 실제 판본까지 확인한 경우에만 검수 항목의 `catalogReview`를 함께 지정한다. 통합 스크립트는 같은 카드·ISBN·제목·저자와 읽은 출처를 대조하고, 판본 연결 뒤에도 소개가 선택되는지와 운영 상세를 확인한다.
 
 출처·번역·조사 작성 규칙은 [소개 수집 룰북](../project/celeb/celeb-02-06-content-introduction-sources.md), 판본·인물 연결은 [인물 도서 정리](figure-books.md)를 따른다. 영상·게임·음악도 같은 출처 룰북을 사용하며, 검수한 소개는 `apply-media-introductions.ts --plan FILE --apply`로 반영한다.

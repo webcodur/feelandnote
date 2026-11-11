@@ -32,6 +32,9 @@
     "celeb:readings": "tsx scripts/celeb/readings.ts",
     "celeb:readings:translate": "tsx scripts/celeb/readings-translate.ts",
     "celeb:relations": "node --env-file=.env --import tsx scripts/celeb/relations.ts",
+    "celeb:research:ledger": "node --env-file=.env --import tsx scripts/celeb/content-research/ledger.mts",
+    "celeb:research:aladin": "node --env-file=.env --import tsx scripts/celeb/content-research/aladin-recommends.mts",
+    "celeb:research:youtube": "node --import tsx scripts/celeb/content-research/youtube-scan.mts",
     "celeb:dialogue-repair": "node scripts/celeb/dialogue-repair.mjs",
     "avatar:batch": "tsx scripts/avatar/batch.ts",
     "avatar:upload": "tsx scripts/avatar/upload.ts",
@@ -96,6 +99,8 @@
     "figure-books:series-audit:test": "node --import tsx --test scripts/figure-books/series-split-audit.test.mjs scripts/figure-books/series-work.test.mjs scripts/figure-books/series-split-source-check.test.mjs scripts/figure-books/series-split-repair.test.mjs scripts/figure-books/series-split-batch.test.mjs scripts/figure-books/series-split-verify.test.mjs scripts/figure-books/series-split-toc-check.test.mjs",
     "figure-books:series-toc-check": "node --import tsx scripts/figure-books/series-split-toc-check.mjs",
     "contents:book-introductions": "tsx --tsconfig ../web/tsconfig.json scripts/contents/book-introductions.mjs",
+    "contents:book-covers": "node --env-file=.env --import tsx scripts/contents/backfill-book-covers.mjs",
+    "contents:book-covers:test": "tsx --test scripts/contents/backfill-book-covers.test.mjs scripts/contents/book-thumbnail-upgrade.test.mjs scripts/contents/book-low-resolution-upgrade.test.mjs",
     "contents:book-introductions:test": "tsx --tsconfig ../web/tsconfig.json --test scripts/contents/book-introductions.test.mjs",
     "naver:audit-book-counts": "node scripts/naver-blog/audit-book-counts.mjs"
   },

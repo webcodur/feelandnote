@@ -129,3 +129,18 @@ export function buildReviewedIntroductionChanges(snapshot, reviews, visibleTarge
   }
   return changes.map(change => ({ table: change.table, before: change.before, patch: change.patch }))
 }
+
+/** 언어 카드의 소개와 함께 LLM이 명시적으로 검수한 누락 판본만 연결한다. */
+export function reviewedIntroductionCatalogInserts(reviews) {
+  return reviews.flatMap(review => {
+    const proof = review.catalogReview, target = review.target
+    if (proof === undefined) return []
+    if (review.llmReviewed !== true || !proof || !target || target.editionId !== null || target.isDefault !== true
+      || proof.contentId !== target.contentId || proof.locale !== target.locale || proof.textLanguage !== target.locale
+      || proof.isbn !== target.isbn || proof.title !== target.title || proof.creator !== target.creator
+      || !review.evidence?.some(item => item.url === proof.sourceUrl && item.note?.trim())) {
+      throw Error('누락 판본 연결에는 같은 언어 카드·ISBN·제목·저자와 직접 읽은 출처의 명시적 검수가 필요합니다.')
+    }
+    return [proof]
+  })
+}

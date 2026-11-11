@@ -86,7 +86,8 @@ export function findConflicts(snapshot, pair) {
   if (duplicates('member_contents', 'member_id').length) return 'member-duplicate-needs-review'
   for (const { keep, drop } of duplicates('celeb_contents', 'celeb_id')) {
     for (const key of new Set([...Object.keys(keep), ...Object.keys(drop)])) {
-      if (['id', 'content_id', 'created_at', 'updated_at'].includes(key)) continue
+      // is_recommended는 폐기한 값이다(26.11.08). 기본값 false와 추천사 일괄 등록의 true뿐이라 병합 판단에 쓰지 않는다.
+      if (['id', 'content_id', 'created_at', 'updated_at', 'is_recommended'].includes(key)) continue
       const a = keep[key], b = drop[key]
       const filled = value => value !== null && value !== undefined && value !== ''
       if (JSON.stringify(a) !== JSON.stringify(b) && (!['review', 'review_en', 'source_url'].includes(key) || (filled(a) && filled(b)))) return `celeb-${key}-needs-review`
@@ -267,7 +268,7 @@ export function validateReviewedInvalidCurationRemovals(pair, snapshot, removals
 export function validateReviewedCurationResolutions(pair, snapshot, reviews = []) {
   validatePair(pair)
   if (!Array.isArray(reviews)) throw Error('MERGE_REVIEW: reviewedCurationResolutions must be an array')
-  const seen = new Set(), ignored = new Set(['id','content_id','created_at','updated_at'])
+  const seen = new Set(), ignored = new Set(['id','content_id','created_at','updated_at','is_recommended'])
   const text = value => typeof value === 'string' && value.trim().length >= 20
   const https = value => { try { const url = new URL(value);return typeof value === 'string' && !/\s/u.test(value) && url.protocol === 'https:' && !url.username && !url.password } catch { return false } }
   return reviews.map(review => {
@@ -516,7 +517,7 @@ BEGIN
   ${curationRemovalSql}
   ${curationResolutionSql}
   FOR row_pair IN SELECT to_jsonb(a) AS a, to_jsonb(b) AS b FROM public.celeb_contents a JOIN public.celeb_contents b USING(celeb_id) WHERE a.content_id=keep_id AND b.content_id=drop_id LOOP
-    FOR field IN SELECT x.key, x.value AS a, row_pair.b->x.key AS b FROM jsonb_each(row_pair.a) x WHERE x.key NOT IN ('id','content_id','created_at','updated_at') LOOP
+    FOR field IN SELECT x.key, x.value AS a, row_pair.b->x.key AS b FROM jsonb_each(row_pair.a) x WHERE x.key NOT IN ('id','content_id','created_at','updated_at','is_recommended') LOOP
       IF field.a IS DISTINCT FROM field.b AND (field.key NOT IN ('review','review_en','source_url') OR (field.a NOT IN ('null'::jsonb, '""'::jsonb) AND field.b NOT IN ('null'::jsonb, '""'::jsonb))) THEN RAISE EXCEPTION 'MERGE_REVIEW: celeb conflict in %', field.key; END IF;
     END LOOP;
     -- 감상 행을 가리키는 자식 데이터를 cascade로 지우지 않는다.

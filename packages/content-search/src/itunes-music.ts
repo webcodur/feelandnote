@@ -140,14 +140,19 @@ async function call(url: string): Promise<ItunesTrack[]> {
  *
  * 한국 스토어는 아티스트명을 한국어로 돌려주므로(Nirvana→너바나) 국내 음원은 KR이,
  * 해외 음원은 US가 정확하다. 검색어에 한글이 있으면 KR을 먼저 본다.
+ * 특정 지역의 음원을 확인할 때는 storefront를 지정해 그 지역만 조회한다.
  */
 export async function searchMusic(
   query: string,
   page: number = 1,
-  limit: number = 20
+  limit: number = 20,
+  storefront?: string
 ): Promise<{ items: ItunesMusicResult[]; total: number; hasMore: boolean }> {
+  if (storefront !== undefined && !/^[a-z]{2}$/i.test(storefront)) {
+    throw new Error('iTunes storefront must be a two-letter country code')
+  }
   const hasKorean = /[가-힣]/.test(query)
-  const countries = hasKorean ? ['KR', 'US'] : ['US', 'KR']
+  const countries = storefront ? [storefront.toUpperCase()] : hasKorean ? ['KR', 'US'] : ['US', 'KR']
   const offset = (page - 1) * limit
 
   for (const country of countries) {

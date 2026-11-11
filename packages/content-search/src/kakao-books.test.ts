@@ -103,6 +103,7 @@ test('카카오 contents의 공백 런을 줄급·덩어리급 개행으로 복�
 
 test('책 소개 영역이 없으면 null을 반환한다', () => {
   assert.equal(kakao.parseDaumBookDescription('<main>소개 없음</main>'), null)
+  assert.equal(kakao.parseDaumBookDescription('<div class="info_desc"><p class="desc">성인인증이 필요합니다.</p></div>'), null)
 })
 
 test('HTTP 200 CAPTCHA 안내를 소개 누락으로 반환하지 않는다', async (t) => {

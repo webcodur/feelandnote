@@ -1,0 +1,9 @@
+// 크롬 Gemini 발송 JS가 공유하는 모드 선택·판정 조각이다. 독서방식·감상배경은 Carbon 높음으로만 받는다(26.11.11 사용자 지시).
+// Carbon은 Ultra 계정(u4) 메뉴에만 있다. Pro 계정은 메뉴에 Carbon이 없어 {ok:false}로 끝나고 전송하지 않는다.
+// UI 언어가 계정마다 한·영으로 갈려 라벨은 두 언어를 모두 받는다(26.11.11 u4 영어·u0 혼용 실측).
+// PICK은 async IIFE 안에 넣는 문장열이다. w(ms)·btn()·pick()을 정의하며, pick()은 {ok,label} 또는 {ok:false,why|limit}을 돌려준다.
+export const MODEL = 'Carbon'
+export const MODE_OK = '/Carbon\\s*(높음|High)\\b/'
+export const SEND = 'button[aria-label*="보내기"],button[aria-label="Send message"]'
+export const BUSY = 'button[aria-label="대답 생성 중지"],button[aria-label^="Stop"]'
+export const PICK = `const w=ms=>new Promise(r=>setTimeout(r,ms));const btn=()=>document.querySelector('button[aria-label*="모드 선택"],button[aria-label*="mode picker"]');const okRe=${MODE_OK};const esc=()=>document.body.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));const pick=async()=>{for(let i=0;i<30&&!btn();i++)await w(500);if(!btn())return {ok:false,why:'no picker'};const items=()=>[...document.querySelectorAll('[role=menuitemradio],[role=menuitem]')];const find=re=>items().find(e=>re.test(e.innerText));for(let k=0;k<2&&!okRe.test(btn().getAttribute('aria-label')||'');k++){btn().click();await w(900);const t=find(/Carbon|Most complex work/);if(!t){esc();return {ok:false,why:'no Carbon (Ultra only)'};}if(t.getAttribute('aria-disabled')==='true'){esc();return {ok:false,limit:t.innerText.replace(/\\s+/g,' ').trim()};}if(t.getAttribute('aria-checked')!=='true'){t.click();await w(900);btn().click();await w(900);}find(/사고 수준|Thinking level/)?.click();await w(900);const hi=items().find(e=>e.getAttribute('role')==='menuitemradio'&&/^(높음|High)\\b/.test(e.innerText.trim()));if(hi?.getAttribute('aria-disabled')==='true'){esc();return {ok:false,limit:hi.innerText.replace(/\\s+/g,' ').trim()};}hi?.click();await w(1200);esc();await w(400);}const label=btn().getAttribute('aria-label');return {ok:okRe.test(label),label};};`

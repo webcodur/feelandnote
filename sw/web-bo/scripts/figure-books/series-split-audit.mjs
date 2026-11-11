@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process'
 import { existsSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { detectSplitSeries, detectEditionAttributionRisks } from './lib/series-audit.mjs'
+import { detectSplitSeries, detectEditionAttributionRisks, detectDisplayPublicationRisks } from './lib/series-audit.mjs'
 import { seriesVolumeInfo } from '../../../../packages/content-search/src/book-series.ts'
 
 export function detectSeriesVolumeClutter(catalog) {
@@ -30,6 +30,8 @@ export function detectSeriesVolumeClutter(catalog) {
 
 const SSH_HOST = 'ubuntu@152.67.198.197'
 const SSH_KEY = 'C:/Users/webco/.ssh/feelandnote_oracle'
+// The catalog includes full edition rows and now exceeds 128 MiB after bulk imports.
+const CATALOG_MAX_BYTES = 256 * 1024 * 1024
 
 // 같은 시점의 작품·실제 판본·관계를 메모리에 읽는다. 원본 DB의 로컬 사본은 만들지 않는다.
 export const SERIES_AUDIT_SQL = `
@@ -51,7 +53,7 @@ SELECT jsonb_build_object(
     'catalog',f.content_id IS NOT NULL,'referenceCounts',coalesce(r.counts,'{}'::jsonb)) ORDER BY b.id),'[]'::jsonb)
     FROM books b LEFT JOIN figure_book_contents f ON f.content_id=b.id LEFT JOIN ref_counts r ON r.content_id=b.id),
   'locales', (SELECT coalesce(jsonb_agg(jsonb_build_object('content_id',l.content_id,'locale',l.locale,'title',l.title,'creator',l.creator,
-    'publisher',l.publisher,'isbn',l.isbn,'sources',jsonb_build_object('primary',l.sources->'primary','title',l.sources->'title','isbn',l.sources->'isbn','creator',l.sources->'creator','workKey',l.sources->'workKey','series_source_url',l.sources->'series_source_url')) ORDER BY l.content_id,l.locale),'[]'::jsonb)
+    'publisher',l.publisher,'isbn',l.isbn,'thumbnail_url',l.thumbnail_url,'affiliate_url',l.affiliate_url,'sources',jsonb_build_object('primary',l.sources->'primary','title',l.sources->'title','isbn',l.sources->'isbn','creator',l.sources->'creator','workKey',l.sources->'workKey','series_source_url',l.sources->'series_source_url')) ORDER BY l.content_id,l.locale),'[]'::jsonb)
     FROM content_locales l JOIN books b ON b.id=l.content_id),
   'editions', (SELECT coalesce(jsonb_agg(to_jsonb(e) ORDER BY e.id),'[]'::jsonb) FROM figure_book_editions e JOIN books b ON b.id=e.content_id),
   'products', (SELECT coalesce(jsonb_agg(to_jsonb(p)),'[]'::jsonb) FROM figure_book_products p JOIN figure_book_editions e ON e.id=p.edition_id JOIN books b ON b.id=e.content_id),
@@ -67,7 +69,7 @@ export function loadSeriesAuditCatalog() {
   // 고정 ASCII SQL을 SSH로 전달해 PowerShell의 한글 인코딩 영향을 피한다.
   const command = "docker exec feelandnote-db psql -XqAt -v ON_ERROR_STOP=1 -U postgres -d postgres -c '" + SERIES_AUDIT_SQL.replaceAll("'", "'\\''") + "'"
   const result = spawnSync('ssh', ['-i',SSH_KEY,'-o','BatchMode=yes','-o','ConnectTimeout=15',SSH_HOST,command],
-    { encoding:'utf8', windowsHide:true, timeout:80000, maxBuffer:128*1024*1024 })
+    { encoding:'utf8', windowsHide:true, timeout:80000, maxBuffer:CATALOG_MAX_BYTES })
   if (result.error || result.status !== 0) throw new Error(result.error?.message ?? result.stderr?.trim() ?? 'DB read failed')
   const data = JSON.parse(result.stdout)
   for (const key of ['contents','locales','editions','relations','readings','people']) if (!Array.isArray(data[key])) throw new Error('Missing DB result: '+key)
@@ -90,7 +92,7 @@ export function auditCurrentBooks() {
   const detected = detectSplitSeries(catalog)
   return { observedAt:catalog.observedAt, counts:Object.fromEntries(['contents','locales','editions','relations','readings'].map(key=>[key,catalog[key].length])),
     elapsedSeconds:Number(((performance.now()-started)/1000).toFixed(2)), detectionSeconds:Number(((performance.now()-loaded)/1000).toFixed(2)), ...detected,
-    editionAttributionRisks:detectEditionAttributionRisks(catalog), seriesVolumeClutter:detectSeriesVolumeClutter(catalog) }
+    editionAttributionRisks:detectEditionAttributionRisks(catalog), displayPublicationRisks:detectDisplayPublicationRisks(catalog), seriesVolumeClutter:detectSeriesVolumeClutter(catalog) }
 }
 
 export function main() {
@@ -98,10 +100,11 @@ export function main() {
   if (out && existsSync(out)) throw new Error('Candidate file already exists: '+out)
   const report = auditCurrentBooks()
   if (out) { writeFileSync(out,JSON.stringify(report,null,2)+'\n',{encoding:'utf8',flag:'wx'}); console.log('WROTE '+out) }
-  console.log(JSON.stringify({observedAt:report.observedAt,counts:report.counts,elapsedSeconds:report.elapsedSeconds,candidates:report.candidates.length,editionAttributionRisks:report.editionAttributionRisks.length,seriesVolumeClutter:report.seriesVolumeClutter.length,missingSeriesStarts:report.seriesVolumeClutter.filter(group => group.missingStart).length,bySignal:report.bySignal,diagnostics:report.diagnostics}))
+  console.log(JSON.stringify({observedAt:report.observedAt,counts:report.counts,elapsedSeconds:report.elapsedSeconds,candidates:report.candidates.length,editionAttributionRisks:report.editionAttributionRisks.length,displayPublicationRisks:report.displayPublicationRisks.length,seriesVolumeClutter:report.seriesVolumeClutter.length,missingSeriesStarts:report.seriesVolumeClutter.filter(group => group.missingStart).length,bySignal:report.bySignal,diagnostics:report.diagnostics}))
   for (const candidate of (all ? report.candidates : report.candidates.slice(0,10))) console.log(JSON.stringify({contentIds:candidate.contentIds,signals:candidate.signals,workCount:candidate.contentIds.length,
     titles:candidate.evidence[0].titles.slice(0,5),people:candidate.sharedPeople.slice(0,5).map(person=>person.nickname),warnings:candidate.warnings,...(all?{works:candidate.works}: {})}))
   if (all) for (const risk of report.editionAttributionRisks) console.log(JSON.stringify({editionAttributionRisk:risk}))
+  if (all) for (const risk of report.displayPublicationRisks) console.log(JSON.stringify({displayPublicationRisk:risk}))
   if (all) for (const group of report.seriesVolumeClutter) console.log(JSON.stringify({seriesVolumeClutter:group}))
 }
 if (process.argv[1] && import.meta.url===pathToFileURL(resolve(process.argv[1])).href) main()

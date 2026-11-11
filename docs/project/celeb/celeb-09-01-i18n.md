@@ -63,3 +63,5 @@ pnpm --dir sw/web-bo celeb:i18n-backfill -- --apply
 중단된 적용을 이어갈 때는 `--resume`, 일부만 확인할 때는 `--limit <건수>`를 뒤에 붙인다. `--apply`는 사용자가 DB 반영을 명시한 경우에만 실행한다. 반영 뒤에는 대상별 결손 수와 비어 있지 않던 영문값이 보존됐는지 확인한다.
 
 DB를 갱신할 때는 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md#업데이트-가드)의 업데이트 가드를 함께 따른다.
+
+공개된 책 감상경위만 웹 Chat으로 번역할 때는 [`review-en-chatgpt.mjs`](../../../scripts/browser/review-en-chatgpt.mjs)를 쓴다. 명령과 옵션은 [`브라우저 도구`](../../../scripts/browser/README.md)를 따른다. 번역·문맥 검수는 웹 Chat이 수행하고 스크립트는 파일 전달·회수, 식별값·문단 검사, 변경 충돌 차단과 캐시 갱신을 맡는다. 코드 검사는 의미의 정확성을 보장하지 않는다.
