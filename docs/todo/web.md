@@ -68,7 +68,17 @@
   사용자와 최종 검토한 뒤 제품을 등록하고, 해당 제품에 연결한 소개 글을 게시한다.
 
 초안을 검토할 때 운영자 자기소개에 [공개 활동명 규칙](../../.agents/skills/notice-publish/SKILL.md#문체)을 반영한다.
-아이콘·화면 캡처(`D:\docs\feelandnote\community-intro\assets\`)도 준비되어 있으며 캡처 첨부는 선택이다.
+예전 초안과 아이콘·화면 캡처는 폴더째 사라져 26.11.11에 두 초안을 새로 썼다. 캡처가 필요하면 다시 찍는다.
+글의 수치(인물 약 9,000명·감상 기록 5만 9천여 건)는 26.11.11 홈 화면 표시(8,954명·59,024건)에 맞췄다. 게시 시점에 다시 맞춘다.
+등록형 디렉터리 세 곳에 26.11.11 등록했다. 문안은 같은 폴더의 `directories.md`에 있다.
+
+| 곳 | 상태 | 주소 |
+|---|---|---|
+| Eggly | 공개 | `https://eggly.dev/project/pilaennoteu-feelandnote` |
+| 디스콰이엇 프로덕트 | 승인 대기 | `https://disquiet.io/products/feelandnote` |
+| AlternativeTo | 무료 심사 대기열(검토 시점 기약 없음, 유료 심사는 $19부터) | `https://alternativeto.net/software/feelandnote/` |
+
+SaaSHub는 가입하지 않아 등록하지 않았다. 디스콰이엇 메이커로그 글과 긱뉴스 Show GN은 댓글 응대 여유가 생길 때까지 보류한다.
 음악·플레이리스트 신규 채널은 제외한다. 출판사·서점 접촉은 후순위이며, 브런치는 네이버 블로그와
 유사해 이번 추가 대상에서 제외한다.
 
