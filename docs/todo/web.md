@@ -72,11 +72,13 @@
 글의 수치(인물 약 9,000명·감상 기록 5만 9천여 건)는 26.11.11 홈 화면 표시(8,954명·59,024건)에 맞췄다. 게시 시점에 다시 맞춘다.
 등록형 디렉터리 세 곳에 26.11.11 등록했다. 문안은 같은 폴더의 `directories.md`에 있다.
 
-| 곳 | 상태 | 주소 |
-|---|---|---|
-| Eggly | 공개 | `https://eggly.dev/project/pilaennoteu-feelandnote` |
-| 디스콰이엇 프로덕트 | 승인 대기 | `https://disquiet.io/products/feelandnote` |
-| AlternativeTo | 무료 심사 대기열(검토 시점 기약 없음, 유료 심사는 $19부터) | `https://alternativeto.net/software/feelandnote/` |
+| 곳 | 상태 | 주소 | 등록 계정 |
+|---|---|---|---|
+| Eggly | 공개 | `https://eggly.dev/project/pilaennoteu-feelandnote` | GitHub 로그인, 아이디 `webcodur` (메이커 표시도 `@webcodur`) |
+| 디스콰이엇 프로덕트 | 승인 대기 | `https://disquiet.io/products/feelandnote` | 이메일 로그인 링크 방식. 프로필 이름 「아가톤」, 프로필 주소 `https://disquiet.io/profiles/k6tZeBW`. 가입 이메일은 기록하지 못함 |
+| AlternativeTo | 무료 심사 대기열(검토 시점 기약 없음, 유료 심사는 $19부터) | `https://alternativeto.net/software/feelandnote/` | 사용자가 직접 가입. 로그인 방식과 사용자명은 기록하지 못함(화면 우측 상단 프로필 약칭은 `we`). 제작자 항목은 `feelandnote`로 새로 만듦 |
+
+계정 비밀번호는 어디에도 적지 않는다.
 
 SaaSHub는 가입하지 않아 등록하지 않았다. 디스콰이엇 메이커로그 글과 긱뉴스 Show GN은 댓글 응대 여유가 생길 때까지 보류한다.
 음악·플레이리스트 신규 채널은 제외한다. 출판사·서점 접촉은 후순위이며, 브런치는 네이버 블로그와
