@@ -32,7 +32,6 @@ export function mapCelebIndexRow(row: RawRow, locale: string): UserContentPublic
     id: base.id,
     content_id: base.content_id,
     status: base.status,
-    is_recommended: false,
     visibility: base.visibility,
     created_at: base.created_at,
     source_url: null,

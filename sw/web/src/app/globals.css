@@ -67,6 +67,7 @@
   /* 읽기 강조색은 인물 세계·화면의 조작용 accent 테마와 독립적으로 유지한다. */
   --color-reading-quote: #f9d76e;
   --color-reading-term: #d4af37;
+  --color-reading-parenthetical: #c4b5fd;
 
   /* 현재 낭독 구간의 배경·밑줄. 본문의 인용·작품명 강조색과는 별개다. */
   --color-reading-active: #6fe3a0;

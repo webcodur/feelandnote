@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef, lazy, Suspense } from "react";
+// 지구본 보기 일시 중단 — 다시 켤 때 아래 「지구본 보기」 주석 블록과 함께 되살린다
+// import { useSearchParams } from "next/navigation";
 import { Search, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { MascotEmptyState } from '@/components/shared/mascots/Mascot';
@@ -22,6 +24,8 @@ import PortraitPersonStepper from "@/components/shared/PortraitPersonStepper";
 // 인물 카드 눌러 뜨는 요약 모달 — 첫 클릭 때만 늦게 받는다
 const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
 const CelebGridImageViewer = lazy(() => import("./CelebGridImageViewer"));
+// 지구본 보기(일시 중단) — 켤 때만 지구본·분포 자료를 받는다
+// const CelebGlobePanel = lazy(() => import("./CelebGlobePanel"));
 
 interface CelebCarouselProps {
   initialCelebs: CelebProfile[];
@@ -78,6 +82,17 @@ export default function CelebCarousel({
   });
 
   const [isControlsExpanded, setIsControlsExpanded] = useState(true);
+  // 지구본 보기(일시 중단) — 보기 방식은 주소(?view=globe)에 남겨 공유·새로고침해도 유지한다
+  // const searchParams = useSearchParams();
+  // const [globeView, setGlobeView] = useState(() => syncToUrl && searchParams.get("view") === "globe");
+  // const handleGlobeViewChange = (on: boolean) => {
+  //   setGlobeView(on);
+  //   const params = new URLSearchParams(window.location.search);
+  //   if (on) params.set("view", "globe");
+  //   else params.delete("view");
+  //   const query = params.toString();
+  //   window.history.replaceState(null, "", `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`);
+  // };
   const { cardImage, handleCardImageChange } = filters;
   const gridRef = useRef<HTMLElement>(null);
   const scrollAfterPageChange = useRef(false);
@@ -129,6 +144,7 @@ export default function CelebCarousel({
       {syncToUrl ? (
         <CelebCompactControls filters={filters} onInteraction={onFilterInteraction}
           cardImage={cardImage} onCardImageChange={handleCardImageChange}
+          // 지구본 보기(일시 중단): globeView={globeView} onGlobeViewChange={handleGlobeViewChange}
           // 전체 명부 수와 현재 조건에 맞는 결과 수 — 조작 아래 한 줄(검색 급증 안내 옆)에 선다
           resultLabel={realityTotals ? tHub("archiveResults", { count: filters.total, total: realityTotals[filters.realityValue] }) : tExplore("totalCount", { count: filters.total })} />
       ) : (
@@ -235,6 +251,13 @@ export default function CelebCarousel({
       />
         </>
       )}
+
+      {/* 지구본 보기(일시 중단)
+      {globeView && !customContent && (
+        <Suspense fallback={null}>
+          <CelebGlobePanel filters={filters} onInteraction={onFilterInteraction} />
+        </Suspense>
+      )} */}
 
       {/* 커스텀 컨텐츠 또는 셀럽 그리드 영역 */}
       {customContent ? (

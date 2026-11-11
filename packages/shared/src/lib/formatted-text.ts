@@ -1,0 +1,85 @@
+// 작은따옴표 안의 축약형(don't)은 닫는 부호가 아니다 — 부호가 한글이 아닌 문자·숫자와 붙으면 닫지 않는다.
+// 한국어는 ‘…’는처럼 닫는 부호 뒤에 조사가 바로 붙으므로 한글 뒤따름은 닫는 부호로 인정한다.
+// 대시는 짝이 있는 삽입구만 강조한다.
+// en dash는 양옆 공백으로 문장용 부호를 구분해 숫자 범위와 합성어를 보존한다.
+const EMPHASIS_PATTERN = /("[^"\n]*"|“[^”\n]*”|(?<!(?![\uAC00-\uD7A3])[\p{L}\p{N}])'(?=\S)[^\n]*?'(?!(?![\uAC00-\uD7A3])[\p{L}\p{N}])|‘[^\n]*?’(?!(?![\uAC00-\uD7A3])[\p{L}\p{N}])|『[^』\n]*』|《[^》\n]*》|「[^」\n]*」|〈[^〉\n]*〉|<[^>\n]*>|—[^—\n.!?]+—|(?<=\s)–[^–\n.!?]+–(?=\s|[.,;:!?]|$)|(?<!-)--[^\n.!?]+?--(?!-)|\((?=[^()\n]*\p{L})[^()\n]+\))/gu;
+
+interface TextPart {
+  text: string;
+  emphasis: boolean;
+}
+
+/** 강조(인용·용어·삽입구) 조각의 원문 범위 — 청크로 자를 때 강조 쌍이 경계에서 끊기지 않게 넘겨준다 */
+export function emphasisSpans(text: string): { start: number; end: number }[] {
+  return Array.from(text.matchAll(EMPHASIS_PATTERN), (match) => ({ start: match.index, end: match.index + match[0].length }));
+}
+
+/** 문단에서 맞춘 강조 조각의 정규화 부호 — 경계로 잘린 조각 가장자리에 온전한 인용과 같은 부호를 다시 입힐 때 쓴다 */
+export function emphasisDelimiters(matched: string): { open: string; close: string } | undefined {
+  const first = matched[0];
+  if (first === '"' || first === "“") return { open: "“", close: "”" };
+  if (first === "'" || first === "‘" || first === "「" || first === "〈" || first === "<") return { open: "‘", close: "’" };
+  if (first === "『" || first === "《") return { open: "《", close: "》" };
+  return undefined; // 대시·용어는 원문 부호를 그대로 쓴다
+}
+
+/** 문단에서 맞춘 강조 조각의 클래스 — 경계로 잘린 조각은 부호 쌍을 못 보니 쌍째 텍스트로 판정한다. 아래 렌더의 부호 규칙과 같은 분류다 */
+export function emphasisClassName(matched: string, highlightClassName?: string): string | undefined {
+  // 원어·약칭·풀이는 괄호 전용색으로 구분한다. 본문·테마·모달 강조색과 독립적으로 유지한다.
+  if (matched.startsWith("(") && matched.endsWith(")")) return "font-normal text-reading-parenthetical";
+  if (
+    (matched.startsWith('"') && matched.endsWith('"')) ||
+    (matched.startsWith("“") && matched.endsWith("”"))
+  ) {
+    return highlightClassName ? `font-semibold ${highlightClassName}` : "font-medium text-reading-quote";
+  }
+  if (
+    (matched.startsWith('『') && matched.endsWith('』')) ||
+    (matched.startsWith('《') && matched.endsWith('》'))
+  ) {
+    return highlightClassName ? `font-semibold ${highlightClassName}` : "text-text-primary font-semibold";
+  }
+  if (
+    (matched.startsWith('「') && matched.endsWith('」')) ||
+    (matched.startsWith('〈') && matched.endsWith('〉')) ||
+    (matched.startsWith('<') && matched.endsWith('>')) ||
+    (matched.startsWith("'") && matched.endsWith("'")) ||
+    (matched.startsWith("‘") && matched.endsWith("’")) ||
+    (matched.startsWith("—") && matched.endsWith("—")) ||
+    (matched.startsWith("–") && matched.endsWith("–")) ||
+    (matched.startsWith("--") && matched.endsWith("--"))
+  ) {
+    return highlightClassName ? `font-medium ${highlightClassName}` : "font-serif text-reading-term";
+  }
+  return undefined;
+}
+
+export function splitEmphasis(text: string): TextPart[] {
+  const parts = text.split(EMPHASIS_PATTERN);
+  return parts.map((part, i) => ({ text: part, emphasis: i % 2 === 1 }));
+}
+
+/** 붙어 있는 괄호 앞에만 작은 표시 간격을 둔다. 원문 공백과 낭독 오프셋은 보존한다. */
+export function parentheticalSpacingClassName(text: string, start: number): string | undefined {
+  return text[start] === "(" && start > 0 && !/\s/.test(text[start - 1]) ? "ms-[0.12em]" : undefined;
+}
+
+/** 표시용 부호 변환. 모든 변환은 1:1이므로 원문 기준 낭독 위치를 유지한다. */
+export function renderInlinePart(part: string): string {
+  if ((part.startsWith('"') && part.endsWith('"')) || (part.startsWith("“") && part.endsWith("”"))) {
+    return "“" + part.slice(1, -1) + "”";
+  }
+  if ((part.startsWith("『") && part.endsWith("』")) || (part.startsWith("《") && part.endsWith("》"))) {
+    return "《" + part.slice(1, -1) + "》";
+  }
+  if (
+    (part.startsWith("「") && part.endsWith("」")) ||
+    (part.startsWith("〈") && part.endsWith("〉")) ||
+    (part.startsWith("<") && part.endsWith(">")) ||
+    (part.startsWith("'") && part.endsWith("'")) ||
+    (part.startsWith("‘") && part.endsWith("’"))
+  ) {
+    return "‘" + part.slice(1, -1) + "’";
+  }
+  return part;
+}

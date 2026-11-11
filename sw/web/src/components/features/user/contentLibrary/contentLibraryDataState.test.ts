@@ -17,7 +17,6 @@ const initialContents: GetUserContentsResponse = {
     id: "entry-1",
     content_id: "content-1",
     status: "FINISHED",
-    is_recommended: true,
     visibility: "public",
     created_at: "2026-08-21T00:00:00.000Z",
     source_url: null,

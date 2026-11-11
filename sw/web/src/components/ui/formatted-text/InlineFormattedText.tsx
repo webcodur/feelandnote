@@ -1,5 +1,5 @@
 import React from "react";
-import { emphasisClassName, parentheticalSpacingClassName, splitEmphasis } from "./emphasis";
+import { emphasisClassName, parentheticalSpacingClassName, renderInlinePart, splitEmphasis } from "./emphasis";
 
 export interface FormattedTextProps {
   text: string | null | undefined;
@@ -17,7 +17,7 @@ export interface FormattedTextProps {
  * 쌍따옴표 (" ", “ ”) → “ ”로 통일 출력
  * 여닫는 작은따옴표 (‘ ’)도 인용문으로 인식해 같은 강조를 적용
  * 짝을 이룬 em dash·공백으로 분리된 en dash·이중 하이픈 삽입구는 원문 부호로 강조
- * 괄호 설명(원어·약칭·풀이)은 보조 글자색으로 구분하고 붙어 있는 앞 단어와 작은 표시 간격을 둔다
+ * 괄호 설명(원어·약칭·풀이)은 전용 글자색으로 구분하고 붙어 있는 앞 단어와 작은 표시 간격을 둔다
  * 인용부호와 본문을 한 텍스트 노드로 출력해 검색 로봇의 엔티티 오독을 막는다.
  */
 export default function InlineFormattedText({
@@ -48,32 +48,8 @@ export default function InlineFormattedText({
       {parts.map(({ text: part, emphasis }, i) => {
         const partStart = partStarts[i];
 
-        let rendered = part;
+        const rendered = renderInlinePart(part);
         const partClass = emphasis ? emphasisClassName(part, highlightClassName) : undefined;
-        // 쌍따옴표
-        if (
-          (part.startsWith('"') && part.endsWith('"')) ||
-          (part.startsWith("“") && part.endsWith("”"))
-        ) {
-          rendered = `“${part.slice(1, -1)}”`;
-        }
-        // 대형 그룹: 『 』, 《 》 → 《 》로 출력
-        else if (
-          (part.startsWith('『') && part.endsWith('』')) ||
-          (part.startsWith('《') && part.endsWith('》'))
-        ) {
-          rendered = `《${part.slice(1, -1)}》`;
-        }
-        // 소형 그룹: 「 」, 〈 〉, < >, ' ' → ‘ ’로 출력
-        else if (
-          (part.startsWith('「') && part.endsWith('」')) ||
-          (part.startsWith('〈') && part.endsWith('〉')) ||
-          (part.startsWith('<') && part.endsWith('>')) ||
-          (part.startsWith("'") && part.endsWith("'")) ||
-          (part.startsWith("‘") && part.endsWith("’"))
-        ) {
-          rendered = `‘${part.slice(1, -1)}’`;
-        }
 
         const emit = (value: string, marked: boolean, key: string) => {
           const spacing = emphasis && value.startsWith("(") ? parentheticalSpacingClassName(text, partStart) : undefined;

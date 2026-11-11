@@ -31,7 +31,6 @@ interface AddContentParams {
   externalSource?: string       // 외부 API 출처 (kakao_book, tmdb 등)
   status?: ContentStatus
   createdAt?: string            // 추가 날짜 (YYYY-MM-DD), 기본값: 오늘
-  isRecommended?: boolean       // 추천 여부
 }
 
 interface AddContentData {
@@ -209,7 +208,6 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     content_id: string
     status: ContentStatus
     created_at?: string
-    is_recommended?: boolean
   } = {
     member_id: user.id,
     content_id: contentId,
@@ -219,11 +217,6 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
   // 날짜가 지정된 경우 created_at 설정
   if (params.createdAt) {
     insertData.created_at = new Date(params.createdAt).toISOString()
-  }
-
-  // 추천 여부 설정
-  if (params.isRecommended !== undefined) {
-    insertData.is_recommended = params.isRecommended
   }
 
   const { data: userContent, error: userContentError } = await db

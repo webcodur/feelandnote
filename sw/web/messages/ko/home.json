@@ -254,7 +254,20 @@
         "increaseLimit": "저장 개수 늘리기",
         "decreaseLimit": "저장 개수 줄이기"
       },
-      "filterBirthYearAge": "생년·나이"
+      "filterBirthYearAge": "생년·나이",
+      "globe": {
+        "toggle": "지구본 보기",
+        "label": "국적별 인물 분포",
+        "hint": "나라를 누르면 그 나라 인물만 모아 볼 수 있습니다.",
+        "summary": "{count}명 · {countries}개 국적",
+        "figureCount": "{count}명",
+        "era": "시대",
+        "nationality": "국적",
+        "offMap": "지도에 없는 국적",
+        "allCountries": "모든 국적",
+        "empty": "이 기간에 태어난 인물이 없습니다.",
+        "scope": "지구본의 색은 국적과 생년만 반영합니다. 다른 조건은 아래 목록에 적용됩니다."
+      }
     },
     "hub": {
       "todayFigure": "오늘의 인물",

@@ -18,7 +18,6 @@ export function mapPublicToUserContent(
     rating: item.public_record?.rating ?? null,
     review: item.public_record?.content_preview ?? null,
     review_en: item.public_record?.content_preview_en ?? null,
-    is_recommended: false,
     is_spoiler: item.public_record?.is_spoiler ?? false,
     is_pinned: false,
     pinned_at: null,

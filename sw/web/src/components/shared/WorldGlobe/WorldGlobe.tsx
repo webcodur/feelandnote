@@ -42,7 +42,13 @@ export interface GlobeCountry {
   /** Natural Earth 지도 원본의 국가명 */
   name: string;
   label: string;
+  /** 0~1. 주면 값이 클수록 진한 금색으로 칠한다(분포 지도) */
+  weight?: number;
 }
+
+// 분포 지도는 몇 단계로만 나눠 칠한다 — 국가마다 따로 칠하면 그리기 호출이 국가 수만큼 는다
+const WEIGHT_BANDS = 5;
+const weightBandFill = (band: number) => `rgba(212,175,55,${(0.06 + 0.4 * (band / WEIGHT_BANDS)).toFixed(3)})`;
 
 interface Props {
   markers: GlobeMarker[];
@@ -446,12 +452,25 @@ export default function WorldGlobe({
     return { counts, byMarkerId };
   }, [countryMarker, detailedReady, ordered, ready, selectedCountry]);
 
+  const weightBands = useMemo(() => {
+    const bands: string[][] = Array.from({ length: WEIGHT_BANDS }, () => []);
+    for (const country of countries ?? []) {
+      if (!country.weight || country.weight <= 0) continue;
+      bands[Math.min(WEIGHT_BANDS, Math.ceil(country.weight * WEIGHT_BANDS)) - 1].push(country.name);
+    }
+    return bands;
+  }, [countries]);
+
   const tooltipCountry = hoverId
     ? visitedRegions.byMarkerId.get(hoverId) ?? hoverCountry
     : hoverCountry;
   const tooltipMarkerCount = tooltipCountry
     ? visitedRegions.counts.get(tooltipCountry) ?? 0
     : 0;
+  // 좌표가 없는 국가 선택 화면은 바깥이 준 국가 문구(예: 인물 수)를 띄운다
+  const tooltipCountryLabel = !hoverId && tooltipMarkerCount === 0 && tooltipCountry
+    ? countries?.find(country => country.name === tooltipCountry)?.label
+    : undefined;
 
   /* ── 지도 원본 로드 ── */
   useEffect(() => {
@@ -613,6 +632,17 @@ export default function WorldGlobe({
       ctx.lineWidth = 0.7;
       ctx.stroke();
     }
+
+    weightBands.forEach((names, index) => {
+      if (names.length === 0) return;
+      ctx.beginPath();
+      for (const name of names) {
+        const feature = layers.countriesByName.get(name);
+        if (feature) path(feature);
+      }
+      ctx.fillStyle = weightBandFill(index + 1);
+      ctx.fill();
+    });
 
     if (fastMeshes) {
       ctx.beginPath();
@@ -898,6 +928,7 @@ export default function WorldGlobe({
     projectionOf,
     showPath,
     visitedRegions,
+    weightBands,
   ]);
 
   const drawRef = useRef(draw);
@@ -939,7 +970,7 @@ export default function WorldGlobe({
 
   useEffect(() => {
     backgroundDirtyRef.current = true;
-  }, [locale, visitedRegions]);
+  }, [locale, visitedRegions, weightBands]);
 
   useEffect(() => {
     if (ready && isViewportVisible) requestDraw();
@@ -1547,6 +1578,11 @@ export default function WorldGlobe({
               }`}
             >
               {formatMarkerCount(tooltipMarkerCount)}
+            </span>
+          )}
+          {tooltipCountryLabel && (
+            <span className="whitespace-nowrap rounded bg-accent/15 px-1.5 py-0.5 font-mono text-[11px] text-accent">
+              {tooltipCountryLabel}
             </span>
           )}
         </div>

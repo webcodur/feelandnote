@@ -67,7 +67,6 @@ async function fetchCelebLibraryPreview(celebId: string, locale: string): Promis
     .neq('review', '')
     .eq('visibility', 'public')
     .order('is_pinned', { ascending: false, nullsFirst: false })
-    .order('is_recommended', { ascending: false, nullsFirst: false })
     .order('updated_at', { ascending: false })
     .limit(LIBRARY_PREVIEW_LIMIT)
 

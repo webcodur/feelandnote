@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
-import { ArrowDownWideNarrow, ChevronDown, Info, PenLine, SlidersHorizontal, X } from "lucide-react";
+import { ArrowDownWideNarrow, ChevronDown, Earth, Info, PenLine, SlidersHorizontal, X } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { FilterModal } from "@/components/shared/filters";
 import { CELEB_CONTENT_PRESENCE } from "@/constants/celebContentPresence";
@@ -28,9 +28,12 @@ interface Props {
   /** 카드 사진 보기 방식 — 주면 조작 줄에 아바타·대표사진 전환 단추를 단다 */
   cardImage?: CelebCardImage;
   onCardImageChange?: (mode: CelebCardImage) => void;
+  /** 지구본 보기 — 주면 조작 줄에 목록 ↔ 지구본 전환 단추를 단다 */
+  globeView?: boolean;
+  onGlobeViewChange?: (on: boolean) => void;
 }
 
-export default function CelebCompactControls({ filters, onInteraction, resultLabel, cardImage, onCardImageChange }: Props) {
+export default function CelebCompactControls({ filters, onInteraction, resultLabel, cardImage, onCardImageChange, globeView, onGlobeViewChange }: Props) {
   const t = useTranslations("home.ui");
   const getNationality = useNationalityLabel();
   const locale = useLocale();
@@ -55,7 +58,16 @@ export default function CelebCompactControls({ filters, onInteraction, resultLab
         clearLabel={t("compactFilters.remove", { label: filters.search })} disabled={filters.isLoading}
         onChange={filters.handleSearchInput} onSubmit={() => { onInteraction?.(); filters.handleSearchSubmit(); }}
         onClear={() => { onInteraction?.(); filters.handleSearchClear(); }}
-        trailingControl={cardImage && onCardImageChange && <CardImageToggle mode={cardImage} onChange={onCardImageChange} />}>
+        trailingControl={<>
+          {onGlobeViewChange && (
+            <button type="button" onClick={() => onGlobeViewChange(!globeView)} aria-pressed={!!globeView}
+              aria-label={t("globe.toggle")} title={t("globe.toggle")}
+              className={`${controlClass} size-11 shrink-0 p-0 ${globeView ? EXPLORE_CONTROL_CHANGED_CLASS : ""}`}>
+              <Earth size={19} className="shrink-0" aria-hidden />
+            </button>
+          )}
+          {cardImage && onCardImageChange && <CardImageToggle mode={cardImage} onChange={onCardImageChange} />}
+        </>}>
         <button type="button" onClick={() => setOpen("works")} disabled={filters.isLoading}
           aria-label={`${t("filterContentPresence")}: ${t(`contentPresence.${filters.contentPresence}`)}`} aria-haspopup="dialog"
           title={`${t("filterContentPresence")}: ${t(`contentPresence.${filters.contentPresence}`)}`}

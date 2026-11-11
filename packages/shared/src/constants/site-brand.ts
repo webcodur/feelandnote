@@ -7,5 +7,4 @@ export const SITE_ALTERNATE_NAMES = [SITE_NAME_KO, new URL(SITE_URL).hostname] a
 
 export const SITE_BLOG_URLS = {
   books: 'https://blog.naver.com/dmx777',
-  cinema: 'https://feelandnote-cinema.tistory.com/',
 } as const;

@@ -254,7 +254,20 @@
         "increaseLimit": "Keep more recent filters",
         "decreaseLimit": "Keep fewer recent filters"
       },
-      "filterBirthYearAge": "Birth year / age"
+      "filterBirthYearAge": "Birth year / age",
+      "globe": {
+        "toggle": "Globe view",
+        "label": "Figures by nationality",
+        "hint": "Tap a country to see only its figures.",
+        "summary": "{count, plural, one {# figure} other {# figures}} · {countries, plural, one {# nationality} other {# nationalities}}",
+        "figureCount": "{count, plural, one {# figure} other {# figures}}",
+        "era": "Era",
+        "nationality": "Nationality",
+        "offMap": "Not on the map",
+        "allCountries": "All nationalities",
+        "empty": "No figures were born in this period.",
+        "scope": "Globe shading reflects nationality and birth year only. Other filters apply to the list below."
+      }
     },
     "hub": {
       "todayFigure": "Today's Figure",

@@ -36,7 +36,6 @@ export interface UserContentPublic {
   id: string
   content_id: string
   status: ContentStatus
-  is_recommended: boolean
   visibility: VisibilityType | null
   created_at: string
   source_url: string | null
@@ -146,7 +145,6 @@ async function queryUserContents(
     id,
     content_id,
     status,
-    is_recommended,
     ${memberRatingSelect}
     review,
     ${reviewEnSelect}
@@ -267,7 +265,6 @@ async function queryUserContents(
       id: item.id as string,
       content_id: raw.content_id as string,
       status: item.status as ContentStatus,
-      is_recommended: (raw.is_recommended as boolean) ?? false,
       visibility: raw.visibility as VisibilityType | null,
       created_at: raw.created_at as string,
       source_url: raw.source_url as string | null,

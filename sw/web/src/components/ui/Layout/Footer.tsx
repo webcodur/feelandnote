@@ -30,10 +30,7 @@ export default async function Footer() {
   const isDev = process.env.NODE_ENV !== "production";
   const isEn = locale === "en";
   const copyright = `© ${currentYear} ${t("layout.footer.copyright")}`;
-  const blogs = [
-    { url: SITE_BLOG_URLS.books, label: t("layout.footer.bookBlog") },
-    { url: SITE_BLOG_URLS.cinema, label: t("layout.footer.cinemaBlog") },
-  ];
+  const blogs = [{ url: SITE_BLOG_URLS.books, label: t("layout.footer.bookBlog") }];
 
   return (
     <footer className="w-full border-t border-line bg-bg-secondary text-text-primary">

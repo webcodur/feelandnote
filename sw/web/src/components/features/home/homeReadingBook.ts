@@ -13,7 +13,7 @@ export function homeReadingBook(content: {
     id: content.id, title: content.title, creator: content.creator, thumbnailUrl: content.thumbnailUrl,
     titleBadge: content.titleBadge, editions: [],
     readingRecord: {
-      id: record.id, content_id: content.id, status: 'FINISHED', is_recommended: false,
+      id: record.id, content_id: content.id, status: 'FINISHED',
       visibility: 'public', created_at: '', source_url: record.sourceUrl ?? null,
       content: {
         id: content.id, type: content.type, title: content.title, creator: content.creator,

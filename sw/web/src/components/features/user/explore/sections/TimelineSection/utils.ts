@@ -27,15 +27,29 @@ export interface EraInfo {
   range: string;
 }
 
-/** 연도를 시대 정보로 변환 (현대 세분화) */
+/** 시대 구분(현대 세분화). 각 시대는 앞 시대의 end부터 자기 end 직전까지다. 연표·지구본이 함께 쓴다 */
+export const ERAS = [
+  { key: "ancient", end: 500 },
+  { key: "medieval", end: 1500 },
+  { key: "early-modern", end: 1800 },
+  { key: "modern", end: 1900 },
+  { key: "contemporary-1", end: 1950 },
+  { key: "contemporary-2", end: 2000 },
+  { key: "contemporary-3", end: null },
+] as const;
+
+/** 시대의 생년 범위(양 끝 포함). 첫 시대는 하한, 끝 시대는 상한이 없다 */
+export function eraYearRange(index: number): { min?: number; max?: number } {
+  const end = ERAS[index].end;
+  return { min: index > 0 ? ERAS[index - 1].end ?? undefined : undefined, max: end === null ? undefined : end - 1 };
+}
+
+/** 연도를 시대 정보로 변환 */
 export function getEraInfo(year: number): EraInfo {
-  if (year < 500) return { key: "ancient", range: "~ 500" };
-  if (year < 1500) return { key: "medieval", range: "500 ~ 1500" };
-  if (year < 1800) return { key: "early-modern", range: "1500 ~ 1800" };
-  if (year < 1900) return { key: "modern", range: "1800 ~ 1900" };
-  if (year < 1950) return { key: "contemporary-1", range: "1900 ~ 1950" };
-  if (year < 2000) return { key: "contemporary-2", range: "1950 ~ 2000" };
-  return { key: "contemporary-3", range: "2000 ~" };
+  const index = ERAS.findIndex(era => era.end === null || year < era.end);
+  const start = index > 0 ? ERAS[index - 1].end : null;
+  const end = ERAS[index].end;
+  return { key: ERAS[index].key, range: [start ?? "", end ?? ""].join(" ~ ").trim() };
 }
 
 /** 생몰 표시. 몰년을 모르는 사망자에게 "~"를 달면 살아 있는 것처럼 읽힌다 */

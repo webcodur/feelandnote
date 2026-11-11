@@ -4,7 +4,7 @@
   책임: Lab 탭 메뉴 정보를 단일 원천으로 관리한다.
 */
 
-import { Book, Layers, Frame, Landmark, LayoutGrid, Waves, Users, Zap, Swords, ImageIcon, ShoppingCart, Palette, Globe, type LucideIcon } from "lucide-react";
+import { Book, Layers, Frame, Landmark, LayoutGrid, Waves, Users, Zap, Swords, ImageIcon, ShoppingCart, Palette, Globe, Vote, type LucideIcon } from "lucide-react";
 
 export interface LabItem {
   value: string;
@@ -17,6 +17,10 @@ export interface LabItem {
 }
 
 export const LAB_ITEMS: LabItem[] = [
+  {
+    value: "figure-votes", label: "인물 투표", icon: Vote,
+    href: "/lab/figure-votes", title: "인물 투표 실험실", subtitle: "도감 인물로 맞대결·순위표·한 표를 체험",
+  },
   {
     value: "home-theme", label: "홈 테마", icon: Book,
     href: "/lab/home-theme", title: "밤의 서가", subtitle: "본 서비스 레이아웃 안에서 홈 테마 검수",

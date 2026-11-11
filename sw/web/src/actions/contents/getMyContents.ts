@@ -24,7 +24,6 @@ export interface UserContentWithContent {
   user_id: string
   content_id: string
   status: ContentStatus
-  is_recommended: boolean | null
   is_spoiler: boolean | null
   rating: number | null
   review: string | null
@@ -70,7 +69,7 @@ export interface GetMyContentsResponse {
 
 // member_contents에서 실제 사용하는 컬럼만 (contributor_member_id, review_presets 제외).
 // 공개 API의 user_id 키는 기존 화면 호환을 위해 alias로 유지한다.
-const UC_SELECT_BASE = 'id, user_id:member_id, content_id, status, is_recommended, is_spoiler, rating, review, visibility, created_at, updated_at, completed_at, is_pinned, pinned_at, source_url'
+const UC_SELECT_BASE = 'id, user_id:member_id, content_id, status, is_spoiler, rating, review, visibility, created_at, updated_at, completed_at, is_pinned, pinned_at, source_url'
 
 export async function getMyContents(params: GetMyContentsParams = {}): Promise<GetMyContentsResponse> {
   const db = await createClient()

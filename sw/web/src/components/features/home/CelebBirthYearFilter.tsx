@@ -24,6 +24,8 @@ interface CelebBirthYearFilterProps {
   max?: number;
   isLoading?: boolean;
   onChange: (min: number | undefined, max: number | undefined) => void;
+  /** 드래그 중 값 — 놓기 전에 결과를 미리 보여 줄 화면(지구본)이 받는다 */
+  onPreview?: (min: number | undefined, max: number | undefined) => void;
 }
 
 // 풀레인지면 필터 없음으로 취급한다 — 다른 필터들의 "all이면 지운다" 관례와 통일.
@@ -55,7 +57,7 @@ export function BirthYearFilterCore(props: CelebBirthYearFilterProps) {
   );
 }
 
-export function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilterProps) {
+export function BirthYearSliderCore({ min, max, onChange, onPreview }: CelebBirthYearFilterProps) {
   const t = useTranslations("home.ui.birthYear");
   const trackRef = useRef<HTMLDivElement>(null);
   const [draft, setDraft] = useState<Required<BirthYearRange>>({
@@ -93,6 +95,8 @@ export function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilter
       next = thumb === "min" ? { ...next, min: Math.min(year, next.max) }
         : { ...next, max: Math.max(year, next.min) };
       setDraft(next);
+      const preview = normalize(next);
+      onPreview?.(preview.min, preview.max);
     };
     const handleUp = () => {
       window.removeEventListener("pointermove", handleMove);
@@ -101,7 +105,7 @@ export function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilter
     };
     window.addEventListener("pointermove", handleMove);
     window.addEventListener("pointerup", handleUp);
-  }, [draft, yearFromClientX, commit]);
+  }, [draft, yearFromClientX, commit, onPreview]);
 
   const nudgeThumb = useCallback((thumb: "min" | "max", e: ReactKeyboardEvent<HTMLDivElement>) => {
     const step = e.key === "ArrowLeft" || e.key === "ArrowDown" ? -1 : e.key === "ArrowRight" || e.key === "ArrowUp" ? 1 : 0;

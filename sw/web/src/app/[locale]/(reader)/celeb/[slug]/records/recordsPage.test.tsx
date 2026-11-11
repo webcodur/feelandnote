@@ -22,7 +22,6 @@ const item = (id: number): UserContentPublic => ({
   id: `record-${id}`,
   content_id: `work-${id}`,
   status: "FINISHED",
-  is_recommended: false,
   visibility: "public",
   created_at: `2026-09-${String(id).padStart(2, "0")}T00:00:00Z`,
   source_url: `https://example.com/interview/${id}`,

@@ -217,12 +217,12 @@ test("reading previews share English emphasis and paragraph-relative narration m
   assert.match(html, /<mark[^>]*aria-current="true">influence<\/mark>/);
 });
 
-test("parenthetical definitions use secondary text while Korean terms stay plain", () => {
+test("parenthetical definitions use their dedicated color while Korean terms stay plain", () => {
   const html = renderText("그는 인공지능(AI)과 엔트로피(무질서도)를 설명했다.");
-  assert.match(html, /<span>그는 인공지능<\/span><span class="font-normal text-text-secondary ms-\[0\.12em\]">\(AI\)<\/span>/);
-  assert.match(html, /<span>과 엔트로피<\/span><span class="font-normal text-text-secondary ms-\[0\.12em\]">\(무질서도\)<\/span><span>를 설명했다./);
+  assert.match(html, /<span>그는 인공지능<\/span><span class="font-normal text-reading-parenthetical ms-\[0\.12em\]">\(AI\)<\/span>/);
+  assert.match(html, /<span>과 엔트로피<\/span><span class="font-normal text-reading-parenthetical ms-\[0\.12em\]">\(무질서도\)<\/span><span>를 설명했다./);
   const $ = load(renderText("지혜, 용기(勇氣), 절제와 사회 계약(社會契約)"));
-  assert.equal($('.text-text-secondary').map((_, el) => $(el).text()).get().join(''), '(勇氣)(社會契約)');
+  assert.equal($('.text-reading-parenthetical').map((_, el) => $(el).text()).get().join(''), '(勇氣)(社會契約)');
   assert.equal($('.text-reading-quote, .text-reading-term, .font-semibold').length, 0);
   assert.equal($.text(), "지혜, 용기(勇氣), 절제와 사회 계약(社會契約)");
 });
@@ -231,7 +231,7 @@ test("English multiword terms stay plain beside their parenthetical acronyms", (
   for (const [name, acronym] of [["artificial intelligence", "AI"], ["cognitive behavioral therapy", "CBT"], ["Large Language Model", "LLM"]]) {
     const html = renderText(`He studied ${name} (${acronym}) closely.`);
     assert.ok(html.includes(`<span>He studied ${name} </span>`));
-    assert.ok(html.includes(`<span class="font-normal text-text-secondary">(${acronym})</span>`));
+    assert.ok(html.includes(`<span class="font-normal text-reading-parenthetical">(${acronym})</span>`));
   }
   const html = renderText("He studied entropy (disorder) closely.");
   assert.match(html, /<span>He studied entropy <\/span>/);
@@ -239,23 +239,31 @@ test("English multiword terms stay plain beside their parenthetical acronyms", (
 
 test("parenthetical formatting preserves spaces, hyphenated names, and punctuation", () => {
   const html = renderText("인공지능 (AI), long-term (lasting). entropy\t(disorder)");
-  assert.match(html, /<span>인공지능 <\/span><span class="font-normal text-text-secondary">\(AI\)/);
+  assert.match(html, /<span>인공지능 <\/span><span class="font-normal text-reading-parenthetical">\(AI\)/);
   assert.match(html, /<span>, long-term <\/span>/);
-  assert.match(html, /<span>\. entropy\t<\/span><span class="font-normal text-text-secondary">\(disorder\)/);
+  assert.match(html, /<span>\. entropy\t<\/span><span class="font-normal text-reading-parenthetical">\(disorder\)/);
   const $ = load(html);
   assert.equal($('.ms-\\[0\\.12em\\]').length, 0);
   assert.equal($.text(), "인공지능 (AI), long-term (lasting). entropy\t(disorder)");
 });
 
+test("quoted words inside parentheses use the parenthetical color while outside quotations keep their own emphasis", () => {
+  const text = '문구 (“I can do all things”)와 “직접 인용”';
+  const $ = load(renderText(text));
+  assert.equal($('.text-reading-parenthetical').text(), '(“I can do all things”)');
+  assert.equal($('.text-reading-quote').text(), '“직접 인용”');
+  assert.equal($.text(), text);
+});
+
 test("numeric references, dates and empty parentheses remain plain", () => {
-  assert.doesNotMatch(renderText("Microsoft (1975), 게이츠(1955), chapter (3), B()"), /text-reading-(?:quote|term)|text-text-secondary/);
-  assert.match(renderText("(a separate aside)"), /font-normal text-text-secondary/);
+  assert.doesNotMatch(renderText("Microsoft (1975), 게이츠(1955), chapter (3), B()"), /text-reading-(?:quote|term)|text-reading-parenthetical/);
+  assert.match(renderText("(a separate aside)"), /font-normal text-reading-parenthetical/);
 });
 
 test("parenthetical formatting leaves surrounding punctuation and paragraphs plain", () => {
   for (const prefix of ["artificial. ", "artificial\n", "artificial\n\n"]) {
     const html = renderText(`${prefix}intelligence (AI)`);
-    assert.match(html, /intelligence <\/span><span class="font-normal text-text-secondary">\(AI\)/);
+    assert.match(html, /intelligence <\/span><span class="font-normal text-reading-parenthetical">\(AI\)/);
     assert.doesNotMatch(html, /text-reading-(?:quote|term)|font-semibold/);
   }
 });
@@ -269,11 +277,11 @@ test("term formatting preserves source offsets for narration across the definiti
   assert.equal(marked, text.slice(start, end));
 });
 
-test("parenthetical definitions stay neutral even with modal highlight colors", () => {
+test("parenthetical definitions keep their dedicated color even with modal highlight colors", () => {
   const html = renderHighlightedTextWithStyle("He studies artificial intelligence (AI) today.");
   assert.doesNotMatch(html, /background-image|text-3d-gold|font-semibold/);
   assert.match(html, /<span>He studies artificial intelligence <\/span>/);
-  assert.match(html, /class="font-normal text-text-secondary">\(AI\)/);
+  assert.match(html, /class="font-normal text-reading-parenthetical">\(AI\)/);
 });
 
 test("active narration preserves the colors and weights of quotes, titles and terms", () => {
@@ -285,14 +293,14 @@ test("active narration preserves the colors and weights of quotes, titles and te
   assert.equal(parentStyle('“직접 인용”'), 'font-medium text-reading-quote');
   assert.equal(parentStyle('《작품명》'), 'text-text-primary font-semibold');
   assert.equal(parentStyle('‘짧은 강조’'), 'font-serif text-reading-term');
-  assert.equal(parentStyle('(AI)'), 'font-normal text-text-secondary ms-[0.12em]');
+  assert.equal(parentStyle('(AI)'), 'font-normal text-reading-parenthetical ms-[0.12em]');
   assert.equal($('mark').filter((_, el) => $(el).text().includes('인공지능')).parent().attr('class'), undefined);
   assert.ok($('mark').filter((_, el) => $(el).text() === '본문 ').hasClass('text-inherit'));
   assert.ok($('mark').filter((_, el) => $(el).text() === '“직접 인용”').hasClass('text-inherit'));
   assert.equal($('mark').map((_, el) => $(el).text()).get().join(''), text);
 });
 
-test("parenthetical definitions stay neutral when narration splits inside them", () => {
+test("parenthetical definitions keep their dedicated color when narration splits inside them", () => {
   const text = "지혜, 용기(勇氣), 절제";
   const split = text.indexOf("氣");
   const $ = load(renderToStaticMarkup(React.createElement(ReadingHighlightText, {
@@ -307,7 +315,7 @@ test("parenthetical definitions stay neutral when narration splits inside them",
   })));
   assert.equal($.text(), text);
   assert.equal($('mark').text(), '氣');
-  assert.ok($('mark').closest('.text-text-secondary').length > 0);
+  assert.ok($('mark').closest('.text-reading-parenthetical').length > 0);
   const spaced = $('span').filter((_, el) => $(el).hasClass('ms-[0.12em]'));
   assert.equal(spaced.length, 1);
   assert.equal(spaced.text(), '(勇');
