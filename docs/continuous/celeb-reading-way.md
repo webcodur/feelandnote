@@ -59,7 +59,7 @@ node --import tsx scripts/browser/reading-way-argon.mjs --apply --books-only --o
 
 - `austen-allred`: Carbon 요청 두 번이 모두 생성 오류로 끝났고 두 번째 대화는 통째로 사라졌다. 새 대화로 다시 보낸다.
 - `aman-madaan`: 참조가 굿리즈 리뷰(로그인 필요)뿐이라 Argon 원고가 비었다.
-- `patrick-o'shaughnessy`: 출처표 20문장 중 17문장이 출처 없음(참조가 트윗뿐)이라 폐기했다. 블로그·Colossus 원출처를 직접 찾아 새 대화로 보낸다. 팟캐스트 진행자라 녹취 대조가 필요하다.
+- `patrick-o'shaughnessy`: 출처표 20문장 중 17문장이 출처 없음(참조가 트윗뿐)이라 폐기했다. 블로그·Colossus 원출처를 직접 찾아 새 대화로 보낸다. 팟캐스트 진행자라 녹취 대조가 필요하다. 녹취는 Firecrawl Alexandria의 Particle(팟캐스트 녹취) 무료 크레딧으로 받을 수 있다. 사용자가 Firecrawl MCP를 연결한 뒤에만 쓰고, 호출 전 도구별 크레딧 가격을 확인한다.
 - `moon-jae-in`: 출처표 12문장 중 서울경제 대목만 확인했다. 평산책방 인사말·독서노트·『대통령의 독서』 인용은 미확인(psbooks·경향은 스크립트 렌더링).
 - `cho-hae-joang`: Argon High 빈 원고(참조 경향신문 1건). 다른 원출처로 다시 보낸다.
 - `park-tae-woong`: Carbon 원고가 325자·2문단의 근거 없는 일반론이었다. 참조가 알라딘 이벤트 1건뿐이라 다른 원출처가 필요하다.
@@ -124,5 +124,6 @@ node --import tsx scripts/browser/reading-way-argon.mjs --apply --books-only --o
 - 살라딘: 우사마 이븐 문키드 『디완』. 근거가 아랍어 위키뿐이다. 비위키 원출처를 찾지 못하면 본문의 "즐겨 읽었다"를 확인된 범위로 고친다.
 - 윤서인: 『신의 탑』 1권(9791190153171)의 저자를 `REVIEWED_MISSING_AUTHORS`에 보완했다. 유튜브 `Ea3wowN52gw` 자막에서 감상 대목을 다시 확인한 뒤 등록한다.
 - 닥터 수스: 기존 에드워드 리어 『넌센스 노래』 관계의 출처가 리어 본인의 브리태니커 항목이다. 수스의 독서 근거가 없어 관계를 지울지 사용자 확인이 필요하다.
+- Aside 러너(`scripts/browser/reading-way-argon.mjs`)는 아직 메뉴에 Carbon이 없으면 Argon 높음으로 보낸다(`DEEP_FAMILIES`). 26.11.11 지시는 Carbon 높음 전용이므로 러너로 원고를 받기 전에 Argon 경로를 막는다. 웹채팅 도구(`reading-way-web/mode.mjs`)는 이미 Carbon만 보낸다.
 
 확인·반영·검증이 끝난 항목은 이 목록에서 제거한다. 완료 이력이나 원고 사본은 쌓지 않는다.
