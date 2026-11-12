@@ -13,7 +13,8 @@ export const VISIBLE_BOOK_INTRODUCTION_MISSING = {
 }
 const IDENTITY = ['contentId', 'editionId', 'locale', 'title', 'creator', 'isbn']
 export const targetKey = target => JSON.stringify(IDENTITY.map(key => target[key] ?? null))
-const hasIntroduction = value => Boolean(value.description || value.bookIntroduction)
+const hasIntroduction = value => Boolean(value.description
+  || value.bookIntroduction && (value.bookIntroduction.isbn || value.bookIntroduction.sourceUrl))
 
 /** 지정 작품·언어만 실행할 때 다른 작업 대상의 미완료 원문을 지우지 않는다. */
 export function refreshCollectionRows(saved, targets, { contentIds = [], locale } = {}) {

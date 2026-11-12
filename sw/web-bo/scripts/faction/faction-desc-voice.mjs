@@ -154,7 +154,7 @@ function args(argv = process.argv.slice(2)) {
   if (result.locales.some((locale) => !['ko', 'en'].includes(locale))) throw new Error('Locales must be ko and/or en')
   if (result['dry-run'] && (result.generate || result.publish)) throw new Error('--dry-run cannot be combined with --generate or --publish')
   result['dry-run'] ||= !result.generate && !result.publish
-  result.run = resolve(result.run || 'D:/audios/interview-cleaner/faction-desc-voices')
+  result.run = resolve(result.run || 'D:/feelandnote/audios/interview-cleaner/faction-desc-voices')
   if (result['queue-file']) result.queueFile = resolve(result['queue-file'])
   result.limit = result.limit ? Number(result.limit) : Infinity
   if (!(result.limit > 0) || (result.limit !== Infinity && !Number.isInteger(result.limit))) throw new Error('--limit must be a positive integer (number of factions)')

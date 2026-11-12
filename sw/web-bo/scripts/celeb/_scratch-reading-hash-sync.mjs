@@ -17,7 +17,7 @@ import { environment, required } from './reading-voice.mjs'
 const sha = (value) => createHash('sha256').update(value).digest('hex')
 
 function parseArgs(argv) {
-  const options = { run: 'D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908', dryRun: false }
+  const options = { run: 'D:/feelandnote/audios/interview-cleaner/celeb-reading-voices-sample-20260908', dryRun: false }
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--dry-run') options.dryRun = true
     else if (argv[i] === '--run' && argv[i + 1]) options.run = argv[++i]

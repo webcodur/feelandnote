@@ -28,7 +28,7 @@ async function main() {
     provider: { type: 'string', default: 'existing' }, 'lookup-cache': { type: 'string' },
     'all-missing': { type: 'boolean' }, apply: { type: 'boolean' }, help: { type: 'boolean' },
     limit: { type: 'string' }, after: { type: 'string' },
-    'backup-dir': { type: 'string', default: 'D:/feelandnote-backups/book-descriptions' },
+    'backup-dir': { type: 'string', default: 'D:/feelandnote/backups/book-descriptions' },
     'session-dir': { type: 'string' }, 'web-url': { type: 'string', default: 'https://feelandnote.com' },
   }, strict: true })
   if (values.help) {

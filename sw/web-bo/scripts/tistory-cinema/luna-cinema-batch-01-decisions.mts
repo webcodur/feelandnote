@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const inputPath = 'D:/blog-assets/tistory-cinema/luna-cinema-batch-01-input.json';
-const outputPath = 'D:/blog-assets/tistory-cinema/luna-cinema-batch-01-review.json';
+const inputPath = 'D:/feelandnote/blog-assets/tistory-cinema/luna-cinema-batch-01-input.json';
+const outputPath = 'D:/feelandnote/blog-assets/tistory-cinema/luna-cinema-batch-01-review.json';
 const input = JSON.parse(fs.readFileSync(inputPath, 'utf8')) as {
   generatedAt: string;
   basis: string;

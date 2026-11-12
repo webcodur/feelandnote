@@ -2,7 +2,7 @@
 import { readdir, readFile, rename, writeFile, access } from 'node:fs/promises'
 import { join } from 'node:path'
 
-const DEFAULT_RUN = 'D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908'
+const DEFAULT_RUN = 'D:/feelandnote/audios/interview-cleaner/celeb-reading-voices-sample-20260908'
 /** 폐기 스크립트가 남기는 필드 — 이것만 남기고 나머지 시도 기록·파생 필드를 지운다 */
 const KEEP = new Set(['id', 'slug', 'nickname', 'locale', 'text', 'sourceHash', 'settingsHash'])
 const exists = (p) => access(p).then(() => true, () => false)

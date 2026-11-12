@@ -15,7 +15,7 @@ import {
 import { buildUnits, stitchUnits, qcGapVerdict } from './desc-unit-stitch.mjs'
 import { normalizeUnitSpeed, UNIT_TEMPO_RANGE } from './faction-desc-voice.mjs'
 
-const RUN = 'D:/audios/interview-cleaner/faction-desc-voices-v2'
+const RUN = 'D:/feelandnote/audios/interview-cleaner/faction-desc-voices-v2'
 
 async function jitterUnit(unitText, cleanPath, outPath, locale, jitter) {
   const speed = await measuredSpeed(unitText, locale, cleanPath)

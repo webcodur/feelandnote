@@ -8,7 +8,7 @@ import { environment, currentSource, renameCheckpoint } from './reading-voice.mj
 import { prepareReadingTiming, publishReadingTiming, TIMING_REVISION, timingHash } from './reading-voice-timing.mjs'
 
 export function timingArgs(argv) {
-  const options = { run: 'D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908', concurrency: 6 }
+  const options = { run: 'D:/feelandnote/audios/interview-cleaner/celeb-reading-voices-sample-20260908', concurrency: 6 }
   for (let i = 0; i < argv.length; i++) {
     if (['--publish', '--dry-run', '--help'].includes(argv[i])) options[argv[i].slice(2)] = true
     else if (['--run', '--slug', '--locale', '--limit', '--concurrency'].includes(argv[i]) && argv[i + 1] && !argv[i + 1].startsWith('--')) options[argv[i].slice(2)] = argv[++i]

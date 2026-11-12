@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 
-const inputPath = 'D:/blog-assets/tistory-cinema/luna-cinema-batch-01-input.json';
-const outputPath = 'D:/blog-assets/tistory-cinema/luna-cinema-batch-01-followup-review.json';
+const inputPath = 'D:/feelandnote/blog-assets/tistory-cinema/luna-cinema-batch-01-input.json';
+const outputPath = 'D:/feelandnote/blog-assets/tistory-cinema/luna-cinema-batch-01-followup-review.json';
 
 const input = JSON.parse(fs.readFileSync(inputPath, 'utf8')) as {
   rows: Array<Record<string, unknown>>;

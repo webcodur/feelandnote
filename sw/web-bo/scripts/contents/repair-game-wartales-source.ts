@@ -14,7 +14,7 @@ async function main() {
   if (before.type !== 'GAME' || before.external_id !== 'igdb-152257' || !before.content_locales.every(row => row.title === 'Wartales' && row.creator === 'Shiro Games')) throw new Error('Identity no longer agrees')
   if (before.external_source === 'igdb') { console.log(JSON.stringify({ alreadyRepaired: true })); return }
   if (before.external_source !== null) throw new Error('Unexpected non-null source')
-  const backupDir = path.resolve('D:/feelandnote-backups/book-descriptions', `game-wartales-source-${new Date().toISOString().replace(/[:.]/g, '-')}-${process.pid}`)
+  const backupDir = path.resolve('D:/feelandnote/backups/book-descriptions', `game-wartales-source-${new Date().toISOString().replace(/[:.]/g, '-')}-${process.pid}`)
   await fs.mkdir(backupDir, { recursive: true })
   await fs.writeFile(path.join(backupDir, 'before.json'), JSON.stringify(before, null, 2) + '\n', 'utf8')
   const guard = `id = '${id}' AND type = 'GAME' AND external_id = 'igdb-152257'`

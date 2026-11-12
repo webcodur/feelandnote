@@ -1,17 +1,17 @@
 # Transcribe John Green podcast mp3s (English) with faster-whisper large-v3-turbo.
-# Input:  D:\audios\interview-cleaner\input\jg-<num>.mp3
+# Input:  D:\feelandnote\audios\interview-cleaner\input\jg-<num>.mp3
 # Output: C:\project\feelandnote\data\celeb\viewing-research\john-green\transcripts\<num>.txt
 import os, sys, glob, json
 
-os.environ.setdefault('HF_HOME', r'D:\audios\interview-cleaner\cache')
-os.environ.setdefault('HUGGINGFACE_HUB_CACHE', r'D:\audios\interview-cleaner\cache')
+os.environ.setdefault('HF_HOME', r'D:\feelandnote\audios\interview-cleaner\cache')
+os.environ.setdefault('HUGGINGFACE_HUB_CACHE', r'D:\feelandnote\audios\interview-cleaner\cache')
 
 from faster_whisper import WhisperModel
 
-MODEL_DIR = r'D:\audios\interview-cleaner\models\whisper\models--mobiuslabsgmbh--faster-whisper-large-v3-turbo'
+MODEL_DIR = r'D:\feelandnote\audios\interview-cleaner\models\whisper\models--mobiuslabsgmbh--faster-whisper-large-v3-turbo'
 SNAP = glob.glob(os.path.join(MODEL_DIR, 'snapshots', '*'))[0]
 OUT_DIR = r'C:\project\feelandnote\data\celeb\viewing-research\john-green\transcripts'
-IN_DIR = r'D:\audios\interview-cleaner\input'
+IN_DIR = r'D:\feelandnote\audios\interview-cleaner\input'
 
 model = WhisperModel(SNAP, device='cpu', compute_type='int8')
 

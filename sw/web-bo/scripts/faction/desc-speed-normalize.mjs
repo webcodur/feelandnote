@@ -29,7 +29,7 @@ function args(argv = process.argv.slice(2)) {
     else throw new Error(`Unknown or incomplete argument: ${key}`)
   }
   if (result.help) return result
-  result.run = result.run || 'D:/audios/interview-cleaner/faction-desc-voices-v2'
+  result.run = result.run || 'D:/feelandnote/audios/interview-cleaner/faction-desc-voices-v2'
   result.limit = result.limit ? Number(result.limit) : Infinity
   result.concurrency = Math.min(3, Math.max(1, Number(result.concurrency || 2)))
   return result

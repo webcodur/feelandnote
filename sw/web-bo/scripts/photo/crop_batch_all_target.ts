@@ -16,7 +16,7 @@ import { boPath } from '../lib/paths.js';
 const _require = createRequire(import.meta.url);
 const faceapi = _require('@vladmandic/face-api/dist/face-api.node-wasm.js');
 
-const BASE_OUT_DIR = 'D:/image/_재료/얼굴형';
+const BASE_OUT_DIR = 'D:/feelandnote/image/_재료/얼굴형';
 const SIZE = 800;
 
 interface RawItem {

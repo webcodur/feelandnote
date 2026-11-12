@@ -9,7 +9,7 @@ import { boPath } from '../lib/paths.js';
 const _require = createRequire(import.meta.url);
 const faceapi = _require('@vladmandic/face-api/dist/face-api.node-wasm.js');
 
-const BASE_DIR = 'D:/image/_재료/얼굴형';
+const BASE_DIR = 'D:/feelandnote/image/_재료/얼굴형';
 
 interface FaceCheckResult {
   filePath: string;

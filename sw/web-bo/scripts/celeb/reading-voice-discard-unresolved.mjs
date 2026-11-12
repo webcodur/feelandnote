@@ -7,7 +7,7 @@ import { DeleteObjectCommand, HeadObjectCommand, S3Client } from '@aws-sdk/clien
 import { environment, currentSource, renameCheckpoint } from './reading-voice.mjs'
 import { prepareReadingTiming } from './reading-voice-timing.mjs'
 
-const DEFAULT_RUN = 'D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908'
+const DEFAULT_RUN = 'D:/feelandnote/audios/interview-cleaner/celeb-reading-voices-sample-20260908'
 const exists = (path) => access(path).then(() => true, () => false)
 
 export function discardArgs(argv = process.argv.slice(2)) {

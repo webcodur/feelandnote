@@ -8,7 +8,7 @@ import { renameCheckpoint } from './reading-voice.mjs'
 const exists = (path) => access(path).then(() => true, () => false)
 
 function args(argv = process.argv.slice(2)) {
-  const options = { run: 'D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908' }
+  const options = { run: 'D:/feelandnote/audios/interview-cleaner/celeb-reading-voices-sample-20260908' }
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--help') options.help = true
     else if (['--run', '--out'].includes(argv[i]) && argv[i + 1] && !argv[i + 1].startsWith('--')) options[argv[i].slice(2)] = argv[++i]

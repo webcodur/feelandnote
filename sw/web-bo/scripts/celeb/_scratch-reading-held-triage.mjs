@@ -34,7 +34,7 @@ function classify(error = '') {
 }
 
 function parseArgs(argv) {
-  const options = { run: 'D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908', accept: false, dryRun: false }
+  const options = { run: 'D:/feelandnote/audios/interview-cleaner/celeb-reading-voices-sample-20260908', accept: false, dryRun: false }
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--accept') options.accept = true
     else if (argv[i] === '--dry-run') options.dryRun = true

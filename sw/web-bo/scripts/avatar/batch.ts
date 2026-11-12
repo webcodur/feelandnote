@@ -861,9 +861,9 @@ async function main() {
     if (scanErr) throw new Error(`scan-db select 실패: ${scanErr.message}`)
     const list = (rows as unknown as Array<{ id: string; slug: string }>) ?? []
     const before = list.length
-    const filtered = excludeSlugs.size > 0 ? list.filter((r) => !excludeSlugs.has(r.slug)) : list
+    const filtered = list.filter((r) => !excludeSlugs.has(r.slug) && (!onlySlugs || onlySlugs.has(r.slug)))
     targets = filtered.map((r) => [r.slug, r.id] as const)
-    console.log(`[scan-db] 대상 ${targets.length}명 (avatar_url 비어있는 CELEB${excludeSlugs.size > 0 ? `, exclude로 ${before - targets.length}명 제외` : ''})`)
+    console.log(`[scan-db] 대상 ${targets.length}명 (avatar_url 비어있는 CELEB${excludeSlugs.size > 0 ? `, exclude로 제외` : ''}${onlySlugs ? `, --only ${onlySlugs.size}개로 한정` : ''} · 조회 ${before}명)`)
   }
 
   // offset/limit 적용

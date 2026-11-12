@@ -10,7 +10,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-export const ASSETS = process.env.BLOG_ASSETS ?? 'D:/blog-assets';
+export const ASSETS = process.env.BLOG_ASSETS ?? 'D:/feelandnote/blog-assets';
 
 /** 채널 폴더를 보장하고 돌려준다. */
 export function blogDir(channel) {

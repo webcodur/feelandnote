@@ -19,8 +19,8 @@ import { BO_ROOT } from '../lib/paths'
 const _require = createRequire(import.meta.url)
 const faceapi = _require('@vladmandic/face-api/dist/face-api.node-wasm.js') as typeof import('@vladmandic/face-api')
 
-const AV_DIR = 'D:/image/_avatar-work/avatars'
-const BATCH = 'D:/image/_avatar-work/hero-batch.json'
+const AV_DIR = 'D:/feelandnote/image/_avatar-work/avatars'
+const BATCH = 'D:/feelandnote/image/_avatar-work/hero-batch.json'
 const jsonIdx = process.argv.indexOf('--json')
 const jsonPath: string | null = jsonIdx >= 0 ? (process.argv[jsonIdx + 1] ?? null) : null
 
@@ -94,7 +94,7 @@ async function main() {
   // 임베딩 저장 — 재계산 없이 후속 분석에 쓴다
   const dump: Record<string, { av: number[]; seed: number[] | null }> = {}
   for (const [k, v] of descs) dump[k] = { av: [...v], seed: seedDescs.has(k) ? [...seedDescs.get(k)!] : null }
-  writeFileSync('D:/image/_avatar-work/audit/embeddings.json', JSON.stringify(dump))
+  writeFileSync('D:/feelandnote/image/_avatar-work/audit/embeddings.json', JSON.stringify(dump))
 
   // 저장본 쌍대 최근접 — 중복 얼굴
   const names = [...descs.keys()]

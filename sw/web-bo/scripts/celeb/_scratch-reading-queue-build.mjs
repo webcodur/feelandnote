@@ -12,7 +12,7 @@ import { environment, required, renameCheckpoint, log, now } from './reading-voi
 const sha = (value) => createHash('sha256').update(value).digest('hex')
 
 function args(argv = process.argv.slice(2)) {
-  const options = { run: 'D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908' }
+  const options = { run: 'D:/feelandnote/audios/interview-cleaner/celeb-reading-voices-sample-20260908' }
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--help') options.help = true
     else if (argv[i] === '--dry-run') options.dryRun = true

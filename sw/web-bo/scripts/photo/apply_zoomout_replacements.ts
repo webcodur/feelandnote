@@ -126,15 +126,15 @@ async function main() {
   const replacements = [
     {
       gen: 'C:/Users/webco/.gemini/antigravity-ide/brain/c1445db3-094e-4270-b3d1-2e31ad3d531b/fix_head_01_1788288545377.jpg',
-      target: 'D:/image/_재료/얼굴형/female/EastAsian/chrome_7vhcIyCE0I_face.png',
+      target: 'D:/feelandnote/image/_재료/얼굴형/female/EastAsian/chrome_7vhcIyCE0I_face.png',
     },
     {
       gen: 'C:/Users/webco/.gemini/antigravity-ide/brain/c1445db3-094e-4270-b3d1-2e31ad3d531b/fix_head_02_1788288563105.jpg',
-      target: 'D:/image/_재료/얼굴형/male/EastAsian/chrome_EznCG7CBzH_face.png',
+      target: 'D:/feelandnote/image/_재료/얼굴형/male/EastAsian/chrome_EznCG7CBzH_face.png',
     },
     {
       gen: 'C:/Users/webco/.gemini/antigravity-ide/brain/c1445db3-094e-4270-b3d1-2e31ad3d531b/fix_head_03_1788288577901.jpg',
-      target: 'D:/image/_재료/얼굴형/male/Indian/images_face.png',
+      target: 'D:/feelandnote/image/_재료/얼굴형/male/Indian/images_face.png',
     },
   ];
 

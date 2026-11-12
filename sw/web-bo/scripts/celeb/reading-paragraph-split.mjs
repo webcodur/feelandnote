@@ -30,7 +30,7 @@ const CANDIDATES = join(WORK, 'candidates.json')
 const DECISIONS = join(WORK, 'decisions.jsonl')
 const DUMP_DIR = join(WORK, 'reading')
 const DUMP_BATCH = 45
-const READING_RUN = 'D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908'
+const READING_RUN = 'D:/feelandnote/audios/interview-cleaner/celeb-reading-voices-sample-20260908'
 const READING_MANIFEST = join(READING_RUN, 'manifest.json')
 const MIN_CHARS = 360
 const sha = (v) => createHash('sha256').update(v).digest('hex')

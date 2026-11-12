@@ -1,5 +1,5 @@
 /** Repair existing reading/vmonologue/description audio without TTS or routine ASR.
- * node --import tsx scripts/voice/narration-cleanup-batch.mjs --run D:/audios/... [--publish] [--limit N]
+ * node --import tsx scripts/voice/narration-cleanup-batch.mjs --run D:/feelandnote/audios/... [--publish] [--limit N]
  * Two single-threaded CPU workers; original R2 bytes and metadata are kept in _backup.
  */
 import { createHash } from 'node:crypto'
@@ -183,7 +183,7 @@ async function main() {
     const reused = !!checked
     if (!checked) {
       if (!options.transcribe) throw Error('NO_VERIFIED_NARRATION_CACHE')
-      asrWorker ||= new QcWorker({python:'D:/audios/interview-cleaner/.venv/Scripts/python.exe',device:'auto'})
+      asrWorker ||= new QcWorker({python:'D:/feelandnote/audios/interview-cleaner/.venv/Scripts/python.exe',device:'auto'})
       const task = asrTail.then(()=> {
         if (asrDeferred) throw Error(asrDeferred)
         return asrWorker.check({id:row.key,audio:backup,text,locale:row.locale,normalize_spacing:true,

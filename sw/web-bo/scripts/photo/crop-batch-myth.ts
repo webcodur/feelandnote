@@ -16,8 +16,8 @@ import { boPath } from '../lib/paths.js';
 const _require = createRequire(import.meta.url);
 const faceapi = _require('@vladmandic/face-api/dist/face-api.node-wasm.js');
 
-const SRC_ROOT = 'D:/image/_재료/얼굴형/미사용-신화후보';
-const DST_ROOT = 'D:/image/_재료/얼굴형/미사용-신화후보_crop';
+const SRC_ROOT = 'D:/feelandnote/image/_재료/얼굴형/미사용-신화후보';
+const DST_ROOT = 'D:/feelandnote/image/_재료/얼굴형/미사용-신화후보_crop';
 
 const SIZE = 800;
 

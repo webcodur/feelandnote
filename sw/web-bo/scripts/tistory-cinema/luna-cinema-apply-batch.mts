@@ -10,9 +10,9 @@ const manifestPath = argValue('--manifest');
 if (!manifestPath) throw new Error('Pass --manifest <review-result.json>; add --yes to apply.');
 const runStamp = `${new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 17)}-${process.pid}`;
 const backupPath = argValue('--backup')
-  ?? `D:/blog-assets/tistory-cinema/_backup/luna-cinema-db-before-${runStamp}.json`;
+  ?? `D:/feelandnote/blog-assets/tistory-cinema/_backup/luna-cinema-db-before-${runStamp}.json`;
 const applyLogPath = argValue('--log')
-  ?? `D:/blog-assets/tistory-cinema/luna-cinema-db-apply-${runStamp}.json`;
+  ?? `D:/feelandnote/blog-assets/tistory-cinema/luna-cinema-db-apply-${runStamp}.json`;
 const apply = process.argv.includes('--yes');
 type ManifestRow = {
   index: number;

@@ -6,7 +6,7 @@ const argValue = (name: string) => {
   return index >= 0 ? process.argv[index + 1] : undefined;
 };
 
-const channelDir = argValue('--dir') ?? 'D:/blog-assets/tistory-cinema';
+const channelDir = argValue('--dir') ?? 'D:/feelandnote/blog-assets/tistory-cinema';
 const inventoryPath = argValue('--inventory') ?? path.join(channelDir, 'luna-cinema-full-inventory.json');
 const initialInputPath = argValue('--initial-input') ?? path.join(channelDir, 'luna-cinema-initial-slop-input.json');
 const initialReviewPath = argValue('--initial-review') ?? path.join(channelDir, 'luna-cinema-initial-slop.json');

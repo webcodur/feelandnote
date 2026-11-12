@@ -57,6 +57,30 @@ test('유효한 출처 예약값은 공란에 합산하지 않고 다른 언어 
   assert.equal(foreign.targets[0].hasText, true)
 })
 
+test('출처 표식만 있고 조회 ISBN·주소가 모두 없으면 소개 누락으로 센다', async () => {
+  for (const source of ['KAKAO', 'DAUM', 'OPEN']) {
+    const locale = source === 'OPEN' ? 'en' : 'ko'
+    const sources = { primary: locale === 'ko' ? 'kakao_book' : 'openlibrary' }
+    const data = catalog([card(locale, { isbn: null, sources })],
+      [edition({ locale, isbn: null, description: source, sources })])
+    const missing = await visibleBookIntroductionCensus(data)
+    assert.equal(missing.counts[locale].defaultMissing, 1)
+    assert.equal(missing.targetRows, 1)
+    assert.equal(missing.targets[0].hasText, true)
+
+    const withIsbn = structuredClone(data)
+    withIsbn.figure_book_editions[0].isbn = target.isbn
+    assert.equal((await visibleBookIntroductionCensus(withIsbn)).targetRows, 0)
+
+    const withUrl = structuredClone(data)
+    withUrl.figure_book_editions[0].sources.description = source === 'OPEN'
+      ? 'https://openlibrary.org/books/OL1M' : source === 'DAUM'
+        ? 'https://m.search.daum.net/search?w=bookpage&bookId=1'
+        : `https://dapi.kakao.com/v3/search/book?target=isbn&query=${target.isbn}`
+    assert.equal((await visibleBookIntroductionCensus(withUrl)).targetRows, 0)
+  }
+})
+
 test('선정 제외 오디오 CD는 남아 있는 카드로 되살리지 않는다', async () => {
   const sources = { primary: 'openlibrary', edition_selection_evidence: [{ method: 'independent_selection_review',
     llmReviewed: true, content_id: id, isbn: target.isbn, locale: 'en', edition_title: 'A Book', reason: 'non_reading_product',

@@ -117,7 +117,10 @@ async function steamKoIntro(appId: string): Promise<string | null> {
       .replace(/<[^>]+>/g, '')
       .replace(/\n{3,}/g, '\n\n')
       .trim()
-    return about ? about.slice(0, 1200) : null
+    if (!about) return null
+    if (about.length <= 1200) return about
+    // 분량 상한은 문장 경계에서 끊는다. 글자 수로 자르면 끊긴 조각까지 번역된다.
+    return (about.slice(0, 1200).match(/[\s\S]*[.!?…](?=\s|$)/)?.[0] ?? about.slice(0, 1200)).trim()
   } catch {
     return null
   }

@@ -10,7 +10,7 @@ import { nextPacificResetAt, renameCheckpoint } from './reading-voice.mjs'
 
 const BO = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const PIPELINE = join(BO, 'scripts/celeb/reading-voice.mjs')
-const DEFAULT_RUN = 'D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908'
+const DEFAULT_RUN = 'D:/feelandnote/audios/interview-cleaner/celeb-reading-voices-sample-20260908'
 const STATUS_DOCUMENT = resolve(BO, '../../docs/continuous/celeb-tts-reading.md')
 const exists = (path) => access(path).then(() => true, () => false)
 const now = () => new Date().toISOString()

@@ -100,7 +100,7 @@ export function args(argv = process.argv.slice(2)) {
   if (result.locales.some((locale) => !['ko', 'en'].includes(locale))) throw new Error('Locales must be ko and/or en')
   if (result['dry-run'] && (result.generate || result.publish)) throw new Error('--dry-run cannot be combined with --generate or --publish')
   result['dry-run'] ||= !result.generate && !result.publish
-  result.run = resolve(result.run || 'D:/audios/interview-cleaner/celeb-reading-voices')
+  result.run = resolve(result.run || 'D:/feelandnote/audios/interview-cleaner/celeb-reading-voices')
   // 파서가 '--queue-file'을 result['queue-file']에 넣으므로 카멜케이스로 옮겨 둔다 — 이 줄이 없으면 큐가 조용히 무시된다
   if (result['queue-file']) result.queueFile = resolve(result['queue-file'])
   result.limit = result.limit ? Number(result.limit) : Infinity

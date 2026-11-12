@@ -14,7 +14,7 @@ import { readFileSync, writeFileSync, existsSync, readdirSync, copyFileSync, mkd
 import { join, extname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 
-const ROOT = 'D:/image/_재료'
+const ROOT = 'D:/feelandnote/image/_재료'
 const PINNED = join(ROOT, '지정')
 const AGES = ['20s', '30s', '40s', '50s', '60s', '70s', '80s']
 
