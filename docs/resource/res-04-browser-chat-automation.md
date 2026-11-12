@@ -258,6 +258,40 @@ Aside `repl`로 로그인된 프로필의 ChatGPT 탭을 부린다. 러너는 jo
 
 ---
 
+## ChatGPT Dots 이미지 재합성
+
+ChatGPT 웹사이트의 `/dots/…`에서 실행되는 Dots를 다룬다. Kilo Gateway의 `dots-3-note-preview:free`는 별개의 텍스트 모델이며 이 실행 환경을 대신하지 않는다. 대상 계정·Dot 주소·작업 진행도는 해당 작업의 인계 문서에서 확인한다.
+
+### 연결과 발주
+
+- 로그인된 Aside 프로필 또는 사용자가 지정한 Chrome 확장 연결을 쓴다. 다른 컴퓨터에서는 프로필 목록과 실제 로그인 계정을 다시 확인한다. 이전 컴퓨터의 프로필 번호·탭 ID·세션 `pwd`는 재사용하지 않는다.
+- Aside는 모델 크레딧을 쓰는 자연어 `exec` 대신 REPL을 쓴다. 유지되는 연결에서 초기화 완료를 기다리고, `openTab()`이 반환한 Page 핸들을 보유한다. 전역 활성 `page`는 자료 조사 탭으로 바뀔 수 있으므로 발주·첨부·회수 모두 그 핸들로 처리한다.
+- 작업자가 조사한 참조 이미지와 짧은 재합성 지시만 보낸다. 구도·유지할 신원과 행동·정리할 주변 요소·출력 파일명을 지정한다. 내부 워커 병렬 사용을 요청할 수 있으나 실제 동시 실행 수를 확인하지 않고 처리량을 단정하지 않는다. 외부 에이전트를 늘리는 것과 구분한다.
+- 첨부는 실제 REPL `pwd` 아래에 호스트가 복사한 파일로 한다. 여러 장을 한 번에 첨부할 때 첫 장만 붙는 경우에는 ZIP 묶음을 쓴다. 첨부 제거 버튼의 파일명과 전송 버튼 활성화로 완료를 확인한다. 전송 뒤 `input.files`가 비어 있는 것은 첨부 실패의 증거가 아니다.
+- 보이는 `[contenteditable=true][role=textbox]`를 고른다. 기존 입력이 있으면 덮어쓰지 않는다. 포커스 뒤 `document.execCommand('insertText', false, text)`로 넣고 공백 정규화한 문장을 대조한 뒤 실제 보내기 버튼을 누른다. 현재 한국어 UI에서는 `button[aria-label="보내기"]`였으며 화면이 바뀌면 다시 확인한다. 입력창이 `<form>` 안에 있다고 가정하지 않는다.
+- 대기는 실제 응답·작업 상태로 판단한다. 관찰 호출의 시간 초과 때문에 같은 작업을 다시 발주하지 않는다. 같은 Dot에 있는 다른 작업의 메시지·파일은 건드리지 않는다.
+
+### 생성 원본 회수
+
+파일명은 해당 결과 이미지의 정확한 `img.alt`와 대조한다. 로드 완료와 `naturalWidth`·`naturalHeight`를 확인한 뒤 원본 크기로 회수한다. 다운로드 허용을 거절했거나 탭이 여러 개라 다운로드 이벤트가 다른 파일을 반환하면, 선택한 Dots 이미지의 로드된 픽셀을 canvas로 회수할 수 있다.
+
+```js
+// 선택한 Page의 evaluate 내부. filename은 실제 img.alt와 먼저 대조한다.
+const im = [...document.images].find(el => el.alt === filename && el.naturalWidth > 0)
+if (!im || !im.complete) throw new Error('선택한 원본이 아직 로드되지 않음')
+const canvas = document.createElement('canvas')
+canvas.width = im.naturalWidth
+canvas.height = im.naturalHeight
+canvas.getContext('2d').drawImage(im, 0, 0)
+const png = canvas.toDataURL('image/png')
+// png를 Aside REPL 안에서 Buffer로 풀어 fs.writeFile로 실제 pwd 아래에 저장한다.
+// 도구 응답에는 저장 경로·크기만 반환한다. Base64를 출력하지 않는다.
+```
+
+이미지가 지연 로드되어 크기가 0이면 해당 요소를 스크롤해 보이게 한 뒤 같은 탭에서 다시 확인한다. 이미지 뷰어를 열었을 때 입력창이 사라지고 배경 이미지가 로딩 자리로 바뀔 수 있다. 사용자의 검토 탭은 유지하고 같은 Dot의 별도 작업 탭에서 파일명으로 찾는다. 오래된 메시지의 페이지 나눔·가상화도 확인한다. 화면 캡처나 썸네일을 원본 대신 쓰지 않으며, 요소를 못 찾았다는 이유로 재생성을 요청하지 않는다.
+
+회수 파일은 디코딩·픽셀 크기·참조와의 내용 일치를 확인한다. 큰 PNG를 도구에서 열기 어려우면 작은 검토용 JPEG를 만들어 보고, 최종 업로드에는 원본을 쓴다. 외부 사이트 이미지는 canvas 오염으로 실패할 수 있으므로 이 회수법을 모든 URL에 일반화하지 않는다.
+
 ## 막히는 경로
 
 - **자동화 전용 브라우저로 구글에 접근하면 첫 요청에서 차단된다.** `/sorry/index`로 튕긴다. 구글은 마우스 속도·키 입력 간격 같은 행동 신호까지 보고 판정하고, 우회 코드를 무력화하려 내부 상수를 수 분 단위로 바꾼다. 반드시 사람이 쓰는 크롬 세션을 쓴다.
@@ -273,7 +307,7 @@ Aside `repl`로 로그인된 프로필의 ChatGPT 탭을 부린다. 러너는 jo
 | 곳 | 엔드포인트 | 실측 |
 |---|---|---|
 | LLM7 | `https://api.llm7.io/v1` | OpenAI 호환. 무료 4종 중 한국어가 되는 것은 `minimax-m2.7` 하나 |
-| Kilo Gateway | `https://api.kilo.ai/api/gateway/v1/chat/completions` | 무료 17종. 대부분 빈 응답이고 `dots-3-note-preview:free`만 사실·한국어가 맞았다 |
+| Kilo Gateway | `https://api.kilo.ai/api/gateway/v1/chat/completions` | 텍스트 모델 게이트웨이. `dots-3-note-preview:free`는 ChatGPT 웹 Dots와 무관하며 이미지 재합성 경로가 아니다 |
 
 세 가지가 걸린다.
 

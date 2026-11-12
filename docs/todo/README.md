@@ -30,6 +30,7 @@
 | [`myth-scenes-handoff.md`](myth-scenes-handoff.md) | 주요 장면 제작 — 본편 반영 상태, 누락 전승, 얼굴 REF, 서사·이미지 재검수 주의사항 |
 | [`founding-myth.md`](founding-myth.md) | 건국신화 미등록·배정 누락·정보 부족·아바타·공개 대기 구분 |
 | [`faction-web.md`](faction-web.md) | 세력도감 웹 — 단체화보 묶음 흡수, 그룹 편집 칸, RPC `p_tag_id` 제거 |
+| [`faction-scenes-handoff.md`](faction-scenes-handoff.md) | 조회수 우선 세력도감 주요 장면 — 사진 기반 재합성, Dots 연결과 남은 개편 인계 |
 | [`film-cast-system.md`](film-cast-system.md) | 영상·영화 인물 관계의 별도 시스템 구상 — 작품 엔티티 중심 감독-배우 라인, 도감은 실재 집단만 |
 | [`ai-faction-roster.md`](ai-faction-roster.md) | AI 테마 미등록·보류 후보 |
 | [`digital-resistance-roster.md`](digital-resistance-roster.md) | 디지털 레지스탕스·웹 개척자 미결 후보와 추가 배정 판단 |

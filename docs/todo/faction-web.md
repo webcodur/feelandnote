@@ -11,4 +11,4 @@
 
 1. **RPC `p_tag_id` 제거** — `count_celebs_filtered`·`get_celebs_sorted`는 26.09.29에도 `p_tag_id`를 받는다. 코드 호출부는 26.10.01 기준 0건이다. Oracle 반대 슬롯(롤백 자리)의 배포본이 더 이상 `p_tag_id`를 부르지 않는지 확인한 뒤 DROP+재생성으로 걷어낸다(시그니처 교체 함정은 [`data/README.md`](../project/data/README.md) 「마이그레이션을 쓸 때 걸리는 것」). 생성 타입도 이때 재생성한다.
 
-주요 장면 확장은 [`myth-scenes-handoff.md`](myth-scenes-handoff.md)가 쥔다.
+실사 자료 기반 세력 주요 장면 개편은 [`faction-scenes-handoff.md`](faction-scenes-handoff.md), 신화 장면 제작은 [`myth-scenes-handoff.md`](myth-scenes-handoff.md)가 쥔다.

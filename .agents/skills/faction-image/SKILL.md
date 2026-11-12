@@ -34,3 +34,5 @@ description: 세력도감의 테마 표지 발주문 작성·수정과 주요 �
 1:1 이미지로 만든다.
 
 장면별 해설 분량, 내용에 따른 이미지 분할·추가 제작, 완성 표시는 [주요 장면 룰북](../../../docs/project/production/prod-02-myth-image-captions.md)을 따른다.
+
+실사 자료를 재합성할 때는 룰북의 「실사 자료 기반 주요 장면」을 읽는다. 조회수 우선 세력도감 개편을 이어받으면 [제작 인계](../../../docs/todo/faction-scenes-handoff.md)에서 현재 반영 상태와 Dots 연결 대상을 먼저 확인한다.
