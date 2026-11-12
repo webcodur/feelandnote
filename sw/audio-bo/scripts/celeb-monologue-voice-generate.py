@@ -59,7 +59,7 @@ from voice_cleanup import (
 )
 
 QC_SCRIPT = Path(__file__).parent / "celeb-reading-voice-qc.py"
-QC_PYTHON = Path(r"D:\audios\interview-cleaner\.venv\Scripts\python.exe")
+QC_PYTHON = Path(r"D:\feelandnote\audios\interview-cleaner\.venv\Scripts\python.exe")
 OUTPUT_FILE = "vmonologue.mp3"
 SOURCE_FILE = "source.txt"
 QC_RESULT_FILE = "qc.json"
@@ -547,7 +547,7 @@ def main() -> None:
     else:
         configured_root = audio_env.get("CELEB_MONOLOGUE_VOICE_ROOT")
         output_root = args.output_root or Path(
-            configured_root or r"D:\audios\interview-cleaner\celeb-monologue-voices")
+            configured_root or r"D:\feelandnote\audios\interview-cleaner\celeb-monologue-voices")
         run_dir = output_root / args.slug / args.locale / datetime.now().strftime("%Y%m%d-%H%M%S")
         run_dir.mkdir(parents=True, exist_ok=False)
         manifest = {

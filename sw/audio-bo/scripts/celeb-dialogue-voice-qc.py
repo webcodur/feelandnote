@@ -38,7 +38,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--whisper-models",
         type=Path,
-        default=Path(r"D:\audios\interview-cleaner\models\whisper"),
+        default=Path(r"D:\feelandnote\audios\interview-cleaner\models\whisper"),
     )
     parser.add_argument("--min-match", type=float, default=0.80)
     parser.add_argument("--device", default="auto", choices=("cpu", "cuda", "auto"))

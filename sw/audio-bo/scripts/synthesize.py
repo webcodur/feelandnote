@@ -119,7 +119,7 @@ def main():
         'batch_size': 1, 'media_type': 'wav', 'streaming_mode': False, 'seed': 1234,
         'speed_factor': direction['speed_factor'], 'fragment_interval': direction['fragment_interval'],
     }
-    cleaner = Path(os.environ.get('INTERVIEW_CLEANER_ROOT', 'D:/audios/interview-cleaner'))
+    cleaner = Path(os.environ.get('INTERVIEW_CLEANER_ROOT', 'D:/feelandnote/audios/interview-cleaner'))
     whisper = WhisperModel(
         'large-v3-turbo', device='auto', compute_type='int8',
         download_root=str(cleaner / 'models/whisper'), local_files_only=True,

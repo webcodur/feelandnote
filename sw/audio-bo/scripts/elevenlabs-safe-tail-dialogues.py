@@ -85,7 +85,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--whisper-root",
         type=Path,
-        default=Path(r"D:\audios\interview-cleaner\models\whisper"),
+        default=Path(r"D:\feelandnote\audios\interview-cleaner\models\whisper"),
     )
     parser.add_argument("--ffmpeg", default="ffmpeg")
     parser.add_argument(
@@ -440,7 +440,7 @@ def main() -> None:
 
     configured_root = audio_env.get("CELEB_DIALOGUE_VOICE_ROOT")
     output_root = args.output_root or Path(
-        configured_root or r"D:\audios\interview-cleaner\celeb-dialogue-voices"
+        configured_root or r"D:\feelandnote\audios\interview-cleaner\celeb-dialogue-voices"
     ) / "safe-tail"
     run_id = datetime.now().strftime("%Y%m%d-%H%M%S")
     run_dir = output_root / args.slug / args.locale / run_id

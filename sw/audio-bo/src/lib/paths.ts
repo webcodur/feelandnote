@@ -1,8 +1,8 @@
 import path from 'node:path'
 
-export const AUDIO_ROOT = process.env.AUDIO_BO_ROOT ?? 'D:\\audios\\interview-cleaner\\projects'
-export const TOOL_ROOT = process.env.GPT_SOVITS_ROOT ?? 'D:\\GPT-SoVITS\\GPT-SoVITS-v2pro-20250604'
-export const CLEANER_ROOT = process.env.INTERVIEW_CLEANER_ROOT ?? 'D:\\audios\\interview-cleaner'
+export const AUDIO_ROOT = process.env.AUDIO_BO_ROOT ?? 'D:\\feelandnote\\audios\\interview-cleaner\\projects'
+export const TOOL_ROOT = process.env.GPT_SOVITS_ROOT ?? 'D:\\feelandnote\\GPT-SoVITS\\GPT-SoVITS-v2pro-20250604'
+export const CLEANER_ROOT = process.env.INTERVIEW_CLEANER_ROOT ?? 'D:\\feelandnote\\audios\\interview-cleaner'
 const APP_ROOT = process.cwd().endsWith(`${path.sep}audio-bo`) ? process.cwd() : path.join(process.cwd(), 'sw', 'audio-bo')
 export const WORKER_PATH = path.join(APP_ROOT, 'scripts', 'audio-worker.ps1')
 

@@ -83,7 +83,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--whisper-root",
         type=Path,
-        default=Path(r"D:\audios\interview-cleaner\models\whisper"),
+        default=Path(r"D:\feelandnote\audios\interview-cleaner\models\whisper"),
     )
     parser.add_argument("--ffmpeg", default="ffmpeg")
     return parser.parse_args()
@@ -430,7 +430,7 @@ def main() -> None:
     output_root = args.output_root or Path(
         env.get(
             "ELEVENLABS_ARTIFACT_ROOT",
-            r"D:\audios\interview-cleaner\elevenlabs-artifact-research",
+            r"D:\feelandnote\audios\interview-cleaner\elevenlabs-artifact-research",
         )
     )
     api_key = resolve_api_key(env, account)

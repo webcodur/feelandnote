@@ -170,7 +170,7 @@ def main() -> None:
     else:
         configured_root = audio_env.get("CELEB_DIALOGUE_VOICE_ROOT")
         output_root = args.output_root or Path(
-            configured_root or r"D:\audios\interview-cleaner\celeb-dialogue-voices"
+            configured_root or r"D:\feelandnote\audios\interview-cleaner\celeb-dialogue-voices"
         )
         run_id = datetime.now().strftime("%Y%m%d-%H%M%S")
         run_dir = output_root / args.slug / args.locale / run_id

@@ -25,7 +25,7 @@ from voice_cleanup import (
 )
 
 
-MODEL_ROOT = Path(r"D:\audios\interview-cleaner\models\whisper")
+MODEL_ROOT = Path(r"D:\feelandnote\audios\interview-cleaner\models\whisper")
 SAMPLE_RATE = 24000
 QC_VERSION = 5
 MIN_MATCH = 0.90
