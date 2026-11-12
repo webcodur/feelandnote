@@ -60,7 +60,7 @@
   짧게 완결되고 인물 REF가 준비된 이야기를 먼저 고른다.
   기존 자료 선별, 이미지가 없을 때의 제작, 해설 압축·로케일·용량 처리는 [주요 장면 룰북](../project/production/prod-02-myth-image-captions.md)을 따른다.
   일본 신화의 현재 반영본·누락 전승·REF·사용자 지적과 재검수는 [주요 장면 제작 인수인계](myth-scenes-handoff.md)를 본다.
-  `D:\remotion-assets\factions`의 필요한 자료를 DB·R2로 이관·검증한 뒤 백업 폴더를 폐기하는 목적도 유지한다.
+  `D:\feelandnote\remotion-assets\factions`의 필요한 자료를 DB·R2로 이관·검증한 뒤 백업 폴더를 폐기하는 목적도 유지한다.
 
 **검토했다가 접은 안**을 적어 둔다. 같은 실수를 반복하지 않기 위해서다.
 

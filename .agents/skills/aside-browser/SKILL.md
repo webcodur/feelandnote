@@ -1,11 +1,13 @@
 ---
 name: aside-browser
-description: 사용자의 실제 Aside 브라우저(로그인 세션·쿠키·프로필 그대로)를 aside CLI로 제어한다. puppeteer·CDP·curl이 Akamai 등 봇 차단으로 403(Access Denied)을 받는 사이트의 페이지 열람·DOM 추출·스크린샷, 로그인 화면 조작, Gemini 계정별 병렬 호출에 쓴다. "어사이드", "aside", "403 차단", "Access Denied 우회", "실제 브라우저로 열어", "쿠팡 상품 긁어" 요청에 적용한다.
+description: 로그인된 Aside 프로필을 aside CLI로 제어한다. puppeteer·CDP·curl이 Akamai 등 봇 차단으로 403(Access Denied)을 받는 사이트의 페이지 열람·DOM 추출·스크린샷, 로그인 화면 조작, Gemini 계정별 병렬 호출에 쓴다. "어사이드", "aside", "403 차단", "Access Denied 우회", "실제 브라우저로 열어", "쿠팡 상품 긁어" 요청에 적용한다.
 ---
 
 # Aside 브라우저 제어
 
 Aside는 사용자 계정으로 로그인된 실제 브라우저다. CDP로 제어되는 puppeteer와 달리 봇 탐지를 통과한다 — `www.coupang.com` 검색·상품 상세가 puppeteer에서는 전부 403이지만 Aside에서는 정상 열리는 것을 확인했다.
+
+작업 창을 열거나 사용자에게 로그인·CAPTCHA 직접 조작을 안내하기 전에 [Aside 제어 창과 사용자 창](../../../docs/resource/res-04-browser-chat-automation.md#aside-제어-창과-사용자-창)의 창 분리·정리, 접근 제한, 로그인 공유 확인 규칙을 따른다.
 
 ## 전제
 
@@ -17,6 +19,7 @@ Aside는 사용자 계정으로 로그인된 실제 브라우저다. CDP로 제�
   - 26.09.28 기준: `u0` = Profile 0(구글 `webcodur@gmail.com` 로그인, Search Console 도메인 속성 권한), `u1` = Profile 1(기본, 구글 계정 여러 개), `u2` = Profile 2.
   - 기본 프로필에서 권한 계정이 안 보인다고 구글 전체 로그아웃·재로그인으로 풀지 않는다. 26.09.28에 이 확인을 건너뛰고 Profile 1의 구글 계정 10개를 전부 로그아웃했다가, 이미 로그인된 `u0`를 뒤늦게 찾았다.
   - 구글 계정 목록은 `googleAccounts.list()`(google-accounts 스킬)로 본다. 이 값도 `--account`로 고른 프로필 기준이다.
+  - 26.11.09: `u0`의 9번에 `webcodur.tk001@gmail.com`(Gemini Ultra)을 추가했다. Argon 풀 표기는 `u0:9`다. Ultra 배지도 Pro와 같이 Argon 러너의 구독 확인을 통과한다. 26.11.11부터 Ultra 계정은 모드 메뉴에 Carbon이 있어 러너가 Carbon High를 고른다. 이름이 비슷한 8번 `webcotk001@gmail.com`은 별개 계정이다.
 
 ## 로컬 개발 화면 확인에도 1순위다
 

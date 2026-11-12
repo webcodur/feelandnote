@@ -4,6 +4,14 @@
 
 CLI 경로(codex·kiro·opencode·agy)와 목적이 다르다. CLI는 결과를 파일로 받아 대량 배치에 강하고, 이 경로는 **API가 없거나 유료인 모델을 화면으로 부린다.**
 
+## Aside 제어 창과 사용자 창
+
+**에이전트가 제어하는 Aside 창은 사용자의 운영체제에서 보거나 접근할 수 없다.** `bringToFront()`로 탭을 활성화해도 사용자에게 보이는 창이 되지 않는다. 따라서 “탭을 앞으로 띄웠으니 이 창에서 로그인·CAPTCHA를 직접 완료하라”고 안내하지 않는다.
+
+사용자는 운영체제에서 별도 창을 열어 로그인을 시도한다. 같은 프로필 이름이나 계정이라는 이유만으로 두 창의 쿠키·로그인·사용자 확인 상태가 공유된다고 단정하지 않는다. 사용자 작업 뒤에는 에이전트의 제어 세션에서 실제 로그인 계정과 접근 상태를 다시 확인한다.
+
+에이전트 작업은 기존 공유 창에 탭을 쌓지 말고 별도 창을 열어 수행한다. 창 식별자를 고정해 그 창 안에서만 탭을 생성·회수·정리하고, 완료된 탭은 그때 닫는다. 다른 작업의 창과 탭은 건드리지 않는다.
+
 ## Chrome 확장 연결
 
 아래는 Chrome 확장 경로의 연결 조건이다. Aside는 자체 연결로 로그인된 프로필을 제어하므로 이 확장 연결 조건을 적용하지 않는다.
@@ -134,7 +142,7 @@ window.__run = (async () => { /* … 배치마다 localStorage 갱신 … */
 
 ### 병렬은 4를 넘기지 않는다 — 넘기면 구글이 IP를 막는다
 
-빨라 보인다고 병렬을 올리면 구글이 「비정상적인 트래픽」 확인 페이지(`/sorry/index`)로 IP 전체를 돌려세운다. **CAPTCHA 는 우리가 풀 수 없고 풀어서도 안 되므로, 그 시점에 조사가 끝난다.** 사람이 브라우저에서 직접 통과해야 재개된다.
+빨라 보인다고 병렬을 올리면 구글이 「비정상적인 트래픽」 확인 페이지(`/sorry/index`)로 IP 전체를 돌려세운다. **CAPTCHA 는 우리가 풀 수 없고 풀어서도 안 되므로, 그 시점에 조사가 끝난다.** 서비스의 사용자 확인이 완료되고 제어 세션에서도 정상 접근이 확인되어야 재개된다. Aside 사용자의 직접 조작 가능 여부는 위 「Aside 제어 창과 사용자 창」을 따른다.
 
 | 병렬 | 권당 | 결과 |
 |---:|---:|---|
@@ -167,6 +175,10 @@ setTimeout(() => { URL.revokeObjectURL(a.href); a.remove() }, 1000)
 
 ---
 
+## 작업량이 많을 때는 웹챗 풀
+
+작업량이 많은 LLM 작업은 agy 대신 GPT·Gemini 등 LLM 웹챗을 쓴다(26.11.08 사용자 지시). 웹챗 계정 풀은 agy 쿼터와 따로 운영된다. 돌려 쓸 Google 계정 목록은 사용자가 `C:\Users\webco\바탕 화면\google.txt`에 둔다. 비밀번호가 들어 있으므로 내용을 문서·로그·명령줄·발주문에 옮기지 않고, 로그인이 끊긴 계정에 입력할 때만 아래 「ChatGPT」 「이미지 생성」의 계정 전환 절차대로 한 번 읽어 넣는다.
+
 ## Gemini 계정별 병렬 운용
 
 서로 다른 로그인 계정에 각각 별도 탭과 제어 연결을 배정하면 한쪽의 답변을 기다리는 동안 다른 쪽에서도 요청을 보내고 생성할 수 있다. 같은 브라우저 프로필 안의 Google 계정 번호로 나누거나, 서로 다른 브라우저 프로필을 쓸 수 있다. 계정별로 Page 핸들·대화 URL·입출력 파일 위치를 유지하고, 매번 활성 탭에 다시 붙는 방식으로 작업 대상을 고르지 않는다. 인물처럼 독립된 대상이 바뀌면 새 대화를 시작하고, 같은 대상의 수정·재개·파일 회수는 기록한 기존 대화 URL에서 이어간다.
@@ -181,12 +193,12 @@ setTimeout(() => { URL.revokeObjectURL(a.href); a.remove() }, 1000)
 
 ## ChatGPT
 
-`chatgpt.com`에서 상단 **Chat 모드**를 쓴다. 대화가 계정에 쌓이므로 회차마다 새 채팅을 연다.
+`chatgpt.com`에서 상단 **Chat 모드**를 쓴다. 전송 직전마다 `[aria-label="작성기 모드"]`의 `Chat` 버튼이 `aria-pressed="true"`인지 확인하고, 아니면 보내지 않는다. 대화가 계정에 쌓이므로 회차마다 새 채팅을 연다.
 
 **입력** — 한글을 그냥 타이핑하면 IME에 막혀 들어가지 않는다. `computer` 도구로 `type`을 보내면 입력창에 한 글자만 남거나 아무것도 안 들어간다. 자바스크립트로 넣고 Return 키를 보낸다.
 
 ```js
-const el = document.querySelector('#prompt-textarea')
+const el = document.querySelector('[contenteditable="true"][role="textbox"]')
 el.focus()
 const sel = window.getSelection(), range = document.createRange()
 range.selectNodeContents(el); sel.removeAllRanges(); sel.addRange(range)
@@ -194,7 +206,7 @@ document.execCommand('delete', false, null)
 document.execCommand('insertText', false, '<질문>')
 ```
 
-`insertText`를 쓰는 이유는 입력창이 `contenteditable`이라 `value` 대입이 통하지 않고, 이 방식이라야 프레임워크의 입력 이벤트가 함께 발생하기 때문이다.
+`insertText`를 쓰는 이유는 입력창이 `contenteditable`이라 `value` 대입이 통하지 않고, 이 방식이라야 프레임워크의 입력 이벤트가 함께 발생하기 때문이다. 2026-11-07 실측에서 `#prompt-textarea`와 `data-testid` 버튼이 사라졌다. 전송은 이름이 `보내기`인 버튼을 누르고, 코드 블록 회수는 `pre,code`에서 찾았다.
 
 **완료 판정** — 생성 중에는 정지 버튼이 떠 있다. 그것이 사라지면 끝이다.
 
@@ -202,7 +214,7 @@ document.execCommand('insertText', false, '<질문>')
 let last = ''
 for (let i = 0; i < 60; i++) {
   await new Promise(r => setTimeout(r, 1500))
-  const streaming = !!document.querySelector('button[data-testid="stop-button"]')
+  const streaming = [...document.querySelectorAll('button')].some(e => e.getAttribute('aria-label') === '중지')
   const a = [...document.querySelectorAll('[data-message-author-role="assistant"]')]
   last = a.length ? a[a.length - 1].innerText.trim() : ''
   if (!streaming && last.length > 0) break
@@ -217,7 +229,7 @@ Aside `repl`로 로그인된 프로필의 ChatGPT 탭을 부린다. 러너는 jo
 - **업로드는 세션 폴더 안 파일만 된다.** 127.0.0.1 임시 서버로 참고 이미지를 넘겨 repl 안에서 `fetch`로 세션 폴더에 받은 뒤 `#upload-photos`에 `setInputFiles`한다.
 - 원고는 위의 `insertText`, 전송은 `[data-testid=send-button]` 클릭. 주소는 전송 뒤 한참 `/`에 머무르므로 **사용자 턴이 생겼는지로 전송을 판정한다.**
 - 완성은 정지 버튼이 없고 alt가 「생성된 이미지」인 이미지의 src가 두 번 연속 같을 때다. 결과는 1254×1254, 건당 1~2분.
-- **무료 계정은 이미지 한도가 작다.** 한 계정은 3장 만에 「23시간 후 재설정」이 떴고, 다른 계정은 연속 16장까지 막히지 않았다. **한도는 프로필이 아니라 ChatGPT 계정에 걸린다.** 한도 문구가 나오면 프로필을 옮기지 말고 같은 프로필 안에서 ChatGPT 계정을 바꾼다(아래 절차). 돌려 쓸 계정 목록과 비밀번호는 사용자가 쥐며 문서·파일·로그에 적지 않는다.
+- **무료 계정은 이미지 한도가 작다.** 한 계정은 3장 만에 「23시간 후 재설정」이 떴고, 다른 계정은 연속 16장까지 막히지 않았다. **한도는 프로필이 아니라 ChatGPT 계정에 걸린다.** 한도 문구가 나오면 프로필을 옮기지 말고 같은 프로필 안에서 ChatGPT 계정을 바꾼다(아래 절차). 돌려 쓸 계정 목록과 비밀번호는 사용자 파일(위 「작업량이 많을 때는 웹챗 풀」)에만 있으며 문서·파일·로그에 옮기지 않는다.
 - 전환할 계정의 Google 로그인이 그 프로필에 살아 있지 않으면 Google 이메일·비밀번호 화면이 나온다. 사용자가 비밀번호를 준 경우에만 입력하고, 명령줄이 아니라 로컬 임시 서버에서 한 번만 받아 `input[name="Passwd"]`에 넣는다. Google 입력칸은 숨은 사본이 있어 `input[type="email"]`이 아니라 `#identifierId`, 보이는지 확인한 뒤 채운다. 로그인 화면 탭은 repl 호출이 끝나면 닫히므로 ChatGPT 로그인부터 Google 동의까지 한 호출에서 끝낸다.
 - 생성 중 「연결이 끊어졌습니다. 전체 답변을 기다리는 중입니다」는 일시 문구다. 실패로 끊지 말고 같은 대화를 계속 확인하면 이미지가 나온다.
 - 편집 품질은 codex와 비슷하나 **표정·시선이 풀리는 일이 잦다**(15장 중 2장). 발주문에 표정을 "무엇이 아니어야 하는지"까지, 시선은 "카메라를 보지 않는다"까지 적는다.

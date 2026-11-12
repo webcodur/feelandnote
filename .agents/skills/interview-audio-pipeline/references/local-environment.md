@@ -3,7 +3,7 @@
 ## Validated layout
 
 ```text
-D:\audios\interview-cleaner\
+D:\feelandnote\audios\interview-cleaner\
   .venv\
   cache\
   input\
@@ -15,11 +15,11 @@ D:\audios\interview-cleaner\
   subtitles\whisper\
 ```
 
-Existing synthesis installation: `D:\GPT-SoVITS\GPT-SoVITS-v2pro-20250604`.
+Existing synthesis installation: `D:\feelandnote\GPT-SoVITS\GPT-SoVITS-v2pro-20250604`.
 
 ## Validated components
 
-- Python 3.11 virtual environment at `D:\audios\interview-cleaner\.venv`
+- Python 3.11 virtual environment at `D:\feelandnote\audios\interview-cleaner\.venv`
 - DeepFilterNet 0.5.6 with DeepFilterNet3
 - PyTorch and torchaudio 2.1.2 CPU; newer torchaudio removed the backend API required by this DeepFilterNet release
 - soundfile 0.14.0, faster-whisper 1.2.1, and large-v3-turbo on D:
@@ -37,13 +37,13 @@ Existing synthesis installation: `D:\GPT-SoVITS\GPT-SoVITS-v2pro-20250604`.
 Video `7VbYr1mJkcQ`, range `00:04:53–00:05:23`:
 
 ```text
-D:\audios\interview-cleaner\input\youtube-7VbYr1mJkcQ-293s.wav
-D:\audios\interview-cleaner\output\youtube-7VbYr1mJkcQ-293s_DeepFilterNet3.wav
-D:\audios\interview-cleaner\subtitles\youtube\7VbYr1mJkcQ.ko-orig.srt
-D:\audios\interview-cleaner\subtitles\whisper\original.srt
-D:\audios\interview-cleaner\subtitles\whisper\original.txt
-D:\audios\interview-cleaner\subtitles\whisper\cleaned.srt
-D:\audios\interview-cleaner\subtitles\whisper\cleaned.txt
+D:\feelandnote\audios\interview-cleaner\input\youtube-7VbYr1mJkcQ-293s.wav
+D:\feelandnote\audios\interview-cleaner\output\youtube-7VbYr1mJkcQ-293s_DeepFilterNet3.wav
+D:\feelandnote\audios\interview-cleaner\subtitles\youtube\7VbYr1mJkcQ.ko-orig.srt
+D:\feelandnote\audios\interview-cleaner\subtitles\whisper\original.srt
+D:\feelandnote\audios\interview-cleaner\subtitles\whisper\original.txt
+D:\feelandnote\audios\interview-cleaner\subtitles\whisper\cleaned.srt
+D:\feelandnote\audios\interview-cleaner\subtitles\whisper\cleaned.txt
 ```
 
 ## Known limitations
@@ -66,9 +66,9 @@ Validated on 2026-07-11 with the target text `안녕하세요 반갑습니다.` 
 Artifacts:
 
 ```text
-D:\audios\interview-cleaner\synthesis-test\reference\cha-reference.wav
-D:\audios\interview-cleaner\synthesis-test\output\base\hello-base.wav
-D:\audios\interview-cleaner\synthesis-test\output\finetuned\hello-finetuned.wav
+D:\feelandnote\audios\interview-cleaner\synthesis-test\reference\cha-reference.wav
+D:\feelandnote\audios\interview-cleaner\synthesis-test\output\base\hello-base.wav
+D:\feelandnote\audios\interview-cleaner\synthesis-test\output\finetuned\hello-finetuned.wav
 ```
 
 ### YouTube speaker fine-tuning (`park`)
@@ -85,11 +85,11 @@ Validated on 2026-07-11 using video `7VbYr1mJkcQ`, extracted range `00:04:53–0
 - Fine-tuned `park` output: 1.98 seconds; Whisper: `안녕하세요. 반갑습니다.`
 
 ```text
-D:\audios\interview-cleaner\park-training\park.list
-D:\audios\interview-cleaner\park-training\output\base\hello-base-park-reference.wav
-D:\audios\interview-cleaner\park-training\output\park\hello-park-finetuned.wav
-D:\GPT-SoVITS\GPT-SoVITS-v2pro-20250604\GPT_weights_v2Pro\park-e10.ckpt
-D:\GPT-SoVITS\GPT-SoVITS-v2pro-20250604\SoVITS_weights_v2Pro\park_e8_s200.pth
+D:\feelandnote\audios\interview-cleaner\park-training\park.list
+D:\feelandnote\audios\interview-cleaner\park-training\output\base\hello-base-park-reference.wav
+D:\feelandnote\audios\interview-cleaner\park-training\output\park\hello-park-finetuned.wav
+D:\feelandnote\GPT-SoVITS\GPT-SoVITS-v2pro-20250604\GPT_weights_v2Pro\park-e10.ckpt
+D:\feelandnote\GPT-SoVITS\GPT-SoVITS-v2pro-20250604\SoVITS_weights_v2Pro\park_e8_s200.pth
 ```
 
 Command-line training requires pre-creating `logs/<name>/logs_s2_v2Pro` and `logs/<name>/logs_s1_v2Pro`; the Web UI normally creates these directories. Write generated JSON/YAML/TSV without a UTF-8 BOM because the training JSON reader rejects BOM-prefixed files.
@@ -103,7 +103,7 @@ pnpm dev:audio-bo
 ```
 
 - Local URL: `http://localhost:3005`
-- Job storage: `D:\audios\interview-cleaner\projects\<job-id>`
+- Job storage: `D:\feelandnote\audios\interview-cleaner\projects\<job-id>`
 - Stages: extract → clean → transcribe → edit script → train → synthesize
 - Outputs: base, fine-tuned, and polished WAV files plus Whisper verification text
 - The Windows PowerShell worker must retain a UTF-8 BOM because Windows PowerShell 5.1 otherwise misparses Korean strings.

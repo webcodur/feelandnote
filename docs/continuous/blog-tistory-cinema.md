@@ -4,7 +4,7 @@
 >
 > 두 달 운영 결과 검색 유입이 사실상 없었다. 구글은 81편 중 17개 주소만 색인했고, 다음에서는 글 제목을 그대로 검색해도 나오지 않았으며(저품질 증상과 일치), 빙 색인은 0건이었다. 글이 몇 편이든 참조 도메인은 하나로 계산되므로 백링크 가치도 없다.
 >
-> 원고 951편과 대장은 `D:/blog-assets/tistory-cinema`에 그대로 있고, 이미지는 TMDB와 필앤노트 자산 서버에 있어 블로그와 무관하다. 운용 방법은 [`docs/todo/web.md`](../todo/web.md)에서 정한다. 같은 틀의 글을 다른 플랫폼에 그대로 올리면 같은 평가를 받을 것으로 보이니, 편수보다 글의 형태를 먼저 바꾼다. 아래는 닫기 전의 운영 기록이며 도구를 다시 쓸 때 참고한다.
+> 원고 951편과 대장은 `D:/feelandnote/blog-assets/tistory-cinema`에 그대로 있고, 이미지는 TMDB와 필앤노트 자산 서버에 있어 블로그와 무관하다. 운용 방법은 [`docs/todo/web.md`](../todo/web.md)에서 정한다. 같은 틀의 글을 다른 플랫폼에 그대로 올리면 같은 평가를 받을 것으로 보이니, 편수보다 글의 형태를 먼저 바꾼다. 아래는 닫기 전의 운영 기록이며 도구를 다시 쓸 때 참고한다.
 
 [`feelandnote-cinema.tistory.com`](https://feelandnote-cinema.tistory.com)은 **구글에서 자리를 차지하려고** 빌린 도메인이다. 필앤노트 본 도메인은 4월 장애 이후 색인이 붙지 않아 인물 페이지가 다섯 달째 「발견됨 - 색인 생성 안 됨」에 머물러 있다. 같은 사이트에 글을 더 써도 그 글도 색인되지 않는다. 색인이 이미 잘 붙는 남의 도메인에서 검색 결과를 받아 사이트로 넘긴다.
 
@@ -275,7 +275,7 @@ DB 저장은 `luna-cinema-apply-batch.mts --manifest <결과 JSON> --yes`가 수
 말을 두 번 했다. 인물 편은 그 자리가 글 맨 끝이라 다 읽고 나서야 나왔다.
 
 렌더러에서 절과 주입을 함께 들어냈다(`render.mts`·`preview.mts`). 원문
-`D:\blog-assets\tistory-cinema\fn-reviews.json` 은 지우지 않고 남겨 둔다 — 다시 쓸 때
+`D:\feelandnote\blog-assets\tistory-cinema\fn-reviews.json` 은 지우지 않고 남겨 둔다 — 다시 쓸 때
 무엇이 문제였는지 볼 자리가 필요하다.
 
 **다시 넣는다면 영화 자체를 다루는 글이어야 한다.** 인물을 세는 글은 여기 오지 않는다.
@@ -475,7 +475,7 @@ node scripts/tistory-cinema/verify.mjs --all                   # 실제 ID로 �
 node --env-file=.env --import tsx scripts/tistory-cinema/fix-db.mts
 ```
 
-재료는 `D:\blog-assets\tistory-cinema\*.json`, 본문은 `_body-*.html`, 발행기가 읽는 제목·태그는 `_meta-*.json`이다. 렌더러를 고친 뒤에는 `preview.mts --all`로 현재 원고 전체를 한 프로세스에서 다시 만든다. 미리보기 HTML은 기존 로컬 서버나 파일로 열어 확인한다.
+재료는 `D:\feelandnote\blog-assets\tistory-cinema\*.json`, 본문은 `_body-*.html`, 발행기가 읽는 제목·태그는 `_meta-*.json`이다. 렌더러를 고친 뒤에는 `preview.mts --all`로 현재 원고 전체를 한 프로세스에서 다시 만든다. 미리보기 HTML은 기존 로컬 서버나 파일로 열어 확인한다.
 
 ## 현재 도달점
 
@@ -504,7 +504,7 @@ stdin을 붙잡아 둘 수 없는 환경에서는 `fill-schedule.mjs --run --lim
 | 인물 편 | 보유 기록에 따라 다름 | 기록이 있는 영화부터 소개 | 작품별 후보가 있을 때 |
 | 목록 편 | 7.6만 자 | 상세 5편 + 전체 표 | 5 |
 
-원고는 `D:/blog-assets/tistory-cinema` 에 있고 저장소에는 없다.
+원고는 `D:/feelandnote/blog-assets/tistory-cinema` 에 있고 저장소에는 없다.
 
 240편에 붙였던 「필앤노트 리뷰」 절은 걷어 냈다(위 절 참고). 원문은
 `fn-reviews.json` 에 남아 있고 본문에는 들어가지 않는다.
@@ -684,4 +684,4 @@ HTML 모드 전환 confirm은 수락한다. 알림 문구는 저장 실패 판�
 ## 다음 할 일
 
 없다. 블로그는 닫았고(문서 첫머리) 남은 870편은 발행하지 않는다. 원고 운용 방법이 정해지기 전에는 예약·정비를 재개하지 않는다.
-2026-10-02 관리자 통계에서 9월 검색 유입은 다음 2건·구글 0건이었다. 통계 원본은 `D:/blog-assets/tistory-cinema/analytics-2026-10-02.json`에 있다.
+2026-10-02 관리자 통계에서 9월 검색 유입은 다음 2건·구글 0건이었다. 통계 원본은 `D:/feelandnote/blog-assets/tistory-cinema/analytics-2026-10-02.json`에 있다.

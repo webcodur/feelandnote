@@ -37,7 +37,7 @@ R2 Oracle DB 암호화 백업의 복구키는 `credentials/oracle-db-backup-age.
 | `rootca.key`·`rootca.crt`·`rootca.srl` | `C:/Users/<사용자>/.feelandnote/cloudflare-aop/` | Cloudflare Authenticated Origin Pulls 갱신용 CA. `rootca.key`는 비밀값이며 Oracle에는 올리지 않는다. 로컬 사본이 없어도 현재 서비스는 계속 뜨지만 인증서 갱신 때 새 CA로 교체해야 한다 |
 | `feelandnote_oracle`·`feelandnote_oracle.pub` | `C:/Users/<사용자>/.ssh/` | Oracle 웹·DB VM SSH. 비밀키는 공개 저장소나 서버에 복사하지 않는다 |
 **`.env`가 필요 없는 앱**: `sw/lab`(환경변수 참조 0건), `sw/android`(Gradle 프로젝트), `packages/*`(자체 파일 없이 각 앱의 값을 물려받음).
-**`sw/audio-bo/.env`도 음성 API를 쓰면 옮긴다.** ElevenLabs 계정 키와 음성 도구 설정이 들어 있다. 로컬 작업 폴더는 코드 기본값(`D:\audios\...`·`D:\GPT-SoVITS\...`)을 쓰며, 다른 컴퓨터에서 위치가 다르면 §5를 본다.
+**`sw/audio-bo/.env`도 음성 API를 쓰면 옮긴다.** ElevenLabs 계정 키와 음성 도구 설정이 들어 있다. 로컬 작업 폴더는 코드 기본값(`D:\feelandnote\audios\...`·`D:\feelandnote\GPT-SoVITS\...`)을 쓰며, 다른 컴퓨터에서 위치가 다르면 §5를 본다.
 
 저장소에는 빈칸 서식지도 두지 않는다. `sw/web/.env.local.example`이 있었으나 프로그램이 읽지 않고 참조하는 곳도 없는 데다 목록이 실물의 5분의 1에서 멈춰 있어 26.07.31에 삭제했다. **세팅의 기준은 실물 `.env` 사본 하나뿐이고, 어떤 값이 필요한지는 이 문서가 답한다.**
 
@@ -210,16 +210,30 @@ ElevenLabs에는 콘솔의 API Key ID가 아니라 키 생성·회전 시 표시
 
 | 이름 | 기본값 | 무엇 |
 |------|--------|------|
-| `AUDIO_BO_ROOT` | `D:\audios\interview-cleaner\projects` | 음원 작업 폴더 |
-| `GPT_SOVITS_ROOT` | `D:\GPT-SoVITS\GPT-SoVITS-v2pro-20250604` | 음성 합성 도구 설치 위치 |
-| `INTERVIEW_CLEANER_ROOT` | `D:\audios\interview-cleaner` | 받아쓰기 도구 위치 |
+| `AUDIO_BO_ROOT` | `D:\feelandnote\audios\interview-cleaner\projects` | 음원 작업 폴더 |
+| `GPT_SOVITS_ROOT` | `D:\feelandnote\GPT-SoVITS\GPT-SoVITS-v2pro-20250604` | 음성 합성 도구 설치 위치 |
+| `INTERVIEW_CLEANER_ROOT` | `D:\feelandnote\audios\interview-cleaner` | 받아쓰기 도구 위치 |
 
 영상 자료(`sw/remotion/public/episodes`·`music`·`covers`)도 통째로 추적 대상이 아니다. **저장소를 복제해도 영상 자료는 따라오지 않는다** — 별도로 옮긴다. 26.08.22 실측 규모는 episodes 3.7GB(6,628파일)·music 138MB·covers 32MB다. 외장 저장소나 로컬 네트워크로 옮긴다.
+
+저장소 밖 작업 폴더는 전부 `D:\feelandnote\` 한 뿌리 아래에 둔다(26.11.11 통합). D 드라이브 최상위에 필앤노트 폴더를 새로 만들지 않는다. 경로는 오른쪽 칸의 코드·문서가 쥐므로 폴더를 옮길 때 그쪽을 함께 고친다. 음성 작업 기록(JSON)에는 절대 경로가 적혀 있어, 뿌리를 옮기면 그 안의 경로도 함께 바꿔야 한다.
+
+| 폴더 | 무엇 | 경로를 쥔 곳 |
+|------|------|------|
+| `D:\feelandnote\audios` | 음원·받아쓰기·학습 작업물(약 58GB) | `sw/audio-bo/src/lib/paths.ts`, 위 표 |
+| `D:\feelandnote\GPT-SoVITS` | 음성 합성 도구 | 위 표 |
+| `D:\feelandnote\remotion-assets` | 영상 자산 보관소. `sw/remotion/public` 아래 폴더가 이곳으로 정션이 걸린다 | `packages/shared/src/bo/asset-archive.ts`(`REMOTION_ASSET_ARCHIVE`) |
+| `D:\feelandnote\remotion_done` | 세력도감 등 끝난 영상의 렌더본 | [`remotion/README.md`](../remotion/README.md) |
+| `D:\feelandnote\image` | 이미지 제작 재료·아바타 작업 폴더(약 11GB) | [`prod-01-image-generation.md`](../production/prod-01-image-generation.md), `sw/web-bo/scripts/avatar`·`photo` |
+| `D:\feelandnote\blog-assets` | 블로그 원고·이미지·발행 대장 | `sw/web-bo/scripts/blog-assets.mjs`(`BLOG_ASSETS`) |
+| `D:\feelandnote\outreach` | 외부 채널 작업물(SNS 카드 시안, 소개 글 초안, 홍보 영상). `index.html`이 쇼츠·롱폼·블로그까지 한곳에서 여는 입구다. 산출물이 늘면 `node D:/feelandnote/outreach/tools/build-hub.mjs`로 다시 만든다 | [`sns-expansion.md`](../../todo/sns-expansion.md), [`web.md`](../../todo/web.md) |
+| `D:\feelandnote\backups` | 소개문 교체 전 원본 복구본 | `sw/web-bo/scripts/contents/recover-book-introductions.ts` |
+| `D:\feelandnote\video` | 「한 사람, 한 권」 쇼츠. 별도 git 저장소 | 그 저장소의 `README.md` |
 
 그 밖에 새 컴퓨터에서 챙길 것:
 
 - **안드로이드 서명 키** — `sw/android/keystore.properties`와 `*.jks`는 추적 제외 대상이며 현재 저장소 안에 실물이 없다(예시 파일만 있다). 앱 서명·출시 단계라면 서명 키를 보관처에서 따로 옮긴다.
-- **음성 작업 폴더** — 위 표의 `D:\audios\...`·`D:\GPT-SoVITS\...`는 저장소 밖 별도 설치물이다. 음성 학습·합성을 쓸 때만 필요하다.
+- **음성 작업 폴더** — 위 표의 `D:\feelandnote\audios\...`·`D:\feelandnote\GPT-SoVITS\...`는 저장소 밖 별도 설치물이다. 음성 학습·합성을 쓸 때만 필요하다.
 - **agy 다계정 풀** — `%USERPROFILE%\.antigravity-agent\` 폴더를 통째로 옮기고 `go install github.com/shyim/agm@latest`로 도구를 설치한다. `.mk`가 함께 가면 계정 재로그인 없이 토큰이 풀린다. 이관 뒤 `agm validate`로 확인한다. 폴더를 못 옮기면 폴더 안 `SETUP.md`의 B안(어사이드 볼트로 계정 재구축)을 따른다.
 
 ---

@@ -17,7 +17,7 @@
 - 등록: `sw/web-bo/scripts/celeb/monologue-voice-publish.ts` — 기본은 프리플라이트이며 `--apply`에서만 업로드한다. manifest·DB 원문·voice_id를 재대조하고, QC 합격·문장 타이밍 정렬이 있어야 올린다. R2는 `celebs/{id}/voice/{locale}/vmonologue.mp3` + `vmonologue.json`(문장 따라읽기 타이밍). 발행 뒤 `voice_v`를 올려 캐시를 끊고 공개 URL 해시를 검증한다. 실패 시 이전 오브젝트를 `_backup/`에서 복원한다.
 - 타이밍 공용: `sw/web-bo/scripts/celeb/reading-voice-timing.mjs` — `publishReadingTiming`의 `objectName`이 파일명을 쥔다(기본 `reading`, 독백은 `vmonologue`).
 - 웹 재생: `sw/web/src/lib/game/voice/voiceUrl.ts`의 `getVirtualMonologueVoiceUrl`, 타이밍 프록시 `sw/web/src/app/api/reading-timing/route.ts`(`kind=monologue`), `useReadingTiming(kind)`, `FigureReadingTabs`의 독백 탭 플레이어. 표시 본문과 음성 로케일이 어긋나지 않게 `monologueLocale` prop으로 따로 받는다.
-- 생성 폴더: `D:/audios/interview-cleaner/celeb-monologue-voices/<slug>/<locale>/<runId>/` — `source.txt`(LF 고정 — Windows `write_text`는 CRLF로 바꿔 해시가 깨진다), `p01.mp3…`, `vmonologue.mp3`, `manifest.json`, `qc.json`, `publish.json`.
+- 생성 폴더: `D:/feelandnote/audios/interview-cleaner/celeb-monologue-voices/<slug>/<locale>/<runId>/` — `source.txt`(LF 고정 — Windows `write_text`는 CRLF로 바꿔 해시가 깨진다), `p01.mp3…`, `vmonologue.mp3`, `manifest.json`, `qc.json`, `publish.json`.
 
 위스퍼의 자원 확인·직렬 실행·보류 규칙은 [Audio BO](../project/apps/apps-02-audio-bo.md)가 쥔다.
 
@@ -25,9 +25,9 @@
 
 ```powershell
 cd sw/audio-bo
-D:/audios/interview-cleaner/.venv/Scripts/python.exe scripts/celeb-monologue-voice-generate.py --slug <slug> --locale ko --dry-run
-D:/audios/interview-cleaner/.venv/Scripts/python.exe scripts/celeb-monologue-voice-generate.py --slug <slug> --locale ko
-D:/audios/interview-cleaner/.venv/Scripts/python.exe scripts/celeb-monologue-voice-generate.py --slug <slug> --locale en
+D:/feelandnote/audios/interview-cleaner/.venv/Scripts/python.exe scripts/celeb-monologue-voice-generate.py --slug <slug> --locale ko --dry-run
+D:/feelandnote/audios/interview-cleaner/.venv/Scripts/python.exe scripts/celeb-monologue-voice-generate.py --slug <slug> --locale ko
+D:/feelandnote/audios/interview-cleaner/.venv/Scripts/python.exe scripts/celeb-monologue-voice-generate.py --slug <slug> --locale en
 
 cd sw/web-bo
 node --env-file=.env --import tsx scripts/celeb/monologue-voice-publish.ts --run <runDir>          # 프리플라이트

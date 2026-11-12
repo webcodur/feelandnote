@@ -19,13 +19,13 @@
 저장소 루트에서 먼저 dry-run으로 locale 대사 22개, voice ID, API 계정을 확인한다.
 
 ```powershell
-D:\audios\interview-cleaner\.venv\Scripts\python.exe sw/audio-bo/scripts/elevenlabs-safe-tail-dialogues.py --slug <slug> --locale <ko|en> --dry-run
+D:\feelandnote\audios\interview-cleaner\.venv\Scripts\python.exe sw/audio-bo/scripts/elevenlabs-safe-tail-dialogues.py --slug <slug> --locale <ko|en> --dry-run
 ```
 
 사용자가 유료 재생성을 승인했고 기본 결과의 문제가 확인됐을 때만 실제로 실행한다.
 
 ```powershell
-D:\audios\interview-cleaner\.venv\Scripts\python.exe sw/audio-bo/scripts/elevenlabs-safe-tail-dialogues.py --slug <slug> --locale <ko|en>
+D:\feelandnote\audios\interview-cleaner\.venv\Scripts\python.exe sw/audio-bo/scripts/elevenlabs-safe-tail-dialogues.py --slug <slug> --locale <ko|en>
 ```
 
 한국어 기본 안전 문구는 `확인용 문장을 지금 시작합니다.`, 영어는 `This verification sentence begins now.`다. 본문과 겹칠 가능성이 있으면 `--safe-phrase`로 같은 언어의 고유한 문장을 지정한다.

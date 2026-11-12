@@ -11,8 +11,8 @@ pnpm dev:audio-bo
 ```
 
 - 화면: `http://localhost:3005`
-- 작업 자료: `D:\audios\interview-cleaner\projects\<작업 번호>`
-- 음성 학습 도구: `D:\GPT-SoVITS\GPT-SoVITS-v2pro-20250604`
+- 작업 자료: `D:\feelandnote\audios\interview-cleaner\projects\<작업 번호>`
+- 음성 학습 도구: `D:\feelandnote\GPT-SoVITS\GPT-SoVITS-v2pro-20250604`
 
 로컬 위스퍼 받아쓰기와 셀럽 음성 검수는 [`whisper_resources.py`](../../../sw/audio-bo/scripts/whisper_resources.py)의 공용 실행부를 쓴다. 매 작업 전에 CPU·RAM·GPU 여유를 확인해 장치와 CPU 스레드 예산을 고르고, 작업끼리는 직렬 실행한다. 자원이 부족하면 제한된 시간만 기다린 뒤 음원을 보존해 보류한다. 작업이 끝나면 모델을 내려 유휴 검수 프로세스가 모델 메모리를 계속 점유하지 않게 한다. 모델·인식 설정·검수 기준은 유지하며, 자원 판정 상수는 공용 실행부만 쥔다.
 
@@ -22,7 +22,7 @@ pnpm dev:audio-bo
 
 네 단계는 헤더 바로 아래에 항상 표시한다. `영상 선택`에서만 새 영상 등록과 저장된 작업 보관함을 보여준다. 작업을 고른 뒤의 세 단계에서는 보관함과 별도 상태판을 숨기고, 현재 작업·실행 상태·영상 변경 버튼만 한 줄로 표시해 본문 전체 폭을 편집에 사용한다. 전체 흐름은 임의의 백분율로 환산하지 않고 `3/4단계 · 목소리 학습 완료`처럼 완료한 단계와 이름으로 표시한다.
 
-`영상 선택`의 `저장된 작업`은 `D:\audios\interview-cleaner\projects` 아래의 작업 폴더를 읽어 만든 보관함이다. 이름·저장 이름·작업 번호로 검색하고 하나를 눌러 불러올 수 있다. `폴더 열기`를 누르면 해당 D드라이브 폴더를 Windows 탐색기로 연다.
+`영상 선택`의 `저장된 작업`은 `D:\feelandnote\audios\interview-cleaner\projects` 아래의 작업 폴더를 읽어 만든 보관함이다. 이름·저장 이름·작업 번호로 검색하고 하나를 눌러 불러올 수 있다. `폴더 열기`를 누르면 해당 D드라이브 폴더를 Windows 탐색기로 연다.
 
 1. **영상 선택**: 새 영상 등록, D드라이브로 가져오기, 기존 작업 불러오기
 2. **구간 편집**: 발화 구간 선택, 받아쓰기, 화자 A·B·겹침 구분
@@ -90,7 +90,7 @@ pnpm dev:audio-bo
 
 ## 환경 재구성
 
-`D:\audios\interview-cleaner`는 저장소 밖이라 지워지면 아래 절차로 다시 만든다. 2026-09-18에 이 절차로 전부 재구성했다. 시스템 파이썬 3.12에는 CUDA용 torch·faster-whisper가 따로 있고 읽어보기 검수(`reading-voice.mjs`)는 그것을 `py -3`으로 쓴다.
+`D:\feelandnote\audios\interview-cleaner`는 저장소 밖이라 지워지면 아래 절차로 다시 만든다. 2026-09-18에 이 절차로 전부 재구성했다. 시스템 파이썬 3.12에는 CUDA용 torch·faster-whisper가 따로 있고 읽어보기 검수(`reading-voice.mjs`)는 그것을 `py -3`으로 쓴다.
 
 | 구성 | 위치 | 만드는 법 |
 |---|---|---|
@@ -101,12 +101,12 @@ pnpm dev:audio-bo
 | 실험용 합성 엔진 | `engines\CosyVoice` + `models\Fun-CosyVoice3-0.5B-2512` | 소스는 `--recursive`로 받는다. 전용 `.venv`를 파이썬 **3.10**으로 만들고 `requirements.txt`를 설치하되, 빌드·실행 모두 `setuptools<70`이 필요하다(`pkg_resources`). 모델은 HuggingFace `FunAudioLLM/Fun-CosyVoice3-0.5B-2512`. `cosyvoice-test.py`에 `--cosyvoice-root`·`--model`로 넘긴다. 첫 로드는 5분 넘게 걸리고 이후 합성은 문장당 수십 초다. |
 | 작업 보관함 | `projects` | 빈 폴더만 만든다. |
 
-`yt-dlp`와 `ffmpeg`는 PATH의 것과 `D:\GPT-SoVITS\...\runtime\ffmpeg.exe`를 쓴다. 재구성 뒤에는 아래 「변경 후 확인」과 함께 `deepFilter`·CUDA 받아쓰기·엔진 합성을 짧은 음원 하나로 실제 실행해 본다.
+`yt-dlp`와 `ffmpeg`는 PATH의 것과 `D:\feelandnote\GPT-SoVITS\...\runtime\ffmpeg.exe`를 쓴다. 재구성 뒤에는 아래 「변경 후 확인」과 함께 `deepFilter`·CUDA 받아쓰기·엔진 합성을 짧은 음원 하나로 실제 실행해 본다.
 
 ## 변경 후 확인
 
 ```bash
-D:\audios\interview-cleaner\.venv\Scripts\python.exe -m py_compile sw/audio-bo/scripts/*.py
+D:\feelandnote\audios\interview-cleaner\.venv\Scripts\python.exe -m py_compile sw/audio-bo/scripts/*.py
 pnpm --filter @feelandnote/audio-bo typecheck
 pnpm --filter @feelandnote/audio-bo build
 ```

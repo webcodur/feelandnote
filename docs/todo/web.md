@@ -56,15 +56,16 @@
 ## 외부 채널에 서비스 소개
 
 네이버 블로그(책)는 연결·예약을 마쳤다. 티스토리(영화)는 효과가 없어 26.11.11에 닫았다. 다음 추가 채널은 긱뉴스의 Show GN과
-디스콰이엇이며, 둘 다 한국어로 소개한다. 두 초안은 D드라이브에 준비되어 있고 아직 게시하지 않았다.
+디스콰이엇이며, 둘 다 한국어로 소개한다. 두 초안은 `D:\feelandnote\outreach\community-intro`에 준비되어 있고 아직 게시하지 않았다.
+SNS(유튜브·인스타그램·스레드·X) 확장은 [`sns-expansion.md`](sns-expansion.md)가 쥔다.
 
-- [ ] 티스토리용으로 만든 영화 원고 951편(`D:\blog-assets\tistory-cinema`)과 제작 도구(`sw/web-bo/scripts/tistory-cinema`)의
+- [ ] 티스토리용으로 만든 영화 원고 951편(`D:\feelandnote\blog-assets\tistory-cinema`)과 제작 도구(`sw/web-bo/scripts/tistory-cinema`)의
   운용 방법을 정한다. 폐기·사이트 내 활용·다른 형태로 재가공 중에서 고르고, 빈 블로그 자체의 폐쇄 여부도 함께 정한다.
   닫은 근거는 [`blog-tistory-cinema.md`](../continuous/blog-tistory-cinema.md) 첫머리에 있다.
 
-- [ ] 긱뉴스 Show GN: 한국어 소개 초안(`D:\docs\feelandnote\community-intro\show-gn.ko.md`)을
+- [ ] 긱뉴스 Show GN: 한국어 소개 초안(`show-gn.ko.md`)을
   사용자와 최종 검토한 뒤 서비스 소개 글을 게시한다.
-- [ ] 디스콰이엇: 제품 소개 초안(`D:\docs\feelandnote\community-intro\disquiet.ko.md`)을
+- [ ] 디스콰이엇: 제품 소개 초안(`disquiet.ko.md`)을
   사용자와 최종 검토한 뒤 제품을 등록하고, 해당 제품에 연결한 소개 글을 게시한다.
 
 초안을 검토할 때 운영자 자기소개에 [공개 활동명 규칙](../../.agents/skills/notice-publish/SKILL.md#문체)을 반영한다.
@@ -85,7 +86,7 @@ SaaSHub는 가입하지 않아 등록하지 않았다. 디스콰이엇 메이커
 유사해 이번 추가 대상에서 제외한다.
 
 **홍보 영상(보류).** HyperFrames(HTML+GSAP → MP4)로 29.5초 프로토타입을 렌더까지 검증했다(저장소 밖
-`C:\project\hyperframes-test\feelandnote-promo`, 스토리보드·브리프 동봉). 용도는 랜딩 상단·Show GN·디스콰이엇·앱스토어
+`D:\feelandnote\outreach\promo-video`, 스토리보드·브리프 동봉). 용도는 랜딩 상단·Show GN·디스콰이엇·앱스토어
 프리뷰 같은 1회성 마케팅 영상으로 한정하며 `sw/remotion` 에피소드 파이프라인을 대체하지 않는다. 사이트 UI 캡처는 완성도가
 그대로 드러나 버리고, 아바타·표지 같은 콘텐츠 자산으로 디자인 씬을 짠다. 착수하면 정할 것:
 

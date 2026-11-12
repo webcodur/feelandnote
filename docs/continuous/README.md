@@ -12,10 +12,11 @@
 | [`faction-desc-voice.md`](faction-desc-voice.md) | 세력·신화 개요 한영 음성 생성·검수·등록 도달점 |
 | [`celeb-tts-monologue.md`](celeb-tts-monologue.md) | 가상독백 한영 음성 문단별 합성·검수·등록 도달점 |
 | [`blog-naver-book.md`](blog-naver-book.md) | 신규 인물 확장·책 중심 글 시험·기존 인물 갱신 순서와 운영·편집 도달점 |
-| [`blog-tistory-cinema.md`](blog-tistory-cinema.md) | 티스토리 「필앤노트 시네마」 — 준비된 영화 원고 예약·후속 정비와 운영·편집 도달점 |
+| [`blog-tistory-cinema.md`](blog-tistory-cinema.md) | 티스토리 「필앤노트 시네마」 — 26.11.11 닫음(전 글 비공개·발행 중단). 닫은 근거와 원고·도구 기록 |
 | [`book-person.md`](book-person.md) | 「책과 사람」 한 권 형식 쇼츠의 제작 순서와 편별 도달점 |
 | [`figure-books.md`](figure-books.md) | 인물 연결·판본 교정의 현재 상태와 보류 사항 |
 | [`content-introductions.md`](content-introductions.md) | 소개 없는 책의 남은 수와 수집·검수·반영 명령 |
 | [`celeb-review-deep-dive.md`](celeb-review-deep-dive.md) | 인물 감상배경 딥다이브 — 얕게 등록된 review를 원문 수준으로 깊게 만드는 도달점 |
 | [`celeb-reading-way.md`](celeb-reading-way.md) | 독서 방식의 현재 재개 지점·다시 쓸 인물·책장 대기 목록과 실행 진입점 |
 | [`free-posts.md`](free-posts.md) | 운영자 아가톤의 자유글 — 유튜브 커뮤니티·자유게시판에 내는 홍보·업데이트·잡소리 초안과 도달점 |
+| [`social-four-grid.md`](social-four-grid.md) | 필앤노트 웹의 선택 게임과 유튜브 게시물·X를 오가는 시리즈와 다음 편 |

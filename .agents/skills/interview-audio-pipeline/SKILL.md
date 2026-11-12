@@ -5,7 +5,7 @@ description: Extract user-authorized YouTube or local interview audio, reduce ch
 
 # Interview Audio Pipeline
 
-Process interview media locally from extraction through voice-synthesis preparation. Keep all large audio, models, caches, and outputs under `D:\audios\interview-cleaner`; do not place generated media or models in the repository.
+Process interview media locally from extraction through voice-synthesis preparation. Keep all large audio, models, caches, and outputs under `D:\feelandnote\audios\interview-cleaner`; do not place generated media or models in the repository.
 
 ## Safety and scope
 
@@ -59,7 +59,7 @@ Use `large-v3-turbo`, Korean language hint, CPU `int8`, beam size 5, VAD, and `c
 ### 6. Prepare GPT-SoVITS synthesis
 
 - Treat GPT-SoVITS as voice cloning/synthesis, not transcription.
-- Inspect the existing `D:\GPT-SoVITS` installation before adding anything.
+- Inspect the existing `D:\feelandnote\GPT-SoVITS` installation before adding anything.
 - Select a 5–10 second reference clip with one speaker, stable volume, no overlapping speech, and minimal announcement noise.
 - Prefer a lightly cleaned clip only if consonants and speaker identity remain intact.
 - Prepare the exact reference transcript and a separate synthesis sentence.

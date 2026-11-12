@@ -44,6 +44,7 @@ agm switch <email> --target agy
 - `STATUS`에 `token-exp`가 보이면 `agm validate` — 리프레시 토큰으로 일괄 갱신한다
 - 전 계정의 해당 모델 쿼터가 바닥이면 그때만 멈추고 사용자에게 보고한다. 대기·재시도 루프는 두지 않는다
 - 계정 추가는 `agm login` — 뜨는 OAuth URL을 해당 구글 계정으로 완료하면 `localhost:8888` 콜백으로 등록된다. 어사이드 볼트 자동입력 활용 등 절차 상세는 `%USERPROFILE%\.antigravity-agent\SETUP.md`가 쥔다
+- 26.11.10: 울트라 계정 `webcodur.tk001@gmail.com`을 풀에 추가했다. 이 계정을 `--target agy`로 적용하면 `agy models`에 `gemini-4-argon-{high,medium,low}`와 `gemini-4-carbon-{high,medium,low}`가 나온다(26.11.11: 다른 계정에서 「No capacity available」 503이 날 때 울트라 계정으로 바꾸자 바로 응답했다). Pro 계정들의 목록에는 Argon이 없으므로, Argon이 필요한 작업은 이 계정을 적용해 돌린다. 이 계정의 Argon 쿼터가 바닥나면(`Individual quota reached`) 재설정을 기다리지 말고 크롬 Gemini 웹채팅(Ultra 계정은 Carbon High, Pro 계정은 Argon High 선택)으로 넘어가 이어 돌린다. 웹채팅 절차는 `docs/project/celeb/celeb-05-02-reading-way.md`가 쥔다
 
 ## 비밀 취급
 

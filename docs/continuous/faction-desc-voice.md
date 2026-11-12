@@ -18,7 +18,7 @@
 - 음성 검수: `sw/audio-bo/scripts/celeb-reading-voice-qc.py`(공용, 인물 검수와 동일)
 - 문장 타이밍: `reading-voice-timing.mjs`의 `publishReadingTiming`을 `audioKey` 오버라이드로 재사용
 - R2 경로: `factions/{id}/voice/{ko|en}/description.mp3` + `description.json` — 스크립트의 `factionDescR2Key`가 원천
-- 실행 폴더: `D:/audios/interview-cleaner/faction-desc-voices`(manifest·체크포인트 — 재개 시 같은 폴더)
+- 실행 폴더: `D:/feelandnote/audios/interview-cleaner/faction-desc-voices`(manifest·체크포인트 — 재개 시 같은 폴더)
 
 ## 실행
 

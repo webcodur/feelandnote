@@ -54,7 +54,7 @@ cd "C:/Users/webco/.gemini/antigravity-cli/log" && grep -aoiE "email=[^ ,}\"]+" 
 
 ## 전역 MCP는 임시 작업 폴더로 격리되지 않는다
 
-agy는 `~/.gemini/config/mcp_config.json`에서 활성화된 MCP를 모든 세션에 주입한다. 임시 cwd를 써도 DB·배포처럼 상태를 바꾸는 MCP가 모델에 노출될 수 있다. 생성 전용 배치에서는 활성 MCP를 값이 출력되지 않는 방식으로 확인하고, 상태 변경 MCP가 있으면 사용자가 끄거나 별도 agy 프로필을 마련하기 전까지 배치를 시작하지 않는다. 다른 agy 세션에도 영향을 주므로 스크립트가 전역 MCP를 임의로 disable·enable하지 않는다. MCP 명령 인자에 토큰이 들어 있으면 프로세스 제목과 로그에도 노출될 수 있으므로 원문 목록을 대화에 출력하지 않는다.
+agy는 `~/.gemini/config/mcp_config.json`에서 활성화된 MCP를 모든 세션에 주입한다. 임시 cwd를 써도 DB·배포처럼 상태를 바꾸는 MCP가 모델에 노출될 수 있다. 생성 전용 배치에서는 활성 MCP를 값이 출력되지 않는 방식으로 확인하고, 상태 변경 MCP가 있으면 사용자가 끄거나 별도 agy 프로필을 마련하기 전까지 배치를 시작하지 않는다. 다른 agy 세션에도 영향을 주므로 스크립트가 전역 MCP를 임의로 disable·enable하지 않는다. 읽기 전용 웹 검색 MCP(`wigolo`·`firecrawl`)는 상태를 바꾸지 않으므로 생성 배치를 막지 않는다(`sw/web-bo/scripts/naver-blog/lib/agy-text.mjs`의 `READ_ONLY_MCP`). MCP 명령 인자에 토큰이 들어 있으면 프로세스 제목과 로그에도 노출될 수 있으므로 원문 목록을 대화에 출력하지 않는다.
 
 ## 이미지 생성 (핵심)
 

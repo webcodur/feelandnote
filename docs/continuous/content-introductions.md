@@ -4,11 +4,11 @@
 
 ## 현재 도달점
 
-2026-11-10 운영 재집계에서 출력되는 결손(소개 없음)은 한국어 0건·영어 2,347건이다. 기본 선택판뿐 아니라 사용자가 선택할 수 있는 다른 판본과 언어 카드도 포함한 수치이며, 영어 기본 선택판만의 누락은 2,343건이다. 새 책이 계속 등록되므로 현재 대상은 아래 집계 명령으로 다시 확인한다. 『Journeys and Explorations in the Cotton Kingdom』과 Robert Watson의 『History of the Reign of Philip the Second, King of Spain』은 현재 ISBN의 복각본 수록 범위가 불명확해 보류 중이다. 『Ever Newer Shores』와 George F. Sterne의 『Secrets of the Millionaires』는 책 내용을 설명할 독립 출처를 찾지 못했다.
+2026-11-11 집계 당시 저장 본문·출처 표식 기준의 소개 누락은 한국어 0건·영어 2,024건이었다. 기본 선택판뿐 아니라 사용자가 선택할 수 있는 다른 판본과 언어 카드도 포함한 수치이며, 영어 기본 선택판만의 누락은 2,022건이었다. 외부 원문 조회의 전수 검사는 끝나지 않았다. 새 책이 계속 등록되므로 현재 대상은 아래 집계 명령으로 다시 확인한다. 『Journeys and Explorations in the Cotton Kingdom』과 Robert Watson의 『History of the Reign of Philip the Second, King of Spain』은 현재 ISBN의 복각본 수록 범위가 불명확해 보류 중이다. 『Ever Newer Shores』와 George F. Sterne의 『Secrets of the Millionaires』는 책 내용을 설명할 독립 출처를 찾지 못했다.
 
 출처 조회는 Google Books 무료 키의 일일 한도가 차면 ISBN 정확 일치 응답을 받을 수 없다. 이때는 OpenLibrary 판본·원전 설명과 출판사·도서관·서평 페이지를 읽어 쓰고, 그 페이지를 `sourceUrl`·`evidence`로 남긴다.
 
-`pnpm contents:book-introductions`는 기본 선택판과 사용자가 선택할 수 있는 다른 판본을 함께 확인한다. 전체 보완 대상은 `targetRows`이며, 언어별 `defaultMissing`은 기본 선택판의 소개 누락 수다. 본문과 사용 가능한 출처 참조가 모두 없는 경우를 센다.
+`pnpm contents:book-introductions`는 기본 선택판과 사용자가 선택할 수 있는 다른 판본을 함께 확인한다. 전체 보완 대상은 `targetRows`이며, 언어별 `defaultMissing`은 기본 선택판의 소개 누락 수다. 본문과 언어에 맞는 출처 참조가 모두 없는 경우를 센다. 출처 표식만 있고 유효한 ISBN·소개 조회 주소가 모두 없으면 소개 누락으로 센다. `KAKAO`·`DAUM`·`OPEN` 표식의 외부 원문이 현재 실제로 조회되는지까지 검사하지 않으므로, 이 수치가 0이어도 화면의 소개 본문이 모두 정상이라는 뜻은 아니다.
 
 ISBN도 작품 앵커(`workTitle`)도 없어 선정 제외 근거를 붙일 수 없는 값 없는 행(내용을 확인할 수 없는 악보·자리표시 행)은 `guardedCatalogExclusions`의 `whole_work`로 작품째 지운다. 보호 참조(감상·이용 기록 등)가 있으면 가드가 막는다.
 

@@ -7,7 +7,7 @@ Read this reference when operating, debugging, or changing `sw/audio-bo`.
 - Run from the feelandnote repository with `pnpm dev:audio-bo` on port 3005.
 - Keep code and documentation in the repository.
 - Keep jobs, WAV files, training data, models, and caches on D:.
-- Store each job at `D:\audios\interview-cleaner\projects\<job-id>`.
+- Store each job at `D:\feelandnote\audios\interview-cleaner\projects\<job-id>`.
 - Accept only YouTube URLs and ASCII speaker identifiers (`a-z`, digits, hyphens) through the web form.
 
 ## State and retry model
@@ -57,7 +57,7 @@ If a stage fails, inspect `worker.log`, `worker-error.log`, and `launcher.log` i
 Run these checks after maintenance:
 
 ```powershell
-D:\audios\interview-cleaner\.venv\Scripts\python.exe -m py_compile sw/audio-bo/scripts/*.py
+D:\feelandnote\audios\interview-cleaner\.venv\Scripts\python.exe -m py_compile sw/audio-bo/scripts/*.py
 pnpm --filter @feelandnote/audio-bo typecheck
 pnpm --filter @feelandnote/audio-bo build
 ```
