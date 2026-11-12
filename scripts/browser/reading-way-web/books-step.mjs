@@ -33,7 +33,7 @@ for (const b of d.books) {
   if (!src) throw Error('book index ' + b.index)
   const ko = apply(src.review_ko, b.edits, 'review')
   const prompt = `다음 한국어 감상배경을 영어로 번역해 주세요. 문단 구분(빈 줄)을 그대로 유지하고, 인물·작품 이름은 통용 영어 표기로 옮기며, 내용을 더하거나 빼지 마세요. 마크다운 강조와 제목·머리말 없이 번역문만 주세요. (참고: 이 책의 영어 제목은 ${src.title_en}, 저자는 ${src.author_en}입니다.)\n\n${ko}`
-  const en = b.review_en ?? (await agyCall(prompt, { model: 'gemini-3.8-flash-high', timeoutMs: 600_000 })).trim().replace(/\*{1,2}([^*\n]+?)\*{1,2}/g, '$1')
+  const en = b.review_en ?? (await agyCall(prompt, { model: 'gemini-4-carbon-high', timeoutMs: 600_000 })).trim().replace(/\*{1,2}([^*\n]+?)\*{1,2}/g, '$1')
   b.review_en = en
   const kp = ko.split(/\n\s*\n/).length, ep = en.split(/\n\s*\n/).length
   if (kp !== ep) throw Error(`paragraph mismatch ${src.title_ko} ${kp}/${ep}\n${en}`)

@@ -357,7 +357,7 @@ function matchingArticle(person,articles){
 }
 
 async function blogRanks(){
-  const dir='D:/blog-assets/naver-blog';
+  const dir='D:/feelandnote/blog-assets/naver-blog';
   const posts=JSON.parse(await fs.readFile(path.join(dir,'posts.json'),'utf8'));
   const drafts=JSON.parse(await fs.readFile(path.join(dir,'celeb-drafts.json'),'utf8'));
   const byLog=new Map(drafts.filter(d=>d.logNo).map(d=>[String(d.logNo),d]));

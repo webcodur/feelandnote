@@ -5,15 +5,19 @@
 
 | 문서 | 다음 작업 |
 |---|---|
-| [`db-blog-review-handoff.md`](db-blog-review-handoff.md) | 블로그 모든 글·항목과 연결된 DB 감상 재편 — 현재 드러난 문제와 반영되지 않은 교정 인계 |
+| [`db-blog-review-handoff.md`](db-blog-review-handoff.md) | 블로그 모든 글·항목과 연결된 DB 감상 재편 — 판정 기준·진행 상태·남은 일 |
 | [`viewing-review-verbatim.md`](viewing-review-verbatim.md) | 감상배경 소스 원문 재구축 소급 — 오프라·빌 게이츠·머스크 등 발췌형 기록에 쿠셔닝+구분선 구조 적용 |
 | [`influence-spectrum.md`](influence-spectrum.md) | 영향력·스펙트럼 잔여 검토 — 다른 15축 근거 적정성, 영향력 검사기, 사실성, 검사기 구멍. |
+| [`youtube-creator-candidates.md`](youtube-creator-candidates.md) | 신규 유튜브 크리에이터 등록 후보군 — 50만+ 개인, 독서 감상경위 특화 16인 + 확장 22인 |
 
 미등록 후보의 조사 자료를 별도로 보관하지 않는다. [데이터 원칙](../../project/data/README.md)을 따르며, 인물 1명 등록 절차는 [`celeb-00-04-new-figure-checklist.md`](../../project/celeb/celeb-00-04-new-figure-checklist.md)가 쥔다. 등록용 원고는 반영·재조회 검증 뒤 폐기한다.
 
 ## 문서 없이 남은 판단
 
+- **해외 인물 5명(26.11.09 비공개 등록)** — 알렉스 이알라·매들린 클라인·셔캐리 리처드슨·앤드류 테이트·트리스탄 테이트. 데이터 작업은 끝났고(감상 출처 원장·독서 방식·한마디, 세력은 클라인·테이트 형제 세력 없음 확정) 아바타·대표사진 업로드만 남았다. 사용자가 올린다.
+
 - **오브리 플라자의 가스 브룩스 감상곡** — `contents` `b8555e2b-8f42-45c5-b0c1-b0eb7673af63`, 《Ain't Going Down ('Til the Sun Comes Up)》. [당사자 감상 근거](https://www.nme.com/features/tv-interviews/soundtrack-of-my-life-aubrey-plaza-4642)는 확인했고, 다른 가수 Jim Finnegan의 iTunes ID와 표지는 제거했다. 감상 기록은 보존했으며, 가스 브룩스 원곡의 iTunes 메타·미리듣기 확인이 남았다.
 
 - **각성모드 사용자 웹 도입** — 각성 이미지(저장 규격은 [`celeb-08-00-image-map.md`](../../project/celeb/celeb-08-00-image-map.md))를 사용자 웹에서 호버·탭·스크롤 중 무엇으로 바꿔 보일지(모바일 포함), 이집트 21인만인지 `celeb_reality=FICTION` 전체인지 사용자가 정한다. 비교 화면은 대표 사진과 각성 이미지를 인물 단위로 붙여 보인다.
+- **서점 추천사 감상배경 재작성(26.11.11 착수)** — 알라딘 추천사를 출처로 둔 감상 6,404행 중 1,720행을 [감상 검수](../../project/celeb/celeb-02-03-content-review.md) 2.5절 규칙으로 다시 써 반영했다. 수집·생성·검수 상태는 착수한 컴퓨터의 임시 폴더에만 있어 다른 컴퓨터에서는 쓰지 않는다. 다른 컴퓨터는 DB에서 출처가 알라딘이고 감상배경이 2.5절 형식이 아닌 행을 다시 골라 시작한다. 알라딘은 요청 제한이 걸리므로 수집 간격을 10초 이상 둔다. 같은 판본 제목의 판본 불일치 455건은 그대로 둔다. 작업 중 눈에 띈 중복 후보(설득의 심리학 1, 최적의 건강을 위한 8주, 제르미날 1, 잃어버린 시간을 찾아서 1)는 판본 대응을 확인한 뒤 `merge-works.mjs`로 합친다. 「인생은 왜 50부터 반등하는가」 두 행은 저자가 조너선 라우시와 아서 C. 브룩스로 달라 중복이 아니다. 브룩스 쪽 한국어 제목이 맞는지부터 확인한다.
 - **감상 도서 절판 잔여 170건** — 같은 작품의 판매 판본이 없음을 확인한 상태다. 신판이 나오면 다시 잡는다. 처리 규칙은 [콘텐츠 등록](../../project/celeb/celeb-02-02-content-registration.md) 「절판」 절이 쥔다.

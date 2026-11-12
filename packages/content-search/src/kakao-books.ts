@@ -174,6 +174,9 @@ const REVIEWED_MISSING_AUTHORS: Readonly<Record<string, { bookId: string; creato
   '9788926882993': { bookId: '444664', creator: '저우궁신' },
   // 신의 탑 1 (영컴, 2019) https://www.yes24.com/product/goods/82131193 (26.11.10)
   '9791190153171': { bookId: '5124236', creator: 'SIU' },
+  // 추기경 김수환 (가톨릭출판사, 2025) 회고록 개정판. YES24 서지는 「김수환 저/조한건 감수」다(26.11.11).
+  // https://www.yes24.com/product/goods/163307429
+  '9788932119809': { bookId: '7068136', creator: '김수환' },
 }
 
 function reviewedMissingAuthor(isbn: string, url: string): string {
