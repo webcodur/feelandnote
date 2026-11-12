@@ -61,12 +61,12 @@ node --import tsx scripts/browser/reading-way-argon.mjs --apply --books-only --o
 
 - `austen-allred`: Carbon 요청 두 번이 모두 생성 오류로 끝났고 두 번째 대화는 통째로 사라졌다. 새 대화로 다시 보낸다.
 - `lim-young-woong`: 26.11.11 Carbon 요청 세 번이 모두 생성 오류로 끝났다(두 번째는 「다시 시도」 뒤 대화 소실). 한도가 풀린 뒤 참조 링크를 붙여 새 대화로 한 번 더 보내고, 또 오류면 조사 미달로 둔다.
-- `jang-yoon-jeong`: Argon 높음 원고가 비었고(대화 `af64a60532be039d`) 책장에도 책이 없다. 감상 책이 없는 인물이라 사용자 재조사 지시 전까지 조사 미달로 둔다.
-- `cho-yong-pil` `lee-mi-ja`: Argon 높음 원고가 비었고(대화 `c07a5be1da8e9d93`·`24823d3b4ea362a0`) 책장에도 책이 없다. 사용자 재조사 지시 전까지 조사 미달로 둔다.
+- `jang-yoon-jeong`: Argon 높음 원고가 비었고(대화 `af64a60532be039d`) 책장에도 책이 없다. 감상 책이 없는 인물이라 26.11.12 공개 준비로 reading_way·reading_way_en을 빈 문자열(조사 미달)로 기록했다.
+- `cho-yong-pil` `lee-mi-ja`: Argon 높음 원고가 비었고(대화 `c07a5be1da8e9d93`·`24823d3b4ea362a0`) 책장에도 책이 없다. 26.11.12 공개 준비로 reading_way·reading_way_en을 빈 문자열(조사 미달)로 기록했다.
 - `choi-in-cheol`: Argon 높음으로 두 번 보냈으나(대화 `b2ee418d9c6e20bd`) 본인이 밝힌 독서 경험 근거가 없어 빈 원고였다. 책장 28권도 추천사뿐이라 사용자 재조사 지시 전까지 조사 미달로 둔다.
 - 26.11.12 저녁 근거 부족으로 건너뜀(재조사 대상): `kim-hyun-kyoung`(참조가 본인 서평뿐), `alexis-ohanian`(팀 페리스 녹취에 독서 대목이 거의 없음), `toni-morrison`(파리 리뷰 인터뷰 본문을 받지 못함, 북라이엇 자료는 편집자 시절 이야기), `balaji-srinivasan`(CWT 녹취에 독서 대목이 얇음), `ban-ki-moon`(참조 유엔 연설 페이지가 사라짐), `brad-delong`(좋아하는 소설 두 권 언급뿐, 2013년 블로그는 Typepad 종료로 소실), `michael-hyatt`(참조 페이지 본문 없음), `mohnish-pabrai`(참조가 추천 도서 PDF뿐), `andrew-wilkinson`(참조가 트윗과 회사 글뿐).
-- `joo-hyun-mi`: Argon 높음 원고가 비었고(대화 `ef342b78a64dfdff`) 책장에도 책이 없다. 감상 책이 없는 인물이라 사용자 재조사 지시 전까지 조사 미달로 둔다.
-- `young-tak`: 참조 링크 없이 보낸 Carbon 원고가 비었고(대화 `3fbeff41f98f6be7`) 책장에도 책이 없다. 감상 책이 없는 인물이라 사용자 재조사 지시 전까지 조사 미달로 둔다.
+- `joo-hyun-mi`: Argon 높음 원고가 비었고(대화 `ef342b78a64dfdff`) 책장에도 책이 없다. 감상 책이 없는 인물이라 26.11.12 공개 준비로 reading_way·reading_way_en을 빈 문자열(조사 미달)로 기록했다.
+- `young-tak`: 참조 링크 없이 보낸 Carbon 원고가 비었고(대화 `3fbeff41f98f6be7`) 책장에도 책이 없다. 감상 책이 없는 인물이라 26.11.12 공개 준비로 reading_way·reading_way_en을 빈 문자열(조사 미달)로 기록했다.
 - `aman-madaan`: 참조가 굿리즈 리뷰(로그인 필요)뿐이라 Argon 원고가 비었다. 26.11.11 추가 조사: 공개된 독서 발언이 없어(굿리즈는 로그인 전용, 홈페이지·인터뷰에도 없음) 조사 미달로 확정할 대상이다.
 - `patrick-o'shaughnessy`: 출처표 20문장 중 17문장이 출처 없음(참조가 트윗뿐)이라 폐기했다. 블로그·Colossus 원출처를 직접 찾아 새 대화로 보낸다. 팟캐스트 진행자라 녹취 대조가 필요하다. 녹취는 Firecrawl Alexandria의 Particle(팟캐스트 녹취) 무료 크레딧으로 받을 수 있다. 사용자가 Firecrawl MCP를 연결한 뒤에만 쓰고, 호출 전 도구별 크레딧 가격을 확인한다. 26.11.11 원출처 확보: 2014 블로그 「The Best Books of 2014」, 2016 독서법 트윗 스레드, David Senra 팟캐스트 녹취(rosetta.to, 우파니샤드 일화). 이 링크로 다시 보낸다. 26.11.12 확인: 2014 블로그 주소(investorfieldguide.com/the-best-books-of-2014/)는 도메인이 도박 광고 사이트로 넘어가 쓸 수 없고, 참조 링크가 트윗뿐이라 녹취 확보 전까지 보내지 않는다.
 - `moon-jae-in`: 출처표 12문장 중 서울경제 대목만 확인했다. 평산책방 인사말·독서노트·『대통령의 독서』 인용은 미확인(psbooks·경향은 스크립트 렌더링). 26.11.11 원출처 확보: 한겨레 2023 김언호 대담 https://www.hani.co.kr/arti/politics/politics_general/1075786.html (누나 교과서·보수동 헌책방·『전환시대의 논리』·활자 중독). 『대통령의 독서』는 신동호의 책이고 문재인은 추천만 했다.
