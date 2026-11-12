@@ -9,13 +9,10 @@
 | [`viewing-review-verbatim.md`](viewing-review-verbatim.md) | 감상배경 소스 원문 재구축 소급 — 오프라·빌 게이츠·머스크 등 발췌형 기록에 쿠셔닝+구분선 구조 적용 |
 | [`influence-spectrum.md`](influence-spectrum.md) | 영향력·스펙트럼 잔여 검토 — 다른 15축 근거 적정성, 영향력 검사기, 사실성, 검사기 구멍. |
 | [`youtube-creator-candidates.md`](youtube-creator-candidates.md) | 신규 유튜브 크리에이터 등록 후보군 — 50만+ 개인, 독서 감상경위 특화 16인 + 확장 22인 |
-| [`inactive-publish.md`](inactive-publish.md) | 비공개 실존 인물 56명 공개 준비 — 0건인 집필·등장 도서·관계망·세력 조사, 미비 3명 데이터 보완 |
 
 미등록 후보의 조사 자료를 별도로 보관하지 않는다. [데이터 원칙](../../project/data/README.md)을 따르며, 인물 1명 등록 절차는 [`celeb-00-04-new-figure-checklist.md`](../../project/celeb/celeb-00-04-new-figure-checklist.md)가 쥔다. 등록용 원고는 반영·재조회 검증 뒤 폐기한다.
 
 ## 문서 없이 남은 판단
-
-- **해외 인물 5명(26.11.09 비공개 등록)** — 알렉스 이알라·매들린 클라인·셔캐리 리처드슨·앤드류 테이트·트리스탄 테이트. 데이터 작업은 끝났고(감상 출처 원장·독서 방식·한마디, 세력은 클라인·테이트 형제 세력 없음 확정) 아바타·대표사진 업로드만 남았다. 사용자가 올린다.
 
 - **오브리 플라자의 가스 브룩스 감상곡** — `contents` `b8555e2b-8f42-45c5-b0c1-b0eb7673af63`, 《Ain't Going Down ('Til the Sun Comes Up)》. [당사자 감상 근거](https://www.nme.com/features/tv-interviews/soundtrack-of-my-life-aubrey-plaza-4642)는 확인했고, 다른 가수 Jim Finnegan의 iTunes ID와 표지는 제거했다. 감상 기록은 보존했으며, 가스 브룩스 원곡의 iTunes 메타·미리듣기 확인이 남았다.
 
