@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback, type MouseEvent } from 'react'
+import { createVisiblePoller } from '@/lib/visible-poller'
 
 type Task = {
   id: string; type: string; series: string; episode: string
@@ -55,35 +56,30 @@ function TaskRow({ task, onCancel }: { task: Task; onCancel: (id: string) => voi
 
 export function TaskPanel() {
   const [tasks, setTasks] = useState<Task[]>([])
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-
-  const poll = useCallback(() => {
-    fetch('/api/tasks').then(r => r.json()).then(setTasks).catch(() => {})
-  }, [])
+  const pollerRef = useRef<ReturnType<typeof createVisiblePoller> | null>(null)
 
   const cancel = useCallback((id: string) => {
-    fetch(`/api/tasks/${id}`, { method: 'DELETE' }).then(() => poll()).catch(() => {})
-  }, [poll])
+    fetch(`/api/tasks/${id}`, { method: 'DELETE' }).then(() => pollerRef.current?.refresh()).catch(() => {})
+  }, [])
 
   useEffect(() => {
-    poll()
-    timerRef.current = setInterval(poll, 2000)
-    return () => { if (timerRef.current) clearInterval(timerRef.current) }
-  }, [poll])
-
-  // running 태스크 없으면 폴링 중단
-  const hasRunning = tasks.some(t => t.status === 'running')
-  useEffect(() => {
-    if (hasRunning && !timerRef.current) {
-      timerRef.current = setInterval(poll, 2000)
-    } else if (!hasRunning && timerRef.current) {
-      clearInterval(timerRef.current)
-      timerRef.current = null
+    const poller = createVisiblePoller(async (signal) => {
+      const response = await fetch('/api/tasks', { signal })
+      if (!response.ok) throw new Error('작업 상태 조회 실패')
+      const next: Task[] = await response.json()
+      if (signal.aborted) return false
+      setTasks(next)
+      return next.some(task => task.status === 'running' || task.status === 'queued')
+    }, 2000)
+    pollerRef.current = poller
+    return () => {
+      poller.dispose()
+      pollerRef.current = null
     }
-  }, [hasRunning, poll])
+  }, [])
 
-  const running = tasks.filter(t => t.status === 'running')
-  const recent = tasks.filter(t => t.status !== 'running').slice(0, 5)
+  const running = tasks.filter(t => t.status === 'running' || t.status === 'queued')
+  const recent = tasks.filter(t => t.status !== 'running' && t.status !== 'queued').slice(0, 5)
   const visible = [...running, ...recent]
 
   if (visible.length === 0) return <div className="text-[11px] text-text-dim">진행 중인 작업 없음</div>

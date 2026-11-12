@@ -1,7 +1,7 @@
 'use server'
 
 /**
- * 자산 보관소 — D:\remotion-assets 와 public/ 사이를 오가는 백오피스 창구.
+ * 자산 보관소 — D:\feelandnote\remotion-assets 와 public/ 사이를 오가는 백오피스 창구.
  *
  * 규칙·동작은 전부 `@feelandnote/shared/bo/asset-archive` 소유다. 렌더 저장소의 `pnpm assets` 가 같은 함수를
  * 쓴다. 여기서는 사람 확인, 시리즈 → 폴더 대응, 그리고 이 저장소만의 금지 하나(담화는 풀지 않는다)만 얹는다.

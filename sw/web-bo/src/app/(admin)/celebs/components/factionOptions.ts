@@ -1,4 +1,4 @@
-import type { FactionEntry } from '@/actions/admin/factions/entries'
+import type { FactionFilterEntry } from '@/actions/admin/factions/options'
 
 /** 분류(L1) 하나와 그에 속한 세력(L2)들 */
 export interface FactionTheme {
@@ -12,7 +12,7 @@ export interface FactionTheme {
  * 도감 행 목록을 「분류(L1) → 소속 세력(L2)」 두 단으로 나눈다.
  * 들어온 순서(sort_order → 이름)를 그대로 이어받으므로 분류끼리도, 분류 안에서도 정렬된다.
  */
-export function buildFactionThemes(entries: FactionEntry[]): FactionTheme[] {
+export function buildFactionThemes(entries: FactionFilterEntry[]): FactionTheme[] {
   const sections = entries.filter((e) => e.level === 1)
   const factions = entries.filter((e) => e.level === 2)
   const sectionIds = new Set(sections.map((e) => e.id))

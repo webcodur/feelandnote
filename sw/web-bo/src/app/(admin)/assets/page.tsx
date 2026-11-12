@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 /**
- * 자산 보관소 — D:\remotion-assets 에 사는 편을 작업 폴더(public)에 걸고 푼다.
+ * 자산 보관소 — D:\feelandnote\remotion-assets 에 사는 편을 작업 폴더(public)에 걸고 푼다.
  * 서재 탐방을 꺼내 쓰거나 다 쓴 편을 정리할 때 쓴다.
  */
 export default async function AssetsPage() {

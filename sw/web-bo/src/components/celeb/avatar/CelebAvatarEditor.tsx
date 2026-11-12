@@ -10,6 +10,7 @@ import {
 } from 'react'
 import { Check, Loader2, Move, Upload, X } from 'lucide-react'
 import { useImageIntake } from '@/components/celeb/useImageIntake'
+import { imagePreviewProps } from '@/lib/image-preview'
 
 const ImageCropModal = dynamic(() => import('@/components/ui/ImageCropModal'), {
   ssr: false,
@@ -20,6 +21,7 @@ interface Props {
   alt: string
   className?: string
   previewClassName?: string
+  previewSizes?: string
   empty?: ReactNode
   children?: ReactNode
   disabled?: boolean
@@ -52,6 +54,7 @@ export default function CelebAvatarEditor({
   alt,
   className = '',
   previewClassName = '',
+  previewSizes,
   empty,
   children,
   disabled = false,
@@ -154,7 +157,7 @@ export default function CelebAvatarEditor({
                 src={value}
                 alt={alt}
                 fill
-                unoptimized
+                {...imagePreviewProps(value, previewSizes)}
                 loading={loadImmediately ? 'eager' : 'lazy'}
                 fetchPriority={highPriority ? 'high' : 'auto'}
                 onLoad={() => setSettledImageUrl(value)}
@@ -168,7 +171,7 @@ export default function CelebAvatarEditor({
               src={value}
               alt={alt}
               fill
-              unoptimized
+              {...imagePreviewProps(value, previewSizes)}
               loading={loadImmediately ? 'eager' : 'lazy'}
               fetchPriority={highPriority ? 'high' : 'auto'}
               onLoad={() => setSettledImageUrl(value)}

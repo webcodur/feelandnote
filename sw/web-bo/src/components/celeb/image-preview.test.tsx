@@ -2,6 +2,9 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import { renderToStaticMarkup } from 'react-dom/server'
+import { ImageConfigContext } from 'next/dist/shared/lib/image-config-context.shared-runtime'
+import { imageConfigDefault } from 'next/dist/shared/lib/image-config'
+import nextConfig from '../../../next.config'
 
 import CelebAvatarEditor from './avatar/CelebAvatarEditor'
 import CelebPortraitEditor from './portrait/CelebPortraitEditor'
@@ -57,4 +60,35 @@ test('원본 열기 대표사진은 일반 이미지 요청으로 미리보기�
   )
 
   assertPublicImagePreview(markup)
+})
+
+test('목록의 작은 아바타·대표사진은 축소하고 원본 링크는 보존한다', () => {
+  const original = 'https://assets.feelandnote.com/celebs/test/avatar.webp?v=1'
+  for (const Editor of [CelebAvatarEditor, CelebPortraitEditor]) {
+    const markup = renderToStaticMarkup(
+      <ImageConfigContext.Provider value={{ ...imageConfigDefault, ...nextConfig.images }}>
+        <Editor value={original} alt="테스트" previewSizes="64px" openOnClick onCroppedFile={() => undefined} />
+      </ImageConfigContext.Provider>,
+    )
+    assert.match(markup, /sizes="64px"/)
+    assert.match(markup, /srcSet="[^\"]*\/_next\/image\?[^\"]*w=64/)
+    assert.ok(markup.includes(`href="${original}"`), '원본 열기는 축소본 주소로 바뀌면 안 된다')
+    assert.match(markup, /draggable="true"/)
+  }
+})
+
+test('외부 이미지와 편집용 큰 미리보기는 원본 요청을 유지한다', () => {
+  for (const Editor of [CelebAvatarEditor, CelebPortraitEditor]) {
+    const external = renderToStaticMarkup(
+      <Editor value={IMAGE_URL} alt="테스트" previewSizes="64px" onCroppedFile={() => undefined} />,
+    )
+    assertPublicImagePreview(external)
+    assert.doesNotMatch(external, /\/_next\/image\?/)
+    const original = 'https://assets.feelandnote.com/celebs/test/avatar.webp?v=2'
+    const editing = renderToStaticMarkup(
+      <Editor value={original} alt="테스트" onCroppedFile={() => undefined} />,
+    )
+    assert.ok(editing.includes(`src="${original}"`))
+    assert.doesNotMatch(editing, /\/_next\/image\?/)
+  }
 })

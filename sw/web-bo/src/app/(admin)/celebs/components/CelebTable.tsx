@@ -43,7 +43,7 @@ const CELLS: Record<string, { className: string; render: (celeb: Member) => Reac
   content_count: {
     className: CENTER_CELL_CLASS,
     render: (celeb) => celeb.slug ? (
-      <Link href={`/celebs/${celeb.slug}/contents`} className="inline-flex items-center gap-1 text-xs text-text-secondary hover:text-accent md:text-sm">
+      <Link href={`/celebs/${celeb.slug}/contents`} prefetch={false} className="inline-flex items-center gap-1 text-xs text-text-secondary hover:text-accent md:text-sm">
         <BookOpen className="h-3.5 w-3.5" />{celeb.content_count}
       </Link>
     ) : (
@@ -92,6 +92,7 @@ function NameCell({ celeb }: { celeb: Member }) {
         {celeb.slug ? (
           <Link
             href={`/celebs/${celeb.slug}`}
+            prefetch={false}
             className="max-w-[120px] truncate text-xs font-medium text-text-primary hover:text-accent hover:underline md:text-sm"
           >
             {celeb.nickname || '이름 없음'}
@@ -239,6 +240,7 @@ function AvatarCell({ celebId, avatarUrl, name }: { celebId: string; avatarUrl: 
       celebId={celebId}
       avatarUrl={avatarUrl}
       name={name}
+      previewSizes="64px"
       className="h-16 w-16 shrink-0"
       previewClassName="flex h-full w-full items-center justify-center border border-transparent hover:border-accent"
       empty={<EmptyImageMark />}
@@ -261,6 +263,7 @@ function PortraitCell({
       portraitUrl={portraitUrl}
       name={name}
       compact
+      previewSizes="64px"
       className="group/portrait relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden border border-border/40 hover:border-accent data-[dragging=true]:border-accent data-[dragging=true]:bg-accent/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent/30"
       empty={<EmptyImageMark />}
     />
@@ -282,6 +285,7 @@ function AwakenedImageCell({
       awakenedImageUrl={awakenedImageUrl}
       name={name}
       compact
+      previewSizes="64px"
       className="group/portrait relative flex w-16 shrink-0 items-center justify-center overflow-hidden border border-amber-500/20 hover:border-amber-300 data-[dragging=true]:border-amber-300 data-[dragging=true]:bg-amber-500/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-amber-400/30"
       empty={<EmptyImageMark />}
     />

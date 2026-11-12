@@ -6,6 +6,7 @@ import { useState, type ReactNode } from 'react'
 import { Loader2, Move, Upload, X } from 'lucide-react'
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
 import { useImageIntake } from '@/components/celeb/useImageIntake'
+import { imagePreviewProps } from '@/lib/image-preview'
 
 const ImageCropModal = dynamic(() => import('@/components/ui/ImageCropModal'), {
   ssr: false,
@@ -17,6 +18,7 @@ interface Props {
   className?: string
   empty?: ReactNode
   compact?: boolean
+  previewSizes?: string
   openOnClick?: boolean
   loadImmediately?: boolean
   highPriority?: boolean
@@ -48,6 +50,7 @@ export default function CelebPortraitEditor({
   className,
   empty,
   compact = false,
+  previewSizes,
   openOnClick = false,
   loadImmediately = false,
   highPriority = false,
@@ -140,7 +143,7 @@ export default function CelebPortraitEditor({
               src={value}
               alt={alt}
               fill
-              unoptimized
+              {...imagePreviewProps(value, previewSizes)}
               loading={loadImmediately ? 'eager' : 'lazy'}
               fetchPriority={highPriority ? 'high' : 'auto'}
               onLoad={() => setSettledImageUrl(value)}
@@ -154,7 +157,7 @@ export default function CelebPortraitEditor({
             src={value}
             alt={alt}
             fill
-            unoptimized
+            {...imagePreviewProps(value, previewSizes)}
             loading={loadImmediately ? 'eager' : 'lazy'}
             fetchPriority={highPriority ? 'high' : 'auto'}
             onLoad={() => setSettledImageUrl(value)}

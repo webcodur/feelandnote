@@ -198,7 +198,7 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
           <Menu className="w-5 h-5 text-text-secondary shrink-0" />
         )}
         {!collapsed && (
-          <Link href="/" className="text-2xl font-bold text-text-primary whitespace-nowrap" onClick={onItemClick}>
+          <Link href="/" prefetch={false} className="text-2xl font-bold text-text-primary whitespace-nowrap" onClick={onItemClick}>
             {SITE_NAME}
           </Link>
         )}
@@ -217,6 +217,7 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
                 <li key={group.key}>
                   <Link
                     href={group.href}
+                    prefetch={false}
                     onClick={onItemClick}
                     className={`
                       flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 md:px-4 py-2.5 md:py-3 rounded-lg
@@ -273,6 +274,7 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
                         <li key={item.href}>
                           <Link
                             href={item.href}
+                            prefetch={false}
                             onClick={onItemClick}
                             className={`
                               flex items-center gap-2.5 px-3 py-2 rounded-lg text-base

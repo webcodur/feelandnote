@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
+import { createVisiblePoller } from '@/lib/visible-poller'
 import {
   buildTitle, buildDescription, calcChapterTimestamps,
   type EpisodeMeta, type YouTubeLink,
@@ -16,6 +17,7 @@ export function useYouTubePanel(series: string, name: string) {
   const [uploadLog, setUploadLog] = useState<string[] | null>(null)
   const [uploadTaskId, setUploadTaskId] = useState<string | null>(null)
   const [uploadActive, setUploadActive] = useState(false)
+  const uploadDescription = useRef({ label: '', dryRun: false })
   const [openVariant, setOpenVariant] = useState<VariantKey | null>(null)
   const [editMeta, setEditMeta] = useState<Record<VariantKey, MetaEntry>>({} as any)
   const [editingLineup, setEditingLineup] = useState(false)
@@ -25,6 +27,26 @@ export function useYouTubePanel(series: string, name: string) {
   // EN 페이지에서도 base name으로 YouTube API 호출
   // alex-karp-en → alex-karp, alex-karp-2-en → alex-karp-2 (번호 suffix는 보존되어 alt 에피소드 구분)
   const baseName = name.endsWith('-en') ? name.slice(0, -3) : name
+
+  useEffect(() => {
+    if (!uploadTaskId) return
+    const { label, dryRun: preview } = uploadDescription.current
+    const poller = createVisiblePoller(async (signal) => {
+      const response = await fetch(`/api/tasks/${uploadTaskId}`, { signal })
+      if (!response.ok) throw new Error('업로드 상태 조회 실패')
+      const task = await response.json()
+      if (signal.aborted) return false
+      setUploadLog(task.log?.slice(-20) ?? [])
+      if (task.status === 'running' || task.status === 'queued') return true
+      setUploadActive(false)
+      setUploadTaskId(null)
+      if (task.status === 'done') setUploadMsg(`${label} ${preview ? '드라이런' : '업로드'} 완료`)
+      else if (task.status === 'cancelled') setUploadMsg(`${label} 업로드 중단됨`)
+      else setUploadMsg(`${label} 오류 발생`)
+      return false
+    }, 1500)
+    return poller.dispose
+  }, [uploadTaskId])
 
   // --- 데이터 로드 ---
 
@@ -148,27 +170,10 @@ export function useYouTubePanel(series: string, name: string) {
     }
 
     const { taskId } = await res.json()
+    uploadDescription.current = { label, dryRun }
     setUploadTaskId(taskId)
     setUploadActive(true)
     setUploadMsg(`${label} ${dryRun ? '드라이런' : '업로드'} 진행 중...`)
-
-    // 태스크 직접 폴링
-    const poll = setInterval(async () => {
-      try {
-        const tr = await fetch(`/api/tasks/${taskId}`)
-        if (!tr.ok) return
-        const task = await tr.json()
-        setUploadLog(task.log?.slice(-20) ?? [])
-        if (task.status !== 'running' && task.status !== 'queued') {
-          clearInterval(poll)
-          setUploadActive(false)
-          setUploadTaskId(null)
-          if (task.status === 'done') setUploadMsg(`${label} ${dryRun ? '드라이런' : '업로드'} 완료`)
-          else if (task.status === 'cancelled') setUploadMsg(`${label} 업로드 중단됨`)
-          else setUploadMsg(`${label} 오류 발생`)
-        }
-      } catch { /* ignore */ }
-    }, 1500)
   }
 
   const handleCancelUpload = async () => {

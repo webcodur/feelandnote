@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { User, LucideIcon } from 'lucide-react'
+import { imagePreviewProps } from '@/lib/image-preview'
 
 interface AvatarProps {
   src?: string | null
@@ -25,6 +26,8 @@ const iconSizes = {
   lg: 'w-6 h-6',
   xl: 'w-8 h-8',
 }
+
+const imageSizes = { xs: 24, sm: 32, md: 40, lg: 48, xl: 64 }
 
 function getInitials(name: string): string {
   return name
@@ -55,7 +58,7 @@ export default function Avatar({
           src={src}
           alt={alt}
           fill
-          unoptimized
+          {...imagePreviewProps(src!, `${imageSizes[size]}px`)}
           className="object-cover"
         />
       ) : hasName ? (

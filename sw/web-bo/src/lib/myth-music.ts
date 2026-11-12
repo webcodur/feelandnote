@@ -5,7 +5,7 @@ import path from 'path'
 
 /** 신화 테마곡을 준비하는 로컬 폴더. 다른 컴퓨터에서는 환경변수로 덮어쓴다. */
 const DEFAULT_MYTH_MUSIC_DIR = 'D:\\오디오\\신화'
-const PREPARED_MYTH_MUSIC_DIR = 'D:\\audios\\BGMS\\bgms\\신화'
+const PREPARED_MYTH_MUSIC_DIR = 'D:\\feelandnote\\audios\\BGMS\\bgms\\신화'
 export const MYTH_MUSIC_DIR = process.env.MYTH_MUSIC_DIR?.trim()
   || (existsSync(DEFAULT_MYTH_MUSIC_DIR) ? DEFAULT_MYTH_MUSIC_DIR : PREPARED_MYTH_MUSIC_DIR)
 

@@ -9,9 +9,9 @@ const COMMON_VOICE_DIR = path.join(REMOTION_ROOT, 'public', 'common', 'voice')
 export const VOICE_ARCHIVE = path.join(REMOTION_ROOT, 'voice-archive')
 
 /**
- * 작업이 끝났거나 손대지 않는 인물의 실체는 자산 보관소(`@feelandnote/shared/bo/asset-archive`, D:\remotion-assets)에
+ * 작업이 끝났거나 손대지 않는 인물의 실체는 자산 보관소(`@feelandnote/shared/bo/asset-archive`, D:\feelandnote\remotion-assets)에
  * 있고, 작업 중인 인물만 public/episodes 에 정션으로 걸린다. 이 파일은 public 만 읽는다 — 보관소 편은 백오피스
- * 「자산 보관소」에서 걸어야 목록에 나타난다. (예전 D:\remotion_done 폴백은 보관소로 합치며 지웠다.)
+ * 「자산 보관소」에서 걸어야 목록에 나타난다. (예전 D:\feelandnote\remotion_done 폴백은 보관소로 합치며 지웠다.)
  */
 
 /** export — API 라우트에서 직접 사용 */

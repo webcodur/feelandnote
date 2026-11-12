@@ -34,8 +34,30 @@ if (!g.__childProcesses) g.__childProcesses = new Map()
 const tasks = g.__tasks
 function nextTaskId() { return ++g.__taskCounter! }
 
-export function getTasks(limit = 20): Task[] {
-  return [...tasks.values()].sort((a, b) => b.startedAt.localeCompare(a.startedAt)).slice(0, limit)
+const TASK_HISTORY_LIMIT = 20
+const TASK_LOG_LINE_LIMIT = 2000
+
+function isActive(task: Task) {
+  return task.status === 'running' || task.status === 'queued'
+}
+
+function pruneCompletedTasks() {
+  const completed = [...tasks.values()].filter(task => !isActive(task))
+    .sort((a, b) => (b.finishedAt ?? b.startedAt).localeCompare(a.finishedAt ?? a.startedAt))
+  for (const task of completed.slice(TASK_HISTORY_LIMIT)) tasks.delete(task.id)
+}
+
+function appendLog(task: Task, ...lines: string[]) {
+  task.log.push(...lines)
+  if (task.log.length > TASK_LOG_LINE_LIMIT) task.log.splice(0, task.log.length - TASK_LOG_LINE_LIMIT)
+}
+
+export function getTasks(limit = TASK_HISTORY_LIMIT): Task[] {
+  pruneCompletedTasks()
+  for (const task of tasks.values()) appendLog(task)
+  const sorted = [...tasks.values()].sort((a, b) => b.startedAt.localeCompare(a.startedAt))
+  const active = sorted.filter(isActive)
+  return [...active, ...sorted.filter(task => !isActive(task)).slice(0, Math.max(0, limit - active.length))]
 }
 
 export function getTask(id: string): Task | undefined {
@@ -64,7 +86,7 @@ export function runTaskSequence(type: string, series: string, episode: string, a
   const runNext = () => {
     if (i >= argsList.length) return
     const args = argsList[i]
-    task.log.push(`[seq ${i + 1}/${argsList.length}] pnpm ${args.join(' ')}`)
+    appendLog(task, `[seq ${i + 1}/${argsList.length}] pnpm ${args.join(' ')}`)
     spawnTask(task, args, () => {
       // 직전 단계가 성공하지 못했으면(error/cancelled) 체인 중단 — 그 status 가 최종값으로 남는다
       if (task.status !== 'done') return
@@ -84,7 +106,7 @@ export function queueTask(type: string, series: string, episode: string, args: s
   const id = `${type}-${nextTaskId()}`
   const queuePos = g.__uploadQueue!.length + (g.__uploadRunning ? 1 : 0)
   const task: Task = { id, type, series, episode, status: 'queued', log: [], startedAt: new Date().toISOString() }
-  if (queuePos > 0) task.log.push(`[queue] 대기 ${queuePos}번째`)
+  if (queuePos > 0) appendLog(task, `[queue] 대기 ${queuePos}번째`)
   tasks.set(id, task)
   g.__uploadQueue!.push({ task, args })
   drainUploadQueue()
@@ -96,7 +118,7 @@ function drainUploadQueue() {
   const { task, args } = g.__uploadQueue!.shift()!
   g.__uploadRunning = true
   task.status = 'running'
-  task.log.push(`[queue] 시작`)
+  appendLog(task, `[queue] 시작`)
   spawnTask(task, args, () => {
     g.__uploadRunning = false
     drainUploadQueue()
@@ -109,10 +131,10 @@ function spawnTask(task: Task, args: string[], onDone?: () => void) {
   g.__childProcesses!.set(task.id, child)
 
   child.stdout?.on('data', (d: Buffer) => {
-    task.log.push(...d.toString().split('\n').filter(Boolean))
+    appendLog(task, ...d.toString().split('\n').filter(Boolean))
   })
   child.stderr?.on('data', (d: Buffer) => {
-    task.log.push(...d.toString().split('\n').filter(Boolean))
+    appendLog(task, ...d.toString().split('\n').filter(Boolean))
   })
   child.on('close', (code) => {
     g.__childProcesses!.delete(task.id)
@@ -121,15 +143,17 @@ function spawnTask(task: Task, args: string[], onDone?: () => void) {
     }
     task.finishedAt = new Date().toISOString()
     onDone?.()
+    pruneCompletedTasks()
   })
   child.on('error', (err) => {
     g.__childProcesses!.delete(task.id)
     if (task.status !== 'cancelled') {
       task.status = 'error'
-      task.log.push(`Error: ${err.message}`)
+      appendLog(task, `Error: ${err.message}`)
     }
     task.finishedAt = new Date().toISOString()
     onDone?.()
+    pruneCompletedTasks()
   })
 }
 
@@ -140,7 +164,7 @@ export function cancelTask(id: string): boolean {
 
   task.status = 'cancelled'
   task.finishedAt = new Date().toISOString()
-  task.log.push('[cancelled] 사용자 중단')
+  appendLog(task, '[cancelled] 사용자 중단')
 
   // 큐에서 제거 (queued 상태)
   const qIdx = g.__uploadQueue!.findIndex(q => q.task.id === id)
@@ -155,6 +179,7 @@ export function cancelTask(id: string): boolean {
     drainUploadQueue()
   }
 
+  pruneCompletedTasks()
   return true
 }
 

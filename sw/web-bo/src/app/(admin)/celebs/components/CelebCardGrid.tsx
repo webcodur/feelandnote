@@ -13,6 +13,8 @@ import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCeleb
 import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedCelebPortraitEditor'
 import CelebCardImageToggle from './CelebCardImageToggle'
 
+const CARD_PREVIEW_SIZES = '(min-width: 1536px) 12vw, (min-width: 1280px) 16vw, (min-width: 1024px) 20vw, (min-width: 640px) 25vw, 33vw'
+
 /*
   사용자 웹 /explore의 인물 카드처럼 얼굴·이름·수식어만 띄우는 격자다. 카드는 상세(/celebs/[slug])로 연다.
   사진 칸은 선택한 이미지의 에디터다 — 사진 파일을 끌어다 놓으면 자르기 창이 열리고 저장된다.
@@ -61,6 +63,7 @@ function CelebCard({ celeb, imageMode, imageUrl, onImageSaved }: {
           avatarUrl={imageUrl || celeb.portrait_url || null}
           name={celeb.nickname}
           refreshAfterSave={false}
+          previewSizes={CARD_PREVIEW_SIZES}
           onSaved={onImageSaved}
           openOnClick
           className="w-full rounded-md"
@@ -72,6 +75,7 @@ function CelebCard({ celeb, imageMode, imageUrl, onImageSaved }: {
           portraitUrl={imageUrl}
           name={celeb.nickname}
           refreshAfterSave={false}
+          previewSizes={CARD_PREVIEW_SIZES}
           onSaved={onImageSaved}
           openOnClick
           className="relative w-full overflow-hidden rounded-md border border-border bg-bg-secondary hover:border-accent data-[dragging=true]:border-accent"

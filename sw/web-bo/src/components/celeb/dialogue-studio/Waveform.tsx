@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef } from 'react'
+import { decodeAudio } from '@feelandnote/shared/bo/voice-utils'
 
 /** 파형 + 앞뒤 자르기 손잡이 + 재생 위치 표시 */
 export function Waveform({ blobUrl, duration, trimStart, trimEnd, onTrimChange, isPlaying }: {
@@ -22,10 +23,12 @@ export function Waveform({ blobUrl, duration, trimStart, trimEnd, onTrimChange, 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    fetch(blobUrl)
+    const controller = new AbortController()
+    fetch(blobUrl, { signal: controller.signal })
       .then((r) => r.arrayBuffer())
-      .then((buf) => new AudioContext().decodeAudioData(buf))
+      .then((buf) => controller.signal.aborted ? null : decodeAudio(buf))
       .then((audioBuffer) => {
+        if (controller.signal.aborted || !audioBuffer) return
         const data = audioBuffer.getChannelData(0)
         const barCount = Math.floor(canvas.width / 2)
         const step = Math.floor(data.length / barCount)
@@ -40,6 +43,7 @@ export function Waveform({ blobUrl, duration, trimStart, trimEnd, onTrimChange, 
         }
       })
       .catch(() => {})
+    return () => controller.abort()
   }, [blobUrl])
 
   // 재생 위치 표시 (CSS transition 애니메이션)

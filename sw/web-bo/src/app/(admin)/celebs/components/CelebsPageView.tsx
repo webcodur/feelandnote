@@ -1,11 +1,11 @@
 import { Plus } from 'lucide-react'
+import type { ReactNode } from 'react'
 import Link from 'next/link'
-import { getMembers } from '@/actions/admin/members'
-import { getFactionEntries } from '@/actions/admin/factions/entries'
+import { getMembers, type Member } from '@/actions/admin/members'
+import { getFactionFilterEntries } from '@/actions/admin/factions/options'
 import { countManagedCelebs, type CelebImageFilter } from '@/actions/admin/celebs'
 import Button from '@/components/ui/Button'
 import Pagination from '@/components/ui/Pagination'
-import { getImageProcessingJobsForCelebs } from '@/lib/image-processing/queue'
 import {
   DEFAULT_CELEB_LIST_PAGE_SIZE,
   parseCelebColumnFilters,
@@ -17,9 +17,6 @@ import { CelebTableQueryProvider } from './columnFilters/CelebTableQuery'
 import { CelebImageFilterControls } from './columnFilters/CelebColumnHeader'
 import { ColumnPicker, ColumnVisibilityProvider } from './columnFilters/ColumnVisibility'
 import StagedChanges from './columnFilters/StagedChanges'
-import CelebCardGrid from './CelebCardGrid'
-import CelebImageGrid from './CelebImageGrid'
-import CelebTable from './CelebTable'
 import CelebViewNavigation, { buildCelebViewHref } from './CelebViewNavigation'
 import { buildFactionThemes } from './factionOptions'
 
@@ -41,6 +38,11 @@ export interface CelebsSearchParams extends CelebColumnSearchParams {
 interface Props {
   searchParams: Promise<CelebsSearchParams>
   view: 'table' | 'cards' | 'images'
+  renderResults: (result: {
+    celebs: Member[]
+    resultSetKey: string
+    cardImage: 'avatar' | 'portrait'
+  }) => ReactNode
 }
 
 const VIEW_HREFS = {
@@ -55,7 +57,7 @@ const VIEW_TITLES = {
   images: '셀럽 이미지 작업',
 } as const
 
-export default async function CelebsPageView({ searchParams, view }: Props) {
+export default async function CelebsPageView({ searchParams, view, renderResults }: Props) {
   const params = await searchParams
   const columnFilters = parseCelebColumnFilters(params)
   const page = Number(params.page) || 1
@@ -77,7 +79,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
   const cardImage = params.cardImage === 'portrait' ? 'portrait' : 'avatar'
   const resultSetKey = [page, pageSize, search, status, profession, tier, reality, imageFilter, faction, sort, sortOrder, JSON.stringify(columnFilters)].join(':')
 
-  const [{ members: celebs, total }, { entries }, managedTotal] = await Promise.all([
+  const [{ members: celebs, total }, entries, managedTotal] = await Promise.all([
     getMembers({
       ...columnFilters,
       profileType: 'CELEB',
@@ -93,15 +95,12 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
       sort,
       sortOrder,
     }),
-    getFactionEntries(),
+    getFactionFilterEntries(),
     countManagedCelebs(),
   ])
 
   const factionThemes = buildFactionThemes(entries)
 
-  const imageProcessingJobs = view === 'images'
-    ? await getImageProcessingJobsForCelebs(celebs.map((celeb) => celeb.id))
-    : {}
   const totalPages = Math.ceil(total / pageSize)
 
   const navigationParams = {
@@ -163,17 +162,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
           <StagedChanges factionThemes={factionThemes} managedTotal={managedTotal} />
           {view !== 'table' && <CelebImageFilterControls />}
 
-          {view === 'images' ? (
-            <CelebImageGrid
-              key={resultSetKey}
-              celebs={celebs}
-              imageProcessingJobs={imageProcessingJobs}
-            />
-          ) : view === 'cards' ? (
-            <CelebCardGrid key={resultSetKey} celebs={celebs} imageMode={cardImage} />
-          ) : (
-            <div className="overflow-x-auto rounded-b-lg"><CelebTable celebs={celebs} /></div>
-          )}
+          {renderResults({ celebs, resultSetKey, cardImage })}
         </div>
         </ColumnVisibilityProvider>
       </CelebTableQueryProvider>

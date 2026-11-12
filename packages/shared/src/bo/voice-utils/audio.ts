@@ -1,5 +1,15 @@
 // ── Audio utility functions ──
 
+// 파형·변환만 필요한 디코더는 성공·실패와 무관하게 즉시 닫는다.
+export async function decodeAudio(bytes: ArrayBuffer): Promise<AudioBuffer> {
+  const context = new AudioContext()
+  try {
+    return await context.decodeAudioData(bytes)
+  } finally {
+    await context.close()
+  }
+}
+
 /** PCM -> WAV encoding (mono/stereo, 16-bit, with trim range) */
 export function encodeWAV(buf: AudioBuffer, startSec = 0, endSec?: number): ArrayBuffer {
   const sr = buf.sampleRate
@@ -67,8 +77,7 @@ export async function prepareAudioPreview(
   const rawBytes = Uint8Array.from(atob(rawBase64), c => c.charCodeAt(0))
   const needsReEncode = sourceFormat !== 'wav' || volumeBoostDb > 0
 
-  const audioCtx = new AudioContext()
-  const audioBuf = await audioCtx.decodeAudioData(rawBytes.buffer.slice(0) as ArrayBuffer)
+  const audioBuf = await decodeAudio(rawBytes.buffer.slice(0) as ArrayBuffer)
 
   let base64: string
   let blob: Blob
@@ -88,7 +97,6 @@ export async function prepareAudioPreview(
     duration = audioBuf.duration
   }
 
-  await audioCtx.close()
   return { base64, blobUrl: URL.createObjectURL(blob), duration }
 }
 
@@ -101,11 +109,9 @@ export async function prepareAudioForSave(
 ): Promise<string> {
   if (sourceFormat === 'wav' && volumeBoostDb <= 0) return rawBase64
   const rawBytes = Uint8Array.from(atob(rawBase64), c => c.charCodeAt(0))
-  const audioCtx = new AudioContext()
-  const audioBuf = await audioCtx.decodeAudioData(rawBytes.buffer.slice(0) as ArrayBuffer)
+  const audioBuf = await decodeAudio(rawBytes.buffer.slice(0) as ArrayBuffer)
   const processed = volumeBoostDb > 0 ? await applyGain(audioBuf, volumeBoostDb) : audioBuf
   const wavBuf = encodeWAV(processed)
-  await audioCtx.close()
   return abToBase64(wavBuf)
 }
 

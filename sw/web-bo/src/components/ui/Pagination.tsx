@@ -49,6 +49,35 @@ function getPageGroup(currentPage: number, totalPages: number): number[] {
   return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
 }
 
+function NavButton({
+  href, onNavigate, disabled, children, title, isFirst, isLast,
+}: {
+  href?: string
+  onNavigate: () => void
+  disabled: boolean
+  children: React.ReactNode
+  title: string
+  isFirst?: boolean
+  isLast?: boolean
+}) {
+  const className = `${STYLES.btn} ${isFirst ? 'rounded-l-lg' : ''} ${isLast ? 'rounded-r-lg' : ''}`
+  if (disabled) return <span className={className}>{children}</span>
+  if (href) return <Link href={href} prefetch={false} className={className} title={title}>{children}</Link>
+  return <button onClick={onNavigate} className={className} title={title}>{children}</button>
+}
+
+function PageButton({ pageNum, active, href, onNavigate }: {
+  pageNum: number
+  active: boolean
+  href?: string
+  onNavigate: () => void
+}) {
+  const className = active ? STYLES.numBtnActive : STYLES.numBtn
+  if (active) return <span className={className}>{pageNum}</span>
+  if (href) return <Link href={href} prefetch={false} className={className}>{pageNum}</Link>
+  return <button onClick={onNavigate} className={className}>{pageNum}</button>
+}
+
 export default function Pagination({
   page,
   totalPages,
@@ -86,7 +115,6 @@ export default function Pagination({
   useEffect(() => {
     if (isInputMode && inputRef.current) {
       inputRef.current.focus()
-      setInputValue('')
     }
   }, [isInputMode])
 
@@ -115,75 +143,13 @@ export default function Pagination({
     if (e.key === 'Escape') setIsInputMode(false)
   }
 
-  // 버튼 렌더링 헬퍼
-  const NavButton = ({
-    targetPage,
-    disabled,
-    children,
-    title,
-    isFirst,
-    isLast,
-  }: {
-    targetPage: number
-    disabled: boolean
-    children: React.ReactNode
-    title: string
-    isFirst?: boolean
-    isLast?: boolean
-  }) => {
-    const className = `${STYLES.btn} ${isFirst ? 'rounded-l-lg' : ''} ${isLast ? 'rounded-r-lg' : ''}`
-    const linkHref = getHref(targetPage)
-
-    if (disabled) {
-      return <span className={className}>{children}</span>
-    }
-
-    if (linkHref) {
-      return (
-        <Link href={linkHref} className={className} title={title}>
-          {children}
-        </Link>
-      )
-    }
-
-    return (
-      <button onClick={() => navigate(targetPage)} className={className} title={title}>
-        {children}
-      </button>
-    )
-  }
-
-  // 페이지 번호 버튼 렌더링
-  const PageButton = ({ pageNum }: { pageNum: number }) => {
-    const isActive = pageNum === page
-    const className = isActive ? STYLES.numBtnActive : STYLES.numBtn
-    const linkHref = getHref(pageNum)
-
-    if (isActive) {
-      return <span className={className}>{pageNum}</span>
-    }
-
-    if (linkHref) {
-      return (
-        <Link href={linkHref} className={className}>
-          {pageNum}
-        </Link>
-      )
-    }
-
-    return (
-      <button onClick={() => navigate(pageNum)} className={className}>
-        {pageNum}
-      </button>
-    )
-  }
-
   return (
     <nav className={`${STYLES.container} ${className}`} aria-label="페이지네이션">
       {/* Left Controls */}
       <div className={STYLES.group}>
         <NavButton
-          targetPage={Math.max(1, currentGroupStart - PAGE_GROUP_SIZE)}
+          href={getHref(Math.max(1, currentGroupStart - PAGE_GROUP_SIZE))}
+          onNavigate={() => navigate(Math.max(1, currentGroupStart - PAGE_GROUP_SIZE))}
           disabled={!canGoPrevGroup}
           title="이전 5페이지"
           isFirst
@@ -191,7 +157,7 @@ export default function Pagination({
           <ChevronsLeft size={14} />
         </NavButton>
         <div className={STYLES.divider} />
-        <NavButton targetPage={page - 1} disabled={!canGoPrev} title="이전" isLast>
+        <NavButton href={getHref(page - 1)} onNavigate={() => navigate(page - 1)} disabled={!canGoPrev} title="이전" isLast>
           <ChevronLeft size={14} />
         </NavButton>
       </div>
@@ -199,7 +165,7 @@ export default function Pagination({
       {/* Page Numbers */}
       <div className={STYLES.numContainer}>
         {pages.map((p) => (
-          <PageButton key={p} pageNum={p} />
+          <PageButton key={p} pageNum={p} active={p === page} href={getHref(p)} onNavigate={() => navigate(p)} />
         ))}
       </div>
 
@@ -227,7 +193,7 @@ export default function Pagination({
               </button>
             </div>
           ) : (
-            <button onClick={() => setIsInputMode(true)} className={STYLES.statusBtn}>
+            <button onClick={() => { setInputValue(''); setIsInputMode(true) }} className={STYLES.statusBtn}>
               <span className="text-text-secondary">{page}</span>
               <span className="text-text-secondary/50">/</span>
               <span className="text-text-secondary/70">{totalPages}</span>
@@ -238,12 +204,13 @@ export default function Pagination({
 
       {/* Right Controls */}
       <div className={STYLES.group}>
-        <NavButton targetPage={page + 1} disabled={!canGoNext} title="다음" isFirst>
+        <NavButton href={getHref(page + 1)} onNavigate={() => navigate(page + 1)} disabled={!canGoNext} title="다음" isFirst>
           <ChevronRight size={14} />
         </NavButton>
         <div className={STYLES.divider} />
         <NavButton
-          targetPage={Math.min(totalPages, currentGroupEnd + 1)}
+          href={getHref(Math.min(totalPages, currentGroupEnd + 1))}
+          onNavigate={() => navigate(Math.min(totalPages, currentGroupEnd + 1))}
           disabled={!canGoNextGroup}
           title="다음 5페이지"
           isLast

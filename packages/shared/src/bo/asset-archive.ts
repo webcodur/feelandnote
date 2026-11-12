@@ -1,5 +1,5 @@
 /**
- * 에피소드 자산 보관소 — `public/<시리즈>/<편>` 의 실체가 사는 곳(기본 `D:\remotion-assets`).
+ * 에피소드 자산 보관소 — `public/<시리즈>/<편>` 의 실체가 사는 곳(기본 `D:\feelandnote\remotion-assets`).
  *
  * `public` 이 7.5 GB·11,000 파일이면 Remotion Studio 가 페이지마다 그 전부를 훑고(실측 5초), 렌더 창고·감시·
  * 백업이 전부 그 무게를 진다. 그런데 한 번에 손대는 편은 몇 개뿐이다. 그래서 **실체는 보관소에 두고, 작업 중인
@@ -20,7 +20,7 @@ import { safeDirSegs } from './episode-store'
 /** 보관소 뿌리. 환경변수 REMOTION_ASSET_ARCHIVE 로 바꾼다. */
 export const ASSET_ARCHIVE_ROOT = process.env.REMOTION_ASSET_ARCHIVE
   ? path.resolve(process.env.REMOTION_ASSET_ARCHIVE)
-  : 'D:\\remotion-assets'
+  : 'D:\\feelandnote\\remotion-assets'
 
 /** 보관소 체계를 쓰는 시리즈 — public 아래 폴더명과 같다. */
 export const ASSET_SERIES = ['episodes', 'discourses'] as const

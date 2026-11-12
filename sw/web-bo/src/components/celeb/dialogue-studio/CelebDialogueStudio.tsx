@@ -139,6 +139,25 @@ export default function CelebDialogueStudio({ celeb }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const audioCtxRef = useRef<AudioContext | null>(null)
   const sourceRef = useRef<AudioBufferSourceNode | null>(null)
+  const playbackUrlRef = useRef<string | null>(null)
+  const playbackVersionRef = useRef(0)
+  const releasePlayback = useCallback(() => {
+    playbackVersionRef.current++
+    const audio = audioRef.current
+    audioRef.current = null
+    if (audio) {
+      audio.onended = null
+      audio.onerror = null
+      audio.pause()
+      audio.removeAttribute('src')
+      audio.load()
+    }
+    const source = sourceRef.current
+    sourceRef.current = null
+    if (source) { source.onended = null; source.stop(); source.disconnect() }
+    if (playbackUrlRef.current) URL.revokeObjectURL(playbackUrlRef.current)
+    playbackUrlRef.current = null
+  }, [])
 
   // 접이식 대사 유형
   const [expandedTypes, setExpandedTypes] = useState<Set<string>>(new Set(DIALOGUE_TYPES))
@@ -174,9 +193,11 @@ export default function CelebDialogueStudio({ celeb }: Props) {
   previewsRef.current = previews
   useEffect(() => () => {
     Object.values(previewsRef.current).forEach((p) => URL.revokeObjectURL(p.blobUrl))
-    audioRef.current?.pause()
-    sourceRef.current?.stop()
-  }, [])
+    releasePlayback()
+    const context = audioCtxRef.current
+    audioCtxRef.current = null
+    if (context) void context.close().catch(() => {})
+  }, [releasePlayback])
 
   // 배속 변경 시 재생 중인 소리에 즉시 반영 (음높이 보존)
   useEffect(() => {
@@ -275,52 +296,70 @@ export default function CelebDialogueStudio({ celeb }: Props) {
     | { blobUrl: string; trim?: { start: number; end: number } }
     | { locale: Locale; dialogueType: string; variant?: number }
   ) => {
+    releasePlayback()
     if (playing === key) {
-      sourceRef.current?.stop()
-      sourceRef.current = null
-      audioRef.current?.pause()
       setPlaying(null)
       return
     }
-    sourceRef.current?.stop()
-    sourceRef.current = null
-    audioRef.current?.pause()
+    const version = playbackVersionRef.current
 
     const trim = 'blobUrl' in source ? source.trim : undefined
 
     // 잘라낸 구간 재생은 배속이 적용되지 않는다
     const playTrimmed = (buf: ArrayBuffer) => {
+      if (version !== playbackVersionRef.current) return
       if (!audioCtxRef.current || audioCtxRef.current.state === 'closed') {
         audioCtxRef.current = new AudioContext()
       }
-      audioCtxRef.current.decodeAudioData(buf).then((audioBuf) => {
-        const ctx = audioCtxRef.current!
+      const ctx = audioCtxRef.current
+      ctx.decodeAudioData(buf).then((audioBuf) => {
+        if (version !== playbackVersionRef.current || ctx.state === 'closed') return
         const src = ctx.createBufferSource()
         src.buffer = audioBuf
         src.connect(ctx.destination)
-        src.onended = () => { sourceRef.current = null; setPlaying(null) }
+        src.onended = () => {
+          if (sourceRef.current !== src) return
+          releasePlayback(); setPlaying(null)
+        }
         src.start(0, trim!.start, trim!.end - trim!.start)
         sourceRef.current = src
         setPlaying(key)
-      }).catch(() => { showToast('error', LABELS.playFail); setPlaying(null) })
+      }).catch(() => {
+        if (version !== playbackVersionRef.current) return
+        showToast('error', LABELS.playFail); setPlaying(null)
+      })
     }
 
     // 전체 재생은 음높이를 보존한 채 배속을 먹인다
-    const playWithHtmlAudio = (url: string) => {
+    const playWithHtmlAudio = (url: string, owned = false) => {
+      if (version !== playbackVersionRef.current) {
+        if (owned) URL.revokeObjectURL(url)
+        return
+      }
+      if (owned) playbackUrlRef.current = url
       const audio = new Audio(url)
       audio.preservesPitch = true
       audio.playbackRate = voiceSpeed
-      audio.onended = () => { audioRef.current = null; setPlaying(null) }
-      audio.onerror = () => { audioRef.current = null; showToast('error', LABELS.playFail); setPlaying(null) }
-      audio.play().catch(() => { showToast('error', LABELS.playFail); setPlaying(null) })
       audioRef.current = audio
+      const finish = (failed = false) => {
+        if (audioRef.current !== audio) return
+        releasePlayback()
+        if (failed) showToast('error', LABELS.playFail)
+        setPlaying(null)
+      }
+      audio.onended = () => finish()
+      audio.onerror = () => finish(true)
+      audio.play().catch(() => finish(true))
       setPlaying(key)
     }
 
     if ('blobUrl' in source) {
       if (trim && (trim.start > 0 || trim.end < Infinity)) {
         fetch(source.blobUrl).then((r) => r.arrayBuffer()).then(playTrimmed)
-          .catch(() => { showToast('error', LABELS.playFail); setPlaying(null) })
+          .catch(() => {
+            if (version !== playbackVersionRef.current) return
+            showToast('error', LABELS.playFail); setPlaying(null)
+          })
       } else {
         playWithHtmlAudio(source.blobUrl)
       }
@@ -328,17 +367,21 @@ export default function CelebDialogueStudio({ celeb }: Props) {
       setPlaying(key)
       fetchVoiceFile({ celebId: celeb.id, locale: source.locale, dialogueType: source.dialogueType, variant: source.variant })
         .then((res) => {
+          if (version !== playbackVersionRef.current) return
           if (!res.success || !res.base64) {
             showToast('error', res.error || LABELS.playFail)
             setPlaying(null)
             return
           }
           const blob = new Blob([base64ToBytes(res.base64)], { type: audioContentTypeOfBase64(res.base64) })
-          playWithHtmlAudio(URL.createObjectURL(blob))
+          playWithHtmlAudio(URL.createObjectURL(blob), true)
         })
-        .catch(() => { showToast('error', LABELS.playFail); setPlaying(null) })
+        .catch(() => {
+          if (version !== playbackVersionRef.current) return
+          showToast('error', LABELS.playFail); setPlaying(null)
+        })
     }
-  }, [playing, celeb.id, voiceSpeed, showToast])
+  }, [playing, celeb.id, voiceSpeed, showToast, releasePlayback])
   // #endregion
 
   // #region 생성 · 업로드 · 내려받기

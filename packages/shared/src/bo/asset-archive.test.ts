@@ -30,8 +30,8 @@ function sandbox() {
 
 test('보관소 자리는 public 시리즈 폴더명을 그대로 따르고 경로 이탈은 버린다', () => {
   assert.equal(
-    archiveDirOf('C:\\repo\\sw\\remotion\\public\\episodes', 'Homer-Odyssey', 'D:\\remotion-assets'),
-    path.join('D:\\remotion-assets', 'episodes', 'Homer-Odyssey'),
+    archiveDirOf('C:\\repo\\sw\\remotion\\public\\episodes', 'Homer-Odyssey', 'D:\\feelandnote\\remotion-assets'),
+    path.join('D:\\feelandnote\\remotion-assets', 'episodes', 'Homer-Odyssey'),
   )
   assert.equal(archiveDirOf('C:\\x\\public\\episodes', '../../etc', 'D:\\a'), path.join('D:\\a', 'episodes', 'etc'))
 })

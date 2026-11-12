@@ -145,7 +145,7 @@ test('an L1 section with 1,205 child factions and 4,507 people keeps late member
   assert.equal(result.total, 4507)
   assert.deepEqual(Array.from(result.celebs, (row) => row.id), rows.slice(4500).map((row) => row.id))
   const personChunks = idChunks.filter((chunk) => chunk.table === 'celebs' && chunk.column === 'id')
-  assert.equal(personChunks.length, Math.ceil(rows.length / 200))
+  assert.equal(personChunks.flatMap((chunk) => Array.from(chunk.ids)).length, rows.length)
   assert.equal(new Set(personChunks.flatMap((chunk) => Array.from(chunk.ids))).size, 4507)
 })
 

@@ -2,10 +2,19 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { useHoverTime } from '../time-ruler'
 import { dbToLinear } from '../gain'
 import { BAR_COLOR, BAR_GAP, BAR_W } from './constants'
+import { decodeAudio } from '../voice-utils/audio'
 import type { Props } from './types'
 
 // 전역 활성 플레이어 — 가장 최근에 상호작용한 하나만 Space 키에 반응
 let _activePlayer: { toggle: () => void } | null = null
+
+function releaseAudio(audio: HTMLAudioElement | null) {
+  if (!audio) return
+  audio.onended = null
+  audio.pause()
+  audio.removeAttribute('src')
+  audio.load()
+}
 
 type Args = Pick<
   Props,
@@ -60,6 +69,7 @@ export function useAudioWavePlayer({
     const ctx = canvas.getContext('2d')
     if (!ctx) return
     let alive = true
+    const controller = new AbortController()
 
     const render = (data: Float32Array) => {
       const barCount = Math.floor(canvas.width / BAR_GAP)
@@ -83,24 +93,33 @@ export function useAudioWavePlayer({
     const cached = sampleCacheRef.current
     if (cached && cached.url === audioUrl) { render(cached.data); return }
 
-    fetch(audioUrl)
+    fetch(audioUrl, { signal: controller.signal })
       .then(r => r.arrayBuffer())
-      .then(buf => new AudioContext().decodeAudioData(buf))
+      .then(buf => alive ? decodeAudio(buf) : null)
       .then(audioBuffer => {
-        if (!alive) return
+        if (!alive || !audioBuffer) return
         setRealDuration(audioBuffer.duration)
         const data = audioBuffer.getChannelData(0)
         sampleCacheRef.current = { url: audioUrl, data }
         render(data)
       })
       .catch(() => {})
-    return () => { alive = false }
+    return () => { alive = false; controller.abort() }
     // dur — 디코드로 실제 길이가 확정되면 absWidth(캔버스 폭)가 갱신되므로 그때도 다시 그린다.
   }, [audioUrl, visualGain, pxPerSec, dur])
 
+  useEffect(() => () => {
+    const audio = audioRef.current
+    audioRef.current = null
+    releaseAudio(audio)
+    cancelAnimationFrame(animRef.current)
+    sampleCacheRef.current = null
+  }, [audioUrl])
+
   // 지정 위치부터 재생
   const playFrom = useCallback((t: number) => {
-    if (audioRef.current) { audioRef.current.pause(); cancelAnimationFrame(animRef.current) }
+    releaseAudio(audioRef.current)
+    cancelAnimationFrame(animRef.current)
     const a = new Audio(audioUrl)
     audioRef.current = a
     a.playbackRate = rateRef.current
@@ -149,7 +168,8 @@ export function useAudioWavePlayer({
   }, [playing, playhead, dur, playFrom])
 
   const stop = useCallback(() => {
-    if (audioRef.current) { audioRef.current.pause(); cancelAnimationFrame(animRef.current) }
+    releaseAudio(audioRef.current)
+    cancelAnimationFrame(animRef.current)
     audioRef.current = null
     setPlaying(false)
     setPlayhead(0)
