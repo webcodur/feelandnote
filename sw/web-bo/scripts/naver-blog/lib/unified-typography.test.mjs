@@ -1,7 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {assertParagraphPresentation} from './unified-typography.mjs';
+import {UNIFIED_ARTICLE} from './unified-article.mjs';
 const article={operations:[{kind:'text',text:'감상 원문입니다.',role:'body',align:'left',color:'#1f6b43',gapBefore:true}]};
-const row=()=>({text:'감상 원문입니다.',align:'left',sizes:[16],weights:[400],colors:['rgb(31, 107, 67)'],separated:true});
+const row=()=>({text:'감상 원문입니다.',align:'left',sizes:[UNIFIED_ARTICLE.font.body],weights:[400],colors:['rgb(31, 107, 67)'],separated:true});
 test('감상 값의 색·개행·정렬·강조가 달라지면 발행 검사를 통과시키지 않는다',()=>{assert.doesNotThrow(()=>assertParagraphPresentation(article,[row()]));for(const change of [{colors:['rgb(0, 0, 0)']},{separated:false},{align:'center'},{weights:[700]},{sizes:[19]}])assert.throws(()=>assertParagraphPresentation(article,[{...row(),...change}]),/differs/);});
 test('모바일의 실제 글자 보정값은 별도 확인하고 본문의 원문까지 대조한다',()=>{assert.doesNotThrow(()=>assertParagraphPresentation(article,[{...row(),sizes:[17]}],{font:{body:17}}));assert.throws(()=>assertParagraphPresentation(article,[{...row(),text:'다른 감상입니다.'}]),/differs/);});
 

@@ -8,6 +8,8 @@
  * 예약 상태인 글(posts.json 의 scheduledAt 이 미래)은 글쓰기 화면의 「예약 발행」 목록에서 불러온다.
  * PostUpdateForm 으로 예약글을 열면 공개·검색 설정이 비어 보이고 본문도 다를 수 있다.
  * 인용구([q]) 안의 단락과 인물 사진([avatar:]) 표시까지 최종 양식 그대로 대조한다.
+ * 통합 원고가 현행이 아니거나 초안이 없는 글은 restyle-body가 저장·재열기로 검증해 posts.json bodyStyle에 남긴
+ * 단락 지문과 대조하고, 인물 안내·책 소개·독서 방식·감상 본문의 강조·굵기도 함께 확인한다.
  *
  * 사용: node scripts/naver-blog/verify-body.mjs [logNo] [--all]   (sw/web-bo 에서)
  */
@@ -21,6 +23,10 @@ import {assertUnifiedSnapshot,assertTypography} from './apply-unified-article.mj
 import {readSnapshot,closePublishPanel} from './repair-institution-images.mjs';
 import {assertPublishOptions} from './lib/publish-options.mjs';
 import {sameReservation} from './lib/same-reservation.mjs';
+import {readParagraphPresentation} from './lib/unified-typography.mjs';
+import {BODY_STYLE_VERSION} from './lib/formatted-text.mjs';
+import {EDITOR_SELECTOR, bodyStyleProblems, openTarget} from './restyle-body.mjs';
+import {textsDigest} from './lib/body-baseline.mjs';
 
 const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const POSTS = path.join(ASSETS, 'naver-blog/posts.json');
@@ -47,7 +53,11 @@ const BROKEN = /[�]/;
 const raw = JSON.parse(fs.readFileSync(DRAFTS, 'utf8'));
 const rows = Array.isArray(raw) ? raw : raw.items ?? raw.drafts ?? [];
 const posts = fs.existsSync(POSTS) ? JSON.parse(fs.readFileSync(POSTS, 'utf8')) : [];
-const targets = one ? rows.filter((r) => String(r.logNo) === String(one)) : rows.filter((r) => r.logNo);
+// 활성 인물·기관 글 전체를 본다. 초안이 없거나 낡은 글은 재서식 때 검증한 본문 지문(bodyStyle)으로 대조한다.
+const active = (p) => ['celeb', 'curated'].includes(p?.kind) && ['ok', 'check'].includes(p?.link);
+const ids = one ? [String(one)] : [...new Set([...posts.filter(active).map((p) => String(p.logNo)), ...rows.filter((r) => r.logNo).map((r) => String(r.logNo))])];
+const targets = ids.map((id) => ({ post: posts.find((p) => String(p.logNo) === id), row: rows.find((r) => String(r.logNo) === id) }))
+  .filter(({ post, row }) => (post ? active(post) || one : row));
 console.log(`검사 대상 ${targets.length}편\n`);
 
 const { browser, launched } = await getBrowser({ protocolTimeout: 300000, background:true });
@@ -75,12 +85,29 @@ async function open(row) {
 }
 
 const bad = [];
-for (const row of targets) {
-  const slug = (row.target || '').replace('/celeb/', '');
+for (const { post, row } of targets) {
+  const logNo = String(post?.logNo ?? row.logNo);
+  const slug = row ? (row.target || '').replace('/celeb/', '') : post.title;
   try {
-    if(row.format==='unified'){
-      const article=compileUnifiedArticle(row.unifiedMaterial),post=posts.find(p=>String(p.logNo)===String(row.logNo));
-      if(article.articleHash!==row.unifiedArticle?.articleHash||article.articleHash!==post?.unified?.articleHash||!row.unifiedImages)throw Error('현재 통합 원고·대장·업로드 원본 대조 불가');
+    const article = row?.format === 'unified' ? compileUnifiedArticle(row.unifiedMaterial) : null;
+    const unifiedCurrent = article && article.articleHash === row.unifiedArticle?.articleHash && article.articleHash === post?.unified?.articleHash && row.unifiedImages;
+    if (article && !unifiedCurrent && !post?.bodyStyle?.textsSha256) throw Error('현재 통합 원고·대장·업로드 원본 대조 불가');
+    if (!unifiedCurrent && post?.bodyStyle?.textsSha256) {
+      // 재서식·전체 입력 때 저장·재열기로 검증한 단락 목록과 지금 편집기 단락을 비교하고, 본문 강조·굵기도 함께 본다.
+      const opened = await openTarget(page, post); await closePublishPanel(page, editor);
+      const style = await page.evaluate(readParagraphPresentation, EDITOR_SELECTOR), now = textsDigest(style.map((p) => p.text));
+      const problems = [];
+      if (now.textsSha256 !== post.bodyStyle.textsSha256) problems.push(`본문 단락이 검증 기준과 다름 (편집기 ${now.paragraphs}단락 / 기준 ${post.bodyStyle.paragraphs}단락)`);
+      for (const p of bodyStyleProblems(style).slice(0, 4)) problems.push(`본문 서식 다름 — ${p}`);
+      if (post.bodyStyle.version !== BODY_STYLE_VERSION) problems.push(`서식 버전 ${post.bodyStyle.version} (현행 ${BODY_STYLE_VERSION})`);
+      const where = opened.reservation ? '예약' : '발행';
+      if (problems.length) { bad.push({ slug, logNo, problems }); console.log(`손상 ${slug} (${logNo}, ${where})`); problems.forEach((p) => console.log(`   · ${p}`)); }
+      else console.log(`정상 ${slug} (${logNo}, ${where}) — 검증 본문 ${now.paragraphs}단락·본문 서식 일치`);
+      if (opened.reservation) await page.goto('https://blog.naver.com/dmx777', { waitUntil: 'domcontentloaded', timeout: 30000 }).catch(() => {});
+      continue;
+    }
+    if (!row) throw Error('대조 기준 없음 — restyle-body.mjs로 검증 본문을 기록하라');
+    if(unifiedCurrent){
       const opened=await editor.openTarget({...post,body:undefined});await assertPublishOptions(page);await closePublishPanel(page,editor);
       const snapshot=await readSnapshot(page),table=await page.$$eval('.se-component.se-table tr',rs=>rs.map(r=>[...r.querySelectorAll('td,th')].map(c=>c.innerText.replace(/\u200b/g,'').trim())));
       assertUnifiedSnapshot(article,snapshot,table,row.unifiedImages);await assertTypography(page,article);
@@ -128,7 +155,7 @@ for (const row of targets) {
     // 저장하지 않고 나간다. 열어 둔 발행 패널의 이탈 확인창은 dialog 핸들러가 수락한다.
     if (opened.reserved) await page.goto('https://blog.naver.com/dmx777', { waitUntil: 'domcontentloaded', timeout: 30000 }).catch(() => {});
   } catch (e) {
-    bad.push({slug,logNo:row.logNo,problems:[String(e)]});
+    bad.push({slug,logNo,problems:[String(e)]});
     console.log(`확인실패 ${slug}: ${String(e).split('\n')[0].slice(0, 100)}`);
   }
 }

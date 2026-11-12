@@ -3,7 +3,7 @@ import {sameReservation} from './lib/same-reservation.mjs';
 // Recover verification of a saved transaction. This script never rewrites a post.
 import fs from 'node:fs';import path from 'node:path';
 import {ASSETS} from '../blog-assets.mjs';import {getBrowser} from './lib/browser.mjs';import {createExistingEditor} from './lib/existing-editor.mjs';
-import {compileUnifiedArticle} from './lib/unified-article.mjs';import {verifyUnifiedPublic} from './lib/unified-public.mjs';
+import {compileUnifiedArticle} from './lib/unified-article.mjs';import {BODY_STYLE_VERSION} from './lib/formatted-text.mjs';import {textsDigest,articleTexts} from './lib/body-baseline.mjs';import {verifyUnifiedPublic} from './lib/unified-public.mjs';
 import {assertUnifiedSnapshot,assertTypography} from './apply-unified-article.mjs';import {prepareImages} from './apply-institution-revisions.mjs';
 import {readSnapshot,closePublishPanel} from './repair-institution-images.mjs';import {assertPublishOptions} from './lib/publish-options.mjs';import {editorialReservation} from './apply-editorial-changes.mjs';
 const args=process.argv.slice(2),file=args.find(a=>a.startsWith('--article='))?.slice(10),dir=args.find(a=>a.startsWith('--transaction='))?.slice(14),read=f=>JSON.parse(fs.readFileSync(f,'utf8')),same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
@@ -20,7 +20,7 @@ try{
  assertUnifiedSnapshot(article,snapshot,table,prepared.images,anchorTargets);await assertTypography(page,article);
  const publicResult=opened.reservation?{status:'reserved-not-public'}:await verifyUnifiedPublic(browser,article,{anchorTargets,nativeImages:snapshot.images,dir});
  const receipt={logNo:article.logNo,articleHash:article.articleHash,verified:true,saved:true,snapshot,table,settings:opened.state,reservation:opened.reservation,anchorTargets,publicResult,dir,...(failure.uploadLogNo?{uploadLogNo:failure.uploadLogNo}:{}),modelCalls:0};
- const registry=path.join(ASSETS,'naver-blog/posts.json'),posts=read(registry),index=posts.findIndex(p=>String(p.logNo)===article.logNo);if(index<0||!same(posts[index],before.post))throw Error('Registry row changed since the saved transaction');posts[index]={...posts[index],title:article.title,unified:{articleHash:article.articleHash,version:article.version,verifiedAt:new Date().toISOString(),reserved:!!opened.reservation}};
+ const registry=path.join(ASSETS,'naver-blog/posts.json'),posts=read(registry),index=posts.findIndex(p=>String(p.logNo)===article.logNo);if(index<0||!same(posts[index],before.post))throw Error('Registry row changed since the saved transaction');posts[index]={...posts[index],title:article.title,unified:{articleHash:article.articleHash,version:article.version,verifiedAt:new Date().toISOString(),reserved:!!opened.reservation},bodyStyle:{version:BODY_STYLE_VERSION,verifiedAt:new Date().toISOString(),...textsDigest(articleTexts(article))}};
  if(material.newPost){
   const draftFile=path.join(ASSETS,'naver-blog/celeb-drafts.json'),drafts=read(draftFile),draft=drafts.find(d=>String(d.logNo)===article.logNo);
   if(draft?.format!=='unified'||draft.unifiedArticle?.articleHash!==article.articleHash)throw Error('Saved new-post draft differs');

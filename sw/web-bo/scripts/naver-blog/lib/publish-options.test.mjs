@@ -167,7 +167,7 @@ async function runBranch(kind, options, { dry = false, frameCase, frameArgs } = 
   });
   const context = {
     args: kind === 'frame' ? ['--frame-only', ...(frameArgs ?? [])] : kind === 'rewrite' ? ['--rewrite', ...drafts.map((d) => d.logNo)] : [],
-    drafts, posts: [], dry, page, assertPublishOptions, createExistingEditor, wait: noOp,
+    drafts, posts: [], dry, page, assertPublishOptions, assertNoReviewGaps: noOp, createExistingEditor, wait: noOp,
     cdp: { send: noOp }, browser: { disconnect: noOp }, launched: false,
     process: processStub, console: { log: (...parts) => events.push(['log', parts.join(' ')]) },
     ensureVisible: noOp, applyPhotoFrame: async () => { events.push(['frame']); return true; }, isDivider: () => false,

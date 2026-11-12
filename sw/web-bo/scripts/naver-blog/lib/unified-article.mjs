@@ -2,14 +2,19 @@ import crypto from 'node:crypto';
 import {libraryFunnel} from './unified-library-funnel.mjs';
 import {AVATAR_WIDTH} from '../apply-institution-revisions.mjs';
 import {EDITORIAL_PORTRAIT_WIDTH} from './editorial-editor.mjs';
+import {readingWaySection} from './reading-way-section.mjs';
+import {PERSON_FULL_LIST,personFullListSection,listTableHtml} from './person-full-list.mjs';
+import {formattedPlainText, formattedTextHtml, NAVER_REVIEW_COLOR} from './formatted-text.mjs';
+import {pathToFileURL} from 'node:url';
 
 // One policy for the HTML preview, native writer, and completion checker.
 export const UNIFIED_ARTICLE = Object.freeze({
-  version: 'service-library-1',
+  version: 'service-library-2',
   contents: 'numbered-list',
-  reviewColor: '#1f6b43',
+  reviewColor: NAVER_REVIEW_COLOR,
   purchaseBackground: '#e8f0f8',
-  font: Object.freeze({ body: 16, heading: 19, author: 13, label: 13 }),
+  font: Object.freeze({ body: 15, heading: 16, author: 13, label: 13 }),
+  contentsQuote: 'quotation_line',
   portraitWidth: EDITORIAL_PORTRAIT_WIDTH, coverWidth: 200, avatarWidth: AVATAR_WIDTH, maxBooks: 5,
   remove: Object.freeze(['legacy-body', 'bonus-photos', 'background-music', 'video', 'duplicate-quotes', 'person-full-list']),
 });
@@ -23,7 +28,8 @@ export function servicePostUrl(post){
  const slug=post.slug||pathSlug;if(!slug||!String(slug).match(/^[a-z0-9.-]+$/))throw Error('Exact person slug or service URL required');
  return 'https://feelandnote.com/celeb/'+slug;
 }
-const clean = value => String(value ?? '').replace(/\r\n/g, '\n').trim();
+// 네이버 편집기는 문단 안의 연속 공백을 한 칸으로 줄인다. 원고도 같게 맞춰야 붙여넣기 대조가 어긋나지 않는다.
+const clean = value => String(value ?? '').replace(/\r\n/g, '\n').replace(/[ \t ]{2,}/g, ' ').trim();
 const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 // SmartEditor turns pasted <br> into separate paragraphs as well.
 const split = value => clean(value).split(/\n+/).map(clean).filter(Boolean);
@@ -70,6 +76,8 @@ export function compileUnifiedArticle(input) {
   if (new URL(serviceUrl).origin !== 'https://feelandnote.com') throw Error('Service origin differs');
   const subject = input.subject;
   if (!subject?.name || !subject.imageUrl) throw Error('Subject name and current portrait/logo required');
+  if(input.kind!=='celeb'&&subject.readingWay!==undefined)throw Error('Reading way belongs to a person');
+  const readingWay=readingWaySection(subject);
   if (input.kind==='celeb'&&(!clean(subject.introduction)||subject.introductionSource!=='celeb_explanations:'+subject.id+':plain_text')) throw Error('Exact service person guide and provenance required');
   if (!Array.isArray(input.books) || !input.books.length || input.books.length > UNIFIED_ARTICLE.maxBooks) throw Error('One to five explicit book selections required');
   if(input.books.length<UNIFIED_ARTICLE.maxBooks){const eligible=input.selection?.eligibleBooks;if(!Number.isInteger(eligible)||eligible!==input.books.length||eligible>=UNIFIED_ARTICLE.maxBooks)throw Error('Five books required unless the complete eligible service set is smaller');}
@@ -83,18 +91,26 @@ export function compileUnifiedArticle(input) {
   const funnel=libraryFunnel(input),selectionOnly=isVerifiedSelectionOnlyInstitution(input);
   if(selectionOnly&&input.books.some(b=>(b.reviews??(b.review?[b]:[])).length))throw Error('Selection-only institution cannot discard existing reading notes');
   const operations = [], sources = [], addText = (text, role='body', align=null,anchor=null,format={}) => {
-    for (const [i,part] of split(text).entries()) operations.push({kind:'text',text:part,role,align:align??(['heading','label','author'].includes(role)?'center':'left'),...format,...(anchor&&i===0?{anchor}:{})});
+    const formatted = role==='body' && (align===null || align==='left' || format.formattedText===true);
+    for (const [i,part] of split(text).entries()) operations.push({kind:'text',text:formatted?formattedPlainText(part):part,role,align:align??(['heading','label','author'].includes(role)?'center':'left'),...(formatted?{formattedText:true,bold:true}:{}),...format,...(anchor&&i===0?{anchor}:{})});
   }, addLink = (text,href,align='center') => operations.push({kind:'link',text,href:url(href),role:'label',align});
   operations.push({kind:'image',url:url(subject.imageUrl),width:UNIFIED_ARTICLE.portraitWidth,role:input.kind==='celeb'?'portrait':'logo',name:subject.name});
   addText(funnel?.heading??(subject.name+(subject.profession?' · '+subject.profession:'')),'heading','center');
   if (subject.introduction){const first=operations.length;addText(subject.introduction,'body','left',null,{gapBefore:true});if(funnel)operations[first].gapBefore=false;}
   if(selectionOnly)addText('수상작을 만날 수 있는 다섯 권과 전체 선정 목록을 함께 소개합니다.','body','left',null,{gapBefore:true});
-  operations.push({kind:'divider'});addText('목차','label');
-  const contents=(text,target)=>{addText(text,'body','center');operations.at(-1).tocTarget=target;};
+  // 「목차」는 「독서 방식」 같은 소제목 크기로 쓴다(26.11.12 사용자 지시).
+  operations.push({kind:'divider'});addText('목차','heading');
+  // 책장 카드는 구분선으로 목차 구획에 넘어간 뒤 「목차」 라벨과 항목 사이에 둔다(인물 사진 바로 아래 두면 사진이 연달아 보였다).
+  if(input.kind==='celeb'&&input.shelfCard){const card=input.shelfCard;if(!/^[a-f0-9]{64}$/.test(card.sha256??'')||!card.file||!/\.png$/i.test(card.file))throw Error('Rendered shelf card file and hash required');operations.push({kind:'image',url:pathToFileURL(card.file).href,sha256:card.sha256,width:UNIFIED_ARTICLE.portraitWidth,role:'shelf-card',name:subject.name+' 책장'});}
+  // 목차 항목은 왼쪽 선 인용구 하나에 왼쪽 정렬로 묶는다(가운데 정렬은 줄 길이마다 들쭉날쭉했다).
+  const contents=(text,target)=>operations.push({kind:'text',text:clean(text),role:'body',align:'left',tocTarget:target,quote:'contents'});
+  if(readingWay.length)contents('독서 방식','reading-way');
   for(const [i,book]of input.books.entries())contents(String(i+1).padStart(2,'0')+'. '+book.title,'book-'+String(i+1).padStart(2,'0'));
   if(input.kind==='curated')contents('전체 선정 목록','full-list');
+  else if(input.fullList)contents(PERSON_FULL_LIST.heading,PERSON_FULL_LIST.anchor);
   if(input.closingLine?.text)contents('인용구','closing-line');
   contents('필앤노트에서 이어보기','service-info');
+  if(readingWay.length){operations.push({kind:'divider'},...readingWay);}
   for (const [index, book] of input.books.entries()) {
     if (!book.content_id || !clean(book.title) || !clean(book.creator) || !book.coverUrl || !clean(book.introduction)) throw Error('Book title, author, cover and sourced introduction required: '+book.title);
     if (!book.introductionSource || book.introductionSource.startsWith('content_locales:')) throw Error('Prepared book summary required; raw description/excerpt fallback is disabled');
@@ -110,18 +126,23 @@ export function compileUnifiedArticle(input) {
     for (const note of notes) {
       if (!clean(note.review)||!note.source_url||!note.id) throw Error('Exact service review and source required: '+book.title);
       if (input.kind==='curated') {
-        if (!note.person?.name||!note.person.avatar_url) throw Error('Institution reader identity/avatar required');
+        if (!note.person?.name||!clean(note.person.title)||!note.person.avatar_url) throw Error('Institution reader identity/title/avatar required');
         operations.push({kind:'image',url:url(note.person.avatar_url),width:UNIFIED_ARTICLE.avatarWidth,role:'avatar',name:note.person.name});
-        addText(note.person.name,'author','center');
+        addText(clean(note.person.title)+' '+note.person.name,'author','center');
       }
       addText('감상 배경','label');
       const first=operations.length;addText(note.review,'body','left',null,{color:UNIFIED_ARTICLE.reviewColor,bold:true,gapBefore:true});
       Object.assign(operations[first],{gapBefore:false,attachPrevious:true});
-      if (operations.slice(first).map(p=>p.text).join('\n\n')!==split(note.review).join('\n\n')) throw Error('Service review text was altered');
+      if (operations.slice(first).map(p=>p.text).join('\n\n')!==split(note.review).map(formattedPlainText).join('\n\n')) throw Error('Service review text was altered');
       addLink('감상 근거 · 원문',note.source_url,'right');
       sources.push({review_id:note.id,content_id:book.content_id,sha256:digest(note.review),source_url:url(note.source_url)});
     }
     addLink('작품 상세','https://feelandnote.com/content/'+book.content_id+'?category=book','right');
+  }
+  if (input.kind==='celeb'&&input.fullList) {
+    if (!input.fullList.source?.startsWith('celeb_contents:')) throw Error('Person full list provenance required');
+    operations.push({kind:'divider'});
+    for(const op of personFullListSection(input.fullList))if(op.kind==='table')operations.push(op);else addText(op.text,op.role,op.align,op.anchor??null,op.gapBefore?{gapBefore:true}:{});
   }
   if (input.kind==='curated') {
     if (!input.fullList?.rows?.length||!input.fullList.columns?.length||!input.fullList.source) throw Error('Institution complete selection list and provenance required');
@@ -146,15 +167,27 @@ export function compileUnifiedArticle(input) {
   return {...article,articleHash:digest(article)};
 }
 
+// 편집기·공개 화면의 구성 순서. 목차 인용구 항목은 인용구 하나로 묶는다.
+export function unifiedFlow(article){
+ const flow=[];let image=0,prior=null;
+ for(const o of article.operations){
+  if(o.placement==='cover-caption')continue;
+  if(o.quote){if(prior?.quote===o.quote)flow.at(-1).paragraphs.push(o.text);else flow.push({kind:'quote',paragraphs:[o.text]});prior=o;continue;}
+  prior=o;
+  flow.push(['text','link'].includes(o.kind)?{kind:'text',text:o.text}:o.kind==='image'?{kind:'image',index:image++}:o.kind==='divider'?{kind:'divider'}:{kind:'table',rows:[o.columns,...o.rows]});
+ }
+ return flow;
+}
+
 export function renderUnifiedArticle(article,{imageSources={}}={}) {
   const f=UNIFIED_ARTICLE.font;
   const body=article.operations.map((op,index)=>{
     if(op.placement==='cover-caption')return '';
     if(op.kind==='image'){const next=article.operations[index+1],caption=next?.placement==='cover-caption'?`<figcaption><p data-role="label" style="font-size:${f.label}px;text-align:center;font-weight:700;line-height:1.5;margin:9px 0 0"><a href="${escape(next.href)}"><strong>${escape(next.text)}</strong></a></p></figcaption>`:'';return `<figure style="text-align:center;margin:28px 0"><img src="${escape(imageSources[op.url]??op.url)}" alt="${escape(op.name)}" style="display:block;margin:auto;width:${op.width}px;max-width:100%;height:auto">${caption}</figure>`;}
     if(op.kind==='divider')return '<hr style="border:0;border-top:1px solid #ddd;margin:40px 0">';
-    if(op.kind==='table')return '<table><thead><tr>'+op.columns.map(c=>'<th>'+escape(c)+'</th>').join('')+'</tr></thead><tbody>'+op.rows.map(r=>'<tr>'+r.map(c=>'<td>'+escape(c)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
-    const p=textPresentation(op),style=`font-size:${p.size}px;line-height:1.7;text-align:${p.align};font-weight:${p.bold?700:400};color:${p.color};margin:${p.gapBefore?26:0}px 0 ${op.role==='label'?8:12}px;`;
-    const value=op.kind==='link'?'<a href="'+escape(op.href)+'">'+escape(op.text)+'</a>':escape(op.text).replace(/\n/g,'<br>');
+    if(op.kind==='table')return listTableHtml(op);
+    const p=textPresentation(op),style=`font-size:${p.size}px;line-height:1.7;text-align:${p.align};font-weight:${p.bold?700:400};color:${p.color};margin:${p.gapBefore?26:0}px 0 ${op.role==='label'?8:op.quote?4:12}px;${op.quote?'border-left:3px solid #ccc;padding-left:16px;':''}`;
+    const value=op.kind==='link'?'<a href="'+escape(op.href)+'">'+escape(op.text)+'</a>':op.formattedText?formattedTextHtml(op.text,p):escape(op.text).replace(/\n/g,'<br>');
     const content=p.bold?'<strong>'+value+'</strong>':value;
     return `<p data-role="${op.role}"${op.anchor?' id="'+escape(op.anchor)+'"':''} style="${style}scroll-margin-top:24px">${p.background?'<span style="background-color:'+p.background+'">'+content+'</span>':content}</p>`;
   }).join('\n');

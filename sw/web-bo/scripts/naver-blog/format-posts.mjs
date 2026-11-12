@@ -5,6 +5,7 @@ import { getBrowser, getNaverPage } from './lib/browser.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';
+import { assertNoReviewGaps } from './lib/review-paragraph-gaps.mjs';
 
 const POSTS = path.join(ASSETS, 'naver-blog/posts.json');
 const args = process.argv.slice(2);
@@ -110,6 +111,7 @@ for (const logNo of ids) {
     }
 
     await (await page.$('button[class*=publish_btn]')).click(); await wait(1500);
+    await assertNoReviewGaps(page);
     const cb = await page.$('button[class*=confirm_btn]'); const bx = await cb.boundingBox();
     await page.mouse.click(bx.x + bx.width / 2, bx.y + bx.height / 2); await wait(6000);
     const okPos = await page.evaluate(() => { const b = [...document.querySelectorAll('.se-popup button')].find((x) => x.textContent.trim() === '확인'); if (!b) return null; const r = b.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });

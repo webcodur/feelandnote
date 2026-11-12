@@ -16,6 +16,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';
 import { getBrowser, getNaverPage, ensureLoggedIn } from './lib/browser.mjs';
+import { assertNoReviewGaps } from './lib/review-paragraph-gaps.mjs';
+import { restyleAfterSave } from './lib/restyle-after-save.mjs';
 
 const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const args = process.argv.slice(2);
@@ -55,9 +57,9 @@ async function selectPara(page, idx) {
   return true;
 }
 
-/** 나눠 친다. 한 번에 길게 치면 글자가 빠진다. */
+/** 60자씩 한 번의 입력 이벤트(Input.insertText)로 넣는다. 글자별 키 입력보다 빠르고 글자가 빠지지 않는다. */
 async function typeChunked(page, text) {
-  for (let j = 0; j < text.length; j += 60) { await page.keyboard.type(text.slice(j, j + 60), { delay: 12 }); await wait(120); }
+  for (let j = 0; j < text.length; j += 60) { await page.keyboard.sendCharacter(text.slice(j, j + 60)); await wait(60); }
 }
 
 /**
@@ -99,6 +101,7 @@ await ensureLoggedIn(page);
 
 let done = 0, skipped = 0, failed = 0;
 const fails = [];
+const appliedLogs = [];
 for (const row of targets) {
   const slug = (row.target || '').replace('/celeb/', '');
   try {
@@ -176,6 +179,7 @@ for (const row of targets) {
     }
 
     // 수정 발행. 예약된 글은 예약 시각이 그대로 유지된다.
+    await assertNoReviewGaps(page);
     await (await page.$('button[class*=publish_btn]')).click(); await wait(1500);
     const cb = await page.$('button[class*=confirm_btn]'); const box = await cb.boundingBox();
     await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2); await wait(6000);
@@ -187,6 +191,7 @@ for (const row of targets) {
 
     row.applied = true;
     fs.writeFileSync(DRAFTS, JSON.stringify(rows, null, 1));
+    appliedLogs.push(row.logNo);
     done++;
     console.log(`OK ${slug} — ${jobs.length}곳 반영`);
     await wait(3000);
@@ -200,3 +205,5 @@ for (const row of targets) {
 console.log(`\n완료 — 반영 ${done} / 건너뜀 ${skipped} / 실패 ${failed}`);
 if (fails.length) console.log(`실패한 글: ${fails.join(', ')}`);
 if (launched) await browser.close(); else browser.disconnect();
+// 평문으로 넣은 책 소개의 서식을 같은 작업 안에서 되돌린다(blog-naver-book.md 본문 서식 정책).
+restyleAfterSave(appliedLogs);

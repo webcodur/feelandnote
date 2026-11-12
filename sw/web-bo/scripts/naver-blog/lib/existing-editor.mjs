@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { assertNoReviewGaps } from './review-paragraph-gaps.mjs';
 
 // Existing published/reserved posts share the same editor entry and read checks.
 export function createExistingEditor(page, { onStep = () => {} } = {}) {
@@ -6,6 +7,8 @@ export function createExistingEditor(page, { onStep = () => {} } = {}) {
   const hash = value => crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 
   async function click(selector) {
+    // 저장 직전 관문: 어느 도구가 본문을 고쳤든 감상 문단이 붙은 채로 저장하지 않는다.
+    if (selector.includes('confirm_btn')) await assertNoReviewGaps(page);
     await page.waitForSelector(selector, { visible: true, timeout: 15000 });
     await page.click(selector);
   }

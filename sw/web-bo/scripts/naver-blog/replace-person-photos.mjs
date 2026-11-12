@@ -1,6 +1,6 @@
 // 올라간 글·예약 글의 인물 사진을 서비스 대표사진(portrait_url)으로 같은 자리에서 교체한다.
 // 본문·제목·링크·구분선·다른 사진·발행 설정·예약 시각은 저장 전후로 대조한다.
-// 대상·자산은 D:/blog-assets/naver-blog/portrait-images/{targets,assets}.json 이 쥔다.
+// 대상·자산은 D:/feelandnote/blog-assets/naver-blog/portrait-images/{targets,assets}.json 이 쥔다.
 //
 // 사용: node scripts/naver-blog/replace-person-photos.mjs [--log=글번호[,글번호]] [--dry] [--apply] [--limit=N]
 //   기본은 --dry(저장하지 않는다). --apply 는 저장 후 재열어 검증하고 results.jsonl 에 기록한다.
@@ -20,7 +20,7 @@ import { planPersonPhotos, assertPersonPhotoFlow, publishedImageSources, assetsF
 
 const args = process.argv.slice(2);
 const opt = (k) => args.find((a) => a.startsWith(`--${k}=`))?.split('=').slice(1).join('=');
-const ROOT = opt('root') ?? 'D:/blog-assets/naver-blog/portrait-images';
+const ROOT = opt('root') ?? 'D:/feelandnote/blog-assets/naver-blog/portrait-images';
 const apply = args.includes('--apply');
 const liveMatch = args.includes('--live-match');
 const serviceDb = liveMatch ? createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY) : null;

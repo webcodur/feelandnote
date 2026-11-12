@@ -9,6 +9,7 @@ import { getBrowser, getNaverPage, ensureLoggedIn } from './lib/browser.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';
+import { assertNoReviewGaps } from './lib/review-paragraph-gaps.mjs';
 
 const POSTS = path.join(ASSETS, 'naver-blog/posts.json');
 const args = process.argv.slice(2);
@@ -62,6 +63,7 @@ for (const t of targets) {
     if (!priv) throw new Error('비공개 선택지를 찾지 못했다');
     await wait(1200);
 
+    await assertNoReviewGaps(page);
     const cb = await page.$('button[class*=confirm_btn]');
     if (!cb) throw new Error('확인 단추를 찾지 못했다');
     const box = await cb.boundingBox();

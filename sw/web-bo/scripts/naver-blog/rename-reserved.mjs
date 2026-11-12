@@ -9,6 +9,7 @@ import { getBrowser, getNaverPage, ensureLoggedIn } from './lib/browser.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';
+import { assertNoReviewGaps } from './lib/review-paragraph-gaps.mjs';
 
 const POSTS = path.join(ASSETS, 'naver-blog/posts.json');
 const args = process.argv.slice(2);
@@ -91,6 +92,7 @@ for (const t of targets) {
       (el?.closest('label') ?? el)?.click();
     });
     await wait(1000);
+    await assertNoReviewGaps(page);
     const cb = await page.$('button[class*=confirm_btn]');
     const box = await cb.boundingBox();
     await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);

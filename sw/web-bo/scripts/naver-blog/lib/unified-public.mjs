@@ -1,13 +1,13 @@
 import fs from 'node:fs';import path from 'node:path';
 import {parsePublicHtml} from '../verify-revisions-public.mjs';
-import {UNIFIED_ARTICLE,canonicalHttpHref} from './unified-article.mjs';
+import {UNIFIED_ARTICLE,canonicalHttpHref,unifiedFlow} from './unified-article.mjs';
 import {readParagraphPresentation,assertParagraphPresentation} from './unified-typography.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
-// Naver's mobile stylesheet renders the same fs13/fs16/fs19 tokens at these sizes.
-const NAVER_MOBILE_FONT=Object.freeze({13:15,16:17,19:20});
+// Naver's mobile stylesheet renders the same fs13/fs15/fs16/fs19 tokens at these sizes.
+const NAVER_MOBILE_FONT=Object.freeze({13:15,15:16,16:17,19:20});
 const imageKey=src=>new URL(src).pathname.split('/').slice(0,-1).join('/');
 export function assertUnifiedPublic(article,snapshot,anchorTargets,nativeImages){
- let image=0;const expected=article.operations.filter(o=>o.placement!=='cover-caption').map(o=>['text','link'].includes(o.kind)?{kind:'text',text:o.text}:o.kind==='image'?{kind:'image',index:image++}:o.kind==='divider'?{kind:'divider'}:{kind:'table',rows:[o.columns,...o.rows]});
+ const expected=unifiedFlow(article);
  if(snapshot.title!==article.title||snapshot.titleAlignment!=='center'||!same(snapshot.flow,expected))throw Error('Public whole article differs');
  const links=article.operations.filter(o=>o.kind==='link'&&o.placement!=='cover-caption').map(o=>canonicalHttpHref(o.href.startsWith('#')?anchorTargets[o.href]:o.href));
  if(!same(snapshot.links.map(canonicalHttpHref),links))throw Error('Public links differ');
@@ -53,7 +53,7 @@ export async function verifyUnifiedPublic(browser,article,{anchorTargets,nativeI
    await page.screenshot({path:path.join(dir,'public-'+device+'-last-image.png')});
    const captions=await frame.$$eval('.se-main-container .se-component.se-image',nodes=>nodes.map(n=>{const p=n.querySelector('.se-caption .se-text-paragraph'),a=p?.querySelector('a[href]');return{text:p?.textContent.replace(/\u200b/g,'').trim()||'',href:a?.href||null,gap:p?p.getBoundingClientRect().top-n.querySelector('img').getBoundingClientRect().bottom:null};}));
    const imageOps=article.operations.filter(o=>o.kind==='image');for(const [i,op]of imageOps.entries()){const next=article.operations[article.operations.indexOf(op)+1],wanted=next?.placement==='cover-caption'?next:null,actual=captions[i];if(actual?.text!==(wanted?.text||'')||actual?.href!==(wanted?.href||null)||wanted&&(!(actual.gap>=0)||actual.gap>14))throw Error('Public cover caption, purchase link or proximity differs');}
-   const typography=await frame.evaluate(readParagraphPresentation,'.se-main-container .se-component.se-text .se-text-paragraph, .se-main-container .se-component.se-image .se-caption .se-text-paragraph');
+   const typography=await frame.evaluate(readParagraphPresentation,'.se-main-container .se-component.se-text .se-text-paragraph, .se-main-container .se-component.se-quotation .se-text-paragraph, .se-main-container .se-component.se-image .se-caption .se-text-paragraph');
    assertParagraphPresentation(article,typography,{captionFont:UNIFIED_ARTICLE.font.label,font:device==='mobile'?Object.fromEntries(Object.entries(UNIFIED_ARTICLE.font).map(([role,size])=>[role,NAVER_MOBILE_FONT[size]])):UNIFIED_ARTICLE.font});
    const rendered=await frame.evaluate(()=>{const main=document.querySelector('.se-main-container');return{fits:main.scrollWidth<=main.clientWidth+1,typography:true};});
    if(!rendered.fits)throw Error('Public rendering differs: '+JSON.stringify({device,...rendered}));

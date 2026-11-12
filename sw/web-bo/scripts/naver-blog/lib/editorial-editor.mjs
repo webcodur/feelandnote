@@ -2,6 +2,8 @@
 // Text is selected through actual mouse/keyboard events; DOM ranges only measure caret positions.
 export const EDITORIAL_FONT_SIZES = Object.freeze({ label: 13, author: 16, body: 19, heading: 24 });
 export const EDITORIAL_PORTRAIT_WIDTH = 360;
+// 글자 크기 도구 막대가 실제로 제공하는 값.
+export const SMARTEDITOR_FONT_SIZES = Object.freeze([11, 13, 15, 16, 19, 24, 28, 30, 34, 38]);
 export const EDITORIAL_COVER_WIDTH = 240;
 
 export function createEditorialEditor(page) {
@@ -69,7 +71,7 @@ export function createEditorialEditor(page) {
   }
 
   async function fontSize(size) {
-    if (!Object.values(EDITORIAL_FONT_SIZES).includes(size)) throw new Error(`Unreviewed editorial font size: ${size}`);
+    if (!SMARTEDITOR_FONT_SIZES.includes(size)) throw new Error(`Unsupported SmartEditor font size: ${size}`);
     await clickControl('.se-font-size-code-toolbar-button'); await wait(120);
     await clickControl(`.se-toolbar-option-font-size-code-fs${size}-button`); await wait(200);
   }
@@ -84,7 +86,8 @@ export function createEditorialEditor(page) {
     const parts = after.split('\n');
     for (let index = 0; index < parts.length; index++) {
       if (index) await page.keyboard.press('Enter');
-      await page.keyboard.sendCharacter(parts[index]);
+      // 빈 줄은 빈 문단이다. Enter만 쳐서 문단 사이를 벌린다.
+      if (parts[index]) await page.keyboard.sendCharacter(parts[index]);
     }
     await wait(150);
     const found = await page.evaluate(({ selector, parts }) => parts.every(text =>

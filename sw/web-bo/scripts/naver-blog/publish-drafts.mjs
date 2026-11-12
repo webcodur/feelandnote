@@ -15,6 +15,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { ASSETS } from '../blog-assets.mjs';
+import { assertNoReviewGaps } from './lib/review-paragraph-gaps.mjs';
 
 const SC = path.join(os.tmpdir(), 'naver-blog');
 const DRAFTS = process.env.NB_DRAFTS ?? path.join(ASSETS, 'naver-blog/drafts.json');
@@ -69,7 +70,8 @@ async function dismissResume(page) {
 const titleText = (page) => page.evaluate(() => { const p = document.querySelector('.se-documentTitle .se-text-paragraph'); if (!p) return ''; const copy=p.cloneNode(true);copy.querySelectorAll('.se-placeholder').forEach(n=>n.remove());return copy.textContent.replace(/​/g, '').trim(); });
 async function typeTitle(page, title) {
   for (let attempt = 0; attempt < 3; attempt++) {
-    for (let i = 0; i < title.length; i += 30) { await page.keyboard.type(title.slice(i, i + 30), { delay: 15 }); await wait(150); }
+    // 한 번의 입력 이벤트(Input.insertText)로 넣는다. 아래에서 제목 칸을 다시 읽어 확인한다.
+    await page.keyboard.sendCharacter(title);
     await wait(500);
     if ((await titleText(page)) === title) return;
     for (let z = 0; z < 300 && (await titleText(page)) !== ''; z++) { await page.keyboard.press('Backspace'); await wait(15); }
@@ -334,8 +336,17 @@ async function insertQuote(page, text) {
   const quoteId = await page.$$eval('.se-component.se-quotation', (nodes, ids) => nodes.find(node => !ids.includes(node.id))?.id, previousIds);
   if (!quoteId) throw new Error('새 인용구 ID를 찾지 못했다');
 
-  // 실제 SmartEditor에서 삽입 직후 나타나는 왼쪽 선 스타일을 고른다.
-  await page.waitForSelector('.se-quotation-quotation_line-toolbar-button', { visible: true, timeout: 10000 });
+  // 실제 SmartEditor에서 삽입 직후 나타나는 왼쪽 선 스타일을 고른다. 도구 막대가 안 뜨면 인용구를 눌러 다시 띄운다.
+  const lined = () => page.$eval('#' + quoteId, node => node.classList.contains('se-l-quotation_line'));
+  for (let attempt = 0; !(await lined()); attempt++) {
+    try { await page.waitForSelector('.se-quotation-quotation_line-toolbar-button', { visible: true, timeout: 5000 }); break; }
+    catch (error) {
+      if (attempt >= 2) throw error;
+      const edge = await page.$eval('#' + quoteId, node => { node.scrollIntoView({ block: 'center', behavior: 'instant' }); const rect = node.getBoundingClientRect(); return { x: rect.left + 2, y: rect.top + rect.height / 2 }; });
+      await page.mouse.click(edge.x, edge.y); await wait(400);
+    }
+  }
+  if (!(await lined())) {
   const stylePos = await page.evaluate(() => {
     const button = document.querySelector('.se-quotation-quotation_line-toolbar-button');
     button.scrollIntoView({ block: 'center', behavior: 'instant' });
@@ -343,22 +354,43 @@ async function insertQuote(page, text) {
     return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
   });
   await page.mouse.click(stylePos.x, stylePos.y);
+  }
+  // 정렬 클래스는 붙지 않는 경우가 있어 실제 계산된 정렬로 확인한다.
   await page.waitForFunction(id => {
-    const quote = document.getElementById(id);
-    return quote?.classList.contains('se-l-quotation_line') && !!quote.querySelector('.se-section-align-left');
+    const quote = document.getElementById(id), paragraph = quote?.querySelector('.se-text-paragraph');
+    return quote?.classList.contains('se-l-quotation_line') && !!paragraph && ['left', 'start'].includes(getComputedStyle(paragraph).textAlign);
   }, { timeout: 10000 }, quoteId);
 
-  for (let j = 0; j < text.length; j += 60) { await page.keyboard.type(text.slice(j, j + 60), { delay: 12 }); await wait(120); }
+  // 스타일 도구 막대가 선택을 가져가므로 본문 문단을 눌러 입력 위치를 되찾는다. 줄바꿈은 Enter로만 문단이 나뉜다.
+  const body = await page.$eval('#' + quoteId, node => {
+    const paragraph = [...node.querySelectorAll('.se-text-paragraph')].find(p => !p.closest('[class*=cite]'));
+    paragraph.scrollIntoView({ block: 'center', behavior: 'instant' });
+    const rect = paragraph.getBoundingClientRect();
+    return { x: rect.left + 4, y: rect.top + rect.height / 2 };
+  });
+  await page.mouse.click(body.x, body.y); await wait(200);
+  const lines = text.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+  for (const [k, line] of lines.entries()) { if (k) await page.keyboard.press('Enter'); await page.keyboard.sendCharacter(line); await wait(80); }
   await wait(500);
   const got = await page.evaluate(id => [...document.getElementById(id).querySelectorAll('.se-text-paragraph')].map(paragraph => {
     const clone = paragraph.cloneNode(true);
     clone.querySelectorAll('.se-placeholder').forEach(node => node.remove());
     return clone.textContent.replace(/\u200b/g, '').trim();
   }).filter(Boolean), quoteId);
-  const expected = text.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
-  if (JSON.stringify(got) !== JSON.stringify(expected)) throw new Error('인용구 입력 원문이 맞지 않는다');
+  if (JSON.stringify(got) !== JSON.stringify(lines)) throw new Error('인용구 입력 원문이 맞지 않는다: ' + JSON.stringify(got).slice(0, 300));
 
-  // 본문 추가 버튼은 인용구 뒤에 새 일반 문단을 만들고 입력 위치를 옮긴다.
+  // 편집기가 인용구 뒤에 빈 문단을 이미 만들었으면 그 문단으로 옮긴다. 없을 때만 본문 추가 버튼은 새 일반 문단을 만든다.
+  const trailing = await page.evaluate(id => {
+    const next = document.getElementById(id).nextElementSibling;
+    const paragraph = next?.classList.contains('se-text') ? next.querySelector('.se-text-paragraph') : null;
+    const clone = paragraph?.cloneNode(true);
+    clone?.querySelectorAll('.se-placeholder').forEach(node => node.remove());
+    if (!clone || clone.textContent.replace(/[​\s]/g, '')) return null;
+    paragraph.scrollIntoView({ block: 'center', behavior: 'instant' });
+    const rect = paragraph.getBoundingClientRect();
+    return { x: rect.left + 4, y: rect.top + rect.height / 2 };
+  }, quoteId);
+  if (trailing) { await page.mouse.click(trailing.x, trailing.y); await wait(200); return; }
   const previousTextIds = await page.$$eval('.se-component.se-text:not(.se-documentTitle)', nodes => nodes.map(node => node.id));
   const addPos = await page.evaluate(() => {
     const button = document.querySelector('.se-canvas-bottom-button');
@@ -430,7 +462,7 @@ async function typeSegments(page, line) {
     const seg = parts[i], bold = i % 2 === 1;
     if (!seg) continue;
     if (bold) { await page.keyboard.down('Control'); await page.keyboard.press('KeyB'); await page.keyboard.up('Control'); await wait(150); }
-    for (let j = 0; j < seg.length; j += 60) { await page.keyboard.type(seg.slice(j, j + 60), { delay: 12 }); await wait(120); }
+    for (let j = 0; j < seg.length; j += 60) { await page.keyboard.sendCharacter(seg.slice(j, j + 60)); await wait(60); }
     if (bold) { await page.keyboard.down('Control'); await page.keyboard.press('KeyB'); await page.keyboard.up('Control'); await wait(150); }
   }
 }
@@ -762,6 +794,7 @@ if (rewriteIds.length) {
       await applyPhotoFrame(page);   // 사진에 액자를 두른다
 
       await (await page.$('button[class*=publish_btn]')).click(); await wait(1500);
+      await assertNoReviewGaps(page);
       const cb = await page.$('button[class*=confirm_btn]'); const box = await cb.boundingBox();
       await assertPublishOptions(page);
       await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2); await wait(7000);
@@ -858,6 +891,7 @@ for (const d of drafts) {
       console.log('DRY-OK', d.title, '| 카테고리', d.category, '| 태그', tagCount, '| 단락', got.length, schedText ? '| 예약 ' + schedText : '');
       break;
     }
+    await assertNoReviewGaps(page);
     const cb = await page.$('button[class*=confirm_btn]'); const box = await cb.boundingBox();
     await assertPublishOptions(page);
     await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2); await wait(7000);

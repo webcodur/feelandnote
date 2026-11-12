@@ -7,7 +7,7 @@ import sharp from 'sharp';
 import { parseRevisionBody } from './apply-institution-revisions.mjs';
 import { koreanListLabels } from './korean-list-labels.mjs';
 
-const ROOT = 'D:/blog-assets/naver-blog';
+const ROOT = 'D:/feelandnote/blog-assets/naver-blog';
 const OUT = `${ROOT}/remaining-institution-revisions`;
 const read = p => JSON.parse(fs.readFileSync(p, 'utf8'));
 const hash = v => crypto.createHash('sha256').update(v).digest('hex');

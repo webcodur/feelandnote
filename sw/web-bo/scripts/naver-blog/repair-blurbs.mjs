@@ -16,6 +16,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';
 import { getBrowser, getNaverPage, ensureLoggedIn } from './lib/browser.mjs';
+import { assertNoReviewGaps } from './lib/review-paragraph-gaps.mjs';
 
 const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const args = process.argv.slice(2);
@@ -142,6 +143,7 @@ for (const row of targets) {
       }
     }
 
+    await assertNoReviewGaps(page);
     await (await page.$('button[class*=publish_btn]')).click(); await wait(1500);
     const cb = await page.$('button[class*=confirm_btn]'); const box = await cb.boundingBox();
     await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2); await wait(6000);

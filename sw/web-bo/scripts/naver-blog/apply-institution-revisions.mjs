@@ -308,9 +308,17 @@ export async function prepareImages(target, dir, cache = new Map()) {
   for (let index = 0; index < bodyImages.length; index++) {
     const image = bodyImages[index];
     if (!cache.has(image.url)) {
-      const response = await fetch(image.url, { cache: 'no-store', headers: { 'user-agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(30000) });
-      if (!response.ok) throw new Error(`사진 다운로드 실패 ${response.status}: ${image.name}`);
-      const original = Buffer.from(await response.arrayBuffer()), {metadata,bytes} = await prepareNativeImage(original);
+      // 로컬에서 렌더한 이미지(책장 카드)는 원고에 고정된 해시와 같은 파일만 쓴다.
+      let original;
+      if (image.url.startsWith('file:')) {
+        original = fs.readFileSync(new URL(image.url));
+        if (!image.sha256 || hash(original) !== image.sha256) throw new Error('로컬 이미지 해시가 원고와 다르다: ' + image.name);
+      } else {
+        const response = await fetch(image.url, { cache: 'no-store', headers: { 'user-agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(30000) });
+        if (!response.ok) throw new Error(`사진 다운로드 실패 ${response.status}: ${image.name}`);
+        original = Buffer.from(await response.arrayBuffer());
+      }
+      const {metadata,bytes} = await prepareNativeImage(original);
       cache.set(image.url, { original, metadata, bytes });
     }
     const { original, metadata, bytes } = cache.get(image.url);
@@ -740,7 +748,8 @@ export async function fillTableAuthors(page, target, log = () => {}) {
 }
 
 export async function leaveFullListTable(page) {
-  const tableId = await page.$eval('.se-component.se-table', node => node.id);
+  // 표가 여럿이면(인물 전체 감상 목록) 방금 붙인 마지막 표 뒤로 나간다. 기관 글은 표가 하나라 같다.
+  const tableId = await page.$$eval('.se-component.se-table', nodes => nodes.at(-1).id);
   const followingParagraph = () => page.evaluate(id => {
     const table = document.getElementById(id);
     if (!table) return null;

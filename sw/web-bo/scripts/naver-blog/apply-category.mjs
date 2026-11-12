@@ -11,6 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';
 import { getBrowser, getNaverPage, ensureLoggedIn } from './lib/browser.mjs';
+import { assertNoReviewGaps } from './lib/review-paragraph-gaps.mjs';
 
 const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const args = process.argv.slice(2);
@@ -78,6 +79,7 @@ for (const row of targets) {
 
     if (!(await selectCategory(row.category))) throw new Error(`카테고리를 바꾸지 못했다 — 목록에 '${row.category}' 가 없다`);
 
+    await assertNoReviewGaps(page);
     const cb = await page.$('button[class*=confirm_btn]'); const box = await cb.boundingBox();
     await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2); await wait(6000);
     const okPos = await page.evaluate(() => {

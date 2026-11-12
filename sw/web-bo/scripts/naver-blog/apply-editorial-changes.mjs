@@ -14,6 +14,7 @@ import {assertPublishOptions} from './lib/publish-options.mjs';
 import sharp from 'sharp';
 import {applyPhotoFrame} from './publish-drafts.mjs';
 import {replaceTitle,centerTitle,assertCenteredTitle,centerDividers,assertCenteredDividers} from './apply-institution-revisions.mjs';
+import {restyleAfterSave} from './lib/restyle-after-save.mjs';
 
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 // A renamed reservation must keep the exact date/time suffix and list count.
@@ -39,7 +40,7 @@ export function prepareEditorialChanges(original, plan) {
   }
   if(plan.edits.some((e,i)=>e.after.split('\n').some(p=>plan.edits.some((other,j)=>j!==i&&other.before===p))))throw new Error('Edit output overlaps another input');
   for(const s of plan.formats??[])if(!s.text||!Object.values(EDITORIAL_FONT_SIZES).includes(s.size))throw new Error('Unreviewed formatting');
-  const mapper=()=>{const occurrences=new Map();return p=>{const occurrence=occurrences.get(p)??0;occurrences.set(p,occurrence+1);const edit=plan.edits.find(e=>e.before===p&&(e.occurrence===undefined||e.occurrence===occurrence));return edit?.remove===true?[]:edit?.after.split('\n')??[p];};};
+  const mapper=()=>{const occurrences=new Map();return p=>{const occurrence=occurrences.get(p)??0;occurrences.set(p,occurrence+1);const edit=plan.edits.find(e=>e.before===p&&(e.occurrence===undefined||e.occurrence===occurrence));return edit?.remove===true?[]:edit?.after.split('\n').filter(Boolean)??[p];};};
   const flowMap=mapper();
   const snapshot={...original.snapshot,title:plan.title??original.snapshot.title,text:original.snapshot.text.flatMap(mapper()),flow:original.snapshot.flow.map(f=>f.paragraphs?{...f,paragraphs:f.paragraphs.flatMap(flowMap)}:f)};
   const table=original.table.map(row=>row.map(cell=>{const replacement=plan.edits.find(e=>e.before===cell);if(replacement?.after.includes('\n'))throw new Error('Table cells cannot split into paragraphs');return replacement?.after??cell;}));
@@ -198,9 +199,16 @@ async function main(){
   if(args.includes('--apply')){
    await editor.click('button[class*=publish_btn]');await assertPublishOptions(page,{preserve:original.original.state});{const now=await editor.settings();if(!same(now,opened.state))throw new Error('Settings changed before save '+JSON.stringify({opened:opened.state,now}));}step='save';await editor.click('button[class*=confirm_btn]');await page.waitForFunction(id=>location.href.includes('logNo='+id)&&location.href.includes('isAfterUpdateOnly=true'),{timeout:30000},String(plan.logNo));saved=true;
    step='reopen';const reopened=await editor.openTarget({...active[0],title:expected.snapshot.title,body:undefined});await assertPublishOptions(page,{preserve:original.original.state});if(!same(reopened.state,opened.state)||!same(reopened.reservation,expected.reservation))throw new Error('Saved settings or reservation differ');await closePublishPanel(page,editor);const after=await readSnapshot(page);assertEditorialChangeResult(original,expected,after,await table());await assertFormats();if(plan.title)await assertCenteredTitle(page);if(plan.formats?.length)await assertCenteredDividers(page);
+   // 제목을 바꿨으면 원장 제목도 맞춘다. 뒤이은 서식 복원과 다음 작업이 원장 제목으로 예약 글을 찾는다.
+   if(plan.title&&plan.title!==original.post.title){const file=path.join(ASSETS,'naver-blog','posts.json'),all=JSON.parse(fs.readFileSync(file,'utf8')),p=all.find(p=>String(p.logNo)===String(plan.logNo));if(!p||p.title!==original.post.title)throw new Error('Registry title changed during the edit');p.title=plan.title;fs.writeFileSync(file+'.tmp',JSON.stringify(all,null,2));fs.renameSync(file+'.tmp',file);}
    fs.writeFileSync(path.join(dir,plan.logNo+'-changes-applied.json'),JSON.stringify({verified:true,snapshot:after,table:await table(),settings:reopened.state,reservation:reopened.reservation},null,2));console.log(JSON.stringify({stage:'saved-and-reopened',logNo:plan.logNo,edits:plan.edits.length}));
   }else console.log(JSON.stringify({stage:'dry-ready',logNo:plan.logNo}));
  }catch(error){fs.writeFileSync(path.join(dir,plan.logNo+'-changes-failure.json'),JSON.stringify({step,saved,error:String(error)},null,2));await page.screenshot({path:path.join(dir,plan.logNo+'-changes-failure.png')}).catch(()=>{});throw error;}
  finally{await page.close();await browser.disconnect();}
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){await main();process.exit(0);}
+if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
+ await main();
+ // 평문으로 넣은 단락의 서식을 같은 작업 안에서 되돌린다(blog-naver-book.md 본문 서식 정책).
+ if(process.argv.includes('--apply')){const plan=JSON.parse(fs.readFileSync(process.argv.find(a=>a.startsWith('--plan=')).slice(7),'utf8'));restyleAfterSave([plan.logNo]);}
+ process.exit(0);
+}

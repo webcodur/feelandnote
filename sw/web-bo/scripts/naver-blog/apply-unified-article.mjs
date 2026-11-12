@@ -2,6 +2,8 @@ import {sameReservation} from './lib/same-reservation.mjs';
 // One background native-editor transaction. No model calls or prose generation.
 // --article=<prepared JSON> [--apply] [--review] . Default: insert/check without saving.
 import fs from 'node:fs';
+import {formattedTextHtml,BODY_STYLE_VERSION} from './lib/formatted-text.mjs';
+import {textsDigest,articleTexts} from './lib/body-baseline.mjs';
 import {preserveNativeTags,sameSavedPublishSettings} from './lib/preserve-native-tags.mjs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -9,34 +11,45 @@ import {fileURLToPath} from 'node:url';
 import {ASSETS} from '../blog-assets.mjs';
 import {getBrowser} from './lib/browser.mjs';
 import {createExistingEditor} from './lib/existing-editor.mjs';
-import {compileUnifiedArticle,UNIFIED_ARTICLE,textPresentation,canonicalHttpHref,servicePostUrl,isVerifiedSelectionOnlyInstitution} from './lib/unified-article.mjs';
+import {compileUnifiedArticle,UNIFIED_ARTICLE,textPresentation,canonicalHttpHref,servicePostUrl,isVerifiedSelectionOnlyInstitution,unifiedFlow} from './lib/unified-article.mjs';
 import {readParagraphPresentation,assertParagraphPresentation} from './lib/unified-typography.mjs';
 import {prepareImages,clearBody,leaveFullListTable,centerTitle,assertCenteredTitle,centerDividers} from './apply-institution-revisions.mjs';
 import {editorialReservation} from './apply-editorial-changes.mjs';
 import {readSnapshot,setRepresentative,closePublishPanel} from './repair-institution-images.mjs';
-import {insertImage,insertDivider} from './publish-drafts.mjs';
+import {insertImage,insertDivider,insertQuote} from './publish-drafts.mjs';
 import {assertPublishOptions} from './lib/publish-options.mjs';
 import {createEditorialEditor} from './lib/editorial-editor.mjs';
 import {verifyUnifiedPublic} from './lib/unified-public.mjs';
 import {savePreparedPreview} from './lib/unified-preview.mjs';
+import {listTableHtml} from './lib/person-full-list.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b),read=f=>JSON.parse(fs.readFileSync(f,'utf8')),write=(f,v)=>fs.writeFileSync(f,JSON.stringify(v,null,2)),sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function assertUnifiedSnapshot(article,snapshot,table,prepared,anchorTargets={}){
- const text=article.operations.filter(o=>['text','link'].includes(o.kind)&&o.placement!=='cover-caption').map(o=>o.text);
+ const text=article.operations.filter(o=>['text','link'].includes(o.kind)&&o.placement!=='cover-caption'&&!o.quote).map(o=>o.text);
  if(snapshot.title!==article.title||!same(snapshot.text,text))throw Error('Complete unified title/body differs');
- const expectedFlow=article.operations.filter(o=>o.placement!=='cover-caption').flatMap(o=>['text','link'].includes(o.kind)?[{kind:'text',text:o.text}]:o.kind==='image'?[{kind:'image'}]:o.kind==='divider'?[{kind:'divider'}]:[{kind:'table'}]);
- const actualFlow=snapshot.flow.flatMap(o=>o.kind==='se-text'?(o.paragraphs??[]).filter(Boolean).map(text=>({kind:'text',text})):o.kind==='image'?[{kind:'image'}]:o.kind==='se-horizontalLine'?[{kind:'divider'}]:o.kind==='se-table'?[{kind:'table'}]:[{kind:o.kind}]);
+ const expectedFlow=unifiedFlow(article).map(o=>['image','table'].includes(o.kind)?{kind:o.kind}:o);
+ const actualFlow=snapshot.flow.flatMap(o=>o.kind==='se-text'?(o.paragraphs??[]).filter(Boolean).map(text=>({kind:'text',text})):o.kind==='image'?[{kind:'image'}]:o.kind==='se-horizontalLine'?[{kind:'divider'}]:o.kind==='se-table'?[{kind:'table'}]:o.kind==='se-quotation'?[{kind:'quote',paragraphs:(o.paragraphs??[]).filter(t=>t!=='출처 입력')}]:[{kind:o.kind}]);
  if(!same(expectedFlow,actualFlow))throw Error('Unified component order/type differs or legacy media remain');
- const wantedTable=article.operations.find(o=>o.kind==='table');if(!same(table,wantedTable?[wantedTable.columns,...wantedTable.rows]:[]))throw Error('Complete institution selection table differs');
+ const wantedTables=article.operations.filter(o=>o.kind==='table').flatMap(o=>[o.columns,...o.rows]);if(!same(table,wantedTables))throw Error('Complete selection or reading list table differs');
  const links=article.operations.filter(o=>o.kind==='link').map(o=>({text:o.text,href:canonicalHttpHref(o.href.startsWith('#')?anchorTargets[o.href]:o.href)}));
  if(!same(snapshot.links.map(l=>({text:l.text,href:canonicalHttpHref(l.href)})),links))throw Error('Visible link labels or destinations differ');
  const images=article.operations.filter(o=>o.kind==='image');for(const [i,op]of images.entries()){const next=article.operations[article.operations.indexOf(op)+1],caption=next?.placement==='cover-caption'?[next.text]:[];if(!same(snapshot.images[i]?.caption,caption))throw Error('Cover purchase caption differs');}if(images.length!==snapshot.images.length||images.length!==prepared.length)throw Error('Unified image count differs');
  for(const [i,image]of snapshot.images.entries()){if(!image.src.includes(prepared[i].marker)||Number(image.width)!==images[i].width||image.naturalWidth<=0||image.naturalWidth>prepared[i].widthOriginal||Math.abs(image.naturalHeight-image.naturalWidth*prepared[i].heightOriginal/prepared[i].widthOriginal)>1||image.align!=='se-section-align-center'||image.representative!==(i===0))throw Error('Unified image identity, geometry, alignment or representative differs');}
 }
 export async function assertTypography(page,article){
- const actual=await page.evaluate(readParagraphPresentation,'.se-component.se-text:not(.se-documentTitle) .se-text-paragraph, .se-component.se-image .se-caption .se-text-paragraph');assertParagraphPresentation(article,actual);
+ const actual=await page.evaluate(readParagraphPresentation,'.se-component.se-text:not(.se-documentTitle) .se-text-paragraph, .se-component.se-quotation .se-text-paragraph, .se-component.se-image .se-caption .se-text-paragraph');assertParagraphPresentation(article,actual);
 }
-export function fragment(ops){return ops.map(o=>{const p=textPresentation(o),style=`font-family:나눔고딕,sans-serif;font-size:${p.size}px;line-height:1.7;text-align:${p.align};`,value=o.kind==='link'?'<a href="'+esc(o.href)+'">'+esc(o.text)+'</a>':esc(o.text).replace(/\n/g,'<br>');return (p.gapBefore?'<p><span style="font-size:16px">\u200b</span></p>':'')+`<p style="${style}"><span style="font-size:${p.size}px;font-weight:${p.bold?700:400};color:${p.color};${p.background?'background-color:'+p.background+';':''}">${p.bold?'<strong>'+value+'</strong>':value}</span></p>`;}).join('');}
+export function fragment(ops) {
+ return ops.map(op => {
+  const presentation = textPresentation(op);
+  const style = `font-family:나눔고딕,sans-serif;font-size:${presentation.size}px;line-height:1.7;text-align:${presentation.align};`;
+  let value = esc(op.text).replace(/\n/g, '<br>');
+  if (op.kind === 'link') value = '<a href="' + esc(op.href) + '">' + esc(op.text) + '</a>';
+  else if (op.formattedText) value = formattedTextHtml(op.text, presentation);
+  const gap = presentation.gapBefore ? '<p><span style="font-size:16px">\u200b</span></p>' : '';
+  return gap + `<p style="${style}"><span style="font-size:${presentation.size}px;font-weight:${presentation.bold ? 700 : 400};color:${presentation.color};${presentation.background ? 'background-color:' + presentation.background + ';' : ''}">${presentation.bold ? '<strong>' + value + '</strong>' : value}</span></p>`;
+ }).join('');
+}
 const clipboardPages=new WeakMap();
 async function nativeClipboard(page,html){const clipboard=clipboardPages.get(page);if(!clipboard)throw Error('Owned background clipboard page required');await clipboard.evaluate(async html=>{const text=new DOMParser().parseFromString(html,'text/html').body.textContent;await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([html],{type:'text/html'}),'text/plain':new Blob([text],{type:'text/plain'})})]);},html);}
 async function selectedText(page){await page.evaluate(async()=>{try{await navigator.clipboard.writeText('');}catch{}}).catch(()=>{});await sleep(250);await page.keyboard.down('Control');await page.keyboard.press('KeyC');await page.keyboard.up('Control');await sleep(500);let value='';for(let attempt=0;attempt<10;attempt++){value=await page.evaluate(async()=>(await navigator.clipboard.readText()).replace(/\u200b/g,'').trim());if(value)return value;await sleep(200);}return value;}
@@ -61,8 +74,9 @@ async function normalizeTypography(page,article){
  if(!selected.includes(first.text)||!selected.includes(article.operations.filter(o=>o.kind==='text').at(-1).text)||selected.split('\n').includes(article.title))throw Error('Complete native body selection required for typography: '+JSON.stringify({length:selected.length,head:selected.slice(0,100),tail:selected.slice(-180)}));
  await native.fontSize(UNIFIED_ARTICLE.font.body);await native.clickControl('.se-toolbar-item-align .se-property-toolbar-drop-down-button');await sleep(100);
  const left=await page.evaluate(()=>{const e=[...document.querySelectorAll('button')].find(e=>e.offsetParent&&e.textContent.trim().startsWith('왼쪽 정렬'));if(!e)throw Error('Left alignment control missing');const r=e.getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2};});await page.mouse.click(left.x,left.y);await sleep(150);
- const occurrences=new Map();for(const op of article.operations.filter(o=>['text','link'].includes(o.kind))){const occurrence=occurrences.get(op.text)??0;occurrences.set(op.text,occurrence+1);if(op.role!=='body'&&op.placement!=='cover-caption'){await native.selectParagraph(op.text,{occurrence});if(await selectedText(page)!==op.text)throw Error('Typography selection differs: '+op.text);await native.fontSize(UNIFIED_ARTICLE.font[op.role]);}
-  const s=textPresentation(op),actual=await page.evaluate(readParagraphPresentation,'.se-component.se-text:not(.se-documentTitle) .se-text-paragraph, .se-component.se-image .se-caption .se-text-paragraph'),p=actual.filter(p=>p.text===op.text)[occurrence];
+ const occurrences=new Map();for(const op of article.operations.filter(o=>['text','link'].includes(o.kind))){const occurrence=occurrences.get(op.text)??0;occurrences.set(op.text,occurrence+1);if(op.quote){await native.selectParagraph(op.text,{occurrence});if(await selectedText(page)!==op.text)throw Error('Contents quote selection differs: '+op.text);await native.fontSize(UNIFIED_ARTICLE.font.body);}
+  if(op.role!=='body'&&op.placement!=='cover-caption'){await native.selectParagraph(op.text,{occurrence});if(await selectedText(page)!==op.text)throw Error('Typography selection differs: '+op.text);await native.fontSize(UNIFIED_ARTICLE.font[op.role]);}
+  const s=textPresentation(op),actual=await page.evaluate(readParagraphPresentation,'.se-component.se-text:not(.se-documentTitle) .se-text-paragraph, .se-component.se-quotation .se-text-paragraph, .se-component.se-image .se-caption .se-text-paragraph'),p=actual.filter(p=>p.text===op.text)[occurrence];
   if(!p||p.weights.some(w=>(w>=600)!==s.bold)){await native.selectParagraph(op.text,{occurrence});if(await selectedText(page)!==op.text)throw Error('Bold selection differs');await page.keyboard.down('Control');await page.keyboard.press('KeyB');await page.keyboard.up('Control');await sleep(100);}
   if(op.align!=='left'&&op.placement!=='cover-caption')await native.alignParagraph(op.text,op.align,{occurrence});}
 }
@@ -81,7 +95,7 @@ export async function populateUnifiedEditor(page,article,prepared,dir){
   async function flush(){if(!batch.length)return;await appendPosition(page);const html=fragment(batch),wanted=batch.map(o=>o.text),before=await page.$$eval('.se-component.se-text:not(.se-documentTitle) .se-text-paragraph',ps=>ps.filter(p=>p.textContent.replace(/\u200b/g,'').trim()).length);fs.writeFileSync(path.join(dir,'fragment-'+(batchIndex++)+'.html'),html);await nativeClipboard(page,html);await page.keyboard.down('Control');await page.keyboard.press('KeyV');await page.keyboard.up('Control');await page.waitForFunction(({wanted,before})=>{const ps=[...document.querySelectorAll('.se-component.se-text:not(.se-documentTitle) .se-text-paragraph')].map(p=>p.textContent.replace(/\u200b/g,'').trim()).filter(Boolean);return ps.length>=before+wanted.length&&wanted.every(t=>ps.includes(t));},{timeout:10000},{wanted,before});await page.keyboard.press('End');await page.keyboard.press('Enter');batch=[];}
 
   const nativeOps=article.operations;
-  try{for(const op of nativeOps){if(op.placement==='cover-caption'){await flush();await insertCoverCaption(page,op);continue;}if(['text','link'].includes(op.kind)){batch.push(op);continue;}await flush();if(op.kind==='image'){const image=prepared.images[imageIndex++];await insertImage(page,cdp,image.url,image.width,image.name,{file:image.file,waitForState:true});}else if(op.kind==='divider')await insertDivider(page,{waitForState:true});else if(op.kind==='table'){const tableHtml='<table><thead><tr>'+op.columns.map(c=>'<th>'+esc(c)+'</th>').join('')+'</tr></thead><tbody>'+op.rows.map(r=>'<tr>'+r.map(c=>'<td>'+esc(c)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';await nativeClipboard(page,tableHtml);await page.keyboard.down('Control');await page.keyboard.press('KeyV');await page.keyboard.up('Control');await page.waitForSelector('.se-component.se-table');await leaveFullListTable(page);};}await flush();}finally{await cdp.detach();}
+  let quoteRun=[];try{for(const op of nativeOps){if(op.quote){await flush();quoteRun.push(op);continue;}if(quoteRun.length){await insertQuote(page,quoteRun.map(o=>o.text).join('\n'));quoteRun=[];}if(op.placement==='cover-caption'){await flush();await insertCoverCaption(page,op);continue;}if(['text','link'].includes(op.kind)){batch.push(op);continue;}await flush();if(op.kind==='image'){const image=prepared.images[imageIndex++];await insertImage(page,cdp,image.url,image.width,image.name,{file:image.file,waitForState:true});}else if(op.kind==='divider')await insertDivider(page,{waitForState:true});else if(op.kind==='table'){const tables=await page.$$eval('.se-component.se-table',n=>n.length);const tableHtml=listTableHtml(op);await nativeClipboard(page,tableHtml);await page.keyboard.down('Control');await page.keyboard.press('KeyV');await page.keyboard.up('Control');await page.waitForFunction(n=>document.querySelectorAll('.se-component.se-table').length===n+1,{timeout:15000},tables);await leaveFullListTable(page);};}await flush();}finally{await cdp.detach();}
   write(path.join(dir,'inserted.json'),await readSnapshot(page));await editor.imageSizes(prepared.images.length);await centerDividers(page);await setRepresentative(page,(await readSnapshot(page)).images[0].id);
   await centerTitle(page);await assertCenteredTitle(page);
   await normalizeTypography(page,article);await centerImages(page);await centerDividers(page);
@@ -114,7 +128,7 @@ export async function applyUnifiedArticle(file,{apply=false,review=false}={}){
   step='reopen';const reopened=await editor.openTarget({...post,title:article.title,body:undefined});await assertPublishOptions(page,{preserve:original.state});if(!sameSavedPublishSettings(reopened.state,original.state,article)||!sameReservation(reopened.reservation,expectedReservation))throw Error('Saved settings or reservation differ');await closePublishPanel(page,editor);const after=await readSnapshot(page);assertUnifiedSnapshot(article,after,await table(),prepared.images,anchorTargets);await assertTypography(page,article);
   step='public-verification';const publicResult=reopened.reservation?{status:'reserved-not-public'}:await verifyUnifiedPublic(browser,article,{anchorTargets,nativeImages:after.images,dir});
   const receipt={logNo:article.logNo,articleHash:article.articleHash,verified:true,saved:true,snapshot:after,table:await table(),settings:reopened.state,reservation:reopened.reservation,anchorTargets,publicResult,dir,modelCalls:0};write(path.join(path.dirname(file),article.logNo+'-native-verified.json'),receipt);
-  const current=read(registry),index=current.findIndex(p=>String(p.logNo)===article.logNo);if(index<0||!same(current[index],post))throw Error('Registry row changed during transaction');current[index]={...current[index],title:article.title,unified:{articleHash:article.articleHash,version:article.version,verifiedAt:new Date().toISOString(),reserved:!!reopened.reservation}};fs.writeFileSync(registry,JSON.stringify(current,null,2));console.log(JSON.stringify({stage:'saved-and-reopened',logNo:article.logNo,publicVerified:!reopened.reservation,modelCalls:0}));
+  const current=read(registry),index=current.findIndex(p=>String(p.logNo)===article.logNo);if(index<0||!same(current[index],post))throw Error('Registry row changed during transaction');current[index]={...current[index],title:article.title,...(article.operations.some(o=>o.anchor==='reading-way')?{readingWay:{...current[index].readingWay,verifiedAt:new Date().toISOString(),via:'unified'}}:{}),unified:{articleHash:article.articleHash,version:article.version,verifiedAt:new Date().toISOString(),reserved:!!reopened.reservation},bodyStyle:{version:BODY_STYLE_VERSION,verifiedAt:new Date().toISOString(),...textsDigest(articleTexts(article))}};fs.writeFileSync(registry,JSON.stringify(current,null,2));console.log(JSON.stringify({stage:'saved-and-reopened',logNo:article.logNo,publicVerified:!reopened.reservation,modelCalls:0}));
  }catch(error){write(path.join(dir,'failure.json'),{saved,step,error:String(error)});await readSnapshot(page).then(snapshot=>write(path.join(dir,'failure-snapshot.json'),snapshot)).catch(()=>{});await page.screenshot({path:path.join(dir,'failure.png')}).catch(()=>{});console.error(JSON.stringify({saved,step,error:String(error),dir}));throw error;}
  finally{clipboardPages.delete(page);await focus.detach().catch(()=>{});await page.close().catch(()=>{});await browser.defaultBrowserContext().clearPermissionOverrides().catch(()=>{});if(launched)await browser.close();else await browser.disconnect();}
 }

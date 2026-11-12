@@ -24,6 +24,11 @@ test('선택한 요일만 써서 400일을 넘기는 재고도 전부 배정한�
   assert.equal(slots.length, 60);
   assert.deepEqual([dates(slots)[0], dates(slots).at(-1)], ['2026-10-04', '2027-11-21']);
 });
+test('12시간 칸은 기존 예약이 차지한 칸만 건너뛴다', () => {
+  const at = slots => slots.map(slot => new Date(slot.getTime() + 9 * 3600000).toISOString().slice(0, 16).replace('T', ' '));
+  const slots = buildReservationSlots({ count: 4, start: '2026-10-04', times: ['09:00', '21:00'], now: Date.parse('2026-10-04T10:00:00+09:00'), occupied: ['2026. 10. 05 09:00', '2026.10.06 20:00', '제목\n2026. 10. 07. 09:00', '2026-10-08'] });
+  assert.deepEqual(at(slots), ['2026-10-04 21:00', '2026-10-05 21:00', '2026-10-06 09:00', '2026-10-07 21:00']);
+});
 test('잘못된 날짜와 시각을 거부한다', () => {
   for (const extra of [{ start: '2026-02-30' }, { time: '24:00' }, { time: '09:05' }, { dows: [0] }]) {
     assert.throws(() => buildReservationSlots({ count: 1, start: '2026-10-04', time: '09:00', ...extra }));

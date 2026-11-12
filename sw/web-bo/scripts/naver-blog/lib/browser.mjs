@@ -18,6 +18,10 @@ import path from 'node:path';
 //    26.09.03에 예약 작업과 재조정 작업을 같이 돌려 둘 다 중간에 죽었다.
 const LOCK = path.join(os.tmpdir(), 'naver-blog', 'browser.lock');
 const STALE_MS = 30 * 60 * 1000;   // 30분 넘은 잠금은 죽은 작업이 남긴 것으로 본다
+let releaseHeldLock = () => {};
+
+/** 브라우저를 놓은 뒤 같은 프로세스에서 다른 네이버 작업(자식 프로세스)을 띄우기 전에 잠금을 푼다. */
+export function releaseBrowserLock() { releaseHeldLock(); }
 
 function acquireLock() {
   fs.mkdirSync(path.dirname(LOCK), { recursive: true });
@@ -37,6 +41,7 @@ function acquireLock() {
   const owner = `${path.basename(process.argv[1] ?? "?")} pid=${process.pid}`;
   fs.writeFileSync(LOCK, owner, { flag: 'wx' });
   const release = () => { try { if (fs.readFileSync(LOCK, 'utf8') === owner) fs.rmSync(LOCK); } catch {} };
+  releaseHeldLock = release;
   process.on("exit", release);
   process.on("SIGINT", () => { release(); process.exit(130); });
   process.on("uncaughtException", (e) => { release(); throw e; });

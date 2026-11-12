@@ -29,6 +29,12 @@ test('표 수정 중 감상·사진·대표 설정 손실을 차단한다',()=>{
 test('유효한 본문을 그대로 두고 라벨만 덧붙일 수 있다',()=>{const o=original();const p=prepareEditorialChanges(o,{logNo:'123',edits:[{before:'책 소개',after:'안내\n책 소개'}],formats:[{text:'안내',size:13},{text:'책 소개',size:19,align:'left'}]});assert.deepEqual(p.snapshot.text,['안내','책 소개']);assert.throws(()=>prepareEditorialChanges(o,{...plan(),formats:[{text:'없는 문단',size:19}]}));});
 test('기관 아바타는 확대하지 않고 인물 주인공만 비율을 보존해 확대한다',()=>{const o=original();assert.throws(()=>prepareEditorialChanges(o,{...plan(),portraitWidth:360}));o.post.kind='celeb';o.snapshot.images[0].src='https://example.com/portrait-person.jpg';const p=prepareEditorialChanges(o,{...plan(),portraitWidth:360});const after=structuredClone(p.snapshot);Object.assign(after.images[0],{width:'360',height:'360',displayWidth:360,displayHeight:360});assertEditorialChangeResult(o,p,after,p.table);after.images[0].displayHeight=400;assert.throws(()=>assertEditorialChangeResult(o,p,after,p.table));});
 
+test('빈 줄은 빈 문단으로 넣고 글자 대조에서는 문단만 비교한다',()=>{
+ const o=original(),expected=prepareEditorialChanges(o,{logNo:'123',edits:[{before:'책 소개',after:'첫째 문단\n\n둘째 문단'}]});
+ assert.deepEqual(expected.snapshot.text,['첫째 문단','둘째 문단']);assert.deepEqual(expected.snapshot.flow[0].paragraphs,['첫째 문단','둘째 문단']);
+ assertEditorialChangeResult(o,expected,expected.snapshot,expected.table);
+});
+
 test('명시적으로 검수한 본문 문단만 비우고 사진·링크·표·다른 문단은 보존한다',()=>{
  const o=original();o.snapshot.text.push('보존할 안내');o.snapshot.flow[0].paragraphs.push('보존할 안내');
  const edit={before:'책 소개',after:'',remove:true};const expected=prepareEditorialChanges(o,{logNo:'123',edits:[edit]});

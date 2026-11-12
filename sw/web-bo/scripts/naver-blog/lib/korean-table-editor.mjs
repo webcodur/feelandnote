@@ -1,6 +1,6 @@
 // Invoked only from the Chrome plugin's Node REPL with its supported Tab API.
 import fs from 'node:fs/promises';
-const root = 'D:/blog-assets/naver-blog/table-ko';
+const root = 'D:/feelandnote/blog-assets/naver-blog/table-ko';
 const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
 export async function capture(f) {
   await f.getByRole('article').first().locator('.se-component.se-image .se-set-rep-image-button.se-is-selected').first().waitFor({state:'attached',timeoutMs:15000});

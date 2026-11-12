@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';
+import { assertNoReviewGaps } from './lib/review-paragraph-gaps.mjs';
 
 const POSTS = path.join(ASSETS, 'naver-blog/posts.json');
 const SC = path.join(os.tmpdir(), 'naver-blog'); fs.mkdirSync(SC, { recursive: true });
@@ -207,6 +208,7 @@ async function replacePara(page, match, text) {
 
 async function publish(page) {
   await (await page.$('button[class*=publish_btn]')).click(); await wait(1500);
+  await assertNoReviewGaps(page);
   const cb = await page.$('button[class*=confirm_btn]');
   const box = await cb.boundingBox();
   await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2); await wait(6000);
@@ -275,6 +277,7 @@ for (const post of map) {
     for (const tg of post.tagsRemove ?? []) if (tagsNow.includes('#' + tg)) throw new Error('태그 삭제 안 됨: ' + tg);
     if (process.env.NB_STEP || dry) console.log('  태그:', tagsNow.join(' '));
     if (dry) { await page.screenshot({ path: `${SC}/nb-reopen-${post.logNo}.png` }); console.log('DRY-OK 재공개 준비', post.logNo, '| 제목', await titleText()); break; }
+    await assertNoReviewGaps(page);
     const cbr = await page.$('button[class*=confirm_btn]'); const bxr = await cbr.boundingBox();
     await page.mouse.click(bxr.x + bxr.width / 2, bxr.y + bxr.height / 2); await wait(2500);
     // "비공개 글을 전체공개로 변경합니다. 발행하시겠습니까?" 확인창
@@ -305,6 +308,7 @@ for (const post of map) {
     const isPrivate = await page.evaluate(() => { const rs = [...document.querySelectorAll('[class*=option_open_type] input[type=radio]')]; const i = rs.findIndex((r) => r.checked); return rs[i] && document.querySelector(`label[for="${rs[i].id}"]`)?.textContent.trim() === '비공개'; });
     if (!isPrivate) throw new Error('비공개 선택이 반영되지 않음');
     if (dry) { console.log('DRY-OK 비공개 준비', post.logNo, post.title.slice(0, 30)); break; }
+    await assertNoReviewGaps(page);
     const cbp = await page.$('button[class*=confirm_btn]'); const bxp = await cbp.boundingBox();
     await page.mouse.click(bxp.x + bxp.width / 2, bxp.y + bxp.height / 2); await wait(6000);
     const pub = page.url().includes('PostView');

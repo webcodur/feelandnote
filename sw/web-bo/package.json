@@ -102,6 +102,7 @@
     "contents:book-covers": "node --env-file=.env --import tsx scripts/contents/backfill-book-covers.mjs",
     "contents:book-covers:test": "tsx --test scripts/contents/backfill-book-covers.test.mjs scripts/contents/book-thumbnail-upgrade.test.mjs scripts/contents/book-low-resolution-upgrade.test.mjs",
     "contents:book-introductions:test": "tsx --tsconfig ../web/tsconfig.json --test scripts/contents/book-introductions.test.mjs",
+    "naver:audit-review-gaps": "node scripts/naver-blog/audit-review-gaps.mjs",
     "naver:audit-book-counts": "node scripts/naver-blog/audit-book-counts.mjs"
   },
   "dependencies": {
