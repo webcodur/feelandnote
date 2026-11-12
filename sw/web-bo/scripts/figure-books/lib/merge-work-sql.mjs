@@ -398,7 +398,10 @@ export function buildMergeSql(pair, snapshot, { reviewedEditionMappings = [], re
   const reviewedMappings = validateReviewedEditionMappings(pair, snapshot, reviewedEditionMappings)
   const excludedLocaleSeeds = snapshot.content_locales.filter(row => [pair.keep,pair.drop].includes(row.content_id)
     && (reviewedBookEditionSelectionReason({...row,title:row.sources?.edition_title??row.title})
-      || removedParts.some(part => part.content_id === row.content_id && part.locale === row.locale && toIsbn13(part.isbn ?? '') === toIsbn13(row.isbn ?? ''))))
+      || removedParts.some(part => part.content_id === row.content_id && part.locale === row.locale && toIsbn13(part.isbn ?? '') === toIsbn13(row.isbn ?? ''))
+      // 같은 판본의 ISBN-10·ISBN-13 표기 차이는 추가 판본이 아니다. 남는 작품이 같은 언어로 이미 그 판본을 가지면 판본 행을 새로 만들지 않는다.
+      || (row.content_id === pair.drop && !!toIsbn13(row.isbn ?? '') && [...snapshot.content_locales, ...snapshot.figure_book_editions]
+        .some(kept => kept.content_id === pair.keep && kept.locale === row.locale && toIsbn13(kept.isbn ?? '') === toIsbn13(row.isbn ?? '')))))
     .map(row => `(l.content_id=${sqlLiteral(row.content_id)} AND l.locale=${sqlLiteral(row.locale)} AND l.isbn IS NOT DISTINCT FROM ${sqlLiteral(row.isbn)})`)
   const excludedLocaleSeedSql = excludedLocaleSeeds.join(' OR ') || 'FALSE'
   const originalEditionIds = snapshot.figure_book_editions.map(row => sqlLiteral(String(row.id))).join(', ') || 'NULL'
