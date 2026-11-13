@@ -9,7 +9,6 @@ import {AsideClient} from '../../.agents/skills/aside-browser/scripts/aside-clie
 import {removeVerifiedDownloadCopy} from '../../.agents/skills/aside-browser/scripts/download-cleanup.mjs';
 import {CACHE_TAGS, itemRevalidationTags, revalidationApiPathForTags, isCompleteCacheRevalidationResponse} from '../../packages/shared/src/constants/cache-tags.ts';
 import {stripMarkdownEmphasis} from './reading-way-text.mjs';
-import {READING_WAY_KO_MAX_CHARS, READING_WAY_MAX_PARAGRAPHS, readingWayLengthExcess} from '../../packages/shared/src/constants/celeb-reading-way.ts';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const rulebook=path.join(root,'docs/project/celeb/celeb-05-02-reading-way.md');
@@ -31,11 +30,6 @@ const RESEARCH_TOOLS_RECHECK_MS=60*60*1000,RESEARCH_RETRY_LIMIT=2;
 const researchRetries=new Map();
 // 생성 표시가 남아 있으면 관찰 정체는 실패가 아니다. 일정 간격으로 기존 요청 대기를 기록한다.
 const GENERATION_STALL_MS=8*60*1000;
-// 분량 상한을 넘은 원고는 같은 대화에서 이 횟수까지 줄여 달라고 다시 요청하고, 그래도 넘으면 저장하지 않고 미룬다.
-const LENGTH_RETRY_LIMIT=2;
-export function lengthNotice({chars,paragraphs}){
-  return `한국어 본문이 ${chars}자·${paragraphs}문단으로 분량 상한을 넘습니다. 무엇을 남길지는 직접 골라 공백 포함 ${READING_WAY_KO_MAX_CHARS}자·${READING_WAY_MAX_PARAGRAPHS}문단 이하로 줄인 최종 한국어 JSON 코드 블록 하나로 주세요.`;
-}
 
 export function stallAction({pending,len,lastLen,lastAt,now,reloaded}){
   if(!pending)return 'none';
@@ -176,7 +170,7 @@ function accessError(state,message='Carbon unavailable'){
 }
 
 function args(argv){
-  const out={apply:false,continuous:false,bookResearch:false,booksOnly:false,collectOnly:false,shorten:false,limit:DEFAULT_BATCH_SIZE,account:'u0',pool:[],only:[],retry:[],resume:{},feedback:{},warnPronouns:false,summary:false,revalidateOnly:false,selfTest:false};
+  const out={apply:false,continuous:false,bookResearch:false,booksOnly:false,collectOnly:false,limit:DEFAULT_BATCH_SIZE,account:'u0',pool:[],only:[],retry:[],resume:{},feedback:{},warnPronouns:false,summary:false,revalidateOnly:false,selfTest:false};
   for(let i=0;i<argv.length;i++){
     const a=argv[i];
     if(a==='--apply')out.apply=true;
@@ -184,7 +178,6 @@ function args(argv){
     else if(a==='--book-research')out.bookResearch=true;
     else if(a==='--books-only'){out.bookResearch=true;out.booksOnly=true;}
     else if(a==='--collect-only')out.collectOnly=true;
-    else if(a==='--shorten'){out.shorten=true;out.collectOnly=true;}
     else if(a==='--warn-pronouns')out.warnPronouns=true;
     else if(a==='--summary')out.summary=true;
     else if(a==='--revalidate-only')out.revalidateOnly=true;
@@ -205,7 +198,7 @@ function args(argv){
       if(!validSlug(slug)||!/^https:\/\/gemini\.google\.com(?:\/u\/\d+)?\/app\/[a-f0-9]+(?:\?hl=ko)?$/.test(url))throw Error('Invalid resume conversation');
       out.resume[slug]=url;
     }
-    else if(a==='--help'){console.log('node scripts/browser/reading-way-argon.mjs [--apply | --summary | --revalidate-only] [--continuous] [--book-research | --books-only --only slug,slug | --collect-only | --shorten] [--limit 20] [--pool u0:0,u0:1] [--only slug,slug] [--retry-insufficient slug,slug] [--resume slug=https://gemini.google.com/app/ID]');process.exit(0);}
+    else if(a==='--help'){console.log('node scripts/browser/reading-way-argon.mjs [--apply | --summary | --revalidate-only] [--continuous] [--book-research | --books-only --only slug,slug | --collect-only] [--limit 20] [--pool u0:0,u0:1] [--only slug,slug] [--retry-insufficient slug,slug] [--resume slug=https://gemini.google.com/app/ID]');process.exit(0);}
     else throw Error('Unknown argument: '+a);
   }
   if(!Number.isInteger(out.limit)||out.limit<1||out.limit>100)throw Error('Invalid limit');
@@ -213,7 +206,6 @@ function args(argv){
   if(![...out.only,...out.retry].every(validSlug))throw Error('Invalid slug');
   if(out.revalidateOnly&&!out.only.length)throw Error('--revalidate-only requires --only');
   if(out.booksOnly&&(!out.only.length||out.continuous))throw Error('--books-only requires --only and cannot use --continuous');
-  if(out.shorten&&(out.bookResearch||out.booksOnly))throw Error('--shorten cannot use book research');
   if(out.collectOnly&&(out.booksOnly||out.continuous))throw Error('--collect-only cannot use --books-only or --continuous');
   if(!/^u\d+$/.test(out.account))throw Error('Invalid Aside account');
   if(!out.pool.length)out.pool=[{account:out.account,authuser:0,key:out.account+':0'}];
@@ -318,7 +310,7 @@ async function database(query,work){
 async function targets(options,work){
   const eligible=(options.booksOnly?` OR c.slug IN (${options.only.map(sql).join(',')})`:'')+(options.retry.length?` OR (c.reading_way='' AND c.reading_way_en='' AND c.slug IN (${options.retry.map(sql).join(',')}))`:'')+(Object.keys(options.feedback).length?` OR c.slug IN (${Object.keys(options.feedback).map(sql).join(',')})`:'');
   const only=options.only.length?`AND c.slug IN (${[...new Set([...options.only,...options.retry])].map(sql).join(',')})`:'';
-  const q=`SELECT COALESCE(json_agg(r),'[]'::json) FROM (SELECT c.id,c.slug,c.nickname AS name,c.nickname_en AS name_en,c.aliases,c.gender,c.birth_date,c.death_date,c.profession,c.reading_way AS ko,c.reading_way_en AS en,c.view_count,COALESCE(i.total_score,0) AS influence,ARRAY(SELECT DISTINCT cc.source_url FROM public.celeb_contents cc JOIN public.contents b ON b.id=cc.content_id WHERE cc.celeb_id=c.id AND b.type='BOOK' AND cc.source_url IS NOT NULL AND cc.source_url<>'' ORDER BY cc.source_url LIMIT 4) AS sources FROM public.celebs c LEFT JOIN public.celeb_influence i ON i.celeb_id=c.id WHERE c.celeb_reality IN ('REAL','BOTH') AND c.slug IS NOT NULL AND ${options.shorten?`coalesce(c.reading_way,'')<>'' AND (length(c.reading_way)>${READING_WAY_KO_MAX_CHARS} OR (SELECT count(*) FROM regexp_split_to_table(c.reading_way,E'\\n+') part WHERE btrim(part)<>'')>${READING_WAY_MAX_PARAGRAPHS})`:`(c.reading_way IS NULL${eligible})`} ${only}) r;`;
+  const q=`SELECT COALESCE(json_agg(r),'[]'::json) FROM (SELECT c.id,c.slug,c.nickname AS name,c.nickname_en AS name_en,c.aliases,c.gender,c.birth_date,c.death_date,c.profession,c.reading_way AS ko,c.reading_way_en AS en,c.view_count,COALESCE(i.total_score,0) AS influence,ARRAY(SELECT DISTINCT cc.source_url FROM public.celeb_contents cc JOIN public.contents b ON b.id=cc.content_id WHERE cc.celeb_id=c.id AND b.type='BOOK' AND cc.source_url IS NOT NULL AND cc.source_url<>'' ORDER BY cc.source_url LIMIT 4) AS sources FROM public.celebs c LEFT JOIN public.celeb_influence i ON i.celeb_id=c.id WHERE c.celeb_reality IN ('REAL','BOTH') AND c.slug IS NOT NULL AND (c.reading_way IS NULL${eligible}) ${only}) r;`;
   return JSON.parse((await database(q,work)).text.trim());
 }
 
@@ -610,7 +602,7 @@ export async function ensureDeepHigh(l){
 }
 
 async function submit(l,person,articles,rules,resume,warnPronouns=false){
-  if(l.reviewOriginal&&(l.bookResearch||l.shorten||resume))throw Error('Whole-text review requires a fresh Korean writing conversation');
+  if(l.reviewOriginal&&(l.bookResearch||resume))throw Error('Whole-text review requires a fresh Korean writing conversation');
   if(l.bookResearch&&!l.booksOnly)throw Error('Book research belongs to postprocessing, not the Korean writing request');
   if(l.owned)await repl(l,'await closeTab(readingPage);console.log("own previous tab closed");');
   l.preSendMode=null;l.preSendObservedAt=null;l.retainTab=false;l.downloadRetries=0;
@@ -618,7 +610,7 @@ async function submit(l,person,articles,rules,resume,warnPronouns=false){
     const tabs=JSON.parse(await repl(l,'console.log(JSON.stringify(await listBrowserTabs()));'));
     const own=tabs.find(t=>t.url===resume);
     await repl(l,own?`var readingPage=await attachBrowserTab(${quote(own.targetId)});console.log('resumed own tab');`:`var readingPage=await openTab(${quote(resume)});console.log('resumed own conversation');`);
-    l.owned=true;l.person=person;l.started=Date.now();l.phase='generating';l.lengthRetries=0;l.noticePending=warnPronouns||!!person.revisionFile&&!person.retryInsufficient;l.incompleteResponse=false;l.confirmedPromptPrefix=null;l.progressLen=undefined;l.progressAt=undefined;l.stallReloaded=false;
+    l.owned=true;l.person=person;l.started=Date.now();l.phase='generating';l.noticePending=warnPronouns||!!person.revisionFile&&!person.retryInsufficient;l.incompleteResponse=false;l.confirmedPromptPrefix=null;l.progressLen=undefined;l.progressAt=undefined;l.stallReloaded=false;
     // A resumed page can expose its old code block before its mode picker loads.
     // Confirm the mode for pending feedback before collect can read that block.
     if(l.noticePending)await ensureDeepHigh(l);
@@ -680,7 +672,7 @@ async function submit(l,person,articles,rules,resume,warnPronouns=false){
   const civic=matchingArticle(person,articles);
   const links=[...new Set([...civic,...person.sources.filter(u=>/^https?:\/\//.test(u))])].slice(0,l.bookResearch?8:5);
   let originalSources='';
-  if(!l.shorten)for(const source of person.sourceFiles??[]){
+  for(const source of person.sourceFiles??[]){
     if(!path.isAbsolute(source.file)||!links.includes(source.url))throw Error('Source document must match an attached reference URL');
     originalSources+='\n참조 원문: '+source.url+'\n'+await fs.readFile(source.file,'utf8')+'\n';
   }
@@ -696,9 +688,7 @@ async function submit(l,person,articles,rules,resume,warnPronouns=false){
     reviewOriginal='\n\n검수할 한국어 원고:\n'+verifiedReviewOriginal(await fs.readFile(l.reviewOriginal.output,'utf8'),person,l.reviewOriginal.sha256);
   }
   const task=l.reviewOriginal?'글 전체를 다시 검수하고 필요한 수정을 반영한 최종 한국어 JSON을 주세요.':l.booksOnly?'이번 작업은 기존 독서 방식 본문을 수정하지 않는 책장 보완입니다. 지정한 책의 원출처를 직접 읽고 관계 근거와 한국어 감상배경만 완성해주세요.':'위 링크를 직접 읽고 필요한 추가 조사도 직접 해서 이 인물의 한국어 독서 방식 글을 완성해주세요.';
-  // 분량 축약은 새 조사 없이 저장된 본문만 다시 고르게 한다. 남길 장면은 Argon이 정한다.
-  const shortenPacket=l.shorten?`인물: ${JSON.stringify(identity)}\n\n${rules}\n\n현재 저장된 한국어 독서 방식 본문입니다.\n${person.ko}\n\n새 조사 없이 이 본문에서 남길 장면을 골라 공백 포함 ${READING_WAY_KO_MAX_CHARS}자·${READING_WAY_MAX_PARAGRAPHS}문단 이하로 줄여주세요. 한국인이 한국어로 쓴 글답게 주의해서 작성해주세요.\n응답은 JSON 코드 블록 하나로 주세요: ${contract}.`:null;
-  const packet=shortenPacket??`인물: ${JSON.stringify(identity)}\n참조 링크: ${JSON.stringify(links)}\n${originalSources}\n${rules}${bookRequest}${revision}${reviewOriginal}\n\n${task}${l.booksOnly?'':`\n한국어 본문은 공백 포함 ${READING_WAY_KO_MAX_CHARS}자·${READING_WAY_MAX_PARAGRAPHS}문단 이하로 작성해주세요.`}\n응답은 JSON 코드 블록 하나로 주세요: ${contract}.${l.booksOnly?' ko와 en 필드는 만들지 마세요.':' 조사 결과 본문을 쓸 수 없으면 ko를 빈 문자열로 주세요.'}`;
+  const packet=`인물: ${JSON.stringify(identity)}\n참조 링크: ${JSON.stringify(links)}\n${originalSources}\n${rules}${bookRequest}${revision}${reviewOriginal}\n\n${task}\n응답은 JSON 코드 블록 하나로 주세요: ${contract}.${l.booksOnly?' ko와 en 필드는 만들지 마세요.':' 조사 결과 본문을 쓸 수 없으면 ko를 빈 문자열로 주세요.'}`;
   // Aside can replace an idle REPL session during a quota wait.
   l.dir=JSON.parse(await repl(l,'console.log(JSON.stringify(pwd));'));
   l.input=path.join(l.dir,person.slug+'-'+Date.now()+'.txt');
@@ -714,7 +704,7 @@ async function submit(l,person,articles,rules,resume,warnPronouns=false){
   await repl(l,`await readingPage.locator('input[type="file"][accept^=".txt"]').first().setInputFiles(${quote(l.input)});console.log('attached');`);
   s=await snap(l);
   const inputRef=ref(s,'textbox',/Gemini 프롬프트 입력/);
-  const instruction=l.reviewOriginal?'첨부한 원고의 글 전체를 다시 검수하고 필요한 수정을 반영한 최종 한국어 JSON을 주세요. 한국인이 한국어로 쓴 글답게 주의해서 작성해주세요.':l.shorten?'첨부한 룰북과 현재 본문으로 분량 상한에 맞게 줄인 독서 방식 원고를 완성해주세요. 한국인이 한국어로 쓴 글답게 주의해서 작성해주세요. 지정한 JSON 코드 블록 하나로 주세요.':l.booksOnly?'첨부한 요청과 룰북, 참조 링크로 책장 보완 대상만 직접 조사하고 한국어 감상배경을 완성해주세요. 독서 방식 본문은 작성하지 마세요. 한국인이 한국어로 쓴 글답게 주의해서 작성해주세요. 지정한 JSON 코드 블록 하나로 주세요.':'첨부한 룰북과 참조 링크로 직접 조사하고 독서 방식 원고를 완성해주세요. 한국인이 한국어로 쓴 글답게 주의해서 작성해주세요. 지정한 JSON 코드 블록 하나로 주세요.';
+  const instruction=l.reviewOriginal?'첨부한 원고의 글 전체를 다시 검수하고 필요한 수정을 반영한 최종 한국어 JSON을 주세요. 한국인이 한국어로 쓴 글답게 주의해서 작성해주세요.':l.booksOnly?'첨부한 요청과 룰북, 참조 링크로 책장 보완 대상만 직접 조사하고 한국어 감상배경을 완성해주세요. 독서 방식 본문은 작성하지 마세요. 한국인이 한국어로 쓴 글답게 주의해서 작성해주세요. 지정한 JSON 코드 블록 하나로 주세요.':'첨부한 룰북과 참조 링크로 직접 조사하고 독서 방식 원고를 완성해주세요. 한국인이 한국어로 쓴 글답게 주의해서 작성해주세요. 지정한 JSON 코드 블록 하나로 주세요.';
   await repl(l,`await readingPage.locator(${quote(inputRef)}).fill(${quote(instruction)});await readingPage.locator(${quote(inputRef)}).press('Space');console.log('prepared');`);
   let present=false;
   for(let attempt=0;attempt<10&&!present;attempt++){
@@ -725,7 +715,7 @@ async function submit(l,person,articles,rules,resume,warnPronouns=false){
   await ensureDeepHigh(l);
   // This send selector and document file input were inspected in the Argon pilot.
   await sendConfirmed(l,instruction,person.slug);
-  l.person=person;l.started=Date.now();l.phase='generating';l.inputHash=hash(packet);l.responseRetries=0;l.lengthRetries=0;l.incompleteResponse=false;l.progressLen=undefined;l.progressAt=undefined;l.stallReloaded=false;
+  l.person=person;l.started=Date.now();l.phase='generating';l.inputHash=hash(packet);l.responseRetries=0;l.incompleteResponse=false;l.progressLen=undefined;l.progressAt=undefined;l.stallReloaded=false;
   log('submitted',{slug:person.slug,civic:civic.length,links:links.length,lane:l.index,profile:l.profile.key,preSendMode:l.preSendMode,preSendObservedAt:l.preSendObservedAt,actualModel:'unknown'});
 }
 
@@ -864,19 +854,6 @@ async function collect(l){
   try{validateResponse(p,l.person,l.booksOnly);if(l.bookResearch)validateBookResearch(p,{koreanOnly:l.booksOnly});}
   catch(error){if(error.code==='RESEARCH_UNAVAILABLE'){l.badDownloads??=[];l.badDownloads.push(output);}throw error;}
   if(!l.booksOnly&&p.ko===''&&p.en===undefined)p.en='';
-  if(l.shorten&&!p.ko.trim())throw Error('Shortened body is empty');
-  const excess=l.booksOnly?null:readingWayLengthExcess(p.ko);
-  if(excess){
-    // 상한을 넘은 원고는 저장하지 않는다. 같은 대화에서 줄여 달라고 하고, 횟수를 넘기면 마지막 원고를 남긴 채 미룬다.
-    if((l.lengthRetries??0)>=LENGTH_RETRY_LIMIT){const error=new Error(`Body exceeds length cap after retries (${excess.chars} chars, ${excess.paragraphs} paragraphs)`);error.code='LENGTH_EXCEEDED';error.url=currentUrl;throw error;}
-    l.badDownloads??=[];l.badDownloads.push(output);
-    s=await ensureDeepHigh(l);
-    const notice=lengthNotice(excess),input=ref(s,'textbox',/Gemini 프롬프트 입력/);
-    await repl(l,`await readingPage.locator(${quote(input)}).fill(${quote(notice)});await readingPage.locator(${quote(input)}).press('Space');console.log('length notice prepared');`);
-    await sendConfirmed(l,notice,l.person.slug);
-    l.lengthRetries=(l.lengthRetries??0)+1;l.started=Date.now();l.progressLen=undefined;l.progressAt=undefined;l.stallReloaded=false;
-    log('length_notice_sent',{slug:l.person.slug,chars:excess.chars,paragraphs:excess.paragraphs,attempt:l.lengthRetries});return null;
-  }
   return {p,output,sha256:hash(raw),url:currentUrl,modelObservation:observation};
 }
 
@@ -1097,9 +1074,6 @@ async function selfTest(){
   assert.equal(stopForModelVerification({},[{event:'finished',completed:1}],{save:()=>assert.fail('Unexpected state write'),record:()=>assert.fail('Unexpected event')}),false);
   assert.throws(()=>args(['--book-research']),/postprocessing/);
   assert.throws(()=>validateBookResearch({}));
-  assert.equal(args(['--shorten']).shorten,true);assert.equal(args(['--shorten']).bookResearch,false);
-  assert.throws(()=>args(['--shorten','--book-research']));
-  assert.match(lengthNotice({chars:2100,paragraphs:5}),new RegExp(`2100자·5문단.*${READING_WAY_KO_MAX_CHARS}자·${READING_WAY_MAX_PARAGRAPHS}문단`));
   assert.throws(()=>validateBookResearch({books:[{title_en:'x'}],unresolved:[]}));
   validateBookResearch({books:[],unresolved:[]});
   const koBook={title_ko:'책',title_en:'Book',author_ko:'저자',author_en:'Author',evidence:'근거',review_ko:'한국어 감상배경',source_url:'https://example.com',source_urls:[]};
@@ -1268,7 +1242,7 @@ async function selfTest(){
   assert.throws(()=>argonSections('표시 없음'),/No Argon sections/);
   for(const f of [rulebook,path.join(root,'docs/project/celeb/celeb-02-01-content-research.md'),path.join(root,'docs/project/celeb/celeb-02-03-content-review.md')]){
     const t=await argonText(f);
-    assert.ok(!/--pool|--collect-only|--shorten|Aside|insane-search|웨이백 CDX|reading-way-books-apply/.test(t),`operator notes leaked from ${path.basename(f)}`);
+    assert.ok(!/--pool|--collect-only|Aside|insane-search|웨이백 CDX|reading-way-books-apply/.test(t),`operator notes leaked from ${path.basename(f)}`);
   }
   log('self_test_passed');
 }
@@ -1333,7 +1307,7 @@ async function main(options=args(process.argv.slice(2))){
     const profile=(resumed?options.pool.find(p=>p.authuser===resumedUser):null)??options.pool[index%options.pool.length];
     const client=new AsideClient({account:profile.account});await client.ready;
     const dir=JSON.parse(textOf(await client.callRepl('console.log(JSON.stringify(pwd));','Locate own input folder')));
-    lanes.push({client,dir,index,profile,bookResearch:options.bookResearch,booksOnly:options.booksOnly,shorten:options.shorten,owned:false,person:null,phase:'idle'});
+    lanes.push({client,dir,index,profile,bookResearch:options.bookResearch,booksOnly:options.booksOnly,owned:false,person:null,phase:'idle'});
   }
   let cursor=0,completed=0,stopping=false;const deferred=[];
   const onInterrupt=()=>{stopping=true;log('stop_requested');};
@@ -1429,7 +1403,7 @@ async function main(options=args(process.argv.slice(2))){
           if(l.bookResearch){
             log('books_pending',{slug:l.person.slug,count:l.artifact.p.books.length,unresolved:l.artifact.p.unresolved.length,output:l.artifact.output,sha256:l.artifact.sha256,url:l.artifact.url});
           }
-          await cleanupFiles([l.input,...(l.bookResearch||l.shorten||options.collectOnly?[]:[l.artifact.output]),...(l.badDownloads??[])]);
+          await cleanupFiles([l.input,...(l.bookResearch||options.collectOnly?[]:[l.artifact.output]),...(l.badDownloads??[])]);
           if(l.owned){
             try{
               await repl(l,'await closeTab(readingPage);console.log("own finished tab closed");');

@@ -17,9 +17,11 @@
 
 주어와 지칭 대상을 명료하게 쓴다.
 
-분량 상한은 넘지 말아야 할 선이지 채울 목표가 아니다. 확인된 내용이 적으면 짧게 끝낸다.
+일화를 따로 떼어 늘어놓지 않는다. 앞뒤 문단이 하나의 흐름으로 이어지게 쓰고, 잇는 데 설명이 더 필요하면 필요한 만큼 더 쓴다. 분량 상한은 두지 않는다(26.11.13 사용자 지시). 다만 출처에 없는 내용으로 분량을 채우지 않는다.
 
-3인칭 요약만 이어 가지 않는다. 출처에 본인의 말이나 글이 남아 있으면 생각이 가장 잘 드러나는 핵심 대목 서너 군데를 “ ”로 직접 인용하고 나머지는 풀어 쓴다. 짧은 표현·별칭·당시 쓰인 말은 ‘ ’로 묶는다. 인용은 출처 원문의 뜻을 그대로 옮기고, 원문에 없는 말을 따옴표 안에 넣지 않는다.
+문단은 다루는 일화나 생각이 바뀌는 곳에서 나눈다. 글이 길어지면 문단 수도 그만큼 늘린다. 문단 수를 미리 정해 두고 여러 일화를 한 문단에 몰아넣지 않는다.
+
+3인칭 요약만 이어 가지 않는다. 출처에 본인의 말이나 글이 남아 있으면 생각이 가장 잘 드러나는 핵심 대목 서너 군데를 “ ”로 직접 인용하고 나머지는 풀어 쓴다. 짧은 표현·별칭·당시 쓰인 말은 ‘ ’로 묶는다. 인용은 출처 원문의 뜻을 그대로 옮기고, 원문에 없는 말을 따옴표 안에 넣지 않는다. 원문 표현이 어색하거나 번역투면 따옴표로 옮기지 말고 같은 뜻을 한국어답게 풀어 쓴다.
 
 남성은 ‘그’, 여성은 ‘그녀’로 구분한다.
 <!-- /argon -->
@@ -40,13 +42,15 @@
 
 **감상 책이 있는 인물의 결과가 빈 값이면 바로 재조사한다.** 그 인물의 책 제목·감상 경위·출처 목록을 단서로 만들어 새 Carbon 높음 대화에 첨부한다(`--only SLUG --retry-insufficient SLUG --feedback SLUG=<목록 파일 절대경로>`). 재조사도 빈 값이면 조사 미달로 확정한다. 감상 책이 없는 조사 미달 인물은 사용자의 재조사 지시가 있을 때만 다시 처리한다.
 
+**감상 기록이 부실한 인물은 배움의 태도로도 쓴다(26.11.13 사용자 지시).** 독서 방식은 책 감상이 없어도 배움을 대하는 태도로 쓸 수 있다. 스승을 섬긴 일, 학문을 장려하거나 도서관·장서를 일군 일, 기록과 문헌을 대한 방식 등이다. 하후돈은 감상 책이 없지만 『삼국지』 「하후돈전」의 스승을 욕보인 자를 죽인 일화와 군중에서도 스승을 맞아 배운 기록으로 썼다. 이 보완은 모든 인물의 요청에 붙이지 않는다. 감상 책이 없거나 근거가 빈약해 조사 미달이 됐거나 될 인물만 대상이다. 실행자는 그런 인물의 배움 일화를 출처와 함께 [지속 과제](../../continuous/celeb-reading-way.md)의 「배움의 태도 소재」에 모아 둔다. 그 인물을 조사·재조사할 때 일화와 출처를 적은 파일을 `export-packets.mjs --feedback SLUG=<파일>`로 함께 보낸다. 파일 머리말은 「이 인물은 남은 독서 기록이 적습니다. 아래 일화처럼 배움·스승·학문·책과 기록을 대하는 태도가 드러나는 사실도 출처로 확인해 독서 방식의 일부로 함께 써 주세요. 확인되지 않는 일화는 쓰지 마세요.」로 한다. 소재가 모인 조사 미달 인물은 묶어서 재조사 대상으로 사용자에게 보고한다.
+
 작업자는 본문 작성부터 번역·저장·누락 도서 메타·감상 관계와 맡겨진 블로그 반영까지 직접 수행한다. 블로그·판본 전담 세션은 필수가 아니다. 본문에 나온 책과 실제 감상 근거를 기존 책장과 대조하고, [콘텐츠 조사](celeb-02-01-content-research.md)·[등록](celeb-02-02-content-registration.md)·[감상경위](celeb-02-03-content-review.md)에 따라 빠진 작품·한영 판본·감상배경을 채운다. 메타 등록이나 원고 수신만으로 책장 연결을 완료했다고 세지 않는다. 책장 조사가 근거 없음으로 돌려준 책이 본문에 남으면 실행자가 고치지 않고, 원고·지적 없이 새 Carbon 높음 대화에서 조사부터 다시 쓴다.
 
 사용자가 전담 세션을 연결하고 인계를 맡긴 경우에만, 10명마다 새로 필요한 책은 '대기 - 판본'에, 본문 저장·검증을 마친 인물명은 '독서방식 블로그'에 보낸다. 인계한 항목도 실제 반영 결과를 확인한다. 전담 세션이 없으면 같은 작업을 본인이 처리한다.
 
 받은 최종 원문은 탭을 닫기 전에 작업 폴더에 회수한다. 원문과 저장값을 대조하고, DB 재조회·캐시 갱신·한영 서비스 표시를 확인한다. 완료·검증한 작업 자료는 폐기하고 보류 자료는 유지한다.
 
-반복 실행은 [reading-way-argon.mjs](../../../scripts/browser/reading-way-argon.mjs)가 한국어 원고를 회수한다. `--resume`으로 같은 작성 대화를 이어받는다. 번역 요청문은 `readingWayTranslationPrompt`, 번역 결합은 `combineReadingWayTranslation`을 사용하고, 별도 번역과 대조를 마친 뒤 최종 저장한다. 분량 상한은 [공유 상수](../../../packages/shared/src/constants/celeb-reading-way.ts)를 따르며, 초과하면 실행자가 자르지 않고 모델에 축약을 맡긴다.
+반복 실행은 [reading-way-argon.mjs](../../../scripts/browser/reading-way-argon.mjs)가 한국어 원고를 회수한다. `--resume`으로 같은 작성 대화를 이어받는다. 번역 요청문은 `readingWayTranslationPrompt`, 번역 결합은 `combineReadingWayTranslation`을 사용하고, 별도 번역과 대조를 마친 뒤 최종 저장한다.
 
 본문과 책장 전수 대조는 [reading-way-shelf-scan.mts](../../../scripts/browser/reading-way-shelf-scan.mts)로 후보를 뽑는다. 초벌이므로 번역 제목 차이와 비도서를 LLM이 문맥·책장으로 먼저 거르고, 남은 후보만 원문을 확인한다. 한국어 제목만 대조하면 번역 제목이 다른 같은 책이 미등록으로 잡히므로(160인 정비에서 후보의 절반 이상), 조사 전에 영문 제목·저자로 기존 책장과 다시 대조한다. **소장·선물·책장에 꽂힘은 감상 근거가 아니다.** 추천만 한 책, 사전·수표 같은 도구, 이름만 언급한 책, 그 인물을 다룬 작품, 본인 저서(집필 탭 대상)도 감상 관계로 등록하지 않는다. 근거를 못 찾은 책은 등록하지 않고, 글이 원문보다 앞서 나갔으면 그 문장을 확인된 범위로 고친다. 검증한 책장 보완은 [reading-way-books-apply.mjs](../../../scripts/browser/reading-way-books-apply.mjs)로 반영한다. 장시간 실행은 [reading-way-watch-start.mjs](../../../scripts/browser/reading-way-watch-start.mjs)와 [reading-way-watch.mjs](../../../scripts/browser/reading-way-watch.mjs)를 사용하며, 원고 검수·저장은 실행자가 맡는다.
 
@@ -72,7 +76,7 @@ export 함수를 직접 호출하는 임시 파일은 자기 작업 폴더에 �
 2. 룰북 작성 규칙을 고쳤으면 `mk-init-A.mjs`로 `scoped/init-A.js`를 다시 만들고 Gemini 탭에서 한 번 실행해 localStorage `rwBookA`에 심는다. `mk-call-body.mjs slug`가 만든 `scoped/call-<slug>.js`를 새 대화에서 실행하면 Carbon 높음 확인과 전송까지 한다.
 3. 응답의 `ko`를 `web/<slug>.body.txt`로 회수해 브라우저 쪽 SHA-256과 맞춘다. 같은 대화에서 출처표를 받아 원문과 대조하고 고친 뒤 `finals/<slug>.json`(`slug`·`ko`·`sources`·`model`)을 쓴다.
 4. 실행자가 영어 번역을 붙여 `finals/<slug>.combined.json`을 만들고(「Carbon은 독서방식 본문에만」) 영어 인용을 원문 표현으로 되돌린다. `save.mjs slug --apply`가 빈 행에만 저장·재조회·캐시 갱신한다. 값이 있는 인물의 재작성은 `overwrite-save.mjs`, 국소 교정은 `fix-body.mjs`를 쓴다.
-5. `shelf.mjs slug`로 본문의 책을 책장과 대조하고, 빠진 책은 지속 과제의 책장 대기 목록에 적는다. 책장 보완(감상배경)은 `export-books2.mjs`(발송 JS) → `webrecv.mjs`(회수) → `precheck.mjs`·`match.mjs`(초벌 대조) → `mkdec.mjs`(결정 파일) → `meta.mjs`(메타 후보) → `books-step.mjs`(번역·반영 계획, `--apply`) 순서다. 이미 연결된 책의 감상평 교체는 `replace-existing.mjs`, 국소 교정은 `fix-review.mjs`를 쓴다.
+5. `shelf.mjs slug`로 본문의 책을 책장과 대조하고, 빠진 책은 지속 과제의 책장 대기 목록에 적는다. 책장 보완(감상배경)은 `export-books2.mjs`(발송 JS) → `webrecv.mjs`(회수) → `precheck.mjs`·`match.mjs`(초벌 대조) → `mkdec.mjs`(결정 파일) → `meta.mjs`(메타 후보) → `books-step.mjs`(번역·반영 계획, `--apply`) 순서다. 이미 연결된 책의 감상평 교체는 `replace-existing.mjs`, 국소 교정은 `fix-review.mjs`를 쓴다. 실행자가 직접 쓴 감상배경(「Carbon은 독서방식 본문에만」)은 원고 파일(`{slug, books:[{title_ko, title_en, author_ko, author_en, source_url, evidence, review_ko}]}`)과 결정 파일을 직접 만들고, 결정 파일의 `modelObservation`을 `{route:'executor', author, verifiedSources}`로 둔 뒤 `books-step.mjs`로 반영한다. `verifiedSources`에는 실행자가 직접 열어 대조한 출처만 넣고, 영어는 각 책의 `review_en`에 미리 넣는다.
 
 아래 1~6은 Aside 러너 경로다. 지금은 대상 집계·확인과 위 도구가 import하는 export 함수에 쓴다.
 

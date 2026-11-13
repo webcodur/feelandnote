@@ -5,7 +5,6 @@ import fs from 'node:fs/promises'
 import { pathToFileURL } from 'node:url'
 const OUT = W + '/packets'
 const m = await import(pathToFileURL(R + '/scripts/browser/reading-way-argon.mjs').href)
-const { READING_WAY_KO_MAX_CHARS, READING_WAY_MAX_PARAGRAPHS } = await import(pathToFileURL(R + '/packages/shared/src/constants/celeb-reading-way.ts').href)
 process.loadEnvFile(R + '/sw/web-bo/.env')
 const url = process.env.NEXT_PUBLIC_DB_API_URL, key = process.env.DB_SECRET_KEY, H = { apikey: key, Authorization: `Bearer ${key}` }
 const get = async (p) => (await fetch(`${url}/rest/v1/${p}`, { headers: H })).json()
@@ -24,7 +23,7 @@ for (const slug of process.argv[2].split(',')) {
   const revision = fb[slug] ? '\n\n' + await fs.readFile(fb[slug], 'utf8') : ''
   const task = '위 링크를 직접 읽고 필요한 추가 조사도 직접 해서 이 인물의 한국어 독서 방식 글을 완성해주세요.'
   const contract = `{"slug":${JSON.stringify(slug)},"ko":"완성 한국어 본문"}`
-  const packet = `인물: ${JSON.stringify(identity)}\n참조 링크: ${JSON.stringify(links)}\n\n${rules}${revision}\n\n${task}\n한국어 본문은 공백 포함 ${READING_WAY_KO_MAX_CHARS}자·${READING_WAY_MAX_PARAGRAPHS}문단 이하로 작성해주세요.\n응답은 JSON 코드 블록 하나로 주세요: ${contract}. 조사 결과 본문을 쓸 수 없으면 ko를 빈 문자열로 주세요.`
+  const packet = `인물: ${JSON.stringify(identity)}\n참조 링크: ${JSON.stringify(links)}\n\n${rules}${revision}\n\n${task}\n응답은 JSON 코드 블록 하나로 주세요: ${contract}. 조사 결과 본문을 쓸 수 없으면 ko를 빈 문자열로 주세요.`
   await fs.writeFile(`${OUT}/${slug}.txt`, packet, 'utf8')
   console.log(slug, packet.length, 'links', links.length)
 }
