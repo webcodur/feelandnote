@@ -107,7 +107,7 @@ interface CuratedTileGridProps {
   children?: ReactNode;
 }
 
-/** 감싸는 상자 격자 — 데스크톱 전량 격자와 모바일 구간 격자가 같은 상자를 쓴다 */
+/** 감싸는 상자 격자 — 데스크톱과 모바일이 같은 상자를 쓰고, 그릴 범위는 바깥(CuratedListContents)이 정한다 */
 export function CuratedTileGrid({ list, items, columnsClassName, children }: CuratedTileGridProps) {
   const t = useTranslations("library.curated");
   /* 도서는 한영 모두 구매 버튼을 둔다. 미등록 작품은 대기 자리를 지킨다 */

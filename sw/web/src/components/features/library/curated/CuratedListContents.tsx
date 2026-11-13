@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/library/curated/CuratedListContents.tsx
   기능: 선정 목록의 반응형 진열. 카드는 한 번만 렌더링한다.
-  책임: 두 가지 보기를 준다 — 기본은 2열 상자 격자로 한 구간(10~20편)씩 보이는 「격자 보기」,
+  책임: 두 가지 보기를 준다 — 기본은 상자 격자로 한 구간(10~20편)부터 보이고 「+N」·「전체보기」로 늘리는 「격자 보기」,
         다른 하나는 한 편씩 크게 보는 「펼쳐보기」(CuratedListExpand). 3열 격자는 아무것도 읽을 수 없었고,
         펼쳐보기만 두면 표지가 벽처럼 늘어선 맛이 사라진다(26.09.13 유저 지적).
         조작 줄은 같은 모양의 단추 둘이다. 왼쪽은 격자에서 「구간 목록」, 펼침에서 「작품 목록」 모달을 열고,
@@ -10,7 +10,7 @@
 */ // ------------------------------
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { LayoutGrid, ListOrdered, Maximize2, Menu } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -41,9 +41,11 @@ export default function CuratedListContents({ list }: { list: CuratedListDetail 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [openPanel, setOpenPanel] = useState<OpenPanel>(null);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [visibleCount, setVisibleCount] = useState(() => rangeSizeFor(total));
+  /* 기본 구간 뒤로 더 펼친 편수. 「+N」이 한 구간씩 늘리고 「전체보기」가 끝까지 채운다 */
+  const [extraCount, setExtraCount] = useState(0);
   const gridRef = useRef<HTMLElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const revealRequestedRef = useRef(false);
 
   const rangeSize = rangeSizeFor(total);
   const ranges = useMemo(() => {
@@ -55,26 +57,47 @@ export default function CuratedListContents({ list }: { list: CuratedListDetail 
   }, [total, rangeSize]);
   const rangeIndex = Math.min(ranges.length - 1, Math.floor(selectedIndex / rangeSize));
   const range = ranges[rangeIndex];
-  const rangeItems = range ? items.slice(range.start, range.end) : [];
   const isGrid = isDesktop || viewMode === "grid";
-  const gridItems = isDesktop ? items.slice(0, visibleCount) : rangeItems;
-  const nextCount = Math.min(rangeSize, total - visibleCount);
+  /* 격자가 그리는 범위 — PC는 처음부터, 모바일은 고른 구간부터 시작해 더 펼친 만큼 뒤로 늘어난다 */
+  const shownStart = isDesktop ? 0 : (range?.start ?? 0);
+  const shownEnd = Math.min(total, shownStart + rangeSize + extraCount);
+  const gridItems = items.slice(shownStart, shownEnd);
+  const nextCount = Math.min(rangeSize, total - shownEnd);
 
   const togglePanel = (panel: Exclude<OpenPanel, null>) =>
     setOpenPanel((current) => (current === panel ? null : panel));
 
-  /* 구간을 바꾸면 그 구간의 첫 작품을 고른 것으로 두고, 격자 윗변이 고정 띠 밑에 들어가 있으면 띠 바로 아래로 맞춘다.
-     격자 자리는 내용이 바뀌어도 움직이지 않으므로 바꾸기 전에 재도 된다 */
-  const goRange = (next: number) => {
-    const target = ranges[(next + ranges.length) % ranges.length];
-    if (!target) return;
-    setSelectedIndex(target.start);
-    setOpenPanel(null);
-    const limit = barRef.current?.getBoundingClientRect().bottom ?? HEADER_OFFSET;
+  /* 격자 윗변이 고정 띠 밑에 들어가 있으면 띠 바로 아래로 맞춘다. 펼친 격자는 길이가 바뀌므로
+     새 내용이 그려진 뒤에 잰다. 띠 아랫변은 화면 좌표로 재지 않고 붙는 자리(top)와 높이로 셈한다 —
+     격자가 줄어 문서가 짧아진 직후에는 붙은 띠의 화면 좌표가 낡은 값으로 나온다 */
+  useLayoutEffect(() => {
+    if (!revealRequestedRef.current) return;
+    revealRequestedRef.current = false;
+    const bar = barRef.current;
+    const limit = bar ? (parseFloat(getComputedStyle(bar).top) || 0) + bar.offsetHeight : HEADER_OFFSET;
     const top = gridRef.current?.getBoundingClientRect().top ?? limit;
     if (top < limit) {
       window.scrollTo({ top: window.scrollY + top - limit, behavior: "instant" });
     }
+  }, [selectedIndex, extraCount]);
+
+  /* 구간을 바꾸면 그 구간의 첫 작품을 고른 것으로 두고 더 펼친 것은 접는다 */
+  const goRange = (next: number) => {
+    const target = ranges[(next + ranges.length) % ranges.length];
+    if (!target) return;
+    revealRequestedRef.current = true;
+    setSelectedIndex(target.start);
+    setExtraCount(0);
+    setOpenPanel(null);
+  };
+
+  /* 전체보기 — 첫 작품부터 끝까지 한 번에 그린다. 뒤 구간을 보던 모바일은 앞쪽이 새로 생기므로 격자 머리로 올린다 */
+  const showAll = () => {
+    if (shownStart > 0) {
+      revealRequestedRef.current = true;
+      setSelectedIndex(0);
+    }
+    setExtraCount(total);
   };
 
   if (!range) return null;
@@ -91,7 +114,7 @@ export default function CuratedListContents({ list }: { list: CuratedListDetail 
       <ArchiveIndexToggle
         isOpen={openPanel === "index"}
         onToggle={() => togglePanel("index")}
-        label={isGrid ? t("rangeButton", { range: rangeLabel(range) }) : t("itemIndex")}
+        label={isGrid ? t("rangeButton", { range: rangeLabel({ start: shownStart, end: shownEnd }) }) : t("itemIndex")}
         icon={isGrid ? ListOrdered : Menu}
         className="min-w-0"
       />
@@ -118,10 +141,15 @@ export default function CuratedListContents({ list }: { list: CuratedListDetail 
           >
             <div className="p-3 md:p-5">
               <CuratedTileGrid list={list} items={gridItems} columnsClassName="grid-cols-2 md:grid-cols-5 lg:grid-cols-6" />
-              {nextCount > 0 && <div className="hidden pt-4 text-center md:block">
-                <button type="button" onClick={() => setVisibleCount(count => count + nextCount)}
-                  className="rounded-lg border border-white/[0.08] px-4 py-2 text-[13px] text-text-secondary hover:border-accent/40 hover:text-accent">
-                  {t("showRemaining", { count: nextCount })}
+              {nextCount > 0 && <div className="flex items-center justify-center gap-2 pt-4">
+                <button type="button" onClick={() => setExtraCount(count => count + nextCount)}
+                  aria-label={t("showMoreLabel", { count: nextCount })}
+                  className="min-h-11 rounded-lg border border-white/[0.08] px-4 py-2 font-mono text-[13px] tabular-nums text-text-secondary hover:border-accent/40 hover:text-accent">
+                  {t("showMore", { count: nextCount })}
+                </button>
+                <button type="button" onClick={showAll}
+                  className="min-h-11 rounded-lg border border-white/[0.08] px-4 py-2 text-[13px] text-text-secondary hover:border-accent/40 hover:text-accent">
+                  {t("showAll")}
                 </button>
               </div>}
             </div>

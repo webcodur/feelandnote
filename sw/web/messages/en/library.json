@@ -423,7 +423,9 @@
       "selectionNote": "Why it was chosen",
       "openContent": "View work",
       "coupangPending": "Coupang listing coming soon",
-      "showRemaining": "Show {count} more",
+      "showMore": "+{count}",
+      "showMoreLabel": "Show {count} more",
+      "showAll": "Show all",
       "mediaLabel": {
         "BOOK": "Books",
         "VIDEO": "Film & TV",
