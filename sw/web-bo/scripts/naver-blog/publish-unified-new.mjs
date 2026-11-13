@@ -19,7 +19,9 @@ import {textsDigest,articleTexts} from './lib/body-baseline.mjs';
 // 12시간에 한 편: 하루 두 칸(26.11.03 사용자 지시).
 const RESERVATION_TIMES=['09:00','21:00'];
 const args=process.argv.slice(2),file=args.find(a=>a.startsWith('--material='))?.slice(11);
-if(!file||!path.isAbsolute(file)||args.some(a=>!a.startsWith('--material=')&&!['--apply','--review'].includes(a)))throw Error('--material=<absolute JSON> [--apply] [--review]');
+// --slot="YYYY-MM-DD HH:MM": 맞수 인물 짝처럼 정해 둔 칸에만 예약한다. 그 칸이 차 있으면 다른 칸으로 가지 않고 멈춘다.
+const slot=args.find(a=>a.startsWith('--slot='))?.slice(7);
+if(!file||!path.isAbsolute(file)||(slot!==undefined&&!/^\d{4}-\d{2}-\d{2} (09|21):00$/.test(slot))||args.some(a=>!a.startsWith('--material=')&&!a.startsWith('--slot=')&&!['--apply','--review'].includes(a)))throw Error('--material=<absolute JSON> [--slot="YYYY-MM-DD 09:00|21:00"] [--apply] [--review]');
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8')),write=(f,v)=>fs.writeFileSync(f,JSON.stringify(v,null,2)),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const base=path.dirname(file),checkpoint=path.join(base,'new-post-saved.json'),registry=path.join(ASSETS,'naver-blog/posts.json'),draftFile=path.join(ASSETS,'naver-blog/celeb-drafts.json');
 if(fs.existsSync(checkpoint))throw Error('A saved new-post transaction already exists. Verify it instead of publishing again.');
@@ -35,7 +37,10 @@ try{
  await editor.blankEditor();let occupied=[];
  if(await page.$('button[class*=reserve_btn]')){await editor.click('button[class*=reserve_btn]');const count=await page.$eval('button[class*=reserve_btn]',b=>Number(b.textContent.match(/(\d+)\s*건/)?.[1]));if(!Number.isInteger(count))throw Error('Actual reservation count missing');if(count){await page.waitForSelector('button[class*=article_button]');occupied=await page.$$eval('button[class*=article_button]',bs=>bs.map(b=>b.innerText.replace(/\u200b/g,'').trim()));if(occupied.length!==count)throw Error('Complete actual reservation list required');}await editor.click('button[class*=close_button]');}
  if(occupied.some(row=>row.slice(0,row.lastIndexOf('\n')).trim()===article.title))throw Error('Exact title already exists in actual reservations');
- const start=new Date(Date.now()+9*3600000).toISOString().slice(0,10),when=buildReservationSlots({count:1,start,times:RESERVATION_TIMES,occupied:[...occupied,...read(registry).filter(p=>!['deleted','private','replaced','skip'].includes(p.link)).map(p=>p.scheduledAt??'') ]})[0];
+ const start=slot?.slice(0,10)??new Date(Date.now()+9*3600000).toISOString().slice(0,10),slotKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`,
+  // 두 시각을 모두 넣어 계산해야 같은 날 다른 시각의 예약이 지정 칸을 막지 않는다. 지정 칸이 빈 칸 목록에 없으면 멈춘다.
+  when=buildReservationSlots({count:slot?60:1,start,times:RESERVATION_TIMES,occupied:[...occupied,...read(registry).filter(p=>!['deleted','private','replaced','skip'].includes(p.link)).map(p=>p.scheduledAt??'') ]}).find((d,i)=>slot?slotKey(d)===slot:i===0);
+ if(!when)throw Error('Requested slot is taken: '+slot);
  // Calendar helper uses local Date getters; this publisher's dates are always Korean.
  if(when.getTimezoneOffset()!==-540)throw Error('Run new-post writer with TZ=Asia/Seoul');
  await page.waitForSelector('.se-documentTitle .se-text-paragraph');await replaceTitle(page,'',article.title);await clearBody(page,article.title);

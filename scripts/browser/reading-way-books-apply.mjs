@@ -20,7 +20,9 @@ export function validatePlan(p){
   if(!Array.isArray(p.originals)||!p.originals.length||!Array.isArray(p.relations)||!p.relations.length)throw Error('Missing originals/relations');
   for(const o of p.originals){
     if(!path.isAbsolute(o.path)||!/^[a-f0-9]{64}$/.test(o.sha256??''))throw Error('Invalid original reference');
-    assertCollectionMode(o.modelObservation);
+    // celeb-05-02 「Carbon은 독서방식 본문에만」(26.11.12): 감상배경은 실행자가 직접 쓴다. 실행자 원고는 작성자와 직접 대조한 출처를 남긴다.
+    if(o.modelObservation?.route==='executor'){required(o.modelObservation.author,'executor author');if(!o.modelObservation.verifiedSources?.length||!o.modelObservation.verifiedSources.every(http))throw Error('Executor original needs verified sources');}
+    else assertCollectionMode(o.modelObservation);
   }
   const works=p.newWorks??[],extra=p.newLocales??[],ids=new Set();
   for(const r of p.relations){required(r.content_id,'content ID');if(ids.has(r.content_id))throw Error('Duplicate relation');ids.add(r.content_id);if(!Number.isInteger(r.original_index)||!p.originals[r.original_index]||!Number.isInteger(r.book_index)||r.book_index<0)throw Error('Invalid book reference');}
