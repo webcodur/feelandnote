@@ -186,7 +186,7 @@ export default function AtlasScreen({ mode, data, navigationTree: suppliedNaviga
         { key: "shelf", label: shelfTitle, sectionId: "atlas-shelf" },
       ] : []),
     ].map((item, index) => ({ ...item, chapter: String(index + 1).padStart(2, "0") }));
-  /* 한 편의 주소에서는 고른 이름이 페이지의 큰 제목(h1) — 첫 화면은 배너의 「신화의 세계」「세력도감」이 h1이다 */
+  /* 한 편의 주소에서는 고른 이름이 페이지의 큰 제목(h1) — 목록은 공통 배너의 「탐색」이 h1이다 */
   const ownsTitle = atlasPageOwnsTitle(pathname);
   const sectionTotal = tocItems.length;
   const sectionIndex = (key: string) => tocItems.findIndex(item => item.key === key);

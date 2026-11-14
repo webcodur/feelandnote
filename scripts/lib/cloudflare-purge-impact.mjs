@@ -449,6 +449,16 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/faction/entry/FactionEntryView.tsx',
   // 도감 이동·최근 방문 자료는 도감/클라이언트 localStorage에서만 읽는다.
   'sw/web/src/lib/atlas-navigation.ts',
+  'sw/web/src/lib/exploreModeResume.ts',
+  'sw/web/src/components/features/user/explore/hub/ExploreModeNav.tsx',
+  // 인물 목록은 /explore에서만 그리며, 철거한 이름 조회도 도감 배너 전용이었다.
+  'sw/web/src/components/features/user/explore/hub/ExploreFigures.tsx',
+  'sw/web/src/actions/home/getFactionName.ts',
+  // 이 배럴의 런타임 소비자는 비보관 탐색·세력 화면과 클릭 뒤 실행하는 통계 조회다.
+  // 보관하는 연표의 TimelineCeleb·CountryGroup 소비는 import type이다.
+  'sw/web/src/actions/home/index.ts',
+  // CSV 직렬화는 다운로드 API에서만 사용하고 HTML을 생성하지 않는다.
+  'sw/web/src/lib/library/curatedListCsv.ts',
   'sw/web/src/lib/faction-theme.ts',
   'sw/web/src/lib/faction-scene-completion.ts',
   'sw/web/src/lib/recent-atlas.ts',

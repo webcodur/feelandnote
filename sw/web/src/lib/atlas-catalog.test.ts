@@ -19,9 +19,11 @@ test("catalog exposes only published myths and keeps the region order, real link
   assert.deepEqual(groups.map(group => group.id), ["greek"]);
   assert.deepEqual(groups[0].entries.map(entry => entry.href), ["/explore/myth/odyssey"]);
   assert.equal(groups[0].entries[0].members, 2);
+  assert.equal(groups[0].entries[0].images, 2);
   assert.equal(groups[0].entries[0].cover, "/cover.png");
   assert.equal(groups[0].entries[0].scenesComplete, true);
   data.myths[1].images = [];
+  assert.equal(mythCatalogGroups(data)[0].entries[0].images, 0);
   assert.equal(mythCatalogGroups(data)[0].entries[0].scenesComplete, false);
 });
 
@@ -38,10 +40,12 @@ test("faction catalog uses localized names and headlines and marks completion on
   assert.equal(en.entries[0].headline, "Research lab");
   assert.equal(en.entries[0].href, "/explore/faction/lab");
   assert.equal(en.entries[0].cover, "/cover.webp");
+  assert.equal(ko.entries[0].images, 2);
+  assert.equal(en.entries[0].images, 1);
 });
 
 test("search combines words across theme, name and headline without changing the source catalog", () => {
-  const entry = { id: "a", name: "Odyssey", headline: "A journey home", href: "/a", cover: null, members: 2, scenesComplete: false };
+  const entry = { id: "a", name: "Odyssey", headline: "A journey home", href: "/a", cover: null, members: 2, images: 0, scenesComplete: false };
   const groups: AtlasCatalogGroup[] = [{ id: "greek", name: "Greek", entries: [entry] }, { id: "other", name: "Other", entries: [{ ...entry, id: "b", name: "Other" }] }];
   assert.deepEqual(filterAtlasCatalog(groups, null, "  GREEK   home ").map(group => group.id), ["greek"]);
   assert.equal(filterAtlasCatalog(groups, "other", "Odyssey").length, 0);

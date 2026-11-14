@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Compass, Users } from "lucide-react";
+import { ArrowRight, Compass } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import FormattedText from "@/components/ui/FormattedText";
 import MythTitleImage from "../myth/MythTitleImage";
 import type { AtlasCatalogEntry } from "@/lib/atlas-catalog";
+import AtlasEntryStats from "./AtlasEntryStats";
 
 export default function AtlasCatalogCard({ entry }: { entry: AtlasCatalogEntry }) {
   const t = useTranslations("explore.atlasCatalog");
@@ -32,9 +33,7 @@ export default function AtlasCatalogCard({ entry }: { entry: AtlasCatalogEntry }
           <ArrowRight size={17} className="mt-1 shrink-0 text-text-tertiary group-hover:text-accent" aria-hidden />
         </div>
         {entry.headline && <p className="line-clamp-2 break-keep text-sm leading-relaxed text-text-secondary"><FormattedText text={entry.headline} /></p>}
-        <span className="mt-auto inline-flex items-center gap-1.5 pt-1 text-xs tabular-nums text-text-secondary" title={t("members", { count: entry.members })}>
-          <span aria-hidden>{entry.members}</span><Users size={13} aria-hidden /><span className="sr-only">{t("members", { count: entry.members })}</span>
-        </span>
+        <AtlasEntryStats members={entry.members} images={entry.images} className="mt-auto pt-1" />
       </div>
     </Link>
   );

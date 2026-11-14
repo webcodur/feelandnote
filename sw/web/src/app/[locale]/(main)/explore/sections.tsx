@@ -88,7 +88,7 @@ export async function ProfileSection() {
   );
 }
 
-/* 신화 한 편의 상세. 전체 목록은 /explore/myth가 맡는다. */
+/* 신화 한 편의 상세. 전체 목록은 탐색의 신화 모드가 맡는다. */
 export async function MythSection({ slug }: { slug: string }) {
   const locale = await getLocale();
   const data = await load("신화 탐색", () => getMythData(locale, slug));

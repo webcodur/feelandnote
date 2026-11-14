@@ -266,6 +266,12 @@ test('atlas routes bypass front HTML caches while the shared explore frame reach
     'sw/web/src/app/[locale]/(main)/explore/myth/[slug]/page.tsx',
     'sw/web/src/app/[locale]/(main)/explore/faction/layout.tsx',
     'sw/web/src/app/[locale]/(main)/explore/faction/FactionScreen.tsx',
+    'sw/web/src/lib/exploreModeResume.ts',
+    'sw/web/src/components/features/user/explore/hub/ExploreModeNav.tsx',
+    'sw/web/src/components/features/user/explore/hub/ExploreFigures.tsx',
+    'sw/web/src/actions/home/getFactionName.ts',
+    'sw/web/src/actions/home/index.ts',
+    'sw/web/src/lib/library/curatedListCsv.ts',
   ]).scopes, ['none'])
   assert.deepEqual(classifyCloudflarePurgeImpact([
     'sw/web/src/components/features/user/explore/hub/ExploreLayoutFrame.tsx',

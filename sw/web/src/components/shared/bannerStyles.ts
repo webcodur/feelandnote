@@ -18,10 +18,6 @@ export const BANNER_TITLE_CLASS =
 export const BANNER_MOBILE_TITLE_CLASS =
   "justify-center text-center text-2xl font-bold leading-tight tracking-tight text-text-primary";
 
-/** 경로(빵부스러기) 줄 — 무늬 위에서 읽히도록 반투명 알약 바탕에 싣는다 */
-export const BANNER_CRUMB_TRAIL_CLASS =
-  "pointer-events-auto inline-flex max-w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5 rounded-full border border-line bg-bg-secondary/75 px-3 py-1 text-[13px] font-medium text-text-secondary backdrop-blur-sm md:text-sm";
-
 /** 경로의 상위 단계 링크. hover는 글자색이 즉시 바뀐다 */
 export const BANNER_CRUMB_LINK_CLASS =
   "rounded-sm hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent";

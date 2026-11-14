@@ -1,13 +1,18 @@
 import type { FeaturedFaction } from "@/actions/home/getFeaturedFactions";
 import { toCoverImage, toSceneImages } from "@feelandnote/shared/lib/faction-team-image";
 import type { FactionFigureBook } from "@/actions/home/getFactionFigureBooks";
-import { MYTH_OTHER_GROUP_ID, type MythData } from "@/actions/home/mythTypes";
+import { MYTH_OTHER_GROUP_ID, type Myth, type MythData } from "@/actions/home/mythTypes";
 import type { CelebProfile } from "@/types/home";
 import type { Locale } from "@/types/locale";
 import { buildFactionClusters, localizedFactionDescription, localizedFactionHeadline, localizedFactionName } from "./faction-sections";
 
 export function getFactionThemeImage(teamImages: unknown): string | undefined {
   return toCoverImage(teamImages)?.url;
+}
+
+export function getFactionThemeImages(teamImages: unknown, locale: Locale): Myth["images"] {
+  const image = getFactionThemeImage(teamImages);
+  return [...(image ? [{ url: image, label: null }] : []), ...toSceneImages(teamImages, locale)];
 }
 
 /* 「이 세력·신화의 책」주제책 명단은 faction_lv2.theme_book_ids가 쥔다 — 서버 원장이다.
@@ -28,14 +33,13 @@ export function toFactionThemeData(entry: FeaturedFaction, celebs: CelebProfile[
   const descriptions = new Map(groupRows.map((group) => [group.name, (isEn ? group.description_en : group.description)?.trim() || null]));
   const clusters = buildFactionClusters(members, locale, entry.team_images);
   const slug = entry.slug ?? entry.id;
-  const image = getFactionThemeImage(entry.team_images);
   const theme = {
     id: entry.id, slug, name: localizedFactionName(entry, locale),
     headline: localizedFactionHeadline(entry, locale),
     description: localizedFactionDescription(entry, locale),
     isPublished: true, regionId: "faction", music: entry.music,
     scenesComplete: entry.scenes_complete === true,
-    images: [...(image ? [{ url: image, label: null }] : []), ...toSceneImages(entry.team_images, locale)],
+    images: getFactionThemeImages(entry.team_images, locale),
     personIds, leadPersonIds: [],
     groups: clusters.length > 1 ? clusters.map((cluster) => ({
       id: cluster.name ?? MYTH_OTHER_GROUP_ID, name: cluster.label,

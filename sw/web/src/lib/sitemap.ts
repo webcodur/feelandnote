@@ -7,6 +7,7 @@ import { getCelebProfileUrl } from './url'
 import { INFLUENCE_RANKING_FIELDS, getInfluenceRankingHref } from '@/constants/influenceRanking'
 import { CURATOR_PAGE_SIZE } from '@/components/features/library/hub/curatorExplore'
 import { CURATED_HUB_PATH, resolveCuratedHubMeta } from './library/curatedMeta'
+import { exploreModeHref } from '@/constants/exploreModes'
 
 export const SITEMAP_REVALIDATE_SECONDS = 86400
 
@@ -180,12 +181,12 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
   ['/explore/ranking?category=game', 'daily', 0.7],
   ['/explore/ranking?category=music', 'daily', 0.7],
   ['/explore/timeline', 'weekly', 0.7],
-  ['/explore/faction', 'daily', 0.7],
+  [exploreModeHref('faction'), 'daily', 0.7],
   ['/explore/spectrum', 'weekly', 0.6],
   ...INFLUENCE_RANKING_FIELDS.map(
     (field): [string, SitemapEntry['changeFrequency'], number] => [getInfluenceRankingHref(field), 'weekly', 0.7],
   ),
-  ['/explore/myth', 'weekly', 0.6],
+  [exploreModeHref('myth'), 'weekly', 0.6],
   ['/explore/today', 'daily', 0.7],
   ['/explore/directory', 'weekly', 0.8],
   ['/explore/monologue', 'weekly', 0.6],

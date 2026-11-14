@@ -466,6 +466,19 @@
         "GAME": "Game of the Year Winners - Every Major GOTY Award",
         "MUSIC": "Album of the Year Winners - GRAMMY, BRIT & Mercury",
         "BOOK": "Recommended Book Lists - University Reading Lists & Literary Prize Winners"
+      },
+      "downloadList": "Download full list",
+      "downloadHint": "Save all {count} works as a CSV, including those outside the current view.",
+      "downloadColumns": {
+        "number": "No.",
+        "title": "Title",
+        "creator": "Author / Creator",
+        "rank": "Rank",
+        "year": "Year",
+        "note": "Selection note",
+        "curator": "Institution",
+        "list": "List",
+        "source": "Original source"
       }
     },
     "popular": {

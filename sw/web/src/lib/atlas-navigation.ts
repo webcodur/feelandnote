@@ -7,6 +7,7 @@ import { mythHref } from "@/components/features/user/explore/myth/mythHref";
 import { buildFactionClusters, factionSectionKey, localizedFactionName, type FactionSection } from "./faction-sections";
 import type { Locale } from "@/types/locale";
 import { hasCompletedFactionScenes } from "./faction-scene-completion";
+import { getFactionThemeImages } from "./faction-theme";
 
 // 본문과 선택 창이 같은 항목·그룹·주소를 사용한다.
 export function buildMythNavigation(data: MythData, labels: { other: string; unnamed: string }): AtlasTheme[] {
@@ -17,7 +18,7 @@ export function buildMythNavigation(data: MythData, labels: { other: string; unn
       return {
         id: myth.id, name: myth.name, count: myth.personIds.length, disabled: !myth.isPublished,
         href: mythHref(myth.slug), imageUrl: myth.images.find((image) => image.kind !== "scene")?.url,
-        scenes, scenesComplete: myth.isPublished && hasCompletedFactionScenes(myth.scenesComplete, scenes),
+        scenes, images: myth.images.length, scenesComplete: myth.isPublished && hasCompletedFactionScenes(myth.scenesComplete, scenes),
         groups: myth.groups.map((group) => ({ id: group.id, name: mythGroupName(group, labels), count: group.personIds.length })),
       };
     }),
@@ -33,7 +34,7 @@ export function buildFactionNavigation(sections: FactionSection[], locale: Local
       return {
         id: entry.id, name: localizedFactionName(entry, locale), count: entry.celebs.length,
         href: `/explore/faction/${entry.slug}`, imageUrl: toCoverImage(entry.team_images)?.url,
-        scenes, scenesComplete: hasCompletedFactionScenes(entry.scenes_complete, scenes),
+        scenes, images: getFactionThemeImages(entry.team_images, locale).length, scenesComplete: hasCompletedFactionScenes(entry.scenes_complete, scenes),
         groups: groups.length > 1 ? groups.map((group) => ({
           id: group.name ?? MYTH_OTHER_GROUP_ID, name: group.label ?? otherLabel, count: group.celebIds.length,
         })) : [],

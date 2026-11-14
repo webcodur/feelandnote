@@ -4,6 +4,7 @@ import { hasCompletedFactionScenes } from "./faction-scene-completion";
 import { factionSectionKey, localizedFactionHeadline, localizedFactionName, type FactionSection } from "./faction-sections";
 import { mythHref } from "@/components/features/user/explore/myth/mythHref";
 import type { Locale } from "@/types/locale";
+import { getFactionThemeImages } from "./faction-theme";
 
 export interface AtlasCatalogEntry {
   id: string;
@@ -12,6 +13,7 @@ export interface AtlasCatalogEntry {
   href: string;
   cover: string | null;
   members: number;
+  images: number;
   scenesComplete: boolean;
 }
 export interface AtlasCatalogGroup { id: string; name: string; entries: AtlasCatalogEntry[] }
@@ -26,7 +28,7 @@ export function mythCatalogGroups(data: MythData): AtlasCatalogGroup[] {
       return entry ? [{
         id: entry.id, name: entry.name, headline: entry.headline, href: mythHref(entry.slug),
         cover: entry.images.find(image => image.kind !== "scene")?.url ?? null,
-        members: entry.personIds.length,
+        members: entry.personIds.length, images: entry.images.length,
         scenesComplete: hasCompletedFactionScenes(entry.scenesComplete, entry.images.filter(image => image.kind === "scene").length),
       }] : [];
     }),
@@ -39,7 +41,7 @@ export function factionCatalogGroups(sections: FactionSection[], locale: Locale)
     entries: section.entries.map(entry => ({
       id: entry.id, name: localizedFactionName(entry, locale), headline: localizedFactionHeadline(entry, locale),
       href: `/explore/faction/${entry.slug}`, cover: toCoverImage(entry.team_images)?.url ?? entry.team_images.find(image => image.kind !== "scene")?.url ?? null,
-      members: entry.celebs.length,
+      members: entry.celebs.length, images: getFactionThemeImages(entry.team_images, locale).length,
       scenesComplete: hasCompletedFactionScenes(entry.scenes_complete, toSceneImages(entry.team_images, locale).length),
     })),
   }));

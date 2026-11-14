@@ -92,11 +92,11 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
       <button key={option.value} type="button" role={multiple ? "checkbox" : undefined} aria-checked={multiple ? selected : undefined} aria-pressed={multiple ? undefined : selected}
         disabled={draftFilters.isLoading || (multiple && !selected && option.value !== "all" && selectedValues.length >= CELEB_FILTER_SELECTION_LIMITS.items)}
         onClick={select}
-        className={`flex min-h-11 min-w-0 w-full items-center gap-2 rounded-control border px-2.5 py-2 text-left text-sm outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-35 ${selected ? "border-accent/40 bg-accent/10 text-accent hover:bg-accent/20" : `${multiple ? "border-line" : "border-transparent"} text-text-primary hover:border-line-strong hover:bg-white/5`}`}>
+        className={`flex min-h-11 min-w-0 w-full items-center gap-2 rounded-control border px-2.5 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-35 ${active === "reality" && option.value === "mixed" ? "col-span-2" : ""} ${multiple ? "text-start" : "text-center"} ${selected ? "border-accent/40 bg-accent/10 text-accent hover:bg-accent/20" : "border-white/15 bg-white/[0.02] text-text-primary hover:border-white/35 hover:bg-white/5"}`}>
         {multiple && <span className={`flex size-4 shrink-0 items-center justify-center rounded-sm border ${selected ? "border-accent bg-accent text-bg-main" : "border-white/30"}`} aria-hidden>{selected && <Check size={12} />}</span>}
         <span className="min-w-0 flex-1">
           <span className="block break-words">{option.label}</span>
-          {active === "reality" && option.value === "mixed" && <span className="mt-1 block text-xs leading-5 text-text-secondary">{t("reality.mixedDescription")}</span>}
+          {active === "reality" && option.value === "mixed" && <span className="mt-1 block text-start text-xs leading-5 text-text-secondary">{t("reality.mixedDescription")}</span>}
         </span>
       </button>
     );
@@ -111,12 +111,12 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
   const footer = (
     <>
       <div className="space-y-2 border-t border-white/10 p-3" role="group" aria-label={t("compactFilters.selected")}>
-        <p className="text-xs font-medium text-text-secondary">
+        <p className="text-center text-xs font-medium text-text-secondary">
           {t("compactFilters.selected")} <span className="tabular-nums text-accent">{conditions.length}</span>
         </p>
-        {conditions.length === 0 && <p className="text-xs text-text-tertiary">{t("compactFilters.empty")}</p>}
+        {conditions.length === 0 && <p className="text-center text-xs text-text-tertiary">{t("compactFilters.empty")}</p>}
         {conditions.length > 0 && (
-          <div className="flex max-h-[16dvh] flex-wrap gap-2 overflow-y-auto overscroll-contain">
+          <div className="flex max-h-[16dvh] flex-wrap justify-center gap-2 overflow-y-auto overscroll-contain">
             {conditions.map(condition => (
               <button key={`${condition.key}:${condition.value ?? ""}`} type="button" disabled={draftFilters.isLoading}
                 onClick={() => { condition.clear(); }}
@@ -159,7 +159,7 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
           </div>
         ) : (
           <>
-            {multiple && <p className="px-3 pt-3 text-xs text-text-secondary">{t("compactFilters.multiple")}</p>}
+            {multiple && <p className="px-3 pt-3 text-center text-xs text-text-secondary">{t("compactFilters.multiple")}</p>}
             {!multiple && allOption && <div className="px-3 pt-3">{renderOption(allOption)}</div>}
             {active === "nationality" && (
               <div className="relative mx-3 mt-2">
@@ -168,7 +168,7 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
                   className="h-9 w-full rounded-md border border-white/15 bg-white/5 pl-9 pr-3 text-sm outline-none focus-visible:border-accent" />
               </div>
             )}
-            <div className={multiple ? "grid grid-cols-2 items-start gap-2 p-3" : "space-y-1 p-3"}>{(multiple ? visibleOptions : remainingOptions).map(renderOption)}</div>
+            <div data-filter-options={active} className="grid grid-cols-2 items-start gap-2 p-3">{(multiple ? visibleOptions : remainingOptions).map(renderOption)}</div>
           </>
         )}
       </div>

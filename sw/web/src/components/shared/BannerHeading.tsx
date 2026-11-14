@@ -1,8 +1,7 @@
 /*
   파일명: /components/shared/BannerHeading.tsx
   기능: 허브 배너의 제목과 경로(빵부스러기)
-  책임: 배너는 "지금 어디에 있는지"를 알리는 자리다. 상위 경로는 작은 한 줄(반투명 알약)로, 지금 화면은 큰 제목으로
-        나눠 그린다 — 경로 전체를 큰 제목 글씨로 이어 쓰면 낮은 배너에서 두 줄로 넘치고 어디가 현재인지 흐려진다.
+  책임: 배너의 큰 글자 자체를 「상위 › 현재」 경로로 이어 그린다. 별도 경로 줄과 제목을 반복하지 않는다.
         넓은 화면은 h1, 휴대폰은 role=heading(같은 화면에 h1을 두 번 두지 않는다).
 */ // ------------------------------
 
@@ -14,7 +13,6 @@ import { Link } from "@/i18n/navigation";
 import {
   BANNER_CRUMB_CURRENT_CLASS,
   BANNER_CRUMB_LINK_CLASS,
-  BANNER_CRUMB_TRAIL_CLASS,
   BANNER_MOBILE_TITLE_CLASS,
   BANNER_TITLE_CLASS,
 } from "./bannerStyles";
@@ -29,6 +27,8 @@ interface BannerHeadingProps {
   ancestors: BannerCrumb[];
   /** 지금 화면 이름 */
   current: string;
+  /** 마지막 경로를 누르면 이 주소로 이동한다. 목록으로 돌아가는 배너에서 쓴다 */
+  currentHref?: string;
   /** 주면 현재 제목을 눌러 새로고침한다 */
   onCurrentClick?: () => void;
   variant: "desktop" | "mobile";
@@ -40,37 +40,37 @@ interface BannerHeadingProps {
   asHeading?: boolean;
 }
 
-export default function BannerHeading({ ancestors, current, onCurrentClick, variant, asHeading = true }: BannerHeadingProps) {
+export default function BannerHeading({ ancestors, current, currentHref, onCurrentClick, variant, asHeading = true }: BannerHeadingProps) {
   const t = useTranslations("shared.accessibility");
   const isDesktop = variant === "desktop";
   const titleClass = isDesktop ? BANNER_TITLE_CLASS : BANNER_MOBILE_TITLE_CLASS;
-  const title = onCurrentClick
+  const title = currentHref
+    ? <Link href={currentHref} prefetch={false} className={BANNER_CRUMB_CURRENT_CLASS}>{current}</Link>
+    : onCurrentClick
     ? <button type="button" onClick={onCurrentClick} className={BANNER_CRUMB_CURRENT_CLASS}>{current}</button>
     : current;
 
+  const currentTitle = !asHeading ? (
+    <span className={titleClass}>{title}</span>
+  ) : isDesktop ? (
+    <h1 className={titleClass}>{title}</h1>
+  ) : (
+    <div role="heading" aria-level={1} className={titleClass}>{title}</div>
+  );
+
+  if (ancestors.length === 0) return <div className="max-w-full text-center">{currentTitle}</div>;
+
   return (
-    <div className={`flex max-w-full flex-col items-center ${isDesktop ? "gap-2 px-6" : "gap-1.5"}`}>
-      {ancestors.length > 0 && (
-        <nav aria-label={t("breadcrumb")} className="max-w-full">
-          <ol className={BANNER_CRUMB_TRAIL_CLASS}>
-            {ancestors.map((crumb, index) => (
-              <li key={crumb.href} className="flex items-center gap-1.5">
-                {index > 0 && <ChevronRight size={13} aria-hidden className="shrink-0 text-text-tertiary" />}
-                <Link href={crumb.href} className={BANNER_CRUMB_LINK_CLASS}>{crumb.label}</Link>
-              </li>
-            ))}
-            {/* 경로 줄 끝의 › — 아래 큰 제목이 다음 단계임을 잇는다 */}
-            <li aria-hidden className="flex items-center"><ChevronRight size={13} className="shrink-0 text-text-tertiary" /></li>
-          </ol>
-        </nav>
-      )}
-      {!asHeading ? (
-        <p className={titleClass}>{title}</p>
-      ) : isDesktop ? (
-        <h1 className={titleClass}>{title}</h1>
-      ) : (
-        <div role="heading" aria-level={1} className={titleClass}>{title}</div>
-      )}
-    </div>
+    <nav aria-label={t("breadcrumb")} className="max-w-full">
+      <ol className={`flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 ${isDesktop ? "px-6 md:gap-x-3" : ""}`}>
+        {ancestors.map(crumb => (
+          <li key={crumb.href} className="flex min-w-0 max-w-full items-center gap-2 md:gap-3">
+            <Link href={crumb.href} className={`${titleClass} ${BANNER_CRUMB_LINK_CLASS} min-w-0 break-words`}>{crumb.label}</Link>
+            <ChevronRight aria-hidden className="size-4 shrink-0 text-text-tertiary md:size-6" />
+          </li>
+        ))}
+        <li className="min-w-0 max-w-full">{currentTitle}</li>
+      </ol>
+    </nav>
   );
 }

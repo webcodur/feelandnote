@@ -466,6 +466,19 @@
         "GAME": "역대 GOTY 수상작 모음 - 올해의 게임 시상식",
         "MUSIC": "역대 올해의 앨범 수상작 - 그래미·브릿·머큐리",
         "BOOK": "추천 도서 목록 - 대학 권장도서와 문학상 수상작"
+      },
+      "downloadList": "전체 목록 다운로드",
+      "downloadHint": "화면에 표시된 구간과 관계없이 전체 {count}편을 CSV로 저장합니다.",
+      "downloadColumns": {
+        "number": "번호",
+        "title": "제목",
+        "creator": "저자·창작자",
+        "rank": "순위",
+        "year": "연도",
+        "note": "선정 사유",
+        "curator": "선정 기관",
+        "list": "선정 목록",
+        "source": "출처 원문"
       }
     },
     "popular": {

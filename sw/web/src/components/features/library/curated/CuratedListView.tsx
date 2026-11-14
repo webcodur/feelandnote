@@ -7,9 +7,9 @@
         원문 순서·순위를 그대로 따르고 아직 등록되지 않은 작품도 빼지 않는다 — 100선은 100편이어야 한다.
 */ // ------------------------------
 
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { ArrowLeft, Download, ExternalLink } from "lucide-react";
 import NationalityText from "@/components/ui/NationalityText";
 import { getCuratedHub } from "@/actions/library";
 import type { CuratedListDetail } from "@/actions/library/types";
@@ -19,9 +19,8 @@ import CuratorLogo from "./CuratorLogo";
 import { getCuratorBrand } from "./curatorBrandPalettes";
 
 export default async function CuratedListView({ list }: { list: CuratedListDetail }) {
-  const t = await getTranslations("library.curated");
   // 탭은 화면 안 구성을 바꾸지 않고 허브 조합으로 이동만 한다 — 링크 전용
-  const hub = await getCuratedHub();
+  const [t, locale, hub] = await Promise.all([getTranslations("library.curated"), getLocale(), getCuratedHub()]);
   const brand = getCuratorBrand(list.curator.slug, list.curator.kind);
 
   return (
@@ -94,6 +93,17 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
                   {list.method}
                 </p>
               )}
+            </div>
+          )}
+
+          {list.itemCount > 0 && (
+            <div className="flex justify-center">
+              <a href={`/api/curated-lists/${encodeURIComponent(list.curator.slug)}/${encodeURIComponent(list.slug)}/download?locale=${locale}`}
+                download data-curated-download title={t("downloadHint", { count: list.itemCount })}
+                className="inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-control border border-accent/40 bg-accent/10 px-4 py-2 text-center text-sm font-semibold text-accent outline-none hover:border-accent/70 hover:bg-accent/20 focus-visible:ring-2 focus-visible:ring-accent">
+                <Download size={16} className="shrink-0" aria-hidden />
+                <span>{t("downloadList")}</span><span className="text-xs font-normal text-text-secondary">CSV</span>
+              </a>
             </div>
           )}
 

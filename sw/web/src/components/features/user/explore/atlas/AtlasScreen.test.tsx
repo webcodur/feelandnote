@@ -92,30 +92,6 @@ test("신화·세력은 같은 제목·참여·장면·그룹 배치를 사용�
   }
 });
 
-test("상단의 현재 신화·세력 버튼은 상세에서 전체 목록으로 돌아가고 목록에서는 현재 위치를 표시한다", () => {
-  for (const mode of ["myth", "faction"] as const) for (const detail of [false, true]) {
-    const Frame = loadComponent(new URL("../hub/ExploreLayoutFrame.tsx", import.meta.url), {
-      "react": React,
-      "next/navigation": { useSelectedLayoutSegment: () => mode },
-      "next-intl": { useTranslations: () => (key: string) => key },
-      "lucide-react": { CornerUpLeft: Empty },
-      "@/i18n/navigation": { Link: "a", usePathname: () => `/explore/${mode}${detail ? "/entry" : ""}` },
-      "@/constants/navigation": { EXPLORE_FEATURED_LINKS: [{ key: "myth", href: "/explore/myth" }, { key: "faction", href: "/explore/faction" }] },
-      "@/components/layout/PageContainer": { default: ({ children }: { children: React.ReactNode }) => <main>{children}</main> },
-      "../myth/mythHref": require("../myth/mythHref"),
-    });
-    const $ = load(renderToStaticMarkup(<Frame><div>Body</div></Frame>));
-    const current = $("nav [aria-current='page']");
-    assert.equal(current.length, 1);
-    assert.equal(current.is(detail ? "a" : "span"), true);
-    if (detail) {
-      assert.equal(current.attr("href"), `/explore/${mode}`);
-      assert.equal(current.attr("data-atlas-catalog-link"), "true");
-      assert.ok(current.attr("title"));
-    }
-  }
-});
-
 test("mode가 달라도 페이지 DOM 계층과 클래스는 같다", () => {
   const structure = (mode: AtlasWorld) => {
     const $ = load(renderScreen(mode));
@@ -127,14 +103,20 @@ test("mode가 달라도 페이지 DOM 계층과 클래스는 같다", () => {
 });
 
 test("목록 카드는 실제 상세 링크와 인원 접근성 이름을 유지하며 장면 완성을 배경으로 표시한다", () => {
+  const Stats = loadComponent(new URL("./AtlasEntryStats.tsx", import.meta.url), {
+    "next-intl": { useTranslations: () => (key: string) => key },
+    "lucide-react": { Images: Empty, Users: Empty },
+  });
   const Card = loadComponent(new URL("./AtlasCatalogCard.tsx", import.meta.url), {
     "next-intl": { useTranslations: () => (key: string) => key },
     "@/i18n/navigation": { Link: "a" },
     "lucide-react": { ArrowRight: Empty, Compass: Empty, Users: Empty },
+    "./AtlasEntryStats": { default: Stats },
   });
-  const $ = load(renderToStaticMarkup(<Card entry={{ id: "done", name: "Done", href: "/done", headline: null, cover: null, members: 56, scenesComplete: true }} />));
+  const $ = load(renderToStaticMarkup(<Card entry={{ id: "done", name: "Done", href: "/done", headline: null, cover: null, members: 56, images: 7, scenesComplete: true }} />));
   assert.equal($('a[href="/done"][data-atlas-scenes-complete]').length, 1);
   assert.match($("a").attr("class")!, /bg-sky-200/);
   assert.equal($("h3").text(), "Done");
-  assert.equal($(".sr-only").text(), "members");
+  assert.deepEqual($(".sr-only").map((_, element) => $(element).text()).get(), ["members", "images"]);
+  assert.equal($("[data-atlas-image-count]").attr("data-atlas-image-count"), "7");
 });

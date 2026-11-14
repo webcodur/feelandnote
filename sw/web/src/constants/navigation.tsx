@@ -5,6 +5,7 @@
 */
 
 import { Home, Users, BookOpen, Gamepad2, User, type LucideIcon } from "lucide-react";
+import { exploreModeHref } from "./exploreModes";
 
 // #region 타입 정의
 export interface NavSubLink {
@@ -52,7 +53,7 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: "explore",
     href: "/explore",
-    label: "인물",
+    label: "탐색",
     icon: Users,
     showInHeader: true,
     showInBottomNav: true,
@@ -61,8 +62,8 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "influence", href: "/explore/influence", label: "영향력" },
       { key: "ranking", href: "/explore/ranking", label: "분야별 챔피언" },
       { key: "spectrum", href: "/explore/spectrum", label: "스펙트럼" },
-      { key: "myth", href: "/explore/myth", label: "신화의 세계" },
-      { key: "faction", href: "/explore/faction", label: "세력도감" },
+      { key: "myth", href: exploreModeHref("myth"), label: "신화의 세계" },
+      { key: "faction", href: exploreModeHref("faction"), label: "세력도감" },
       { key: "timeline", href: "/explore/timeline", label: "국가별 연대기" },
       { key: "directory", href: "/explore/directory", label: "디렉토리" },
       { key: "monologue", href: "/explore/monologue", label: "가상독백" },

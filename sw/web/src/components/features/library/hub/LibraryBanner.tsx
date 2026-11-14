@@ -3,8 +3,8 @@
   기능: 서가 배너 (동적 breadcrumb, N단 지원)
   책임: 현재 경로 depth에 따라 배너 breadcrumb을 동적으로 표시한다.
         - /explore/works → 허브 타이틀만
-        - /explore/works/academy → 경로 「탐색 ›」 + 큰 제목 「학당」
-        - /explore/works/academy/video/composition → 경로 「탐색 › 학당 ›」 + 큰 제목 「영상 제작」
+        - /explore/works/academy → 큰 글자 경로 「작품 › 학당」
+        - /explore/works/academy/video/composition → 큰 글자 경로 「작품 › 학당 › 영상 제작」
         그리는 모양은 BannerHeading이 쥔다.
 */ // ------------------------------
 

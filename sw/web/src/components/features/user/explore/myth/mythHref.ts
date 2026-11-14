@@ -2,7 +2,7 @@
 // 신화 78편이 한 주소(/explore/myth)를 정본으로 공유하던 때는 검색에서 신화마다의 페이지가 없었다.
 export const MYTH_PARAM = "myth";
 
-/* 상세 자료를 요청할 때의 기본값. /explore/myth는 전체 목록을 열며 자동으로 상세를 선택하지 않는다. */
+/* 상세 자료를 요청할 때의 기본값. 탐색의 신화 모드는 전체 목록을 열며 자동으로 상세를 선택하지 않는다. */
 export const MYTH_OPENING_SLUG = "homer-odyssey";
 
 /** 마지막 상세 방문을 기억해 전체 목록의 이어보기 링크에 쓴다. */
@@ -32,8 +32,8 @@ export function mythSlugFromPath(pathname: string): string | null {
 }
 
 /**
- * 신화·세력 한 편의 주소인가 — 그 주소에서는 신화·세력 이름이 페이지의 큰 제목(h1)이고, 탐색 배너는 제목 요소를 내려놓는다.
- * 첫 화면(/explore/myth, /explore/faction)은 배너의 「신화의 세계」「세력도감」이 h1이다.
+ * 신화·세력 한 편의 주소인가 — 공통 탐색 배너를 유지하고, 본문만 고유 이름을 h1로 세운다.
+ * 목록은 /explore의 모드로 열며 배너의 「탐색」이 h1이다.
  * @param pathname 로케일을 뗀 경로(@/i18n/navigation의 usePathname)
  */
 export function atlasPageOwnsTitle(pathname: string): boolean {

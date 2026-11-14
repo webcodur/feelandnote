@@ -20,6 +20,8 @@ import {
 } from '@/lib/utils/content-locale'
 import { getCoupangAffiliateUrl } from '@/components/features/user/contentLibrary/contentAffiliate'
 import type { ContentType } from '@/types/database'
+import type { Locale } from '@/types/locale'
+import type { CuratedListCsvData } from '@/lib/library/curatedListCsv'
 import type {
   CuratedHub,
   CuratedListDetail,
@@ -432,6 +434,41 @@ const getCuratedListCached = unstable_cache(fetchCuratedList, ['curated-list-v2'
 
 export async function getCuratedList(listSlug: string): Promise<CuratedListDetail | null> {
   return getCuratedListCached(listSlug, await getLocale())
+}
+
+/** Downloads read the public source list in full, without the display query's item cap or content joins. */
+async function fetchCuratedListDownload(curatorSlug: string, listSlug: string, locale: Locale): Promise<CuratedListCsvData | null> {
+  const list = await getCuratedListCached(listSlug, locale)
+  if (!list || list.curator.slug !== curatorSlug) return null
+
+  const db = createStaticClient()
+  const { data: row, error } = await db.from('curated_lists').select('id').eq('slug', listSlug).maybeSingle()
+  throwOnQueryError('다운로드할 선정 목록 조회', error)
+  if (!row) return null
+  const rows = await selectAllPages((from, to) => db.from('curated_list_items')
+    .select('raw_title, raw_creator, rank, year, note, note_en')
+    .eq('list_id', row.id)
+    .eq('hidden', false)
+    .order('sort_order', { ascending: true })
+    .order('id', { ascending: true })
+    .range(from, to))
+
+  return {
+    title: list.title,
+    curatorName: list.curator.name,
+    sourceUrl: list.sourceUrl,
+    items: rows.map(item => ({ rawTitle: item.raw_title, rawCreator: item.raw_creator,
+      rank: item.rank, year: item.year, note: pickOrNull(item.note, item.note_en, locale) })),
+  }
+}
+
+const getCuratedListDownloadCached = unstable_cache(fetchCuratedListDownload, ['curated-list-download'], {
+  revalidate: STATIC_REVALIDATE,
+  tags: [CACHE_TAGS.CURATED],
+})
+
+export async function getCuratedListDownload(curatorSlug: string, listSlug: string, locale: Locale): Promise<CuratedListCsvData | null> {
+  return getCuratedListDownloadCached(curatorSlug, listSlug, locale)
 }
 // #endregion
 

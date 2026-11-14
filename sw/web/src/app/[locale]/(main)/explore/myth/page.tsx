@@ -1,56 +1,10 @@
-import { getLocale, getTranslations } from "next-intl/server";
-import { cookies } from "next/headers";
-import { getMythIndex } from "@/actions/home/getMythIndex";
-import { getMythClientData } from "@/actions/home/mythPublicData";
-import { getLocalizedAlternates } from "@/lib/seo";
-import AtlasCatalog from "@/components/features/user/explore/atlas/AtlasCatalog";
-import { MYTH_LAST_COOKIE } from "@/components/features/user/explore/myth/mythHref";
-import { mythCatalogGroups } from "@/lib/atlas-catalog";
-import { getVisitorCountry } from "@/lib/visitorCountryServer";
-import { orderMythRegions } from "@/lib/visitorCountry";
+import { permanentRedirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
+import { getPathname } from "@/i18n/navigation";
+import { exploreModeHref, type ExploreSearchParams } from "@/constants/exploreModes";
 
-export const maxDuration = 30;
-
-/** 검색 설명에 이름을 드는 지역 수 — 나머지는 「등」으로 받는다 */
-const NAMED_REGIONS = 4;
-
-/**
- * 검색 설명은 공개된 지역 이름을 싣는다. 고정 문구(「신화의 핵심 이야기와 함의를 읽고…」)는
- * 어떤 신화가 있는지 말하지 못했다(26.09.29 전수 점검). 신화·인물 수는 싣지 않는다 — 자주 바뀌는데
- * 검색 결과는 다음 방문까지 옛 숫자를 보인다. 화면이 쓰는 자료와 같은 캐시를 읽으므로 조회가 늘지 않고,
- * 공개 범위도 화면과 같다(getMythClientData). 읽지 못하면 고정 문구로 돌아간다.
- */
-async function describeMyths(locale: string, t: Awaited<ReturnType<typeof getTranslations>>) {
-  try {
-    const data = getMythClientData(await getMythIndex(locale));
-    const myths = data.myths.filter((myth) => myth.isPublished);
-    const regions = data.regions.filter((region) => region.id !== "other");
-    if (myths.length === 0 || regions.length === 0) return t("description");
-    return t("metaDescription", {
-      regions: regions.slice(0, NAMED_REGIONS).map((region) => region.name).join(", "),
-    });
-  } catch (error) {
-    console.error("[myth] 검색 설명용 자료 조회 실패:", error);
-    return t("description");
-  }
-}
-
-export async function generateMetadata() {
-  const [t, locale] = await Promise.all([getTranslations("explore.hub.myth"), getLocale()]);
-  return {
-    // 신화마다 자기 주소가 생겨(/explore/myth/<slug>) 첫 화면은 전체 신화 모음을 말한다
-    title: t("hubMetaTitle"),
-    description: await describeMyths(locale, t),
-    alternates: await getLocalizedAlternates("/explore/myth"),
-  };
-}
-
-export default async function MythPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const locale = await getLocale();
-  const [data, country, cookieStore, params] = await Promise.all([getMythIndex(locale), getVisitorCountry(), cookies(), searchParams]);
-  const groups = mythCatalogGroups({ ...data, regions: orderMythRegions(data.regions, country) });
-  const savedSlug = cookieStore.get(MYTH_LAST_COOKIE)?.value;
-  const recent = groups.flatMap(group => group.entries).find(entry => entry.href.endsWith(`/${savedSlug}`));
-  const initialTheme = typeof params.section === "string" ? params.section : undefined;
-  return <AtlasCatalog key={initialTheme ?? "all"} mode="myth" groups={groups} initialTheme={initialTheme} recent={recent} />;
+// 독립 목록의 옛 주소는 탐색의 해당 모드로 연결한다.
+export default async function LegacyCatalogPage({ searchParams }: { searchParams: Promise<ExploreSearchParams> }) {
+  const [params, locale] = await Promise.all([searchParams, getLocale()]);
+  permanentRedirect(getPathname({ href: exploreModeHref("myth", params), locale }));
 }

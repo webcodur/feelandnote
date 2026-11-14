@@ -12,21 +12,17 @@ interface Props {
   resultCount: number;
   selectionNames: string[];
   onClose: () => void;
-  onWorldChange: (world: AtlasWorld) => void;
   onTabChange: (level: number) => void;
   onQueryChange: (value: string) => void;
   onSearchSelect: () => void;
 }
 
-export default function AtlasPickerControls({ world, active, query, resultCount, selectionNames, onClose, onWorldChange, onTabChange, onQueryChange, onSearchSelect }: Props) {
+export default function AtlasPickerControls({ world, active, query, resultCount, selectionNames, onClose, onTabChange, onQueryChange, onSearchSelect }: Props) {
   const t = useTranslations("explore.ui.atlas");
-  const tMyth = useTranslations("explore.hub.myth");
-  const tFaction = useTranslations("explore.faction");
   const accessibility = useTranslations("shared.accessibility");
   const inputRef = useRef<HTMLInputElement>(null);
   const searching = Boolean(query.trim());
   const kinds = atlasStepKeys(world);
-  const worlds = [{ id: "myth" as const, name: t("myth"), label: tMyth("title") }, { id: "faction" as const, name: t("factionMode"), label: tFaction("title") }];
   const clear = () => { onQueryChange(""); inputRef.current?.focus({ preventScroll: true }); };
   const searchKey = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.nativeEvent.isComposing) return;
@@ -52,13 +48,7 @@ export default function AtlasPickerControls({ world, active, query, resultCount,
   return (
     <div data-atlas-picker-header className="sticky top-0 z-30 shrink-0 bg-bg-main px-4 pt-4 pb-1 sm:px-5 [@media(max-height:560px)]:pt-2">
       <div className="flex items-center gap-2">
-        <div data-atlas-toolbar className="group/atlas-toolbar grid min-w-0 flex-1 grid-cols-[120px_minmax(0,1fr)] gap-2 transition-[grid-template-columns,gap] duration-200 ease-out motion-reduce:transition-none has-[[data-atlas-search]:focus-within]:grid-cols-[0px_minmax(0,1fr)] has-[[data-atlas-search]:focus-within]:gap-0 sm:grid-cols-[160px_minmax(0,1fr)] sm:has-[[data-atlas-search]:focus-within]:grid-cols-[160px_minmax(0,1fr)] sm:has-[[data-atlas-search]:focus-within]:gap-2">
-          <div role="group" aria-label={t("world")} data-atlas-worlds className="grid min-w-0 grid-cols-2 gap-1 overflow-hidden rounded-lg border border-white/10 bg-bg-secondary p-1 group-has-[[data-atlas-search]:focus-within]/atlas-toolbar:invisible sm:group-has-[[data-atlas-search]:focus-within]/atlas-toolbar:visible">
-            {worlds.map((item) => <button key={item.id} type="button" aria-label={item.label} title={item.label} aria-pressed={world === item.id} onClick={() => onWorldChange(item.id)}
-              className={`flex min-h-9 items-center justify-center whitespace-nowrap rounded-md px-2 text-center text-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${world === item.id ? "bg-accent/15 text-accent hover:bg-accent/20" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}>
-              {item.name}
-            </button>)}
-          </div>
+        <div data-atlas-toolbar className="min-w-0 flex-1">
           <div data-atlas-search onClick={(event) => { if (!(event.target as HTMLElement).closest("button")) inputRef.current?.focus({ preventScroll: true }); }}
             className="group/atlas-search flex min-w-0 items-center gap-2 rounded-lg border border-white/15 bg-bg-secondary px-3 hover:border-white/30 has-[input:focus-visible]:border-accent/70 has-[input:focus-visible]:ring-2 has-[input:focus-visible]:ring-inset has-[input:focus-visible]:ring-accent/30">
             <Search size={16} className="shrink-0 text-text-secondary" aria-hidden />

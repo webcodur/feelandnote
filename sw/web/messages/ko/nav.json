@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "홈",
-    "explore": "인물",
+    "explore": "탐색",
     "library": "작품",
     "rest": "쉼터",
     "agora": "광장",
@@ -38,7 +38,7 @@
       "professionBooks": "직업별 도서"
     },
     "footer": {
-      "sectionFigures": "인물",
+      "sectionFigures": "탐색",
       "sectionWorks": "작품",
       "sectionCommunity": "쉼터·게시판",
       "sectionAbout": "서비스 안내",
@@ -73,7 +73,10 @@
     },
     "modes": {
       "figures": "인물",
-      "works": "작품"
+      "works": "작품",
+      "explore": "탐색 대상",
+      "faction": "세력",
+      "myth": "신화"
     }
   },
   "moreMenu": {

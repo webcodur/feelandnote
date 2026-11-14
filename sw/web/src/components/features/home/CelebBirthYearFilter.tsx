@@ -175,26 +175,26 @@ export function BirthYearSliderCore({ min, max, onChange, onPreview }: CelebBirt
       {/* 정확한 연도 입력 */}
       <div className="mt-5 flex items-center gap-2">
         <label className="flex-1">
-          <span className="mb-1 block text-[11px] uppercase tracking-wide text-text-secondary">{t("minLabel")}</span>
+          <span className="mb-1 block text-center text-[11px] uppercase tracking-wide text-text-secondary">{t("minLabel")}</span>
           <input
             type="number"
             defaultValue={draft.min}
             key={`min-${draft.min}`}
             onBlur={(e) => handleInputCommit("min", e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleInputCommit("min", e.currentTarget.value)}
-            className="w-full h-8 px-2 bg-white/5 border border-white/10 rounded text-sm text-text-primary focus:outline-none focus:border-accent/50"
+            className="w-full h-8 px-2 bg-white/5 border border-white/10 rounded text-center text-sm text-text-primary focus:outline-none focus:border-accent/50"
           />
         </label>
         <span className="pt-4 text-text-secondary">~</span>
         <label className="flex-1">
-          <span className="mb-1 block text-[11px] uppercase tracking-wide text-text-secondary">{t("maxLabel")}</span>
+          <span className="mb-1 block text-center text-[11px] uppercase tracking-wide text-text-secondary">{t("maxLabel")}</span>
           <input
             type="number"
             defaultValue={draft.max}
             key={`max-${draft.max}`}
             onBlur={(e) => handleInputCommit("max", e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleInputCommit("max", e.currentTarget.value)}
-            className="w-full h-8 px-2 bg-white/5 border border-white/10 rounded text-sm text-text-primary focus:outline-none focus:border-accent/50"
+            className="w-full h-8 px-2 bg-white/5 border border-white/10 rounded text-center text-sm text-text-primary focus:outline-none focus:border-accent/50"
           />
         </label>
       </div>

@@ -1,8 +1,8 @@
 {
   "explore": {
     "meta": {
-      "title": "Figures",
-      "description": "A cultural archive of books, films, games, and music experienced by historical figures and public personalities, with profiles, reflections, and sources."
+      "title": "Explore",
+      "description": "Explore figures and their cultural records, factions grouped by theme, and myths from around the world. Discover their stories, connections, and related works."
     },
     "celebs": {
       "metaTitle": "Celebrity Recommendations | Books, Movies & Music",
@@ -630,7 +630,8 @@
       "empty": "No entries match your search.",
       "reset": "View all entries",
       "browseMyths": "Browse all myths",
-      "browseFactions": "Browse all factions"
+      "browseFactions": "Browse all factions",
+      "images": "{count, plural, one {# image} other {# images}}"
     }
   },
   "searchResult": {

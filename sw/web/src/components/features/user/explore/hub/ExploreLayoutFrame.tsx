@@ -3,28 +3,27 @@
 import type { ReactNode } from "react";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { CornerUpLeft } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { EXPLORE_FEATURED_LINKS } from "@/constants/navigation";
 import PageContainer from "@/components/layout/PageContainer";
 import ExploreBanner from "./ExploreBanner";
 import AtlasRecentHistory from "../myth/AtlasRecentHistory";
 import { atlasPageOwnsTitle } from "../myth/mythHref";
+import ExploreModeNav from "./ExploreModeNav";
 
 const sectionSwitches = [
   [{ key: "influence", labelKey: "navInfluence" }, { key: "spectrum", labelKey: "navSpectrum" }],
-  [{ key: "myth", labelKey: "mythology" }, { key: "faction", labelKey: "navFaction" }],
 ] as const;
 
 /*
-  인물 틀 — 배너(제목·경로) → 같은 계열 화면 전환 → 본문. 작품 입구는 주요 메뉴가 쥔다.
-  하위 화면에서 위로 가는 길은 배너의 경로 줄(탐색 › 세력도감 ›)이 쥔다. 따로 「← 인물」 링크를 두지 않는다.
+  탐색과 도감 상세는 같은 세 모드 전환을 쓴다. 도감 상세에는 별도 두 모드 전환을 두지 않는다.
+  영향력·스펙트럼은 같은 계열 전환을 유지하고, 작품은 자체 틀을 쓴다.
 */
 export default function ExploreLayoutFrame({ children }: { children: ReactNode }) {
   const segment = useSelectedLayoutSegment();
   const pathname = usePathname();
   const t = useTranslations("explore.hub");
-  const tCatalog = useTranslations("explore.atlasCatalog");
+  const atlasMode = atlasPageOwnsTitle(pathname) ? (segment === "myth" ? "myth" : "faction") : null;
   const switchGroup = sectionSwitches.find((items) => items.some((item) => item.key === segment));
   const switchLinks = switchGroup?.map((item) => ({
     key: item.key,
@@ -39,6 +38,7 @@ export default function ExploreLayoutFrame({ children }: { children: ReactNode }
     <>
       <ExploreBanner />
       <PageContainer>
+        {atlasMode && <ExploreModeNav mode={atlasMode} />}
         {switchLinks && (
           <nav
             aria-label={switchLinks.map((link) => link.label).join(" · ")}
@@ -46,26 +46,21 @@ export default function ExploreLayoutFrame({ children }: { children: ReactNode }
           >
             {switchLinks.map((link) => {
               const selected = link.key === segment;
-              const catalogReturn = selected && atlasPageOwnsTitle(pathname);
-              const returnLabel = catalogReturn ? tCatalog(segment === "myth" ? "browseMyths" : "browseFactions") : undefined;
-              return selected && !catalogReturn ? (
+              return selected ? (
                 <span key={link.key} aria-current="page" className="flex min-h-9 items-center justify-center rounded-md bg-accent/15 px-2 text-center text-sm font-bold text-accent">
                   {link.label}
                 </span>
               ) : (
                 <Link key={link.key} href={link.href} prefetch={false}
-                  aria-current={selected ? "page" : undefined} title={returnLabel}
-                  aria-label={returnLabel ? `${link.label} · ${returnLabel}` : undefined} data-atlas-catalog-link={catalogReturn || undefined}
-                  className={`flex min-h-9 items-center justify-center gap-2 rounded-md border px-2 text-center text-sm outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${selected ? "border-accent/30 bg-accent/15 font-bold text-accent hover:border-accent/70 hover:bg-accent/25" : "border-transparent font-semibold text-text-secondary hover:bg-white/10 hover:text-accent"}`}>
+                  className="flex min-h-9 items-center justify-center rounded-md border border-transparent px-2 text-center text-sm font-semibold text-text-secondary outline-none hover:bg-white/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
                   {link.label}
-                  {catalogReturn && <CornerUpLeft size={14} className="shrink-0" aria-hidden />}
                 </Link>
               );
             })}
           </nav>
         )}
-        {(segment === "myth" || segment === "faction") && atlasPageOwnsTitle(pathname) && <AtlasRecentHistory world={segment} />}
         {children}
+        {atlasMode && <AtlasRecentHistory world={atlasMode} />}
       </PageContainer>
     </>
   );

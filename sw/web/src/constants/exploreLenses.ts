@@ -22,8 +22,6 @@ const QUICKNAV = "/images/explore/quicknav";
 
 export const EXPLORE_LENS_IMAGES: Record<string, ExploreLensImage> = {
   // 인물 모드
-  faction: { src: `${QUICKNAV}/faction-square.webp`, kind: "art" },
-  myth: { src: `${QUICKNAV}/myth-square.webp`, kind: "art" },
   ranking: { src: `${QUICKNAV}/ranking-square.webp`, kind: "art" },
   monologue: { src: `${QUICKNAV}/monologue-right-square.webp`, kind: "art" },
   // 작품 모드 — 인장·월계관·디바이더·망원경의 실물 구조를 살린 흑동주조 소품.
@@ -44,7 +42,6 @@ export const FIGURE_LENS_GROUPS: readonly {
   size: "large" | "compact";
   items: readonly string[];
 }[] = [
-  { key: "relation", size: "large", items: ["faction", "myth"] },
   { key: "more", size: "large", items: ["monologue", "ranking"] },
 ] as const;
 

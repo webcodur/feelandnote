@@ -140,6 +140,16 @@ test('works and curated URLs use canonical explore paths in both locales', async
   assert.ok(entries.every(({ url }) => !url.includes('/library')))
   // 신화·세력은 화면이 여는 것만 — 닫힌 신화와 인물 없는 세력은 싣지 않는다
   const urls = entries.map(({ url }) => url)
+  for (const prefix of ['', '/en']) {
+    for (const mode of ['faction', 'myth']) {
+      const path = `/explore?mode=${mode}`
+      const modeEntry: MetadataRoute.Sitemap[number] | undefined = entries.find(({ url }) => url === `https://feelandnote.com${prefix}${path}`)
+      assert.ok(modeEntry, `missing ${prefix}${path}`)
+      assert.equal(modeEntry.alternates?.languages?.ko, `https://feelandnote.com${path}`)
+      assert.equal(modeEntry.alternates?.languages?.en, `https://feelandnote.com/en${path}`)
+      assert.ok(!urls.includes(`https://feelandnote.com${prefix}/explore/${mode}`))
+    }
+  }
   for (const path of ['/support', '/shop']) {
     const entry: MetadataRoute.Sitemap[number] | undefined = entries.find(({ url }) => url === `https://feelandnote.com${path}`)
     assert.ok(entry)

@@ -13,6 +13,7 @@ import { redirect } from "@/i18n/navigation";
 import { buildFactionDescription, buildFactionTitle } from "@/lib/atlasMeta";
 import { buildFactionSections, localizedFactionDescription, localizedFactionHeadline, localizedFactionName } from "@/lib/faction-sections";
 import { getLocalizedAlternates } from "@/lib/seo";
+import { exploreModeHref } from "@/constants/exploreModes";
 import type { Locale } from "@/types/locale";
 import FactionLastSeen from "@/components/features/faction/FactionLastSeen";
 import FactionScreen from "../FactionScreen";
@@ -58,7 +59,7 @@ async function FactionEntryBody({ params }: { params: PageParams }) {
   const factions = await getFeaturedFactions();
   const faction = factions.find((f) => f.slug === slug);
 
-  if (faction?.isGroup) redirect({ href: `/explore/faction?section=${slug}`, locale });
+  if (faction?.isGroup) redirect({ href: exploreModeHref("faction", { section: slug }), locale });
 
   const sections = buildFactionSections(factions);
   const section = faction ? sections.find((item) => item.entries.some((entry) => entry.id === faction.id)) : undefined;
@@ -76,6 +77,6 @@ export default async function FactionEntryPage(props: { params: PageParams }) {
   const { locale, slug } = await props.params;
   const target = await getFactionRouteTarget(slug);
   if (!target) notFound();
-  if (target.isGroup) redirect({ href: `/explore/faction?section=${slug}`, locale });
+  if (target.isGroup) redirect({ href: exploreModeHref("faction", { section: slug }), locale });
   return <FactionEntryBody {...props} />;
 }

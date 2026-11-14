@@ -22,6 +22,7 @@ export interface AtlasEntry {
   imageUrl?: string;
   /** 해당 언어에 공개된 주요 장면 수 */
   scenes?: number;
+  images?: number;
   scenesComplete?: boolean;
   groups: AtlasGroup[];
 }

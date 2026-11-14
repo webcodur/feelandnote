@@ -18,12 +18,12 @@ async function fixture() {
       import { useState } from 'react';
       import { createRoot } from 'react-dom/client';
       import Picker from './src/components/features/user/explore/myth/AtlasPicker';
-      const entry = (id, name, href) => ({ id, name, href, count: 5, groups: [{id:'g1',name:'Group One',count:3},{id:'g2',name:'Group Two',count:2}] });
+      const entry = (id, name, href) => ({ id, name, href, count: 5, images: 3, groups: [{id:'g1',name:'Group One',count:3},{id:'g2',name:'Group Two',count:2}] });
       window.mockTrees = {
         myth: [{id:'region',name:'그리스·로마',entries:[entry('first','오디세이아','/explore/myth/first'),entry('second','헤라클레스','/explore/myth/second'),{id:'disabled',name:'미공개 신화',disabled:true,groups:[]}]}],
         faction: [{id:'region',name:'Technology',entries:[entry('first','OpenAI','/explore/faction/first'),entry('second','Anthropic','/explore/faction/second')]}],
       };
-      window.applied = []; window.routes = []; window.routeOnApply = false;
+      window.applied = []; window.routeOnApply = false;
       function Harness() {
         const [open,setOpen] = useState(true);
         const myth = !location.search.includes('faction');
@@ -49,8 +49,6 @@ async function fixture() {
             const dict=namespace.split('.').reduce((value,part)=>value?.[part],messages);
             return String(dict?.[key]??key).replace(/\\{(\\w+)\\}/g,(_,name)=>values[name]??'');
           };`,
-        "@/i18n/navigation": "export const useRouter=()=>({push:href=>{window.routes.push(href);setTimeout(()=>history.pushState({__NA:true},'',href),100);}});",
-        "@/actions/home/getAtlasNavigation": "export const getAtlasNavigation=async myth=>window.mockTrees[myth?'myth':'faction'];",
       };
       builder.onResolve({ filter: /.*/ }, args => args.path in mocks ? { path: args.path, namespace: "fixture" } : undefined);
       builder.onLoad({ filter: /.*/, namespace: "fixture" }, args => ({ contents: mocks[args.path], loader: "tsx", resolveDir: appDir }));
@@ -58,7 +56,7 @@ async function fixture() {
   });
   const cssRequire = createRequire(require.resolve("@tailwindcss/postcss"));
   const css = await cssRequire("postcss")([require("@tailwindcss/postcss")()]).process(
-    '@import "tailwindcss" source(none); @source "./src/components/features/user/explore/myth/AtlasPicker*.tsx"; @source "./src/components/ui/Modal.tsx"; @source "./src/components/ui/modalLayout.ts"; @source "./src/components/features/faction/entry/factionPersonLayout.ts"; @theme { --color-bg-main:#10100f; --color-bg-card:#1b1a18; --color-bg-secondary:#171614; --color-text-primary:#f3eee5; --color-text-secondary:#aaa79d; --color-text-tertiary:#77746d; --color-accent:#d7bd78; --color-accent-hover:#ead28b; --color-line:#38352f; }',
+    '@import "tailwindcss" source(none); @source "./src/components/features/user/explore/myth/AtlasPicker*.tsx"; @source "./src/components/features/user/explore/atlas/AtlasEntryStats.tsx"; @source "./src/components/ui/Modal.tsx"; @source "./src/components/ui/modalLayout.ts"; @source "./src/components/features/faction/entry/factionPersonLayout.ts"; @theme { --color-bg-main:#10100f; --color-bg-card:#1b1a18; --color-bg-secondary:#171614; --color-text-primary:#f3eee5; --color-text-secondary:#aaa79d; --color-text-tertiary:#77746d; --color-accent:#d7bd78; --color-accent-hover:#ead28b; --color-line:#38352f; }',
     { from: path.join(appDir, "atlas-picker-fixture.css") },
   );
   return {
@@ -96,6 +94,8 @@ test("atlas chips show a pulsing play action after selection and advance on a se
           assert.equal((await page.$$('[data-atlas-picker-footer] [data-atlas-confirm]')).length, 1);
           assert.equal(await page.$eval('[data-atlas-confirm]', element => element.textContent?.trim()), "선택 완료");
           assert.equal((await page.$$('[data-atlas-picker] h2, #atlas-picker-hint')).length, 0);
+          assert.equal((await page.$$('[data-atlas-worlds]')).length, 0, "Only the explore page chooses between myths and factions");
+          assert.equal(await page.$eval('[data-atlas-option="second"] [data-atlas-image-count]', e => e.getAttribute("data-atlas-image-count")), "3");
           const chipWidth = await page.$eval('[data-atlas-option="second"]', e => e.getBoundingClientRect().width);
           await page.click('[data-atlas-option="second"]');
           assert.equal(await page.$eval('[data-atlas-option="second"]', e => e.getAttribute("aria-pressed")), "true");
@@ -151,24 +151,27 @@ test("atlas chips show a pulsing play action after selection and advance on a se
       assert.equal(await page.evaluate(() => (window as unknown as { applied: unknown[] }).applied.length), 0);
       await page.click('[aria-label="닫기"]');
     });
-    await t.test("search selection pulses play; switching world keeps search and the footer still applies", async () => {
-      await visit("myth", 390, 480);
-      await page.type('input[type="search"]', "Anthropic");
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
-      await page.waitForFunction(() => getComputedStyle(document.querySelector('[data-atlas-worlds]')!).visibility === "visible");
-      await page.click('[data-atlas-worlds] button:last-child');
-      await page.waitForSelector('[data-atlas-option="second"]');
-      assert.equal(await page.$eval('input[type="search"]', e => (e as HTMLInputElement).value), "Anthropic");
-      await page.focus('input[type="search"]');
-      await page.keyboard.press("Enter");
-      await page.waitForSelector('[data-atlas-option="second"] [data-atlas-play-pulse]');
-      assert.equal(await page.$eval('[data-atlas-option="second"]', e => e.getAttribute("aria-pressed")), "true");
-      assert.equal(await page.evaluate(() => (window as unknown as { routes: string[] }).routes.length), 0);
-      await page.click('[data-atlas-confirm]');
-      assert.deepEqual(await page.evaluate(() => (window as unknown as { routes: string[] }).routes), ["/explore/faction/second"]);
-      await page.waitForSelector('[role="dialog"]', { hidden: true });
-    });
+    for (const world of ["myth", "faction"]) {
+      await t.test(`${world} search stays within the selected explore mode and applies through its parent`, async () => {
+        await visit(world, 390, 480);
+        assert.equal(await page.$('[data-atlas-worlds]'), null);
+        const search = world === "myth" ? "헤라클레스" : "Anthropic";
+        const otherWorldSearch = world === "myth" ? "Anthropic" : "헤라클레스";
+        await page.type('input[type="search"]', otherWorldSearch);
+        assert.equal((await page.$$('[data-atlas-option]')).length, 0);
+        await page.focus('input[type="search"]');
+        await page.keyboard.down("Control");
+        await page.keyboard.press("KeyA");
+        await page.keyboard.up("Control");
+        await page.keyboard.type(search);
+        await page.keyboard.press("Enter");
+        await page.waitForSelector('[data-atlas-option="second"] [data-atlas-play-pulse]');
+        assert.equal(await page.$eval('[data-atlas-option="second"]', e => e.getAttribute("aria-pressed")), "true");
+        await page.click('[data-atlas-confirm]');
+        await page.waitForSelector('[role="dialog"]', { hidden: true });
+        assert.deepEqual(await page.evaluate(() => (window as unknown as { applied: unknown[] }).applied), [{ themeId: "region", entryId: "second", groupId: null }]);
+      });
+    }
     await t.test("closing the picker does not cancel a delayed page transition", async () => {
       await visit("myth");
       await page.evaluate(() => { (window as unknown as { routeOnApply: boolean }).routeOnApply = true; });

@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Home",
-    "explore": "Figures",
+    "explore": "Explore",
     "library": "Works",
     "rest": "Rest",
     "agora": "Agora",
@@ -38,7 +38,7 @@
       "professionBooks": "Books by Profession"
     },
     "footer": {
-      "sectionFigures": "Figures",
+      "sectionFigures": "Explore",
       "sectionWorks": "Works",
       "sectionCommunity": "Play & Boards",
       "sectionAbout": "About & Legal",
@@ -73,7 +73,10 @@
     },
     "modes": {
       "figures": "Figures",
-      "works": "Works"
+      "works": "Works",
+      "explore": "Explore by",
+      "faction": "Factions",
+      "myth": "Myths"
     }
   },
   "moreMenu": {
