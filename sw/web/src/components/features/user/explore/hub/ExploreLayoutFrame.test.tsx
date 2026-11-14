@@ -87,7 +87,7 @@ for (const mode of ["myth", "faction"]) {
       assert.equal((banner.text().match(new RegExp(`nav.modes.${mode}`, "g")) ?? []).length, 1);
       assert.equal((banner.text().match(/Selected entry/g) ?? []).length, 1);
       assert.equal(banner.find("nav li:last-child a, nav li:last-child button").length, 0, "The final entry is the current page; the preceding mode link opens its home");
-      assert.ok(banner.find("nav [class~='text-4xl'], nav [class~='text-2xl']").length > 0, "The large banner text forms the breadcrumb itself");
+      assert.ok(banner.find("nav [class~='text-3xl'], nav [class~='text-2xl']").length > 0, "The large banner text forms the breadcrumb itself, with room for three levels on narrow desktops");
     }
     assert.doesNotMatch(html, /<h1\b|role="heading"/);
   });

@@ -10,9 +10,14 @@
     배너는 제목과 경로(빵부스러기)를 싣는 자리라 이 높이면 충분하다. 한 곳만 따로 줄이거나 키우지 않는다 */
 export const BANNER_COMPACT_HEIGHT_CLASS = "h-[128px] md:h-[140px]";
 
-/** 넓은 화면 배너(캔버스 무늬 위) 제목. 움직이는 무늬 위에서도 읽히도록 옅은 그림자를 깐다 */
-export const BANNER_TITLE_CLASS =
-  "text-4xl font-bold leading-tight tracking-tight text-text-primary text-center text-balance [text-shadow:0_2px_16px_rgba(0,0,0,0.85)] md:text-[2.75rem]";
+/** 움직이는 무늬 위에서도 읽히도록 옅은 그림자를 깐다. */
+const BANNER_DESKTOP_TYPE_CLASS =
+  "font-bold leading-tight tracking-tight text-text-primary text-center text-balance [text-shadow:0_2px_16px_rgba(0,0,0,0.85)]";
+
+export const BANNER_TITLE_CLASS = `text-4xl ${BANNER_DESKTOP_TYPE_CLASS} md:text-[2.75rem]`;
+
+/** 세 단계 이상인 경로는 좁은 PC에서 줄 수가 늘어도 배너 안에 들어가도록 작게 시작한다. */
+export const BANNER_DEEP_TITLE_CLASS = `text-3xl ${BANNER_DESKTOP_TYPE_CLASS} lg:text-[2.75rem]`;
 
 /** 휴대폰 배너 제목 — 넓은 화면 배너와 같이 가운데에 선다 */
 export const BANNER_MOBILE_TITLE_CLASS =

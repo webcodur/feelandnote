@@ -13,6 +13,7 @@ import { Link } from "@/i18n/navigation";
 import {
   BANNER_CRUMB_CURRENT_CLASS,
   BANNER_CRUMB_LINK_CLASS,
+  BANNER_DEEP_TITLE_CLASS,
   BANNER_MOBILE_TITLE_CLASS,
   BANNER_TITLE_CLASS,
 } from "./bannerStyles";
@@ -43,7 +44,9 @@ interface BannerHeadingProps {
 export default function BannerHeading({ ancestors, current, currentHref, onCurrentClick, variant, asHeading = true }: BannerHeadingProps) {
   const t = useTranslations("shared.accessibility");
   const isDesktop = variant === "desktop";
-  const titleClass = isDesktop ? BANNER_TITLE_CLASS : BANNER_MOBILE_TITLE_CLASS;
+  const titleClass = isDesktop
+    ? ancestors.length >= 2 ? BANNER_DEEP_TITLE_CLASS : BANNER_TITLE_CLASS
+    : BANNER_MOBILE_TITLE_CLASS;
   const title = currentHref
     ? <Link href={currentHref} prefetch={false} className={BANNER_CRUMB_CURRENT_CLASS}>{current}</Link>
     : onCurrentClick
