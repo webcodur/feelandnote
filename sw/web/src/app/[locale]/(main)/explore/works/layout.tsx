@@ -8,7 +8,7 @@ import { ReactNode } from "react";
 import PageContainer from "@/components/layout/PageContainer";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import LibraryBanner from "@/components/features/library/hub/LibraryBanner";
-import { LibraryCrumbProvider } from "@/components/features/library/hub/LibraryCrumbs";
+import { BannerCrumbProvider } from "@/components/shared/BannerCrumbs";
 import MessageScope from "@/components/shared/MessageScope";
 
 interface Props {
@@ -20,13 +20,13 @@ function LibraryLayoutBody({ children }: Props) {
     // 비동기 서버 레이아웃이 클라이언트 컴포넌트(배너)를 그리므로 intl 컨텍스트를 재공급한다(platform-02-code-rules.md)
     <AsyncIntlProvider>
       {/* 기관·목록처럼 이름이 자료에 있는 화면이 배너에 자기 이름을 알릴 수 있게 감싼다 */}
-      <LibraryCrumbProvider>
+      <BannerCrumbProvider>
         <LibraryBanner />
         <PageContainer>
           {/* 하위 화면에서 위로 가는 길은 배너의 경로 줄이 쥔다(BannerHeading) */}
           {children}
         </PageContainer>
-      </LibraryCrumbProvider>
+      </BannerCrumbProvider>
     </AsyncIntlProvider>
   );
 }

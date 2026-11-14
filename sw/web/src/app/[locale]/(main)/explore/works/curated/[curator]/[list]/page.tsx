@@ -19,7 +19,7 @@ import {
   stripWinnersSuffix,
 } from "@/lib/library/curatedMeta";
 import CuratedListView from "@/components/features/library/curated/CuratedListView";
-import SetLibraryCrumbs from "@/components/features/library/hub/LibraryCrumbs";
+import SetBannerCrumbs from "@/components/shared/BannerCrumbs";
 
 /** 주소의 기관과 목록이 실제로 맺어진 짝인지 확인한다 — 어긋난 주소는 없는 화면으로 돌린다 */
 async function loadPaired(curatorSlug: string, listSlug: string) {
@@ -81,7 +81,7 @@ async function CuratedListPageBody({
   return (
     <div className="pb-20">
       {/* 배너 breadcrumb에 「서가 > 기관 선정 > 기관명 > 목록명」을 만들어 준다 */}
-      <SetLibraryCrumbs
+      <SetBannerCrumbs
         crumbs={[
           { label: list.curator.name, href: `/explore/works/curated/${curator}` },
           { label: list.title, href: `/explore/works/curated/${curator}/${listSlug}` },

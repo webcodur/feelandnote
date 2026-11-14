@@ -12,7 +12,7 @@ import { getCuratorBySlug } from "@/actions/library";
 import { buildCuratorMetaTitle, curatedListSubject, fitListNames, leadDescription } from "@/lib/library/curatedMeta";
 import { getLocalizedAlternates, toSeoSummary } from "@/lib/seo";
 import CuratorView from "@/components/features/library/curated/CuratorView";
-import SetLibraryCrumbs from "@/components/features/library/hub/LibraryCrumbs";
+import SetBannerCrumbs from "@/components/shared/BannerCrumbs";
 
 export async function generateMetadata({ params }: { params: Promise<{ curator: string }> }) {
   const { curator: slug } = await params;
@@ -46,7 +46,7 @@ async function CuratorPageBody({ params, searchParams }: { params: Promise<{ cur
   return (
     <div className="pb-20">
       {/* 배너 breadcrumb에 「서가 > 기관 선정 > 기관명」을 만들어 준다 */}
-      <SetLibraryCrumbs crumbs={[{ label: curator.name, href: `/explore/works/curated/${slug}` }]} />
+      <SetBannerCrumbs crumbs={[{ label: curator.name, href: `/explore/works/curated/${slug}` }]} />
       <CuratorView curator={curator} initialBrowse={await searchParams} />
     </div>
   );

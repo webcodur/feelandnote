@@ -15,7 +15,7 @@ import { useTranslations } from "next-intl";
 import ConstellationBanner from "@/components/lab/ConstellationBanner";
 import BannerHeading from "@/components/shared/BannerHeading";
 import { BANNER_DESKTOP_SHELL_CLASS, BANNER_MOBILE_SHELL_CLASS } from "@/components/shared/bannerStyles";
-import { useExtraCrumbs } from "./LibraryCrumbs";
+import { useBannerCrumbs } from "@/components/shared/BannerCrumbs";
 import { Link } from "@/i18n/navigation";
 import { ChevronRight } from "lucide-react";
 
@@ -43,7 +43,7 @@ export default function LibraryBanner() {
   const tHub = useTranslations("library.hub");
   const tAcademy = useTranslations("library.academy");
   const tA11y = useTranslations("shared.accessibility");
-  const extraCrumbs = useExtraCrumbs();
+  const extraCrumbs = useBannerCrumbs();
 
   const hubTitle = tNav("library");
 
@@ -90,7 +90,7 @@ export default function LibraryBanner() {
   const ancestors: Crumb[] = isSubpage ? [{ label: hubTitle, href: "/explore/works" }, ...crumbs.slice(0, -1)] : [];
   const current = isSubpage ? crumbs[crumbs.length - 1].label : hubTitle;
   // 기관·목록 화면은 본문이 기관명·목록명을 h1로 세운다 — 배너 이름은 클라이언트에서 늦게 채워져 서버 HTML에서
-  // 「기관 선정」으로 굳는다(BannerHeading asHeading). 주소로 가른다 — 알림표(SetLibraryCrumbs)는 서버 렌더에 없다
+  // 「기관 선정」으로 굳는다(BannerHeading asHeading). 주소로 가른다 — 알림표(SetBannerCrumbs)는 서버 렌더에 없다
   const pageOwnsTitle = CURATED_DETAIL_PATH.test(pathname);
   // 기관 선정은 로고 갤러리와 이어지는 편집형 머리말을 쓴다.
   if (subSegment === "curated") {

@@ -20,7 +20,7 @@ export const BANNER_MOBILE_TITLE_CLASS =
 
 /** 경로의 상위 단계 링크. hover는 글자색이 즉시 바뀐다 */
 export const BANNER_CRUMB_LINK_CLASS =
-  "rounded-sm hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent";
+  "pointer-events-auto rounded-sm hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent";
 
 /** 현재 단계 제목(누르면 새로고침) */
 // 단추는 전역 기본층에서 굵기 500을 받으므로 제목의 굵기를 그대로 물려받게 되돌린다

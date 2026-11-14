@@ -432,6 +432,8 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/app/[locale]/(main)/support/page.tsx',
   'sw/web/src/app/[locale]/(main)/shop/page.tsx',
   'sw/web/src/components/features/library/hub/LibraryBanner.tsx',
+  // 공용 BannerCrumbs로 옮긴 옛 통로의 소비자는 앞단 HTML 캐시가 없는 기관 선정 화면뿐이었다.
+  'sw/web/src/components/features/library/hub/LibraryCrumbs.tsx',
   'sw/web/src/components/features/library/professions/ProfessionBooksShelf.tsx',
   'sw/web/src/components/features/library/professions/ProfessionStudyHeader.tsx',
   'sw/web/src/components/features/library/museum/MuseumEraSection.tsx',

@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { EXPLORE_FEATURED_LINKS } from "@/constants/navigation";
 import PageContainer from "@/components/layout/PageContainer";
+import { BannerCrumbProvider } from "@/components/shared/BannerCrumbs";
 import ExploreBanner from "./ExploreBanner";
 import AtlasRecentHistory from "../myth/AtlasRecentHistory";
 import { atlasPageOwnsTitle } from "../myth/mythHref";
@@ -35,7 +36,7 @@ export default function ExploreLayoutFrame({ children }: { children: ReactNode }
   if (segment === "works") return children;
 
   return (
-    <>
+    <BannerCrumbProvider>
       <ExploreBanner />
       <PageContainer>
         {atlasMode && <ExploreModeNav mode={atlasMode} />}
@@ -62,6 +63,6 @@ export default function ExploreLayoutFrame({ children }: { children: ReactNode }
         {children}
         {atlasMode && <AtlasRecentHistory world={atlasMode} />}
       </PageContainer>
-    </>
+    </BannerCrumbProvider>
   );
 }

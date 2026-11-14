@@ -25,6 +25,7 @@ import AtlasWorkShelf from "./AtlasWorkShelf";
 import AtlasNavSections from "@/components/shared/atlasNav/AtlasNavSections";
 import type { AtlasNavItem } from "@/components/shared/atlasNav/AtlasNav";
 import HubSection from "@/components/shared/HubSection";
+import SetBannerCrumbs from "@/components/shared/BannerCrumbs";
 import SceneCompletionBadge from "../myth/SceneCompletionBadge";
 import ContentTextModal from "@/components/ui/ContentTextModal";
 import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
@@ -259,6 +260,10 @@ export default function AtlasScreen({ mode, data, navigationTree: suppliedNaviga
 
   return (
     <section id={mode} data-atlas-mode={mode} aria-label={labels("title")} className={`${layout.shell} ${locale === "ko" ? "break-all" : ""}`}>
+      {ownsTitle && activeMyth && <SetBannerCrumbs crumbs={[{
+        label: activeMyth.name,
+        href: isMyth ? mythHref(activeMyth.slug) : `/explore/faction/${encodeURIComponent(activeMyth.slug)}`,
+      }]} />}
       <AtlasNavSections items={tocItems} />
       <AtlasSelectionPanel mode={mode} tree={navigationTree} selection={atlasSel} onSelect={chooseAtlas} onOpenPicker={setPickerLevel}
         pending={navigating} myth={activeMyth} ownsTitle={ownsTitle}

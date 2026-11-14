@@ -13,6 +13,7 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import ConstellationBanner from "@/components/lab/ConstellationBanner";
 import BannerHeading, { type BannerCrumb } from "@/components/shared/BannerHeading";
+import { useBannerCrumbs } from "@/components/shared/BannerCrumbs";
 import { BANNER_DESKTOP_SHELL_CLASS, BANNER_MOBILE_SHELL_CLASS } from "@/components/shared/bannerStyles";
 import { exploreModeHref } from "@/constants/exploreModes";
 import { atlasPageOwnsTitle } from "../myth/mythHref";
@@ -39,6 +40,7 @@ export default function ExploreBanner() {
   const router = useRouter();
   const t = useTranslations();
   const hubT = useTranslations("explore.hub");
+  const detailCrumbs = useBannerCrumbs();
 
   const hubTitle = t("nav.explore");
 
@@ -48,7 +50,7 @@ export default function ExploreBanner() {
   const subKey = subSegment ? SUBPAGE_KEY[subSegment] : undefined;
   const isSubpage = !!subKey;
 
-  const pageTitle = atlasMode ? t(`nav.modes.${atlasMode}`) : isSubpage ? hubT(subKey!) : hubTitle;
+  const pageTitle = atlasMode ? detailCrumbs.at(-1)?.label ?? "…" : isSubpage ? hubT(subKey!) : hubTitle;
 
   const handleRefresh = () => {
     router.refresh();
@@ -58,8 +60,9 @@ export default function ExploreBanner() {
   const ancestors: BannerCrumb[] = isSubpage || atlasMode
     ? [{ label: hubTitle, href: "/explore" }]
     : [];
+  if (atlasMode) ancestors.push({ label: t(`nav.modes.${atlasMode}`), href: exploreModeHref(atlasMode) });
   const heading = (variant: "desktop" | "mobile") => (
-    <BannerHeading ancestors={ancestors} current={pageTitle} currentHref={atlasMode ? exploreModeHref(atlasMode) : undefined} onCurrentClick={isSubpage ? handleRefresh : undefined} variant={variant} asHeading={!atlasMode} />
+    <BannerHeading ancestors={ancestors} current={pageTitle} onCurrentClick={isSubpage ? handleRefresh : undefined} variant={variant} asHeading={!atlasMode} />
   );
 
   return (

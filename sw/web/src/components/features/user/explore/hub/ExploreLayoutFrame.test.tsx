@@ -13,6 +13,7 @@ import * as mythHref from "../myth/mythHref";
 
 const require = createRequire(import.meta.url);
 let pathname = "/explore";
+let detailCrumbs: { label: string; href: string }[] = [];
 const mocks: Record<string, object> = {
   "next/navigation": { useSelectedLayoutSegment: () => pathname.split("/")[2] ?? null },
   "next-intl": { useTranslations: () => (key: string) => key },
@@ -27,6 +28,10 @@ const mocks: Record<string, object> = {
   "@/constants/navigation": { EXPLORE_FEATURED_LINKS },
   "@/constants/exploreModes": exploreModes,
   "@/components/shared/bannerStyles": bannerStyles,
+  "@/components/shared/BannerCrumbs": {
+    useBannerCrumbs: () => detailCrumbs,
+    BannerCrumbProvider: ({ children }: { children: ReactNode }) => children,
+  },
   "./bannerStyles": bannerStyles,
   "@/components/lab/ConstellationBanner": { default: ({ children }: { children: ReactNode }) => createElement("div", { "data-explore-banner": true }, children) },
   "@/components/layout/PageContainer": { default: "main" },
@@ -52,6 +57,7 @@ const Layout = load("./ExploreLayoutFrame.tsx").default;
 for (const mode of ["myth", "faction"]) {
   test(`${mode} detail keeps the explore banner, common mode selector, list return path, and content before recent history`, () => {
     pathname = `/explore/${mode}/selected-entry`;
+    detailCrumbs = [{ label: "Selected entry", href: pathname }];
     const html = renderToStaticMarkup(createElement(Layout, {}, createElement("h1", null, "Selected entry")));
     const $ = parseHtml(html);
     assert.equal($("main nav[aria-label='breadcrumb']").length, 0, "Breadcrumbs belong inside the banner, outside the content and mode selector");
@@ -59,6 +65,8 @@ for (const mode of ["myth", "faction"]) {
       assert.equal($(`${shell} nav[aria-label='breadcrumb']`).length, 1);
       assert.equal($(`${shell} nav a[href='/explore']`).length, 1);
       assert.equal($(`${shell} nav a[href='/explore?mode=${mode}']`).length, 1);
+      assert.equal($(`${shell} nav a.pointer-events-auto`).length, 2, "Banner ancestor links must receive clicks above the decorative canvas");
+      assert.deepEqual($(`${shell} nav li`).map((_, element) => $(element).text()).get(), ["nav.explore", `nav.modes.${mode}`, "Selected entry"]);
     }
     assert.equal((html.match(/data-explore-banner/g) ?? []).length, 1);
     assert.doesNotMatch(html, /mythology|navFaction/);
@@ -70,12 +78,15 @@ for (const mode of ["myth", "faction"]) {
 
   test(`${mode} detail uses its banner text as one breadcrumb trail without repeating the title`, () => {
     pathname = `/explore/${mode}/selected-entry`;
+    detailCrumbs = [{ label: "Selected entry", href: pathname }];
     const html = renderToStaticMarkup(createElement(Banner));
     const $ = parseHtml(html);
     for (const shell of ["[class~='md:hidden']", "[class~='md:block']"]) {
       const banner = $(shell);
       assert.equal((banner.text().match(/nav.explore/g) ?? []).length, 1, "Explore appears once as part of the breadcrumb, with no separate title");
       assert.equal((banner.text().match(new RegExp(`nav.modes.${mode}`, "g")) ?? []).length, 1);
+      assert.equal((banner.text().match(/Selected entry/g) ?? []).length, 1);
+      assert.equal(banner.find("nav li:last-child a, nav li:last-child button").length, 0, "The final entry is the current page; the preceding mode link opens its home");
       assert.ok(banner.find("nav [class~='text-4xl'], nav [class~='text-2xl']").length > 0, "The large banner text forms the breadcrumb itself");
     }
     assert.doesNotMatch(html, /<h1\b|role="heading"/);
