@@ -11,12 +11,18 @@
  */
 
 import { createHash } from 'node:crypto'
+import { mkdirSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { dirname, join } from 'node:path'
 import { createClient } from '@feelandnote/db'
 import { toIsbn13 } from '../../../../../packages/content-search/src/book-isbn.ts'
 import { pickKakaoBookIsbn } from '../../../../../packages/content-search/src/kakao-books.ts'
 import { getBookOriginalAuthorKeys, canUseBookWorkIntroduction } from '../../../../../packages/content-search/src/book-original-authors.ts'
 
 export const PAGE_SIZE = 1000
+// 언어 카드 ISBN 변경 기록. 작업 자료라 저장소 밖(OS 임시)에 쌓고, 소개 출처 재해결(locale-restore)이 읽는다.
+export const LOCALE_CHANGE_LOG = join(tmpdir(), 'feelandnote', 'figure-books', 'locale-restore-log.jsonl')
+mkdirSync(dirname(LOCALE_CHANGE_LOG), { recursive: true })
 export const KAKAO_URL = 'https://dapi.kakao.com/v3/search/book'
 export const OPENLIBRARY_URL = 'https://openlibrary.org'
 export const WDQS_URL = 'https://query.wikidata.org/sparql'

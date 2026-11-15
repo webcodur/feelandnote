@@ -2,13 +2,26 @@
 // 사용(저장소 루트): node --import tsx <이 파일> init  |  node --import tsx <이 파일> <slug> [추가 참조 URL...]
 import { R, W } from './paths.mjs'
 import fs from 'node:fs/promises'
-import { pathToFileURL } from 'node:url'
 import { PICK, SEND } from './mode.mjs'
-const m=await import(pathToFileURL(R+'/scripts/browser/reading-way-argon.mjs').href)
 process.loadEnvFile(R+'/sw/web-bo/.env')
-const sec=async f=>m.argonSections(await fs.readFile(`${R}/docs/project/celeb/${f}`,'utf8'),f)
-const A=await sec('celeb-05-02-reading-way.md')
-const B=` 이 책들의 관계 근거를 직접 조사하고 아래 조사·감상경위 규칙에 따라 책별 감상배경도 완성해주세요. 독서 방식 본문이 조사 미달이어도 확인한 책 자료는 별도로 전달하고, 본문에 이 책들을 모두 등장시킬 필요는 없습니다. 확인한 자료를 그대로 나열하지 말고 룰북에 따라 글을 구성해주세요.\n${await sec('celeb-02-01-content-research.md')}\n${await sec('celeb-02-03-content-review.md')}\nbooks 배열에 {title_ko,title_en,author_ko,author_en,source_url,source_urls,evidence,review_ko}을 담아주세요. evidence는 관계를 확인할 조사 내용이며 본문이 아닙니다. source_urls는 추가 근거 URL 배열입니다. 관계를 확인하지 못한 책은 {title_en,unresolved_reason}으로 unresolved 배열에 담고 감상배경을 만들지 마세요.`
+// 웹 1차 조사용 축약 규칙(26.11.15). 예전에는 독서 방식 본문 룰북과 조사·감상경위 룰북 전문(약 1만 2천 자)을 붙였으나
+// 생성 오류와 무관하게 금지 규칙(지어낸 장면·해석 문장·저자 혼동)을 지키지 못했고, 품질은 뒤 단계의 책별 출처 대조 검수가 만들었다.
+// 웹에는 사실 확인과 출력 형식만 주고, 문체·영문·검수 규칙은 검수 단계(celeb-02-03)가 쥔다.
+const A='[작업] 아래 인물의 책장 보완이다. 지정한 책마다 독서 근거를 조사하고 감상배경을 쓴다.'
+const B=`
+[책장 보완 규칙]
+0. 웹 검색 도구를 반드시 쓴다. 참조 링크를 직접 열어 읽고, 열리지 않거나 근거가 없으면 Google 검색으로 같은 기사나 다른 원출처(인터뷰·칼럼·방송 녹취)를 찾아 읽는다. 원문을 붙여 달라고 되묻지 않는다.
+1. 위 목록의 책만 다룬다. 인물이 그 책을 실제로 읽었다는 사실(읽었다, 읽고 있다, 다시 읽었다, 읽은 경험을 들어 추천했다)이 원출처로 확인될 때만 books에 넣는다. 소장·선물·구입·출연·낭독·제작·판권만 확인되는 책, 인물 본인이 쓴 책은 넣지 않는다.
+2. 원출처는 인물 본인의 인터뷰·글·방송 발언이다. 위키·요약 블로그·서점 소개처럼 남이 다시 정리한 글만 있으면 unresolved로 둔다.
+3. source_url에는 독서 사실이 실제로 적힌 주소 하나를 넣는다. 그 주소를 열어 책 제목이 나오는지 확인한 것만 넣는다.
+4. 제목이 같은 다른 책과 헷갈리지 않게 저자와 원제를 확인한다. title_ko는 국내 번역판 제목을 쓴다.
+5. review_ko(감상배경)에는 출처에 있는 사실만 쓴다: 언제, 어떤 계기로 읽었고, 무엇을 말했는지. 출처에 없는 장면·동기·횟수·시점을 덧붙이지 않는다. 책의 사상과 인물의 삶을 잇는 해석('맞닿아 있다', '겹친다', '밑바탕이 되었다' 같은 말)은 쓰지 않는다. 본인의 말이 남아 있으면 핵심 한두 대목을 따옴표로 직접 인용한다. 책 소개는 한 문장 이내로 한다. 두 문단 안팎으로 쓴다.
+6. 한국인이 한국어로 쓴 글답게 쓴다. 번역투와 미사여구를 피한다.
+7. 확인되지 않으면 지어내지 말고 unresolved에 이유를 한 줄로 적는다.
+
+[출력 형식]
+books의 각 항목: {"title_ko":"","title_en":"","author_ko":"","author_en":"","source_url":"","source_urls":[],"evidence":"출처에서 확인한 독서 사실 한두 문장","review_ko":"감상배경(문단은 \\n\\n)"}
+unresolved의 각 항목: {"title_ko":"","title_en":"","unresolved_reason":""}`
 const arg=process.argv[2]
 if(arg==='init'){await fs.writeFile(`${W}/scoped/init-books.js`,`localStorage.setItem('rwBookA',${JSON.stringify(A)});localStorage.setItem('rwBookB',${JSON.stringify(B)});[localStorage.getItem('rwBookA').length,localStorage.getItem('rwBookB').length]`);console.log('init',A.length,B.length);process.exit()}
 const url=process.env.NEXT_PUBLIC_DB_API_URL,key=process.env.DB_SECRET_KEY,H={apikey:key,Authorization:`Bearer ${key}`}

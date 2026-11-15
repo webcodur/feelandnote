@@ -11,11 +11,11 @@ description: Claude Code에서 agy(Antigravity CLI)를 비대화로 호출해 Ge
 
 ## 모델은 항상 명시한다
 
-일반 텍스트·이미지 호출은 `--model gemini-3.8-flash-high`를 붙인다. 사용자가 다른 모델을 지정한 작업은 먼저 `agy models`로 정확한 ID를 확인하고 그 ID를 `--model`에 명시한다. 예를 들어 Claude Opus 4.6 Thinking의 현재 ID는 `claude-opus-4-6-thinking`이다.
+일반 텍스트·이미지 호출은 `--model gemini-4-hydrogen-high`를 붙인다. 사용자가 다른 모델을 지정한 작업은 먼저 `agy models`로 정확한 ID를 확인하고 그 ID를 `--model`에 명시한다. 예를 들어 Claude Opus 4.6 Thinking의 현재 ID는 `claude-opus-4-6-thinking`이다.
 
 `settings.json`의 기본값을 믿지 마라. 2026-08-17 실측에서 기본값이 `Gemini 3.6 Flash (Low)`였고, 그것으로 돌린 한국어 재작성에서 오탈자("변변"), 고유명사 오역(「악양루기」→ `Yueyang Tower`), 금지한 평가어 재삽입이 나왔다. 한 세대 낮은 모델에 추론 강도까지 최하였던 탓이다.
 
-`agy models`로 목록을 본다. 상위부터 `gemini-3.8-flash-{high,medium,low}`, `gemini-3.7-flash-*`, `gemini-3.6-flash-*`, `gemini-3.1-pro-{high,low}`가 있고 Claude Sonnet 4.6·Opus 4.6·GPT-OSS 120B도 붙어 있다. 기본값은 `~/.gemini/antigravity-cli/settings.json`의 `model` 키가 쥐며 사람이 바꿀 수 있으므로, 플래그로 덮어써야 결과가 재현된다.
+`agy models`로 목록을 본다. 목록은 로그인 계정의 등급에 따라 다르다. Pro 이상 계정에는 `gemini-4-hydrogen-{low,medium,high,xhigh}`, `gemini-4-argon-*`가 있고, Ultra에는 `gemini-4-carbon-*`도 있다. 무료 등급은 `gemini-3.8-flash-*`와 Claude Sonnet 4.6·Opus 4.6·GPT-OSS 120B까지만 보인다. **3.8 Flash가 하던 일은 Hydrogen이 맡는다(26.11.13 사용자 지시).** 무료 계정의 Flash(`AGY_FALLBACK_MODEL`)는 Hydrogen 계정이 모두 한도에 걸린 비상시에만 쓴다. 계정 순환은 [agy-text.mjs](../../../sw/web-bo/scripts/naver-blog/lib/agy-text.mjs)가 Hydrogen 가능 계정부터 고르고, 가능 여부는 `agy models`로 확인해 OS 임시 폴더에 하루 동안 둔다. `agm list`의 GEM-PRO %는 gemini-4(Hydrogen·Argon·Carbon) 한도를 반영하지 않으므로 계정 선택 기준으로 쓰지 않는다(26.11.14 Ultra 계정이 0%로 보였지만 Hydrogen 호출은 정상). 한도는 실제 호출의 `Individual quota reached`로만 판정한다. agm 계정 22개 가운데 Hydrogen이 열린 계정은 4개뿐이다(26.11.13 실측). **웹 Gemini 채팅과 agy(CLI)의 한도는 같은 계정이라도 따로 소진된다(26.11.13 사용자 확인).** 웹 독서방식 작업에 배정한 계정을 agy 순환에 같이 써도 서로의 한도를 깎지 않는다. 순환 없이 `agyCall`을 직접 부르는 스크립트는 현재 CLI 계정을 그대로 쓰므로, 기본 CLI 계정은 Hydrogen 가능 계정으로 둔다. 사용자가 쓰지 말라고 한 계정은 `sw/web-bo/.env`의 `AGY_EXCLUDE_ACCOUNTS`에 넣어 순환에서 빼고 기본 계정으로도 두지 않는다. 기본값은 `~/.gemini/antigravity-cli/settings.json`의 `model` 키가 쥐며 사람이 바꿀 수 있으므로, 플래그로 덮어써야 결과가 재현된다.
 
 ## 로그인 계정 확인법
 
@@ -23,7 +23,7 @@ agy에는 `whoami` 류 서브커맨드가 없다. **적용된 계정은 `agm lis
 
 ```bash
 # 1) 최신 로그를 만들기 위해 가볍게 한 번 호출(쿼터 상태도 같이 드러남)
-"C:/Users/webco/AppData/Local/agy/bin/agy.exe" -p "Say OK." --dangerously-skip-permissions --model gemini-3.8-flash-high --print-timeout 5m 2>&1 | tail -3
+"C:/Users/webco/AppData/Local/agy/bin/agy.exe" -p "Say OK." --dangerously-skip-permissions --model gemini-4-hydrogen-high --print-timeout 5m 2>&1 | tail -3
 
 # 2) 가장 최근 로그에서 계정 추출
 cd "C:/Users/webco/.gemini/antigravity-cli/log" && grep -aoiE "email=[^ ,}\"]+" $(ls -t | head -1) | tail -1
@@ -39,7 +39,7 @@ cd "C:/Users/webco/.gemini/antigravity-cli/log" && grep -aoiE "email=[^ ,}\"]+" 
 ## 핵심 호출법 (텍스트)
 
 ```bash
-"C:/Users/webco/AppData/Local/agy/bin/agy.exe" -p "프롬프트" --dangerously-skip-permissions --model gemini-3.8-flash-high --print-timeout 15m
+"C:/Users/webco/AppData/Local/agy/bin/agy.exe" -p "프롬프트" --dangerously-skip-permissions --model gemini-4-hydrogen-high --print-timeout 15m
 ```
 
 - `-p`/`--print` = 비대화(헤드리스) 단발 실행. **결과가 stdout에 순수하게 떨어진다** — codex처럼 `--output-last-message` 파일로 뺄 필요가 없다(codex는 stdout에 세션 헤더·토큰 노이즈가 섞이지만 agy는 깔끔).
@@ -50,11 +50,11 @@ cd "C:/Users/webco/.gemini/antigravity-cli/log" && grep -aoiE "email=[^ ,}\"]+" 
 
 **인물 단위 작업은 agy 1회 호출에 1명만 넣는다.** 여러 명을 한 프롬프트에 넣어 CLI 한 번을 재사용하지 않는다. 묶으면 시간 초과 한 번에 묶음 전원이 실패하고(26.10.21 실측: 7~10명 묶음이 1200초 초과로 연속 실패), 응답 잘림·인물 간 섞임도 생긴다. 발주와 실행은 배치로 한다. 대상 목록을 한 번에 넘기고, 1명당 agy 프로세스 하나를 여러 개 동시에 띄워 돌린다(기본 동시 3). 동시 1로 줄지어 돌리지 않는다. 값은 `scripts/agy-call.mjs`의 `AGY_PEOPLE_PER_CALL`이 쥐며, 스크립트는 묶음 크기를 이 상수로 고정하고 묶음 크기 플래그를 받지 않는다. 인물 간 중복 검사처럼 전체를 봐야 하는 일은 호출이 끝난 뒤 코드에서 한다.
 
-반복 호출이나 배치 스크립트에서는 직접 spawn을 다시 만들지 말고 `scripts/agy-call.mjs`의 `agyCall()`을 import한다. 이 헬퍼는 확인된 `.exe` 절대경로, 임시 작업 폴더, 타임아웃, stdout 수신을 한곳에 둔다. Windows 명령행 한도를 넘는 긴 입력은 임시 UTF-8 파일로 자동 전달한다. 기본 모델은 `gemini-3.8-flash-high`이며 다른 모델은 `agyCall(prompt, { model: '확인한-ID' })`로 명시한다.
+반복 호출이나 배치 스크립트에서는 직접 spawn을 다시 만들지 말고 `scripts/agy-call.mjs`의 `agyCall()`을 import한다. 이 헬퍼는 확인된 `.exe` 절대경로, 임시 작업 폴더, 타임아웃, stdout 수신을 한곳에 둔다. Windows 명령행 한도를 넘는 긴 입력은 임시 UTF-8 파일로 자동 전달한다. 기본 모델은 `gemini-4-hydrogen-high`이며 다른 모델은 `agyCall(prompt, { model: '확인한-ID' })`로 명시한다.
 
 ## 전역 MCP는 임시 작업 폴더로 격리되지 않는다
 
-agy는 `~/.gemini/config/mcp_config.json`에서 활성화된 MCP를 모든 세션에 주입한다. 임시 cwd를 써도 DB·배포처럼 상태를 바꾸는 MCP가 모델에 노출될 수 있다. 생성 전용 배치에서는 활성 MCP를 값이 출력되지 않는 방식으로 확인하고, 상태 변경 MCP가 있으면 사용자가 끄거나 별도 agy 프로필을 마련하기 전까지 배치를 시작하지 않는다. 다른 agy 세션에도 영향을 주므로 스크립트가 전역 MCP를 임의로 disable·enable하지 않는다. 읽기 전용 웹 검색 MCP(`wigolo`·`firecrawl`)는 상태를 바꾸지 않으므로 생성 배치를 막지 않는다(`sw/web-bo/scripts/naver-blog/lib/agy-text.mjs`의 `READ_ONLY_MCP`). MCP 명령 인자에 토큰이 들어 있으면 프로세스 제목과 로그에도 노출될 수 있으므로 원문 목록을 대화에 출력하지 않는다.
+agy는 `~/.gemini/config/mcp_config.json`에서 활성화된 MCP를 모든 세션에 주입한다. 임시 cwd를 써도 DB·배포처럼 상태를 바꾸는 MCP가 모델에 노출될 수 있다. 생성 전용 배치에서는 활성 MCP를 값이 출력되지 않는 방식으로 확인하고, 상태 변경 MCP가 있으면 사용자가 끄거나 별도 agy 프로필을 마련하기 전까지 배치를 시작하지 않는다. 다른 agy 세션에도 영향을 주므로 스크립트가 전역 MCP를 임의로 disable·enable하지 않는다. 읽기 전용 웹 검색 MCP(`wigolo`·`firecrawl`)는 상태를 바꾸지 않으므로 생성 배치를 막지 않는다(`sw/web-bo/scripts/naver-blog/lib/agy-text.mjs`의 `READ_ONLY_MCP`). 다만 agy는 호출마다 `~/.gemini/settings.json`의 `mcpServers`에 있는 MCP를 자기 자식 프로세스로 새로 띄운다. wigolo는 헤드리스 크로미움을 끌고 와 한 벌이 1~6GB까지 커진다. 26.11.15 동시 호출 4개가 wigolo 4벌을 띄워 컴퓨터가 멈췄다. 그래서 `settings.json`에서 wigolo·firecrawl을 뺐다(`config/mcp_config.json`의 `disabled`는 agy가 따르지 않았다). agy는 Gemini 자체 웹 검색·열람으로 출처를 읽는다. wigolo는 실행자가 필요할 때만 직접 쓴다. MCP 명령 인자에 토큰이 들어 있으면 프로세스 제목과 로그에도 노출될 수 있으므로 원문 목록을 대화에 출력하지 않는다.
 
 ## 이미지 생성 (핵심)
 
@@ -72,7 +72,7 @@ Image description:
 EOF
 
 # 2) agy 호출
-timeout 300 "C:/Users/webco/AppData/Local/agy/bin/agy.exe" -p "$(cat prompt.txt)" --dangerously-skip-permissions --model gemini-3.8-flash-high --print-timeout 5m 2>&1 | tail -15
+timeout 300 "C:/Users/webco/AppData/Local/agy/bin/agy.exe" -p "$(cat prompt.txt)" --dangerously-skip-permissions --model gemini-4-hydrogen-high --print-timeout 5m 2>&1 | tail -15
 
 # 3) 파일 확인 (반드시)
 ls -la C:/절대/경로/out.png

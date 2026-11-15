@@ -9,14 +9,14 @@
  */
 import { appendFileSync, mkdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { bareIsbn, dbClient, kakaoByIsbn, openLibraryByIsbn } from './lib/figure-work.mjs'
+import { LOCALE_CHANGE_LOG, bareIsbn, dbClient, kakaoByIsbn, openLibraryByIsbn } from './lib/figure-work.mjs'
 import { assertNoIntroductionLoss, preserveIntroduction } from './lib/preserve-introduction.mjs'
 
 // 소개 조회가 실패해도 기존 본문·출처는 보존한다. 옛 ISBN 출처를 새 ISBN에 옮기지는 않는다.
 const introductionModule = await import('@feelandnote/content-search/book-introduction')
 const { fetchBookIntroduction } = introductionModule.default ?? introductionModule
 // ISBN이 바뀐 행은 한 로그에 모은다. 소개 출처 재해결이 이 로그를 읽는다.
-const CHANGE_LOG = resolve(process.cwd(), '../../data/celeb/figure-books/locale-restore-log.jsonl')
+const CHANGE_LOG = LOCALE_CHANGE_LOG
 
 const APPLY = process.argv.includes('--apply')
 const planPath = resolve(process.cwd(), (process.argv.find((a) => a === '--plan') && process.argv[process.argv.indexOf('--plan') + 1]) || '')

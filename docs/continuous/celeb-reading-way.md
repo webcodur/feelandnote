@@ -12,6 +12,12 @@
 
 다음 대상은 현재 DB와 블로그 대장으로 선정한다. 과거 명단·계정 번호·한도 시각이나 삭제된 임시 작업 폴더를 재개 입력으로 쓰지 않는다. 블로그 쪽은 `D:/feelandnote/blog-assets/naver-blog/posts.json`의 `readingWay.sourceHash`와 현재 DB 본문의 UTF-8 SHA-256을 비교한다.
 
+**자원 배분(26.11.15 사용자 지시):** 웹챗과 CLI는 별도 한도로 동시에 소진한다. CLI(agy)는 한 번에 한 계정만 붙으므로 Ultra 계정(Carbon)으로 독서 방식 신규 조사·출처 검증·영어본을 인물당 1프로세스로 동시에 돌린다. 웹챗은 Ultra 탭(u4)에서 Carbon, 프로 계정 탭에서 Argon만 열린다. 프로 계정은 판본 처리·감상 백필(`export-books2`, `RW_MODEL=argon`)에 쓰고, Argon 결과는 실행자가 출처 대조를 한 겹 더 한다. 계정 배정(26.11.15 사용자): `topstarpicks001~005`는 맥북이 쓰므로 이 컴퓨터에서는 웹·CLI 모두 쓰지 않는다(`AGY_EXCLUDE_ACCOUNTS`에 넣었다). 이 컴퓨터의 웹 Argon 계정은 webcodur·tlwns5598·bytebodybalance·famebookorg, Carbon은 Ultra다. famebookorg는 Gemini 웹이 신형 메뉴(「사고 수준」 하위 메뉴)라 발송 함수가 아직 고르지 못하고, CLI는 26.11.15 agm 풀에 등록했고 Argon이 열린다(Ultra 한도가 차면 이어 쓴다). CLI 계정은 컴퓨터 전체에서 하나라, 원고 재료 생성(`prep-batch`)의 책 소개 요약이 쓰는 계정 순환(`agy-text`)이 호출 실패 한 번에 Ultra를 다른 계정으로 바꿔 Carbon 작업을 끊는다(26.11.15). 둘을 동시에 돌리지 않고, CLI 동시 호출은 4개 안팎으로 묶는다(13개를 몰았을 때 30분 시간 초과가 잇따랐다). 독서 방식을 새로 저장하면 본문에 나온 책을 같은 날 판본·감상까지 채운 뒤에만 블로그 원고 재료를 만든다(26.11.15 샬라메·오타니 등 18권을 빠뜨린 채 재료를 만든 일).
+
+**Argon 책장 보완 결과의 검수(26.11.15):** Argon 높음의 책장 보완 JSON은 그대로 반영하지 않는다. 오타니 4권은 출처에 없는 합숙소 독서 장면을 지어냈고 2018년 출간 책을 닛폰햄 시절에 읽었다고 썼으며, 대표 출처로 댄 산케이스포츠 기사에는 네 권 모두 언급이 없었다. 에반스는 본문의 마이클 싱어 『될 일은 된다』를 발세카의 책으로 잘못 짝지었다. 그래서 (1) 책마다 본문 『』의 저자·작품과 같은지 실행자가 먼저 맞추고, (2) Ultra CLI Carbon이 출처를 다시 열어 감상배경을 고치고 확인한 `source_url`을 돌려주며, (3) 실행자가 그 기사 본문에 책 이름이 실제로 나오는지 확인한 뒤 결정 파일을 만든다.
+
+**책 나열형 재작성(26.11.14 소급 완료):** 「책을 늘어놓지 않는다」 규칙을 어긴 저장본은 기존 본문을 단서로 붙여 웹 Carbon 높음 새 대화로 다시 쓴다. 단서에는 「웹 검색·유튜브 도구를 쓰지 말고 기존 원고의 사실만으로」와 「8분 안에」를 넣는다. 기존 본문은 출처 대조를 거쳤으므로 새 원고는 기존 문장과만 맞추고, 영어본은 기존 영어 인용을 살려 실행자가 맞춘다. 기계 집계(가장 붐비는 문단의 『』《》 6개 이상, 500자당 6개 이상)는 후보만 뽑고 대상은 실행자가 읽어 정한다. 본인 작품·방송 낭독 책이 많거나, 책마다 일화가 붙었거나, 책이 독서 방법·학습 경로·창작 계기 안에서 움직이는 글은 나열형이 아니다. 26.11.14 예약·대기 글 인물 8명과 기계 후보 138명 중 36명을 다시 써 소급을 마쳤다. 조국·한동훈·이재명·윤석열·정청래는 짝 균형 때문에 보류했다. Carbon이 정치 인물에게 불리한 독서 사실(박정희 『나의 투쟁』)을 지우면 기존 원고 문장으로 되살린다. 평가어는 붙이지 않는다(룰북 「책을 늘어놓지 않는다」 다음 문단). 블로그 글이 있는 인물은 옛 인용형 목차 글을 `apply-reading-way`가 거부하므로 `prep-batch`로 선정·요약을 만들고 `prepare-unified-articles --reading-way --selections` → `run-unified-articles`로 다시 쓴다. 다른 세션이 먼저 고친 원고를 덮지 않도록 보내기 직전과 저장 직전에 DB 본문이 착수 시점과 같은지 확인한다. Carbon 생성 오류(「An error occurred」)는 탭 수와 무관하게 잦으므로 새 대화로 다시 보낸다.
+
 조사·본문 저장·블로그 반영은 본 세션이 직접 수행하고, 새로 필요한 작품·판본은 '대기 - 판본 (수령)' 세션에 인계한다.
 
 ## 실행 진입점
@@ -79,33 +85,19 @@ node --import tsx scripts/browser/reading-way-argon.mjs --apply --books-only --o
 
 `--books-only` 또는 웹채팅 책장 보완 경로로 감상경위를 받아 반영하고, 끝난 줄은 지운다.
 
-- `mark-manson`: 안티프래질(Antifragile, Taleb) · 인피니트 제스트(Infinite Jest, Wallace) — 본문 근거 markmanson.net/7-books, /5-massive-books
+26.11.15 전수 대조: 본문이 있는 1,121명 가운데 510명의 『』 1,515권이 제목만으로는 책장에 없었다. CLI Argon으로 본문 문장과 책장 목록을 대조해 가르니 실제 누락 275권, 다른 제목·옛 번역명으로 이미 있음 410권, 감상 대상 아님(본인 저서·잡지·영화 등) 830권이었다. 제목 대조에서 괄호 부제·쉼표 차이(『타클라마칸(돌아올 수 없는 사막)』·『목수들아, 대들보를…』)와 옛 제목(『암굴왕』=『몬테크리스토 백작』)이 오탐을 만든다. 처리 순서는 블로그 대기열 인물 → 공개 글 인물 → 나머지다. 웹챗에는 그 인물 기존 감상의 서점 아닌 근거 주소를 참조로 넘긴다. 참조가 비면 Argon은 쓰지 않으므로 실행자가 먼저 원문을 찾는다. 웹이 원문을 열지 못한 책은 실행자가 원문을 읽고 직접 쓴다(26.11.15 나태주·샬라메). 반영기가 「이미 연결됨」으로 막으면 기존 감상을 원문과 대조하고 그대로 둔다.
+
 - `lee-jae-myung`: 암굴왕(몬테크리스토 백작) · 해저 2만리 · 태백산맥 — 근거 중앙일보 25341144, 시사저널 164833, 월간중앙 312832
-- `ian-hogarth`: 안나 카레니나(Anna Karenina) — 근거 ianhogarth.com/blog/my-favourite-books-films-and-artists-of-2014 1위
 - `tyler-cowen`: 숨겨진 우주(Warped Passages, Randall) · 지옥편(Inferno, Dante) · 아이네이스(Aeneid, Vergil) — 근거 MR 2005/10/what_ive_been_r, 2006/02/moby_dick_the_g
 - `lee-myeong-hyeon`: 에덴의 용(The Dragons of Eden, Sagan) — 근거 theliverary.kr/article?id=1357 / 과학자처럼 사고하기 확인 필요(pressian 68345). 문더스트는 본인 번역서(집필 탭 후보), 필사노트는 본인 저서
-- `salman-rushdie`: 거울 나라의 앨리스(Through the Looking-Glass) · 반지의 제왕(Lord of the Rings) — 근거 en.wikipedia Salman_Rushdie 인용(원출처 Rushdie 에세이 확인 필요). 젊은 예술가의 초상은 인용 언급뿐
 - `james-clear`: The Tell-Tale Brain (명령하는 뇌, 착각하는 뇌), The Subtle Art of Not Giving a F*ck (신경 끄기의 기술)
 - `lee-kwang-hyung`: Day of Empire (제국의 미래, 에이미 추아) — 출처 readingnews 12585 "이 책을 읽고 바뀌었다"
 - `patrick-bet-david`: That Was Then, This Is Now · Of Mice and Men (18세까지 완독한 두 권) · Measure What Matters(OKR, 두 번 읽음) · The Ride of a Lifetime — 출처 Doing the Impossible PDF, readthistwice
-- `kim-kyung-ju`: 장석남 『지금은 간신히 아무도 그립지 않을 무렵』 — 출처 dailytw 10649·dadoc 1493 (군 시절 제대까지 읽음)
 - `oh-gang-nam`: 불트만 『신약성서와 신화』(New Testament and Mythology, 류동식 역) — 출처 aladin 작가 인터뷰 @28108 (본인은 제목을 '인가 하는'으로 불확실하게 기억)
-- `jack-edwards`: The Hunger Games(헝거 게임, '지금까지 독서가로 남은 이유') — 출처 youtube Y_JEgBP2SmE. 산소 도둑의 일기는 80/150쪽 중단 고민(완독 미확인), 솔로몬의 노래는 미독
 - `vladimir-tikhonov`: 호메로스 『오디세이아』(어린 시절 특히 좋아함) — 출처 ch.yes24 Article 14033
-- `woo-jong-hak`: 전쟁과 평화 · 카라마조프가의 형제들 · 분노의 포도 · 침묵의 행성 밖에서(C. S. 루이스) · 그리스도교를 다시 묻다(더글러스 존 홀) — 출처 solarcosmos.tistory.com 671·681·1122
-- `stewart-brand`: 노버트 위너 『사이버네틱스』(Cybernetics, 1968 브록먼과 밑줄 그으며 읽음) — 출처 edge.org Fred Turner
 - `daeshik-kim`: The Hitchhiker's Guide to the Galaxy 1권(은하수를 여행하는 히치하이커를 위한 안내서, 고교 시절부터 탐독) — 출처 gknewson 762. 책장엔 2권(The Restaurant at the End of the Universe)만 있음
-- `kim-chan-ho`: 김종삼 시집 『북 치는 소년』(대학 입학 후 처음 산 책) — 출처 hani 882388. 김우창 저서는 제목 미특정
-- `kim-yun-sik`: 임화 『문학의 논리』(1940, 서재 창가 책꽂이에 두고 자주 들춰봄) — 출처 m-joongang 302602
 - `natalie-portman`: 예후다 아미차이 『예루살렘의 시』(가장 많이 다시 읽은 책) · E. E. 커밍스 『시 전집 1904-1962』(문학적 위안 음식) · 도스토옙스키 『카라마조프가의 형제들』(계속 끝내려는 책, 완독 미확인) — 출처 ELLE Shelf Life 2021
-- `tom-bilyeu`: The Gunslinger (Stephen King) — 근거: awesomeatyourjob 209 녹취 "the book that changed my life ... my dad convinced me"
 - `kim-dong-chun`: 리영희 『전환시대의 논리』 — 근거: 한겨레 452409 "하늘이 무너지는 충격", 리영희재단 회고문(1977년 입학 후 읽음)
-- `iain-m.-banks`: The Lord of the Rings (J. R. R. Tolkien) — 1969 구록 도서관 1·2권, 언윈 문고본으로 재독 — 근거: Science Fiction Eye 1990 인터뷰
-- `kim-hye-ja`: 톨스토이 『부활』·『전쟁과 평화』·『안나 카레니나』, 도스토옙스키 『죄와 벌』 — 근거 리더스뉴스 108269(하루 한 권, 「읽지 않은 책은 책꽂이에 꽂지 않는다」), 매일경제 10581093(『생에 감사해』 출간 인터뷰)
-- `shin-kyung-sook`: 신경림 『농무』·황동규 『삼남에 내리는 눈』·정현종 『고통의 축제』·니체 『인간적인 너무나 인간적인』(셋째 오빠 덕에 초등 상급반 때 읽음) — 근거 고대신문 18370 서면 인터뷰
-- `arianna-huffington`: 마크 네포 『The One Life We're Given』·토머스 프리드먼 『늦어서 고맙다』(머리맡 책) — 근거 W매거진 arianna-huffington-sleep
-- `carlos-ghosn`: 페마 초드론 『모든 것이 무너져 내릴 때』·잭 콘필드 『Teachings of the Buddha』·한야 야나기하라 『리틀 라이프』(구치소에서 읽음) — 근거 NYT 「The Rise and Fall of Carlos Ghosn」
-- `koo-bon-moo`: 피터 드러커 『넥스트 소사이어티』(2002 휴가 중 읽을 예정, 완독 미확인) — 근거 한국경제 2002-07-26 015/0000533052
 - `anthony-hopkins`: 플라톤 『소크라테스의 마지막 날들』·아인슈타인 『사상과 의견』·본회퍼 『옥중서간』(인터뷰 중 두 차례 언급)·그레이엄 그린 『몬시뇰 키호테』 — 근거 beliefnet 「The Writers and Works That Inspire Anthony Hopkins」(2011)
 - `lee-soon-jae`: 나관중 『삼국지』(무명 시절 버팀목이 된 「인생책」) — 근거 서울경제 12266964 「스타의 서재」, 1VO8ST6I6V. 『리어왕』·『맥베스』는 「지서재」(네이버 지식백과 5663822)에서 배우의 필수 서적으로 권했으나 본인 독서 언급은 미확인
 - `pomnyun`: 용성진종 『상역과해금강경』 3판(1937) 영인본 — 『법륜 스님의 금강경 강의』(2013) 모본으로 삼음(현불뉴스 273976, YES24 8029822 출판사 리뷰). 고서 영인본이라 등록 가능한 판본이 있는지부터 확인
@@ -116,7 +108,6 @@ node --import tsx scripts/browser/reading-way-argon.mjs --apply --books-only --o
 - `lee-si-hyung`: 빅터 프랭클 『삶의 의미를 찾아서』(The Will to Meaning, 본인 번역·진료 지침서, 월간조선 2025-12 idxno 23441)·스티븐 R. 건드리 『플랜트 패러독스』(유기농 운동의 계기, 독서신문 95011)
 - `na-tae-joo`: 후지와라 신야 『인도 방랑』(처음 읽은 여행기)·브루노 바우만 『돌아올 수 없는 사막 타클라마칸』(입원 뒤 마지막 10여 쪽을 마저 읽음) — 근거 한국경제 2026021071361
 - `lee-hae-in`: 타고르 「꽃의 학교」(『초승달』 수록) — 근거 시빅뉴스 20430(「꽃의 학교」를 읽고 단번에 매료). 어느 판본으로 읽었는지 미확인. 윤동주 『하늘과 바람과 별과 시』는 언니·오빠가 읽던 「서시」를 함께 읽은 수준이라 시집 감상 근거로 부족
-- `song-ga-in`: 김해숙 『금파』·강경록 『내밀한 계절』 — 근거 밀리의서재 5fd0d4d93ba14e70(「허금파의 기구한 생을 따라가며」), 예스24 118796225(「책을 보는 내내 … 뒷장을 넘겼습니다」). 두 글 모두 출판사 홍보용 글이라 감상 관계로 볼지 판단 필요
 
 ## 배움의 태도 소재
 
@@ -124,13 +115,7 @@ node --import tsx scripts/browser/reading-way-argon.mjs --apply --books-only --o
 
 | 인물 | 일화 | 출처 | 상태 |
 |---|---|---|---|
-| `yang-hak-seon` | 스포츠 과학 분석을 보고 구름판 디딤을 익힘, 반 바퀴 더 비트는 연습 중 부상, 금메달 날 '양학선2' 구상 | 한겨레 546009 | 소재 확보 |
-| `yoo-ara` | 선배와의 차이를 알고 관찰 수첩·대본 메모 습관, 대본 다섯 부, 선배 강필석에게 새벽까지 질문 | 오마이스타 A0002086744 | 소재 확보 |
-| `hwang-young-cho` | 석사 논문 「마라토너 손기정의 생애와 사상」, 2009년 마라톤 연구로 이학박사 | 중앙일보 3752410 | 소재 확보 |
-| `viki` | 기상캐스터 데뷔 전 매일 2시간 그래프 읽기·대본 쓰기, 집에서 날씨 용어 암기 | 중앙일보 11142181 | 소재 확보 |
-| `sugar-ray-robinson` | 의사 지망에서 권투로 전향, 교회 지하 체육관에서 게인퍼드에게 배우고 평생 매니저로 둠 | 위키백과·JRank | 소재 확보 |
 | `ingvar-kamprad` | 난독증으로 상품 번호 대신 낱말 이름을 붙임, 이케아 창업 무렵 상업학교 재학 | 위키백과(IKEA) | 소재 확보 |
-| `cleopatra` | 스승 필로스트라토스에게 웅변·철학을 배움, 통역 없이 여러 민족과 대화(이집트어를 배운 첫 프톨레마이오스 군주), 페르가몬 장서 20만 권은 정적의 비난으로 대부분 거짓으로 여겨짐 | 플루타르코스 『안토니우스전』 27·58~59장 | 소재 확보 |
 | `natwarlal` | 상업학사 과정·증권 중개에서 은행 규정을 익혀 위조와 엮어 사기에 씀 | 위키백과 | 소재 확보 |
 | `jeanne-de-la-motte` | 계보 확인으로 기숙학교 교육, 런던에서 거짓 회고록 출간 | 위키백과(영·프) | 소재 확보 |
 | `joey-wong` | 중학생 때 공부 부담을 피하려 전학 | 중문 위키백과 | 소재 확보 |
@@ -139,13 +124,8 @@ node --import tsx scripts/browser/reading-way-argon.mjs --apply --books-only --o
 | `luis-miguel` | 초등 5학년 뒤 가정교사 교육, 독학 소믈리에, 4개 언어 | 위키백과 | 소재 확보 |
 | `nancy-carroll` | 순수미술 5년 뒤 LAMDA, 모교 연설의 '배우고 부딪혀 보는 즐거움' | 앨린스 스쿨 소식 | 소재 확보 |
 | `alida-valli` | 15세에 국립영화실험센터 입학, 상대 배우의 언어로 대사 촬영 | 위키백과 | 소재 확보 |
-| `mimiminu` | 인정 욕구를 공부로 채움, 4수 한양대 합격에도 5수, 수험생에게 쓴소리 | 다음 뉴스 20241202091913367 | 소재 확보 |
 | `spencer-locke` | 연기 학교, 모션 캡처 경험을 그린스크린 훈련으로 여김 | IGN 2006 | 소재 확보 |
-| `lee-mi-ja` | 나화랑에게 발탁돼 다섯 곡을 받음, 마지막 무대에서 후배에게 전통가요의 맥을 물려줌 | 국민일보 20250306500114 | 소재 확보 |
-| `young-tak` | 강사가 되려 대학원 진학, 대학 시간강사, 트로트로 옮겨 솔직하게 부르는 연습 | 시사저널 200899 | 소재 확보 |
 | `jang-yoon-jeong` | 연습생 4년, 후배에게 선배·선생님 노래를 공부하라고 조언 | 뉴스엔 201006151553031001 | 소재 확보 |
-| `joo-hyun-mi` | 옛 노래 가사를 복원해 영상으로 남기고 책 『추억으로 가는 당신』으로 기록 | 연합뉴스 AKR20200519168400005 | 소재 확보 |
-| `go-u-yeong` | 월남 뒤 김용환·박광현 만화를 읽음, 두 형에게 배워 14세 데뷔, 가장이 돼 진학 포기 | 위키백과 | 소재 확보 |
 | `jean-claude-van-damme` | 가라테 수련 중 16세부터 5년간 발레를 배움 | 위키백과 | 소재 확보 |
 | `pom-klementieff` | 법학을 접고 쿠르 플로랑, 「30 록」으로 영어 습득 | 위키백과 | 소재 확보 |
 | `denise-richards` | 말이 어려운 딸과 소통하려 수어를 배움 | 위키백과 | 소재 확보 |
@@ -153,16 +133,13 @@ node --import tsx scripts/browser/reading-way-argon.mjs --apply --books-only --o
 | `norman-reedus` | 연기 교육 없이 무대에 섬, 「플로팅」에서 연기가 예술임을 깨달음 | Daily Actor(Metro 인터뷰) | 소재 확보 |
 | `gerard-butler` | 법대 법학회장에서 해고된 수습 변호사, 팬텀 역을 위해 곧바로 노래를 배움 | 위키백과 | 소재 확보 |
 | `mohammed-bin-salman` | 법학 차석 졸업, 손자·처칠의 책을 즐겨 읽음 | 아랍뉴스 | 소재 확보 |
-| `gong-li` | 입시 낙방 뒤 일하며 재수, 영어 대사를 소리로 외움, 역할 위해 사격·최면 습득 | 위키백과(중·영) | 소재 확보 |
-| `joo-woo-jae` | 대학에서 공부를 가장 열심히 함, 전공 A+, 자퇴 뒤 "배울 건 다 배웠다" | 아주경제 20160620160048393 | 소재 확보 |
-| `cho-yong-pil` | 팝을 한 곡씩 카피, 「한오백년」 음반 수집·명창 따라다니며 흉내로 탁성 익힘, "죽을 때까지 배우다 갈 것" | 중앙일보 22565635 | 소재 확보 |
 | `ken-rhee` | 고려대 교환학생, 학사장교 시험을 위해 6개월 국어·국사 특별과외 | 문화일보 11204126 | 소재 확보 |
 
 ## 책 등록이 남은 인물
 
 아래 인물은 독서 방식 글을 저장했으나 글에 나온 책의 감상 콘텐츠 등록을 끝내지 않았다. `--books-only --only SLUG`로 조사하고 책장 반영기로 미리 본 뒤 반영한다. 작품에 판본 행이 있으면 같은 언어 행까지 맞춘다([콘텐츠 등록](../project/celeb/celeb-02-02-content-registration.md) 「영문판과 표지」). 끝난 인물은 이 목록에서 지운다.
 
-`chow-yun-fat` `chris-hemsworth` `david-goggins` `ichiro-suzuki` `james-hetfield` `jeremy-renner` `kim-seung-youn` `lea-seydoux` `lee-hoe-yeong` `lisa-su` `mark-rothko` `pierce-brosnan` `rebecca-ferguson` `sung-uk-moon`
+`ichiro-suzuki` `lee-hoe-yeong` `rebecca-ferguson` `sung-uk-moon`
 
 ## 글과 책장 전수 대조 결과 (26.11.08)
 

@@ -4,13 +4,13 @@
  * - en 신설: 관계는 있는데 카드가 0장인 작품에 대표 ISBN(영어권)으로 OL eng 판본을 확인해 en 카드를 만든다.
  * - ko 신설: 대표 ISBN이 한국 ISBN인 카드 0장 작품에 카카오 ISBN 조회로 ko 카드를 만든다.
  * 입력: --recheck <recheck.json> (titleMatch=true만 복구) --en <prefix,…> --ko-isbn <prefix:isbn,…>
- * 기록: data/celeb/figure-books/locale-restore-log.jsonl
+ * 기록: lib/figure-work.mjs의 LOCALE_CHANGE_LOG(OS 임시 폴더)
  *
  * node --env-file=.env scripts/figure-books/locale-restore.mjs --recheck <path> [--en a,b] [--ko-isbn a:isbn] [--apply]
  */
 import { appendFileSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { argumentValue, bareIsbn, dbClient, kakaoByIsbn, openLibraryByIsbn, openLibrarySearch, sleep } from './lib/figure-work.mjs'
+import { LOCALE_CHANGE_LOG, argumentValue, bareIsbn, dbClient, kakaoByIsbn, openLibraryByIsbn, openLibrarySearch, sleep } from './lib/figure-work.mjs'
 import { preserveIntroduction } from './lib/preserve-introduction.mjs'
 
 // 소개 조회 실패 시 복구 원행에 남은 유효 본문·출처를 보존한다.
@@ -18,7 +18,7 @@ const introductionModule = await import('@feelandnote/content-search/book-introd
 const { fetchBookIntroduction } = introductionModule.default ?? introductionModule
 
 const APPLY = process.argv.includes('--apply')
-const LOG = resolve(process.cwd(), '../../data/celeb/figure-books/locale-restore-log.jsonl')
+const LOG = LOCALE_CHANGE_LOG
 const isEngIsbn = (v) => /^(9780|9781|9798)/.test(bareIsbn(v ?? ''))
 const isKrIsbn = (v) => /^(97889|9791)/.test(bareIsbn(v ?? ''))
 const normTitle = (t) => String(t ?? '').replace(/\s*\([^)]+\)\s*$/, '').trim()

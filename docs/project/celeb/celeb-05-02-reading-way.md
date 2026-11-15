@@ -13,6 +13,8 @@
 
 책을 늘어놓지 않는다. 책 목록은 책장이 보여 주므로, 본문은 그 사람이 왜·어떻게 읽는지를 쓴다. 먼저 그 사람의 삶(성장·직업·전환점)에서 독서가 맡은 역할을 한 줄로 정하고, 그 줄기를 보여 주는 일화와 책만 고른다. 일화가 부족하면 출처로 확인한 삶의 시기와 독서 기록을 시간순으로 맞대어 흐름을 만든다. 두 사실 사이의 동기·인과는 출처에 있을 때만 쓴다. 한 문장에 책 제목을 셋 이상, 한 문단에 넷 이상 넣지 않는다. 줄기에 맞는 근거가 적으면 짧게 쓴다(26.11.14 사용자 지시).
 
+본문은 그 사람 입장에서 독서를 쓴다. 독자는 본인 시각의 글임을 알고 읽으므로 '독재자'처럼 인물을 평가하는 말은 붙이지 않는다(26.11.14 사용자 의견). 출처 기사·서평이 책을 묶어 붙인 평가(예: 『나의 투쟁』까지 '영웅들의 이야기'로 묶은 서평)도 서술자 목소리로 옮기지 않는다. 그 사람이 직접 한 평가만 그 사람 말로 밝혀 쓴다. 다만 읽은 책과 독서 일화는 인물에게 불리해도 출처대로 남긴다.
+
 출처로 확인한 사실만 쓴다. 소장·구입·추천·판권만 확인된 책을 읽었다고 쓰지 않고, 출처에 없는 장면·반응·횟수·시점을 덧붙이지 않는다.
 
 주어와 지칭 대상을 명료하게 쓴다.
@@ -76,7 +78,14 @@ export 함수를 직접 호출하는 임시 파일은 자기 작업 폴더에 �
 2. 룰북 작성 규칙을 고쳤으면 `mk-init-A.mjs`로 `scoped/init-A.js`를 다시 만들고 Gemini 탭에서 한 번 실행해 localStorage `rwBookA`에 심는다. `mk-call-body.mjs slug`가 만든 `scoped/call-<slug>.js`를 새 대화에서 실행하면 Carbon 높음 확인과 전송까지 한다.
 3. 응답의 `ko`를 `web/<slug>.body.txt`로 회수해 브라우저 쪽 SHA-256과 맞춘다. 같은 대화에서 출처표를 받아 원문과 대조하고 고친 뒤 `finals/<slug>.json`(`slug`·`ko`·`sources`·`model`)을 쓴다.
 4. 실행자가 영어 번역을 붙여 `finals/<slug>.combined.json`을 만들고(「Carbon은 독서방식 본문에만」) 영어 인용을 원문 표현으로 되돌린다. `save.mjs slug --apply`가 빈 행에만 저장·재조회·캐시 갱신한다. 값이 있는 인물의 재작성은 `overwrite-save.mjs`, 국소 교정은 `fix-body.mjs`를 쓴다.
-5. `shelf.mjs slug`로 본문의 책을 책장과 대조하고, 빠진 책은 지속 과제의 책장 대기 목록에 적는다. 책장 보완(감상배경)은 `export-books2.mjs`(발송 JS) → `webrecv.mjs`(회수) → `precheck.mjs`·`match.mjs`(초벌 대조) → `mkdec.mjs`(결정 파일) → `meta.mjs`(메타 후보) → `books-step.mjs`(번역·반영 계획, `--apply`) 순서다. 이미 연결된 책의 감상평 교체는 `replace-existing.mjs`, 국소 교정은 `fix-review.mjs`를 쓴다. 실행자가 직접 쓴 감상배경(「Carbon은 독서방식 본문에만」)은 원고 파일(`{slug, books:[{title_ko, title_en, author_ko, author_en, source_url, evidence, review_ko}]}`)과 결정 파일을 직접 만들고, 결정 파일의 `modelObservation`을 `{route:'executor', author, verifiedSources}`로 둔 뒤 `books-step.mjs`로 반영한다. `verifiedSources`에는 실행자가 직접 열어 대조한 출처만 넣고, 영어는 각 책의 `review_en`에 미리 넣는다.
+5. `shelf.mjs slug`로 본문의 책을 책장과 대조하고, 빠진 책은 지속 과제의 책장 대기 목록에 적는다. 책장 보완(감상배경)은 `export-books2.mjs`(발송 JS, 웹에는 약 1천 자 축약 규칙만 보낸다 — 26.11.15 1만 2천 자 룰북 전문을 붙여도 금지 규칙을 지키지 못했고 응답만 느려졌다. 문체·영문·검수 규칙은 뒤 단계의 책별 출처 대조 검수가 쥔다. 탭을 새로 열면 localStorage의 발송 함수를 다시 올려야 하는데 Gemini는 Trusted Types로 문자열 `eval`을 막는다 — `trustedTypes.createPolicy(이름, {createScript: s => s})`로 감싸 올린다. 답이 이미 있는 대화에는 보내지 않으니(`not fresh`) 새 대화에서 부른다) → `webrecv.mjs`(회수) → `precheck.mjs`·`match.mjs`(초벌 대조) → `mkdec.mjs`(결정 파일) → `meta.mjs`(메타 후보) → `books-step.mjs`(번역·반영 계획, `--apply`) 순서다. 이미 연결된 책의 감상평 교체는 `replace-existing.mjs`, 국소 교정은 `fix-review.mjs`를 쓴다. 실행자가 직접 쓴 감상배경(「Carbon은 독서방식 본문에만」)은 원고 파일(`{slug, books:[{title_ko, title_en, author_ko, author_en, source_url, evidence, review_ko}]}`)과 결정 파일을 직접 만들고, 결정 파일의 `modelObservation`을 `{route:'executor', author, verifiedSources}`로 둔 뒤 `books-step.mjs`로 반영한다. `verifiedSources`에는 실행자가 직접 열어 대조한 출처만 넣고, 영어는 각 책의 `review_en`에 미리 넣는다.
+
+**CLI 경로(현행, agy Carbon):** 같은 폴더의 도구가 작업 폴더 `W/relist`를 쓴다. 웹챗과 한도가 따로라 둘을 동시에 돌린다.
+
+1. 모든 호출은 [agy-slot.mjs](../../../scripts/browser/reading-way-web/agy-slot.mjs)를 거친다. 컴퓨터 전체 동시 호출 2개(`AGYQ_MAX`), 여유 메모리 6GB 미만이면 새 호출을 띄우지 않는다(`AGYQ_MIN_FREE_MB`). 26.11.15 동시 호출 4개와 웹챗 탭 9개가 겹쳐 컴퓨터가 멈췄다. agy가 호출마다 전역 MCP(wigolo 헤드리스 크로미움)를 띄우던 것이 컸다 — 조치는 `agy-antigravity` 스킬 「전역 MCP」. Carbon이 없는 계정이면 Argon으로 한 번 다시 부른다.
+2. **신규 본문:** `new-research.mjs slug,…`(웹 검색 조사, `research.json`) → `new-verify.mjs`(출처 대조, `verify.json`) → `new-apply-verify.mjs`(수정안 적용, `new.ko.txt`) → 실행자가 원고 전체를 읽고 수정안이 만든 중복 문장·끊긴 문장·주어 없는 문장을 고친다 → `new-en.mjs`(영어본, 직접 인용은 원문) → `finals/<slug>.combined.json`(`slug`·`ko`·`en`·`sources`·`model`) → `save.mjs slug --apply`. **검증은 Carbon으로 한다.** 26.11.15 같은 원고 4건을 Argon은 문제 0건으로, Carbon은 3~7건으로 판정했다.
+3. **책장 보완 검수:** 웹 결과(`relist/<slug>.books.json`)를 `books-verify.mjs slug`가 책마다 출처를 다시 열어 감상배경을 고치고, 확인한 `source_url`과 `drop`을 돌려준다. 실행자가 기사 본문에 책 이름이 실제로 나오는지 확인한 뒤 `mkdec-web.mjs slug <매핑 JSON>`(매핑: `route`·`webModel`·`map{제목:{content_id}|{new}}`)으로 결정 파일을 만들고 `books-step.mjs`로 반영한다.
+4. 웹 결과 회수: 응답의 「코드 복사」는 실제 마우스 클릭이어야 복사된다. 페이지 스크립트로 누르면 탭에 포커스가 없어 클립보드가 바뀌지 않는다. 클립보드는 다른 작업도 쓰므로 붙여 넣기 전에 slug와 JSON 형식을 확인한다.
 
 아래 1~6은 Aside 러너 경로다. 지금은 대상 집계·확인과 위 도구가 import하는 export 함수에 쓴다.
 
