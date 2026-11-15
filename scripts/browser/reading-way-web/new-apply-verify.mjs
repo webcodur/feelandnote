@@ -11,8 +11,8 @@ for (const s of process.argv[2].split(',')) {
     let fix = String(p.fix).trim(); const alt = fix.match(/'([^']+)'로 수정/); if (alt) fix = alt[1]
     const del = /^삭제\.?$/.test(fix)
     let hit = false
-    // 지적 문구가 문장 일부(끝맺음 없음)면 그 부분만 바꿔 뒷절을 살린다(26.11.15 델 토로 뒷절 유실)
-    const part = p.text.replace(/\s+/g, ' ').trim(), partial = !/[.!?。”’"』」)]$/.test(part)
+    // 지적 문구와 수정안이 둘 다 문장 일부(끝맺음 없음)면 그 부분만 바꿔 뒷절을 살린다(26.11.15 델 토로 뒷절 유실). 수정안이 완결 문장이면 문장 전체를 바꾼다(26.11.15 해리스 뒷절 중복)
+    const part = p.text.replace(/\s+/g, ' ').trim(), partial = !/[.!?。”’"』」)]$/.test(part) && !/[.!?。”’"』」)]$/.test(fix)
     for (const ss of paras) { const i = ss.findIndex(x => x.replace(/\s+/g, ' ').includes(key)); if (i >= 0) { const cur = ss[i].replace(/\s+/g, ' '); if (del) ss.splice(i, 1); else if (partial && cur.includes(part)) ss[i] = cur.replace(part, fix); else ss[i] = fix; hit = true; break } }
     hit ? applied++ : missed.push(key)
   }

@@ -29,3 +29,14 @@ export async function agyCall(prompt, opt) {
     return await raw(prompt, { ...o, model: o.model.replace('carbon', 'argon') })
   } finally { fs.rmSync(d, { recursive: true, force: true }) }
 }
+
+// 모델 응답에서 JSON 객체 하나를 꺼낸다. 코드 블록을 먼저 보고, 없으면 첫 '{'에서 시작해 처음으로 완결되는 객체를 쓴다.
+// 26.11.15 첫 '{'~마지막 '}' 정규식이 JSON 뒤에 붙은 설명까지 삼켜 파싱에 실패했다.
+export function jsonOf(text) {
+  const fence = String(text).match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/)
+  if (fence) try { return JSON.parse(fence[1]) } catch {}
+  const s = String(text), start = s.indexOf('{')
+  if (start < 0) throw Error('JSON 객체 없음')
+  for (let i = s.indexOf('}', start); i >= 0; i = s.indexOf('}', i + 1)) { try { return JSON.parse(s.slice(start, i + 1)) } catch {} }
+  throw Error('JSON 파싱 실패')
+}
