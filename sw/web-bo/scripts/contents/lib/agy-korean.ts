@@ -10,7 +10,7 @@
 import { execFile } from 'node:child_process'
 
 const AGY = 'C:/Users/webco/AppData/Local/agy/bin/agy.exe'
-const AGY_MODEL = 'gemini-3.7-flash-high'
+const AGY_MODEL = 'gemini-4-hydrogen-high'
 const AGY_TIMEOUT_MS = 180_000
 const HANGUL = /[가-힣]/
 

@@ -1,6 +1,6 @@
 /**
  * 신화 개요(faction_lv2.description / description_en) 전량 재작성 —
- * 신화별 통찰-우선 지시서(briefs-v2.json)에 따라 agy(gemini-3.8-flash-high)로 쓴다. DB는 건드리지 않는다.
+ * 신화별 통찰-우선 지시서(briefs-v2.json)에 따라 agy(gemini-4-hydrogen-high)로 쓴다. DB는 건드리지 않는다.
  *
  * 규격: 세 문단, 한국어 550~750자, 영어 1100~1700자.
  * 방향: 신화 자체로 시작해 서사·긴장을 지나 남은 것으로 맺는다. 원전·판본 설명은 한 절로 묻는다.

@@ -87,7 +87,7 @@ if (mode === 'collect') {
         'The following delimited text is the complete body. Return only its translation, without a title or heading. <SOURCE_BODY>',
         target.reviewEn,
         '</SOURCE_BODY>',
-      ].join('\n\n'), {model:'gemini-3.8-flash-high',timeoutMs:900000})
+      ].join('\n\n'), {model:'gemini-4-hydrogen-high',timeoutMs:900000})
       const match = output.trim().match(/^BEGIN_REVIEW\s*([\s\S]*?)\s*END_REVIEW$/)
       if (!match) throw Error('Invalid wrapper')
       review = match[1].trim().replace(/^제목\s*:[^\n]*\n+/, '')

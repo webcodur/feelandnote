@@ -2,7 +2,7 @@
  * 조사 엔진 호출. 엔진이 자주 막히므로 한 인터페이스 뒤에 넷을 둔다.
  *   codex  gpt-6-astra / xhigh     .cmd 래퍼가 경로 공백에서 깨져 실체 js를 node로 돌린다
  *   claude sonnet                  .exe 직접
- *   agy    gemini-3.8-flash-high   스킬 헬퍼
+ *   agy    gemini-4-hydrogen-high   스킬 헬퍼
  *   opencode  muse-spark           스킬 헬퍼
  * 모두 저장소 밖 빈 임시 폴더에서 돌려 문맥 오염을 막는다.
  */

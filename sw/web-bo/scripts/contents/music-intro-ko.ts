@@ -32,7 +32,7 @@ if (!url || !key) throw new Error('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY 없음
 const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
 
 const AGY = 'C:/Users/webco/AppData/Local/agy/bin/agy.exe'
-const AGY_MODEL = 'gemini-3.7-flash-high'
+const AGY_MODEL = 'gemini-4-hydrogen-high'
 const AGY_TIMEOUT_MS = 180_000
 const HANGUL = /[가-힣]/
 

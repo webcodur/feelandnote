@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto'
 
 export const BIO_AUDIT = Object.freeze({
-  model: 'gemini-3.8-flash-high', pilot: 4, window: 40, concurrency: 2,
+  model: 'gemini-4-hydrogen-high', pilot: 4, window: 40, concurrency: 2,
   samplePerDecision: 2, sampleMinimum: 4, maxAttempts: 3, timeoutMs: 8 * 60_000, minimumQuota: 10,
   koMax: 100, maxSearches: 4, maxSources: 6,
 })

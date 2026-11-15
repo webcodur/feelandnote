@@ -5,7 +5,7 @@
  *   이 스크립트 → 3-patch.ts → fill.ts
  *
  * gpt-speech.mjs 와 같은 계약이나 두 가지가 다르다.
- *   - 작성자는 agy의 gemini-3.8-flash-high 다. 한국어 문장력 때문에 골랐다.
+ *   - 작성자는 agy의 gemini-4-hydrogen-high 다. 한국어 문장력 때문에 골랐다.
  *   - 이 배치 대상은 speech_tone 도 비어 있으므로 모델이 6코드 중 하나를 고른다.
  *
  * agy는 search_web 도구로 조사한다. 출처 URL 을 지어내면 검사에서 걸린다.

@@ -909,7 +909,7 @@ function selfTestCommand() {
   assert.doesNotMatch(opusPrompt, /540|600|660/)
   assert.deepEqual(
     [AGY_TEXT_MODEL, AGY_TEXT_MODEL, CLAUDE_OPUS_MODEL],
-    ['gemini-3.8-flash-high', 'gemini-3.8-flash-high', 'opus'],
+    ['gemini-4-hydrogen-high', 'gemini-4-hydrogen-high', 'opus'],
   )
   assert.throws(() => parseReview(JSON.stringify({
     risk: 'standard', verdict: 'pass',

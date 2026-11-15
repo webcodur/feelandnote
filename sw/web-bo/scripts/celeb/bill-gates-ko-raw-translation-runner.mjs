@@ -29,7 +29,7 @@ const RAW_PATH = path.join(
 
 const BILL_GATES_ID = '1ab7e089-040f-4aa1-b0a1-81dc1dd510d7'
 const EXPECTED_COUNT = 128
-const MODEL = 'gemini-3.8-flash-high'
+const MODEL = 'gemini-4-hydrogen-high'
 const TIMEOUT_MS = 900_000
 const DEFAULT_BATCH_SIZE = 10
 const DEFAULT_CONCURRENCY = 10

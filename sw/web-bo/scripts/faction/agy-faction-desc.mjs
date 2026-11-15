@@ -1,6 +1,6 @@
 /**
  * 비신화 세력 개요(faction_lv2.description / description_en) 전량 재작성 —
- * faction-desc-v3/briefs/*.json의 유형별 지시서에 따라 agy(gemini-3.8-flash-high)로 쓴다. DB는 건드리지 않는다.
+ * faction-desc-v3/briefs/*.json의 유형별 지시서에 따라 agy(gemini-4-hydrogen-high)로 쓴다. DB는 건드리지 않는다.
  *
  * 규격: 세 문단(정체 → 작동 원리 → 긴장과 의미), 한국어 400~800자, 영어 110~200단어.
  * 분량은 주제가 채우는 만큼 — 좁은 조직은 짧게, 시대·산업·계보는 길게. 억지로 늘리지 않는다.

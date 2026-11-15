@@ -7,7 +7,7 @@
  *   node scripts/celeb/headline-rewrite/codex-batch.mjs run    [--limit N] # 한 사람씩 생성 → 대결 (파이프라인)
  *   node scripts/celeb/headline-rewrite/codex-batch.mjs record            # 레인별 record 파일 생성 + cli record
  *
- *   --engine agy       agy(gemini-3.8-flash-high)로 돈다. 계정 쿼터가 차면 agm으로 다음 계정에 넘긴다.
+ *   --engine agy       agy(gemini-4-hydrogen-high)로 돈다. 계정 쿼터가 차면 agm으로 다음 계정에 넘긴다.
  *   --concurrency N    동시 작업 수(기본 3). 돌고 있는 중에는 .tmp/relay/concurrency.txt 숫자로 바꾼다.
  *   --targets <json>   slug 배열 파일. 없으면 DB 현재값의 형식 위반(30자 초과·12자 미만·금지어·직함형).
  *
@@ -45,7 +45,7 @@ const GUIDE = path.join(REPO, 'docs/project/celeb/celeb-01-02-profile-intro.md')
 const REVIEW_VERSION = 2
 const LANE_COUNT = 20
 const BAN = HEADLINE_BAN
-const AGY_MODEL = 'gemini-3.8-flash-high'
+const AGY_MODEL = 'gemini-4-hydrogen-high'
 const GEN_TIMEOUT_MS = 8 * 60_000
 const REVIEW_TIMEOUT_MS = 6 * 60_000
 const CONCURRENCY_FILE = path.join(TMP, 'concurrency.txt')

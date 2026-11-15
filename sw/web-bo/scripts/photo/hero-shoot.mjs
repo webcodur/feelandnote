@@ -46,7 +46,7 @@ function run(row) {
     const pf = join(TMP, `${row.slug}.txt`)
     writeFileSync(pf, promptFor(row), 'utf-8')
     const t0 = Date.now()
-    const p = spawn(AGY, ['-p', promptFor(row), '--dangerously-skip-permissions', '--model', 'gemini-3.8-flash-high', '--print-timeout', '6m'], { stdio: ['ignore', 'pipe', 'pipe'] })
+    const p = spawn(AGY, ['-p', promptFor(row), '--dangerously-skip-permissions', '--model', 'gemini-4-hydrogen-high', '--print-timeout', '6m'], { stdio: ['ignore', 'pipe', 'pipe'] })
     let out = ''
     p.stdout.on('data', (d) => { out += d })
     p.stderr.on('data', (d) => { out += d })
