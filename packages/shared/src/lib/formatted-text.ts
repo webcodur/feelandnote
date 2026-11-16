@@ -2,7 +2,8 @@
 // 한국어는 ‘…’는처럼 닫는 부호 뒤에 조사가 바로 붙으므로 한글 뒤따름은 닫는 부호로 인정한다.
 // 대시는 짝이 있는 삽입구만 강조한다.
 // en dash는 양옆 공백으로 문장용 부호를 구분해 숫자 범위와 합성어를 보존한다.
-const EMPHASIS_PATTERN = /("[^"\n]*"|“[^”\n]*”|(?<!(?![\uAC00-\uD7A3])[\p{L}\p{N}])'(?=\S)[^\n]*?'(?!(?![\uAC00-\uD7A3])[\p{L}\p{N}])|‘[^\n]*?’(?!(?![\uAC00-\uD7A3])[\p{L}\p{N}])|『[^』\n]*』|《[^》\n]*》|「[^」\n]*」|〈[^〉\n]*〉|<[^>\n]*>|—[^—\n.!?]+—|(?<=\s)–[^–\n.!?]+–(?=\s|[.,;:!?]|$)|(?<!-)--[^\n.!?]+?--(?!-)|\((?=[^()\n]*\p{L})[^()\n]+\))/gu;
+// 둥근 큰따옴표는 여러 문단을 한 쌍으로 감싼 발췌를 위해 줄바꿈을 넘는다. 사이에 여는 부호가 또 나오면 짝으로 보지 않는다.
+const EMPHASIS_PATTERN = /("[^"\n]*"|“[^“”]*”|(?<!(?![\uAC00-\uD7A3])[\p{L}\p{N}])'(?=\S)[^\n]*?'(?!(?![\uAC00-\uD7A3])[\p{L}\p{N}])|‘[^\n]*?’(?!(?![\uAC00-\uD7A3])[\p{L}\p{N}])|『[^』\n]*』|《[^》\n]*》|「[^」\n]*」|〈[^〉\n]*〉|<[^>\n]*>|—[^—\n.!?]+—|(?<=\s)–[^–\n.!?]+–(?=\s|[.,;:!?]|$)|(?<!-)--[^\n.!?]+?--(?!-)|\((?=[^()\n]*\p{L})[^()\n]+\))/gu;
 
 interface TextPart {
   text: string;
@@ -12,6 +13,11 @@ interface TextPart {
 /** 강조(인용·용어·삽입구) 조각의 원문 범위 — 청크로 자를 때 강조 쌍이 경계에서 끊기지 않게 넘겨준다 */
 export function emphasisSpans(text: string): { start: number; end: number }[] {
   return Array.from(text.matchAll(EMPHASIS_PATTERN), (match) => ({ start: match.index, end: match.index + match[0].length }));
+}
+
+/** 여러 문단을 한 쌍으로 감싼 큰따옴표 인용의 원문 범위 — 문단으로 먼저 자르는 표시부가 걸친 문단마다 인용 강조를 입힐 때 쓴다 */
+export function crossParagraphQuoteSpans(text: string): { start: number; end: number }[] {
+  return emphasisSpans(text).filter(({ start, end }) => text[start] === "“" && /\n[\t ]*\r?\n/.test(text.slice(start, end)));
 }
 
 /** 문단에서 맞춘 강조 조각의 정규화 부호 — 경계로 잘린 조각 가장자리에 온전한 인용과 같은 부호를 다시 입힐 때 쓴다 */

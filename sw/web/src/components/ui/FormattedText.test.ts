@@ -341,3 +341,25 @@ test("an active quote keeps emphasis when narration splits it across sentences",
   assert.equal($('mark').length, 1);
   assert.ok($('span.text-reading-quote').first().text().startsWith('“첫 문장!'));
 });
+
+test("one pair of double quotes wrapping several paragraphs is emphasized as a whole", () => {
+  const text = '해설이다.\n\n“첫 문단입니다.\n\n둘째 문단입니다.\n\n셋째 문단입니다.”\n\n닫는 해설이다.';
+  const inline = load(renderText(text));
+  assert.equal(inline('.text-reading-quote').text(), '“첫 문단입니다.둘째 문단입니다.셋째 문단입니다.”');
+
+  const prose = load(renderToStaticMarkup(React.createElement(FormattedText, { text, layout: "prose" })));
+  const paragraphs = prose('[data-text-paragraph]').toArray().map((el) => prose(el));
+  assert.equal(paragraphs.length, 5);
+  assert.deepEqual(paragraphs.map((p) => p.find('.text-reading-quote').text()),
+    ['', '“첫 문단입니다.', '둘째 문단입니다.', '셋째 문단입니다.”', '']);
+});
+
+test("an unclosed opening quote does not swallow a later quotation", () => {
+  const $ = load(renderText('“닫지 않은 말이다.\n\n그는 “짧은 말”이라고 했다.'));
+  assert.equal($('.text-reading-quote').text(), '“짧은 말”');
+});
+
+test("quotes closed in every paragraph keep their own emphasis", () => {
+  const prose = load(renderToStaticMarkup(React.createElement(FormattedText, { text: '“하나.”\n\n“둘.”', layout: "prose" })));
+  assert.deepEqual(prose('.text-reading-quote').toArray().map((el) => prose(el).text()), ['“하나.”', '“둘.”']);
+});

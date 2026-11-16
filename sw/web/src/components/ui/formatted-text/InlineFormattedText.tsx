@@ -8,6 +8,8 @@ export interface FormattedTextProps {
   highlightStyle?: React.CSSProperties;
   /** 원문 기준 강조 범위 — 겹치는 출력 조각을 <mark>로 감싼다. 모든 부호 변환이 1:1이라 오프셋이 유지된다 */
   mark?: { start: number; end: number } | null;
+  /** 이 글 밖에서 열리거나 닫히는 큰따옴표 인용이 덮는 범위 — 부호 짝이 없어도 인용 강조를 입힌다 */
+  quote?: { start: number; end: number } | null;
 }
 
 /**
@@ -26,10 +28,17 @@ export default function InlineFormattedText({
   highlightClassName,
   highlightStyle,
   mark,
+  quote,
 }: FormattedTextProps) {
   if (!text) return null;
 
-  const parts = splitEmphasis(text);
+  const parts: { text: string; emphasis: boolean; quoted?: boolean }[] = quote
+    ? [
+        ...splitEmphasis(text.slice(0, quote.start)),
+        { text: text.slice(quote.start, quote.end), emphasis: true, quoted: true },
+        ...splitEmphasis(text.slice(quote.end)),
+      ]
+    : splitEmphasis(text);
   const lines = (value: string, keyPrefix: string) =>
     value.split("\n").map((line, j, arr) => (
       <React.Fragment key={`${keyPrefix}-${j}`}>
@@ -45,11 +54,11 @@ export default function InlineFormattedText({
   }
   return (
     <span className={className}>
-      {parts.map(({ text: part, emphasis }, i) => {
+      {parts.map(({ text: part, emphasis, quoted }, i) => {
         const partStart = partStarts[i];
 
         const rendered = renderInlinePart(part);
-        const partClass = emphasis ? emphasisClassName(part, highlightClassName) : undefined;
+        const partClass = emphasis ? emphasisClassName(quoted ? "“”" : part, highlightClassName) : undefined;
 
         const emit = (value: string, marked: boolean, key: string) => {
           const spacing = emphasis && value.startsWith("(") ? parentheticalSpacingClassName(text, partStart) : undefined;

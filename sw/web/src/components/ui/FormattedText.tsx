@@ -1,5 +1,6 @@
 import InlineFormattedText, { type FormattedTextProps } from "./formatted-text/InlineFormattedText";
 import { splitTextBlocks } from "./formatted-text/structure";
+import { crossParagraphQuoteSpans } from "./formatted-text/emphasis";
 
 export { emphasisSpans, emphasisDelimiters, emphasisClassName } from "./formatted-text/emphasis";
 export { splitReadableParagraphs } from "./formatted-text/structure";
@@ -25,6 +26,7 @@ export default function FormattedText({ text, className = "", layout, mark, ...e
   if (!prose) return <InlineFormattedText text={text} className={wrapping} mark={mark} {...emphasis} />;
 
   const blocks = splitTextBlocks(text);
+  const quotes = crossParagraphQuoteSpans(text);
   return (
     <span className={wrapping} data-formatted-layout="prose">
       {blocks.map((block, index) => {
@@ -35,11 +37,13 @@ export default function FormattedText({ text, className = "", layout, mark, ...e
         const end = mark ? Math.min(block.text.length, mark.end - block.start) : 0;
         const spacing = index === 0 ? "" : blocks[index - 1].kind !== "paragraph" ? "block" : "mt-[1em] block";
         const heading = block.kind === "heading";
+        const span = heading ? undefined : quotes.find((q) => q.start < block.end && q.end > block.start);
+        const quote = span && { start: Math.max(0, span.start - block.start), end: Math.min(block.text.length, span.end - block.start) };
         return (
           <span key={block.start} className={`${spacing} ${heading ? TEXT_HEADING_CLASS : ""}`}
             data-text-paragraph={!heading || undefined} data-text-heading={heading || undefined}
             role={heading ? "heading" : undefined} aria-level={heading ? 3 : undefined}>
-            <InlineFormattedText text={block.text} mark={end > start ? { start, end } : null} {...emphasis} />
+            <InlineFormattedText text={block.text} mark={end > start ? { start, end } : null} quote={quote} {...emphasis} />
           </span>
         );
       })}
