@@ -3,19 +3,23 @@ import test from 'node:test';
 import { buildCelebDescriptionEn, buildCelebDescriptionKo, buildCelebTitleEn, buildCelebTitleKo, estimateTitleWidth, formatCelebRecordCounts, rankRecordTypes, type CelebMetaInput } from './meta';
 const emptyCounts = { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 };
 const billGates: CelebMetaInput = { nickname: '빌 게이츠', title: 'MS 설립', headline: '윈도우를 PC 표준으로 키운 마이크로소프트 공동창업자', headline_en: 'The Microsoft co-founder who drove Windows to PC dominance', counts: { BOOK: 177, VIDEO: 13, MUSIC: 73, GAME: 5 }, bio: '마이크로소프트 공동 창업자. 개인용 컴퓨터 소프트웨어 혁명을 이끌었다.' };
-test('records rank by count, then media order', () => {
+test('books lead whenever present, the rest rank by count, then media order', () => {
  assert.deepEqual(rankRecordTypes(billGates.counts), ['BOOK','MUSIC','VIDEO','GAME']);
  assert.deepEqual(rankRecordTypes({...emptyCounts, VIDEO:2,GAME:2}), ['VIDEO','GAME']);
+ assert.deepEqual(rankRecordTypes({...emptyCounts, BOOK:3,MUSIC:200}), ['BOOK','MUSIC']);
  assert.deepEqual(formatCelebRecordCounts(billGates.counts,'ko'), ['책 177권','음악 73곡','영상 13편','게임 5개']);
- assert.deepEqual(formatCelebRecordCounts({...emptyCounts,BOOK:1,MUSIC:1200},'en'), ['1,200 songs','1 book']);
+ assert.deepEqual(formatCelebRecordCounts({...emptyCounts,BOOK:1,MUSIC:1200},'en'), ['1 book','1,200 songs']);
 });
 test('record titles preserve identity, particles, counts and width', () => {
- assert.equal(buildCelebTitleKo(billGates),'빌 게이츠(MS 설립)가 감상한 책 177권·음악 73곡·영상 13편');
- assert.equal(buildCelebTitleKo({...billGates,nickname:'젠슨 황',title:'엔비디아 설립',counts:{...emptyCounts,BOOK:5,GAME:1}}),'젠슨 황(엔비디아 설립)이 감상한 책 5권·게임 1개');
- assert.equal(buildCelebTitleKo({...billGates,nickname:'빅토르 위고',title:'「레미제라블」',counts:{...emptyCounts,BOOK:9,MUSIC:3}}),'빅토르 위고(「레미제라블」)가 감상한 책 9권·음악 3곡');
- assert.equal(buildCelebTitleEn({...billGates,nickname:'Bill Gates',title:'Microsoft Founder'}),'Bill Gates (Microsoft Founder): 177 Books Read');
- assert.equal(buildCelebTitleEn({...billGates,nickname:'Bill Gates',title:null}),'Bill Gates: 177 Books Read & 73 Songs Heard');
- assert.equal(buildCelebTitleKo({...billGates,title:'아주 긴 수식어를 가진 인물의 칭호'}),'빌 게이츠(아주 긴 수식어를 가진 인물의 칭호)가 감상한 책 177권');
+ assert.equal(buildCelebTitleKo(billGates),'빌 게이츠(MS 설립)의 추천 책·읽은 책 177권과 음악·영상·게임 기록');
+ assert.equal(buildCelebTitleKo({...billGates,nickname:'카리나',title:'에스파',counts:{...emptyCounts,BOOK:8,VIDEO:4,GAME:1}}),'카리나(에스파)의 추천 책·읽은 책 8권과 영상·게임 기록');
+ assert.equal(buildCelebTitleKo({...billGates,nickname:'젠슨 황',title:'엔비디아 설립',counts:{...emptyCounts,BOOK:5}}),'젠슨 황(엔비디아 설립)의 추천 책·읽은 책 5권');
+ assert.equal(buildCelebTitleKo({...billGates,nickname:'가수',title:'밴드 보컬',counts:{...emptyCounts,BOOK:3,MUSIC:200}}),'가수(밴드 보컬)의 추천 책·읽은 책 3권과 음악 기록');
+ assert.equal(buildCelebTitleKo({...billGates,nickname:'배우',title:'영화배우',counts:{...emptyCounts,VIDEO:4,GAME:1}}),'배우(영화배우)가 감상한 영상 4편·게임 1개');
+ assert.equal(buildCelebTitleEn({...billGates,nickname:'Bill Gates',title:'Microsoft Founder'}),'Bill Gates (Microsoft Founder): 177 Books Read & Recommended');
+ assert.equal(buildCelebTitleEn({...billGates,nickname:'Bill Gates',title:null}),'Bill Gates: 177 Books Read & Recommended plus Music & Videos');
+ assert.equal(buildCelebTitleEn({...billGates,nickname:'Actor',title:null,counts:{...emptyCounts,VIDEO:4,GAME:1}}),'Actor: 4 Videos Watched & 1 Game Played');
+ assert.equal(buildCelebTitleKo({...billGates,title:'아주 긴 수식어를 가진 인물의 칭호'}),'빌 게이츠(아주 긴 수식어를 가진 인물의 칭호)의 추천 책·읽은 책 177권');
  assert.ok(estimateTitleWidth(buildCelebTitleKo(billGates))<=30);
 });
 test('record presence alone decides titles across all tiers and realities', () => {
@@ -29,8 +33,9 @@ test('record presence alone decides titles across all tiers and realities', () =
 });
 test('one or two records hide title numbers',()=>{
  const input={...billGates,counts:{...emptyCounts,BOOK:1,VIDEO:1}};
- assert.equal(buildCelebTitleKo(input),'빌 게이츠(MS 설립)의 책·영상 감상 기록');
- assert.equal(buildCelebTitleEn({...input,nickname:'Bill Gates',title:'Microsoft Founder'}),'Bill Gates (Microsoft Founder): Books Read & Videos Watched');
+ assert.equal(buildCelebTitleKo(input),'빌 게이츠(MS 설립)의 추천 책·읽은 책과 영상 기록');
+ assert.equal(buildCelebTitleEn({...input,nickname:'Bill Gates',title:'Microsoft Founder'}),'Bill Gates (Microsoft Founder): Books Read & Recommended');
+ assert.equal(buildCelebTitleKo({...input,counts:{...emptyCounts,VIDEO:1,GAME:1}}),'빌 게이츠(MS 설립)의 영상·게임 감상 기록');
 });
 test('all figures use the complete bio rather than headlines, guides or works',()=>{
  const bio='직장인 익명 커뮤니티 블라인드를 만든 팀블라인드 창업자 겸 CEO. 윙버스를 창업해 네이버에 매각했고, 네이버와 티몬을 거쳐 2013년 블라인드를 출시해 글로벌 서비스로 키웠다.';

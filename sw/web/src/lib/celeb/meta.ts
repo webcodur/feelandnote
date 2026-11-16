@@ -84,11 +84,24 @@ const isNumbered = (counts: ContentCounts) => totalCount(counts) > COUNT_HIDE_TH
 const formatNumber = (value: number) => value.toLocaleString("en-US");
 const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
-/** 기록이 있는 분야를 건수 많은 순으로. 같으면 책·영상·음악·게임 순. */
+/**
+ * 기록이 있는 분야. 책이 있으면 건수와 관계없이 맨 앞이다 — 검색하는 사람이 찾는 것은 인물의 책이다
+ * (「카리나 추천 책」「카리나 읽은 책」). 나머지는 건수 많은 순, 같으면 영상·음악·게임 순.
+ */
 export function rankRecordTypes(counts: ContentCounts): RecordType[] {
   return RECORD_TYPE_ORDER
     .filter((type) => counts[type] > 0)
-    .sort((a, b) => counts[b] - counts[a] || RECORD_TYPE_ORDER.indexOf(a) - RECORD_TYPE_ORDER.indexOf(b));
+    .sort((a, b) => Number(b === "BOOK") - Number(a === "BOOK")
+      || counts[b] - counts[a] || RECORD_TYPE_ORDER.indexOf(a) - RECORD_TYPE_ORDER.indexOf(b));
+}
+
+/** 책 뒤 분야를 꼬리로 붙이되 제목 폭을 넘으면 뒤에서부터 뺀다. 꼬리가 하나도 안 들면 책만 남긴다. */
+function fitBookTitle(build: (tail: readonly RecordType[]) => string, others: readonly RecordType[]): string {
+  for (let count = others.length; count > 0; count--) {
+    const candidate = build(others.slice(0, count));
+    if (estimateTitleWidth(candidate) <= TITLE_WIDTH_BUDGET) return candidate;
+  }
+  return build([]);
 }
 
 const countKo = (type: RecordType, count: number) =>
@@ -187,6 +200,13 @@ function namedKo(input: CelebMetaInput, kind?: ParticleKind): string {
 export function buildCelebTitleKo(input: CelebMetaInput): string {
   if (!leadsWithRecords(input)) return identityKo(input);
   const types = rankRecordTypes(input.counts);
+  // 책은 「추천 책·읽은 책」으로 앞세운다. 혹평한 책도 섞이므로 「추천한 책」 한 낱말로 묶지 않는다.
+  // 다른 분야는 숫자 없이 꼬리에 붙인다(「…책 8권과 영상·게임 기록」). 「권」「책」 모두 받침이 있어 「과」다.
+  if (types[0] === "BOOK") {
+    const books = isNumbered(input.counts) ? ` ${formatNumber(input.counts.BOOK)}${RECORD_LABEL_KO.BOOK.unit}` : "";
+    return fitBookTitle((tail) => `${namedKo(input)}의 추천 책·읽은 책${books}${tail.length
+      ? `과 ${tail.map((type) => RECORD_LABEL_KO[type].noun).join("·")} 기록` : ""}`, types.slice(1));
+  }
   // 이름만으로는 누군지 모를 인물이 대부분이다 — 수식어가 검색 결과에서 정체를 알린다.
   if (!isNumbered(input.counts)) {
     return `${namedKo(input)}의 ${types.map((type) => RECORD_LABEL_KO[type].noun).join("·")} 감상 기록`;
@@ -238,6 +258,12 @@ export function buildCelebTitleEn(input: CelebMetaInput): string {
   const types = rankRecordTypes(input.counts);
   const subject = namedEn(input);
   const numbered = isNumbered(input.counts);
+  if (types[0] === "BOOK") {
+    const count = input.counts.BOOK;
+    const books = numbered ? `${formatNumber(count)} ${count === 1 ? "Book" : "Books"}` : "Books";
+    return fitBookTitle((tail) => `${subject}: ${books} Read & Recommended${tail.length
+      ? ` plus ${joinTitleEn(tail.map((type) => capitalize(RECORD_LABEL_EN[type].bare)))}` : ""}`, types.slice(1));
+  }
   // 얇은 기록은 숫자 없이 「Books Read」만 쓴다. 숫자형과 같은 틀이라 한 규칙으로 읽힌다.
   const parts = types.map((type) => {
     const count = input.counts[type];
