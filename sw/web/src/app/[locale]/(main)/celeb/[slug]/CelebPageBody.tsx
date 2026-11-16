@@ -2,7 +2,7 @@ import { setRequestLocale } from 'next-intl/server'
 import { getCelebRouteIdentity, getCelebRouteProfile } from '@/lib/profile-route'
 import { getCelebSidePresence } from '@/actions/celebs/getCelebSidePresence'
 import { getCelebExternalLinks } from '@/actions/celebs/getCelebExternalLinks'
-import { getInitialCelebContents } from '@/actions/contents/getInitialCelebContents'
+import { getInitialCelebContents, getCelebRecordListContents } from '@/actions/contents/getInitialCelebContents'
 import { getCelebReferenceBooks } from '@/actions/celebs/getCelebReferenceBooks'
 import { shouldStreamForRequest } from '@/lib/render-mode'
 import { wikidataLink } from '@/lib/celeb/externalLinks'
@@ -46,6 +46,10 @@ export default async function CelebPageBody({ params }: PageProps) {
   const contentsPromise = settle(slug, '감상 기록', profile.celeb_tier === 'full'
     ? getInitialCelebContents(userId, profile.contentTypeCounts, locale)
     : Promise.resolve(EMPTY_CONTENTS))
+  // 첫 화면은 한 매체 몇 건만 받는다. 검색엔진용 작품 목록은 전체 보기 첫 장과 같은 기록을 따로 싣는다.
+  const recordListPromise = settle(slug, '구조화 데이터 기록', profile.celeb_tier === 'full'
+    ? getCelebRecordListContents(userId, locale)
+    : Promise.resolve(EMPTY_CONTENTS))
   const booksPromise = settle(slug, '관련 도서',
     getCelebReferenceBooks(userId, locale, initial, profile.profession))
   const externalLinksPromise = getCelebExternalLinks(profile.wikidata_qid, locale)
@@ -63,7 +67,7 @@ export default async function CelebPageBody({ params }: PageProps) {
 
   return <>
     <Lane fallback={null}>
-      <CelebJsonLdServer contents={contentsPromise} books={booksPromise} profile={profile}
+      <CelebJsonLdServer contents={recordListPromise} books={booksPromise} profile={profile}
         slug={slug} locale={locale} pageTitle={pageTitle} links={jsonLdLinks} />
     </Lane>
     <CelebPageContent profile={clientProfile} slug={slug} shareTitle={pageTitle} userId={userId}

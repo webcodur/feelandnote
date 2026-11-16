@@ -42,7 +42,10 @@ for (const booksFail of [false, true]) test(`profile and reading render independ
     ['@/actions/celebs/getCelebSidePresence', { getCelebSidePresence: async () => { calls.push('presence'); return { influence: false, spectrum: false } } }],
     ['@/actions/celebs/getCelebTimelineEvents', { getCelebTimelineEvents: async () => { calls.push('timeline'); return [] } }],
     ['@/actions/celebs/getCelebExternalLinks', { getCelebExternalLinks: async () => [] }],
-    ['@/actions/contents/getInitialCelebContents', { getInitialCelebContents: () => { calls.push('records'); return records } }],
+    ['@/actions/contents/getInitialCelebContents', {
+      getInitialCelebContents: () => { calls.push('records'); return records },
+      getCelebRecordListContents: () => { calls.push('record-list'); return Promise.resolve({ items: [], total: 0 }) },
+    }],
     ['@/actions/celebs/getCelebReferenceBooks', { getCelebReferenceBooks: () => { calls.push('books'); return books } }],
     ['@/actions/contents/getContentBrief', { getInitialContentBrief: async () => null, getContentBrief: async () => null }],
     ['@/lib/render-mode', { shouldStreamForRequest: async () => true }],
@@ -83,7 +86,7 @@ for (const booksFail of [false, true]) test(`profile and reading render independ
     'query errors stay inside the reference section and become its retry state')
   assert.equal(first, 'rendered', 'a slow lower section must not hide the available profile and reading')
   assert.deepEqual(beforeProfile, ['presence'], 'analysis availability starts from the shared identity, before the full profile finishes')
-  assert.deepEqual(beforeRelease, ['presence', 'records', 'books'], 'independent books start without waiting for records and greeting reuses the profile')
+  assert.deepEqual(beforeRelease, ['presence', 'records', 'record-list', 'books'], 'independent books start without waiting for records and greeting reuses the profile; JSON-LD reads the full record list, not the first shelf')
   const content = tree.props.children[1].props
   assert.deepEqual(content.greeting, ['Hello'])
   assert.equal(content.relatedFiguresSlot.props.children.props.waitFor, undefined, 'related figures must not wait for books')

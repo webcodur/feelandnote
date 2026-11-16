@@ -54,6 +54,6 @@ export async function CelebJsonLdServer({ contents, books, profile, slug, locale
       return []
     }), links])
   const jsonLd = buildCelebPageJsonLd({ profile, slug, locale, pageTitle, professions,
-    contents: records.data?.items.slice(0, 1) ?? [], figureBooks: reference.data?.appeared ?? [], externalLinks })
+    contents: records.data?.items ?? [], figureBooks: reference.data?.appeared ?? [], externalLinks })
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
 }

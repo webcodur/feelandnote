@@ -8,6 +8,8 @@ import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { withParticle } from "@/lib/korean-particle";
 import { getCelebRouteProfile } from "@/lib/profile-route";
 import { getAlternates } from "@/lib/seo";
+import { serializeJsonLd } from "@/lib/jsonLd";
+import { buildCelebPageJsonLd } from "@/app/[locale]/(main)/celeb/[slug]/celebPageJsonLd";
 
 import RecordsPageBody from "./RecordsPageBody";
 import { loadRecords, parseRecordsPage, recordsPath, recordsSuffix } from "./recordsPageData";
@@ -74,8 +76,15 @@ export default async function RecordsPage({ params, searchParams }: Props) {
     redirect(`${prefix}${recordsPath(slug, data.contents.page)}${query}`);
   }
   const t = await getTranslations({ locale, namespace: "celebPage.records" });
+  // 이 장에 보이는 작품을 화면 순서대로 검색엔진에 싣는다(recordsPage.test.tsx가 순서 일치를 검사한다).
+  const jsonLd = buildCelebPageJsonLd({
+    profile: data.profile, slug, locale, pageTitle: t("pageTitle", { name: data.profile.nickname }),
+    contents: data.contents.items, figureBooks: [], externalLinks: [],
+  });
 
   return (
+    <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
     <RecordsPageBody
       slug={slug}
       locale={locale}
@@ -96,5 +105,6 @@ export default async function RecordsPage({ params, searchParams }: Props) {
         myReview: t("myReview"),
       }}
     />
+    </>
   );
 }

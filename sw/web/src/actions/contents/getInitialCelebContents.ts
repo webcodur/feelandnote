@@ -1,4 +1,5 @@
 import { CATEGORIES } from '@/constants/categories'
+import { RECORDS_PAGE_SIZE } from '@/app/[locale]/(reader)/celeb/[slug]/records/recordsPageData'
 import { getPublicUserContents } from './getUserContents'
 import type { ContentTypeCounts } from '@/types/content'
 
@@ -11,4 +12,9 @@ export function getInitialCelebContents(userId: string, counts: ContentTypeCount
     limit: 4,
     sortBy: 'recent',
   }, locale)
+}
+
+/** 감상 기록 전체 보기 첫 장과 같은 조회. 검색엔진용 작품 목록이 같은 작품·순서를 싣고 캐시를 함께 쓴다. */
+export function getCelebRecordListContents(userId: string, locale: string) {
+  return getPublicUserContents({ userId, page: 1, limit: RECORDS_PAGE_SIZE, sortBy: 'recent' }, locale)
 }
