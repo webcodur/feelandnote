@@ -593,6 +593,8 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/library/curated/CuratorLogo.tsx',
   'sw/web/src/components/features/library/curated/CuratedGallery.module.css',
   'sw/web/src/components/features/library/curated/curatorLogos.ts',
+  // 26.11.16 삭제(팔레트는 curators.logo_palette로 이관). 이전 배포본과의 diff에 삭제로 나타나므로 분류를 남긴다.
+  'sw/web/src/components/features/library/curated/curatorLogoPalettes.ts',
   // 새 주소의 공식 TGA 로고. 기존 이미지 URL을 덮어쓰지 않는다.
   'sw/web/public/images/curated/the-game-awards-official.png',
   'sw/web/src/components/features/library/curated/curatorBrandPalettes.ts',
