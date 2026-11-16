@@ -1,4 +1,4 @@
-/** 로고 63개의 128px 표본을 오프라인 분석했다. weight: 전체 불투명 픽셀 대비 각 유채색 군집 비율.
+/** 로고 70개의 128px 표본을 오프라인 분석했다. weight: 전체 불투명 픽셀 대비 각 유채색 군집 비율.
  * 흰 종이·검은 배경·무채색은 제외한다. 런타임 이미지 분석이나 추가 요청은 없다. */
 export interface CuratorLogoPalette {
   treatment: "paper" | "dark" | "transparent" | "original";
@@ -26,7 +26,10 @@ export const CURATOR_LOGO_PALETTES: Record<string, CuratorLogoPalette> = {
   "chosun-ilbo": {"treatment":"paper","monochrome":true,"colors":[],"accent":"#c4bdad"},
   "chung-ang-university": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#0060c0","weight":0.046},{"hex":"#60a8d8","weight":0.014},{"hex":"#f07878","weight":0.008}],"accent":"#5291d0"},
   "cnn": {"treatment":"original","monochrome":false,"colors":[{"hex":"#c00000","weight":0.828},{"hex":"#d89090","weight":0.024},{"hex":"#c04848","weight":0.018}],"accent":"#d56a6a"},
+  "columbia-university": {"treatment":"transparent","monochrome":false,"colors":[{"hex":"#3078c0","weight":0.227},{"hex":"#1860a8","weight":0.065},{"hex":"#a87830","weight":0.029}],"accent":"#5c99d6"},
+  "cornell-university": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#a81818","weight":0.232},{"hex":"#c03030","weight":0.011},{"hex":"#c04848","weight":0.008}],"accent":"#e64c4c"},
   "crime-writers-association": {"treatment":"dark","monochrome":true,"colors":[],"accent":"#c4bdad"},
+  "duke-university": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#001860","weight":0.496},{"hex":"#183078","weight":0.01},{"hex":"#486090","weight":0.008}],"accent":"#4c73e6"},
   "financial-times": {"treatment":"original","monochrome":false,"colors":[{"hex":"#f0d8a8","weight":0.873},{"hex":"#907860","weight":0.014},{"hex":"#c0a890","weight":0.01}],"accent":"#f0d8a8"},
   "game-developers-choice-awards": {"treatment":"transparent","monochrome":false,"colors":[{"hex":"#60c048","weight":1}],"accent":"#60c048"},
   "golden-joystick-awards": {"treatment":"dark","monochrome":false,"colors":[{"hex":"#f0a830","weight":0.089},{"hex":"#784800","weight":0.058},{"hex":"#301800","weight":0.03}],"accent":"#f0a830"},
@@ -52,6 +55,7 @@ export const CURATOR_LOGO_PALETTES: Record<string, CuratorLogoPalette> = {
   "nihon-bungaku-shinkokai": {"treatment":"original","monochrome":true,"colors":[],"accent":"#c4bdad"},
   "npr": {"treatment":"original","monochrome":false,"colors":[{"hex":"#1878c0","weight":0.319},{"hex":"#d81818","weight":0.314},{"hex":"#184878","weight":0.008}],"accent":"#4893cb"},
   "postech": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#d86060","weight":0.036},{"hex":"#d81860","weight":0.029},{"hex":"#f0c0d8","weight":0.011}],"accent":"#da6c6c"},
+  "princeton-university": {"treatment":"transparent","monochrome":false,"colors":[{"hex":"#f07818","weight":0.312},{"hex":"#f07830","weight":0.019},{"hex":"#d87818","weight":0.014}],"accent":"#e6914c"},
   "pulitzer-prize": {"treatment":"original","monochrome":false,"colors":[{"hex":"#906030","weight":0.36},{"hex":"#c09048","weight":0.359},{"hex":"#f0c078","weight":0.064}],"accent":"#ab8966"},
   "recording-academy": {"treatment":"dark","monochrome":false,"colors":[{"hex":"#a89060","weight":0.048},{"hex":"#786030","weight":0.033},{"hex":"#483018","weight":0.022}],"accent":"#a89060"},
   "romance-writers-of-america": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#78a818","weight":0.073},{"hex":"#a8c060","weight":0.016},{"hex":"#d8d8a8","weight":0.014}],"accent":"#78a818"},
@@ -61,12 +65,15 @@ export const CURATOR_LOGO_PALETTES: Record<string, CuratorLogoPalette> = {
   "sight-and-sound": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#f0a830","weight":0.026},{"hex":"#c0a878","weight":0.016},{"hex":"#f0d8a8","weight":0.015}],"accent":"#f0a830"},
   "sogang-university": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#a81818","weight":0.045},{"hex":"#d89090","weight":0.008},{"hex":"#c04848","weight":0.006}],"accent":"#c87878"},
   "st-johns-college": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#901830","weight":0.034},{"hex":"#c06078","weight":0.007},{"hex":"#d8a8a8","weight":0.005}],"accent":"#ba7885"},
+  "stanford-university": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#a80030","weight":0.192},{"hex":"#a81830","weight":0.059},{"hex":"#c06078","weight":0.007}],"accent":"#e64d78"},
   "sungkyunkwan-university": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#003060","weight":0.035},{"hex":"#90c018","weight":0.02},{"hex":"#c0d848","weight":0.012}],"accent":"#758da6"},
   "the-game-awards": {"treatment":"transparent","monochrome":false,"colors":[{"hex":"#f0a860","weight":0.939},{"hex":"#c07848","weight":0.061}],"accent":"#f0a860"},
   "the-guardian": {"treatment":"paper","monochrome":true,"colors":[],"accent":"#c4bdad"},
   "time-magazine": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#d80000","weight":0.062},{"hex":"#f06060","weight":0.02},{"hex":"#f0a8a8","weight":0.017}],"accent":"#e15e5e"},
   "time-out": {"treatment":"dark","monochrome":true,"colors":[],"accent":"#c4bdad"},
+  "tsinghua-university": {"treatment":"transparent","monochrome":false,"colors":[{"hex":"#900078","weight":0.986},{"hex":"#900090","weight":0.014}],"accent":"#e64ccc"},
   "university-of-seoul": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#0048a8","weight":0.073},{"hex":"#6090c0","weight":0.037},{"hex":"#a8c0d8","weight":0.037}],"accent":"#6a92c8"},
+  "university-of-tokyo-press": {"treatment":"transparent","monochrome":false,"colors":[{"hex":"#181890","weight":1}],"accent":"#5050e2"},
   "venice-film-festival": {"treatment":"original","monochrome":false,"colors":[{"hex":"#903030","weight":0.911},{"hex":"#c09090","weight":0.031},{"hex":"#f0d8c0","weight":0.018}],"accent":"#b67c7c"},
   "womens-prize": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#48c0c0","weight":0.047},{"hex":"#90d8d8","weight":0.006},{"hex":"#183048","weight":0.003}],"accent":"#48c0c0"},
   "yonsei-university": {"treatment":"paper","monochrome":false,"colors":[{"hex":"#003078","weight":0.17},{"hex":"#90a8c0","weight":0.033},{"hex":"#306090","weight":0.028}],"accent":"#758db2"},
