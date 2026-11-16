@@ -14,6 +14,13 @@ export function getInitialCelebContents(userId: string, counts: ContentTypeCount
   }, locale)
 }
 
+/** 책장 아래 표지 목록에 까는 감상한 책. 책장은 한 권씩 펼치므로 나머지 책은 이 목록이 원문에 싣는다. */
+export const CELEB_BOOK_COVER_LIMIT = 20
+
+export function getCelebBookCovers(userId: string, locale: string) {
+  return getPublicUserContents({ userId, type: 'BOOK', page: 1, limit: CELEB_BOOK_COVER_LIMIT, sortBy: 'recent' }, locale)
+}
+
 /** 감상 기록 전체 보기 첫 장과 같은 조회. 검색엔진용 작품 목록이 같은 작품·순서를 싣고 캐시를 함께 쓴다. */
 export function getCelebRecordListContents(userId: string, locale: string) {
   return getPublicUserContents({ userId, page: 1, limit: RECORDS_PAGE_SIZE, sortBy: 'recent' }, locale)

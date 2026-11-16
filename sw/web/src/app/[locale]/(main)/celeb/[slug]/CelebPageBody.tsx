@@ -2,7 +2,7 @@ import { setRequestLocale } from 'next-intl/server'
 import { getCelebRouteIdentity, getCelebRouteProfile } from '@/lib/profile-route'
 import { getCelebSidePresence } from '@/actions/celebs/getCelebSidePresence'
 import { getCelebExternalLinks } from '@/actions/celebs/getCelebExternalLinks'
-import { getInitialCelebContents, getCelebRecordListContents } from '@/actions/contents/getInitialCelebContents'
+import { getInitialCelebContents, getCelebRecordListContents, getCelebBookCovers } from '@/actions/contents/getInitialCelebContents'
 import { getCelebReferenceBooks } from '@/actions/celebs/getCelebReferenceBooks'
 import { shouldStreamForRequest } from '@/lib/render-mode'
 import { wikidataLink } from '@/lib/celeb/externalLinks'
@@ -46,6 +46,10 @@ export default async function CelebPageBody({ params }: PageProps) {
   const contentsPromise = settle(slug, '감상 기록', profile.celeb_tier === 'full'
     ? getInitialCelebContents(userId, profile.contentTypeCounts, locale)
     : Promise.resolve(EMPTY_CONTENTS))
+  // 책장은 한 권씩 펼친다. 나머지 감상한 책 표지는 책장 아래 목록이 원문에 싣는다.
+  const bookCoversPromise = settle(slug, '책 표지', profile.celeb_tier === 'full' && profile.contentTypeCounts.BOOK > 0
+    ? getCelebBookCovers(userId, locale)
+    : Promise.resolve(EMPTY_CONTENTS))
   // 첫 화면은 한 매체 몇 건만 받는다. 검색엔진용 작품 목록은 전체 보기 첫 장과 같은 기록을 따로 싣는다.
   const recordListPromise = settle(slug, '구조화 데이터 기록', profile.celeb_tier === 'full'
     ? getCelebRecordListContents(userId, locale)
@@ -74,7 +78,7 @@ export default async function CelebPageBody({ params }: PageProps) {
       greeting={profile.greeting} sideAvailability={sideAvailability} initialAnalysis={null}
       worldId={worldId} worldBannerImages={getWorldBannerImages(worldId)}
       librarySlot={<Lane fallback={<CelebSectionPending kind="library" />}>
-        <CelebLibraryServer contents={contentsPromise} profile={profile} slug={slug} locale={locale} initial={initial} />
+        <CelebLibraryServer contents={contentsPromise} bookCovers={bookCoversPromise} profile={profile} slug={slug} locale={locale} initial={initial} />
       </Lane>}
       booksSlot={<Lane fallback={<CelebSectionPending kind="books" />}>
         <CelebBooksServer books={booksPromise} profile={profile} />

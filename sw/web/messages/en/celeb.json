@@ -488,6 +488,10 @@
     "enlargePortrait": "View full portrait",
     "bookshelfTitle": "Bookshelf",
     "readingWay": "Reading Approach",
-    "bookShelfCategoryTitle": "{category} Bookshelf"
+    "bookShelfCategoryTitle": "{category} Bookshelf",
+    "bookCovers": {
+      "title": "{name}'s Books Read & Recommended ({count})",
+      "open": "Show “{title}” on the shelf"
+    }
   }
 }

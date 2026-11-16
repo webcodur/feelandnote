@@ -16,17 +16,22 @@ export type SectionData<T> = { data: T; error?: never } | { error: true; data?: 
 type ContentsPromise = Promise<SectionData<GetUserContentsResponse>>
 type BooksPromise = Promise<SectionData<CelebReferenceBooks>>
 
-export async function CelebLibraryServer({ contents, profile, slug, locale, initial }: {
-  contents: ContentsPromise; profile: CelebBySlugProfile; slug: string; locale: string; initial: boolean
+export async function CelebLibraryServer({ contents, bookCovers, profile, slug, locale, initial }: {
+  contents: ContentsPromise; bookCovers: ContentsPromise; profile: CelebBySlugProfile; slug: string; locale: string; initial: boolean
 }) {
-  const result = await contents
+  const [result, covers] = await Promise.all([contents, bookCovers])
   if (result.error) return <RetryBlock />
   const firstId = result.data.items[0]?.content_id
   const brief = firstId ? await (initial ? getInitialContentBrief : getContentBrief)(firstId, locale) : null
   const t = await getTranslations('celebPage')
   return <div className={styles.arrived} data-celeb-loaded="library">
     <ReviewsSection userId={profile.id} slug={slug} nickname={profile.nickname} avatarUrl={profile.avatar_url}
-      emptyMessage={t('libraryEmpty')} initialContents={result.data} initialContentBrief={brief} />
+      emptyMessage={t('libraryEmpty')} initialContents={result.data} initialContentBrief={brief}
+      bookCovers={covers.data && {
+        total: covers.data.total,
+        items: covers.data.items.map(({ content_id, content }) => ({ contentId: content_id, title: content.title,
+          thumbnail: locale === 'en' && content.thumbnail_en ? content.thumbnail_en : content.thumbnail_url })),
+      }} />
   </div>
 }
 

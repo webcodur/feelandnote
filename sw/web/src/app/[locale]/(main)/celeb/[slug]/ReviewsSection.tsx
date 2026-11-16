@@ -6,7 +6,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
@@ -20,6 +20,7 @@ import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { ContentFocusRequest } from "@/components/features/user/contentLibrary/types";
 
 import ViewAllRecordsConfirmModal from "./ViewAllRecordsConfirmModal";
+import CelebBookCovers, { type CelebBookCover } from "./CelebBookCovers";
 
 interface ReviewsSectionProps {
   userId: string;
@@ -31,6 +32,8 @@ interface ReviewsSectionProps {
   initialContentBrief?: ContentBrief | null;
   focusRequest?: ContentFocusRequest;
   onFocusComplete?: (request: ContentFocusRequest) => void;
+  /** 책장 아래에 까는 감상한 책 표지. 누르면 책장이 그 책으로 넘어간다. */
+  bookCovers?: { items: CelebBookCover[]; total: number };
 }
 
 export default function ReviewsSection({
@@ -41,9 +44,14 @@ export default function ReviewsSection({
   emptyMessage,
   initialContents,
   initialContentBrief,
-  focusRequest,
+  focusRequest: externalFocusRequest,
   onFocusComplete,
+  bookCovers,
 }: ReviewsSectionProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  // 표지를 누를 때마다 새 요청을 만든다 — 같은 책을 다시 눌러도 책장이 그 책으로 돌아온다.
+  const [coverFocusRequest, setCoverFocusRequest] = useState<ContentFocusRequest>();
+  const focusRequest = coverFocusRequest ?? externalFocusRequest;
   const t = useTranslations("celebPage");
   const router = useRouter();
   // 인물 상세의 통합 책장에서는 위쪽 선택기가 매체를 정한다.
@@ -54,15 +62,20 @@ export default function ReviewsSection({
   const [activeContent, setActiveContent] = useState<{ contentId: string; index: number } | null>(null);
   const onActiveContentChange = useCallback((contentId: string | null, index: number) => {
     setActiveContent(contentId ? { contentId, index } : null);
-    if (focusRequest?.contentId === contentId) onFocusComplete?.(focusRequest);
-  }, [focusRequest, onFocusComplete]);
+    if (externalFocusRequest?.contentId === contentId) onFocusComplete?.(externalFocusRequest);
+  }, [externalFocusRequest, onFocusComplete]);
+  const showBookOnShelf = useCallback((contentId: string) => {
+    shelf?.select("BOOK");
+    setCoverFocusRequest({ contentId, category: "book" });
+    rootRef.current?.scrollIntoView({ block: "start", behavior: "smooth" });
+  }, [shelf]);
   const [isRecordsConfirmOpen, setIsRecordsConfirmOpen] = useState(false);
   // next-intl router가 화면 언어 접두어를 붙이므로 여기선 접두어 없는 경로만 만든다
   const recordsHref = `${getCelebProfileUrl({ id: userId, slug })}/records`
     + (activeContent ? `?focus=${encodeURIComponent(activeContent.contentId)}` : "");
 
   return (
-    <div className="md:[--reading-preview-max-height:min(28rem,55svh)] md:[--reading-preview-max-width:72ch]">
+    <div ref={rootRef} className="scroll-mt-[var(--layer-celeb-heading-bottom,80px)] md:[--reading-preview-max-height:min(28rem,55svh)] md:[--reading-preview-max-width:72ch]">
       <ContentLibrary
         mode="viewer"
         ownerKind="celeb"
@@ -101,6 +114,8 @@ export default function ReviewsSection({
           </Link>
         ) : undefined}
       />
+      {bookCovers && bookCovers.items.length > 0 && <CelebBookCovers nickname={nickname}
+        items={bookCovers.items} total={bookCovers.total} onSelect={showBookOnShelf} />}
       <ViewAllRecordsConfirmModal
         isOpen={isRecordsConfirmOpen}
         nickname={nickname}
