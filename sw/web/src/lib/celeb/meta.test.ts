@@ -11,15 +11,15 @@ test('books lead whenever present, the rest rank by count, then media order', ()
  assert.deepEqual(formatCelebRecordCounts({...emptyCounts,BOOK:1,MUSIC:1200},'en'), ['1 book','1,200 songs']);
 });
 test('record titles preserve identity, particles, counts and width', () => {
- assert.equal(buildCelebTitleKo(billGates),'빌 게이츠(MS 설립)의 추천 책·읽은 책 177권과 음악·영상·게임 기록');
- assert.equal(buildCelebTitleKo({...billGates,nickname:'카리나',title:'에스파',counts:{...emptyCounts,BOOK:8,VIDEO:4,GAME:1}}),'카리나(에스파)의 추천 책·읽은 책 8권과 영상·게임 기록');
- assert.equal(buildCelebTitleKo({...billGates,nickname:'젠슨 황',title:'엔비디아 설립',counts:{...emptyCounts,BOOK:5}}),'젠슨 황(엔비디아 설립)의 추천 책·읽은 책 5권');
- assert.equal(buildCelebTitleKo({...billGates,nickname:'가수',title:'밴드 보컬',counts:{...emptyCounts,BOOK:3,MUSIC:200}}),'가수(밴드 보컬)의 추천 책·읽은 책 3권과 음악 기록');
+ assert.equal(buildCelebTitleKo(billGates),'빌 게이츠(MS 설립)의 추천도서·읽은 책 177권과 음악·영상 기록');
+ assert.equal(buildCelebTitleKo({...billGates,nickname:'카리나',title:'에스파',counts:{...emptyCounts,BOOK:8,VIDEO:4,GAME:1}}),'카리나(에스파)의 추천도서·읽은 책 8권과 영상·게임 기록');
+ assert.equal(buildCelebTitleKo({...billGates,nickname:'젠슨 황',title:'엔비디아 설립',counts:{...emptyCounts,BOOK:5}}),'젠슨 황(엔비디아 설립)의 추천도서·읽은 책 5권');
+ assert.equal(buildCelebTitleKo({...billGates,nickname:'가수',title:'밴드 보컬',counts:{...emptyCounts,BOOK:3,MUSIC:200}}),'가수(밴드 보컬)의 추천도서·읽은 책 3권과 음악 기록');
  assert.equal(buildCelebTitleKo({...billGates,nickname:'배우',title:'영화배우',counts:{...emptyCounts,VIDEO:4,GAME:1}}),'배우(영화배우)가 감상한 영상 4편·게임 1개');
  assert.equal(buildCelebTitleEn({...billGates,nickname:'Bill Gates',title:'Microsoft Founder'}),'Bill Gates (Microsoft Founder): 177 Books Read & Recommended');
  assert.equal(buildCelebTitleEn({...billGates,nickname:'Bill Gates',title:null}),'Bill Gates: 177 Books Read & Recommended plus Music & Videos');
  assert.equal(buildCelebTitleEn({...billGates,nickname:'Actor',title:null,counts:{...emptyCounts,VIDEO:4,GAME:1}}),'Actor: 4 Videos Watched & 1 Game Played');
- assert.equal(buildCelebTitleKo({...billGates,title:'아주 긴 수식어를 가진 인물의 칭호'}),'빌 게이츠(아주 긴 수식어를 가진 인물의 칭호)의 추천 책·읽은 책 177권');
+ assert.equal(buildCelebTitleKo({...billGates,title:'아주 긴 수식어를 가진 인물의 칭호'}),'빌 게이츠(아주 긴 수식어를 가진 인물의 칭호)의 추천도서·읽은 책 177권');
  assert.ok(estimateTitleWidth(buildCelebTitleKo(billGates))<=30);
 });
 test('record presence alone decides titles across all tiers and realities', () => {
@@ -33,7 +33,7 @@ test('record presence alone decides titles across all tiers and realities', () =
 });
 test('one or two records hide title numbers',()=>{
  const input={...billGates,counts:{...emptyCounts,BOOK:1,VIDEO:1}};
- assert.equal(buildCelebTitleKo(input),'빌 게이츠(MS 설립)의 추천 책·읽은 책과 영상 기록');
+ assert.equal(buildCelebTitleKo(input),'빌 게이츠(MS 설립)의 추천도서·읽은 책과 영상 기록');
  assert.equal(buildCelebTitleEn({...input,nickname:'Bill Gates',title:'Microsoft Founder'}),'Bill Gates (Microsoft Founder): Books Read & Recommended');
  assert.equal(buildCelebTitleKo({...input,counts:{...emptyCounts,VIDEO:1,GAME:1}}),'빌 게이츠(MS 설립)의 영상·게임 감상 기록');
 });

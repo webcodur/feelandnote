@@ -42,7 +42,7 @@ test('page metadata uses record presence and complete bio for every tier and rea
     for (const count of [0, 5]) {
       const { build, calls } = load({ ...fixture, celeb_tier, celeb_reality, contentTypeCounts: { ...emptyCounts, BOOK: count } })
       const metadata = await build('ko', 'figure')
-      assert.deepEqual(metadata.title, { absolute: count ? '인물(수식어)의 추천 책·읽은 책 5권' : '인물, 인물을 구별하는 한 줄' })
+      assert.deepEqual(metadata.title, { absolute: count ? '인물(수식어)의 추천도서·읽은 책 5권' : '인물, 인물을 구별하는 한 줄' })
       assert.equal(metadata.description, fixture.bio)
       assert.equal(metadata.openGraph?.description, fixture.bio)
       assert.equal(metadata.twitter?.description, fixture.bio)

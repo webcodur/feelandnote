@@ -505,7 +505,7 @@
     "readingWay": "독서 방식",
     "bookShelfCategoryTitle": "{category}의 책장",
     "bookCovers": {
-      "title": "{name}의 추천 책·읽은 책 {count}권",
+      "title": "{name}의 추천도서·읽은 책 {count}권",
       "open": "책장에서 「{title}」 보기"
     }
   }

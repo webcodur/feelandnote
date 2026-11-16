@@ -86,7 +86,7 @@ const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1
 
 /**
  * 기록이 있는 분야. 책이 있으면 건수와 관계없이 맨 앞이다 — 검색하는 사람이 찾는 것은 인물의 책이다
- * (「카리나 추천 책」「카리나 읽은 책」). 나머지는 건수 많은 순, 같으면 영상·음악·게임 순.
+ * (「카리나 추천도서」「카리나가 읽은 책」 — 자동완성 기준 26.11.16). 나머지는 건수 많은 순, 같으면 영상·음악·게임 순.
  */
 export function rankRecordTypes(counts: ContentCounts): RecordType[] {
   return RECORD_TYPE_ORDER
@@ -200,11 +200,11 @@ function namedKo(input: CelebMetaInput, kind?: ParticleKind): string {
 export function buildCelebTitleKo(input: CelebMetaInput): string {
   if (!leadsWithRecords(input)) return identityKo(input);
   const types = rankRecordTypes(input.counts);
-  // 책은 「추천 책·읽은 책」으로 앞세운다. 혹평한 책도 섞이므로 「추천한 책」 한 낱말로 묶지 않는다.
+  // 책은 「추천도서·읽은 책」으로 앞세운다. 혹평한 책도 섞이므로 「추천한 책」 한 낱말로 묶지 않는다.
   // 다른 분야는 숫자 없이 꼬리에 붙인다(「…책 8권과 영상·게임 기록」). 「권」「책」 모두 받침이 있어 「과」다.
   if (types[0] === "BOOK") {
     const books = isNumbered(input.counts) ? ` ${formatNumber(input.counts.BOOK)}${RECORD_LABEL_KO.BOOK.unit}` : "";
-    return fitBookTitle((tail) => `${namedKo(input)}의 추천 책·읽은 책${books}${tail.length
+    return fitBookTitle((tail) => `${namedKo(input)}의 추천도서·읽은 책${books}${tail.length
       ? `과 ${tail.map((type) => RECORD_LABEL_KO[type].noun).join("·")} 기록` : ""}`, types.slice(1));
   }
   // 이름만으로는 누군지 모를 인물이 대부분이다 — 수식어가 검색 결과에서 정체를 알린다.
