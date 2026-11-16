@@ -142,6 +142,8 @@ const SEO_FILES = new Set([
   'sw/web/src/lib/robots.ts',
   'sw/web/src/lib/seoImageOrigin.ts',
   'sw/web/src/lib/sitemap.ts',
+  // Google 인물 우선 명단 — lib/sitemap.ts만 불러 쓴다.
+  'sw/web/src/lib/sitemapCelebPriority.ts',
   // 기관별 쪽 수를 sitemap과 허브 메타가 함께 산출한다.
   'sw/web/src/components/features/library/hub/curatorExplore.ts',
   'sw/web/src/lib/library/curatedMeta.ts',

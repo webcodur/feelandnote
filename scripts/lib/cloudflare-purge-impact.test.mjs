@@ -654,6 +654,14 @@ test('shared brand, person descriptions and wordmarks evict their actual cached 
   assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/components/ui/LogoWordmark.tsx']).scopes, ['cached-html'])
 })
 
+test('sitemap data and the Google celeb priority list evict only SEO outputs', () => {
+  for (const file of ['sw/web/src/lib/sitemap.ts', 'sw/web/src/lib/sitemapCelebPriority.ts']) {
+    const plan = classifyCloudflarePurgeImpact([file])
+    assert.deepEqual(plan.scopes, ['seo'])
+    assert.equal(plan.files.includes('https://feelandnote.com/sitemap.xml'), true)
+  }
+})
+
 test('robots route and crawler policy changes evict only SEO outputs, including the former route deletion', () => {
   for (const file of [
     'sw/web/src/app/robots.txt/route.ts',
