@@ -6,6 +6,7 @@ import type { MetadataRoute } from 'next'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 
 import { INFLUENCE_RANKING_FIELDS, getInfluenceRankingHref } from '@/constants/influenceRanking'
+import { celebPriorityQuota } from './sitemapCelebPriority'
 
 // 직군 목록도 실제 Next 캐시를 거친다. 서버 저장소를 마련하고 각 호출은 빈 캐시에서 검증한다.
 Object.assign(globalThis, { AsyncLocalStorage })
@@ -41,7 +42,7 @@ test('특수문자 인물 slug도 상세 페이지와 같은 정본 주소와 �
     globalThis.fetch = previousFetch
   })
 
-  const entries = await getSitemapEntries('celebs')
+  const entries = await getSitemapEntries('celebs-all')
   assert.ok(entries)
   assert.equal(entries.length, 6)
   for (const slug of ['e%3Au', '%ED%99%8D%EA%B8%B8%EB%8F%99', 'person%3F%23%26name']) {
@@ -82,6 +83,8 @@ test('공개 데이터의 갱신 태그가 해당 사이트맵의 모든 조회�
   await getSitemapEntries('celebs')
   await getSitemapEntries('core')
   assert.deepEqual(tagsByTable.get('celebs'), [CACHE_TAGS.CELEBS])
+  assert.deepEqual(tagsByTable.get('get_celebs_sorted'), [CACHE_TAGS.CELEBS])
+  assert.deepEqual(tagsByTable.get('get_celebs_trending'), [CACHE_TAGS.CELEBS])
   assert.deepEqual(tagsByTable.get('curators'), [CACHE_TAGS.CURATED])
   assert.deepEqual(tagsByTable.get('faction_lv2'), [CACHE_TAGS.FACTIONS])
   assert.deepEqual(tagsByTable.get('faction_member_rows'), [CACHE_TAGS.FACTIONS])
@@ -196,7 +199,7 @@ test('인물 조회 중 두 번째 페이지가 실패하면 부분 사이트맵
     else process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = previousKey
     globalThis.fetch = previousFetch
   })
-  await assert.rejects(getSitemapEntries('celebs'), /REST failed: 503/)
+  await assert.rejects(getSitemapEntries('celebs-all'), /REST failed: 503/)
   assert.equal(failures, 2)
 })
 
@@ -244,7 +247,7 @@ test('동일 생성 시각이 페이지 경계를 넘어도 모든 인물을 한
     globalThis.fetch = previousFetch
   })
 
-  const entries = await getSitemapEntries('celebs')
+  const entries = await getSitemapEntries('celebs-all')
   assert.ok(entries)
 
   const urls = entries.map((entry) => entry.url)
@@ -289,4 +292,44 @@ test('기관·도감 조회도 1,000행을 넘어 끝까지 읽고 실패한 묶
     failedTable = table
     await assert.rejects(getSitemapEntries('core'), /REST failed: 502/)
   }
+})
+
+test('Google 인덱스는 우선 명단만 싣고 전체 명단은 네이버용 파일로 따로 둔다', async (t) => {
+  const previousUrl = process.env.NEXT_PUBLIC_DB_API_URL
+  const previousKey = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+  const previousFetch = globalThis.fetch
+  process.env.NEXT_PUBLIC_DB_API_URL = 'https://db.example'
+  process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = 'test-key'
+  const celebs = Array.from({ length: 1500 }, (_, index) => ({ slug: `c-${String(index).padStart(4, '0')}`, created_at: CREATED_AT, updated_at: null }))
+  const page = <T>(rows: T[], url: URL) => {
+    const offset = Number(url.searchParams.get('offset'))
+    return Response.json(rows.slice(offset, offset + Number(url.searchParams.get('limit'))))
+  }
+  globalThis.fetch = async (input) => {
+    const url = new URL(String(input))
+    if (url.pathname.endsWith('/rpc/get_celebs_sorted')) return page(celebs.map(({ slug }, index) => ({ slug, content_count: index < 600 ? 20 : 0 })), url)
+    if (url.pathname.endsWith('/rpc/get_celebs_trending')) return page([{ slug: 'c-1499', recent_views: 900 }], url)
+    return page(celebs, url)
+  }
+  t.after(() => {
+    if (previousUrl === undefined) delete process.env.NEXT_PUBLIC_DB_API_URL
+    else process.env.NEXT_PUBLIC_DB_API_URL = previousUrl
+    if (previousKey === undefined) delete process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+    else process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = previousKey
+    globalThis.fetch = previousFetch
+  })
+
+  const index = sitemap.serializeSitemapIndex()
+  assert.ok(index.includes('/sitemaps/celebs.xml'))
+  assert.ok(!index.includes('celebs-all'), '전체 명단은 robots.txt 경로로 Google에 내밀지 않는다')
+
+  const all = await getSitemapEntries('celebs-all')
+  assert.equal(all?.length, 3000)
+  const priority = await getSitemapEntries('celebs')
+  const quota = celebPriorityQuota(new Date())
+  assert.equal(priority?.length, quota * 2, '한·영 주소 한 쌍씩 오늘 크기만큼')
+  const urls = new Set(priority?.map(({ url }) => url))
+  assert.ok(urls.has('https://feelandnote.com/celeb/c-1499'), '기록이 없어도 방문이 몰린 인물은 들어간다')
+  assert.ok(urls.has('https://feelandnote.com/celeb/c-0000'))
+  assert.ok(!urls.has('https://feelandnote.com/celeb/c-1000'), '기록도 방문도 없는 인물은 빠진다')
 })

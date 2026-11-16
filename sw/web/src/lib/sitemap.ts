@@ -8,6 +8,7 @@ import { INFLUENCE_RANKING_FIELDS, getInfluenceRankingHref } from '@/constants/i
 import { CURATOR_PAGE_SIZE } from '@/components/features/library/hub/curatorExplore'
 import { CURATED_HUB_PATH, resolveCuratedHubMeta } from './library/curatedMeta'
 import { exploreModeHref } from '@/constants/exploreModes'
+import { CELEB_PRIORITY_VIEW_DAYS, selectPriorityCelebs, type CelebPrioritySignal } from './sitemapCelebPriority'
 
 export const SITEMAP_REVALIDATE_SECONDS = 86400
 
@@ -19,7 +20,12 @@ export const SITEMAP_REVALIDATE_SECONDS = 86400
  * 크롤 예산을 소진시켰고, 직접 작성한 인물 글은 「발견됨 - 색인 생성 안 됨」에 머물렀다.
  * 색인 대상은 인물과 주요 목록으로 좁힌다. 작품 페이지 자체는 그대로 두며, 내부 링크로만 닿는다.
  */
-export const SITEMAP_NAMES = ['core', 'celebs'] as const
+export const SITEMAP_NAMES = ['core', 'celebs', 'celebs-all'] as const
+/**
+ * robots.txt가 가리키는 인덱스(`/sitemap.xml`)에는 Google용 우선 명단(`celebs`)만 싣는다(26.11.16).
+ * `celebs-all`은 전체 인물이며 네이버 서치어드바이저에만 등록한다 — sitemapCelebPriority.ts 참조.
+ */
+const SITEMAP_INDEX_NAMES = ['core', 'celebs'] as const satisfies readonly (typeof SITEMAP_NAMES)[number][]
 
 const BASE_URL = SITE_URL
 
@@ -82,6 +88,40 @@ async function fetchCelebs(): Promise<{
   }
 
   return allCelebs
+}
+
+/**
+ * Google 우선 명단의 점수 재료 — 인물별 공개 기록 수와 최근 방문 수.
+ * 인물 목록·인기 인물 화면이 쓰는 DB 함수를 그대로 부른다. 응답 상한(1,000행) 때문에 끝까지 나눠 읽는다.
+ */
+async function fetchCelebPrioritySignals(): Promise<Map<string, CelebPrioritySignal>> {
+  const signals = new Map<string, CelebPrioritySignal>()
+  const signalOf = (slug: string) => {
+    const existing = signals.get(slug)
+    if (existing) return existing
+    const created = { records: 0, recentViews: 0 }
+    signals.set(slug, created)
+    return created
+  }
+  const pageSize = 1000
+  const tiers = encodeURIComponent(`{${INDEXABLE_TIERS.join(',')}}`)
+  for (let offset = 0; ; offset += pageSize) {
+    const rows = await fetchSitemapRows<{ slug: string | null; content_count: number | string | null }>(
+      `rpc/get_celebs_sorted?p_limit=100000&p_celeb_tiers=${tiers}&select=slug,content_count&order=slug.asc&offset=${offset}&limit=${pageSize}`,
+      CACHE_TAGS.CELEBS,
+    )
+    for (const row of rows) if (row.slug) signalOf(row.slug).records = Number(row.content_count) || 0
+    if (rows.length < pageSize) break
+  }
+  for (let offset = 0; ; offset += pageSize) {
+    const rows = await fetchSitemapRows<{ slug: string | null; recent_views: number | string | null }>(
+      `rpc/get_celebs_trending?p_days=${CELEB_PRIORITY_VIEW_DAYS}&p_limit=100000&select=slug,recent_views&order=slug.asc&offset=${offset}&limit=${pageSize}`,
+      CACHE_TAGS.CELEBS,
+    )
+    for (const row of rows) if (row.slug) signalOf(row.slug).recentViews = Number(row.recent_views) || 0
+    if (rows.length < pageSize) break
+  }
+  return signals
 }
 
 async function fetchCuratedPaths(): Promise<string[]> {
@@ -219,9 +259,13 @@ export async function getSitemapEntries(name: string): Promise<MetadataRoute.Sit
     ]
   }
 
-  if (name === 'celebs') {
-    const celebs = await fetchCelebs()
-    return celebs.flatMap((celeb) =>
+  if (name === 'celebs' || name === 'celebs-all') {
+    const [celebs, signals] = await Promise.all([
+      fetchCelebs(),
+      name === 'celebs' ? fetchCelebPrioritySignals() : null,
+    ])
+    const listed = signals ? selectPriorityCelebs(celebs, signals, new Date()) : celebs
+    return listed.flatMap((celeb) =>
       entry(
         getCelebProfileUrl(celeb),
         'weekly',
@@ -287,7 +331,7 @@ ${urls.join('\n')}
 }
 
 export function serializeSitemapIndex(): string {
-  const sitemaps = SITEMAP_NAMES.map(
+  const sitemaps = SITEMAP_INDEX_NAMES.map(
     (name) => `  <sitemap><loc>${BASE_URL}/sitemaps/${name}.xml</loc></sitemap>`,
   )
 

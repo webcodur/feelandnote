@@ -268,7 +268,7 @@ JSON-LD는 서버 렌더 HTML에 싣는다. 클라이언트에서 주입하면 �
 |--------|------|----------|----------|------|
 | Google Search Console | 등록됨 | 메타태그 (`google` verification) | 사이트맵 인덱스·URL 검사 | 도메인 속성과 URL 접두어 속성을 유지한다. 접수·재수집의 현재 도달점은 [색인 신청](../../continuous/google-indexing.md)이 쥔다 |
 | Google Analytics (GA4) | ✅ 수집 중 | — | — | Property ID: `526353156`. **MCP는 현재 미연결** — `.mcp.json`에 서버 정의 없음(`settings.local.json`의 허용 목록에 이름만 잔존) |
-| 네이버 서치어드바이저 | 등록됨 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 웹 페이지 수집 | 기존 사이트맵을 유지하고 변경된 주요 주소를 수집 요청한다 |
+| 네이버 서치어드바이저 | 등록됨 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 웹 페이지 수집 | 기존 사이트맵에 전체 인물 `celebs-all.xml`을 더해 두고, 변경된 주요 주소를 수집 요청한다 |
 | Bing Webmaster Tools | 등록됨 | 기존 확인된 사이트 속성 | 사이트맵·URL 검사 | 기존 사이트에서 사이트맵 `Re-submit`과 URL `Request indexing`을 사용한다 |
 | Daum 검색등록 | 한글 등록명·HTTPS 검색 반영 확인 | 기존 신청자 인증 완료 | 사이트명·URL·설명 | 한글·영문 서비스명 검색에서 정식 홈페이지 노출을 확인했다 |
 | Daum 웹마스터 도구 | 인증됨 | robots.txt 공개 확인 문구 + PIN 로그인 | 사이트맵·RSS/리스트 Seed·개별 문서 수집 | 검색등록과 별개다 |
@@ -368,11 +368,12 @@ verification: {
 - **하위 라우트**: `sw/web/src/app/sitemaps/[name]/route.ts` → `/sitemaps/*.xml`
 - **방식**: PostgREST API 직접 fetch(DB SDK는 메타데이터 라우트에서 동작하지 않았음)
 - **캐시**: 인덱스·하위 파일 모두 `revalidate = 86400` (ISR 하루. Next.js route config 정적 분석 때문에 두 route 파일의 값은 숫자 리터럴이어야 하며, 데이터 fetch 주기는 `lib/sitemap.ts`가 쥔다)
-- **URL 구성**: 정적 탐색·기관 선정·직군 명부·신화·세력 한 편 주소는 `core.xml`, 공개 인물 상세는 `celebs.xml`에 담는다. 각 경로가 ko·en 2 URL로 나가며 현재 건수는 XML에서 확인한다. 작품 첫 화면(베스트셀러, `/explore/works`)·불후의 명작(`?mode=classics`)·기관 선정은 `core.xml`에 따로 등재한다. 옛 베스트셀러 주소 `/explore/works/popular`(`mode` 없음)는 `/explore/works`로 영구 이동하므로 싣지 않는다. 베스트셀러의 분야(`?category=`)는 외부 차트를 옮겨 보여 주는 화면이라 정본을 `/explore/works` 하나로 모은다.
-- **분할 구조**: 인덱스는 `core`·`celebs` 2개 파일을 가리킨다. 종전 `contents-0..7` 8개는 2026-08-14에 제거했고 해당 주소는 404다.
+- **URL 구성**: 정적 탐색·기관 선정·직군 명부·신화·세력 한 편 주소는 `core.xml`, 공개 인물 상세는 Google용 우선 명단 `celebs.xml`과 네이버용 전체 `celebs-all.xml`에 담는다. 각 경로가 ko·en 2 URL로 나가며 현재 건수는 XML에서 확인한다. 작품 첫 화면(베스트셀러, `/explore/works`)·불후의 명작(`?mode=classics`)·기관 선정은 `core.xml`에 따로 등재한다. 옛 베스트셀러 주소 `/explore/works/popular`(`mode` 없음)는 `/explore/works`로 영구 이동하므로 싣지 않는다. 베스트셀러의 분야(`?category=`)는 외부 차트를 옮겨 보여 주는 화면이라 정본을 `/explore/works` 하나로 모은다.
+- **분할 구조**: 인덱스는 `core`·`celebs` 2개 파일을 가리킨다. 전체 인물 `celebs-all.xml`은 인덱스·robots.txt에 넣지 않고 네이버 서치어드바이저에만 등록한다. 종전 `contents-0..7` 8개는 2026-08-14에 제거했고 해당 주소는 404다.
+- **인물 우선 명단**(2026-11-16): Google용 `celebs.xml`은 전체 인물이 아니라 우선 명단이다. 점수 순위 구간별 표본 18건 중 색인 1건, 11건이 「Google에 알려지지 않은 URL」이었다 — 18,022개 주소를 내밀었지만 Google이 앞부분만 읽고 멈췄다(9월 28일 11,122개에서 7주 만에 약 6,900개 증가). Google은 사이트가 내미는 주소 목록을 크롤링 요청량의 가장 큰 통제 요소로 꼽는다([크롤링 예산 관리](https://developers.google.com/crawling/docs/crawl-budget)의 perceived inventory). 명단 크기는 시작일부터 날짜로 저절로 커지고, 구성은 최근 방문 상위 몫과 공개 기록 상위 몫으로 재생성 때마다 DB에서 다시 뽑는다. 사람이 고칠 값은 없으며 시작일·크기·증가율·몫은 `sw/web/src/lib/sitemapCelebPriority.ts` 상수가 쥔다. 명단 밖 인물도 noindex·robots 차단 없이 열려 있고 내부 링크(인물 명부·관계·영문판)로 닿는다. 위키 유명도 같은 외부 스냅숏은 쓰지 않는다 — 갱신을 사람이 해야 해서 자동 방식이 깨진다. 회복 판정은 명단 안 페이지의 색인 비율로 하고, 속도 조정은 상수 하나로 한다.
 - **작품 상세 제외**(2026-08-14): `/content/{uuid}`는 사이트맵에 넣지 않는다. 당시 본문 복제 문제가 확인됐고 제출 URL의 79%를 차지했다. 실제 크롤 예산 소진 비중은 측정하지 않았다. 판정 근거는 「색인 회복 실패 재조사」절이 쥔다. 되돌리려면 그 절의 3번 근거를 먼저 반박해야 한다. 2026-08-25부터 작품 상세는 페이지 자체도 `noindex`다(아래 「네이버 실측과 작품 상세 noindex 전환」).
 - **분할 이유**: 종전 단일 파일은 9.21MiB로 네이버의 10MB 제한 직전이었다. 작품 제외 후에는 여유가 크지만, 인물 증가에 대비해 인덱스 구조는 유지한다. 기존 제출 주소 `/sitemap.xml`은 인덱스로 그대로다. [네이버 서치어드바이저 — RSS 및 사이트맵 제출](https://searchadvisor.naver.com/guide/request-feed)
-- **등재 기준**: 인물은 active이면서 `INDEXABLE_TIERS`에 포함된 티어만. 현행 인물 티어는 모두 고유한 상세 정보를 제공하므로 색인하며, 페이지 robots 기준과 사이트맵 기준은 같은 상수를 쓴다. 작품은 등재하지 않는다(위 항목)
+- **등재 기준**: 인물은 active이면서 `INDEXABLE_TIERS`에 포함된 티어만(`celebs-all`). `celebs`는 그중 우선 명단이다(위 항목). 현행 인물 티어는 모두 고유한 상세 정보를 제공하므로 색인하며, 페이지 robots 기준과 사이트맵 기준은 같은 상수를 쓴다. 작품은 등재하지 않는다(위 항목)
 - **리다이렉트 스텁 제외**: `/explore/celebs`·`people`·`figure`·`celeb-feed`·`top-by-type`, `/agora` 미등재
 - **페이지네이션**: PostgREST 기본 제한 1,000행 → 1,000행씩 반복 fetch
 - **hreflang**: ko, en, x-default. 페이지 HTML은 각 `generateMetadata`의 `alternates`가 같은 https 주소로 선언한다. next-intl 미들웨어의 `Link` 응답 헤더는 프록시 뒤 요청 주소로 만들어져 `http://`로 나갔으므로 `i18n/routing.ts`의 `alternateLinks: false`로 끈다(26.09.28).
@@ -471,7 +472,8 @@ curl -s "${NEXT_PUBLIC_DB_API_URL}/rest/v1/celebs?select=slug,created_at&publica
 
 # 배포 후 검증
 curl -s "https://feelandnote.com/sitemap.xml" | grep -c "<sitemap>" # 현재 하위 파일 2개
-curl -s "https://feelandnote.com/sitemaps/celebs.xml" | grep -c "<url>"
+curl -s "https://feelandnote.com/sitemaps/celebs.xml" | grep -c "<url>"     # Google 우선 명단(한·영 쌍)
+curl -s "https://feelandnote.com/sitemaps/celebs-all.xml" | grep -c "<url>" # 네이버용 전체
 curl -s -o /dev/null -w "%{http_code}\n" "https://feelandnote.com/sitemaps/contents-0.xml" # 예상: 404
 curl -s -I "https://feelandnote.com/feed.xml" | grep Content-Type  # 예상: application/rss+xml
 curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: text/plain
