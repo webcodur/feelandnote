@@ -21,7 +21,7 @@ import { getCuratorBrand } from "./curatorBrandPalettes";
 export default async function CuratedListView({ list }: { list: CuratedListDetail }) {
   // 탭은 화면 안 구성을 바꾸지 않고 허브 조합으로 이동만 한다 — 링크 전용
   const [t, locale, hub] = await Promise.all([getTranslations("library.curated"), getLocale(), getCuratedHub()]);
-  const brand = getCuratorBrand(list.curator.slug, list.curator.kind);
+  const brand = getCuratorBrand(list.curator.slug, list.curator.kind, list.curator.logoPalette);
 
   return (
     <div className="space-y-7">
@@ -37,7 +37,7 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
         <div className="mx-auto max-w-3xl space-y-5">
           <Link href={`/explore/works/curated/${list.curator.slug}`} prefetch={false}
             className="mx-auto flex w-fit max-w-full items-center gap-3 rounded-control text-sm font-medium text-text-secondary outline-none hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">
-            <CuratorLogo slug={list.curator.slug} name={list.curator.name} logoUrl={list.curator.logoUrl} kind={list.curator.kind} size="inline" />
+            <CuratorLogo slug={list.curator.slug} name={list.curator.name} logoUrl={list.curator.logoUrl} kind={list.curator.kind} palette={list.curator.logoPalette} size="inline" />
             <span className="min-w-0 break-keep">{list.curator.name}</span>
           </Link>
           <div className="space-y-3 text-center">

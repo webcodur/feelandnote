@@ -26,7 +26,7 @@ export default function CuratedEntriesSection({ entries }: { entries: ContentCur
 
       <div className="grid gap-2 sm:grid-cols-2">
         {entries.map((e) => {
-          const brand = getCuratorBrand(e.curatorSlug, e.curatorKind);
+          const brand = getCuratorBrand(e.curatorSlug, e.curatorKind, e.curatorLogoPalette);
           return (
             <Link
               key={`${e.curatorSlug}/${e.listSlug}`}

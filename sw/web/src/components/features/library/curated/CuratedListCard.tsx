@@ -9,7 +9,6 @@ import NationalityText from "@/components/ui/NationalityText";
 import type { CuratedHub, CuratedListSummary } from "@/actions/library/types";
 import { getCuratorBrand } from "./curatorBrandPalettes";
 import { getCuratorLogoSurface } from "./curatorLogos";
-import { CURATOR_LOGO_PALETTES } from "./curatorLogoPalettes";
 import CuratorLogo from "./CuratorLogo";
 import styles from "./CuratedGallery.module.css";
 
@@ -40,9 +39,9 @@ export function CuratedInstitutionCard({ curator, curatorQuery = "" }: {
 }) {
   const t = useTranslations("library.curated");
   const multiple = curator.lists.length > 1;
-  const brand = getCuratorBrand(curator.slug, curator.kind);
-  const surface = getCuratorLogoSurface(curator.slug);
-  const colors = CURATOR_LOGO_PALETTES[curator.slug]?.colors ?? [];
+  const brand = getCuratorBrand(curator.slug, curator.kind, curator.logoPalette);
+  const surface = getCuratorLogoSurface(curator.logoPalette);
+  const colors = curator.logoPalette?.colors ?? [];
   const colorWeight = colors.reduce((sum, color) => sum + color.weight, 0);
   return <article className={styles.card} style={{
     "--curator-accent": brand.accent, "--logo-surface": surface.background, "--logo-ink": surface.ink,
@@ -53,7 +52,7 @@ export function CuratedInstitutionCard({ curator, curatorQuery = "" }: {
           <span>{t(`kind.${curator.kind}`)}</span>
           {curator.country && <NationalityText code={curator.country} display="text" />}
         </div>
-        <CuratorLogo slug={curator.slug} name={curator.name} logoUrl={curator.logoUrl} kind={curator.kind} size="gallery" />
+        <CuratorLogo slug={curator.slug} name={curator.name} logoUrl={curator.logoUrl} kind={curator.kind} palette={curator.logoPalette} size="gallery" />
         {colors.length > 0 && <span className={styles.palette} aria-hidden="true">
           {colors.map(color => <span key={color.hex} style={{ background: color.hex, flexGrow: color.weight / colorWeight }} />)}
         </span>}
@@ -81,7 +80,7 @@ export function CuratedInstitutionCard({ curator, curatorQuery = "" }: {
 
 /** 기관 안의 목록도 테두리 상자 대신 제목·설명·표지를 편집한 지면으로 잇는다. */
 export default function CuratedListCard({ list }: { list: CuratedListSummary }) {
-  const brand = getCuratorBrand(list.curatorSlug, list.curatorKind);
+  const brand = getCuratorBrand(list.curatorSlug, list.curatorKind, list.curatorLogoPalette);
   const name = list.curatorName ?? list.curatorSlug;
   return <article className={styles.card} style={{ "--curator-accent": brand.accent } as CSSProperties}>
     <Link href={`/explore/works/curated/${list.curatorSlug}/${list.slug}`} prefetch={false} className={`${styles.identity} ${styles.listCard}`}>

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useId, useState } from "react";
-import { CURATOR_LOGO_PALETTES } from "./curatorLogoPalettes";
+import type { CuratorLogoPalette } from "@/actions/library/types";
 import { getCuratorBrand } from "./curatorBrandPalettes";
 import { getCuratorLogoUrl } from "./curatorLogos";
 
@@ -15,22 +15,22 @@ const LOGO_SIZES = {
 } as const;
 
 /** 원본은 보존하고, 정적 분석에 맞는 잉크·양각 표현만 화면에 합성한다. */
-export default function CuratorLogo({ slug, name, logoUrl, kind, size = "card" }: {
+export default function CuratorLogo({ slug, name, logoUrl, kind, palette, size = "card" }: {
   slug: string;
   name: string;
   logoUrl?: string | null;
   kind?: string;
+  palette?: CuratorLogoPalette | null;
   size?: keyof typeof LOGO_SIZES;
 }) {
   const src = getCuratorLogoUrl(slug, logoUrl);
   const filterId = `curator-ink-${useId().replace(/:/g, "")}`;
-  const palette = CURATOR_LOGO_PALETTES[slug];
   const paper = palette?.treatment === "paper";
   const monochrome = palette?.monochrome;
   const darkMono = monochrome && palette?.treatment === "dark";
   const tone = paper || (monochrome && palette?.treatment === "transparent") || darkMono;
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
-  const brand = getCuratorBrand(slug, kind);
+  const brand = getCuratorBrand(slug, kind, palette);
   const dimensions = LOGO_SIZES[size];
   const words = name.trim().split(/\s+/);
   const initials = words.length > 1

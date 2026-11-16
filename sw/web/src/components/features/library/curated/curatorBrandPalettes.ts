@@ -1,4 +1,4 @@
-import { CURATOR_LOGO_PALETTES } from "./curatorLogoPalettes";
+import type { CuratorLogoPalette } from "@/actions/library/types";
 
 /*
   파일명: /components/features/library/curated/curatorBrandPalettes.ts
@@ -338,14 +338,14 @@ const KIND_DEFAULTS: Record<
 
 export function getCuratorBrand(
   slug?: string | null,
-  kind?: string | null
+  kind?: string | null,
+  measured?: CuratorLogoPalette | null
 ): CuratorBrandPalette {
   const base =
     (slug && BRAND_CONFIGS[slug]) ||
     (kind && KIND_DEFAULTS[kind]) ||
     KIND_DEFAULTS.university;
 
-  const measured = slug ? CURATOR_LOGO_PALETTES[slug] : undefined;
   const primary = measured?.colors[0]?.hex ?? base.primary;
   const accent = measured?.accent ?? base.accent;
 

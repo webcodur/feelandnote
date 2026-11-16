@@ -9,7 +9,7 @@ const list = (title: string, contentType: string, topics: string[], itemCount: n
 });
 const curator = (name: string, kind: string, lists: CuratedListSummary[], country: string | null = null): CuratedHub["curators"][number] => ({
   name, kind, lists, slug: name, country, foundedYear: null, description: null,
-  logoUrl: null, homepageUrl: null, listCount: lists.length,
+  logoUrl: null, logoPalette: null, homepageUrl: null, listCount: lists.length,
 });
 const scope = [
   curator("Alpha University", "university", [list("World literature", "BOOK", ["literature"], 20), list("Poetry", "BOOK", ["literature"], 10), list("Screen classics", "VIDEO", ["cinema"], 40)], "US"),

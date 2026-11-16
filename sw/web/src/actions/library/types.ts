@@ -75,6 +75,16 @@ export interface BestsellerItem {
 
 // ────────────────────────────────────────────────────
 // 기관 선정 — 대학·언론·시상 기관 등이 발표한 작품 목록
+
+/** 기관 로고 팔레트(curators.logo_palette). 로고 128px 표본의 오프라인 분석값이며 런타임 분석은 없다.
+ * weight: 전체 불투명 픽셀 대비 각 유채색 군집 비율(흰 종이·검은 배경·무채색 제외). null이면 기관 종류별 기본 배색 */
+export interface CuratorLogoPalette {
+  treatment: 'paper' | 'dark' | 'transparent' | 'original'
+  monochrome: boolean
+  accent: string
+  colors: { hex: string; weight: number }[]
+}
+
 export interface CuratorSummary {
   slug: string
   name: string
@@ -84,6 +94,7 @@ export interface CuratorSummary {
   foundedYear: number | null
   description: string | null
   logoUrl: string | null
+  logoPalette: CuratorLogoPalette | null
   homepageUrl: string | null
   listCount: number
 }
@@ -95,6 +106,7 @@ export interface CuratedListSummary {
   curatorName?: string
   /** 기관 로고·엠블럼 */
   curatorLogoUrl?: string | null
+  curatorLogoPalette?: CuratorLogoPalette | null
   /** 기관 갈래 (university, media, award 등) */
   curatorKind?: string
   /** 기관 소재 국가 */
@@ -179,6 +191,7 @@ export interface ContentCuratedEntry {
   curatorName: string
   curatorKind: string
   curatorLogoUrl: string | null
+  curatorLogoPalette: CuratorLogoPalette | null
   rank: number | null
   year: number | null
 }

@@ -31,6 +31,7 @@
 | `country` / `founded_year` | |
 | `description` / `description_en` | |
 | `logo_url` / `homepage_url` | |
+| `logo_palette` jsonb | 로고 팔레트(`treatment`·`monochrome`·`accent`·`colors[{hex,weight}]`). null이면 기관 종류별 기본 배색. 아래 5-4 |
 | `is_featured` / `sort_order` | |
 
 ### 2.2 `curated_lists` — 목록
@@ -138,6 +139,7 @@
 | `sw/web-bo/scripts/curated/register.ts` | 우리에게 **없는** 작품을 외부에서 찾아 등록하고 잇는다. 도서는 카카오·Open Library, 영상은 TMDB. `--dry` `--limit N` `--list <slug>` `--exact`(제목 정규화 후 완전일치만 채택하고 분권·원서·합본·요약·해설 표식 후보를 버린다 — 한국어 제목 목록은 항상 이 옵션으로 돌린다) `--skip <파일>`(dry에서 사람이 걸러낸 raw_title을 한 줄씩) |
 | `sw/web-bo/scripts/curated/relink-lost-items.ts` | 작품 삭제·통합으로 끊긴 목록 연결을 백업에서 되살린다(5-4). `--yes` |
 | `sw/web-bo/scripts/curated/research-apply.mjs` | Devin 판본 조사(`devin-swe` R 묶음) 결과의 ISBN을 카카오·OpenLibrary로 재확인해 등록하고, 판본 없는 작품은 표시행만 두며 원어 한국 작품엔 절판 표식을 둔다(`celeb-02-02` 「절판」). `--apply` |
+| `sw/web-bo/scripts/curated/logo-palette.ts` | 기관 로고에서 팔레트를 뽑아 `curators.logo_palette`에 넣는다. `<slug>...` 또는 `--missing`, `--apply` |
 | `sw/web-bo/scripts/curated/lib/author-aliases.json` | 저자 표기 대응표. 음역 차이(맥루한↔맥루언)는 규칙으로 안 잡혀 사람이 확인한 것만 등록 |
 | `.tmp/match-report.json` · `register-report.json` | 실행 보고(보류·미보유·미발견 명단). 실행마다 덮어쓴다 |
 
@@ -374,7 +376,7 @@
 
 ## 5-4. 기관 로고
 
-로고의 기본 주소는 `curators.logo_url`이며, `curated/curatorLogos.ts`의 `getCuratorLogoUrl`이 정사각 자산을 고른다. 등록된 R2 정사각 로고를 우선하고, 보정 목록에 든 기관은 버전이 붙은 로컬 WebP를 사용한다. 허브·기관 상세·선정 목록 상세의 표시는 `CuratorLogo`가 공유한다. 원본 파일과 비율은 보존하고, `curatorLogoPalettes.ts`의 오프라인 분석값으로 종이 바탕·검은 바탕·투명 로고를 구분해 화면에서 잉크를 합성한다. 단색은 밝은 금속색과 얕은 양각, 종이 바탕의 컬러 로고는 밝힌 잉크로 표시하며, 이미 배색이 완성된 로고는 원본을 유지한다. 작은 목록 머리말에서는 양각 그림자를 생략한다. 로고가 없거나 로드에 실패하면 기관명의 머리글자를 표시한다. 추출한 색과 비중은 다크 전시 면·하단 배색선·가독성을 보정한 강조색에 사용하며, 런타임에 이미지를 분석하지 않는다. 전시 면은 `getCuratorLogoSurface`, 강조색은 `curatorBrandPalettes.ts`가 공급한다. 팔레트 값은 코드라 새 기관 값은 다음 배포 때 반영되고, 값이 없는 동안은 기관 종류별 기본 배색으로 나온다 — 로고 표시는 팔레트를 기다리지 않는다.
+로고의 기본 주소는 `curators.logo_url`이며, `curated/curatorLogos.ts`의 `getCuratorLogoUrl`이 정사각 자산을 고른다. 등록된 R2 정사각 로고를 우선하고, 보정 목록에 든 기관은 버전이 붙은 로컬 WebP를 사용한다. 허브·기관 상세·선정 목록 상세의 표시는 `CuratorLogo`가 공유한다. 원본 파일과 비율은 보존하고, `curators.logo_palette`의 오프라인 분석값으로 종이 바탕·검은 바탕·투명 로고를 구분해 화면에서 잉크를 합성한다. 단색은 밝은 금속색과 얕은 양각, 종이 바탕의 컬러 로고는 밝힌 잉크로 표시하며, 이미 배색이 완성된 로고는 원본을 유지한다. 작은 목록 머리말에서는 양각 그림자를 생략한다. 로고가 없거나 로드에 실패하면 기관명의 머리글자를 표시한다. 추출한 색과 비중은 다크 전시 면·하단 배색선·가독성을 보정한 강조색에 사용하며, 런타임에 이미지를 분석하지 않는다. 전시 면은 `getCuratorLogoSurface`, 강조색은 `curatorBrandPalettes.ts`가 공급한다. 팔레트는 DB `curators.logo_palette`가 쥔다(26.11.16 코드 상수에서 이관, `20261116120000_move_curator_logo_palette_to_db.sql`). 로고를 올린 뒤 `logo-palette.ts <slug>`로 값을 보고 `--apply`로 넣으면 배포 없이 반영된다. 자동 판정은 종이 바탕·투명만 가르므로 검은 바탕(`dark`)·배색 완성(`original`)·단색(`monochrome`) 로고는 결과를 보고 손으로 고친다. 값이 없으면 기관 종류별 기본 배색으로 나온다.
 
 **확보 경로는 아래 순서로 시도한다.**
 

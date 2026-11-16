@@ -17,8 +17,8 @@ import { getCuratorLogoSurface } from "./curatorLogos";
 
 export default async function CuratorView({ curator, initialBrowse }: { curator: CuratorDetail; initialBrowse?: { media?: string; topic?: string } }) {
   const t = await getTranslations("library.curated");
-  const brand = getCuratorBrand(curator.slug, curator.kind);
-  const surface = getCuratorLogoSurface(curator.slug);
+  const brand = getCuratorBrand(curator.slug, curator.kind, curator.logoPalette);
+  const surface = getCuratorLogoSurface(curator.logoPalette);
 
   return (
     <div className="space-y-8">
@@ -33,7 +33,7 @@ export default async function CuratorView({ curator, initialBrowse }: { curator:
       <header className="border-b border-line pb-8 md:pb-12">
         <div className="flex flex-col gap-7 md:flex-row md:items-start md:gap-12">
           <div className="flex aspect-[8/5] w-full shrink-0 items-center justify-center md:aspect-square md:w-60" style={{ background: surface.background }}>
-            <CuratorLogo slug={curator.slug} name={curator.name} logoUrl={curator.logoUrl} kind={curator.kind} size="hero" />
+            <CuratorLogo slug={curator.slug} name={curator.name} logoUrl={curator.logoUrl} kind={curator.kind} palette={curator.logoPalette} size="hero" />
           </div>
           <div className="min-w-0 flex-1">
             {/* 이 화면의 h1 — 배너는 이 주소에서 제목 요소를 내려놓는다(LibraryBanner CURATED_DETAIL_PATH) */}

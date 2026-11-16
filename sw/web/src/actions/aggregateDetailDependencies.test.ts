@@ -52,7 +52,7 @@ test('공개 리뷰는 1시간 route TTL을 만들지 않고 셀럽 bulk 의존�
 test('작품별 선정 이력은 bare 목록이 아니라 item + bulk 상세 태그를 소비한다', () => {
   const entries = exportedFunctionSource(curatedSource, 'getCuratedEntriesForContent')
   assert.match(entries, /return cachedDetail\([\s\S]*?CACHE_TAGS\.CURATED,[\s\S]*?contentId,/)
-  assert.match(entries, /curated-entries-for-content-v2/)
+  assert.match(entries, /curated-entries-for-content-v3/)
   assert.doesNotMatch(curatedSource, /getCuratedEntriesCached/)
   assert.deepEqual(
     detailCacheTags(CACHE_TAGS.CURATED, 'content-1'),

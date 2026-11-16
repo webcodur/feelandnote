@@ -28,6 +28,7 @@ import type {
   CuratedListItem,
   CuratedListSummary,
   CuratorDetail,
+  CuratorLogoPalette,
   CuratorSummary,
   ContentCuratedEntry,
 } from './types'
@@ -57,6 +58,7 @@ interface CuratorRow {
   description: string | null
   description_en: string | null
   logo_url: string | null
+  logo_palette: CuratorLogoPalette | null
   homepage_url: string | null
   sort_order: number
 }
@@ -84,7 +86,7 @@ interface ListRow {
 }
 
 const CURATOR_COLS =
-  'id, slug, name, name_en, kind, country, founded_year, description, description_en, logo_url, homepage_url, sort_order'
+  'id, slug, name, name_en, kind, country, founded_year, description, description_en, logo_url, logo_palette, homepage_url, sort_order'
 const LIST_COLS =
   'id, curator_id, slug, title, title_en, description, description_en, published_year, edition, series_key, method, method_en, source_url, cover_image_url, is_ranked, is_annual, content_type, topics, sort_order'
 
@@ -97,6 +99,7 @@ function toCuratorSummary(c: CuratorRow, locale: string, listCount: number): Cur
     foundedYear: c.founded_year,
     description: pickOrNull(c.description, c.description_en, locale),
     logoUrl: c.logo_url,
+    logoPalette: c.logo_palette,
     homepageUrl: c.homepage_url,
     listCount,
   }
@@ -105,6 +108,7 @@ function toCuratorSummary(c: CuratorRow, locale: string, listCount: number): Cur
 interface CuratorMeta {
   name: string
   logoUrl: string | null
+  logoPalette: CuratorLogoPalette | null
   kind: string
   country?: string | null
 }
@@ -122,6 +126,7 @@ function toListSummary(
     curatorSlug,
     curatorName: curator?.name,
     curatorLogoUrl: curator?.logoUrl,
+    curatorLogoPalette: curator?.logoPalette ?? null,
     curatorKind: curator?.kind,
     curatorCountry: curator?.country ?? null,
     title: pick(l.title, l.title_en, locale),
@@ -220,6 +225,7 @@ async function fetchCuratedHub(locale: string): Promise<CuratedHub> {
         slug: c.slug,
         name: pick(c.name, c.name_en, locale),
         logoUrl: c.logo_url,
+        logoPalette: c.logo_palette,
         kind: c.kind,
         country: c.country,
       },
@@ -251,7 +257,7 @@ async function fetchCuratedHub(locale: string): Promise<CuratedHub> {
   }
 }
 
-const getCuratedHubCached = unstable_cache(fetchCuratedHub, ['curated-hub-v2'], {
+const getCuratedHubCached = unstable_cache(fetchCuratedHub, ['curated-hub-v3'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.CURATED],
 })
@@ -295,6 +301,7 @@ async function fetchCurator(slug: string, locale: string): Promise<CuratorDetail
       toListSummary(l, locale, l.curated_list_items?.[0]?.count ?? 0, c.slug, coversByList.get(l.id) ?? [], {
         name: pick(c.name, c.name_en, locale),
         logoUrl: c.logo_url,
+        logoPalette: c.logo_palette,
         kind: c.kind,
         country: c.country,
       })
@@ -302,7 +309,7 @@ async function fetchCurator(slug: string, locale: string): Promise<CuratorDetail
   }
 }
 
-const getCuratorCached = unstable_cache(fetchCurator, ['curated-curator'], {
+const getCuratorCached = unstable_cache(fetchCurator, ['curated-curator-v2'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.CURATED],
 })
@@ -408,6 +415,7 @@ async function fetchCuratedList(listSlug: string, locale: string): Promise<Curat
     ...toListSummary(l, locale, total, c.slug, [], {
       name: pick(c.name, c.name_en, locale),
       logoUrl: c.logo_url,
+      logoPalette: c.logo_palette,
       kind: c.kind,
       country: c.country,
     }),
@@ -427,7 +435,7 @@ async function fetchCuratedList(listSlug: string, locale: string): Promise<Curat
   }
 }
 
-const getCuratedListCached = unstable_cache(fetchCuratedList, ['curated-list-v2'], {
+const getCuratedListCached = unstable_cache(fetchCuratedList, ['curated-list-v3'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.CURATED, CACHE_TAGS.CONTENTS],
 })
@@ -484,7 +492,7 @@ interface EntryRow {
     edition: string | null
     published_year: number | null
     is_ranked: boolean
-    curators: { slug: string; name: string; name_en: string | null; kind: string; logo_url: string | null } | null
+    curators: { slug: string; name: string; name_en: string | null; kind: string; logo_url: string | null; logo_palette: CuratorLogoPalette | null } | null
   } | null
 }
 
@@ -496,7 +504,7 @@ async function fetchCuratedEntriesForContent(contentId: string, locale: string):
     .select(
       `rank, year,
        curated_lists!inner(slug, title, title_en, edition, published_year, is_ranked,
-         curators!inner(slug, name, name_en, kind, logo_url))`
+         curators!inner(slug, name, name_en, kind, logo_url, logo_palette))`
     )
     .eq('content_id', contentId)
     .eq('hidden', false)
@@ -519,6 +527,7 @@ async function fetchCuratedEntriesForContent(contentId: string, locale: string):
         curatorName: pick(cur.name, cur.name_en, locale),
         curatorKind: cur.kind,
         curatorLogoUrl: cur.logo_url,
+        curatorLogoPalette: cur.logo_palette,
         rank: list.is_ranked ? r.rank : null,
         year: r.year,
       }
@@ -537,7 +546,7 @@ export async function getCuratedEntriesForContent(contentId: string, locale?: st
   return cachedDetail(
     CACHE_TAGS.CURATED,
     contentId,
-    ['curated-entries-for-content-v2', contentId, resolvedLocale],
+    ['curated-entries-for-content-v3', contentId, resolvedLocale],
     () => fetchCuratedEntriesForContent(contentId, resolvedLocale),
   )
 }
