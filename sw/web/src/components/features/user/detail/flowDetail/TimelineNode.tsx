@@ -115,7 +115,7 @@ export default function TimelineNode({
                 onChange={e => setDescDraft({ nodeId: node.id, value: e.target.value })}
                 onBlur={handleSaveDesc}
                 onKeyDown={e => {
-                  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSaveDesc(); }
+                  if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); handleSaveDesc(); }
                   if (e.key === "Escape") { setDescDraft(null); setIsEditingDesc(false); }
                 }}
                 placeholder={t("reasonPlaceholder")}

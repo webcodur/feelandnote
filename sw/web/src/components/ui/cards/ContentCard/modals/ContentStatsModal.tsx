@@ -82,7 +82,7 @@ export default function ContentStatsModal({
             {/* ─────────────────────────────────────────────────────────
                좌측 패널: 콘텐츠 정보 (고정 앵커)
             ───────────────────────────────────────────────────────── */}
-            <div className="sm:w-[160px] shrink-0 p-4 bg-gradient-to-b from-stone-900 to-stone-950 border-b sm:border-b-0 sm:border-r border-border/40 flex flex-col items-center">
+            <div className="sm:w-[160px] shrink-0 p-4 bg-gradient-to-b from-bg-card to-bg-secondary border-b sm:border-b-0 sm:border-r border-border/40 flex flex-col items-center">
               {/* 썸네일 - 주어진 가로폭 꽉 채우기 */}
               {contentThumbnail ? (
                 <div className="relative w-full aspect-[5/7] overflow-hidden rounded-lg border border-accent/30 shadow-lg">
@@ -128,10 +128,10 @@ export default function ContentStatsModal({
                         type="button"
                         onClick={() => handleCelebClick(celeb.id)}
                         disabled={isCelebLoading}
-                        className="w-full flex items-stretch gap-3 overflow-hidden rounded-lg bg-transparent border border-transparent hover:bg-stone-800/50 hover:border-border/30 text-left disabled:opacity-50 disabled:cursor-wait"
+                        className="w-full flex items-stretch gap-3 overflow-hidden rounded-lg bg-transparent border border-transparent hover:bg-white/5 hover:border-border/30 text-left disabled:opacity-50 disabled:cursor-wait"
                       >
                         {/* 아바타는 행 높이를 채우고 실제 너비에 맞는 해상도를 받는다 */}
-                        <div className="relative shrink-0 w-[52px] self-stretch overflow-hidden bg-stone-800">
+                        <div className="relative shrink-0 w-[52px] self-stretch overflow-hidden bg-bg-raised">
                           {celeb.avatar_url ? (
                             <CelebAvatarImage
                               src={celeb.avatar_url}
@@ -181,7 +181,7 @@ export default function ContentStatsModal({
           <Button
             unstyled
             onClick={onClose}
-            className="min-w-[100px] px-5 py-2.5 rounded-lg text-[15px] font-sans font-medium text-text-secondary hover:text-text-primary bg-stone-800/60 hover:bg-stone-700/60 border border-border/40 transition-colors text-center"
+            className="min-w-[100px] px-5 py-2.5 rounded-lg text-[15px] font-sans font-medium text-text-secondary hover:text-text-primary bg-bg-raised hover:bg-bg-stone-light border border-border/40 transition-colors text-center"
           >
             {t("close")}
           </Button>

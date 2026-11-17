@@ -48,6 +48,7 @@ export default function PasswordResetRequestForm({ initialEmail, onBack }: Props
         <input
           type="email"
           name="email"
+          autoComplete="email"
           defaultValue={initialEmail}
           placeholder={t('emailPlaceholder')}
           required

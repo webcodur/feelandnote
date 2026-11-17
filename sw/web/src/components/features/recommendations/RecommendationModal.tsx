@@ -133,7 +133,7 @@ export default function RecommendationModal({
             {/* ───────────────────────────────────────────────────────────────
                좌측 패널: 콘텐츠 정보 (고정 앵커)
             ─────────────────────────────────────────────────────────────── */}
-            <div className="sm:w-[180px] shrink-0 p-5 bg-gradient-to-b from-stone-900 to-stone-950 border-b sm:border-b-0 sm:border-r border-border/40">
+            <div className="sm:w-[180px] shrink-0 p-5 bg-gradient-to-b from-bg-card to-bg-secondary border-b sm:border-b-0 sm:border-r border-border/40">
               {/* 썸네일 */}
               <div className="relative mx-auto w-fit">
                 {contentThumbnail ? (
@@ -146,7 +146,7 @@ export default function RecommendationModal({
                   </div>
                 )}
                 {/* 카테고리 뱃지 */}
-                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2.5 py-0.5 bg-stone-800 border border-accent/40 rounded-full">
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2.5 py-0.5 bg-bg-raised border border-accent/40 rounded-full">
                   <span className="text-[11px] text-accent font-bold tracking-wide">
                     {categoryInfo?.label ?? contentType}
                   </span>
@@ -213,7 +213,7 @@ export default function RecommendationModal({
                           className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
                             isSelected
                               ? "bg-accent/15 border border-accent/40"
-                              : "bg-transparent border border-transparent hover:bg-stone-800/50"
+                              : "bg-transparent border border-transparent hover:bg-white/5"
                           }`}
                         >
                           {/* 아바타 */}
@@ -238,7 +238,7 @@ export default function RecommendationModal({
                             )}
                             {isSelected && (
                               <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-accent flex items-center justify-center">
-                                <Check size={9} className="text-stone-900" strokeWidth={3} />
+                                <Check size={9} className="text-bg-secondary" strokeWidth={3} />
                               </div>
                             )}
                           </div>
@@ -288,7 +288,7 @@ export default function RecommendationModal({
               {/* 에러 */}
               {error && (
                 <div className="px-4 pb-4">
-                  <div className="p-2.5 bg-red-950/50 border border-red-500/30 rounded-lg">
+                  <div className="p-2.5 bg-red-500/10 border border-red-500/30 rounded-lg">
                     <p className="text-xs text-red-400">{error}</p>
                   </div>
                 </div>
@@ -303,7 +303,7 @@ export default function RecommendationModal({
           <Button
             unstyled
             onClick={handleClose}
-            className="min-w-[100px] px-5 py-2.5 rounded-lg text-sm font-sans font-medium text-text-secondary hover:text-text-primary bg-stone-800/60 hover:bg-stone-700/60 border border-border/40 transition-colors text-center"
+            className="min-w-[100px] px-5 py-2.5 rounded-lg text-sm font-sans font-medium text-text-secondary hover:text-text-primary bg-bg-raised hover:bg-bg-stone-light border border-border/40 transition-colors text-center"
           >
             {t("cancel")}
           </Button>
@@ -313,13 +313,13 @@ export default function RecommendationModal({
             disabled={!selectedUserId || isSending}
             className={`min-w-[120px] px-5 py-2.5 rounded-lg text-sm font-sans font-bold transition-all flex items-center justify-center gap-2 ${
               !selectedUserId || isSending
-                ? "bg-stone-800  cursor-not-allowed border border-border/30"
-                : "bg-accent hover:bg-accent-hover text-stone-900 border border-accent/50"
+                ? "bg-bg-raised  cursor-not-allowed border border-border/30"
+                : "bg-accent hover:bg-accent-hover text-bg-secondary border border-accent/50"
             }`}
           >
             {isSending ? (
               <>
-                <span className="w-3.5 h-3.5 border-2 border-stone-900/30 border-t-stone-900 rounded-full animate-spin" />
+                <span className="w-3.5 h-3.5 border-2 border-bg-secondary/30 border-t-bg-secondary rounded-full animate-spin" />
                 {t("sending")}
               </>
             ) : (

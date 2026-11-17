@@ -24,6 +24,7 @@ export default function SignupForm() {
         <input
           type="text"
           name="nickname"
+          autoComplete="nickname"
           placeholder={t('nicknamePlaceholder')}
           required
           className="w-full rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
@@ -31,6 +32,7 @@ export default function SignupForm() {
         <input
           type="email"
           name="email"
+          autoComplete="email"
           placeholder={t('emailPlaceholder')}
           required
           className="w-full rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
@@ -38,6 +40,7 @@ export default function SignupForm() {
         <input
           type="password"
           name="password"
+          autoComplete="new-password"
           placeholder={t('passwordPlaceholder')}
           required
           minLength={6}

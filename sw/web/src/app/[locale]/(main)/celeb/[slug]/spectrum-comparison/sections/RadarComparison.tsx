@@ -214,7 +214,7 @@ export default function RadarComparison({
                   cx={target.x}
                   cy={target.y}
                   r={active ? 5.5 : 3.2}
-                  fill="#091115"
+                  fill="var(--color-bg-main)"
                   stroke={SUBJECT_COLOR}
                   strokeWidth={active ? 2.2 : 1.5}
                   filter={
@@ -248,7 +248,7 @@ export default function RadarComparison({
                 dominantBaseline="middle"
                 fontSize={data.length >= 10 ? 13 : 15}
                 fontWeight={active ? 750 : 550}
-                fill={active ? SUBJECT_COLOR : "rgba(244,240,232,0.82)"}
+                fill={active ? readableAccent(SUBJECT_COLOR) : "var(--color-text-secondary)"}
                 pointerEvents="none"
                 className="transition-[fill] duration-200"
               >

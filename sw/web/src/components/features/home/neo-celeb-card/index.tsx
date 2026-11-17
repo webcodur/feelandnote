@@ -155,7 +155,7 @@ export default function NeoCelebCard({
 
   return (
     <div
-      className={`${styles.cardGroup} ${styles.perspectiveWrapper} group relative flex-shrink-0 ${className}`}
+      className={`theme-dark ${styles.cardGroup} ${styles.perspectiveWrapper} group relative flex-shrink-0 ${className}`}
       style={{ width: `${config.outer.width * scale}px`, height: `${config.outer.height * scale}px` }}
     >
       {/* Scaled Inner Container */}

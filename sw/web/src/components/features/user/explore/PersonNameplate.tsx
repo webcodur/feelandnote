@@ -77,14 +77,14 @@ export default function PersonNameplate({ person, onClick, rank }: Props) {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-zinc-800 text-text-secondary">
+                    <div className="w-full h-full flex items-center justify-center bg-bg-raised text-text-secondary">
                       <User size={20} />
                     </div>
                   )}
                 </div>
               </div>
               {/* 온라인/상태 표시 (예시) */}
-              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-zinc-900 rounded-full" />
+              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-bg-card rounded-full" />
             </div>
           </div>
 

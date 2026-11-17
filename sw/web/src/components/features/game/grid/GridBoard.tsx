@@ -190,7 +190,7 @@ function AutocompleteInput({
       e.preventDefault();
       onCancel();
     }
-    if (e.key === "Enter" && filtered.length === 1) {
+    if (e.key === "Enter" && !e.nativeEvent.isComposing && filtered.length === 1) {
       e.preventDefault();
       onSelect(filtered[0].id);
       setQuery("");

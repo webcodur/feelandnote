@@ -35,13 +35,13 @@ export default function CollectionJourney({ id, placement, context, expanded = f
   }
 
   return <section data-commerce-prototype={id} data-commerce-placement={placement}
-    className="@container my-4 min-w-0 overflow-hidden rounded-xl border border-accent/20 bg-[#171814] text-text-primary [overflow-anchor:none]">
+    className="@container my-4 min-w-0 overflow-hidden rounded-xl border border-accent/20 bg-bg-card text-text-primary [overflow-anchor:none]">
     <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 px-4 py-2.5 sm:px-5">
       <p className="text-xs text-text-secondary">{compact ? `${work.title} · ${work.kind === "game" ? "기종·구매 안내" : "프린트 선택"}` : context ?? work.eyebrow}</p>
       <span className="rounded border border-accent/30 px-1.5 py-0.5 text-[10px] font-medium tracking-wider text-accent">개발자 모형</span>
     </div>
     {!compact && <div className="flex items-start gap-4 p-4 sm:gap-5 sm:p-5">
-      <div className={`relative shrink-0 overflow-hidden rounded border border-white/10 bg-black/20 ${work.kind === "game" ? "h-28 w-20" : "size-24 sm:size-28"}`}>
+      <div className={`relative shrink-0 overflow-hidden rounded border border-white/10 bg-bg-secondary/40 ${work.kind === "game" ? "h-28 w-20" : "size-24 sm:size-28"}`}>
         <Image src={work.image} alt={work.title} fill unoptimized sizes="112px" className="object-contain" />
       </div>
       <div className="min-w-0 flex-1">

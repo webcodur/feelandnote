@@ -77,6 +77,7 @@ export default function ResetPasswordPage() {
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
+                autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 pr-12 text-white placeholder-zinc-500 focus:border-accent focus:outline-none"
@@ -98,6 +99,7 @@ export default function ResetPasswordPage() {
             <label className="block text-sm text-text-secondary mb-2">{t('confirmPassword')}</label>
             <input
               type={showPassword ? 'text' : 'password'}
+              autoComplete="new-password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 text-white placeholder-zinc-500 focus:border-accent focus:outline-none"

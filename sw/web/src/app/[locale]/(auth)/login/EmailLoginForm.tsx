@@ -63,7 +63,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
         type="button"
         unstyled
         onClick={handleExpand}
-        className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 text-white hover:bg-zinc-800"
+        className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 text-white hover:bg-bg-raised"
       >
         <Mail className="h-5 w-5" />
         <span>{t('email')}</span>
@@ -96,6 +96,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
         <input
           type="email"
           name="email"
+          autoComplete="username"
           placeholder={t('emailPlaceholder')}
           required
           autoFocus
@@ -107,6 +108,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
           <input
             type={showPassword ? 'text' : 'password'}
             name="password"
+            autoComplete="current-password"
             placeholder={t('passwordPlaceholder')}
             required
             className="w-full rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 pr-12 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
@@ -138,7 +140,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
           type="checkbox"
           checked={saveEmail}
           onChange={(e) => setSaveEmail(e.target.checked)}
-          className="h-4 w-4 rounded border-zinc-600 bg-zinc-800 text-accent focus:ring-accent focus:ring-offset-0"
+          className="h-4 w-4 rounded border-zinc-600 bg-bg-raised text-accent focus:ring-accent focus:ring-offset-0"
         />
         <span className="text-sm text-text-secondary">{t('saveEmail')}</span>
       </label>

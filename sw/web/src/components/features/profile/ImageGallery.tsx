@@ -9,7 +9,7 @@ import BlurDissolve from "@/components/ui/BlurDissolve";
 
 // #region 스켈레톤
 function ImageSkeleton() {
-  return <div className="aspect-square rounded-sm bg-stone-800/40 animate-shimmer" />;
+  return <div className="aspect-square rounded-sm bg-bg-raised/60 animate-shimmer" />;
 }
 // #endregion
 
@@ -74,7 +74,7 @@ export default function ImageGallery({ nickname }: ImageGalleryProps) {
         {visibleItems.map((item, i) => (
           <div
             key={`${item.imageUrl}-${i}`}
-            className="relative aspect-square overflow-hidden rounded-sm bg-bg-card/60 border border-stone-800/30"
+            className="relative aspect-square overflow-hidden rounded-sm bg-bg-card/60 border border-line"
           >
             <GalleryImage
               src={item.imageUrl}

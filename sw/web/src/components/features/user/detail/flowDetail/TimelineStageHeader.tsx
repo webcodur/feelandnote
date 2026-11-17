@@ -55,7 +55,7 @@ export default function TimelineStageHeader({
             autoFocus
             onBlur={handleSaveRename}
             onKeyDown={e => {
-              if (e.key === "Enter") handleSaveRename();
+              if (e.key === "Enter" && !e.nativeEvent.isComposing) handleSaveRename();
               if (e.key === "Escape") { setIsRenaming(false); setNewName(stage.name); }
             }}
           />

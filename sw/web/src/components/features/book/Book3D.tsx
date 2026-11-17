@@ -37,7 +37,7 @@ export default function Book3D({
   };
 
   return (
-    <div className="w-full h-full flex items-center justify-center perspective-[1000px]">
+    <div className="theme-dark w-full h-full flex items-center justify-center perspective-[1000px]">
       <div
         className="relative w-[66%] h-[80%] max-w-[240px] max-h-[360px] aspect-[2/3] group transition-transform duration-700 ease-in-out"
         style={{

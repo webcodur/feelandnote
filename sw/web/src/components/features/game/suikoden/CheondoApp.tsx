@@ -163,7 +163,7 @@ export default function CheondoApp({ onExit }: CheondoAppProps) {
       aria-modal="true"
       aria-label={T.appName}
       tabIndex={-1}
-      className="cheondo-root fixed inset-0 overflow-hidden outline-none"
+      className="cheondo-root theme-dark fixed inset-0 overflow-hidden outline-none"
       style={{ zIndex: Z_INDEX.top, background: INK.bg, color: INK.text, isolation: 'isolate' }}
     >
       <style>{CHEONDO_CSS}</style>

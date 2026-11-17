@@ -2,9 +2,9 @@ import { ReactNode, ElementType, HTMLAttributes } from "react";
 
 // #region 스타일 상수
 const variantStyles = {
-  default: "bg-gradient-to-br from-stone-900/60 to-stone-950/80 border-stone-800/50 hover:border-stone-700/70",
-  subtle: "bg-bg-card/40 border-stone-800/40 hover:border-stone-700/60",
-  dark: "bg-bg-secondary/80 border-stone-800/30 hover:border-stone-700/50",
+  default: "bg-gradient-to-br from-bg-card/60 to-bg-secondary/80 border-line hover:border-line-strong",
+  subtle: "bg-bg-card/40 border-line hover:border-line-strong",
+  dark: "bg-bg-secondary/80 border-line hover:border-line-strong",
 } as const;
 // #endregion
 
@@ -28,7 +28,7 @@ export default function InnerBox({
       className={`
         relative rounded-sm border
         ${variantStyles[variant]}
-        ${hover ? "" : "hover:border-stone-800/50"}
+        ${hover ? "" : "hover:!border-line"}
         ${className}
       `}
       {...rest}

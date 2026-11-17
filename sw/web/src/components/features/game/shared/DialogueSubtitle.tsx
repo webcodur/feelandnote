@@ -382,7 +382,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
               layout: { type: "spring", stiffness: 400, damping: 30 },
               opacity: { duration: fading ? FADE_DURATION / 1000 : 0.3 },
             }}
-            className={`pointer-events-auto relative bg-stone-900/90 border rounded-lg md:rounded-xl shadow-lg md:shadow-2xl backdrop-blur-md overflow-hidden ${isRepeat ? "border-amber-400/50 animate-dialogue-glow" : "border-amber-500/20"}`}
+            className={`pointer-events-auto relative bg-bg-card/95 border rounded-lg md:rounded-xl shadow-lg md:shadow-2xl backdrop-blur-md overflow-hidden ${isRepeat ? "border-accent/60 animate-dialogue-glow" : "border-line-strong"}`}
           >
             <div className="flex">
               {/* 드래그 핸들 — 좌측 변 */}
@@ -390,7 +390,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                 <div
                   onPointerDown={handlePointerDown}
                   style={{ touchAction: "none" }}
-                  className={`flex items-center justify-center px-1.5 cursor-grab active:cursor-grabbing select-none border-r transition-colors shrink-0 ${dragging ? "bg-amber-500/10 border-amber-500/30" : "bg-stone-800/40 border-transparent hover:bg-stone-700/40"}`}
+                  className={`flex items-center justify-center px-1.5 cursor-grab active:cursor-grabbing select-none border-r transition-colors shrink-0 ${dragging ? "bg-accent/10 border-accent/30" : "bg-bg-secondary/60 border-transparent hover:bg-white/10"}`}
                 >
                   <GripVertical size={14} className="text-text-secondary" />
                 </div>
@@ -400,7 +400,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
               <div className="flex items-start md:items-center gap-3 md:gap-5 pr-6">
                 {/* 아바타 */}
                 <div className="relative shrink-0">
-                  <div className="w-9 h-9 md:w-16 md:h-16 rounded-full overflow-hidden bg-stone-700 border border-stone-600 shadow-inner">
+                  <div className="w-9 h-9 md:w-16 md:h-16 rounded-full overflow-hidden bg-bg-secondary border border-line-strong shadow-inner">
                     {current.avatarUrl ? (
                       <BlurDissolve className="relative w-full h-full">
                         <CelebAvatarImage
@@ -427,7 +427,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                 <div className="flex-1 min-w-0 flex flex-col justify-center">
                   {current.nickname && (
                     <span className="flex items-center gap-1.5 mb-0.5 md:mb-1">
-                      <span className="text-[11px] md:text-sm font-bold text-amber-300 truncate opacity-90">
+                      <span className="text-[11px] md:text-sm font-bold text-accent truncate">
                         {current.nickname}
                       </span>
                       {current.label && LABEL_MAP[current.label] && (
@@ -437,7 +437,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                       )}
                     </span>
                   )}
-                  <p className="text-sm md:text-lg text-stone-100 leading-relaxed font-medium">
+                  <p className="text-sm md:text-lg text-text-primary leading-relaxed font-medium">
                     {current.text}
                   </p>
                 </div>
@@ -456,7 +456,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                       containerRef.current.style.left = `${DEFAULT_DIALOGUE_COORDS.left}%`;
                     }
                   }}
-                  className="p-1 rounded-full text-text-secondary hover:text-white hover:bg-white/10 transition-colors"
+                  className="p-1 rounded-full text-text-secondary hover:text-text-primary hover:bg-white/10 active:bg-white/20 transition-colors"
                   aria-label={t("resetPosition")}
                 >
                   <RotateCcw size={14} className="md:w-3.5 md:h-3.5 w-3 h-3" />
@@ -465,7 +465,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
               {onToggleMute && (
                 <button
                   onClick={onToggleMute}
-                  className="p-1 rounded-full text-text-secondary hover:text-white hover:bg-white/10 transition-colors"
+                  className="p-1 rounded-full text-text-secondary hover:text-text-primary hover:bg-white/10 active:bg-white/20 transition-colors"
                   aria-label={voiceMuted ? t("voiceOn") : t("voiceOff")}
                 >
                   {voiceMuted
@@ -483,7 +483,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
               </kbd>
               <button
                 onClick={handleClose}
-                className="p-1 rounded-full text-text-secondary hover:text-white hover:bg-white/10 transition-colors"
+                className="p-1 rounded-full text-text-secondary hover:text-text-primary hover:bg-white/10 active:bg-white/20 transition-colors"
                 aria-label={closeLabel}
                 title={closeLabel}
               >
@@ -492,7 +492,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
             </div>
 
             {/* 우측 모서리 세로 타이머 */}
-            <div className={`absolute top-0 right-0 w-1 md:w-1.5 h-full ${audioPhase === "loading" ? "bg-emerald-400/25 motion-safe:animate-pulse" : "bg-stone-700/50"}`}>
+            <div className={`absolute top-0 right-0 w-1 md:w-1.5 h-full ${audioPhase === "loading" ? "bg-emerald-400/25 motion-safe:animate-pulse" : "bg-white/15"}`}>
               {hasAudio ? (
                 // 음원 진행률을 그대로 그린다. rAF가 매 프레임 갱신하므로 transition을 걸면 표시가 소리보다 뒤처진다.
                 <div

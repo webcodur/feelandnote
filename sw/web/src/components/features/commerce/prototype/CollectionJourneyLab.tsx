@@ -35,7 +35,7 @@ export default function CollectionJourneyLab() {
     </div>
     <article key={id}>
       <div className="grid items-center gap-6 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] sm:gap-9">
-        <div className={`relative mx-auto w-full max-w-sm overflow-hidden rounded-xl border border-white/10 bg-[#191a16] ${work.kind === "art" ? "aspect-[1.267/1]" : "aspect-square"}`}>
+        <div className={`relative mx-auto w-full max-w-sm overflow-hidden rounded-xl border border-white/10 bg-bg-card ${work.kind === "art" ? "aspect-[1.267/1]" : "aspect-square"}`}>
           <Image src={work.image} alt={work.title} fill unoptimized loading="eager" sizes="(max-width:640px) 90vw, 384px" className="object-contain p-5" />
         </div>
         <div>

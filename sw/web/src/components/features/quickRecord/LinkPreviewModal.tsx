@@ -58,14 +58,14 @@ export default function LinkPreviewModal({
       frame="plain"
       widthClassName="max-w-5xl"
       overlayClassName="bg-black/80 backdrop-blur-sm"
-      boxClassName="overflow-hidden rounded-xl border border-white/10 bg-[#1a1a1a] shadow-2xl"
+      boxClassName="overflow-hidden rounded-xl border border-white/10 bg-bg-card shadow-2xl"
       showCloseButton={false}
       animateHeight={false}
       zIndex={Z_INDEX.modal + 10}
     >
       <div className="w-full h-[var(--modal-body-max-height)] min-h-0 flex flex-col relative">
         {/* Header */}
-        <div className="h-14 border-b border-white/10 flex items-center justify-between px-4 bg-[#121212] select-none shrink-0">
+        <div className="h-14 border-b border-white/10 flex items-center justify-between px-4 bg-bg-main select-none shrink-0">
           <div className="flex items-center gap-3 overflow-hidden mr-4">
             <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0">
                {mode === 'READER' ? <BookOpen size={16} className="text-accent" /> : <Globe size={16} className="text-text-secondary" />}
@@ -81,7 +81,7 @@ export default function LinkPreviewModal({
             <div className="flex bg-white/5 rounded-lg p-1 mr-2 border border-white/5">
                 <button
                     onClick={() => setMode('READER')}
-                    className={`px-3 py-1 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 ${mode === 'READER' ? 'bg-accent text-neutral-900 shadow-sm' : ' hover:text-text-primary'}`}
+                    className={`px-3 py-1 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 ${mode === 'READER' ? 'bg-accent text-bg-secondary shadow-sm' : ' hover:text-text-primary'}`}
                 >
                     {t("reader")}
                 </button>
@@ -123,7 +123,7 @@ export default function LinkPreviewModal({
             )}
             
             {/* 1. READER MODE */}
-            <div className={`w-full h-full overflow-y-auto custom-scrollbar bg-[#1a1a1a] text-text-primary p-6 md:p-12 transition-opacity duration-300 ${mode === 'READER' ? 'opacity-100 z-10' : 'opacity-0 z-0 absolute inset-0 pointer-events-none'}`}>
+            <div className={`w-full h-full overflow-y-auto custom-scrollbar bg-bg-card text-text-primary p-6 md:p-12 transition-opacity duration-300 ${mode === 'READER' ? 'opacity-100 z-10' : 'opacity-0 z-0 absolute inset-0 pointer-events-none'}`}>
                  {readerContent?.content ? (
                      <div className="max-w-3xl mx-auto pb-20">
                          <h1 className="text-2xl md:text-4xl font-serif font-bold mb-8 leading-tight border-b border-white/10 pb-6 text-text-primary">
@@ -177,7 +177,7 @@ export default function LinkPreviewModal({
                             href={url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-6 py-2.5 bg-accent text-neutral-900 rounded-lg font-bold hover:bg-accent/90 transition-colors shadow-lg shadow-accent/20"
+                            className="px-6 py-2.5 bg-accent text-bg-secondary rounded-lg font-bold hover:bg-accent/90 transition-colors shadow-lg shadow-accent/20"
                         >
                             {t("openInNewWindow")}
                         </a>
@@ -197,7 +197,7 @@ export default function LinkPreviewModal({
         </div>
         
         {/* Footer */}
-        <div className="h-8 bg-[#121212] border-t border-white/5 flex items-center justify-center text-[11px] shrink-0">
+        <div className="h-8 bg-bg-main border-t border-white/5 flex items-center justify-center text-[11px] shrink-0">
             {mode === 'READER'
                 ? <span>{t("readerHint")}</span>
                 : <span>{t("originalHint")}</span>

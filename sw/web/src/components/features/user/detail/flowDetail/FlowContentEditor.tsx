@@ -51,7 +51,7 @@ function DraggableContentItem({ item }: { item: UserContentWithContent }) {
       className="flex items-center gap-2.5 p-2 bg-bg-card border border-white/[0.06] rounded-lg hover:border-accent/30 transition-colors cursor-grab active:cursor-grabbing"
     >
       {/* 썸네일 */}
-      <div className="w-9 h-12 bg-[#222] rounded overflow-hidden relative shrink-0 pointer-events-none">
+      <div className="w-9 h-12 bg-bg-stone-light rounded overflow-hidden relative shrink-0 pointer-events-none">
         <ContentCover
             src={item.content.thumbnail_url}
             alt={item.content.title}
@@ -131,7 +131,7 @@ export default function FlowContentEditor({
       {/* 모바일 드래그 중: 아래로 밀려 숨는다 → 드롭 후 다시 올라옴 */}
       <div
         className={cn(
-          "fixed inset-x-4 top-1/2 h-[var(--modal-max-height)] rounded-2xl border border-white/10 bg-[#0d0d0d] shadow-[0_32px_80px_-20px_rgba(0,0,0,0.85)] flex flex-col transition-transform duration-300 ease-out",
+          "fixed inset-x-4 top-1/2 h-[var(--modal-max-height)] rounded-2xl border border-white/10 bg-bg-secondary shadow-[0_32px_80px_-20px_rgba(0,0,0,0.85)] flex flex-col transition-transform duration-300 ease-out",
           "md:inset-x-auto md:end-0 md:top-16 md:bottom-0 md:h-auto md:w-80 md:rounded-none md:border-0 md:border-s md:border-white/[0.06] md:shadow-[-4px_0_20px_rgba(0,0,0,0.6)] md:translate-y-0",
           isDragging ? "translate-y-[150%]" : "-translate-y-1/2"
         )}

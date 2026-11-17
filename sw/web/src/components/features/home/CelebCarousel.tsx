@@ -126,7 +126,8 @@ export default function CelebCarousel({
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    // 한글 조합을 확정하는 Enter는 검색 제출이 아니다
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
       onFilterInteraction?.();
       filters.handleSearchSubmit();
     }

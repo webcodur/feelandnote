@@ -31,10 +31,10 @@ export default function CuratedEntriesSection({ entries }: { entries: ContentCur
             <Link
               key={`${e.curatorSlug}/${e.listSlug}`}
               href={`/explore/works/curated/${e.curatorSlug}/${e.listSlug}`}
-              className="group flex items-start gap-2.5 overflow-hidden rounded-lg border border-white/[0.06] bg-[#161616]/60 py-2.5 pe-3 hover:border-accent/40 hover:bg-[#1b1b1b]/70"
+              className="group flex items-start gap-2.5 overflow-hidden rounded-lg border border-white/[0.06] bg-bg-card/60 py-2.5 pe-3 hover:border-accent/40 hover:bg-bg-card"
             >
               {e.curatorLogoUrl ? (
-                <div className="relative -my-2.5 w-12 shrink-0 self-stretch overflow-hidden rounded-l-lg border-e border-white/20 bg-white/95 p-1.5 shadow-sm">
+                <div className="relative -my-2.5 w-12 shrink-0 self-stretch overflow-hidden rounded-l-lg border-e border-white/20 bg-[#fff]/95 p-1.5 shadow-sm">
                   <BlurDissolve className="absolute inset-0">
                     <Image
                       src={e.curatorLogoUrl}

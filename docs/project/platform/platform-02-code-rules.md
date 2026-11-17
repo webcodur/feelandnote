@@ -72,6 +72,7 @@ export default function Page() {
 - 게임판·사진·영상 위 글자처럼 어두운 바탕을 전제로 그린 곳은 최상위에 `theme-dark`를 달아 라이트 화면에서도 다크로 둔다(전체화면 게임 틀·그림·장면 뷰어·사진 위 배지와 단추·그림 카드·음악 플레이어 패널이 쓰고 있다). 제품 사진 판·외부 페이지 미리보기처럼 실제 흰색이 필요한 곳은 `bg-[#fff]`, 색 채운 단추 위 흰 글자는 `text-[#fff]`로 적는다
 - 허브 배너(별자리·벌집·프리즘)는 `globals.css`의 `--banner-*` 토큰으로 그린다 — 다크는 밤하늘, 라이트는 한지에 먹으로 그린 성도와 금박. 캔버스는 `lib/cssColor.ts`의 `useCssRgb`로 토큰을 읽고 테마가 바뀌면 다시 읽는다
 - 세계 재질(`lib/celeb/worldMaterial.ts`)의 라이트 값은 다크 재질 금속색을 라이트 표면에 섞어 계산한다. 재질을 추가할 때 라이트 값을 손으로 적지 않는다
+- 어두운 바탕은 팔레트의 짙은 단계나 어두운 hex로 박지 않는다. 표면 토큰(`bg-bg-main|secondary|card|raised`)으로 쓰거나, 어두운 바탕을 전제로 그린 구역이면 `theme-dark`를 단다. `pnpm check:theme-colors`(`sw/web/scripts/check-theme-colors.mjs`)가 이를 검사하며 금지 패턴과 예외는 스크립트가 쥔다
 - 금색(`accent`)은 세 자리에만 쓴다 — 화면당 주요 행동 하나의 면(`Button primary`), 선택·현재 위치(밑줄·`bg-accent/10`), 발견·연결(인물명·작품 링크). 상자마다 금 테두리를 두르거나 금빛 번짐을 넣지 않는다. amber 계열로 두 번째 금색을 만들지 않는다
 - 텍스트: `text-primary`·`text-secondary`·`text-tertiary`
 - 인물의 감상 본문은 `text-review`로 구분한다. 미리보기·카드·전문 모달에서 같은 색을 쓰고, 작품 소개와 빈 상태에는 적용하지 않는다. 본문 안 인용·작품명 강조는 유지한다.

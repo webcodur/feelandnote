@@ -270,6 +270,15 @@
 }
 
 /*
+  강조색 면 위의 글자. `bg-accent text-white`는 다크에서 금색 위 흰 글자다. 라이트는 흰색 토큰이 먹색으로 뒤집혀
+  짙은 호박색 위 먹색 글자(대비 약 3)가 되므로, 공용 Button primary와 같이 밝은 종이색 글자로 되돌린다.
+  어두운 구역 안은 원래 값을 쓴다.
+*/
+:root[data-theme="light"] :is(.bg-accent, .bg-accent\/80).text-white:not(.theme-dark, .theme-dark *) {
+  color: var(--color-bg-card);
+}
+
+/*
   라이트의 호버 덧칠. 먹색 4~6%는 모래색 바탕에서 거의 보이지 않는다(다크의 흰색 5%만큼 드러나지 않는다).
   hover의 「지연 없는 즉각 반응」이 눈에 보이도록 라이트에서만 두 배로 짙게 칠한다. 어두운 구역·틀 안은 원래 값을 쓴다.
 */

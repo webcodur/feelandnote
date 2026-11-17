@@ -39,7 +39,7 @@ export default function Page() {
                 <Button
                   type="submit"
                   unstyled
-                  className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 text-white hover:bg-zinc-800"
+                  className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 text-white hover:bg-bg-raised"
                 >
                   <GoogleIcon />
                   <span>{t('login.google')}</span>
@@ -69,7 +69,7 @@ export default function Page() {
           </div>
 
           <Link href="/" className="cursor-pointer">
-            <span className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-transparent px-4 py-3 text-text-secondary hover:bg-zinc-800 hover:text-text-primary">
+            <span className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-transparent px-4 py-3 text-text-secondary hover:bg-bg-raised hover:text-text-primary">
               <Eye size={18} />
               {t('login.browse')}
             </span>

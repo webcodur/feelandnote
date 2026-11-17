@@ -151,7 +151,8 @@ export default function CelebFiltersMobile({
   const sortOptions: FilterOption[] = SORT_VALUES.map((value) => ({ value, label: t(`sort.${value}`) }));
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") onSearchSubmit();
+    // 한글 조합을 확정하는 Enter는 검색 제출이 아니다
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) onSearchSubmit();
   };
 
   return (

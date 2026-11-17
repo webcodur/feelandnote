@@ -116,17 +116,17 @@ export default function DispositionCompass({
                   }}
                 />
                 <span
-                  className="absolute top-[5px] h-3.5 w-3.5 -translate-x-1/2 rounded-full border-2 bg-[#091115] shadow-[0_0_10px_rgba(216,186,104,0.28)]"
+                  className="absolute top-[5px] h-3.5 w-3.5 -translate-x-1/2 rounded-full border-2 bg-bg-main shadow-[0_0_10px_rgba(216,186,104,0.28)]"
                   style={{
                     left: `${targetPosition}%`,
-                    borderColor: SUBJECT_COLOR,
+                    borderColor: readableAccent(SUBJECT_COLOR),
                   }}
                 />
                 <span
-                  className="absolute top-[5px] h-3.5 w-3.5 -translate-x-1/2 rotate-45 border-2 bg-[#091115] shadow-[0_0_10px_rgba(131,201,220,0.24)]"
+                  className="absolute top-[5px] h-3.5 w-3.5 -translate-x-1/2 rotate-45 border-2 bg-bg-main shadow-[0_0_10px_rgba(131,201,220,0.24)]"
                   style={{
                     left: `${candidatePosition}%`,
-                    borderColor: CANDIDATE_COLOR,
+                    borderColor: readableAccent(CANDIDATE_COLOR),
                   }}
                 />
               </div>
