@@ -47,7 +47,7 @@ function CourseTabs({
                 flex items-center gap-2
                 ${isActive
                   ? "text-[#d4af37] bg-[#d4af37]/10 border border-[#d4af37]/20"
-                  : "text-white/40 hover:text-white/70 border border-transparent"
+                  : "text-text-tertiary hover:text-text-secondary border border-transparent"
                 }
               `}
             >
@@ -171,7 +171,7 @@ export default function AcademyLessonView({
             </span>
           </div>
         )}
-        <p className="text-white/60 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mt-4 sm:mt-6 line-clamp-2">
+        <p className="text-text-secondary text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mt-4 sm:mt-6 line-clamp-2">
           {description ?? t("defaultDescription")}
         </p>
 

@@ -49,6 +49,19 @@
   background: var(--material-panel, var(--color-bg-card));
 }
 
+/*
+  라이트의 프로필 판. 위는 색 있는 배너, 왼쪽은 대표사진이라 판만 흰 바탕이면 혼자 비어 보인다.
+  인물 세계의 재질색을 판에 깔아 배너와 한 덩어리로 잇는다 — 배너와 맞닿는 위쪽이 가장 짙고 아래로 갈수록 옅어진다.
+  경계에는 재질색 선을 한 줄 둔다. 다크는 판이 이미 어두운 재질색이라 그대로 둔다.
+*/
+:global(:root[data-theme="light"]) .identityPanel {
+  border-top: 2px solid color-mix(in srgb, var(--material-accent, var(--color-accent)) 60%, transparent);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--material-accent, var(--color-accent)) 20%, var(--material-raised, var(--color-bg-raised))) 0,
+    color-mix(in srgb, var(--material-accent, var(--color-accent)) 9%, var(--material-raised, var(--color-bg-raised))) 45%,
+    var(--material-raised, var(--color-bg-raised)) 100%);
+}
+
 .identityPanel:has(.avatarHeroColumn) {
   --celeb-hero-photo-layout-width: var(--celeb-hero-photo-width);
 }

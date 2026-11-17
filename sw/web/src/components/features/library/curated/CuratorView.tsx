@@ -5,6 +5,7 @@
         목록 영역은 허브와 같은 조작대(카테고리·기관별/주제별)를 쓴다 — 안에서도 같은 UI다.
 */ // ------------------------------
 
+import { readableAccent } from "@/lib/theme";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
@@ -39,7 +40,7 @@ export default async function CuratorView({ curator, initialBrowse }: { curator:
             {/* 이 화면의 h1 — 배너는 이 주소에서 제목 요소를 내려놓는다(LibraryBanner CURATED_DETAIL_PATH) */}
             <h1 className="break-keep text-3xl font-semibold leading-tight tracking-[-0.045em] text-text-primary md:text-5xl">{curator.name}</h1>
             <div className="mt-4 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-text-secondary">
-              <span className="rounded border px-1.5 py-0.5" style={{ color: brand.accent, borderColor: `${brand.accent}40` }}>
+              <span className="rounded border px-1.5 py-0.5" style={{ color: readableAccent(brand.accent), borderColor: `${brand.accent}40` }}>
                 {t(`kind.${curator.kind}`)}
               </span>
               {curator.country && <NationalityText code={curator.country} />}

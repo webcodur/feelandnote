@@ -37,7 +37,7 @@ export default function FeaturedWorkModal({ type, onClose, title, icon: Icon, ta
             frame="plain"
             widthClassName="max-w-4xl"
             overlayClassName="bg-black/60 backdrop-blur-sm"
-            boxClassName="overflow-hidden rounded-2xl border border-white/10 bg-[#1a1a1a] shadow-2xl"
+            boxClassName="overflow-hidden rounded-2xl border border-white/10 bg-bg-card shadow-2xl"
             showCloseButton={false}
             animateHeight={false}
         >

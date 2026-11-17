@@ -68,7 +68,7 @@ export default function FactionCarousel({
               type="button"
               onClick={() => go(index - 1)}
               aria-label={labels.prev}
-              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-black/50 p-2 text-white hover:border-accent hover:text-accent"
+              className="theme-dark absolute left-2 top-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-black/50 p-2 text-white hover:border-accent hover:text-accent"
             >
               <ChevronLeft size={18} aria-hidden />
             </button>
@@ -76,7 +76,7 @@ export default function FactionCarousel({
               type="button"
               onClick={() => go(index + 1)}
               aria-label={labels.next}
-              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-black/50 p-2 text-white hover:border-accent hover:text-accent"
+              className="theme-dark absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-black/50 p-2 text-white hover:border-accent hover:text-accent"
             >
               <ChevronRight size={18} aria-hidden />
             </button>

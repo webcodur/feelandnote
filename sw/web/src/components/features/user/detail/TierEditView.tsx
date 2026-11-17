@@ -173,7 +173,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-20 bg-[#0a0a0a] min-h-screen">
+      <div className="flex items-center justify-center py-20 bg-bg-secondary min-h-screen">
         <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -181,7 +181,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
 
   if (error || !flow) {
     return (
-      <div className="text-center py-20 bg-[#0a0a0a] min-h-screen">
+      <div className="text-center py-20 bg-bg-secondary min-h-screen">
         <p className="text-red-400 mb-4">{error}</p>
         <Button unstyled onClick={() => router.back()} className="text-accent hover:underline">{t("back")}</Button>
       </div>
@@ -189,11 +189,11 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#050505]">
+    <div className="min-h-screen flex flex-col bg-bg-secondary">
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur sticky top-0 z-50">
+      <header className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-bg-secondary/80 backdrop-blur sticky top-0 z-50">
         <div className="flex items-center gap-4">
-          <Button unstyled onClick={() => router.back()} className="p-2 -ml-2 text-white/50 hover:text-white transition-colors">
+          <Button unstyled onClick={() => router.back()} className="p-2 -ml-2 text-text-tertiary hover:text-white transition-colors">
             <ArrowLeft size={24} />
           </Button>
           <div>
@@ -203,7 +203,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button unstyled onClick={handleReset} className="p-2 text-white/40 hover:text-white transition-colors" title={t("reset")}>
+          <Button unstyled onClick={handleReset} className="p-2 text-text-tertiary hover:text-white transition-colors" title={t("reset")}>
             <RotateCcw size={20} />
           </Button>
           <Button 
@@ -220,12 +220,12 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
 
       {/* Filter Tabs */}
       {availableTypes.length > 1 && (
-        <div className="px-6 py-2 border-b border-white/5 bg-[#0a0a0a]">
+        <div className="px-6 py-2 border-b border-white/5 bg-bg-secondary">
           <div className="flex gap-2 overflow-x-auto no-scrollbar">
             <Button 
               unstyled 
               onClick={() => setSelectedType("all")} 
-              className={`px-4 py-1.5 text-xs font-bold tracking-wider transition-colors ${selectedType === "all" ? "text-accent border-b border-accent" : "text-white/40 hover:text-white"}`}
+              className={`px-4 py-1.5 text-xs font-bold tracking-wider transition-colors ${selectedType === "all" ? "text-accent border-b border-accent" : "text-text-tertiary hover:text-white"}`}
             >
               ALL
             </Button>
@@ -236,7 +236,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
                   unstyled 
                   key={type} 
                   onClick={() => setSelectedType(type)} 
-                  className={`px-4 py-1.5 text-xs font-bold tracking-wider transition-colors uppercase ${selectedType === type ? "text-accent border-b border-accent" : "text-white/40 hover:text-white"}`}
+                  className={`px-4 py-1.5 text-xs font-bold tracking-wider transition-colors uppercase ${selectedType === type ? "text-accent border-b border-accent" : "text-text-tertiary hover:text-white"}`}
                 >
                   {cat ? tContent(`category.${cat.id}`) : type}
                 </Button>
@@ -254,7 +254,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
           {TIER_LABELS.map((tier) => (
             <div 
               key={tier} 
-              className={`relative flex min-h-[140px] rounded-lg border border-white/5 overflow-hidden transition-all duration-300 ${draggedId ? "bg-white/[0.02]" : "bg-[#0a0a0a]"}`}
+              className={`relative flex min-h-[140px] rounded-lg border border-white/5 overflow-hidden transition-all duration-300 ${draggedId ? "bg-white/[0.02]" : "bg-bg-secondary"}`}
               onDragOver={handleDragOver} 
               onDrop={() => handleDropOnTier(tier)}
             >
@@ -284,7 +284,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
                         key={contentId} 
                         draggable 
                         onDragStart={() => handleDragStart(contentId)} 
-                        className={`relative group w-20 aspect-[2/3] md:w-24 bg-[#151515] rounded border border-white/10 hover:border-accent/50 cursor-grab active:cursor-grabbing shadow-lg transition-all hover:-translate-y-1 ${draggedId === contentId ? "opacity-50" : ""}`}
+                        className={`relative group w-20 aspect-[2/3] md:w-24 bg-bg-main rounded border border-white/10 hover:border-accent/50 cursor-grab active:cursor-grabbing shadow-lg transition-all hover:-translate-y-1 ${draggedId === contentId ? "opacity-50" : ""}`}
                       >
                         <ContentCover src={item.content.thumbnail_url} alt={item.content.title} sizes="96px" className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" fallback={<div className="w-full h-full flex items-center justify-center text-xs text-white/20 p-2 text-center break-words">{item.content.title}</div>} />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2">
@@ -304,7 +304,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
 
         {/* Unranked Vault */}
         <div 
-           className="mt-8 border border-white/10 rounded-lg bg-[#080808] p-6 relative overflow-hidden" 
+           className="mt-8 border border-white/10 rounded-lg bg-bg-secondary p-6 relative overflow-hidden" 
            onDragOver={handleDragOver} 
            onDrop={handleDropOnUnranked}
         >
@@ -312,7 +312,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
            
            <div className="relative z-10">
-              <h3 className="text-sm font-bold text-white/40 tracking-widest uppercase mb-4 flex items-center gap-2">
+              <h3 className="text-sm font-bold text-text-tertiary tracking-widest uppercase mb-4 flex items-center gap-2">
                  <div className="w-2 h-2 rounded-full bg-white/20" />
                  THE VAULT ({getFilteredIds(unranked).length})
               </h3>

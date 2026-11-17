@@ -6,6 +6,7 @@
 
 "use client";
 
+import { readableAccent } from "@/lib/theme";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { getCelebProfileUrl } from "@/lib/url";
 import { useLocale, useTranslations } from "next-intl";
@@ -62,7 +63,7 @@ export default function SpectrumReasonModal({ person, axis, reason, loading, onC
           </div>
           <div className="min-w-0">
             <h3 className="truncate text-lg font-bold text-text-primary">{shownName}</h3>
-            <p className="mt-0.5 text-sm font-bold" style={{ color: sideColor }}>
+            <p className="mt-0.5 text-sm font-bold" style={{ color: readableAccent(sideColor) }}>
               {neg} ↔ {pos} · {sideLabel} {Math.abs(Math.round(v))}
             </p>
           </div>
@@ -79,7 +80,7 @@ export default function SpectrumReasonModal({ person, axis, reason, loading, onC
         <div className="mt-6 flex gap-2">
           <Link
             href={getCelebProfileUrl(person)}
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-accent py-2.5 text-sm font-bold text-black transition-transform active:scale-[0.98]"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-accent py-2.5 text-sm font-bold text-bg-main transition-transform active:scale-[0.98]"
           >
             <ExternalLink size={14} strokeWidth={2.5} />
             {t("figureDetail")}

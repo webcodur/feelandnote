@@ -57,7 +57,7 @@ export function renderMarkdown(markdown: string, activeSentence?: string | null)
               className={`flex items-start gap-2 text-[15px] leading-[1.8] sm:text-base transition-colors duration-300 ${
                 isSentenceHighlighted(item.replace("- ", ""), activeSentence ?? null)
                   ? "text-[#d4af37]"
-                  : "text-white/85"
+                  : "text-text-primary"
               }`}
             >
               <span className="mt-[6px] flex-shrink-0 text-[#d4af37]/40">*</span>
@@ -80,7 +80,7 @@ export function renderMarkdown(markdown: string, activeSentence?: string | null)
             <thead>
               <tr className="border-b border-white/[0.08] bg-white/[0.03]">
                 {header.map((cell, cellIndex) => (
-                  <th key={cellIndex} className="px-3 py-2 text-left font-semibold text-white/80 whitespace-nowrap">
+                  <th key={cellIndex} className="px-3 py-2 text-left font-semibold text-text-primary whitespace-nowrap">
                     <InlineMarkdown text={cell} />
                   </th>
                 ))}
@@ -90,7 +90,7 @@ export function renderMarkdown(markdown: string, activeSentence?: string | null)
               {body.map((row, rowIndex) => (
                 <tr key={rowIndex} className="border-b border-white/[0.04] last:border-0">
                   {row.map((cell, cellIndex) => (
-                    <td key={cellIndex} className="px-3 py-2 text-white/75">
+                    <td key={cellIndex} className="px-3 py-2 text-text-secondary">
                       <InlineMarkdown text={cell} />
                     </td>
                   ))}
@@ -108,7 +108,7 @@ export function renderMarkdown(markdown: string, activeSentence?: string | null)
       <p
         key={paragraphIndex}
         className={`text-[16px] leading-[1.85] sm:text-[17px] mb-4 last:mb-0 transition-colors duration-300 ${
-          highlighted ? "text-[#d4af37]" : "text-white/90"
+          highlighted ? "text-[#d4af37]" : "text-text-primary"
         }`}
       >
         <InlineMarkdown text={paragraph} />

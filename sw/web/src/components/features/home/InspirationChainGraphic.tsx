@@ -37,7 +37,7 @@ export default function InspirationChainGraphic({ chains, conclusion }: Inspirat
                     
                     {/* Avatars */}
                     {(step.reader || step.author) && (
-                      <div className="flex items-center gap-1.5 sm:gap-2 bg-black/20 px-3 py-1.5 rounded-full border border-white/5">
+                      <div className="flex items-center gap-1.5 sm:gap-2 bg-bg-secondary/40 px-3 py-1.5 rounded-full border border-white/5">
                         {step.reader && (
                           <div className="flex items-center gap-1.5">
                             <BlurDissolve>

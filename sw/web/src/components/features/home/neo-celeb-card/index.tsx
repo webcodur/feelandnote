@@ -206,7 +206,7 @@ export default function NeoCelebCard({
                   </BlurDissolve>
                 ) : (
                   <div className={`w-full h-full flex items-center justify-center bg-neutral-800 ${styles.celebImage}`}>
-                    <span className={`${config.fallbackText} text-white/50`}>{celeb.nickname[0]}</span>
+                    <span className={`${config.fallbackText} text-text-tertiary`}>{celeb.nickname[0]}</span>
                   </div>
                 )}
               </div>
@@ -217,7 +217,7 @@ export default function NeoCelebCard({
             <div className={`${config.nameHeight} flex items-center justify-center ${nameSize} font-bold ${styles.fontPretendard} tracking-wide leading-tight break-keep ${styles.nameText} ${finalText} ${engravedEffect || ""}`}>
                 {celeb.nickname}
             </div>
-            <div className={`font-semibold ${styles.fontPretendard} ${styles.subInfoText} text-white/90 ${config.itemsText}`}>
+            <div className={`font-semibold ${styles.fontPretendard} ${styles.subInfoText} text-text-primary ${config.itemsText}`}>
                 {celeb.content_count || 0} ITEMS
             </div>
 

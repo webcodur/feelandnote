@@ -63,7 +63,7 @@ export default function TimelineNode({
         "absolute start-3 md:start-5 top-3 -translate-x-1/2 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-[11px] md:text-[11px] font-bold z-10 border transition-colors",
         isDragging
           ? "bg-accent/30 border-accent/60 text-accent"
-          : "bg-[#141414] border-white/10 text-white/40"
+          : "bg-bg-main border-white/10 text-text-tertiary"
       )}>
         {globalIndex}
       </div>
@@ -78,7 +78,7 @@ export default function TimelineNode({
         onClick={!isEditMode ? () => onNodeClick(node.content_id, node.content.type) : undefined}
       >
         {/* 썸네일 */}
-        <div className="relative w-10 h-14 md:w-12 md:h-16 bg-[#0a0a0a] rounded-lg overflow-hidden shrink-0">
+        <div className="relative w-10 h-14 md:w-12 md:h-16 bg-bg-secondary rounded-lg overflow-hidden shrink-0">
           <ContentCover
               src={node.content.thumbnail_url}
               alt={node.content.title}
@@ -89,7 +89,7 @@ export default function TimelineNode({
 
         {/* 정보 */}
         <div className="flex-1 min-w-0 flex flex-col justify-center">
-          <h4 className="text-xs md:text-sm font-bold text-white/85 line-clamp-1 leading-tight">
+          <h4 className="text-xs md:text-sm font-bold text-text-primary line-clamp-1 leading-tight">
             <NoEditionBadge contentType={node.content.type} badge={node.content.title_badge} />
             {node.content.title}
           </h4>
@@ -119,7 +119,7 @@ export default function TimelineNode({
                   if (e.key === "Escape") { setDescDraft(null); setIsEditingDesc(false); }
                 }}
                 placeholder={t("reasonPlaceholder")}
-                className="w-full mt-1.5 px-2 py-1 bg-white/[0.04] border border-white/10 rounded text-[11px] text-white/60 placeholder:text-white/20 focus:border-accent/40 focus:outline-none resize-none leading-relaxed"
+                className="w-full mt-1.5 px-2 py-1 bg-white/[0.04] border border-white/10 rounded text-[11px] text-text-secondary placeholder:text-white/20 focus:border-accent/40 focus:outline-none resize-none leading-relaxed"
                 rows={2}
                 autoFocus
                 onClick={e => e.stopPropagation()}
@@ -131,7 +131,7 @@ export default function TimelineNode({
                 className={cn(
                   "text-start text-[11px] mt-1.5 leading-relaxed transition-colors",
                   node.description
-                    ? "text-white/30 italic hover:text-white/50"
+                    ? "text-white/30 italic hover:text-text-tertiary"
                     : "text-white/15 hover:text-white/30"
                 )}
               >
@@ -145,7 +145,7 @@ export default function TimelineNode({
         {isEditMode && (
           <div className="flex flex-col items-center gap-1 shrink-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
             <div
-              className="p-1 rounded text-white/30 hover:text-white/60 cursor-grab active:cursor-grabbing"
+              className="p-1 rounded text-white/30 hover:text-text-secondary cursor-grab active:cursor-grabbing"
               {...attributes}
               {...listeners}
             >

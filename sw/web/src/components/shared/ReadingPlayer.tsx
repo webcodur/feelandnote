@@ -38,7 +38,7 @@ export default function ReadingPlayer({ text, audioUrl, timingKind, celebId, voi
   return (
     <div className="py-5 md:py-6">
       {available && <ReadingNarrationControls narration={narration} />}
-      <div className={`mx-auto max-w-3xl text-[15px] leading-loose text-text-secondary break-keep md:text-base ${timingKind === "monologue" ? "font-serif" : ""}`}>
+      <div className={`mx-auto max-w-3xl text-[15px] leading-[1.85] text-text-body break-keep md:text-base ${timingKind === "monologue" ? "font-serif" : ""}`}>
         <ReadingHighlightText
           text={text}
           mark={mark}

@@ -24,6 +24,35 @@
   pointer-events: none;
 }
 
+/*
+  라이트의 넓은 화면은 세 단으로 읽힌다(다크와 같은 구조) — 바깥 벽, 옆 레일을 품은 중간 판, 가운데 본문 열.
+  단 사이는 선을 긋지 않고 밝기 차로만 가른다(다크와 같다). 중간 판만 옅은 그늘로 벽에서 떠 보인다.
+  ::before 하나가 중간 판과 본문 열을 함께 그린다: 판은 재질의 깊은 색, 본문 열은 그 위에 가로 그라데이션으로 얹은 재질 바탕색이다.
+  판의 양옆 띠는 레일 폭에 양쪽 12px만 더한 폭이라, 본문에서 12px 떨어져 서는 레일이 띠의 한가운데에 온다.
+  공통 종이 한 장(globals.css 「라이트의 바깥 벽」)은 이 화면에서 걷는다 — 이 틀이 그 자리를 대신한다.
+*/
+@media (min-width: 1340px) {
+  :global(:root[data-theme="light"]) .scope {
+    --rail-strip: calc(var(--side-rail-width) + 24px);
+    background-color: transparent;
+  }
+
+  :global(:root[data-theme="light"]) .scope::before {
+    inset: 0 calc(50% - var(--paper-half, 50%) - var(--rail-strip));
+    border-radius: var(--radius-card);
+    background-color: var(--material-deep);
+    background-image: linear-gradient(90deg,
+      transparent var(--rail-strip),
+      var(--material-canvas) var(--rail-strip) calc(100% - var(--rail-strip)),
+      transparent calc(100% - var(--rail-strip)));
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    box-shadow: 0 2px 18px rgba(60, 44, 20, 0.12);
+    opacity: 1;
+  }
+}
+
 .scope > * {
   position: relative;
   z-index: 1;

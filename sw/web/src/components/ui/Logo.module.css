@@ -10,9 +10,10 @@
 
 .root {
   --logo-size: 1.25rem;
-  --logo-cream: #f5f0e8;
-  --logo-gold: #d4a828;
-  --logo-gold-bright: #f9d76e;
+  /* 라이트는 한지 위 먹빛 글자와 짙은 금 — 밝은 바탕에서 크림색은 묻힌다 */
+  --logo-cream: light-dark(#2a2118, #f5f0e8);
+  --logo-gold: light-dark(#9a7414, #d4a828);
+  --logo-gold-bright: light-dark(#7a5c0f, #f9d76e);
 
   display: inline-flex;
   flex-direction: column;
@@ -75,7 +76,7 @@
   font-kerning: normal;
   line-height: 0.9;
   white-space: nowrap;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.28));
+  filter: drop-shadow(0 2px 3px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.28)));
 }
 
 .word {
@@ -120,7 +121,7 @@
   width: min(100%, 29em);
   gap: 0.8em;
   margin-top: clamp(0.65rem, 1.7vw, 1.15rem);
-  color: rgba(224, 216, 204, 0.64);
+  color: light-dark(rgba(58, 46, 28, 0.62), rgba(224, 216, 204, 0.64));
   font-size: clamp(0.58rem, calc(var(--logo-size) * 0.18), 0.82rem);
   font-weight: 520;
   letter-spacing: 0.38em;
@@ -131,7 +132,7 @@
 }
 
 .link:hover .word {
-  color: #fffaf2;
+  color: light-dark(#000000, #fffaf2);
 }
 
 .link:hover .joiner {

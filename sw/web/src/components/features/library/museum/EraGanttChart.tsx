@@ -124,7 +124,7 @@ export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
                 className="group text-left px-2 py-1.5 rounded-lg hover:bg-white/[0.04] transition-colors duration-200"
               >
                 <div className="flex items-center justify-between gap-1 mb-1">
-                  <span className="text-[11px] text-white/80 group-hover:text-[#d4af37] font-medium transition-colors truncate leading-none">
+                  <span className="text-[11px] text-text-primary group-hover:text-[#d4af37] font-medium transition-colors truncate leading-none">
                     {era.name}
                   </span>
                   <span className="text-[11px] font-mono text-text-secondary whitespace-nowrap flex-shrink-0 leading-none">
@@ -177,7 +177,7 @@ export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
                   className="group flex items-center gap-3 text-left hover:bg-white/[0.03] rounded-lg transition-colors duration-200 py-1 px-1"
                 >
                   <div className="w-[112px] flex-shrink-0 text-right pr-2">
-                    <span className="text-xs text-white/60 group-hover:text-[#d4af37] transition-colors duration-200 font-medium truncate block">
+                    <span className="text-xs text-text-secondary group-hover:text-[#d4af37] transition-colors duration-200 font-medium truncate block">
                       {era.name}
                     </span>
                   </div>

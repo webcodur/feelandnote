@@ -21,7 +21,7 @@ function EssayContent({ markdown }: { markdown: string }) {
   return (
     <div className="space-y-3 sm:space-y-4">
       {paragraphs.map((para, i) => (
-        <p key={i} className="text-white/90 text-[15px] sm:text-base leading-[1.8] sm:leading-[1.85]">
+        <p key={i} className="text-text-primary text-[15px] sm:text-base leading-[1.8] sm:leading-[1.85]">
           <FormattedText text={para} />
         </p>
       ))}
@@ -57,7 +57,7 @@ export default function MuseumEraSection({ era, index, eras, keyContentsLabel, t
           transition={{ duration: 0.5, delay: 0.1 }}
           className="pt-4 sm:pt-6 pb-3 sm:pb-4"
         >
-          <p className="text-white/80 text-sm sm:text-base leading-relaxed">
+          <p className="text-text-primary text-sm sm:text-base leading-relaxed">
             {era.description}
           </p>
         </motion.div>

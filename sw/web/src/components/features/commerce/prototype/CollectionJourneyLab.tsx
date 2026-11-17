@@ -29,7 +29,7 @@ export default function CollectionJourneyLab() {
     <div aria-label="모형 작품 선택" className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
       {Object.values(JOURNEY_WORKS).map((item) => <button key={item.id} type="button" aria-pressed={id === item.id} onClick={() => setId(item.id)}
         className={`flex min-w-0 items-center gap-3 rounded-xl border p-3 text-left outline-none hover:border-accent hover:bg-accent/5 focus-visible:ring-2 focus-visible:ring-accent ${id === item.id ? "border-accent/60 bg-accent/10" : "border-white/15 bg-white/[0.02]"}`}>
-        <span className="relative size-14 shrink-0 overflow-hidden rounded bg-black/30"><Image src={item.image} alt="" fill unoptimized sizes="56px" className="object-contain" /></span>
+        <span className="relative size-14 shrink-0 overflow-hidden rounded bg-bg-secondary/60"><Image src={item.image} alt="" fill unoptimized sizes="56px" className="object-contain" /></span>
         <span className="min-w-0"><span className="block text-[10px] text-accent">{item.kind === "game" ? "게임 · 기종과 보유 여부" : "미술 · 소재와 크기"}</span><span className="mt-1 block text-sm font-medium leading-snug">{item.title}</span></span>
       </button>)}
     </div>

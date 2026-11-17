@@ -1,5 +1,6 @@
 "use client";
 
+import { readableAccent } from "@/lib/theme";
 import { useId, useState } from "react";
 import { useTranslations } from "next-intl";
 
@@ -285,13 +286,13 @@ export default function RadarComparison({
         {/* 고른 축의 값은 상자 바닥 양 구석에 — 도형과 축 이름을 피해 늘 비는 자리다 */}
         <strong
           className="pointer-events-none absolute bottom-0 start-0 font-mono text-[28px] font-bold leading-none transition-colors duration-300"
-          style={{ color: SUBJECT_COLOR }}
+          style={{ color: readableAccent(SUBJECT_COLOR) }}
         >
           {activeEvidence.targetValue}
         </strong>
         <strong
           className="pointer-events-none absolute bottom-0 end-0 font-mono text-[28px] font-bold leading-none transition-colors duration-300"
-          style={{ color: CANDIDATE_COLOR }}
+          style={{ color: readableAccent(CANDIDATE_COLOR) }}
         >
           {activeEvidence.candidateValue}
         </strong>

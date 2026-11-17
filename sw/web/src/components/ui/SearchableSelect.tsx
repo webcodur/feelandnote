@@ -78,7 +78,7 @@ export default function SearchableSelect({
       <div
         onClick={handleInputClick}
         className={`
-          flex items-center gap-2 w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 cursor-pointer
+          flex items-center gap-2 w-full h-10 bg-bg-secondary/60 border border-accent/20 rounded-sm px-3 cursor-pointer
           ${disabled ? "opacity-50 cursor-not-allowed" : "hover:border-accent/40"}
           ${isOpen ? "border-accent/50" : ""}
         `}

@@ -36,7 +36,7 @@ export default function UgcTermsNotice({
   }
 
   return (
-    <div className={`rounded-sm border border-border bg-black/20 p-3 ${className}`}>
+    <div className={`rounded-sm border border-border bg-bg-secondary/40 p-3 ${className}`}>
       <div className="flex items-start gap-2">
         <ShieldAlert size={16} className="mt-0.5 shrink-0 text-accent" />
         <div className="space-y-1">

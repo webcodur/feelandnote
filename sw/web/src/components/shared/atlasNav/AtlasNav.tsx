@@ -94,7 +94,8 @@ function AtlasRail({ items, activeId, onNavigate, withinModal }: AtlasNavProps) 
   const railNode = (
     <div ref={railRef} className={cn(styles.atlasRail, withinModal && styles.atlasModalRail)}>
       <h2 id={titleId} className="sr-only">{t("rail")}</h2>
-      <nav aria-labelledby={titleId} className={styles.atlasList} onMouseLeave={() => setHoveredId(null)}>
+      {/* 벽 위에 서는 레일은 틀 체계. 스크롤 상자에 달면 브라우저가 불투명 바탕을 칠해 안쪽 목록에 단다 */}
+        <nav aria-labelledby={titleId} className={cn(styles.atlasList, !withinModal && "theme-frame")} onMouseLeave={() => setHoveredId(null)}>
         <AtlasRailHighlight sectionId={hoveredId ?? activeId} hovering={hoveredId !== null} />
         {items.map((item) => {
           const isActive = item.sectionId === activeId;

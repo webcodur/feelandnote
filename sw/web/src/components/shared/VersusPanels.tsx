@@ -7,6 +7,7 @@
 
 "use client";
 
+import { readableAccent } from "@/lib/theme";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -46,7 +47,7 @@ function SidePanel({
     <>
       <span
         className="rounded border px-1.5 py-0.5 text-[11px] font-black uppercase tracking-wider"
-        style={{ borderColor: `${accent}40`, color: accent }}
+        style={{ borderColor: `${accent}40`, color: readableAccent(accent) }}
       >
         {side.chip}
       </span>
@@ -59,7 +60,7 @@ function SidePanel({
             {name}
           </span>
           <span className={cn("flex items-baseline gap-1.5", right && "justify-end")}>
-            <span className="font-cinzel text-xl font-black tabular-nums leading-tight sm:text-2xl" style={{ color: accent }}>
+            <span className="font-cinzel text-xl font-black tabular-nums leading-tight sm:text-2xl" style={{ color: readableAccent(accent) }}>
               {side.value}
             </span>
             {side.sub && <span className="text-xs font-bold text-text-secondary">{side.sub}</span>}
@@ -89,8 +90,8 @@ export default function VersusPanels({
       {/* 대결 배지 — 두 극이 마주 보는 매치업임을 가운데서 못박는다 */}
       <span
         aria-hidden
-        className="absolute left-1/2 top-1/2 z-10 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-[#0a0a0c] font-cinzel text-[11px] font-black tracking-widest"
-        style={{ color: accent }}
+        className="absolute left-1/2 top-1/2 z-10 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-bg-secondary font-cinzel text-[11px] font-black tracking-widest"
+        style={{ color: readableAccent(accent) }}
       >
         {vsLabel}
       </span>

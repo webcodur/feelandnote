@@ -102,7 +102,7 @@ export default function JourneyGlobeModal({
       role="dialog"
       aria-modal="true"
       aria-label={title}
-      className="fixed inset-0 bg-[#020405]/96"
+      className="theme-dark fixed inset-0 bg-[#020405]/96"
       style={{ zIndex: Z_INDEX.modal }}
       onMouseDown={(mouseEvent) => {
         if (mouseEvent.target === mouseEvent.currentTarget) onClose();

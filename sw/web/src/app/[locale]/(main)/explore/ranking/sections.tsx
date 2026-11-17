@@ -6,6 +6,7 @@
         Lane 안에서 그려지므로 여기서 던지면 안 된다 — 완성 HTML 모드에서 화면 전체가 죽는다.
 */ // ------------------------------
 
+import { readableAccent } from "@/lib/theme";
 import { getLocale, getTranslations } from "next-intl/server";
 import { getTopByContentTypeFull } from "@/actions/home/getTopByContentTypeFull";
 import SharedRankingShelf from "@/components/features/user/explore/figureRankingBoard/SharedRankingShelf";
@@ -62,7 +63,7 @@ export async function TopByTypeMedia({ type, navRows }: { type: ContentTypeKey; 
         value: celeb.typeCount,
         unit,
       })),
-      valuePrefix: Icon ? <Icon size={10} style={{ color: accent }} aria-hidden /> : undefined,
+      valuePrefix: Icon ? <Icon size={10} style={{ color: readableAccent(accent) }} aria-hidden /> : undefined,
     },
 
   };

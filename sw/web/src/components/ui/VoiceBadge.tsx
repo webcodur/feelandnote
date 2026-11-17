@@ -53,10 +53,10 @@ export default function VoiceBadge({
     ? "text-emerald-400"
     : active
       ? "text-emerald-400/60"
-      : "text-white/60";
+      : "text-text-secondary";
   const containerClass = bare
     ? "relative flex items-center justify-center"
-    : `relative flex items-center justify-center ${cfg.badge} rounded-full border shadow-sm`;
+    : `theme-dark relative flex items-center justify-center ${cfg.badge} rounded-full border shadow-sm`;
   const iconSize = bare ? "h-4 w-4" : cfg.icon;
   const pulseSize = bare ? "h-4 w-4" : cfg.ring;
 

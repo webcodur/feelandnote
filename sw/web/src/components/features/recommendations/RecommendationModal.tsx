@@ -172,7 +172,7 @@ export default function RecommendationModal({
                     placeholder={t("searchFriends")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 bg-stone-900/50 border border-border/50 rounded-lg text-sm font-sans text-text-primary placeholder: focus:outline-none focus:border-accent/50 transition-colors"
+                    className="w-full pl-9 pr-4 py-2 bg-bg-card/50 border border-border/50 rounded-lg text-sm font-sans text-text-primary placeholder: focus:outline-none focus:border-accent/50 transition-colors"
                   />
                 </div>
               </div>
@@ -260,7 +260,7 @@ export default function RecommendationModal({
                           <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
                             isSelected ? "border-accent bg-accent" : "border-border/40"
                           }`}>
-                            {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-stone-900" />}
+                            {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-bg-card" />}
                           </div>
                         </button>
                       );
@@ -270,14 +270,14 @@ export default function RecommendationModal({
               </div>
 
               {/* 메시지 입력 */}
-              <div className="p-4 border-t border-border/30 bg-stone-950/30">
+              <div className="p-4 border-t border-border/30 bg-bg-secondary/30">
                 <div className="relative">
                   <textarea
                     value={message}
                     onChange={(e) => setMessage(e.target.value.slice(0, 200))}
                     placeholder={t("messagePlaceholder")}
                     rows={2}
-                    className="w-full px-3 py-2.5 bg-stone-900/50 border border-border/50 rounded-lg text-sm font-sans text-text-primary placeholder: focus:outline-none focus:border-accent/50 transition-colors resize-none pr-14"
+                    className="w-full px-3 py-2.5 bg-bg-card/50 border border-border/50 rounded-lg text-sm font-sans text-text-primary placeholder: focus:outline-none focus:border-accent/50 transition-colors resize-none pr-14"
                   />
                   <span className="absolute bottom-2.5 right-3 text-[11px]">
                     {message.length}/200
@@ -299,7 +299,7 @@ export default function RecommendationModal({
       </ModalBody>
 
       {!success && (
-        <ModalFooter className="!py-3 !px-5 bg-stone-950/50 border-t border-border/30 justify-end gap-3">
+        <ModalFooter className="!py-3 !px-5 bg-bg-secondary/50 border-t border-border/30 justify-end gap-3">
           <Button
             unstyled
             onClick={handleClose}

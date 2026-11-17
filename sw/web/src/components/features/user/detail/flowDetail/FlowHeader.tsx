@@ -115,7 +115,7 @@ export default function FlowHeader({
                 className={`p-2 border rounded-lg transition-colors flex items-center ${
                   isEditMode
                     ? "bg-accent/15 border-accent/40 text-accent hover:bg-accent/25"
-                    : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10"
+                    : "bg-white/5 border-white/10 text-text-secondary hover:bg-white/10"
                 }`}
               >
                 <Pencil size={15} />
@@ -126,7 +126,7 @@ export default function FlowHeader({
                   alert(t("linkCopied"));
                 }}
                 aria-label={t("copyLink")}
-                className="p-2 bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 rounded-lg transition-colors flex items-center"
+                className="p-2 bg-white/5 border border-white/10 text-text-secondary hover:bg-white/10 rounded-lg transition-colors flex items-center"
               >
                 <Share2 size={15} />
               </Button>
@@ -145,7 +145,7 @@ export default function FlowHeader({
                 className={`px-4 py-2 border rounded-lg font-bold text-sm flex items-center gap-2 transition-all ${
                   isSaved
                     ? "bg-accent/10 border-accent/30 text-accent hover:bg-accent/20"
-                    : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10"
+                    : "bg-white/5 border-white/10 text-text-secondary hover:bg-white/10"
                 }`}
               >
                 {isSaved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}

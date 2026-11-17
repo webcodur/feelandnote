@@ -25,7 +25,7 @@ import { PURCHASE_PENDING_TONE_CLASS } from "./CuratedListExpand";
 
 /** 발표 연도 표시. 표지 오른쪽 위 모서리에 얹는다 */
 function CornerBadge({ children }: { children: React.ReactNode }) {
-  return <span className="rounded bg-black/75 px-1.5 py-0.5 text-[11px] text-white">{children}</span>;
+  return <span className="theme-dark rounded bg-black/75 px-1.5 py-0.5 text-[11px] text-white">{children}</span>;
 }
 
 function CoverCard({
@@ -50,7 +50,7 @@ function CoverCard({
         aria-disabled="true"
         className="relative flex flex-col overflow-hidden rounded-xl border border-white/[0.06] bg-bg-card"
       >
-        <div className="flex items-center justify-between border-b border-white/[0.04] bg-[#141414] px-1.5 py-1">
+        <div className="flex items-center justify-between border-b border-white/[0.04] bg-bg-main px-1.5 py-1">
           <div className="flex h-6 w-6 items-center justify-center">
             <ContentIcon size={13} className="text-accent/80" strokeWidth={1.8} />
           </div>
@@ -61,7 +61,7 @@ function CoverCard({
           <ContentCover alt={item.rawTitle} ContentIcon={ContentIcon} label={notRegisteredLabel} />
           {yearBadge && <div className="absolute right-1.5 top-1.5 z-10">{yearBadge}</div>}
         </div>
-        <div className="border-t border-white/[0.04] bg-black/20 text-center">
+        <div className="border-t border-white/[0.04] bg-bg-secondary/40 text-center">
           <div className="flex min-h-[36px] items-center justify-center p-2 pb-1.5 md:min-h-[42px] md:p-2.5">
             <h3 className="line-clamp-2 text-center text-xs font-semibold leading-tight text-text-primary md:text-sm">
               {item.rawTitle}
@@ -121,7 +121,7 @@ export function CuratedTileGrid({ list, items, columnsClassName, children }: Cur
           // 감싸는 상자 — 줄의 가장 큰 상자에 높이를 맞추고(격자 stretch) 모듈은 바닥에 붙인다
           <div
             key={item.id}
-            className="flex h-full flex-col rounded-xl border border-white/[0.08] bg-black/25 p-1.5"
+            className="flex h-full flex-col rounded-xl border border-white/[0.08] bg-bg-secondary/50 p-1.5"
           >
             <CoverCard item={item} notRegisteredLabel={t("notRegistered")} isVideo={isVideo}
               purchaseNode={item.contentId && (showPurchase || isAccessType(item.contentType ?? list.contentType))

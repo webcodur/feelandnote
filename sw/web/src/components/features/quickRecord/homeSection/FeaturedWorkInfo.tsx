@@ -104,7 +104,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
 
                              {/* Hover Effect Hint */}
                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                                <ExternalLink size={24} className="text-white drop-shadow-md" />
+                                <ExternalLink size={24} className="theme-dark text-white drop-shadow-md" />
                              </div>
                         </Link>
 

@@ -120,7 +120,7 @@ export function HomeSearchArea({
                 이걸 빼면 w-max 칸이 input 기본값만큼 늘어나 필터보다 넓어진다 */}
             <div className="relative group w-full min-w-0">
                 <div className="absolute inset-0 bg-accent/10 rounded-xl blur-2xl group-hover:bg-accent/20 transition-all duration-700 opacity-0 group-hover:opacity-100" />
-                <div className="relative flex items-center bg-neutral-900/80 border border-white/10 rounded-xl px-5 py-3 shadow-inner backdrop-blur-md transition-all duration-500 focus-within:bg-black/60 focus-within:border-accent/40 focus-within:ring-1 focus-within:ring-accent/20 group-hover:border-white/20">
+                <div className="relative flex items-center bg-bg-card/80 border border-white/10 rounded-xl px-5 py-3 shadow-inner backdrop-blur-md transition-all duration-500 focus-within:bg-black/60 focus-within:border-accent/40 focus-within:ring-1 focus-within:ring-accent/20 group-hover:border-white/20">
                     <Search className="mr-3 shrink-0 transition-colors group-focus-within:text-accent" size={18} strokeWidth={2.5} />
                     <input
                         type="text"
@@ -135,7 +135,7 @@ export function HomeSearchArea({
 
                 {/* 검색 결과 드롭다운 */}
                 {showDropdown && isOpen && (query.length >= 2 || searchResults.length > 0) && (
-                    <div className="absolute top-full left-0 right-0 mt-3 bg-neutral-900/90 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50 text-left">
+                    <div className="absolute top-full left-0 right-0 mt-3 bg-bg-card/90 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50 text-left">
                         {searchError && <p role="alert" className="p-4 text-sm text-text-primary">{searchError}</p>}
                         {!searchError && (isSearching ? (
                             <div className="p-8 text-center">

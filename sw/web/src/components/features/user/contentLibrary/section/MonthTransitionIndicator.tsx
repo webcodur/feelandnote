@@ -114,21 +114,21 @@ export default function MonthTransitionIndicator({ currentMonthKey }: MonthTrans
         {isKorean ? (
           <>
             <div className="w-12 flex justify-center">
-              <span className="text-xl font-black text-white tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] font-mono">{year}</span>
+              <span className="theme-dark text-xl font-black text-white tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] font-mono">{year}</span>
             </div>
-            <span className="text-base font-bold text-white/60 px-1">·</span>
+            <span className="text-base font-bold text-text-secondary px-1">·</span>
             <div className="w-8 flex justify-center">
-              <span className="text-xl font-black text-white tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] font-mono">{animatedMonth}</span>
+              <span className="theme-dark text-xl font-black text-white tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] font-mono">{animatedMonth}</span>
             </div>
           </>
         ) : (
           <>
             <div className="w-8 flex justify-center">
-              <span className="text-xl font-black text-white tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] font-mono">{animatedMonth}</span>
+              <span className="theme-dark text-xl font-black text-white tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] font-mono">{animatedMonth}</span>
             </div>
-            <span className="text-base font-bold text-white/60 px-1">·</span>
+            <span className="text-base font-bold text-text-secondary px-1">·</span>
             <div className="w-12 flex justify-center">
-              <span className="text-xl font-black text-white tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] font-mono">{year}</span>
+              <span className="theme-dark text-xl font-black text-white tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] font-mono">{year}</span>
             </div>
           </>
         )}

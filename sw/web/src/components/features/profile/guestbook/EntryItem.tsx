@@ -56,7 +56,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
     <div className={cn(
       "group relative",
       isCeleb
-        ? "rounded-md border border-white/[0.07] bg-black/[0.12] p-4 sm:p-5"
+        ? "rounded-md border border-white/[0.07] bg-bg-secondary/24 p-4 sm:p-5"
         : "py-3 first:pt-0 last:pb-0",
     )}>
       <div className="relative z-10 flex items-start gap-3.5 sm:gap-4">

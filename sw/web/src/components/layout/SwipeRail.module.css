@@ -32,10 +32,9 @@
   /* 테두리는 두지 않는다. 바탕이 그 자리만 살짝 밝은 정도로, 판이 따로 떠 있지 않게 한다 */
   border: 0;
   border-radius: var(--radius-card);
-  /* 반투명 유리판. 어두운 바탕 위라 패널색을 섞으면 불투명해 보인다 — 흰 빛을 옅게 얹고 가는 안쪽 테로
-     면의 가장자리만 알린다. 그림자·빛 번짐은 두지 않는다(바탕 자체를 짚는 자리다) */
-  background: color-mix(in srgb, white 4%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, white 4%, transparent);
+  /* 불투명한 고유 바탕. 반투명이면 겹치는 본문(넓은 화면의 구분선·카드)이 비쳐 보인다 */
+  background: var(--rail-surface);
+  box-shadow: inset 0 0 0 1px var(--rail-outline);
   cursor: grab;
   touch-action: none;
   user-select: none;
@@ -77,7 +76,7 @@
   left: 0;
   display: none;
   height: 1px;
-  background: color-mix(in srgb, white 32%, transparent);
+  background: color-mix(in srgb, var(--color-white) 32%, transparent);
   transform: translateY(-50%);
 }
 
@@ -114,8 +113,8 @@
   place-items: center;
   border: 0;
   border-radius: 4px;
-  color: color-mix(in srgb, white 30%, transparent);
-  background: radial-gradient(circle closest-side at center, color-mix(in srgb, white 5%, transparent), transparent 72%);
+  color: color-mix(in srgb, var(--color-white) 30%, transparent);
+  background: radial-gradient(circle closest-side at center, color-mix(in srgb, var(--color-white) 5%, transparent), transparent 72%);
   cursor: pointer;
   outline: none;
 }
@@ -214,7 +213,7 @@
 .settingsRowSwitch {
   margin-top: 10px;
   padding-top: 10px;
-  border-top: 1px solid color-mix(in srgb, white 8%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--color-white) 8%, transparent);
 }
 
 .switch {

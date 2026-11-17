@@ -7,6 +7,7 @@
 
 "use client";
 
+import { readableAccent } from "@/lib/theme";
 import type { CSSProperties } from "react";
 import { User } from "lucide-react";
 import { useLocale } from "next-intl";
@@ -34,7 +35,7 @@ export default function RankCardList({
   startRank?: number;
 }) {
   const locale = useLocale();
-  const vars = { "--rk-accent": accent } as CSSProperties;
+  const vars = { "--rk-accent": readableAccent(accent) } as CSSProperties;
 
   return (
     <ol className="mx-auto grid max-w-3xl gap-2 sm:grid-cols-2 sm:gap-x-4 sm:gap-y-2.5" style={vars}>
@@ -56,7 +57,7 @@ export default function RankCardList({
                   <User size={18} className="text-white/20" aria-hidden />
                 </span>
               )}
-              <span className="absolute bottom-0 left-0 flex h-5 min-w-5 items-center justify-center rounded-tr-md bg-black/70 px-1 font-cinzel text-[11px] font-black text-white/90">
+              <span className="theme-dark absolute bottom-0 left-0 flex h-5 min-w-5 items-center justify-center rounded-tr-md bg-black/70 px-1 font-cinzel text-[11px] font-black text-text-primary">
                 {String(item.rank ?? startRank + i).padStart(2, "0")}
               </span>
             </span>
@@ -71,7 +72,7 @@ export default function RankCardList({
                   </span>
                 )}
               </span>
-              <span className="shrink-0 font-cinzel text-base font-black tabular-nums sm:text-lg" style={{ color: accent }}>
+              <span className="shrink-0 font-cinzel text-base font-black tabular-nums sm:text-lg" style={{ color: "var(--rk-accent)" }}>
                 {item.value}
                 {item.unit && <span className="ml-0.5 font-sans text-xs font-medium text-text-secondary sm:text-[13px]">{item.unit}</span>}
               </span>

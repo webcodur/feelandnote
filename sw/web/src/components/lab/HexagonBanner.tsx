@@ -2,6 +2,14 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import { BANNER_COMPACT_HEIGHT_CLASS } from "@/components/shared/bannerStyles";
+import { rgba, useCssRgb } from "@/lib/cssColor";
+
+/** 바탕·벌집선·금박 색은 테마마다 globals.css의 배너 토큰이 쥔다 */
+const BANNER_COLORS = {
+  ground: "--banner-ground-top",
+  grid: "--banner-grid",
+  gold: "--banner-gold",
+} as const;
 
 interface Props {
   children?: ReactNode;
@@ -11,6 +19,7 @@ interface Props {
 
 export default function HexagonBanner({ children, height = 700, compact = false }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const colors = useCssRgb(canvasRef, BANNER_COLORS);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -68,7 +77,9 @@ export default function HexagonBanner({ children, height = 700, compact = false 
       // 마우스 활성도 감쇠
       mouseActivity = Math.max(0, mouseActivity - ACTIVITY_DECAY);
 
-      ctx.fillStyle = "#050505";
+      const { ground, grid, gold } = colors.current;
+      if (!ground) { animationFrameId = requestAnimationFrame(render); return; }
+      ctx.fillStyle = rgba(ground, 1);
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
       const rows = Math.ceil(canvasHeight / (HEX_HEIGHT * 0.75)) + 1;
@@ -108,21 +119,21 @@ export default function HexagonBanner({ children, height = 700, compact = false 
           const alpha = 0.12 + active * 0.9 + wave * 0.1 + wave2 * 0.06;
           const isGold = active > 0.15 || wave > 0.75 || wave2 > 0.88;
           
-          let color = `rgba(90, 90, 90, ${alpha})`;
+          let color = rgba(grid, alpha);
           const size = HEX_SIZE - 2;
 
           if (isGold) {
-             color = `rgba(212, 175, 55, ${alpha * 1.3})`;
+             color = rgba(gold, alpha * 1.3);
 
              if (active > 0.6) {
                 // Strong fill for very close hexes
-               drawHexagon(x, y, size * 0.9, `rgba(212, 175, 55, ${active * 0.6})`, true);
+               drawHexagon(x, y, size * 0.9, rgba(gold, active * 0.6), true);
              } else if (active > 0.3) {
                 // Medium fill
-               drawHexagon(x, y, size * 0.8, `rgba(212, 175, 55, ${active * 0.35})`, true);
+               drawHexagon(x, y, size * 0.8, rgba(gold, active * 0.35), true);
              } else if (wave > 0.8) {
                // Subtle fill for wave peaks
-               drawHexagon(x, y, size * 0.65, `rgba(212, 175, 55, ${wave * 0.12})`, true);
+               drawHexagon(x, y, size * 0.65, rgba(gold, wave * 0.12), true);
              }
           }
 
@@ -151,12 +162,12 @@ export default function HexagonBanner({ children, height = 700, compact = false 
       canvas.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [height, compact]);
+  }, [height, compact, colors]);
 
   return (
     <div
       // compact는 서비스 허브 배너 자리 — 높이는 모든 허브 배너가 같은 값을 쓴다(bannerStyles.ts)
-      className={`relative w-full overflow-hidden bg-[#050505] ${compact ? BANNER_COMPACT_HEIGHT_CLASS : ""}`}
+      className={`relative w-full overflow-hidden bg-[var(--banner-ground-top)] ${compact ? BANNER_COMPACT_HEIGHT_CLASS : ""}`}
       style={compact ? undefined : { height }}
     >
       <canvas ref={canvasRef} className="block" />

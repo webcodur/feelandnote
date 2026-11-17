@@ -506,7 +506,9 @@
     "bookShelfCategoryTitle": "{category}의 책장",
     "bookCovers": {
       "title": "{name}의 추천도서·읽은 책 {count}권",
-      "open": "책장에서 「{title}」 보기"
+      "open": "책장에서 「{title}」 보기",
+      "loadMore": "더 보기",
+      "showAll": "전체 보기"
     }
   }
 }

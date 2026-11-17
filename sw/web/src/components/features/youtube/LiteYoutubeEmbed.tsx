@@ -51,7 +51,7 @@ export default function LiteYoutubeEmbed({
       />
       <span className="absolute inset-0 bg-black/25 group-hover/embed:bg-black/10" />
       <span className="absolute inset-0 flex items-center justify-center">
-        <span className="flex size-12 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white group-hover/embed:border-accent group-hover/embed:text-accent">
+        <span className="theme-dark flex size-12 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white group-hover/embed:border-accent group-hover/embed:text-accent">
           <Play size={20} className="ml-0.5" fill="currentColor" />
         </span>
       </span>

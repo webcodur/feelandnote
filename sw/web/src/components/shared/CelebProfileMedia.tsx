@@ -63,7 +63,7 @@ export default function CelebProfileMedia({
   const badgeStart = photoUrl ? "start-2" : "-start-2";
   const badgePlace = toolbar ? "" : `absolute ${badgeY} ${badgeEnd} z-[4]`;
   const actionBaseClass =
-    "inline-flex h-8 items-center justify-center rounded-md border border-white/15 bg-black/60 text-text-secondary shadow-none hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 active:bg-accent/20 active:scale-95";
+    "theme-dark inline-flex h-8 items-center justify-center rounded-md border border-white/15 bg-black/60 text-text-secondary shadow-none hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 active:bg-accent/20 active:scale-95";
   const toolbarActionClass = "inline-flex size-9 items-center justify-center rounded-control text-text-secondary hover:bg-white/10 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:bg-white/15";
   const voiceActionClass = toolbar ? toolbarActionClass : `${actionBaseClass} w-8`;
   const zoomActionClass = toolbar ? toolbarActionClass : `${actionBaseClass} w-8`;

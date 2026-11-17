@@ -58,7 +58,7 @@ export default function GameScreenshots({
                 sizes="(max-width: 768px) 50vw, 33vw"
                 className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
               />
-              <span className="pointer-events-none absolute bottom-1.5 end-1.5 rounded-full bg-black/70 px-2 py-0.5 text-[11px] tabular-nums text-white/80">
+              <span className="theme-dark pointer-events-none absolute bottom-1.5 end-1.5 rounded-full bg-black/70 px-2 py-0.5 text-[11px] tabular-nums text-text-primary">
                 {index + 1} / {images.length}
               </span>
             </button>

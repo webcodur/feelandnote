@@ -76,8 +76,9 @@ const ICON_PROPS = { strokeWidth: 1.75, absoluteStrokeWidth: true, 'aria-hidden'
 const NEIGHBOR_ICON_SIZE = 20
 
 // 목록 메뉴가 창 밖으로 넘쳐도 잘리지 않게 창은 자르지 않는다. 둥근 모서리는 윗부분과 목록 칸이 각자 맞춘다(테두리 1px 안쪽이라 21px).
+// 황동 테두리·금빛 하이라이트로 만든 어두운 패널이라 라이트 화면에서도 다크로 띄운다
 const PANEL_BASE =
-  'rounded-[22px] border border-white/10 bg-[#161615] shadow-[0_32px_80px_-20px_rgba(0,0,0,0.85),0_0_0_1px_rgba(0,0,0,0.5)]'
+  'theme-dark rounded-[22px] border border-white/10 bg-bg-main shadow-[0_32px_80px_-20px_rgba(0,0,0,0.85),0_0_0_1px_rgba(0,0,0,0.5)]'
 
 // 자리마다 창이 서는 위치·등장 방향. 높이는 공통 모달 상한을 따른다.
 const PANEL_LAYOUT: Record<Placement, { className: string; offsetY: number; zIndex?: number }> = {
@@ -646,7 +647,7 @@ export default function FloatingMusicPlayer() {
       ref={modeMenuRef}
       role="menu"
       aria-label={t('listPicker')}
-      className="absolute inset-x-0 top-full z-10 mt-1.5 rounded-xl border border-white/10 bg-[#222220] p-1 shadow-[0_20px_44px_-12px_rgba(0,0,0,0.95)]"
+      className="absolute inset-x-0 top-full z-10 mt-1.5 rounded-xl border border-white/10 bg-bg-raised p-1 shadow-[0_20px_44px_-12px_rgba(0,0,0,0.95)]"
     >
       {MUSIC_MODES.map((musicMode) => {
         const active = musicMode === activeMode
@@ -780,7 +781,7 @@ export default function FloatingMusicPlayer() {
         className={cn(
           PANEL_BASE,
           layout.className,
-          placement === 'corner' && 'border-[#9a7135]/60 bg-[#0a0a0a] shadow-[inset_0_1px_0_rgba(240,207,135,0.18),0_32px_80px_-20px_rgba(0,0,0,0.9),0_0_0_1px_rgba(0,0,0,0.55)]',
+          placement === 'corner' && 'border-[#9a7135]/60 bg-bg-secondary shadow-[inset_0_1px_0_rgba(240,207,135,0.18),0_32px_80px_-20px_rgba(0,0,0,0.9),0_0_0_1px_rgba(0,0,0,0.55)]',
         )}
         style={{ zIndex: layout.zIndex, maxHeight: MODAL_MAX_HEIGHT,
           '--music-list-max-height': `calc(${MODAL_MAX_HEIGHT} - 14rem)` } as CSSProperties}
@@ -801,7 +802,7 @@ export default function FloatingMusicPlayer() {
             <Artwork url={nowArtwork} className={cn('size-11 rounded-lg shadow-[0_10px_24px_-10px_rgba(0,0,0,0.9)]', nowTone.text)} iconSize={ICON.md} />
             <div className="min-w-0 flex-1">
               <p className="truncate text-[15px] font-semibold leading-5 tracking-tight text-[#f5f1e8]">{nowTitle}</p>
-              <p className="mt-0.5 flex h-[18px] min-w-0 items-center gap-1.5 text-xs text-white/50">
+              <p className="mt-0.5 flex h-[18px] min-w-0 items-center gap-1.5 text-xs text-text-tertiary">
                 <span className={cn('flex shrink-0 items-center gap-1.5 text-[11px] font-medium', nowTone.text)}>
                   <EqBars playing={isPlaying && !currentPlayerLoading} />
                   {nowStatus}
@@ -819,7 +820,7 @@ export default function FloatingMusicPlayer() {
               onClick={closePanel}
               aria-label={t('close')}
               title={t('close')}
-              className="-me-1.5 flex size-8 shrink-0 items-center justify-center self-start rounded-full text-white/55 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="-me-1.5 flex size-8 shrink-0 items-center justify-center self-start rounded-full text-text-secondary hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <X size={ICON.md} {...ICON_PROPS} />
             </button>
@@ -840,7 +841,7 @@ export default function FloatingMusicPlayer() {
                   onClick={cyclePlaybackRate}
                   aria-label={`${t('speed')} ${formatRate(playbackRate)}`}
                   title={t('speed')}
-                  className="h-7 w-12 rounded-full border border-white/10 text-[11px] font-semibold tabular-nums text-white/70 hover:border-white/25 hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="h-7 w-12 rounded-full border border-white/10 text-[11px] font-semibold tabular-nums text-text-secondary hover:border-white/25 hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   {formatRate(playbackRate)}
                 </button>
@@ -901,7 +902,7 @@ export default function FloatingMusicPlayer() {
               )}
               <ChevronDown
                 size={ICON.sm}
-                className={cn('shrink-0 text-white/50 transition-transform duration-200 motion-reduce:transition-none', isModeMenuOpen && 'rotate-180')}
+                className={cn('shrink-0 text-text-tertiary transition-transform duration-200 motion-reduce:transition-none', isModeMenuOpen && 'rotate-180')}
                 {...ICON_PROPS}
               />
             </button>
@@ -1087,7 +1088,7 @@ function MusicOpener({
         {...buttonProps}
         className={cn(
           'relative flex size-8 items-center justify-center rounded-full border bg-bg-card text-accent shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
-          highlighted ? 'border-accent' : 'border-accent/30 hover:border-accent hover:bg-[#242424]',
+          highlighted ? 'border-accent' : 'border-accent/30 hover:border-accent hover:bg-bg-raised',
         )}
       >
         <span ref={pulseRingRef} aria-hidden="true" className={cn(PULSE_RING_CLASS, '-inset-px rounded-full')} />
@@ -1111,7 +1112,7 @@ function MusicOpener({
               'border-[#b68a44] bg-[radial-gradient(circle_at_34%_24%,#5b4121_0%,#2b2115_36%,#110f0b_72%,#090909_100%)] text-[#efd18a] shadow-[inset_0_1px_0_rgba(255,229,164,0.46),inset_0_-3px_6px_rgba(0,0,0,0.7),0_9px_22px_rgba(0,0,0,0.65)] hover:border-[#f1d18a] hover:brightness-110',
               highlighted && 'border-[#f1d18a] ring-2 ring-[#d8ad5d]/30',
             )
-          : cn('bg-bg-card text-accent shadow-lg', highlighted ? 'border-accent hover:bg-[#242424]' : 'border-accent/30 hover:border-accent hover:bg-[#242424]'),
+          : cn('bg-bg-card text-accent shadow-lg', highlighted ? 'border-accent hover:bg-bg-raised' : 'border-accent/30 hover:border-accent hover:bg-bg-raised'),
       )}
       style={{ zIndex: isCorner ? Z_INDEX.floatingPlayer : Z_INDEX.floatingPlayerGame }}
     >
@@ -1206,7 +1207,7 @@ function IconButton({
       title={label}
       onClick={onClick}
       disabled={disabled}
-      className="flex size-10 items-center justify-center rounded-full text-white/75 enabled:hover:bg-white/[0.08] enabled:hover:text-white enabled:active:bg-white/[0.12] disabled:cursor-default disabled:text-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      className="flex size-10 items-center justify-center rounded-full text-text-secondary enabled:hover:bg-white/[0.08] enabled:hover:text-white enabled:active:bg-white/[0.12] disabled:cursor-default disabled:text-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
       {children}
     </button>
@@ -1254,7 +1255,7 @@ function Artwork({ url, className, iconSize }: { url: string | null; className: 
 // 색(tone)을 받으면 목록 소속 묶음이라 색 점과 색 글자로 쓴다
 function GroupHeading({ children, tone }: { children: ReactNode; tone?: ModeTone }) {
   return (
-    <p className={cn('sticky top-0 z-[1] flex h-8 items-center gap-2 bg-[#161615] px-5 text-[11px] font-semibold text-text-tertiary', tone?.text)}>
+    <p className={cn('sticky top-0 z-[1] flex h-8 items-center gap-2 bg-bg-main px-5 text-[11px] font-semibold text-text-tertiary', tone?.text)}>
       {tone && <span aria-hidden="true" className={cn('size-1.5 shrink-0 rounded-full', tone.dot)} />}
       <span className="shrink-0">{children}</span>
       <span aria-hidden="true" className="h-px flex-1 bg-white/[0.06]" />
@@ -1268,7 +1269,7 @@ function EmptyState({ title, hint }: { title: string; hint?: string }) {
       <span className="flex size-9 items-center justify-center rounded-full bg-white/[0.05] text-white/35">
         <Music size={ICON.md} {...ICON_PROPS} />
       </span>
-      <p className="mt-3 text-xs text-white/70">{title}</p>
+      <p className="mt-3 text-xs text-text-secondary">{title}</p>
       {hint && <p className="mt-1 text-xs leading-relaxed text-text-secondary">{hint}</p>}
     </div>
   )
@@ -1337,7 +1338,7 @@ function TrackRow({
                 size={ICON.sm}
                 className={cn(
                   'ms-0.5 fill-current',
-                  !badge && 'text-white/70 opacity-0 group-hover/track:opacity-100 group-focus-visible/track:opacity-100',
+                  !badge && 'text-text-secondary opacity-0 group-hover/track:opacity-100 group-focus-visible/track:opacity-100',
                 )}
                 {...ICON_PROPS}
               />
@@ -1354,7 +1355,7 @@ function TrackRow({
             onClick={onNavigate}
             aria-label={hrefLabel}
             title={hrefLabel}
-            className="flex size-8 items-center justify-center rounded-full text-white/40 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="flex size-8 items-center justify-center rounded-full text-text-tertiary hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             <ArrowUpRight size={ICON.md} {...ICON_PROPS} />
           </Link>

@@ -1,5 +1,6 @@
 "use client";
 
+import { readableAccent } from "@/lib/theme";
 import { useTranslations } from "next-intl";
 
 import type { TendencyKey } from "@/lib/spectrum/constants";
@@ -69,7 +70,7 @@ export default function DispositionCompass({
           return (
             <section
               key={evidence.axis}
-              className="border border-white/[0.1] bg-black/15 px-3 py-2"
+              className="border border-white/[0.1] bg-bg-secondary/30 px-3 py-2"
               aria-label={`${tl(endpoints[0])} - ${tl(endpoints[1])}: ${subjectName} ${evidence.targetValue}, ${candidateName} ${evidence.candidateValue}`}
             >
               <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
@@ -133,7 +134,7 @@ export default function DispositionCompass({
               <div className="grid grid-cols-2 gap-1.5 text-xs font-semibold">
                 <span
                   className="flex min-w-0 items-center gap-1.5 border border-white/[0.07] bg-white/[0.025] px-2 py-1"
-                  style={{ color: SUBJECT_COLOR }}
+                  style={{ color: readableAccent(SUBJECT_COLOR) }}
                 >
                   <i className="h-2 w-2 shrink-0 rounded-full bg-current" />
                   <span className="truncate">
@@ -142,7 +143,7 @@ export default function DispositionCompass({
                 </span>
                 <span
                   className="flex min-w-0 items-center justify-end gap-1.5 border border-white/[0.07] bg-white/[0.025] px-2 py-1 text-right"
-                  style={{ color: CANDIDATE_COLOR }}
+                  style={{ color: readableAccent(CANDIDATE_COLOR) }}
                 >
                   <i className="h-2 w-2 shrink-0 rotate-45 bg-current" />
                   <span className="truncate">

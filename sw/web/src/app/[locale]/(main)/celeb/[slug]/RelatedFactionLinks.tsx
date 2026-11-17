@@ -37,7 +37,7 @@ export default async function RelatedFactionLinks({ memberships, personId }: Pro
       const cover = data.cover
       return <Link key={faction.id} href={faction.isMyth ? mythHref(faction.slug) : `/explore/faction/${faction.slug}`} prefetch={false}
         aria-label={t('relatedFactionOpen', { name })}
-        className="group relative isolate block aspect-[3/2] w-full min-w-0 overflow-hidden rounded-card border border-line bg-bg-secondary hover:border-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        className="theme-dark group relative isolate block aspect-[3/2] w-full min-w-0 overflow-hidden rounded-card border border-line bg-bg-secondary hover:border-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
         <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden>
           {cover && <Image src={cover} alt="" fill unoptimized sizes="(max-width: 639px) 100vw, (max-width: 767px) 50vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:transform-none" />}
           {!cover && <div className="flex h-full items-center justify-center bg-bg-stone-light text-text-tertiary"><Users size={48} /></div>}

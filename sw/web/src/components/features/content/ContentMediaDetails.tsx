@@ -22,7 +22,7 @@ export default function ContentMediaDetails({ content }: { content: ContentDetai
       {content.type === "MUSIC" && metadata?.tracks && metadata.tracks.length > 0 && (
         <div className="space-y-2.5 pt-2 border-t border-white/[0.06]">
           <DecorativeLabel label={t("trackList")} />
-          <div className="space-y-1 max-h-[320px] overflow-y-auto custom-scrollbar border border-white/10 rounded-xl bg-black/20 p-1">
+          <div className="space-y-1 max-h-[320px] overflow-y-auto custom-scrollbar border border-white/10 rounded-xl bg-bg-secondary/40 p-1">
             {metadata.tracks.map((track, i) => (
               <div
                 key={i}

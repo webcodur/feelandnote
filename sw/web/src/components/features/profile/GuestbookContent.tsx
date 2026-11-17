@@ -174,7 +174,7 @@ export default function GuestbookContent({
         <AuthLink
           href="/login"
           className={isCeleb
-            ? "group flex min-h-[124px] flex-col items-stretch gap-4 rounded-md border border-white/[0.08] bg-black/[0.16] px-4 py-5 shadow-[0_18px_45px_rgba(0,0,0,0.16)] hover:border-accent/45 hover:bg-accent/[0.035] sm:flex-row sm:items-center sm:px-6"
+            ? "group flex min-h-[124px] flex-col items-stretch gap-4 rounded-md border border-white/[0.08] bg-bg-secondary/32 px-4 py-5 shadow-[0_18px_45px_rgba(0,0,0,0.16)] hover:border-accent/45 hover:bg-accent/[0.035] sm:flex-row sm:items-center sm:px-6"
             : "group mb-8 block overflow-hidden rounded-lg border border-accent-dim/20 bg-white/[0.02] hover:border-accent/50 hover:bg-accent/[0.025]"
           }
         >

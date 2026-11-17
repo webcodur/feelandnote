@@ -43,7 +43,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
       </div>
 
       {showInfo && (
-        <div className="bg-black/20 border-t border-white/[0.04] text-center">
+        <div className="bg-bg-secondary/40 border-t border-white/[0.04] text-center">
           <div className="p-2 md:p-2.5 pb-1.5 flex items-center justify-center min-h-[44px] md:min-h-[52px]">
             <h3 className={`text-xs md:text-sm font-semibold text-text-primary line-clamp-2 leading-tight text-center ${!isBadgeHovered ? "group-hover:text-accent" : ""}`}>
               <TitleNoticeBadges badge={state.displayTitleBadge} />

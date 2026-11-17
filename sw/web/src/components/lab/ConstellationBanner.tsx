@@ -3,6 +3,15 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { Network } from "lucide-react";
 import { BANNER_COMPACT_HEIGHT_CLASS } from "@/components/shared/bannerStyles";
+import { rgba, useCssRgb, type Rgb } from "@/lib/cssColor";
+
+/** 바탕·별·금선 색은 테마마다 globals.css의 배너 토큰이 쥔다 */
+const BANNER_COLORS = {
+  top: "--banner-ground-top",
+  bottom: "--banner-ground-bottom",
+  ink: "--banner-ink",
+  gold: "--banner-gold",
+} as const;
 
 interface ConstellationBannerProps {
   children?: ReactNode;
@@ -39,10 +48,10 @@ class ConstellationParticle {
     if (this.y < 0 || this.y > this.getHeight()) this.vy *= -1;
   }
 
-  draw() {
+  draw(ink: Rgb) {
     this.ctx.beginPath();
     this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    this.ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+    this.ctx.fillStyle = rgba(ink, 0.8);
     this.ctx.fill();
   }
 }
@@ -55,6 +64,7 @@ export default function ConstellationBanner({
   subtitle = "Connect with the Wisdom of Ages"
 }: ConstellationBannerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const colors = useCssRgb(canvasRef, BANNER_COLORS);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -100,18 +110,20 @@ export default function ConstellationBanner({
 
     const animate = () => {
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      const { top, bottom, ink, gold } = colors.current;
+      if (!top) { animationFrameId = requestAnimationFrame(animate); return; }
 
       // Background Gradient
       const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
-      gradient.addColorStop(0, "#050505");
-      gradient.addColorStop(1, "#111111");
+      gradient.addColorStop(0, rgba(top, 1));
+      gradient.addColorStop(1, rgba(bottom, 1));
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
       // Update and draw particles
       particles.forEach((p) => {
         p.update();
-        p.draw();
+        p.draw(ink);
       });
 
       // Draw connections
@@ -123,7 +135,7 @@ export default function ConstellationBanner({
 
         if (distMouse < MOUSE_RADIUS) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(212, 175, 55, ${1 - distMouse / MOUSE_RADIUS})`; // Gold lines
+            ctx.strokeStyle = rgba(gold, 1 - distMouse / MOUSE_RADIUS);
             ctx.lineWidth = 1;
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(mouse.x, mouse.y);
@@ -139,7 +151,8 @@ export default function ConstellationBanner({
 
           if (distance < CONNECTION_RADIUS) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / CONNECTION_RADIUS)})`;
+            // 먹선은 밝은 바탕에서 같은 투명도로는 흐려 두 배로 긋는다
+            ctx.strokeStyle = rgba(ink, (ink[0] > 128 ? 0.1 : 0.2) * (1 - distance / CONNECTION_RADIUS));
             ctx.lineWidth = 0.5;
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
@@ -163,7 +176,7 @@ export default function ConstellationBanner({
       canvas.removeEventListener("touchmove", handleTouchMove);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [height, compact]);
+  }, [height, compact, colors]);
 
   // compact는 서비스 허브 배너 자리 — 높이는 모든 허브 배너가 같은 값을 쓴다(bannerStyles.ts)
   return (

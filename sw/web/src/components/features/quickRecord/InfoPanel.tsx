@@ -99,7 +99,7 @@ export default function InfoPanel({
     <div className="w-full h-full flex flex-col bg-bg-secondary/30">
       {/* Tabs */}
       {!hideTabs && (
-      <div className="flex border-b border-white/10 bg-black/10 overflow-x-auto scrollbar-hide shrink-0">
+      <div className="flex border-b border-white/10 bg-bg-secondary/20 overflow-x-auto scrollbar-hide shrink-0">
         <button onClick={() => setActiveTab('BASIC')} className={getTabStyle('BASIC')}>
             <Info size={14} /> {t("basic")}
         </button>
@@ -137,7 +137,7 @@ export default function InfoPanel({
                 <div className="grid grid-cols-2 gap-4 items-center">
                     {/* 1열: 썸네일 */}
                     <div className="min-w-0 space-y-2">
-                    <div className="w-full max-w-[240px] mx-auto aspect-[2/3] rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] shrink-0 bg-black/20 border border-white/10 relative group ring-1 ring-white/5">
+                    <div className="w-full max-w-[240px] mx-auto aspect-[2/3] rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] shrink-0 bg-bg-secondary/40 border border-white/10 relative group ring-1 ring-white/5">
                         {content.thumbnailUrl ? (
                             <ContentImage
                                 src={content.thumbnailUrl}

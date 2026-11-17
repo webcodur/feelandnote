@@ -19,7 +19,7 @@ function EssayContent({ markdown }: { markdown: string }) {
   return (
     <div className="space-y-3 sm:space-y-4">
       {paragraphs.map((para, i) => (
-        <p key={i} className="text-white/75 text-[13px] sm:text-sm leading-[1.75] sm:leading-[1.8]">
+        <p key={i} className="text-text-secondary text-[13px] sm:text-sm leading-[1.75] sm:leading-[1.8]">
           <FormattedText text={para} />
         </p>
       ))}
@@ -54,7 +54,7 @@ function TypographyCard({ item }: { item: TypographyClass }) {
           </span>
         </div>
 
-        <p className="text-white/60 text-xs sm:text-[13px] leading-relaxed mb-3">
+        <p className="text-text-secondary text-xs sm:text-[13px] leading-relaxed mb-3">
           {item.description}
         </p>
 
@@ -70,7 +70,7 @@ function TypographyCard({ item }: { item: TypographyClass }) {
           <h4 className="text-[11px] text-text-tertiary uppercase tracking-widest mb-1 font-semibold">{t("representativeTypeface")}</h4>
           <div className="flex flex-wrap gap-1.5">
             {item.representatives.map((font, i) => (
-              <span key={i} className="text-[11px] px-2 py-0.5 rounded-md bg-white/5 text-white/70 border border-white/[0.06]">
+              <span key={i} className="text-[11px] px-2 py-0.5 rounded-md bg-white/5 text-text-secondary border border-white/[0.06]">
                 {font}
               </span>
             ))}

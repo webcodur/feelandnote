@@ -24,7 +24,7 @@ export function SelectOverlay({ isSelected }: { isSelected: boolean }) {
       <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
         isSelected
           ? "bg-accent shadow-[0_0_15px_rgba(212,175,55,0.5)]"
-          : "border-2 border-white/60 bg-black/40 group-hover:border-white"
+          : "theme-dark border-2 border-white/60 bg-black/40 group-hover:border-white"
       }`}>
         {isSelected && <Check size={20} className="text-white" strokeWidth={3} />}
       </div>
@@ -57,12 +57,12 @@ export function StatsBadge({
       style={{ zIndex: Z_INDEX.cardBadge }}
       onClick={handleClick}
     >
-      <div className={`flex items-center gap-0.5 bg-black/70 backdrop-blur-sm px-1 py-0.5 md:px-1.5 rounded-md border border-white/10 shadow-lg ${onClick ? "hover:bg-accent hover:border-accent cursor-pointer group/stats" : ""}`}>
+      <div className={`theme-dark flex items-center gap-0.5 bg-black/70 backdrop-blur-sm px-1 py-0.5 md:px-1.5 rounded-md border border-white/10 shadow-lg ${onClick ? "hover:bg-accent hover:border-accent cursor-pointer group/stats" : ""}`}>
         <Crown size={9} className={`text-accent ${onClick ? "group-hover/stats:text-white" : ""}`} />
         <span className={`text-[11px] text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{celebCount}</span>
         {userCount > 0 && <>
-          <span className={` text-[11px] mx-px ${onClick ? "group-hover/stats:text-white/60" : ""}`}>|</span>
-          <User size={9} className={`text-text-secondary ${onClick ? "group-hover/stats:text-white/80" : ""}`} />
+          <span className={` text-[11px] mx-px ${onClick ? "group-hover/stats:text-text-secondary" : ""}`}>|</span>
+          <User size={9} className={`text-text-secondary ${onClick ? "group-hover/stats:text-text-primary" : ""}`} />
           <span className={`text-[11px] text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{userCount}</span>
         </>}
       </div>
@@ -128,7 +128,7 @@ export function IntroBadge({ onClick }: { onClick?: (e: React.MouseEvent) => voi
         }
       } : undefined}
     >
-      <span className={`rounded-md border border-white/10 bg-black/70 px-1.5 py-0.5 text-[11px] font-medium text-text-primary shadow-lg backdrop-blur-sm md:px-2 ${onClick ? "group-hover/intro:border-accent group-hover/intro:bg-accent group-hover/intro:text-bg-main group-focus-visible/intro:ring-2 group-focus-visible/intro:ring-accent" : ""}`}>{t("badgeShort")}</span>
+      <span className={`theme-dark rounded-md border border-white/10 bg-black/70 px-1.5 py-0.5 text-[11px] font-medium text-text-primary shadow-lg backdrop-blur-sm md:px-2 ${onClick ? "group-hover/intro:border-accent group-hover/intro:bg-accent group-hover/intro:text-bg-main group-focus-visible/intro:ring-2 group-focus-visible/intro:ring-accent" : ""}`}>{t("badgeShort")}</span>
     </div>
   );
 }

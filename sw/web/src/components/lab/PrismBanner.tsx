@@ -97,11 +97,11 @@ export default function PrismBanner({
     <div
       ref={containerRef}
       // compact는 서비스 허브 배너 자리 — 높이는 모든 허브 배너가 같은 값을 쓴다(bannerStyles.ts)
-      className={`relative w-full bg-black overflow-hidden flex items-center justify-center perspective-[1200px] ${compact ? BANNER_COMPACT_HEIGHT_CLASS : ""}`}
+      className={`relative w-full bg-[var(--banner-ground-bottom)] overflow-hidden flex items-center justify-center perspective-[1200px] ${compact ? BANNER_COMPACT_HEIGHT_CLASS : ""}`}
       style={compact ? undefined : { height }}
     >
       {/* 0. Ambient Light Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#202020_0%,#000000_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,var(--banner-ground-top)_0%,var(--banner-ground-bottom)_100%)]" />
 
       {/* Light Beams moving automatically */}
       <div

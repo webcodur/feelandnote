@@ -30,7 +30,7 @@ export default function ShowcaseSection({ showcaseCodes, titles, isOwner, isUpda
       {/* Altar Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border border-[#d4af37]/20 rounded-xl shadow-2xl" />
       {/* Texture Overlay (Optional, assuming standard patterns exist or falling back to simple noise via CSS) */}
-      <div className="absolute inset-0 bg-neutral-900/50 mix-blend-overlay" />
+      <div className="absolute inset-0 bg-bg-card/50 mix-blend-overlay" />
 
       {/* Ambient Glow Effect */}
       <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#d4af37]/10 via-transparent to-transparent opacity-60 pointer-events-none" />
@@ -73,7 +73,7 @@ export default function ShowcaseSection({ showcaseCodes, titles, isOwner, isUpda
                     <div className="relative z-10 flex flex-col items-center gap-1 w-full">
                       <div className={`
                         p-2 sm:p-3.5 rounded-full mb-1 sm:mb-3 shadow-inner ring-1 ring-white/10
-                        ${tierStyle.iconBg || 'bg-black/20'}
+                        ${tierStyle.iconBg || 'bg-bg-secondary/40'}
                         transition-transform duration-500 group-hover/card:scale-110 group-hover/card:rotate-3
                       `}>
                         <CategoryIcon className={`size-5 sm:size-8
@@ -99,7 +99,7 @@ export default function ShowcaseSection({ showcaseCodes, titles, isOwner, isUpda
 
                     {/* Remove Button */}
                     {isOwner && (
-                      <div className="absolute -top-2 -right-2 opacity-0 group-hover/card:opacity-100 transition-all duration-300 p-1.5 rounded-full bg-red-900 text-white shadow-lg z-20 hover:bg-red-700 hover:scale-110 border border-red-500/50">
+                      <div className="absolute -top-2 -right-2 opacity-0 group-hover/card:opacity-100 transition-all duration-300 p-1.5 rounded-full bg-red-900 text-[#fff] shadow-lg z-20 hover:bg-red-700 hover:scale-110 border border-red-500/50">
                         <X size={14} />
                       </div>
                     )}
@@ -115,7 +115,7 @@ export default function ShowcaseSection({ showcaseCodes, titles, isOwner, isUpda
             if (!isOwner) return <div key={`empty-${i}`} />;
 
             return (
-              <div key={`empty-${i}`} className="aspect-square rounded-lg bg-[#0a0a0a]/40 border border-[#333] flex flex-col items-center justify-center p-2 sm:p-4 relative overflow-hidden group/empty shadow-inner hover:border-[#d4af37]/30 hover:bg-[#0a0a0a]/60 transition-all duration-300">
+              <div key={`empty-${i}`} className="aspect-square rounded-lg bg-bg-secondary/40 border border-[#333] flex flex-col items-center justify-center p-2 sm:p-4 relative overflow-hidden group/empty shadow-inner hover:border-[#d4af37]/30 hover:bg-bg-secondary/60 transition-all duration-300">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#d4af37]/5 to-transparent opacity-0 group-hover/empty:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 <Plus className="size-6 sm:size-8 text-[#333] group-hover/empty:text-[#d4af37] transition-all duration-300 mb-1 sm:mb-3 group-hover/empty:scale-110 group-hover/empty:rotate-90" />
                 <span className="text-[11px] sm:text-xs text-[#444] font-cinzel font-bold tracking-widest group-hover/empty:text-[#d4af37] transition-colors duration-300 uppercase">

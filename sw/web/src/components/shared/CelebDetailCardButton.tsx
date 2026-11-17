@@ -31,7 +31,7 @@ const SIZE_CLASSES: Record<CelebDetailCardButtonSize, string> = {
 };
 
 const BASE_CLASSES =
-  "inline-flex shrink-0 cursor-pointer items-center justify-center border border-white/15 bg-black/60 text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent active:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 disabled:cursor-wait disabled:opacity-50";
+  "theme-dark inline-flex shrink-0 cursor-pointer items-center justify-center border border-white/15 bg-black/60 text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent active:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 disabled:cursor-wait disabled:opacity-50";
 
 export default function CelebDetailCardButton({
   label,

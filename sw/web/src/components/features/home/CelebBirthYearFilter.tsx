@@ -236,7 +236,7 @@ export function CelebBirthYearFilterDesktop({ min, max, isLoading = false, onCha
         `}
       >
         <div className="flex items-stretch justify-center w-full min-h-[2.5rem]">
-          <div className="flex items-center justify-center border-r border-accent/10 bg-black/40 px-2.5">
+          <div className="flex items-center justify-center border-r border-accent/10 bg-bg-secondary/80 px-2.5">
             <span className={isActive ? 'text-accent' : 'opacity-70'}><Calendar size={14} /></span>
           </div>
           <div className={`flex-1 flex items-center justify-center px-3 ${isOpen ? 'bg-accent/10' : 'bg-white/[0.02]'}`}>
@@ -285,7 +285,7 @@ export function CelebBirthYearFilterMobile({
         `}
       >
         <div className="flex items-stretch justify-center w-full min-h-[2.1rem]">
-          <div className="flex items-center justify-center border-r border-accent/10 bg-black/20 px-2">
+          <div className="flex items-center justify-center border-r border-accent/10 bg-bg-secondary/40 px-2">
             <Calendar size={12} />
           </div>
           <div className="flex min-w-0 flex-1 items-center justify-center bg-white/[0.02] px-2.5">

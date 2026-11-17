@@ -1,4 +1,5 @@
 "use client";
+import { readCssColor } from "@/lib/cssColor";
 import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
 import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";
 import { Minus, Plus } from "lucide-react";
@@ -30,8 +31,6 @@ interface Props {
 const DESKTOP_ZOOM = { min: 0.7, max: 1.6, initial: 1.3 };
 const MOBILE_ZOOM = { min: 0.55, max: 1.35, initial: 0.75 };
 const ZOOM_STEP = 0.15;
-const cssColor = (styles: CSSStyleDeclaration, name: string, fallback: string) =>
-  styles.getPropertyValue(name).trim() || fallback;
 async function applySelection(
   graph: GraphApi, data: DiagramData, previousId: string | null, selectedId: string | null, container: HTMLElement,
 ) {
@@ -105,12 +104,10 @@ function RelationDiagram(props: Props) {
     });
     void (async () => {
       try {
-        const scope = container.closest<HTMLElement>("[data-world-material]") ?? container;
-        const material = getComputedStyle(scope);
         const theme = {
-          deep: cssColor(material, "--material-deep", "#080d11"),
-          edge: cssColor(material, "--material-edge", "#51646c"),
-          accent: cssColor(material, "--material-accent", "#9db9c5"),
+          deep: readCssColor(container, "--material-deep", "#080d11"),
+          edge: readCssColor(container, "--material-edge", "#51646c"),
+          accent: readCssColor(container, "--material-accent", "#9db9c5"),
         };
         const data = buildGraphData(
           mode, model, focuses, centerName, centerAvatarUrl, labels, theme,

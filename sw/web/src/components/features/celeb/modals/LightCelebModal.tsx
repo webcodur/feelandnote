@@ -146,8 +146,8 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
           className={`
             flex-1 flex items-center justify-center gap-1.5 py-3 rounded-2xl md:rounded-sm font-bold text-xs md:text-sm transition-all active:scale-95
             ${isFollowing
-              ? "bg-black/40 backdrop-blur-md text-accent border border-accent/40 shadow-inner"
-              : "bg-accent text-black border border-accent shadow-[0_0_15px_rgba(212,175,55,0.4)] hover:shadow-[0_0_20px_rgba(212,175,55,0.6)]"
+              ? "theme-dark bg-black/40 backdrop-blur-md text-accent border border-accent/40 shadow-inner"
+              : "bg-accent text-bg-main border border-accent shadow-[0_0_15px_rgba(212,175,55,0.4)] hover:shadow-[0_0_20px_rgba(212,175,55,0.6)]"
             }
             ${isLoading ? "opacity-50 cursor-not-allowed" : ""}
           `}

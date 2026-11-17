@@ -20,7 +20,7 @@ export default function Page() {
   const [isEmailMode, setIsEmailMode] = useState(false)
   const t = useTranslations('auth')
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950">
+    <div className="flex min-h-screen items-center justify-center bg-bg-secondary">
       <div className="w-full max-w-md space-y-8 p-8">
         {/* 로고 */}
         <div className="text-center">
@@ -39,7 +39,7 @@ export default function Page() {
                 <Button
                   type="submit"
                   unstyled
-                  className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white hover:bg-zinc-800"
+                  className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 text-white hover:bg-zinc-800"
                 >
                   <GoogleIcon />
                   <span>{t('login.google')}</span>

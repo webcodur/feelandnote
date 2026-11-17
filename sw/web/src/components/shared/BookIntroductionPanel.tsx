@@ -48,7 +48,7 @@ const FILL_CLASSES = {
 } as const;
 
 const SOURCE_CHIP_CLASS =
-  "inline-flex max-w-full items-center gap-1.5 rounded-full border border-accent/40 bg-black/30 py-0.5 text-xs leading-5";
+  "inline-flex max-w-full items-center gap-1.5 rounded-full border border-accent/40 bg-bg-secondary/60 py-0.5 text-xs leading-5";
 
 interface BookIntroductionPanelProps {
   /** 작품 상세에서는 긴 소개도 접지 않고 전문을 표시한다. */

@@ -6,6 +6,7 @@
 
 "use client";
 
+import { readableAccent } from "@/lib/theme";
 import { useLocale, useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { lerpColor } from "./constants";
@@ -79,7 +80,7 @@ export default function SpectrumBucketPanel({ items, label, labelColor, negLabel
               <span className="min-w-0 flex-1 truncate text-sm font-semibold text-text-primary">
                 {locale === "en" ? (p.nickname_en || p.nickname) : p.nickname}
               </span>
-              <span className="shrink-0 text-xs font-bold tabular-nums" style={{ color: v >= 0 ? colors.pos : colors.neg }}>
+              <span className="shrink-0 text-xs font-bold tabular-nums" style={{ color: readableAccent(v >= 0 ? colors.pos : colors.neg) }}>
                 {v >= 0 ? posLabel : negLabel} {Math.abs(Math.round(v))}
               </span>
             </button>

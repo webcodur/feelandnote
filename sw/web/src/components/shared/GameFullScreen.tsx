@@ -93,7 +93,7 @@ export default function GameFullScreen({ children, title, breadcrumbs, onExitFul
   return createPortal(
     <div
       ref={setGameFullScreenLayer}
-      className="fixed inset-0 bg-bg-main transition-opacity duration-200 ease-out"
+      className="theme-dark fixed inset-0 bg-bg-main transition-opacity duration-200 ease-out"
       style={{ zIndex: Z_INDEX.top, opacity: visible ? 1 : 0, isolation: "isolate" }}
     >
       {/* ── Layer 0: 배경 ── */}

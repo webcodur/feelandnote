@@ -88,15 +88,15 @@ export default function ImageGalleryModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}
-      className="fixed inset-0 flex h-[100dvh] flex-col bg-black/95 text-white backdrop-blur-sm"
+      className="theme-dark fixed inset-0 flex h-[100dvh] flex-col bg-black/95 text-white backdrop-blur-sm"
       style={{ zIndex: Z_INDEX.top }}
     >
       <header className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 px-3 sm:h-16 sm:px-5">
         <div className="min-w-0">
-          <h2 id={titleId} className="truncate text-sm font-semibold text-white/90 sm:text-base">
+          <h2 id={titleId} className="truncate text-sm font-semibold text-text-primary sm:text-base">
             {title}
           </h2>
-          <p aria-live="polite" className="mt-0.5 text-xs tabular-nums text-white/55">
+          <p aria-live="polite" className="mt-0.5 text-xs tabular-nums text-text-secondary">
             {visibleIndex + 1} / {images.length}
           </p>
         </div>
@@ -105,7 +105,7 @@ export default function ImageGalleryModal({
           type="button"
           onClick={onClose}
           aria-label={labels.close}
-          className="flex size-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/75 hover:border-white/45 hover:bg-white/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="flex size-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-text-secondary hover:border-white/45 hover:bg-white/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
           <X size={22} aria-hidden />
         </button>
@@ -190,7 +190,7 @@ function GalleryArrow({
       }}
       aria-label={label}
       className={cn(
-        "absolute top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/55 text-white/75 hover:border-accent hover:bg-accent/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:size-12",
+        "theme-dark absolute top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/55 text-text-secondary hover:border-accent hover:bg-accent/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:size-12",
         direction === "previous" ? "start-2 sm:start-4" : "end-2 sm:end-4",
       )}
     >

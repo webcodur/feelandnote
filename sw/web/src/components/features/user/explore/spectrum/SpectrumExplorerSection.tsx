@@ -76,7 +76,7 @@ export default function SpectrumExplorerSection({
                 className={`w-full rounded-md border px-2.5 py-2 text-left ${
                   active
                     ? "border-accent/60 bg-accent/10 text-text-primary"
-                    : "border-white/10 bg-black/20 text-text-secondary hover:bg-black/35"
+                    : "border-white/10 bg-bg-secondary/40 text-text-secondary hover:bg-bg-secondary/70"
                 }`}
               >
                 <div className="flex items-center gap-2">

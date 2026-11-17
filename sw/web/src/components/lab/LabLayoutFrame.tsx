@@ -11,7 +11,7 @@ export default function LabLayoutFrame({ children }: { children: ReactNode }) {
   if (LAB_ITEMS.some(item => item.serviceLayout && pathname === item.href)) return children;
 
   return (
-    <div className="min-h-screen bg-[#050505] text-[#e0e0e0] flex flex-col items-center py-12 md:py-20 px-4">
+    <div className="theme-dark min-h-screen bg-[#050505] text-[#e0e0e0] flex flex-col items-center py-12 md:py-20 px-4">
       <h1 className="text-3xl md:text-4xl font-cinzel text-[#d4af37] mb-8">Component Lab</h1>
       <div className="w-full max-w-6xl"><LabTabs /></div>
       <div className="w-full max-w-6xl">{children}</div>

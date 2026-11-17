@@ -1,3 +1,4 @@
+import { readableAccent } from "@/lib/theme";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Globe, Info } from "lucide-react";
 import { INFLUENCE_ICONS, INFLUENCE_MAX_SCORES, INFLUENCE_TOTAL_MAX_SCORE } from "@feelandnote/influence-constants";
@@ -38,7 +39,7 @@ export async function InfluenceBody({ field, navRows }: { field: InfluenceRankin
           style={{ borderColor: `${INFLUENCE_RANKING_ACCENT}33`, backgroundColor: `${INFLUENCE_RANKING_ACCENT}0d` }}
         >
           <p className="flex items-start gap-2 text-xs font-semibold leading-relaxed text-text-primary sm:text-sm">
-            <Info size={15} aria-hidden className="mt-0.5 shrink-0" style={{ color: INFLUENCE_RANKING_ACCENT }} />
+            <Info size={15} aria-hidden className="mt-0.5 shrink-0" style={{ color: readableAccent(INFLUENCE_RANKING_ACCENT) }} />
             <span>{t("tiePlacementTitle", { name: people[0].nickname })}</span>
           </p>
           <p className="mt-1 pl-[23px] text-xs leading-relaxed text-text-secondary">

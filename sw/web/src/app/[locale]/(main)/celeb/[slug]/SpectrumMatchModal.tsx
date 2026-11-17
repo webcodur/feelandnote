@@ -6,6 +6,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
+import { readableAccent } from "@/lib/theme";
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -202,7 +203,7 @@ export default function SpectrumMatchModal({
       widthClassName={category === "overall" ? "max-w-[1280px]" : "max-w-[1140px]"}
       overlayClassName="bg-black/75 backdrop-blur-sm"
       boxClassName="border border-white/10 bg-bg-main shadow-[0_24px_80px_rgba(0,0,0,0.55)]"
-      closeButtonClassName="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-black/25 text-text-secondary hover:border-white/25 hover:bg-white/[0.06] hover:text-text-primary"
+      closeButtonClassName="theme-dark absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-black/25 text-text-secondary hover:border-white/25 hover:bg-white/[0.06] hover:text-text-primary"
       closeButtonDisabled={loading}
       closeOnOverlayClick={!loading}
       closeOnEscape={!loading}
@@ -337,7 +338,7 @@ export default function SpectrumMatchModal({
                           {row.subject ? (
                             <p
                               className="text-[13px] leading-relaxed md:text-sm"
-                              style={{ color: SUBJECT_COLOR }}
+                              style={{ color: readableAccent(SUBJECT_COLOR) }}
                             >
                               {row.subject}
                             </p>
@@ -345,7 +346,7 @@ export default function SpectrumMatchModal({
                           {row.candidate ? (
                             <p
                               className="text-[13px] leading-relaxed md:text-sm"
-                              style={{ color: CANDIDATE_COLOR }}
+                              style={{ color: readableAccent(CANDIDATE_COLOR) }}
                             >
                               {row.candidate}
                             </p>
@@ -411,7 +412,7 @@ export default function SpectrumMatchModal({
                       key={item.id}
                       className="flex h-full gap-5 rounded-md border border-white/[0.07] bg-bg-main/60 p-4"
                     >
-                      <span className="relative h-[150px] w-[104px] shrink-0 overflow-hidden rounded-[3px] border border-white/10 bg-black/25">
+                      <span className="relative h-[150px] w-[104px] shrink-0 overflow-hidden rounded-[3px] border border-white/10 bg-bg-secondary/50">
                         <ContentCover
                           src={item.content.thumbnail_url}
                           alt={item.content.title}

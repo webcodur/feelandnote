@@ -234,28 +234,76 @@ export function getWorldMaterial(worldId: string): WorldMaterialDefinition {
   return WORLD_MATERIAL_DEFINITIONS[id];
 }
 
-export function getWorldMaterialStyle(material: WorldMaterialDefinition): WorldMaterialStyle {
+type Rgb = [number, number, number];
+
+const toRgb = (hex: string): Rgb => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)) as Rgb;
+const toHex = (rgb: Rgb) => `#${rgb.map((v) => Math.round(v).toString(16).padStart(2, "0")).join("")}`;
+/** a를 ratio만큼 b 쪽으로 섞는다(sRGB) */
+const mix = (a: string, b: string, ratio: number) => {
+  const [x, y] = [toRgb(a), toRgb(b)];
+  return toHex(x.map((v, i) => v + (y[i] - v) * ratio) as Rgb);
+};
+const luminance = (hex: string) => {
+  const [r, g, b] = toRgb(hex).map((v) => v / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const contrast = (a: string, b: string) => {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+};
+/** 밝은 바탕에서 글자로 읽힐 때(4.5:1)까지 재질 금속색을 검정 쪽으로 내린다 */
+const darkenUntilReadable = (color: string, background: string) => {
+  let ratio = 0;
+  while (ratio < 0.9 && contrast(mix(color, "#000000", ratio), background) < 4.5) ratio += 0.02;
+  return mix(color, "#000000", ratio);
+};
+
+/**
+ * 라이트 테마의 재질 색. 다크 재질을 손으로 한 벌 더 적지 않고, 기본 라이트 표면(globals.css)에
+ * 재질 금속색을 옅게 섞어 같은 계열로 만든다. 금속색은 바탕에서 읽히는 데까지 짙게 내린다.
+ */
+function lightMaterial(material: WorldMaterialDefinition) {
+  const canvas = mix("#f7f3ea", material.accent, 0.07);
+  const accent = darkenUntilReadable(material.accent, mix("#f7f3ea", material.accent, 0.07));
   return {
-    "--material-canvas": material.canvas,
-    "--material-deep": material.deep,
-    "--material-panel": material.panel,
-    "--material-raised": material.raised,
-    "--material-edge": material.edge,
-    "--material-accent": material.accent,
+    canvas,
+    deep: mix("#ece6d8", material.accent, 0.1),
+    panel: mix("#fffefb", material.accent, 0.03),
+    raised: mix("#eee8da", material.accent, 0.08),
+    edge: mix("#d5ccb8", material.accent, 0.3),
+    accent,
+    accentHover: mix(accent, "#000000", 0.2),
+    text: mix("#120d07", material.accent, 0.06),
+    muted: mix("#2a2218", material.accent, 0.12),
+  };
+}
+
+export function getWorldMaterialStyle(material: WorldMaterialDefinition): WorldMaterialStyle {
+  const light = lightMaterial(material);
+  // 다크의 보조 글자는 재질 정의값이 흐려(대비 약 7:1) 본문색 쪽으로 절반 끌어올린다
+  const dark = { ...material, text: mix(material.text, "#ffffff", 0.35), muted: mix(material.muted, material.text, 0.5) };
+  const pick = (key: keyof typeof light) => `light-dark(${light[key]}, ${dark[key]})`;
+  return {
+    "--material-canvas": pick("canvas"),
+    "--material-deep": pick("deep"),
+    "--material-panel": pick("panel"),
+    "--material-raised": pick("raised"),
+    "--material-edge": pick("edge"),
+    "--material-accent": pick("accent"),
     "--material-accent-rgb": material.accentRgb,
-    "--material-text": material.text,
-    "--material-muted": material.muted,
-    "--color-bg-main": material.canvas,
-    "--color-bg-secondary": material.deep,
-    "--color-bg-card": material.panel,
-    "--color-border": material.edge,
-    "--color-border-gold": material.edge,
-    "--color-accent": material.accent,
-    "--color-accent-hover": material.accentHover,
+    "--material-text": pick("text"),
+    "--material-muted": pick("muted"),
+    "--color-bg-main": pick("canvas"),
+    "--color-bg-secondary": pick("deep"),
+    "--color-bg-card": pick("panel"),
+    "--color-border": pick("edge"),
+    "--color-border-gold": pick("edge"),
+    "--color-accent": pick("accent"),
+    "--color-accent-hover": pick("accentHover"),
     "--color-accent-rgb": material.accentRgb,
-    "--color-accent-dim": material.edge,
-    "--color-text-primary": material.text,
-    "--color-text-secondary": material.muted,
-    "--color-text-gold": material.accent,
+    "--color-accent-dim": pick("edge"),
+    "--color-text-primary": pick("text"),
+    "--color-text-secondary": pick("muted"),
+    "--color-text-gold": pick("accent"),
   };
 }

@@ -48,7 +48,7 @@ function DraggableContentItem({ item }: { item: UserContentWithContent }) {
       style={style}
       {...attributes}
       {...listeners}
-      className="flex items-center gap-2.5 p-2 bg-[#1a1a1a] border border-white/[0.06] rounded-lg hover:border-accent/30 transition-colors cursor-grab active:cursor-grabbing"
+      className="flex items-center gap-2.5 p-2 bg-bg-card border border-white/[0.06] rounded-lg hover:border-accent/30 transition-colors cursor-grab active:cursor-grabbing"
     >
       {/* 썸네일 */}
       <div className="w-9 h-12 bg-[#222] rounded overflow-hidden relative shrink-0 pointer-events-none">
@@ -145,7 +145,7 @@ export default function FlowContentEditor({
           <Button
             unstyled
             onClick={onClose}
-            className="p-1.5 text-white/50 hover:text-white transition-colors"
+            className="p-1.5 text-text-tertiary hover:text-white transition-colors"
           >
             <X size={18} />
           </Button>
@@ -160,7 +160,7 @@ export default function FlowContentEditor({
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder={t("searchPlaceholder")}
-              className="w-full pl-8 pr-3 py-1.5 bg-[#1a1a1a] border border-white/[0.06] rounded-lg text-xs text-white placeholder:text-white/30 focus:border-accent/50 focus:outline-none transition-colors"
+              className="w-full pl-8 pr-3 py-1.5 bg-bg-card border border-white/[0.06] rounded-lg text-xs text-white placeholder:text-white/30 focus:border-accent/50 focus:outline-none transition-colors"
             />
           </div>
         </div>

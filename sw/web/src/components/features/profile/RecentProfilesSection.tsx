@@ -31,13 +31,13 @@ export default function RecentProfilesSection() {
         style={{ zIndex: Z_INDEX.sidebar }}
         // 손잡이만 보여서는 무엇인지 알 수 없었다 — 최근 방문(시계) 아이콘과 마우스 설명(title)을 붙인다
         title={isExpanded ? t("collapseRecent") : t("expandRecent")}
-        className="hidden lg:flex items-center justify-center fixed left-0 top-1/2 -translate-y-1/2 h-14 w-8 bg-bg-card/90 backdrop-blur-sm border border-line border-l-0 rounded-r-card shadow-lg text-text-secondary hover:bg-bg-raised hover:text-text-primary"
+        className="theme-frame hidden lg:flex items-center justify-center fixed left-0 top-1/2 -translate-y-1/2 h-14 w-8 bg-[var(--rail-surface)] border border-[var(--rail-outline)] border-l-0 rounded-r-card shadow-lg text-text-secondary hover:bg-bg-raised hover:text-text-primary"
       >
         <History size={16} aria-hidden />
       </button>
 
       {isExpanded && (
-        <aside style={{ zIndex: Z_INDEX.popover }} className="hidden lg:flex flex-col items-center gap-2 fixed left-9 top-1/2 -translate-y-1/2 py-2 ps-1 pe-1.5 bg-bg-card/90 backdrop-blur-sm border border-line rounded-r-card shadow-lg">
+        <aside style={{ zIndex: Z_INDEX.popover }} className="theme-frame hidden lg:flex flex-col items-center gap-2 fixed left-9 top-1/2 -translate-y-1/2 py-2 ps-1 pe-1.5 bg-[var(--rail-surface)] border border-[var(--rail-outline)] rounded-r-card shadow-lg">
           <div className="w-5 border-t border-line" />
           {recentItems.map((item) => (
             <div key={item.id} className="relative">

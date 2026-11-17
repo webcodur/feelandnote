@@ -22,7 +22,7 @@ export default function ArrowNavigator({
   const btnSize = compact ? "h-6 w-6" : "h-8 w-8";
   const iconSize = compact ? "h-3.5 w-3.5" : "h-4 w-4";
   const btnBase = `flex ${btnSize} items-center justify-center rounded-full transition-colors`;
-  const btnEnabled = "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white";
+  const btnEnabled = "bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white";
 
   return (
     <div className={`flex items-center justify-center gap-2 ${className ?? ""}`}>

@@ -17,8 +17,10 @@ import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 
 // 휴대폰에서 손가락으로 누를 수 있게 위아래 여백을 두고, 넓은 화면에서는 줄 간격만 남긴다
-const LINK_CLASS = "block rounded-control py-1.5 text-sm md:py-1 md:text-[13px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
-const SECTION_TITLE_CLASS = "mb-2 block text-[13px] font-semibold text-text-primary md:mb-3";
+// hover는 글자색만 바꾸면 라이트에서 거의 안 보인다 — 줄 바탕을 금빛으로 칠하고 글자를 강조색·밑줄로 바꾼다
+const LINK_HOVER = "hover:bg-accent/10 hover:text-accent active:bg-accent/20";
+const LINK_CLASS = `block rounded-control px-2 py-1.5 text-sm md:-mx-2 md:py-1 md:text-sm hover:underline underline-offset-4 ${LINK_HOVER} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`;
+const SECTION_TITLE_CLASS = "mb-2 block border-b border-line-strong pb-2 text-sm font-bold text-text-primary md:mb-3";
 const META_CLASS = "text-xs text-text-tertiary";
 
 export default async function Footer() {
@@ -33,7 +35,7 @@ export default async function Footer() {
   const blogs = [{ url: SITE_BLOG_URLS.books, label: t("layout.footer.bookBlog") }];
 
   return (
-    <footer className="w-full border-t border-line bg-bg-secondary text-text-primary">
+    <footer className="theme-frame w-full border-t border-line bg-bg-secondary text-text-primary">
       <div className="mx-auto max-w-4xl px-6 pt-10 pb-[calc(var(--layer-bottom-chrome-h)+2rem)] md:px-8 md:pt-14 md:pb-[calc(var(--layer-bottom-chrome-h)+2.5rem)]">
         {/* 브랜드 — 가운데 */}
         <div className="mb-8 flex flex-col items-center gap-2 text-center md:mb-10">
@@ -46,7 +48,7 @@ export default async function Footer() {
                 href={blog.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center rounded-control px-2 text-sm text-text-secondary hover:text-accent active:text-accent-dim focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className={`inline-flex min-h-11 items-center rounded-control px-3 text-sm text-text-secondary hover:underline underline-offset-4 ${LINK_HOVER} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
               >
                 {blog.label}
               </a>
@@ -59,7 +61,7 @@ export default async function Footer() {
           {FOOTER_SECTIONS.map((section) => (
             <div key={section.key}>
               {section.href ? (
-                <Link href={section.href} className={`${SECTION_TITLE_CLASS} hover:text-accent`}>
+                <Link href={section.href} className={`${SECTION_TITLE_CLASS} hover:border-accent hover:text-accent`}>
                   {t(section.titleKey)}
                 </Link>
               ) : (
@@ -67,7 +69,7 @@ export default async function Footer() {
               )}
               <nav aria-label={t(section.titleKey)}>
                 {section.links.map((link) => (
-                  <Link key={link.href} href={link.href} className={`${LINK_CLASS} text-text-secondary hover:text-text-primary`}>
+                  <Link key={link.href} href={link.href} className={`${LINK_CLASS} text-text-secondary`}>
                     {t(`nav.footer.${link.key}`)}
                   </Link>
                 ))}
@@ -78,7 +80,7 @@ export default async function Footer() {
 
         {commerceLinks.length > 0 && <nav aria-label={t("support.tabs.label")} className="mt-3 grid grid-cols-2 gap-4 text-center md:mt-4 md:gap-8">
           {commerceLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="flex min-h-11 flex-col justify-center rounded-control px-2 py-1 text-text-secondary hover:text-accent active:text-accent-dim focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            <Link key={link.href} href={link.href} className={`flex min-h-11 flex-col justify-center rounded-control border border-line px-2 py-2 text-text-secondary hover:border-accent ${LINK_HOVER} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}>
               <span className="text-sm font-semibold">{t(`nav.footer.${link.key}`)}</span>
               <span className="mt-1 text-xs">{t(link.key === "support" ? "support.productsTitle" : "support.shop.productsTitle")}</span>
             </Link>
@@ -94,7 +96,7 @@ export default async function Footer() {
               rel="noopener noreferrer"
               aria-label={youtube.label}
               title={youtube.label}
-              className="flex size-11 items-center justify-center rounded-full text-text-secondary hover:bg-white/5 hover:text-text-primary"
+              className={`flex size-11 items-center justify-center rounded-full text-text-secondary ${LINK_HOVER}`}
             >
               <Youtube size={20} strokeWidth={1.5} aria-hidden />
             </a>
@@ -102,7 +104,7 @@ export default async function Footer() {
           </div>
           <div className="space-y-1 text-center md:text-left">
             {isDev ? (
-              <Link href="/lab" className={`${META_CLASS} hover:text-text-secondary`} title="Lab">
+              <Link href="/lab" className={`${META_CLASS} hover:text-accent hover:underline`} title="Lab">
                 {copyright}
               </Link>
             ) : (

@@ -1,5 +1,6 @@
 "use client";
 
+import { readableAccent } from "@/lib/theme";
 import { useId, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Sparkles, Hourglass } from "lucide-react";
@@ -229,7 +230,7 @@ export function RadarChart({
                   score: data[c.key as keyof CelebInfluenceDetail] as number,
                 })}
                 aria-pressed={activeCategory === c.key}
-                style={{ color: accentColor, borderColor: isActive ? accentColor : `color-mix(in srgb, ${accentColor} 35%, transparent)`, outlineColor: accentColor }}
+                style={{ color: readableAccent(accentColor), borderColor: isActive ? accentColor : `color-mix(in srgb, ${accentColor} 35%, transparent)`, outlineColor: accentColor }}
                 className={`w-full h-full rounded-full border flex items-center justify-center select-none cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
                   isActive
                     ? "bg-bg-stone-light ring-1 ring-current"

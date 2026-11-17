@@ -97,7 +97,7 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
 
   return (
     <div
-      className="flex items-center justify-between px-1 py-1 bg-[#141414] border-b border-white/[0.04]"
+      className="flex items-center justify-between px-1 py-1 bg-bg-main border-b border-white/[0.04]"
       onClick={(e) => e.stopPropagation()}
     >
       {/* 좌: 카테고리 */}

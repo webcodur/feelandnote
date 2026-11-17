@@ -53,10 +53,10 @@ export default function FlowCard({ flow, onClick, className = "" }: FlowCardProp
   return (
     <button
       onClick={onClick}
-      className={`group relative flex flex-col w-full bg-[#141414] border border-white/[0.06] hover:border-accent/40 rounded-lg overflow-hidden transition-all duration-500 ${className}`}
+      className={`group relative flex flex-col w-full bg-bg-main border border-white/[0.06] hover:border-accent/40 rounded-lg overflow-hidden transition-all duration-500 ${className}`}
     >
       {/* Mosaic Thumbnail Area */}
-      <div className="relative w-full aspect-square overflow-hidden bg-[#0a0a0a]">
+      <div className="relative w-full aspect-square overflow-hidden bg-bg-secondary">
         {count >= 4 ? (
           <div className="grid grid-cols-2 grid-rows-2 gap-px w-full h-full">
             {thumbs.slice(0, 4).map((url, i) => (
@@ -89,7 +89,7 @@ export default function FlowCard({ flow, onClick, className = "" }: FlowCardProp
         {flow.node_count > 0 && (
           <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/70 backdrop-blur-sm rounded-full flex items-center gap-1.5 border border-white/[0.08]">
             <Layers size={10} className="text-accent" />
-            <span className="text-[11px] font-serif font-bold text-white/80">
+            <span className="text-[11px] font-serif font-bold text-text-primary">
               {flow.node_count}
             </span>
           </div>
@@ -108,7 +108,7 @@ export default function FlowCard({ flow, onClick, className = "" }: FlowCardProp
         {/* Expanding gold accent line */}
         <div className="w-6 h-px bg-accent/30 group-hover:w-full group-hover:bg-accent/50 transition-all duration-500 ease-out mb-2" />
 
-        <h3 className="text-sm md:text-[15px] font-serif font-bold text-white/90 group-hover:text-accent transition-colors duration-300 line-clamp-2 leading-snug text-left">
+        <h3 className="text-sm md:text-[15px] font-serif font-bold text-text-primary group-hover:text-accent transition-colors duration-300 line-clamp-2 leading-snug text-left">
           {flow.name}
         </h3>
 

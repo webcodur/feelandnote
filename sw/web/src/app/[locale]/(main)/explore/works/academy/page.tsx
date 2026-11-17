@@ -67,12 +67,12 @@ export default async function AcademyPage() {
         <div className="mb-10 sm:mb-14 md:mb-16 text-center px-4">
           <div className="inline-flex items-center justify-center space-x-2 border border-white/10 bg-white/5 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full mb-4 sm:mb-6">
             <GraduationCap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#d4af37]" />
-            <span className="text-[11px] sm:text-xs text-white/80 font-medium tracking-widest uppercase">{t("eyebrow")}</span>
+            <span className="text-[11px] sm:text-xs text-text-primary font-medium tracking-widest uppercase">{t("eyebrow")}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black text-white mb-3 sm:mb-4 leading-tight">
             {t("pageTitle")}
           </h2>
-          <p className="text-white/60 text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+          <p className="text-text-secondary text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
             {t("defaultDescription")}
           </p>
         </div>
@@ -92,7 +92,7 @@ export default async function AcademyPage() {
                 <h2 className="text-lg sm:text-xl font-serif font-bold text-white mb-2 group-hover:text-accent">
                   {t(`category.${cat.id}.label`)}
                 </h2>
-                <p className="text-white/50 text-xs sm:text-sm text-center mb-4 sm:mb-5 group-hover:text-white/70">
+                <p className="text-text-tertiary text-xs sm:text-sm text-center mb-4 sm:mb-5 group-hover:text-text-secondary">
                   {t(`category.${cat.id}.description`)}
                 </p>
 
@@ -115,10 +115,10 @@ export default async function AcademyPage() {
             return (
               <div key={cat.id} className={`${CARD_BASE} border-dashed border-white/10 opacity-60`}>
                 <div className={ICON_BOX}>
-                  <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white/40" />
+                  <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-text-tertiary" />
                 </div>
 
-                <h2 className="text-lg sm:text-xl font-serif font-bold text-white/70 mb-2">
+                <h2 className="text-lg sm:text-xl font-serif font-bold text-text-secondary mb-2">
                   {t(`category.${cat.id}.label`)}
                 </h2>
                 <p className="text-text-secondary text-xs sm:text-sm text-center mb-4 sm:mb-5">
@@ -126,7 +126,7 @@ export default async function AcademyPage() {
                 </p>
 
                 <div className="flex flex-wrap justify-center gap-1.5">
-                  <span className={`${TAG} text-white/50`}>{t("upcomingBadge")}</span>
+                  <span className={`${TAG} text-text-tertiary`}>{t("upcomingBadge")}</span>
                   <span className={`${TAG} text-text-tertiary`}>{t("upcomingNote")}</span>
                 </div>
 
@@ -146,7 +146,7 @@ export default async function AcademyPage() {
               <h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-white mb-2 sm:mb-3">
                 {t("bridgeTitle")}
               </h2>
-              <p className="text-white/55 text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+              <p className="text-text-secondary text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
                 {t("bridgeDesc")}
               </p>
             </div>
@@ -163,7 +163,7 @@ export default async function AcademyPage() {
                 <h3 className="text-lg sm:text-xl font-serif font-bold text-white mb-2 group-hover:text-accent">
                   {t(`category.${AI_CATEGORY.id}.label`)}
                 </h3>
-                <p className="text-white/50 text-xs sm:text-sm text-center sm:text-left mb-4 group-hover:text-white/70">
+                <p className="text-text-tertiary text-xs sm:text-sm text-center sm:text-left mb-4 group-hover:text-text-secondary">
                   {t(`category.${AI_CATEGORY.id}.description`)}
                 </p>
                 <div className="flex flex-wrap justify-center sm:justify-start gap-1.5">

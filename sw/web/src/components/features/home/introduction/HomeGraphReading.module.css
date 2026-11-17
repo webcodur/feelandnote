@@ -32,7 +32,7 @@
 .coverFallback > svg { width: 62%; height: auto; }
 .category svg { flex: none; }
 .category strong { color: var(--color-accent); font-weight: 600; }
-.readingText { position: relative; max-height: 18rem; overflow: clip; font-size: 17px; font-weight: 400; line-height: 1.9; white-space: pre-line; word-break: keep-all; overflow-wrap: anywhere; }
+.readingText { position: relative; max-height: 18rem; overflow: clip; font-size: 17px; font-weight: var(--reading-weight); line-height: 1.9; white-space: pre-line; word-break: keep-all; overflow-wrap: anywhere; }
 .readingText:empty { display: none; }
 .reviewText { color: var(--color-review); }
 .introText { color: var(--color-book-intro); }

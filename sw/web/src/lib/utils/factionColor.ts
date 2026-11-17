@@ -1,6 +1,6 @@
 /**
- * 세력 고유색이 어두워 다크 배경에서 글자·테두리로 안 읽힐 때,
- * 색조는 지키고 밝기만 크림색 쪽으로 올린 표시색을 만든다.
+ * 세력 고유색을 글자·테두리로 쓸 때 테마 바탕에서 읽히는 표시색을 만든다(다크는 밝히고 라이트는 내린다).
+ * 색조는 지키고 밝기만 옮긴다.
  * 칩 텍스트에 쓰고, 원색 그대로는 색 점(도트)으로 보인다.
  */
 export function readableFactionColor(hex: string): string {
@@ -11,8 +11,10 @@ export function readableFactionColor(hex: string): string {
   const g = (n >> 8) & 255;
   const b = n & 255;
   const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-  const mix = lum < 0.35 ? 30 : lum < 0.55 ? 55 : 85;
-  return `color-mix(in srgb, ${hex} ${mix}%, #f1e9d2)`;
+  // 다크 바탕은 어두운 세력색을 밝히고, 라이트 바탕은 밝은 세력색을 먹색 쪽으로 내린다
+  const darkMix = lum < 0.35 ? 30 : lum < 0.55 ? 55 : 85;
+  const lightMix = lum > 0.55 ? 45 : lum > 0.35 ? 65 : 85;
+  return `light-dark(color-mix(in oklab, ${hex} ${lightMix}%, #1c1914), color-mix(in srgb, ${hex} ${darkMix}%, #f1e9d2))`;
 }
 
 /**

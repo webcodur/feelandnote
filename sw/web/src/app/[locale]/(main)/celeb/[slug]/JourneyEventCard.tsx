@@ -126,7 +126,7 @@ export default function JourneyEventCard({
         className="custom-scrollbar min-h-0 flex-1 touch-pan-y overflow-y-auto [overflow-anchor:none] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
       >
         <div className="px-4 py-4 md:px-5 md:py-5">
-          <p className="break-keep break-words text-[15px] leading-[1.8] text-text-secondary md:text-base">
+          <p className="break-keep break-words text-[15px] leading-[1.8] text-text-body md:text-base">
             {event.description ?? "-"}
           </p>
         </div>

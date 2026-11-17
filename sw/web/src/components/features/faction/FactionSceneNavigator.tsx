@@ -30,7 +30,7 @@ export default function FactionSceneNavigator({ images, title, activeIndex, onSe
     activeRef.current?.scrollIntoView({ block: "nearest" });
   }, []);
 
-  const inputClass = "h-11 min-w-0 rounded-lg border border-white/20 bg-black/20 px-3 text-sm text-text-primary outline-none hover:border-accent focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/50";
+  const inputClass = "h-11 min-w-0 rounded-lg border border-white/20 bg-bg-secondary/40 px-3 text-sm text-text-primary outline-none hover:border-accent focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/50";
   const itemClass = "flex w-full items-start gap-3 rounded-lg border p-3 text-left text-sm outline-none hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent";
 
   return (

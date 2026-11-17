@@ -35,7 +35,7 @@ export default function AddContentPopover({
   // 추가 완료 상태
   if (isAdded) {
     return (
-      <div className={`${buttonPadding} rounded-md bg-green-500/80 text-white ${className}`}>
+      <div className={`${buttonPadding} rounded-md bg-green-500/80 text-[#fff] ${className}`}>
         <Check size={iconSize} />
       </div>
     );

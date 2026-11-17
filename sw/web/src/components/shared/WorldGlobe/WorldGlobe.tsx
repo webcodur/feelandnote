@@ -1456,7 +1456,7 @@ export default function WorldGlobe({
     >
       {mapNote && (
         <div
-          className={`pointer-events-none absolute z-10 rounded border border-white/10 bg-black/45 font-mono tracking-wide text-text-secondary/70 backdrop-blur-sm ${
+          className={`theme-dark pointer-events-none absolute z-10 rounded border border-white/10 bg-black/45 font-mono tracking-wide text-text-secondary/70 backdrop-blur-sm ${
             fillContainer
               ? "left-3 top-3 px-2.5 py-1.5 text-[11px]"
               : "left-2 top-2 px-2 py-1 text-[11px]"

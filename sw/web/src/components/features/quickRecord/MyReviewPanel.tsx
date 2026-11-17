@@ -119,7 +119,7 @@ export default function MyReviewPanel({
           <div className="px-4 py-2 border-b border-white/5 bg-white/2 flex items-center justify-between shadow-sm shrink-0 min-h-[52px]">
             {/* 좌측: 탭 */}
             <div className="flex-1 flex items-center">
-                <div className="flex bg-black/20 p-1 rounded-lg">
+                <div className="flex bg-bg-secondary/40 p-1 rounded-lg">
                     <button
                         onClick={() => setViewMode('EDIT')}
                         className={`flex items-center justify-center p-2 rounded-md transition-all ${
@@ -179,7 +179,7 @@ export default function MyReviewPanel({
          {viewMode === 'EDIT' ? (
             <div className="flex flex-col h-full relative">
                 {/* Review Presets Chips Area */}
-                <div className="px-4 py-3 flex flex-wrap gap-2 items-center border-b border-white/5 bg-black/10">
+                <div className="px-4 py-3 flex flex-wrap gap-2 items-center border-b border-white/5 bg-bg-secondary/20">
                     <span className="text-[11px] font-bold uppercase tracking-wider mr-1">Keywords</span>
                     
                     {/* Selected Presets (Always visible) */}

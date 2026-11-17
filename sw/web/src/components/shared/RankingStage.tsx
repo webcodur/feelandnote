@@ -18,7 +18,7 @@ export default function RankingStage({
   className?: string;
 }) {
   return (
-    <section className={cn("relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[#0a0a0c]", className)}>
+    <section className={cn("relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-bg-secondary", className)}>
       {accent && (
         <>
           <div

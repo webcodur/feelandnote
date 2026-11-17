@@ -110,7 +110,7 @@ export default function JourneyEventExpandedList({
 
                 {/* 본문 내용 */}
                 {event.description ? (
-                  <p className="mt-2 break-keep break-words text-[15px] leading-[1.8] text-text-secondary md:text-base">
+                  <p className="mt-2 break-keep break-words text-[15px] leading-[1.8] text-text-body md:text-base">
                     {event.description}
                   </p>
                 ) : null}

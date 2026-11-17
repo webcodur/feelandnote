@@ -127,7 +127,7 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
             <Layers size={20} className="text-accent" />
             <h2 className="text-lg font-serif font-bold text-white">{t("title")}</h2>
           </div>
-          <Button unstyled onClick={onClose} className="p-2 text-white/50 hover:text-white transition-colors">
+          <Button unstyled onClick={onClose} className="p-2 text-text-tertiary hover:text-white transition-colors">
             <X size={20} />
           </Button>
         </div>
@@ -143,7 +143,7 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={t("namePlaceholder")}
-                className="w-full px-4 py-3 bg-[#1a1a1a] border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:border-accent/50 focus:outline-none transition-colors"
+                className="w-full px-4 py-3 bg-bg-card border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:border-accent/50 focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -153,7 +153,7 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder={t("descPlaceholder")}
                 rows={2}
-                className="w-full px-4 py-3 bg-[#1a1a1a] border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:border-accent/50 focus:outline-none transition-colors resize-none"
+                className="w-full px-4 py-3 bg-bg-card border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:border-accent/50 focus:outline-none transition-colors resize-none"
               />
             </div>
             <label className="flex items-center gap-2 cursor-pointer">
@@ -184,7 +184,7 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
             </div>
 
             {stages.map((stage, index) => (
-              <div key={stage.id} className="bg-[#1a1a1a] border border-white/10 rounded-lg overflow-hidden">
+              <div key={stage.id} className="bg-bg-card border border-white/10 rounded-lg overflow-hidden">
                 {/* 스테이지 헤더 */}
                 <div className="flex items-center gap-3 px-4 py-3">
                   <GripVertical size={16} className="text-white/30 cursor-grab" />
@@ -199,7 +199,7 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
                   <Button
                     unstyled
                     onClick={() => toggleStageExpand(stage.id)}
-                    className="p-1.5 text-white/40 hover:text-white transition-colors"
+                    className="p-1.5 text-text-tertiary hover:text-white transition-colors"
                   >
                     {stage.isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                   </Button>
@@ -235,7 +235,7 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
         </div>
 
         {/* 푸터 */}
-        <div className="shrink-0 px-6 py-4 border-t border-white/10 bg-[#0a0a0a] flex items-center justify-between">
+        <div className="shrink-0 px-6 py-4 border-t border-white/10 bg-bg-secondary flex items-center justify-between">
           {error && <p className="text-sm text-red-400">{error}</p>}
           <div className="flex items-center gap-3 ml-auto">
             <Button unstyled onClick={onClose} className="px-5 py-2.5 text-sm text-text-secondary hover:text-white transition-colors">

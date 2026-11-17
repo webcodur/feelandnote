@@ -111,7 +111,7 @@ export default function MuseumTimeline({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <p className="text-white/60 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 line-clamp-2">
+          <p className="text-text-secondary text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 line-clamp-2">
             {description ?? t("defaultDescription")}
           </p>
         </motion.div>

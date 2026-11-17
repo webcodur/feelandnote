@@ -8,6 +8,7 @@
         훅을 쓰지 않아 서버(분야별 챔피언)·클라이언트(스펙트럼) 어디서나 그린다.
 */ // ------------------------------
 
+import { readableAccent } from "@/lib/theme";
 import type { ReactNode } from "react";
 import ExploreNav, { type ExploreNavRow } from "@/components/shared/ExploreNav";
 import RankingStage from "@/components/shared/RankingStage";
@@ -119,13 +120,13 @@ export default function FigureRankingBoard({
                   {content.head.chip && (
                     <span
                       className="self-center rounded border px-1.5 py-0.5 text-[11px] font-black uppercase tracking-widest"
-                      style={{ borderColor: `${accent}55`, color: accent }}
+                      style={{ borderColor: `${accent}55`, color: readableAccent(accent) }}
                     >
                       {content.head.chip}
                     </span>
                   )}
                   {content.head.icon && (
-                    <span className="self-center" style={{ color: accent }}>{content.head.icon}</span>
+                    <span className="self-center" style={{ color: readableAccent(accent) }}>{content.head.icon}</span>
                   )}
                   <h2 className="font-serif text-2xl font-bold text-text-primary md:text-3xl">{content.head.title}</h2>
                   <span className="text-sm text-text-secondary">Top {rankedCount(content.ranking)}</span>

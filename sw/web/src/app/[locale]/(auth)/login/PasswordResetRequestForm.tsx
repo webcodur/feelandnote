@@ -52,7 +52,7 @@ export default function PasswordResetRequestForm({ initialEmail, onBack }: Props
           placeholder={t('emailPlaceholder')}
           required
           autoFocus
-          className="w-full rounded-lg border border-zinc-700 bg-zinc-900 py-3 pl-11 pr-4 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
+          className="w-full rounded-lg border border-zinc-700 bg-bg-card py-3 pl-11 pr-4 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
         />
       </div>
 

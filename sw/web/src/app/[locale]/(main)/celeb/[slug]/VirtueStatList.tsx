@@ -64,7 +64,7 @@ function VirtueSummaryGroup({
                   "relative flex h-6 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[2px] border",
                   pressed
                     ? "border-white/80 bg-white/70 shadow-sm"
-                    : "border-white/10 bg-black/20",
+                    : "border-white/10 bg-bg-secondary/40",
                 )}
               >
                 <span
@@ -72,7 +72,7 @@ function VirtueSummaryGroup({
                   className={cn(
                     "absolute inset-y-0 start-0 border-e",
                     pressed
-                      ? "border-black/20 bg-white"
+                      ? "border-black/20 bg-text-primary"
                       : item.value >= 80
                         ? "border-accent/30 bg-accent/20"
                         : item.value >= 60
@@ -85,7 +85,7 @@ function VirtueSummaryGroup({
                   className={cn(
                     "relative z-10 font-serif text-sm tabular-nums sm:text-sm",
                     pressed
-                      ? "font-bold text-black"
+                      ? "font-bold text-bg-main"
                       : item.value >= 80
                         ? "text-accent"
                         : item.value >= 60

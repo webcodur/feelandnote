@@ -85,7 +85,7 @@ export default function CollectionJourney({ id, placement, context, expanded = f
               <figcaption className="mt-2 text-[11px] leading-relaxed text-text-tertiary">배치 예시 · 실제 공간의 축척이나 액자 포함을 뜻하지 않습니다.</figcaption>
             </figure>}
           </div>
-          <div className="flex min-w-0 flex-col rounded-lg border border-white/10 bg-black/15 p-4">
+          <div className="flex min-w-0 flex-col rounded-lg border border-white/10 bg-bg-secondary/30 p-4">
             <p className="mb-2 text-[10px] font-semibold tracking-widest text-accent">선택한 형태</p>
             <h4 className="text-base font-semibold leading-snug">{offer.title}</h4>
             <p className="mt-2 text-sm leading-relaxed text-text-secondary">{offer.summary}</p>

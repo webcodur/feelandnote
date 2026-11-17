@@ -57,10 +57,10 @@ export default function BookShelfBookList({ selectionKey, title, subtitle, books
         {shown.map(book => <BookShelfListItem key={book.id} book={book} number={books.indexOf(book) + 1} selected={book.id === selectedId}
           arriving={!initialBooks.has(book.id)} onSelect={() => { onSelect(book.id); onClose() }} />)}
       </div>}
-      {!shown.length && <p className="py-6 text-center text-sm text-white/70">{t('bookShelfSearchEmpty')}</p>}
+      {!shown.length && <p className="py-6 text-center text-sm text-text-secondary">{t('bookShelfSearchEmpty')}</p>}
       {pagination?.failed ? <RetryBlock onRetry={pagination.onLoadMore} /> : pagination?.hasMore && (
         <button type="button" onClick={pagination.onLoadMore} disabled={pagination.loading} data-bookshelf-more
-          aria-busy={pagination.loading} className="flex min-h-11 w-full items-center justify-center gap-2 border-t border-white/15 bg-white/5 px-3 py-1 text-sm font-medium text-white/90 outline-none hover:border-white/50 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait disabled:opacity-50">
+          aria-busy={pagination.loading} className="flex min-h-11 w-full items-center justify-center gap-2 border-t border-white/15 bg-white/5 px-3 py-1 text-sm font-medium text-text-primary outline-none hover:border-white/50 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait disabled:opacity-50">
           {pagination.loading && <Loader2 size={16} className="animate-spin" aria-hidden />}{t('bookShelfLoadMore')}
         </button>
       )}

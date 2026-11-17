@@ -26,14 +26,14 @@ export default function SignupForm() {
           name="nickname"
           placeholder={t('nicknamePlaceholder')}
           required
-          className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
+          className="w-full rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
         />
         <input
           type="email"
           name="email"
           placeholder={t('emailPlaceholder')}
           required
-          className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
+          className="w-full rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
         />
         <input
           type="password"
@@ -41,7 +41,7 @@ export default function SignupForm() {
           placeholder={t('passwordPlaceholder')}
           required
           minLength={6}
-          className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
+          className="w-full rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
         />
       </div>
 

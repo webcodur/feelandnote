@@ -158,7 +158,8 @@ export default function ImageViewerModal({
       boxClassName="bg-transparent"
       boxStyle={gallery ? { height: "calc(100dvh - 8rem)" } : undefined}
       scrollAreaClassName={gallery ? "flex-1 overflow-hidden" : undefined}
-      overlayClassName={gallery ? "bg-black/90 backdrop-blur-md md:cursor-pointer" : undefined}
+      // 그림 감상 화면은 검은 바탕이 전제다 — 라이트 화면에서도 다크로 연다
+      overlayClassName={gallery ? "theme-dark bg-black/90 backdrop-blur-md md:cursor-pointer" : "theme-dark bg-black/70 backdrop-blur-sm"}
       onOverlayClick={gallery ? event => {
         const direction = galleryDirectionAt(event.clientX, event.clientY);
         if (direction) navigateGallery(direction);
@@ -171,14 +172,14 @@ export default function ImageViewerModal({
       footer={gallery ? (
         <div className="absolute start-1/2 top-full mt-2 grid h-12 w-full max-w-sm -translate-x-1/2 grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-center gap-3">
           <Button unstyled type="button" aria-label={t("previous")} disabled={!onPrev} onClick={onPrev}
-            className="flex size-11 items-center justify-center rounded-full border border-white/15 text-white/80 outline-none hover:border-white/40 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-25">
+            className="flex size-11 items-center justify-center rounded-full border border-white/15 text-text-primary outline-none hover:border-white/40 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-25">
             <ChevronLeft size={24} aria-hidden />
           </Button>
           <div className="min-w-0 text-center text-sm text-white" aria-busy={isLoading}>
             <p role="status" aria-live="polite" aria-atomic="true" className="truncate">{caption}</p>
           </div>
           <Button unstyled type="button" aria-label={t("next")} disabled={!onNext} onClick={onNext}
-            className="flex size-11 items-center justify-center rounded-full border border-white/15 text-white/80 outline-none hover:border-white/40 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-25">
+            className="flex size-11 items-center justify-center rounded-full border border-white/15 text-text-primary outline-none hover:border-white/40 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-25">
             <ChevronRight size={24} aria-hidden />
           </Button>
         </div>
@@ -188,13 +189,13 @@ export default function ImageViewerModal({
       {/* 넘길 그림이 있는 뷰어에서는 양끝 ‹ › 버튼이 붙는다 — 배경 클릭 닫기와 분리한다 */}
       {!gallery && onPrev && (
         <Button unstyled aria-label={t("previous")} onClick={(e) => { e.stopPropagation(); onPrev(); }}
-          className="absolute z-10 start-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-white/80 outline-none hover:border-white hover:text-white focus-visible:ring-2 focus-visible:ring-accent">
+          className="theme-dark absolute z-10 start-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-text-primary outline-none hover:border-white hover:text-white focus-visible:ring-2 focus-visible:ring-accent">
           <ChevronLeft size={28} />
         </Button>
       )}
       {!gallery && onNext && (
         <Button unstyled aria-label={t("next")} onClick={(e) => { e.stopPropagation(); onNext(); }}
-          className="absolute z-10 end-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-white/80 outline-none hover:border-white hover:text-white focus-visible:ring-2 focus-visible:ring-accent">
+          className="theme-dark absolute z-10 end-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-text-primary outline-none hover:border-white hover:text-white focus-visible:ring-2 focus-visible:ring-accent">
           <ChevronRight size={28} />
         </Button>
       )}
@@ -254,7 +255,7 @@ export default function ImageViewerModal({
       >
         {/* 캡션은 배율을 따르지 않는다. below는 그림 바깥에 두어 원본 하단을 가리지 않는다. */}
         {gallery ? (
-          imageError ? <div role="alert" className="flex h-full items-center justify-center text-sm text-white/75">{t("loadFailed")}</div> : (
+          imageError ? <div role="alert" className="flex h-full items-center justify-center text-sm text-text-secondary">{t("loadFailed")}</div> : (
             <div className="relative h-full w-full select-none" style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})` }}>
               {previousSrc && previousSrc !== src && <motion.div key={`${src}-previous`} initial={{ opacity: 1 }} animate={{ opacity: 0 }}
                 transition={{ duration: reducedMotion ? 0 : 0.18 }} aria-hidden className="pointer-events-none absolute inset-0">

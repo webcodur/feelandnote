@@ -24,7 +24,8 @@
   white-space: nowrap; cursor: pointer;
 }
 .relationFilters button:last-child { border-right: 0; }
-.relationFilters button:not(:disabled):hover { color: var(--material-text); background: var(--material-raised); }
+/* hover는 바탕을 재질색으로 물들이고 아래에 재질색 줄을 긋는다 — 바탕만 한 단 밝히면 밝은 테마에서 보이지 않는다 */
+.relationFilters button:not(:disabled):hover { color: var(--material-accent); background: color-mix(in srgb, var(--material-accent) 16%, transparent); box-shadow: inset 0 -2px 0 var(--material-accent); }
 .relationFilters button:not(:disabled):active { color: var(--material-deep); background: var(--material-accent); }
 .relationFilters button:disabled { color: color-mix(in srgb, var(--material-muted) 34%, transparent); cursor: default; }
 .relationFilters button[aria-pressed="true"] {

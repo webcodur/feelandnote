@@ -161,7 +161,7 @@ export default function CelebCarousel({
               onChange={(e) => filters.handleSearchInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder={t("searchPlaceholder")}
-              className="w-full min-w-0 h-9 ps-9 pe-9 bg-black/30 border border-white/10 rounded-lg text-sm text-text-primary placeholder: focus:outline-none focus:border-accent/40 focus:bg-black/50 transition-all font-sans"
+              className="w-full min-w-0 h-9 ps-9 pe-9 bg-bg-secondary/60 border border-white/10 rounded-lg text-sm text-text-primary placeholder: focus:outline-none focus:border-accent/40 focus:bg-bg-secondary/90 transition-all font-sans"
             />
             {filters.search && (
               <button

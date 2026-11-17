@@ -15,6 +15,7 @@ import styles from "./ExploreFeatureCard.module.css";
 */
 const ZOOM = "transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:transform-none";
 
+// 청동 부조 그림(FNN-흑동주조)은 검은 바탕 위에서 빛을 받도록 그렸다. 그림이 든 카드는 라이트에서도 어두운 카드로 둔다(theme-dark)
 function CardFrame({ href, className, children }: { href?: string; className: string; children: ReactNode }) {
   if (!href) return <div aria-disabled="true" className={className}>{children}</div>;
   return <Link href={href} prefetch={false}
@@ -41,7 +42,7 @@ export default function ExploreFeatureCard({ href, title, description, imageSrc,
   if (compact) {
     return (
       <CardFrame href={href}
-        className="relative grid min-h-[72px] grid-cols-[minmax(0,1fr)_56px] items-center overflow-hidden rounded-card border border-line bg-bg-card sm:min-h-24 sm:grid-cols-[minmax(0,1fr)_88px] md:min-h-28 md:grid-cols-[minmax(0,1fr)_112px]">
+        className={`${imageKind === "art" ? "theme-dark " : ""}relative grid min-h-[72px] grid-cols-[minmax(0,1fr)_56px] items-center overflow-hidden rounded-card border border-line bg-bg-card sm:min-h-24 sm:grid-cols-[minmax(0,1fr)_88px] md:min-h-28 md:grid-cols-[minmax(0,1fr)_112px]`}>
         <div className={`relative order-2 flex aspect-square w-full items-center justify-center overflow-hidden ${imageKind === "art" ? styles.compactArtwork : ""}`}>
           {imageKind === "icon" ? (
             <span className="flex size-11 items-center justify-center rounded-full border border-line-strong bg-bg-card sm:size-14">
@@ -67,7 +68,7 @@ export default function ExploreFeatureCard({ href, title, description, imageSrc,
 
   return (
     <CardFrame href={href}
-      className={`relative flex flex-col overflow-hidden rounded-card border border-line bg-bg-card md:grid md:min-h-56 md:grid-cols-[minmax(0,1fr)_44%] md:items-center ${wide ? "lg:grid-cols-[minmax(0,1fr)_24%]" : ""}`}>
+      className={`theme-dark relative flex flex-col overflow-hidden rounded-card border border-line bg-bg-card md:grid md:min-h-56 md:grid-cols-[minmax(0,1fr)_44%] md:items-center ${wide ? "lg:grid-cols-[minmax(0,1fr)_24%]" : ""}`}>
       <div className={`relative aspect-[4/3] w-full overflow-hidden md:order-2 md:aspect-square ${styles.largeArtwork}`}>
         <Image src={imageSrc} alt="" fill sizes={wide ? "(min-width: 1024px) 256px, (min-width: 768px) 44vw, 50vw" : "(min-width: 1024px) 260px, (min-width: 768px) 22vw, 50vw"}
           className={`${imageFit === "contain" ? "object-contain" : "object-cover"} object-center ${ZOOM}`} />

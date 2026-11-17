@@ -491,7 +491,9 @@
     "bookShelfCategoryTitle": "{category} Bookshelf",
     "bookCovers": {
       "title": "{name}'s Books Read & Recommended ({count})",
-      "open": "Show “{title}” on the shelf"
+      "open": "Show “{title}” on the shelf",
+      "loadMore": "Show more",
+      "showAll": "View all"
     }
   }
 }

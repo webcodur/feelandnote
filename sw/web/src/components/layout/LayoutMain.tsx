@@ -20,7 +20,7 @@ export default function MainLayout({ children, navigationHref }: { children: Rea
     <>
       {/* 헤더는 Suspense 없이 첫 청크에 싣는다 — 봇이 내비게이션 링크를 바로 보게 */}
       <Header navigationHref={navigationHref} />
-      <main className="min-h-svh pt-[var(--layer-header-h)] [overflow-anchor:none] bg-[radial-gradient(ellipse_80%_420px_at_50%_0%,rgba(var(--color-accent-rgb),0.045),transparent)]">
+      <main data-site-main className="min-h-svh pt-[var(--layer-header-h)] [overflow-anchor:none] bg-[radial-gradient(ellipse_80%_420px_at_50%_0%,rgba(var(--color-accent-rgb),0.045),transparent)]">
         <div className="relative mx-auto w-full max-w-[1440px] px-4 md:px-6 xl:px-10">
           <div data-main-content-region className="relative pt-5 pb-10 md:pt-8 md:pb-14">
             {children}

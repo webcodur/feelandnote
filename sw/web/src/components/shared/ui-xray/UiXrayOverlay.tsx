@@ -414,7 +414,7 @@ export default function UiXrayOverlay() {
         </div>
       ))}
 
-      <div className="fixed right-3 top-3 z-[100] rounded-md border border-cyan-300/70 bg-slate-950/95 px-3 py-2 font-mono text-[11px] leading-tight text-cyan-100 shadow-xl">
+      <div className="fixed right-3 top-3 z-[100] rounded-md border border-cyan-300/70 bg-bg-secondary/95 px-3 py-2 font-mono text-[11px] leading-tight text-cyan-100 shadow-xl">
         <div className="font-semibold tracking-wide">UI XRAY</div>
         <div className="mt-1 text-cyan-200/75">
           Ctrl + Alt · {snapshot.total}

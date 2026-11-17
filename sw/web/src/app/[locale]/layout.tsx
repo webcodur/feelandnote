@@ -21,6 +21,8 @@ import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
 import DeploymentNotice from "@/components/layout/DeploymentNotice";
 import UiXray from "@/components/shared/ui-xray/UiXray";
 import { serializeJsonLd } from "@/lib/jsonLd";
+import { THEME_BOOT_SCRIPT } from "@/constants/theme";
+import ThemeSync from "@/components/shared/ThemeSync";
 import {
   getOrganizationJsonLd,
   SITE_NAME,
@@ -139,6 +141,8 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* 고른 테마를 첫 그림 전에 html에 붙인다(constants/theme.ts). html의 suppressHydrationWarning이 data-theme 차이를 덮는다. */}
+        <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
         {/* ?instant=1로 들어온 첫 스크롤(해시 이동)만 즉시로 강제한다 — 사이트 전역
             스무스 스크롤(html의 scroll-behavior CSS와 data-scroll-behavior 속성 둘 다)은
             건드리지 않고 이 한 번만 잠깐 꺼서 다시 켠다. head 맨 앞에 둬 본문이 채워지기
@@ -170,6 +174,7 @@ export default async function LocaleLayout({
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationJsonLd) }}
               />
+              <ThemeSync />
               <ServiceWorkerRegistrar />
               <DeploymentNotice />
               <UiXray />

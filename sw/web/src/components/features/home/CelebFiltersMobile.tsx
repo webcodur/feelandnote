@@ -175,7 +175,7 @@ export default function CelebFiltersMobile({
                 onChange={(e) => onSearchInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={t("searchPlaceholder")}
-                className="w-full min-w-0 h-9 ps-3 pe-9 bg-black/40 border border-white/10 rounded-md text-sm text-text-primary placeholder: focus:outline-none focus:border-accent/40 focus:bg-black/60 transition-all font-sans relative z-10"
+                className="w-full min-w-0 h-9 ps-3 pe-9 bg-bg-secondary/80 border border-white/10 rounded-md text-sm text-text-primary placeholder: focus:outline-none focus:border-accent/40 focus:bg-bg-secondary/90 transition-all font-sans relative z-10"
               />
               {search && (
                 <button

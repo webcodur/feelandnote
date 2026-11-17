@@ -49,7 +49,7 @@ export default function ArchiveSearchControls({
             if (event.key === "Enter" && canSearch) onSearch();
           }}
           placeholder={t("placeholder")}
-          className={cn("relative z-10 w-full min-w-0 rounded-md border border-white/10 bg-black/40 ps-3 pe-9 font-sans text-sm text-text-primary placeholder:text-text-tertiary outline-none hover:border-white/25 focus-visible:ring-2 focus-visible:ring-accent", compact ? "min-h-9" : "min-h-10")}
+          className={cn("relative z-10 w-full min-w-0 rounded-md border border-white/10 bg-bg-secondary/80 ps-3 pe-9 font-sans text-sm text-text-primary placeholder:text-text-tertiary outline-none hover:border-white/25 focus-visible:ring-2 focus-visible:ring-accent", compact ? "min-h-9" : "min-h-10")}
         />
         {searchQuery && (
           <button

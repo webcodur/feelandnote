@@ -22,7 +22,7 @@ export default function RestGameCard({ game, title, onClick }: Props) {
       type="button"
       onClick={onClick}
       aria-label={`${title} · ${t("enterGame")}`}
-      className="group relative mx-auto block aspect-[4/3] w-full max-w-3xl overflow-hidden rounded-card border border-line bg-bg-card text-start outline-none hover:border-accent focus-visible:ring-2 focus-visible:ring-accent sm:aspect-[16/7]"
+      className="theme-dark group relative mx-auto block aspect-[4/3] w-full max-w-3xl overflow-hidden rounded-card border border-line bg-bg-card text-start outline-none hover:border-accent focus-visible:ring-2 focus-visible:ring-accent sm:aspect-[16/7]"
     >
       <Image
         src={game.image}

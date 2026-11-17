@@ -59,7 +59,7 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
           </button>
           <TitleBadge title={null} size="sm" />
           {review.celeb.is_verified && (
-            <span className="bg-[#d4af37] text-black text-[11px] px-1 py-0.5 font-black font-cinzel leading-none tracking-tight">
+            <span className="bg-accent text-bg-main text-[11px] px-1 py-0.5 font-black font-cinzel leading-none tracking-tight">
               OFFICIAL
             </span>
           )}

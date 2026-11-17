@@ -36,9 +36,9 @@ export default function ContentImageGallery({ images, title, label }: { images: 
     </div>
     <button type="button" aria-haspopup="dialog" aria-label={t("viewMediaImage", { image: alt(index) })}
       onClick={() => setExpanded(true)}
-      className="group relative mx-auto block aspect-video w-full max-w-4xl cursor-zoom-in overflow-hidden rounded-lg border border-line bg-black/25 hover:border-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+      className="group relative mx-auto block aspect-video w-full max-w-4xl cursor-zoom-in overflow-hidden rounded-lg border border-line bg-bg-secondary/50 hover:border-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
       <ContentImage src={displayImage(images[index])} alt={alt(index)} className="object-contain" sizes="(max-width: 767px) 90vw, 896px" />
-      <span aria-hidden className="absolute bottom-3 end-3 rounded-md bg-black/70 p-2 text-white/80 group-hover:text-accent"><Expand size={18} /></span>
+      <span aria-hidden className="theme-dark absolute bottom-3 end-3 rounded-md bg-black/70 p-2 text-text-primary group-hover:text-accent"><Expand size={18} /></span>
     </button>
     {images.length > 1 && <div ref={ref} {...dragProps} aria-label={label}
       className={`scrollbar-hide flex gap-2 overflow-x-auto overscroll-x-contain p-1 select-none pointer-coarse:snap-x ${cursorClassName}`}>

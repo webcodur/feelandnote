@@ -118,6 +118,8 @@ export default function RestGameGrid({
         })}
       </div>
 
+      {/* 게임판은 어두운 바탕을 전제로 그렸다 — 라이트 화면에서도 다크로 연다. body로 포털하는 게임은 GameFullScreen이 따로 쥔다 */}
+      <div className="theme-dark contents">
       {devMode && activeGame === "troy" && (
         <TroySlot onExitFullScreenExternal={handleExit} />
       )}
@@ -151,6 +153,7 @@ export default function RestGameGrid({
       {activeGame === "portrait" && portraitFigures && (
         <PortraitGame figures={portraitFigures} initialFullScreen={true} onExitFullScreenExternal={handleExit} />
       )}
+      </div>
     </>
   );
 }

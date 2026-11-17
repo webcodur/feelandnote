@@ -6,7 +6,7 @@
 
 export const EXPLORE_NAV_LAYOUT = {
   /** 줄들을 쌓는 상자 */
-  navigation: "mx-auto grid max-w-[1040px] overflow-hidden rounded-2xl border border-white/[0.08] bg-black/[0.16] p-1.5",
+  navigation: "mx-auto grid max-w-[1040px] overflow-hidden rounded-2xl border border-white/[0.08] bg-bg-secondary/32 p-1.5",
   /* 바깥 윤곽선이 따로 있는 화면(신화 탐색)은 좁은 화면에서 상자를 한 겹 걷어 바깥 선 바로 다음에 항목이 선다 */
   navigationBareMobile: "max-md:rounded-none max-md:border-0 max-md:bg-transparent max-md:p-0",
   /** 상위 선택 패널 안에 넣을 때는 자체 상자 없이 줄만 그린다. */

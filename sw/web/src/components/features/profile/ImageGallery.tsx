@@ -74,7 +74,7 @@ export default function ImageGallery({ nickname }: ImageGalleryProps) {
         {visibleItems.map((item, i) => (
           <div
             key={`${item.imageUrl}-${i}`}
-            className="relative aspect-square overflow-hidden rounded-sm bg-stone-900/60 border border-stone-800/30"
+            className="relative aspect-square overflow-hidden rounded-sm bg-bg-card/60 border border-stone-800/30"
           >
             <GalleryImage
               src={item.imageUrl}

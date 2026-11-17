@@ -9,7 +9,7 @@ export default function FigureReadingWaySection({ text }: Props) {
   if (!text?.trim()) return null;
 
   return (
-    <div className="mx-auto max-w-3xl space-y-5 py-5 text-[15px] leading-loose text-text-secondary [overflow-wrap:anywhere] md:py-6 md:text-base">
+    <div className="mx-auto max-w-3xl space-y-5 py-5 text-[15px] leading-[1.85] text-text-body [overflow-wrap:anywhere] md:py-6 md:text-base">
       {text.trim().split(/\r?\n\s*\r?\n/).map((paragraph, index) => (
         <p key={index} className="whitespace-pre-line"><FormattedText text={paragraph} /></p>
       ))}

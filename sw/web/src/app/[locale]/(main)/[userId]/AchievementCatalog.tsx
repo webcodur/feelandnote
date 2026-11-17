@@ -84,7 +84,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
 
       {/* 점수 요약 & 탭 */}
       <div className="flex flex-col gap-4">
-        <InnerBox className="p-0 md:p-5 flex flex-col sm:flex-row justify-between items-center gap-4 md:bg-[#1a1a1a] md:border-[#333]">
+        <InnerBox className="p-0 md:p-5 flex flex-col sm:flex-row justify-between items-center gap-4 md:bg-bg-card md:border-[#333]">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-[#d4af37]/10 rounded-full text-[#d4af37]">
               <Trophy size={24} />
@@ -107,13 +107,13 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
               <div className="flex bg-[#222] p-1 rounded-lg">
                 <button
                   onClick={() => setSubTab("titles")}
-                  className={`px-4 py-1.5 rounded-md font-bold text-xs transition-all ${subTab === "titles" ? "bg-[#d4af37] text-black shadow-lg" : "text-text-secondary hover:text-text-primary hover:bg-white/5"}`}
+                  className={`px-4 py-1.5 rounded-md font-bold text-xs transition-all ${subTab === "titles" ? "bg-accent text-bg-main shadow-lg" : "text-text-secondary hover:text-text-primary hover:bg-white/5"}`}
                 >
                   {t("titles")}
                 </button>
                 <button
                   onClick={() => setSubTab("history")}
-                  className={`px-4 py-1.5 rounded-md font-bold text-xs transition-all ${subTab === "history" ? "bg-[#d4af37] text-black shadow-lg" : "text-text-secondary hover:text-text-primary hover:bg-white/5"}`}
+                  className={`px-4 py-1.5 rounded-md font-bold text-xs transition-all ${subTab === "history" ? "bg-accent text-bg-main shadow-lg" : "text-text-secondary hover:text-text-primary hover:bg-white/5"}`}
                 >
                   {t("history")}
                 </button>
@@ -132,7 +132,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
             </div>
           ) : (
             scoreLogs.map(log => (
-              <div key={log.id} className="py-3 px-5 flex items-center justify-between bg-[#151515] border border-[#2a2a2a] rounded-lg hover:border-[#444] transition-colors">
+              <div key={log.id} className="py-3 px-5 flex items-center justify-between bg-bg-main border border-[#2a2a2a] rounded-lg hover:border-[#444] transition-colors">
                 <div className="flex items-center gap-4">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center ${log.amount >= 0 ? 'bg-green-900/20 text-green-400' : 'bg-red-900/20 text-red-400'}`}>
                     {log.type === "title" ? <Trophy size={14} /> : <FileText size={14} />}
@@ -160,7 +160,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
               const progress = total > 0 ? (unlocked / total) * 100 : 0;
               const CategoryIcon = config.icon;
               return (
-                <div key={category} className="bg-[#151515] border border-[#2a2a2a] rounded-lg p-3 relative overflow-hidden group">
+                <div key={category} className="bg-bg-main border border-[#2a2a2a] rounded-lg p-3 relative overflow-hidden group">
                   <div className="absolute bottom-0 left-0 top-0 bg-[#d4af37]/5 transition-all duration-1000" style={{ width: `${progress}%` }} />
                   <div className="relative flex justify-between items-center z-10">
                     <div className="flex items-center gap-2">
@@ -230,11 +230,11 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
                          {/* Selection Overlay */}
                          {canAdd && (
                            <div className="absolute inset-0 bg-[#d4af37]/0 group-hover:bg-[#d4af37]/10 transition-colors rounded-lg z-10 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                             <Plus size={24} className="text-white drop-shadow-md" />
+                             <Plus size={24} className="theme-dark text-white drop-shadow-md" />
                            </div>
                          )}
 
-                         <div className={`p-2 rounded-full mb-2 ${tierStyle.iconBg || 'bg-black/20'}`}>
+                         <div className={`p-2 rounded-full mb-2 ${tierStyle.iconBg || 'bg-bg-secondary/40'}`}>
                            {(() => {
                              const IconComponent = title.icon ? TITLE_ICONS[title.icon] : CategoryIcon;
                              return <IconComponent size={18} className="opacity-90" />;

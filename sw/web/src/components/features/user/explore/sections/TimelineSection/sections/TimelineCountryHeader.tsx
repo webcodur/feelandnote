@@ -23,7 +23,7 @@ export default function TimelineCountryHeader({ countries, country, defaultCount
         <CountryPicker countries={countries} selectedCountry={country} defaultCountry={defaultCountry} />
       </div>
     </div>
-    {(eras.length > 1 || canToggleAll) && <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 border-t border-white/[0.08] bg-black/10 px-3 py-2 md:flex md:gap-x-4 md:px-5" data-timeline-toolbar>
+    {(eras.length > 1 || canToggleAll) && <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 border-t border-white/[0.08] bg-bg-secondary/20 px-3 py-2 md:flex md:gap-x-4 md:px-5" data-timeline-toolbar>
       {eras.length > 1 && <span className="text-[11px] font-medium text-text-tertiary md:hidden">{t('eraNav')}</span>}
       {eras.length > 1 && <nav aria-label={t('eraNav')} className="col-span-2 row-start-2 flex min-w-0 flex-wrap items-center gap-1 md:flex-1 md:gap-1.5">
         {eras.map(({ era, href }) => <Link key={era.key} href={href} prefetch={false} className={nav.chip + ' ' + nav.pill + ' ' + nav.chipIdle.pill + ' max-md:px-1.5 max-md:text-xs outline-none focus-visible:ring-2 focus-visible:ring-accent'}>

@@ -151,7 +151,7 @@ export default function FilterCombobox({
         `}
       >
         <div className="flex items-stretch justify-center w-full min-h-[2.5rem]">
-          <div className={`flex items-center justify-center border-r border-accent/10 bg-black/40 ${icon ? 'px-2.5' : 'flex-[0.35] px-3'}`}>
+          <div className={`flex items-center justify-center border-r border-accent/10 bg-bg-secondary/80 ${icon ? 'px-2.5' : 'flex-[0.35] px-3'}`}>
             {icon ? (
               <span className={isActive ? 'text-accent' : ' opacity-70'}>{icon}</span>
             ) : (

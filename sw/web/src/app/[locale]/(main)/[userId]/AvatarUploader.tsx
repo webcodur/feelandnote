@@ -97,7 +97,7 @@ export default function AvatarUploader({ avatarUrl, nickname, isEditing, onUploa
         disabled={isUploading}
         title={actionLabel}
         aria-label={actionLabel}
-        className="absolute inset-0 rounded-full flex items-center justify-center bg-black/50 text-text-primary opacity-0 hover:opacity-100 disabled:opacity-100 disabled:cursor-wait"
+        className="theme-dark absolute inset-0 rounded-full flex items-center justify-center bg-black/50 text-text-primary opacity-0 hover:opacity-100 disabled:opacity-100 disabled:cursor-wait"
       >
         {isUploading ? <Loader2 size={16} className="animate-spin text-accent" /> : <Camera size={16} />}
       </button>

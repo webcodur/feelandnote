@@ -36,7 +36,7 @@ export default function FactionArtworkHelp({ onClose, caption, settings, navigat
       <aside data-artwork-help aria-label={t("helpTitle")} onClick={event => event.stopPropagation()}
         className="absolute end-2 top-24 max-h-[calc(100dvh-7rem)] w-64 max-w-[calc(100vw-1rem)] overflow-y-auto rounded-lg border border-white/15 bg-bg-main/95 p-3 shadow-lg md:top-14">
         <p className="mb-2 text-xs font-semibold text-white">{t("helpTitle")}</p>
-        <ul className="space-y-1 text-xs leading-4 text-white/80">
+        <ul className="space-y-1 text-xs leading-4 text-text-primary">
           {rows.map(row => <li key={row.key} className="flex items-center gap-2.5">
             <div className="flex w-18 shrink-0 items-center justify-center">{row.icon}</div>
             <span className="break-keep" aria-live={row.key.startsWith("helpCaption") ? "polite" : undefined}>{row.label}</span>

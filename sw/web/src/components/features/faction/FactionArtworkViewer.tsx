@@ -322,10 +322,10 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
     {/* 장면 뷰어는 전체화면 한 겹 — 창 안의 창(중간 모듈)은 없다. 스크롤 잠금·Esc는 이 컴포넌트가 직접 쥔다 */}
     {createPortal(
       <div role="dialog" aria-modal="true" aria-label={title}
-        className="fixed inset-0 flex flex-col bg-bg-main" style={{ zIndex }}>
+        className="theme-dark fixed inset-0 flex flex-col bg-bg-main" style={{ zIndex }}>
         {/* 제목은 좌우 폭이 같은 칸 사이에 둔다. 모바일은 제목을 별도 행에 놓아 조작 버튼과 겹치지 않는다. */}
         <div className="grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 border-b border-white/10 px-2 py-1 md:h-12 md:grid-cols-[minmax(9rem,1fr)_minmax(0,3fr)_minmax(9rem,1fr)] md:py-0">
-          <span data-scene-counter translate="no" aria-live="polite" className="col-start-1 row-start-2 justify-self-start rounded-md bg-black/60 px-2 py-0.5 text-xs tabular-nums text-white/90 md:row-start-1">
+          <span data-scene-counter translate="no" aria-live="polite" className="theme-dark col-start-1 row-start-2 justify-self-start rounded-md bg-black/60 px-2 py-0.5 text-xs tabular-nums text-text-primary md:row-start-1">
             {index + 1} / {slideCount}
           </span>
           {headerLabel ? (
@@ -421,11 +421,11 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
                 className="pointer-events-none absolute -inset-x-4 -inset-y-2 -z-10 rounded-3xl bg-black/55 blur-sm" />}
               {captionSelect && <div className="mb-2 flex justify-end gap-1.5">
                 <button type="button" data-caption-copy onClick={copyCaption} aria-label={t("captionCopy")}
-                  className="flex items-center gap-1.5 rounded-full border border-white/25 bg-black/75 px-3 py-1.5 text-xs font-medium text-white outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
+                  className="theme-dark flex items-center gap-1.5 rounded-full border border-white/25 bg-black/75 px-3 py-1.5 text-xs font-medium text-white outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
                   {captionCopied ? <Check size={14} className="text-accent" /> : <Copy size={14} />}<span>{captionCopied ? t("captionCopied") : t("captionCopy")}</span>
                 </button>
                 <button type="button" data-caption-select-close onClick={() => setCaptionSelect(false)} aria-label={tAccess("close")}
-                  className="flex min-h-8 min-w-8 items-center justify-center rounded-full border border-white/25 bg-black/75 px-2 text-white outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
+                  className="theme-dark flex min-h-8 min-w-8 items-center justify-center rounded-full border border-white/25 bg-black/75 px-2 text-white outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
                   <X size={14} />
                 </button>
               </div>}
@@ -453,7 +453,7 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
               style={{ width: navigationWidth }}
               className="group absolute inset-y-0 start-0 z-[15] hidden cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:cursor-default md:flex">
               <span aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-r from-accent/15 via-accent/5 to-transparent opacity-0 transition-opacity duration-200 ease-out group-enabled:group-hover:opacity-100 group-enabled:group-active:opacity-100 motion-reduce:transition-none" />
-              <span className="absolute top-1/2 grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-transparent bg-black/20 text-white/55 [inset-inline-start:clamp(2.5rem,5vw,4.5rem)] group-disabled:opacity-15 group-enabled:group-hover:border-accent/60 group-enabled:group-hover:text-accent group-enabled:group-active:border-accent group-enabled:group-active:bg-accent/15 group-enabled:group-active:text-white">
+              <span className="absolute top-1/2 grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-transparent bg-black/20 text-text-secondary [inset-inline-start:clamp(2.5rem,5vw,4.5rem)] group-disabled:opacity-15 group-enabled:group-hover:border-accent/60 group-enabled:group-hover:text-accent group-enabled:group-active:border-accent group-enabled:group-active:bg-accent/15 group-enabled:group-active:text-white">
                 <ChevronLeft size={30} aria-hidden />
               </span>
             </button>
@@ -463,7 +463,7 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
               style={{ width: navigationWidth }}
               className="group absolute inset-y-0 end-0 z-[15] hidden cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:cursor-default md:flex">
               <span aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-l from-accent/15 via-accent/5 to-transparent opacity-0 transition-opacity duration-200 ease-out group-enabled:group-hover:opacity-100 group-enabled:group-active:opacity-100 motion-reduce:transition-none" />
-              <span className="absolute top-1/2 grid size-12 translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-transparent bg-black/20 text-white/55 [inset-inline-end:clamp(2.5rem,5vw,4.5rem)] group-disabled:opacity-15 group-enabled:group-hover:border-accent/60 group-enabled:group-hover:text-accent group-enabled:group-active:border-accent group-enabled:group-active:bg-accent/15 group-enabled:group-active:text-white">
+              <span className="absolute top-1/2 grid size-12 translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-transparent bg-black/20 text-text-secondary [inset-inline-end:clamp(2.5rem,5vw,4.5rem)] group-disabled:opacity-15 group-enabled:group-hover:border-accent/60 group-enabled:group-hover:text-accent group-enabled:group-active:border-accent group-enabled:group-active:bg-accent/15 group-enabled:group-active:text-white">
                 <ChevronRight size={30} aria-hidden />
               </span>
             </button>
@@ -471,13 +471,13 @@ export default function FactionArtworkViewer({ images: sourceImages, title, titl
           {/* 모바일은 ‹ ›가 그림 위에 흐리게 겹친다 — 넘기기는 밀기가 기본이고 이 단추는 보조다 */}
           {hasNavigation && (
             <button type="button" onClick={() => navigate(-1)} disabled={!canPrevious} aria-label={previousLabel}
-              className="absolute start-2 top-1/2 z-[5] -translate-y-1/2 rounded-full bg-black/30 p-2 text-white/60 outline-none enabled:hover:bg-black/60 enabled:hover:text-accent focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-0 md:hidden">
+              className="theme-dark absolute start-2 top-1/2 z-[5] -translate-y-1/2 rounded-full bg-black/30 p-2 text-text-secondary outline-none enabled:hover:bg-black/60 enabled:hover:text-accent focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-0 md:hidden">
               <ChevronLeft size={22} aria-hidden />
             </button>
           )}
           {hasNavigation && (
             <button type="button" onClick={() => navigate(1)} disabled={!canNext} aria-label={nextLabel}
-              className="absolute end-2 top-1/2 z-[5] -translate-y-1/2 rounded-full bg-black/30 p-2 text-white/60 outline-none enabled:hover:bg-black/60 enabled:hover:text-accent focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-0 md:hidden">
+              className="theme-dark absolute end-2 top-1/2 z-[5] -translate-y-1/2 rounded-full bg-black/30 p-2 text-text-secondary outline-none enabled:hover:bg-black/60 enabled:hover:text-accent focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-0 md:hidden">
               <ChevronRight size={22} aria-hidden />
             </button>
           )}

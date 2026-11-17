@@ -130,7 +130,7 @@ export default function CelebGlobePanel({ filters, onInteraction }: {
         ) : (
           <PendingBlock variant="panel" minHeight="min-h-full" className="absolute inset-0" />
         )}
-        <p className="pointer-events-none absolute bottom-3 left-3 max-w-[calc(100%-90px)] rounded bg-black/70 px-2 py-1 text-[11px] text-text-secondary">{t("hint")}</p>
+        <p className="theme-dark pointer-events-none absolute bottom-3 left-3 max-w-[calc(100%-90px)] rounded bg-black/70 px-2 py-1 text-[11px] text-text-secondary">{t("hint")}</p>
       </div>
 
       <div className="space-y-4 border-t border-line p-4">

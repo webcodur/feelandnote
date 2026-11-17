@@ -94,7 +94,7 @@ export default function LibraryBanner() {
   const pageOwnsTitle = CURATED_DETAIL_PATH.test(pathname);
   // 기관 선정은 로고 갤러리와 이어지는 편집형 머리말을 쓴다.
   if (subSegment === "curated") {
-    return <header className={`border-b border-line ${pageOwnsTitle ? "mb-6 pb-5" : "mb-7 pb-7 md:mb-10 md:pb-9"}`}>
+    return <header data-frame-wide className={`border-b border-line ${pageOwnsTitle ? "mb-6 pb-5" : "mb-7 pb-7 md:mb-10 md:pb-9"}`}>
       <nav aria-label={tA11y("breadcrumb")} className="mb-4 flex flex-wrap items-center gap-2 text-xs text-text-tertiary">
         {ancestors.map(crumb => <span key={crumb.href} className="inline-flex items-center gap-2">
           <Link href={crumb.href} className="rounded-sm outline-none hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">{crumb.label}</Link>

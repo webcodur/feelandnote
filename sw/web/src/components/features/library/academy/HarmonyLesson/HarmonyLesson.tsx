@@ -43,10 +43,10 @@ function SheetExampleCard({ example }: { example: SheetExample }) {
     <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 sm:p-4">
       <div className="mb-2 flex items-center gap-2">
         <Music className="h-3.5 w-3.5 text-[#d4af37]/60" />
-        <span className="text-xs font-medium text-white/80">{example.label}</span>
+        <span className="text-xs font-medium text-text-primary">{example.label}</span>
       </div>
       <SheetMusic abc={example.abc} playable={example.playable} />
-      {example.caption && <p className="mt-2 text-[13px] leading-relaxed text-white/55">{example.caption}</p>}
+      {example.caption && <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">{example.caption}</p>}
     </div>
   );
 }
@@ -246,7 +246,7 @@ export default function HarmonyLesson({
                 {t("lesson.completedBadge")}
               </span>
             )}
-            {savingLessonId === activeLesson.id && <Loader2 className="h-3 w-3 animate-spin text-white/45" />}
+            {savingLessonId === activeLesson.id && <Loader2 className="h-3 w-3 animate-spin text-text-tertiary" />}
           </div>
         )}
       </div>
@@ -269,14 +269,14 @@ export default function HarmonyLesson({
                 </span>
               )}
             </div>
-            <p className="mb-3 text-sm leading-relaxed text-white/75 sm:text-[15px] line-clamp-2">{activeLesson.description}</p>
+            <p className="mb-3 text-sm leading-relaxed text-text-secondary sm:text-[15px] line-clamp-2">{activeLesson.description}</p>
             <div>
-              <h4 className="mb-1.5 text-[11px] font-semibold uppercase tracking-widest text-white/50">
+              <h4 className="mb-1.5 text-[11px] font-semibold uppercase tracking-widest text-text-tertiary">
                 {t("lesson.objectives")}
               </h4>
               <ul className="space-y-1.5">
                 {activeLesson.objectives.map((objective, i) => (
-                  <li key={i} className="flex items-start gap-2 text-[13px] text-white/80 sm:text-sm">
+                  <li key={i} className="flex items-start gap-2 text-[13px] text-text-primary sm:text-sm">
                     <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[#d4af37]/60" />
                     <span>{objective}</span>
                   </li>
@@ -337,7 +337,7 @@ export default function HarmonyLesson({
                         style={{ width: "100%", height: "auto" }}
                       />
                       {currentStep.imageAlt && (
-                        <p className="px-3 py-2 text-[11px] text-white/50 bg-white/[0.02]">{currentStep.imageAlt}</p>
+                        <p className="px-3 py-2 text-[11px] text-text-tertiary bg-white/[0.02]">{currentStep.imageAlt}</p>
                       )}
                     </div>
                   )

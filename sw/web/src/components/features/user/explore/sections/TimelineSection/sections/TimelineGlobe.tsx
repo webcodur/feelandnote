@@ -52,7 +52,7 @@ export default function TimelineGlobe({ countries, country, defaultCountry }: {
     <div className="relative h-[170px] md:h-[260px]">
       <WorldGlobe {...globeProps} fillContainer className="h-full rounded-none border-0 bg-transparent" allowPageScroll={!hasMouse}
         onExpand={() => setExpanded(true)} expandLabel={map('timelineExpandMap')} expandAriaLabel={map('timelineExpandMapLabel')} />
-      <p className="pointer-events-none absolute bottom-3 left-3 max-w-[calc(100%-90px)] rounded bg-black/70 px-2 py-1 text-[10px] text-text-secondary">{t('globeHint')}</p>
+      <p className="theme-dark pointer-events-none absolute bottom-3 left-3 max-w-[calc(100%-90px)] rounded bg-black/70 px-2 py-1 text-[10px] text-text-secondary">{t('globeHint')}</p>
     </div>
     {expanded && <Modal isOpen onClose={() => setExpanded(false)} title={t('globeLabel')} size="full" stickyHeader frame="plain" boxClassName="rounded-panel border border-white/20 bg-bg-main">
       <div className="relative h-[min(65dvh,640px)]" data-timeline-globe-expanded>

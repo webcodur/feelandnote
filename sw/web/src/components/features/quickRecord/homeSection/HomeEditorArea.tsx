@@ -212,7 +212,7 @@ export function HomeEditorArea({
                     {/* Dynamic Controls based on Active Tab */}
                     <div className="absolute right-0 flex items-center gap-4">
                         {activeMainTab === 'REVIEW' && (
-                            <div className="flex bg-black/20 p-1 rounded-lg">
+                            <div className="flex bg-bg-secondary/40 p-1 rounded-lg">
                                 <button
                                     onClick={() => setActiveTab('EDIT')}
                                     className={`flex items-center justify-center p-2 rounded-md transition-all ${

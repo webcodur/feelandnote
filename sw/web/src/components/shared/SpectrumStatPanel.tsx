@@ -31,7 +31,7 @@ function StatRow({ label, value, rationale }: { label: string; value: number; ra
     <div className="flex flex-col">
       <div className="grid grid-cols-[80px_1fr_40px] items-center gap-2">
         <span className="text-xs font-medium text-accent truncate" title={label}>{label}</span>
-        <div className="grid grid-cols-10 gap-0.5 rounded-sm bg-black/30 p-1 border border-white/10">
+        <div className="grid grid-cols-10 gap-0.5 rounded-sm bg-bg-secondary/60 p-1 border border-white/10">
           {Array.from({ length: 10 }, (_, i) => {
             const segStart = i * 10;
             const fill = Math.max(0, Math.min(10, score - segStart)) / 10;
@@ -72,7 +72,7 @@ function TendencyRow({ labels, value, rationale }: { labels: [string, string]; v
         <span className="text-xs font-mono text-text-primary tabular-nums">{displayValue}</span>
         <span className="text-xs font-medium text-accent">{labels[1]}</span>
       </div>
-      <div className="relative h-2 rounded-sm border border-white/10 bg-black/30">
+      <div className="relative h-2 rounded-sm border border-white/10 bg-bg-secondary/60">
         <span className="absolute left-1/2 top-0 bottom-0 w-px bg-white/20" />
         <span
           className="absolute top-1/2 h-3 w-3 rounded-full border border-white/40 bg-[#5caeff]"
@@ -164,7 +164,7 @@ export default function SpectrumStatPanel({ stats }: SpectrumStatPanelProps) {
   return (
     <>
       {/* 탭 */}
-      <div className="flex border-b border-white/10 bg-black/20 px-2 pt-2">
+      <div className="flex border-b border-white/10 bg-bg-secondary/40 px-2 pt-2">
         {TAB_KEYS.map((key) => (
           <button
             key={key}

@@ -94,7 +94,7 @@ export default function PersonNameplate({ person, onClick, rank }: Props) {
               {person.nickname}
             </h3>
             
-            <div className="flex items-center gap-4 text-xs text-white/50">
+            <div className="flex items-center gap-4 text-xs text-text-tertiary">
               <div className="flex items-center gap-1.5 overflow-hidden">
                 <BookOpen size={12} className="shrink-0" />
                 <span className="truncate">{t("record")} {person.content_count ?? 0}</span>

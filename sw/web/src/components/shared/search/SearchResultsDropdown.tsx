@@ -27,7 +27,7 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
 };
 
 const CELEB_SEARCH_ACTION_CLASS =
-  "inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-md border border-white/15 bg-black/60 text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent active:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 md:h-11 md:w-11";
+  "theme-dark inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-md border border-white/15 bg-black/60 text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent active:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 md:h-11 md:w-11";
 
 export interface SearchResult {
   id: string;
@@ -97,7 +97,7 @@ export default function SearchResultsDropdown({
 
   const containerClass = isMobile
     ? "bg-bg-card border border-border rounded-xl overflow-hidden max-h-[calc(100vh-80px)] overflow-y-auto"
-    : "absolute top-full left-0 right-0 mt-2 bg-[#0a0a0a]/95 backdrop-blur-xl border border-accent/20 rounded-xl shadow-[0_4px_30px_rgba(0,0,0,0.7)] overflow-hidden max-h-[400px] overflow-y-auto";
+    : "absolute top-full left-0 right-0 mt-2 bg-bg-secondary/95 backdrop-blur-xl border border-accent/20 rounded-xl shadow-[0_4px_30px_rgba(0,0,0,0.7)] overflow-hidden max-h-[400px] overflow-y-auto";
 
   return (
     <div className={containerClass} style={isMobile ? undefined : { zIndex: Z_INDEX.dropdown }}>

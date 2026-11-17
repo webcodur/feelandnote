@@ -33,7 +33,7 @@ interface FlowDetailProps {
 
 function DragOverlayContent({ content }: { content: Content }) {
   return (
-    <div className="flex items-center gap-2 px-3 py-2 bg-[#1a1a1a] border border-accent/50 rounded-lg shadow-xl shadow-accent/20 cursor-grabbing">
+    <div className="flex items-center gap-2 px-3 py-2 bg-bg-card border border-accent/50 rounded-lg shadow-xl shadow-accent/20 cursor-grabbing">
       <div className="w-8 h-11 bg-[#222] rounded overflow-hidden shrink-0 relative">
         <ContentCover src={content.thumbnail_url} alt="" sizes="32px" fallback={<div className="w-full h-full flex items-center justify-center text-[11px] text-white/20">
             {content.title.slice(0, 4)}
@@ -295,7 +295,7 @@ export default function FlowDetail({ flowId }: FlowDetailProps) {
         <div className="w-full px-6 md:px-10 mb-3 md:mb-4">
           <Link
             href={`/${flow.user_id}/reading/collections`}
-            className="inline-flex p-2 text-white/50 hover:text-white transition-colors"
+            className="inline-flex p-2 text-text-tertiary hover:text-white transition-colors"
           >
             <ArrowLeft size={24} />
           </Link>

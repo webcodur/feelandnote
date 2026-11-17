@@ -1,5 +1,6 @@
 "use client";
 
+import { readableAccent } from "@/lib/theme";
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import type { SpectrumPerson } from "@/actions/spectrum/getSpectrumDistribution";
@@ -57,8 +58,8 @@ export default function SpectrumPlot({ axis, dot, step, placed, overflow, barBuc
         ))}
 
         {/* 축 끝 라벨 — 양극 색 강조 */}
-        <span className="pointer-events-none absolute bottom-2 left-3 text-sm font-extrabold tracking-tight sm:text-base" style={{ color: colors.neg }}>{neg}</span>
-        <span className="pointer-events-none absolute bottom-2 right-3 text-sm font-extrabold tracking-tight sm:text-base" style={{ color: colors.pos }}>{pos}</span>
+        <span className="pointer-events-none absolute bottom-2 left-3 text-sm font-extrabold tracking-tight sm:text-base" style={{ color: readableAccent(colors.neg) }}>{neg}</span>
+        <span className="pointer-events-none absolute bottom-2 right-3 text-sm font-extrabold tracking-tight sm:text-base" style={{ color: readableAccent(colors.pos) }}>{pos}</span>
         <span className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 text-xs text-text-secondary/50">{t("middle")}</span>
 
         {/* 모바일: 구간 막대 — 터치하면 아래 목록이 그 구간으로 바뀐다 (탭 영역은 기둥 전체) */}

@@ -8,6 +8,7 @@
 
 "use client";
 
+import { readableAccent } from "@/lib/theme";
 import type { CSSProperties, ReactNode } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -49,7 +50,7 @@ export default function PodiumBoard({
   valuePrefix?: ReactNode;
 }) {
   const locale = useLocale();
-  const vars = { "--rk-accent": accent, "--rk-soft": `${accent}1f` } as CSSProperties;
+  const vars = { "--rk-accent": readableAccent(accent), "--rk-soft": `${accent}1f` } as CSSProperties;
 
   return (
     <ol className="mx-auto grid max-w-xl grid-cols-3 items-end gap-1.5 sm:gap-4" style={vars}>
@@ -95,7 +96,7 @@ export default function PodiumBoard({
                 )}
                 <div className="mt-1 flex items-center justify-center gap-1 border-t border-white/[0.06] pt-1">
                   {valuePrefix}
-                  <span className="font-cinzel text-xs font-black tabular-nums sm:text-sm" style={{ color: accent }}>
+                  <span className="font-cinzel text-xs font-black tabular-nums sm:text-sm" style={{ color: "var(--rk-accent)" }}>
                     {item.value}
                     {item.unit && <span className="ml-0.5 font-sans text-[11px] font-medium text-text-secondary sm:text-xs">{item.unit}</span>}
                   </span>

@@ -27,8 +27,8 @@ export default function SpectrumInfoPanel({ person, spectrum, loading }: Props) 
 
   return (
     <div className="rounded-lg border border-white/20 bg-[#d9d9d9]/5 p-3 sm:p-4">
-      <div className="rounded border border-white/20 bg-black/25">
-        <div className="flex items-center gap-3 border-b border-white/10 bg-black/30 p-3">
+      <div className="rounded border border-white/20 bg-bg-secondary/50">
+        <div className="flex items-center gap-3 border-b border-white/10 bg-bg-secondary/60 p-3">
           <div className="h-14 w-14 overflow-hidden rounded-sm border border-white/20 bg-bg-secondary">
             {person.avatar_url ? (
               // 인물 선택이 바뀔 때마다 등장 효과가 다시 재생되도록 key로 구분한다

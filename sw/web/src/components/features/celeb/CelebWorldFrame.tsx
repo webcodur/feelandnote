@@ -22,27 +22,34 @@ interface CelebWorldFrameProps {
 /** 네 종류가 공유하는 테두리 폭. 바깥 크기를 같게 유지한다 */
 const FRAME_PADDING = "p-2";
 
+/*
+  색은 테마마다 따로 준다(light-dark). 다크의 짙은 틀을 밝은 종이 위에 그대로 두면 사진보다 틀이 먼저 보인다.
+  라이트는 같은 재질을 한 단 밝게 — 목판은 밝은 나무, 석재는 석회암, 금선은 불투명한 금, 근현대는 흰 매트(전시 액자의 속지)다.
+  어두운 구역(.theme-dark) 안에서는 다크 값으로 돌아간다.
+*/
 const SURFACES: { readonly [key in WorldFrame]: string } = {
-  wood: "linear-gradient(150deg, #6b4f33, #4a3522 45%, #5d4229)",
-  stone: "linear-gradient(160deg, #4a4a45, #2e2e2a 55%, #3d3d38)",
-  gilt: "linear-gradient(145deg, rgba(var(--color-accent-rgb),0.5), rgba(var(--color-accent-rgb),0.14) 42%, rgba(var(--color-accent-rgb),0.38))",
+  wood: "linear-gradient(150deg, light-dark(#a9825a, #6b4f33), light-dark(#86623f, #4a3522) 45%, light-dark(#9b744c, #5d4229))",
+  stone: "linear-gradient(160deg, light-dark(#d2cdc0, #4a4a45), light-dark(#aeaa9d, #2e2e2a) 55%, light-dark(#c2bdb0, #3d3d38))",
+  gilt: "linear-gradient(145deg, light-dark(#d2ab52, rgba(var(--color-accent-rgb),0.5)), light-dark(#96741f, rgba(var(--color-accent-rgb),0.14)) 42%, light-dark(#c39a3a, rgba(var(--color-accent-rgb),0.38)))",
   // 근현대도 테두리에 무게가 있어야 한다. 비워 두면 폭이 같아도 혼자 얇아 보인다
-  plain: "linear-gradient(150deg, #232323, #141414 55%, #1d1d1d)",
+  plain: "linear-gradient(150deg, light-dark(#fffefb, #232323), light-dark(#f0eadc, #141414) 55%, light-dark(#f8f4ea, #1d1d1d))",
 };
 
+const DROP = "0 2px 10px light-dark(rgba(60,44,20,0.28), rgba(0,0,0,0.5))";
+
 const OUTER_SHADOWS: { readonly [key in WorldFrame]: string } = {
-  wood: "inset 0 0 0 1px rgba(0,0,0,0.45), 0 2px 10px rgba(0,0,0,0.5)",
-  stone: "inset 0 0 0 1px rgba(255,255,255,0.06), 0 2px 10px rgba(0,0,0,0.5)",
-  gilt: "0 2px 10px rgba(0,0,0,0.45)",
-  plain: "inset 0 0 0 1px rgba(255,255,255,0.10), 0 2px 10px rgba(0,0,0,0.45)",
+  wood: `inset 0 0 0 1px light-dark(rgba(60,36,12,0.55), rgba(0,0,0,0.45)), ${DROP}`,
+  stone: `inset 0 0 0 1px light-dark(rgba(50,46,36,0.45), rgba(255,255,255,0.06)), ${DROP}`,
+  gilt: `inset 0 0 0 1px light-dark(rgba(90,62,8,0.6), transparent), ${DROP}`,
+  plain: `inset 0 0 0 1px light-dark(rgba(60,42,15,0.4), rgba(255,255,255,0.10)), ${DROP}`,
 };
 
 /** 사진 바로 바깥에 앉는 안쪽 선. 틀마다 결이 다르다 */
 const INNER_SHADOWS: { readonly [key in WorldFrame]: string } = {
-  wood: "inset 0 0 0 2px rgba(0,0,0,0.35)",
-  stone: "inset 0 0 0 2px rgba(0,0,0,0.4)",
-  gilt: "inset 0 0 0 1px rgba(var(--color-accent-rgb),0.6), inset 0 0 0 3px rgba(0,0,0,0.55)",
-  plain: "inset 0 0 0 1px rgba(var(--color-accent-rgb),0.35)",
+  wood: "inset 0 0 0 2px light-dark(rgba(50,30,10,0.5), rgba(0,0,0,0.35))",
+  stone: "inset 0 0 0 2px light-dark(rgba(50,46,36,0.45), rgba(0,0,0,0.4))",
+  gilt: "inset 0 0 0 1px light-dark(rgba(255,236,170,0.9), rgba(var(--color-accent-rgb),0.6)), inset 0 0 0 3px light-dark(rgba(70,48,6,0.6), rgba(0,0,0,0.55))",
+  plain: "inset 0 0 0 1px light-dark(rgba(60,42,15,0.5), rgba(var(--color-accent-rgb),0.35))",
 };
 
 export default function CelebWorldFrame({ frame, children, className = "" }: CelebWorldFrameProps) {

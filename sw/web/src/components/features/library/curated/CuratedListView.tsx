@@ -7,6 +7,7 @@
         원문 순서·순위를 그대로 따르고 아직 등록되지 않은 작품도 빼지 않는다 — 100선은 100편이어야 한다.
 */ // ------------------------------
 
+import { readableAccent } from "@/lib/theme";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft, Download, ExternalLink } from "lucide-react";
@@ -49,7 +50,7 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
 
             {/* 기관 구분만 강조색, 나머지는 같은 회색 칩으로 통일한다 */}
             <div className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-[12px]">
-              <span className="rounded border px-1.5 py-0.5" style={{ color: brand.accent, borderColor: `${brand.accent}40` }}>
+              <span className="rounded border px-1.5 py-0.5" style={{ color: readableAccent(brand.accent), borderColor: `${brand.accent}40` }}>
                 {t(`kind.${list.curator.kind}`)}
               </span>
               {list.curator.country && (

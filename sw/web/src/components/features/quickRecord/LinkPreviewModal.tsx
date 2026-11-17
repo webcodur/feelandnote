@@ -113,7 +113,7 @@ export default function LinkPreviewModal({
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 relative bg-white overflow-hidden">
+        <div className="flex-1 relative bg-[#fff] overflow-hidden">
             {/* Loader */}
             {isLoading && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-bg-main z-20 space-y-3">
@@ -163,7 +163,7 @@ export default function LinkPreviewModal({
             </div>
 
             {/* 2. ORIGINAL MODE (iframe) */}
-            <div className={`w-full h-full bg-white transition-opacity duration-300 ${mode === 'ORIGINAL' ? 'opacity-100 z-10' : 'opacity-0 z-0 absolute inset-0 pointer-events-none'}`}>
+            <div className={`w-full h-full bg-[#fff] transition-opacity duration-300 ${mode === 'ORIGINAL' ? 'opacity-100 z-10' : 'opacity-0 z-0 absolute inset-0 pointer-events-none'}`}>
                 {iframeError ? (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-bg-main p-6 text-center space-y-4">
                          <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mb-2">
@@ -185,7 +185,7 @@ export default function LinkPreviewModal({
                 ) : (
                     <iframe
                         src={url}
-                        className="w-full h-full border-0 bg-white"
+                        className="w-full h-full border-0 bg-[#fff]"
                         onError={() => setIframeError(true)}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen

@@ -38,7 +38,7 @@ export default function FactionCard({ locale = "ko", factions = [] }: FactionCar
           <Link
             key={faction.id}
             href={`/explore/faction/${faction.slug}`}
-            className={`${HUB_FACTION_CARD} group border-white/10 bg-[#0d0c0b] shadow-[0_18px_50px_rgba(0,0,0,0.28)] outline-none hover:border-white/35 focus-visible:border-[#d4af37] focus-visible:ring-2 focus-visible:ring-[#d4af37]/55`}
+            className={`theme-dark ${HUB_FACTION_CARD} group border-white/10 bg-[#0d0c0b] shadow-[0_18px_50px_rgba(0,0,0,0.28)] outline-none hover:border-white/35 focus-visible:border-[#d4af37] focus-visible:ring-2 focus-visible:ring-[#d4af37]/55`}
           >
             {faction.cover ? (
               <>
@@ -80,7 +80,7 @@ export default function FactionCard({ locale = "ko", factions = [] }: FactionCar
                 {title}
               </h3>
               {desc && (
-                <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-white/70 md:mt-2 md:text-base lg:text-lg">{desc}</p>
+                <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-text-secondary md:mt-2 md:text-base lg:text-lg">{desc}</p>
               )}
             </div>
 

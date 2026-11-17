@@ -83,7 +83,7 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
         />
         <div className="flex-1 min-w-0">
           {isEditing ? (
-            <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} maxLength={20} className="w-full h-8 bg-black/30 border border-accent/20 rounded-sm px-2 text-sm font-semibold text-text-primary outline-none focus:border-accent/50" />
+            <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} maxLength={20} className="w-full h-8 bg-bg-secondary/60 border border-accent/20 rounded-sm px-2 text-sm font-semibold text-text-primary outline-none focus:border-accent/50" />
           ) : (
             <span className="text-sm font-semibold text-text-primary block truncate">{displayNickname}</span>
           )}
@@ -136,7 +136,7 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
       {/* bio */}
       {isEditing ? (
         <div className="mb-3">
-          <textarea value={bioValue} onChange={(e) => setBioValue(e.target.value)} placeholder={t("bioPlaceholder")} className="w-full bg-black/30 border border-accent/20 rounded-sm p-3 text-sm text-text-primary resize-none focus:outline-none focus:border-accent/50 placeholder:text-text-tertiary" rows={3} maxLength={200} />
+          <textarea value={bioValue} onChange={(e) => setBioValue(e.target.value)} placeholder={t("bioPlaceholder")} className="w-full bg-bg-secondary/60 border border-accent/20 rounded-sm p-3 text-sm text-text-primary resize-none focus:outline-none focus:border-accent/50 placeholder:text-text-tertiary" rows={3} maxLength={200} />
           <span className="text-xs text-text-secondary">{bioValue.length} / 200</span>
         </div>
       ) : bioValue ? (
@@ -179,7 +179,7 @@ function MetaEditFields({ nationality, setNationality, birthDate, setBirthDate }
       </div>
       <div>
         <FieldLabel label={t("birthdateLabel")} clearLabel={t("clear")} value={birthDate} onClear={() => setBirthDate("")} />
-        <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="w-full h-9 bg-black/30 border border-accent/20 rounded-sm px-2 text-sm text-text-primary outline-none focus:border-accent/50" />
+        <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="w-full h-9 bg-bg-secondary/60 border border-accent/20 rounded-sm px-2 text-sm text-text-primary outline-none focus:border-accent/50" />
       </div>
     </div>
   );

@@ -167,7 +167,7 @@ export default function ContentStatsModal({
               </div>
 
               {/* 안내 문구 */}
-              <div className="px-4 py-2.5 border-t border-border/30 bg-stone-950/30">
+              <div className="px-4 py-2.5 border-t border-border/30 bg-bg-secondary/30">
                 <p className="text-xs font-sans text-center">
                   {t("stats.note")}
                 </p>
@@ -177,7 +177,7 @@ export default function ContentStatsModal({
         </ModalBody>
 
         {/* 푸터: 닫기 버튼 */}
-        <ModalFooter className="!py-3 !px-5 bg-stone-950/50 border-t border-border/30 justify-end">
+        <ModalFooter className="!py-3 !px-5 bg-bg-secondary/50 border-t border-border/30 justify-end">
           <Button
             unstyled
             onClick={onClose}

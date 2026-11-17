@@ -84,7 +84,7 @@ export default function AtlasOverview({ myth, navigation }: Props) {
               </BlurDissolve>
               <FactionArtworkTitle title={myth.name} />
               {scenes.length > 0 && (
-                <span className="pointer-events-none absolute bottom-3 start-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-xs font-semibold text-text-primary backdrop-blur-sm">
+                <span className="theme-dark pointer-events-none absolute bottom-3 start-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-xs font-semibold text-text-primary backdrop-blur-sm">
                   <Images size={13} className="shrink-0 text-accent" aria-hidden />{atCover ? t('coverImage') : t('keyScenes')}
                   {!atCover && <span className="tabular-nums text-accent">{sceneIndex + 1}/{scenes.length}</span>}
                 </span>

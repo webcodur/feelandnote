@@ -41,7 +41,7 @@ function EditionCoverBand({ badge, className }: { badge: ReturnType<typeof getEd
     className={`absolute! inset-x-0 top-1/2 -translate-y-1/2 border-y border-accent/60 bg-black/75 text-center ${className || ""}`} />;
   return (
     <span
-      className={`pointer-events-none absolute inset-x-0 top-1/2 z-10 -translate-y-1/2 border-y border-accent/60 bg-black/75 px-1 py-1 text-center text-[11px] font-medium leading-tight tracking-wide text-accent ${className || ""}`}
+      className={`theme-dark pointer-events-none absolute inset-x-0 top-1/2 z-10 -translate-y-1/2 border-y border-accent/60 bg-black/75 px-1 py-1 text-center text-[11px] font-medium leading-tight tracking-wide text-accent ${className || ""}`}
     >
       {t(badge === "no-ko" ? "noKo" : "noEn")}
     </span>

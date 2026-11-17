@@ -146,6 +146,10 @@
       "momentumNote": "The page keeps gliding for a moment after you let go.",
       "toTop": "Jump to top",
       "toBottom": "Jump to bottom"
+    },
+    "theme": {
+      "toLight": "Switch to light mode",
+      "toDark": "Switch to dark mode"
     }
   },
   "pages": {

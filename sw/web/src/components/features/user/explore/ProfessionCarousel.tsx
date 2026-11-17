@@ -63,7 +63,7 @@ export default function ProfessionCarousel({
         {/* Left Arrow (Desktop) */}
         <button
           onClick={() => scroll("left")}
-          className={`hidden md:flex absolute -left-4 top-[calc(50%-20px)] -translate-y-1/2 z-20 w-10 h-10 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-white hover:bg-accent hover:text-black transition-all duration-300 ${
+          className={`theme-dark hidden md:flex absolute -left-4 top-[calc(50%-20px)] -translate-y-1/2 z-20 w-10 h-10 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-white hover:bg-accent hover:text-black transition-all duration-300 ${
             !showLeftArrow
               ? "opacity-0 pointer-events-none"
               : "opacity-0 group-hover/slider:opacity-100"
@@ -76,7 +76,7 @@ export default function ProfessionCarousel({
         {/* Right Arrow (Desktop) */}
         <button
           onClick={() => scroll("right")}
-          className={`hidden md:flex absolute -right-4 top-[calc(50%-20px)] -translate-y-1/2 z-20 w-10 h-10 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-white hover:bg-accent hover:text-black transition-all duration-300 ${
+          className={`theme-dark hidden md:flex absolute -right-4 top-[calc(50%-20px)] -translate-y-1/2 z-20 w-10 h-10 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-white hover:bg-accent hover:text-black transition-all duration-300 ${
             !showRightArrow
               ? "opacity-0 pointer-events-none"
               : "opacity-0 group-hover/slider:opacity-100"

@@ -15,6 +15,7 @@ import HeaderRecentProfiles from "./HeaderRecentProfiles";
 import HeaderProfileMenu from "./HeaderProfileMenu";
 import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
+import ThemeToggle from "@/components/shared/ThemeToggle";
 import { LinkPending } from "@/components/ui/pending";
 import { Z_INDEX } from "@/constants/zIndex";
 import useNavigationToTop from "@/hooks/useNavigationToTop";
@@ -70,7 +71,7 @@ export default function Header({ navigationHref }: { navigationHref?: string } =
   return (
     // 좌우 여백은 노치가 있는 가로 화면에서 안전 영역만큼 더 들어간다(viewport-fit=cover)
     <header
-      className="fixed top-0 start-0 flex h-16 w-full items-center border-b border-line bg-bg-secondary/90 backdrop-blur-md pl-[max(12px,env(safe-area-inset-left))] pr-[max(12px,env(safe-area-inset-right))] md:pl-[max(24px,env(safe-area-inset-left))] md:pr-[max(24px,env(safe-area-inset-right))] xl:pl-[max(40px,env(safe-area-inset-left))] xl:pr-[max(40px,env(safe-area-inset-right))]"
+      className="theme-frame fixed top-0 start-0 flex h-16 w-full items-center border-b border-line bg-bg-secondary/90 backdrop-blur-md pl-[max(12px,env(safe-area-inset-left))] pr-[max(12px,env(safe-area-inset-right))] md:pl-[max(24px,env(safe-area-inset-left))] md:pr-[max(24px,env(safe-area-inset-right))] xl:pl-[max(40px,env(safe-area-inset-left))] xl:pr-[max(40px,env(safe-area-inset-right))]"
       style={{ zIndex: Z_INDEX.header }}
     >
       <div className="relative flex w-full min-w-0 items-center gap-2 md:gap-6">
@@ -124,6 +125,8 @@ export default function Header({ navigationHref }: { navigationHref?: string } =
 
           {/* 최근 방문 (모바일만 — 데스크톱은 좌측 중앙 패널이 쥔다) */}
           <HeaderRecentProfiles />
+
+          <ThemeToggle />
 
           {/* 언어 전환 (데스크톱) */}
           <LocaleSwitcher variant="icon" />

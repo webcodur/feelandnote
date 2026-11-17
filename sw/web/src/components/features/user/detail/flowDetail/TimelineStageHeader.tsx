@@ -60,7 +60,7 @@ export default function TimelineStageHeader({
             }}
           />
         ) : (
-          <h3 className="text-sm md:text-base font-serif font-bold text-white/80 truncate">
+          <h3 className="text-sm md:text-base font-serif font-bold text-text-primary truncate">
             {stage.name}
           </h3>
         )}
@@ -75,11 +75,11 @@ export default function TimelineStageHeader({
           {isRenaming ? (
             <>
               <Button unstyled onClick={handleSaveRename} className="w-6 h-6 flex items-center justify-center rounded border border-accent/30 text-accent hover:bg-accent/10 transition-colors" aria-label={t("save")}><Check size={11} /></Button>
-              <Button unstyled onClick={() => { setIsRenaming(false); setNewName(stage.name); }} className="w-6 h-6 flex items-center justify-center rounded border border-white/10 text-white/40 hover:bg-white/5 transition-colors" aria-label={t("cancel")}><X size={11} /></Button>
+              <Button unstyled onClick={() => { setIsRenaming(false); setNewName(stage.name); }} className="w-6 h-6 flex items-center justify-center rounded border border-white/10 text-text-tertiary hover:bg-white/5 transition-colors" aria-label={t("cancel")}><X size={11} /></Button>
             </>
           ) : (
             <>
-              <Button unstyled onClick={() => { setIsRenaming(true); setNewName(stage.name); }} className="w-6 h-6 flex items-center justify-center rounded text-white/20 hover:text-white/50 transition-colors" aria-label={t("rename")}><Pencil size={11} /></Button>
+              <Button unstyled onClick={() => { setIsRenaming(true); setNewName(stage.name); }} className="w-6 h-6 flex items-center justify-center rounded text-white/20 hover:text-text-tertiary transition-colors" aria-label={t("rename")}><Pencil size={11} /></Button>
               <Button unstyled onClick={onDeleteStage} className="w-6 h-6 flex items-center justify-center rounded text-red-400/20 hover:text-red-400/50 transition-colors" aria-label={t("delete")}><Trash2 size={11} /></Button>
             </>
           )}

@@ -16,7 +16,7 @@ export async function generateMetadata() {
 export default async function Page() {
   const t = await getTranslations('auth')
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950">
+    <div className="flex min-h-screen items-center justify-center bg-bg-secondary">
       <div className="w-full max-w-md space-y-8 p-8">
         {/* 로고 */}
         <div className="text-center">

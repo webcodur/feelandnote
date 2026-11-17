@@ -12,7 +12,7 @@ export const BANNER_COMPACT_HEIGHT_CLASS = "h-[128px] md:h-[140px]";
 
 /** 움직이는 무늬 위에서도 읽히도록 옅은 그림자를 깐다. */
 const BANNER_DESKTOP_TYPE_CLASS =
-  "font-bold leading-tight tracking-tight text-text-primary text-center text-balance [text-shadow:0_2px_16px_rgba(0,0,0,0.85)]";
+  "font-bold leading-tight tracking-tight text-text-primary text-center text-balance [text-shadow:var(--banner-title-shadow)]";
 
 export const BANNER_TITLE_CLASS = `text-4xl ${BANNER_DESKTOP_TYPE_CLASS} md:text-[2.75rem]`;
 
@@ -33,7 +33,7 @@ export const BANNER_CRUMB_CURRENT_CLASS =
   "pointer-events-auto rounded-sm [font-weight:inherit] hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer";
 
 /** 넓은 화면 배너 틀 — 캔버스 무늬를 둥근 판 하나에 담고, 아래 본문과 간격을 둔다
-    (본문 폭 틀 PageContainer는 위아래 여백을 갖지 않는다) */
+    (본문 폭 틀 PageContainer는 위아래 여백을 갖지 않는다). 무늬 색은 globals.css의 --banner-* 토큰이 테마마다 쥔다 */
 export const BANNER_DESKTOP_SHELL_CLASS =
   "hidden md:block mx-auto mb-8 max-w-[var(--content-max-default)] overflow-hidden rounded-panel border border-line";
 

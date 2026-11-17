@@ -13,7 +13,7 @@ export default function ContentReadingBody({ kind, label, text, sourceUrl, textL
   sourceUrl?: string | null
   textLayout?: 'inline' | 'prose'
 }) {
-  return <span data-content-reading-body={kind} className={`font-normal [word-break:normal] [overflow-wrap:anywhere] ${kind === 'intro' ? 'text-book-intro' : 'text-review'}`}>
+  return <span data-content-reading-body={kind} className={`[font-weight:var(--reading-weight)] [word-break:normal] [overflow-wrap:anywhere] ${kind === 'intro' ? 'text-book-intro' : 'text-review'}`}>
     <span data-content-reading-label={kind} className="font-medium text-text-secondary">
       <ContentSourceLabel href={sourceUrl}>{label}</ContentSourceLabel>{': '}
     </span>

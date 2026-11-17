@@ -52,7 +52,7 @@ export default function ResetPasswordPage() {
 
   if (success) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-950">
+      <div className="flex min-h-screen items-center justify-center bg-bg-secondary">
         <div className="w-full max-w-md space-y-8 p-8 text-center">
           <CheckCircle className="mx-auto h-16 w-16 text-green-500" />
           <h1 className="text-xl font-semibold text-white">{t('success')}</h1>
@@ -63,7 +63,7 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950">
+    <div className="flex min-h-screen items-center justify-center bg-bg-secondary">
       <div className="w-full max-w-md space-y-8 p-8">
         <div className="text-center">
           <Logo size="lg" />
@@ -79,7 +79,7 @@ export default function ResetPasswordPage() {
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 pr-12 text-white placeholder-zinc-500 focus:border-accent focus:outline-none"
+                className="w-full rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 pr-12 text-white placeholder-zinc-500 focus:border-accent focus:outline-none"
                 placeholder={t('passwordPlaceholder')}
                 required
               />
@@ -100,7 +100,7 @@ export default function ResetPasswordPage() {
               type={showPassword ? 'text' : 'password'}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white placeholder-zinc-500 focus:border-accent focus:outline-none"
+              className="w-full rounded-lg border border-zinc-700 bg-bg-card px-4 py-3 text-white placeholder-zinc-500 focus:border-accent focus:outline-none"
               placeholder={t('confirmPlaceholder')}
               required
             />

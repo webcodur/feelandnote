@@ -3,8 +3,8 @@ import { ReactNode, ElementType, HTMLAttributes } from "react";
 // #region 스타일 상수
 const variantStyles = {
   default: "bg-gradient-to-br from-stone-900/60 to-stone-950/80 border-stone-800/50 hover:border-stone-700/70",
-  subtle: "bg-stone-900/40 border-stone-800/40 hover:border-stone-700/60",
-  dark: "bg-black/40 border-stone-800/30 hover:border-stone-700/50",
+  subtle: "bg-bg-card/40 border-stone-800/40 hover:border-stone-700/60",
+  dark: "bg-bg-secondary/80 border-stone-800/30 hover:border-stone-700/50",
 } as const;
 // #endregion
 

@@ -70,7 +70,7 @@ export default function SearchContent() {
             onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
             className="w-full max-w-3xl"
           >
-            <div className="bg-black/20">
+            <div className="bg-bg-secondary/40">
               {/* 1행: 카테고리 + 정렬 필터 */}
               <div className="flex items-center justify-center flex-wrap gap-2 px-4 py-4">
                 {/* 카테고리 필터 */}

@@ -10,6 +10,7 @@
         모든 매체의 구매·감상 진입점은 표지 아래에 붙인다.
 */ // ------------------------------
 
+import { readableAccent } from "@/lib/theme";
 import { useTranslations } from "next-intl";
 import RankingStage from "@/components/shared/RankingStage";
 import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
@@ -54,7 +55,7 @@ function ShelfWork({ work, index }: { work: RankingShelfWork; index: number }) {
           <ContentPurchaseAction {...work} placement="ranking-shelf" />
         }
         overlayTopLeft={
-          <span className="rounded-md bg-black/75 px-1.5 py-1 font-mono text-[11px] font-bold tabular-nums text-white">
+          <span className="theme-dark rounded-md bg-black/75 px-1.5 py-1 font-mono text-[11px] font-bold tabular-nums text-white">
             {String(index + 1).padStart(2, "0")}
           </span>
         }
@@ -83,7 +84,7 @@ export default function RankingShelf({ shelf, accent }: { shelf: RankingShelfDat
             {groups.length > 1 && (
               <p
                 className="mb-3 border-s-2 ps-2 text-[13px] font-bold tracking-wide"
-                style={group.accented ? { color: accent, borderColor: accent } : { borderColor: "rgba(255,255,255,0.2)" }}
+                style={group.accented ? { color: readableAccent(accent), borderColor: accent } : { borderColor: "var(--color-line-strong)" }}
               >
                 {group.title}
               </p>

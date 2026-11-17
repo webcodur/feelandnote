@@ -68,7 +68,7 @@ export default function BottomNav({ navigationHref }: { navigationHref?: string 
   return (
     // 고정은 바깥 틀 하나만 한다. 위에 붙는 띠(bottomNavDock)도 이 틀 안에서 함께 움직인다.
     // 틀에 backdrop-filter를 걸지 않는다 — 안쪽 띠의 흐림이 본문을 보지 못하게 된다.
-    <div ref={frameRef} className="fixed inset-x-0 bottom-0 min-[1340px]:hidden" style={{ zIndex: Z_INDEX.bottomNav }}>
+    <div ref={frameRef} className="theme-frame fixed inset-x-0 bottom-0 min-[1340px]:hidden" style={{ zIndex: Z_INDEX.bottomNav }}>
       {/* 음악 창이 포털로 들어가는 자리. 이 고정 틀 안에 있어야 창(화면 가운데 모달)이 내비와 같은 층에서 뜬다. 높이가 없어 아래를 가리지 않는다 */}
       <div ref={isNarrow ? setMusicNavPanelSlot : undefined} className="pointer-events-none absolute inset-x-0 bottom-full" />
       <div ref={isNarrow ? setBottomNavDock : undefined} />

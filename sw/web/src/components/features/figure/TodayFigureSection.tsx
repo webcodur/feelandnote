@@ -70,7 +70,7 @@ export default function TodayFigureSection({ figure, initialContents, initialCon
 
     // 선정 사유 마크 — 알약 오른쪽 위에 걸리는 표시 하나에 문구·아이콘·색을 묶는다
     const reasonMark = source?.type === "news"
-            ? { label: t("newsChip", { count: source.newsCount }), icon: <Newspaper size={9} strokeWidth={2.5} />, className: "bg-blue-500/90 text-white" }
+            ? { label: t("newsChip", { count: source.newsCount }), icon: <Newspaper size={9} strokeWidth={2.5} />, className: "bg-blue-500/90 text-[#fff]" }
             : null;
 
     return (

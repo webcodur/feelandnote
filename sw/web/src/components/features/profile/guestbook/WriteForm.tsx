@@ -95,7 +95,7 @@ export default function WriteForm({
         }}
         className={`${
           isCeleb
-            ? "rounded-md border border-white/[0.09] bg-black/[0.16] shadow-[0_18px_45px_rgba(0,0,0,0.16)] focus-within:border-accent/50 focus-within:bg-black/20"
+            ? "rounded-md border border-white/[0.09] bg-bg-secondary/32 shadow-[0_18px_45px_rgba(0,0,0,0.16)] focus-within:border-accent/50 focus-within:bg-bg-secondary/40"
             : "rounded-lg bg-white/[0.02]"
         } overflow-hidden`}
       >

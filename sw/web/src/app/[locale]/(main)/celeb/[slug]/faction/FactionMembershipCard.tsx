@@ -189,7 +189,7 @@ export default function FactionMembershipCard({
             href={`/explore/faction/${faction.slug}`}
             aria-label={t("factionOpen")}
             title={t("factionOpen")}
-            className="absolute end-0 top-0 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white/70 outline-none hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent"
+            className="absolute end-0 top-0 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-text-secondary outline-none hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent"
           >
             <ArrowUpRight size={15} aria-hidden />
           </Link>

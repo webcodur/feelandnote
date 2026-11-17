@@ -114,7 +114,7 @@ export default function ReviewsSection({
           </Link>
         ) : undefined}
       />
-      {bookCovers && bookCovers.items.length > 0 && <CelebBookCovers nickname={nickname}
+      {bookCovers && bookCovers.items.length > 0 && <CelebBookCovers userId={userId} nickname={nickname}
         items={bookCovers.items} total={bookCovers.total} onSelect={showBookOnShelf} />}
       <ViewAllRecordsConfirmModal
         isOpen={isRecordsConfirmOpen}

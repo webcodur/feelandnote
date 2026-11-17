@@ -31,7 +31,7 @@ export default function ControlPanel({
   return (
     <div
       className={cn(
-        "border border-white/10 bg-black/40 backdrop-blur-md rounded-lg overflow-hidden relative group",
+        "border border-white/10 bg-bg-secondary/80 backdrop-blur-md rounded-lg overflow-hidden relative group",
         className
       )}
     >

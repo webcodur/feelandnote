@@ -322,7 +322,7 @@ export default function SwipeRail() {
 
   return (
     <div
-      className={styles.rail}
+      className={`theme-frame ${styles.rail}`}
       style={{ zIndex: Z_INDEX.fab }}
       data-dragging={dragging || undefined}
       data-gliding={gliding || undefined}

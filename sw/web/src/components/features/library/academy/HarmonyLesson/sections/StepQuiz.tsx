@@ -40,13 +40,13 @@ export function StepQuizQuestion({
       </div>
 
       <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
-        <p className="mb-3 text-[15px] font-medium leading-relaxed text-white/90 sm:text-base">
+        <p className="mb-3 text-[15px] font-medium leading-relaxed text-text-primary sm:text-base">
           {question.question}
         </p>
 
         <div className="flex flex-col gap-1.5">
           {question.choices.map((choice, cIndex) => {
-            let style = "border-white/[0.06] bg-white/[0.02] text-white/65 hover:border-white/15 hover:text-white/80";
+            let style = "border-white/[0.06] bg-white/[0.02] text-text-secondary hover:border-white/15 hover:text-text-primary";
 
             if (selected === cIndex && !revealed) {
               style = "border-[#d4af37]/30 bg-[#d4af37]/10 text-[#d4af37]/90";

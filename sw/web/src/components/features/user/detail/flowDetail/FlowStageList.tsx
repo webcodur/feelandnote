@@ -105,10 +105,10 @@ export default function FlowStageList({
     return (
       <div className="text-center py-20 border-2 border-dashed border-white/[0.04] rounded-2xl">
         <Layers size={40} className="mx-auto mb-4 text-white/10" />
-        <p className="font-serif text-base text-white/60 mb-2">{t("emptyFlow")}</p>
+        <p className="font-serif text-base text-text-secondary mb-2">{t("emptyFlow")}</p>
         <p className="text-sm text-text-tertiary mb-6">{t("emptyFlowGuide")}</p>
         {isOwner && (
-          <Button onClick={() => setIsEditMode(true)} className="px-5 py-2 bg-accent text-black font-bold hover:bg-accent-hover rounded-full text-sm">
+          <Button onClick={() => setIsEditMode(true)} className="px-5 py-2 bg-accent text-bg-main font-bold hover:bg-accent-hover rounded-full text-sm">
             {t("startEdit")}
           </Button>
         )}
