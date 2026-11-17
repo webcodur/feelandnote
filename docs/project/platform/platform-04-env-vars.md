@@ -27,11 +27,12 @@ Daum 웹마스터 PIN은 로컬 운영용 `credentials/daum-webmaster-pin.txt`�
 
 R2 Oracle DB 암호화 백업의 복구키는 `credentials/oracle-db-backup-age.key`에 둔다. 서버에는 공개 recipient만 둔다. 이 파일이 없으면 백업을 풀 수 없으니 새 컴퓨터로 옮길 때 빠뜨리지 않는다.
 
-저장소 **밖** 파일도 5종 있다.
+저장소 **밖** 파일도 6종 있다.
 
 | 파일 | 위치 | 용도 |
 |------|------|------|
 | `ga-credentials.json` | `C:/Users/<사용자>/.claude/` | 검색 콘솔 MCP 인증 |
+| `firecrawl.keys` | `C:/Users/<사용자>/AppData/Local/AgentWeb/` | Firecrawl 무료 요금제 계정 키 묶음. 한 줄에 `키 | 계정 이름`. 같은 폴더의 공용 실행기 `web-tools.mjs`가 읽어 날짜마다 다음 계정으로 돌려 쓴다. 파일이 없으면 키 없는 무료 모드로 돈다. 계정당 월 1,000크레딧이며 유료 요금제로 올리지 않는다 |
 | `.antigravity-agent/` 폴더 (`.mk` + `cloud_accounts.db`) | `C:/Users/<사용자>/.antigravity-agent/` | 🔴 **agy(Antigravity CLI) 구글 구독 계정 풀.** `agm`(github.com/shyim/agm)이 읽는 AES-256 암호화 DB와 복호화 마스터키의 세트다 — `.mk` 유출 시 등록 계정 전부 탈취. 운용·설치 상세는 폴더 안 `SETUP.md`가 쥔다 |
 | `obscura.exe` | `C:\Tools\obscura\<버전>\` | 브라우저 MCP 실행 파일 (비밀값 아님, 재설치로 대체 가능) |
 | `rootca.key`·`rootca.crt`·`rootca.srl` | `C:/Users/<사용자>/.feelandnote/cloudflare-aop/` | Cloudflare Authenticated Origin Pulls 갱신용 CA. `rootca.key`는 비밀값이며 Oracle에는 올리지 않는다. 로컬 사본이 없어도 현재 서비스는 계속 뜨지만 인증서 갱신 때 새 CA로 교체해야 한다 |
