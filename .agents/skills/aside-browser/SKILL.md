@@ -19,11 +19,12 @@ Aside는 사용자 계정으로 로그인된 실제 브라우저다. CDP로 제�
   - 26.09.28 기준: `u0` = Profile 0(구글 `webcodur@gmail.com` 로그인, Search Console 도메인 속성 권한), `u1` = Profile 1(기본, 구글 계정 여러 개), `u2` = Profile 2.
   - 기본 프로필에서 권한 계정이 안 보인다고 구글 전체 로그아웃·재로그인으로 풀지 않는다. 26.09.28에 이 확인을 건너뛰고 Profile 1의 구글 계정 10개를 전부 로그아웃했다가, 이미 로그인된 `u0`를 뒤늦게 찾았다.
   - 구글 계정 목록은 `googleAccounts.list()`(google-accounts 스킬)로 본다. 이 값도 `--account`로 고른 프로필 기준이다.
+  - 26.11.18: `u2`(Profile 2)에 `webcodur.us001@gmail.com`(Gemini Ultra 20x)이 로그인돼 있다. 같은 프로필에 `webcodur.tk001@gmail.com`도 있다. 구글 계정 목록은 `https://accounts.google.com/SignOutOptions`를 열어 본문의 주소를 읽으면 프로필별로 바로 나온다. `aside repl`은 `return` 값을 찍지 않으니 결과는 `console.log`로 낸다.
   - 26.11.09: `u0`의 9번에 `webcodur.tk001@gmail.com`(Gemini Ultra)을 추가했다. Argon 풀 표기는 `u0:9`다. Ultra 배지도 Pro와 같이 Argon 러너의 구독 확인을 통과한다. 26.11.11부터 Ultra 계정은 모드 메뉴에 Carbon이 있어 러너가 Carbon High를 고른다. 이름이 비슷한 8번 `webcotk001@gmail.com`은 별개 계정이다.
 
 ## 로컬 개발 화면 확인에도 1순위다
 
-`localhost:3001` 백오피스처럼 로그인 뒤에 있는 로컬 화면도 Aside의 세션으로 바로 열린다(26.09.18 실측). Chrome 확장은 연결이 끊겨 있기 일쑤고 obscura는 localhost를 거부하므로, 화면을 봐야 하면 Aside부터 연다.
+`localhost:3001` 백오피스처럼 로그인 뒤에 있는 로컬 화면도 Aside의 세션으로 바로 열린다(26.09.18 실측). Chrome 확장은 연결이 끊겨 있기 일쑤이므로, 화면을 봐야 하면 Aside부터 연다.
 
 - `page.waitForTimeout`·`page.setViewportSize`는 없다. 대기는 `sleep(ms)`, 뷰포트는 기본 1440×900을 그대로 쓴다.
 - **이동 직후 첫 `page.screenshot`은 CDP 타임아웃이 잦다.** `bringToFront()` → `sleep(1500)` 뒤 다시 찍으면 된다. 재시도 루프를 스크립트 안에 넣는다.
