@@ -1,4 +1,4 @@
-import {formattedPlainText} from './formatted-text.mjs';
+import {formattedPlainText,quoteCarries} from './formatted-text.mjs';
 
 // Warm reading-way text stays distinct from the green book reviews.
 export const READING_WAY_STYLE=Object.freeze({titleColor:'#b05210',bodyColor:'#5e3a21'});
@@ -30,6 +30,6 @@ export function readingWaySection(subject){
  if(typeof value?.text!=='string'||!value.text.trim()||value.source!=='celebs:'+subject.id+':reading_way')throw Error('Exact service reading way and provenance required');
  return [
   {kind:'text',text:'독서 방식',role:'heading',align:'center',bold:true,color:READING_WAY_STYLE.titleColor,anchor:'reading-way',gapBefore:false},
-  ...value.text.replace(/\r\n/g,'\n').trim().split(/\n+/).map(text=>text.trim()).filter(Boolean).map(text=>({kind:'text',text:formattedPlainText(text),formattedText:true,role:'body',align:'left',bold:true,color:READING_WAY_STYLE.bodyColor,gapBefore:true})),
+  ...value.text.replace(/\r\n/g,'\n').trim().split(/\n+/).map(text=>text.trim()).filter(Boolean).map(formattedPlainText).map((text,i,all)=>{const carry=quoteCarries(all)[i];return {kind:'text',text,formattedText:true,role:'body',align:'left',bold:true,color:READING_WAY_STYLE.bodyColor,gapBefore:true,...(carry?{quoteCarry:carry}:{})};}),
  ];
 }

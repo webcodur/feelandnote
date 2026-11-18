@@ -90,3 +90,13 @@ test('목차 항목은 인용구 하나로 묶고 책장 카드는 목차 라벨
  const images=a.operations.filter(o=>o.kind==='image');assert.equal(images[1].role,'shelf-card');assert.equal(images[1].sha256,card.sha256);assert.ok(images[1].url.startsWith('file:'));
  assert.throws(()=>compileUnifiedArticle({...input(),shelfCard:{...card,sha256:'bad'}}),/shelf card/);
 });
+
+test('consecutive images sharing a strip id form one side-by-side flow item', () => {
+  const article = {operations: [
+    {kind: 'text', text: 'A', role: 'body'},
+    {kind: 'image', strip: 'strip-1'}, {kind: 'image', strip: 'strip-1'}, {kind: 'image', strip: 'strip-1'},
+    {kind: 'image', strip: 'strip-2'}, {kind: 'image', strip: 'strip-2'},
+    {kind: 'image'},
+  ]};
+  assert.deepEqual(unifiedFlow(article), [{kind: 'text', text: 'A'}, {kind: 'imageStrip', indexes: [0, 1, 2]}, {kind: 'imageStrip', indexes: [3, 4]}, {kind: 'image', index: 5}]);
+});

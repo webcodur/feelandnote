@@ -61,3 +61,19 @@ test('saved verification rejects lost color or bold and ignores span splitting',
   quote.color=rgb(op.color);assert.ok(!formattedParagraphMatches(op,p));
   quote.color=rgb(NAVER_INLINE_COLOR);quote.weight=400;assert.ok(!formattedParagraphMatches(op,p));
 });
+
+test('a quotation wrapping several paragraphs is accented in every paragraph it spans', async () => {
+  const {quoteCarries} = await import('./formatted-text.mjs');
+  const paragraphs = ['그는 이렇게 썼다. “첫 문단이다.', '가운데 문단이다.', '끝 문단이다.” 그 뒤의 해설이다.', '혼자 닫힌 “짧은 인용”만 있는 문단이다.'];
+  assert.deepEqual(quoteCarries(paragraphs), ['open', 'mid', 'close', null]);
+  assert.deepEqual(quoteCarries(['여는 부호만 있다. “닫히지 않는다.', '다음 문단이다.']), [null, null]);
+  assert.deepEqual(quoteCarries(['“한 문단 인용” 뒤에 “또 연다.', '닫는다.”']), ['open', 'close']);
+  const first = formattedTextRuns(paragraphs[0], NAVER_REVIEW_COLOR, 'open');
+  assert.deepEqual(first.map(run => [run.text, run.color]), [['그는 이렇게 썼다. ', NAVER_REVIEW_COLOR], ['“첫 문단이다.', NAVER_REVIEW_INLINE_COLOR]]);
+  assert.deepEqual(formattedTextRuns(paragraphs[1], NAVER_REVIEW_COLOR, 'mid').map(run => run.color), [NAVER_REVIEW_INLINE_COLOR]);
+  const last = formattedTextRuns(paragraphs[2], NAVER_REVIEW_COLOR, 'close');
+  assert.deepEqual(last.map(run => [run.text, run.color]), [['끝 문단이다.”', NAVER_REVIEW_INLINE_COLOR], [' 그 뒤의 해설이다.', NAVER_REVIEW_COLOR]]);
+  assert.equal(first.map(run => run.text).join(''), paragraphs[0]);
+  // 표시가 없으면 예전처럼 문단 안에서 짝이 맞는 부호만 강조한다.
+  assert.deepEqual(formattedTextRuns(paragraphs[1], NAVER_REVIEW_COLOR).map(run => run.color), [NAVER_REVIEW_COLOR]);
+});

@@ -11,7 +11,7 @@ import {createEditorialEditor} from './lib/editorial-editor.mjs';
 import {readSnapshot,closePublishPanel} from './repair-institution-images.mjs';
 import {assertPublishOptions} from './lib/publish-options.mjs';
 import {readParagraphPresentation} from './lib/unified-typography.mjs';
-import {formattedParagraphMatches,formattedPlainText,NAVER_REVIEW_COLOR,BODY_STYLE_VERSION} from './lib/formatted-text.mjs';
+import {formattedParagraphMatches,formattedPlainText,quoteCarries,NAVER_REVIEW_COLOR,BODY_STYLE_VERSION} from './lib/formatted-text.mjs';
 import {READING_WAY_STYLE} from './lib/reading-way-section.mjs';
 import {fragment} from './apply-unified-article.mjs';
 import {blurbKey,POLITE_ENDING} from './convert-blurbs-plain.mjs';
@@ -37,6 +37,13 @@ export function bodyTargets(paragraphs){
   if(!isBody(p)){section=null;continue;}
   targets.push({index,section,text:p.text,op:{kind:'text',text:formattedPlainText(p.text),formattedText:true,role:'body',align:'left',bold:true,color:BASE_COLOR[section],gapBefore:false}});
  }
+ // 이어진 문단 묶음마다 여러 문단을 감싼 큰따옴표 인용을 가려 걸친 문단에 표시한다.
+ let from=0;
+ for(let k=1;k<=targets.length;k++){
+  if(k<targets.length&&targets[k].index===targets[k-1].index+1&&targets[k].section===targets[k-1].section)continue;
+  const group=targets.slice(from,k),carries=quoteCarries(group.map(t=>t.op.text));
+  group.forEach((t,n)=>{if(carries[n])t.op={...t.op,quoteCarry:carries[n]};});from=k;
+ }
  return targets;
 }
 const stable=ps=>ps.map(({text,align,sizes,weights,colors,backgrounds})=>({text,align,sizes,weights,colors,backgrounds}));
@@ -50,7 +57,8 @@ export function plainBlurbs(targets,conversions){
  for(const g of groups){
   const original=g.map(t=>t.text),c=conversions[blurbKey(original)];if(!c&&!original.some(t=>POLITE_ENDING.test(t)))continue;
   if(!c||c.paragraphs.length!==g.length)throw Error('Reviewed plain-style introduction missing: '+original[0].slice(0,40));
-  g.forEach((t,k)=>{t.op={...t.op,text:formattedPlainText(c.paragraphs[k])};});
+  const next=c.paragraphs.map(formattedPlainText),carries=quoteCarries(next);
+  g.forEach((t,k)=>{const {quoteCarry,...op}=t.op;t.op={...op,text:next[k],...(carries[k]?{quoteCarry:carries[k]}:{})};});
  }
 }
 export const bodyStyleProblems=style=>bodyTargets(style).filter(t=>!formattedParagraphMatches(t.op,style[t.index])).map(t=>t.section+': '+t.text.slice(0,40));

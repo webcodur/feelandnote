@@ -12,6 +12,7 @@ import {readSnapshot, closePublishPanel} from './repair-institution-images.mjs';
 import {assertPublishOptions} from './lib/publish-options.mjs';
 import {readParagraphPresentation} from './lib/unified-typography.mjs';
 import {formattedPlainText, quoteCarries, BODY_STYLE_VERSION} from './lib/formatted-text.mjs';
+import {UNIFIED_ARTICLE} from './lib/unified-article.mjs';
 import {fragment} from './apply-unified-article.mjs';
 import {EDITOR_SELECTOR, openTarget} from './restyle-body.mjs';
 import {textsDigest, articleTexts} from './lib/body-baseline.mjs';
@@ -22,16 +23,23 @@ const flow = s => s.flow.flatMap(f => f.kind === 'se-text' ? f.paragraphs.map(te
 const stable = ps => ps.map(({text, align, sizes, weights, colors, backgrounds}) => ({text, align, sizes, weights, colors, backgrounds}));
 const HEAD = t => t.endsWith('의 감상'), END = t => t === '감상 근거';
 // 글줄 목록에서 감상 구획을 찾는다: 「…의 감상」 다음 줄부터 「감상 근거」 앞까지.
-export function guideSections(texts) {
+// isReview(줄 번호별 참·거짓)를 주면 구획의 시작을 「감상 근거」 바로 위로 이어진 감상 문단(초록·왼쪽 정렬)의 첫 줄로 잡는다.
+// 이름 줄이 제목 아래로 올라가 감상 글 바로 앞에 머리 줄이 없는 글(26.11.18 배치)과 예전 배치를 함께 읽는다.
+export function guideSections(texts, isReview = null) {
   const out = [];
-  for (let i = 0; i < texts.length; i++) { if (!HEAD(texts[i])) continue; const end = texts.findIndex((t, j) => j > i && END(t)); if (end < 0) throw Error('감상 구획에 근거 링크가 없다: ' + texts[i]); out.push({head: texts[i], start: i + 1, end, paragraphs: texts.slice(i + 1, end)}); }
+  for (let i = 0; i < texts.length; i++) { if (!HEAD(texts[i])) continue; const end = texts.findIndex((t, j) => j > i && END(t)); if (end < 0) throw Error('감상 구획에 근거 링크가 없다: ' + texts[i]);
+    // 제목 아래에도 같은 「…의 감상」 줄이 있다(26.11.18). 근거 링크 앞에 머리 줄이 또 나오면 뒤쪽이 감상 구획의 머리다.
+    if (texts.some((t, j) => j > i && j < end && HEAD(t))) continue;
+    let start = i + 1; if (isReview) { start = end; while (start - 1 > i && isReview[start - 1]) start--; if (start === end) throw Error('감상 문단을 찾지 못했다: ' + texts[i]); }
+    out.push({head: texts[i], start, end, paragraphs: texts.slice(start, end)}); }
   return out;
 }
 
 export async function patchGuideReviews(file, {apply = false} = {}) {
   const article = read(file), dir = path.join(path.dirname(file), article.logNo + '-patch-' + Date.now());
   const ops = article.operations.filter(o => ['text', 'link'].includes(o.kind) && !o.quote).map(o => ({...o, plain: o.formattedText ? formattedPlainText(o.text) : o.text}));
-  const want = guideSections(ops.map(o => o.plain)).map(s => ({...s, ops: ops.slice(s.start, s.end), href: ops[s.end].href}));
+  const GREEN = UNIFIED_ARTICLE.reviewColor.toLowerCase(), rgb = 'rgb(' + GREEN.slice(1).match(/../g).map(v => parseInt(v, 16)).join(', ') + ')';
+  const want = guideSections(ops.map(o => o.plain), ops.map(o => o.kind === 'text' && String(o.color ?? '').toLowerCase() === GREEN && o.align === 'left')).map(s => ({...s, ops: ops.slice(s.start, s.end), href: ops[s.end].href}));
   const posts = read(REGISTRY), post = posts.find(p => String(p.logNo) === String(article.logNo) && p.kind === 'curated' && ['ok', 'check'].includes(p.link)); if (!post) throw Error('기관 글을 원장에서 못 찾았다: ' + article.logNo);
   fs.mkdirSync(dir, {recursive: true});
   const {browser, launched} = await getBrowser({background: true, protocolTimeout: 60000});
@@ -43,7 +51,8 @@ export async function patchGuideReviews(file, {apply = false} = {}) {
     await page.setViewport({width: 1440, height: 1700}); const editor = createExistingEditor(page), native = createEditorialEditor(page);
     const opened = await openTarget(page, post); await closePublishPanel(page, editor);
     const before = await readSnapshot(page), beforeStyle = await page.evaluate(readParagraphPresentation, EDITOR_SELECTOR), texts = flow(before).filter(o => o.kind === 'text').map(o => o.text);
-    const have = guideSections(texts), sources = before.links.filter(l => l.text === '감상 근거').map(l => l.href);
+    if (!same(beforeStyle.map(p => p.text), texts)) return {changed: false, needsFullRewrite: true, why: ['편집기 글줄과 서식 목록이 어긋난다']};
+    const have = guideSections(texts, beforeStyle.map(p => p.align === 'left' && p.colors.length > 0 && p.colors.every(c => c === rgb))), sources = before.links.filter(l => l.text === '감상 근거').map(l => l.href);
     // 구획 수·이름 줄·근거 링크가 조립본과 같아야 부분 교체로 끝낼 수 있다. 다르면 감상자가 바뀐 것이다.
     const differ = have.length !== want.length ? ['구획 수 ' + have.length + ' → ' + want.length] : have.flatMap((s, k) => [s.head !== want[k].head && `이름 줄: ${s.head} → ${want[k].head}`, sources[k] !== want[k].href && `근거 링크(${s.head})`].filter(Boolean));
     if (differ.length) return {changed: false, needsFullRewrite: true, why: differ};

@@ -4,7 +4,7 @@ import {AVATAR_WIDTH} from '../apply-institution-revisions.mjs';
 import {EDITORIAL_PORTRAIT_WIDTH} from './editorial-editor.mjs';
 import {readingWaySection} from './reading-way-section.mjs';
 import {PERSON_FULL_LIST,personFullListSection,listTableHtml} from './person-full-list.mjs';
-import {formattedPlainText, formattedTextHtml, NAVER_REVIEW_COLOR} from './formatted-text.mjs';
+import {formattedPlainText, formattedTextHtml, quoteCarries, NAVER_REVIEW_COLOR} from './formatted-text.mjs';
 import {pathToFileURL} from 'node:url';
 
 // One policy for the HTML preview, native writer, and completion checker.
@@ -92,7 +92,8 @@ export function compileUnifiedArticle(input) {
   if(selectionOnly&&input.books.some(b=>(b.reviews??(b.review?[b]:[])).length))throw Error('Selection-only institution cannot discard existing reading notes');
   const operations = [], sources = [], addText = (text, role='body', align=null,anchor=null,format={}) => {
     const formatted = role==='body' && (align===null || align==='left' || format.formattedText===true);
-    for (const [i,part] of split(text).entries()) operations.push({kind:'text',text:formatted?formattedPlainText(part):part,role,align:align??(['heading','label','author'].includes(role)?'center':'left'),...(formatted?{formattedText:true,bold:true}:{}),...format,...(anchor&&i===0?{anchor}:{})});
+    const parts=split(text).map(part=>formatted?formattedPlainText(part):part),carries=formatted?quoteCarries(parts):[];
+    for (const [i,part] of parts.entries()) operations.push({kind:'text',text:part,role,align:align??(['heading','label','author'].includes(role)?'center':'left'),...(formatted?{formattedText:true,bold:true}:{}),...(carries[i]?{quoteCarry:carries[i]}:{}),...format,...(anchor&&i===0?{anchor}:{})});
   }, addLink = (text,href,align='center') => operations.push({kind:'link',text,href:url(href),role:'label',align});
   operations.push({kind:'image',url:url(subject.imageUrl),width:UNIFIED_ARTICLE.portraitWidth,role:input.kind==='celeb'?'portrait':'logo',name:subject.name});
   addText(funnel?.heading??(subject.name+(subject.profession?' · '+subject.profession:'')),'heading','center');
@@ -134,7 +135,7 @@ export function compileUnifiedArticle(input) {
       const first=operations.length;addText(note.review,'body','left',null,{color:UNIFIED_ARTICLE.reviewColor,bold:true,gapBefore:true});
       Object.assign(operations[first],{gapBefore:false,attachPrevious:true});
       if (operations.slice(first).map(p=>p.text).join('\n\n')!==split(note.review).map(formattedPlainText).join('\n\n')) throw Error('Service review text was altered');
-      addLink('감상 근거 · 원문',note.source_url,'right');
+      addLink('감상 근거',note.source_url,'right'); // 「· 원문」을 뗀다(26.11.17 사용자 지시). 바로 아래 줄이 「작품 상세」다
       sources.push({review_id:note.id,content_id:book.content_id,sha256:digest(note.review),source_url:url(note.source_url)});
     }
     addLink('작품 상세','https://feelandnote.com/content/'+book.content_id+'?category=book','right');
@@ -173,6 +174,8 @@ export function unifiedFlow(article){
  for(const o of article.operations){
   if(o.placement==='cover-caption')continue;
   if(o.quote){if(prior?.quote===o.quote)flow.at(-1).paragraphs.push(o.text);else flow.push({kind:'quote',paragraphs:[o.text]});prior=o;continue;}
+  // 같은 strip 번호의 연속 사진은 편집기의 나란히 놓기 한 덩어리다(curated-guide-article.mjs).
+  if(o.kind==='image'&&o.strip){if(prior?.strip===o.strip)flow.at(-1).indexes.push(image++);else flow.push({kind:'imageStrip',indexes:[image++]});prior=o;continue;}
   prior=o;
   flow.push(['text','link'].includes(o.kind)?{kind:'text',text:o.text}:o.kind==='image'?{kind:'image',index:image++}:o.kind==='divider'?{kind:'divider'}:{kind:'table',rows:[o.columns,...o.rows]});
  }
@@ -183,11 +186,13 @@ export function renderUnifiedArticle(article,{imageSources={}}={}) {
   const f=UNIFIED_ARTICLE.font;
   const body=article.operations.map((op,index)=>{
     if(op.placement==='cover-caption')return '';
-    if(op.kind==='image'){const next=article.operations[index+1],caption=next?.placement==='cover-caption'?`<figcaption><p data-role="label" style="font-size:${f.label}px;text-align:center;font-weight:700;line-height:1.5;margin:9px 0 0"><a href="${escape(next.href)}"><strong>${escape(next.text)}</strong></a></p></figcaption>`:'';return `<figure style="text-align:center;margin:28px 0"><img src="${escape(imageSources[op.url]??op.url)}" alt="${escape(op.name)}" style="display:block;margin:auto;width:${op.width}px;max-width:100%;height:auto">${caption}</figure>`;}
-    if(op.kind==='divider')return '<hr style="border:0;border-top:1px solid #ddd;margin:40px 0">';
+    // 나란히 놓기 묶음은 첫 사진 자리에서 한 줄로 그린다.
+    if(op.kind==='image'&&op.strip){if(article.operations[index-1]?.strip===op.strip)return '';const members=article.operations.slice(index).filter((o,i,a)=>a.slice(0,i+1).every(x=>x.strip===op.strip));return `<figure style="display:flex;gap:6px;margin:28px 0">${members.map(o=>`<img src="${escape(imageSources[o.url]??o.url)}" alt="${escape(o.name)}" style="flex:1 1 0;min-width:0;width:100%;height:auto;align-self:center">`).join('')}</figure>`;}
+    if(op.kind==='image'){const next=article.operations[index+1],caption=next?.placement==='cover-caption'?`<figcaption><p data-role="label" style="font-size:${f.label}px;text-align:center;font-weight:700;line-height:1.5;margin:9px 0 0">${next.kind==='link'?`<a href="${escape(next.href)}"><strong>${escape(next.text)}</strong></a>`:`<strong>${escape(next.text)}</strong>`}</p></figcaption>`:'';return `<figure style="text-align:center;margin:28px 0"><img src="${escape(imageSources[op.url]??op.url)}" alt="${escape(op.name)}" style="display:block;margin:auto;width:${op.width}px;max-width:100%;height:auto">${caption}</figure>`;}
+    if(op.kind==='divider')return '<hr style="border:0;border-top:1px solid #ddd;margin:28px 0">';
     if(op.kind==='table')return listTableHtml(op);
-    const p=textPresentation(op),style=`font-size:${p.size}px;line-height:1.7;text-align:${p.align};font-weight:${p.bold?700:400};color:${p.color};margin:${p.gapBefore?26:0}px 0 ${op.role==='label'?8:op.quote?4:12}px;${op.quote?'border-left:3px solid #ccc;padding-left:16px;':''}`;
-    const value=op.kind==='link'?'<a href="'+escape(op.href)+'">'+escape(op.text)+'</a>':op.formattedText?formattedTextHtml(op.text,p):escape(op.text).replace(/\n/g,'<br>');
+    const p=textPresentation(op),style=`font-size:${p.size}px;line-height:1.7;text-align:${p.align};font-weight:${p.bold?700:400};color:${p.color};margin:${p.gapBefore?26*(op.gapLines??1):0}px 0 ${op.role==='label'?8:op.quote?4:12}px;${op.quote?'border-left:3px solid #ccc;padding-left:16px;':''}`;
+    const value=op.kind==='link'?'<a href="'+escape(op.href)+'">'+escape(op.text)+'</a>':op.formattedText?formattedTextHtml(op.text,p,op.quoteCarry):escape(op.text).replace(/\n/g,'<br>');
     const content=p.bold?'<strong>'+value+'</strong>':value;
     return `<p data-role="${op.role}"${op.anchor?' id="'+escape(op.anchor)+'"':''} style="${style}scroll-margin-top:24px">${p.background?'<span style="background-color:'+p.background+'">'+content+'</span>':content}</p>`;
   }).join('\n');

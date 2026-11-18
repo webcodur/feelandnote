@@ -9,6 +9,7 @@ import {restoredPersonTitle} from './lib/restored-person-title.mjs';
 import {parseRevisionBody} from './apply-institution-revisions.mjs';
 import {compileUnifiedArticle,renderUnifiedArticle,UNIFIED_ARTICLE} from './lib/unified-article.mjs';
 import {personFullList} from './lib/person-full-list.mjs';
+import {curatedFullList,readReviewedLabels} from './lib/curated-full-list.mjs';
 import {renderPersonShelfCard} from './lib/person-shelf-card.mjs';
 import puppeteer from 'puppeteer';
 import crypto from 'node:crypto';
@@ -17,7 +18,7 @@ const root=path.resolve(import.meta.dirname,'../../../..'),assets=path.join(ASSE
 for(const f of [path.join(root,'.env'),path.join(root,'sw/web-bo/.env')])if(fs.existsSync(f))for(const line of fs.readFileSync(f,'utf8').split(/\r?\n/)){const m=line.match(/^([A-Z_][A-Z0-9_]*)=(.*)$/);if(m&&!process.env[m[1]])process.env[m[1]]=m[2].trim().replace(/^["']|["']$/g,'');}
 const db=createClient(process.env.NEXT_PUBLIC_DB_API_URL,process.env.DB_SECRET_KEY),read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const yes24Requests=new Map();
-async function resolveYes24(book){
+export async function resolveYes24(book){
  if(!yes24Requests.has(book.content_id))yes24Requests.set(book.content_id,(async()=>{
   try{const response=await fetch('https://feelandnote.com/api/books/purchase/'+encodeURIComponent(book.content_id)+'?locale=ko&seller=yes24',{redirect:'manual',signal:AbortSignal.timeout(15000)}),location=response.headers.get('location');if(!location)return null;const target=new URL(location,response.url);if(target.protocol!=='https:'||!(target.hostname==='yes24.com'||target.hostname.endsWith('.yes24.com')))return null;
    if(/^\/Product\/Goods\/\d+\/?$/i.test(target.pathname))return{url:target.href,kind:'product',resolver:'service-purchase',resolvedAt:new Date().toISOString()};
@@ -52,14 +53,14 @@ export async function personMaterial(post,source,selection,{includeReadingWay=Bo
 }
 async function institutionMaterial(post,source){
  const revision=source?.revision,pathname=new URL(post.url).pathname,match=pathname.match(/^\/library\/curated\/([^/]+)\/([^/]+)$/);if(!match)throw Error('Exact curator/list service identity required');
- const curator=await query(db.from('curators').select('id,slug,name,description,logo_url').eq('slug',match[1]).single()),list=await query(db.from('curated_lists').select('id,curator_id,slug,title,description,source_url').eq('curator_id',curator.id).eq('slug',match[2]).single());
- const items=[];for(let offset=0;;offset+=1000){const page=await query(db.from('curated_list_items').select('id,content_id,raw_title,raw_creator,year,sort_order').eq('list_id',list.id).eq('hidden',false).order('sort_order',{ascending:true}).order('id',{ascending:true}).range(offset,offset+999));items.push(...page);if(page.length<1000)break;}
+ const curator=await query(db.from('curators').select('id,slug,name,description,logo_url').eq('slug',match[1]).single()),list=await query(db.from('curated_lists').select('id,curator_id,slug,title,description,source_url,is_annual,is_ranked').eq('curator_id',curator.id).eq('slug',match[2]).single());
+ const items=[];for(let offset=0;;offset+=1000){const page=await query(db.from('curated_list_items').select('id,content_id,raw_title,raw_creator,year,rank,sort_order').eq('list_id',list.id).eq('hidden',false).order('sort_order',{ascending:true}).order('id',{ascending:true}).range(offset,offset+999));items.push(...page);if(page.length<1000)break;}
  const contentIds=[...new Set(items.map(i=>i.content_id).filter(Boolean))],locales=await chunks('content_locales','content_id,title,creator,description,thumbnail_url,isbn,sources','content_id',contentIds,q=>q.eq('locale','ko')),relations=await chunks('celeb_contents','id,celeb_id,content_id,review,source_url,visibility','content_id',contentIds,q=>q.eq('visibility','public').eq('status','FINISHED'));
  const people=await chunks('celebs','id,nickname,title,avatar_url,publication_status','id',[...new Set(relations.map(r=>r.celeb_id))]),blurbs=preparedBlurbs(source),preferred=[...new Set((revision?.dbReviews??[]).map(r=>r.content_id))];
  const isCuratedDomestic=b=>!!b?.isbn&&b?.sources?.title!=='translated';
  const books=contentIds.flatMap(id=>{const b=locales.find(l=>l.content_id===id),notes=relations.filter(r=>r.content_id===id&&r.review?.trim()&&r.source_url).flatMap(r=>{const p=people.find(p=>p.id===r.celeb_id&&p.publication_status==='active'&&p.avatar_url);return p?[{...r,person:{name:p.nickname,title:p.title,avatar_url:p.avatar_url}}]:[];});if(!b?.thumbnail_url||!notes.length)return[];const prior=(revision?.dbReviews??[]).map(r=>r.review_id??r.id);notes.sort((a,b)=>(prior.includes(a.id)?0:1)-(prior.includes(b.id)?0:1)||a.id.localeCompare(b.id));const domestic=isCuratedDomestic(b),title=(!domestic&&!b.title.includes('원서'))?`${b.title} (원서)`:b.title;return [{...b,title,isDomestic:domestic,coverUrl:b.thumbnail_url,introduction:blurbs.get(id)?.text,introductionSource:blurbs.get(id)?.source,reviews:notes.slice(0,2)}];}).sort((a,b)=>{const ai=preferred.indexOf(a.content_id),bi=preferred.indexOf(b.content_id);return (b.isDomestic?1:0)-(a.isDomestic?1:0)||(ai<0?1e6:ai)-(bi<0?1e6:bi)||String(a.content_id).localeCompare(String(b.content_id));});
  const usablePreferred=preferred.filter(id=>books.some(b=>b.content_id===id)),reusable=usablePreferred.length===Math.min(UNIFIED_ARTICLE.maxBooks,books.length),selectionPending=!reusable&&books.length>UNIFIED_ARTICLE.maxBooks,chosen=reusable?usablePreferred.map(id=>books.find(b=>b.content_id===id)):books;
- const withYear=items.some(i=>i.year!=null),columns=withYear?['연도','작품','저자']:['작품','저자'],rows=items.map(i=>{const b=locales.find(l=>l.content_id===i.content_id),values=[b?.title||i.raw_title,b?.creator||i.raw_creator||''];return withYear?[String(i.year??''),...values]:values;});
+ const {columns,rows}=curatedFullList(list,items,id=>locales.find(l=>l.content_id===id),readReviewedLabels());
  await Promise.allSettled(chosen.slice(0,UNIFIED_ARTICLE.maxBooks).map(async b=>{b.yes24=await resolveYes24(b);}));
  if(!post.curatedIntro?.trim())throw Error('Reviewed institution introduction required in the registry; the service description is not a blog introduction: '+post.logNo);
  return {logNo:post.logNo,kind:'curated',title:post.title,serviceUrl:post.url,subject:{name:curator.name,imageUrl:revision?.target===pathname&&revision?.logoAsset?.original_url||curator.logo_url,introduction:post.curatedIntro},books:chosen,fullList:{columns,rows,source:'curated_lists:'+list.id},selection:{eligibleBooks:books.length,selected:selectionPending?[]:chosen.map(b=>b.content_id),method:selectionPending?'pending':reusable?'existing-reviewed-selection':'all-eligible-books'}};

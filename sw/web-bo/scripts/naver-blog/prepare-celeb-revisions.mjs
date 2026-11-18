@@ -112,7 +112,7 @@ for (let start = 0; start < drafts.length; start += 4) {
       // 기존 원고의 개별 음악·영상 예시를 유지하면서 책 권수만 현재 서비스 수치로 맞춘다.
       suffix = suffix.replace(/\[c\]여기까지가[^\n]+?가운데 다섯 권입니다\.\[\/c\]/, `[c]여기까지가 ${m.totalBooks}권 가운데 다섯 권입니다.[/c]`);
       suffix = suffix.replace(/나머지 [가-힣\d]+ 권까지/, `나머지 ${m.totalBooks - 5}권까지`);
-      const revision = { kind: 'celeb', target: draft.target, title: draft.title.replace(/읽은 \d+권의 책/, `읽은 ${m.totalBooks}권의 책`), body: `${prefix}\n\n${sections.join('\n\n━━━━━━\n\n')}\n\n${suffix}`, tags: draft.tags, category: draft.category, logNo: String(draft.logNo), dbReviews, celeb: { id: c.id, name: c.nickname, avatar_url: c.portrait_url, person_label: personLabel }, sourceDraftSha256: hash(draft.body), dbFetchedAt: m.fetchedAt, bookMatches: matches };
+      const revision = { kind: 'celeb', target: draft.target, title: draft.title.replace(/읽은 \d+권의 책/, `읽은 ${m.totalBooks}권의 책`).replace(/추천도서·읽은 책 \d+권/, `추천도서·읽은 책 ${m.totalBooks}권`), body: `${prefix}\n\n${sections.join('\n\n━━━━━━\n\n')}\n\n${suffix}`, tags: draft.tags, category: draft.category, logNo: String(draft.logNo), dbReviews, celeb: { id: c.id, name: c.nickname, avatar_url: c.portrait_url, person_label: personLabel }, sourceDraftSha256: hash(draft.body), dbFetchedAt: m.fetchedAt, bookMatches: matches };
       const quoted = [...revision.body.matchAll(/\[q\]([\s\S]*?)\[\/q\]/g)].map(hit => hit[1]);
       if (JSON.stringify(quoted) !== JSON.stringify(dbReviews.map(row => row.review))) throw new Error('감상 원문이 변경됐다');
       if ((revision.body.match(/\[avatar:/g) ?? []).length !== 1 || (revision.body.match(/\[img:/g) ?? []).length !== 5 || revision.body.includes('**감상배경:**') || revision.body.includes('[table]')) throw new Error('인물 본문 구성이 다르다');

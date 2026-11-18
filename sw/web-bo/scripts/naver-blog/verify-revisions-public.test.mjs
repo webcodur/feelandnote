@@ -40,3 +40,11 @@ test('공개 HTML에서 로고 검증에 필요한 표시 높이도 읽는다', 
   const html = `<div class="se-main-container"><div class="se-component se-image"><div class="se-section se-section-align-center"><a data-linktype="img" data-linkdata='{"src":"https://blogfiles.pstatic.net/day/source/logo.png","originalWidth":"330","originalHeight":"343"}'><img class="se-image-resource" data-width="330" data-height="343"></a></div></div></div>`;
   assert.equal(parsePublicHtml(html).images[0].height, 343);
 });
+
+test('public side-by-side strips keep each photo and one flow item', () => {
+  const link = n => `<a data-linktype="img" data-linkdata='{"src":"https://postfiles.pstatic.net/a/${n}.jpg","originalWidth":"458","originalHeight":"687"}'><img class="se-image-resource" src="https://postfiles.pstatic.net/a/${n}.jpg"></a>`;
+  const html = `<div class="se-main-container"><div class="se-component se-imageStrip se-imageStrip3"><div class="se-section">${link(1)}${link(2)}${link(3)}</div></div></div>`;
+  const snapshot = parsePublicHtml(html);
+  assert.deepEqual(snapshot.flow, [{kind: 'imageStrip', indexes: [0, 1, 2]}]);
+  assert.deepEqual(snapshot.images.map(i => [i.src.split('/').pop(), i.strip]), [['1.jpg', true], ['2.jpg', true], ['3.jpg', true]]);
+});

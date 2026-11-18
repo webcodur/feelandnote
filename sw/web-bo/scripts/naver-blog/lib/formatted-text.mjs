@@ -11,7 +11,39 @@ const escape = value => String(value).replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 }[char]));
 
-export function formattedTextRuns(text, baseColor = '#222222') {
+// 여러 문단을 큰따옴표 한 쌍으로 감싼 인용은 문단마다 부호 짝이 없다. 이어진 문단 묶음에서 각 문단이 인용을 여는지('open'), 인용 한가운데인지('mid'), 닫는지('close') 가린다.
+// 뒤 문단에서 닫히지 않는 여는 부호는 인용으로 보지 않는다.
+export function quoteCarries(paragraphs) {
+  const bare = paragraphs.map(text => String(text).replace(/“[^“”]*”/g, ''));
+  const carries = paragraphs.map(() => null);
+  for (let i = 0; i < bare.length; i++) {
+    if (!bare[i].includes('“') || bare[i].includes('”')) continue;
+    let j = i + 1;
+    while (j < bare.length && !bare[j].includes('“') && !bare[j].includes('”')) j++;
+    if (j >= bare.length || bare[j].includes('“') || !bare[j].includes('”')) continue;
+    carries[i] = 'open'; for (let k = i + 1; k < j; k++) carries[k] = 'mid'; carries[j] = 'close'; i = j;
+  }
+  return carries;
+}
+
+function carriedRange(text, carry) {
+  if (carry === 'mid') return {start: 0, end: text.length};
+  if (carry === 'open') { const at = text.lastIndexOf('“'); return at < 0 ? null : {start: at, end: text.length}; }
+  if (carry === 'close') { const at = text.indexOf('”'); return at < 0 ? null : {start: 0, end: at + 1}; }
+  return null;
+}
+
+export function formattedTextRuns(text, baseColor = '#222222', carry = null) {
+  const range = carriedRange(text, carry);
+  if (range) {
+    const accentColor = baseColor.toLowerCase() === NAVER_REVIEW_COLOR ? NAVER_REVIEW_INLINE_COLOR : NAVER_INLINE_COLOR;
+    const quoteClass = emphasisClassName('“”') ?? '';
+    return [
+      ...formattedTextRuns(text.slice(0, range.start), baseColor),
+      {text: text.slice(range.start, range.end), color: accentColor, serif: quoteClass.includes('font-serif')},
+      ...formattedTextRuns(text.slice(range.end), baseColor),
+    ].filter(run => run.text);
+  }
   // Keep section colors exclusive. Green reviews use a darker green accent
   // instead of introducing blue into the paragraph.
   const accent = baseColor.toLowerCase() === NAVER_REVIEW_COLOR ? NAVER_REVIEW_INLINE_COLOR : NAVER_INLINE_COLOR;
@@ -28,8 +60,8 @@ export function formattedPlainText(text) {
   return splitEmphasis(text).map(part => renderInlinePart(part.text)).join('');
 }
 
-export function formattedTextHtml(text, presentation) {
-  return formattedTextRuns(text, presentation.color).map(run => {
+export function formattedTextHtml(text, presentation, carry = null) {
+  return formattedTextRuns(text, presentation.color, carry).map(run => {
     const style = `color:${run.color};font-weight:${presentation.bold ? 700 : 400};${run.serif ? 'font-family:나눔명조,serif;' : ''}`;
     return `<span style="${style}">${escape(run.text).replace(/\n/g, '<br>')}</span>`;
   }).join('');
@@ -39,7 +71,7 @@ const rgb = hex => 'rgb(' + hex.match(/[a-f\d]{2}/gi).map(value => parseInt(valu
 
 export function formattedParagraphMatches(op, paragraph) {
   if (!paragraph || paragraph.text !== op.text || !paragraph.runs) return false;
-  const expected = formattedTextRuns(op.text, op.color ?? '#222222').flatMap(run =>
+  const expected = formattedTextRuns(op.text, op.color ?? '#222222', op.quoteCarry ?? null).flatMap(run =>
     Array.from(run.text).map(char => ({char, color: rgb(run.color), serif: run.serif})),
   );
   const actual = paragraph.runs.flatMap(run => Array.from(run.text).map(char => ({

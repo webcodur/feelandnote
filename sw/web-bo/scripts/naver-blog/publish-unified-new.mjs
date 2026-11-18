@@ -5,7 +5,7 @@ import {ASSETS} from '../blog-assets.mjs';
 import {getBrowser} from './lib/browser.mjs';
 import {createExistingEditor} from './lib/existing-editor.mjs';
 import {validateNewUnifiedMaterial,finalizeNewUnifiedMaterial} from './lib/new-unified-post.mjs';
-import {buildReservationSlots} from './lib/reservation-slots.mjs';
+import {buildReservationSlots,DAILY_SLOT_TIMES} from './lib/reservation-slots.mjs';
 import {sameReservation} from './lib/same-reservation.mjs';
 import {sameSavedPublishSettings} from './lib/preserve-native-tags.mjs';
 import {assertPublishOptions} from './lib/publish-options.mjs';
@@ -17,11 +17,11 @@ import {savePreparedPreview} from './lib/unified-preview.mjs';
 import {BODY_STYLE_VERSION} from './lib/formatted-text.mjs';
 import {textsDigest,articleTexts} from './lib/body-baseline.mjs';
 // 12시간에 한 편: 하루 두 칸(26.11.03 사용자 지시).
-const RESERVATION_TIMES=['09:00','21:00'];
+const RESERVATION_TIMES=DAILY_SLOT_TIMES;
 const args=process.argv.slice(2),file=args.find(a=>a.startsWith('--material='))?.slice(11);
 // --slot="YYYY-MM-DD HH:MM": 맞수 인물 짝처럼 정해 둔 칸에만 예약한다. 그 칸이 차 있으면 다른 칸으로 가지 않고 멈춘다.
 const slot=args.find(a=>a.startsWith('--slot='))?.slice(7);
-if(!file||!path.isAbsolute(file)||(slot!==undefined&&!/^\d{4}-\d{2}-\d{2} (09|21):00$/.test(slot))||args.some(a=>!a.startsWith('--material=')&&!a.startsWith('--slot=')&&!['--apply','--review'].includes(a)))throw Error('--material=<absolute JSON> [--slot="YYYY-MM-DD 09:00|21:00"] [--apply] [--review]');
+if(!file||!path.isAbsolute(file)||(slot!==undefined&&!(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(slot)&&DAILY_SLOT_TIMES.includes(slot.slice(11))))||args.some(a=>!a.startsWith('--material=')&&!a.startsWith('--slot=')&&!['--apply','--review'].includes(a)))throw Error('--material=<absolute JSON> [--slot="YYYY-MM-DD 09:00|21:00"] [--apply] [--review]');
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8')),write=(f,v)=>fs.writeFileSync(f,JSON.stringify(v,null,2)),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const base=path.dirname(file),checkpoint=path.join(base,'new-post-saved.json'),registry=path.join(ASSETS,'naver-blog/posts.json'),draftFile=path.join(ASSETS,'naver-blog/celeb-drafts.json');
 if(fs.existsSync(checkpoint))throw Error('A saved new-post transaction already exists. Verify it instead of publishing again.');

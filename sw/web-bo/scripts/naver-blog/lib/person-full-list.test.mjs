@@ -32,3 +32,10 @@ test('국내판 없는 책이 없으면 안내 없이 표 하나만 싣는다', 
   const section = personFullListSection(personFullList([{content_id: 'a', ko: ko('가')}]));
   assert.deepEqual(section.map(o => o.kind), ['text', 'table']);
 });
+
+test('institution tables gray rows in place without moving them', () => {
+  const html = personFullListTableHtml({kind: 'table', columns: ['연도', '작품', '저자'], rows: [['1969', 'A', 'a'], ['1970', 'B', 'b'], ['1971', 'C', 'c']], mutedRows: [1]});
+  const rows = html.split('<tr>').slice(2);
+  assert.deepEqual(rows.map(r => r.includes(PERSON_FULL_LIST.mutedColor)), [false, true, false]);
+  assert.ok(rows[1].includes('1970'));
+});

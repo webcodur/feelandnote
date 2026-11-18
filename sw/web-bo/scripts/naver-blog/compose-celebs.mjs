@@ -325,7 +325,8 @@ function assemble(m, w) {
   L.push(String(w.outro).trim());
   L.push(`→ ${link}`);
 
-  const title = `${w.suffix} ${c.nickname}${subjectParticle(c.nickname)} 읽은 ${totalBooks}권의 책${c.nickname_en ? ` (${c.nickname_en})` : ''}`;
+  // 제목 문구는 lib/restored-person-title.mjs와 같다(서비스 인물 페이지 제목과 같은 말).
+  const title = `${w.suffix} ${c.nickname}의 추천도서·읽은 책 ${totalBooks}권${c.nickname_en ? ` (${c.nickname_en})` : ''}`;
   const cat = CATEGORY[c.profession];
   if (!cat) throw new Error(`직군 '${c.profession}' 이 카테고리 표에 없다 — CATEGORY 에 넣고 다시 돌려라`);
   // 네이버 태그 입력은 공백에서 갈라진다(「알리 압달」→ #알리 #압달). 인물명은 공백을 빼고 한 태그로 넣는다.

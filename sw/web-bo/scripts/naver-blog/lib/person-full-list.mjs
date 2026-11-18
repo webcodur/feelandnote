@@ -57,12 +57,13 @@ const escape = value => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;
 // 기관 「전체 선정 목록」 표의 열 너비. 연도·순위 같은 첫 열은 가운데 정렬한다.
 export const CURATED_LIST_WIDTHS = Object.freeze({ 2: Object.freeze(['66%', '34%']), 3: Object.freeze(['16%', '52%', '32%']) });
 const centeredFirstColumn = op => op.group === 'person' || /^(연도|순위|번호|년도|회차)$/.test(op.columns?.[0] ?? '');
-// 네이버 편집기에 붙여 넣을 목록 표(인물 전체 감상 목록·기관 전체 선정 목록). 뒤쪽 muted 줄은 회색 글씨다.
+// 네이버 편집기에 붙여 넣을 목록 표(인물 전체 감상 목록·기관 전체 선정 목록). 뒤쪽 muted 줄과 mutedRows(줄 번호) 줄은 회색 글씨다.
+// 연도·순위 순서가 뜻을 갖는 기관 목록은 줄을 옮기지 않고 제자리에서 회색으로 칠한다(mutedRows).
 export function listTableHtml(op) {
   const firstMuted = op.rows.length - (op.muted ?? 0), center = centeredFirstColumn(op);
-  const widths = op.group === 'person' ? PERSON_FULL_LIST.widths : CURATED_LIST_WIDTHS[op.columns.length] ?? op.columns.map(() => Math.floor(100 / op.columns.length) + '%');
+  const widths = op.widths ?? (op.group === 'person' ? PERSON_FULL_LIST.widths : CURATED_LIST_WIDTHS[op.columns.length] ?? op.columns.map(() => Math.floor(100 / op.columns.length) + '%'));
   const cell = (value, column, row) => {
-    const header = row < 0, muted = row >= firstMuted, text = escape(value);
+    const header = row < 0, muted = row >= firstMuted || (op.mutedRows ?? []).includes(row), text = escape(value);
     return `<td style="border:1px solid #ccc;padding:8px;width:${widths[column]};${header ? 'background-color:' + PERSON_FULL_LIST.headerBackground + ';' : ''}${column === 0 && center ? 'text-align:center;' : ''}">${header ? '<strong>' + text + '</strong>' : muted ? '<span style="color:' + PERSON_FULL_LIST.mutedColor + '">' + text + '</span>' : text}</td>`;
   };
   const rows = [op.columns, ...op.rows].map((row, i) => '<tr>' + row.map((value, column) => cell(value, column, i - 1)).join('') + '</tr>').join('');

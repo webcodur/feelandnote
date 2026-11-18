@@ -47,6 +47,18 @@ function acquireLock() {
   process.on("uncaughtException", (e) => { release(); throw e; });
 }
 
+// 잠금이 풀릴 때까지 15초마다 다시 시도한다. 대기 시간을 넘기면 마지막 잠금 오류를 그대로 던진다.
+async function acquireLockWaiting(waitMs) {
+  const until = Date.now() + Math.max(0, waitMs || 0);
+  for (let announced = false; ; ) {
+    try { return acquireLock(); } catch (error) {
+      if (!String(error.message).startsWith('다른 네이버 작업') || Date.now() >= until) throw error;
+      if (!announced) { console.log(`${error.message.replace(/ 끝난 뒤 다시 실행해라$/, '')} — 풀릴 때까지 기다린다(최대 ${Math.round(waitMs / 60000)}분)`); announced = true; }
+      await new Promise(done => setTimeout(done, 15000));
+    }
+  }
+}
+
 const PORT = 9222;
 const PROFILE = 'C:/project/_chrome-naver';
 const CHROME = [
@@ -78,12 +90,15 @@ async function alive() {
  * @param {object} [opts]
  * @param {number} [opts.protocolTimeout] 긴 글은 DOM 조회 한 번이 1분을 넘는다. 넉넉히 준다.
  * @param {boolean} [opts.background] Chrome이 없으면 창을 열지 않고 같은 로그인 프로필로 렌더링한다.
+ * @param {number} [opts.lockWaitMs] 다른 네이버 작업이 잠금을 쥐고 있으면 바로 실패하지 않고 이 시간까지 기다렸다 잡는다.
+ *   기본 0(바로 실패, 기존 동작). 호출부를 고치지 않고 켜려면 환경 변수 NAVER_LOCK_WAIT_MIN(분)을 준다.
+ *   두 세션이 같은 브라우저를 나눠 쓰다 겹치면 실패 대신 순서를 기다리게 한다(26.11.15 세션 간 합의).
  * @returns {Promise<{browser: import('puppeteer').Browser, launched: boolean}>}
  *   launched 가 true 면 이 스크립트가 띄운 것이다 — 끝나고 close 해도 된다.
  *   false 면 사용자 창이므로 **끄지 말고 disconnect 만 한다.**
  */
-export async function getBrowser({ protocolTimeout = 300000, background = false } = {}) {
-  acquireLock();
+export async function getBrowser({ protocolTimeout = 300000, background = false, lockWaitMs = Number(process.env.NAVER_LOCK_WAIT_MIN ?? 0) * 60000 } = {}) {
+  await acquireLockWaiting(lockWaitMs);
   if (await alive()) {
     const browser = await puppeteer.connect({ browserURL: `http://localhost:${PORT}`, defaultViewport: null, protocolTimeout });
     return { browser, launched: false };

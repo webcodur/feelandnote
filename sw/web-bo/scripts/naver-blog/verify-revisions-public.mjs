@@ -85,6 +85,16 @@ export function parsePublicHtml(html) {
       let data; try { data = JSON.parse(meta); } catch { throw new Error('공개 사진의 원본 크기 메타가 없다'); }
       images.push({ src: data.src, originalWidth: Number(data.originalWidth), originalHeight: Number(data.originalHeight), width: Number(photo.attr('data-width')), height: Number(photo.attr('data-height')), align: align(node.find('.se-section').first()) });
       flow.push({ kind: 'image', index: images.length - 1 });
+    } else if (node.hasClass('se-imageStrip')) {
+      // 나란히 놓기 묶음. 사진마다 원본 메타가 따로 있고, 표시 폭·정렬은 편집기가 정한다.
+      const indexes = [];
+      for (const link of node.find('[data-linktype="img"]').toArray()) {
+        let data; try { data = JSON.parse($(link).attr('data-linkdata')); } catch { throw new Error('공개 묶음 사진의 원본 크기 메타가 없다'); }
+        images.push({ src: data.src, originalWidth: Number(data.originalWidth), originalHeight: Number(data.originalHeight), strip: true });
+        indexes.push(images.length - 1);
+      }
+      if (!indexes.length) throw new Error('공개 사진 묶음이 비어 있다');
+      flow.push({ kind: 'imageStrip', indexes });
     } else if (node.hasClass('se-horizontalLine')) {
       flow.push({ kind: 'divider' }); dividerAlignment.push(align(node.find('.se-section').first()));
     } else if (node.hasClass('se-table')) {

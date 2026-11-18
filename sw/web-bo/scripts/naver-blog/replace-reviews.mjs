@@ -1,5 +1,5 @@
 // Replace the reading-background sections of an existing person article with the current DB reviews.
-// Each section between 「감상 배경」 and 「감상 근거 · 원문」 is paired with the 「작품 상세」 link that follows it.
+// Each section between 「감상 배경」 and 「감상 근거」(26.11.17 이전 글은 「감상 근거 · 원문」) is paired with the 「작품 상세」 link that follows it.
 // Paragraph counts may change; titles, photos, links, other text, reservation and publish settings are preserved.
 // --logs=<logNo,logNo> --work=<absolute directory> [--apply]
 import fs from 'node:fs';import path from 'node:path';
@@ -10,7 +10,7 @@ import {createEditorialEditor} from './lib/editorial-editor.mjs';
 import {readSnapshot,closePublishPanel} from './repair-institution-images.mjs';
 import {assertPublishOptions} from './lib/publish-options.mjs';
 import {readParagraphPresentation} from './lib/unified-typography.mjs';
-import {formattedPlainText,NAVER_REVIEW_COLOR,BODY_STYLE_VERSION} from './lib/formatted-text.mjs';
+import {formattedPlainText,quoteCarries,NAVER_REVIEW_COLOR,BODY_STYLE_VERSION} from './lib/formatted-text.mjs';
 import {fragment} from './apply-unified-article.mjs';
 import {EDITOR_SELECTOR,bodyStyleProblems,openTarget} from './restyle-body.mjs';
 import {textsDigest} from './lib/body-baseline.mjs';
@@ -27,7 +27,7 @@ export const reviewParagraphs=review=>review.replace(/\r\n/g,'\n').split(/\n+/).
 export function reviewSections(texts,links){
  const details=links.filter(l=>l.text==='작품 상세').map(l=>l.href.match(/\/content\/([0-9a-f-]{36})/)?.[1]);
  const sections=[];
- for(let i=0;i<texts.length;i++){if(texts[i]!=='감상 배경')continue;const end=texts.indexOf('감상 근거 · 원문',i+1);if(end<0)throw Error('Review section has no source link');sections.push({start:i+1,end,paragraphs:texts.slice(i+1,end)});}
+ for(let i=0;i<texts.length;i++){if(texts[i]!=='감상 배경')continue;const end=texts.findIndex((t,j)=>j>i&&(t==='감상 근거'||t==='감상 근거 · 원문'));if(end<0)throw Error('Review section has no source link');sections.push({start:i+1,end,paragraphs:texts.slice(i+1,end)});}
  if(sections.length!==details.length||details.some(d=>!d))throw Error('Review sections and work links differ');
  return sections.map((s,k)=>({...s,contentId:details[k]}));
 }
@@ -65,7 +65,7 @@ async function replaceOne(browser,db,post,dir,apply){
    }
    const selected=(await copied()).split(/\r?\n/).map(t=>t.trim()).filter(Boolean);
    if(!same(selected,s.paragraphs))throw Error('Selected range differs from the old review section');
-   const ops=s.next.map((text,i)=>({kind:'text',text,formattedText:true,role:'body',align:'left',bold:true,color:NAVER_REVIEW_COLOR,gapBefore:i>0}));
+   const carries=quoteCarries(s.next),ops=s.next.map((text,i)=>({kind:'text',text,formattedText:true,role:'body',align:'left',bold:true,color:NAVER_REVIEW_COLOR,gapBefore:i>0,...(carries[i]?{quoteCarry:carries[i]}:{})}));
    const html=fragment(ops);await page.evaluate(async html=>{const text=new DOMParser().parseFromString(html,'text/html').body.textContent;await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([html],{type:'text/html'}),'text/plain':new Blob([text],{type:'text/plain'})})]);},html);
    await page.keyboard.down('Control');await page.keyboard.press('KeyV');await page.keyboard.up('Control');await sleep(500);
    for(const text of s.next){await native.alignLeft(text);const cur=(await page.evaluate(readParagraphPresentation,EDITOR_SELECTOR)).find(p=>p.text===text);if(cur&&!cur.weights.every(w=>w>=600)){await native.selectParagraph(text);await page.keyboard.down('Control');await page.keyboard.press('KeyB');await page.keyboard.up('Control');await sleep(150);}}

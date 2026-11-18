@@ -70,8 +70,12 @@ export function compileCuratedGuide(m) {
     if (b.reviewBook) {
       const v = b.reviewBook, paras = t => String(t).split(/\n{2,}/).map(clean).filter(Boolean);
       if (!clean(v.heading) || !v.coverUrl || !paras(v.intro).length || !Array.isArray(v.readers)) throw Error('Review book needs title, cover, introduction and readers: ' + v.heading);
-      text(v.heading, 'heading', 'center', {gapLines: 2});
-      if (clean(v.creator)) text(v.creator, 'author', 'center');
+      // 감상자가 있는 책은 「제목 - 지은이」 한 줄 바로 아래에 「…의 감상」을 붙인다. 합친 사진(표지+인물) 속 인물이 감상자임을
+      // 사진보다 먼저 알린다(26.11.18 사용자 지시). 감상 글 앞에는 같은 줄을 다시 쓰지 않는다 — 감상 글은 초록 글씨로 구분되고,
+      // patch-guide-reviews는 「감상 근거」 바로 위의 초록 왼쪽 정렬 문단들을 감상 구획으로 읽는다. 둘째 감상자부터는 사진 아래에 이름 줄을 둔다.
+      const lead = v.readers[0], readerLine = n => [clean(n.title), clean(n.name)].filter(Boolean).join(' ') + '의 감상';
+      if (lead) { text(clean(v.creator) ? clean(v.heading) + ' - ' + clean(v.creator) : v.heading, 'heading', 'center', {gapLines: 2}); text(readerLine(lead), 'author', 'center'); }
+      else { text(v.heading, 'heading', 'center', {gapLines: 2}); if (clean(v.creator)) text(v.creator, 'author', 'center'); }
       // 표지와 그 책을 읽은 인물의 대표 사진을 한 장으로 합쳐 넣는다(26.11.16 사용자 지시: 책마다 인물 한 명, 표지 옆에 바로 붙인다).
       // 편집기 사진 묶음은 PC에서 가로폭을 꽉 채워 과하므로 쓰지 않고, 합친 사진을 CURATED_GUIDE.width.pair 폭으로 둔다.
       const first = v.readers[0];
@@ -86,8 +90,7 @@ export function compileCuratedGuide(m) {
       for (const n of v.readers) {
         if (!clean(n.review) || !n.source_url || !n.avatar_url || !clean(n.name)) throw Error('Reader review, source and avatar required: ' + v.heading);
         if (clean(n.review).length > CURATED_GUIDE.reviewMaxChars) throw Error(`Reader review too long for a guide (${clean(n.review).length} > ${CURATED_GUIDE.reviewMaxChars}): ${n.name} — ${v.heading}`);
-        if (n !== first) image({name: n.name, url: n.avatar_url}, 'avatar');
-        text([clean(n.title), clean(n.name)].filter(Boolean).join(' ') + '의 감상', 'body', 'center', {gapBefore: true}); // 책 소개 글과 같은 크기
+        if (n !== first) { image({name: n.name, url: n.avatar_url}, 'avatar'); text(readerLine(n), 'body', 'center', {gapBefore: true}); } // 책 소개 글과 같은 크기
         paras(n.review).forEach(p => text(p, 'body', 'left', {color: UNIFIED_ARTICLE.reviewColor, gapBefore: true}));
         link('감상 근거', n.source_url, 'label', {align: 'right', gapBefore: true}); // 인물 글과 같은 작은 글씨(label)
       }

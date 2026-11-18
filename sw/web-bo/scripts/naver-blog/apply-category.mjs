@@ -1,10 +1,11 @@
 /**
  * 이미 올라간 글의 블로그 카테고리를 초안 값으로 맞춘다.
+ * 주의: 수정 화면 주소로 바로 열어 예약 글·통합 양식 글에서는 저장이 반영되지 않는다(26.11.14). 그런 글은 recategorize-post.mjs를 쓴다.
  *
  * 조립기가 모르는 직군을 「인플루엔서」로 흘려, 철학자·역사학자가 그 칸에 들어간 채 예약됐다.
  * 본문은 건드리지 않고 발행 설정의 카테고리만 바꿔 다시 발행한다. 예약 시각은 유지된다.
  *
- * 사용: node scripts/naver-blog/apply-category.mjs <logNo…> [--dry]   (sw/web-bo 에서)
+ * 사용: node scripts/naver-blog/apply-category.mjs <logNo…> [--targets=목록.json] [--dry]   (sw/web-bo 에서)
  *       글 번호를 안 주면 초안과 어긋난 글을 스스로 찾는다.
  */
 import fs from 'node:fs';
@@ -13,8 +14,9 @@ import { ASSETS } from '../blog-assets.mjs';
 import { getBrowser, getNaverPage, ensureLoggedIn } from './lib/browser.mjs';
 import { assertNoReviewGaps } from './lib/review-paragraph-gaps.mjs';
 
-const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const args = process.argv.slice(2);
+// --targets=<JSON 경로>: 초안 대신 [{logNo, target:'/celeb/slug', category}] 목록을 쓴다(통합 양식 글처럼 초안이 없는 글).
+const DRAFTS = args.find((a) => a.startsWith('--targets='))?.slice(10) ?? path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const dry = args.includes('--dry');
 const ids = args.filter((a) => /^\d{9,}$/.test(a));
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));

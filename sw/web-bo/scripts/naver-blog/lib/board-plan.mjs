@@ -79,7 +79,7 @@ export const PLAN_JS = String.raw`
 const D=JSON.parse(document.getElementById('plan-data').textContent),$=id=>document.getElementById(id);
 // 허브 메뉴 높이만큼 아래에 저장 막대를 붙인다(메뉴는 창이 좁으면 두 줄이 된다).
 const setBar=()=>document.documentElement.style.setProperty('--hubbar',(document.querySelector('header.hub')?.offsetHeight??0)+'px');setBar();addEventListener('resize',setBar);
-const STD=['09:00','12:00','15:00','21:00'],WD=['일','월','화','수','목','금','토'];
+const STD=['09:00','21:00'],WD=['일','월','화','수','목','금','토'];
 const h=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
 const pad=n=>String(n).padStart(2,'0');
 const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
