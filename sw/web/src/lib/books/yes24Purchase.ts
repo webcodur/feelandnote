@@ -2,6 +2,8 @@ import type { AffiliateLink } from '@/constants/affiliatePlatforms'
 
 export const YES24_PURCHASE_CACHE_SECONDS = 24 * 3600
 export const YES24_PURCHASE_MAX_AGE_MS = 48 * 3600_000
+/** 「상품 없음」은 하루 캐시에 붙잡지 않고 이 구간마다 다시 묻는다 */
+export const YES24_PURCHASE_MISS_RECHECK_SECONDS = 3600
 export const YES24_PURCHASE_ENDPOINT = 'https://apis.yes24.com/v1/goods/itemDetail'
 const RESPONSE_MAX_BYTES = 1_000_000
 const REQUEST_TIMEOUT_MS = 15_000
@@ -107,6 +109,23 @@ export async function fetchYes24Purchase(fetcher: typeof fetch, isbn: string, ap
     // Do not retain upstream errors or request headers containing the API key.
     throw new Error('YES24 purchase unavailable')
   }
+}
+
+/** 다시 묻기 구간 번호. 캐시 키에 넣어 지난 구간의 낡은 「없음」을 되돌려주지 않게 한다 */
+export function yes24RecheckBucket(now = Date.now()): number {
+  return Math.floor(now / (YES24_PURCHASE_MISS_RECHECK_SECONDS * 1000))
+}
+
+/** 하루 캐시가 「없음」을 주면 구간 캐시로 한 번 더 묻는다.
+    기한 지난 캐시는 첫 요청에 옛 값을 주므로, 판매 재개·일시 오류로 남은 없음이 하루 넘게 버티지 않게 한다 */
+export async function recheckYes24Miss<T>(
+  cached: () => Promise<T>,
+  recheck: (bucket: number) => Promise<T>,
+  isMiss: (value: T) => boolean,
+  now = Date.now(),
+): Promise<T> {
+  const value = await cached()
+  return isMiss(value) ? recheck(yes24RecheckBucket(now)) : value
 }
 
 export function selectYes24Purchase(result: Yes24PurchaseResult, now = Date.now()): AffiliateLink | null {

@@ -32,9 +32,8 @@ R2 Oracle DB 암호화 백업의 복구키는 `credentials/oracle-db-backup-age.
 | 파일 | 위치 | 용도 |
 |------|------|------|
 | `ga-credentials.json` | `C:/Users/<사용자>/.claude/` | 검색 콘솔 MCP 인증 |
-| `firecrawl.keys` | `C:/Users/<사용자>/AppData/Local/AgentWeb/` | Firecrawl 무료 요금제 계정 키 묶음. 한 줄에 `키 | 계정 이름`. 같은 폴더의 공용 실행기 `web-tools.mjs`가 읽어 날짜마다 다음 계정으로 돌려 쓴다. 파일이 없으면 키 없는 무료 모드로 돈다. 계정당 월 1,000크레딧이며 유료 요금제로 올리지 않는다 |
+| `firecrawl.keys` | `C:/Users/<사용자>/AppData/Local/AgentWeb/` | Firecrawl 무료 요금제 계정 키 묶음. 한 줄에 `키 \| 계정 이름`. 같은 폴더의 공용 실행기 `web-tools.mjs`가 읽어 날짜마다 다음 계정으로 돌려 쓴다. 파일이 없으면 키 없는 무료 모드로 돈다. 계정당 월 1,000크레딧이며 유료 요금제로 올리지 않는다 검색의 기본 수단은 같은 폴더의 `firecrawl-cli.mjs`(`search`·`scrape`·`credits`)이며 호출할 때마다 이 파일을 읽는다. 사용법은 전역 `web-search` 스킬 「Firecrawl 검색」이 쥔다. |
 | `.antigravity-agent/` 폴더 (`.mk` + `cloud_accounts.db`) | `C:/Users/<사용자>/.antigravity-agent/` | 🔴 **agy(Antigravity CLI) 구글 구독 계정 풀.** `agm`(github.com/shyim/agm)이 읽는 AES-256 암호화 DB와 복호화 마스터키의 세트다 — `.mk` 유출 시 등록 계정 전부 탈취. 운용·설치 상세는 폴더 안 `SETUP.md`가 쥔다 |
-| `obscura.exe` | `C:\Tools\obscura\<버전>\` | 브라우저 MCP 실행 파일 (비밀값 아님, 재설치로 대체 가능) |
 | `rootca.key`·`rootca.crt`·`rootca.srl` | `C:/Users/<사용자>/.feelandnote/cloudflare-aop/` | Cloudflare Authenticated Origin Pulls 갱신용 CA. `rootca.key`는 비밀값이며 Oracle에는 올리지 않는다. 로컬 사본이 없어도 현재 서비스는 계속 뜨지만 인증서 갱신 때 새 CA로 교체해야 한다 |
 | `feelandnote_oracle`·`feelandnote_oracle.pub` | `C:/Users/<사용자>/.ssh/` | Oracle 웹·DB VM SSH. 비밀키는 공개 저장소나 서버에 복사하지 않는다 |
 **`.env`가 필요 없는 앱**: `sw/lab`(환경변수 참조 0건), `sw/android`(Gradle 프로젝트), `packages/*`(자체 파일 없이 각 앱의 값을 물려받음).
@@ -98,9 +97,9 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 |------|------|------|
 | `KAKAO_REST_API_KEY` | 서비스용 책 검색 키. `sw/web/.env`·`sw/web-bo/.env`와 Oracle `/etc/feelandnote/web.env`에 같은 값을 둔다. 영문 원서는 OpenLibrary — 키 불요 | 카카오 개발자센터 |
 | `KAKAO_RESEARCH_REST_API_KEY` | 기존 책 검색 키를 개인 연구·조사용으로 회수해 로컬 `sw/web-bo/.env`에 보관한다. 사용 구분은 아래 외부 서비스 규칙을 따른다 | 카카오 개발자센터 |
-| `YES24_API_KEY` | web 서버의 한국 전일 도서 순위 조회. DB 신규 메타 수집 키가 아니다 | [예스24 개발자센터](https://developers.yes24.com/) |
+| `YES24_API_KEY` | web 서버의 한국 전일 도서 순위 조회와 구매 링크. DB 신규 메타 수집 키가 아니다. 애드온 가입 계정 tlwns5598의 키여야 `addOnLink`가 채워져 수수료가 붙는다. 로컬 `sw/web/.env`와 Oracle `/etc/feelandnote/web.env`에 같은 값을 두며, 연구 키와 같은 값을 쓰지 않는다 | [예스24 개발자센터](https://developers.yes24.com/) |
 | `YES24_AUDIT_API_KEY` | BOOK 연구의 ISBN별 상품·리뷰·판매 신호 조회 주 키. ykj5598 연구 계정이며 로컬 `sw/web/.env`·`sw/web-bo/.env`에 보관한다 | [예스24 개발자센터](https://developers.yes24.com/) |
-| `YES24_AUDIT_SECONDARY_API_KEY` | 같은 연구의 webcodur 보조 키. 주 키의 일일 할당량 소진을 실제 응답으로 확인한 때 전환한다. 로컬 `sw/web/.env`·`sw/web-bo/.env`에 보관한다 | [예스24 개발자센터](https://developers.yes24.com/) |
+| `YES24_AUDIT_SECONDARY_API_KEY` | 같은 연구의 보조 키(애드온 미가입 계정). 주 키의 일일 할당량 소진을 실제 응답으로 확인한 때 전환한다. 로컬 `sw/web/.env`·`sw/web-bo/.env`에 보관한다 | [예스24 개발자센터](https://developers.yes24.com/) |
 | `YES24_CHARTS_ENABLED` | web 운영의 예스24 순위 활성화. 상업 이용 조건 확인 후 `true`로 설정하며, 개발 환경은 키만 있으면 검증 가능 | 운영자 설정 |
 | `YES24_PURCHASE_ENABLED` | web 운영의 ISBN별 예스24 구매 링크 활성화. 이용 조건 확인 후 `true`로 설정하며, 개발 환경은 키만 있으면 검증 가능 | 운영자 설정 |
 | `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 블로그·이미지·뉴스 검색. **책 검색에는 더 쓰지 않는다.** 운영 웹의 「오늘의 인물」 뉴스도 이 키로 부르므로 Oracle `/etc/feelandnote/web.env`에도 들어간다 — 빠지면 매일 0시 인물 수만큼 「네이버 API 키 미설정」이 저널에 쌓이고 뉴스 칸이 빈다 | 네이버 개발자센터 |
@@ -148,6 +147,7 @@ ElevenLabs에는 콘솔의 API Key ID가 아니라 키 생성·회전 시 표시
 | `GOOGLE_GENAI_API_KEY0` ~ `20` | web | 21개(코드 미사용, `5`번은 폐기) |
 | `GOOGLE_GENAI_API_KEY_FREE<n>` | web-bo, remotion | 각 100개. `FREE1~10` + `FREE20~99`는 AIza(legacy) 90개, `FREE100~109`는 AQ(Auth, ykj 묶음. 26.09.15 추가) 10개. `FREE11~19`는 무효·정지 키를 지워 비어 있다 |
 | `GEMINI_START_KEY` | web-bo | 몇 번 키부터 돌릴지 지정(1부터 셈. 정렬 배열에서의 순번) |
+| `AGY_EXCLUDE_ACCOUNTS` | web-bo | agy 계정 순환(`agy-text.mjs`)에서 쓰지 않을 agm 계정 이메일(쉼표 구분). 사용자가 쓰지 말라고 한 계정을 넣는다 |
 
 > 키 풀 열거는 `packages/shared/src/lib/gemini-keys.ts` 한 곳만 안다. `GOOGLE_GENAI_API_KEY_FREE` 뒤 숫자 오름차순으로 돌리며 상한이 없으므로 번호를 늘려도 코드 수정이 필요 없다. AIza와 AQ. 형식을 함께 받는다. 로그의 `keyIndex`(1부터 셈)는 이 정렬 배열에서의 순번이라 변수 번호와 다를 수 있다 — `googleFreeKeyName(keyIndex)`로 변수명을 확인한다.
 
@@ -199,7 +199,6 @@ ElevenLabs에는 콘솔의 API Key ID가 아니라 키 생성·회전 시 표시
 | 서버 | 담고 있는 것 |
 |------|-------------|
 | `google-search-console` | `GOOGLE_APPLICATION_CREDENTIALS` — 구글 인증 파일 경로(`C:/Users/<사용자>/.claude/ga-credentials.json`, 저장소 밖) |
-| `obscura` | 비밀값 없음. 로컬 실행 파일 경로(`C:\Tools\obscura\`)만 가리킨다 |
 
 > 사용자별 절대 경로가 들어가는 로컬 설정이므로 `.gitignore`에 둔다. 저장소에 올리지 않는다.
 

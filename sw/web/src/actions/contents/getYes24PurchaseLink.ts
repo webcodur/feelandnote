@@ -4,11 +4,11 @@ import { unstable_cache } from 'next/cache'
 import type { AffiliateLink } from '@/constants/affiliatePlatforms'
 import { createStaticClient } from '@/lib/db/static'
 import { rawFetch } from '@/lib/rawFetch'
-import { getCachedYes24BookDetail } from '@/lib/books/yes24DetailCache'
+import { getYes24BookDetailRechecked } from '@/lib/books/yes24DetailCache'
 import {
-  fetchYes24Purchase, isYes24PurchaseRequest, normalizePurchaseIsbn,
+  fetchYes24Purchase, isYes24PurchaseRequest, normalizePurchaseIsbn, recheckYes24Miss,
   selectYes24Purchase, selectYes24Sales, yes24PurchaseEnabled, YES24_PURCHASE_CACHE_SECONDS,
-  type Yes24SalesInfo,
+  YES24_PURCHASE_MISS_RECHECK_SECONDS, type Yes24SalesInfo,
 } from '@/lib/books/yes24Purchase'
 
 // Errors escape this callback so an outage cannot replace a successful cached lookup.
@@ -17,6 +17,19 @@ const getPurchase = unstable_cache(
   ['yes24-purchase-isbn-v3-comics'],
   { revalidate: YES24_PURCHASE_CACHE_SECONDS },
 )
+// 「상품 없음」만 다시 묻는다. bucket은 키에만 쓰여 구간이 바뀌면 새로 조회한다
+const recheckPurchase = unstable_cache(
+  (isbn: string, bucket: number) => (void bucket, fetchYes24Purchase(rawFetch, isbn, process.env.YES24_API_KEY ?? '')),
+  ['yes24-purchase-isbn-recheck-v1'],
+  { revalidate: YES24_PURCHASE_MISS_RECHECK_SECONDS },
+)
+
+/** 판매 중 상품 링크. 하루 캐시가 없음을 주면 구간 캐시로 다시 확인한다 */
+async function lookupPurchase(isbn: string): Promise<AffiliateLink | null> {
+  const result = await recheckYes24Miss(() => getPurchase(isbn), bucket => recheckPurchase(isbn, bucket),
+    value => !selectYes24Purchase(value))
+  return selectYes24Purchase(result)
+}
 
 /** 작품 유형과 판본 소속·언어를 DB에서 확인해 저장 ISBN을 정한다. 요청이 틀렸거나 꺼져 있으면 null */
 async function resolveStoredIsbn(contentId: string, locale: string, editionId?: number): Promise<string | null> {
@@ -40,7 +53,7 @@ async function resolveStoredIsbn(contentId: string, locale: string, editionId?: 
 export async function getYes24PurchaseLink(contentId: string, locale: string, editionId?: number): Promise<AffiliateLink | null> {
   try {
     const isbn = await resolveStoredIsbn(contentId, locale, editionId)
-    return isbn ? selectYes24Purchase(await getPurchase(isbn)) : null
+    return isbn ? await lookupPurchase(isbn) : null
   } catch {
     return null
   }
@@ -50,7 +63,7 @@ export async function getYes24PurchaseLink(contentId: string, locale: string, ed
 export async function getYes24SalesInfo(contentId: string, locale: string, editionId?: number): Promise<Yes24SalesInfo | null> {
   try {
     const isbn = await resolveStoredIsbn(contentId, locale, editionId)
-    return isbn ? selectYes24Sales(await getCachedYes24BookDetail(isbn)) : null
+    return isbn ? selectYes24Sales(await getYes24BookDetailRechecked(isbn)) : null
   } catch {
     return null
   }
@@ -61,7 +74,7 @@ export async function getYes24SalesInfoByIsbn(isbn: string): Promise<Yes24SalesI
   try {
     const normalized = normalizePurchaseIsbn(isbn)
     if (!normalized || !yes24PurchaseEnabled(process.env)) return null
-    return selectYes24Sales(await getCachedYes24BookDetail(normalized))
+    return selectYes24Sales(await getYes24BookDetailRechecked(normalized))
   } catch {
     return null
   }

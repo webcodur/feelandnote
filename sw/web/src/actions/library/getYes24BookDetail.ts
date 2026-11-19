@@ -1,6 +1,6 @@
 'use server'
 
-import { getCachedYes24BookDetail } from '@/lib/books/yes24DetailCache'
+import { getYes24BookDetailRechecked } from '@/lib/books/yes24DetailCache'
 import { normalizePurchaseIsbn, type Yes24BookDetail } from '@/lib/books/yes24Purchase'
 import { yes24ChartEnabled } from '@/lib/library/bestsellerFeed'
 
@@ -8,5 +8,5 @@ import { yes24ChartEnabled } from '@/lib/library/bestsellerFeed'
 export async function getYes24BookDetail(isbn: string): Promise<Yes24BookDetail | null> {
   const normalized = normalizePurchaseIsbn(isbn)
   if (!normalized || !yes24ChartEnabled(process.env)) return null
-  return getCachedYes24BookDetail(normalized)
+  return getYes24BookDetailRechecked(normalized)
 }

@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {
-  fetchYes24Purchase, isYes24PurchaseRequest, normalizePurchaseIsbn, parseYes24Purchase,
-  selectYes24Purchase, yes24PurchaseEnabled, YES24_PURCHASE_MAX_AGE_MS,
+  fetchYes24Purchase, isYes24PurchaseRequest, normalizePurchaseIsbn, parseYes24Purchase, recheckYes24Miss,
+  selectYes24Purchase, yes24PurchaseEnabled, yes24RecheckBucket, YES24_PURCHASE_MAX_AGE_MS, YES24_PURCHASE_MISS_RECHECK_SECONDS,
 } from './yes24Purchase'
 
 const isbn = '9788966260959'
@@ -73,4 +73,28 @@ test('oversize responses are rejected and request has bounded lifetime without r
     return Response.json(response(item), { headers: { 'content-length': '1000001' } })
   }
   await assert.rejects(fetchYes24Purchase(fetcher, isbn, 'test'), /unavailable/)
+})
+test('a cached absence is rechecked through a bucket that changes every interval', async () => {
+  const hour = YES24_PURCHASE_MISS_RECHECK_SECONDS * 1000
+  const absent = parseYes24Purchase(response({ ...item, itemStatus: '절판' }), isbn, 0)
+  const available = parseYes24Purchase(response(item), isbn, 0)
+  const buckets: number[] = []
+  const recheck = async (bucket: number) => { buckets.push(bucket); return available }
+  const isMiss = (value: typeof absent) => !selectYes24Purchase(value, 0)
+  assert.equal(await recheckYes24Miss(async () => absent, recheck, isMiss, hour * 5 + 1), available)
+  assert.equal(await recheckYes24Miss(async () => available, recheck, isMiss, hour * 6), available)
+  assert.deepEqual(buckets, [5])
+  assert.equal(yes24RecheckBucket(hour * 6 - 1), 5)
+  assert.equal(yes24RecheckBucket(hour * 6), 6)
+})
+test('an expired cached product counts as absence and is rechecked', async () => {
+  const stale = parseYes24Purchase(response(item), isbn, 0)
+  const fresh = parseYes24Purchase(response(item), isbn, YES24_PURCHASE_MAX_AGE_MS + 10)
+  const now = YES24_PURCHASE_MAX_AGE_MS + 20
+  const result = await recheckYes24Miss(async () => stale, async () => fresh, value => !selectYes24Purchase(value, now), now)
+  assert.equal(selectYes24Purchase(result, now)?.url, item.link)
+})
+test('recheck failures propagate instead of becoming a cached absence', async () => {
+  const absent = parseYes24Purchase(response(), isbn, 0)
+  await assert.rejects(recheckYes24Miss(async () => absent, async () => { throw new Error('YES24 purchase unavailable') }, () => true), /unavailable/)
 })
