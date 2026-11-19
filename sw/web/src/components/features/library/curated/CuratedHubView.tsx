@@ -2,7 +2,7 @@
 
 /*
   작품 첫 화면의 선정 목록 — 매체 칩 → 검색 → [국가 | 주제 | 기관] → 결과 수 → 목록 카드 격자 → 페이지.
-  기관마다 로고·이름을 한 번 세우고, 고른 매체의 선정 목록을 그 아래에서 바로 연다.
+  카드 한 장이 선정 목록 하나다. 기관의 정사각 로고 아래 목록명만 단다(기관명은 쓰지 않는다). 한 줄 장수는 인물 목록과 같다.
   조건 셋은 한 단추(필터) 안에 접지 않고 검색창 아래 줄에 펼쳐 둔다. 단추가 지금 고른 값을 직접 보이므로 따로 조건 칩을 달지 않는다.
   정렬은 두지 않는다(curatorExplore.ts). 조건은 URL에 남긴다.
 */
@@ -18,7 +18,7 @@ import { Pagination } from "@/components/ui/Pagination";
 import ExploreSearchControls, { EXPLORE_CONTROL_CHANGED_CLASS, EXPLORE_CONTROL_CLASS, EXPLORE_PANEL_CLASS } from "@/components/shared/ExploreSearchControls";
 import { FilterModal } from "@/components/shared/filters";
 import { summarizeBrowse } from "./useCuratedBrowse";
-import { CuratedInstitutionCard } from "./CuratedListCard";
+import { CuratedListTile } from "./CuratedListCard";
 import { CURATOR_FACETS, CURATOR_PAGE_SIZE, filterCurators, getCuratorCountries, hasFacetChoice, parseCuratorFilters, shownLists, type CuratorExploreFilters, type CuratorFacet } from "../hub/curatorExplore";
 import { getCountryNameByLocale } from "@/lib/countries";
 import { countryFirst } from "@/lib/visitorCountry";
@@ -43,6 +43,9 @@ export default function CuratedHubView({ hub, visitorCountry = null }: { hub: Cu
   const [openFacet, setOpenFacet] = useState<CuratorFacet | null>(null);
   const shown = countryFirst(filterCurators(hub.curators, filters, locale), visitorCountry, curator => curator.country);
   const lists = shownLists(shown);
+  // 「올해의 앨범」처럼 여러 기관이 같은 이름으로 낸 목록은 기관명 없이는 구분되지 않는다
+  const titleCounts = new Map<string, number>();
+  for (const list of lists) titleCounts.set(list.title, (titleCounts.get(list.title) ?? 0) + 1);
   const totalPages = Math.max(1, Math.ceil(shown.length / CURATOR_PAGE_SIZE));
   const page = Math.min(filters.page, totalPages);
   const search = draft ?? filters.search;
@@ -80,9 +83,6 @@ export default function CuratedHubView({ hub, visitorCountry = null }: { hub: Cu
     window.history.pushState(null, "", `${window.location.pathname}${queryFor(patch)}`);
     setDraft(undefined);
   };
-  const cardQuery = new URLSearchParams();
-  if (filters.media !== "all") cardQuery.set("media", filters.media);
-  if (filters.topic !== "all") cardQuery.set("topic", filters.topic);
 
   return (
     <div>
@@ -123,10 +123,9 @@ export default function CuratedHubView({ hub, visitorCountry = null }: { hub: Cu
           {t("listResults", { lists: lists.length, count: shown.length })}
         </p>
       </div>
-      {lists.length ? <div className="grid grid-cols-1 items-start gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-14">
-        {shown.slice((page - 1) * CURATOR_PAGE_SIZE, page * CURATOR_PAGE_SIZE).map(curator => (
-          <CuratedInstitutionCard key={curator.slug} curator={curator} curatorQuery={cardQuery.size ? `?${cardQuery}` : ""} />
-        ))}
+      {lists.length ? <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 sm:grid-cols-4 md:grid-cols-5 md:gap-x-4 lg:grid-cols-6">
+        {shown.slice((page - 1) * CURATOR_PAGE_SIZE, page * CURATOR_PAGE_SIZE).flatMap(curator =>
+          curator.lists.map(list => <CuratedListTile key={`${curator.slug}/${list.slug}`} curator={curator} list={list} showCurator={(titleCounts.get(list.title) ?? 0) > 1} />))}
       </div> : <div className="space-y-3 py-12 text-center">
         <p className="text-sm text-text-secondary">{t("noResults")}</p>
         <button type="button" className={`${EXPLORE_CONTROL_CLASS} mx-auto`} onClick={() => update({ search: "", kind: "all", topic: "all", country: "all" })}>{t("resetFilters")}</button>

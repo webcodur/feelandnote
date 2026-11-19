@@ -95,4 +95,4 @@ async function main() {
   if (!apply) console.log('\n[점검만] DB에 쓰려면 --apply')
 }
 
-main().catch((e) => { console.error(e); process.exit(1) })
+if (process.argv[1]?.replace(/\\/g, '/').endsWith('curated/logo-palette.ts')) main().catch((e) => { console.error(e); process.exit(1) })

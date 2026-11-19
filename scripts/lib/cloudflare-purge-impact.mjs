@@ -597,8 +597,6 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/library/curated/curatorLogos.ts',
   // 26.11.16 삭제(팔레트는 curators.logo_palette로 이관). 이전 배포본과의 diff에 삭제로 나타나므로 분류를 남긴다.
   'sw/web/src/components/features/library/curated/curatorLogoPalettes.ts',
-  // 새 주소의 공식 TGA 로고. 기존 이미지 URL을 덮어쓰지 않는다.
-  'sw/web/public/images/curated/the-game-awards-official.png',
   'sw/web/src/components/features/library/curated/curatorBrandPalettes.ts',
   'sw/web/src/components/features/library/curated/useCuratedBrowse.ts',
   'sw/web/src/components/features/library/hub/CuratedHubBrowse.tsx',
@@ -902,6 +900,9 @@ function classifyFile(file) {
   if (/^sw\/web\/public\/images\/content\/banners\/(?:ancient-archive|chinese-classics|contemporary|early-modern|library|western-classics)-(?:pc|mb)\.webp$/u.test(file)) {
     return ['content-banners']
   }
+
+  // 기관 로고는 해시가 붙은 R2 주소(curators.logo_url)만 쓴다. 26.11.16 로컬 로고 폴더를 지웠고 소비자가 없다.
+  if (file.startsWith('sw/web/public/images/curated/')) return []
 
   // 두 경로의 실제 소비자는 탐색 메뉴와 직업별 도서의 도해다. 자산 캐시를 따로 비운다.
   if (file.startsWith('sw/web/public/images/explore/quicknav/')

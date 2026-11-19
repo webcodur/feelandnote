@@ -8,61 +8,6 @@
   outline: none;
 }
 
-.stage {
-  position: relative;
-  display: flex;
-  aspect-ratio: 8 / 5;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: var(--logo-surface);
-  color: var(--logo-ink);
-  border: 1px solid rgb(255 255 255 / 10%);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 5%), inset 0 -2px 4px rgb(0 0 0 / 45%);
-  isolation: isolate;
-}
-
-.stage::after {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border: 2px solid transparent;
-  content: "";
-}
-
-.stageMeta {
-  position: absolute;
-  inset: 15px 18px auto;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  line-height: 1.5;
-  opacity: 0.8;
-}
-
-.palette {
-  position: absolute;
-  bottom: 15px;
-  display: flex;
-  width: 52px;
-  height: 2px;
-  opacity: 0.8;
-}
-
-.palette > span { flex-basis: 0; }
-
-.heading {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 19px 0 17px;
-  border-bottom: 1px solid rgb(255 255 255 / 18%);
-}
-
 .name {
   min-width: 0;
   font-size: clamp(21px, 2vw, 27px);
@@ -74,66 +19,6 @@
   color: var(--color-text-primary);
 }
 
-.arrow {
-  display: flex;
-  width: 29px;
-  height: 29px;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgb(255 255 255 / 20%);
-  border-radius: 50%;
-  color: var(--color-text-secondary);
-}
-
-.identity:hover .stage::after,
-.identity:focus-visible .stage::after {
-  border-color: var(--curator-accent);
-}
-
-.identity:hover .name,
-.identity:focus-visible .name {
-  color: var(--curator-accent);
-}
-
-.identity:hover .arrow,
-.identity:focus-visible .arrow {
-  background: var(--curator-accent);
-  border-color: var(--curator-accent);
-  color: #111;
-}
-
-.list {
-  display: flex;
-  flex-direction: column;
-  padding: 16px 0;
-  outline: none;
-}
-
-.list + .list {
-  border-top: 1px solid rgb(255 255 255 / 8%);
-}
-
-.listLine {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.listText {
-  min-width: 0;
-  flex: 1;
-}
-
-.listTitle {
-  color: var(--color-text-primary);
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.5;
-  word-break: keep-all;
-  overflow-wrap: anywhere;
-}
-
 .meta {
   display: block;
   margin-top: 5px;
@@ -141,16 +26,6 @@
   font-size: 11px;
   line-height: 1.5;
   font-variant-numeric: tabular-nums;
-}
-
-.list:hover .listTitle,
-.list:focus-visible .listTitle {
-  color: var(--curator-accent);
-}
-
-.list:focus-visible {
-  outline: 2px solid var(--curator-accent);
-  outline-offset: 3px;
 }
 
 .covers {
@@ -161,23 +36,11 @@
   margin-top: 17px;
 }
 
-.compactCovers {
-  display: flex;
-  width: 66px;
-  flex-shrink: 0;
-  align-items: end;
-  gap: 6px;
-}
-
 .cover {
   position: relative;
   min-width: 0;
   overflow: hidden;
   background: rgb(255 255 255 / 4%);
-}
-
-.compactCovers .cover {
-  width: 30px;
 }
 
 .listCard {
@@ -204,7 +67,49 @@
 }
 
 @media (max-width: 639px) {
-  .heading { padding-block: 17px; }
   .name { font-size: 23px; }
-  .listTitle { font-size: 15px; }
+}
+
+/* 허브의 목록 카드 — 정사각 로고 아래 목록명. 즉각 축은 로고 테두리·목록명 색 */
+.tile {
+  display: block;
+  min-width: 0;
+  outline: none;
+  --curator-accent: #d4af37;
+}
+
+.tileLogo {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 6px;
+  background: #1a1a19;
+}
+
+.tileTitle {
+  display: -webkit-box;
+  margin-top: 10px;
+  overflow: hidden;
+  color: var(--color-text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.tile .meta {
+  margin-top: 3px;
+}
+
+.tile:hover .tileLogo,
+.tile:focus-visible .tileLogo {
+  border-color: var(--curator-accent);
+}
+
+.tile:hover .tileTitle,
+.tile:focus-visible .tileTitle {
+  color: var(--curator-accent);
 }

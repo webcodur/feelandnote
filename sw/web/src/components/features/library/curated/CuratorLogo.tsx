@@ -1,10 +1,10 @@
 "use client";
 
+import { readableAccent } from "@/lib/theme";
 import Image from "next/image";
 import { useId, useState } from "react";
 import type { CuratorLogoPalette } from "@/actions/library/types";
 import { getCuratorBrand } from "./curatorBrandPalettes";
-import { getCuratorLogoUrl } from "./curatorLogos";
 
 const LOGO_SIZES = {
   gallery: { className: "size-28 md:size-40", sizes: "(min-width: 768px) 160px, 112px" },
@@ -12,6 +12,7 @@ const LOGO_SIZES = {
   hero: { className: "size-28 md:size-36", sizes: "(min-width: 768px) 144px, 112px" },
   compact: { className: "size-14", sizes: "56px" },
   inline: { className: "size-12", sizes: "48px" },
+  fill: { className: "size-full", sizes: "(min-width: 1024px) 170px, 40vw" },
 } as const;
 
 /** 원본은 보존하고, 정적 분석에 맞는 잉크·양각 표현만 화면에 합성한다. */
@@ -23,7 +24,7 @@ export default function CuratorLogo({ slug, name, logoUrl, kind, palette, size =
   palette?: CuratorLogoPalette | null;
   size?: keyof typeof LOGO_SIZES;
 }) {
-  const src = getCuratorLogoUrl(slug, logoUrl);
+  const src = logoUrl;
   const filterId = `curator-ink-${useId().replace(/:/g, "")}`;
   const paper = palette?.treatment === "paper";
   const monochrome = palette?.monochrome;
@@ -66,7 +67,7 @@ export default function CuratorLogo({ slug, name, logoUrl, kind, palette, size =
         }} onError={() => setFailedSrc(src)} />
       ) : (
         <span className="flex size-full items-center justify-center rounded-full border text-xl font-semibold md:text-2xl"
-          style={{ color: brand.accent, borderColor: `${brand.accent}50`, background: `${brand.primary}30` }}>
+          style={{ color: readableAccent(brand.accent), borderColor: `${brand.accent}50`, background: `${brand.primary}30` }}>
           {initials}
         </span>
       )}

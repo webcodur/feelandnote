@@ -1,12 +1,12 @@
 import type { CuratedHub } from "@/actions/library/types";
 
 /*
-  기관 선정의 조건. 기관 카드를 이름순으로 진열하고 각 카드 안의 선정 목록을 바로 연다.
+  기관 선정의 조건. 기관을 이름순으로 세우고 그 선정 목록을 카드 한 장씩으로 진열한다.
   거르기는 기관과 목록에 적용하며, 쪽 나눔은 기관 단위라 같은 기관의 목록이 쪽 사이에서 갈라지지 않는다.
   정렬은 두지 않는다. 조건은 국가·주제·기관 종류 셋이며 조작 줄에 셋 다 펼쳐 둔다(한 단추 안에 접지 않는다).
 */
-/** 한 쪽에 싣는 기관 카드 수 */
-export const CURATOR_PAGE_SIZE = 12;
+/** 한 쪽에 싣는 기관 수. 목록 카드는 이보다 조금 많다 */
+export const CURATOR_PAGE_SIZE = 24;
 /** 조작 줄의 조건 순서 — 국가 | 주제 | 기관 */
 export const CURATOR_FACETS = ["country", "topic", "kind"] as const;
 export type CuratorFacet = typeof CURATOR_FACETS[number];
