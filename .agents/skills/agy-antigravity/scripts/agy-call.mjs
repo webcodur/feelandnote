@@ -7,7 +7,7 @@
  * 설계 근거:
  *   - Windows에서는 확인된 agy.exe 절대경로를 직접 spawn한다.
  *   - 기본 모델은 gemini-4-hydrogen-high다(26.11.13 사용자 지시로 3.8 Flash를 대체). Pro 이상 계정에서만 열린다.
- *   - 무료 계정은 비상시에만 AGY_FALLBACK_MODEL(3.8 Flash)로 쓴다.
+ *   - Hydrogen 한도가 모두 차면 Argon, Carbon의 high로 넘어간다(AGY_TEXT_MODELS). Flash는 쓰지 않는다(26.11.15 사용자 지시).
  *   - 다른 모델이 필요한 작업은 호출부가 확인한 모델 ID를 명시한다.
  *   - 긴 한국어는 셸을 거치지 않고 하나의 argv로 넘겨 따옴표 재해석을 막는다.
  *   - 저장소를 어지르지 않도록 전용 임시 cwd에서 실행한다.
@@ -21,7 +21,8 @@ import { isAbsolute, resolve } from 'node:path'
 const AGY_BIN = process.env.AGY_BIN
   ?? 'C:/Users/webco/AppData/Local/agy/bin/agy.exe'
 export const AGY_TEXT_MODEL = 'gemini-4-hydrogen-high'
-export const AGY_FALLBACK_MODEL = 'gemini-3.8-flash-high'
+// 텍스트 생성 모델 순서. 앞 모델을 쓸 수 있는 계정이 모두 한도에 걸리면 다음 모델로 넘어간다.
+export const AGY_TEXT_MODELS = Object.freeze([AGY_TEXT_MODEL, 'gemini-4-argon-high', 'gemini-4-carbon-high'])
 export const AGY_OPUS_MODEL = 'claude-opus-4-6-thinking'
 // 인물 단위 작업은 agy 1회 호출에 1명만 넣는다. 여러 명을 묶으면 시간 초과 한 번에 묶음 전원이 실패한다.
 export const AGY_PEOPLE_PER_CALL = 1

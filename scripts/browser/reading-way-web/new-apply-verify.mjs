@@ -3,8 +3,11 @@ import fs from 'node:fs'
 import { R, W } from './paths.mjs'
 const D = W + '/relist'
 for (const s of process.argv[2].split(',')) {
+  if (!fs.existsSync(`${D}/${s}.verify.json`)) { console.log(s, 'SKIP 검증 없음'); continue }
   const r = JSON.parse(fs.readFileSync(`${D}/${s}.research.json`, 'utf8')), v = JSON.parse(fs.readFileSync(`${D}/${s}.verify.json`, 'utf8'))
-  let paras = r.ko.split(/\n\n+/).map(p => p.match(/[^.!?。]+[.!?。]+[”’"』」)]*\s*|[^.!?。]+$/g).map(x => x.trim()))
+  // 문장은 끝맺음 뒤 공백에서만 자르고, 열린 따옴표 안에서는 잇는다(26.11.15 머스크 「0. 2」 소수점 분리·인용문 뒷절 중복)
+  const sents = p => p.split(/(?<=[.!?。][”’"』」)]*)\s+/).reduce((a, x) => { const l = a.at(-1); if (l != null && (l.split('“').length > l.split('”').length)) a[a.length - 1] = l + ' ' + x; else a.push(x); return a }, [])
+  let paras = r.ko.split(/\n\n+/).map(p => sents(p.trim()))
   let applied = 0, missed = []
   for (const p of v.problems) {
     const key = p.text.replace(/\s+/g, ' ').slice(0, 25)
@@ -12,7 +15,8 @@ for (const s of process.argv[2].split(',')) {
     const del = /^삭제\.?$/.test(fix)
     let hit = false
     // 지적 문구와 수정안이 둘 다 문장 일부(끝맺음 없음)면 그 부분만 바꿔 뒷절을 살린다(26.11.15 델 토로 뒷절 유실). 수정안이 완결 문장이면 문장 전체를 바꾼다(26.11.15 해리스 뒷절 중복)
-    const part = p.text.replace(/\s+/g, ' ').trim(), partial = !/[.!?。”’"』」)]$/.test(part) && !/[.!?。”’"』」)]$/.test(fix)
+    // 지적 문구가 끝맺음으로 끝나는 문장 뒷부분이면 그 부분만 바꾼다(26.11.15 게이츠 「…캐피어였다.」 지적에 문장 앞절 유실)
+    const end = x => /[.!?。”’"』」)]$/.test(x), part = p.text.replace(/\s+/g, ' ').trim(), partial = !(!end(part) && end(fix))
     for (const ss of paras) { const i = ss.findIndex(x => x.replace(/\s+/g, ' ').includes(key)); if (i >= 0) { const cur = ss[i].replace(/\s+/g, ' '); if (del) ss.splice(i, 1); else if (partial && cur.includes(part)) ss[i] = cur.replace(part, fix); else ss[i] = fix; hit = true; break } }
     hit ? applied++ : missed.push(key)
   }

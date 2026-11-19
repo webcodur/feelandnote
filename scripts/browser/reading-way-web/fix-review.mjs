@@ -19,7 +19,10 @@ if (!before?.id) throw Error('relation not found')
 const after = { ...before }
 for (const e of d.edits) {
   if (!['review', 'review_en', 'source_url'].includes(e.field)) throw Error('bad field ' + e.field)
-  const t = after[e.field], i = t.indexOf(e.from)
+  // 빈 칸 채우기: from이 ''이면 현재 값이 비어 있을 때만 통째로 넣는다.
+  const t = after[e.field] ?? ''
+  if (e.from === '') { if (t !== '') throw Error(`field not empty: ${e.field}`); after[e.field] = e.to; continue }
+  const i = t.indexOf(e.from)
   if (i < 0 || i !== t.lastIndexOf(e.from)) throw Error(`edit not unique/found: ${e.from.slice(0, 40)}`)
   after[e.field] = t.replace(e.from, e.to)
 }
@@ -27,7 +30,7 @@ const changed = ['review', 'review_en', 'source_url'].filter((f) => after[f] !==
 for (const f of changed) console.log(`[${f}]\n${after[f]}\n`)
 if (!APPLY) { console.log(JSON.stringify({ ready: true, changed })); process.exit(0) }
 const set = changed.map((f) => `${f}=${s(after[f])}`).join(',')
-const where = changed.map((f) => `${f}=${s(before[f])}`).join(' AND ')
+const where = changed.map((f) => before[f] == null ? `${f} IS NULL` : `${f}=${s(before[f])}`).join(' AND ')
 const res = await q(`WITH u AS (UPDATE public.celeb_contents SET ${set} WHERE id=${s(before.id)} AND ${where} RETURNING 1) SELECT json_build_object('n',(SELECT count(*) FROM u));`)
 if (res.n !== 1) throw Error('guard failed: row changed since read')
 const back = await read()
