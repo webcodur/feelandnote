@@ -130,6 +130,7 @@ function buildWriterPrompt(row, reasons = [], brief = null) {
   const lines = bio ? [base, `인물 소개: ${bio}`] : [base]
   if (brief) {
     lines.push(`한국어 분량 목표는 공백 포함 ${short ? '400~600' : '800~1000'}자다. 회사명·제품명·약어는 공식 표기를 쓴다.`)
+    lines.push('번역투와 상투적인 미사여구를 쓰지 않는다. 첫 문장은 누구에게나 붙일 수 있는 다짐이나 신조를 선언하지 않고, 정보 목록에 있는 구체적인 일·작품·사람·물건·말에서 시작하되, 첫 문장을 연도나 날짜로 열지 않는다. 이력을 연도순으로 읊지 않는다.')
     lines.push('한국인이 한국어로 쓴 글답게 주의해서 작성한다. 인물 소개는 신원 식별용이며 사실 근거가 아니다. 아래 작업자가 정한 방향과 사용할 정보 목록에 있는 사실만으로 독백 본문을 쓴다. 소개의 직함·이력이라도 정보 목록에 없으면 본문에 추가하지 않는다. 사실·일화·직접 인용을 새로 만들지 않는다. 출처 목록은 본문에 넣지 않는다.')
     lines.push(`독백 방향: ${brief.monologueDirection}`)
     lines.push('사용할 정보:', ...brief.facts.map((fact) => `- ${fact.text} (근거: ${fact.sourceUrl})`))
@@ -1027,7 +1028,8 @@ ${draft}`
 }
 
 async function lightOne(row, reasons = [], brief = null) {
-  const call = (prompt) => agyCall(prompt, { model: AGY_TEXT_MODEL, timeoutMs: LIGHT_TIMEOUT_MS })
+  // 기본 작가는 AGY_TEXT_MODEL이다. 사용자가 더 높은 effort를 지시한 배치만 --model로 바꾼다.
+  const call = (prompt) => agyCall(prompt, { model: argValue('--model') ?? AGY_TEXT_MODEL, timeoutMs: LIGHT_TIMEOUT_MS })
   let final = (await call(buildWriterPrompt(row, reasons, brief))).trim()
   const reviewed = !brief && needsLightReview(row)
   if (reviewed) {

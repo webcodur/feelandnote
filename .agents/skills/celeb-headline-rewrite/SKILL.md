@@ -89,7 +89,7 @@ description: 셀럽 한 줄 정의(headline) 신설·개편 오케스트레이�
 서브에이전트·외부 CLI 배치 러너(`scripts/celeb/headline-rewrite/codex-batch.mjs`)는 사용자가 그 회차에
 명시적으로 나눠 시키라고 지정했을 때만 연다. 러너는 생성과 대결을 각각 돌리고, 동시 3, 산출물이 있으면
 건너뛰는 재실행 안전 설계, 사실 날조를 막는 근거로 DB `bio` 제공이 필수다. 후보 순서는 slug 해시로
-고정 셔플해 재실행해도 같은 목록이 나오게 한다. `--engine agy`면 gemini-3.8-flash-high로 돌고 쿼터가 차면
+고정 셔플해 재실행해도 같은 목록이 나오게 한다. `--engine agy`면 gemini-4-hydrogen-high로 돌고 쿼터가 차면
 agm으로 다음 계정에 넘긴다. `run`은 한 사람씩 생성 → 대결을 이어 돌리는 파이프라인이다. 도는 중에는
 `.tmp/relay/concurrency.txt`로 동시 수를 바꾸고 `.tmp/relay/STOP`으로 멈춘다.
 Kiro 서브에이전트로 한 사람씩 발주하는 방식은 호출 한도에 걸려 한 사람에 몇 분씩 걸렸다. 수백 명 규모는 러너로 돌린다.
