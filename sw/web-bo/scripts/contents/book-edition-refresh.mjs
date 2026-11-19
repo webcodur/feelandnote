@@ -19,6 +19,7 @@
  *
  * node --env-file=.env --import tsx scripts/contents/book-edition-refresh.mjs [--limit N] [--apply]
  * node --env-file=.env --import tsx scripts/contents/book-edition-refresh.mjs --apply --from-plan   저장 계획을 읽고 같은 판본을 재검증한다.
+ * --isbns=<줄바꿈 ISBN 파일>을 주면 그 ISBN만 조회·전환한다(블로그·화면에서 찾은 절판 판본만 다룰 때).
  */
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve, join } from 'node:path'
@@ -33,6 +34,7 @@ import { isDeepStrictEqual } from 'node:util'
 const APPLY = hasFlag('apply')
 const FROM_PLAN = hasFlag('from-plan')
 const LIMIT = Number(argumentValue('limit', '0'))
+const ISBNS = argumentValue('isbns', '')
 const CONCURRENCY = Number(argumentValue('concurrency', '3'))
 const OUT_DIR = resolve(process.cwd(), '../../data/tmp/edition-refresh')
 const STATUS_CACHE = join(OUT_DIR, 'status-cache.json')
@@ -148,6 +150,10 @@ async function main() {
     const isbn = bareIsbn(r.isbn)
     const entry = byIsbn.get(isbn) ?? { locales: [], editions: [] }
     entry.editions.push(r); byIsbn.set(isbn, entry)
+  }
+  if (ISBNS) {
+    const wanted = new Set(readFileSync(ISBNS, 'utf8').split(/\s+/).map(bareIsbn).filter(Boolean))
+    for (const isbn of [...byIsbn.keys()]) if (!wanted.has(isbn)) byIsbn.delete(isbn)
   }
   console.log(`ko ISBN 행: content_locales ${localeRows.length} / figure_book_editions ${editionRows.length} / 고유 ISBN ${byIsbn.size}`)
 
