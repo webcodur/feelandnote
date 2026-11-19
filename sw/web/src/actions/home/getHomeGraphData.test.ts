@@ -40,7 +40,7 @@ function fixture(emptyLocal = false, media: ContentType = 'BOOK', validSlugs?: s
     '@/actions/books/getProfessionBooks': { getProfessionBooks: async (profession: string) => { professions.push(profession); return [] } },
     '@/lib/celeb/authoredBooks': { getDisplayFigureBookGroups: () => ({ appeared: [], authored: [] }) },
     '@/lib/books/bookShelf': { isBookShelfAvailable: () => true },
-    '@feelandnote/content-search/book-edition-policy': { excludedBookEditionReason: () => null },
+    '@feelandnote/content-search/book-edition-policy': { blockedBookEditionReason: () => null },
   }
   const source = ts.transpileModule(readFileSync(new URL('./getHomeGraphData.ts', import.meta.url), 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },

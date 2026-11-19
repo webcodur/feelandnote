@@ -1,6 +1,6 @@
 import type { ContentDetailData } from '@/actions/contents/getContentDetail'
 import type { FigureBookEdition } from '@/actions/figure-books/figureBookLocale'
-import { excludedBookEditionReason, reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
+import { blockedBookEditionReason, excludedBookWorkReason } from '@feelandnote/content-search/book-edition-policy'
 
 export type ContentBookEdition = FigureBookEdition & { locale: 'ko' | 'en' }
 
@@ -38,8 +38,8 @@ export function applyContentBookEdition(content: ContentDetailData['content'], e
     metadata: { ...metadata, isbn: edition.isbn, publisher: edition.publisher },
     purchaseEditionId: edition.id,
     sources: edition.sources,
-    bookPurchaseBlocked: !!reviewedBookWorkSelectionReason({ contentId: content.id, metadata: content.metadata })
-      || !!excludedBookEditionReason({ ...edition, contentId: content.id }),
+    bookPurchaseBlocked: !!excludedBookWorkReason({ contentId: content.id, metadata: content.metadata })
+      || !!blockedBookEditionReason({ ...edition, contentId: content.id }),
     affiliateLinks: [
       ...(edition.platform && edition.purchaseUrl ? [{ platform: edition.platform, url: edition.purchaseUrl }] : []),
       ...(edition.affiliateLinks ?? []),

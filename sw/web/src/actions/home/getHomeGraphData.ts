@@ -2,7 +2,7 @@
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
-import { excludedBookEditionReason } from '@feelandnote/content-search/book-edition-policy'
+import { blockedBookEditionReason } from '@feelandnote/content-search/book-edition-policy'
 import { getPublicUserContents, type UserContentPublic } from '@/actions/contents/getUserContents'
 import { getFigureBookPresentationsForCeleb } from '@/actions/figure-books/getFigureBookPresentations'
 import { getCelebFactionBooks } from '@/actions/celebs/getCelebFactionBooks'
@@ -34,7 +34,7 @@ function displayableRecord(row: UserContentPublic) {
   const edition = row.content.bookLocale
   return !!edition?.title && !!edition.thumbnail_url
     && isBookShelfAvailable({ titleBadge: row.content.title_badge })
-    && !excludedBookEditionReason({ ...edition, contentId: row.content_id })
+    && !blockedBookEditionReason({ ...edition, contentId: row.content_id })
 }
 
 async function fetchHomeGraph(locale: string, slug: string): Promise<HomeGraphData | null> {

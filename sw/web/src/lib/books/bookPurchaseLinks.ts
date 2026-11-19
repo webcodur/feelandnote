@@ -3,7 +3,7 @@ import { getEnglishBookPurchaseLinks } from './amazonBookSearch'
 import { getBookPurchaseHref } from './bookPurchaseHref'
 import { aladinBookLink, coupangBookLink, kyoboBookLink } from './bookPurchaseRedirect'
 import { isYes24PurchaseRequest } from './yes24Purchase'
-import { excludedBookEditionReason, reviewedBookWorkSelectionReason, type BookEditionPolicyInput } from '@feelandnote/content-search/book-edition-policy'
+import { blockedBookEditionReason, excludedBookWorkReason, type BookEditionPolicyInput } from '@feelandnote/content-search/book-edition-policy'
 
 export interface BookPurchaseOptions extends Pick<BookEditionPolicyInput, 'sources' | 'editionKind' | 'textScope' | 'publisher' | 'releaseDate' | 'workTitles' | 'reviewedSeries'> {
   locale: string
@@ -30,7 +30,7 @@ function isPurchaseUrl(value: string): boolean {
 
 // 작품·판본·외부 차트의 서점 선택은 이 함수 하나로 결정한다. 먼저 유효 링크를 고른 뒤 중복을 없앤다.
 export function getBookPurchaseLinks(options: BookPurchaseOptions): AffiliateLink[] {
-  if (options.bookPurchaseBlocked || reviewedBookWorkSelectionReason(options) || excludedBookEditionReason(options)) return []
+  if (options.bookPurchaseBlocked || excludedBookWorkReason(options) || blockedBookEditionReason(options)) return []
   const { locale, contentId, editionId, isbn, title, creator, links = [], yes24Href } = options
   const ownId = contentId && isYes24PurchaseRequest(contentId, 'ko', editionId) ? contentId : undefined
   if (ownId && locale === 'en') return [{ platform: 'amazon', url: getBookPurchaseHref(ownId, editionId, 'amazon', 'en') }]

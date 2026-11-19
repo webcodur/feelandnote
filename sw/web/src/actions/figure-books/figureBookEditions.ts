@@ -1,7 +1,7 @@
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { selectBookIntroduction } from '@/lib/utils/book-description'
 import type { createStaticClient } from '@/lib/db/static'
-import { reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
+import { excludedBookWorkReason } from '@feelandnote/content-search/book-edition-policy'
 import {
   getFigureBookPurchasePlatform,
   attachFigureBookLocaleLinks,
@@ -82,7 +82,7 @@ export async function loadFigureBookEditions(
   const worksById = new Map(works.map(work => [work.id, work]))
   // 판본이 없는 작품도 명시적으로 막아 언어 카드 fallback으로 되살아나지 않게 한다.
   for (const work of works) {
-    if (reviewedBookWorkSelectionReason({ contentId: work.id, metadata: work.metadata })) byContent.set(work.id, [])
+    if (excludedBookWorkReason({ contentId: work.id, metadata: work.metadata })) byContent.set(work.id, [])
   }
 
   for (const contentId of new Set([...rowsByContent.keys(), ...optionsByContent.keys()])) {

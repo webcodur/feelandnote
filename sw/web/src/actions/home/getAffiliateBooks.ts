@@ -12,7 +12,7 @@ import { getEnglishBookAmazonUrl } from '@/lib/books/amazonBookSearch'
 import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
 import { isDisplayTitleRow } from '@/lib/utils/content-locale'
 import { resolveBookShelfBook } from '@/lib/books/bookShelf'
-import { excludedBookEditionReason, reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
+import { blockedBookEditionReason, excludedBookWorkReason } from '@feelandnote/content-search/book-edition-policy'
 import type { ContentLocaleRow } from '@/lib/utils/content-locale'
 import { findAffiliateLink } from './affiliateLinks'
 import {
@@ -138,8 +138,8 @@ async function buildAffiliatePool(locale: AffiliateBookLocale, sourceRows: Sourc
     // 절판은 제휴 링크 유무와 무관하게 후보에서 뺀다.
     const outOfPrint = (row.sources as { availability?: unknown } | null | undefined)?.availability === 'out_of_print'
     if (seen.has(row.content_id) || sourceIds.has(row.content_id) || !row.title || isDisplayTitleRow(row.sources) || outOfPrint
-      || reviewedBookWorkSelectionReason({ contentId: row.content_id, metadata: row.contents?.metadata })
-      || excludedBookEditionReason({...row,locale})) continue
+      || excludedBookWorkReason({ contentId: row.content_id, metadata: row.contents?.metadata })
+      || blockedBookEditionReason({...row,locale})) continue
     const url = locale === 'en'
       ? getEnglishBookAmazonUrl({ title: row.title, creator: row.creator, url: findAffiliateLink(row.affiliate_url, 'amazon')?.url })
       : findAffiliateLink(row.affiliate_url, 'coupang')?.url ?? ''

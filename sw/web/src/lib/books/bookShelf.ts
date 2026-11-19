@@ -4,7 +4,7 @@ import { findAffiliateLink } from '@/actions/home/affiliateLinks'
 import { getEnglishBookAmazonUrl } from './amazonBookSearch'
 import { flattenLocales, getEditionAvailabilityBadge, type ContentLocaleRow, type TitleBadge } from '@/lib/utils/content-locale'
 import { getThemeBookTextScope } from '@/lib/figure-books/themeBooks'
-import { excludedBookEditionReason, reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
+import { blockedBookEditionReason, excludedBookWorkReason } from '@feelandnote/content-search/book-edition-policy'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 
 /** 서점 링크 생성 여부와 별개로, 확인된 언어판만 책장에 세운다. */
@@ -21,14 +21,14 @@ export function resolveBookShelfBook(
   allowLocaleEditionFallback = true,
 ): AffiliateBook | null {
   if (content.type !== 'BOOK') return null
-  if (reviewedBookWorkSelectionReason({ contentId: content.id, metadata: content.metadata })) return null
+  if (excludedBookWorkReason({ contentId: content.id, metadata: content.metadata })) return null
   const flat = flattenLocales(content.content_locales, locale, 'BOOK')
   if (flat.title_badge && getEditionAvailabilityBadge(flat.title_badge) === 'out-of-print') return null
   const exactLocale = content.content_locales?.find(row => row.locale === locale)
   const hadCatalogEditions = editions.length > 0
-  const localeExcluded = exactLocale && excludedBookEditionReason({ ...exactLocale, contentId: content.id })
+  const localeExcluded = exactLocale && blockedBookEditionReason({ ...exactLocale, contentId: content.id })
   const excludedIsbn = localeExcluded && exactLocale?.isbn ? toIsbn13(exactLocale.isbn) : null
-  editions = editions.filter(edition => !excludedBookEditionReason({ ...edition, contentId: content.id, locale: edition.locale ?? locale })
+  editions = editions.filter(edition => !blockedBookEditionReason({ ...edition, contentId: content.id, locale: edition.locale ?? locale })
     && !(excludedIsbn && edition.isbn && toIsbn13(edition.isbn) === excludedIsbn))
   const textScope = getThemeBookTextScope(content.id, themeSlug)
   const edition = (textScope && editions.find((edition) => edition.textScope === textScope)) || pickPurchaseEdition(editions, locale)

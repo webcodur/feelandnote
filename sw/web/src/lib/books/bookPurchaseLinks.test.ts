@@ -81,7 +81,7 @@ test('registered Korean saved URLs and English saved products cannot bypass the 
 
 test('selection evidence blocks saved store URLs and title search before links are constructed', () => {
   const sources = { edition_selection_evidence: [{ method: 'independent_selection_review', isbn: '9780141439518',
-    locale: 'ko', edition_title: '엠마', reason: 'editorial_exclusion', content_id: contentId,
+    locale: 'ko', edition_title: '엠마', reason: 'wrong_work', content_id: contentId,
     source_url: 'https://publisher.example.test/emma', explanation: '이 판본의 본문과 번역 문제를 확인하여 해당 상품을 선정에서 제외한다.' }] }
   const options = { locale: 'ko', contentId, title: '엠마', creator: '제인 오스틴', isbn: '9780141439518', sources,
     links: [{ platform: 'coupang' as const, url: 'https://link.coupang.com/a/stored' }],
@@ -102,7 +102,7 @@ test('authoritative blocked detail does not offer saved Korean or English purcha
 test('work selection metadata blocks ISBN-less searches and saved English products only for its bound work', () => {
   const metadata = { figureBook: { workTitle: 'Emma', workCreator: 'Jane Austen', workIdentity: 'wikidata:q181558',
     workSelectionEvidence: [{ method: 'independent_work_selection_review', content_id: contentId, work_title: 'Emma', work_creator: 'Jane Austen',
-      work_identity: 'wikidata:q181558', reason: 'editorial_exclusion', source_url: 'https://publisher.example.test/emma',
+      work_identity: 'wikidata:q181558', reason: 'non_reading_product', source_url: 'https://publisher.example.test/emma',
       explanation: '이 작품의 본문과 독서 가치를 검토하여 해당 작품 전체를 선정에서 제외한다.' }] } }
   for (const locale of ['ko', 'en']) {
     const options = { locale, contentId, title: 'Emma', creator: 'Jane Austen', metadata,

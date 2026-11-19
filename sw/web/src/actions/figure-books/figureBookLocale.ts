@@ -1,4 +1,4 @@
-import { excludedBookEditionReason, bookEditionTranslationKey } from '@feelandnote/content-search/book-edition-policy'
+import { blockedBookEditionReason, bookEditionTranslationKey } from '@feelandnote/content-search/book-edition-policy'
 import type { BookIntroductionReference, BookIntroductionAttribution } from '@/lib/utils/book-description'
 import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
 import { AFFILIATE_PLATFORMS, toAffiliateLinks, type AffiliateLink } from '@/constants/affiliatePlatforms'
@@ -238,9 +238,9 @@ export function mergeFigureBookEditions(
   workTitles: readonly string[] = [],
   localeCards: readonly { content_id: string; locale: string; title: string | null; isbn?: string | null; sources?: unknown }[] = [],
 ): FigureBookEdition[] {
-  const excludedCardIsbns = new Set(localeCards.filter(card => excludedBookEditionReason(card))
+  const excludedCardIsbns = new Set(localeCards.filter(card => blockedBookEditionReason(card))
     .flatMap(card => card.isbn && toIsbn13(card.isbn) ? [`${card.content_id}|${card.locale}|${toIsbn13(card.isbn)}`] : []))
-  const allowed = (row: FigureBookEditionRow | FigureBookPurchaseOptionRow) => !excludedBookEditionReason({...row,workTitles,reviewedSeries:!!(series && typeof series==='object' && 'sourceUrl' in series && /^https:\/\//u.test(String(series.sourceUrl))),editionKind:row.edition_kind,textScope:row.text_scope})
+  const allowed = (row: FigureBookEditionRow | FigureBookPurchaseOptionRow) => !blockedBookEditionReason({...row,workTitles,reviewedSeries:!!(series && typeof series==='object' && 'sourceUrl' in series && /^https:\/\//u.test(String(series.sourceUrl))),editionKind:row.edition_kind,textScope:row.text_scope})
     && !(row.isbn && excludedCardIsbns.has(`${row.content_id}|${row.locale}|${toIsbn13(row.isbn)}`))
   const blockedIds = new Set(rows.filter(row => !allowed(row)).map(row => row.id))
   rows = rows.filter(allowed)

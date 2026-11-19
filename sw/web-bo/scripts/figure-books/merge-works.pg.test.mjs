@@ -7,7 +7,7 @@ import { join, resolve, basename } from 'node:path'
 import { spawnSync, spawn } from 'node:child_process'
 import { createServer } from 'node:net'
 import { editionPolicySql } from './lib/edition-policy-sql.mjs'
-import { BOOK_EDITION_SELECTION_REASONS } from '../../../../packages/content-search/src/book-edition-policy.ts'
+import { BOOK_EDITION_SELECTION_REASONS, BOOK_SELECTION_BLOCKING_REASONS } from '../../../../packages/content-search/src/book-edition-policy.ts'
 import { translationRepairSql } from './edition-translation-audit.mjs'
 import { buildMergeSql, SNAPSHOT_TABLES, sqlLiteral } from './lib/merge-work-sql.mjs'
 import { buildGuardedCatalogRepairSql,planGuardedCatalogRepairs,expandReviewedExactIsbnIntroductionChanges } from './lib/guarded-catalog-repairs.mjs'
@@ -773,7 +773,9 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     for(const reason of BOOK_EDITION_SELECTION_REASONS) {
       prepare({...proof,reason})
       assert.equal(query("SELECT string_agg(locale,',' ORDER BY locale) FROM figure_book_editions"),'en')
-      assert.throws(()=>query(`INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','ko','Activity card','9781524773458',${sqlLiteral(JSON.stringify({edition_selection_evidence:[{...proof,reason}]}))})`),/not service editions/)
+      const insert=()=>query(`INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','ko','Activity card','9781524773458',${sqlLiteral(JSON.stringify({edition_selection_evidence:[{...proof,reason}]}))})`)
+      if(BOOK_SELECTION_BLOCKING_REASONS.includes(reason)) assert.throws(insert,/not service editions/)
+      else insert()
     }
     for(const isbn of ['978-1-5247-7345-8','152477345X']) {
       prepare({...proof,isbn})
@@ -1196,20 +1198,20 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     query('DROP TABLE unhandled')
   })
 
-  await t.test('운영 DB 가드는 축약 직접 쓰기·동일 역자 중복을 막고 다른 번역과 상품을 허용한다', () => {
+  await t.test('운영 DB 가드는 축약본·학습용 리더 등록을 허용하고 언어판 오류·동일 역자 중복을 막으며 다른 번역과 상품을 허용한다', () => {
     reset(`INSERT INTO figure_book_contents VALUES('keep');`)
     query(editionPolicySql())
-    assert.throws(() => query("INSERT INTO figure_book_editions(content_id,locale,title,edition_kind) VALUES('keep','ko','책','abridged')"), /Abridged books/)
-    assert.throws(() => query("INSERT INTO figure_book_editions(content_id,locale,title) VALUES('keep','en','Penguin Readers Level 3: Elon Musk')"), /graded readers/)
-    for(const title of ['문학평전 1 [영어원서] (문학평전 1)','교훈집 / Plutarch Morals 영문판','하이아워서의 노래 | 영문판 |']) assert.throws(() => query(`INSERT INTO figure_book_editions(content_id,locale,title) VALUES('keep','ko','${title}')`), /Abridged books/)
-    assert.throws(() => query("INSERT INTO figure_book_editions(content_id,locale,title,text_scope) VALUES('keep','ko','후속 권','volume/41')"), /Abridged books/)
-    assert.throws(() => query("INSERT INTO figure_book_editions(content_id,locale,title,text_scope) VALUES('keep','en','The Story of the Stone','volume IV of V')"), /Abridged books/)
+    query("BEGIN; INSERT INTO figure_book_editions(content_id,locale,title,edition_kind) VALUES('keep','ko','책','abridged'); ROLLBACK;")
+    query("BEGIN; INSERT INTO figure_book_editions(content_id,locale,title) VALUES('keep','en','Penguin Readers Level 3: Elon Musk'); ROLLBACK;")
+    for(const title of ['문학평전 1 [영어원서] (문학평전 1)','교훈집 / Plutarch Morals 영문판','하이아워서의 노래 | 영문판 |']) assert.throws(() => query(`INSERT INTO figure_book_editions(content_id,locale,title) VALUES('keep','ko','${title}')`), /not service editions/)
+    assert.throws(() => query("INSERT INTO figure_book_editions(content_id,locale,title,text_scope) VALUES('keep','ko','후속 권','volume/41')"), /not service editions/)
+    assert.throws(() => query("INSERT INTO figure_book_editions(content_id,locale,title,text_scope) VALUES('keep','en','The Story of the Stone','volume IV of V')"), /not service editions/)
     for(const scope of ['Volumes 11 and 12; continuous translation','Volumes 11–12; continuous translation','Parts II–III; continuous text'])
-      assert.throws(()=>query(`INSERT INTO figure_book_editions(content_id,locale,title,text_scope) VALUES('keep','en','Continuous work',${sqlLiteral(scope)})`),/Abridged books/)
+      assert.throws(()=>query(`INSERT INTO figure_book_editions(content_id,locale,title,text_scope) VALUES('keep','en','Continuous work',${sqlLiteral(scope)})`),/not service editions/)
     query("BEGIN; INSERT INTO figure_book_editions(content_id,locale,title,text_scope) VALUES('keep','en','First combined volume','Volumes 1 and 2; first combined volume'); ROLLBACK;")
-    assert.throws(() => query(`INSERT INTO figure_book_editions(content_id,locale,title,sources) VALUES('keep','en','Doctor Zhivago','{"provider_scope_description":"Penguin Reader , Level 5 (2300 words)"}')`), /graded readers/)
-    assert.throws(() => query(`INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','en','Elon Musk','9788934971016','{"provider_edition_isbn":"9788934971016","provider_edition_title":"Penguin Readers Level 3: Elon Musk"}');`), /graded readers/)
-    assert.throws(() => query(`INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','ko','설득','original','{\"provider_edition_isbn\":\"original\",\"provider_edition_title\":\"설득 (영문원서-제인 오스틴)\"}');`), /Abridged books/)
+    query(`BEGIN; INSERT INTO figure_book_editions(content_id,locale,title,sources) VALUES('keep','en','Doctor Zhivago','{"provider_scope_description":"Penguin Reader , Level 5 (2300 words)"}'); ROLLBACK;`)
+    query(`BEGIN; INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','en','Elon Musk','9788934971016','{"provider_edition_isbn":"9788934971016","provider_edition_title":"Penguin Readers Level 3: Elon Musk"}'); ROLLBACK;`)
+    assert.throws(() => query(`INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','ko','설득','original','{\"provider_edition_isbn\":\"original\",\"provider_edition_title\":\"설득 (영문원서-제인 오스틴)\"}');`), /not service editions/)
     query(`INSERT INTO figure_book_editions(id,content_id,locale,title,sources) VALUES(200,'keep','ko','오디세이아','{"translators":["천병희"]}');`)
     assert.throws(() => query(`INSERT INTO figure_book_editions(content_id,locale,title,sources) VALUES('keep','ko','오뒷세이아 특별판','{"translators":["천 병희"]}');`), /representative edition/)
     query(`INSERT INTO figure_book_editions(id,content_id,locale,title,sources) VALUES(201,'keep','ko','오디세이아','{"translators":["김헌"]}'); INSERT INTO figure_book_products VALUES(201,200,'coupang',true);`)
@@ -1222,7 +1224,7 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.throws(() => query(`INSERT INTO figure_book_editions(content_id,locale,title,isbn,sources) VALUES('keep','en','Same translation hardcover','hardcover','{"translators":["B O Foster"]}');`), /representative edition/)
     assert.equal(query("SELECT public.book_translator_identity('[\".\"]') IS NULL"),'t')
     query(`UPDATE contents SET metadata='{"figureBook":{"workTitle":"Journey to the West","series":{"sourceUrl":"https://publisher.example/series"}}}' WHERE id='keep';`)
-    assert.throws(() => query("INSERT INTO figure_book_editions(content_id,locale,title) VALUES('keep','en','The Journey to the West, Revised Edition, Volume 3')"), /Abridged books/)
+    assert.throws(() => query("INSERT INTO figure_book_editions(content_id,locale,title) VALUES('keep','en','The Journey to the West, Revised Edition, Volume 3')"), /not service editions/)
     assert.equal(query("SELECT public.book_nonstart_work_volume('Journey to the West, Volume 0','{\"workTitle\":\"Journey to the West\"}','chapters-051-075')"),'f')
     assert.equal(query("SELECT public.book_nonstart_work_volume('Journey to the West, Volume IV','{\"workTitle\":\"Journey to the West\"}','chapters-051-075')"),'t')
     query('DROP TRIGGER guard_figure_book_edition_policy ON figure_book_editions')
@@ -1263,9 +1265,9 @@ test('PostgreSQL에서 참조·이력 보존, 원자적 롤백과 동시 배열 
     assert.throws(()=>query("UPDATE figure_book_editions SET sources=sources||'{\"edition_selection_evidence\":[]}'::jsonb WHERE id=95"),/verified different translation/)
     assert.deepEqual(snapshot(),withRepresentative)
     prepare('abridged')
-    const abridged=snapshot()
-    assert.throws(()=>query("UPDATE figure_book_editions SET sources=sources||'{\"edition_selection_evidence\":[]}'::jsonb WHERE id=95"),/not service editions/)
-    assert.deepEqual(snapshot(),abridged)
+    // 축약 범위는 조사자 권장사항이라 판정 철회 뒤에도 정상 판본으로 남는다.
+    query("UPDATE figure_book_editions SET sources=sources||'{\"edition_selection_evidence\":[]}'::jsonb WHERE id=95")
+    assert.deepEqual(snapshot().figure_book_editions[0].sources.edition_selection_evidence,[])
   })
 
   await t.test('기존 실물의 검수된 선정 제외와 owner 이동만 상품·기간·감상 전체를 보존한다', t => {

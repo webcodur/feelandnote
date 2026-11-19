@@ -46,7 +46,7 @@ test('세력 목록은 받은 작품·locale을 재사용하고 소개문을 받
 test('판본 없는 ISBN 미상 제외 작품도 빈 지도값으로 남겨 locale fallback을 막는다', async () => {
   const figureBook = { workTitle: '아이에게 읽어 주는 그림책', workCreator: '실제 작가', workSelectionEvidence: [{
     method: 'independent_work_selection_review', content_id: 'protected', work_title: '아이에게 읽어 주는 그림책', work_creator: '실제 작가',
-    reason: 'children_picture', source_url: 'https://publisher.example/picture-book', explanation: '출판사의 실제 소개와 본문을 대조하여 유아 전용 창작 그림책임을 확인했다.' }] }
+    reason: 'non_reading_product', source_url: 'https://publisher.example/picture-book', explanation: '출판사의 실제 소개와 본문을 대조하여 유아 전용 창작 그림책임을 확인했다.' }] }
   const tables = { contents: [{ id: 'protected', metadata: { figureBook } }, { id: 'normal', metadata: null }],
     content_locales: [{ content_id: 'protected', locale: 'ko', title: figureBook.workTitle, creator: figureBook.workCreator, isbn: null }] }
   const before = structuredClone(tables)
@@ -100,7 +100,7 @@ test('locale ISBN 제외는 같은 상품만 막고 정상 번역판과 그 출�
   const base = { content_id: 'classic', locale: 'ko', title: '온전한 고전', creator: '원저자', description: null,
     publisher: '출판사', thumbnail_url: null, release_date: null, edition_kind: 'full', text_scope: 'complete', sort_order: 0 }
   const proof = { method: 'independent_selection_review', content_id: 'classic', isbn: rejectedIsbn, locale: 'ko', edition_title: base.title,
-    reason: 'editorial_exclusion', source_url: 'https://publisher.example/edition', explanation: '운영자가 해당 실제 판본을 명시적으로 선정에서 제외했으며 다른 역자의 정상 번역본은 보존한다.' }
+    reason: 'non_reading_product', source_url: 'https://publisher.example/edition', explanation: '운영자가 해당 실제 판본을 명시적으로 선정에서 제외했으며 다른 역자의 정상 번역본은 보존한다.' }
   const tables = { contents: [{ id: 'classic', metadata: null }],
     content_locales: [{ content_id: 'classic', locale: 'ko', title: base.title, isbn: rejectedIsbn, sources: { edition_selection_evidence: [proof] } }],
     figure_book_editions: [{ ...base, id: 1, isbn: rejectedIsbn, sources: { translators: ['제외 역자'] } },

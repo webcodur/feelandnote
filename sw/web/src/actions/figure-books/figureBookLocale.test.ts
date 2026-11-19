@@ -11,7 +11,7 @@ import {
 
 test('언어 카드에만 남은 ISBN별 선정 근거는 동일 상품을 막고 다른 역자·언어 상품을 보존한다', () => {
   const proof = { method: 'independent_selection_review', content_id: BASE_ROW.content_id, isbn: BASE_ROW.isbn, locale: 'ko',
-    edition_title: BASE_ROW.title, reason: 'editorial_exclusion', source_url: 'https://publisher.example/exact-edition',
+    edition_title: BASE_ROW.title, reason: 'wrong_work', source_url: 'https://publisher.example/exact-edition',
     explanation: '운영자가 해당 실제 판본을 선정에서 제외했으며, 다른 역자의 정상 번역은 계속 안내한다.' }
   const card = { content_id: BASE_ROW.content_id, locale: 'ko', title: BASE_ROW.title, isbn: BASE_ROW.isbn,
     sources: { edition_selection_evidence: [proof] } }
@@ -280,6 +280,9 @@ test('다른 영어 번역에 상품이 없어도 판본을 보존하고 제외 
  const second={...first,id:701,isbn:'9788937460012',sources:{translators:['Translator B']}}
  const product={...first,edition_id:700,platform:'amazon',affiliate_url:'https://amazon.com/dp/valid'}
  assert.deepEqual(mergeFigureBookEditions([first,second],[product],'en').map(e=>e.id),[700,701])
- const blocked={...first,sources:{provider_edition_title:'Penguin Readers Level 3',provider_edition_isbn:first.isbn}}
+ const reader={...first,sources:{provider_edition_title:'Penguin Readers Level 3',provider_edition_isbn:first.isbn}}
+ assert.deepEqual(mergeFigureBookEditions([reader],[product],'en').map(e=>e.id),[700],'학습용 리더 판정은 노출을 막지 않는다')
+ const blocked={...first,sources:{edition_selection_evidence:[{method:'independent_selection_review',isbn:first.isbn,locale:'en',edition_title:first.title,
+  reason:'wrong_locale',source_url:'https://publisher.example/exact-edition',explanation:'이 ISBN은 영어판이 아니라 다른 언어 판본으로 확인했다.'}]}}
  assert.deepEqual(mergeFigureBookEditions([blocked],[product],'en'),[])
 })

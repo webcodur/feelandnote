@@ -4,6 +4,10 @@ import { toIsbn13 } from './book-isbn'
 export const SERVICE_BOOK_EDITION_KINDS = ['full', 'retelling', 'adaptation', 'selection', 'volume'] as const
 export const BOOK_EDITION_SELECTION_REASONS = ['children_picture', 'children_only', 'graded_reader', 'abridged', 'non_reading_product', 'wrong_locale', 'wrong_work', 'editorial_exclusion'] as const
 export const BOOK_EDITION_WORK_BOUND_SELECTION_REASONS = ['wrong_work', 'editorial_exclusion'] as const
+/** 서비스 노출과 판본 등록을 막는 데이터 오류다. 아동서·리더·축약본·운영자 제외는 조사자가 고를 때의 권장사항이며 등록된 책을 숨기지 않는다. */
+export const BOOK_SELECTION_BLOCKING_REASONS = ['non_reading_product', 'wrong_locale', 'wrong_work'] as const
+const BOOK_STRUCTURAL_BLOCKING_REASONS = ['nonstart_volume', 'display_only', 'unverified_placeholder'] as const
+const blocking = (reason: unknown): boolean => [...BOOK_SELECTION_BLOCKING_REASONS, ...BOOK_STRUCTURAL_BLOCKING_REASONS].some(value => value === reason)
 export const BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH = 20
 /** 작품 자체의 독자군·본문 성격 판정이다. 특정 번역·언어의 오류를 작품 전체로 확장하지 않는다. */
 export const BOOK_WORK_SELECTION_REASONS = ['children_picture', 'children_only', 'graded_reader', 'non_reading_product', 'editorial_exclusion'] as const
@@ -68,12 +72,18 @@ export function reviewedBookWorkSelectionReason(input: BookWorkPolicyInput): typ
   }
   return null
 }
-/** 선정자의 실제 ISBN별 판정을 읽는다. 어린이·삽화 제목만으로 선정 제외를 추정하지 않는다. */
-export function reviewedBookEditionSelectionReason(input: BookEditionPolicyInput): BookEditionSelectionReason | null {
+/** 작품 단위 판정 중 서비스에서 빼는 데이터 오류만 돌려준다. */
+export function excludedBookWorkReason(input: BookWorkPolicyInput): typeof BOOK_WORK_SELECTION_REASONS[number] | null {
+  const reason = reviewedBookWorkSelectionReason(input)
+  return blocking(reason) ? reason : null
+}
+/** 선정자의 실제 ISBN별 판정을 모두 읽는다. 어린이·삽화 제목만으로 선정 제외를 추정하지 않는다. */
+function reviewedBookEditionSelectionReasons(input: BookEditionPolicyInput): BookEditionSelectionReason[] {
   if (typeof input.isbn !== 'string' || typeof input.locale !== 'string' || !input.locale
-    || typeof input.title !== 'string' || !input.title.trim()) return null
+    || typeof input.title !== 'string' || !input.title.trim()) return []
   const isbn = toIsbn13(input.isbn), evidence = object(input.sources).edition_selection_evidence
-  if (!isbn || !Array.isArray(evidence)) return null
+  if (!isbn || !Array.isArray(evidence)) return []
+  const reasons: BookEditionSelectionReason[] = []
   for (const value of evidence) {
     const proof = object(value)
     if (proof.method !== 'independent_selection_review' || typeof proof.isbn !== 'string' || toIsbn13(proof.isbn) !== isbn
@@ -85,35 +95,46 @@ export function reviewedBookEditionSelectionReason(input: BookEditionPolicyInput
     try {
       const source = new URL(proof.source_url)
       if (source.protocol === 'https:' && !source.username && !source.password
-        && !/(?:^|\.)openlibrary\.org$/iu.test(source.hostname.replace(/\.$/u, ''))) return proof.reason as BookEditionSelectionReason
+        && !/(?:^|\.)openlibrary\.org$/iu.test(source.hostname.replace(/\.$/u, ''))) reasons.push(proof.reason as BookEditionSelectionReason)
     } catch { /* malformed evidence does not change the edition's selection */ }
   }
-  return null
+  return reasons
 }
-export function excludedBookEditionReason(input: BookEditionPolicyInput): string | null {
-  const reviewedSelection = reviewedBookEditionSelectionReason(input)
-  if (reviewedSelection) return reviewedSelection
-  if (input.locale === 'ko' && BOOK_EDITION_ENGLISH_SOURCE_TITLE.test(input.title ?? '')) return 'wrong_locale'
-  if (input.editionKind === 'abridged') return 'abridged'
-  if (BOOK_EDITION_EXCLUDED_TITLE.test(input.title ?? '')) return 'abridged'
-  if (BOOK_EDITION_GRADED_READER.test(input.title ?? '')) return 'graded_reader'
-  if (BOOK_EDITION_EXCLUDED_SCOPE.test(input.textScope ?? '')) return 'abridged'
-  if (BOOK_EDITION_NONSTART_SCOPE.test(input.textScope ?? '') || ((input.reviewedSeries || (!!input.textScope && !/^(?:complete|full|unknown)$/iu.test(input.textScope))) && (bookWorkVolumeNumber(input.title ?? '', input.workTitles ?? []) ?? 0) > 1)) return 'nonstart_volume'
+export function reviewedBookEditionSelectionReason(input: BookEditionPolicyInput): BookEditionSelectionReason | null {
+  return reviewedBookEditionSelectionReasons(input)[0] ?? null
+}
+/** 판본에 해당하는 선정 판정을 모두 모은다. 품질 판정은 조사 도구의 권장 기준이고, 데이터 오류만 노출을 막는다. */
+function bookEditionPolicyReasons(input: BookEditionPolicyInput): string[] {
+  const reasons: string[] = [...reviewedBookEditionSelectionReasons(input)]
   const sources = object(input.sources)
   const providerTitle=sources.provider_edition_isbn===input.isbn && typeof sources.provider_edition_title==='string' ? sources.provider_edition_title : ''
-  if (BOOK_EDITION_EXCLUDED_TITLE.test(providerTitle)) return 'abridged'
-  if (BOOK_EDITION_GRADED_READER.test(providerTitle)) return 'graded_reader'
-  if (input.locale === 'ko' && BOOK_EDITION_ENGLISH_SOURCE_TITLE.test(providerTitle)) return 'wrong_locale'
   const providerDescription = input.providerDescription ?? sources.provider_scope_description ?? object(sources.provider_metadata).contents
-  if (typeof providerDescription === 'string' && BOOK_EDITION_GRADED_READER.test(providerDescription)) return 'graded_reader'
-  if (typeof providerDescription === 'string' && BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION.test(providerDescription)) return 'abridged'
-  if (sources.primary === 'none' && sources.title === 'display_only') return 'display_only'
-  if (!input.isbn && sources.title === 'kakao_title_search' && !BOOK_EDITION_KAKAO_PAGE.test(String(sources.series_source_url ?? ''))) return 'unverified_placeholder'
+  const describes = (pattern: RegExp) => typeof providerDescription === 'string' && pattern.test(providerDescription)
+  if (input.locale === 'ko' && BOOK_EDITION_ENGLISH_SOURCE_TITLE.test(input.title ?? '')) reasons.push('wrong_locale')
+  if (input.editionKind === 'abridged' || BOOK_EDITION_EXCLUDED_TITLE.test(input.title ?? '')) reasons.push('abridged')
+  if (BOOK_EDITION_GRADED_READER.test(input.title ?? '')) reasons.push('graded_reader')
+  if (BOOK_EDITION_EXCLUDED_SCOPE.test(input.textScope ?? '')) reasons.push('abridged')
+  if (BOOK_EDITION_NONSTART_SCOPE.test(input.textScope ?? '') || ((input.reviewedSeries || (!!input.textScope && !/^(?:complete|full|unknown)$/iu.test(input.textScope))) && (bookWorkVolumeNumber(input.title ?? '', input.workTitles ?? []) ?? 0) > 1)) reasons.push('nonstart_volume')
+  if (BOOK_EDITION_EXCLUDED_TITLE.test(providerTitle)) reasons.push('abridged')
+  if (BOOK_EDITION_GRADED_READER.test(providerTitle)) reasons.push('graded_reader')
+  if (input.locale === 'ko' && BOOK_EDITION_ENGLISH_SOURCE_TITLE.test(providerTitle)) reasons.push('wrong_locale')
+  if (describes(BOOK_EDITION_GRADED_READER)) reasons.push('graded_reader')
+  if (describes(BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION)) reasons.push('abridged')
+  if (sources.primary === 'none' && sources.title === 'display_only') reasons.push('display_only')
+  if (!input.isbn && sources.title === 'kakao_title_search' && !BOOK_EDITION_KAKAO_PAGE.test(String(sources.series_source_url ?? ''))) reasons.push('unverified_placeholder')
   if (!input.isbn && !input.publisher && !input.releaseDate && !input.release_date
     && ['manual','manual-research','wikidata'].includes(String(sources.primary))
     && !sources.edition_key && !sources.provider_edition_url
-    && ![sources.title,sources.isbn,sources.primary].some(value => BOOK_EDITION_KAKAO_PAGE.test(String(value ?? '')) || /^https:\/\/openlibrary\.org\/books\/OL\d+M(?:\/|$)/u.test(String(value ?? '')))) return 'unverified_placeholder'
-  return null
+    && ![sources.title,sources.isbn,sources.primary].some(value => BOOK_EDITION_KAKAO_PAGE.test(String(value ?? '')) || /^https:\/\/openlibrary\.org\/books\/OL\d+M(?:\/|$)/u.test(String(value ?? '')))) reasons.push('unverified_placeholder')
+  return reasons
+}
+/** 조사 도구용 판정이다. 축약본·리더·아동서 같은 선정 권장 기준까지 돌려준다. */
+export function excludedBookEditionReason(input: BookEditionPolicyInput): string | null {
+  return bookEditionPolicyReasons(input)[0] ?? null
+}
+/** 서비스 노출·구매에서 빼는 데이터 오류만 돌려준다. */
+export function blockedBookEditionReason(input: BookEditionPolicyInput): string | null {
+  return bookEditionPolicyReasons(input).find(blocking) ?? null
 }
 export function bookTranslatorKey(value: unknown): string | null {
   const names = typeof value === 'string' ? value.split(/[,;·]/u) : Array.isArray(value) ? value : []

@@ -1,7 +1,7 @@
 import { getYes24PurchaseLink } from '@/actions/contents/getYes24PurchaseLink'
 import { createStaticClient } from '@/lib/db/static'
 import { isYes24PurchaseRequest } from '@/lib/books/yes24Purchase'
-import { excludedBookEditionReason, reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
+import { blockedBookEditionReason, excludedBookWorkReason } from '@feelandnote/content-search/book-edition-policy'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { AFFILIATE_PLATFORMS, toAffiliateLinks, type AffiliateLink } from '@/constants/affiliatePlatforms'
 import { getEnglishBookPurchaseLinks } from '@/lib/books/amazonBookSearch'
@@ -33,13 +33,13 @@ async function getStoredPurchase(contentId: string, localeName: 'ko' | 'en', sel
   const { data: content, error } = await db.from('contents').select('id,type,metadata').eq('id', contentId).eq('type', 'BOOK').maybeSingle()
   if (error) throw new Error('Purchase content unavailable')
   if (!content || content.id !== contentId || content.type !== 'BOOK') return null
-  if (reviewedBookWorkSelectionReason({ contentId, metadata: content.metadata })) return null
+  if (excludedBookWorkReason({ contentId, metadata: content.metadata })) return null
   const { data: locale, error: localeError } = await db.from('content_locales')
     .select('content_id,locale,isbn,title,creator,publisher,sources,affiliate_url').eq('content_id', contentId).eq('locale', localeName).maybeSingle()
   if (localeError) throw new Error('Purchase locale unavailable')
   if (locale && (locale.content_id !== contentId || locale.locale !== localeName)) return null
   if (editionId === undefined) {
-    if (!locale || excludedBookEditionReason({ ...locale, contentId })) return null
+    if (!locale || blockedBookEditionReason({ ...locale, contentId })) return null
     return { contentId, type: content.type, locale: localeName, links: toAffiliateLinks(locale.affiliate_url),
       isbn: locale?.isbn, title: locale?.title, creator: locale?.creator }
   }
@@ -47,10 +47,10 @@ async function getStoredPurchase(contentId: string, localeName: 'ko' | 'en', sel
     .select('id,content_id,locale,isbn,title,creator,publisher,release_date,sources,edition_kind,text_scope').eq('id', editionId).eq('content_id', contentId).eq('locale', localeName).maybeSingle()
   if (editionError) throw new Error('Purchase edition unavailable')
   if (!edition || edition.id !== editionId || edition.content_id !== contentId || edition.locale !== localeName) return null
-  if (excludedBookEditionReason({ ...edition, contentId, editionKind: edition.edition_kind, textScope: edition.text_scope })) return null
+  if (blockedBookEditionReason({ ...edition, contentId, editionKind: edition.edition_kind, textScope: edition.text_scope })) return null
   const isbn = typeof edition.isbn === 'string' ? toIsbn13(edition.isbn) : null
   const sameLocaleIsbn = !!(locale && isbn && typeof locale.isbn === 'string' && isbn === toIsbn13(locale.isbn))
-  if (sameLocaleIsbn && excludedBookEditionReason({ ...locale, contentId })) return null
+  if (sameLocaleIsbn && blockedBookEditionReason({ ...locale, contentId })) return null
   const links = sameLocaleIsbn ? toAffiliateLinks(locale?.affiliate_url) : []
   if (seller === 'coupang' || seller === 'amazon') {
     const { data: product, error: productError } = await db.from('figure_book_purchase_options')

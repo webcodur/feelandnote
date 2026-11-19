@@ -1,4 +1,4 @@
-import { BOOK_EDITION_EXCLUDED_TITLE, BOOK_EDITION_ENGLISH_SOURCE_TITLE, BOOK_EDITION_GRADED_READER, BOOK_EDITION_EXCLUDED_SCOPE, BOOK_EDITION_KAKAO_PAGE, BOOK_EDITION_NONSTART_SCOPE, BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION, BOOK_TRANSLATOR_IGNORED_CHARACTERS, BOOK_EDITION_VOLUME_TITLE, BOOK_EDITION_VOLUME_TITLE_FORMAT, BOOK_EDITION_WORK_TITLE_ARTICLE, BOOK_EDITION_WORK_TITLE_PUNCTUATION, SERVICE_BOOK_EDITION_KINDS, BOOK_EDITION_SELECTION_REASONS, BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH } from '../../../../../packages/content-search/src/book-edition-policy.ts'
+import { BOOK_EDITION_EXCLUDED_TITLE, BOOK_EDITION_ENGLISH_SOURCE_TITLE, BOOK_EDITION_GRADED_READER, BOOK_EDITION_EXCLUDED_SCOPE, BOOK_EDITION_KAKAO_PAGE, BOOK_EDITION_NONSTART_SCOPE, BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION, BOOK_TRANSLATOR_IGNORED_CHARACTERS, BOOK_EDITION_VOLUME_TITLE, BOOK_EDITION_VOLUME_TITLE_FORMAT, BOOK_EDITION_WORK_TITLE_ARTICLE, BOOK_EDITION_WORK_TITLE_PUNCTUATION, SERVICE_BOOK_EDITION_KINDS, BOOK_EDITION_SELECTION_REASONS, BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH, BOOK_SELECTION_BLOCKING_REASONS } from '../../../../../packages/content-search/src/book-edition-policy.ts'
 import { ISBN13_PATTERN, ISBN10_PATTERN, ISBN_FORMATTING_PATTERN, ISBN13_WEIGHTS, ISBN10_WEIGHTS } from '../../../../../packages/content-search/src/book-isbn.ts'
 import { BOOK_EDITION_WORK_BOUND_SELECTION_REASONS } from '../../../../../packages/content-search/src/book-edition-policy.ts'
 import { sqlLiteral } from './merge-work-sql.mjs'
@@ -12,14 +12,14 @@ function normalizedIsbnSql(value) {
  WHEN ${compact} ~ ${pg(ISBN10_PATTERN)} THEN CASE WHEN (${sum(compact,ISBN10_WEIGHTS)})%11=0 THEN ${prefix}||((10-(${sum(prefix,ISBN13_WEIGHTS.slice(0,12))})%10)%10)::text END END)`
 }
 /** Only exact source-reviewed exclusions suppress a seed; uncertain or stale proofs do not. */
-function selectionExcludedSql(title,isbn,locale,sources,contentId) {
+function selectionExcludedSql(title,isbn,locale,sources,contentId,reasons=BOOK_EDITION_SELECTION_REASONS) {
  return `EXISTS(SELECT 1 FROM jsonb_array_elements(CASE WHEN jsonb_typeof(${sources}->'edition_selection_evidence')='array' THEN ${sources}->'edition_selection_evidence' ELSE '[]'::jsonb END) proof
  WHERE proof->>'method'='independent_selection_review'
  AND jsonb_typeof(proof->'isbn')='string' AND jsonb_typeof(proof->'locale')='string'
  AND jsonb_typeof(proof->'edition_title')='string' AND jsonb_typeof(proof->'explanation')='string'
  AND ${normalizedIsbnSql(isbn)} IS NOT NULL AND ${normalizedIsbnSql("proof->>'isbn'")}=${normalizedIsbnSql(isbn)}
  AND proof->>'locale'=${locale} AND nullif(${locale},'') IS NOT NULL AND proof->>'edition_title'=${title} AND nullif(btrim(${title}),'') IS NOT NULL
- AND proof->>'reason' IN (${BOOK_EDITION_SELECTION_REASONS.map(sqlLiteral).join(',')})
+ AND proof->>'reason' IN (${reasons.map(sqlLiteral).join(',')})
  AND (proof->>'reason' NOT IN (${BOOK_EDITION_WORK_BOUND_SELECTION_REASONS.map(sqlLiteral).join(',')}) OR (jsonb_typeof(proof->'content_id')='string' AND nullif(proof->>'content_id','')=${contentId}))
  AND char_length(btrim(coalesce(proof->>'explanation','')))>=${BOOK_EDITION_SELECTION_EXPLANATION_MIN_LENGTH}
  AND coalesce(proof->>'source_url','') ~ '^https://[A-Za-z0-9.-]*[A-Za-z][A-Za-z0-9-]*[.]?(:[0-9]{1,5})?([/?#][^[:space:]]*)?$'
@@ -62,9 +62,10 @@ LANGUAGE plpgsql SET search_path='pg_catalog' AS $policy$
 DECLARE translators text; figure jsonb; original_locale boolean; selected boolean; previously_selected boolean; restoring boolean:=false;
 BEGIN
  SELECT metadata->'figureBook' INTO figure FROM public.contents WHERE id=new.content_id FOR NO KEY UPDATE;
- selected=${selectionExcludedSql('new.title','new.isbn','new.locale','new.sources','new.content_id')};
+ -- 데이터 오류 판정만 등록을 막는다. 아동서·리더·축약본·운영자 제외는 조사자 권장사항이다.
+ selected=${selectionExcludedSql('new.title','new.isbn','new.locale','new.sources','new.content_id',BOOK_SELECTION_BLOCKING_REASONS)};
  IF TG_OP='UPDATE' THEN
-   previously_selected=${selectionExcludedSql('old.title','old.isbn','old.locale','old.sources','old.content_id')};
+   previously_selected=${selectionExcludedSql('old.title','old.isbn','old.locale','old.sources','old.content_id',BOOK_SELECTION_BLOCKING_REASONS)};
    -- 잘못된 선정 판정의 철회는 실물과 다른 출처를 보존하고 아래 정상 판본 검사를 다시 받는다.
    restoring=previously_selected AND NOT selected
      AND jsonb_typeof(new.sources)='object' AND jsonb_typeof(old.sources)='object'
@@ -100,14 +101,9 @@ BEGIN
    THEN RETURN new; END IF;
    RAISE EXCEPTION 'Retained edition exclusion requires an exact reviewed owner and unchanged physical identity and non-review sources';
  END IF;
- IF selected OR (new.locale='ko' AND coalesce(new.title,'') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)}) OR public.book_nonstart_work_volume(new.title,figure,new.text_scope) OR new.edition_kind='abridged' OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)}
-  OR coalesce(new.title,'') ~* ${pg(BOOK_EDITION_GRADED_READER)}
-  OR (new.sources->>'provider_edition_isbn'=new.isbn AND (coalesce(new.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_EXCLUDED_TITLE)} OR coalesce(new.sources->>'provider_edition_title','') ~* ${pg(BOOK_EDITION_GRADED_READER)}))
+ IF selected OR (new.locale='ko' AND coalesce(new.title,'') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)}) OR public.book_nonstart_work_volume(new.title,figure,new.text_scope)
   OR (new.locale='ko' AND new.sources->>'provider_edition_isbn'=new.isbn AND coalesce(new.sources->>'provider_edition_title','') ~ ${pg(BOOK_EDITION_ENGLISH_SOURCE_TITLE)})
-  OR coalesce(new.text_scope,'') ~* ${pg(BOOK_EDITION_EXCLUDED_SCOPE)}
   OR coalesce(new.text_scope,'') ~* ${pg(BOOK_EDITION_NONSTART_SCOPE)}
-  OR coalesce(new.sources->>'provider_scope_description',new.sources #>> '{provider_metadata,contents}','') ~* ${pg(BOOK_EDITION_GRADED_READER)}
-  OR coalesce(new.sources->>'provider_scope_description',new.sources #>> '{provider_metadata,contents}','') ~* ${pg(BOOK_EDITION_EXCLUDED_PROVIDER_DESCRIPTION)}
   OR (new.sources->>'primary'='none' AND new.sources->>'title'='display_only')
   OR (nullif(btrim(new.isbn),'') IS NULL AND new.sources->>'title'='kakao_title_search' AND coalesce(new.sources->>'series_source_url','') !~ ${pg(BOOK_EDITION_KAKAO_PAGE)})
   OR (nullif(btrim(new.isbn),'') IS NULL AND nullif(btrim(new.publisher),'') IS NULL AND new.release_date IS NULL
@@ -115,7 +111,7 @@ BEGIN
     AND nullif(new.sources->>'edition_key','') IS NULL AND nullif(new.sources->>'provider_edition_url','') IS NULL
     AND NOT EXISTS (SELECT 1 FROM (VALUES(new.sources->>'title'),(new.sources->>'isbn'),(new.sources->>'primary')) v(url)
       WHERE coalesce(url,'') ~ ${pg(BOOK_EDITION_KAKAO_PAGE)} OR coalesce(url,'') ~ '^https://openlibrary[.]org/books/OL[0-9]+M(/|$)'))
- THEN RAISE EXCEPTION 'Abridged books, graded readers and unverified placeholders are not service editions'; END IF;
+ THEN RAISE EXCEPTION 'Wrong-locale, non-start volume and unverified placeholder rows are not service editions'; END IF;
  translators=public.book_translator_identity(new.sources->'translators');
  original_locale=coalesce(figure->>'originalLanguage'=new.locale AND coalesce(figure->>'identityEvidence','') ~ '^https://',false);
  IF (TG_OP='INSERT' OR restoring OR new.content_id IS DISTINCT FROM old.content_id OR new.locale IS DISTINCT FROM old.locale OR new.isbn IS DISTINCT FROM old.isbn)

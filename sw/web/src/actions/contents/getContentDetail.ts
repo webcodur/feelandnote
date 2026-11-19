@@ -37,7 +37,7 @@ import { applyContentBookEdition, type ContentBookEdition } from '@/lib/books/co
 import { getBookSearchLanguage, type BookSearchLanguage } from '@feelandnote/content-search/book-search-language'
 import { getEnglishBookPurchaseLinks } from '@/lib/books/amazonBookSearch'
 import { resolveMediaBannerTheme, type MediaBannerTheme } from '@/lib/contentBanner'
-import { excludedBookEditionReason, reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
+import { blockedBookEditionReason, excludedBookWorkReason } from '@feelandnote/content-search/book-edition-policy'
 
 // #region 타입 정의
 export interface ContentDetailData {
@@ -239,9 +239,9 @@ async function fetchContentDataPublic(
       : null
     const sourceEdition = editionSet?.selected ?? null
     const bookPurchaseBlocked = dbContent.type === 'BOOK' && (
-      !!reviewedBookWorkSelectionReason({ contentId: dbContent.id, metadata: dbContent.metadata })
+      !!excludedBookWorkReason({ contentId: dbContent.id, metadata: dbContent.metadata })
       || !sourceEdition && (editionSet?.hasCatalogEditions
-        || !!excludedBookEditionReason({ ...dbContent.exactLocale, contentId: dbContent.id, locale }))
+        || !!blockedBookEditionReason({ ...dbContent.exactLocale, contentId: dbContent.id, locale }))
     )
     // 판본 로더가 이미 출처 표시를 조회 정보로 변환했다. 다시 해석하면
     // description: null인 외부 소개의 bookIntroduction을 잃는다.

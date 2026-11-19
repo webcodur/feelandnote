@@ -15,7 +15,7 @@ import { toAffiliateLinks, type AffiliateLink } from '@/constants/affiliatePlatf
 import type { ContentType } from '@/types/database'
 import { selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import { isDeveloperMode } from '@/lib/developer-mode'
-import { excludedBookEditionReason, reviewedBookWorkSelectionReason } from '@feelandnote/content-search/book-edition-policy'
+import { blockedBookEditionReason, excludedBookWorkReason } from '@feelandnote/content-search/book-edition-policy'
 import {
   getFigureBookPurchasePlatform,
   attachFigureBookLocaleLinks,
@@ -180,7 +180,7 @@ async function fetchSourcesByCeleb(
   const sources = assignments.flatMap((assignment): FigureBookContent[] => {
     const content = contentById.get(assignment.content_id)
     if (!content) return []
-    if (content.type === 'BOOK' && reviewedBookWorkSelectionReason({ contentId: content.id, metadata: { figureBook: content.figureBook } })) return []
+    if (content.type === 'BOOK' && excludedBookWorkReason({ contentId: content.id, metadata: { figureBook: content.figureBook } })) return []
 
     const isOriginalLocaleWork = isFigureBookOriginalLocale(content.figureBook, locale)
     const editions = mergeFigureBookEditions(
@@ -202,7 +202,7 @@ async function fetchSourcesByCeleb(
     const flat = flattenLocales(content.content_locales, locale, content.type)
     const leadEdition = editions[0]
     const missingStart = !leadEdition && (editionRowsByContent.has(content.id) || optionRowsByContent.has(content.id))
-    const localeExcluded = content.type === 'BOOK' && !!exactLocale && !!excludedBookEditionReason({ ...exactLocale, contentId: content.id })
+    const localeExcluded = content.type === 'BOOK' && !!exactLocale && !!blockedBookEditionReason({ ...exactLocale, contentId: content.id })
     const title = (flat.title_badge && flat.title_badge !== 'out-of-print' && leadEdition?.title)
       || flat.title || content.figureBook?.workTitle || leadEdition?.title || ''
     if (!title.trim()) return []

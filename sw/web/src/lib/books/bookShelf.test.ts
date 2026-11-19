@@ -48,7 +48,7 @@ test('시작권이 없어 제외된 카탈로그 판본을 locale의 중간 권 
 const selectedTitle = 'Green Eggs and Ham'
 const selectedSources = { primary: 'openlibrary', edition_selection_evidence: [{
   method: 'independent_selection_review', isbn: '9781524773458', locale: 'en', edition_title: selectedTitle,
-  reason: 'children_picture', source_url: 'https://publisher.example/books/magnetic-play',
+  reason: 'non_reading_product', source_url: 'https://publisher.example/books/magnetic-play',
   explanation: 'Publisher confirms this ISBN is a magnetic play activity book intended for young children.',
 }] }
 test('카탈로그에서 제외한 판본은 보존된 감상·언어 카드로 책장에 다시 노출하지 않는다', () => {
@@ -61,7 +61,7 @@ test('카탈로그에서 제외한 판본은 보존된 감상·언어 카드로 
 test('독립 판정된 아동 전용 창작물은 책장 연결을 보존하면서 locale fallback 노출을 막는다', () => {
   const title='꼬마 토끼 조지의 언덕',isbn='9788949170244'
   const sources={primary:'kakao_book',edition_selection_evidence:[{method:'independent_selection_review',
-    isbn,locale:'ko',edition_title:title,reason:'children_only',source_url:'https://publisher.example/childrens-fiction',
+    isbn,locale:'ko',edition_title:title,reason:'non_reading_product',source_url:'https://publisher.example/childrens-fiction',
     explanation:'Publisher confirms the exact ISBN is original fiction written specifically for elementary-school children.'}]}
   const saved={...content([{...row('ko',sources),title,isbn}]),curated_list_items:[{id:'protected-item',note:'Keep original curator note'}]}
   const before=structuredClone(saved)
@@ -80,10 +80,10 @@ test('오귀속 상품은 잘못 붙은 작품에서만 제외하고 정상 원�
   assert.deepEqual(original,before)
   assert.equal(resolveBookShelfBook({...original,id:'actual-poppy-war'},[],'en')?.isbn,isbn)
 })
-test('운영자 선정 제외는 기존 기록을 보존하며 카탈로그 밖 언어 카드로 되살리지 않는다',()=>{
+test('작품에 귀속된 오등록 판정은 기존 기록을 보존하며 카탈로그 밖 언어 카드로 되살리지 않는다',()=>{
  const title='삼국지 조조 천하 꿈 펼친 모신 무장들',isbn='9791130321561'
  const sources={primary:'kakao_book',edition_selection_evidence:[{method:'independent_selection_review',content_id:'work',
-  isbn,locale:'ko',edition_title:title,reason:'editorial_exclusion',source_url:'https://www.pybook.co.kr/mall/goods/detail?goodsno=9328',
+  isbn,locale:'ko',edition_title:title,reason:'wrong_work',source_url:'https://www.pybook.co.kr/mall/goods/detail?goodsno=9328',
   explanation:'The operator explicitly excluded this actual publisher edition from the service shelf; it is not misclassified as abridged.'}]}
  const saved={...content([{...row('ko',sources),title,isbn}]),commerce_events:[{id:'purchase-click',content_id:'work'}]}
  const before=structuredClone(saved)
@@ -93,12 +93,16 @@ test('운영자 선정 제외는 기존 기록을 보존하며 카탈로그 밖 
  assert.ok(resolveBookShelfBook(content([{...row('ko'),title,isbn}]),[],'ko'))
 })
 
-test('기존에 확인된 학습용·축약 제목과 공급처 범위도 locale fallback에서 제외한다', () => {
+test('학습용 리더·축약본은 선정 권장사항일 뿐 등록된 책의 노출을 막지 않는다', () => {
   for (const title of ['Penguin Readers Level 3: Elon Musk', 'Oxford Bookworms 1', '마리 퀴리(요약본)']) {
-    assert.equal(resolveBookShelfBook(content([{ ...row('en'), title, isbn: '9781524773458' }]), [], 'en'), null)
+    assert.equal(resolveBookShelfBook(content([{ ...row('en'), title, isbn: '9781524773458' }]), [], 'en')?.title, title)
   }
   const source = { primary: 'openlibrary', provider_scope_description: 'Penguin Reader, Level 5 (2300 words)' }
-  assert.equal(resolveBookShelfBook(content([{ ...row('en', source), title: 'Doctor Zhivago' }]), [], 'en'), null)
+  assert.equal(resolveBookShelfBook(content([{ ...row('en', source), title: 'Doctor Zhivago' }]), [], 'en')?.title, 'Doctor Zhivago')
+  for (const reason of ['children_picture', 'children_only', 'graded_reader', 'abridged', 'editorial_exclusion']) {
+    const sources = { ...selectedSources, edition_selection_evidence: [{ ...selectedSources.edition_selection_evidence[0], reason }] }
+    assert.equal(resolveBookShelfBook(content([{ ...row('en', sources), title: selectedTitle, isbn: '9781524773458' }]), [], 'en')?.title, selectedTitle, reason)
+  }
 })
 test('다른 ISBN 정규 판본을 선정 제외 근거가 붙은 언어 카드 때문에 막지 않는다', () => {
   const excluded = { ...row('en', selectedSources), title: selectedTitle, isbn: '9781524773458' }
@@ -133,7 +137,7 @@ test('ISBN·제목이 다른 근거와 불완전한 출처는 정상 언어 카�
 
 const workSelection = { figureBook: { workTitle: '어린이를 위한 창작 그림책', workCreator: '확인된 작가', workIdentity: 'original/picture-book',
   workSelectionEvidence: [{ method: 'independent_work_selection_review', content_id: 'work', work_title: '어린이를 위한 창작 그림책',
-    work_creator: '확인된 작가', work_identity: 'original/picture-book', reason: 'children_picture',
+    work_creator: '확인된 작가', work_identity: 'original/picture-book', reason: 'non_reading_product',
     source_url: 'https://publisher.example/original-picture-book', explanation: '실제 출판사 소개와 본문을 대조하여 유아 전용 창작 그림책임을 확인했다.' }] } }
 
 test('ISBN 없는 그림책도 확정한 작품 선정 근거로 제외하며 기존 기록은 보존한다', () => {

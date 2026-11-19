@@ -484,7 +484,7 @@ test('표시용 카드의 미검증 ISBN을 버리며 통합하지 않고 실판
 
 test('현행 migration과 실행 SQL의 선정 제외 보존 guard 함수는 동일하다',async()=>{
  const{editionPolicySql}=await import('./lib/edition-policy-sql.mjs');
- const migration=readFileSync(new URL('../../../web/database/migrations/20261008180000_figure_book_edition_policy.sql',import.meta.url),'utf8');
+ const migration=readFileSync(new URL('../../../web/database/migrations/20261119120000_book_quality_selection_is_advisory.sql',import.meta.url),'utf8');
  const pattern=/CREATE OR REPLACE FUNCTION public\.guard_figure_book_edition_policy\(\)[\s\S]*?FOR EACH ROW EXECUTE FUNCTION public\.guard_figure_book_edition_policy\(\);/;
  const block=value=>value.match(pattern)?.[0].replaceAll('\r\n','\n');
  assert.ok(block(migration));assert.equal(block(migration),block(editionPolicySql()));

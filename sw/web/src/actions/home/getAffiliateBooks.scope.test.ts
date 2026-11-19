@@ -86,7 +86,7 @@ test('failed scoped recommendation reads reject and a subsequent request can rec
 })
 
 test('profession recommendations honor exact independent selections outside the edition catalog without editing reviews', async () => {
-  const proof={method:'independent_selection_review',reason:'children_only',isbn:'9788937460012',locale:'ko',edition_title:'book-b',
+  const proof={method:'independent_selection_review',reason:'non_reading_product',isbn:'9788937460012',locale:'ko',edition_title:'book-b',
     source_url:'https://publisher.example/childrens-fiction',explanation:'Publisher confirms this exact ISBN is original fiction written specifically for elementary-school children.'}
   const selected={primary:'kakao_book',edition_selection_evidence:[proof]},before=structuredClone(selected)
   assert.deepEqual((await load(selected).get('inventor','ko',['self'],new Set(),24)).map(book=>book.contentId),['book-a'])
@@ -99,7 +99,7 @@ test('profession recommendations honor exact independent selections outside the 
 test('직군 추천은 ISBN 유무와 무관한 작품 선정 제외를 반영하고 오래된 원작 근거는 무시한다', async () => {
   const figureBook = { workTitle: '어린이용 창작 동화', workCreator: '정확한 작가', workSelectionEvidence: [{
     method: 'independent_work_selection_review', content_id: 'book-b', work_title: '어린이용 창작 동화', work_creator: '정확한 작가',
-    reason: 'children_only', source_url: 'https://publisher.example/work', explanation: '실제 출판사가 밝힌 독자 연령과 본문을 읽고 초등학생 전용 창작동화임을 확정했다.' }] }
+    reason: 'non_reading_product', source_url: 'https://publisher.example/work', explanation: '실제 출판사가 밝힌 독자 연령과 본문을 읽고 초등학생 전용 창작동화임을 확정했다.' }] }
   const metadata = { figureBook }, before = structuredClone(metadata)
   assert.deepEqual((await load(undefined, metadata).get('inventor', 'ko', ['self'], new Set(), 24)).map(book => book.contentId), ['book-a'])
   assert.deepEqual(metadata, before)

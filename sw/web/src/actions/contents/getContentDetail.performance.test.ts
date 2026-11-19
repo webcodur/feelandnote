@@ -74,7 +74,7 @@ test('book detail selects an available edition when the requested language has n
 test('선정 제외 작품의 상세와 기록은 유지하며 구매 fallback만 막고 정상 다른 언어 판본은 허용한다', async () => {
   const figureBook = { workTitle: '유아용 원작', workCreator: '확인된 작가', workSelectionEvidence: [{
     method: 'independent_work_selection_review', content_id: id, work_title: '유아용 원작', work_creator: '확인된 작가',
-    reason: 'children_picture', source_url: 'https://publisher.example/original-picture-book', explanation: '실제 출판사의 대상 독자와 본문을 대조하여 유아 전용 창작 그림책으로 확인했다.' }] }
+    reason: 'non_reading_product', source_url: 'https://publisher.example/original-picture-book', explanation: '실제 출판사의 대상 독자와 본문을 대조하여 유아 전용 창작 그림책으로 확인했다.' }] }
   const exact = { locale: 'ko', title: '유아용 원작', creator: '확인된 작가', isbn: null as string | null, sources: { primary: 'kakao_book' } as Record<string, unknown>,
     affiliate_url: [{ platform: 'coupang', url: 'https://link.coupang.com/a/saved' }] }
   const row = { id, type: 'BOOK', external_id: 'saved-work', metadata: { figureBook } as Record<string, unknown>,
@@ -106,7 +106,7 @@ test('선정 제외 작품의 상세와 기록은 유지하며 구매 fallback�
   row.metadata = {}
   exact.isbn = '9788937460012'
   exact.sources = { primary: 'kakao_book', edition_selection_evidence: [{ method: 'independent_selection_review', content_id: id,
-    isbn: exact.isbn, locale: 'ko', edition_title: exact.title, reason: 'editorial_exclusion', source_url: 'https://publisher.example/exact-edition',
+    isbn: exact.isbn, locale: 'ko', edition_title: exact.title, reason: 'wrong_work', source_url: 'https://publisher.example/exact-edition',
     explanation: '운영자가 해당 실제 판본을 서비스 책장 선정에서 명시적으로 제외했으며 기록은 보존한다.' }] }
   assert.equal((await api.getInitialPublicContentInfo(id, 'ko')).bookPurchaseBlocked, true)
   catalog = true

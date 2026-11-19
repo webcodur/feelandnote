@@ -37,7 +37,7 @@ test('ISBN 없는 검수 제외 작품은 감상 원행을 보존하며 책장 l
   const excluded = record('picture')
   excluded.content.metadata = { figureBook: { workTitle: '작품', workCreator: '작가', workSelectionEvidence: [{
     method: 'independent_work_selection_review', content_id: 'picture', work_title: '작품', work_creator: '작가',
-    reason: 'children_picture', source_url: 'https://publisher.example/picture',
+    reason: 'non_reading_product', source_url: 'https://publisher.example/picture',
     explanation: '출판사가 유아 전용 그림책이라고 안내하며 실제 본문에서도 같은 독자군이 확인된다.',
   }] } }
   const records = [excluded, record('normal')]
@@ -49,7 +49,7 @@ test('ISBN 없는 검수 제외 작품은 감상 원행을 보존하며 책장 l
 test('ISBN별 제외 카드는 책장 폴백에서 빠지고 동일 작품의 정상 대체 판본은 남는다', async () => {
   const excluded = record('work', '9780140449112')
   excluded.content.bookLocale.sources = { edition_selection_evidence: [{ method: 'independent_selection_review',
-    isbn: '9780140449112', locale: 'ko', edition_title: '작품', reason: 'children_only',
+    isbn: '9780140449112', locale: 'ko', edition_title: '작품', reason: 'non_reading_product',
     source_url: 'https://publisher.example/children', explanation: '출판사 소개와 실제 본문이 어린이 교육용 각색이라는 사실을 확인한다.' }] }
   assert.deepEqual((await shelf([excluded])).readBooks, [])
   const normal = { id: 'work', type: 'BOOK', title: '정상 번역', editions: [{ id: 7, isbn: '9791139721966' }] }
@@ -62,7 +62,7 @@ test('정체성이 바뀐 뒤 남은 옛 작품 제외 근거는 정상 책장�
   const normal = record('work')
   normal.content.metadata = { figureBook: { workTitle: '작품', workCreator: '작가', workSelectionEvidence: [{
     method: 'independent_work_selection_review', content_id: 'work', work_title: '다른 작품', work_creator: '작가',
-    reason: 'children_picture', source_url: 'https://publisher.example/picture',
+    reason: 'non_reading_product', source_url: 'https://publisher.example/picture',
     explanation: '출판사 원문과 본문을 대조하여 유아 전용 그림책임을 독립적으로 확인하였다.',
   }] } }
   assert.deepEqual((await shelf([normal])).readBooks.map(book => book.id), ['work'])

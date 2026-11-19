@@ -12,7 +12,7 @@ import { createClient } from '@feelandnote/db'
 import { amazonBookCandidate, parseAmazonBookPage, verifyAmazonBookProduct, lookupAmazonBookProduct,
   AMAZON_BOOK_BATCH_SIZE, AMAZON_BOOK_CONCURRENCY, AMAZON_BOOK_AGENT_USER_AGENT } from '../../../../packages/content-search/src/amazon-book-product.ts'
 import { fillMissingAmazonBookConnection } from '../../../../packages/content-search/src/amazon-book-registration.ts'
-import { excludedBookEditionReason, reviewedBookWorkSelectionReason } from '../../../../packages/content-search/src/book-edition-policy.ts'
+import { blockedBookEditionReason, excludedBookWorkReason } from '../../../../packages/content-search/src/book-edition-policy.ts'
 import { CACHE_TAGS } from '../../../../packages/shared/src/constants/cache-tags.ts'
 import { buildAmazonProductApplySql } from './amazon-product-apply.mjs'
 
@@ -45,8 +45,8 @@ export async function missingAmazonTargets(client) {
   for (const row of [...locales, ...editions]) {
     if (row.id === undefined ? Array.isArray(row.affiliate_url) && row.affiliate_url.some(l => l?.platform === 'amazon') : connected.has(row.id)) { count('existing_connection'); continue }
     if (row.id === undefined && row.affiliate_url !== null && !Array.isArray(row.affiliate_url)) { count('malformed_links'); continue }
-    if (excludedBookEditionReason({ ...row, contentId: row.content_id, editionKind: row.edition_kind, textScope: row.text_scope })
-      || reviewedBookWorkSelectionReason({ contentId: row.content_id, metadata: (Array.isArray(row.contents) ? row.contents[0] : row.contents)?.metadata })) { count('excluded_edition'); continue }
+    if (blockedBookEditionReason({ ...row, contentId: row.content_id, editionKind: row.edition_kind, textScope: row.text_scope })
+      || excludedBookWorkReason({ contentId: row.content_id, metadata: (Array.isArray(row.contents) ? row.contents[0] : row.contents)?.metadata })) { count('excluded_edition'); continue }
     const target = { contentId: row.content_id, ...(row.id !== undefined && { editionId: row.id }), locale: 'en', isbn: row.isbn, title: row.title, creator: row.creator }
     if (!amazonBookCandidate(target)) { count('no_isbn10_candidate'); continue }
     if (!target.title?.trim()) { count('no_title'); continue }

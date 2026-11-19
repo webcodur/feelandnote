@@ -12,7 +12,7 @@ const compiled = ts.transpileModule(readFileSync(new URL('./getFigureBooks.ts', 
 
 test('인물 책장은 ISBN 미상의 확정 제외 작품을 catalog-only로 되살리지 않고 정상 관계와 변경된 원작은 유지한다', async () => {
   const proof = { method: 'independent_work_selection_review', content_id: 'picture', work_title: '유아용 그림책', work_creator: '실제 작가',
-    reason: 'children_picture', source_url: 'https://publisher.example/picture', explanation: '실제 출판사의 소개와 본문을 확인하여 유아 전용 창작 그림책으로 판정했다.' }
+    reason: 'non_reading_product', source_url: 'https://publisher.example/picture', explanation: '실제 출판사의 소개와 본문을 확인하여 유아 전용 창작 그림책으로 판정했다.' }
   const figureBook = { workTitle: proof.work_title, workCreator: proof.work_creator, workSelectionEvidence: [proof] }
   const content = (id: string, figure: unknown) => ({ id, type: 'BOOK', figureBook: figure,
     content_locales: [{ locale: 'ko', title: id, creator: '실제 작가', thumbnail_url: null, isbn: null }] })
