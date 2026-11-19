@@ -225,33 +225,43 @@
 }
 
 /*
-  긴 글 구획(인물 안내·독서 방식·가상독백)의 전용색. 네이버 블로그 글과 같은 체계다 —
-  독서 방식은 갈색, 인물 안내는 먹색, 가상독백은 자주색. 구획 제목과 본문이 같은 계열을 써서 어느 글인지 색으로 읽힌다.
-  본문은 한 단 더 굵게 쓴다(블로그의 굵은 본문). 인용·용어 강조색은 구획색과 겹치지 않게 그대로 둔다.
+  긴 글 구획(인물 안내·독서 방식·가상독백)의 읽기 굵기·본문색과 다크 강조색. 세 구획은 같은 본문을 쓴다 —
+  구획마다 색을 달리하면 강조색과 겹쳐 한 문단에 여러 계열이 섞였다.
+  본문은 기본 글자색과 작품 소개색(--color-book-intro)의 중간, 굵기는 일반 읽기 본문보다 반 단 굵게 둔다 —
+  기본 글자색·한 단 굵기는 작품 소개 옆에서 지나치게 진했다.
+  강조(인용·용어·작품명)도 본문과 같은 굵기로 맞춘다. 그대로 두면 강조가 본문보다 가늘어 보인다.
+  다크는 전역 강조색(노랑 인용·금색 용어)이 한 계열이라 서로 구분되지 않고 괄호 연보라만 튄다.
+  라이트의 인주·쪽빛 원리를 채도를 낮춰 옮기고 괄호는 흐린 회색으로 물린다. 라이트는 전역 값을 그대로 쓴다.
+  감상 등 다른 읽기 본문은 아직 전역 값이다 — 이 구획에서 써 보고 사이트 전체로 올릴지 정한다.
   구획 틀(HubSection)의 제목 유틸리티를 이겨야 해 레이어 밖에 둔다.
 */
 .section-tone {
-  --reading-weight: 600;
-  --section-tone-title: var(--color-text-primary);
+  --reading-weight: 550;
+  --color-text-body: color-mix(in oklab, var(--color-text-primary), var(--color-book-intro));
+}
+
+:root:not([data-theme="light"]) .section-tone {
+  --color-reading-quote: #e8b4a0;
+  --color-reading-term: #a9c1e0;
+  --color-reading-parenthetical: #9a978f;
 }
 
 :root[data-theme="light"] .section-tone {
-  --reading-weight: 700;
-}
-
-.section-tone-way {
-  --section-tone-title: light-dark(#b05210, #f0a868);
-  --color-text-body: light-dark(#5e3a21, #ecd3bc);
-}
-
-.section-tone-monologue {
-  --section-tone-title: light-dark(#7a2f5c, #e6a9cf);
-  --color-text-body: light-dark(#46203a, #eddbe7);
+  --reading-weight: 650;
 }
 
 .section-tone [data-hub-header] :is(h1, h2, h3) {
-  color: var(--section-tone-title);
   font-weight: 700;
+}
+
+.section-tone :is(.text-reading-quote, .text-reading-term, .text-text-primary) {
+  font-weight: var(--reading-weight);
+}
+
+/* 《작품명》은 전역 규칙에서 기본 글자색이라 본문과 같은 색·굵기로 묻힌다. 용어와 같은 색을 입힌다(쪽빛 = 작품명·용어).
+   같은 클래스를 쓰는 구획 제목(h2)과 문단 소제목(block)은 제외한다 */
+.section-tone span.text-text-primary.font-semibold:not(.block) {
+  color: var(--color-reading-term);
 }
 
 /*

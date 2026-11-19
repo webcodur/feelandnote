@@ -29,11 +29,11 @@ import type { CelebServiceModel } from "./useCelebServiceModel";
 import { useCelebSectionNavigation } from "./useCelebSectionNavigation";
 
 const SECTION_CLASS_NAME = styles.recordSection;
-// 긴 글 구획의 전용색. 블로그 글의 구획색과 같은 체계다(globals.css .section-tone-*)
+// 긴 글 구획의 읽기 굵기(globals.css .section-tone)
 const SECTION_TONE_CLASS: Record<string, string> = {
-  personGuide: "section-tone section-tone-guide",
-  readingWay: "section-tone section-tone-way",
-  virtualMonologue: "section-tone section-tone-monologue",
+  personGuide: "section-tone",
+  readingWay: "section-tone",
+  virtualMonologue: "section-tone",
   // 지표 줄·이동 단추가 촘촘한 구획은 hover를 한 단 세게 준다(globals.css .section-hover-strong)
   analysis: "section-hover-strong",
 };
