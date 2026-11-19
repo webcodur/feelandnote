@@ -308,6 +308,9 @@ const CONTENT_FILES = new Set([
 ])
 
 const CELEB_AND_CONTENT_FILES = new Set([
+  // YES24 판매 판정과 구매 링크 조립은 인물 책장·작품 상세의 서버 렌더 구매 영역(BookPurchaseSummary, figureBookLocale)이 쓴다.
+  'sw/web/src/lib/books/yes24Purchase.ts',
+  'sw/web/src/lib/books/bookPurchaseLinks.ts',
   // 라벨·본문·소개 원천 해석은 작품 소개 모달과 인물 책장 양쪽에서 쓴다.
   ...['ContentReadingBody.tsx', 'ContentSourceLabel.tsx', 'contentReadingData.ts', 'contentIntroText.ts']
     .map(file => `sw/web/src/components/shared/ContentReading/${file}`),
@@ -363,6 +366,10 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // YES24 구매·상세 조회는 클라이언트 구매 모달(BookPurchaseModal, Yes24BookModal)과 구매 API가 실행 시점에 부른다.
+  'sw/web/src/actions/contents/getYes24PurchaseLink.ts',
+  'sw/web/src/actions/library/getYes24BookDetail.ts',
+  'sw/web/src/lib/books/yes24DetailCache.ts',
   // 인증 콜백은 private, no-store 이동 응답만 반환하며 공개 HTML을 렌더링하지 않는다.
   'sw/web/src/app/auth/callback/route.ts',
   // 연대 판별 별칭과 검증된 표본은 쉼터·실험실 게임에서만 소비한다.
@@ -660,6 +667,10 @@ const CACHED_HTML_PREFIXES = [
 ]
 
 const CACHED_HTML_FILES = new Set([
+  // 판본 선택은 공용 책장 판본 상세(BookShelfEditionDetail)·작품 카드·추천 도서 목록이 함께 쓴다.
+  'sw/web/src/lib/books/contentEdition.ts',
+  // 인물 책장 조회는 탐색 독백 페이지(explore/monologue)가 서버에서 렌더링한다.
+  'sw/web/src/actions/celebs/getCelebBookShelf.ts',
   // locale 레이아웃의 분석·음성 제공자가 모든 보관 HTML에 실린다.
   'sw/web/src/components/features/game/shared/DialogueSubtitle.tsx',
   'sw/web/src/lib/analytics/track.ts',
