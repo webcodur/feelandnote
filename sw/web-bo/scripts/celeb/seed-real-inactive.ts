@@ -294,13 +294,11 @@ async function main() {
   }
   for (const [file, filePlans] of byFile) {
     const arr = ledgerByFile.get(file)!
-    const planByName = new Map(filePlans.map((plan) => [plan.record.nickname, plan]))
-    for (const record of arr) {
-      const plan = planByName.get(record.nickname)
-      if (!plan) continue
-      record.status = 'registered'
-      record.celeb_id = plan.celebId!
-      record.slug = plan.slug!
+    // plan.record는 arr의 같은 객체다. 이름으로 다시 찾으면 동명이인 레코드가 한쪽 결과로 덮인다
+    for (const plan of filePlans) {
+      plan.record.status = 'registered'
+      plan.record.celeb_id = plan.celebId!
+      plan.record.slug = plan.slug!
     }
     writeFileSync(resolve(dirPath, file), JSON.stringify(arr, null, 1) + '\n')
   }
