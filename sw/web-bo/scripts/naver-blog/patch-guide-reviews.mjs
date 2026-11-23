@@ -11,7 +11,7 @@ import {createEditorialEditor} from './lib/editorial-editor.mjs';
 import {readSnapshot, closePublishPanel} from './repair-institution-images.mjs';
 import {assertPublishOptions} from './lib/publish-options.mjs';
 import {readParagraphPresentation} from './lib/unified-typography.mjs';
-import {formattedPlainText, quoteCarries, BODY_STYLE_VERSION} from './lib/formatted-text.mjs';
+import {formattedPlainText, quoteCarries, BODY_STYLE_VERSION, NAVER_REVIEW_INLINE_COLOR} from './lib/formatted-text.mjs';
 import {UNIFIED_ARTICLE} from './lib/unified-article.mjs';
 import {fragment} from './apply-unified-article.mjs';
 import {EDITOR_SELECTOR, openTarget} from './restyle-body.mjs';
@@ -19,6 +19,8 @@ import {textsDigest, articleTexts} from './lib/body-baseline.mjs';
 
 const REGISTRY = path.join(ASSETS, 'naver-blog/posts.json');
 const read = f => JSON.parse(fs.readFileSync(f, 'utf8')), same = (a, b) => JSON.stringify(a) === JSON.stringify(b), sleep = ms => new Promise(r => setTimeout(r, ms));
+// 서식 목록은 본문 문단만 읽는다. EDITOR_SELECTOR는 사진 설명문(표지 밑 「YES24에서 보기」, 관련 이미지 설명)까지 담아 글줄 목록과 어긋난다.
+const BODY_SELECTOR = '.se-component.se-text:not(.se-documentTitle) .se-text-paragraph';
 const flow = s => s.flow.flatMap(f => f.kind === 'se-text' ? f.paragraphs.map(text => ({kind: 'text', text})) : f.kind === 'se-horizontalLine' ? [{kind: 'divider'}] : f.kind === 'image' ? [{kind: 'image', src: f.src}] : [{kind: f.kind}]);
 const stable = ps => ps.map(({text, align, sizes, weights, colors, backgrounds}) => ({text, align, sizes, weights, colors, backgrounds}));
 const HEAD = t => t.endsWith('의 감상'), END = t => t === '감상 근거';
@@ -38,7 +40,9 @@ export function guideSections(texts, isReview = null) {
 export async function patchGuideReviews(file, {apply = false} = {}) {
   const article = read(file), dir = path.join(path.dirname(file), article.logNo + '-patch-' + Date.now());
   const ops = article.operations.filter(o => ['text', 'link'].includes(o.kind) && !o.quote).map(o => ({...o, plain: o.formattedText ? formattedPlainText(o.text) : o.text}));
-  const GREEN = UNIFIED_ARTICLE.reviewColor.toLowerCase(), rgb = 'rgb(' + GREEN.slice(1).match(/../g).map(v => parseInt(v, 16)).join(', ') + ')';
+  const GREEN = UNIFIED_ARTICLE.reviewColor.toLowerCase(), toRgb = hex => 'rgb(' + hex.toLowerCase().slice(1).match(/../g).map(v => parseInt(v, 16)).join(', ') + ')', rgb = toRgb(GREEN);
+  // 감상 문단 안의 책 제목은 더 짙은 초록으로 칠한다(service-inline-bold-1). 그 색이 섞여도 감상 문단이다.
+  const reviewRgb = new Set([rgb, toRgb(NAVER_REVIEW_INLINE_COLOR)]);
   const want = guideSections(ops.map(o => o.plain), ops.map(o => o.kind === 'text' && String(o.color ?? '').toLowerCase() === GREEN && o.align === 'left')).map(s => ({...s, ops: ops.slice(s.start, s.end), href: ops[s.end].href}));
   const posts = read(REGISTRY), post = posts.find(p => String(p.logNo) === String(article.logNo) && p.kind === 'curated' && ['ok', 'check'].includes(p.link)); if (!post) throw Error('기관 글을 원장에서 못 찾았다: ' + article.logNo);
   fs.mkdirSync(dir, {recursive: true});
@@ -50,9 +54,9 @@ export async function patchGuideReviews(file, {apply = false} = {}) {
   try {
     await page.setViewport({width: 1440, height: 1700}); const editor = createExistingEditor(page), native = createEditorialEditor(page);
     const opened = await openTarget(page, post); await closePublishPanel(page, editor);
-    const before = await readSnapshot(page), beforeStyle = await page.evaluate(readParagraphPresentation, EDITOR_SELECTOR), texts = flow(before).filter(o => o.kind === 'text').map(o => o.text);
+    const before = await readSnapshot(page), beforeStyle = await page.evaluate(readParagraphPresentation, BODY_SELECTOR), texts = flow(before).filter(o => o.kind === 'text').map(o => o.text);
     if (!same(beforeStyle.map(p => p.text), texts)) return {changed: false, needsFullRewrite: true, why: ['편집기 글줄과 서식 목록이 어긋난다']};
-    const have = guideSections(texts, beforeStyle.map(p => p.align === 'left' && p.colors.length > 0 && p.colors.every(c => c === rgb))), sources = before.links.filter(l => l.text === '감상 근거').map(l => l.href);
+    const have = guideSections(texts, beforeStyle.map(p => p.align === 'left' && p.colors.length > 0 && p.colors.every(c => reviewRgb.has(c)))), sources = before.links.filter(l => l.text === '감상 근거').map(l => l.href);
     // 구획 수·이름 줄·근거 링크가 조립본과 같아야 부분 교체로 끝낼 수 있다. 다르면 감상자가 바뀐 것이다.
     const differ = have.length !== want.length ? ['구획 수 ' + have.length + ' → ' + want.length] : have.flatMap((s, k) => [s.head !== want[k].head && `이름 줄: ${s.head} → ${want[k].head}`, sources[k] !== want[k].href && `근거 링크(${s.head})`].filter(Boolean));
     if (differ.length) return {changed: false, needsFullRewrite: true, why: differ};
@@ -84,7 +88,7 @@ export async function patchGuideReviews(file, {apply = false} = {}) {
     const expected = [...texts]; for (const s of [...plan].reverse()) expected.splice(s.start, s.end - s.start, ...s.next);
     const added = new Set(plan.flatMap(s => s.next));
     const check = async () => {
-      const current = await readSnapshot(page), style = await page.evaluate(readParagraphPresentation, EDITOR_SELECTOR), now = flow(current).filter(o => o.kind === 'text').map(o => o.text);
+      const current = await readSnapshot(page), style = await page.evaluate(readParagraphPresentation, BODY_SELECTOR), now = flow(current).filter(o => o.kind === 'text').map(o => o.text);
       if (current.title !== before.title || !same(current.links, before.links) || current.dividers !== before.dividers || !same(now, expected)) throw Error('제목·글 순서·링크·구분선이 달라졌다');
       const identity = images => images.map(({displayWidth, displayHeight, ...im}) => im); if (!same(identity(current.images), identity(before.images))) throw Error('사진이 달라졌다');
       if (!same(stable(style.filter(p => !added.has(p.text))), stable(beforeStyle.filter(p => !replaced.has(p.text))))) throw Error('바꾼 감상 밖의 글 모양이 달라졌다');

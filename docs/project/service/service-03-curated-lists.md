@@ -137,6 +137,7 @@
 | `sw/web-bo/scripts/curated/import.ts` | 수집 JSON → DB 적재. 기관·목록은 slug 기준 갱신, 항목은 목록 단위 전량 교체(멱등). 이미 맺은 작품 연결은 제목+저자로 회수해 되붙인다. `_`로 시작하는 파일은 부속 자료로 보고 건너뛴다. `--dry` |
 | `sw/web-bo/scripts/curated/match.ts` | 항목 ↔ **기존** 콘텐츠 연결. 제목 정규화 + 저자 대조. 도서·영상 모두 다루며 목록의 대상 매체와 같은 것만 후보로 삼는다. `--dry` `--list <slug>` `--relink` |
 | `sw/web-bo/scripts/curated/register.ts` | 우리에게 **없는** 작품을 외부에서 찾아 등록하고 잇는다. 도서는 카카오·Open Library, 영상은 TMDB. `--dry` `--limit N` `--list <slug>` `--exact`(제목 정규화 후 완전일치만 채택하고 분권·원서·합본·요약·해설 표식 후보를 버린다 — 한국어 제목 목록은 항상 이 옵션으로 돌린다) `--skip <파일>`(dry에서 사람이 걸러낸 raw_title을 한 줄씩) |
+| `sw/web-bo/scripts/curated/freshness.mjs` | 목록마다 출처 최신 확인 대상을 가리는 작업표(읽기만). 확인 방법은 `lib/freshness.mjs`(5-6) |
 | `sw/web-bo/scripts/curated/relink-lost-items.ts` | 작품 삭제·통합으로 끊긴 목록 연결을 백업에서 되살린다(5-4). `--yes` |
 | `sw/web-bo/scripts/curated/research-apply.mjs` | Devin 판본 조사(`devin-swe` R 묶음) 결과의 ISBN을 카카오·OpenLibrary로 재확인해 등록하고, 판본 없는 작품은 표시행만 두며 원어 한국 작품엔 절판 표식을 둔다(`celeb-02-02` 「절판」). `--apply` |
 | `sw/web-bo/scripts/curated/logo-palette.ts` | 기관 로고에서 팔레트를 뽑아 `curators.logo_palette`에 넣는다. `<slug>...` 또는 `--missing`, `--apply` |
@@ -409,6 +410,27 @@
 
 - `locale-dead-works.mjs`·`merge-works.mjs`는 `contents`를 FK로 가리키는 표 전부(`curated_list_items`·`flow_nodes`·`records`·`notes` 포함)를 본다. 작품을 지우거나 합치는 스크립트를 새로 쓸 때도 이 표 전부를 넣는다.
 - `register.ts`는 영문 제목 항목에 카카오가 수입 원서(한글 없는 제목)를 돌려주면 `ko`가 아니라 `en` 카드로 담는다. 한국어 제목은 표시용 제목 행(`celeb-02-02` 「한국어판 확인」)이 맡는다 — 미연결 항목이 영어 원제로만 보이던 것은 이 조합으로 「번역 제목 + 번역본 없음」이 된다.
+
+## 5-6. 최신 확인 — 목록이 출처의 최신판과 같은가
+
+목록은 적재한 날의 출처를 옮긴 것이라 그대로 두면 낡는다. 상은 해마다 수상작이 늘고, 대학은 개정판을 내거나 목록을 손본다. 「최신인지 확인」은 블로그·서비스와의 대조가 아니라 **출처(`source_url`)를 열어 DB 항목과 맞춰 보는 일**이다(26.11.23 사용자 지시: DB만 대조하고 확인 일자를 붙였다가 공쿠르·전미도서상·휴고 등 2026 수상작 6건이 빠진 채로 드러났다).
+
+목록마다 확인 방법은 [`sw/web-bo/scripts/curated/lib/freshness.mjs`](../../../sw/web-bo/scripts/curated/lib/freshness.mjs)의 `FRESHNESS`가 쥔다. 새 목록을 적재하면 같은 커밋에 항목을 더한다(작업표 도구가 빠진 목록이 있으면 멈춘다).
+
+| 종류 | 대상 | 확인 방법 |
+|---|---|---|
+| `annual` | 해마다 쌓이는 상·연례 선정 | 발표 달(`when`)이 지났으면 출처에서 그 회차 수상작을 확인하고 없으면 항목을 더한다. 항목 `year`가 발표 연도인지 전해 작품 연도인지는 `year`가 정한다 |
+| `edition` | 기관이 판을 거듭 내는 목록의 한 판 | 기관 페이지에서 더 새 판을 찾는다. 새 판은 2.4대로 새 목록을 만들어 `series_key`로 묶는다 |
+| `living` | 기관이 지금 운영하는 목록 페이지 | 출처 페이지의 항목 전체를 DB 항목과 한 줄씩 대조한다 |
+| `fixed` | 한 번 발표된 특집·기사 | 바뀌지 않는다. 출처 주소가 살아 있는지만 본다 |
+| `ended` | 끝난 상·프로그램 | 출처 주소가 살아 있는지만 본다 |
+
+절차.
+
+1. `sw/web-bo`에서 `node --env-file=.env scripts/curated/freshness.mjs --out=<작업 JSON>`으로 작업표를 만든다. `stale`(기대 연도 항목 없음)·`due`(발표 달)·`source`(edition·living)가 확인 대상이다.
+2. 대상마다 출처를 직접 읽어 판정한다. 공식 발표처를 우선하고, 2차 출처를 썼으면 `note`에 적는다(4.1). 기계 분류만으로 「최신」이라 하지 않는다.
+3. 빠진 수상작은 그 항목만 더한다. `import.ts`로 목록을 다시 적재하면 항목이 전량 교체돼 백오피스 보정이 사라지므로 쓰지 않는다. 항목을 더한 뒤 `match.ts --list <slug>`·`register.ts --list <slug>`로 작품을 잇는다.
+4. 블로그 기관 글이 있는 목록은 표·제목 권수를 고치고 확인 일자를 바꾼다(`docs/continuous/blog-naver-book.md` 「확인 일자」).
 
 ## 6. 미결정
 - 목록 대표 이미지의 규격. 세력도감은 1080×1080 정사각이지만 목록은 가로 배너가 어울릴 수 있다.

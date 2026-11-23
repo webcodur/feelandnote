@@ -80,7 +80,10 @@ test('중복 본문은 지정한 순번만 수정하고 인용·표와 중복되
  const edit={before:'책 소개',after:'두 번째 소개',occurrence:1};const expected=prepareEditorialChanges(o,{logNo:'123',edits:[edit]});assert.deepEqual(expected.snapshot.text,['책 소개','두 번째 소개']);assert.deepEqual(expected.snapshot.flow.at(-1).paragraphs,['두 번째 소개']);
  assert.throws(()=>prepareEditorialChanges(o,{logNo:'123',edits:[{before:'책 소개',after:'새 소개'}]}));
  assert.throws(()=>prepareEditorialChanges(o,{logNo:'123',edits:[edit,{...edit}]}));
- o.snapshot.flow.push({kind:'se-quotation',paragraphs:['책 소개']});assert.throws(()=>prepareEditorialChanges(o,{logNo:'123',edits:[edit]}));
+ // 인용구의 같은 문장이 지정 순번보다 뒤에만 있으면 순번이 어긋나지 않아 허용하고, 앞에 있으면 거부한다.
+ const after=structuredClone(o);after.snapshot.flow.push({kind:'se-quotation',paragraphs:['책 소개']});assert.deepEqual(prepareEditorialChanges(after,{logNo:'123',edits:[edit]}).snapshot.text,['책 소개','두 번째 소개']);
+ const before=structuredClone(o);before.snapshot.flow.splice(1,0,{kind:'se-quotation',paragraphs:['책 소개']});assert.throws(()=>prepareEditorialChanges(before,{logNo:'123',edits:[edit]}));
+ o.snapshot.flow.push({kind:'se-quotation',paragraphs:['책 소개']});assert.throws(()=>prepareEditorialChanges(o,{logNo:'123',edits:[{...edit,occurrence:2}]}));
 });
 
 test('검수한 제목과 중앙 정렬을 적용하고 시각을 식별할 수 없는 예약은 거부한다',()=>{

@@ -30,9 +30,12 @@ export function prepareEditorialChanges(original, plan) {
   if(plan.title!==undefined&&(typeof plan.title!=='string'||!plan.title.trim()||plan.title!==plan.title.trim()||plan.title.length>100||/[\r\n]|https?:\/\//.test(plan.title)))throw new Error('Only a reviewed single-line post title can change');
   const paragraphs=original.snapshot.flow.flatMap(f=>f.paragraphs??[]);
   const seen=new Set();
+  // 글줄 목록(text)은 본문 문단(se-text)만 담고 흐름(flow)은 인용구 목차·표까지 담는다. 같은 문장이 인용구·표에 있으면 순번이 어긋나므로 거부하되,
+  // 지정한 순번이 본문 문단이고 그보다 앞에 인용구·표의 같은 문장이 없으면 흐름·글줄·편집기 순번이 모두 같다(기관 글 머리말 = 목차 첫 항목).
+  const textOccurrence=e=>{const hits=original.snapshot.flow.flatMap(f=>(f.paragraphs??[]).filter(p=>p===e.before).map(()=>f.kind)),texts=original.snapshot.text.filter(p=>p===e.before).length;if(texts===hits.length)return e.occurrence;if(hits[e.occurrence]!=='se-text'||hits.slice(0,e.occurrence).some(k=>k!=='se-text')||texts!==hits.filter(k=>k==='se-text').length)return null;return e.occurrence;};
   for(const e of plan.edits){
     const count=paragraphs.filter(p=>p===e.before).length,key=e.before+'\0'+(e.occurrence??'unique');
-    if(typeof e.before!=='string'||typeof e.after!=='string'||!e.before.trim()||(!e.after.trim()&&!(e.remove===true&&e.after===''))||(e.remove===true&&e.after!=='')||e.before===e.after||seen.has(key)||(e.occurrence===undefined?count!==1:!Number.isInteger(e.occurrence)||e.occurrence<0||e.occurrence>=count||original.snapshot.text.filter(p=>p===e.before).length!==count)) throw new Error('Each edit needs one unique existing paragraph or an exact body occurrence');
+    if(typeof e.before!=='string'||typeof e.after!=='string'||!e.before.trim()||(!e.after.trim()&&!(e.remove===true&&e.after===''))||(e.remove===true&&e.after!=='')||e.before===e.after||seen.has(key)||(e.occurrence===undefined?count!==1:!Number.isInteger(e.occurrence)||e.occurrence<0||e.occurrence>=count||textOccurrence(e)===null)) throw new Error('Each edit needs one unique existing paragraph or an exact body occurrence');
     if(plan.edits.some(other=>other!==e&&other.before===e.before&&(other.occurrence===undefined||e.occurrence===undefined)))throw new Error('Repeated body edits require explicit occurrences');
     if(e.remove===true&&(!original.snapshot.flow.some(f=>['se-text','se-quotation'].includes(f.kind)&&f.paragraphs?.includes(e.before))||original.table.some(row=>row.includes(e.before))))throw new Error('Only an explicitly reviewed body or reading-note paragraph can be removed');
     if(/https?:\/\//.test(e.before+' '+e.after))throw new Error('Service/source links need a separately reviewed link operation');
@@ -40,9 +43,9 @@ export function prepareEditorialChanges(original, plan) {
   }
   if(plan.edits.some((e,i)=>e.after.split('\n').some(p=>plan.edits.some((other,j)=>j!==i&&other.before===p))))throw new Error('Edit output overlaps another input');
   for(const s of plan.formats??[])if(!s.text||!Object.values(EDITORIAL_FONT_SIZES).includes(s.size))throw new Error('Unreviewed formatting');
-  const mapper=()=>{const occurrences=new Map();return p=>{const occurrence=occurrences.get(p)??0;occurrences.set(p,occurrence+1);const edit=plan.edits.find(e=>e.before===p&&(e.occurrence===undefined||e.occurrence===occurrence));return edit?.remove===true?[]:edit?.after.split('\n').filter(Boolean)??[p];};};
+  const mapper=(inText=false)=>{const occurrences=new Map();return p=>{const occurrence=occurrences.get(p)??0;occurrences.set(p,occurrence+1);const edit=plan.edits.find(e=>e.before===p&&(e.occurrence===undefined||(inText?textOccurrence(e):e.occurrence)===occurrence));return edit?.remove===true?[]:edit?.after.split('\n').filter(Boolean)??[p];};};
   const flowMap=mapper();
-  const snapshot={...original.snapshot,title:plan.title??original.snapshot.title,text:original.snapshot.text.flatMap(mapper()),flow:original.snapshot.flow.map(f=>f.paragraphs?{...f,paragraphs:f.paragraphs.flatMap(flowMap)}:f)};
+  const snapshot={...original.snapshot,title:plan.title??original.snapshot.title,text:original.snapshot.text.flatMap(mapper(true)),flow:original.snapshot.flow.map(f=>f.paragraphs?{...f,paragraphs:f.paragraphs.flatMap(flowMap)}:f)};
   const table=original.table.map(row=>row.map(cell=>{const replacement=plan.edits.find(e=>e.before===cell);if(replacement?.after.includes('\n'))throw new Error('Table cells cannot split into paragraphs');return replacement?.after??cell;}));
   if(plan.tableRowInsert){
     const r=plan.tableRowInsert, tables=original.snapshot.flow.filter(f=>f.kind==='se-table'),digest=crypto.createHash('sha256').update(JSON.stringify(original.table)).digest('hex');
@@ -209,6 +212,7 @@ async function main(){
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  await main();
  // 평문으로 넣은 단락의 서식을 같은 작업 안에서 되돌린다(blog-naver-book.md 본문 서식 정책).
- if(process.argv.includes('--apply')){const plan=JSON.parse(fs.readFileSync(process.argv.find(a=>a.startsWith('--plan=')).slice(7),'utf8'));restyleAfterSave([plan.logNo]);}
+ // restyle-body는 인물 글 구조(「목차」·「01 · 『」)만 다룬다. 기관 안내서 글은 저장·재열기 대조로 끝낸다.
+ if(process.argv.includes('--apply')){const plan=JSON.parse(fs.readFileSync(process.argv.find(a=>a.startsWith('--plan=')).slice(7),'utf8'));if(JSON.parse(fs.readFileSync(plan.originalFile,'utf8')).post.kind==='celeb')restyleAfterSave([plan.logNo]);}
  process.exit(0);
 }
