@@ -300,7 +300,7 @@ Carbon 조사 응답은 10분을 넘기는 일이 잦다. 회수는 27분까지 
    - 새 작품·빠진 언어 행은 `newWorks/newLocales`로 넣는다.
    - 기존 관계는 현재 행 비교 transaction으로 갱신한다.
    - 기존 메타 교정은 [guarded-catalog-repairs.mjs](../../../sw/web-bo/scripts/figure-books/lib/guarded-catalog-repairs.mjs)의 `captureCatalogRepairSnapshot` → `planGuardedCatalogRepairs` → `guardedCatalogRepairs`를 사용한다. 마지막 함수는 실제 쓰기다.
-6. **기존 블로그 반영:** 블로그 반영을 맡은 작업은 10명마다 본인이 [네이버 편집 경로](../../continuous/blog-naver-book.md#편집-자동화)를 실행한다.
+6. **기존 블로그 반영:** 블로그 반영을 맡은 작업은 10명마다 본인이 [네이버 편집 경로](../../continuous/blog-naver-book.md#12-편집-자동화)를 실행한다.
    - `D:/feelandnote/blog-assets/naver-blog/posts.json`·`celeb-drafts.json`과 실제 게시·예약 목록, 내부 검색으로 대응 글을 찾는다.
    - `readingWay.sourceHash`가 현재 DB 본문과 같으면 건너뛴다.
    - `sw/web-bo`에서 `node --import tsx scripts/naver-blog/apply-reading-way.mjs --log=LOG_NO --work=ABSOLUTE_DIR --apply`를 사용한다. 기존 구획 교체는 `--replace`, DB 본문이 비어 구획을 걷을 때는 `--remove`를 쓴다.
@@ -322,7 +322,7 @@ Carbon 조사 응답은 10분을 넘기는 일이 잦다. 회수는 27분까지 
 3. **감상배경:** 새로 연결하는 책의 `review`·`review_en`은 [감상경위](celeb-02-03-content-review.md) 규칙으로 쓴다. 기존 감상배경이 고친 본문과 사실(시기·횟수·계기)이 어긋나면 출처로 어느 쪽이 맞는지 가려 틀린 쪽을 고친다. 반영은 [책장 반영기](../../../scripts/browser/reading-way-books-apply.mjs) 또는 웹채팅 경로의 `books-step.mjs`·`replace-existing.mjs`·`fix-review.mjs`로 한다.
 4. **영문:** 한국어를 고치면 `reading_way_en`·`review_en`도 다시 번역해 맞춘다. 표기 규칙은 [영문 데이터](celeb-09-01-i18n.md)를 따른다.
 5. **표시·캐시:** 재조회·캐시 갱신 뒤 위의 한영 화면에서 확인한다.
-6. **블로그:** 그 인물의 네이버 글이 있으면 `readingWay.sourceHash`와 새 본문 해시를 비교하고, 다르면 [네이버 편집 경로](../../continuous/blog-naver-book.md#편집-자동화)로 구획을 교체한다. 고친 감상배경이 블로그에 실렸으면 그 문단도 함께 고친다.
+6. **블로그:** 그 인물의 네이버 글이 있으면 `readingWay.sourceHash`와 새 본문 해시를 비교하고, 다르면 [네이버 편집 경로](../../continuous/blog-naver-book.md#12-편집-자동화)로 구획을 교체한다. 고친 감상배경이 블로그에 실렸으면 그 문단도 함께 고친다.
 
 ## 데이터 정의
 
