@@ -17,7 +17,7 @@ Google 루트는 11-09 재제출·재읽기 성공, 콘솔 합계는 기존 18,8
 | 엔진 | 마지막 작업·접수 결과 | 마지막 성공 주소 | 실존인물 재개 후보·미확정 |
 |---|---|---|---|
 | Google | 2026-11-18 13:14:15 일일 할당량 초과(「일일 할당량을 초과하여 이 요청을 처리할 수 없습니다. 내일 다시 제출해 주세요.」) 확인. 새 완료 응답 11주소 확정. 미확정 0 | `/celeb/zena`(13:13:47) | `/en/celeb/zena`부터(`yoonchae`~`choi-yena`). 이후 10-24 묶음 `/celeb/heejin` → 기존 재개 후보 8명 |
-| 네이버 | 2026-11-18 13:13:31까지 50주소 접수 후 한도 초과(`POST /api-console/request/crawl` → `code: 110, FAIL_MAX_DOCUMENT_COUNT`) 확인. 5페이지 재조회: 오늘 50·고유 50·선정 누락 0·시작 전 최근 50개와 겹침 0·미확정 0 | `/en/celeb/park-sihyun`(13:13:31) | 10-24 묶음 `/celeb/yang-jiwon`부터. 이후 기존 `/celeb/alain-resnais` 구간. 전체 과거 이력은 제공되지 않음 |
+| 네이버 | 2026-11-18 13:13:31까지 50주소 접수 후 한도 초과(`POST /api-console/request/crawl` → `code: 110, FAIL_MAX_DOCUMENT_COUNT`) 확인. 5페이지 재조회: 오늘 50·고유 50·선정 누락 0·시작 전 최근 50개와 겹침 0·미확정 0 | `/en/celeb/park-sihyun`(13:13:31) | 10-24 묶음 `/celeb/yang-jiwon`부터 한국어 주소만. 이후 기존 `/celeb/alain-resnais` 구간. 전체 과거 이력은 제공되지 않음 |
 | Bing | 2026-11-18 13:10:35 제출 후 CSV·콘솔 검수. CSV 1,186→1,286주소. 오늘 추가 100·선정 누락 0·잔여 한도 0·미확정 0 | `/en/celeb/jean-jacques-rousseau` | `/celeb/charles-baudelaire`부터(실존인물 `johnny-depp`~`jean-jacques-rousseau` 50명 한영 완료). 이후 최근 CSV 이력의 완료 주소 제외 |
 
 **이전 공개 묶음:** 순서대로 10-26 공개·변경 23명(ella~forest-whitaker), 10-25 공개 167명(yunah~choi-yena), 10-24 공개 86명(nicole-scherzinger~yang-jiwon)이다. Google은 첫 23명 전부와 167명 묶음 may 한영 및 zena 한국어까지 접수·색인 또는 기존 요청을 확인했고, 86명 묶음은 이브 한영까지 완료다. 네이버는 첫 두 묶음 전부·86명 묶음 park-sihyun 한영까지, Bing은 아래 276명 한영 전부 완료다.

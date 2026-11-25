@@ -20,10 +20,10 @@ export const SITEMAP_REVALIDATE_SECONDS = 86400
  * 크롤 예산을 소진시켰고, 직접 작성한 인물 글은 「발견됨 - 색인 생성 안 됨」에 머물렀다.
  * 색인 대상은 인물과 주요 목록으로 좁힌다. 작품 페이지 자체는 그대로 두며, 내부 링크로만 닿는다.
  */
-export const SITEMAP_NAMES = ['core', 'celebs', 'celebs-all'] as const
+export const SITEMAP_NAMES = ['core', 'celebs', 'naver'] as const
 /**
  * robots.txt가 가리키는 인덱스(`/sitemap.xml`)에는 Google용 우선 명단(`celebs`)만 싣는다(26.11.16).
- * `celebs-all`은 전체 인물이며 네이버 서치어드바이저에만 등록한다 — sitemapCelebPriority.ts 참조.
+ * `naver`는 주요 목록과 전체 인물의 한국어 주소만 담으며 네이버 서치어드바이저에만 등록한다(26.11.25).
  */
 const SITEMAP_INDEX_NAMES = ['core', 'celebs'] as const satisfies readonly (typeof SITEMAP_NAMES)[number][]
 
@@ -245,38 +245,52 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
   ['/account-deletion', 'yearly', 0.3],
 ]
 
+async function getCoreEntries(): Promise<SitemapEntry[]> {
+  const professions = await getCelebProfessions()
+  const [curatedPaths, atlasPaths] = await Promise.all([fetchCuratedPaths(), fetchAtlasPaths()])
+  return [
+    ...professions.flatMap(({ value }) => entry(`/explore/directory/${value}`, 'weekly', 0.7)),
+    ...staticPaths.flatMap(([path, frequency, priority]) =>
+      entry(path, frequency, priority),
+    ),
+    ...curatedPaths.flatMap((path) => entry(path, 'monthly', 0.7)),
+    ...atlasPaths.flatMap((path) => entry(path, 'weekly', 0.6)),
+  ]
+}
+
+function getCelebEntries(celebs: Awaited<ReturnType<typeof fetchCelebs>>): SitemapEntry[] {
+  return celebs.flatMap((celeb) =>
+    entry(
+      getCelebProfileUrl(celeb),
+      'weekly',
+      0.7,
+      celeb.updated_at
+        ? new Date(celeb.updated_at)
+        : celeb.created_at
+          ? new Date(celeb.created_at)
+          : undefined,
+    ),
+  )
+}
+
+/** 한국어 주소만 남긴다. hreflang도 영문 주소를 알리므로 함께 뺀다. */
+function koreanOnly(entries: SitemapEntry[]): SitemapEntry[] {
+  return entries
+    .filter(({ url, alternates }) => url === alternates?.languages?.ko)
+    .map((item) => ({ ...item, alternates: undefined }))
+}
+
 export async function getSitemapEntries(name: string): Promise<MetadataRoute.Sitemap | null> {
-  if (name === 'core') {
-    const professions = await getCelebProfessions()
-    const [curatedPaths, atlasPaths] = await Promise.all([fetchCuratedPaths(), fetchAtlasPaths()])
-    return [
-      ...professions.flatMap(({ value }) => entry(`/explore/directory/${value}`, 'weekly', 0.7)),
-      ...staticPaths.flatMap(([path, frequency, priority]) =>
-        entry(path, frequency, priority),
-      ),
-      ...curatedPaths.flatMap((path) => entry(path, 'monthly', 0.7)),
-      ...atlasPaths.flatMap((path) => entry(path, 'weekly', 0.6)),
-    ]
+  if (name === 'core') return getCoreEntries()
+
+  if (name === 'celebs') {
+    const [celebs, signals] = await Promise.all([fetchCelebs(), fetchCelebPrioritySignals()])
+    return getCelebEntries(selectPriorityCelebs(celebs, signals, new Date()))
   }
 
-  if (name === 'celebs' || name === 'celebs-all') {
-    const [celebs, signals] = await Promise.all([
-      fetchCelebs(),
-      name === 'celebs' ? fetchCelebPrioritySignals() : null,
-    ])
-    const listed = signals ? selectPriorityCelebs(celebs, signals, new Date()) : celebs
-    return listed.flatMap((celeb) =>
-      entry(
-        getCelebProfileUrl(celeb),
-        'weekly',
-        0.7,
-        celeb.updated_at
-          ? new Date(celeb.updated_at)
-          : celeb.created_at
-            ? new Date(celeb.created_at)
-            : undefined,
-      ),
-    )
+  if (name === 'naver') {
+    const [core, celebs] = await Promise.all([getCoreEntries(), fetchCelebs()])
+    return koreanOnly([...core, ...getCelebEntries(celebs)])
   }
 
   return null

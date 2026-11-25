@@ -42,7 +42,7 @@ test('특수문자 인물 slug도 상세 페이지와 같은 정본 주소와 �
     globalThis.fetch = previousFetch
   })
 
-  const entries = await getSitemapEntries('celebs-all')
+  const entries = await getSitemapEntries('celebs')
   assert.ok(entries)
   assert.equal(entries.length, 6)
   for (const slug of ['e%3Au', '%ED%99%8D%EA%B8%B8%EB%8F%99', 'person%3F%23%26name']) {
@@ -186,7 +186,9 @@ test('인물 조회 중 두 번째 페이지가 실패하면 부분 사이트맵
   process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = 'test-key'
   let failures = 0
   globalThis.fetch = async (input) => {
-    if (new URL(String(input)).searchParams.get('offset') === '0') {
+    const url = new URL(String(input))
+    if (url.pathname !== '/rest/v1/celebs') return Response.json([])
+    if (url.searchParams.get('offset') === '0') {
       return Response.json(Array.from({ length: 1000 }, (_, index) => ({ slug: `person-${index}`, created_at: CREATED_AT, updated_at: null })))
     }
     failures += 1
@@ -199,7 +201,7 @@ test('인물 조회 중 두 번째 페이지가 실패하면 부분 사이트맵
     else process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = previousKey
     globalThis.fetch = previousFetch
   })
-  await assert.rejects(getSitemapEntries('celebs-all'), /REST failed: 503/)
+  await assert.rejects(getSitemapEntries('naver'), /REST failed: 503/)
   assert.equal(failures, 2)
 })
 
@@ -222,7 +224,7 @@ test('동일 생성 시각이 페이지 경계를 넘어도 모든 인물을 한
     const offset = Number(url.searchParams.get('offset'))
     const order = url.searchParams.get('order')
 
-    assert.equal(url.pathname, '/rest/v1/celebs')
+    if (url.pathname !== '/rest/v1/celebs') return Response.json([])
 
     if (offset === 0) {
       return Response.json(celebs.slice(0, 1000))
@@ -247,14 +249,13 @@ test('동일 생성 시각이 페이지 경계를 넘어도 모든 인물을 한
     globalThis.fetch = previousFetch
   })
 
-  const entries = await getSitemapEntries('celebs-all')
+  const entries = await getSitemapEntries('naver')
   assert.ok(entries)
 
-  const urls = entries.map((entry) => entry.url)
-  assert.equal(urls.length, 2002)
-  assert.equal(new Set(urls).size, 2002)
+  const urls = entries.map((entry) => entry.url).filter((url) => url.includes('/celeb/'))
+  assert.equal(urls.length, 1001)
+  assert.equal(new Set(urls).size, 1001)
   assert.ok(urls.includes('https://feelandnote.com/celeb/celeb-1001'))
-  assert.ok(urls.includes('https://feelandnote.com/en/celeb/celeb-1001'))
 })
 
 test('기관·도감 조회도 1,000행을 넘어 끝까지 읽고 실패한 묶음을 조용히 빼지 않는다', async (t) => {
@@ -294,7 +295,7 @@ test('기관·도감 조회도 1,000행을 넘어 끝까지 읽고 실패한 묶
   }
 })
 
-test('Google 인덱스는 우선 명단만 싣고 전체 명단은 네이버용 파일로 따로 둔다', async (t) => {
+test('Google 인덱스는 우선 명단만 싣고 네이버용 파일은 전체 명단의 한국어 주소만 싣는다', async (t) => {
   const previousUrl = process.env.NEXT_PUBLIC_DB_API_URL
   const previousKey = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
   const previousFetch = globalThis.fetch
@@ -309,6 +310,9 @@ test('Google 인덱스는 우선 명단만 싣고 전체 명단은 네이버용 
     const url = new URL(String(input))
     if (url.pathname.endsWith('/rpc/get_celebs_sorted')) return page(celebs.map(({ slug }, index) => ({ slug, content_count: index < 600 ? 20 : 0 })), url)
     if (url.pathname.endsWith('/rpc/get_celebs_trending')) return page([{ slug: 'c-1499', recent_views: 900 }], url)
+    if (url.pathname.endsWith('/celeb_professions')) return Response.json([{ value: 'scientist', label: '과학자', label_en: 'Scientist' }])
+    if (url.pathname.endsWith('/curators')) return Response.json([{ slug: 'example', curated_lists: [{ slug: 'list', content_type: 'BOOK', is_featured: true }] }])
+    if (!url.pathname.endsWith('/celebs')) return Response.json([])
     return page(celebs, url)
   }
   t.after(() => {
@@ -321,10 +325,24 @@ test('Google 인덱스는 우선 명단만 싣고 전체 명단은 네이버용 
 
   const index = sitemap.serializeSitemapIndex()
   assert.ok(index.includes('/sitemaps/celebs.xml'))
-  assert.ok(!index.includes('celebs-all'), '전체 명단은 robots.txt 경로로 Google에 내밀지 않는다')
+  assert.ok(!index.includes('naver'), '전체 명단은 robots.txt 경로로 Google에 내밀지 않는다')
 
-  const all = await getSitemapEntries('celebs-all')
-  assert.equal(all?.length, 3000)
+  const naver = await getSitemapEntries('naver')
+  const core = await getSitemapEntries('core')
+  assert.ok(naver && core)
+  const isEnglish = (url: string) => /^\/en(\/|$)/.test(new URL(url).pathname)
+  const naverUrls = naver.map(({ url }) => url)
+  assert.deepEqual(naverUrls, [
+    ...core.map(({ url }) => url).filter((url) => !isEnglish(url)),
+    ...celebs.map(({ slug }) => `https://feelandnote.com/celeb/${slug}`),
+  ])
+  assert.ok(naverUrls.includes('https://feelandnote.com'), '한국어 홈')
+  assert.ok(naverUrls.includes('https://feelandnote.com/explore/directory/scientist'))
+  assert.ok(naverUrls.includes('https://feelandnote.com/explore/works/curated/example/list'))
+  assert.ok(naverUrls.includes('https://feelandnote.com/support'), '한국어에만 있는 화면')
+  const naverXml = serializeSitemap(naver)
+  assert.ok(!naverXml.includes('feelandnote.com/en'), '본 주소와 hreflang 어디에도 영문이 없다')
+  assert.ok(!naverXml.includes('hreflang'))
   const priority = await getSitemapEntries('celebs')
   const quota = celebPriorityQuota(new Date())
   assert.equal(priority?.length, quota * 2, '한·영 주소 한 쌍씩 오늘 크기만큼')
