@@ -211,7 +211,7 @@
 | 조립만(저장 없음) | `WEB_TAB=6 node build-guide.mjs <폴더>` | 책–인물 짝은 `pair-override.json` → `reviews.json` → `cross.json` 순으로 본다 |
 | 통째로 다시 저장 | `./final-resave.sh <폴더…>` | 본문을 비우고 다시 넣는다. `final-done.txt`에 있는 폴더는 건너뛰므로 다시 돌릴 폴더는 그 줄을 지운다 |
 | 감상 문단만 교체 | 조립한 뒤 `sw/web-bo`에서 `node scripts/naver-blog/patch-guide-reviews.mjs --article=<조립본 절대경로> [--apply]` | 같은 감상자의 감상 글만 바뀐 경우. 감상자가 바뀌면 통째로 다시 저장한다 |
-| DB와 대조 | `node sync-readers.mjs [--write]` | 글에 실린 감상이 DB에서 바뀌었거나 사라졌는지 본다. `--write`는 바뀐 감상을 `pair-override.json`에 적는다. 사라진 짝의 후보는 `sync-gone.json` → 읽고 골라 `pick-gone.mjs`의 목록에 적는다 |
+| DB와 대조 | `node sync-readers.mjs [--write]` | 글에 실린 감상이 DB에서 바뀌었거나 사라졌는지 본다. `--write`는 바뀐 감상을 `pair-override.json`에 적는다. 사라진 짝의 후보는 `sync-gone.json` → 읽고 골라 `pick-gone.mjs`의 목록에 적는다. 돌 때마다 지금 실린 짝 목록을 `curated-guide/published-pairs.json`(기관 글 번호·content_id·celeb_contents_id·인물 slug)에 새로 쓴다. 리뷰 세션은 감상 행을 떼기 전에 이 목록과 맞춰 본다 |
 | 겹침 검사 | `node dup-readers.mjs` | 같은 인물×같은 책이 여러 기관 글에 실린 곳. 후보는 `dup-readers.json` → 읽고 골라 `pick-dup.mjs`의 목록에 적는다 |
 | 올라간 글 문단 고치기 | `node edit-guide.mjs <폴더> <규칙.json> [--apply]` | 규칙(`[[찾을 말, 바꿀 말]]`, 원고 표기 기준)을 글 문단과 원고 `about`·주목작에 함께 적용한다. 글에는 《》·‘’로 넣고 주목작 제목 줄은 건드리지 않는다. 저장 뒤 검증 기준도 갱신된다 |
 | 출처 재확인 | `node ledger-check.mjs <폴더…>` 또는 `--all [--used]` | 출처 원장의 근거 주소를 다시 열어 근거 문장이 아직 있는지 본다. 원장은 고치지 않고 후보만 뽑는다 |
