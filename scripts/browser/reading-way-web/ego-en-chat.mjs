@@ -4,13 +4,14 @@
 // 한 프로필은 한 탭에서만 쓴다(res-06). 칸 1은 gpt, 칸 2는 grok으로 나눠 같은 서비스를 두 탭이 동시에 쓰지 않는다.
 const fs = await import('node:fs/promises')
 const q = new URL(import.meta.url).searchParams
-const JOB = q.get('job'), SVC = q.get('svc') || 'gpt'
+const JOB = q.get('job'), SVC = q.get('svc') || 'gpt', PROFILE = q.get('profile')
 const F = JOB.replace(/[^/\\]+$/, '')
 const { slug, prompt } = JSON.parse(await fs.readFile(JOB, 'utf8'))
 const out = F + `en-web-${slug}.json`
 const rid = `[[REQ:${slug}-${Date.now().toString(36)}]]`
-const task = await taskSpace('reading-way en chat ' + SVC)
-const page = await task.newPage()
+const taskName = 'reading-way en chat ' + SVC + (PROFILE ? ' ' + PROFILE : '')
+const task = PROFILE ? await taskSpace(taskName, { profileId: PROFILE }) : await taskSpace(taskName)
+const page = (await task.pages())[0] ?? (await task.newPage())
 let res = { ok: false, why: 'unknown' }
 const sleep = ms => page.waitForTimeout(ms)
 const log = (...m) => fs.appendFile(F + 'en-chat.log', new Date().toISOString().slice(11, 19) + ' ' + slug + ' ' + m.join(' ') + String.fromCharCode(10))
@@ -90,5 +91,5 @@ try {
   }
 } catch (e) { res = { ok: false, why: String(e.message).slice(0, 300) } }
 await fs.writeFile(out, JSON.stringify(res), 'utf8')
-await page.close()
+await task.finish({ keep: [] })
 console.log(JSON.stringify({ ok: res.ok, why: res.why, n: res.en?.length, mode: res.mode }))

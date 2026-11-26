@@ -7,7 +7,7 @@ process.loadEnvFile(R + '/sw/web-bo/.env')
 const url = process.env.NEXT_PUBLIC_DB_API_URL, key = process.env.DB_SECRET_KEY
 const H = { apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json', Prefer: 'return=representation' }
 const APPLY = process.argv.includes('--apply')
-for (const slug of process.argv[2].split(',')) {
+for (const slug of process.argv[2].split(/,(?!-)/)) {
   const [row] = await (await fetch(`${url}/rest/v1/celebs?slug=eq.${encodeURIComponent(slug)}&select=id,slug,reading_way,reading_way_en`, { headers: H })).json()
   if (!row) { console.log('NO ROW', slug); continue }
   if (row.reading_way !== null || row.reading_way_en !== null) { console.log('SKIP not null', slug); continue }

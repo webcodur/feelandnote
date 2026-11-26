@@ -9,7 +9,7 @@ process.loadEnvFile(R + '/sw/web-bo/.env')
 const url = process.env.NEXT_PUBLIC_DB_API_URL, key = process.env.DB_SECRET_KEY
 const H = { apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json', Prefer: 'return=representation' }
 const APPLY = process.argv.includes('--apply')
-const want = process.argv[2].split(',').filter(Boolean)
+const want = process.argv[2].split(/,(?!-)/).filter(Boolean)
 const rows = await (await fetch(`${url}/rest/v1/celebs?slug=in.(${want.map(encodeURIComponent).join(',')})&select=id,slug,publication_status,avatar_url,reading_way`, { headers: H })).json()
 const inactive = rows.filter((r) => r.publication_status === 'inactive')
 for (const r of rows.filter((r) => r.publication_status !== 'inactive')) console.log('ALREADY', r.slug, r.publication_status)

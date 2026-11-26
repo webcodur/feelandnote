@@ -9,7 +9,7 @@ const url = process.env.NEXT_PUBLIC_DB_API_URL, key = process.env.DB_SECRET_KEY
 const H = { apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json', Prefer: 'return=representation' }
 const APPLY = process.argv.includes('--apply')
 const strip = (x) => x.replace(/\*{1,2}([^*\n]+?)\*{1,2}/g, '$1')
-for (const slug of process.argv[2].split(',')) {
+for (const slug of process.argv[2].split(/,(?!-)/)) {
   const c = JSON.parse(await fs.readFile(`${W}/finals/${slug}.combined.json`, 'utf8'))
   if (c.slug !== slug || !c.ko || !c.en) throw Error('bad combined ' + slug)
   c.en = strip(c.en); c.ko = strip(c.ko)

@@ -54,6 +54,8 @@ Carbon 조사 응답은 10분을 넘기는 일이 잦다. 회수는 27분까지 
 
 - 웹 도구 장애 응답을 근거 없음으로 읽고 조사 미달로 저장하면 안 된다. 26.11.23 시온은 검색을 못 한 응답으로 조사 미달이 됐다가, 직접 찾은 출연 영상으로 본문을 썼다.
 - 조사 칸이 일시 오류로 거듭 실패한 인물은 실행자가 직접 출처를 찾아 원고를 써도 된다. 모델 기록에 그 경위를 적는다(「Carbon이 오류로 답하지 못해 실행자가 기사를 직접 찾아 대조로 작성」).
+  - 실행자가 원문을 직접 열어 인용과 사실을 맞춘 인물에만 쓴다. 모든 조사 칸이 막혔다고 이 길로 대량 처리하지 않는다. 조사 경로가 통째로 막히면 멈추고 보고한다.
+  - ChatGPT·Grok의 출력은 번역으로만 쓴다. 본문 작성·검증 결과를 그대로 저장하지 않는다(26.11.24~26 다른 에이전트가 이 길로 872명을 저장해 1,386명을 원복했다).
 - 같은 방송에 함께 나온 인물은 한 출처로 묶어 처리한다(26.11.23 시온·재희).
 
 #### 1-4. 근거가 얇은 인물
@@ -238,6 +240,8 @@ Carbon 조사 응답은 10분을 넘기는 일이 잦다. 회수는 27분까지 
 
 저장소 루트에서 [reading-way-web](../../../scripts/browser/reading-way-web/)의 도구를 쓴다. 작업 폴더는 `RW_WORK`, 없으면 OS 임시 폴더의 `feelandnote/rw-chrome`이며 경로는 [paths.mjs](../../../scripts/browser/reading-way-web/paths.mjs)가 쥔다. 요청 묶음·발송 JS·회수 원문·확정본·출처 사본은 이 임시 작업 위치에 둔다.
 
+ego 브라우저로 돌릴 때는 `ego-pool-probe.mjs`로 프로필별 Gemini 높음·ChatGPT·Grok 가용 상태를 먼저 보고, `ego-gemini-run.mjs?job=<작업 JSON>`으로 요청 묶음을 보내 원고와 문장별 출처표를 회수한다. 작업 JSON 형식은 각 파일 머리말에 있다.
+
 1. **요청 묶음:** `node --import tsx scripts/browser/reading-way-web/export-packets.mjs slug1,slug2`로 러너와 같은 요청 묶음을 만든다.
 2. **발송:** 룰북 작성 규칙을 고쳤으면 `mk-init-A.mjs`로 `scoped/init-A.js`를 다시 만들고 Gemini 탭에서 한 번 실행해 localStorage `rwBookA`에 심는다. `mk-call-body.mjs slug`가 만든 `scoped/call-<slug>.js`를 새 대화에서 실행하면 모델·높음 확인과 전송까지 한다.
 3. **회수:** 응답의 `ko`를 `web/<slug>.body.txt`로 회수해 브라우저 쪽 SHA-256과 맞춘다. 같은 대화에서 출처표를 받아 원문과 대조하고 고친 뒤 `finals/<slug>.json`(`slug`·`ko`·`sources`·`model`)을 쓴다.
@@ -311,6 +315,7 @@ Carbon 조사 응답은 10분을 넘기는 일이 잦다. 회수는 27분까지 
 ### 확인과 정리
 
 - 본문은 `/celeb/SLUG`와 `/en/celeb/SLUG`, 감상배경은 해당 책의 `/content/ID?category=book` 한영 화면에서 실제 저장값과 대조한다.
+- 운영 화면(`https://feelandnote.com`) 대조는 저장소 루트에서 `node scripts/browser/reading-way-web/verify-live.mjs slug1,slug2`로 한영 SSR 본문·책장·감상배경을 DB와 일괄 확인한다.
 - 완료한 원문·출처 사본·SQL·일회성 실행 파일은 [데이터 원칙](../data/README.md#작업-파일백업)에 따라 정리한다.
 
 ## 본문이 바뀔 때 함께 처리

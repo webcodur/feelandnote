@@ -11,12 +11,12 @@ const get = async (p) => (await fetch(`${url}/rest/v1/${p}`, { headers: H })).js
 const rules = m.argonSections(await fs.readFile(R + '/docs/project/celeb/celeb-05-02-reading-way.md', 'utf8'), 'celeb-05-02-reading-way.md')
 const fb = {}
 for (let i = 3; i < process.argv.length; i++) if (process.argv[i] === '--feedback') { const v = process.argv[++i]; fb[v.slice(0, v.indexOf('='))] = v.slice(v.indexOf('=') + 1) }
-for (const slug of process.argv[2].split(',')) {
+for (const slug of process.argv[2].split(/,(?!-)/)) {
   const [c] = await get(`celebs?slug=eq.${slug}&select=id,slug,nickname,nickname_en,gender,birth_date,death_date,profession,reading_way`)
   if (c.reading_way && !process.argv.includes('--force')) { console.log('SKIP has reading_way', slug); continue }
   const rows = await get(`celeb_contents?celeb_id=eq.${c.id}&source_url=not.is.null&select=source_url,contents!inner(type)&contents.type=eq.BOOK`)
-  // 서점 상품·굿리즈 리뷰는 Argon이 열지 못하므로 뺀다(26.11.10 김경일·아만 마다안).
-  const store = /aladin\.co\.kr\/shop|yes24\.com\/[Pp]roduct|kyobobook|goodreads\.com\/review|amazon\.|coupang/
+  // 서점 상품·굿리즈 리뷰·유튜브·X 링크는 Gemini 웹검색 오류/연결 중 무한대기 원인이므로 뺀다(룰북 §1-2).
+  const store = /aladin\.co\.kr\/shop|yes24\.com\/[Pp]roduct|kyobobook|goodreads\.com\/review|amazon\.|coupang|youtube\.com|youtu\.be|x\.com|twitter\.com/
   const sources = [...new Set(rows.map((r) => r.source_url).filter((u) => u && /^https?:\/\//.test(u) && !store.test(u)))].sort().slice(0, 5)
   const links = sources.slice(0, 5)
   const identity = { slug, name: c.nickname, name_en: c.nickname_en, gender: c.gender === true ? '남성' : c.gender === false ? '여성' : '미상', birth_date: c.birth_date, death_date: c.death_date, profession: c.profession }
