@@ -15,6 +15,9 @@ import sharp from 'sharp';
 import {applyPhotoFrame} from './publish-drafts.mjs';
 import {replaceTitle,centerTitle,assertCenteredTitle,centerDividers,assertCenteredDividers} from './apply-institution-revisions.mjs';
 import {restyleAfterSave} from './lib/restyle-after-save.mjs';
+import {textsDigest} from './lib/body-baseline.mjs';
+import {readParagraphPresentation} from './lib/unified-typography.mjs';
+import {EDITOR_SELECTOR} from './restyle-body.mjs';
 
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 // A renamed reservation must keep the exact date/time suffix and list count.
@@ -204,6 +207,8 @@ async function main(){
    step='reopen';const reopened=await editor.openTarget({...active[0],title:expected.snapshot.title,body:undefined});await assertPublishOptions(page,{preserve:original.original.state});if(!same(reopened.state,opened.state)||!same(reopened.reservation,expected.reservation))throw new Error('Saved settings or reservation differ');await closePublishPanel(page,editor);const after=await readSnapshot(page);assertEditorialChangeResult(original,expected,after,await table());await assertFormats();if(plan.title)await assertCenteredTitle(page);if(plan.formats?.length)await assertCenteredDividers(page);
    // 제목을 바꿨으면 원장 제목도 맞춘다. 뒤이은 서식 복원과 다음 작업이 원장 제목으로 예약 글을 찾는다.
    if(plan.title&&plan.title!==original.post.title){const file=path.join(ASSETS,'naver-blog','posts.json'),all=JSON.parse(fs.readFileSync(file,'utf8')),p=all.find(p=>String(p.logNo)===String(plan.logNo));if(!p||p.title!==original.post.title)throw new Error('Registry title changed during the edit');p.title=plan.title;fs.writeFileSync(file+'.tmp',JSON.stringify(all,null,2));fs.renameSync(file+'.tmp',file);}
+   // 기관 글은 restyle-body를 거치지 않으므로 대조를 마친 지금 본문으로 검증 기준을 갱신한다(안 하면 verify-body가 손상으로 본다).
+   if(original.post.kind==='curated'){const texts=(await page.evaluate(readParagraphPresentation,EDITOR_SELECTOR)).map(p=>p.text),file=path.join(ASSETS,'naver-blog','posts.json'),all=JSON.parse(fs.readFileSync(file,'utf8')),p=all.find(p=>String(p.logNo)===String(plan.logNo));if(p?.bodyStyle){p.bodyStyle={...p.bodyStyle,verifiedAt:new Date().toISOString(),...textsDigest(texts)};fs.writeFileSync(file+'.tmp',JSON.stringify(all,null,2));fs.renameSync(file+'.tmp',file);}}
    fs.writeFileSync(path.join(dir,plan.logNo+'-changes-applied.json'),JSON.stringify({verified:true,snapshot:after,table:await table(),settings:reopened.state,reservation:reopened.reservation},null,2));console.log(JSON.stringify({stage:'saved-and-reopened',logNo:plan.logNo,edits:plan.edits.length}));
   }else console.log(JSON.stringify({stage:'dry-ready',logNo:plan.logNo}));
  }catch(error){fs.writeFileSync(path.join(dir,plan.logNo+'-changes-failure.json'),JSON.stringify({step,saved,error:String(error)},null,2));await page.screenshot({path:path.join(dir,plan.logNo+'-changes-failure.png')}).catch(()=>{});throw error;}
