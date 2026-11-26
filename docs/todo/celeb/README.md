@@ -10,6 +10,7 @@
 | [`influence-spectrum.md`](influence-spectrum.md) | 영향력·스펙트럼 잔여 검토 — 다른 15축 근거 적정성, 영향력 검사기, 사실성, 검사기 구멍. |
 | [`youtube-creator-candidates.md`](youtube-creator-candidates.md) | 신규 유튜브 크리에이터 등록 후보군 — 50만+ 개인, 독서 감상경위 특화 16인 + 확장 22인 |
 | [`favorbook-candidates.md`](favorbook-candidates.md) | 국내 배우·아이돌 감상 보강 — 경쟁 서비스 명단(1차)과 사용자 수집 자료(2차), 원출처 공신력 판정 |
+| [`reading-way-incident-handoff.md`](reading-way-incident-handoff.md) | 독서방식 사고(26.11.24~26) 잔여 처리 — OpenBot 스킬·메모리 정리, 책장 변경 추적 한계, 백업 삭제 |
 
 미등록 후보의 조사 자료를 별도로 보관하지 않는다. [데이터 원칙](../../project/data/README.md)을 따르며, 인물 1명 등록 절차는 [`celeb-00-04-new-figure-checklist.md`](../../project/celeb/celeb-00-04-new-figure-checklist.md)가 쥔다. 등록용 원고는 반영·재조회 검증 뒤 폐기한다.
 
