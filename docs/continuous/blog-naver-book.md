@@ -228,7 +228,8 @@
 3. `plan.json`의 `notable`, `reviews.json`·`cross.json`의 `raw`는 지금 `list.json`에 있는 항목이어야 한다. 목록에서 빠진 항목을 가리키면 조립이 멈춘다.
 4. 상 설명(`about`)이 850~1200자를 벗어나면 조립기가 웹 Gemini로 다시 쓰게 한다. 다만 원고에 `keepAbout`이 있으면 다시 쓰지 않는다(26.11.26 출처 대조로 근거 없는 문장을 덜어 낸 원고가 짧아졌고, 자동으로 다시 쓰면 그런 문장이 되살아난다). 새 원고나 분량을 늘려야 할 때만 이 표시를 지우고, 다시 쓴 문장은 출처와 대조한다.
 5. 다시 저장하면 확인 일자 줄이 사라진다. 저장 뒤 `stamp-curated-date --only=<글번호>`로 되살린다.
-6. `list.mjs`는 폴더의 `list.json`에 적힌 기관·목록 slug로 다시 받는다. 목록을 새 판으로 바꿨으면 `list.json`의 slug와 원장 `url`부터 새 목록으로 고친다.
+6. `list.mjs`는 폴더의 `list.json`에 적힌 기관·목록 slug로 다시 받는다. 목록을 새 판으로 바꿨으면 `list.json`의 slug와 원장 `url`부터 새 목록으로 고친다. 짝 후보 `cross.json`도 `node db-cross.mjs <폴더>`로 다시 만든다. 옛 목록의 짝이 남으면 새 목록에 없는 책이라 조립에서 빠지고 리뷰가 1~2편만 실린다(26.11.26 카이스트·인하대·한양대).
+7. 「주목할 만한 책과 리뷰」는 세 편을 채운다(`MAX_BOOKS`). 주목작이 아닌 책의 짝은 `intros.json`에 책 소개(3~4문장, DB·카카오·오픈라이브러리 소개에 있는 내용만)가 있고 국내판 표지가 있어야 실린다. 조립 뒤 짝이 셋보다 적은데 목록에 감상 있는 책이 더 있으면 후보를 읽고 골라 `intros.json`을 채운다. 같은 인물×같은 책이 다른 기관 글에 이미 실렸으면 고르지 않는다.
 
 **미등록 신규 글 7편(26.11.17 기준).** 원고·사진·조립은 끝났고 예약 한도 때문에 등록만 남았다: `columbia-contemporary-civilization`, `stanford-three-books`, `princeton-pre-read`, `duke-common-experience`, `cornell-new-student-reading`, `tsinghua-president-gift-books`, `utokyo-professors-freshman-books-2026`. `new-post.json`의 `slot`(26.11.17에 잡은 18:00 칸)은 하루 두 칸 편성(「9. 주기와 순서」) 전 값이라 등록할 때 그날의 빈 09:00·21:00 칸으로 고친다. 등록 전에 목록이 출처 최신판인지(`service-03` 「5.6」), 감상이 DB와 같은지(`node sync-readers.mjs`·`node dup-readers.mjs`) 확인한다. `new-post.json`의 제목에는 아직 headline이 있으니 등록 전에 「확인 일자」 양식으로 바꾸고, 등록 뒤 `stamp-curated-date --only=<글번호>`로 본문 맨 위 확인 일자 줄을 넣는다. 등록이 끝난 폴더에는 `article/new-post-saved.json`이 생긴다.
 

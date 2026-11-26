@@ -15,7 +15,7 @@ import {formattedPlainText, quoteCarries, BODY_STYLE_VERSION, NAVER_REVIEW_INLIN
 import {UNIFIED_ARTICLE} from './lib/unified-article.mjs';
 import {fragment} from './apply-unified-article.mjs';
 import {EDITOR_SELECTOR, openTarget} from './restyle-body.mjs';
-import {textsDigest, articleTexts} from './lib/body-baseline.mjs';
+import {textsDigest} from './lib/body-baseline.mjs';
 
 const REGISTRY = path.join(ASSETS, 'naver-blog/posts.json');
 const read = f => JSON.parse(fs.readFileSync(f, 'utf8')), same = (a, b) => JSON.stringify(a) === JSON.stringify(b), sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -103,9 +103,11 @@ export async function patchGuideReviews(file, {apply = false} = {}) {
     await editor.click('button[class*=confirm_btn]'); await page.waitForFunction(id => location.href.includes('logNo=' + id) && location.href.includes('isAfterUpdateOnly=true'), {timeout: 30000}, post.logNo); saved = true;
     const reopened = await openTarget(page, post); await assertPublishOptions(page, {preserve: opened.state}); if (!same(reopened.state, opened.state) || !same(reopened.reservation, opened.reservation)) throw Error('저장 뒤 설정이나 예약이 달라졌다');
     await closePublishPanel(page, editor); await check();
+    // 검증 기준은 verify-body와 같은 범위(EDITOR_SELECTOR)로 다시 연 편집기 본문을 읽어 적는다. 조립본·본문 범위(BODY_SELECTOR)로 적으면 확인 일자 줄 등이 빠져 어긋난다(26.11.27).
+    const finalTexts = (await page.evaluate(readParagraphPresentation, EDITOR_SELECTOR)).map(x => x.text);
     const all = read(REGISTRY), p = all.find(x => x.logNo === post.logNo); if (!p || p.title !== post.title) throw Error('원장의 글이 달라졌다');
     p.curatedGuide = {...p.curatedGuide, articleHash: article.articleHash, version: article.version, verifiedAt: new Date().toISOString(), reserved: !!reopened.reservation, via: 'patch-guide-reviews'};
-    p.bodyStyle = {version: BODY_STYLE_VERSION, verifiedAt: new Date().toISOString(), ...textsDigest(articleTexts(article))};
+    p.bodyStyle = {version: BODY_STYLE_VERSION, verifiedAt: new Date().toISOString(), ...textsDigest(finalTexts)};
     fs.writeFileSync(REGISTRY + '.tmp', JSON.stringify(all, null, 2)); fs.renameSync(REGISTRY + '.tmp', REGISTRY);
     return {changed: true, sections: plan.map(s => s.head), reserved: Boolean(reopened.reservation)};
   } catch (error) { await page.screenshot({path: path.join(dir, 'failure.png')}).catch(() => {}); error.saved = saved; throw error; }
