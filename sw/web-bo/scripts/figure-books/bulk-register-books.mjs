@@ -10,6 +10,7 @@
  *
  * node --env-file=.env scripts/figure-books/bulk-register-books.mjs --dry
  * node --env-file=.env scripts/figure-books/bulk-register-books.mjs --apply
+ * --skip-intro: 소개문 조회를 건너뛴다(다음 보안 문자 차단 때).
  */
 
 const introductionModule = await import('@feelandnote/content-search/book-introduction')
@@ -34,6 +35,8 @@ function argumentValue(name, fallback = null) {
 }
 
 const apply = process.argv.includes('--apply')
+// 다음 소개문 조회가 보안 문자에 막힐 때 소개문 없이 등록한다. 빈 소개문은 scripts/contents/book-description-sources.ts가 나중에 채운다.
+const skipIntro = process.argv.includes('--skip-intro')
 const dbUrl = process.env.NEXT_PUBLIC_DB_API_URL
 const dbKey = process.env.DB_SECRET_KEY
 const kakaoKey = process.env.KAKAO_REST_API_KEY
@@ -141,7 +144,7 @@ async function main() {
       const index = cursor
       cursor += 1
       details[index] = await resolveBatchBook(work[index], 'ko')
-      if (details[index]) introductions[index] = await fetchBookIntroduction({ isbn: work[index].isbn, locale: 'ko' })
+      if (details[index] && !skipIntro) introductions[index] = await fetchBookIntroduction({ isbn: work[index].isbn, locale: 'ko' })
       if ((index + 1) % 100 === 0) console.log(`  카카오 조회 ${index + 1}/${work.length}`)
     }
   }
