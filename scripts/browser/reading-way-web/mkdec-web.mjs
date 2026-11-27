@@ -11,7 +11,7 @@ const final = { slug, books: keep.map(({ b, v }) => ({ ...b, review_ko: v.review
 const finalPath = `${D}/${slug}.books.final.json`
 fs.writeFileSync(finalPath, JSON.stringify(final, null, 1))
 // 검수 모델·계정: 매핑의 verifyModel·verifyRoute(기본 Ultra Carbon). Ultra 한도 소진 때는 Pro 계정 Argon으로 검수한다(26.11.15).
-const VM = M.verifyModel ?? 'gemini-4-carbon-high', fam = /argon/.test(VM) ? 'Argon' : 'Carbon'
+const VM = M.verifyModel ?? 'gemini-4-neon-high', fam = /argon/.test(VM) ? 'Argon' : /neon/.test(VM) ? 'Neon' : 'Carbon'
 const mode = l => ({ mode: fam + 'High', family: fam, version: null, label: l }), lbl = `agy --model ${VM} (CLI 명시 선택)`
 const dec = {
   slug, original: finalPath.replace(/\\/g, '/'),

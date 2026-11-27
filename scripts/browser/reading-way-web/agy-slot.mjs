@@ -18,6 +18,8 @@ async function take() {
     await new Promise(r => setTimeout(r, 5000 + Math.random() * 5000))
   }
 }
+// 독서방식 agy 호출의 기본 모델(26.11.27 사용자 지시: Carbon은 응답률이 떨어져 쓰지 않고 Neon을 기본으로 한다). RW_MODEL로 덮어쓴다.
+export const RW_AGY_MODEL = process.env.RW_MODEL || 'gemini-4-neon-high'
 export async function agyCall(prompt, opt) {
   const d = await take()
   // AGYQ_MODEL: Ultra 한도가 찼을 때 Pro 계정 CLI의 Argon으로 잇는다(26.11.15 Pro 계정 CLI에 Argon 개방 확인).

@@ -28,7 +28,8 @@
 #### 1-1. 모델과 칸
 
 - 조사와 한국어 원고는 「Gemini 웹채팅 브라우저」(9항)로 연 웹 Gemini의 신규 모델 높음에 맡긴다.
-  - Neon·Carbon·Argon을 모두 쓰고, 최신 모델인 Neon을 권장한다. 계정 등급은 가리지 않는다(26.11.22·26.11.23 사용자 지시).
+  - 기본 모델은 Neon 높음이다. Carbon은 쓰지 않는다(26.11.27 사용자 지시: 응답률이 떨어진다). 26.11.27 웹 Carbon은 27분 시간 초과와 검색 없는 빈 답이 이어졌고, 같은 인물을 CLI(agy) Neon 높음은 출처 3~11개와 함께 썼다. 계정 등급은 가리지 않는다.
+  - 웹 Gemini의 Neon은 계정에 따라 웹 검색을 하지 않는다(26.11.26 Profile 7, 26.11.27 Profile 26: 1분 만에 빈 JSON). 신규 조사는 CLI Neon으로 하고, 웹 Neon은 첫 결과로 검색 여부를 확인한 계정에만 쓴다.
   - 웹 검색이 되는 모델에 조사를 보낸다. 26.11.23 topstarpicks002·004의 Neon 높음은 웹 검색이 불가능하다며 본문을 비웠다. 이런 계정의 Neon에는 실행자가 모은 원문을 붙여 보낸다.
   - 모델 이름과 선택 확인 조각은 [mode.mjs](../../../scripts/browser/reading-way-web/mode.mjs)가 쥔다. 발송 JS가 Carbon 높음만 고르게 되어 있으면 위 허용 모델로 넓혀 쓴다.
 - 조사 칸은 쓸 수 있는 계정마다 열어 병렬로 돌린다. 계정 하나의 Carbon만으로는 신규 618명에 100시간이 넘게 걸린다.
@@ -278,14 +279,14 @@ ego 브라우저로 돌릴 때는 `ego-pool-probe.mjs`로 프로필별 Gemini �
    - 이미 연결된 책의 감상평 교체는 `replace-existing.mjs`, 국소 교정은 `fix-review.mjs`를 쓴다.
    - 실행자가 직접 쓴 감상배경은 원고 파일(`{slug, books:[{title_ko, title_en, author_ko, author_en, source_url, evidence, review_ko}]}`)과 결정 파일을 직접 만들고, 결정 파일의 `modelObservation`을 `{route:'executor', author, verifiedSources}`로 둔 뒤 `books-step.mjs`로 반영한다. `verifiedSources`에는 실행자가 직접 열어 대조한 출처만 넣고, 영어는 각 책의 `review_en`에 미리 넣는다.
 
-### CLI 경로(현행, agy Carbon)
+### CLI 경로(현행, agy Neon)
 
 같은 폴더의 도구가 작업 폴더 `W/relist`를 쓴다. 웹챗과 한도가 따로라 둘을 동시에 돌린다.
 
 1. **호출 관리:** 모든 호출은 [agy-slot.mjs](../../../scripts/browser/reading-way-web/agy-slot.mjs)를 거친다. 동시 호출 상한(`AGYQ_MAX`)과 여유 메모리 하한(`AGYQ_MIN_FREE_MB`)은 코드 상수가 쥔다. 전역 MCP 조치는 `agy-antigravity` 스킬 「전역 MCP」를 따른다. Carbon이 없는 계정이면 Argon으로 한 번 다시 부른다.
 2. **신규 본문**
    - 순서: `new-research.mjs slug,…`(웹 검색 조사, `research.json`) → `new-verify.mjs`(출처 대조, `verify.json`) → `new-apply-verify.mjs`(수정안 적용, `new.ko.txt`) → 실행자가 원고 전체를 읽고 중복 문장·끊긴 문장·주어 없는 문장을 고친다 → `new-en.mjs`(영어본, 직접 인용은 원문) → `finals/<slug>.combined.json`(`slug`·`ko`·`en`·`sources`·`model`) → `save.mjs slug --apply`.
-   - 검증은 Carbon으로 한다(26.11.15 같은 원고 4건을 Argon은 문제 0건, Carbon은 3~7건으로 판정했다).
+   - 조사·검증·영어 모두 [agy-slot.mjs](../../../scripts/browser/reading-way-web/agy-slot.mjs)의 `RW_AGY_MODEL`(Neon 높음)로 한다. 검증 단계는 출처 원문을 다시 열어 문장마다 대조한다. 26.11.27 Neon 원고를 Carbon으로 검증했을 때 미야모토 시게루 6건, 로버트 에거스 7건의 과장·추측이 나왔다. Neon 검증도 이만큼 잡는지는 첫 묶음에서 건수를 비교해 확인한다. 26.11.15에는 Argon이 문제 0건을 냈으니 Argon으로 검증하지 않는다.
    - 본문 작성 모델에는 참조 링크를 주고 직접 조사하게 한다. 조사 범위는 열어 둔다(26.11.15 사용자). 실행자가 고른 발췌만 넘기면 문답을 이어 붙인 토막글이 된다.
    - 짧은 본문을 다시 쓸 때는 기존 저장본을 `relist/<slug>.old.txt`에 둔다. `new-research`가 사실 단서로 함께 넘기고, 저장은 `overwrite-save.mjs`로 한다.
    - 책별 감상배경은 본문 조사에서 드러난 값을 뒤 단계에서 책장으로 백필한다.
