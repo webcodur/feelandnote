@@ -66,6 +66,7 @@
 본문은 저장했으나 본문에 나온 책의 감상 등록을 끝내지 않았다. 룰북 「5. 책장 보완」으로 처리한다.
 
 - `ichiro-suzuki` `lee-hoe-yeong` `rebecca-ferguson` `sung-uk-moon`
+- `frank-sinatra`: 뮈르달 『An American Dilemma』(1944). 한국어판이 없어 OpenLibrary 원서 판으로 등록한다. 근거는 FT 2015-12-11 캐플런 평전 서평(「From pulp novels he graduated to weightier fare」).
 
 ### 책장 확인 후보
 
