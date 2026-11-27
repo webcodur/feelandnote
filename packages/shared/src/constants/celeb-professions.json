@@ -105,6 +105,20 @@
     "description_en": "A person who pursues achievement through sporting skill and competition."
   },
   {
+    "value": "journalist",
+    "label": "언론인",
+    "label_en": "Journalist",
+    "description": "사실을 취재하고 검증해 뉴스와 보도로 전합니다.",
+    "description_en": "A person who investigates and verifies facts to report news and inform the public."
+  },
+  {
+    "value": "chef",
+    "label": "셰프",
+    "label_en": "Chef",
+    "description": "요리를 만들고 연구하며 조리 기술과 식문화를 전합니다.",
+    "description_en": "A person who prepares and develops food and shares culinary techniques and food culture."
+  },
+  {
     "value": "other",
     "label": "기타",
     "label_en": "Other",

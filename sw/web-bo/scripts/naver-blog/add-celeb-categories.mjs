@@ -1,12 +1,15 @@
-// 「셀럽의 책추천」 아래에 인물 카테고리를 추가한다. 이름은 lib/celeb-categories.mjs 의 CELEB_CATEGORY 값 가운데 메뉴에 없는 것이다.
-// 사용(sw/web-bo): node scripts/naver-blog/add-celeb-categories.mjs [--apply]   --apply 없으면 화면에서만 추가해 보고 저장하지 않는다.
+// 「셀럽의 책추천」 하위 카테고리를 서비스 직군과 맞춘다. 이름·순서는 lib/celeb-categories.mjs 의 CELEB_CATEGORY(직군 시드 label)가 쥔다.
+// 사용(sw/web-bo): node scripts/naver-blog/add-celeb-categories.mjs [--rename=옛이름:새이름,…] [--apply]   --apply 없으면 화면에서만 바꿔 보고 저장하지 않는다.
+// --rename은 기존 칸의 이름만 바꾼다(글 번호·글은 그대로). 없는 직군 칸을 만들고 하위 칸을 직군 순서로 정렬한다. 구분선 같은 직군 밖 칸은 맨 끝에 둔다.
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { ASSETS } from '../blog-assets.mjs';
 import { getBrowser } from './lib/browser.mjs';
 import { CELEB_CATEGORY } from './lib/celeb-categories.mjs';
-const apply = process.argv.includes('--apply'), PARENT = '셀럽의 책추천';
+const apply = process.argv.includes('--apply'), PARENT = '셀럽의 책추천', ORDER = Object.values(CELEB_CATEGORY);
+const RENAME = (process.argv.find(a => a.startsWith('--rename='))?.slice(9).split(',') ?? []).map(p => p.split(':'));
+if (RENAME.some(([from, to]) => !from || !ORDER.includes(to))) throw new Error('--rename=옛이름:직군이름 형식이어야 한다');
 const wait = ms => new Promise(r => setTimeout(r, ms));
 const hash = v => crypto.createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const { browser, launched } = await getBrowser({ protocolTimeout: 45000 });
@@ -26,9 +29,21 @@ async function clickName(frame, name) {
   if (!el.asElement()) throw new Error(`카테고리를 찾지 못했다: ${name}`);
   await el.asElement().click(); await el.dispose();
 }
+// 선택한 칸은 이름이 입력창으로 바뀌어 빈 값으로 읽힌다. 트리를 읽기 전에 늘 직군 밖 칸(공지사항)을 눌러 선택을 푼다.
+const settle = async frame => { await clickName(frame, '공지사항'); await wait(500); };
 try {
   const frame = await menu(), before = await names(frame);
-  const want = [...new Set(Object.values(CELEB_CATEGORY))].filter(n => !before.some(c => c.name === n && c.parent === PARENT));
+  for (const [from, to] of RENAME) {
+    if (!before.some(c => c.name === from && c.parent === PARENT) || before.some(c => c.name === to)) throw new Error(`이름 바꾸기 불가: ${from} → ${to}`);
+    await clickName(frame, from);
+    await frame.click('#category_name', { clickCount: 3 });
+    await frame.type('#category_name', to);
+    // 이 관리 폼은 한글 입력 뒤 keyup이 있어야 트리에 반영한다.
+    await page.keyboard.press('ArrowRight'); await page.keyboard.press('Tab'); await wait(500);
+    await settle(frame);
+    if (!(await names(frame)).some(c => c.name === to && c.parent === PARENT)) throw new Error(`이름 입력 실패: ${to}`);
+  }
+  const want = ORDER.filter(n => !before.some(c => c.name === n && c.parent === PARENT) && !RENAME.some(([, to]) => to === n));
   console.log(JSON.stringify({ want }));
   for (const name of want) {
     await clickName(frame, PARENT);
@@ -36,22 +51,25 @@ try {
     await frame.waitForSelector('#tree input.cat_input');
     await frame.click('#tree input.cat_input', { clickCount: 3 });
     await frame.type('#tree input.cat_input', name);
-    await page.keyboard.press('ArrowRight'); await page.keyboard.press('Tab');
-    await clickName(frame, PARENT);
+    await page.keyboard.press('ArrowRight'); await page.keyboard.press('Tab'); await wait(500);
+    await settle(frame);
     if (!(await names(frame)).some(c => c.name === name && c.parent === PARENT)) throw new Error(`하위 카테고리 생성 실패: ${name}`);
   }
-  // 선택한 칸은 이름이 입력창으로 바뀌어 빈 값으로 읽히므로 상위 칸을 눌러 선택을 푼 뒤 읽는다. 새 칸은 맨 끝(구분선 아래)에 붙으므로 바로 앞 칸이 AFTER[name]이 될 때까지 위로 올린다.
-  const AFTER = { 지도자: '정치인', 지휘관: '지도자' };
-  for (const name of want.filter(n => AFTER[n])) for (let i = 0; i < 20; i++) {
+  // 직군 순서대로 하나씩, 제자리(i번째)에 올 때까지 위로 올린다.
+  for (const [slot, name] of ORDER.entries()) for (let i = 0; i < 30; i++) {
     const kids = (await names(frame)).filter(c => c.parent === PARENT).map(c => c.name), at = kids.indexOf(name);
-    if (kids[at - 1] === AFTER[name] || at <= 0) break;
-    await clickName(frame, name); await wait(400); await frame.click('img._moveUp'); await wait(700); await clickName(frame, PARENT); await wait(500);
+    if (at < 0) throw new Error(`카테고리가 없다: ${name}`);
+    if (at <= slot) break;
+    await clickName(frame, name); await wait(400); await frame.click('img._moveUp'); await wait(700); await settle(frame);
   }
-  await clickName(frame, PARENT); await wait(500);
+  await settle(frame);
   const ready = await names(frame);
-  for (const old of before) if (!ready.some(c => c.name === old.name && c.parent === old.parent && c.count === old.count)) throw new Error(`기존 카테고리가 변했다: ${old.name}`);
+  const renamed = n => RENAME.find(([from]) => from === n)?.[1] ?? n;
+  for (const old of before) if (!ready.some(c => c.name === renamed(old.name) && c.parent === old.parent && c.count === old.count)) throw new Error(`기존 카테고리가 변했다: ${old.name}`);
+  const kids = ready.filter(c => c.parent === PARENT).map(c => c.name);
+  if (kids.slice(0, ORDER.length).join() !== ORDER.join()) throw new Error(`직군 순서가 아니다: ${kids.join()}`);
   console.log(JSON.stringify({ ready: ready.filter(c => c.parent === PARENT).map(c => c.name), apply }));
-  if (apply && want.length) {
+  if (apply) {
     fs.writeFileSync(path.join(ASSETS, 'naver-blog', `_category-menu-before-${Date.now()}.json`), JSON.stringify(before, null, 2));
     await frame.click('#submit_button'); await wait(1500);
     const verified = await names(await menu());

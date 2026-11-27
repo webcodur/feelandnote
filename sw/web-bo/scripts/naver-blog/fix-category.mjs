@@ -10,6 +10,7 @@ import { createClient } from '@feelandnote/db';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ASSETS } from '../blog-assets.mjs';
+import { CELEB_CATEGORY as CATEGORY } from './lib/celeb-categories.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '../../../..');
 const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
@@ -27,16 +28,6 @@ loadEnv(path.join(ROOT, 'sw/web-bo/.env'));
 loadEnv(path.join(ROOT, 'sw/web/.env'));
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY ?? process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY);
 
-const CATEGORY = {
-  author: '작가', writer: '작가', poet: '작가',
-  director: '아티스트', musician: '아티스트', artist: '아티스트',
-  actor: '배우', entrepreneur: '기업가', investor: '투자자',
-  politician: '정치인', leader: '정치인', commander: '정치인',
-  scholar: '학자', scientist: '학자', philosopher: '학자',
-  humanities_scholar: '학자', social_scientist: '학자', natural_scientist: '학자',
-  influencer: '인플루엔서', athlete: '스포츠인',
-};
-
 const raw = JSON.parse(fs.readFileSync(DRAFTS, 'utf8'));
 const rows = Array.isArray(raw) ? raw : raw.items ?? raw.drafts ?? [];
 const slugs = rows.map((r) => (r.target || '').replace('/celeb/', '')).filter(Boolean);
@@ -52,8 +43,7 @@ const unknown = new Set();
 for (const row of rows) {
   const slug = (row.target || '').replace('/celeb/', '');
   const p = prof.get(slug);
-  // 사도 바울은 신약 서신을 남긴 저술가다. 지도자 직군이지만 정치인 칸은 어울리지 않는다.
-  const want = slug === 'paul-the-apostle' ? '학자' : CATEGORY[p];
+  const want = CATEGORY[p];
   if (!want) { unknown.add(`${slug}(${p})`); continue; }
   if (row.category === want) { same++; continue; }
   console.log(`${slug.padEnd(28)} ${String(row.category).padEnd(8)} → ${want}   [${p}]`);

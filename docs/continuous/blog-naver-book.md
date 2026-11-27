@@ -137,7 +137,7 @@
   - 소개가 감상 배경과 겹치면 소개를 조정하고 DB 감상 원문은 유지한다.
 - 소개와 안내는 사실 문장으로만 쓴다. 기관 설명은 사이트 `description`을 그대로 옮기지 않는다. 번역투·단골 문예 어휘·설교형 마무리는 금지다.
 - 기존 글에 넣는 첫 줄 링크 문구(`📚 {인물}의 독서 목록 전체 보기 →`)는 명사형 그대로 둔다. 문장이 아니라 표지다.
-- 새 글 카테고리는 블로그의 실제 카테고리에 맞춘다. 인물 글은 「거물의 책추천」 아래 직군(기업가·투자자·정치인·학자·배우·작가·아티스트·스포츠인·인플루엔서), 기관 글은 「기관 선정」 아래 서비스 `curators.kind` 하위 분류를 쓴다. 분류 명칭은 `sw/web/messages/ko/library.json`의 `library.curated.kind`를 따르고 상 이름이나 기관의 인상으로 다시 판단하지 않는다. 기본값이 「공지사항」이라 지정을 빠뜨리면 공지로 나간다.
+- 새 글 카테고리는 블로그의 실제 카테고리에 맞춘다. 인물 글은 「셀럽의 책추천」 아래 그 인물의 서비스 직군과 같은 이름의 칸(직군과 1:1, 이름·순서는 직군 시드 `packages/shared/src/constants/celeb-professions.json`의 `label`), 기관 글은 「기관 선정」 아래 서비스 `curators.kind` 하위 분류를 쓴다. 분류 명칭은 `sw/web/messages/ko/library.json`의 `library.curated.kind`를 따르고 상 이름이나 기관의 인상으로 다시 판단하지 않는다. 기본값이 「공지사항」이라 지정을 빠뜨리면 공지로 나간다.
 - 네이버 태그 입력은 공백에서 갈라진다. 인물명은 공백을 빼서 넣는다(`#데스틴샌들린`).
 
 ## 6. 현재 본문 양식
@@ -358,7 +358,7 @@
 | `node scripts/naver-blog/reschedule-post.mjs --log=<글번호> --now [--apply]` | 예약을 풀고 지금 바로 발행한다. 발행 시각만 「현재」로 바꾸고 다른 발행 설정·본문은 저장 전에 대조한다 | 원장 `scheduledAt`을 발행 시각으로 고친다 |
 | `node scripts/naver-blog/recategorize-post.mjs --log=<글번호> --to=<카테고리> [--apply]` | 올라간 글·예약 글 하나의 블로그 카테고리만 바꾼다 | `existing-editor`의 `openTarget`으로 열어 본문·다른 발행 설정을 저장 전후로 대조하고 다시 열어 확인한다. 수정 화면 주소로 바로 여는 `apply-category.mjs`는 예약 글과 통합 양식 글에서 저장이 반영되지 않는다(26.11.14 실측) |
 | `node scripts/naver-blog/relink-yes24-captions.mjs --log=<글번호> --work=<임시 작업 절대경로> [--apply]` | 표지 설명란의 「YES24에서 찾기」(검색)를 「YES24에서 보기」(상품)로 바꾼다 | 설명란 뒤 「작품 상세」의 작품 번호로 서비스 구매 연결을 두 번까지 묻고(첫 응답은 낡은 캐시일 수 있다) 상품 주소일 때만 바꾼다. 블로그 검색 ISBN이 지금 저장 ISBN과 다르면 판본 확인 대상으로 건너뛴다. 설명란 글자·주소 외 본문·사진·링크·서식·발행 설정·예약을 저장 전후와 재열기에서 대조하고, 원장 `bodyStyle` 지문과 현행 통합 원고를 새 링크로 맞춘다. 한 번에 한 글이다 |
-| `node scripts/naver-blog/add-celeb-categories.mjs [--apply]` | 「셀럽의 책추천」 아래에 빠진 인물 카테고리를 만든다 | 이름은 `lib/celeb-categories.mjs`의 `CELEB_CATEGORY` 값이 쥔다. 26.11.14 DB 직업 `leader`·`commander`를 정치인으로 뭉개던 매핑을 지도자·지휘관으로 나누고 두 카테고리를 정치인 뒤에 만들었다(사용자 지시) |
+| `node scripts/naver-blog/add-celeb-categories.mjs [--rename=옛이름:새이름,…] [--apply]` | 「셀럽의 책추천」 하위 칸을 서비스 직군과 맞춘다: 이름 바꾸기, 빠진 칸 만들기, 직군 순서 정렬 | 표는 `lib/celeb-categories.mjs`의 `CELEB_CATEGORY`이며 직군 시드 `label`에서 만든다. DB에 직군이 늘면 시드에 먼저 넣고 이 도구로 칸을 만든 뒤 해당 글을 `recategorize-post`로 옮긴다. 26.11.28 아티스트·학자로 뭉개던 칸을 직군대로 나눴다(아티스트→음악인·학자→과학자 이름 바꿈, 인문학자·사회과학자·감독·미술인·언론인·셰프·기타 생성, 글 41편 이동, 사용자 지시) |
 | `pnpm naver:delete [N] [--yes]` | 예약·발행 글 삭제 | `link: to-delete` 행. `--yes` 없으면 대상만 보여 준다 |
 | `pnpm naver:preview` | 발행 대기·보류 원고를 한 파일로 모아 육안 확인 | `drafts.json`+`celeb-drafts.json` → `_preview.md` |
 | `node scripts/naver-blog/repair-search.mjs --celeb-drafts [--share-links] [--apply]` · `--ids=글번호,…` | 검색·공유 설정을 점검·복구한다 | 기본은 조회. 재열기로 본문·다른 옵션·예약 시각 보존을 확인한다 |

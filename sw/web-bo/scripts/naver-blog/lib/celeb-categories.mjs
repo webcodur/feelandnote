@@ -1,7 +1,4 @@
-// One mapping for existing and unified new-person composers.
-export const CELEB_CATEGORY = Object.freeze({
-  author:'작가',writer:'작가',poet:'작가',journalist:'작가',director:'아티스트',musician:'아티스트',artist:'아티스트',visual_artist:'아티스트',actor:'배우',
-  entrepreneur:'기업가',investor:'투자자',politician:'정치인',leader:'지도자',commander:'지휘관',
-  scholar:'학자',scientist:'학자',philosopher:'학자',humanities_scholar:'학자',social_scientist:'학자',natural_scientist:'학자',
-  influencer:'인플루엔서',athlete:'스포츠인',
-});
+// 「셀럽의 책추천」 하위 카테고리는 서비스 직군과 1:1이다. 이름·순서는 직군 시드(DB celeb_professions와 같은 값)의 label이 쥔다.
+import fs from 'node:fs';
+const professions = JSON.parse(fs.readFileSync(new URL('../../../../../packages/shared/src/constants/celeb-professions.json', import.meta.url), 'utf8'));
+export const CELEB_CATEGORY = Object.freeze(Object.fromEntries(professions.map(p => [p.value, p.label])));

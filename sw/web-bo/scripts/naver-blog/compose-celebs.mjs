@@ -156,7 +156,7 @@ function pickFive(books) {
 }
 
 /**
- * 직군 → 블로그 카테고리 (「거물의 책추천」 하위)
+ * 직군 → 블로그 카테고리 (「셀럽의 책추천」 하위, 표는 lib/celeb-categories.mjs)
  *
  * 🔴 빠진 직군을 기본값으로 흘리지 마라. 26.09.04에 `humanities_scholar`·`social_scientist`·
  *    `leader` 가 표에 없어 **철학자·역사학자 13명이 「인플루엔서」로 분류**됐다. 몽테스키외와
