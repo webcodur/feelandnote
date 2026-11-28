@@ -125,7 +125,7 @@ async function restyle(browser,post,dir,{apply,review,conversions=null}){
   const reopened=await openTarget(page,post);await assertPublishOptions(page,{preserve:opened.state});if(!same(reopened.state,opened.state)||!same(reopened.reservation,opened.reservation))throw Error('Saved settings or reservation changed');
   await closePublishPanel(page,editor);const verified=await check();
   write(path.join(dir,'saved.json'),{verified:true,texts:verified.style.map(p=>p.text)});
-  return{changed:true,pending:pending.length,targets:targets.length,texts:verified.style.map(p=>p.text),reserved:Boolean(reopened.reservation),saved};
+  return{changed:true,pending:pending.length,targets:targets.length,texts:verified.style.map(p=>p.text),reserved:Boolean(reopened.reservation),saved,textChanged:[...changedText].some(([a,b])=>a!==b)};
  }catch(error){await page.screenshot({path:path.join(dir,'failure.png')}).catch(()=>{});error.saved=saved;throw error;}
  finally{await page.close().catch(()=>{});}
 }
@@ -163,7 +163,7 @@ export async function main(args=process.argv.slice(2)){
    try{
     const result=await restyle(browser,post,dir,{apply,review,conversions});
     const visibility=result.dryRun?'dry-run':result.reserved?'reserved':await verifyPublic(browser,post,result.texts);
-    if(apply){const all=read(REGISTRY),p=all.find(p=>p.logNo===post.logNo);if(!p||p.title!==post.title)throw Error('Registry identity changed');p.bodyStyle={version:BODY_STYLE_VERSION,verifiedAt:new Date().toISOString(),...textsDigest(result.texts)};write(REGISTRY,all);}
+    if(apply){const all=read(REGISTRY),p=all.find(p=>p.logNo===post.logNo);if(!p||p.title!==post.title)throw Error('Registry identity changed');p.bodyStyle={version:BODY_STYLE_VERSION,verifiedAt:new Date().toISOString(),...textsDigest(result.texts)};if(result.textChanged)delete p.unified;write(REGISTRY,all);}
     if(apply)state.completed.push({logNo:post.logNo,title:post.title,...result,texts:undefined,visibility,seconds:Math.round((Date.now()-started)/1000)});count++;
     console.log(JSON.stringify({event:'completed',logNo:post.logNo,title:post.title,changed:result.changed,pending:result.pending??0,visibility,done:state.completed.length,total:state.total}));
    }catch(error){
